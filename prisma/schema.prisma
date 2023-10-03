@@ -12,13 +12,55 @@ datasource db {
 
 enum ROLE {
   ADMIN
-  CLIENT
+  USER
 }
 
-model User {
-  id            String   @id() @default(uuid())
-  email         String   @unique
-  role          ROLE     @default(CLIENT)
-  password_hash String
-  created_at    DateTime @default(now())
+enum COUNTRY {
+  AC
+  AL
+  AM
+  AP
+  BA
+  CE
+  DF
+  ES
+  GO
+  MA
+  MG
+  MS
+  MT
+  PA
+  PB
+  PE
+  PI
+  PR
+  RJ
+  RN
+  RO
+  RR
+  RS
+  SC
+  SE
+  SP
+  TO
+}
+
+model Candidate {
+  id                String   @id() @default(uuid())
+  email             String   @unique
+  password          String
+  name              String
+  CPF               String   @unique
+  date_of_birth     DateTime
+  phone             String
+  address           String
+  city              String
+  UF                COUNTRY
+  CEP               String
+  neighborhood      String
+  number_of_address Int
+  role              ROLE     @default(USER)
+  created_at        DateTime @default(now())
+
+  @@map("candidates")
 }
