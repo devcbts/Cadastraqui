@@ -1,9 +1,7 @@
 import { hash } from 'bcryptjs'
-import { LegalReponsibleRepository } from '@/repositories/reponsible-repository'
-import { Assistant, LegalDependent } from '@prisma/client'
+import { Assistant } from '@prisma/client'
 import { UsersRepository } from '@/repositories/users-repository'
 import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
-import { LegalDependentRepository } from '@/repositories/dependent-repository'
 import { AssistantRepository } from '@/repositories/assistant-repository'
 import { EntityRepository } from '@/repositories/entity-repository'
 
