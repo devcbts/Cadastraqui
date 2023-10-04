@@ -1,8 +1,8 @@
 import { hash } from 'bcryptjs'
-import { Candidate } from '@prisma/client'
-import { CandidatesRepository } from '@/repositories/candidates-repository'
-import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
+import { LegalReponsibleRepository } from '@/repositories/reponsible-repository'
+import { LegalResponsible } from '@prisma/client'
 import { UsersRepository } from '@/repositories/users-repository'
+import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
 
 export enum COUNTRY {
   AC = 'AC',
@@ -50,15 +50,15 @@ interface RegisterUseCaseRequest {
 }
 
 interface RegisterUseCaseResponse {
-  candidate: Candidate
+  legalResponsible: LegalResponsible
 }
 
-export class RegisterCandidateUseCase {
+export class RegisterLegalResponsibleUseCase {
   constructor(
-    private candidatesRepository: CandidatesRepository,
+    private legalReponsibleRepository: LegalReponsibleRepository,
     private usersRepository: UsersRepository,
   ) {
-    this.candidatesRepository = candidatesRepository
+    this.legalReponsibleRepository = legalReponsibleRepository
     this.usersRepository = usersRepository
   }
 
@@ -88,10 +88,10 @@ export class RegisterCandidateUseCase {
     const user = await this.usersRepository.create({
       email,
       password: password_hash,
-      role: 'CANDIDATE',
+      role: 'RESPONSIBLE',
     })
-    // Cria candidato
-    const candidate = await this.candidatesRepository.create({
+    // Cria Responsável Legal
+    const legalResponsible = await this.legalReponsibleRepository.create({
       address,
       CEP,
       city,
@@ -105,6 +105,6 @@ export class RegisterCandidateUseCase {
       user_id: user.id,
     })
 
-    return { candidate }
+    return { legalResponsible }
   }
 }

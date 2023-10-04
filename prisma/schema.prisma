@@ -12,7 +12,10 @@ datasource db {
 
 enum ROLE {
   ADMIN
-  USER
+  CANDIDATE
+  RESPONSIBLE
+  ENTITY
+  ASSISTANT
 }
 
 enum COUNTRY {
@@ -47,8 +50,6 @@ enum COUNTRY {
 
 model Candidate {
   id                String   @id() @default(uuid())
-  email             String   @unique
-  password          String
   name              String
   CPF               String   @unique
   date_of_birth     DateTime
@@ -59,8 +60,83 @@ model Candidate {
   CEP               String
   neighborhood      String
   number_of_address Int
-  role              ROLE     @default(USER)
+  role              ROLE     @default(CANDIDATE)
   created_at        DateTime @default(now())
 
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
   @@map("candidates")
+}
+
+model User {
+  id       String @id @default(uuid())
+  email    String @unique
+  password String
+  role     ROLE   @default(CANDIDATE)
+
+  created_at       DateTime           @default(now())
+  Candidate        Candidate[]
+  LegalResponsible LegalResponsible[]
+  Entity           Entity[]
+  Assistant        Assistant[]
+
+  @@map("users")
+}
+
+model LegalResponsible {
+  id                String           @id() @default(uuid())
+  name              String
+  CPF               String           @unique
+  date_of_birth     DateTime
+  phone             String
+  address           String
+  city              String
+  UF                COUNTRY
+  CEP               String
+  neighborhood      String
+  number_of_address Int
+  role              ROLE             @default(RESPONSIBLE)
+  created_at        DateTime         @default(now())
+  user              User             @relation(fields: [user_id], references: [id])
+  user_id           String
+  LegalDependent    LegalDependent[]
+
+  @@map("responsibles")
+}
+
+model LegalDependent {
+  id            String   @id @default(uuid())
+  name          String
+  CPF           String   @unique
+  date_of_birth DateTime
+
+  responsible    LegalResponsible @relation(fields: [responsible_id], references: [id])
+  responsible_id String
+
+  created_at DateTime @default(now())
+
+  @@map("dependents")
+}
+
+model Assistant {
+  id   String @id @default(uuid())
+  name String
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  entity    Entity @relation(fields: [entity_id], references: [id])
+  entity_id String
+}
+
+model Entity {
+  id      String @id @default(uuid())
+  name    String
+  phone   String
+  address String
+
+  user      User        @relation(fields: [user_id], references: [id])
+  user_id   String
+  Assistant Assistant[]
 }

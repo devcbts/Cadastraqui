@@ -1,24 +1,25 @@
-import {
-  COUNTRY,
-  RegisterCandidateUseCase,
-} from '../../use-cases/candidates/register'
+import { COUNTRY } from '../../use-cases/candidates/register'
 import { UserAlreadyExistsError } from '../../use-cases/errors/user-already-exists-error'
-import { InMemoryCandidatesRepository } from '../../../in-memory/in-memory-candidates-repository'
 import { InMemoryUsersRepository } from '../../../in-memory/in-memory-users-repository'
+import { InMemoryLegalResponsibleRepository } from '../../../in-memory/in-memory-reponsibles-repository'
+import { RegisterLegalResponsibleUseCase } from '../../use-cases/legal-reponsible/register'
 
-let candidatesRepository: InMemoryCandidatesRepository
 let usersRepository: InMemoryUsersRepository
-let sut: RegisterCandidateUseCase // sut => System Under Testing
+let legalResponsibleRepository: InMemoryLegalResponsibleRepository
+let sut: RegisterLegalResponsibleUseCase // sut => System Under Testing
 
-describe('Register Candidate Use Case', () => {
+describe('Register Legal Responsible Use Case', () => {
   beforeEach(() => {
-    candidatesRepository = new InMemoryCandidatesRepository()
     usersRepository = new InMemoryUsersRepository()
-    sut = new RegisterCandidateUseCase(candidatesRepository, usersRepository)
+    legalResponsibleRepository = new InMemoryLegalResponsibleRepository()
+    sut = new RegisterLegalResponsibleUseCase(
+      legalResponsibleRepository,
+      usersRepository,
+    )
   })
 
-  test('should be able to register an candidate ', async () => {
-    const { candidate } = await sut.execute({
+  test('should be able to register a legal dependent ', async () => {
+    const { legalResponsible } = await sut.execute({
       address: 'address test',
       CEP: '123',
       city: 'city test',
@@ -33,7 +34,7 @@ describe('Register Candidate Use Case', () => {
       password: 'teste-password',
     })
 
-    expect(candidate.id).toEqual(expect.any(String))
+    expect(legalResponsible.id).toEqual(expect.any(String))
   })
 
   test('should not be able to register with same email', async () => {

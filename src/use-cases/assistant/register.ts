@@ -1,8 +1,11 @@
 import { hash } from 'bcryptjs'
-import { Candidate } from '@prisma/client'
-import { CandidatesRepository } from '@/repositories/candidates-repository'
-import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
+import { LegalReponsibleRepository } from '@/repositories/reponsible-repository'
+import { Assistant, LegalDependent } from '@prisma/client'
 import { UsersRepository } from '@/repositories/users-repository'
+import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
+import { LegalDependentRepository } from '@/repositories/dependent-repository'
+import { AssistantRepository } from '@/repositories/assistant-repository'
+import { EntityRepository } from '@/repositories/entity-repository'
 
 export enum COUNTRY {
   AC = 'AC',
@@ -35,46 +38,34 @@ export enum COUNTRY {
 }
 
 interface RegisterUseCaseRequest {
-  name: string
   email: string
   password: string
-  address: string
-  city: string
-  UF: COUNTRY
-  CEP: string
-  CPF: string
-  neighborhood: string
-  number_of_address: number
+  name: string
   phone: string
-  date_of_birth: Date
+  address: string
 }
 
 interface RegisterUseCaseResponse {
-  candidate: Candidate
+  assistant: Assistant
 }
 
-export class RegisterCandidateUseCase {
+export class RegisterAssistantUseCase {
   constructor(
-    private candidatesRepository: CandidatesRepository,
+    private assistantRepository: AssistantRepository,
     private usersRepository: UsersRepository,
+    private entityRepository: EntityRepository,
   ) {
-    this.candidatesRepository = candidatesRepository
+    this.assistantRepository = assistantRepository
     this.usersRepository = usersRepository
+    this.entityRepository = entityRepository
   }
 
   async execute({
     email,
     password,
-    CEP,
-    CPF,
-    UF,
-    address,
-    city,
-    neighborhood,
-    number_of_address,
-    phone,
-    date_of_birth,
     name,
+    address,
+    phone,
   }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
     const userWithSameEmail = await this.usersRepository.findByEmail(email)
 
@@ -88,23 +79,23 @@ export class RegisterCandidateUseCase {
     const user = await this.usersRepository.create({
       email,
       password: password_hash,
-      role: 'CANDIDATE',
+      role: 'ASSISTANT',
     })
-    // Cria candidato
-    const candidate = await this.candidatesRepository.create({
+    // Cria Entidade
+    const entity = await this.entityRepository.create({
       address,
-      CEP,
-      city,
-      CPF,
-      date_of_birth,
       name,
-      neighborhood,
-      number_of_address,
       phone,
-      UF,
       user_id: user.id,
     })
 
-    return { candidate }
+    // Cria Assistente Social
+    const assistant = await this.assistantRepository.create({
+      name,
+      entity_id: entity.id,
+      user_id: user.id,
+    })
+
+    return { assistant }
   }
 }

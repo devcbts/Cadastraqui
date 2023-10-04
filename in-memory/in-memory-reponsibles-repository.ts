@@ -1,12 +1,14 @@
-import { CandidatesRepository } from '@/repositories/candidates-repository'
-import { Prisma, Candidate } from '@prisma/client'
+import { LegalReponsibleRepository } from '@/repositories/reponsible-repository'
+import { Prisma, LegalResponsible } from '@prisma/client'
 import { randomUUID } from 'node:crypto'
 
-export class InMemoryCandidatesRepository implements CandidatesRepository {
-  public items: Candidate[] = []
+export class InMemoryLegalResponsibleRepository
+  implements LegalReponsibleRepository
+{
+  public items: LegalResponsible[] = []
 
-  async create(data: Prisma.CandidateUncheckedCreateInput) {
-    const candidate = {
+  async create(data: Prisma.LegalResponsibleUncheckedCreateInput) {
+    const responsible = {
       id: data.id ?? randomUUID(),
       created_at: new Date(),
       address: data.address,
@@ -23,7 +25,7 @@ export class InMemoryCandidatesRepository implements CandidatesRepository {
       user_id: data.user_id,
     }
 
-    this.items.push(candidate)
-    return candidate
+    this.items.push(responsible)
+    return responsible
   }
 }
