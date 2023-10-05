@@ -64,7 +64,7 @@ model Candidate {
   created_at        DateTime @default(now())
 
   user    User?   @relation(fields: [user_id], references: [id])
-  user_id String?
+  user_id String? @unique
 
   responsible    LegalResponsible? @relation(fields: [responsible_id], references: [id])
   responsible_id String?
@@ -103,7 +103,7 @@ model LegalResponsible {
   created_at        DateTime @default(now())
 
   user      User        @relation(fields: [user_id], references: [id])
-  user_id   String
+  user_id   String      @unique
   Candidate Candidate[]
 
   @@map("responsibles")

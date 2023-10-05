@@ -1,8 +1,28 @@
-import { env } from '@/env'
+import { env } from './env/index'
 import fastify from 'fastify'
+import fastifyJwt from '@fastify/jwt'
+import fastifyCookie from '@fastify/cookie'
 import { ZodError } from 'zod'
+import { candidateRoutes } from './http/controllers/candidates/routes'
+import { legalResponsibleRoutes } from './http/controllers/legal-responsible/routes'
 
 export const app = fastify()
+
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: 'refreshToken',
+    signed: false,
+  },
+  sign: {
+    expiresIn: '10m',
+  },
+})
+
+app.register(fastifyCookie)
+
+app.register(candidateRoutes, { prefix: '/candidates' })
+app.register(legalResponsibleRoutes, { prefix: '/responsibles' })
 
 app.setErrorHandler((error, _request, reply) => {
   if (error instanceof ZodError) {

@@ -12,6 +12,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@fastify/cookie": "9.1.0",
+    "@fastify/jwt": "7.2.1",
     "@prisma/client": "5.3.1",
     "bcryptjs": "2.4.3",
     "dotenv": "16.3.1",
@@ -24,9 +26,11 @@
     "@types/bcryptjs": "2.4.4",
     "@types/jest": "29.5.5",
     "@types/node": "20.8.0",
+    "@types/supertest": "2.0.14",
     "eslint": "8.50.0",
     "jest": "29.7.0",
     "prisma": "5.3.1",
+    "supertest": "6.3.3",
     "ts-jest": "29.1.1",
     "tsx": "3.13.0",
     "typescript": "5.2.2"
