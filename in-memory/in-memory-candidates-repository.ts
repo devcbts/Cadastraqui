@@ -6,7 +6,7 @@ export class InMemoryCandidatesRepository implements CandidatesRepository {
   public items: Candidate[] = []
 
   async create(data: Prisma.CandidateUncheckedCreateInput) {
-    const candidate = {
+    const candidate: Candidate = {
       id: data.id ?? randomUUID(),
       created_at: new Date(),
       address: data.address,
@@ -20,10 +20,27 @@ export class InMemoryCandidatesRepository implements CandidatesRepository {
       phone: data.phone,
       UF: data.UF,
       role: data.role ?? 'CANDIDATE',
-      user_id: data.user_id,
+      user_id: data.user_id ?? '',
+      responsible_id: data.responsible_id ?? '',
     }
 
     this.items.push(candidate)
+    return candidate
+  }
+
+  async countDependentsByResponsibleId(id: string) {
+    const numberOfDependents = this.items
+      .filter((candidate) => !!candidate.responsible_id)
+      .filter((candidate) => candidate.responsible_id === id).length
+
+    return numberOfDependents
+  }
+
+  async findById(id: string) {
+    const candidate = this.items.find((candidate) => candidate.id === id)
+    if (!candidate) {
+      return null
+    }
     return candidate
   }
 }

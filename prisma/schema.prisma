@@ -63,8 +63,11 @@ model Candidate {
   role              ROLE     @default(CANDIDATE)
   created_at        DateTime @default(now())
 
-  user    User   @relation(fields: [user_id], references: [id])
-  user_id String
+  user    User?   @relation(fields: [user_id], references: [id])
+  user_id String?
+
+  responsible    LegalResponsible? @relation(fields: [responsible_id], references: [id])
+  responsible_id String?
 
   @@map("candidates")
 }
@@ -85,9 +88,9 @@ model User {
 }
 
 model LegalResponsible {
-  id                String           @id() @default(uuid())
+  id                String   @id() @default(uuid())
   name              String
-  CPF               String           @unique
+  CPF               String   @unique
   date_of_birth     DateTime
   phone             String
   address           String
@@ -96,27 +99,14 @@ model LegalResponsible {
   CEP               String
   neighborhood      String
   number_of_address Int
-  role              ROLE             @default(RESPONSIBLE)
-  created_at        DateTime         @default(now())
-  user              User             @relation(fields: [user_id], references: [id])
-  user_id           String
-  LegalDependent    LegalDependent[]
+  role              ROLE     @default(RESPONSIBLE)
+  created_at        DateTime @default(now())
+
+  user      User        @relation(fields: [user_id], references: [id])
+  user_id   String
+  Candidate Candidate[]
 
   @@map("responsibles")
-}
-
-model LegalDependent {
-  id            String   @id @default(uuid())
-  name          String
-  CPF           String   @unique
-  date_of_birth DateTime
-
-  responsible    LegalResponsible @relation(fields: [responsible_id], references: [id])
-  responsible_id String
-
-  created_at DateTime @default(now())
-
-  @@map("dependents")
 }
 
 model Assistant {

@@ -28,4 +28,14 @@ export class InMemoryLegalResponsibleRepository
     this.items.push(responsible)
     return responsible
   }
+
+  async findById(id: string) {
+    const responsible = this.items.find((responsible) => responsible.id === id)
+
+    if (!responsible) {
+      return null
+    }
+
+    return responsible
+  }
 }

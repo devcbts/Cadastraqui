@@ -1,15 +1,13 @@
-import { hash } from 'bcryptjs'
 import { Entity } from '@prisma/client'
 import { UsersRepository } from '@/repositories/users-repository'
-import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
 import { EntityRepository } from '@/repositories/entity-repository'
+import { UserNotExistsError } from '../errors/user-not-exists-error'
 
 interface RegisterUseCaseRequest {
   name: string
-  email: string
-  password: string
   phone: string
   address: string
+  user_id: string
 }
 
 interface RegisterUseCaseResponse {
@@ -29,29 +27,19 @@ export class RegisterEntityUseCase {
     address,
     name,
     phone,
-    password,
-    email,
+    user_id,
   }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
-    const userWithSameEmail = await this.usersRepository.findByEmail(email)
+    const user = await this.usersRepository.findById(user_id)
 
-    if (userWithSameEmail) {
-      throw new UserAlreadyExistsError()
+    if (!user) {
+      throw new UserNotExistsError()
     }
 
-    const password_hash = await hash(password, 6)
-
-    // Cria usuário
-    const user = await this.usersRepository.create({
-      email,
-      password: password_hash,
-      role: 'ENTITY',
-    })
-    // Cria Entidade
     const entity = await this.entitysRepository.create({
       address,
       name,
       phone,
-      user_id: user.id,
+      user_id,
     })
 
     return { entity }

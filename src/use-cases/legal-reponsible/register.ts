@@ -1,8 +1,7 @@
-import { hash } from 'bcryptjs'
 import { LegalReponsibleRepository } from '@/repositories/reponsible-repository'
-import { LegalResponsible } from '@prisma/client'
 import { UsersRepository } from '@/repositories/users-repository'
-import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
+import { LegalResponsible } from '@prisma/client'
+import { UserNotExistsError } from '../errors/user-not-exists-error'
 
 export enum COUNTRY {
   AC = 'AC',
@@ -36,8 +35,6 @@ export enum COUNTRY {
 
 interface RegisterUseCaseRequest {
   name: string
-  email: string
-  password: string
   address: string
   city: string
   UF: COUNTRY
@@ -47,6 +44,7 @@ interface RegisterUseCaseRequest {
   number_of_address: number
   phone: string
   date_of_birth: Date
+  user_id: string
 }
 
 interface RegisterUseCaseResponse {
@@ -63,8 +61,6 @@ export class RegisterLegalResponsibleUseCase {
   }
 
   async execute({
-    email,
-    password,
     CEP,
     CPF,
     UF,
@@ -75,22 +71,15 @@ export class RegisterLegalResponsibleUseCase {
     phone,
     date_of_birth,
     name,
+    user_id,
   }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
-    const userWithSameEmail = await this.usersRepository.findByEmail(email)
+    // Verifica se existe um usuário com user_id
+    const user = await this.usersRepository.findById(user_id)
 
-    if (userWithSameEmail) {
-      throw new UserAlreadyExistsError()
+    if (!user) {
+      throw new UserNotExistsError()
     }
 
-    const password_hash = await hash(password, 6)
-
-    // Cria usuário
-    const user = await this.usersRepository.create({
-      email,
-      password: password_hash,
-      role: 'RESPONSIBLE',
-    })
-    // Cria Responsável Legal
     const legalResponsible = await this.legalReponsibleRepository.create({
       address,
       CEP,
@@ -102,7 +91,7 @@ export class RegisterLegalResponsibleUseCase {
       number_of_address,
       phone,
       UF,
-      user_id: user.id,
+      user_id,
     })
 
     return { legalResponsible }

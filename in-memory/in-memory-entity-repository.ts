@@ -17,4 +17,12 @@ export class InMemoryEntityRepository implements EntityRepository {
     this.items.push(entity)
     return entity
   }
+
+  async findById(id: string) {
+    const entity = this.items.find((entity) => entity.id === id)
+    if (!entity) {
+      return null
+    }
+    return entity
+  }
 }

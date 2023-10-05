@@ -1,8 +1,9 @@
-import { UserAlreadyExistsError } from '../../use-cases/errors/user-already-exists-error'
 import { InMemoryUsersRepository } from '../../../in-memory/in-memory-users-repository'
 import { InMemoryAssistantRepository } from '../../../in-memory/in-memory-assistant-repository'
 import { InMemoryEntityRepository } from '../../../in-memory/in-memory-entity-repository'
 import { RegisterAssistantUseCase } from '../../use-cases/assistant/register'
+import { UserNotExistsError } from '../../use-cases/errors/user-not-exists-error'
+import { EntityNotExistsError } from '../../use-cases/errors/entity-not-exists-error'
 
 let usersRepository: InMemoryUsersRepository
 let assistantRepository: InMemoryAssistantRepository
@@ -21,37 +22,70 @@ describe('Register Assistant Use Case', () => {
     )
   })
 
-  test('should be able to register an assistant ', async () => {
-    const { assistant } = await sut.execute({
+  test('should be able to register an assistant', async () => {
+    const user_assistant = await usersRepository.create({
+      email: 'user@example.com',
+      password: '123456',
+      role: 'ASSISTANT',
+    })
+    const user_entity = await usersRepository.create({
+      email: 'user@example.com',
+      password: '123456',
+      role: 'ENTITY',
+    })
+
+    const entity = await entityRepository.create({
       address: 'address test',
-      email: 'teste@example.com',
-      password: 'teste-password',
-      name: 'teste-name',
-      phone: '998',
+      name: 'teste name entity',
+      phone: '123',
+      user_id: user_entity.id,
+    })
+
+    const { assistant } = await sut.execute({
+      name: 'teste-assistant-name',
+      entity_id: entity.id,
+      user_id: user_assistant.id,
     })
 
     expect(assistant.id).toEqual(expect.any(String))
   })
 
-  test('should not be able to register with same email', async () => {
-    const email = 'teste@example.com'
+  test('should not be able to register assistant without user_id', async () => {
+    const user_entity = await usersRepository.create({
+      email: 'user@example.com',
+      password: '123456',
+      role: 'ENTITY',
+    })
 
-    await sut.execute({
+    const entity = await entityRepository.create({
       address: 'address test',
-      email,
-      password: 'teste-password',
-      name: 'teste-name',
-      phone: '998',
+      name: 'teste name entity',
+      phone: '123',
+      user_id: user_entity.id,
     })
 
     await expect(() =>
       sut.execute({
-        address: 'address test',
-        email,
-        password: 'teste-password',
-        name: 'teste-name',
-        phone: '998',
+        name: 'teste-assistant-name',
+        entity_id: entity.id,
+        user_id: 'fake-user-assistant',
       }),
-    ).rejects.toBeInstanceOf(UserAlreadyExistsError)
+    ).rejects.toBeInstanceOf(UserNotExistsError)
+  })
+
+  test('should not be able to register assistant without entity_id', async () => {
+    const user_assistant = await usersRepository.create({
+      email: 'user@example.com',
+      password: '123456',
+      role: 'ENTITY',
+    })
+
+    await expect(() =>
+      sut.execute({
+        name: 'teste-assistant-name',
+        entity_id: 'fake-entity',
+        user_id: user_assistant.id,
+      }),
+    ).rejects.toBeInstanceOf(EntityNotExistsError)
   })
 })

@@ -4,6 +4,8 @@ import { UsersRepository } from '@/repositories/users-repository'
 import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
 import { AssistantRepository } from '@/repositories/assistant-repository'
 import { EntityRepository } from '@/repositories/entity-repository'
+import { UserNotExistsError } from '../errors/user-not-exists-error'
+import { EntityNotExistsError } from '../errors/entity-not-exists-error'
 
 export enum COUNTRY {
   AC = 'AC',
@@ -36,11 +38,9 @@ export enum COUNTRY {
 }
 
 interface RegisterUseCaseRequest {
-  email: string
-  password: string
+  entity_id: string
   name: string
-  phone: string
-  address: string
+  user_id: string
 }
 
 interface RegisterUseCaseResponse {
@@ -59,39 +59,26 @@ export class RegisterAssistantUseCase {
   }
 
   async execute({
-    email,
-    password,
     name,
-    address,
-    phone,
+    entity_id,
+    user_id,
   }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
-    const userWithSameEmail = await this.usersRepository.findByEmail(email)
+    const user = await this.usersRepository.findById(user_id)
 
-    if (userWithSameEmail) {
-      throw new UserAlreadyExistsError()
+    if (!user) {
+      throw new UserNotExistsError()
     }
 
-    const password_hash = await hash(password, 6)
+    const entity = await this.entityRepository.findById(entity_id)
 
-    // Cria usuário
-    const user = await this.usersRepository.create({
-      email,
-      password: password_hash,
-      role: 'ASSISTANT',
-    })
-    // Cria Entidade
-    const entity = await this.entityRepository.create({
-      address,
-      name,
-      phone,
-      user_id: user.id,
-    })
+    if (!entity) {
+      throw new EntityNotExistsError()
+    }
 
-    // Cria Assistente Social
     const assistant = await this.assistantRepository.create({
       name,
-      entity_id: entity.id,
-      user_id: user.id,
+      entity_id,
+      user_id,
     })
 
     return { assistant }
