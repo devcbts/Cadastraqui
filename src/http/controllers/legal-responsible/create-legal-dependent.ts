@@ -13,11 +13,11 @@ export async function createLegalDependent(
   const registerBodySchema = z.object({
     name: z.string(),
     CPF: z.string(),
-    date_of_birth: z.string(),
+    birthDate: z.string(),
     user_id: z.string(),
   })
 
-  const { CPF, date_of_birth, name, user_id } = registerBodySchema.parse(
+  const { CPF, birthDate, name, user_id } = registerBodySchema.parse(
     request.body,
   )
 
@@ -48,10 +48,10 @@ export async function createLegalDependent(
         CEP: responsible.CEP,
         city: responsible.city,
         CPF,
-        date_of_birth: new Date(date_of_birth),
+        birthDate: new Date(birthDate),
         name,
         neighborhood: responsible.neighborhood,
-        number_of_address: responsible.number_of_address,
+        addressNumber: responsible.addressNumber,
         phone: responsible.phone,
         UF: responsible.UF,
         responsible_id: responsible.id,

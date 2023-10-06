@@ -158,67 +158,66 @@ enum Relationship {
   Other
 }
 
-
 // housing enuns (for the housing table )
 enum PropertyStatus {
-    OwnPaidOff
-    OwnFinanced
-    Rented
-    ProvidedByEmployer
-    ProvidedByFamily
-    ProvidedOtherWay
-    Irregular
+  OwnPaidOff
+  OwnFinanced
+  Rented
+  ProvidedByEmployer
+  ProvidedByFamily
+  ProvidedOtherWay
+  Irregular
 }
 
 enum ContractType {
-    Verbal
-    ThroughRealEstateAgency
-    DirectWithOwner
+  Verbal
+  ThroughRealEstateAgency
+  DirectWithOwner
 }
 
 enum TimeLivingInProperty {
-    UpTo11Months
-    From1To10Years
-    From10To20Years
-    Over20Years
+  UpTo11Months
+  From1To10Years
+  From10To20Years
+  Over20Years
 }
 
 enum DomicileType {
-    House
-    CondominiumHouse
-    Apartment
-    RoomingHouse
+  House
+  CondominiumHouse
+  Apartment
+  RoomingHouse
 }
 
 enum NumberOfRooms {
-    One
-    Two
-    Three
-    Four
-    Five
-    Six
-    Seven
-    Eight
-    Nine
-    Ten
-    Eleven
-    Twelve
+  One
+  Two
+  Three
+  Four
+  Five
+  Six
+  Seven
+  Eight
+  Nine
+  Ten
+  Eleven
+  Twelve
 }
 
 model Candidate {
-  id                String   @id() @default(uuid())
-  name              String
-  CPF               String   @unique
-  date_of_birth     DateTime
-  phone             String
-  address           String
-  city              String
-  UF                COUNTRY
-  CEP               String
-  neighborhood      String
-  number_of_address Int
-  role              ROLE     @default(CANDIDATE)
-  created_at        DateTime @default(now())
+  id            String   @id() @default(uuid())
+  name          String
+  CPF           String   @unique
+  birthDate     DateTime
+  phone         String
+  address       String
+  city          String
+  UF            COUNTRY
+  CEP           String
+  neighborhood  String
+  addressNumber Int
+  role          ROLE     @default(CANDIDATE)
+  createdAt     DateTime @default(now())
 
   user    User?   @relation(fields: [user_id], references: [id])
   user_id String? @unique
@@ -227,7 +226,7 @@ model Candidate {
   responsible_id String?
 
   CandidateRegisterDetails CandidateRegisterDetails[]
-  
+
   FamillyMember FamilyMember[]
 
   @@map("candidates")
@@ -239,7 +238,7 @@ model User {
   password String
   role     ROLE   @default(CANDIDATE)
 
-  created_at       DateTime           @default(now())
+  createdAt        DateTime           @default(now())
   Candidate        Candidate[]
   LegalResponsible LegalResponsible[]
   Entity           Entity[]
@@ -249,19 +248,19 @@ model User {
 }
 
 model LegalResponsible {
-  id                String   @id() @default(uuid())
-  name              String
-  CPF               String   @unique
-  date_of_birth     DateTime
-  phone             String
-  address           String
-  city              String
-  UF                COUNTRY
-  CEP               String
-  neighborhood      String
-  number_of_address Int
-  role              ROLE     @default(RESPONSIBLE)
-  created_at        DateTime @default(now())
+  id            String   @id() @default(uuid())
+  name          String
+  CPF           String   @unique
+  birthDate     DateTime
+  phone         String
+  address       String
+  city          String
+  UF            COUNTRY
+  CEP           String
+  neighborhood  String
+  addressNumber Int
+  role          ROLE     @default(RESPONSIBLE)
+  createdAt     DateTime @default(now())
 
   user      User        @relation(fields: [user_id], references: [id])
   user_id   String      @unique
@@ -279,6 +278,8 @@ model Assistant {
 
   entity    Entity @relation(fields: [entity_id], references: [id])
   entity_id String
+
+  @@map("assistants")
 }
 
 model Entity {
@@ -290,6 +291,8 @@ model Entity {
   user      User        @relation(fields: [user_id], references: [id])
   user_id   String
   Assistant Assistant[]
+
+  @@map("entities")
 }
 
 model CandidateRegisterDetails {
@@ -302,10 +305,10 @@ model CandidateRegisterDetails {
   email                         String            @unique
   password                      String
   nationality                   String
-  state                         COUNTRY?
+  UF                            COUNTRY?
   city                          String?
-  cpf                           String            @unique
-  rg                            String            @unique
+  CPF                           String            @unique
+  RG                            String            @unique
   rgIssuingAuthority            String
   rgIssuingState                String
   documentType                  DOCUMENT_TYPE?
@@ -353,7 +356,7 @@ model CandidateRegisterDetails {
   candidate    Candidate @relation(fields: [candidate_id], references: [id])
   candidate_id String
 
-  @@map("RegisterDetails")
+  @@map("registerDetails")
 }
 
 model FamilyMember {
@@ -395,17 +398,18 @@ model FamilyMember {
   nis                       String?
   incomeSource              IncomeSource[]
 
-    @@map("FamilyMembers")
-
+  @@map("familyMembers")
 }
 
 model Housing {
-    id                   String      @id @default(uuid())
-    propertyStatus       PropertyStatus
-    contractType         ContractType
-    grantorName          String
-    timeLivingInProperty TimeLivingInProperty
-    domicileType         DomicileType
-    numberOfRooms        NumberOfRooms
-    numberOfBedrooms     Int
+  id                   String               @id @default(uuid())
+  propertyStatus       PropertyStatus
+  contractType         ContractType
+  grantorName          String
+  timeLivingInProperty TimeLivingInProperty
+  domicileType         DomicileType
+  numberOfRooms        NumberOfRooms
+  numberOfBedrooms     Int
+
+  @@map("housing")
 }

@@ -17,7 +17,7 @@ export async function registerLegalResponsible(
     CEP: z.string(),
     CPF: z.string(),
     address: z.string(),
-    date_of_birth: z.string(),
+    birthDate: z.string(),
     phone: z.string(),
     city: z.string(),
     neighborhood: z.string(),
@@ -50,7 +50,7 @@ export async function registerLegalResponsible(
       'SP',
       'TO',
     ]),
-    number_of_address: z.number(),
+    addressNumber: z.number(),
   })
 
   const {
@@ -63,10 +63,10 @@ export async function registerLegalResponsible(
     UF,
     address,
     city,
-    date_of_birth,
     neighborhood,
     phone,
-    number_of_address,
+    addressNumber,
+    birthDate,
   } = registerBodySchema.parse(request.body)
 
   try {
@@ -94,9 +94,9 @@ export async function registerLegalResponsible(
         CEP,
         city,
         CPF,
-        date_of_birth: new Date(date_of_birth),
+        birthDate: new Date(birthDate),
         neighborhood,
-        number_of_address,
+        addressNumber,
         user_id: user.id,
         phone,
         UF,
