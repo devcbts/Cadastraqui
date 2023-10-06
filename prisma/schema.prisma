@@ -48,6 +48,163 @@ enum COUNTRY {
   TO
 }
 
+// Enuns for the Candidate Register and Family Member Tables
+enum GENDER {
+  MALE
+  FEMALE
+}
+
+enum DOCUMENT_TYPE {
+  DriversLicense
+  FunctionalCard
+  MilitaryID
+  ForeignerRegistration
+  Passport
+  WorkCard
+}
+
+enum MARITAL_STATUS {
+  Single
+  Married
+  Separated
+  Divorced
+  Widowed
+  StableUnion
+}
+
+enum SkinColor {
+  Yellow
+  White
+  Indigenous
+  Brown
+  Black
+  NotDeclared
+}
+
+enum RELIGION {
+  Catholic
+  Evangelical
+  Spiritist
+  Atheist
+  Other
+  NotDeclared
+}
+
+enum SCHOLARSHIP {
+  Illiterate
+  ElementarySchool
+  HighSchool
+  CollegeGraduate
+  CollegeUndergraduate
+  Postgraduate
+  Masters
+  Doctorate
+  PostDoctorate
+}
+
+enum EDUCATION_TYPE {
+  Alfabetizacao
+  Ensino_Medio
+  Ensino_Tecnico
+  Ensino_Superior
+}
+
+enum SHIFT {
+  Matutino
+  Vespertino
+  Noturno
+  Integral
+}
+
+enum INSTITUTION_TYPE {
+  Publica
+  Privada
+}
+
+enum IncomeSource {
+  PrivateEmployee
+  PublicEmployee
+  DomesticEmployee
+  TemporaryRuralEmployee
+  BusinessOwnerSimplifiedTax
+  BusinessOwner
+  IndividualEntrepreneur
+  SelfEmployed
+  Retired
+  Pensioner
+  Apprentice
+  Volunteer
+  RentalIncome
+  Student
+  InformalWorker
+  Unemployed
+  TemporaryDisabilityBenefit
+  LiberalProfessional
+  FinancialHelpFromOthers
+  Alimony
+  PrivatePension
+}
+
+enum Relationship {
+  Wife
+  Husband
+  Father
+  Mother
+  Stepfather
+  Stepmother
+  Sibling
+  Grandparent
+  Child
+  Other
+}
+
+
+// housing enuns (for the housing table )
+enum PropertyStatus {
+    OwnPaidOff
+    OwnFinanced
+    Rented
+    ProvidedByEmployer
+    ProvidedByFamily
+    ProvidedOtherWay
+    Irregular
+}
+
+enum ContractType {
+    Verbal
+    ThroughRealEstateAgency
+    DirectWithOwner
+}
+
+enum TimeLivingInProperty {
+    UpTo11Months
+    From1To10Years
+    From10To20Years
+    Over20Years
+}
+
+enum DomicileType {
+    House
+    CondominiumHouse
+    Apartment
+    RoomingHouse
+}
+
+enum NumberOfRooms {
+    One
+    Two
+    Three
+    Four
+    Five
+    Six
+    Seven
+    Eight
+    Nine
+    Ten
+    Eleven
+    Twelve
+}
+
 model Candidate {
   id                String   @id() @default(uuid())
   name              String
@@ -68,6 +225,10 @@ model Candidate {
 
   responsible    LegalResponsible? @relation(fields: [responsible_id], references: [id])
   responsible_id String?
+
+  CandidateRegisterDetails CandidateRegisterDetails[]
+  
+  FamillyMember FamilyMember[]
 
   @@map("candidates")
 }
@@ -129,4 +290,122 @@ model Entity {
   user      User        @relation(fields: [user_id], references: [id])
   user_id   String
   Assistant Assistant[]
+}
+
+model CandidateRegisterDetails {
+  id                            String            @id @default(uuid())
+  fullName                      String
+  birthDate                     DateTime
+  age                           Int
+  gender                        String            @db.VarChar(10)
+  mobilePhone                   String
+  email                         String            @unique
+  password                      String
+  nationality                   String
+  state                         COUNTRY?
+  city                          String?
+  cpf                           String            @unique
+  rg                            String            @unique
+  rgIssuingAuthority            String
+  rgIssuingState                String
+  documentType                  DOCUMENT_TYPE?
+  documentNumber                String?
+  documentValidity              DateTime?
+  maritalStatus                 MARITAL_STATUS
+  skinColor                     SkinColor
+  religion                      RELIGION
+  educationLevel                SCHOLARSHIP
+  specialNeeds                  Boolean?
+  specialNeedsDescription       String?
+  hasMedicalReport              Boolean?
+  landlinePhone                 String?
+  workPhone                     String?
+  contactNameForMessage         String?
+  postalCode                    String
+  street                        String
+  streetNumber                  String
+  complement                    String?
+  neighborhood                  String
+  addressCity                   String
+  addressState                  String
+  landmark                      String?
+  profession                    String
+  enrolledGovernmentProgram     Boolean?
+  nis                           String?
+  incomeSource                  String[]
+  livesAlone                    Boolean
+  intendsToGetScholarship       Boolean
+  attendedPublicHighSchool      Boolean?
+  benefitedFromCebasScholarship Boolean?
+  educationType                 EDUCATION_TYPE?
+  gradeOrSemester               String?
+  shift                         String?
+  hasScholarship                Boolean?
+  scholarshipPercentage         Int?
+  livesAtSameAddress            Boolean
+  numberOfMinorCandidates       Int?
+  educationInstitution          String?
+  institutionType               INSTITUTION_TYPE?
+  responsibleEducationLevel     EDUCATION_TYPE?
+  responsibleGradeOrSemester    String?
+  responsibleShift              SHIFT?
+
+  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+  candidate_id String
+
+  @@map("RegisterDetails")
+}
+
+model FamilyMember {
+  id                        String         @id @default(uuid())
+  candidate                 Candidate      @relation(fields: [candidate_id], references: [id])
+  candidate_id              String
+  relationship              Relationship
+  otherRelationship         String?
+  fullName                  String
+  birthDate                 DateTime
+  age                       Int?
+  gender                    GENDER
+  mobilePhone               String
+  nationality               String
+  state                     String?
+  city                      String?
+  cpf                       String?        @unique
+  rg                        String?
+  rgIssuingAuthority        String?
+  rgIssuingState            String?
+  documentType              DOCUMENT_TYPE?
+  documentNumber            String?
+  documentValidity          DateTime?
+  birthRegistrationNumber   String?
+  birthRegistrationBook     String?
+  birthRegistrationPage     String?
+  maritalStatus             MARITAL_STATUS
+  skinColor                 SkinColor
+  religion                  RELIGION
+  educationLevel            EDUCATION_TYPE
+  specialNeeds              Boolean?
+  specialNeedsDescription   String?
+  hasMedicalReport          Boolean?
+  landlinePhone             String?
+  workPhone                 String?
+  contactNameForMessage     String?
+  profession                String
+  enrolledGovernmentProgram Boolean?
+  nis                       String?
+  incomeSource              IncomeSource[]
+
+    @@map("FamilyMembers")
+
+}
+
+model Housing {
+    id                   String      @id @default(uuid())
+    propertyStatus       PropertyStatus
+    contractType         ContractType
+    grantorName          String
+    timeLivingInProperty TimeLivingInProperty
+    domicileType         DomicileType
+    numberOfRooms        NumberOfRooms
+    numberOfBedrooms     Int
 }
