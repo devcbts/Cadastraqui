@@ -158,67 +158,66 @@ enum Relationship {
   Other
 }
 
-
 // housing enuns (for the housing table )
 enum PropertyStatus {
-    OwnPaidOff
-    OwnFinanced
-    Rented
-    ProvidedByEmployer
-    ProvidedByFamily
-    ProvidedOtherWay
-    Irregular
+  OwnPaidOff
+  OwnFinanced
+  Rented
+  ProvidedByEmployer
+  ProvidedByFamily
+  ProvidedOtherWay
+  Irregular
 }
 
 enum ContractType {
-    Verbal
-    ThroughRealEstateAgency
-    DirectWithOwner
+  Verbal
+  ThroughRealEstateAgency
+  DirectWithOwner
 }
 
 enum TimeLivingInProperty {
-    UpTo11Months
-    From1To10Years
-    From10To20Years
-    Over20Years
+  UpTo11Months
+  From1To10Years
+  From10To20Years
+  Over20Years
 }
 
 enum DomicileType {
-    House
-    CondominiumHouse
-    Apartment
-    RoomingHouse
+  House
+  CondominiumHouse
+  Apartment
+  RoomingHouse
 }
 
 enum NumberOfRooms {
-    One
-    Two
-    Three
-    Four
-    Five
-    Six
-    Seven
-    Eight
-    Nine
-    Ten
-    Eleven
-    Twelve
+  One
+  Two
+  Three
+  Four
+  Five
+  Six
+  Seven
+  Eight
+  Nine
+  Ten
+  Eleven
+  Twelve
 }
 
 model Candidate {
-  id                String   @id() @default(uuid())
-  name              String
-  CPF               String   @unique
-  date_of_birth     DateTime
-  phone             String
-  address           String
-  city              String
-  UF                COUNTRY
-  CEP               String
-  neighborhood      String
-  number_of_address Int
-  role              ROLE     @default(CANDIDATE)
-  created_at        DateTime @default(now())
+  id            String   @id() @default(uuid())
+  name          String
+  CPF           String   @unique
+  birthDate     DateTime
+  phone         String
+  address       String
+  city          String
+  UF            COUNTRY
+  CEP           String
+  neighborhood  String
+  addressNumber Int
+  role          ROLE     @default(CANDIDATE)
+  createdAt     DateTime @default(now())
 
   user    User?   @relation(fields: [user_id], references: [id])
   user_id String? @unique
@@ -227,7 +226,7 @@ model Candidate {
   responsible_id String?
 
   CandidateRegisterDetails CandidateRegisterDetails[]
-  
+
   FamillyMember FamilyMember[]
 
   @@map("candidates")
@@ -239,29 +238,29 @@ model User {
   password String
   role     ROLE   @default(CANDIDATE)
 
-  created_at       DateTime           @default(now())
+  createdAt        DateTime           @default(now())
   Candidate        Candidate[]
   LegalResponsible LegalResponsible[]
   Entity           Entity[]
-  Assistant        Assistant[]
+  SocialAssistant  SocialAssistant[]
 
   @@map("users")
 }
 
 model LegalResponsible {
-  id                String   @id() @default(uuid())
-  name              String
-  CPF               String   @unique
-  date_of_birth     DateTime
-  phone             String
-  address           String
-  city              String
-  UF                COUNTRY
-  CEP               String
-  neighborhood      String
-  number_of_address Int
-  role              ROLE     @default(RESPONSIBLE)
-  created_at        DateTime @default(now())
+  id            String   @id() @default(uuid())
+  name          String
+  CPF           String   @unique
+  birthDate     DateTime
+  phone         String
+  address       String
+  city          String
+  UF            COUNTRY
+  CEP           String
+  neighborhood  String
+  addressNumber Int
+  role          ROLE     @default(RESPONSIBLE)
+  createdAt     DateTime @default(now())
 
   user      User        @relation(fields: [user_id], references: [id])
   user_id   String      @unique
@@ -270,42 +269,114 @@ model LegalResponsible {
   @@map("responsibles")
 }
 
-model Assistant {
+model SocialAssistant {
   id   String @id @default(uuid())
   name String
+  CPF  String @unique
 
   user    User   @relation(fields: [user_id], references: [id])
   user_id String
 
-  entity    Entity @relation(fields: [entity_id], references: [id])
-  entity_id String
+  entity_matrix    EntityMatrix? @relation(fields: [entity_matrix_id], references: [id])
+  entity_matrix_id String?
+
+  entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
+  entity_subsidiary_id String?
+
+  @@map("assistants")
 }
 
 model Entity {
-  id      String @id @default(uuid())
-  name    String
-  phone   String
-  address String
+  id           String  @id @default(uuid())
+  name         String?
+  socialReason String
+  CNPJ         String
+  logo         String
 
-  user      User        @relation(fields: [user_id], references: [id])
-  user_id   String
-  Assistant Assistant[]
+  user         User           @relation(fields: [user_id], references: [id])
+  user_id      String
+  EntityMatrix EntityMatrix[]
+
+  @@map("entities")
+}
+
+model EntityMatrix {
+  id                         String  @id @default(uuid())
+  CEP                        String
+  publicPlace                String
+  city                       String
+  addressNumber              String
+  neighborhood               String
+  UF                         COUNTRY
+  addressComplement          String?
+  educationalArea            Boolean
+  educationalInstitutionCode String? // Caso o campo de educationalArea seja true
+
+  entity    Entity @relation(fields: [entity_id], references: [id])
+  entity_id String @unique
+
+  EntitySubsidiary            EntitySubsidiary[]
+  EntityDirector              EntityDirector[]
+  SelectionProcessResponsible SelectionProcessResponsible[]
+  SocialAssistant             SocialAssistant[]
+}
+
+model EntitySubsidiary {
+  id                String  @id @default(uuid())
+  CNPJ              String
+  name              String
+  code              String
+  CEP               String
+  addressStreet     String
+  addressNumber     String
+  addressComplement String?
+  city              String
+  neighborhood      String
+  UF                COUNTRY
+
+  entity                      EntityMatrix                  @relation(fields: [entity_matrix_id], references: [id])
+  entity_matrix_id            String                        @unique
+  EntityDirector              EntityDirector[]
+  SelectionProcessResponsible SelectionProcessResponsible[]
+  SocialAssistant             SocialAssistant[]
+}
+
+model EntityDirector {
+  id    String @id @default(uuid())
+  name  String
+  CPF   String @unique
+  email String
+  phone String
+
+  entity_matrix    EntityMatrix? @relation(fields: [entity_matrix_id], references: [id])
+  entity_matrix_id String?
+
+  entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
+  entity_subsidiary_id String?
+}
+
+model SelectionProcessResponsible {
+  id    String @id @default(uuid())
+  name  String
+  CPF   String @unique
+  email String
+  phone String
+
+  entity_matrix    EntityMatrix? @relation(fields: [entity_matrix_id], references: [id])
+  entity_matrix_id String?
+
+  entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
+  entity_subsidiary_id String?
 }
 
 model CandidateRegisterDetails {
   id                            String            @id @default(uuid())
   fullName                      String
-  birthDate                     DateTime
   age                           Int
   gender                        String            @db.VarChar(10)
   mobilePhone                   String
-  email                         String            @unique
-  password                      String
   nationality                   String
-  state                         COUNTRY?
-  city                          String?
-  cpf                           String            @unique
-  rg                            String            @unique
+  RG                            String            @unique
   rgIssuingAuthority            String
   rgIssuingState                String
   documentType                  DOCUMENT_TYPE?
@@ -321,13 +392,6 @@ model CandidateRegisterDetails {
   landlinePhone                 String?
   workPhone                     String?
   contactNameForMessage         String?
-  postalCode                    String
-  street                        String
-  streetNumber                  String
-  complement                    String?
-  neighborhood                  String
-  addressCity                   String
-  addressState                  String
   landmark                      String?
   profession                    String
   enrolledGovernmentProgram     Boolean?
@@ -353,13 +417,11 @@ model CandidateRegisterDetails {
   candidate    Candidate @relation(fields: [candidate_id], references: [id])
   candidate_id String
 
-  @@map("RegisterDetails")
+  @@map("registerDetails")
 }
 
 model FamilyMember {
   id                        String         @id @default(uuid())
-  candidate                 Candidate      @relation(fields: [candidate_id], references: [id])
-  candidate_id              String
   relationship              Relationship
   otherRelationship         String?
   fullName                  String
@@ -368,10 +430,10 @@ model FamilyMember {
   gender                    GENDER
   mobilePhone               String
   nationality               String
-  state                     String?
+  country                   String?
   city                      String?
-  cpf                       String?        @unique
-  rg                        String?
+  CPF                       String?        @unique
+  RG                        String?
   rgIssuingAuthority        String?
   rgIssuingState            String?
   documentType              DOCUMENT_TYPE?
@@ -395,17 +457,21 @@ model FamilyMember {
   nis                       String?
   incomeSource              IncomeSource[]
 
-    @@map("FamilyMembers")
+  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+  candidate_id String
 
+  @@map("familyMembers")
 }
 
 model Housing {
-    id                   String      @id @default(uuid())
-    propertyStatus       PropertyStatus
-    contractType         ContractType
-    grantorName          String
-    timeLivingInProperty TimeLivingInProperty
-    domicileType         DomicileType
-    numberOfRooms        NumberOfRooms
-    numberOfBedrooms     Int
+  id                   String               @id @default(uuid())
+  propertyStatus       PropertyStatus
+  contractType         ContractType
+  grantorName          String
+  timeLivingInProperty TimeLivingInProperty
+  domicileType         DomicileType
+  numberOfRooms        NumberOfRooms
+  numberOfBedrooms     Int
+
+  @@map("housing")
 }

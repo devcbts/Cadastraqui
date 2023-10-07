@@ -5,7 +5,7 @@ import { hash } from 'bcryptjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function registerCandidate(
+export async function registerEntity(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
@@ -13,61 +13,14 @@ export async function registerCandidate(
     name: z.string(),
     email: z.string().email(),
     password: z.string().min(6),
-    role: z.enum([ROLE.CANDIDATE]),
-    CEP: z.string(),
-    CPF: z.string(),
-    address: z.string(),
-    birthDate: z.string(),
-    phone: z.string(),
-    city: z.string(),
-    neighborhood: z.string(),
-    UF: z.enum([
-      'AC',
-      'AL',
-      'AM',
-      'AP',
-      'BA',
-      'CE',
-      'DF',
-      'ES',
-      'GO',
-      'MA',
-      'MG',
-      'MS',
-      'MT',
-      'PA',
-      'PB',
-      'PE',
-      'PI',
-      'PR',
-      'RJ',
-      'RN',
-      'RO',
-      'RR',
-      'RS',
-      'SC',
-      'SE',
-      'SP',
-      'TO',
-    ]),
-    addressNumber: z.number(),
+    role: z.enum([ROLE.ENTITY]),
+    CNPJ: z.string(),
+    logo: z.string(),
+    socialReason: z.string(),
   })
 
-  const {
-    name,
-    email,
-    password,
-    role,
-    CEP,
-    CPF,
-    UF,
-    address,
-    city,
-    neighborhood,
-    phone,
-    addressNumber,
-    birthDate,
-  } = registerBodySchema.parse(request.body)
+  const { name, email, password, role, CNPJ, logo, socialReason } =
+    registerBodySchema.parse(request.body)
 
   try {
     const userWithSameEmail = await prisma.user.findUnique({
@@ -88,19 +41,13 @@ export async function registerCandidate(
       },
     })
 
-    await prisma.candidate.create({
+    await prisma.entity.create({
       data: {
-        address,
-        CEP,
-        city,
-        CPF,
-        birthDate: new Date(birthDate),
-        neighborhood,
-        addressNumber,
         user_id: user.id,
-        phone,
-        UF,
         name,
+        CNPJ,
+        logo,
+        socialReason,
       },
     })
   } catch (err: any) {

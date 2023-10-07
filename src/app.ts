@@ -5,6 +5,8 @@ import fastifyCookie from '@fastify/cookie'
 import { ZodError } from 'zod'
 import { candidateRoutes } from './http/controllers/candidates/routes'
 import { legalResponsibleRoutes } from './http/controllers/legal-responsible/routes'
+import { entityRoutes } from './http/controllers/entities/routes'
+import { authenticate } from './http/controllers/users/authenticate'
 
 export const app = fastify()
 
@@ -23,6 +25,8 @@ app.register(fastifyCookie)
 
 app.register(candidateRoutes, { prefix: '/candidates' })
 app.register(legalResponsibleRoutes, { prefix: '/responsibles' })
+app.register(entityRoutes, { prefix: '/entities' })
+app.post('/session', authenticate)
 
 app.setErrorHandler((error, _request, reply) => {
   if (error instanceof ZodError) {
