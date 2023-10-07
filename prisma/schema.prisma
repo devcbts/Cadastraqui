@@ -242,7 +242,7 @@ model User {
   Candidate        Candidate[]
   LegalResponsible LegalResponsible[]
   Entity           Entity[]
-  Assistant        Assistant[]
+  SocialAssistant  SocialAssistant[]
 
   @@map("users")
 }
@@ -269,45 +269,113 @@ model LegalResponsible {
   @@map("responsibles")
 }
 
-model Assistant {
+model SocialAssistant {
   id   String @id @default(uuid())
   name String
+  CPF  String @unique
 
   user    User   @relation(fields: [user_id], references: [id])
   user_id String
 
-  entity    Entity @relation(fields: [entity_id], references: [id])
-  entity_id String
+  entity_matrix    EntityMatrix? @relation(fields: [entity_matrix_id], references: [id])
+  entity_matrix_id String?
+
+  entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
+  entity_subsidiary_id String?
 
   @@map("assistants")
 }
 
 model Entity {
-  id      String @id @default(uuid())
-  name    String
-  phone   String
-  address String
+  id           String  @id @default(uuid())
+  name         String?
+  socialReason String
+  CNPJ         String
+  logo         String
 
-  user      User        @relation(fields: [user_id], references: [id])
-  user_id   String
-  Assistant Assistant[]
+  user         User           @relation(fields: [user_id], references: [id])
+  user_id      String
+  EntityMatrix EntityMatrix[]
 
   @@map("entities")
+}
+
+model EntityMatrix {
+  id                         String  @id @default(uuid())
+  CEP                        String
+  publicPlace                String
+  city                       String
+  addressNumber              String
+  neighborhood               String
+  UF                         COUNTRY
+  addressComplement          String?
+  educationalArea            Boolean
+  educationalInstitutionCode String? // Caso o campo de educationalArea seja true
+
+  entity    Entity @relation(fields: [entity_id], references: [id])
+  entity_id String
+
+  EntitySubsidiary            EntitySubsidiary[]
+  EntityDirector              EntityDirector[]
+  SelectionProcessResponsible SelectionProcessResponsible[]
+  SocialAssistant             SocialAssistant[]
+}
+
+model EntitySubsidiary {
+  id           String  @id @default(uuid())
+  CNPJ         String
+  name         String
+  code         String
+  CEP          String
+  street       String
+  number       String
+  complement   String?
+  city         String
+  neighborhood String
+  country      COUNTRY
+
+  entity                      EntityMatrix                  @relation(fields: [entity_matrix_id], references: [id])
+  entity_matrix_id            String
+  EntityDirector              EntityDirector[]
+  SelectionProcessResponsible SelectionProcessResponsible[]
+  SocialAssistant             SocialAssistant[]
+}
+
+model EntityDirector {
+  id    String @id @default(uuid())
+  name  String
+  CPF   String @unique
+  email String
+  phone String
+
+  entity_matrix    EntityMatrix? @relation(fields: [entity_matrix_id], references: [id])
+  entity_matrix_id String?
+
+  entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
+  entity_subsidiary_id String?
+}
+
+model SelectionProcessResponsible {
+  id    String @id @default(uuid())
+  name  String
+  CPF   String @unique
+  email String
+  phone String
+
+  entity_matrix    EntityMatrix? @relation(fields: [entity_matrix_id], references: [id])
+  entity_matrix_id String?
+
+  entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
+  entity_subsidiary_id String?
 }
 
 model CandidateRegisterDetails {
   id                            String            @id @default(uuid())
   fullName                      String
-  birthDate                     DateTime
   age                           Int
   gender                        String            @db.VarChar(10)
   mobilePhone                   String
-  email                         String            @unique
-  password                      String
   nationality                   String
-  UF                            COUNTRY?
-  city                          String?
-  CPF                           String            @unique
   RG                            String            @unique
   rgIssuingAuthority            String
   rgIssuingState                String
@@ -324,13 +392,6 @@ model CandidateRegisterDetails {
   landlinePhone                 String?
   workPhone                     String?
   contactNameForMessage         String?
-  postalCode                    String
-  street                        String
-  streetNumber                  String
-  complement                    String?
-  neighborhood                  String
-  addressCity                   String
-  addressState                  String
   landmark                      String?
   profession                    String
   enrolledGovernmentProgram     Boolean?
@@ -361,8 +422,6 @@ model CandidateRegisterDetails {
 
 model FamilyMember {
   id                        String         @id @default(uuid())
-  candidate                 Candidate      @relation(fields: [candidate_id], references: [id])
-  candidate_id              String
   relationship              Relationship
   otherRelationship         String?
   fullName                  String
@@ -371,10 +430,10 @@ model FamilyMember {
   gender                    GENDER
   mobilePhone               String
   nationality               String
-  state                     String?
+  country                   String?
   city                      String?
-  cpf                       String?        @unique
-  rg                        String?
+  CPF                       String?        @unique
+  RG                        String?
   rgIssuingAuthority        String?
   rgIssuingState            String?
   documentType              DOCUMENT_TYPE?
@@ -397,6 +456,9 @@ model FamilyMember {
   enrolledGovernmentProgram Boolean?
   nis                       String?
   incomeSource              IncomeSource[]
+
+  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+  candidate_id String
 
   @@map("familyMembers")
 }
