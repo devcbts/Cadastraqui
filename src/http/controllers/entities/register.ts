@@ -14,11 +14,12 @@ export async function registerEntity(
     email: z.string().email(),
     password: z.string().min(6),
     role: z.enum([ROLE.ENTITY]),
-    address: z.string(),
-    phone: z.string(),
+    CNPJ: z.string(),
+    logo: z.string(),
+    socialReason: z.string(),
   })
 
-  const { name, email, password, role, address, phone } =
+  const { name, email, password, role, CNPJ, logo, socialReason } =
     registerBodySchema.parse(request.body)
 
   try {
@@ -42,10 +43,11 @@ export async function registerEntity(
 
     await prisma.entity.create({
       data: {
-        address,
         user_id: user.id,
         name,
-        phone,
+        CNPJ,
+        logo,
+        socialReason,
       },
     })
   } catch (err: any) {

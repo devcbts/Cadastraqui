@@ -313,7 +313,7 @@ model EntityMatrix {
   educationalInstitutionCode String? // Caso o campo de educationalArea seja true
 
   entity    Entity @relation(fields: [entity_id], references: [id])
-  entity_id String
+  entity_id String @unique
 
   EntitySubsidiary            EntitySubsidiary[]
   EntityDirector              EntityDirector[]
@@ -322,20 +322,20 @@ model EntityMatrix {
 }
 
 model EntitySubsidiary {
-  id           String  @id @default(uuid())
-  CNPJ         String
-  name         String
-  code         String
-  CEP          String
-  street       String
-  number       String
-  complement   String?
-  city         String
-  neighborhood String
-  country      COUNTRY
+  id                String  @id @default(uuid())
+  CNPJ              String
+  name              String
+  code              String
+  CEP               String
+  addressStreet     String
+  addressNumber     String
+  addressComplement String?
+  city              String
+  neighborhood      String
+  UF                COUNTRY
 
   entity                      EntityMatrix                  @relation(fields: [entity_matrix_id], references: [id])
-  entity_matrix_id            String
+  entity_matrix_id            String                        @unique
   EntityDirector              EntityDirector[]
   SelectionProcessResponsible SelectionProcessResponsible[]
   SocialAssistant             SocialAssistant[]
