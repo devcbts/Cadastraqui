@@ -117,8 +117,8 @@ enum SHIFT {
 }
 
 enum INSTITUTION_TYPE {
-  Publica
-  Privada
+  Public
+  Private
 }
 
 enum IncomeSource {
