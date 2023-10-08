@@ -373,7 +373,7 @@ model EntitySubsidiary {
   neighborhood      String
   UF                COUNTRY
 
-  entity                      EntityMatrix                  @relation(fields: [entity_matrix_id], references: [id])
+  entityMatrix                EntityMatrix                  @relation(fields: [entity_matrix_id], references: [id])
   entity_matrix_id            String                        @unique
   EntityDirector              EntityDirector[]
   SelectionProcessResponsible SelectionProcessResponsible[]
@@ -527,7 +527,7 @@ model Housing {
 }
 
 model Vehicle {
-  id                String              @id @default(uuid())
+  id                String           @id @default(uuid())
   hasVehicle        Boolean          @default(false)
   quantity          Int?             @default(1)
   owner             FamilyMember     @relation(fields: [ownerId], references: [id])
