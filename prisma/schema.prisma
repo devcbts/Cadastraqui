@@ -158,6 +158,22 @@ enum Relationship {
   Other
 }
 
+enum VehicleType {
+  SmallCarsAndUtilities
+  TrucksAndMinibuses
+  Motorcycles
+}
+
+enum VehicleSituation {
+  PaidOff
+  Financed
+}
+
+enum VehicleUsage {
+  WorkInstrument
+  NecessaryDisplacement
+}
+
 // housing enuns (for the housing table )
 enum PropertyStatus {
   OwnPaidOff
@@ -204,6 +220,28 @@ enum NumberOfRooms {
   Twelve
 }
 
+enum Disease {
+  ALIENATION_MENTAL
+  CARDIOPATHY_SEVERE
+  BLINDNESS
+  RADIATION_CONTAMINATION
+  PARKINSONS_DISEASE
+  ANKYLOSING_SPONDYLITIS
+  PAGETS_DISEASE
+  HANSENS_DISEASE
+  SEVERE_HEPATOPATHY
+  SEVERE_NEPHROPATHY
+  PARALYSIS
+  ACTIVE_TUBERCULOSIS
+  HIV_AIDS
+  MALIGNANT_NEOPLASM
+  TERMINAL_STAGE
+  MICROCEPHALY
+  AUTISM_SPECTRUM_DISORDER
+  RARE_DISEASE
+  OTHER_HIGH_COST_DISEASE
+}
+
 model Candidate {
   id            String   @id() @default(uuid())
   name          String
@@ -228,6 +266,7 @@ model Candidate {
   CandidateRegisterDetails CandidateRegisterDetails[]
 
   FamillyMember FamilyMember[]
+  Housing       Housing[]
 
   @@map("candidates")
 }
@@ -456,9 +495,17 @@ model FamilyMember {
   enrolledGovernmentProgram Boolean?
   nis                       String?
   incomeSource              IncomeSource[]
+  expenses                  Expense[]
 
-  candidate    Candidate @relation(fields: [candidate_id], references: [id])
-  candidate_id String
+  candidate           Candidate             @relation(fields: [candidate_id], references: [id])
+  candidate_id        String
+  Loan                Loan[]
+  Financing           Financing[]
+  CreditCard          CreditCard[]
+  OtherExpense        OtherExpense[]
+  FamilyMemberDisease FamilyMemberDisease[]
+  FamilyMemberIncome  FamilyMemberIncome[]
+  Vehicle             Vehicle[]
 
   @@map("familyMembers")
 }
@@ -473,5 +520,179 @@ model Housing {
   numberOfRooms        NumberOfRooms
   numberOfBedrooms     Int
 
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  candidateId String
+
   @@map("housing")
+}
+
+model Vehicle {
+  id                String              @id @default(uuid())
+  hasVehicle        Boolean          @default(false)
+  quantity          Int?             @default(1)
+  owner             FamilyMember     @relation(fields: [ownerId], references: [id])
+  ownerId           String
+  vehicleType       VehicleType
+  modelAndBrand     String?
+  manufacturingYear Int?
+  situation         VehicleSituation
+  hasInsurance      Boolean          @default(false)
+  insuranceValue    Float? // Only if hasInsurance is true
+  usage             VehicleUsage
+}
+
+model FamilyMemberIncome {
+  id                   String          @id @default(uuid())
+  name                 String
+  occupation           String
+  hiringDate           DateTime
+  position             String
+  payerDetails         String
+  employerOrGovernment String
+  employerPhone        String
+  receivesOvertime     Boolean
+  salaries             Salary[]
+  monthlyIncomes       MonthlyIncome[]
+
+  familyMember   FamilyMember @relation(fields: [familyMemberId], references: [id])
+  familyMemberId String
+}
+
+model Salary {
+  id                   String             @id @default(uuid())
+  familyMemberIncomeId String
+  value                Decimal?
+  index                Int
+  familyMemberIncome   FamilyMemberIncome @relation(fields: [familyMemberIncomeId], references: [id])
+}
+
+model MonthlyIncome {
+  id                        String             @id @default(uuid())
+  familyMemberIncomeId      String
+  month                     String
+  year                      String
+  grossAmount               Decimal
+  hadDeduction              Boolean
+  deductionValue            Decimal?
+  publicPension             Decimal?
+  incomeTax                 Decimal?
+  otherDeductions           Decimal?
+  foodAllowance             Boolean
+  foodAllowanceValue        Decimal?
+  transportAllowance        Boolean
+  transportAllowanceValue   Decimal?
+  expenseReimbursement      Boolean
+  expenseReimbursementValue Decimal?
+  advancePayment            Boolean
+  advancePaymentValue       Decimal?
+  reversals                 Boolean
+  reversalValue             Decimal?
+  compensation              Boolean
+  compensationValue         Decimal?
+  judicialPension           Boolean
+  judicialPensionValue      Decimal?
+  familyMemberIncome        FamilyMemberIncome @relation(fields: [familyMemberIncomeId], references: [id])
+}
+
+model Expense {
+  id                  String       @id @default(uuid())
+  month               String
+  waterSewage         Float?
+  electricity         Float?
+  landlinePhone       Float?
+  mobilePhone         Float?
+  food                Float?
+  rent                Float?
+  garageRent          Float?
+  condominium         Float?
+  cableTV             Float?
+  streamingServices   Float?
+  fuel                Float?
+  annualIPVA          Float?
+  optedForInstallment Boolean?
+  installmentCount    Int?
+  installmentValue    Float?
+  annualIPTU          Float?
+  annualITR           Float?
+  annualIR            Float?
+  INSS                Float?
+  publicTransport     Float?
+  schoolTransport     Float?
+  internet            Float?
+  courses             Float?
+  healthPlan          Float?
+  dentalPlan          Float?
+  medicationExpenses  Float?
+  otherExpenses       Float?
+  totalExpense        Float?
+  familyMember        FamilyMember @relation(fields: [familyMember_id], references: [id])
+  familyMember_id     String
+}
+
+model Loan {
+  id                String @id @default(uuid())
+  familyMemberName  String
+  installmentValue  Float
+  totalInstallments Int
+  paidInstallments  Int
+  bankName          String
+
+  familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
+  familyMember_id String
+}
+
+model Financing {
+  id                String @id @default(uuid())
+  familyMemberName  String
+  financingType     String
+  installmentValue  Float
+  totalInstallments Int
+  paidInstallments  Int
+  bankName          String
+
+  familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
+  familyMember_id String
+}
+
+model CreditCard {
+  id               String       @id @default(uuid())
+  familyMemberName String
+  usersCount       Int
+  cardType         String
+  bankName         String
+  cardFlag         String
+  invoiceValue     Float
+  familyMember     FamilyMember @relation(fields: [familyMember_id], references: [id])
+  familyMember_id  String
+}
+
+model OtherExpense {
+  id              String       @id @default(uuid())
+  description     String
+  value           Float
+  familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
+  familyMember_id String
+}
+
+model FamilyMemberDisease {
+  id               String       @id @default(uuid())
+  familyMember     FamilyMember @relation(fields: [familyMember_id], references: [id])
+  familyMember_id  String
+  disease          Disease
+  specificDisease  String?
+  hasMedicalReport Boolean
+  medication       Medication[]
+
+  @@map("familyMemberDiseases")
+}
+
+model Medication {
+  id                         String              @id @default(uuid())
+  familyMemberDisease        FamilyMemberDisease @relation(fields: [familyMemberDisease_id], references: [id])
+  familyMemberDisease_id     String
+  medicationName             String
+  obtainedPublicly           Boolean
+  specificMedicationPublicly String?
+
+  @@map("medications")
 }
