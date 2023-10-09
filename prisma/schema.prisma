@@ -287,19 +287,25 @@ model User {
 }
 
 model LegalResponsible {
-  id            String   @id() @default(uuid())
-  name          String
-  CPF           String   @unique
-  birthDate     DateTime
-  phone         String
-  address       String
-  city          String
-  UF            COUNTRY
-  CEP           String
-  neighborhood  String
-  addressNumber Int
-  role          ROLE     @default(RESPONSIBLE)
-  createdAt     DateTime @default(now())
+  id                              String            @id() @default(uuid())
+  name                            String
+  CPF                             String            @unique
+  birthDate                       DateTime
+  phone                           String
+  address                         String
+  city                            String
+  UF                              COUNTRY
+  CEP                             String
+  neighborhood                    String
+  addressNumber                   Int
+  livesAtSameAddress              Boolean?
+  institutionType                 INSTITUTION_TYPE?
+  responsibleEducationLevel       EDUCATION_TYPE?
+  responsibleGradeOrSemester      String?
+  responsibleShift                SHIFT?
+  ResponsibleEducationInstitution String?
+  role                            ROLE              @default(RESPONSIBLE)
+  createdAt                       DateTime          @default(now())
 
   user      User        @relation(fields: [user_id], references: [id])
   user_id   String      @unique
@@ -409,49 +415,42 @@ model SelectionProcessResponsible {
 }
 
 model CandidateRegisterDetails {
-  id                            String            @id @default(uuid())
-  fullName                      String
-  age                           Int
-  gender                        String            @db.VarChar(10)
-  mobilePhone                   String
-  nationality                   String
-  RG                            String            @unique
-  rgIssuingAuthority            String
-  rgIssuingState                String
-  documentType                  DOCUMENT_TYPE?
-  documentNumber                String?
-  documentValidity              DateTime?
-  maritalStatus                 MARITAL_STATUS
-  skinColor                     SkinColor
-  religion                      RELIGION
-  educationLevel                SCHOLARSHIP
-  specialNeeds                  Boolean?
-  specialNeedsDescription       String?
-  hasMedicalReport              Boolean?
-  landlinePhone                 String?
-  workPhone                     String?
-  contactNameForMessage         String?
-  landmark                      String?
-  profession                    String
-  enrolledGovernmentProgram     Boolean?
-  nis                           String?
-  incomeSource                  String[]
-  livesAlone                    Boolean
-  intendsToGetScholarship       Boolean
-  attendedPublicHighSchool      Boolean?
-  benefitedFromCebasScholarship Boolean?
-  educationType                 EDUCATION_TYPE?
-  gradeOrSemester               String?
-  shift                         String?
-  hasScholarship                Boolean?
-  scholarshipPercentage         Int?
-  livesAtSameAddress            Boolean
-  numberOfMinorCandidates       Int?
-  educationInstitution          String?
-  institutionType               INSTITUTION_TYPE?
-  responsibleEducationLevel     EDUCATION_TYPE?
-  responsibleGradeOrSemester    String?
-  responsibleShift              SHIFT?
+  id                               String         @id @default(uuid())
+  age                              Int
+  gender                           GENDER
+  nationality                      String
+  RG                               String         @unique
+  rgIssuingAuthority               String
+  rgIssuingState                   String
+  documentType                     DOCUMENT_TYPE?
+  documentNumber                   String?
+  documentValidity                 DateTime?
+  maritalStatus                    MARITAL_STATUS
+  skinColor                        SkinColor
+  religion                         RELIGION
+  educationLevel                   SCHOLARSHIP
+  specialNeeds                     Boolean?
+  specialNeedsDescription          String?
+  hasMedicalReport                 Boolean?
+  landlinePhone                    String?
+  workPhone                        String?
+  contactNameForMessage            String?
+  profession                       String
+  enrolledGovernmentProgram        Boolean?
+  NIS                              String?
+  incomeSource                     IncomeSource[]
+  livesAlone                       Boolean
+  intendsToGetScholarship          Boolean
+  attendedPublicHighSchool         Boolean?
+  benefitedFromCebasScholarship    Boolean?
+  secondaryOrProfessionalEducation Boolean?
+  gradeOrSemester                  String?
+  hasScholarship                   Boolean?
+  scholarshipPercentage            Int?
+  numberOfMinorCandidates          Int?
+  educationInstitution             String?
+  CNPJeducationInstitution         String?
+  professionalCourseName           String?
 
   candidate    Candidate @relation(fields: [candidate_id], references: [id])
   candidate_id String
