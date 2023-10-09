@@ -696,3 +696,80 @@ model Medication {
 
   @@map("medications")
 }
+
+//Tabelas para o edital
+model Announcement {
+  id                 String                @id @default(uuid())
+  entityChanged      Boolean?           // Did the entity's responsible change?
+  branchChanged      Boolean?           // Was there an opening or closing of a branch?
+  announcementType   AnnouncementType
+  announcementNumber String
+  announcementDate   DateTime
+  offeredVacancies   Int?               // Only if announcementType is ScholarshipGrant
+  verifiedScholarships Int?             // Only if announcementType is ScholarshipGrant
+  timelines          Timeline[]
+  educationLevels    EducationLevel[]
+}
+
+model Timeline {
+  id                 String                @id @default(uuid())
+  controlLine        Int                // Control line
+  stage              String             // Schedule/phase
+  deadline           DateTime           // Deadlines
+  announcement       Announcement       @relation(fields: [announcementId], references: [id])
+  announcementId     String
+}
+
+model EducationLevel {
+  id                 String                @id @default(uuid())
+  level              LevelType
+  basicEduType       BasicEducationType?
+  scholarshipType    ScholarshipOfferType?
+  higherEduScholarshipType HigherEducationScholarshipType?
+  offeredCourseType  OfferedCourseType?
+  availableCourses   String?            // Available Courses
+  announcement       Announcement       @relation(fields: [announcementId], references: [id])
+  announcementId     String
+}
+
+enum AnnouncementType {
+  ScholarshipGrant
+  PeriodicVerification
+}
+
+enum LevelType {
+  BasicEducation
+  HigherEducation
+}
+
+enum BasicEducationType {
+  Preschool
+  Elementary
+  HighSchool
+  ProfessionalEducation
+}
+
+enum ScholarshipOfferType {
+  Law187Scholarship
+  StudentWithDisability
+  FullTime
+  EntityWorkers
+}
+
+enum HigherEducationScholarshipType {
+  PROUNIFull
+  PROUNIPartial
+  StateGovernment
+  CityGovernment
+  ExternalEntities
+  HigherEduInstitutionFull
+  HigherEduInstitutionPartial
+  HigherEduInstitutionWorkers
+  PostgraduateStrictoSensu
+}
+
+enum OfferedCourseType {
+  UndergraduateBachelor
+  UndergraduateLicense
+  UndergraduateTechnologist
+}
