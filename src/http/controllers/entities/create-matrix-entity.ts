@@ -66,7 +66,7 @@ export async function createEntityMatrix(
       where: { entity_id },
     })
 
-    if (!entityMatrix) {
+    if (entityMatrix) {
       throw new EntityMatrixAlreadyExistsError()
     }
 
