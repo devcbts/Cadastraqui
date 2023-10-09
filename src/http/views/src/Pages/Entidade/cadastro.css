@@ -1,0 +1,144 @@
+.novo-cadastro{
+    display: flex;
+    width: 80%;
+    height: fit-content;
+    background-color: white;
+    margin: 5vh 0 10vh 0;
+    border-radius: 4vh;
+    justify-content: center;
+}
+
+.container-cadastros{
+    display: flex;
+    justify-content: center;
+
+}
+
+.novo-cadastro form{
+    width: 80%;
+}
+
+.novo-cadastro label{
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(216, 216, 216);
+    position: absolute;
+    top:-2rem;
+    padding: 0 1rem;
+    background-color: #1F4B73;
+    color: white;
+}
+
+#contact input[type="text"], #contact input[type="email"], #contact input[type="tel"], #contact input[type="url"], #contact textarea, #contact button[type="submit"] { font:400 12px/16px "Open Sans", Helvetica, Arial, sans-serif; }
+
+#contact {
+  padding:25px;
+  margin:50px 0;
+}
+
+#contact h3 {
+  color: #1F4B73;
+  display: block;
+  font-size: 30px;
+  font-weight: 400;
+}
+
+#contact h4 {
+  margin:5px 0 15px;
+  display:block;
+  font-size:13px;
+}
+
+fieldset {
+    position: relative;
+  border: medium none !important;
+  margin: 0 0 10px;
+  min-width: 100%;
+  padding: 0;
+  width: 100%;
+  margin-top: 2.5rem;
+}
+
+#contact input[type="text"], #contact input[type="email"], #contact input[type="tel"], #contact input[type="url"], #contact textarea {
+  width:100%;
+  border:1px solid #CCC;
+  background:#FFF;
+  margin:0 0 5px;
+  padding:10px;
+}
+
+#contact input[type="text"]:hover, #contact input[type="email"]:hover, #contact input[type="tel"]:hover, #contact input[type="url"]:hover, #contact textarea:hover {
+  -webkit-transition:border-color 0.3s ease-in-out;
+  -moz-transition:border-color 0.3s ease-in-out;
+  transition:border-color 0.3s ease-in-out;
+  border:1px solid #AAA;
+}
+
+#contact textarea {
+  height:100px;
+  max-width:100%;
+  resize:none;
+}
+
+#contact button[type="submit"] {
+  cursor:pointer;
+  width:30%;
+  border:none;
+  border-radius: 0.7rem;
+  background:#1F4B73;
+  color:#FFF;
+  margin:0 0 5px;
+  padding:1rem 0;
+  font-size:15px;
+}
+
+#contact button[type="submit"]:hover {
+  background:#09C;
+  -webkit-transition:background 0.3s ease-in-out;
+  -moz-transition:background 0.3s ease-in-out;
+  transition:background-color 0.3s ease-in-out;
+}
+
+#contact button[type="submit"]:active { box-shadow:inset 0 1px 3px rgba(0, 0, 0, 0.5); }
+
+#contact input:focus, #contact textarea:focus {
+  outline:0;
+  border:1px solid #999;
+}
+::-webkit-input-placeholder {
+ color:#888;
+}
+:-moz-placeholder {
+ color:#888;
+}
+::-moz-placeholder {
+ color:#888;
+}
+:-ms-input-placeholder {
+ color:#888;
+}
+
+.upload{
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.upload progress{
+    width: 30%;
+}
+
+
+#edital-pdf::-webkit-file-upload-button{
+    display: none;
+}
+
+#edital-pdf{
+    height: 2rem;
+    display: flex;
+}

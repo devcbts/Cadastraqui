@@ -1,0 +1,13 @@
+.sub-title{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    color: #1F4B73;
+}
+
+.sub-title h2{
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-left: 1rem;
+}
