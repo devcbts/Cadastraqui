@@ -472,42 +472,54 @@ model IdentityDetails {
 }
 
 model FamilyMember {
-  id                        String         @id @default(uuid())
+  id                        String            @id @default(uuid())
   relationship              Relationship
   otherRelationship         String?
   fullName                  String
+  socialName                String?
   birthDate                 DateTime
-  age                       Int?
   gender                    GENDER
-  mobilePhone               String
   nationality               String
-  country                   String?
-  city                      String?
-  CPF                       String?        @unique
-  RG                        String?
-  rgIssuingAuthority        String?
-  rgIssuingState            String?
+  natural_city              String
+  natural_UF                COUNTRY
+  CPF                       String            @unique
+  RG                        String            @unique
+  rgIssuingAuthority        String
+  rgIssuingState            String
   documentType              DOCUMENT_TYPE?
   documentNumber            String?
   documentValidity          DateTime?
-  birthRegistrationNumber   String?
-  birthRegistrationBook     String?
-  birthRegistrationPage     String?
+  numberOfBirthRegister     String?
+  bookOfBirthRegister       String?
+  pageOfBirthRegister       String?
   maritalStatus             MARITAL_STATUS
   skinColor                 SkinColor
   religion                  RELIGION
-  educationLevel            EDUCATION_TYPE
+  educationLevel            SCHOLARSHIP
   specialNeeds              Boolean?
   specialNeedsDescription   String?
   hasMedicalReport          Boolean?
   landlinePhone             String?
   workPhone                 String?
   contactNameForMessage     String?
+  email                     String?
+  address                   String
+  city                      String
+  UF                        COUNTRY
+  CEP                       String
+  neighborhood              String
+  addressNumber             Int
   profession                String
   enrolledGovernmentProgram Boolean?
-  nis                       String?
-  incomeSource              IncomeSource[]
-  expenses                  Expense[]
+  NIS                       String?
+  educationPlace            INSTITUTION_TYPE?
+  institutionName           String?
+  coursingEducationLevel    EDUCATION_TYPE?
+  cycleOfEducation          String?
+  turnOfEducation           SHIFT?
+  hasScholarship            Boolean?
+  percentageOfScholarship   String?
+  monthlyAmount             String?
 
   candidate           Candidate             @relation(fields: [candidate_id], references: [id])
   candidate_id        String
@@ -518,6 +530,7 @@ model FamilyMember {
   FamilyMemberDisease FamilyMemberDisease[]
   FamilyMemberIncome  FamilyMemberIncome[]
   Vehicle             Vehicle[]
+  Expense             Expense[]
 
   @@map("familyMembers")
 }
