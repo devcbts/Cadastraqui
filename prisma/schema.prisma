@@ -242,6 +242,11 @@ enum Disease {
   OTHER_HIGH_COST_DISEASE
 }
 
+enum ScholarshipType {
+  integralScholarchip
+  halfScholarchip
+}
+
 model Candidate {
   id            String   @id() @default(uuid())
   name          String
@@ -263,10 +268,9 @@ model Candidate {
   responsible    LegalResponsible? @relation(fields: [responsible_id], references: [id])
   responsible_id String?
 
-  CandidateRegisterDetails CandidateRegisterDetails[]
-
-  FamillyMember FamilyMember[]
-  Housing       Housing[]
+  FamillyMember   FamilyMember[]
+  Housing         Housing[]
+  IdentityDetails IdentityDetails[]
 
   @@map("candidates")
 }
@@ -307,9 +311,10 @@ model LegalResponsible {
   role                            ROLE              @default(RESPONSIBLE)
   createdAt                       DateTime          @default(now())
 
-  user      User        @relation(fields: [user_id], references: [id])
-  user_id   String      @unique
-  Candidate Candidate[]
+  user            User              @relation(fields: [user_id], references: [id])
+  user_id         String            @unique
+  Candidate       Candidate[]
+  IdentityDetails IdentityDetails[]
 
   @@map("responsibles")
 }
@@ -414,48 +419,55 @@ model SelectionProcessResponsible {
   entity_subsidiary_id String?
 }
 
-model CandidateRegisterDetails {
-  id                               String         @id @default(uuid())
-  age                              Int
-  gender                           GENDER
-  nationality                      String
-  RG                               String         @unique
-  rgIssuingAuthority               String
-  rgIssuingState                   String
-  documentType                     DOCUMENT_TYPE?
-  documentNumber                   String?
-  documentValidity                 DateTime?
-  maritalStatus                    MARITAL_STATUS
-  skinColor                        SkinColor
-  religion                         RELIGION
-  educationLevel                   SCHOLARSHIP
-  specialNeeds                     Boolean?
-  specialNeedsDescription          String?
-  hasMedicalReport                 Boolean?
-  landlinePhone                    String?
-  workPhone                        String?
-  contactNameForMessage            String?
-  profession                       String
-  enrolledGovernmentProgram        Boolean?
-  NIS                              String?
-  incomeSource                     IncomeSource[]
-  livesAlone                       Boolean
-  intendsToGetScholarship          Boolean
-  attendedPublicHighSchool         Boolean?
-  benefitedFromCebasScholarship    Boolean?
-  secondaryOrProfessionalEducation Boolean?
-  gradeOrSemester                  String?
-  hasScholarship                   Boolean?
-  scholarshipPercentage            Int?
-  numberOfMinorCandidates          Int?
-  educationInstitution             String?
-  CNPJeducationInstitution         String?
-  professionalCourseName           String?
+model IdentityDetails {
+  id                                         String           @id @default(uuid())
+  fullName                                   String
+  socialName                                 String
+  birthDate                                  DateTime
+  gender                                     GENDER
+  nationality                                String
+  natural_city                               String
+  natural_UF                                 COUNTRY
+  RG                                         String           @unique
+  rgIssuingAuthority                         String
+  rgIssuingState                             String
+  documentType                               DOCUMENT_TYPE?
+  documentNumber                             String?
+  documentValidity                           DateTime?
+  maritalStatus                              MARITAL_STATUS
+  skinColor                                  SkinColor
+  religion                                   RELIGION
+  educationLevel                             SCHOLARSHIP
+  specialNeeds                               Boolean?
+  specialNeedsDescription                    String?
+  hasMedicalReport                           Boolean?
+  landlinePhone                              String?
+  workPhone                                  String?
+  contactNameForMessage                      String?
+  profession                                 String
+  enrolledGovernmentProgram                  Boolean?
+  NIS                                        String?
+  incomeSource                               IncomeSource[]
+  livesAlone                                 Boolean
+  intendsToGetScholarship                    Boolean
+  attendedPublicHighSchool                   Boolean?
+  benefitedFromCebasScholarship_basic        Boolean?
+  yearsBenefitedFromCebas_basic              String[]
+  scholarshipType_basic                      ScholarshipType?
+  institutionName_basic                      String?
+  institutionCNPJ_basic                      String?
+  benefitedFromCebasScholarship_professional Boolean?
+  lastYearBenefitedFromCebas_professional    String?
+  scholarshipType_professional               ScholarshipType?
+  institutionName_professional               String?
+  institutionCNPJ_professional               String?
+  nameOfScholarshipCourse_professional       String?
 
   candidate    Candidate @relation(fields: [candidate_id], references: [id])
-  candidate_id String
+  candidate_id String    @unique
 
-  @@map("registerDetails")
+  responsible    LegalResponsible? @relation(fields: [responsible_id], references: [id])
+  responsible_id String?           @unique
 }
 
 model FamilyMember {
@@ -698,37 +710,37 @@ model Medication {
 
 //Tabelas para o edital
 model Announcement {
-  id                 String                @id @default(uuid())
-  entityChanged      Boolean?           // Did the entity's responsible change?
-  branchChanged      Boolean?           // Was there an opening or closing of a branch?
-  announcementType   AnnouncementType
-  announcementNumber String
-  announcementDate   DateTime
-  offeredVacancies   Int?               // Only if announcementType is ScholarshipGrant
-  verifiedScholarships Int?             // Only if announcementType is ScholarshipGrant
-  timelines          Timeline[]
-  educationLevels    EducationLevel[]
+  id                   String           @id @default(uuid())
+  entityChanged        Boolean? // Did the entity's responsible change?
+  branchChanged        Boolean? // Was there an opening or closing of a branch?
+  announcementType     AnnouncementType
+  announcementNumber   String
+  announcementDate     DateTime
+  offeredVacancies     Int? // Only if announcementType is ScholarshipGrant
+  verifiedScholarships Int? // Only if announcementType is ScholarshipGrant
+  timelines            Timeline[]
+  educationLevels      EducationLevel[]
 }
 
 model Timeline {
-  id                 String                @id @default(uuid())
-  controlLine        Int                // Control line
-  stage              String             // Schedule/phase
-  deadline           DateTime           // Deadlines
-  announcement       Announcement       @relation(fields: [announcementId], references: [id])
-  announcementId     String
+  id             String       @id @default(uuid())
+  controlLine    Int // Control line
+  stage          String // Schedule/phase
+  deadline       DateTime // Deadlines
+  announcement   Announcement @relation(fields: [announcementId], references: [id])
+  announcementId String
 }
 
 model EducationLevel {
-  id                 String                @id @default(uuid())
-  level              LevelType
-  basicEduType       BasicEducationType?
-  scholarshipType    ScholarshipOfferType?
+  id                       String                          @id @default(uuid())
+  level                    LevelType
+  basicEduType             BasicEducationType?
+  scholarshipType          ScholarshipOfferType?
   higherEduScholarshipType HigherEducationScholarshipType?
-  offeredCourseType  OfferedCourseType?
-  availableCourses   String?            // Available Courses
-  announcement       Announcement       @relation(fields: [announcementId], references: [id])
-  announcementId     String
+  offeredCourseType        OfferedCourseType?
+  availableCourses         String? // Available Courses
+  announcement             Announcement                    @relation(fields: [announcementId], references: [id])
+  announcementId           String
 }
 
 enum AnnouncementType {
