@@ -364,6 +364,7 @@ model EntityMatrix {
   EntityDirector              EntityDirector[]
   SelectionProcessResponsible SelectionProcessResponsible[]
   SocialAssistant             SocialAssistant[]
+  Announcement                Announcement[]
 }
 
 model EntitySubsidiary {
@@ -384,6 +385,7 @@ model EntitySubsidiary {
   EntityDirector              EntityDirector[]
   SelectionProcessResponsible SelectionProcessResponsible[]
   SocialAssistant             SocialAssistant[]
+  Announcement                Announcement[]
 }
 
 model EntityDirector {
@@ -698,37 +700,43 @@ model Medication {
 
 //Tabelas para o edital
 model Announcement {
-  id                 String                @id @default(uuid())
-  entityChanged      Boolean?           // Did the entity's responsible change?
-  branchChanged      Boolean?           // Was there an opening or closing of a branch?
-  announcementType   AnnouncementType
-  announcementNumber String
-  announcementDate   DateTime
-  offeredVacancies   Int?               // Only if announcementType is ScholarshipGrant
-  verifiedScholarships Int?             // Only if announcementType is ScholarshipGrant
-  timelines          Timeline[]
-  educationLevels    EducationLevel[]
+  id                   String           @id @default(uuid())
+  entityChanged        Boolean? // Did the entity's responsible change?
+  branchChanged        Boolean? // Was there an opening or closing of a branch?
+  announcementType     AnnouncementType
+  announcementNumber   Int
+  announcementDate     DateTime
+  offeredVacancies     Int? // Only if announcementType is ScholarshipGrant
+  verifiedScholarships Int? // Only if announcementType is ScholarshipGrant
+  timelines            Timeline[]
+  educationLevels      EducationLevel[]
+
+  entity_matrix    EntityMatrix? @relation(fields: [entity_matrix_id], references: [id])
+  entity_matrix_id String?
+
+  entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
+  entity_subsidiary_id String?
 }
 
 model Timeline {
-  id                 String                @id @default(uuid())
-  controlLine        Int                // Control line
-  stage              String             // Schedule/phase
-  deadline           DateTime           // Deadlines
-  announcement       Announcement       @relation(fields: [announcementId], references: [id])
-  announcementId     String
+  id             String       @id @default(uuid())
+  controlLine    Int // Control line
+  stage          String // Schedule/phase
+  deadline       DateTime // Deadlines
+  announcement   Announcement @relation(fields: [announcementId], references: [id])
+  announcementId String
 }
 
 model EducationLevel {
-  id                 String                @id @default(uuid())
-  level              LevelType
-  basicEduType       BasicEducationType?
-  scholarshipType    ScholarshipOfferType?
+  id                       String                          @id @default(uuid())
+  level                    LevelType
+  basicEduType             BasicEducationType?
+  scholarshipType          ScholarshipOfferType?
   higherEduScholarshipType HigherEducationScholarshipType?
-  offeredCourseType  OfferedCourseType?
-  availableCourses   String?            // Available Courses
-  announcement       Announcement       @relation(fields: [announcementId], references: [id])
-  announcementId     String
+  offeredCourseType        OfferedCourseType?
+  availableCourses         String? // Available Courses
+  announcement             Announcement                    @relation(fields: [announcementId], references: [id])
+  announcementId           String
 }
 
 enum AnnouncementType {
