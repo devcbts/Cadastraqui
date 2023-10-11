@@ -1,9 +1,8 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
-import { UserAlreadyExistsError } from '@/errors/users-already-exists-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-export async function getCandidateInfo(
+export async function getBasicsCandidateInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
@@ -19,11 +18,12 @@ export async function getCandidateInfo(
       where: { user_id: userId },
     })
 
+    if (!user) {
+      throw new NotAllowedError()
+    }
+
     return reply.status(200).send({ user })
   } catch (err: any) {
-    if (err instanceof UserAlreadyExistsError) {
-      return reply.status(409).send({ message: err.message })
-    }
     if (err instanceof NotAllowedError) {
       return reply.status(404).send({ message: err.message })
     }

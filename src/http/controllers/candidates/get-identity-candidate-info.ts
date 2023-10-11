@@ -1,33 +1,37 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
 
-export async function deleteCandidate(
+export async function getIdentityCandidateInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const fetchCandidadeSchema = z.object({
-    candidate_id: z.string(),
-  })
-
   try {
-    const { candidate_id } = fetchCandidadeSchema.parse(request.params)
+    const userType = request.user.role
+    const userId = request.user.sub
+
+    if (userType !== 'CANDIDATE') {
+      throw new NotAllowedError()
+    }
 
     const candidate = await prisma.candidate.findUnique({
-      where: { id: candidate_id },
+      where: { user_id: userId },
     })
+
     if (!candidate) {
       throw new NotAllowedError()
     }
-    await prisma.candidate.delete({
-      where: { id: candidate_id },
+
+    const identityInfo = await prisma.identityDetails.findUnique({
+      where: { candidate_id: candidate.id },
     })
-    return reply.status(204).send()
+
+    return reply.status(200).send({ identityInfo })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
-      return reply.status(401).send({ message: err.message })
+      return reply.status(404).send({ message: err.message })
     }
+
     return reply.status(500).send({ message: err.message })
   }
 }
