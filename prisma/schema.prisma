@@ -242,6 +242,11 @@ enum Disease {
   OTHER_HIGH_COST_DISEASE
 }
 
+enum ScholarshipType {
+  integralScholarchip
+  halfScholarchip
+}
+
 model Candidate {
   id            String   @id() @default(uuid())
   name          String
@@ -263,10 +268,9 @@ model Candidate {
   responsible    LegalResponsible? @relation(fields: [responsible_id], references: [id])
   responsible_id String?
 
-  CandidateRegisterDetails CandidateRegisterDetails[]
-
-  FamillyMember FamilyMember[]
-  Housing       Housing[]
+  FamillyMember   FamilyMember[]
+  Housing         Housing[]
+  IdentityDetails IdentityDetails[]
 
   @@map("candidates")
 }
@@ -307,9 +311,11 @@ model LegalResponsible {
   role                            ROLE              @default(RESPONSIBLE)
   createdAt                       DateTime          @default(now())
 
-  user      User        @relation(fields: [user_id], references: [id])
-  user_id   String      @unique
-  Candidate Candidate[]
+  user            User              @relation(fields: [user_id], references: [id])
+  user_id         String            @unique
+  Candidate       Candidate[]
+  IdentityDetails IdentityDetails[]
+  Housing         Housing[]
 
   @@map("responsibles")
 }
@@ -416,87 +422,106 @@ model SelectionProcessResponsible {
   entity_subsidiary_id String?
 }
 
-model CandidateRegisterDetails {
-  id                               String         @id @default(uuid())
-  age                              Int
-  gender                           GENDER
-  nationality                      String
-  RG                               String         @unique
-  rgIssuingAuthority               String
-  rgIssuingState                   String
-  documentType                     DOCUMENT_TYPE?
-  documentNumber                   String?
-  documentValidity                 DateTime?
-  maritalStatus                    MARITAL_STATUS
-  skinColor                        SkinColor
-  religion                         RELIGION
-  educationLevel                   SCHOLARSHIP
-  specialNeeds                     Boolean?
-  specialNeedsDescription          String?
-  hasMedicalReport                 Boolean?
-  landlinePhone                    String?
-  workPhone                        String?
-  contactNameForMessage            String?
-  profession                       String
-  enrolledGovernmentProgram        Boolean?
-  NIS                              String?
-  incomeSource                     IncomeSource[]
-  livesAlone                       Boolean
-  intendsToGetScholarship          Boolean
-  attendedPublicHighSchool         Boolean?
-  benefitedFromCebasScholarship    Boolean?
-  secondaryOrProfessionalEducation Boolean?
-  gradeOrSemester                  String?
-  hasScholarship                   Boolean?
-  scholarshipPercentage            Int?
-  numberOfMinorCandidates          Int?
-  educationInstitution             String?
-  CNPJeducationInstitution         String?
-  professionalCourseName           String?
+model IdentityDetails {
+  id                                         String           @id @default(uuid())
+  fullName                                   String
+  socialName                                 String
+  birthDate                                  DateTime
+  gender                                     GENDER
+  nationality                                String
+  natural_city                               String
+  natural_UF                                 COUNTRY
+  RG                                         String           @unique
+  rgIssuingAuthority                         String
+  rgIssuingState                             String
+  documentType                               DOCUMENT_TYPE?
+  documentNumber                             String?
+  documentValidity                           DateTime?
+  maritalStatus                              MARITAL_STATUS
+  skinColor                                  SkinColor
+  religion                                   RELIGION
+  educationLevel                             SCHOLARSHIP
+  specialNeeds                               Boolean?
+  specialNeedsDescription                    String?
+  hasMedicalReport                           Boolean?
+  landlinePhone                              String?
+  workPhone                                  String?
+  contactNameForMessage                      String?
+  profession                                 String
+  enrolledGovernmentProgram                  Boolean?
+  NIS                                        String?
+  incomeSource                               IncomeSource[]
+  livesAlone                                 Boolean
+  intendsToGetScholarship                    Boolean
+  attendedPublicHighSchool                   Boolean?
+  benefitedFromCebasScholarship_basic        Boolean?
+  yearsBenefitedFromCebas_basic              String[]
+  scholarshipType_basic                      ScholarshipType?
+  institutionName_basic                      String?
+  institutionCNPJ_basic                      String?
+  benefitedFromCebasScholarship_professional Boolean?
+  lastYearBenefitedFromCebas_professional    String?
+  scholarshipType_professional               ScholarshipType?
+  institutionName_professional               String?
+  institutionCNPJ_professional               String?
+  nameOfScholarshipCourse_professional       String?
 
   candidate    Candidate @relation(fields: [candidate_id], references: [id])
-  candidate_id String
+  candidate_id String    @unique
 
-  @@map("registerDetails")
+  responsible    LegalResponsible? @relation(fields: [responsible_id], references: [id])
+  responsible_id String?           @unique
 }
 
 model FamilyMember {
-  id                        String         @id @default(uuid())
+  id                        String            @id @default(uuid())
   relationship              Relationship
   otherRelationship         String?
   fullName                  String
+  socialName                String?
   birthDate                 DateTime
-  age                       Int?
   gender                    GENDER
-  mobilePhone               String
   nationality               String
-  country                   String?
-  city                      String?
-  CPF                       String?        @unique
-  RG                        String?
-  rgIssuingAuthority        String?
-  rgIssuingState            String?
+  natural_city              String
+  natural_UF                COUNTRY
+  CPF                       String            @unique
+  RG                        String            @unique
+  rgIssuingAuthority        String
+  rgIssuingState            String
   documentType              DOCUMENT_TYPE?
   documentNumber            String?
   documentValidity          DateTime?
-  birthRegistrationNumber   String?
-  birthRegistrationBook     String?
-  birthRegistrationPage     String?
+  numberOfBirthRegister     String?
+  bookOfBirthRegister       String?
+  pageOfBirthRegister       String?
   maritalStatus             MARITAL_STATUS
   skinColor                 SkinColor
   religion                  RELIGION
-  educationLevel            EDUCATION_TYPE
+  educationLevel            SCHOLARSHIP
   specialNeeds              Boolean?
   specialNeedsDescription   String?
   hasMedicalReport          Boolean?
   landlinePhone             String?
   workPhone                 String?
   contactNameForMessage     String?
+  email                     String?
+  address                   String
+  city                      String
+  UF                        COUNTRY
+  CEP                       String
+  neighborhood              String
+  addressNumber             Int
   profession                String
   enrolledGovernmentProgram Boolean?
-  nis                       String?
-  incomeSource              IncomeSource[]
-  expenses                  Expense[]
+  NIS                       String?
+  educationPlace            INSTITUTION_TYPE?
+  institutionName           String?
+  coursingEducationLevel    EDUCATION_TYPE?
+  cycleOfEducation          String?
+  turnOfEducation           SHIFT?
+  hasScholarship            Boolean?
+  percentageOfScholarship   String?
+  monthlyAmount             String?
 
   candidate           Candidate             @relation(fields: [candidate_id], references: [id])
   candidate_id        String
@@ -507,6 +532,7 @@ model FamilyMember {
   FamilyMemberDisease FamilyMemberDisease[]
   FamilyMemberIncome  FamilyMemberIncome[]
   Vehicle             Vehicle[]
+  Expense             Expense[]
 
   @@map("familyMembers")
 }
@@ -521,8 +547,11 @@ model Housing {
   numberOfRooms        NumberOfRooms
   numberOfBedrooms     Int
 
-  candidate   Candidate @relation(fields: [candidateId], references: [id])
-  candidateId String
+  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+  candidate_id String    @unique
+
+  responsible    LegalResponsible? @relation(fields: [responsible_id], references: [id])
+  responsible_id String?
 
   @@map("housing")
 }

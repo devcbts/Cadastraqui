@@ -70,6 +70,7 @@ export async function registerCandidate(
   } = registerBodySchema.parse(request.body)
 
   try {
+    // Verifica se já existe um usuário com o email fornecido
     const userWithSameEmail = await prisma.user.findUnique({
       where: { email },
     })
@@ -80,6 +81,7 @@ export async function registerCandidate(
 
     const password_hash = await hash(password, 6)
 
+    // Cria usuário
     const user = await prisma.user.create({
       data: {
         email,
@@ -88,6 +90,7 @@ export async function registerCandidate(
       },
     })
 
+    // Cria candidato
     await prisma.candidate.create({
       data: {
         address,
@@ -103,6 +106,8 @@ export async function registerCandidate(
         name,
       },
     })
+
+    return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })
@@ -110,6 +115,4 @@ export async function registerCandidate(
 
     return reply.status(500).send({ message: err.message })
   }
-
-  return reply.status(201).send()
 }
