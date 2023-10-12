@@ -1,6 +1,5 @@
 import { InvalidCredentialsError } from '@/errors/invalid-credentials-error'
 import { prisma } from '@/lib/prisma'
-import { ROLE } from '@prisma/client'
 import { compare } from 'bcryptjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'

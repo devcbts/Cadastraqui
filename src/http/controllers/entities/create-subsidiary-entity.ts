@@ -3,6 +3,7 @@ import { EntitySubsidiaryAlreadyExistsError } from '@/errors/entity-subsidiary-a
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { UserAlreadyExistsError } from '@/errors/users-already-exists-error'
 import { prisma } from '@/lib/prisma'
+import { hash } from 'bcryptjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -61,11 +62,13 @@ export async function createEntitySubsidiary(
       throw new EntitySubsidiaryAlreadyExistsError()
     }
 
+    const password_hash = await hash(password, 6)
+
     // Cria um usuário para a filial
     await prisma.user.create({
       data: {
         email,
-        password,
+        password: password_hash,
         role: 'ENTITY_SUB',
       },
     })

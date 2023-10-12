@@ -8,6 +8,8 @@ import { legalResponsibleRoutes } from './http/controllers/legal-responsible/rou
 import { entityRoutes } from './http/controllers/entities/routes'
 import { authenticate } from './http/controllers/users/authenticate'
 import { refresh } from './http/controllers/users/refresh'
+import { forgotPassword } from './http/controllers/users/forgot-password'
+import { resetPassword } from './http/controllers/users/reset-password'
 
 export const app = fastify()
 
@@ -29,6 +31,8 @@ app.register(legalResponsibleRoutes, { prefix: '/responsibles' })
 app.register(entityRoutes, { prefix: '/entities' })
 
 app.post('/session', authenticate)
+app.post('/forgot_password', forgotPassword)
+app.post('/reset_password', resetPassword)
 app.patch('/token/refresh', refresh)
 
 app.setErrorHandler((error, _request, reply) => {

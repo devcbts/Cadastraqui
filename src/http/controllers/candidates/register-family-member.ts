@@ -1,6 +1,6 @@
 import { FamilyMemberAlreadyExistsError } from '@/errors/family-member-already-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
-import { NotFoundError } from '@/errors/not-found-error'
+import { NotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
