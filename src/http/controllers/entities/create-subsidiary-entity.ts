@@ -1,5 +1,7 @@
-import { EntityMatrixAlreadyExistsError } from '@/errors/already-exists-entity-matrix-error'
-import { EntityMatrixNotExistsError } from '@/errors/entity-matrix-not-exists-errror'
+import { EntityNotExistsError } from '@/errors/entity-not-exists-error'
+import { EntitySubsidiaryAlreadyExistsError } from '@/errors/entity-subsidiary-already-exists-error'
+import { NotAllowedError } from '@/errors/not-allowed-error'
+import { UserAlreadyExistsError } from '@/errors/users-already-exists-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -10,91 +12,92 @@ export async function createEntitySubsidiary(
 ) {
   const registerBodySchema = z.object({
     name: z.string(),
-    entity_matrix_id: z.string(),
+    email: z.string().email(),
+    password: z.string().min(6),
     CEP: z.string(),
-    city: z.string(),
-    code: z.string(),
+    educationalInstitutionCode: z.string().optional(),
+    socialReason: z.string(),
     CNPJ: z.string(),
-    UF: z.enum([
-      'AC',
-      'AL',
-      'AM',
-      'AP',
-      'BA',
-      'CE',
-      'DF',
-      'ES',
-      'GO',
-      'MA',
-      'MG',
-      'MS',
-      'MT',
-      'PA',
-      'PB',
-      'PE',
-      'PI',
-      'PR',
-      'RJ',
-      'RN',
-      'RO',
-      'RR',
-      'RS',
-      'SC',
-      'SE',
-      'SP',
-      'TO',
-    ]),
-    neighborhood: z.string(),
-    addressComplement: z.string(),
-    addressNumber: z.string(),
-    addressStreet: z.string(),
+    address: z.string(),
   })
 
   const {
     CEP,
-    UF,
-    addressComplement,
-    city,
-    neighborhood,
-    addressNumber,
     CNPJ,
+    address,
+    email,
+    password,
     name,
-    code,
-    addressStreet,
-    entity_matrix_id,
+    socialReason,
+    educationalInstitutionCode,
   } = registerBodySchema.parse(request.body)
 
   try {
-    const entityMatrix = await prisma.entityMatrix.findUnique({
-      where: { id: entity_matrix_id },
-    })
+    const userId = request.user.sub
 
-    if (!entityMatrix) {
-      throw new EntityMatrixNotExistsError()
+    if (!userId) {
+      throw new NotAllowedError()
     }
 
-    await prisma.entitySubsidiary.create({
+    const entity = await prisma.entity.findUnique({
+      where: { user_id: userId },
+    })
+
+    if (!entity) {
+      throw new EntityNotExistsError()
+    }
+
+    const user = await prisma.user.findUnique({ where: { email } })
+
+    if (user) {
+      throw new UserAlreadyExistsError()
+    }
+
+    const entitySubsidiary = await prisma.entitySubsidiary.findUnique({
+      where: { CNPJ },
+    })
+
+    if (entitySubsidiary) {
+      throw new EntitySubsidiaryAlreadyExistsError()
+    }
+
+    // Cria um usuário para a filial
+    await prisma.user.create({
       data: {
-        addressNumber,
-        CEP,
-        city,
-        neighborhood,
-        UF,
-        addressComplement,
-        CNPJ,
-        code,
-        name,
-        entity_matrix_id,
-        addressStreet,
+        email,
+        password,
+        role: 'ENTITY_SUB',
       },
     })
+
+    // Cria uma filial associada a entidade principal
+    await prisma.entitySubsidiary.create({
+      data: {
+        CEP,
+        CNPJ,
+        educationalInstitutionCode,
+        name,
+        address,
+        socialReason,
+        entity_id: entity.id,
+      },
+    })
+
+    return reply.status(201).send()
   } catch (err: any) {
-    if (err instanceof EntityMatrixAlreadyExistsError) {
+    if (err instanceof EntityNotExistsError) {
       return reply.status(409).send({ message: err.message })
+    }
+    if (err instanceof UserAlreadyExistsError) {
+      return reply.status(409).send({ message: err.message })
+    }
+    if (err instanceof EntitySubsidiaryAlreadyExistsError) {
+      return reply.status(409).send({ message: err.message })
+    }
+    if (err instanceof NotAllowedError) {
+      return reply.status(401).send({ message: err.message })
     }
 
     return reply.status(500).send({ message: err.message })
   }
-
-  return reply.status(201).send()
 }

@@ -17,12 +17,26 @@ export async function registerEntity(
     CNPJ: z.string(),
     logo: z.string(),
     socialReason: z.string(),
+    CEP: z.string(),
+    address: z.string(),
+    educationalInstitutionCode: z.string().optional(),
   })
 
-  const { name, email, password, role, CNPJ, logo, socialReason } =
-    registerBodySchema.parse(request.body)
+  const {
+    name,
+    email,
+    password,
+    role,
+    CNPJ,
+    logo,
+    socialReason,
+    CEP,
+    address,
+    educationalInstitutionCode,
+  } = registerBodySchema.parse(request.body)
 
   try {
+    // Verifica se já existe algum usuário com o email fornecido
     const userWithSameEmail = await prisma.user.findUnique({
       where: { email },
     })
@@ -41,6 +55,7 @@ export async function registerEntity(
       },
     })
 
+    // Cria a entidade
     await prisma.entity.create({
       data: {
         user_id: user.id,
@@ -48,8 +63,13 @@ export async function registerEntity(
         CNPJ,
         logo,
         socialReason,
+        address,
+        CEP,
+        educationalInstitutionCode,
       },
     })
+
+    return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })
@@ -57,6 +77,4 @@ export async function registerEntity(
 
     return reply.status(500).send({ message: err.message })
   }
-
-  return reply.status(201).send()
 }

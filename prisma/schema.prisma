@@ -16,6 +16,8 @@ enum ROLE {
   RESPONSIBLE
   ENTITY
   ASSISTANT
+  ENTITY_SUB
+  ENTITY_DIRECTOR
 }
 
 enum COUNTRY {
@@ -328,9 +330,6 @@ model SocialAssistant {
   user    User   @relation(fields: [user_id], references: [id])
   user_id String
 
-  entity_matrix    EntityMatrix? @relation(fields: [entity_matrix_id], references: [id])
-  entity_matrix_id String?
-
   entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
   entity_subsidiary_id String?
 
@@ -338,56 +337,34 @@ model SocialAssistant {
 }
 
 model Entity {
-  id           String  @id @default(uuid())
-  name         String?
-  socialReason String
-  CNPJ         String
-  logo         String
+  id                         String  @id @default(uuid())
+  name                       String?
+  socialReason               String
+  logo                       String? // Logotipo da entidade deve ser armazenado em algum serviço de cloud
+  CNPJ                       String  @unique
+  CEP                        String
+  address                    String
+  educationalInstitutionCode String?
 
-  user         User           @relation(fields: [user_id], references: [id])
-  user_id      String
-  EntityMatrix EntityMatrix[]
+  user             User               @relation(fields: [user_id], references: [id])
+  user_id          String             @unique
+  EntitySubsidiary EntitySubsidiary[]
 
   @@map("entities")
 }
 
-model EntityMatrix {
+model EntitySubsidiary {
   id                         String  @id @default(uuid())
+  CNPJ                       String  @unique
+  name                       String
+  socialReason               String
   CEP                        String
-  publicPlace                String
-  city                       String
-  addressNumber              String
-  neighborhood               String
-  UF                         COUNTRY
-  addressComplement          String?
-  educationalArea            Boolean
-  educationalInstitutionCode String? // Caso o campo de educationalArea seja true
+  address                    String
+  educationalInstitutionCode String?
 
   entity    Entity @relation(fields: [entity_id], references: [id])
-  entity_id String @unique
+  entity_id String
 
-  EntitySubsidiary            EntitySubsidiary[]
-  EntityDirector              EntityDirector[]
-  SelectionProcessResponsible SelectionProcessResponsible[]
-  SocialAssistant             SocialAssistant[]
-  Announcement                Announcement[]
-}
-
-model EntitySubsidiary {
-  id                String  @id @default(uuid())
-  CNPJ              String
-  name              String
-  code              String
-  CEP               String
-  addressStreet     String
-  addressNumber     String
-  addressComplement String?
-  city              String
-  neighborhood      String
-  UF                COUNTRY
-
-  entityMatrix                EntityMatrix                  @relation(fields: [entity_matrix_id], references: [id])
-  entity_matrix_id            String                        @unique
   EntityDirector              EntityDirector[]
   SelectionProcessResponsible SelectionProcessResponsible[]
   SocialAssistant             SocialAssistant[]
@@ -398,11 +375,7 @@ model EntityDirector {
   id    String @id @default(uuid())
   name  String
   CPF   String @unique
-  email String
   phone String
-
-  entity_matrix    EntityMatrix? @relation(fields: [entity_matrix_id], references: [id])
-  entity_matrix_id String?
 
   entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
   entity_subsidiary_id String?
@@ -412,11 +385,7 @@ model SelectionProcessResponsible {
   id    String @id @default(uuid())
   name  String
   CPF   String @unique
-  email String
   phone String
-
-  entity_matrix    EntityMatrix? @relation(fields: [entity_matrix_id], references: [id])
-  entity_matrix_id String?
 
   entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
   entity_subsidiary_id String?
@@ -739,9 +708,6 @@ model Announcement {
   verifiedScholarships Int? // Only if announcementType is ScholarshipGrant
   timelines            Timeline[]
   educationLevels      EducationLevel[]
-
-  entity_matrix    EntityMatrix? @relation(fields: [entity_matrix_id], references: [id])
-  entity_matrix_id String?
 
   entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
   entity_subsidiary_id String?

@@ -1,35 +1,38 @@
-import { EntityMatrixNotExistsError } from '@/errors/entity-matrix-not-exists-errror'
+import { EntityNotExistsError } from '@/errors/entity-not-exists-error'
+import { NotAllowedError } from '@/errors/not-allowed-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
 
 export async function fetchEntitySubsidiary(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const fetchSubsidiarySchema = z.object({
-    entity_matrix_id: z.string(),
-  })
-
-  const { entity_matrix_id } = fetchSubsidiarySchema.parse(request.params)
-
   try {
-    const entityMatrix = await prisma.entityMatrix.findUnique({
-      where: { id: entity_matrix_id },
+    const userId = request.user.sub
+
+    if (!userId) {
+      throw new NotAllowedError()
+    }
+
+    const entity = await prisma.entity.findUnique({
+      where: { user_id: userId },
     })
 
-    if (!entityMatrix) {
-      throw new EntityMatrixNotExistsError()
+    if (!entity) {
+      throw new EntityNotExistsError()
     }
 
     const entitySubsidiarys = await prisma.entitySubsidiary.findMany({
-      where: { entity_matrix_id },
+      where: { entity_id: entity.id },
     })
 
     return reply.status(200).send({ entitySubsidiarys })
   } catch (err: any) {
-    if (err instanceof EntityMatrixNotExistsError) {
+    if (err instanceof EntityNotExistsError) {
       return reply.status(404).send({ err: err.message })
+    }
+    if (err instanceof NotAllowedError) {
+      return reply.status(401).send({ err: err.message })
     }
     return reply.status(500).send({ message: err.message })
   }
