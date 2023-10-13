@@ -2,11 +2,17 @@ import { EntityNotExistsError } from '@/errors/entity-not-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
 
 export async function fetchEntitySubsidiary(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+  const fetchSubsidiaryParamsSchema = z.object({
+    subsidiary_id: z.string().optional(),
+  })
+
+  const { subsidiary_id } = fetchSubsidiaryParamsSchema.parse(request.params)
   try {
     const userId = request.user.sub
 
@@ -22,9 +28,16 @@ export async function fetchEntitySubsidiary(
       throw new EntityNotExistsError()
     }
 
-    const entitySubsidiarys = await prisma.entitySubsidiary.findMany({
-      where: { entity_id: entity.id },
-    })
+    let entitySubsidiarys
+    if (!subsidiary_id) {
+      entitySubsidiarys = await prisma.entitySubsidiary.findMany({
+        where: { entity_id: entity.id },
+      })
+    } else {
+      entitySubsidiarys = await prisma.entitySubsidiary.findUnique({
+        where: { id: subsidiary_id },
+      })
+    }
 
     return reply.status(200).send({ entitySubsidiarys })
   } catch (err: any) {

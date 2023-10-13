@@ -18,6 +18,7 @@ enum ROLE {
   ASSISTANT
   ENTITY_SUB
   ENTITY_DIRECTOR
+  SELECTION_RESPONSIBLE
 }
 
 enum COUNTRY {
@@ -283,11 +284,13 @@ model User {
   password String
   role     ROLE   @default(CANDIDATE)
 
-  createdAt        DateTime           @default(now())
-  Candidate        Candidate[]
-  LegalResponsible LegalResponsible[]
-  Entity           Entity[]
-  SocialAssistant  SocialAssistant[]
+  createdAt                   DateTime                     @default(now())
+  Candidate                   Candidate[]
+  LegalResponsible            LegalResponsible[]
+  Entity                      Entity[]
+  SocialAssistant             SocialAssistant[]
+  EntityDirector              EntityDirector[]
+  SelectionProcessResponsible SelectionProcessResponsible?
 
   @@map("users")
 }
@@ -377,8 +380,11 @@ model EntityDirector {
   CPF   String @unique
   phone String
 
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String @unique
+
   entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
-  entity_subsidiary_id String?
+  entity_subsidiary_id String?           @unique
 }
 
 model SelectionProcessResponsible {
@@ -386,6 +392,9 @@ model SelectionProcessResponsible {
   name  String
   CPF   String @unique
   phone String
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String @unique
 
   entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
   entity_subsidiary_id String?

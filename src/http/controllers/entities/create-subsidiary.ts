@@ -34,12 +34,14 @@ export async function createEntitySubsidiary(
   } = registerBodySchema.parse(request.body)
 
   try {
+    // Verifica se existe um usuário com o id armazenado no JWT
     const userId = request.user.sub
 
     if (!userId) {
       throw new NotAllowedError()
     }
 
+    // Verifica se existe uma entidade com id armazenado no JWT
     const entity = await prisma.entity.findUnique({
       where: { user_id: userId },
     })
@@ -48,12 +50,14 @@ export async function createEntitySubsidiary(
       throw new EntityNotExistsError()
     }
 
+    // Verifica se já existe um usuário com o email fornecido
     const user = await prisma.user.findUnique({ where: { email } })
 
     if (user) {
       throw new UserAlreadyExistsError()
     }
 
+    // Verifica se já existe uma filial com o CNPJ fornecido
     const entitySubsidiary = await prisma.entitySubsidiary.findUnique({
       where: { CNPJ },
     })
