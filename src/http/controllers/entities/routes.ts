@@ -1,12 +1,11 @@
 import { FastifyInstance } from 'fastify'
 import { registerEntity } from './register'
-import { createEntitySubsidiary } from './create-subsidiary'
+import { createSubsidiary } from './create-subsidiary'
 import { fetchEntities } from './fetch-entities'
-import { fetchEntitySubsidiary } from './fetch-subsidiarys'
+import { fetchSubsidiarys } from './fetch-subsidiarys'
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
-import { createSubsidiaryDirector } from './create-subsidiary-director'
-import { getSubsidiaryDirector } from './get-subsidiary-director'
-import { createSelectionProcessResponsible } from './create-selection-proces-responsible'
+import { createDirector } from './create-director'
+import { fetchDirectors } from './fetch-directors'
 
 export async function entityRoutes(app: FastifyInstance) {
   app.post('/', registerEntity) // Essa rota vai para o admin
@@ -16,27 +15,13 @@ export async function entityRoutes(app: FastifyInstance) {
    *  Concluídas: post, get
    *   Faltam:  update, delete, adicionar verificação de ROLE -> ENTITY
    */
-  app.post('/subsidiary', { onRequest: [verifyJWT] }, createEntitySubsidiary)
+  app.post('/subsidiary', { onRequest: [verifyJWT] }, createSubsidiary)
   app.get(
     '/subsidiary/:subsidiary_id?',
     { onRequest: [verifyJWT] },
-    fetchEntitySubsidiary,
+    fetchSubsidiarys,
   )
 
-  app.post(
-    '/director/:entity_subsidiary_id',
-    { onRequest: [verifyJWT] },
-    createSubsidiaryDirector,
-  )
-  app.get(
-    '/director/:entity_subsidiary_id',
-    { onRequest: [verifyJWT] },
-    getSubsidiaryDirector,
-  )
-
-  app.post(
-    '/selection-responsible/subsidiary_id',
-    { onRequest: [verifyJWT] },
-    createSelectionProcessResponsible,
-  )
+  app.post('/director/:_id', { onRequest: [verifyJWT] }, createDirector)
+  app.get('/director/:_id', { onRequest: [verifyJWT] }, fetchDirectors)
 }

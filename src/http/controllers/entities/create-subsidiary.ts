@@ -7,7 +7,7 @@ import { hash } from 'bcryptjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function createEntitySubsidiary(
+export async function createSubsidiary(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {

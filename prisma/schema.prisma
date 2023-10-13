@@ -352,6 +352,7 @@ model Entity {
   user             User               @relation(fields: [user_id], references: [id])
   user_id          String             @unique
   EntitySubsidiary EntitySubsidiary[]
+  EntityDirector   EntityDirector[]
 
   @@map("entities")
 }
@@ -377,14 +378,18 @@ model EntitySubsidiary {
 model EntityDirector {
   id    String @id @default(uuid())
   name  String
-  CPF   String @unique
+  CPF   String 
   phone String
 
   user    User   @relation(fields: [user_id], references: [id])
   user_id String @unique
 
+  // Pode ser diretor de uma subsidiária ou de uma matrix
   entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
-  entity_subsidiary_id String?           @unique
+  entity_subsidiary_id String?
+
+  entity    Entity? @relation(fields: [entity_id], references: [id])
+  entity_id String?
 }
 
 model SelectionProcessResponsible {

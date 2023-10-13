@@ -1,4 +1,4 @@
-import { SubsidiaryDirectorAlreadyExistsError } from '@/errors/subsidiary-director-already-exists'
+import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { UserAlreadyExistsError } from '@/errors/users-already-exists-error'
 import { prisma } from '@/lib/prisma'
 import { ROLE } from '@prisma/client'
@@ -6,7 +6,7 @@ import { hash } from 'bcryptjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function createSubsidiaryDirector(
+export async function createDirector(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
@@ -15,19 +15,18 @@ export async function createSubsidiaryDirector(
     email: z.string().email(),
     password: z.string().min(6),
     phone: z.string(),
-    role: z.enum([ROLE.ENTITY_DIRECTOR]),
     CPF: z.string(),
   })
 
   const registerParamsSchema = z.object({
-    entity_subsidiary_id: z.string(),
+    _id: z.string(),
   })
 
-  const { name, email, password, role, CPF, phone } = registerBodySchema.parse(
+  const { name, email, password, CPF, phone } = registerBodySchema.parse(
     request.body,
   )
 
-  const { entity_subsidiary_id } = registerParamsSchema.parse(request.params)
+  const { _id } = registerParamsSchema.parse(request.params)
   try {
     // Verifica se já existe algum usuário com o email fornecido
     const userWithSameEmail = await prisma.user.findUnique({
@@ -38,32 +37,56 @@ export async function createSubsidiaryDirector(
       throw new UserAlreadyExistsError()
     }
 
-    const subsidiaryDirector = await prisma.entityDirector.findUnique({
-      where: { entity_subsidiary_id },
-    })
+    const matriz = await prisma.entity.findUnique({ where: { id: _id } })
+    if (!matriz) {
+      const subsidiary = await prisma.entitySubsidiary.findUnique({
+        where: { id: _id },
+      })
 
-    if (subsidiaryDirector) {
-      throw new SubsidiaryDirectorAlreadyExistsError()
+      if (!subsidiary) {
+        throw new ResourceNotFoundError()
+      }
+
+      const password_hash = await hash(password, 6)
+      const user = await prisma.user.create({
+        data: {
+          email,
+          password: password_hash,
+          role: 'ENTITY_DIRECTOR',
+        },
+      })
+
+      // Cria o diretor associado a filial
+      await prisma.entityDirector.create({
+        data: {
+          user_id: user.id,
+          name,
+          CPF,
+          phone,
+          entity_subsidiary_id: _id,
+        },
+      })
+
+      return reply.status(201).send()
     }
 
     const password_hash = await hash(password, 6)
-
     const user = await prisma.user.create({
       data: {
         email,
         password: password_hash,
-        role,
+        role: 'ENTITY_DIRECTOR',
       },
     })
 
-    // Cria a entidade
+    // Cria o diretor associado a matriz
     await prisma.entityDirector.create({
       data: {
         user_id: user.id,
         name,
         CPF,
         phone,
-        entity_subsidiary_id,
+        entity_id: _id,
       },
     })
 
@@ -72,8 +95,8 @@ export async function createSubsidiaryDirector(
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })
     }
-    if (err instanceof SubsidiaryDirectorAlreadyExistsError) {
-      return reply.status(409).send({ message: err.message })
+    if (err instanceof ResourceNotFoundError) {
+      return reply.status(404).send({ message: err.message })
     }
 
     return reply.status(500).send({ message: err.message })
