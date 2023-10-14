@@ -6,7 +6,7 @@ import { registerIdentityInfo } from './register-identity-info'
 import { registerHousingInfo } from './register-housing-info'
 import { registerFamilyMemberInfo } from './register-family-member'
 import { getIdentityCandidateInfo } from './get-identity-candidate-info'
-
+import {patchIdentityInfo} from './patch-identity-candidate-info'
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/', registerCandidate)
 
@@ -25,4 +25,5 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     registerFamilyMemberInfo,
   )
+  app.patch("/identity-info",{onError: [verifyJWT]}, patchIdentityInfo)
 }
