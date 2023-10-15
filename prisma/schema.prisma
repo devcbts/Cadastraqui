@@ -353,6 +353,7 @@ model Entity {
   user_id          String             @unique
   EntitySubsidiary EntitySubsidiary[]
   EntityDirector   EntityDirector[]
+  Announcement     Announcement[]
 
   @@map("entities")
 }
@@ -378,7 +379,7 @@ model EntitySubsidiary {
 model EntityDirector {
   id    String @id @default(uuid())
   name  String
-  CPF   String 
+  CPF   String @unique
   phone String
 
   user    User   @relation(fields: [user_id], references: [id])
@@ -716,12 +717,15 @@ model Announcement {
   entityChanged        Boolean? // Did the entity's responsible change?
   branchChanged        Boolean? // Was there an opening or closing of a branch?
   announcementType     AnnouncementType
-  announcementNumber   Int
+  announcementNumber   String
   announcementDate     DateTime
   offeredVacancies     Int? // Only if announcementType is ScholarshipGrant
   verifiedScholarships Int? // Only if announcementType is ScholarshipGrant
   timelines            Timeline[]
   educationLevels      EducationLevel[]
+
+  entity    Entity @relation(fields: [entity_id], references: [id])
+  entity_id String
 
   entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
   entity_subsidiary_id String?

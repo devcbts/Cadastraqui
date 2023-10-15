@@ -268,7 +268,6 @@ export async function patchIdentityInfo(
         specialNeedsDescription,
         workPhone,
         yearsBenefitedFromCebas_basic,
-        candidate_id: candidate.id,
       },
       where: {candidate_id: candidate.id}
     })

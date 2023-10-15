@@ -1,5 +1,5 @@
 import { announcementAlreadyExists } from '@/errors/announcement-already-exists-error'
-import { EntityMatrixNotExistsError } from '@/errors/entity-matrix-not-exists-errror'
+import { EntityNotExistsError } from '@/errors/entity-not-exists-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -14,8 +14,9 @@ export async function CreateAnnoucment(
     announcementType: z.enum(['ScholarshipGrant', 'PeriodicVerification']),
     offeredVacancies: z.number(),
     verifiedScholarships: z.number(),
-    entity_matrix_id: z.string(),
+    entity_id: z.string(),
     entity_subsidiary_id: z.string(),
+    announcementNumber: z.string()
   })
 
   const {
@@ -24,21 +25,22 @@ export async function CreateAnnoucment(
     announcementType,
     offeredVacancies,
     verifiedScholarships,
-    entity_matrix_id,
+    entity_id,
     entity_subsidiary_id,
+    announcementNumber
   } = registerBodySchema.parse(request.body)
 
   try {
-    const entityMatrix = await prisma.entityMatrix.findUnique({
-      where: { id: entity_matrix_id },
+    const entityMatrix = await prisma.entity.findUnique({
+      where: { id: entity_id },
     })
 
     const entitySubsidiaryMatrix = await prisma.entitySubsidiary.findUnique({
-      where: { id: entity_subsidiary_id },
+      where: { id: entity_id },
     })
 
     if (!entityMatrix && !entitySubsidiaryMatrix) {
-      throw new EntityMatrixNotExistsError()
+      throw new EntityNotExistsError()
     }
 
     await prisma.announcement.create({
@@ -48,9 +50,9 @@ export async function CreateAnnoucment(
         announcementType,
         offeredVacancies,
         verifiedScholarships,
-        entity_matrix_id,
+        entity_id,
         entity_subsidiary_id,
-        announcementNumber: Math.floor(Math.random() * 1000000),
+        announcementNumber,
         announcementDate: new Date(),
       },
     })
