@@ -16,7 +16,7 @@ export async function CreateAnnoucment(
     verifiedScholarships: z.number(),
     entity_id: z.string(),
     entity_subsidiary_id: z.string(),
-    announcementNumber: z.string()
+    announcementNumber: z.string(),
   })
 
   const {
@@ -27,7 +27,7 @@ export async function CreateAnnoucment(
     verifiedScholarships,
     entity_id,
     entity_subsidiary_id,
-    announcementNumber
+    announcementNumber,
   } = registerBodySchema.parse(request.body)
 
   try {

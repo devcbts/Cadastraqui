@@ -7,18 +7,18 @@ export async function fetchEntities(
   reply: FastifyReply,
 ) {
   const fetchEntitiesParamsSchema = z.object({
-    entity_id: z.string().optional(),
+    _id: z.string().optional(),
   })
 
-  const { entity_id } = fetchEntitiesParamsSchema.parse(request.params)
+  const { _id } = fetchEntitiesParamsSchema.parse(request.params)
 
   try {
     let entities
-    if (!entity_id) {
+    if (!_id) {
       entities = await prisma.entity.findMany()
     } else {
       entities = await prisma.entity.findUnique({
-        where: { id: entity_id },
+        where: { id: _id },
       })
     }
 

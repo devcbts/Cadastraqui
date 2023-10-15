@@ -291,6 +291,7 @@ model User {
   SocialAssistant             SocialAssistant[]
   EntityDirector              EntityDirector[]
   SelectionProcessResponsible SelectionProcessResponsible?
+  EntitySubsidiary            EntitySubsidiary[]
 
   @@map("users")
 }
@@ -369,6 +370,9 @@ model EntitySubsidiary {
 
   entity    Entity @relation(fields: [entity_id], references: [id])
   entity_id String
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String @unique
 
   EntityDirector              EntityDirector[]
   SelectionProcessResponsible SelectionProcessResponsible[]

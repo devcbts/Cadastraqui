@@ -1,9 +1,9 @@
-import { EntityNotExistsError } from '@/errors/entity-not-exists-error'
+import { SubsidiaryNotExistsError } from '@/errors/subsidiary-not-exists-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function deleteEntity(
+export async function deleteSubsidiary(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
@@ -14,19 +14,22 @@ export async function deleteEntity(
   const { _id } = deleteParamsSchema.parse(request.params)
 
   try {
-    const entity = await prisma.entity.findUnique({ where: { id: _id } })
+    const subsidiary = await prisma.entitySubsidiary.findUnique({
+      where: { id: _id },
+    })
+    console.log(subsidiary)
 
-    if (!entity) {
-      throw new EntityNotExistsError()
+    if (!subsidiary) {
+      throw new SubsidiaryNotExistsError()
     }
 
-    await prisma.entity.delete({ where: { id: _id } })
+    await prisma.entitySubsidiary.delete({ where: { id: _id } })
 
-    await prisma.user.delete({ where: { id: entity.user_id } })
+    await prisma.user.delete({ where: { id: subsidiary.user_id } })
 
     return reply.status(204).send()
   } catch (err: any) {
-    if (err instanceof EntityNotExistsError) {
+    if (err instanceof SubsidiaryNotExistsError) {
       return reply.status(404).send({ message: err.message })
     }
 
