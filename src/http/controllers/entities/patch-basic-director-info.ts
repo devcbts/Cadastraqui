@@ -1,8 +1,5 @@
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
-import { UserAlreadyExistsError } from '@/errors/users-already-exists-error'
 import { prisma } from '@/lib/prisma'
-import { ROLE } from '@prisma/client'
-import { hash } from 'bcryptjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -21,17 +18,15 @@ export async function patchDirector(
     _id: z.string(),
   })
 
-  const { name, email, CPF, phone } = updateBodySchema.parse(
-    request.body,
-  )
+  const { name, email, CPF, phone } = updateBodySchema.parse(request.body)
 
   const { _id } = updateParamsSchema.parse(request.params)
   try {
     // Verifica se já existe algum usuário com o email fornecido
     const userWithSameEmail = await prisma.user.findUnique({
       where: { email },
-   })
-   // Se não existir usuário
+    })
+    // Se não existir usuário
     if (!userWithSameEmail) {
       throw new ResourceNotFoundError()
     }
@@ -46,8 +41,6 @@ export async function patchDirector(
         throw new ResourceNotFoundError()
       }
 
-   
-
       // Atualiza o diretor associado a filial
       await prisma.entityDirector.update({
         data: {
@@ -55,13 +48,11 @@ export async function patchDirector(
           CPF,
           phone,
         },
-        where: {CPF: CPF}
+        where: { CPF },
       })
 
       return reply.status(201).send()
     }
-
-
 
     // Atualiza o diretor associado a matriz
     await prisma.entityDirector.update({
@@ -70,7 +61,7 @@ export async function patchDirector(
         CPF,
         phone,
       },
-      where: {CPF:CPF}
+      where: { CPF },
     })
 
     return reply.status(201).send()

@@ -6,10 +6,13 @@ import { fetchSubsidiarys } from './fetch-subsidiarys'
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { createDirector } from './create-director'
 import { fetchDirectors } from './fetch-directors'
+import { deleteEntity } from './delete-entity'
+import { verifyAdmin } from '@/http/middlewares/verify-admin'
 
 export async function entityRoutes(app: FastifyInstance) {
   app.post('/', registerEntity) // Essa rota vai para o admin
   app.get('/:entity_id?', fetchEntities) // Essa rota vai para o admin
+  app.delete('/:_id?', { onRequest: [verifyJWT, verifyAdmin] }, deleteEntity) // Essa rota vai para o admin
 
   /** Entity Routes (Rotas acessadas na página do Admin)
    *  Concluídas: post, get

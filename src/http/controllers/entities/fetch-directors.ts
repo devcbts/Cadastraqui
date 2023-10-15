@@ -1,5 +1,4 @@
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
-import { SubsidiaryNotExistsError } from '@/errors/subsidiary-not-exists-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'

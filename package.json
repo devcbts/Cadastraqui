@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "start": "node build/server.js",
-    "test": "jest"
+    "start": "node build/server.js"
   },
   "keywords": [],
   "author": "",
@@ -29,7 +28,6 @@
     "@types/nodemailer": "6.4.11",
     "eslint": "8.50.0",
     "prisma": "5.3.1",
-    "ts-jest": "29.1.1",
     "tsx": "3.13.0",
     "typescript": "5.2.2"
   }
