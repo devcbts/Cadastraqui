@@ -11,6 +11,8 @@ import { verifyRole } from '@/http/middlewares/verify-role'
 import { updateEntity } from './update-entity'
 import { deleteSubsidiary } from './delete-subsidiary'
 import { updateSubsidiary } from './update-subsidiary'
+import { deleteDirector } from './delete-director'
+import { updateDirector } from './update-director'
 
 export async function entityRoutes(app: FastifyInstance) {
   /** Admin Routes (Rotas acessadas na página do Admin)
@@ -61,6 +63,24 @@ export async function entityRoutes(app: FastifyInstance) {
     updateSubsidiary,
   )
 
-  app.post('/director/:_id', { onRequest: [verifyJWT] }, createDirector)
-  app.get('/director/:_id', { onRequest: [verifyJWT] }, fetchDirectors)
+  app.post(
+    '/director/:_id?',
+    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    createDirector,
+  )
+  app.get(
+    '/director/:_id?',
+    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    fetchDirectors,
+  )
+  app.patch(
+    '/director/:_id',
+    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    updateDirector,
+  )
+  app.delete(
+    '/director/:_id',
+    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    deleteDirector,
+  )
 }

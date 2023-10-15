@@ -17,11 +17,15 @@ export async function deleteSubsidiary(
     const subsidiary = await prisma.entitySubsidiary.findUnique({
       where: { id: _id },
     })
-    console.log(subsidiary)
 
     if (!subsidiary) {
       throw new SubsidiaryNotExistsError()
     }
+
+    // Falta deletar os usuários relacionados com os diretores excluídos
+    await prisma.entityDirector.deleteMany({
+      where: { entity_subsidiary_id: _id },
+    })
 
     await prisma.entitySubsidiary.delete({ where: { id: _id } })
 
