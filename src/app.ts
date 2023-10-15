@@ -1,5 +1,5 @@
 import { env } from './env/index'
-import fastify from 'fastify'
+import fastify, { FastifyReply, FastifyRequest } from 'fastify'
 import fastifyJwt from '@fastify/jwt'
 import fastifyCookie from '@fastify/cookie'
 import { ZodError } from 'zod'
@@ -10,8 +10,26 @@ import { authenticate } from './http/controllers/users/authenticate'
 import { refresh } from './http/controllers/users/refresh'
 import { forgotPassword } from './http/controllers/users/forgot-password'
 import { resetPassword } from './http/controllers/users/reset-password'
+import morgan from 'morgan'
+import fastifyMulter from 'fastify-multer'
+import { multerConfig } from './lib/multer'
 
 export const app = fastify()
+
+export const upload = fastifyMulter(multerConfig)
+app.register(fastifyMulter.contentParser)
+
+app.addHook('onRequest', (request, reply, done) => {
+  morgan('dev')(request.raw, reply.raw, done)
+})
+
+app.post(
+  '/upload',
+  { preHandler: upload.single('file') },
+  async (request: FastifyRequest, reply: FastifyReply) => {
+    return reply.status(200).send()
+  },
+)
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
