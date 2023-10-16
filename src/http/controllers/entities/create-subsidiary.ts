@@ -51,9 +51,9 @@ export async function createSubsidiary(
     }
 
     // Verifica se já existe um usuário com o email fornecido
-    const user = await prisma.user.findUnique({ where: { email } })
+    const userWithSameEmail = await prisma.user.findUnique({ where: { email } })
 
-    if (user) {
+    if (userWithSameEmail) {
       throw new UserAlreadyExistsError()
     }
 
@@ -69,7 +69,7 @@ export async function createSubsidiary(
     const password_hash = await hash(password, 6)
 
     // Cria um usuário para a filial
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         email,
         password: password_hash,
@@ -87,6 +87,7 @@ export async function createSubsidiary(
         address,
         socialReason,
         entity_id: entity.id,
+        user_id: user.id,
       },
     })
 

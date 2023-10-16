@@ -8,14 +8,13 @@ export async function fetchDirectors(
   reply: FastifyReply,
 ) {
   const getDirectorParamsSchema = z.object({
-    _id: z.string(),
+    _id: z.string().optional(),
   })
 
   const { _id } = getDirectorParamsSchema.parse(request.params)
 
   try {
-    const matriz = await prisma.entity.findUnique({ where: { id: _id } })
-    if (!matriz) {
+    if (_id || _id !== '') {
       const subsidiary = await prisma.entitySubsidiary.findUnique({
         where: { id: _id },
       })
@@ -27,12 +26,12 @@ export async function fetchDirectors(
         where: { entity_subsidiary_id: _id },
       })
       return reply.status(200).send({ directors })
+    } else {
+      const directors = await prisma.entityDirector.findMany({
+        where: { entity_id: _id },
+      })
+      return reply.status(200).send({ directors })
     }
-
-    const directors = await prisma.entityDirector.findMany({
-      where: { entity_id: _id },
-    })
-    return reply.status(200).send({ directors })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       reply.status(404).send({ message: err.message })

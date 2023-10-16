@@ -1,9 +1,9 @@
-import { EntityNotExistsError } from '@/errors/entity-not-exists-error'
+import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function deleteEntity(
+export async function deleteDirector(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
@@ -14,19 +14,21 @@ export async function deleteEntity(
   const { _id } = deleteParamsSchema.parse(request.params)
 
   try {
-    const entity = await prisma.entity.findUnique({ where: { id: _id } })
+    const director = await prisma.entityDirector.findUnique({
+      where: { id: _id },
+    })
 
-    if (!entity) {
-      throw new EntityNotExistsError()
+    if (!director) {
+      throw new ResourceNotFoundError()
     }
 
-    await prisma.entity.delete({ where: { id: _id } })
+    await prisma.entityDirector.delete({ where: { id: _id } })
 
-    await prisma.user.delete({ where: { id: entity.user_id } })
+    await prisma.user.delete({ where: { id: director.user_id } })
 
     return reply.status(204).send()
   } catch (err: any) {
-    if (err instanceof EntityNotExistsError) {
+    if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
     }
 

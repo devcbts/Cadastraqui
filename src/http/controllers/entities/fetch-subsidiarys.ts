@@ -9,10 +9,10 @@ export async function fetchSubsidiarys(
   reply: FastifyReply,
 ) {
   const fetchSubsidiaryParamsSchema = z.object({
-    subsidiary_id: z.string().optional(),
+    _id: z.string().optional(),
   })
 
-  const { subsidiary_id } = fetchSubsidiaryParamsSchema.parse(request.params)
+  const { _id } = fetchSubsidiaryParamsSchema.parse(request.params)
   try {
     const userId = request.user.sub
 
@@ -29,13 +29,13 @@ export async function fetchSubsidiarys(
     }
 
     let entitySubsidiarys
-    if (!subsidiary_id) {
+    if (!_id) {
       entitySubsidiarys = await prisma.entitySubsidiary.findMany({
         where: { entity_id: entity.id },
       })
     } else {
       entitySubsidiarys = await prisma.entitySubsidiary.findUnique({
-        where: { id: subsidiary_id },
+        where: { id: _id },
       })
     }
 

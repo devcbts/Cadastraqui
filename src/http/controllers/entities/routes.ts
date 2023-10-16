@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import { registerEntity } from './register'
+import { registerEntity } from './register-entity'
 import { createSubsidiary } from './create-subsidiary'
 import { fetchEntities } from './fetch-entities'
 import { fetchSubsidiarys } from './fetch-subsidiarys'
@@ -7,31 +7,87 @@ import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { createDirector } from './create-director'
 import { fetchDirectors } from './fetch-directors'
 import { deleteEntity } from './delete-entity'
-import { verifyAdmin } from '@/http/middlewares/verify-admin'
+import { verifyRole } from '@/http/middlewares/verify-role'
+import { updateEntity } from './update-entity'
+import { deleteSubsidiary } from './delete-subsidiary'
+import { updateSubsidiary } from './update-subsidiary'
+import { deleteDirector } from './delete-director'
+import { updateDirector } from './update-director'
 import { patchDirector } from './patch-basic-director-info'
 import { patchSubsidiary } from './patch-subsidiary'
 import { CreateAnnoucment } from './create-announcement'
 import { patchAnnouncement } from './patch-announcement'
 
 export async function entityRoutes(app: FastifyInstance) {
-  app.post('/', registerEntity) // Essa rota vai para o admin
-  app.get('/:entity_id?', fetchEntities) // Essa rota vai para o admin
-  app.delete('/:_id?', { onRequest: [verifyJWT, verifyAdmin] }, deleteEntity) // Essa rota vai para o admin
-
-  /** Entity Routes (Rotas acessadas na página do Admin)
-   *  Concluídas: post, get
-   *   Faltam:  update, delete, adicionar verificação de ROLE -> ENTITY
+  /** Admin Routes (Rotas acessadas na página do Admin)
+   *  Concluídas: post, get, delete, update, Verificação de ROLE -> ADMIN
+   *   Faltam:
    */
-  app.post('/subsidiary', { onRequest: [verifyJWT] }, createSubsidiary)
+  app.post('/', registerEntity) // Adicionar middlewares
   app.get(
-    '/subsidiary/:subsidiary_id?',
-    { onRequest: [verifyJWT] },
+    '/:_id?',
+    { onRequest: [verifyJWT, verifyRole('ADMIN')] },
+    fetchEntities,
+  )
+  app.delete(
+    '/:_id?',
+    { onRequest: [verifyJWT, verifyRole('ADMIN')] },
+    deleteEntity,
+  )
+  app.patch(
+    '/:_id',
+    { onRequest: [verifyJWT, verifyRole('ADMIN')] },
+    updateEntity,
+  )
+
+  /** Entity Routes (Rotas acessadas na página da Entidade)
+   *  Concluídas: post, get, delete
+   *   Faltam: update,Verificação de ROLE -> ENTITY
+   */
+  app.post(
+    '/subsidiary',
+    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    createSubsidiary,
+  )
+  app.get(
+    '/subsidiary/:_id?',
+    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
     fetchSubsidiarys,
   )
   app.patch('/subsidiary/:subsidiary_id', { onRequest: [verifyJWT]}, patchSubsidiary)
+  app.delete(
+    '/subsidiary/:_id',
+    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    deleteSubsidiary,
+  )
+  app.patch(
+    '/subsidiary/:_id',
+    {
+      onRequest: [verifyJWT, verifyRole('ENTITY')],
+    },
+    updateSubsidiary,
+  )
 
-  app.post('/director/:_id', { onRequest: [verifyJWT] }, createDirector)
-  app.get('/director/:_id', { onRequest: [verifyJWT] }, fetchDirectors)
+  app.post(
+    '/director/:_id?',
+    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    createDirector,
+  )
+  app.get(
+    '/director/:_id?',
+    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    fetchDirectors,
+  )
+  app.patch(
+    '/director/:_id',
+    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    updateDirector,
+  )
+  app.delete(
+    '/director/:_id',
+    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    deleteDirector,
+  )
   app.patch('/director/:_id/:director_id', { onRequest: [verifyJWT]}, patchDirector)
 
   app.post('/announcement', {onRequest: [verifyJWT]}, CreateAnnoucment)
