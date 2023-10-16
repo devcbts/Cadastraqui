@@ -31,18 +31,34 @@ export async function CreateAnnoucment(
   } = registerBodySchema.parse(request.body)
 
   try {
-    const entityMatrix = await prisma.entity.findUnique({
+    const entityMatrix = entity_id ? await prisma.entity.findUnique({
       where: { id: entity_id },
-    })
+    }) : null
 
-    const entitySubsidiaryMatrix = await prisma.entitySubsidiary.findUnique({
+    const entitySubsidiaryMatrix = entity_subsidiary_id ? await prisma.entitySubsidiary.findUnique({
       where: { id: entity_id },
-    })
+    }) : null
 
     if (!entityMatrix && !entitySubsidiaryMatrix) {
       throw new EntityNotExistsError()
     }
 
+    if(!entitySubsidiaryMatrix){
+      await prisma.announcement.create({
+        data: {
+          entityChanged,
+          branchChanged,
+          announcementType,
+          offeredVacancies,
+          verifiedScholarships,
+          entity_id,
+          announcementNumber,
+          announcementDate: new Date(),
+        },
+      })
+      return reply.status(201).send()
+
+    }
     await prisma.announcement.create({
       data: {
         entityChanged,

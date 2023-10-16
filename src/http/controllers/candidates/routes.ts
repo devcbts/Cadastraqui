@@ -7,6 +7,13 @@ import { registerHousingInfo } from './register-housing-info'
 import { registerFamilyMemberInfo } from './register-family-member'
 import { getIdentityCandidateInfo } from './get-identity-candidate-info'
 import {patchIdentityInfo} from './patch-identity-candidate-info'
+import { patchBasicsCandidateInfo } from './patch-basic-candidate-info'
+import { patchFamilyMemberInfo } from './patch-family-member'
+import { patchHousingInfo } from './patch-housing-info'
+
+
+
+
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/', registerCandidate)
 
@@ -25,5 +32,8 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     registerFamilyMemberInfo,
   )
-  app.patch("/identity-info",{onError: [verifyJWT]}, patchIdentityInfo)
+  app.patch("/identity-info",{onRequest: [verifyJWT]}, patchIdentityInfo)
+  app.patch("/basic-info", {onRequest : [verifyJWT]}, patchBasicsCandidateInfo)
+  app.patch("/family-info/:CPF?", {onRequest : [verifyJWT]}, patchFamilyMemberInfo)
+  app.patch("/housing-info", {onRequest : [verifyJWT]}, patchHousingInfo)
 }

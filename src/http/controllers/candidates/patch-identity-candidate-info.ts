@@ -107,40 +107,40 @@ export async function patchIdentityInfo(
   ])
 
   const userDataSchema = z.object({
-    fullName: z.string(),
-    socialName: z.string(),
-    gender: GENDER,
-    nationality: z.string(),
-    natural_city: z.string(),
-    natural_UF: COUNTRY,
-    RG: z.string(),
-    rgIssuingAuthority: z.string(),
-    rgIssuingState: z.string(),
+    fullName: z.string().optional(),
+    socialName: z.string().optional(),
+    gender: z.union([GENDER,z.undefined()]),
+    nationality: z.string().optional(),
+    natural_city: z.string().optional(),
+    natural_UF: z.union([COUNTRY,z.undefined()]),
+    RG: z.string().optional(),
+    rgIssuingAuthority: z.string().optional(),
+    rgIssuingState: z.string().optional(),
     documentType: z.union([DOCUMENT_TYPE, z.undefined()]),
     documentNumber: z.union([z.string(), z.undefined()]),
     documentValidity: z.union([z.string(), z.undefined()]),
     numberOfBirthRegister: z.string().optional(),
     bookOfBirthRegister: z.string().optional(),
     pageOfBirthRegister: z.string().optional(),
-    maritalStatus: MARITAL_STATUS,
-    skinColor: SkinColor,
-    religion: RELIGION,
-    educationLevel: SCHOLARSHIP,
+    maritalStatus: z.union([MARITAL_STATUS,z.undefined()]),
+    skinColor: z.union([SkinColor,z.undefined()]),
+    religion: z.union([RELIGION,z.undefined()]),
+    educationLevel: z.union([SCHOLARSHIP,z.undefined()]),
     specialNeeds: z.union([z.boolean(), z.undefined()]),
     specialNeedsDescription: z.union([z.string(), z.undefined()]),
     hasMedicalReport: z.union([z.boolean(), z.undefined()]),
     landlinePhone: z.union([z.string(), z.undefined()]),
     workPhone: z.union([z.string(), z.undefined()]),
     contactNameForMessage: z.union([z.string(), z.undefined()]),
-    profession: z.string(),
+    profession: z.string().optional(),
     enrolledGovernmentProgram: z.union([z.boolean(), z.undefined()]),
     NIS: z.union([z.string(), z.undefined()]),
-    incomeSource: z.array(IncomeSource),
-    livesAlone: z.boolean(),
-    intendsToGetScholarship: z.boolean(),
+    incomeSource: z.array(IncomeSource).optional(),
+    livesAlone: z.boolean().optional(),
+    intendsToGetScholarship: z.boolean().optional(),
     attendedPublicHighSchool: z.union([z.boolean(), z.undefined()]),
     benefitedFromCebasScholarship_basic: z.union([z.boolean(), z.undefined()]),
-    yearsBenefitedFromCebas_basic: z.array(z.string()), // Certifique-se de que isso está correto
+    yearsBenefitedFromCebas_basic: z.array(z.string()).optional(), // Certifique-se de que isso está correto
     scholarshipType_basic: z.union([ScholarshipType, z.undefined()]),
     institutionName_basic: z.union([z.string(), z.undefined()]),
     institutionCNPJ_basic: z.union([z.string(), z.undefined()]),
@@ -201,6 +201,8 @@ export async function patchIdentityInfo(
     nameOfScholarshipCourse_professional,
   } = userDataSchema.parse(request.body)
 
+  
+
   try {
     const user_id = request.user.sub
 
@@ -214,6 +216,54 @@ export async function patchIdentityInfo(
       throw new ResourceNotFoundError()
     }
 
+
+    const parsedData = {
+      birthDate: candidate.birthDate,
+      educationLevel,
+      fullName,
+      gender,
+      intendsToGetScholarship,
+      livesAlone,
+      maritalStatus,
+      nationality,
+      natural_city,
+      natural_UF,
+      profession,
+      religion,
+      RG,
+      rgIssuingAuthority,
+      rgIssuingState,
+      skinColor,
+      socialName,
+      attendedPublicHighSchool,
+      benefitedFromCebasScholarship_basic,
+      benefitedFromCebasScholarship_professional,
+      contactNameForMessage,
+      documentNumber,
+      documentType,
+      documentValidity: documentValidity
+        ? new Date(documentValidity)
+        : undefined,
+      enrolledGovernmentProgram,
+      hasMedicalReport,
+      incomeSource,
+      institutionCNPJ_basic,
+      institutionCNPJ_professional,
+      institutionName_basic,
+      institutionName_professional,
+      landlinePhone,
+      lastYearBenefitedFromCebas_professional,
+      nameOfScholarshipCourse_professional,
+      NIS,
+      scholarshipType_basic,
+      scholarshipType_professional,
+      specialNeeds,
+      specialNeedsDescription,
+      workPhone,
+      yearsBenefitedFromCebas_basic,
+    }
+
+
     const candidateIdentifyInfo = await prisma.identityDetails.findUnique({
       where: { candidate_id: candidate.id },
     })
@@ -222,53 +272,18 @@ export async function patchIdentityInfo(
       throw new NotAllowedError()
     }
 
+    const dataToUpdate: Record<string,any> = {};
+
+    for (const key in parsedData) {
+      const value = parsedData[key as keyof typeof parsedData];
+      if (value !== undefined && value !== null) {
+        dataToUpdate[key as keyof typeof parsedData] = value;
+      }
+    }
+
     // Atualiza informações acerca da identificação no banco de dados
     await prisma.identityDetails.update({
-      data: {
-        birthDate: candidate.birthDate,
-        educationLevel,
-        fullName,
-        gender,
-        intendsToGetScholarship,
-        livesAlone,
-        maritalStatus,
-        nationality,
-        natural_city,
-        natural_UF,
-        profession,
-        religion,
-        RG,
-        rgIssuingAuthority,
-        rgIssuingState,
-        skinColor,
-        socialName,
-        attendedPublicHighSchool,
-        benefitedFromCebasScholarship_basic,
-        benefitedFromCebasScholarship_professional,
-        contactNameForMessage,
-        documentNumber,
-        documentType,
-        documentValidity: documentValidity
-          ? new Date(documentValidity)
-          : undefined,
-        enrolledGovernmentProgram,
-        hasMedicalReport,
-        incomeSource,
-        institutionCNPJ_basic,
-        institutionCNPJ_professional,
-        institutionName_basic,
-        institutionName_professional,
-        landlinePhone,
-        lastYearBenefitedFromCebas_professional,
-        nameOfScholarshipCourse_professional,
-        NIS,
-        scholarshipType_basic,
-        scholarshipType_professional,
-        specialNeeds,
-        specialNeedsDescription,
-        workPhone,
-        yearsBenefitedFromCebas_basic,
-      },
+      data: dataToUpdate,
       where: {candidate_id: candidate.id}
     })
 

@@ -50,24 +50,16 @@ export async function patchHousingInfo(
   ])
 
   const housingDataSchema = z.object({
-    grantorName: z.string(),
+    grantorName: z.string().optional(),
     propertyStatus: PropertyStatus,
-    contractType: ContractType,
-    timeLivingInProperty: TimeLivingInProperty,
-    domicileType: DomicileType,
-    numberOfRooms: NumberOfRooms,
-    numberOfBedrooms: z.number(),
+    contractType: ContractType.optional(),
+    timeLivingInProperty: TimeLivingInProperty.optional(),
+    domicileType: DomicileType.optional(),
+    numberOfRooms: NumberOfRooms.optional(),
+    numberOfBedrooms: z.number().optional(),
   })
 
-  const {
-    contractType,
-    domicileType,
-    grantorName,
-    numberOfBedrooms,
-    numberOfRooms,
-    propertyStatus,
-    timeLivingInProperty,
-  } = housingDataSchema.parse(request.body)
+  const updateData = housingDataSchema.parse(request.body)
 
   try {
     const user_id = request.user.sub
@@ -89,18 +81,16 @@ export async function patchHousingInfo(
     if (!candidateHousingInfo) {
       throw new ResourceNotFoundError()
     }
+    const dataToUpdate: Record<string, any> = {}
+    for (const key in updateData) {
+      if (typeof updateData[key as keyof typeof updateData] !== 'undefined') {
+        dataToUpdate[key as keyof typeof updateData] = updateData[key as keyof typeof updateData];
+      }
+    }
 
     // Armazena informações acerca da moradia no banco de dados
     await prisma.housing.update({
-      data: {
-        contractType,
-        domicileType,
-        grantorName,
-        numberOfBedrooms,
-        numberOfRooms,
-        propertyStatus,
-        timeLivingInProperty,
-      },
+      data: dataToUpdate,
       where: {candidate_id: candidate.id}
     })
 

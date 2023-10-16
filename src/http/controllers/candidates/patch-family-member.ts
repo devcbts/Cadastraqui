@@ -113,7 +113,6 @@ export async function patchFamilyMemberInfo(
     nationality: z.string(),
     natural_city: z.string(),
     natural_UF: COUNTRY,
-    CPF: z.string(),
     RG: z.string(),
     rgIssuingAuthority: z.string(),
     rgIssuingState: z.string(),
@@ -133,7 +132,6 @@ export async function patchFamilyMemberInfo(
     landlinePhone: z.string().optional(),
     workPhone: z.string().optional(),
     contactNameForMessage: z.string().optional(),
-    email: z.string().email(),
     address: z.string(),
     city: z.string(),
     UF: COUNTRY,
@@ -155,7 +153,6 @@ export async function patchFamilyMemberInfo(
 
   const {
     CEP,
-    CPF,
     RG,
     UF,
     address,
@@ -164,7 +161,6 @@ export async function patchFamilyMemberInfo(
     bookOfBirthRegister,
     city,
     educationLevel,
-    email,
     fullName,
     gender,
     maritalStatus,
@@ -206,6 +202,12 @@ export async function patchFamilyMemberInfo(
   try {
     const user_id = request.user.sub
 
+    const fetchFamilyMemberParamsSchema = z.object({
+      CPF: z.string().optional(),
+    })
+  
+    const { CPF } = fetchFamilyMemberParamsSchema.parse(request.params)
+
     if (!user_id) {
       throw new NotAllowedError()
     }
@@ -220,62 +222,74 @@ export async function patchFamilyMemberInfo(
     if (!await prisma.familyMember.findUnique({ where: { CPF } })) {
       throw new ResourceNotFoundError()
     }
-    if (!await prisma.familyMember.findUnique({ where: { RG } })) {
-      throw new ResourceNotFoundError()
+   
+
+    const parsedData = {
+      monthlyAmount,
+      educationLevel,
+      workPhone,
+      numberOfBirthRegister,
+      pageOfBirthRegister,
+      address,
+      addressNumber,
+      birthDate: new Date(birthDate),
+      CEP,
+      city,
+      hasScholarship,
+      coursingEducationLevel,
+      cycleOfEducation,
+      documentNumber,
+      documentType,
+      documentValidity: documentValidity ? new Date(documentValidity) : null,
+      educationPlace,
+      enrolledGovernmentProgram,
+      hasMedicalReport,
+      institutionName,
+      landlinePhone,
+      fullName,
+      gender,
+      maritalStatus,
+      nationality,
+      natural_city,
+      natural_UF,
+      neighborhood,
+      profession,
+      relationship,
+      religion,
+      RG,
+      rgIssuingAuthority,
+      rgIssuingState,
+      skinColor,
+      UF,
+      bookOfBirthRegister,
+      contactNameForMessage,
+      NIS,
+      otherRelationship,
+      percentageOfScholarship,
+      socialName,
+      specialNeeds,
+      specialNeedsDescription,
+      turnOfEducation,
+    }
+    const dataToUpdate: Record<string,any> = {};
+
+    for (const key in parsedData) {
+      const value = parsedData[key as keyof typeof parsedData];
+      if (value !== undefined && value !== null) {
+        dataToUpdate[key as keyof typeof parsedData] = value;
+      }
     }
 
     // Atualiza informações acerca do membro da família do candidato
     await prisma.familyMember.update({
-      data: {
-        monthlyAmount,
-        educationLevel,
-        workPhone,
-        email,
-        numberOfBirthRegister,
-        pageOfBirthRegister,
-        address,
-        addressNumber,
-        birthDate: new Date(birthDate),
-        CEP,
-        city,
-        CPF,
-        hasScholarship,
-        coursingEducationLevel,
-        cycleOfEducation,
-        documentNumber,
-        documentType,
-        documentValidity: documentValidity ? new Date(documentValidity) : null,
-        educationPlace,
-        enrolledGovernmentProgram,
-        hasMedicalReport,
-        institutionName,
-        landlinePhone,
-        fullName,
-        gender,
-        maritalStatus,
-        nationality,
-        natural_city,
-        natural_UF,
-        neighborhood,
-        profession,
-        relationship,
-        religion,
-        RG,
-        rgIssuingAuthority,
-        rgIssuingState,
-        skinColor,
-        UF,
-        bookOfBirthRegister,
-        contactNameForMessage,
-        NIS,
-        otherRelationship,
-        percentageOfScholarship,
-        socialName,
-        specialNeeds,
-        specialNeedsDescription,
-        turnOfEducation,
-      },
-      where: {CPF: CPF}
+      data: dataToUpdate,
+      where: { CPF: CPF }
+    });
+
+    // Atualiza informações acerca do membro da família do candidato
+    await prisma.familyMember.update({
+      data: parsedData,
+      where: { CPF: CPF }
     })
 
     return reply.status(201).send()
@@ -283,7 +297,7 @@ export async function patchFamilyMemberInfo(
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
     }
-   
+
 
     return reply.status(500).send({ message: err.message })
   }

@@ -8,28 +8,30 @@ export async function patchDirector(
   reply: FastifyReply,
 ) {
   const updateBodySchema = z.object({
-    name: z.string(),
-    email: z.string().email(),
-    phone: z.string(),
-    CPF: z.string(),
+    name: z.string().optional(),
+    email: z.string().email().optional(),
+    phone: z.string().optional(),
+    CPF: z.string().optional(),
   })
 
   const updateParamsSchema = z.object({
     _id: z.string(),
+    director_id: z.string(),
   })
 
   const { name, email, CPF, phone } = updateBodySchema.parse(request.body)
+  const updateData = { name, CPF, phone }
 
-  const { _id } = updateParamsSchema.parse(request.params)
-  try {
-    // Verifica se já existe algum usuário com o email fornecido
-    const userWithSameEmail = await prisma.user.findUnique({
-      where: { email },
-    })
-    // Se não existir usuário
-    if (!userWithSameEmail) {
-      throw new ResourceNotFoundError()
+  const dataToUpdate: Record<string, any> = {}
+  for (const key in updateData) {
+    if (typeof updateData[key as keyof typeof updateData] !== 'undefined') {
+      dataToUpdate[key as keyof typeof updateData] = updateData[key as keyof typeof updateData];
     }
+  }
+  // Pegar o id da entidade (ou subsidiária) e do diretor
+  const { _id, director_id } = updateParamsSchema.parse(request.params)
+  try {
+
 
     const matriz = await prisma.entity.findUnique({ where: { id: _id } })
     if (!matriz) {
@@ -41,14 +43,12 @@ export async function patchDirector(
         throw new ResourceNotFoundError()
       }
 
+
+
       // Atualiza o diretor associado a filial
       await prisma.entityDirector.update({
-        data: {
-          name,
-          CPF,
-          phone,
-        },
-        where: { CPF },
+        data: dataToUpdate,
+        where: { id: director_id },
       })
 
       return reply.status(201).send()
@@ -56,12 +56,8 @@ export async function patchDirector(
 
     // Atualiza o diretor associado a matriz
     await prisma.entityDirector.update({
-      data: {
-        name,
-        CPF,
-        phone,
-      },
-      where: { CPF },
+      data: dataToUpdate,
+      where: { id: director_id },
     })
 
     return reply.status(201).send()

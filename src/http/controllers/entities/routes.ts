@@ -8,6 +8,10 @@ import { createDirector } from './create-director'
 import { fetchDirectors } from './fetch-directors'
 import { deleteEntity } from './delete-entity'
 import { verifyAdmin } from '@/http/middlewares/verify-admin'
+import { patchDirector } from './patch-basic-director-info'
+import { patchSubsidiary } from './patch-subsidiary'
+import { CreateAnnoucment } from './create-announcement'
+import { patchAnnouncement } from './patch-announcement'
 
 export async function entityRoutes(app: FastifyInstance) {
   app.post('/', registerEntity) // Essa rota vai para o admin
@@ -24,7 +28,12 @@ export async function entityRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     fetchSubsidiarys,
   )
+  app.patch('/subsidiary/:subsidiary_id', { onRequest: [verifyJWT]}, patchSubsidiary)
 
   app.post('/director/:_id', { onRequest: [verifyJWT] }, createDirector)
   app.get('/director/:_id', { onRequest: [verifyJWT] }, fetchDirectors)
+  app.patch('/director/:_id/:director_id', { onRequest: [verifyJWT]}, patchDirector)
+
+  app.post('/announcement', {onRequest: [verifyJWT]}, CreateAnnoucment)
+  app.patch('/announcement/:announcement_id', {onRequest: [verifyJWT] }, patchAnnouncement )
 }
