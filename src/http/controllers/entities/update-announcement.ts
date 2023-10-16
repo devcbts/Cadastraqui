@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma"
 import { FastifyRequest, FastifyReply } from "fastify"
 import { z } from "zod"
 
-export async function patchAnnouncement(
+export async function updateAnnouncement(
     request: FastifyRequest,
     reply: FastifyReply,
   ) {

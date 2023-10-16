@@ -13,10 +13,8 @@ import { deleteSubsidiary } from './delete-subsidiary'
 import { updateSubsidiary } from './update-subsidiary'
 import { deleteDirector } from './delete-director'
 import { updateDirector } from './update-director'
-import { patchDirector } from './patch-basic-director-info'
-import { patchSubsidiary } from './patch-subsidiary'
 import { CreateAnnoucment } from './create-announcement'
-import { patchAnnouncement } from './patch-announcement'
+import { updateAnnouncement } from './update-announcement'
 
 export async function entityRoutes(app: FastifyInstance) {
   /** Admin Routes (Rotas acessadas na página do Admin)
@@ -54,7 +52,6 @@ export async function entityRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT, verifyRole('ENTITY')] },
     fetchSubsidiarys,
   )
-  app.patch('/subsidiary/:subsidiary_id', { onRequest: [verifyJWT]}, patchSubsidiary)
   app.delete(
     '/subsidiary/:_id',
     { onRequest: [verifyJWT, verifyRole('ENTITY')] },
@@ -88,8 +85,7 @@ export async function entityRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT, verifyRole('ENTITY')] },
     deleteDirector,
   )
-  app.patch('/director/:_id/:director_id', { onRequest: [verifyJWT]}, patchDirector)
 
-  app.post('/announcement', {onRequest: [verifyJWT]}, CreateAnnoucment)
-  app.patch('/announcement/:announcement_id', {onRequest: [verifyJWT] }, patchAnnouncement )
+  app.post('/announcement', {onRequest: [verifyJWT, verifyRole('ENTITY')]}, CreateAnnoucment)
+  app.patch('/announcement/:announcement_id', {onRequest: [verifyJWT, verifyRole('ENTITY')] }, updateAnnouncement )
 }

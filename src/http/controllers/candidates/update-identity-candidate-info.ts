@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function patchIdentityInfo(
+export async function updateIdentityInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {

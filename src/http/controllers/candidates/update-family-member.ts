@@ -5,7 +5,7 @@ import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function patchFamilyMemberInfo(
+export async function updateFamilyMemberInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
