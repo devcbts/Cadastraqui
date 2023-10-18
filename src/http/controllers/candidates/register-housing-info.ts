@@ -72,20 +72,16 @@ export async function registerHousingInfo(
   try {
     const user_id = request.user.sub
 
-    if (!user_id) {
-      throw new NotAllowedError()
-    }
-
+    // Verifica se existe um candidato associado ao user_id
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-
     if (!candidate) {
       throw new ResourceNotFoundError()
     }
 
+    // Analisa se o candidato já possui cadastro de moradia
     const candidateHousingInfo = await prisma.housing.findUnique({
       where: { candidate_id: candidate.id },
     })
-    // Analisa se o candidato já possui cadastro de moradia
     if (candidateHousingInfo) {
       throw new NotAllowedError()
     }

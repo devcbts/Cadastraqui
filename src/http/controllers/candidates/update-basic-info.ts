@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function updateBasicsCandidateInfo(
+export async function updateBasicInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
@@ -12,18 +12,44 @@ export async function updateBasicsCandidateInfo(
     const userId = request.user.sub
 
     const updateBodySchema = z.object({
-        name: z.string().optional(),
-        phone: z.string().optional(),
-        address: z.string().optional(),
-        city: z.string().optional(),
-        UF: z.enum([
-            'AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA',
-            'MG', 'MS', 'MT', 'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 'RN',
-            'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO',
-        ]).optional(),
-        CEP: z.string().optional(),
-        neighborhood: z.string().optional(),
-        addressNumber: z.number().optional(),
+      name: z.string().optional(),
+      phone: z.string().optional(),
+      address: z.string().optional(),
+      city: z.string().optional(),
+      UF: z
+        .enum([
+          'AC',
+          'AL',
+          'AM',
+          'AP',
+          'BA',
+          'CE',
+          'DF',
+          'ES',
+          'GO',
+          'MA',
+          'MG',
+          'MS',
+          'MT',
+          'PA',
+          'PB',
+          'PE',
+          'PI',
+          'PR',
+          'RJ',
+          'RN',
+          'RO',
+          'RR',
+          'RS',
+          'SC',
+          'SE',
+          'SP',
+          'TO',
+        ])
+        .optional(),
+      CEP: z.string().optional(),
+      neighborhood: z.string().optional(),
+      addressNumber: z.number().optional(),
     })
 
     if (userType !== 'CANDIDATE') {
@@ -44,16 +70,17 @@ export async function updateBasicsCandidateInfo(
     const dataToUpdate: Record<string, any> = {}
     for (const key in updateData) {
       if (typeof updateData[key as keyof typeof updateData] !== 'undefined') {
-        dataToUpdate[key as keyof typeof updateData] = updateData[key as keyof typeof updateData];
+        dataToUpdate[key as keyof typeof updateData] =
+          updateData[key as keyof typeof updateData]
       }
     }
 
     await prisma.candidate.update({
-        where: { user_id: userId },
-        data: dataToUpdate,
+      where: { user_id: userId },
+      data: dataToUpdate,
     })
 
-    return reply.status(200).send({ message: "dados atualizados com sucesso!" })
+    return reply.status(200).send({ message: 'dados atualizados com sucesso!' })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(404).send({ message: err.message })

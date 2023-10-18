@@ -482,8 +482,8 @@ model FamilyMember {
   nationality               String
   natural_city              String
   natural_UF                COUNTRY
-  CPF                       String            @unique
-  RG                        String            @unique
+  CPF                       String
+  RG                        String
   rgIssuingAuthority        String
   rgIssuingState            String
   documentType              DOCUMENT_TYPE?
@@ -531,6 +531,7 @@ model FamilyMember {
   FamilyMemberIncome  FamilyMemberIncome[]
   Vehicle             Vehicle[]
   Expense             Expense[]
+  Medication          Medication[]
 
   @@map("familyMembers")
 }
@@ -556,74 +557,83 @@ model Housing {
 
 model Vehicle {
   id                String           @id @default(uuid())
-  hasVehicle        Boolean          @default(false)
-  quantity          Int?             @default(1)
-  owner             FamilyMember     @relation(fields: [ownerId], references: [id])
-  ownerId           String
   vehicleType       VehicleType
-  modelAndBrand     String?
-  manufacturingYear Int?
+  modelAndBrand     String
+  manufacturingYear Int
   situation         VehicleSituation
+  financedMonths    Int?
+  monthsToPayOff    Int?
   hasInsurance      Boolean          @default(false)
   insuranceValue    Float? // Only if hasInsurance is true
   usage             VehicleUsage
+
+  owner    FamilyMember @relation(fields: [owner_id], references: [id])
+  owner_id String
+}
+
+enum EmploymentType {
+  PRIVATE_EMPLOYEE_CLT
+  PUBLIC_EMPLOYEE
+  DOMESTIC_EMPLOYEE
+  TEMPORARY_RURAL_WORKER
+  RETIRED
+  PENSIONER
+  APPRENTICE_INTERN
+  TEMPORARY_DISABILITY_BENEFIT
 }
 
 model FamilyMemberIncome {
-  id                   String          @id @default(uuid())
+  id                   String         @id @default(uuid())
   name                 String
-  occupation           String
+  occupation           EmploymentType
   hiringDate           DateTime
   position             String
   payerDetails         String
   employerOrGovernment String
   employerPhone        String
   receivesOvertime     Boolean
-  salaries             Salary[]
-  monthlyIncomes       MonthlyIncome[]
 
-  familyMember   FamilyMember @relation(fields: [familyMemberId], references: [id])
-  familyMemberId String
+  salaries       Salary[]
+  monthlyIncomes MonthlyIncome[]
+
+  familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
+  familyMember_id String
 }
 
 model Salary {
-  id                   String             @id @default(uuid())
-  familyMemberIncomeId String
-  value                Decimal?
-  index                Int
-  familyMemberIncome   FamilyMemberIncome @relation(fields: [familyMemberIncomeId], references: [id])
+  id    String  @id @default(uuid())
+  value String?
+  index Int
+
+  familyMemberIncome    FamilyMemberIncome @relation(fields: [familyMemberIncome_id], references: [id])
+  familyMemberIncome_id String
 }
 
 model MonthlyIncome {
-  id                        String             @id @default(uuid())
-  familyMemberIncomeId      String
+  id                        String   @id @default(uuid())
   month                     String
   year                      String
-  grossAmount               Decimal
+  grossAmount               Decimal // Renda bruta
+  liquidAmount              Decimal // Renda trabalho assalariado
   hadDeduction              Boolean
   deductionValue            Decimal?
   publicPension             Decimal?
   incomeTax                 Decimal?
   otherDeductions           Decimal?
-  foodAllowance             Boolean
   foodAllowanceValue        Decimal?
-  transportAllowance        Boolean
   transportAllowanceValue   Decimal?
-  expenseReimbursement      Boolean
   expenseReimbursementValue Decimal?
-  advancePayment            Boolean
   advancePaymentValue       Decimal?
-  reversals                 Boolean
   reversalValue             Decimal?
-  compensation              Boolean
   compensationValue         Decimal?
-  judicialPension           Boolean
   judicialPensionValue      Decimal?
-  familyMemberIncome        FamilyMemberIncome @relation(fields: [familyMemberIncomeId], references: [id])
+
+  familyMemberIncome    FamilyMemberIncome @relation(fields: [familyMemberIncome_id], references: [id])
+  familyMemberIncome_id String
 }
 
 model Expense {
-  id                  String       @id @default(uuid())
+  id                  String   @id @default(uuid())
   month               String
   waterSewage         Float?
   electricity         Float?
@@ -653,8 +663,9 @@ model Expense {
   medicationExpenses  Float?
   otherExpenses       Float?
   totalExpense        Float?
-  familyMember        FamilyMember @relation(fields: [familyMember_id], references: [id])
-  familyMember_id     String
+
+  familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
+  familyMember_id String
 }
 
 model Loan {
@@ -703,24 +714,25 @@ model OtherExpense {
 }
 
 model FamilyMemberDisease {
-  id               String       @id @default(uuid())
-  familyMember     FamilyMember @relation(fields: [familyMember_id], references: [id])
-  familyMember_id  String
+  id               String  @id @default(uuid())
   disease          Disease
   specificDisease  String?
   hasMedicalReport Boolean
-  medication       Medication[]
+
+  familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
+  familyMember_id String
 
   @@map("familyMemberDiseases")
 }
 
 model Medication {
-  id                         String              @id @default(uuid())
-  familyMemberDisease        FamilyMemberDisease @relation(fields: [familyMemberDisease_id], references: [id])
-  familyMemberDisease_id     String
+  id                         String  @id @default(uuid())
   medicationName             String
   obtainedPublicly           Boolean
   specificMedicationPublicly String?
+
+  familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
+  familyMember_id String
 
   @@map("medications")
 }

@@ -206,20 +206,25 @@ export async function registerFamilyMemberInfo(
   try {
     const user_id = request.user.sub
 
-    if (!user_id) {
-      throw new NotAllowedError()
-    }
-
+    // Verifica se existe um candidato associado ao user_id
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-
     if (!candidate) {
       throw new ResourceNotFoundError()
     }
 
-    if (await prisma.familyMember.findUnique({ where: { CPF } })) {
+    // Verifica se já existe um familiar com o RG ou CPF associados ao candidato
+    if (
+      await prisma.familyMember.findFirst({
+        where: { CPF, candidate_id: candidate.id },
+      })
+    ) {
       throw new FamilyMemberAlreadyExistsError()
     }
-    if (await prisma.familyMember.findUnique({ where: { RG } })) {
+    if (
+      await prisma.familyMember.findFirst({
+        where: { RG, candidate_id: candidate.id },
+      })
+    ) {
       throw new FamilyMemberAlreadyExistsError()
     }
 

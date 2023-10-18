@@ -1,6 +1,5 @@
 import { UserAlreadyExistsError } from '@/errors/users-already-exists-error'
 import { prisma } from '@/lib/prisma'
-import { ROLE } from '@prisma/client'
 import { hash } from 'bcryptjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -13,7 +12,6 @@ export async function registerCandidate(
     name: z.string(),
     email: z.string().email(),
     password: z.string().min(6),
-    role: z.enum([ROLE.CANDIDATE]),
     CEP: z.string(),
     CPF: z.string(),
     address: z.string(),
@@ -57,7 +55,6 @@ export async function registerCandidate(
     name,
     email,
     password,
-    role,
     CEP,
     CPF,
     UF,
@@ -86,7 +83,7 @@ export async function registerCandidate(
       data: {
         email,
         password: password_hash,
-        role,
+        role: 'CANDIDATE',
       },
     })
 

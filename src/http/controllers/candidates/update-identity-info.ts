@@ -109,10 +109,10 @@ export async function updateIdentityInfo(
   const userDataSchema = z.object({
     fullName: z.string().optional(),
     socialName: z.string().optional(),
-    gender: z.union([GENDER,z.undefined()]),
+    gender: z.union([GENDER, z.undefined()]),
     nationality: z.string().optional(),
     natural_city: z.string().optional(),
-    natural_UF: z.union([COUNTRY,z.undefined()]),
+    natural_UF: z.union([COUNTRY, z.undefined()]),
     RG: z.string().optional(),
     rgIssuingAuthority: z.string().optional(),
     rgIssuingState: z.string().optional(),
@@ -122,10 +122,10 @@ export async function updateIdentityInfo(
     numberOfBirthRegister: z.string().optional(),
     bookOfBirthRegister: z.string().optional(),
     pageOfBirthRegister: z.string().optional(),
-    maritalStatus: z.union([MARITAL_STATUS,z.undefined()]),
-    skinColor: z.union([SkinColor,z.undefined()]),
-    religion: z.union([RELIGION,z.undefined()]),
-    educationLevel: z.union([SCHOLARSHIP,z.undefined()]),
+    maritalStatus: z.union([MARITAL_STATUS, z.undefined()]),
+    skinColor: z.union([SkinColor, z.undefined()]),
+    religion: z.union([RELIGION, z.undefined()]),
+    educationLevel: z.union([SCHOLARSHIP, z.undefined()]),
     specialNeeds: z.union([z.boolean(), z.undefined()]),
     specialNeedsDescription: z.union([z.string(), z.undefined()]),
     hasMedicalReport: z.union([z.boolean(), z.undefined()]),
@@ -201,8 +201,6 @@ export async function updateIdentityInfo(
     nameOfScholarshipCourse_professional,
   } = userDataSchema.parse(request.body)
 
-  
-
   try {
     const user_id = request.user.sub
 
@@ -215,7 +213,6 @@ export async function updateIdentityInfo(
     if (!candidate) {
       throw new ResourceNotFoundError()
     }
-
 
     const parsedData = {
       birthDate: candidate.birthDate,
@@ -263,7 +260,6 @@ export async function updateIdentityInfo(
       yearsBenefitedFromCebas_basic,
     }
 
-
     const candidateIdentifyInfo = await prisma.identityDetails.findUnique({
       where: { candidate_id: candidate.id },
     })
@@ -272,19 +268,19 @@ export async function updateIdentityInfo(
       throw new NotAllowedError()
     }
 
-    const dataToUpdate: Record<string,any> = {};
+    const dataToUpdate: Record<string, any> = {}
 
     for (const key in parsedData) {
-      const value = parsedData[key as keyof typeof parsedData];
+      const value = parsedData[key as keyof typeof parsedData]
       if (value !== undefined && value !== null) {
-        dataToUpdate[key as keyof typeof parsedData] = value;
+        dataToUpdate[key as keyof typeof parsedData] = value
       }
     }
 
     // Atualiza informações acerca da identificação no banco de dados
     await prisma.identityDetails.update({
       data: dataToUpdate,
-      where: {candidate_id: candidate.id}
+      where: { candidate_id: candidate.id },
     })
 
     return reply.status(201).send()

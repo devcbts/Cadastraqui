@@ -2,27 +2,20 @@ import { NotAllowedError } from '@/errors/not-allowed-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-export async function getBasicsCandidateInfo(
+export async function getBasicInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
   try {
-    const userType = request.user.role
-    const userId = request.user.sub
+    const user_id = request.user.sub
 
-    if (userType !== 'CANDIDATE') {
+    // Verifica se existe um candidato associado ao user_id
+    const candidate = await prisma.candidate.findUnique({ where: { user_id } })
+    if (!candidate) {
       throw new NotAllowedError()
     }
 
-    const user = await prisma.candidate.findUnique({
-      where: { user_id: userId },
-    })
-
-    if (!user) {
-      throw new NotAllowedError()
-    }
-
-    return reply.status(200).send({ user })
+    return reply.status(200).send({ candidate })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(404).send({ message: err.message })
