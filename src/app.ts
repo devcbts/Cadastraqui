@@ -13,6 +13,8 @@ import { resetPassword } from './http/controllers/users/reset-password'
 import morgan from 'morgan'
 import fastifyMulter from 'fastify-multer'
 import { multerConfig } from './lib/multer'
+import { uploadFile } from './http/services/upload-file'
+import { assistantRoutes } from './http/controllers/social-assistant/routes'
 
 export const app = fastify()
 
@@ -47,11 +49,13 @@ app.register(fastifyCookie)
 app.register(candidateRoutes, { prefix: '/candidates' })
 app.register(legalResponsibleRoutes, { prefix: '/responsibles' })
 app.register(entityRoutes, { prefix: '/entities' })
+app.register(assistantRoutes,{prefix: '/assistant'})
 
 app.post('/session', authenticate)
 app.post('/forgot_password', forgotPassword)
 app.post('/reset_password', resetPassword)
 app.patch('/token/refresh', refresh)
+
 
 app.setErrorHandler((error, _request, reply) => {
   if (error instanceof ZodError) {

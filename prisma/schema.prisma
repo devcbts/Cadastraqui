@@ -327,15 +327,18 @@ model LegalResponsible {
 }
 
 model SocialAssistant {
-  id   String @id @default(uuid())
-  name String
-  CPF  String @unique
-
+  id      String @id @default(uuid())
+  name    String
+  CPF     String @unique
+  RG      String @unique
   user    User   @relation(fields: [user_id], references: [id])
   user_id String
 
   entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
   entity_subsidiary_id String?
+
+  entity    Entity @relation(fields: [entity_id], references: [id])
+  entity_id String
 
   @@map("assistants")
 }
@@ -355,6 +358,7 @@ model Entity {
   EntitySubsidiary EntitySubsidiary[]
   EntityDirector   EntityDirector[]
   Announcement     Announcement[]
+  SocialAssistant  SocialAssistant[]
 
   @@map("entities")
 }
@@ -725,6 +729,7 @@ model Announcement {
   announcementDate     DateTime
   offeredVacancies     Int? // Only if announcementType is ScholarshipGrant
   verifiedScholarships Int? // Only if announcementType is ScholarshipGrant
+  description          String? //Caso seja desejado inserir uma descrição
   timelines            Timeline[]
   educationLevels      EducationLevel[]
 

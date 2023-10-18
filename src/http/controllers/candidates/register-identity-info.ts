@@ -1,5 +1,5 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
-import { NotFoundError } from '@/errors/resource-not-found-error'
+import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -211,7 +211,7 @@ export async function registerIdentityInfo(
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
 
     if (!candidate) {
-      throw new NotFoundError()
+      throw new ResourceNotFoundError()
     }
 
     const candidateIdentifyInfo = await prisma.identityDetails.findUnique({
@@ -277,7 +277,7 @@ export async function registerIdentityInfo(
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
     }
-    if (err instanceof NotFoundError) {
+    if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
     }
 

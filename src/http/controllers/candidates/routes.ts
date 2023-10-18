@@ -10,6 +10,7 @@ import {updateIdentityInfo} from './update-identity-candidate-info'
 import { updateBasicsCandidateInfo } from './update-basic-candidate-info'
 import { updateFamilyMemberInfo } from './update-family-member'
 import { updateHousingInfo } from './update-housing-info'
+import { uploadDocument } from './upload-documents'
 
 
 
@@ -36,4 +37,6 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.patch("/basic-info", {onRequest : [verifyJWT]}, updateBasicsCandidateInfo)
   app.patch("/family-info/:CPF?", {onRequest : [verifyJWT]}, updateFamilyMemberInfo)
   app.patch("/housing-info", {onRequest : [verifyJWT]}, updateHousingInfo)
+
+  app.post("/upload", {onRequest : [verifyJWT] }, uploadDocument)
 }
