@@ -204,20 +204,17 @@ export async function registerIdentityInfo(
   try {
     const user_id = request.user.sub
 
-    if (!user_id) {
-      throw new NotAllowedError()
-    }
-
+    // Verifica se existe um candidato associado ao user_id
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
 
     if (!candidate) {
       throw new ResourceNotFoundError()
     }
 
+    // Analisa se o candidato já possui cadastro de identificação
     const candidateIdentifyInfo = await prisma.identityDetails.findUnique({
       where: { candidate_id: candidate.id },
     })
-    // Analisa se o candidato já possui cadastro de identificação
     if (candidateIdentifyInfo) {
       throw new NotAllowedError()
     }
