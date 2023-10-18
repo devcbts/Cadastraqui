@@ -179,6 +179,7 @@ CREATE TABLE "EntitySubsidiary" (
     "address" TEXT NOT NULL,
     "educationalInstitutionCode" TEXT,
     "entity_id" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
 
     CONSTRAINT "EntitySubsidiary_pkey" PRIMARY KEY ("id")
 );
@@ -332,16 +333,16 @@ CREATE TABLE "housing" (
 -- CreateTable
 CREATE TABLE "Vehicle" (
     "id" TEXT NOT NULL,
-    "hasVehicle" BOOLEAN NOT NULL DEFAULT false,
-    "quantity" INTEGER DEFAULT 1,
-    "ownerId" TEXT NOT NULL,
     "vehicleType" "VehicleType" NOT NULL,
-    "modelAndBrand" TEXT,
-    "manufacturingYear" INTEGER,
+    "modelAndBrand" TEXT NOT NULL,
+    "manufacturingYear" INTEGER NOT NULL,
     "situation" "VehicleSituation" NOT NULL,
+    "financedMonths" INTEGER,
+    "monthsToPayOff" INTEGER,
     "hasInsurance" BOOLEAN NOT NULL DEFAULT false,
     "insuranceValue" DOUBLE PRECISION,
     "usage" "VehicleUsage" NOT NULL,
+    "owner_id" TEXT NOT NULL,
 
     CONSTRAINT "Vehicle_pkey" PRIMARY KEY ("id")
 );
@@ -581,6 +582,9 @@ CREATE UNIQUE INDEX "entities_user_id_key" ON "entities"("user_id");
 CREATE UNIQUE INDEX "EntitySubsidiary_CNPJ_key" ON "EntitySubsidiary"("CNPJ");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "EntitySubsidiary_user_id_key" ON "EntitySubsidiary"("user_id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "EntityDirector_CPF_key" ON "EntityDirector"("CPF");
 
 -- CreateIndex
@@ -600,12 +604,6 @@ CREATE UNIQUE INDEX "IdentityDetails_candidate_id_key" ON "IdentityDetails"("can
 
 -- CreateIndex
 CREATE UNIQUE INDEX "IdentityDetails_responsible_id_key" ON "IdentityDetails"("responsible_id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "familyMembers_CPF_key" ON "familyMembers"("CPF");
-
--- CreateIndex
-CREATE UNIQUE INDEX "familyMembers_RG_key" ON "familyMembers"("RG");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "housing_candidate_id_key" ON "housing"("candidate_id");
@@ -630,6 +628,9 @@ ALTER TABLE "entities" ADD CONSTRAINT "entities_user_id_fkey" FOREIGN KEY ("user
 
 -- AddForeignKey
 ALTER TABLE "EntitySubsidiary" ADD CONSTRAINT "EntitySubsidiary_entity_id_fkey" FOREIGN KEY ("entity_id") REFERENCES "entities"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "EntitySubsidiary" ADD CONSTRAINT "EntitySubsidiary_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "EntityDirector" ADD CONSTRAINT "EntityDirector_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -662,7 +663,7 @@ ALTER TABLE "housing" ADD CONSTRAINT "housing_candidate_id_fkey" FOREIGN KEY ("c
 ALTER TABLE "housing" ADD CONSTRAINT "housing_responsible_id_fkey" FOREIGN KEY ("responsible_id") REFERENCES "responsibles"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Vehicle" ADD CONSTRAINT "Vehicle_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "familyMembers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Vehicle" ADD CONSTRAINT "Vehicle_owner_id_fkey" FOREIGN KEY ("owner_id") REFERENCES "familyMembers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "FamilyMemberIncome" ADD CONSTRAINT "FamilyMemberIncome_familyMemberId_fkey" FOREIGN KEY ("familyMemberId") REFERENCES "familyMembers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
