@@ -285,14 +285,13 @@ model User {
   password String
   role     ROLE   @default(CANDIDATE)
 
-  createdAt                   DateTime                     @default(now())
-  Candidate                   Candidate[]
-  LegalResponsible            LegalResponsible[]
-  Entity                      Entity[]
-  SocialAssistant             SocialAssistant[]
-  EntityDirector              EntityDirector[]
-  SelectionProcessResponsible SelectionProcessResponsible?
-  EntitySubsidiary            EntitySubsidiary[]
+  createdAt        DateTime           @default(now())
+  Candidate        Candidate[]
+  LegalResponsible LegalResponsible[]
+  Entity           Entity[]
+  SocialAssistant  SocialAssistant[]
+  EntityDirector   EntityDirector[]
+  EntitySubsidiary EntitySubsidiary[]
 
   @@map("users")
 }
@@ -336,7 +335,7 @@ model SocialAssistant {
   phone String
 
   user    User   @relation(fields: [user_id], references: [id])
-  user_id String
+  user_id String @unique
 
   entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
   entity_subsidiary_id String?
@@ -384,10 +383,9 @@ model EntitySubsidiary {
   user    User   @relation(fields: [user_id], references: [id])
   user_id String @unique
 
-  EntityDirector              EntityDirector[]
-  SelectionProcessResponsible SelectionProcessResponsible[]
-  SocialAssistant             SocialAssistant[]
-  Announcement                Announcement[]
+  EntityDirector  EntityDirector[]
+  SocialAssistant SocialAssistant[]
+  Announcement    Announcement[]
 }
 
 model EntityDirector {
@@ -405,19 +403,6 @@ model EntityDirector {
 
   entity    Entity? @relation(fields: [entity_id], references: [id])
   entity_id String?
-}
-
-model SelectionProcessResponsible {
-  id    String @id @default(uuid())
-  name  String
-  CPF   String @unique
-  phone String
-
-  user    User   @relation(fields: [user_id], references: [id])
-  user_id String @unique
-
-  entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
-  entity_subsidiary_id String?
 }
 
 model IdentityDetails {
@@ -580,6 +565,9 @@ enum EmploymentType {
   PENSIONER
   APPRENTICE_INTERN
   TEMPORARY_DISABILITY_BENEFIT
+  MEI
+  UNEMPLOYED
+  ENTREPRENEUR
 }
 
 model FamilyMemberIncome {
@@ -598,6 +586,11 @@ model FamilyMemberIncome {
 
   familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
   familyMember_id String
+
+  MEI MEI? // Se for MEI criar um MEI
+
+  Entrepreneur Entrepreneur? // Se for um Empresário
+  Unemployed   Unemployed?  // Se for Desempregado
 }
 
 model Salary {
@@ -609,6 +602,7 @@ model Salary {
   familyMemberIncome_id String
 }
 
+// Renda Mensal de cada familiar
 model MonthlyIncome {
   id                        String   @id @default(uuid())
   month                     String
@@ -630,6 +624,51 @@ model MonthlyIncome {
 
   familyMemberIncome    FamilyMemberIncome @relation(fields: [familyMemberIncome_id], references: [id])
   familyMemberIncome_id String
+  MEI                   MEI?               @relation(fields: [mEIId], references: [id])
+  mEIId                 String?
+}
+
+model MEI {
+  id                   String             @id @default(uuid())
+  startDate            DateTime // Data de início das atividades
+  CNPJ                 String
+  incomes              MonthlyIncome[] // Monthly incomes (usar apenas alguns dos fields, objetivo é obter renda bruta)
+  avgIncome            Float? // Só será calculado depois de serem colocadas as MonthlyIncome
+  FamilyMemberIncome   FamilyMemberIncome @relation(fields: [familyMemberIncomeId], references: [id])
+  familyMemberIncomeId String             @unique
+}
+
+model Entrepreneur {
+  id                   String             @id @default(uuid())
+  startDate            DateTime // Data de início das atividades
+  companyName          String // Razão social
+  tradeName            String? // Nome fantasia
+  CNPJ                 String
+  incomes              ProLabore[] // Monthly pró-labore and dividends
+  avgIncome            Float? // Só será calculado depois de serem colocadas as MonthlyIncome
+  FamilyMemberIncome   FamilyMemberIncome @relation(fields: [familyMemberIncomeId], references: [id])
+  familyMemberIncomeId String             @unique
+}
+
+model Unemployed {
+  id                   String             @id @default(uuid())
+  receivesUnemployment Boolean // Recebe seguro-desemprego?
+  parcels              Int? // Quantidade de parcelas
+  firstParcelDate      DateTime? // Data de recebimento da primeira parcela
+  parcelValue          Float[] // Valor de cada parcela
+  FamilyMemberIncome   FamilyMemberIncome @relation(fields: [familyMemberIncomeId], references: [id])
+  familyMemberIncomeId String             @unique
+}
+
+model ProLabore {
+  id           String       @id @default(uuid())
+  month        Int // Mês
+  year         Int // Ano
+  proLabore    Float // Valor do pró-labore
+  dividends    Float // Valor dos dividendos
+  total        Float // Total (proLabore + dividends)
+  Entrepreneur Entrepreneur @relation(fields: [empresarioId], references: [id])
+  empresarioId String
 }
 
 model Expense {
@@ -757,7 +796,7 @@ model Announcement {
   entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
   entity_subsidiary_id String?
   Application          Application[]
-  socialAssistant      SocialAssistant[]  
+  socialAssistant      SocialAssistant[]
 }
 
 model Timeline {

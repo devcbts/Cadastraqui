@@ -40,3 +40,26 @@ export async function uploadToS3(filePath: string, fileName: string) {
 
 // Exemplo de uso:
 // uploadToS3('path/to/your/file.jpg', 'desiredNameInS3.jpg');
+
+export async function downloadFromS3(fileNameInBucket: string, localSavePath: string) {
+    const fs = require('fs');
+    const params = {
+        Bucket: bucketName!,
+        Key: fileNameInBucket
+    };
+
+    try {
+        const fileStream = s3.getObject(params).createReadStream();
+        const writeStream = fs.createWriteStream(localSavePath);
+        fileStream.pipe(writeStream);
+
+        return new Promise((resolve, reject) => {
+            writeStream.on('finish', resolve);
+            writeStream.on('error', reject);
+            fileStream.on('error', reject);
+        });
+    } catch (error: any) {
+        console.error("Error downloading file:", error);
+        throw error;
+    }
+}

@@ -1,34 +1,27 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
+import { downloadFile } from '@/http/services/download-file'
 import { uploadFile } from '@/http/services/upload-file'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function uploadDocument(
+export async function downloadDocument(
     request: FastifyRequest,
     reply: FastifyReply
 ) {
     const uploadDocumentSchema = z.object({
-        documentPath: z.string(),
-        documentFolder: z.string(),
+        fileNameInBucket: z.string(),
+        localSavePath: z.string(),
     })
 
     const {
-        documentPath,
-        documentFolder
+        fileNameInBucket,
+        localSavePath
     } = uploadDocumentSchema.parse(request.body)
-    try {
-        const user_id = request.user.sub
-
-        // Verifica se existe um candidato associado ao user_id
-        const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-        if (!candidate) {
-            throw new ResourceNotFoundError()
-        }
-
-        const Folder = `CandidatesDocuments/${user_id}`
-        uploadFile(documentPath, Folder)
+    try 
+    {
+        downloadFile(fileNameInBucket, localSavePath)
         reply.status(201).send()
     } catch (error) {
         return reply.status(400).send()

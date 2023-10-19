@@ -11,6 +11,8 @@ import { updateBasicInfo } from './update-basic-info'
 import { updateFamilyMemberInfo } from './update-family-member'
 import { updateHousingInfo } from './update-housing-info'
 import { uploadDocument } from './upload-documents'
+import { downloadFile } from '@/http/services/download-file'
+import { downloadDocument } from './download-documents'
 
 export async function candidateRoutes(app: FastifyInstance) {
   /** Basic Info */
@@ -33,14 +35,12 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     registerFamilyMemberInfo,
   )
-  app.patch('/identity-info', { onRequest: [verifyJWT] }, updateIdentityInfo)
-  app.patch('/basic-info', { onRequest: [verifyJWT] }, updateBasicInfo)
   app.patch(
     '/family-info/:CPF?',
     { onRequest: [verifyJWT] },
     updateFamilyMemberInfo,
   )
-  app.patch('/housing-info', { onRequest: [verifyJWT] }, updateHousingInfo)
 
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
+  app.post('/download', { onRequest: [verifyJWT] }, downloadDocument)
 }

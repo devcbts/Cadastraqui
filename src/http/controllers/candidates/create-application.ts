@@ -5,18 +5,21 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
 
-enum ApplicationStatus {
-  "Approved",
-  "Rejected",
-  "Pending"
-  // Add other statuses as needed
-}
 
 
 export async function subscribeAnnouncement(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+
+  const ApplicationStatus  = z.enum([
+    "Approved",
+    "Rejected",
+    "Pending"
+    // Add other statuses as needed
+  ])
+  
+
   const createBodySchema = z.object({
     announcement_id: z.string(),
 
