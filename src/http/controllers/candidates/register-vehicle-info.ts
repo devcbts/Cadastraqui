@@ -1,3 +1,4 @@
+import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -51,12 +52,11 @@ export async function registerVehicleInfo(
     }
 
     // Verifica se existe um familiar cadastrado com o owner_id
-
-    const vehicleOwner = await prisma.familyMember.findFirst({
-      where: { candidate_id: candidate.id, id: owner_id },
+    const familyMember = await prisma.familyMember.findUnique({
+      where: { id: owner_id },
     })
-    if (!vehicleOwner) {
-      throw new ResourceNotFoundError()
+    if (!familyMember) {
+      throw new NotAllowedError()
     }
 
     // Armazena informações acerca do veículo no banco de dados
@@ -79,6 +79,9 @@ export async function registerVehicleInfo(
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
+    }
+    if (err instanceof NotAllowedError) {
+      return reply.status(401).send({ message: err.message })
     }
 
     return reply.status(500).send({ message: err.message })

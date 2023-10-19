@@ -275,6 +275,7 @@ model Candidate {
   Housing         Housing[]
   IdentityDetails IdentityDetails[]
   Application     Application[]
+  Expense         Expense[]
 
   @@map("candidates")
 }
@@ -530,7 +531,6 @@ model FamilyMember {
   FamilyMemberDisease FamilyMemberDisease[]
   FamilyMemberIncome  FamilyMemberIncome[]
   Vehicle             Vehicle[]
-  Expense             Expense[]
   Medication          Medication[]
 
   @@map("familyMembers")
@@ -664,8 +664,8 @@ model Expense {
   otherExpenses       Float?
   totalExpense        Float?
 
-  familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
-  familyMember_id String
+  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+  candidate_id String
 }
 
 model Loan {
@@ -720,7 +720,7 @@ model FamilyMemberDisease {
   hasMedicalReport Boolean
 
   familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
-  familyMember_id String 
+  familyMember_id String
 
   @@map("familyMemberDiseases")
 }
@@ -757,7 +757,7 @@ model Announcement {
   entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
   entity_subsidiary_id String?
   Application          Application[]
-  socialAssistant      SocialAssistant[]  
+  socialAssistant      SocialAssistant[]
 }
 
 model Timeline {

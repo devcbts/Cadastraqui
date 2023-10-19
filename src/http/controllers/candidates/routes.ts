@@ -11,8 +11,16 @@ import { updateBasicInfo } from './update-basic-info'
 import { updateFamilyMemberInfo } from './update-family-member'
 import { updateHousingInfo } from './update-housing-info'
 import { uploadDocument } from './upload-documents'
+import { getHousingInfo } from './get-housing-info'
+import { getFamilyMemberInfo } from './get-family-member-info'
+import { getHealthInfo } from './get-health-info'
+import { registerHealthInfo } from './register-health-info'
+import { getVehicleInfo } from './get-vehicle-info'
+import { registerVehicleInfo } from './register-vehicle-info'
 
 export async function candidateRoutes(app: FastifyInstance) {
+  app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
+
   /** Basic Info */
   app.post('/', registerCandidate)
   app.get('/basic-info', { onRequest: [verifyJWT] }, getBasicInfo)
@@ -24,23 +32,36 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.patch('/identity-info', { onRequest: [verifyJWT] }, updateIdentityInfo)
 
   /** Housing Info */
+  app.get('/housing-info', { onRequest: [verifyJWT] }, getHousingInfo)
   app.post('/housing-info', { onRequest: [verifyJWT] }, registerHousingInfo)
   app.patch('/housing-info', { onRequest: [verifyJWT] }, updateHousingInfo)
 
   /** Family Member Info */
+  app.get(
+    '/family-member/:_id?',
+    { onRequest: [verifyJWT] },
+    getFamilyMemberInfo,
+  )
   app.post(
     '/family-member',
     { onRequest: [verifyJWT] },
     registerFamilyMemberInfo,
   )
-  app.patch('/identity-info', { onRequest: [verifyJWT] }, updateIdentityInfo)
-  app.patch('/basic-info', { onRequest: [verifyJWT] }, updateBasicInfo)
   app.patch(
     '/family-info/:CPF?',
     { onRequest: [verifyJWT] },
     updateFamilyMemberInfo,
   )
-  app.patch('/housing-info', { onRequest: [verifyJWT] }, updateHousingInfo)
 
-  app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
+  /** Health Info */
+  app.get('/health-info', { onRequest: [verifyJWT] }, getHealthInfo)
+  app.post('/health-info/:_id', { onRequest: [verifyJWT] }, registerHealthInfo)
+
+  /** Vehicle Info */
+  app.get('/vehicle-info', { onRequest: [verifyJWT] }, getVehicleInfo)
+  app.post(
+    '/vehicle-info/:_id',
+    { onRequest: [verifyJWT] },
+    registerVehicleInfo,
+  )
 }

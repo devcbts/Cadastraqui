@@ -1,9 +1,10 @@
+import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FamilyMember } from '@prisma/client'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-export async function getVehicleInfo(
+export async function getHealthInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
@@ -24,24 +25,24 @@ export async function getVehicleInfo(
     })
 
     async function fetchData(familyMembers: FamilyMember[]) {
-      const vehicleInfoResults = []
+      const healthInfoResults = []
       for (const familyMember of familyMembers) {
         try {
-          const vehicleInfo = await prisma.vehicle.findMany({
-            where: { owner_id: familyMember.id },
+          const healthInfo = await prisma.familyMemberDisease.findMany({
+            where: { familyMember_id: familyMember.id },
           })
 
-          vehicleInfoResults.push({ name: familyMember.fullName, vehicleInfo })
+          healthInfoResults.push({ name: familyMember.fullName, healthInfo })
         } catch (error) {
           throw new ResourceNotFoundError()
         }
       }
-      return vehicleInfoResults
+      return healthInfoResults
     }
 
-    const vehicleInfoResults = await fetchData(familyMembers)
+    const healthInfoResults = await fetchData(familyMembers)
 
-    return reply.status(200).send({ vehicleInfoResults })
+    return reply.status(200).send({ healthInfoResults })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

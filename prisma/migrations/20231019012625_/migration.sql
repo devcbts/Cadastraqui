@@ -68,6 +68,9 @@ CREATE TYPE "Disease" AS ENUM ('ALIENATION_MENTAL', 'CARDIOPATHY_SEVERE', 'BLIND
 CREATE TYPE "ScholarshipType" AS ENUM ('integralScholarchip', 'halfScholarchip');
 
 -- CreateEnum
+CREATE TYPE "EmploymentType" AS ENUM ('PRIVATE_EMPLOYEE_CLT', 'PUBLIC_EMPLOYEE', 'DOMESTIC_EMPLOYEE', 'TEMPORARY_RURAL_WORKER', 'RETIRED', 'PENSIONER', 'APPRENTICE_INTERN', 'TEMPORARY_DISABILITY_BENEFIT');
+
+-- CreateEnum
 CREATE TYPE "AnnouncementType" AS ENUM ('ScholarshipGrant', 'PeriodicVerification');
 
 -- CreateEnum
@@ -84,6 +87,9 @@ CREATE TYPE "HigherEducationScholarshipType" AS ENUM ('PROUNIFull', 'PROUNIParti
 
 -- CreateEnum
 CREATE TYPE "OfferedCourseType" AS ENUM ('UndergraduateBachelor', 'UndergraduateLicense', 'UndergraduateTechnologist');
+
+-- CreateEnum
+CREATE TYPE "ApplicationStatus" AS ENUM ('Approved', 'Rejected', 'Pending');
 
 -- CreateTable
 CREATE TABLE "candidates" (
@@ -148,8 +154,12 @@ CREATE TABLE "assistants" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "CPF" TEXT NOT NULL,
+    "RG" TEXT NOT NULL,
+    "CRESS" TEXT NOT NULL,
+    "phone" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
     "entity_subsidiary_id" TEXT,
+    "entity_id" TEXT NOT NULL,
 
     CONSTRAINT "assistants_pkey" PRIMARY KEY ("id")
 );
@@ -351,14 +361,14 @@ CREATE TABLE "Vehicle" (
 CREATE TABLE "FamilyMemberIncome" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "occupation" TEXT NOT NULL,
+    "occupation" "EmploymentType" NOT NULL,
     "hiringDate" TIMESTAMP(3) NOT NULL,
     "position" TEXT NOT NULL,
     "payerDetails" TEXT NOT NULL,
     "employerOrGovernment" TEXT NOT NULL,
     "employerPhone" TEXT NOT NULL,
     "receivesOvertime" BOOLEAN NOT NULL,
-    "familyMemberId" TEXT NOT NULL,
+    "familyMember_id" TEXT NOT NULL,
 
     CONSTRAINT "FamilyMemberIncome_pkey" PRIMARY KEY ("id")
 );
@@ -366,9 +376,9 @@ CREATE TABLE "FamilyMemberIncome" (
 -- CreateTable
 CREATE TABLE "Salary" (
     "id" TEXT NOT NULL,
-    "familyMemberIncomeId" TEXT NOT NULL,
-    "value" DECIMAL(65,30),
+    "value" TEXT,
     "index" INTEGER NOT NULL,
+    "familyMemberIncome_id" TEXT NOT NULL,
 
     CONSTRAINT "Salary_pkey" PRIMARY KEY ("id")
 );
@@ -376,29 +386,23 @@ CREATE TABLE "Salary" (
 -- CreateTable
 CREATE TABLE "MonthlyIncome" (
     "id" TEXT NOT NULL,
-    "familyMemberIncomeId" TEXT NOT NULL,
     "month" TEXT NOT NULL,
     "year" TEXT NOT NULL,
     "grossAmount" DECIMAL(65,30) NOT NULL,
+    "liquidAmount" DECIMAL(65,30) NOT NULL,
     "hadDeduction" BOOLEAN NOT NULL,
     "deductionValue" DECIMAL(65,30),
     "publicPension" DECIMAL(65,30),
     "incomeTax" DECIMAL(65,30),
     "otherDeductions" DECIMAL(65,30),
-    "foodAllowance" BOOLEAN NOT NULL,
     "foodAllowanceValue" DECIMAL(65,30),
-    "transportAllowance" BOOLEAN NOT NULL,
     "transportAllowanceValue" DECIMAL(65,30),
-    "expenseReimbursement" BOOLEAN NOT NULL,
     "expenseReimbursementValue" DECIMAL(65,30),
-    "advancePayment" BOOLEAN NOT NULL,
     "advancePaymentValue" DECIMAL(65,30),
-    "reversals" BOOLEAN NOT NULL,
     "reversalValue" DECIMAL(65,30),
-    "compensation" BOOLEAN NOT NULL,
     "compensationValue" DECIMAL(65,30),
-    "judicialPension" BOOLEAN NOT NULL,
     "judicialPensionValue" DECIMAL(65,30),
+    "familyMemberIncome_id" TEXT NOT NULL,
 
     CONSTRAINT "MonthlyIncome_pkey" PRIMARY KEY ("id")
 );
@@ -435,7 +439,7 @@ CREATE TABLE "Expense" (
     "medicationExpenses" DOUBLE PRECISION,
     "otherExpenses" DOUBLE PRECISION,
     "totalExpense" DOUBLE PRECISION,
-    "familyMember_id" TEXT NOT NULL,
+    "candidate_id" TEXT NOT NULL,
 
     CONSTRAINT "Expense_pkey" PRIMARY KEY ("id")
 );
@@ -494,10 +498,10 @@ CREATE TABLE "OtherExpense" (
 -- CreateTable
 CREATE TABLE "familyMemberDiseases" (
     "id" TEXT NOT NULL,
-    "familyMember_id" TEXT NOT NULL,
     "disease" "Disease" NOT NULL,
     "specificDisease" TEXT,
     "hasMedicalReport" BOOLEAN NOT NULL,
+    "familyMember_id" TEXT NOT NULL,
 
     CONSTRAINT "familyMemberDiseases_pkey" PRIMARY KEY ("id")
 );
@@ -505,10 +509,10 @@ CREATE TABLE "familyMemberDiseases" (
 -- CreateTable
 CREATE TABLE "medications" (
     "id" TEXT NOT NULL,
-    "familyMemberDisease_id" TEXT NOT NULL,
     "medicationName" TEXT NOT NULL,
     "obtainedPublicly" BOOLEAN NOT NULL,
     "specificMedicationPublicly" TEXT,
+    "familyMember_id" TEXT NOT NULL,
 
     CONSTRAINT "medications_pkey" PRIMARY KEY ("id")
 );
@@ -523,6 +527,7 @@ CREATE TABLE "Announcement" (
     "announcementDate" TIMESTAMP(3) NOT NULL,
     "offeredVacancies" INTEGER,
     "verifiedScholarships" INTEGER,
+    "description" TEXT,
     "entity_id" TEXT NOT NULL,
     "entity_subsidiary_id" TEXT,
 
@@ -554,6 +559,33 @@ CREATE TABLE "EducationLevel" (
     CONSTRAINT "EducationLevel_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Application" (
+    "id" TEXT NOT NULL,
+    "candidate_id" TEXT NOT NULL,
+    "announcement_id" TEXT NOT NULL,
+    "status" "ApplicationStatus" NOT NULL,
+    "socialAssistant_id" TEXT,
+
+    CONSTRAINT "Application_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ApplicationHistory" (
+    "id" TEXT NOT NULL,
+    "application_id" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "ApplicationHistory_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "_AnnouncementToSocialAssistant" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "candidates_CPF_key" ON "candidates"("CPF");
 
@@ -571,6 +603,12 @@ CREATE UNIQUE INDEX "responsibles_user_id_key" ON "responsibles"("user_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "assistants_CPF_key" ON "assistants"("CPF");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "assistants_RG_key" ON "assistants"("RG");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "assistants_CRESS_key" ON "assistants"("CRESS");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "entities_CNPJ_key" ON "entities"("CNPJ");
@@ -608,6 +646,12 @@ CREATE UNIQUE INDEX "IdentityDetails_responsible_id_key" ON "IdentityDetails"("r
 -- CreateIndex
 CREATE UNIQUE INDEX "housing_candidate_id_key" ON "housing"("candidate_id");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "_AnnouncementToSocialAssistant_AB_unique" ON "_AnnouncementToSocialAssistant"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_AnnouncementToSocialAssistant_B_index" ON "_AnnouncementToSocialAssistant"("B");
+
 -- AddForeignKey
 ALTER TABLE "candidates" ADD CONSTRAINT "candidates_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
@@ -622,6 +666,9 @@ ALTER TABLE "assistants" ADD CONSTRAINT "assistants_user_id_fkey" FOREIGN KEY ("
 
 -- AddForeignKey
 ALTER TABLE "assistants" ADD CONSTRAINT "assistants_entity_subsidiary_id_fkey" FOREIGN KEY ("entity_subsidiary_id") REFERENCES "EntitySubsidiary"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "assistants" ADD CONSTRAINT "assistants_entity_id_fkey" FOREIGN KEY ("entity_id") REFERENCES "entities"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "entities" ADD CONSTRAINT "entities_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -666,16 +713,16 @@ ALTER TABLE "housing" ADD CONSTRAINT "housing_responsible_id_fkey" FOREIGN KEY (
 ALTER TABLE "Vehicle" ADD CONSTRAINT "Vehicle_owner_id_fkey" FOREIGN KEY ("owner_id") REFERENCES "familyMembers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "FamilyMemberIncome" ADD CONSTRAINT "FamilyMemberIncome_familyMemberId_fkey" FOREIGN KEY ("familyMemberId") REFERENCES "familyMembers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "FamilyMemberIncome" ADD CONSTRAINT "FamilyMemberIncome_familyMember_id_fkey" FOREIGN KEY ("familyMember_id") REFERENCES "familyMembers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Salary" ADD CONSTRAINT "Salary_familyMemberIncomeId_fkey" FOREIGN KEY ("familyMemberIncomeId") REFERENCES "FamilyMemberIncome"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Salary" ADD CONSTRAINT "Salary_familyMemberIncome_id_fkey" FOREIGN KEY ("familyMemberIncome_id") REFERENCES "FamilyMemberIncome"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "MonthlyIncome" ADD CONSTRAINT "MonthlyIncome_familyMemberIncomeId_fkey" FOREIGN KEY ("familyMemberIncomeId") REFERENCES "FamilyMemberIncome"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "MonthlyIncome" ADD CONSTRAINT "MonthlyIncome_familyMemberIncome_id_fkey" FOREIGN KEY ("familyMemberIncome_id") REFERENCES "FamilyMemberIncome"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Expense" ADD CONSTRAINT "Expense_familyMember_id_fkey" FOREIGN KEY ("familyMember_id") REFERENCES "familyMembers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Expense" ADD CONSTRAINT "Expense_candidate_id_fkey" FOREIGN KEY ("candidate_id") REFERENCES "candidates"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Loan" ADD CONSTRAINT "Loan_familyMember_id_fkey" FOREIGN KEY ("familyMember_id") REFERENCES "familyMembers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -693,7 +740,7 @@ ALTER TABLE "OtherExpense" ADD CONSTRAINT "OtherExpense_familyMember_id_fkey" FO
 ALTER TABLE "familyMemberDiseases" ADD CONSTRAINT "familyMemberDiseases_familyMember_id_fkey" FOREIGN KEY ("familyMember_id") REFERENCES "familyMembers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "medications" ADD CONSTRAINT "medications_familyMemberDisease_id_fkey" FOREIGN KEY ("familyMemberDisease_id") REFERENCES "familyMemberDiseases"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "medications" ADD CONSTRAINT "medications_familyMember_id_fkey" FOREIGN KEY ("familyMember_id") REFERENCES "familyMembers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Announcement" ADD CONSTRAINT "Announcement_entity_id_fkey" FOREIGN KEY ("entity_id") REFERENCES "entities"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -706,3 +753,21 @@ ALTER TABLE "Timeline" ADD CONSTRAINT "Timeline_announcementId_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "EducationLevel" ADD CONSTRAINT "EducationLevel_announcementId_fkey" FOREIGN KEY ("announcementId") REFERENCES "Announcement"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Application" ADD CONSTRAINT "Application_candidate_id_fkey" FOREIGN KEY ("candidate_id") REFERENCES "candidates"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Application" ADD CONSTRAINT "Application_announcement_id_fkey" FOREIGN KEY ("announcement_id") REFERENCES "Announcement"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Application" ADD CONSTRAINT "Application_socialAssistant_id_fkey" FOREIGN KEY ("socialAssistant_id") REFERENCES "assistants"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ApplicationHistory" ADD CONSTRAINT "ApplicationHistory_application_id_fkey" FOREIGN KEY ("application_id") REFERENCES "Application"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_AnnouncementToSocialAssistant" ADD CONSTRAINT "_AnnouncementToSocialAssistant_A_fkey" FOREIGN KEY ("A") REFERENCES "Announcement"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_AnnouncementToSocialAssistant" ADD CONSTRAINT "_AnnouncementToSocialAssistant_B_fkey" FOREIGN KEY ("B") REFERENCES "assistants"("id") ON DELETE CASCADE ON UPDATE CASCADE;

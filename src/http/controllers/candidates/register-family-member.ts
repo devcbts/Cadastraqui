@@ -1,4 +1,3 @@
-import { FamilyMemberAlreadyExistsError } from '@/errors/family-member-already-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
@@ -218,14 +217,14 @@ export async function registerFamilyMemberInfo(
         where: { CPF, candidate_id: candidate.id },
       })
     ) {
-      throw new FamilyMemberAlreadyExistsError()
+      throw new NotAllowedError()
     }
     if (
       await prisma.familyMember.findFirst({
         where: { RG, candidate_id: candidate.id },
       })
     ) {
-      throw new FamilyMemberAlreadyExistsError()
+      throw new NotAllowedError()
     }
 
     // Armazena informações acerca do membro da família do candidato
@@ -284,11 +283,11 @@ export async function registerFamilyMemberInfo(
 
     return reply.status(201).send()
   } catch (err: any) {
+    if (err instanceof NotAllowedError) {
+      return reply.status(401).send({ message: err.message })
+    }
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
-    }
-    if (err instanceof FamilyMemberAlreadyExistsError) {
-      return reply.status(409).send({ message: err.message })
     }
 
     return reply.status(500).send({ message: err.message })
