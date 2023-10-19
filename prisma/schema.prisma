@@ -274,6 +274,7 @@ model Candidate {
   FamillyMember   FamilyMember[]
   Housing         Housing[]
   IdentityDetails IdentityDetails[]
+  Application     Application[]
 
   @@map("candidates")
 }
@@ -327,18 +328,23 @@ model LegalResponsible {
 }
 
 model SocialAssistant {
-  id      String @id @default(uuid())
-  name    String
-  CPF     String @unique
-  RG      String @unique
+  id    String @id @default(uuid())
+  name  String
+  CPF   String @unique
+  RG    String @unique
+  CRESS String @unique
+  phone String
+
   user    User   @relation(fields: [user_id], references: [id])
   user_id String
 
   entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
   entity_subsidiary_id String?
 
-  entity    Entity @relation(fields: [entity_id], references: [id])
-  entity_id String
+  entity       Entity         @relation(fields: [entity_id], references: [id])
+  entity_id    String
+  Application  Application[]
+  Announcement Announcement[]
 
   @@map("assistants")
 }
@@ -750,6 +756,8 @@ model Announcement {
 
   entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
   entity_subsidiary_id String?
+  Application          Application[]
+  socialAssistant      SocialAssistant[]  
 }
 
 model Timeline {
@@ -813,4 +821,32 @@ enum OfferedCourseType {
   UndergraduateBachelor
   UndergraduateLicense
   UndergraduateTechnologist
+}
+
+//Inscrição no processo seletivo
+model Application {
+  id                   String               @id @default(uuid())
+  candidate            Candidate            @relation(fields: [candidate_id], references: [id])
+  candidate_id         String
+  announcement         Announcement         @relation(fields: [announcement_id], references: [id])
+  announcement_id      String
+  status               ApplicationStatus
+  applicationHistories ApplicationHistory[]
+  SocialAssistant      SocialAssistant?     @relation(fields: [socialAssistant_id], references: [id])
+  socialAssistant_id   String?
+}
+
+model ApplicationHistory {
+  id             String      @id @default(uuid())
+  application    Application @relation(fields: [application_id], references: [id])
+  application_id String
+  description    String // Description of the history event
+  date           DateTime    @default(now())
+}
+
+enum ApplicationStatus {
+  Approved
+  Rejected
+  Pending
+  // Add other statuses as needed
 }
