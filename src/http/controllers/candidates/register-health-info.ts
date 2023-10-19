@@ -1,3 +1,4 @@
+import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -33,11 +34,18 @@ export async function registerHealthInfo(
     disease: DiseaseType,
     specificDisease: z.string().optional(),
     hasMedicalReport: z.boolean(),
-    familyMember_id: z.string(),
   })
 
-  const { disease, familyMember_id, hasMedicalReport, specificDisease } =
-    healthDataSchema.parse(request.body)
+  const healthParamsSchema = z.object({
+    _id: z.string(),
+  })
+
+  // _id === familyMemberId
+  const { _id } = healthParamsSchema.parse(request.params)
+
+  const { disease, hasMedicalReport, specificDisease } = healthDataSchema.parse(
+    request.body,
+  )
 
   try {
     const user_id = request.user.sub
@@ -49,18 +57,18 @@ export async function registerHealthInfo(
     }
 
     // Verifica se existe um familiar cadastrado com o family_member_id
-    const familyMember = await prisma.familyMember.findFirst({
-      where: { candidate_id: candidate.id, id: familyMember_id },
+    const familyMember = await prisma.familyMember.findUnique({
+      where: { id: _id },
     })
     if (!familyMember) {
-      throw new ResourceNotFoundError()
+      throw new NotAllowedError()
     }
 
     // Armazena informações acerca do veículo no banco de dados
     await prisma.familyMemberDisease.create({
       data: {
         hasMedicalReport,
-        familyMember_id,
+        familyMember_id: _id,
         disease,
         specificDisease,
       },
@@ -70,6 +78,9 @@ export async function registerHealthInfo(
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
+    }
+    if (err instanceof NotAllowedError) {
+      return reply.status(401).send({ message: err.message })
     }
 
     return reply.status(500).send({ message: err.message })

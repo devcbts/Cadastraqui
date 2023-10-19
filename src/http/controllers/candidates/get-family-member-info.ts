@@ -33,7 +33,7 @@ export async function getFamilyMemberInfo(
       return reply.status(200).send({ familyMembers })
     } else {
       const familyMember = await prisma.familyMember.findUnique({
-        where: { id: _id, candidate_id: candidate.id },
+        where: { id: _id },
       })
       return reply.status(200).send({ familyMember })
     }
