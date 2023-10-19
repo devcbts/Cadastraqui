@@ -20,6 +20,11 @@ export async function deleteEntity(
       throw new EntityNotExistsError()
     }
 
+    await prisma.entityDirector.deleteMany({ where: { entity_id: entity.id } })
+    await prisma.entitySubsidiary.deleteMany({
+      where: { entity_id: entity.id },
+    })
+
     await prisma.entity.delete({ where: { id: _id } })
 
     await prisma.user.delete({ where: { id: entity.user_id } })

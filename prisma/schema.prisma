@@ -275,7 +275,6 @@ model Candidate {
   Housing         Housing[]
   IdentityDetails IdentityDetails[]
   Application     Application[]
-  Expense         Expense[]
 
   @@map("candidates")
 }
@@ -532,6 +531,7 @@ model FamilyMember {
   FamilyMemberIncome  FamilyMemberIncome[]
   Vehicle             Vehicle[]
   Medication          Medication[]
+  Expense             Expense[]
 
   @@map("familyMembers")
 }
@@ -588,10 +588,11 @@ model FamilyMemberIncome {
   occupation           EmploymentType
   hiringDate           DateTime
   position             String
-  payerDetails         String
   employerOrGovernment String
   employerPhone        String
   receivesOvertime     Boolean
+
+  AverageIncome String
 
   salaries       Salary[]
   monthlyIncomes MonthlyIncome[]
@@ -615,7 +616,6 @@ model MonthlyIncome {
   year                      String
   grossAmount               Decimal // Renda bruta
   liquidAmount              Decimal // Renda trabalho assalariado
-  hadDeduction              Boolean
   deductionValue            Decimal?
   publicPension             Decimal?
   incomeTax                 Decimal?
@@ -664,8 +664,8 @@ model Expense {
   otherExpenses       Float?
   totalExpense        Float?
 
-  candidate    Candidate @relation(fields: [candidate_id], references: [id])
-  candidate_id String
+  familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
+  familyMember_id String
 }
 
 model Loan {
@@ -694,21 +694,23 @@ model Financing {
 }
 
 model CreditCard {
-  id               String       @id @default(uuid())
+  id               String @id @default(uuid())
   familyMemberName String
   usersCount       Int
   cardType         String
   bankName         String
   cardFlag         String
   invoiceValue     Float
-  familyMember     FamilyMember @relation(fields: [familyMember_id], references: [id])
-  familyMember_id  String
+
+  familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
+  familyMember_id String
 }
 
 model OtherExpense {
-  id              String       @id @default(uuid())
-  description     String
-  value           Float
+  id          String @id @default(uuid())
+  description String
+  value       Float
+
   familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
   familyMember_id String
 }
