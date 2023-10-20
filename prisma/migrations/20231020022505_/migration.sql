@@ -68,7 +68,7 @@ CREATE TYPE "Disease" AS ENUM ('ALIENATION_MENTAL', 'CARDIOPATHY_SEVERE', 'BLIND
 CREATE TYPE "ScholarshipType" AS ENUM ('integralScholarchip', 'halfScholarchip');
 
 -- CreateEnum
-CREATE TYPE "EmploymentType" AS ENUM ('PRIVATE_EMPLOYEE_CLT', 'PUBLIC_EMPLOYEE', 'DOMESTIC_EMPLOYEE', 'TEMPORARY_RURAL_WORKER', 'RETIRED', 'PENSIONER', 'APPRENTICE_INTERN', 'TEMPORARY_DISABILITY_BENEFIT');
+CREATE TYPE "EmploymentType" AS ENUM ('PRIVATE_EMPLOYEE_CLT', 'PUBLIC_EMPLOYEE', 'DOMESTIC_EMPLOYEE', 'TEMPORARY_RURAL_WORKER', 'RETIRED', 'PENSIONER', 'APPRENTICE_INTERN', 'TEMPORARY_DISABILITY_BENEFIT', 'MEI', 'UNEMPLOYED', 'ENTREPRENEUR');
 
 -- CreateEnum
 CREATE TYPE "AnnouncementType" AS ENUM ('ScholarshipGrant', 'PeriodicVerification');
@@ -89,7 +89,7 @@ CREATE TYPE "HigherEducationScholarshipType" AS ENUM ('PROUNIFull', 'PROUNIParti
 CREATE TYPE "OfferedCourseType" AS ENUM ('UndergraduateBachelor', 'UndergraduateLicense', 'UndergraduateTechnologist');
 
 -- CreateEnum
-CREATE TYPE "ApplicationStatus" AS ENUM ('Approved', 'Rejected', 'Pending');
+CREATE TYPE "ApplicationStatus" AS ENUM ('Approved', 'Rejected', 'Pending', 'WaitingList');
 
 -- CreateTable
 CREATE TABLE "candidates" (
@@ -158,7 +158,6 @@ CREATE TABLE "assistants" (
     "CRESS" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
-    "entity_subsidiary_id" TEXT,
     "entity_id" TEXT NOT NULL,
 
     CONSTRAINT "assistants_pkey" PRIMARY KEY ("id")
@@ -205,18 +204,6 @@ CREATE TABLE "EntityDirector" (
     "entity_id" TEXT,
 
     CONSTRAINT "EntityDirector_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "SelectionProcessResponsible" (
-    "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "CPF" TEXT NOT NULL,
-    "phone" TEXT NOT NULL,
-    "user_id" TEXT NOT NULL,
-    "entity_subsidiary_id" TEXT,
-
-    CONSTRAINT "SelectionProcessResponsible_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -364,10 +351,10 @@ CREATE TABLE "FamilyMemberIncome" (
     "occupation" "EmploymentType" NOT NULL,
     "hiringDate" TIMESTAMP(3) NOT NULL,
     "position" TEXT NOT NULL,
-    "payerDetails" TEXT NOT NULL,
     "employerOrGovernment" TEXT NOT NULL,
     "employerPhone" TEXT NOT NULL,
     "receivesOvertime" BOOLEAN NOT NULL,
+    "AverageIncome" TEXT NOT NULL,
     "familyMember_id" TEXT NOT NULL,
 
     CONSTRAINT "FamilyMemberIncome_pkey" PRIMARY KEY ("id")
@@ -390,7 +377,6 @@ CREATE TABLE "MonthlyIncome" (
     "year" TEXT NOT NULL,
     "grossAmount" DECIMAL(65,30) NOT NULL,
     "liquidAmount" DECIMAL(65,30) NOT NULL,
-    "hadDeduction" BOOLEAN NOT NULL,
     "deductionValue" DECIMAL(65,30),
     "publicPension" DECIMAL(65,30),
     "incomeTax" DECIMAL(65,30),
@@ -403,8 +389,58 @@ CREATE TABLE "MonthlyIncome" (
     "compensationValue" DECIMAL(65,30),
     "judicialPensionValue" DECIMAL(65,30),
     "familyMemberIncome_id" TEXT NOT NULL,
+    "mEIId" TEXT,
 
     CONSTRAINT "MonthlyIncome_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "MEI" (
+    "id" TEXT NOT NULL,
+    "startDate" TIMESTAMP(3) NOT NULL,
+    "CNPJ" TEXT NOT NULL,
+    "avgIncome" DOUBLE PRECISION,
+    "familyMemberIncomeId" TEXT NOT NULL,
+
+    CONSTRAINT "MEI_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Entrepreneur" (
+    "id" TEXT NOT NULL,
+    "startDate" TIMESTAMP(3) NOT NULL,
+    "companyName" TEXT NOT NULL,
+    "tradeName" TEXT,
+    "CNPJ" TEXT NOT NULL,
+    "avgIncome" DOUBLE PRECISION,
+    "familyMemberIncomeId" TEXT NOT NULL,
+
+    CONSTRAINT "Entrepreneur_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Unemployed" (
+    "id" TEXT NOT NULL,
+    "receivesUnemployment" BOOLEAN NOT NULL,
+    "parcels" INTEGER,
+    "firstParcelDate" TIMESTAMP(3),
+    "parcelValue" DOUBLE PRECISION[],
+    "familyMemberIncomeId" TEXT NOT NULL,
+
+    CONSTRAINT "Unemployed_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ProLabore" (
+    "id" TEXT NOT NULL,
+    "month" INTEGER NOT NULL,
+    "year" INTEGER NOT NULL,
+    "proLabore" DOUBLE PRECISION NOT NULL,
+    "dividends" DOUBLE PRECISION NOT NULL,
+    "total" DOUBLE PRECISION NOT NULL,
+    "empresarioId" TEXT NOT NULL,
+
+    CONSTRAINT "ProLabore_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -439,7 +475,7 @@ CREATE TABLE "Expense" (
     "medicationExpenses" DOUBLE PRECISION,
     "otherExpenses" DOUBLE PRECISION,
     "totalExpense" DOUBLE PRECISION,
-    "candidate_id" TEXT NOT NULL,
+    "familyMember_id" TEXT NOT NULL,
 
     CONSTRAINT "Expense_pkey" PRIMARY KEY ("id")
 );
@@ -554,6 +590,10 @@ CREATE TABLE "EducationLevel" (
     "higherEduScholarshipType" "HigherEducationScholarshipType",
     "offeredCourseType" "OfferedCourseType",
     "availableCourses" TEXT,
+    "offeredVacancies" INTEGER,
+    "verifiedScholarships" INTEGER,
+    "shift" "SHIFT",
+    "semester" INTEGER,
     "announcementId" TEXT NOT NULL,
 
     CONSTRAINT "EducationLevel_pkey" PRIMARY KEY ("id")
@@ -566,6 +606,7 @@ CREATE TABLE "Application" (
     "announcement_id" TEXT NOT NULL,
     "status" "ApplicationStatus" NOT NULL,
     "socialAssistant_id" TEXT,
+    "educationLevel_id" TEXT NOT NULL,
 
     CONSTRAINT "Application_pkey" PRIMARY KEY ("id")
 );
@@ -578,6 +619,12 @@ CREATE TABLE "ApplicationHistory" (
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "ApplicationHistory_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "_EntitySubsidiaryToSocialAssistant" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
 );
 
 -- CreateTable
@@ -611,6 +658,9 @@ CREATE UNIQUE INDEX "assistants_RG_key" ON "assistants"("RG");
 CREATE UNIQUE INDEX "assistants_CRESS_key" ON "assistants"("CRESS");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "assistants_user_id_key" ON "assistants"("user_id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "entities_CNPJ_key" ON "entities"("CNPJ");
 
 -- CreateIndex
@@ -629,12 +679,6 @@ CREATE UNIQUE INDEX "EntityDirector_CPF_key" ON "EntityDirector"("CPF");
 CREATE UNIQUE INDEX "EntityDirector_user_id_key" ON "EntityDirector"("user_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "SelectionProcessResponsible_CPF_key" ON "SelectionProcessResponsible"("CPF");
-
--- CreateIndex
-CREATE UNIQUE INDEX "SelectionProcessResponsible_user_id_key" ON "SelectionProcessResponsible"("user_id");
-
--- CreateIndex
 CREATE UNIQUE INDEX "IdentityDetails_RG_key" ON "IdentityDetails"("RG");
 
 -- CreateIndex
@@ -645,6 +689,21 @@ CREATE UNIQUE INDEX "IdentityDetails_responsible_id_key" ON "IdentityDetails"("r
 
 -- CreateIndex
 CREATE UNIQUE INDEX "housing_candidate_id_key" ON "housing"("candidate_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "MEI_familyMemberIncomeId_key" ON "MEI"("familyMemberIncomeId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Entrepreneur_familyMemberIncomeId_key" ON "Entrepreneur"("familyMemberIncomeId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Unemployed_familyMemberIncomeId_key" ON "Unemployed"("familyMemberIncomeId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_EntitySubsidiaryToSocialAssistant_AB_unique" ON "_EntitySubsidiaryToSocialAssistant"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_EntitySubsidiaryToSocialAssistant_B_index" ON "_EntitySubsidiaryToSocialAssistant"("B");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_AnnouncementToSocialAssistant_AB_unique" ON "_AnnouncementToSocialAssistant"("A", "B");
@@ -663,9 +722,6 @@ ALTER TABLE "responsibles" ADD CONSTRAINT "responsibles_user_id_fkey" FOREIGN KE
 
 -- AddForeignKey
 ALTER TABLE "assistants" ADD CONSTRAINT "assistants_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "assistants" ADD CONSTRAINT "assistants_entity_subsidiary_id_fkey" FOREIGN KEY ("entity_subsidiary_id") REFERENCES "EntitySubsidiary"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "assistants" ADD CONSTRAINT "assistants_entity_id_fkey" FOREIGN KEY ("entity_id") REFERENCES "entities"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -687,12 +743,6 @@ ALTER TABLE "EntityDirector" ADD CONSTRAINT "EntityDirector_entity_subsidiary_id
 
 -- AddForeignKey
 ALTER TABLE "EntityDirector" ADD CONSTRAINT "EntityDirector_entity_id_fkey" FOREIGN KEY ("entity_id") REFERENCES "entities"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "SelectionProcessResponsible" ADD CONSTRAINT "SelectionProcessResponsible_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "SelectionProcessResponsible" ADD CONSTRAINT "SelectionProcessResponsible_entity_subsidiary_id_fkey" FOREIGN KEY ("entity_subsidiary_id") REFERENCES "EntitySubsidiary"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "IdentityDetails" ADD CONSTRAINT "IdentityDetails_candidate_id_fkey" FOREIGN KEY ("candidate_id") REFERENCES "candidates"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -722,7 +772,22 @@ ALTER TABLE "Salary" ADD CONSTRAINT "Salary_familyMemberIncome_id_fkey" FOREIGN 
 ALTER TABLE "MonthlyIncome" ADD CONSTRAINT "MonthlyIncome_familyMemberIncome_id_fkey" FOREIGN KEY ("familyMemberIncome_id") REFERENCES "FamilyMemberIncome"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Expense" ADD CONSTRAINT "Expense_candidate_id_fkey" FOREIGN KEY ("candidate_id") REFERENCES "candidates"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "MonthlyIncome" ADD CONSTRAINT "MonthlyIncome_mEIId_fkey" FOREIGN KEY ("mEIId") REFERENCES "MEI"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MEI" ADD CONSTRAINT "MEI_familyMemberIncomeId_fkey" FOREIGN KEY ("familyMemberIncomeId") REFERENCES "FamilyMemberIncome"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Entrepreneur" ADD CONSTRAINT "Entrepreneur_familyMemberIncomeId_fkey" FOREIGN KEY ("familyMemberIncomeId") REFERENCES "FamilyMemberIncome"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Unemployed" ADD CONSTRAINT "Unemployed_familyMemberIncomeId_fkey" FOREIGN KEY ("familyMemberIncomeId") REFERENCES "FamilyMemberIncome"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ProLabore" ADD CONSTRAINT "ProLabore_empresarioId_fkey" FOREIGN KEY ("empresarioId") REFERENCES "Entrepreneur"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Expense" ADD CONSTRAINT "Expense_familyMember_id_fkey" FOREIGN KEY ("familyMember_id") REFERENCES "familyMembers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Loan" ADD CONSTRAINT "Loan_familyMember_id_fkey" FOREIGN KEY ("familyMember_id") REFERENCES "familyMembers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -764,7 +829,16 @@ ALTER TABLE "Application" ADD CONSTRAINT "Application_announcement_id_fkey" FORE
 ALTER TABLE "Application" ADD CONSTRAINT "Application_socialAssistant_id_fkey" FOREIGN KEY ("socialAssistant_id") REFERENCES "assistants"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Application" ADD CONSTRAINT "Application_educationLevel_id_fkey" FOREIGN KEY ("educationLevel_id") REFERENCES "EducationLevel"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "ApplicationHistory" ADD CONSTRAINT "ApplicationHistory_application_id_fkey" FOREIGN KEY ("application_id") REFERENCES "Application"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_EntitySubsidiaryToSocialAssistant" ADD CONSTRAINT "_EntitySubsidiaryToSocialAssistant_A_fkey" FOREIGN KEY ("A") REFERENCES "EntitySubsidiary"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_EntitySubsidiaryToSocialAssistant" ADD CONSTRAINT "_EntitySubsidiaryToSocialAssistant_B_fkey" FOREIGN KEY ("B") REFERENCES "assistants"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_AnnouncementToSocialAssistant" ADD CONSTRAINT "_AnnouncementToSocialAssistant_A_fkey" FOREIGN KEY ("A") REFERENCES "Announcement"("id") ON DELETE CASCADE ON UPDATE CASCADE;

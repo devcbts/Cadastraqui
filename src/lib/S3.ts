@@ -14,6 +14,7 @@ const s3 = new AWS.S3({
   secretAccessKey,
 })
 
+// Função genérica para upload de arquivo no S3
 export async function uploadToS3(filePath: string, fileName: string) {
   const fileData = require('fs').readFileSync(filePath)
 
@@ -36,6 +37,7 @@ export async function uploadToS3(filePath: string, fileName: string) {
 // Exemplo de uso:
 // uploadToS3('path/to/your/file.jpg', 'desiredNameInS3.jpg');
 
+//Função para baixar o arquivo
 export async function downloadFromS3(fileNameInBucket: string, localSavePath: string) {
     const fs = require('fs');
     const params = {
@@ -57,4 +59,34 @@ export async function downloadFromS3(fileNameInBucket: string, localSavePath: st
         console.error("Error downloading file:", error);
         throw error;
     }
+}
+
+// Função para pegar os links dos arquivos em uma determinada pasta
+export async function getSignedUrlsFromUserFolder(userFolder: string): Promise<string[]> {
+  const params = {
+      Bucket: bucketName!,
+      Prefix: userFolder + '/' // Garante que estamos olhando apenas para arquivos dentro da pasta do usuário
+  };
+
+  try {
+      const objects = await s3.listObjectsV2(params).promise();
+      const signedUrls: string[] = [];
+
+      for (const obj of objects.Contents || []) {
+          const url = s3.getSignedUrl('getObject', {
+              Bucket: process.env.AWS_BUCKET_NAME!,
+              Key: obj.Key!,
+              Expires: 3600 // O URL será válido por 1 hora
+          });
+          signedUrls.push(url);
+      }
+
+      console.log('====================================');
+      console.log(signedUrls);
+      console.log('====================================');
+      return signedUrls;
+  } catch (error: any) {
+      console.error("Error fetching signed URLs:", error);
+      throw error;
+  }
 }

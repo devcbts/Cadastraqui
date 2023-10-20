@@ -19,6 +19,8 @@ import { getVehicleInfo } from './get-vehicle-info'
 import { registerVehicleInfo } from './register-vehicle-info'
 import { downloadFile } from '@/http/services/download-file'
 import { downloadDocument } from './download-documents'
+import { subscribeAnnouncement } from './create-application'
+import { verifyRole } from '@/http/middlewares/verify-role'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -66,4 +68,11 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     registerVehicleInfo,
   )
+
+
+
+
+
+
+  app.post('/application/:announcement_id/:educationLevel_id', {onRequest: [verifyJWT, verifyRole('CANDIDATE')]}, subscribeAnnouncement)
 }

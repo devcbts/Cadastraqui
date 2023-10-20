@@ -76,7 +76,12 @@ export async function registerAssistant(
                     CPF,
                     user_id: user.id,
                     name,
-                    entity_subsidiary_id: entity_subsidiary_id,
+                    entity_subsidiary: {
+                        connect:
+
+                            { id: entity_subsidiary_id },
+
+                    },
                     entity_id: entity_id,
                     RG: RG,
                     phone,

@@ -8,7 +8,7 @@ import { z } from 'zod'
 
 
 
-export async function getApplications(
+export async function enrollApplication(
     request: FastifyRequest,
     reply: FastifyReply,
 ) {

@@ -11,12 +11,10 @@ export async function uploadDocument(
 ) {
     const uploadDocumentSchema = z.object({
         documentPath: z.string(),
-        documentFolder: z.string(),
     })
 
     const {
         documentPath,
-        documentFolder
     } = uploadDocumentSchema.parse(request.body)
     try {
         const user_id = request.user.sub
@@ -27,7 +25,7 @@ export async function uploadDocument(
             throw new ResourceNotFoundError()
         }
 
-        const Folder = `CandidatesDocuments/${user_id}`
+        const Folder = `CandidatesDocuments/${candidate.id}`
         uploadFile(documentPath, Folder)
         reply.status(201).send()
     } catch (error) {

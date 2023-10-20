@@ -15,6 +15,7 @@ import { deleteDirector } from './delete-director'
 import { updateDirector } from './update-director'
 import { CreateAnnoucment } from './create-announcement'
 import { updateAnnouncement } from './update-announcement'
+import { createEducationalLevel } from './create-educcation-level'
 
 export async function entityRoutes(app: FastifyInstance) {
   /** Admin Routes (Rotas acessadas na página do Admin)
@@ -86,6 +87,8 @@ export async function entityRoutes(app: FastifyInstance) {
     deleteDirector,
   )
 
+
   app.post('/announcement', {onRequest: [verifyJWT, verifyRole('ENTITY')]}, CreateAnnoucment)
   app.patch('/announcement/:announcement_id', {onRequest: [verifyJWT, verifyRole('ENTITY')] }, updateAnnouncement )
+  app.post('/education/:announcement_id', {onRequest: [verifyJWT , verifyRole('ENTITY')]},createEducationalLevel)
 }

@@ -51,6 +51,7 @@ export async function getApplications(
                 const applications = await prisma.application.findMany({
                     where: { announcement_id: announcement_id }
                 })
+                
                 return reply.status(200).send({ applications })
             } else {
                 const application = await prisma.application.findUnique({

@@ -1,6 +1,7 @@
 import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
 import { AnnouncementNotExists } from '@/errors/announcement-not-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
+import { GetUrls } from '@/http/services/get-file'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -14,10 +15,12 @@ export async function getDocumentsPDF(
     reply: FastifyReply,
 ) {
     const applicationParamsSchema = z.object({
-        announcement_id: z.string()
+        announcement_id: z.string(),
+        application_id: z.string(),
     })
 
-    const {announcement_id } = applicationParamsSchema.parse(request.params)
+  
+    const {announcement_id, application_id } = applicationParamsSchema.parse(request.params)
     try {
         const userType = request.user.role
         const userId = request.user.sub
@@ -45,8 +48,19 @@ export async function getDocumentsPDF(
                 throw new NotAllowedError();
             }
 
-            // Encontra uma ou mais inscrições
+            // Encontra a inscrição
+            const application = await prisma.application.findUnique({
+                where: {id: application_id}
+            })
             
+            const candidateId = application?.candidate_id
+
+            const Folder = `CandidatesDocuments/${candidateId}`
+
+            const urls = await GetUrls(Folder)
+
+            return reply.status(200).send({message: urls})
+
         } else {
             throw new AnnouncementNotExists();
         }

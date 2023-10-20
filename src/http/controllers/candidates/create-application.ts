@@ -25,10 +25,11 @@ export async function subscribeAnnouncement(
   ])
   
 
-  const createBodySchema = z.object({
+  const createParamsSchema = z.object({
     announcement_id: z.string(),
+    educationLevel_id: z.string(),
   })
-  const { announcement_id } = createBodySchema.parse(request.body)
+  const { announcement_id, educationLevel_id } = createParamsSchema.parse(request.params)
   try {
     const userId = request.user.sub
 
@@ -53,6 +54,7 @@ export async function subscribeAnnouncement(
         candidate_id: candidate.id,
         announcement_id,
         status: 'Pending',
+        educationLevel_id
       },
     })
 
