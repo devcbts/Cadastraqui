@@ -7,12 +7,12 @@ export async function deleteLegalDependents(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const fetchLegalDependentsSchema = z.object({
+  const deleteLegalDependentsSchema = z.object({
     dependent_id: z.string().optional(),
   })
 
   try {
-    const { dependent_id } = fetchLegalDependentsSchema.parse(request.params)
+    const { dependent_id } = deleteLegalDependentsSchema.parse(request.params)
     const { sub } = request.user
 
     const responsible = await prisma.legalResponsible.findUnique({
@@ -32,7 +32,7 @@ export async function deleteLegalDependents(
     }
 
     await prisma.candidate.delete({
-      where: { id: dependent_id, responsible_id: responsible.id },
+      where: { id: dependent_id },
     })
 
     return reply.status(204).send()

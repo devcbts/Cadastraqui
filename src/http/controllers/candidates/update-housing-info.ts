@@ -84,14 +84,15 @@ export async function updateHousingInfo(
     const dataToUpdate: Record<string, any> = {}
     for (const key in updateData) {
       if (typeof updateData[key as keyof typeof updateData] !== 'undefined') {
-        dataToUpdate[key as keyof typeof updateData] = updateData[key as keyof typeof updateData];
+        dataToUpdate[key as keyof typeof updateData] =
+          updateData[key as keyof typeof updateData]
       }
     }
 
     // Armazena informações acerca da moradia no banco de dados
     await prisma.housing.update({
       data: dataToUpdate,
-      where: {candidate_id: candidate.id}
+      where: { candidate_id: candidate.id },
     })
 
     return reply.status(201).send()
