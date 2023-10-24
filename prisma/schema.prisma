@@ -275,6 +275,7 @@ model Candidate {
   Housing         Housing[]
   IdentityDetails IdentityDetails[]
   Application     Application[]
+  Expense         Expense[]
 
   @@map("candidates")
 }
@@ -515,7 +516,6 @@ model FamilyMember {
   FamilyMemberIncome  FamilyMemberIncome[]
   Vehicle             Vehicle[]
   Medication          Medication[]
-  Expense             Expense[]
   MonthlyIncome       MonthlyIncome[]
 
   @@map("familyMembers")
@@ -662,8 +662,8 @@ model Expense {
   otherExpenses       Float?
   totalExpense        Float?
 
-  familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
-  familyMember_id String
+  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+  candidate_id String
 }
 
 model Loan {
