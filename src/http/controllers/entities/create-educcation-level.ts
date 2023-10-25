@@ -1,0 +1,127 @@
+import { prisma } from '@/lib/prisma'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
+import { EntityNotExistsError } from '../../../errors/entity-not-exists-error';
+import { AnnouncementNotExists } from '@/errors/announcement-not-exists-error';
+import { NotAllowedError } from '@/errors/not-allowed-error';
+
+export async function createEducationalLevel(
+    request: FastifyRequest,
+    reply: FastifyReply,
+) {
+
+    const SHIFT = z.enum(["Matutino",
+        "Vespertino",
+        "Noturno",
+        "Integral"])
+    const educationalLevelBodySchema = z.object({
+        level: z.enum(['BasicEducation', 'HigherEducation']),
+        basicEduType: z.union([
+            z.literal('Preschool'),
+            z.literal('Elementary'),
+            z.literal('HighSchool'),
+            z.literal('ProfessionalEducation'),
+        ]),
+        scholarshipType: z.union([
+            z.literal('Law187Scholarship'),
+            z.literal('StudentWithDisability'),
+            z.literal('FullTime'),
+            z.literal('EntityWorkers'),
+        ]),
+        higherEduScholarshipType: z.union([
+            z.literal('PROUNIFull'),
+            z.literal('PROUNIPartial'),
+            z.literal('StateGovernment'),
+            z.literal('CityGovernment'),
+            z.literal('ExternalEntities'),
+            z.literal('HigherEduInstitutionFull'),
+            z.literal('HigherEduInstitutionPartial'),
+            z.literal('HigherEduInstitutionWorkers'),
+            z.literal('PostgraduateStrictoSensu'),
+            // ... add other enum values here
+        ]),
+        offeredCourseType: z.union([
+            z.literal('UndergraduateBachelor'),
+            z.literal('UndergraduateLicense'),
+            z.literal('UndergraduateTechnologist'),
+        ]),
+        availableCourses: z.string().optional(),
+        offeredVacancies: z.number().optional(),
+        verifiedScholarships: z.number().optional(),
+        shift: SHIFT,
+        semester: z.number().optional(),
+    })
+
+    const educationLevelParamsSchema = z.object({
+        announcement_id: z.string(),
+    })
+
+    const {
+        level,
+        basicEduType,
+        scholarshipType,
+        higherEduScholarshipType,
+        offeredCourseType,
+        availableCourses,
+        offeredVacancies,
+        verifiedScholarships,
+        shift,
+        semester,
+    } = educationalLevelBodySchema.parse(request.body)
+
+    const { announcement_id} = educationLevelParamsSchema.parse(request.params)
+
+    try {
+
+        const user_id = request.user.sub
+
+        const entity = await prisma.entity.findUnique({
+            where: {user_id: user_id}
+        })
+
+        if (!entity) {
+            throw new EntityNotExistsError()
+        }
+
+        const announcement = await prisma.announcement.findUnique({
+            where: {id: announcement_id}
+        })
+
+        if (!announcement) {
+            throw new AnnouncementNotExists()
+        }
+
+        if (announcement.entity_id !== entity.id ) {
+            throw new NotAllowedError()
+        }
+        await prisma.educationLevel.create({
+            data: {
+                level,
+                basicEduType,
+                scholarshipType,
+                higherEduScholarshipType,
+                offeredCourseType,
+                availableCourses,
+                offeredVacancies,
+                verifiedScholarships,
+                shift,
+                semester,
+                announcementId:announcement_id,
+            },
+        })
+        return reply.status(201).send({ message: 'Educational level created successfully!' })
+    } catch (err: any) {
+        if (err instanceof EntityNotExistsError) {
+            return reply.status(404).send({message: err.message})
+        }
+        
+        if (err instanceof AnnouncementNotExists) {
+            return reply.status(404).send({message: err.message})
+        }
+        
+        if (err instanceof NotAllowedError) {
+            return reply.status(404).send({message: err.message})
+        }
+        return reply.status(500).send({ message: err.message })
+    }
+}
