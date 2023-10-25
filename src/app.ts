@@ -49,13 +49,12 @@ app.register(fastifyCookie)
 app.register(candidateRoutes, { prefix: '/candidates' })
 app.register(legalResponsibleRoutes, { prefix: '/responsibles' })
 app.register(entityRoutes, { prefix: '/entities' })
-app.register(assistantRoutes,{prefix: '/assistant'})
+app.register(assistantRoutes, { prefix: '/assistant' })
 
 app.post('/session', authenticate)
 app.post('/forgot_password', forgotPassword)
 app.post('/reset_password', resetPassword)
 app.patch('/token/refresh', refresh)
-
 
 app.setErrorHandler((error, _request, reply) => {
   if (error instanceof ZodError) {

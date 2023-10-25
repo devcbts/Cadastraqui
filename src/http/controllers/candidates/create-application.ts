@@ -1,16 +1,8 @@
 import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
-import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-
-enum ApplicationStatus {
-  'Approved',
-  'Rejected',
-  'Pending',
-  // Add other statuses as needed
-}
 
 export async function subscribeAnnouncement(
   request: FastifyRequest,
