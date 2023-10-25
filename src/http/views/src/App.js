@@ -21,12 +21,14 @@ import EditalAbertoCandidato from "./Pages/Candidato/editalCandidato";
 import AcceptEdital from "./Pages/Candidato/acceptEdital";
 import CandidatosCadastrados from "./Pages/Assistente/candidatosCadastrados";
 import Login from "./Pages/Login/login";
+import { AuthProvider } from "./context/auth";
 
 function App() {
   return (
     <AppProvider>
       <div className="App">
         <BrowserRouter>
+        <AuthProvider>
           <Routes>
             {/*Here we have the routes for the "entidade" user type */}
             <Route path="/entidade/home" element={<HomeEntidade />}></Route>
@@ -83,8 +85,10 @@ function App() {
               path="/assistente/cadastrados"
               element={<CandidatosCadastrados></CandidatosCadastrados>}
             ></Route>
+
             <Route path="/login" element={<Login></Login>}></Route>
           </Routes>
+          </AuthProvider>
         </BrowserRouter>
       </div>
     </AppProvider>

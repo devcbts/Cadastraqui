@@ -6,13 +6,16 @@ import videoBg from "../../Assets/bg-school-vid.mp4";
 import { UilUserCircle } from "@iconscout/react-unicons";
 import { UilLock } from "@iconscout/react-unicons";
 import { UilGoogle } from "@iconscout/react-unicons";
+import { useAuth } from "../../context/auth";
 
 export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  function handleSingUp() {
-    console.log(email, password)
+  const { signIn } = useAuth
+
+  function handleSingIn() {
+    signIn({email, password})
   }
 
   return (
@@ -139,7 +142,7 @@ export default function Login() {
             <input type="password" id="pass" placeholder="Senha" onChange={e => setPassword(e.target.value)}></input>
           </div>
           <div className="btn-entrar">
-            <a href="" onClick={handleSingUp}>Entrar</a>
+            <a href="" onClick={handleSingIn}>Entrar</a>
           </div>
           <div className="btn-entrar">
             <a href="">Cadastrar</a>
