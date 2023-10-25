@@ -8,6 +8,13 @@ import { UilLock } from "@iconscout/react-unicons";
 import { UilGoogle } from "@iconscout/react-unicons";
 
 export default function Login() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  function handleSingUp() {
+    console.log(email, password)
+  }
+
   return (
     <div className="login-container">
       <div id="object-one">
@@ -123,16 +130,16 @@ export default function Login() {
             <label for="usermail">
               <UilUserCircle size="40" color="white" />
             </label>
-            <input type="email" id="usermail" placeholder="Email"></input>
+            <input type="email" id="usermail" placeholder="Email" onChange={e => setEmail(e.target.value)}></input>
           </div>
           <div className="user-login password">
             <label for="pass">
               <UilLock size="40" color="white" />
             </label>
-            <input type="password" id="pass" placeholder="Senha"></input>
+            <input type="password" id="pass" placeholder="Senha" onChange={e => setPassword(e.target.value)}></input>
           </div>
           <div className="btn-entrar">
-            <a href="">Entrar</a>
+            <a href="" onClick={handleSingUp}>Entrar</a>
           </div>
           <div className="btn-entrar">
             <a href="">Cadastrar</a>

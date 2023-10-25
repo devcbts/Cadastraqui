@@ -15,8 +15,16 @@ import fastifyMulter from 'fastify-multer'
 import { multerConfig } from './lib/multer'
 import { uploadFile } from './http/services/upload-file'
 import { assistantRoutes } from './http/controllers/social-assistant/routes'
+import fastifyCors from 'fastify-cors'
 
 export const app = fastify()
+
+// Registre o plugin fastify-cors
+app.register(fastifyCors, {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type'],
+})
 
 export const upload = fastifyMulter(multerConfig)
 app.register(fastifyMulter.contentParser)
