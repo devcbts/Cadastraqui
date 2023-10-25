@@ -1,0 +1,65 @@
+.card-candidatura h2{
+    height: fit-content;
+    margin: auto;
+}
+
+.card-candidatura{
+    width: 60vw;
+    height: 5rem;
+    position: relative;
+    padding: 1.5rem 2rem;
+    background-color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 0.5rem;
+    box-shadow: 1px 1px 10px rgb(185, 185, 185);
+    margin: 1rem auto;
+}
+
+.candidato-assistente{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.candidato-assistente h2{
+    width: fit-content;
+    margin: 0;
+}
+
+.candidato-assistente h3{
+    color: #1F4B73;
+    font-weight:300;
+}
+
+.candidatura-btn{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.candidatura-btn a{
+    color: white;
+    background-color: #9e9e9e;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    margin: auto;
+    transition: 500ms;
+}
+
+.candidatura-btn a:hover{
+    background-color: #7b7b7b;
+}
+
+.icon{
+    transition: 500ms;
+}
+
+.icon:hover{
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+
+

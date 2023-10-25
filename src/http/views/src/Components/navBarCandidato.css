@@ -24,3 +24,45 @@
     font-weight:100;
     color: white;
 }
+
+/* Styling the popup for switching profiles */
+
+.backdrop{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background-color: black;
+    z-index: 21;
+    opacity: 0.5;
+}
+
+.switch-popup{
+    width: 40vw;
+    height: 80vh;
+    position: fixed;
+    background-color: rgb(255, 255, 255);
+    z-index: 22;
+    margin: 7vh 30vw;
+    border-radius: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+.popup-upper{
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: end;
+}
+
+.popup-upper a{
+    transition: 0.5s;
+}
+
+.popup-upper a:hover{
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+/* ---------------------------------------- */

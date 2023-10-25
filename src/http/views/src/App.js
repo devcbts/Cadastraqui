@@ -14,6 +14,13 @@ import PerfilCandidato from "./Pages/Candidato/perfil";
 import HistoricoCandidato from "./Pages/Candidato/historico";
 import HomeAssistente from "./Pages/Assistente/home";
 import EditaisAssistente from "./Pages/Assistente/editais";
+import NewEntidade from "./Pages/Admin/newEntidade";
+import EditaisAdmin from "./Pages/Admin/editais";
+import EditalAberto from "./Pages/Entidade/edital";
+import EditalAbertoCandidato from "./Pages/Candidato/editalCandidato";
+import AcceptEdital from "./Pages/Candidato/acceptEdital";
+import CandidatosCadastrados from "./Pages/Assistente/candidatosCadastrados";
+import Login from "./Pages/Login/login";
 
 function App() {
   return (
@@ -56,6 +63,27 @@ function App() {
               path="/assistente/editais"
               element={<EditaisAssistente></EditaisAssistente>}
             ></Route>
+            <Route
+              path="/admin/cadastro"
+              element={<NewEntidade></NewEntidade>}
+            ></Route>
+            <Route
+              path="/admin/editais"
+              element={<EditaisAdmin></EditaisAdmin>}
+            ></Route>
+            <Route
+              path="/entidade/editaltest"
+              element={<EditalAberto />}
+            ></Route>
+            <Route
+              path="/candidato/editaltest"
+              element={<EditalAbertoCandidato></EditalAbertoCandidato>}
+            ></Route>
+            <Route
+              path="/assistente/cadastrados"
+              element={<CandidatosCadastrados></CandidatosCadastrados>}
+            ></Route>
+            <Route path="/login" element={<Login></Login>}></Route>
           </Routes>
         </BrowserRouter>
       </div>

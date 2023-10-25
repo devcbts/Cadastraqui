@@ -52,11 +52,15 @@
 
 .item{
     background-color: rgb(255, 255, 255);
-    margin: 4vw;
-    width: 15vw;
-    aspect-ratio: 1/1;
+    margin: 2vw;
+    width: 20vw;
+    aspect-ratio: 5/4;
     border-radius: 8%;
     transition: all 1s;
+}
+
+.item:hover{
+    cursor: pointer;
 }
 
 .right {

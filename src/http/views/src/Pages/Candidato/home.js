@@ -3,6 +3,8 @@ import "./home.css";
 import NavBar from "../../Components/navBar";
 import { useAppState } from "../../AppGlobal";
 import NavBarCandidato from "../../Components/navBarCandidato";
+import Edital from "../../Components/edital";
+import Candidatura from "../../Components/candidatura";
 
 export default function HomeCandidato() {
   const { isShown } = useAppState();
@@ -17,9 +19,12 @@ export default function HomeCandidato() {
         <div className="upper-contas status-title">
           <h1>Status</h1>
         </div>
-        <div className="novos-colaboradores status-solicitacoes">
-          <div className="solicitacoes"></div>
+
+        <div className="solicitacoes">
+          <Candidatura></Candidatura>
+          <Candidatura></Candidatura>
         </div>
+
         <div className="upper-contas status-title">
           <h1>Editais Abertos</h1>
           <div className="filters">
@@ -53,14 +58,12 @@ export default function HomeCandidato() {
         </div>
 
         <div className="container-editais">
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
+          <Edital></Edital>
+          <Edital></Edital>
+          <Edital></Edital>
+          <Edital></Edital>
+          <Edital></Edital>
+          <Edital></Edital>
         </div>
       </div>
     </div>

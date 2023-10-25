@@ -2,17 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./navBarCandidato.css";
 import photoProfile from "../Assets/profile-padrao.jpg";
-import ReactDOM from "react-dom";
+import { UilTimesCircle } from "@iconscout/react-unicons";
 import { UilEstate } from "@iconscout/react-unicons";
-import { UilFileAlt } from "@iconscout/react-unicons";
-import { UilPlusCircle } from "@iconscout/react-unicons";
-import { UilCommentAltNotes } from "@iconscout/react-unicons";
-import { UilUsersAlt } from "@iconscout/react-unicons";
 import { UilExchange } from "@iconscout/react-unicons";
 import { UilUserCircle } from "@iconscout/react-unicons";
-import { UilFileEditAlt } from "@iconscout/react-unicons";
-import { UilAngleDoubleLeft } from "@iconscout/react-unicons";
-import { UilAngleDoubleRight } from "@iconscout/react-unicons";
 import { UilHistory } from "@iconscout/react-unicons";
 import whiteLogoText from "../Assets/logo_branca_texto.png";
 import { useAppState } from "../AppGlobal";
@@ -23,6 +16,11 @@ import { Fade as Hamburger } from "hamburger-react";
 export default function NavBarCandidato() {
   const { isShown, handleClick, setIsShown } = useAppState();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [popupIsShown, setPopupIsShown] = useState(false);
+
+  const handleClosePopup = () => {
+    setPopupIsShown((prev) => !prev);
+  };
 
   const navigate = useNavigate();
 
@@ -68,6 +66,23 @@ export default function NavBarCandidato() {
 
   return (
     <div className="outer-sidebar">
+      {popupIsShown && (
+        <>
+          <div className="switch-popup">
+            <div className="popup-upper">
+              <a
+                onClick={() => {
+                  handleClosePopup();
+                }}
+              >
+                <UilTimesCircle size="30" color="#1F4B73"></UilTimesCircle>
+              </a>
+            </div>
+          </div>
+          <div className="backdrop"></div>
+        </>
+      )}
+
       {windowWidth < 1030 && (
         <div className="mobile-menu">
           <div className="mobile-user">
@@ -107,7 +122,12 @@ export default function NavBarCandidato() {
             <div className="user-name">
               <h6>Current User</h6>
             </div>
-            <div className="alternate">
+            <div
+              className="alternate"
+              onClick={() => {
+                handleClosePopup();
+              }}
+            >
               <UilExchange size="20" color="#ffff"></UilExchange>
               <h2>Alternar subconta</h2>
             </div>

@@ -14,20 +14,44 @@ export default function SacEntidade() {
       </div>
 
       <div className="container-sac">
-        <div className="mail-box">
-          <label class="desc" id="title4" for="Field4">
-            Digite sua mensagem
-          </label>
+        <h1>Em que podemos ajudar?</h1>
+        <div id="form-main">
+          <div id="form-div">
+            <form class="form" id="form1">
+              <p class="name">
+                <input
+                  name="name"
+                  type="text"
+                  class="validate[required,custom[onlyLetter],length[0,100]] feedback-input"
+                  placeholder="Nome"
+                  id="name"
+                />
+              </p>
 
-          <div>
-            <textarea
-              id="Field4"
-              name="Field4"
-              spellcheck="true"
-              rows="10"
-              cols="50"
-              tabindex="4"
-            ></textarea>
+              <p class="email">
+                <input
+                  name="email"
+                  type="text"
+                  class="validate[required,custom[email]] feedback-input"
+                  id="email"
+                  placeholder="Email"
+                />
+              </p>
+
+              <p class="text">
+                <textarea
+                  name="text"
+                  class="validate[required,length[6,300]] feedback-input"
+                  id="comment"
+                  placeholder="Comentário"
+                ></textarea>
+              </p>
+
+              <div class="submit">
+                <input type="submit" value="Enviar" id="button-blue" />
+                <div class="ease"></div>
+              </div>
+            </form>
           </div>
         </div>
       </div>

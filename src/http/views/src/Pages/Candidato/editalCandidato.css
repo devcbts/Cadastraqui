@@ -1,0 +1,9 @@
+.container-open-edital{
+    padding-left: 2rem;
+}
+
+@media screen and (max-width:1000px){
+    .container-open-edital{
+        padding-left: 0;
+    }
+}

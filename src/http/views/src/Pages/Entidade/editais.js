@@ -1,8 +1,10 @@
 import React from "react";
 import "./editais.css";
-import NavBar from "../../Components/navBar";
 import { UilBell } from "@iconscout/react-unicons";
 import { useAppState } from "../../AppGlobal";
+import NavBarAdmin from "../../Components/navBarAdmin";
+import NavBar from "../../Components/navBar";
+import Edital from "../../Components/edital";
 
 export default function EditaisEntidade() {
   const { isShown } = useAppState();
@@ -25,14 +27,12 @@ export default function EditaisEntidade() {
           </div>
         </div>
         <div className="container-editais">
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
+          <Edital />
+          <Edital />
+          <Edital />
+          <Edital />
+          <Edital />
+          <Edital />
         </div>
       </div>
     </div>

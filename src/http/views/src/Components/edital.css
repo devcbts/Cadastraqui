@@ -1,0 +1,45 @@
+.edital-card{
+    background-color: rgb(255, 255, 255);
+    margin: 2vw;
+    width: 20vw;
+    aspect-ratio: 5/3;
+    border-radius: 8%;
+    transition: all 1s;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+}
+
+.edital-card:hover{
+    cursor: pointer;
+}
+
+.edital-card img{
+    width: 40%;
+    margin: 0;
+}
+
+.edital-card h3{
+    font-size: 0.8rem;
+    color: #1F4B73;
+}
+
+.edital-card h2{
+    font-size: 1.3rem;
+    color: #1F4B73;
+}
+
+@media screen and (max-width: 1100px){  
+    .edital-card{
+        width: 25vw;
+    }
+}
+
+@media screen and (max-width: 650px){  
+    .edital-card{
+        width: 50vw;
+    }
+}

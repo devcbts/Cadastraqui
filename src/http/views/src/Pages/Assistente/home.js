@@ -3,6 +3,7 @@ import "./home.css";
 import NavBar from "../../Components/navBar";
 import { useAppState } from "../../AppGlobal";
 import NavBarAssistente from "../../Components/navBarAssistente";
+import EditalAssistente from "../../Components/editalAssistente";
 
 export default function HomeAssistente() {
   const { isShown } = useAppState();
@@ -19,9 +20,9 @@ export default function HomeAssistente() {
         </div>
 
         <div className="container-editais">
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
+          <EditalAssistente></EditalAssistente>
+          <EditalAssistente></EditalAssistente>
+          <EditalAssistente></EditalAssistente>
         </div>
 
         <div className="upper-contas status-title">
@@ -29,9 +30,9 @@ export default function HomeAssistente() {
         </div>
 
         <div className="container-editais">
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
+          <EditalAssistente></EditalAssistente>
+          <EditalAssistente></EditalAssistente>
+          <EditalAssistente></EditalAssistente>
         </div>
 
         <div className="upper-contas status-title">
@@ -39,9 +40,12 @@ export default function HomeAssistente() {
         </div>
 
         <div className="container-editais">
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
+          <EditalAssistente></EditalAssistente>
+          <EditalAssistente></EditalAssistente>
+          <EditalAssistente></EditalAssistente>
+          <EditalAssistente></EditalAssistente>
+          <EditalAssistente></EditalAssistente>
+          <EditalAssistente></EditalAssistente>
         </div>
       </div>
     </div>

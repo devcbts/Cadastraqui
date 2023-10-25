@@ -11,3 +11,19 @@
     font-weight: 300;
     margin-left: 1rem;
 }
+
+.container-contas{
+    display: flex;
+    flex-direction: column;
+}
+
+.status-solicitacoes{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+    height: fit-content;
+    overflow: visible;
+}
