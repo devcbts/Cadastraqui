@@ -68,7 +68,7 @@ CREATE TYPE "Disease" AS ENUM ('ALIENATION_MENTAL', 'CARDIOPATHY_SEVERE', 'BLIND
 CREATE TYPE "ScholarshipType" AS ENUM ('integralScholarchip', 'halfScholarchip');
 
 -- CreateEnum
-CREATE TYPE "EmploymentType" AS ENUM ('PRIVATE_EMPLOYEE_CLT', 'PUBLIC_EMPLOYEE', 'DOMESTIC_EMPLOYEE', 'TEMPORARY_RURAL_WORKER', 'RETIRED', 'PENSIONER', 'APPRENTICE_INTERN', 'TEMPORARY_DISABILITY_BENEFIT', 'MEI', 'UNEMPLOYED', 'ENTREPRENEUR');
+CREATE TYPE "EmploymentType" AS ENUM ('PRIVATE_EMPLOYEE_CLT', 'PUBLIC_EMPLOYEE', 'DOMESTIC_EMPLOYEE', 'TEMPORARY_RURAL_WORKER', 'RETIRED', 'PENSIONER', 'APPRENTICE_INTERN', 'TEMPORARY_DISABILITY_BENEFIT', 'MEI', 'UNEMPLOYED', 'ENTREPRENEUR', 'SELF_EMPLOYED_INFORMAL');
 
 -- CreateEnum
 CREATE TYPE "AnnouncementType" AS ENUM ('ScholarshipGrant', 'PeriodicVerification');
@@ -347,27 +347,25 @@ CREATE TABLE "Vehicle" (
 -- CreateTable
 CREATE TABLE "FamilyMemberIncome" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "occupation" "EmploymentType" NOT NULL,
-    "hiringDate" TIMESTAMP(3) NOT NULL,
-    "position" TEXT NOT NULL,
-    "employerOrGovernment" TEXT NOT NULL,
-    "employerPhone" TEXT NOT NULL,
-    "receivesOvertime" BOOLEAN NOT NULL,
-    "AverageIncome" TEXT NOT NULL,
+    "employmentType" "EmploymentType" NOT NULL,
+    "averageIncome" TEXT NOT NULL,
+    "admissionDate" TIMESTAMP(3),
+    "position" TEXT,
+    "payingSource" TEXT,
+    "payingSourcePhone" TEXT,
+    "startDate" TIMESTAMP(3),
+    "CNPJ" TEXT,
+    "financialAssistantCPF" TEXT,
+    "socialReason" TEXT,
+    "fantasyName" TEXT,
+    "CPNJ" TEXT,
+    "receivesUnemployment" BOOLEAN,
+    "parcels" INTEGER,
+    "firstParcelDate" TIMESTAMP(3),
+    "parcelValue" DOUBLE PRECISION,
     "familyMember_id" TEXT NOT NULL,
 
     CONSTRAINT "FamilyMemberIncome_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Salary" (
-    "id" TEXT NOT NULL,
-    "value" TEXT,
-    "index" INTEGER NOT NULL,
-    "familyMemberIncome_id" TEXT NOT NULL,
-
-    CONSTRAINT "Salary_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -375,8 +373,11 @@ CREATE TABLE "MonthlyIncome" (
     "id" TEXT NOT NULL,
     "month" TEXT NOT NULL,
     "year" TEXT NOT NULL,
-    "grossAmount" DECIMAL(65,30) NOT NULL,
-    "liquidAmount" DECIMAL(65,30) NOT NULL,
+    "grossAmount" DOUBLE PRECISION,
+    "liquidAmount" DOUBLE PRECISION,
+    "proLabore" DOUBLE PRECISION,
+    "dividends" DOUBLE PRECISION,
+    "total" DOUBLE PRECISION,
     "deductionValue" DECIMAL(65,30),
     "publicPension" DECIMAL(65,30),
     "incomeTax" DECIMAL(65,30),
@@ -388,59 +389,9 @@ CREATE TABLE "MonthlyIncome" (
     "reversalValue" DECIMAL(65,30),
     "compensationValue" DECIMAL(65,30),
     "judicialPensionValue" DECIMAL(65,30),
-    "familyMemberIncome_id" TEXT NOT NULL,
-    "mEIId" TEXT,
+    "familyMember_id" TEXT,
 
     CONSTRAINT "MonthlyIncome_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "MEI" (
-    "id" TEXT NOT NULL,
-    "startDate" TIMESTAMP(3) NOT NULL,
-    "CNPJ" TEXT NOT NULL,
-    "avgIncome" DOUBLE PRECISION,
-    "familyMemberIncomeId" TEXT NOT NULL,
-
-    CONSTRAINT "MEI_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Entrepreneur" (
-    "id" TEXT NOT NULL,
-    "startDate" TIMESTAMP(3) NOT NULL,
-    "companyName" TEXT NOT NULL,
-    "tradeName" TEXT,
-    "CNPJ" TEXT NOT NULL,
-    "avgIncome" DOUBLE PRECISION,
-    "familyMemberIncomeId" TEXT NOT NULL,
-
-    CONSTRAINT "Entrepreneur_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Unemployed" (
-    "id" TEXT NOT NULL,
-    "receivesUnemployment" BOOLEAN NOT NULL,
-    "parcels" INTEGER,
-    "firstParcelDate" TIMESTAMP(3),
-    "parcelValue" DOUBLE PRECISION[],
-    "familyMemberIncomeId" TEXT NOT NULL,
-
-    CONSTRAINT "Unemployed_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "ProLabore" (
-    "id" TEXT NOT NULL,
-    "month" INTEGER NOT NULL,
-    "year" INTEGER NOT NULL,
-    "proLabore" DOUBLE PRECISION NOT NULL,
-    "dividends" DOUBLE PRECISION NOT NULL,
-    "total" DOUBLE PRECISION NOT NULL,
-    "empresarioId" TEXT NOT NULL,
-
-    CONSTRAINT "ProLabore_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -475,7 +426,7 @@ CREATE TABLE "Expense" (
     "medicationExpenses" DOUBLE PRECISION,
     "otherExpenses" DOUBLE PRECISION,
     "totalExpense" DOUBLE PRECISION,
-    "familyMember_id" TEXT NOT NULL,
+    "candidate_id" TEXT NOT NULL,
 
     CONSTRAINT "Expense_pkey" PRIMARY KEY ("id")
 );
@@ -594,6 +545,7 @@ CREATE TABLE "EducationLevel" (
     "verifiedScholarships" INTEGER,
     "shift" "SHIFT",
     "semester" INTEGER,
+    "grade" TEXT,
     "announcementId" TEXT NOT NULL,
 
     CONSTRAINT "EducationLevel_pkey" PRIMARY KEY ("id")
@@ -691,15 +643,6 @@ CREATE UNIQUE INDEX "IdentityDetails_responsible_id_key" ON "IdentityDetails"("r
 CREATE UNIQUE INDEX "housing_candidate_id_key" ON "housing"("candidate_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "MEI_familyMemberIncomeId_key" ON "MEI"("familyMemberIncomeId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Entrepreneur_familyMemberIncomeId_key" ON "Entrepreneur"("familyMemberIncomeId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Unemployed_familyMemberIncomeId_key" ON "Unemployed"("familyMemberIncomeId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "_EntitySubsidiaryToSocialAssistant_AB_unique" ON "_EntitySubsidiaryToSocialAssistant"("A", "B");
 
 -- CreateIndex
@@ -766,28 +709,10 @@ ALTER TABLE "Vehicle" ADD CONSTRAINT "Vehicle_owner_id_fkey" FOREIGN KEY ("owner
 ALTER TABLE "FamilyMemberIncome" ADD CONSTRAINT "FamilyMemberIncome_familyMember_id_fkey" FOREIGN KEY ("familyMember_id") REFERENCES "familyMembers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Salary" ADD CONSTRAINT "Salary_familyMemberIncome_id_fkey" FOREIGN KEY ("familyMemberIncome_id") REFERENCES "FamilyMemberIncome"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "MonthlyIncome" ADD CONSTRAINT "MonthlyIncome_familyMember_id_fkey" FOREIGN KEY ("familyMember_id") REFERENCES "familyMembers"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "MonthlyIncome" ADD CONSTRAINT "MonthlyIncome_familyMemberIncome_id_fkey" FOREIGN KEY ("familyMemberIncome_id") REFERENCES "FamilyMemberIncome"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "MonthlyIncome" ADD CONSTRAINT "MonthlyIncome_mEIId_fkey" FOREIGN KEY ("mEIId") REFERENCES "MEI"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "MEI" ADD CONSTRAINT "MEI_familyMemberIncomeId_fkey" FOREIGN KEY ("familyMemberIncomeId") REFERENCES "FamilyMemberIncome"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Entrepreneur" ADD CONSTRAINT "Entrepreneur_familyMemberIncomeId_fkey" FOREIGN KEY ("familyMemberIncomeId") REFERENCES "FamilyMemberIncome"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Unemployed" ADD CONSTRAINT "Unemployed_familyMemberIncomeId_fkey" FOREIGN KEY ("familyMemberIncomeId") REFERENCES "FamilyMemberIncome"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "ProLabore" ADD CONSTRAINT "ProLabore_empresarioId_fkey" FOREIGN KEY ("empresarioId") REFERENCES "Entrepreneur"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Expense" ADD CONSTRAINT "Expense_familyMember_id_fkey" FOREIGN KEY ("familyMember_id") REFERENCES "familyMembers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Expense" ADD CONSTRAINT "Expense_candidate_id_fkey" FOREIGN KEY ("candidate_id") REFERENCES "candidates"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Loan" ADD CONSTRAINT "Loan_familyMember_id_fkey" FOREIGN KEY ("familyMember_id") REFERENCES "familyMembers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

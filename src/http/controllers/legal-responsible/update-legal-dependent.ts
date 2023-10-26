@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function updateDirector(
+export async function updateLegalDependent(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
@@ -11,6 +11,7 @@ export async function updateDirector(
     name: z.string().optional(),
     phone: z.string().optional(),
     CPF: z.string().optional(),
+    dateOfBirth: z.string().optional(),
   })
   const updateParamsSchema = z.object({
     _id: z.string(),
@@ -18,18 +19,19 @@ export async function updateDirector(
 
   const updatedData = updateDataSchema.parse(request.body)
 
+  // _id === legalDependent_id
   const { _id } = updateParamsSchema.parse(request.params)
 
   try {
-    const director = await prisma.entityDirector.findUnique({
+    const dependent = await prisma.candidate.findUnique({
       where: { id: _id },
     })
 
-    if (!director) {
+    if (!dependent) {
       throw new ResourceNotFoundError()
     }
 
-    await prisma.entityDirector.update({
+    await prisma.candidate.update({
       where: { id: _id },
       data: updatedData,
     })

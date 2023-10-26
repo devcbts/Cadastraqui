@@ -13,7 +13,6 @@ export async function registerLegalResponsible(
     name: z.string(),
     email: z.string().email(),
     password: z.string().min(6),
-    role: z.enum([ROLE.RESPONSIBLE]),
     CEP: z.string(),
     CPF: z.string(),
     address: z.string(),
@@ -57,7 +56,6 @@ export async function registerLegalResponsible(
     name,
     email,
     password,
-    role,
     CEP,
     CPF,
     UF,
@@ -84,7 +82,7 @@ export async function registerLegalResponsible(
       data: {
         email,
         password: password_hash,
-        role,
+        role: 'RESPONSIBLE',
       },
     })
 

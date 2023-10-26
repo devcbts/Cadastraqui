@@ -275,6 +275,7 @@ model Candidate {
   Housing         Housing[]
   IdentityDetails IdentityDetails[]
   Application     Application[]
+  Expense         Expense[]
 
   @@map("candidates")
 }
@@ -515,7 +516,7 @@ model FamilyMember {
   FamilyMemberIncome  FamilyMemberIncome[]
   Vehicle             Vehicle[]
   Medication          Medication[]
-  Expense             Expense[]
+  MonthlyIncome       MonthlyIncome[]
 
   @@map("familyMembers")
 }
@@ -567,39 +568,40 @@ enum EmploymentType {
   MEI
   UNEMPLOYED
   ENTREPRENEUR
+  SELF_EMPLOYED_INFORMAL
 }
 
 model FamilyMemberIncome {
-  id                   String         @id @default(uuid())
-  name                 String
-  occupation           EmploymentType
-  hiringDate           DateTime
-  position             String
-  employerOrGovernment String
-  employerPhone        String
-  receivesOvertime     Boolean
+  id             String         @id @default(uuid())
+  employmentType EmploymentType
+  averageIncome  String
 
-  AverageIncome String
+  // Campos para Empregado privado(CLT), Empregado público(concursado ou cargo comissionado); Empregado doméstico, Empregado temporário na área rural, aposentado, pensionista, aprendiz ou estagiário, benefício por Incapacidade Temporária (Auxílio-doença),
+  admissionDate     DateTime?
+  position          String?
+  payingSource      String?
+  payingSourcePhone String?
 
-  salaries       Salary[]
-  monthlyIncomes MonthlyIncome[]
+  // Campos para MEI
+  startDate DateTime?
+  CNPJ      String?
+
+  // Campos para Autônomo, trabalhador informal *? (sem registro em carteira de trabalho), renda de alugueis ou arrendamento, ajuda financeira de terceiros, profissional liberal e previdência privada.
+  financialAssistantCPF String?
+
+  // Campos para Empresário.
+  socialReason String?
+  fantasyName  String?
+  CPNJ         String?
+
+  // Campos para desempregado que vão receber seguro-desemprego
+  receivesUnemployment Boolean?
+  parcels              Int? // Quantidade de parcelas
+  firstParcelDate      DateTime? // Data de recebimento da primeira parcela
+  parcelValue          Float? // Valor de cada parcela
 
   familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
   familyMember_id String
-
-  MEI MEI? // Se for MEI criar um MEI
-
-  Entrepreneur Entrepreneur? // Se for um Empresário
-  Unemployed   Unemployed? // Se for Desempregado
-}
-
-model Salary {
-  id    String  @id @default(uuid())
-  value String?
-  index Int
-
-  familyMemberIncome    FamilyMemberIncome @relation(fields: [familyMemberIncome_id], references: [id])
-  familyMemberIncome_id String
 }
 
 // Renda Mensal de cada familiar
@@ -607,8 +609,11 @@ model MonthlyIncome {
   id                        String   @id @default(uuid())
   month                     String
   year                      String
-  grossAmount               Decimal // Renda bruta
-  liquidAmount              Decimal // Renda trabalho assalariado
+  grossAmount               Float? // Renda bruta
+  liquidAmount              Float?
+  proLabore                 Float? // Valor do pró-labore
+  dividends                 Float? // Valor dos dividendos
+  total                     Float? // Total (proLabore + dividends)
   deductionValue            Decimal?
   publicPension             Decimal?
   incomeTax                 Decimal?
@@ -621,53 +626,8 @@ model MonthlyIncome {
   compensationValue         Decimal?
   judicialPensionValue      Decimal?
 
-  familyMemberIncome    FamilyMemberIncome @relation(fields: [familyMemberIncome_id], references: [id])
-  familyMemberIncome_id String
-  MEI                   MEI?               @relation(fields: [mEIId], references: [id])
-  mEIId                 String?
-}
-
-model MEI {
-  id                   String             @id @default(uuid())
-  startDate            DateTime // Data de início das atividades
-  CNPJ                 String
-  incomes              MonthlyIncome[] // Monthly incomes (usar apenas alguns dos fields, objetivo é obter renda bruta)
-  avgIncome            Float? // Só será calculado depois de serem colocadas as MonthlyIncome
-  FamilyMemberIncome   FamilyMemberIncome @relation(fields: [familyMemberIncomeId], references: [id])
-  familyMemberIncomeId String             @unique
-}
-
-model Entrepreneur {
-  id                   String             @id @default(uuid())
-  startDate            DateTime // Data de início das atividades
-  companyName          String // Razão social
-  tradeName            String? // Nome fantasia
-  CNPJ                 String
-  incomes              ProLabore[] // Monthly pró-labore and dividends
-  avgIncome            Float? // Só será calculado depois de serem colocadas as MonthlyIncome
-  FamilyMemberIncome   FamilyMemberIncome @relation(fields: [familyMemberIncomeId], references: [id])
-  familyMemberIncomeId String             @unique
-}
-
-model Unemployed {
-  id                   String             @id @default(uuid())
-  receivesUnemployment Boolean // Recebe seguro-desemprego?
-  parcels              Int? // Quantidade de parcelas
-  firstParcelDate      DateTime? // Data de recebimento da primeira parcela
-  parcelValue          Float[] // Valor de cada parcela
-  FamilyMemberIncome   FamilyMemberIncome @relation(fields: [familyMemberIncomeId], references: [id])
-  familyMemberIncomeId String             @unique
-}
-
-model ProLabore {
-  id           String       @id @default(uuid())
-  month        Int // Mês
-  year         Int // Ano
-  proLabore    Float // Valor do pró-labore
-  dividends    Float // Valor dos dividendos
-  total        Float // Total (proLabore + dividends)
-  Entrepreneur Entrepreneur @relation(fields: [empresarioId], references: [id])
-  empresarioId String
+  familyMember    FamilyMember? @relation(fields: [familyMember_id], references: [id])
+  familyMember_id String?
 }
 
 model Expense {
@@ -702,8 +662,8 @@ model Expense {
   otherExpenses       Float?
   totalExpense        Float?
 
-  familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
-  familyMember_id String
+  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+  candidate_id String
 }
 
 model Loan {

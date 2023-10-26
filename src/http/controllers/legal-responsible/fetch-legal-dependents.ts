@@ -32,7 +32,7 @@ export async function fetchLegalDependents(
     }
 
     const dependent = await prisma.candidate.findUnique({
-      where: { id: dependent_id, responsible_id: responsible.id },
+      where: { id: dependent_id },
     })
 
     return reply.status(201).send({ dependent })
