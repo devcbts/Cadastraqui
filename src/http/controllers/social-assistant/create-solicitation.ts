@@ -7,22 +7,27 @@ import { z } from 'zod'
 
 
 
+// A lógica para a solicitação é ser um tipo específico de histórico, com um prazo específico e com um tipo específico também
 
-
-export async function addHistory(
+export async function createSolicitation(
     request: FastifyRequest,
     reply: FastifyReply,
 ) {
+
+    const solicitationType = z.enum(['Document', 'Interview', 'Visit'])
+
     const applicationParamsSchema = z.object({
         application_id: z.string(),
-        
+
     })
     const applicationBodySchema = z.object({
         description: z.string(),
-        status: z.enum(['Approved','Rejected','Pending']).optional()
+        deadLineTime: z.number().optional(),
+        solicitation: solicitationType.optional()
+
     })
     const { application_id } = applicationParamsSchema.parse(request.params)
-    const {description, status} = applicationBodySchema.parse(request.body)
+    const { description, deadLineTime, solicitation } = applicationBodySchema.parse(request.body)
     try {
         const userType = request.user.role
         const userId = request.user.sub
@@ -39,31 +44,36 @@ export async function addHistory(
             throw new ResourceNotFoundError()
         }
 
-        // Criar novo report no histórico da inscrição
-        await prisma.applicationHistory.create({
-            data:{
-                application_id,
-                description: description
+        // Criar novo report no histórico da inscrição 
 
+        // Se a solicitação for do tipo de documentos
+        if (deadLineTime) {
+            const deadLineDate = new Date()
+            const deadLine = new Date(deadLineDate.setDate(deadLineDate.getDate() + deadLineTime))
+            await prisma.applicationHistory.create({
+                data: {
+                    application_id,
+                    description: description,
+                    solicitation: solicitation,
+                    deadLine: deadLine
+                },
+            })
+            return reply.status(201).send({ message: "Solicitação criada com sucesso!" })
+        }
+        await prisma.applicationHistory.create({
+            data: {
+                application_id,
+                description: description,
+                solicitation: solicitation
             },
         })
 
-        // Altera o status da inscrição
-        if (status) {
-            await prisma.application.update({
-                data:{
-                    status
-                },
-                where: {id: application_id}
-            })
-        }
+        return reply.status(201).send({ message: "Solicitação criada com sucesso!" })
 
 
-
-        return reply.status(201).send({message:"Histórico Criado"})
     } catch (err: any) {
         if (err instanceof NotAllowedError) {
-            return reply.status(404).send({ message: err.message })
+            return reply.status(403).send({ message: err.message })
         }
         if (err instanceof ResourceNotFoundError) {
             return reply.status(404).send({ message: err.message })

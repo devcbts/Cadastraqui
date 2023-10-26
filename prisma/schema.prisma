@@ -754,10 +754,11 @@ model Announcement {
   entity    Entity @relation(fields: [entity_id], references: [id])
   entity_id String
 
-  entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
+  entity_subsidiary    EntitySubsidiary?    @relation(fields: [entity_subsidiary_id], references: [id])
   entity_subsidiary_id String?
   Application          Application[]
   socialAssistant      SocialAssistant[]
+  ScholarshipGranted   ScholarshipGranted[]
 }
 
 model Timeline {
@@ -842,16 +843,22 @@ model Application {
   SocialAssistant      SocialAssistant?     @relation(fields: [socialAssistant_id], references: [id])
   socialAssistant_id   String?
 
-  EducationLevel    EducationLevel @relation(fields: [educationLevel_id], references: [id])
-  educationLevel_id String
+  EducationLevel     EducationLevel       @relation(fields: [educationLevel_id], references: [id])
+  educationLevel_id  String
+  ScholarshipGranted ScholarshipGranted[]
+
+  @@unique([candidate_id, announcement_id])
 }
 
 model ApplicationHistory {
-  id             String      @id @default(uuid())
-  application    Application @relation(fields: [application_id], references: [id])
+  id             String            @id @default(uuid())
+  application    Application       @relation(fields: [application_id], references: [id])
   application_id String
   description    String // Description of the history event
-  date           DateTime    @default(now())
+  solicitation   SolicitationType?
+  answered       Boolean?          @default(false)
+  deadLine       DateTime?
+  date           DateTime          @default(now())
 }
 
 enum ApplicationStatus {
@@ -860,4 +867,30 @@ enum ApplicationStatus {
   Pending
   WaitingList
   // Add other statuses as needed
+}
+
+enum SolicitationType {
+  Document
+  Interview
+  Visit
+}
+
+model ScholarshipGranted {
+  id              String                   @id @default(uuid())
+  gaveUp          Boolean
+  ScholarshipCode String
+  types           scholarshipGrantedType[]
+  application     Application              @relation(fields: [application_id], references: [id])
+  announmentent   Announcement             @relation(fields: [announcement_id], references: [id])
+
+  application_id String @unique
+  announcement_id String
+}
+
+enum scholarshipGrantedType {
+  UNIFORM
+  TRANSPORT
+  FOOD
+  HOUSING
+  STUDY_MATERIAL
 }
