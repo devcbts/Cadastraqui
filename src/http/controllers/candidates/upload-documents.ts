@@ -13,6 +13,7 @@ export async function uploadDocument(
         documentPath: z.string(),
     })
 
+    
     const {
         documentPath,
     } = uploadDocumentSchema.parse(request.body)
@@ -25,8 +26,11 @@ export async function uploadDocument(
             throw new ResourceNotFoundError()
         }
 
+        
+
         const Folder = `CandidatesDocuments/${candidate.id}`
         uploadFile(documentPath, Folder)
+
         reply.status(201).send()
     } catch (error) {
         return reply.status(400).send()

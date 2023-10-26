@@ -14,53 +14,48 @@ export async function addHistory(
     reply: FastifyReply,
 ) {
     const applicationParamsSchema = z.object({
-        application_id: z.string(),
-        
+        announcement_id: z.string(),
+
     })
-    const applicationBodySchema = z.object({
-        description: z.string(),
-        status: z.enum(['Approved','Rejected','Pending']).optional()
-    })
-    const { application_id } = applicationParamsSchema.parse(request.params)
-    const {description, status} = applicationBodySchema.parse(request.body)
+
+    const { announcement_id } = applicationParamsSchema.parse(request.params)
     try {
         const userType = request.user.role
         const userId = request.user.sub
 
-        if (userType !== 'ASSISTANT') {
+        if (userType !== 'CANDIDATE') {
             throw new NotAllowedError()
         }
 
-        const assistant = await prisma.socialAssistant.findUnique({
-            where: { user_id: userId },
+        const candidate = await prisma.candidate.findUnique({
+            where: { user_id: userId }
         })
 
-        if (!assistant) {
+        if (!candidate) {
             throw new ResourceNotFoundError()
         }
 
-        // Criar novo report no histórico da inscrição
-        await prisma.applicationHistory.create({
-            data:{
-                application_id,
-                description: description
+        const application = await prisma.application.findUnique({
+            where: {
+                candidate_id_announcement_id: {
 
-            },
+                    candidate_id: candidate.id, announcement_id
+                },
+            }
         })
 
-        // Altera o status da inscrição
-        if (status) {
-            await prisma.application.update({
-                data:{
-                    status
-                },
-                where: {id: application_id}
-            })
+        if (!application) {
+            throw new ResourceNotFoundError()
         }
 
+        const applicationhistories = await prisma.applicationHistory.findMany({
+            where: {application_id: application.id}
+        })
 
 
-        return reply.status(201).send({message:"Histórico Criado"})
+        return reply.status(200).send({applicationhistories})
+
+
     } catch (err: any) {
         if (err instanceof NotAllowedError) {
             return reply.status(404).send({ message: err.message })
