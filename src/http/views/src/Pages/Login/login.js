@@ -19,12 +19,65 @@ export default function Login() {
     signIn({ email, password });
   }
 
-  const passwordForm = useRef(null);
-  const firstForm = useRef(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const responsavelRef = useRef(null);
   const candidatoRef = useRef(null);
   const [numDependentes, setNumDependentes] = useState(0);
+
+  const passwordForm = useRef(null);
+  const firstForm = useRef(null);
+
+  const formRef1 = useRef(null);
+  const formRef2 = useRef(null);
+  const formRef3 = useRef(null);
+  const formRef4 = useRef(null);
+  const formRef5 = useRef(null);
+  const formRef6 = useRef(null);
+  const formRef7 = useRef(null);
+
+  function handlePageChange() {
+    let currentForm;
+
+    switch (currentPage) {
+      case 0:
+        currentForm = formRef1;
+        break;
+      case 1:
+        currentForm = formRef2;
+        break;
+      case 2:
+        currentForm = formRef3;
+        break;
+      case 3:
+        currentForm = formRef4;
+        break;
+      case 4:
+        currentForm = formRef5;
+        break;
+      case 5:
+        currentForm = formRef6;
+        break;
+      case 6:
+        currentForm = formRef7;
+        break;
+      default:
+        currentForm = formRef1;
+    }
+
+    if (currentForm.current.checkValidity()) {
+      setCurrentPage((prevPage) => {
+        if (prevPage === 0) return 1;
+        if (prevPage === 1) return 2;
+        if (prevPage === 2) return 3;
+        if (prevPage === 3) return 4;
+        if (prevPage === 4 && responsavelRef.current.checked) return 5;
+        if (prevPage === 4 && candidatoRef.current.checked) return 6;
+        if (prevPage === 5) return 7;
+      });
+    } else {
+      alert("Preencha os campos exigidos!");
+    }
+  }
 
   function CadastroComponent({ i }) {
     return (
@@ -55,19 +108,16 @@ export default function Login() {
     return components;
   }
 
-  function handlePageChange() {
-    if (firstForm.current.checkValidity()) {
-      setCurrentPage((prevPage) => {
-        if (prevPage === 1) return 2;
-        if (prevPage === 2) return 3;
-        if (prevPage === 3) return 4;
-        if (prevPage === 4 && responsavelRef.current.checked) return 5;
-        if (prevPage === 4 && candidatoRef.current.checked) return 6;
-        if (prevPage === 5) return 7;
-      });
-    } else {
-      alert("Preencha os campos exigidos!");
-    }
+  function handleBackChange() {
+    setCurrentPage((prevPage) => {
+      if (prevPage === 1) return 0;
+      if (prevPage === 2) return 1;
+      if (prevPage === 3) return 2;
+      if (prevPage === 4) return 3;
+      if (prevPage === 5) return 4;
+      if (prevPage === 6) return 4;
+      if (prevPage === 7) return 5;
+    });
   }
   return (
     <div className="login-container">
@@ -85,9 +135,54 @@ export default function Login() {
           <h1>CADASTRO</h1>
 
           <div
+            className={`cadastro-second ${currentPage !== 0 && "hidden-page"}`}
+          >
+            <h2>Cadastre seu email e senha </h2>
+            <form ref={formRef1}>
+              <div className="user-login mail">
+                <label for="usermail">
+                  <UilUserCircle size="40" color="white" />
+                </label>
+                <input
+                  type="email"
+                  id="usermail"
+                  placeholder="Email"
+                  required
+                ></input>
+              </div>
+              <div className="user-login password">
+                <label for="pass">
+                  <UilLock size="40" color="white" />
+                </label>
+                <input
+                  type="password"
+                  id="pass"
+                  placeholder="Senha"
+                  required
+                ></input>
+              </div>
+              <button className="login-btn" type="button">
+                <div className="btn-entrar">
+                  <a>Entrar</a>
+                </div>
+              </button>
+              <button className="login-btn" type="button">
+                <div className="btn-entrar" onClick={() => handlePageChange()}>
+                  <a>Registrar</a>
+                </div>
+              </button>
+              <button className="login-btn" type="button">
+                <div className="btn-google">
+                  <UilGoogle size="30" color="#1F4B73"></UilGoogle>
+                </div>
+              </button>
+            </form>
+          </div>
+
+          <div
             className={`info-user-sign ${currentPage !== 1 && "hidden-page"}`}
           >
-            <form ref={firstForm}>
+            <form ref={formRef2}>
               <div>
                 <label for="nome">
                   <h2 className="info-cadastrado">Nome civil completo</h2>
@@ -96,6 +191,7 @@ export default function Login() {
                   type="text"
                   id="nome"
                   placeholder="Exemplo: Jean Carlo do Amaral"
+                  required
                 ></input>
               </div>
               <div>
@@ -106,6 +202,7 @@ export default function Login() {
                   type="text"
                   id="nome"
                   placeholder="Exemplo: XXX.XXX.XXX-XX"
+                  required
                 ></input>
               </div>
               <div className="info-dependente">
@@ -122,10 +219,21 @@ export default function Login() {
                   type="text"
                   id="nome"
                   placeholder="Exemplo: +55 (35) 9 8820-7198"
+                  required
                 ></input>
               </div>
               <div className="btn-entrar" onClick={() => handlePageChange()}>
                 <a>Próximo</a>
+              </div>
+              <div>
+                <div className="go-back">
+                  <UilAngleLeft
+                    size="30"
+                    color="#1F4B73"
+                    className="back"
+                    onClick={() => handleBackChange()}
+                  ></UilAngleLeft>
+                </div>
               </div>
             </form>
           </div>
@@ -134,18 +242,28 @@ export default function Login() {
             className={`cadastro-second ${currentPage !== 2 && "hidden-page"}`}
           >
             <h2>Cadastre seu email e senha </h2>
-            <form ref={firstForm}>
+            <form ref={formRef3}>
               <div className="user-login mail">
                 <label for="usermail">
                   <UilUserCircle size="40" color="white" />
                 </label>
-                <input type="email" id="usermail" placeholder="Email"></input>
+                <input
+                  type="email"
+                  id="usermail"
+                  placeholder="Email"
+                  required
+                ></input>
               </div>
               <div className="user-login password">
                 <label for="pass">
                   <UilLock size="40" color="white" />
                 </label>
-                <input type="password" id="pass" placeholder="Senha"></input>
+                <input
+                  type="password"
+                  id="pass"
+                  placeholder="Senha"
+                  required
+                ></input>
               </div>
               <button className="login-btn" type="button">
                 <div className="btn-entrar" onClick={() => handlePageChange()}>
@@ -153,10 +271,16 @@ export default function Login() {
                 </div>
               </button>
 
-              <div className="btn-next-back" onClick={() => handlePageChange()}>
-                <a>
-                  <UilAngleLeft size="30"></UilAngleLeft>
-                </a>
+              <div>
+                <div className="go-back">
+                  <UilAngleLeft
+                    size="30"
+                    color="#1F4B73"
+                    className="back"
+                    onClick={() => handleBackChange()}
+                    style={{ marginTop: 1 + "rem" }}
+                  ></UilAngleLeft>
+                </div>
               </div>
             </form>
           </div>
@@ -164,7 +288,7 @@ export default function Login() {
           <div
             className={`info-user-sign ${currentPage !== 3 && "hidden-page"}`}
           >
-            <form ref={firstForm}>
+            <form ref={formRef4}>
               <div>
                 <h2 className="text-form">
                   Insira seu endereço para prosseguir
@@ -175,7 +299,8 @@ export default function Login() {
                 <input
                   type="number"
                   id="nome"
-                  placeholder="Exemplo: Jean Carlo do Amaral"
+                  placeholder="Exemplo: XXX.XXX.XXX-XX"
+                  required
                 ></input>
                 <label for="nome">
                   <h2 className="info-cadastrado">Endereço completo</h2>
@@ -184,6 +309,7 @@ export default function Login() {
                   type="text"
                   id="nome"
                   placeholder="Exemplo: Jean Carlo do Amaral"
+                  required
                 ></input>
               </div>
               <button className="login-btn" type="button">
@@ -191,6 +317,17 @@ export default function Login() {
                   <a>Próximo</a>
                 </div>
               </button>
+              <div>
+                <div className="go-back">
+                  <UilAngleLeft
+                    size="30"
+                    color="#1F4B73"
+                    className="back"
+                    onClick={() => handleBackChange()}
+                    style={{ marginTop: 1 + "rem" }}
+                  ></UilAngleLeft>
+                </div>
+              </div>
             </form>
           </div>
 
@@ -205,7 +342,7 @@ export default function Login() {
                 selecione se você é o responsável legal por filhos menores ou se
                 é o próprio candidato (maior de idade).
               </h2>
-              <fieldset>
+              <form ref={formRef5}>
                 <div className="radio-select">
                   <div className="radio-input">
                     <label for="huey">
@@ -236,12 +373,23 @@ export default function Login() {
                     <label for="confirm-read">
                       <h3>Li e concordo com os termos LGPD</h3>
                     </label>
-                    <input type="checkbox" id="confirm-read"></input>
+                    <input type="checkbox" id="confirm-read" required></input>
                   </div>
                 </div>
-              </fieldset>
+              </form>
               <div className="btn-confirmar" onClick={() => handlePageChange()}>
                 <a>Concluir</a>
+              </div>
+              <div>
+                <div className="go-back">
+                  <UilAngleLeft
+                    size="30"
+                    color="#1F4B73"
+                    className="back"
+                    onClick={() => handleBackChange()}
+                    style={{ marginTop: 1 + "rem" }}
+                  ></UilAngleLeft>
+                </div>
               </div>
             </div>
           </div>
@@ -258,23 +406,38 @@ export default function Login() {
               </h2>
             </div>
 
-            {Array.from({ length: 6 }, (_, i) => (
-              <div key={i} className="radio-input number-children">
-                <label htmlFor={`num-${i + 1}`}>
-                  <h2>{i + 1}</h2>
-                </label>
-                <input
-                  type="radio"
-                  id={`num-${i + 1}`}
-                  name="child"
-                  value={i + 1}
-                  onChange={(e) => setNumDependentes(parseInt(e.target.value))}
-                />
-              </div>
-            ))}
+            <form ref={formRef6}>
+              {Array.from({ length: 6 }, (_, i) => (
+                <div key={i} className="radio-input number-children">
+                  <label htmlFor={`num-${i + 1}`}>
+                    <h2>{i + 1}</h2>
+                  </label>
+                  <input
+                    type="radio"
+                    id={`num-${i + 1}`}
+                    name="child"
+                    value={i + 1}
+                    onChange={(e) =>
+                      setNumDependentes(parseInt(e.target.value))
+                    }
+                  />
+                </div>
+              ))}
+            </form>
 
             <div className="btn-confirmar" onClick={() => handlePageChange()}>
               <a>Continuar</a>
+            </div>
+            <div>
+              <div className="go-back">
+                <UilAngleLeft
+                  size="30"
+                  color="#1F4B73"
+                  className="back"
+                  onClick={() => handleBackChange()}
+                  style={{ marginTop: 1 + "rem" }}
+                ></UilAngleLeft>
+              </div>
             </div>
           </div>
 
@@ -282,6 +445,22 @@ export default function Login() {
             className={`create-subperfil ${currentPage !== 7 && "hidden-page"}`}
           >
             <CadastroDependentes num={numDependentes} />
+            <button className="login-btn finish" type="button">
+              <div className="btn-entrar">
+                <a>Concluir</a>
+              </div>
+            </button>
+            <div>
+              <div className="go-back">
+                <UilAngleLeft
+                  size="30"
+                  color="#1F4B73"
+                  className="back"
+                  onClick={() => handleBackChange()}
+                  style={{ marginTop: 1 + "rem" }}
+                ></UilAngleLeft>
+              </div>
+            </div>
           </div>
         </div>
       </div>
