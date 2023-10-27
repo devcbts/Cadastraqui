@@ -22,72 +22,86 @@ import AcceptEdital from "./Pages/Candidato/acceptEdital";
 import CandidatosCadastrados from "./Pages/Assistente/candidatosCadastrados";
 import Login from "./Pages/Login/login";
 import { AuthProvider } from "./context/auth";
+import CadastroInfo from "./Pages/Candidato/cadastroInformacoes";
+import Estatisticas from "./Pages/Assistente/estatisticas";
 
 function App() {
   return (
     <AppProvider>
       <div className="App">
         <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            {/*Here we have the routes for the "entidade" user type */}
-            <Route path="/entidade/home" element={<HomeEntidade />}></Route>
-            <Route
-              path="/entidade/editais"
-              element={<EditaisEntidade />}
-            ></Route>
-            <Route
-              path="/entidade/cadastro"
-              element={<CadastroEntidade />}
-            ></Route>
-            <Route path="/entidade/sac" element={<SacEntidade />}></Route>
-            <Route path="/entidade/contas" element={<ContasEntidade />}></Route>
-            <Route path="/entidade/perfil" element={<PerfilEntidade />}></Route>
+          <AuthProvider>
+            <Routes>
+              {/*Here we have the routes for the "entidade" user type */}
+              <Route path="/entidade/home" element={<HomeEntidade />}></Route>
+              <Route
+                path="/entidade/editais"
+                element={<EditaisEntidade />}
+              ></Route>
+              <Route
+                path="/entidade/cadastro"
+                element={<CadastroEntidade />}
+              ></Route>
+              <Route path="/entidade/sac" element={<SacEntidade />}></Route>
+              <Route
+                path="/entidade/contas"
+                element={<ContasEntidade />}
+              ></Route>
+              <Route
+                path="/entidade/perfil"
+                element={<PerfilEntidade />}
+              ></Route>
 
-            {/*Here we have the routes for the "assistente social" user type */}
-            <Route
-              path="/candidato/home"
-              element={<HomeCandidato></HomeCandidato>}
-            ></Route>
-            <Route
-              path="/candidato/perfil"
-              element={<PerfilCandidato></PerfilCandidato>}
-            ></Route>
-            <Route
-              path="/candidato/historico"
-              element={<HistoricoCandidato></HistoricoCandidato>}
-            ></Route>
-            <Route
-              path="/assistente/home"
-              element={<HomeAssistente></HomeAssistente>}
-            ></Route>
-            <Route
-              path="/assistente/editais"
-              element={<EditaisAssistente></EditaisAssistente>}
-            ></Route>
-            <Route
-              path="/admin/cadastro"
-              element={<NewEntidade></NewEntidade>}
-            ></Route>
-            <Route
-              path="/admin/editais"
-              element={<EditaisAdmin></EditaisAdmin>}
-            ></Route>
-            <Route
-              path="/entidade/editaltest"
-              element={<EditalAberto />}
-            ></Route>
-            <Route
-              path="/candidato/editaltest"
-              element={<EditalAbertoCandidato></EditalAbertoCandidato>}
-            ></Route>
-            <Route
-              path="/assistente/cadastrados"
-              element={<CandidatosCadastrados></CandidatosCadastrados>}
-            ></Route>
+              {/*Here we have the routes for the "assistente social" user type */}
+              <Route
+                path="/candidato/home"
+                element={<HomeCandidato></HomeCandidato>}
+              ></Route>
+              <Route
+                path="/candidato/perfil"
+                element={<PerfilCandidato></PerfilCandidato>}
+              ></Route>
+              <Route
+                path="/candidato/historico"
+                element={<HistoricoCandidato></HistoricoCandidato>}
+              ></Route>
+              <Route
+                path="/assistente/home"
+                element={<HomeAssistente></HomeAssistente>}
+              ></Route>
+              <Route
+                path="/assistente/editais"
+                element={<EditaisAssistente></EditaisAssistente>}
+              ></Route>
+              <Route
+                path="/assistente/estatisticas"
+                element={<Estatisticas />}
+              ></Route>
+              <Route
+                path="/admin/cadastro"
+                element={<NewEntidade></NewEntidade>}
+              ></Route>
+              <Route
+                path="/admin/editais"
+                element={<EditaisAdmin></EditaisAdmin>}
+              ></Route>
+              <Route
+                path="/entidade/editaltest"
+                element={<EditalAberto />}
+              ></Route>
+              <Route
+                path="/candidato/editaltest"
+                element={<EditalAbertoCandidato></EditalAbertoCandidato>}
+              ></Route>
+              <Route
+                path="/assistente/cadastrados"
+                element={<CandidatosCadastrados></CandidatosCadastrados>}
+              ></Route>
 
-            <Route path="/login" element={<Login></Login>}></Route>
-          </Routes>
+              <Route path="/login" element={<Login></Login>}></Route>
+
+              <Route path="/candidato/info" element={<CadastroInfo />}></Route>
+            </Routes>
           </AuthProvider>
         </BrowserRouter>
       </div>
