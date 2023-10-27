@@ -69,10 +69,9 @@ export async function candidateRoutes(app: FastifyInstance) {
     registerVehicleInfo,
   )
 
-
-
-
-
-
-  app.post('/application/:announcement_id/:educationLevel_id', {onRequest: [verifyJWT, verifyRole('CANDIDATE')]}, subscribeAnnouncement)
+  app.post(
+    '/application/:announcement_id/:educationLevel_id',
+    { onRequest: [verifyJWT, verifyRole('CANDIDATE')] },
+    subscribeAnnouncement,
+  )
 }

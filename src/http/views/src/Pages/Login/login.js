@@ -8,19 +8,19 @@ import { UilLock } from "@iconscout/react-unicons";
 import { UilGoogle } from "@iconscout/react-unicons";
 import { useAuth } from "../../context/auth";
 import { UilAngleLeft } from "@iconscout/react-unicons";
+import { api } from "../../services/axios";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const { signIn } = useAuth;
 
-  function handleSingIn() {
+  /*function handleSingIn() {
     signIn({ email, password });
-  }
+  }*/
 
   const passwordForm = useRef(null);
   const firstForm = useRef(null);
+  const addressForm = useRef(null);
+  const credentialsForm = useRef(null);
   const [currentPage, setCurrentPage] = useState(1);
   const responsavelRef = useRef(null);
   const candidatoRef = useRef(null);
@@ -53,6 +53,53 @@ export default function Login() {
       components.push(<CadastroComponent key={i} i={i} />);
     }
     return components;
+  }
+
+  async function handleRegister() {
+      // Acesse o elemento do formulário usando a referência
+    const firstFormElement = firstForm.current;
+    const credentialsFormElement = credentialsForm.current;
+    const addressFormElement = addressForm.current
+
+    // Acesse os campos do formulário pelo nome
+    const name = firstFormElement.querySelector('input[name="name"]').value;
+    const CPF = firstFormElement.querySelector('input[name="CPF"]');
+    const birthDate = firstFormElement.querySelector('input[name="birthDate"]');
+    const phone = firstFormElement.querySelector('input[name="phone"]');
+
+    const email = credentialsFormElement.querySelector('input[name="email"]').value
+    const password = credentialsFormElement.querySelector('input[name="password"]').value
+
+    const address = addressFormElement.querySelector('input[name="address"]').value
+    const CEP = addressFormElement.querySelector('input[name="CEP"]').value
+    console.log(CEP)
+    console.log(address)
+    console.log(birthDate)
+    console.log(email)
+    console.log(password)
+    const registerInfo = {
+      name,
+      CPF,
+      birthDate,
+      phone,
+      email,
+      password,
+      address,
+      CEP
+    }
+
+    const responsavel = responsavelRef.current.value
+    const candidate = candidatoRef.current.value
+
+    if(candidate) {
+      api.post('/candidates', registerInfo)
+      .then(response => console.log(response.data))
+      .catch((err) => console.log(err))
+    } else if(responsavel) {
+      api.post('/candidates', registerInfo)
+      .then(response => console.log(response.data))
+      .catch((err) => console.log(err))  
+    }
   }
 
   function handlePageChange() {
@@ -95,6 +142,7 @@ export default function Login() {
                 <input
                   type="text"
                   id="nome"
+                  name="name"
                   placeholder="Exemplo: Jean Carlo do Amaral"
                 ></input>
               </div>
@@ -105,14 +153,16 @@ export default function Login() {
                 <input
                   type="text"
                   id="nome"
+                  name="CPF"
                   placeholder="Exemplo: XXX.XXX.XXX-XX"
+                  
                 ></input>
               </div>
               <div className="info-dependente">
                 <label for="nome">
                   <h2 className="info-cadastrado">Data de nascimento</h2>
                 </label>
-                <input type="date" id="nome" value="2003-10-24"></input>
+                <input type="date" name="birthDate" id="nome" placeholder="2003-10-24"></input>
               </div>
               <div>
                 <label for="nome">
@@ -121,7 +171,9 @@ export default function Login() {
                 <input
                   type="text"
                   id="nome"
+                  name="phone"
                   placeholder="Exemplo: +55 (35) 9 8820-7198"
+                  
                 ></input>
               </div>
               <div className="btn-entrar" onClick={() => handlePageChange()}>
@@ -134,18 +186,18 @@ export default function Login() {
             className={`cadastro-second ${currentPage !== 2 && "hidden-page"}`}
           >
             <h2>Cadastre seu email e senha </h2>
-            <form ref={firstForm}>
+            <form ref={credentialsForm}>
               <div className="user-login mail">
                 <label for="usermail">
                   <UilUserCircle size="40" color="white" />
                 </label>
-                <input type="email" id="usermail" placeholder="Email"></input>
+                <input type="email" id="usermail" name="email" placeholder="Email" ></input>
               </div>
               <div className="user-login password">
                 <label for="pass">
                   <UilLock size="40" color="white" />
                 </label>
-                <input type="password" id="pass" placeholder="Senha"></input>
+                <input type="password" id="pass" name="password" placeholder="Senha" ></input>
               </div>
               <button className="login-btn" type="button">
                 <div className="btn-entrar" onClick={() => handlePageChange()}>
@@ -164,7 +216,7 @@ export default function Login() {
           <div
             className={`info-user-sign ${currentPage !== 3 && "hidden-page"}`}
           >
-            <form ref={firstForm}>
+            <form ref={addressForm}>
               <div>
                 <h2 className="text-form">
                   Insira seu endereço para prosseguir
@@ -175,6 +227,7 @@ export default function Login() {
                 <input
                   type="number"
                   id="nome"
+                  name="CEP"
                   placeholder="Exemplo: Jean Carlo do Amaral"
                 ></input>
                 <label for="nome">
@@ -183,6 +236,7 @@ export default function Login() {
                 <input
                   type="text"
                   id="nome"
+                  name="address"
                   placeholder="Exemplo: Jean Carlo do Amaral"
                 ></input>
               </div>
@@ -240,7 +294,7 @@ export default function Login() {
                   </div>
                 </div>
               </fieldset>
-              <div className="btn-confirmar" onClick={() => handlePageChange()}>
+              <div className="btn-confirmar" onClick={() => handleRegister()}>
                 <a>Concluir</a>
               </div>
             </div>
