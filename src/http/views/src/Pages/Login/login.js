@@ -6,28 +6,20 @@ import videoBg from "../../Assets/bg-school-vid.mp4";
 import { UilUserCircle } from "@iconscout/react-unicons";
 import { UilLock } from "@iconscout/react-unicons";
 import { UilGoogle } from "@iconscout/react-unicons";
-import { useAuth } from "../../context/auth";
 import { UilAngleLeft } from "@iconscout/react-unicons";
 import { api } from "../../services/axios";
+import { useAuth } from "../../context/auth";
+import { useNavigate } from "react-router";
 
 export default function Login() {
-  const { signIn } = useAuth;
+  const { SignIn, user } = useAuth()
+  const navigate  = useNavigate()
 
-  /*function handleSingIn() {
-    signIn({ email, password });
-  }*/
-
-  const passwordForm = useRef(null);
-  const firstForm = useRef(null);
-  const addressForm = useRef(null);
-  const credentialsForm = useRef(null);
   const [currentPage, setCurrentPage] = useState(1);
   const responsavelRef = useRef(null);
   const candidatoRef = useRef(null);
   const [numDependentes, setNumDependentes] = useState(0);
 
-  const passwordForm = useRef(null);
-  const firstForm = useRef(null);
 
   const formRef1 = useRef(null);
   const formRef2 = useRef(null);
@@ -36,6 +28,29 @@ export default function Login() {
   const formRef5 = useRef(null);
   const formRef6 = useRef(null);
   const formRef7 = useRef(null);
+
+  const loginForm = useRef(null);
+
+  async function login() {
+    // Pega o valor do email e password dos inputs 
+    const loginFormElement = loginForm.current
+    const email = loginFormElement.querySelector('input[id="usermail"]').value
+    const password = loginFormElement.querySelector('input[id="pass"]').value
+
+    const credentials = { email, password }
+
+    // Loga na aplicação
+    await SignIn(credentials)
+    const role = user.user_role
+
+    if(role ==='CANDIDATE') {
+      navigate('/candidato/home')
+    } else if(role === 'ENTITY') {
+      navigate('/entidade/home')
+    }
+
+  }
+
 
   function handlePageChange() {
     let currentForm;
@@ -112,18 +127,18 @@ export default function Login() {
 
   async function handleRegister() {
       // Acesse o elemento do formulário usando a referência
-    const firstFormElement = firstForm.current;
-    const credentialsFormElement = credentialsForm.current;
-    const addressFormElement = addressForm.current
+    const firstFormElement = formRef2.current;
+    const credentialsFormElement = formRef3.current;
+    const addressFormElement = formRef4.current
 
     // Acesse os campos do formulário pelo nome
-    const name = firstFormElement.querySelector('input[name="name"]').value;
-    const CPF = firstFormElement.querySelector('input[name="CPF"]');
-    const birthDate = firstFormElement.querySelector('input[name="birthDate"]');
-    const phone = firstFormElement.querySelector('input[name="phone"]');
+    const name = firstFormElement.querySelector('input[name="name"]').value
+    const CPF = firstFormElement.querySelector('input[name="CPF"]').value
+    const birthDate = firstFormElement.querySelector('input[name="birthDate"]').value
+    const phone = firstFormElement.querySelector('input[name="phone"]').value
 
-    const email = credentialsFormElement.querySelector('input[name="email"]').value
-    const password = credentialsFormElement.querySelector('input[name="password"]').value
+    const email = credentialsFormElement.querySelector('input[id="usermail"]').value
+    const password = credentialsFormElement.querySelector('input[id="pass"]').value
 
     const address = addressFormElement.querySelector('input[name="address"]').value
     const CEP = addressFormElement.querySelector('input[name="CEP"]').value
@@ -155,53 +170,7 @@ export default function Login() {
       .then(response => console.log(response.data))
       .catch((err) => console.log(err))  
     }
-  }
-
-  async function handleRegister() {
-      // Acesse o elemento do formulário usando a referência
-    const firstFormElement = firstForm.current;
-    const credentialsFormElement = credentialsForm.current;
-    const addressFormElement = addressForm.current
-
-    // Acesse os campos do formulário pelo nome
-    const name = firstFormElement.querySelector('input[name="name"]').value;
-    const CPF = firstFormElement.querySelector('input[name="CPF"]');
-    const birthDate = firstFormElement.querySelector('input[name="birthDate"]');
-    const phone = firstFormElement.querySelector('input[name="phone"]');
-
-    const email = credentialsFormElement.querySelector('input[name="email"]').value
-    const password = credentialsFormElement.querySelector('input[name="password"]').value
-
-    const address = addressFormElement.querySelector('input[name="address"]').value
-    const CEP = addressFormElement.querySelector('input[name="CEP"]').value
-    console.log(CEP)
-    console.log(address)
-    console.log(birthDate)
-    console.log(email)
-    console.log(password)
-    const registerInfo = {
-      name,
-      CPF,
-      birthDate,
-      phone,
-      email,
-      password,
-      address,
-      CEP
-    }
-
-    const responsavel = responsavelRef.current.value
-    const candidate = candidatoRef.current.value
-
-    if(candidate) {
-      api.post('/candidates', registerInfo)
-      .then(response => console.log(response.data))
-      .catch((err) => console.log(err))
-    } else if(responsavel) {
-      api.post('/candidates', registerInfo)
-      .then(response => console.log(response.data))
-      .catch((err) => console.log(err))  
-    }
+    
   }
 
   function handleBackChange() {
@@ -234,7 +203,7 @@ export default function Login() {
             className={`cadastro-second ${currentPage !== 0 && "hidden-page"}`}
           >
             <h2>Cadastre seu email e senha </h2>
-            <form ref={formRef1}>
+            <form ref={loginForm}>
               <div className="user-login mail">
                 <label for="usermail">
                   <UilUserCircle size="40" color="white" />
@@ -257,7 +226,7 @@ export default function Login() {
                   required
                 ></input>
               </div>
-              <button className="login-btn" type="button">
+              <button className="login-btn" type="button" onClick={login}>
                 <div className="btn-entrar">
                   <a>Entrar</a>
                 </div>
@@ -341,7 +310,7 @@ export default function Login() {
             className={`cadastro-second ${currentPage !== 2 && "hidden-page"}`}
           >
             <h2>Cadastre seu email e senha </h2>
-            <form ref={credentialsForm}>
+            <form ref={formRef3}>
               <div className="user-login mail">
                 <label for="usermail">
                   <UilUserCircle size="40" color="white" />
@@ -387,7 +356,7 @@ export default function Login() {
           <div
             className={`info-user-sign ${currentPage !== 3 && "hidden-page"}`}
           >
-            <form ref={addressForm}>
+            <form ref={formRef4}>
               <div>
                 <h2 className="text-form">
                   Insira seu endereço para prosseguir
@@ -398,6 +367,7 @@ export default function Login() {
                 <input
                   type="number"
                   id="nome"
+                  name="CEP"
                   placeholder="Exemplo: Jean Carlo do Amaral"
                 ></input>
                 <label for="nome">
@@ -476,8 +446,6 @@ export default function Login() {
                   </div>
                 </div>
               </form>
-              <div className="btn-confirmar" onClick={() => handlePageChange()}>
-              </fieldset>
               <div className="btn-confirmar" onClick={() => handleRegister()}>
                 <a>Concluir</a>
               </div>

@@ -21,9 +21,9 @@ export const app = fastify()
 
 // Registre o plugin fastify-cors
 app.register(fastifyCors, {
-  origin: '*',
+  origin: 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 })
 
 export const upload = fastifyMulter(multerConfig)

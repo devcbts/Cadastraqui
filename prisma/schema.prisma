@@ -883,7 +883,7 @@ model ScholarshipGranted {
   application     Application              @relation(fields: [application_id], references: [id])
   announmentent   Announcement             @relation(fields: [announcement_id], references: [id])
 
-  application_id String @unique
+  application_id  String @unique
   announcement_id String
 }
 

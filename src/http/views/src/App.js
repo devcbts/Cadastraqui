@@ -30,7 +30,7 @@ function App() {
     <AppProvider>
       <div className="App">
         <BrowserRouter>
-          <AuthProvider>
+        <AuthProvider>
             <Routes>
               {/*Here we have the routes for the "entidade" user type */}
               <Route path="/entidade/home" element={<HomeEntidade />}></Route>
@@ -102,8 +102,9 @@ function App() {
 
               <Route path="/candidato/info" element={<CadastroInfo />}></Route>
             </Routes>
-          </AuthProvider>
+            </AuthProvider>
         </BrowserRouter>
+        
       </div>
     </AppProvider>
   );

@@ -5,9 +5,12 @@ import { useAppState } from "../../AppGlobal";
 import NavBarCandidato from "../../Components/navBarCandidato";
 import Edital from "../../Components/edital";
 import Candidatura from "../../Components/candidatura";
+import { useAuth } from "../../context/auth";
 
 export default function HomeCandidato() {
   const { isShown } = useAppState();
+  const { user } = useAuth()
+  console.log(user)
 
   return (
     <div className="container">
