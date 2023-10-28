@@ -10,7 +10,9 @@ export async function getBasicAssistantInfo(
     const user_id = request.user.sub
 
     // Verifica se existe um candidato associado ao user_id
-    const assistant = await prisma.socialAssistant.findUnique({ where: { user_id } })
+    const assistant = await prisma.socialAssistant.findUnique({
+      where: { user_id },
+    })
     if (!assistant) {
       throw new NotAllowedError()
     }

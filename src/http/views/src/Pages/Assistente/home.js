@@ -1,12 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./home.css";
 import NavBar from "../../Components/navBar";
 import { useAppState } from "../../AppGlobal";
 import NavBarAssistente from "../../Components/navBarAssistente";
 import EditalAssistente from "../../Components/editalAssistente";
+import { useAuth } from "../../context/auth";
+import { api } from "../../services/axios";
 
 export default function HomeAssistente() {
   const { isShown } = useAppState();
+
+  const [announcements, setAnnouncements] = useState()
+  const [openAnnouncements, setOpenAnnouncements] = useState()
+  const [closeAnnouncements, setCloseAnnouncements] = useState()
+
+  useEffect(() => {
+    async function fetchAnnouncements() {
+      const token = localStorage.getItem("token")
+
+      const response = await api.get('/assistant/teste/', {
+        headers: {
+          'authorization': `Bearer ${token}`,
+        }})
+      // Pega todos os editais e armazena em um estado
+      setAnnouncements(response.data.announcement)
+      // Pega apenas os editais ainda abertos e armazena em um estado
+      
+      const openAnnouncements = response.data.announcement.filter(announcement => new Date(announcement.announcementDate) >= new Date());
+      setOpenAnnouncements(openAnnouncements)   
+      // Pega os editais já fechados e armazena em um estado
+
+      const closeAnnouncements = response.data.announcement.filter(announcement => new Date(announcement.announcementDate) < new Date());
+      setCloseAnnouncements(closeAnnouncements)
+      console.log(response.data.announcement)
+    }
+    fetchAnnouncements()
+  },[])
 
   return (
     <div className="container">
@@ -20,9 +49,7 @@ export default function HomeAssistente() {
         </div>
 
         <div className="container-editais">
-          <EditalAssistente></EditalAssistente>
-          <EditalAssistente></EditalAssistente>
-          <EditalAssistente></EditalAssistente>
+          
         </div>
 
         <div className="upper-contas status-title">
@@ -30,9 +57,9 @@ export default function HomeAssistente() {
         </div>
 
         <div className="container-editais">
-          <EditalAssistente></EditalAssistente>
-          <EditalAssistente></EditalAssistente>
-          <EditalAssistente></EditalAssistente>
+          {openAnnouncements ? openAnnouncements.map((announcement) => {
+            return ( <EditalAssistente announcement={announcement}/>)
+          }) : "" }
         </div>
 
         <div className="upper-contas status-title">
@@ -40,12 +67,9 @@ export default function HomeAssistente() {
         </div>
 
         <div className="container-editais">
-          <EditalAssistente></EditalAssistente>
-          <EditalAssistente></EditalAssistente>
-          <EditalAssistente></EditalAssistente>
-          <EditalAssistente></EditalAssistente>
-          <EditalAssistente></EditalAssistente>
-          <EditalAssistente></EditalAssistente>
+        {closeAnnouncements ? closeAnnouncements.map((announcement) => {
+            return ( <EditalAssistente announcement={announcement}/>)
+          }) : "" }
         </div>
       </div>
     </div>

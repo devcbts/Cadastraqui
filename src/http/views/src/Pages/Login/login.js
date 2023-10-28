@@ -47,6 +47,8 @@ export default function Login() {
       navigate('/candidato/home')
     } else if(role === 'ENTITY') {
       navigate('/entidade/home')
+    } else if(role === 'ASSISTANT') {
+      navigate('/assistente/home')
     }
 
   }
