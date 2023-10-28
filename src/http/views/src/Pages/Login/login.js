@@ -50,7 +50,6 @@ export default function Login() {
     } else if(role === 'ASSISTANT') {
       navigate('/assistente/home')
     }
-
   }
 
 
@@ -128,7 +127,7 @@ export default function Login() {
   }
 
   async function handleRegister() {
-      // Acesse o elemento do formulário usando a referência
+    // Acesse o elemento do formulário usando a referência
     const firstFormElement = formRef2.current;
     const credentialsFormElement = formRef3.current;
     const addressFormElement = formRef4.current
@@ -138,17 +137,16 @@ export default function Login() {
     const CPF = firstFormElement.querySelector('input[name="CPF"]').value
     const birthDate = firstFormElement.querySelector('input[name="birthDate"]').value
     const phone = firstFormElement.querySelector('input[name="phone"]').value
-
     const email = credentialsFormElement.querySelector('input[id="usermail"]').value
     const password = credentialsFormElement.querySelector('input[id="pass"]').value
 
     const address = addressFormElement.querySelector('input[name="address"]').value
     const CEP = addressFormElement.querySelector('input[name="CEP"]').value
-    console.log(CEP)
-    console.log(address)
-    console.log(birthDate)
-    console.log(email)
-    console.log(password)
+    const UF = addressFormElement.querySelector('input[name="UF"]').value
+    const city = addressFormElement.querySelector('input[name="city"]').value
+    const neighborhood = addressFormElement.querySelector('input[name="neighborhood"]').value
+    const addressNumber = addressFormElement.querySelector('input[name="addressNumber"]').value
+    
     const registerInfo = {
       name,
       CPF,
@@ -157,7 +155,11 @@ export default function Login() {
       email,
       password,
       address,
-      CEP
+      CEP,
+      UF,
+      city,
+      neighborhood,
+      addressNumber: Number(addressNumber)
     }
 
     const responsavel = responsavelRef.current.value
@@ -165,10 +167,12 @@ export default function Login() {
 
     if(candidate) {
       api.post('/candidates', registerInfo)
-      .then(response => console.log(response.data))
-      .catch((err) => console.log(err))
+      .then(() => { alert('Cadastro realizado com sucesso !')
+      setCurrentPage(0)
+    })
+      .catch((err) => {alert(`${err.response.data.message}`)})
     } else if(responsavel) {
-      api.post('/candidates', registerInfo)
+      api.post('/responsible', registerInfo)
       .then(response => console.log(response.data))
       .catch((err) => console.log(err))  
     }
@@ -256,7 +260,7 @@ export default function Login() {
                 </label>
                 <input
                   type="text"
-                  id="nome"
+                  id="name"
                   name="name"
                   placeholder="Exemplo: Jean Carlo do Amaral"
                   required
@@ -268,7 +272,7 @@ export default function Login() {
                 </label>
                 <input
                   type="text"
-                  id="nome"
+                  id="CPF"
                   name="CPF"
                   placeholder="Exemplo: XXX.XXX.XXX-XX"
                   required
@@ -370,6 +374,42 @@ export default function Login() {
                   type="number"
                   id="nome"
                   name="CEP"
+                  placeholder="Exemplo: Jean Carlo do Amaral"
+                ></input>
+                 <label for="nome">
+                  <h2 className="info-cadastrado">UF</h2>
+                </label>
+                <input
+                  type="text"
+                  id="nome"
+                  name="UF"
+                  placeholder="Exemplo: Jean Carlo do Amaral"
+                ></input>
+                <label for="nome">
+                  <h2 className="info-cadastrado">Cidade</h2>
+                </label>
+                <input
+                  type="text"
+                  id="nome"
+                  name="city"
+                  placeholder="Exemplo: Jean Carlo do Amaral"
+                ></input>
+                <label for="nome">
+                  <h2 className="info-cadastrado">Bairro</h2>
+                </label>
+                <input
+                  type="text"
+                  id="nome"
+                  name="neighborhood"
+                  placeholder="Exemplo: Jean Carlo do Amaral"
+                ></input>
+                <label for="nome">
+                  <h2 className="info-cadastrado">Número do Endereço</h2>
+                </label>
+                <input
+                  type="text"
+                  id="nome"
+                  name="addressNumber"
                   placeholder="Exemplo: Jean Carlo do Amaral"
                 ></input>
                 <label for="nome">

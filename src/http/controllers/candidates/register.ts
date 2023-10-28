@@ -10,7 +10,7 @@ export async function registerCandidate(
 ) {
   const registerBodySchema = z.object({
     name: z.string(),
-    email: z.string().email(),
+    email: z.string(),
     password: z.string().min(6),
     CEP: z.string(),
     CPF: z.string(),
@@ -71,8 +71,11 @@ export async function registerCandidate(
     const userWithSameEmail = await prisma.user.findUnique({
       where: { email },
     })
+    const candidateWithSameCPF = await prisma.candidate.findUnique({
+      where: { CPF },
+    })
 
-    if (userWithSameEmail) {
+    if (userWithSameEmail || candidateWithSameCPF) {
       throw new UserAlreadyExistsError()
     }
 
