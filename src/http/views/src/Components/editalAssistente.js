@@ -16,7 +16,7 @@ export default function EditalAssistente() {
         <h3>Prazo: 10/11/2023</h3>
         <img src={uspLogo}></img>
         <h2>USP 2023.1</h2>
-        <a href="">Saiba mais</a>
+        <a href=" /estatisticas">Saiba mais</a>
       </div>
     </>
   );
