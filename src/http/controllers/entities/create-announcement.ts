@@ -15,7 +15,7 @@ export async function CreateAnnoucment(
     offeredVacancies: z.number(),
     verifiedScholarships: z.number(),
     entity_id: z.string(),
-    entity_subsidiary_id: z.string(),
+    entity_subsidiary_id: z.string().optional(),
     announcementNumber: z.string(),
   })
 
@@ -31,19 +31,23 @@ export async function CreateAnnoucment(
   } = registerBodySchema.parse(request.body)
 
   try {
-    const entityMatrix = entity_id ? await prisma.entity.findUnique({
-      where: { id: entity_id },
-    }) : null
+    const entityMatrix = entity_id
+      ? await prisma.entity.findUnique({
+          where: { id: entity_id },
+        })
+      : null
 
-    const entitySubsidiaryMatrix = entity_subsidiary_id ? await prisma.entitySubsidiary.findUnique({
-      where: { id: entity_id },
-    }) : null
+    const entitySubsidiaryMatrix = entity_subsidiary_id
+      ? await prisma.entitySubsidiary.findUnique({
+          where: { id: entity_id },
+        })
+      : null
 
     if (!entityMatrix && !entitySubsidiaryMatrix) {
       throw new EntityNotExistsError()
     }
 
-    if(!entitySubsidiaryMatrix){
+    if (!entitySubsidiaryMatrix) {
       await prisma.announcement.create({
         data: {
           entityChanged,
@@ -57,7 +61,6 @@ export async function CreateAnnoucment(
         },
       })
       return reply.status(201).send()
-
     }
     await prisma.announcement.create({
       data: {

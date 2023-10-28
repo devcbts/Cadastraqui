@@ -11,7 +11,7 @@ export default function EditaisAssistente() {
   return (
     <div className="container">
       <div className="section-nav">
-        <NavBarAssistente></NavBarAssistente>
+        <NavBarAssistente>que </NavBarAssistente>
       </div>
       <div className={`editais ${isShown ? "hidden-menu" : ""}`}>
         <div className="upper">

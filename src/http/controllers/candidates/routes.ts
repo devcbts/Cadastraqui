@@ -25,7 +25,11 @@ import { uploadSolicitationDocument } from './upload-solicitation-documents'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
-  app.post('/upload/:solicitation_id', { onRequest: [verifyJWT] }, uploadSolicitationDocument)
+  app.post(
+    '/upload/:solicitation_id',
+    { onRequest: [verifyJWT] },
+    uploadSolicitationDocument,
+  )
 
   /** Basic Info */
   app.post('/', registerCandidate)

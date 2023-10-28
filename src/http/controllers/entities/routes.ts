@@ -16,6 +16,7 @@ import { updateDirector } from './update-director'
 import { CreateAnnoucment } from './create-announcement'
 import { updateAnnouncement } from './update-announcement'
 import { createEducationalLevel } from './create-educcation-level'
+import { addAssistantAnnouncement } from './add-social-assistant-to-announcement'
 
 export async function entityRoutes(app: FastifyInstance) {
   /** Admin Routes (Rotas acessadas na página do Admin)
@@ -86,9 +87,21 @@ export async function entityRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT, verifyRole('ENTITY')] },
     deleteDirector,
   )
+  app.post('/announcement/assistant', addAssistantAnnouncement)
 
-
-  app.post('/announcement', {onRequest: [verifyJWT, verifyRole('ENTITY')]}, CreateAnnoucment)
-  app.patch('/announcement/:announcement_id', {onRequest: [verifyJWT, verifyRole('ENTITY')] }, updateAnnouncement )
-  app.post('/education/:announcement_id', {onRequest: [verifyJWT , verifyRole('ENTITY')]},createEducationalLevel)
+  app.post(
+    '/announcement',
+    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    CreateAnnoucment,
+  )
+  app.patch(
+    '/announcement/:announcement_id',
+    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    updateAnnouncement,
+  )
+  app.post(
+    '/education/:announcement_id',
+    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    createEducationalLevel,
+  )
 }

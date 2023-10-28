@@ -15,11 +15,14 @@ import whiteLogoText from "../Assets/logo_branca_texto.png";
 import { useAppState } from "../AppGlobal";
 import { useLocation } from "react-router-dom";
 import { Fade as Hamburger } from "hamburger-react";
+import { api } from "../services/axios";
 // ReactDOM.render(element, document.body);
 
 export default function NavBarAssistente() {
   const { isShown, handleClick, setIsShown } = useAppState();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const [assistantInfo, setAssistantInfo] = useState()
 
   const navigate = useNavigate();
 
@@ -63,6 +66,18 @@ export default function NavBarAssistente() {
   var location = useLocation();
   var currentPath = location.pathname;
 
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    async function getAssistantInfo() {
+      const response = await api.get('/assistant/basic-info', {
+        headers: {
+          'authorization': `Bearer ${token}`,
+        }} )
+        setAssistantInfo(response.data.assistant)
+    }
+    getAssistantInfo()
+  },[])
+  console.log(assistantInfo)
   return (
     <div className="outer-sidebar">
       {windowWidth < 1030 && (
@@ -102,7 +117,7 @@ export default function NavBarAssistente() {
           <div className="user">
             <img src={photoProfile} className="user-sidebar"></img>
             <div className="user-name">
-              <h6>Current User</h6>
+              <h6>{assistantInfo ? assistantInfo.name: ""}</h6>
             </div>
           </div>
           <div className="menu-itens">
