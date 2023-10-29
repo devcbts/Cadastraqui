@@ -30,8 +30,8 @@ export async function uploadCandidateProfilePicture(
 
         
 
-        const Route = `ProfilePictures/${candidate.id}`
-        const sended =  await uploadFile(photoPath, Route)
+        const Route = `ProfilePictures`
+        const sended =  await uploadFile(candidate.id, Route)
 
         if (!sended){
             throw new NotAllowedError()
