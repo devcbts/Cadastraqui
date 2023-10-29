@@ -7,6 +7,22 @@
     border-radius: 50%;
 }
 
+.profile-photo {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.profile-label {
+    color: #1F4B73;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .user-photo img{
     border-radius: 50%;
     height: 15vw;

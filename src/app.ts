@@ -66,9 +66,12 @@ app.post('/session', authenticate)
 app.post('/forgot_password', forgotPassword)
 app.post('/reset_password', resetPassword)
 app.patch('/token/refresh', refresh)
-app.post('/profilePicture', {onRequest : [verifyJWT]} , uploadUserProfilePicture)
-app.get('/profilePicture', {onRequest : [verifyJWT]} , getUserProfilePicture)
-
+app.post(
+  '/profilePicture',
+  { onRequest: [verifyJWT] },
+  uploadUserProfilePicture,
+)
+app.get('/profilePicture', { onRequest: [verifyJWT] }, getUserProfilePicture)
 
 app.setErrorHandler((error, _request, reply) => {
   if (error instanceof ZodError) {
