@@ -7,6 +7,10 @@ import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
+interface MulterRequest extends FastifyRequest {
+    file: any;
+}
+
 export async function uploadCandidateProfilePicture(
     request: FastifyRequest,
     reply: FastifyReply
@@ -28,10 +32,11 @@ export async function uploadCandidateProfilePicture(
             throw new ResourceNotFoundError()
         }
 
-        
+        const data = await (request as MulterRequest).file();
+        const fileBuffer = await data.toBuffer();
 
-        const Route = `ProfilePictures`
-        const sended =  await uploadFile(candidate.id, Route)
+        const Route = `ProfilePictures/${candidate.id}`
+        const sended =  await uploadFile(fileBuffer, Route)
 
         if (!sended){
             throw new NotAllowedError()
