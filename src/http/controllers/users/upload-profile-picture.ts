@@ -15,7 +15,6 @@ export async function uploadUserProfilePicture(
 
   const { photoPath } = uploadPhotoSchema.parse(request.body)
   try {
-    console.log('teste', photoPath)
     const user_id = request.user.sub
 
     // Verifica se existe um candidato associado ao user_id
@@ -24,8 +23,8 @@ export async function uploadUserProfilePicture(
       throw new ResourceNotFoundError()
     }
 
-    const Folder = `ProfilePictures/${user_id}`
-    const sended = await uploadFile(photoPath, Folder)
+    const Route = `ProfilePictures`
+    const sended = await uploadFile(candidate.id, Route)
     if (!sended) {
       throw new NotAllowedError()
     }
