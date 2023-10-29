@@ -81,12 +81,26 @@ export async function getSignedUrlsFromUserFolder(userFolder: string): Promise<s
           signedUrls.push(url);
       }
 
-      console.log('====================================');
-      console.log(signedUrls);
-      console.log('====================================');
       return signedUrls;
   } catch (error: any) {
       console.error("Error fetching signed URLs:", error);
+      throw error;
+  }
+}
+
+
+export async function getSignedUrlForFile(fileKey: string): Promise<string> {
+  try {
+      const signedUrl = s3.getSignedUrl('getObject', {
+          Bucket: process.env.AWS_BUCKET_NAME!,
+          Key: fileKey,
+          Expires: 3600 // O URL será válido por 1 hora
+      });
+
+  
+      return signedUrl;
+  } catch (error: any) {
+      console.error("Error fetching signed URL:", error);
       throw error;
   }
 }

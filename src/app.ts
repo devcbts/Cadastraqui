@@ -16,6 +16,9 @@ import { multerConfig } from './lib/multer'
 import { uploadFile } from './http/services/upload-file'
 import { assistantRoutes } from './http/controllers/social-assistant/routes'
 import fastifyCors from 'fastify-cors'
+import { uploadUserProfilePicture } from './http/controllers/users/upload-profile-picture'
+import { verifyJWT } from './http/middlewares/verify-jwt'
+import { getUserProfilePicture } from './http/controllers/users/get-profile-picture'
 
 export const app = fastify()
 
@@ -63,6 +66,9 @@ app.post('/session', authenticate)
 app.post('/forgot_password', forgotPassword)
 app.post('/reset_password', resetPassword)
 app.patch('/token/refresh', refresh)
+app.post('/profilePicture', {onRequest : [verifyJWT]} , uploadUserProfilePicture)
+app.get('/profilePicture', {onRequest : [verifyJWT]} , getUserProfilePicture)
+
 
 app.setErrorHandler((error, _request, reply) => {
   if (error instanceof ZodError) {

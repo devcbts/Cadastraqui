@@ -22,6 +22,8 @@ import { downloadDocument } from './download-documents'
 import { subscribeAnnouncement } from './create-application'
 import { verifyRole } from '@/http/middlewares/verify-role'
 import { uploadSolicitationDocument } from './upload-solicitation-documents'
+import { getCandidateProfilePicture } from './get-profile-picture'
+import { uploadCandidateProfilePicture } from './upload-profile-picture'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -80,4 +82,8 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT, verifyRole('CANDIDATE')] },
     subscribeAnnouncement,
   )
+
+  // profile ficture info
+  app.get('/profilePicutre',{onRequest: [verifyJWT]} , getCandidateProfilePicture)
+  app.post('/profilePicutre',{onRequest: [verifyJWT]} , uploadCandidateProfilePicture)
 }

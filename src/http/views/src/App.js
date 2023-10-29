@@ -94,7 +94,7 @@ function App() {
                 element={<EditalAbertoCandidato></EditalAbertoCandidato>}
               ></Route>
               <Route
-                path="/assistente/cadastrados"
+                path="/assistente/cadastrados/:announcement_id"
                 element={<CandidatosCadastrados></CandidatosCadastrados>}
               ></Route>
 

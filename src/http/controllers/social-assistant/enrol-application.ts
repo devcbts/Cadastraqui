@@ -36,7 +36,8 @@ export async function enrollApplication(
         // atualizar inscrição
         await prisma.application.update({
             data:{
-                socialAssistant_id: assistant.id
+                socialAssistant_id: assistant.id,
+                SocialAssistantName: assistant.name
             },
             where: {id: application_id}
         })

@@ -251,19 +251,20 @@ enum ScholarshipType {
 }
 
 model Candidate {
-  id            String   @id() @default(uuid())
-  name          String
-  CPF           String   @unique
-  birthDate     DateTime
-  phone         String
-  address       String
-  city          String
-  UF            COUNTRY
-  CEP           String
-  neighborhood  String
-  addressNumber Int
-  role          ROLE     @default(CANDIDATE)
-  createdAt     DateTime @default(now())
+  id             String   @id() @default(uuid())
+  name           String
+  CPF            String   @unique
+  birthDate      DateTime
+  phone          String
+  address        String
+  city           String
+  UF             COUNTRY
+  CEP            String
+  neighborhood   String
+  addressNumber  Int
+  role           ROLE     @default(CANDIDATE)
+  createdAt      DateTime @default(now())
+  profilePicture String?
 
   user    User?   @relation(fields: [user_id], references: [id])
   user_id String? @unique
@@ -281,10 +282,11 @@ model Candidate {
 }
 
 model User {
-  id       String @id @default(uuid())
-  email    String @unique
-  password String
-  role     ROLE   @default(CANDIDATE)
+  id             String  @id @default(uuid())
+  email          String  @unique
+  password       String
+  role           ROLE    @default(CANDIDATE)
+  profilePicture String?
 
   createdAt        DateTime           @default(now())
   Candidate        Candidate[]
@@ -836,12 +838,14 @@ model Application {
   id                   String               @id @default(uuid())
   candidate            Candidate            @relation(fields: [candidate_id], references: [id])
   candidate_id         String
+  candidateName        String?
   announcement         Announcement         @relation(fields: [announcement_id], references: [id])
   announcement_id      String
   status               ApplicationStatus
   applicationHistories ApplicationHistory[]
   SocialAssistant      SocialAssistant?     @relation(fields: [socialAssistant_id], references: [id])
   socialAssistant_id   String?
+  SocialAssistantName  String?
 
   EducationLevel     EducationLevel       @relation(fields: [educationLevel_id], references: [id])
   educationLevel_id  String

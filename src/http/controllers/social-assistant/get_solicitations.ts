@@ -2,7 +2,7 @@ import { ApplicationAlreadyExistsError } from '@/errors/already-exists-applicati
 import { AnnouncementNotExists } from '@/errors/announcement-not-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
-import { GetUrls } from '@/http/services/get-file'
+import { GetUrls } from '@/http/services/get-files'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
