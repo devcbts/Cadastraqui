@@ -17,7 +17,8 @@ export async function CreateAnnoucment(
     entity_id: z.string(),
     entity_subsidiary_id: z.string().optional(),
     announcementNumber: z.string(),
-    deadLine: z.string()
+    announcementDate: z.string(),
+    announcementName: z.string(),
   })
 
   const {
@@ -29,7 +30,8 @@ export async function CreateAnnoucment(
     entity_id,
     entity_subsidiary_id,
     announcementNumber,
-    deadLine 
+    announcementDate,
+    announcementName,
   } = registerBodySchema.parse(request.body)
 
   try {
@@ -59,7 +61,8 @@ export async function CreateAnnoucment(
           verifiedScholarships,
           entity_id,
           announcementNumber,
-          announcementDate: new Date(deadLine),
+          announcementDate: new Date(announcementDate),
+          announcementName,
         },
       })
       return reply.status(201).send()
@@ -74,7 +77,8 @@ export async function CreateAnnoucment(
         entity_id,
         entity_subsidiary_id,
         announcementNumber,
-        announcementDate: new Date(deadLine),
+        announcementDate: new Date(),
+        announcementName,
       },
     })
   } catch (err: any) {

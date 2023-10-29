@@ -18,6 +18,7 @@ function AuthProvider({children}) {
       //api.defaults.headers.authorization = `Bearer ${token}`
 
       localStorage.setItem('token', token);
+      localStorage.setItem('role', user_role);
       return user_role
     } catch(err) {
       if(err.response) {

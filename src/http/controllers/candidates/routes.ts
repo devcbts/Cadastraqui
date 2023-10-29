@@ -24,6 +24,7 @@ import { verifyRole } from '@/http/middlewares/verify-role'
 import { uploadSolicitationDocument } from './upload-solicitation-documents'
 import { getCandidateProfilePicture } from './get-profile-picture'
 import { uploadCandidateProfilePicture } from './upload-profile-picture'
+import { getOpenAnnouncements } from './get-open-announcements'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -81,6 +82,13 @@ export async function candidateRoutes(app: FastifyInstance) {
     '/application/:announcement_id/:educationLevel_id',
     { onRequest: [verifyJWT, verifyRole('CANDIDATE')] },
     subscribeAnnouncement,
+  )
+
+  /** Rota para pegar todos os editais abertos  */
+  app.get(
+    '/anouncements/:announcement_id?',
+    { onRequest: [verifyJWT] },
+    getOpenAnnouncements,
   )
 
   // profile ficture info

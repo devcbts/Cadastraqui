@@ -1,8 +1,6 @@
-import { LegalResponsibleNotExistsError } from '@/errors/legal-responsible-not-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { UserAlreadyExistsError } from '@/errors/users-already-exists-error'
-import { UserNotExistsError } from '@/errors/users-not-exists-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -15,28 +13,27 @@ export async function createLegalDependent(
     name: z.string(),
     CPF: z.string(),
     birthDate: z.string(),
-    user_id: z.string(),
+    responsible_id: z.string(),
   })
 
-  const { CPF, birthDate, name, user_id } = registerBodySchema.parse(
+  const { CPF, birthDate, name, responsible_id } = registerBodySchema.parse(
     request.body,
   )
 
   try {
-    const user = await prisma.user.findUnique({
-      where: { id: user_id },
-    })
-
-    if (!user) {
-      throw new NotAllowedError()
-    }
-
     const responsible = await prisma.legalResponsible.findUnique({
-      where: { user_id },
+      where: { id: responsible_id },
+    })
+    const candidateWithSameCPF = await prisma.candidate.findUnique({
+      where: { CPF },
     })
 
     if (!responsible) {
-      throw new ResourceNotFoundError()
+      throw new NotAllowedError()
+    }
+
+    if (candidateWithSameCPF) {
+      throw new UserAlreadyExistsError()
     }
 
     await prisma.candidate.create({
@@ -62,6 +59,9 @@ export async function createLegalDependent(
     }
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
+    }
+    if (err instanceof UserAlreadyExistsError) {
+      return reply.status(409).send({ message: err.message })
     }
 
     return reply.status(500).send({ message: err.message })

@@ -20,6 +20,8 @@ export default function Login() {
   const candidatoRef = useRef(null);
   const [numDependentes, setNumDependentes] = useState(0);
 
+  const [responsibleId, setResponsibleId] = useState();
+  const [typeOfUser, setTypeOfUser] = useState()
 
   const formRef1 = useRef(null);
   const formRef2 = useRef(null);
@@ -40,16 +42,16 @@ export default function Login() {
     const credentials = { email, password }
 
     // Loga na aplicação
-    await SignIn(credentials)
-    const role = user.user_role
+    const role = await SignIn(credentials)
 
-    if(role ==='CANDIDATE') {
+
+    if(role ==='CANDIDATE' || role === 'RESPONSIBLE') {
       navigate('/candidato/home')
     } else if(role === 'ENTITY') {
       navigate('/entidade/home')
     } else if(role === 'ASSISTANT') {
       navigate('/assistente/home')
-    }
+    } 
   }
 
 
@@ -104,14 +106,16 @@ export default function Login() {
         <input
           type="text"
           id={`nome-${i}`}
+          name={`name-${i}`}
           placeholder="Exemplo: Jean Carlo do Amaral"
         />
         <h2>{i}.2) Data de nascimento</h2>
-        <input type="date" id={`data-${i}`} />
+        <input type="date" id={`data-${i}`} name={`birthDate-${i}`} />
         <h2>{i}.3) CPF</h2>
         <input
           type="text"
           id={`cpf-${i}`}
+          name={`CPF-${i}`}
           placeholder="Exemplo: Jean Carlo do Amaral"
         />
       </div>
@@ -128,8 +132,8 @@ export default function Login() {
 
   async function handleRegister() {
     // Acesse o elemento do formulário usando a referência
-    const firstFormElement = formRef2.current;
-    const credentialsFormElement = formRef3.current;
+    const firstFormElement = formRef2.current
+    const credentialsFormElement = formRef3.current
     const addressFormElement = formRef4.current
 
     // Acesse os campos do formulário pelo nome
@@ -162,22 +166,57 @@ export default function Login() {
       addressNumber: Number(addressNumber)
     }
 
-    const responsavel = responsavelRef.current.value
-    const candidate = candidatoRef.current.value
-
-    if(candidate) {
+    if(typeOfUser === 'candidate') {
       api.post('/candidates', registerInfo)
       .then(() => { alert('Cadastro realizado com sucesso !')
       setCurrentPage(0)
     })
       .catch((err) => {alert(`${err.response.data.message}`)})
-    } else if(responsavel) {
-      api.post('/responsible', registerInfo)
-      .then(response => console.log(response.data))
-      .catch((err) => console.log(err))  
+    } else if(typeOfUser === 'responsible') {
+      api.post('/responsibles', registerInfo)
+      .then(response => {alert('Cadastro realizado com sucesso !')
+        setResponsibleId(response.data.responsible_id)
+        handlePageChange()
+      })
+      .catch((err) => alert(`${err.response.data.message}`))  
     }
-    
   }
+
+  
+
+  async function handleRegisterDependent() {
+    let names =[]
+    let CPFs = []
+    let birthDates = []
+
+    for (let i = 1; i <= numDependentes; i++) {
+      const name = document.querySelector(`input[name="name-${i}"]`).value
+      const CPF = document.querySelector(`input[name="CPF-${i}"]`).value
+      const birthDate = document.querySelector(`input[name="birthDate-${i}"]`).value
+      names.push(name)
+      CPFs.push(CPF)
+      birthDates.push(birthDate)
+    }
+
+    
+      for (let i = 0; i < numDependentes; i++) {
+        const data = {
+          CPF:CPFs[i],
+          birthDate: new Date(birthDates[i]),
+          name: names[i],
+          responsible_id:responsibleId
+        }
+
+        await api.post('/responsibles/legal-dependents', data)
+        .then(() => alert('Cadastro Concluído com sucesso !'))
+        .catch((error) => {console.log(error)
+          alert(`${error.response.data.message}`)
+        })
+      }
+      setCurrentPage(0)
+    
+    
+  } 
 
   function handleBackChange() {
     setCurrentPage((prevPage) => {
@@ -465,6 +504,7 @@ export default function Login() {
                       name="drone"
                       value="responsavel"
                       ref={responsavelRef}
+                      onClick={() => {setTypeOfUser('responsible')}}
                     />
                   </div>
 
@@ -478,6 +518,7 @@ export default function Login() {
                       name="drone"
                       value="candidato"
                       ref={candidatoRef}
+                      onClick={() => {setTypeOfUser('candidate')}}
                     />
                   </div>
                   <div className="radio-input">
@@ -556,7 +597,7 @@ export default function Login() {
             className={`create-subperfil ${currentPage !== 7 && "hidden-page"}`}
           >
             <CadastroDependentes num={numDependentes} />
-            <button className="login-btn finish" type="button">
+            <button className="login-btn finish" type="button" onClick={handleRegisterDependent}>
               <div className="btn-entrar">
                 <a>Concluir</a>
               </div>

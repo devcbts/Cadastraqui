@@ -13,10 +13,13 @@ import { useLocation } from "react-router-dom";
 import { Fade as Hamburger } from "hamburger-react";
 // ReactDOM.render(element, document.body);
 
-export default function NavBarCandidato() {
+export default function NavBarCandidato(props) {
   const { isShown, handleClick, setIsShown } = useAppState();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [popupIsShown, setPopupIsShown] = useState(false);
+
+  // Utilizado para preencher campos do usuáriocom dados vindo do BackEnd
+  const user = props.user
 
   const handleClosePopup = () => {
     setPopupIsShown((prev) => !prev);
@@ -120,7 +123,7 @@ export default function NavBarCandidato() {
           <div className="user">
             <img src={photoProfile} className="user-sidebar"></img>
             <div className="user-name">
-              <h6>Current User</h6>
+              <h6>{user ? user.name : "User Name"}</h6>
             </div>
             <div
               className="alternate"
