@@ -47,7 +47,7 @@ export async function subscribeAnnouncement(
         announcement_id,
         status: 'Pending',
         educationLevel_id,
-        candidateName: candidate.name
+        candidateName: candidate.name,
       },
     })
 

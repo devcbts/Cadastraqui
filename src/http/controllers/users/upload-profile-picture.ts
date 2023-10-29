@@ -23,8 +23,8 @@ export async function uploadUserProfilePicture(
       throw new ResourceNotFoundError()
     }
 
-    const Route = `ProfilePictures`
-    const sended = await uploadFile(candidate.id, Route)
+    const Route = `ProfilePictures/${user.id}`
+    const sended = await uploadFile(user.id, Route)
     if (!sended) {
       throw new NotAllowedError()
     }
