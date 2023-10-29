@@ -33,6 +33,12 @@
     border-radius: 0.5rem;
 }
 
+.without-announcement {
+    margin-top: 2.5rem;
+    color: #1F4B73;
+    font-size: 1.3rem;
+}
+
 @media screen and (max-width:1030px){
     .status-title{
         flex-direction: column;
