@@ -39,30 +39,6 @@ export async function uploadCandidateProfilePicture(
 
 
 
-        reply.status(201).send()
-    } catch (error) {
-        if (error instanceof NotAllowedError) {
-            return reply.status(401).send()
-        }
-        return reply.status(400).send()
-
-    // Verifica se existe um candidato associado ao user_id
-    const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-    if (!candidate) {
-      throw new ResourceNotFoundError()
-    }
-    const data = await (request as MulterRequest).file()
-    console.log('teste')
-    const fileBuffer = await data.toBuffer()
-    console.log('teste', fileBuffer)
-
-    const Route = `ProfilePictures/${candidate.id}`
-    const sended = await uploadFile(photoPath, Route)
-
-    if (!sended) {
-      throw new NotAllowedError()
-    }
-
     reply.status(201).send()
   } catch (error) {
     if (error instanceof NotAllowedError) {

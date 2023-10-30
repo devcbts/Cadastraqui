@@ -74,7 +74,7 @@ export default function PerfilCandidato() {
       const token = localStorage.getItem("token")
 
       try {
-        const profilePhoto = await api.get('/profilePicture', {
+        const profilePhoto = await api.get('/candidates/profilePicture', {
           headers: {
             'authorization': `Bearer ${token}`,
           }
@@ -87,7 +87,7 @@ export default function PerfilCandidato() {
       }
     }
 
-    //getProfilePhoto()
+    getProfilePhoto()
     getUserInfo()
   }, [])
 

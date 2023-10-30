@@ -11,14 +11,7 @@ export async function getCandidateProfilePicture(
     request: FastifyRequest,
     reply: FastifyReply
 ) {
-    const uploadPhotoSchema = z.object({
-        photoPath: z.string(),
-    })
-
     
-    const {
-        photoPath,
-    } = uploadPhotoSchema.parse(request.body)
     try {
         const user_id = request.user.sub
 
@@ -39,13 +32,12 @@ export async function getCandidateProfilePicture(
         const url = await GetUrl(Route)
 
 
-
         reply.status(201).send({url})
     } catch (error) {
         if (error instanceof NotAllowedError) {
             return reply.status(401).send()
         }
-        return reply.status(400).send()
+        return reply.status(500).send()
 
     }
 }
