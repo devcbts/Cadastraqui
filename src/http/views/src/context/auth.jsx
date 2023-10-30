@@ -21,9 +21,9 @@ function AuthProvider({children}) {
       localStorage.setItem('role', user_role);
       return user_role
     } catch(err) {
-      if(err.response) {
+      if(err.response.status === 500) {
         console.log(err.response)
-        alert(err.response.data.message)
+        alert('Não foi possível entrar')
       } else {
         alert('Não foi possível entrar')
       }

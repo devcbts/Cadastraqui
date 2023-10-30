@@ -25,7 +25,7 @@ export default function PerfilCandidato() {
       const photoPath = URL.createObjectURL(file)
       console.log(photoPath)
       try {
-        await api.post('/profilePicture',{ photoPath },  {
+        await api.post('/candidates/profilePicutre',{ photoPath },  {
           headers: {
             'authorization': `Bearer ${token}`,
           }} ) 

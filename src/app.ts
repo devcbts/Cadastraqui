@@ -28,7 +28,6 @@ app.register(fastifyCors, {
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 })
-
 export const upload = fastifyMulter(multerConfig)
 app.register(fastifyMulter.contentParser)
 
