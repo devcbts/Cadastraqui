@@ -24,13 +24,15 @@ import Login from "./Pages/Login/login";
 import { AuthProvider } from "./context/auth";
 import CadastroInfo from "./Pages/Candidato/cadastroInformacoes";
 import Estatisticas from "./Pages/Assistente/estatisticas";
+import SacAssistente from "./Pages/Assistente/sacAssistente";
+import PerfilAssistente from "./Pages/Assistente/perfilAssistente";
 
 function App() {
   return (
     <AppProvider>
       <div className="App">
         <BrowserRouter>
-        <AuthProvider>
+          <AuthProvider>
             <Routes>
               {/*Here we have the routes for the "entidade" user type */}
               <Route path="/entidade/home" element={<HomeEntidade />}></Route>
@@ -101,10 +103,19 @@ function App() {
               <Route path="/login" element={<Login></Login>}></Route>
 
               <Route path="/candidato/info" element={<CadastroInfo />}></Route>
+
+              <Route
+                path="/assistente/sac"
+                element={<SacAssistente></SacAssistente>}
+              ></Route>
+
+              <Route
+                path="/assistente/perfil"
+                element={<PerfilAssistente></PerfilAssistente>}
+              ></Route>
             </Routes>
-            </AuthProvider>
+          </AuthProvider>
         </BrowserRouter>
-        
       </div>
     </AppProvider>
   );
