@@ -13,12 +13,102 @@
 
 .fill-container{
     width: 80vw;
-    min-height: 60vh;
+    max-height: 60vh;
     background-color: #ffffff;
     margin: auto;
     margin-top: 0;
     box-shadow: 0 0 30px rgb(189, 189, 189);
-    border-radius: 2rem;
+    border-radius: 2rem 0 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    align-items: center;
+    overflow-y: scroll;
+}
+
+
+
+.input-cadastro{
+    width: 80%;
+    height: 2rem;
+    margin: 1.5rem auto;
+    border: 1px solid rgb(211, 211, 211);
+    border-radius: 0.5rem;
+
+}
+
+
+
+.input-secondary{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    color: rgb(156, 156, 156);
+}
+
+.input-dropbox{
+    height: fit-content;
+}
+
+.input-dropbox{
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+
+.input-dropbox div{
+    display: flex;
+    gap: 0.5rem;
+    width: 300px;
+    margin: 1rem auto;
+    margin-left: 1rem;
+    color: rgb(158, 158, 158);
+
+}
+
+.title{
+    border: none;
+    margin-bottom: -2rem;
+}
+
+.question{
+    margin-bottom: 1rem;
+}
+
+
+.input-cadastro h2{
+    display: flex;
+    justify-content: center;
+    font-size: 1rem;
+    width: 100%;
+    color: rgb(134, 134, 134);
+}
+
+.question h2{
+    font-size: 1rem;
+    text-align:left;
+}
+
+
+
+.input-cadastro input{
+    color: rgb(175, 175, 175);
+    border: none;
+    border-bottom: 2px solid rgb(175, 175, 175);
+}
+
+.input-cadastro input:focus{
+    outline: none;
+    border: none;
+}
+
+.input-cadastro input::placeholder{
+    color: rgb(175, 175, 175);
+}
+
+.input-cadastro input:focus::placeholder{
+    opacity: 0;
 }
 
 .container-info{
@@ -40,3 +130,10 @@
     opacity: 0.6;
     cursor: pointer;
 }
+
+.hidden-title{
+    visibility: hidden;
+}
+
+
+
