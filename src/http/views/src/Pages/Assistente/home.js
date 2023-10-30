@@ -17,7 +17,7 @@ export default function HomeAssistente() {
   const [activeAnnouncements, setActiveAnnouncements] = useState()
   const [assistantId, setAssistantId] = useState()
 
-  /*useEffect(() => {
+  useEffect(() => {
 
     async function getAssistantInfo() {
       const token = localStorage.getItem("token")
@@ -51,13 +51,13 @@ export default function HomeAssistente() {
 
       // Filtra os announcements associados ao assistente social em questão
       const activeAnnouncements = openAnnouncements.filter(announcement =>
-        announcement.socialAssistant == assistantId
+        announcement.socialAssistant === assistantId
       );
       setActiveAnnouncements(activeAnnouncements);
-      console.log(response.data.announcement)
+      console.log(response)
     }
     fetchAnnouncements()
-  }, [])*/
+  }, [])
 
   return (
     <div className="container">

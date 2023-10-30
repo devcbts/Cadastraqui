@@ -37,14 +37,14 @@ export async function CreateAnnoucment(
   try {
     const entityMatrix = entity_id
       ? await prisma.entity.findUnique({
-        where: { id: entity_id },
-      })
+          where: { id: entity_id },
+        })
       : null
 
     const entitySubsidiaryMatrix = entity_subsidiary_id
       ? await prisma.entitySubsidiary.findUnique({
-        where: { id: entity_id },
-      })
+          where: { id: entity_id },
+        })
       : null
 
     if (!entityMatrix && !entitySubsidiaryMatrix) {
