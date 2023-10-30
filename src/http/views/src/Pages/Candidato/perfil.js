@@ -79,6 +79,7 @@ export default function PerfilCandidato() {
             'authorization': `Bearer ${token}`,
           }
         })
+        console.log(profilePhoto)
         setProfilePhoto(profilePhoto.data.url)
       } catch (err) {
         if (err.response.status === 401) {
@@ -87,7 +88,7 @@ export default function PerfilCandidato() {
       }
     }
 
-    //getProfilePhoto()
+    getProfilePhoto()
     getUserInfo()
   }, [])
 

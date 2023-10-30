@@ -21,7 +21,10 @@ function AuthProvider({children}) {
       localStorage.setItem('role', user_role);
       return user_role
     } catch(err) {
-      if(err.response.status === 500) {
+      if(err.code === "ERR_NETWORK") {
+        alert('Erro de conexão.')
+      }
+      else if(err && err.response.status === 500) {
         console.log(err.response)
         alert('Não foi possível entrar')
       } else {
