@@ -34,6 +34,6 @@ export async function uploadCandidateProfilePicture(
     if (error instanceof NotAllowedError) {
       return reply.status(401).send()
     }
-    return reply.status(400).send()
+    return reply.status(500).send()
   }
 }

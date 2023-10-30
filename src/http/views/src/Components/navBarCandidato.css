@@ -17,6 +17,10 @@
     opacity: 1;
     cursor: pointer;
 }
+.user-sidebar{
+    width:5vw;
+    height:5vw;
+}
 
 .alternate h2{
     font-size: 0.8rem;
