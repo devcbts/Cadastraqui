@@ -15,8 +15,10 @@ export async function CreateAnnoucment(
     offeredVacancies: z.number(),
     verifiedScholarships: z.number(),
     entity_id: z.string(),
-    entity_subsidiary_id: z.string(),
+    entity_subsidiary_id: z.string().optional(),
     announcementNumber: z.string(),
+    announcementDate: z.string(),
+    announcementName: z.string(),
   })
 
   const {
@@ -28,22 +30,28 @@ export async function CreateAnnoucment(
     entity_id,
     entity_subsidiary_id,
     announcementNumber,
+    announcementDate,
+    announcementName,
   } = registerBodySchema.parse(request.body)
 
   try {
-    const entityMatrix = entity_id ? await prisma.entity.findUnique({
-      where: { id: entity_id },
-    }) : null
+    const entityMatrix = entity_id
+      ? await prisma.entity.findUnique({
+        where: { id: entity_id },
+      })
+      : null
 
-    const entitySubsidiaryMatrix = entity_subsidiary_id ? await prisma.entitySubsidiary.findUnique({
-      where: { id: entity_id },
-    }) : null
+    const entitySubsidiaryMatrix = entity_subsidiary_id
+      ? await prisma.entitySubsidiary.findUnique({
+        where: { id: entity_id },
+      })
+      : null
 
     if (!entityMatrix && !entitySubsidiaryMatrix) {
       throw new EntityNotExistsError()
     }
 
-    if(!entitySubsidiaryMatrix){
+    if (!entitySubsidiaryMatrix) {
       await prisma.announcement.create({
         data: {
           entityChanged,
@@ -53,11 +61,11 @@ export async function CreateAnnoucment(
           verifiedScholarships,
           entity_id,
           announcementNumber,
-          announcementDate: new Date(),
+          announcementDate: new Date(announcementDate),
+          announcementName,
         },
       })
       return reply.status(201).send()
-
     }
     await prisma.announcement.create({
       data: {
@@ -70,6 +78,7 @@ export async function CreateAnnoucment(
         entity_subsidiary_id,
         announcementNumber,
         announcementDate: new Date(),
+        announcementName,
       },
     })
   } catch (err: any) {

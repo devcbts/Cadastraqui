@@ -6,26 +6,22 @@ import videoBg from "../../Assets/bg-school-vid.mp4";
 import { UilUserCircle } from "@iconscout/react-unicons";
 import { UilLock } from "@iconscout/react-unicons";
 import { UilGoogle } from "@iconscout/react-unicons";
-import { useAuth } from "../../context/auth";
 import { UilAngleLeft } from "@iconscout/react-unicons";
+import { api } from "../../services/axios";
+import { useAuth } from "../../context/auth";
+import { useNavigate } from "react-router";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { SignIn, user } = useAuth()
+  const navigate  = useNavigate()
 
-  const { signIn } = useAuth;
-
-  function handleSingIn() {
-    signIn({ email, password });
-  }
-
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const responsavelRef = useRef(null);
   const candidatoRef = useRef(null);
   const [numDependentes, setNumDependentes] = useState(0);
 
-  const passwordForm = useRef(null);
-  const firstForm = useRef(null);
+  const [responsibleId, setResponsibleId] = useState();
+  const [typeOfUser, setTypeOfUser] = useState()
 
   const formRef1 = useRef(null);
   const formRef2 = useRef(null);
@@ -34,6 +30,30 @@ export default function Login() {
   const formRef5 = useRef(null);
   const formRef6 = useRef(null);
   const formRef7 = useRef(null);
+
+  const loginForm = useRef(null);
+
+  async function login() {
+    // Pega o valor do email e password dos inputs 
+    const loginFormElement = loginForm.current
+    const email = loginFormElement.querySelector('input[id="usermail"]').value
+    const password = loginFormElement.querySelector('input[id="pass"]').value
+
+    const credentials = { email, password }
+
+    // Loga na aplicação
+    const role = await SignIn(credentials)
+
+
+    if(role ==='CANDIDATE' || role === 'RESPONSIBLE') {
+      navigate('/candidato/home')
+    } else if(role === 'ENTITY') {
+      navigate('/entidade/home')
+    } else if(role === 'ASSISTANT') {
+      navigate('/assistente/home')
+    } 
+  }
+
 
   function handlePageChange() {
     let currentForm;
@@ -86,14 +106,16 @@ export default function Login() {
         <input
           type="text"
           id={`nome-${i}`}
+          name={`name-${i}`}
           placeholder="Exemplo: Jean Carlo do Amaral"
         />
         <h2>{i}.2) Data de nascimento</h2>
-        <input type="date" id={`data-${i}`} />
+        <input type="date" id={`data-${i}`} name={`birthDate-${i}`} />
         <h2>{i}.3) CPF</h2>
         <input
           type="text"
           id={`cpf-${i}`}
+          name={`CPF-${i}`}
           placeholder="Exemplo: Jean Carlo do Amaral"
         />
       </div>
@@ -107,6 +129,94 @@ export default function Login() {
     }
     return components;
   }
+
+  async function handleRegister() {
+    // Acesse o elemento do formulário usando a referência
+    const firstFormElement = formRef2.current
+    const credentialsFormElement = formRef3.current
+    const addressFormElement = formRef4.current
+
+    // Acesse os campos do formulário pelo nome
+    const name = firstFormElement.querySelector('input[name="name"]').value
+    const CPF = firstFormElement.querySelector('input[name="CPF"]').value
+    const birthDate = firstFormElement.querySelector('input[name="birthDate"]').value
+    const phone = firstFormElement.querySelector('input[name="phone"]').value
+    const email = credentialsFormElement.querySelector('input[id="usermail"]').value
+    const password = credentialsFormElement.querySelector('input[id="pass"]').value
+
+    const address = addressFormElement.querySelector('input[name="address"]').value
+    const CEP = addressFormElement.querySelector('input[name="CEP"]').value
+    const UF = addressFormElement.querySelector('input[name="UF"]').value
+    const city = addressFormElement.querySelector('input[name="city"]').value
+    const neighborhood = addressFormElement.querySelector('input[name="neighborhood"]').value
+    const addressNumber = addressFormElement.querySelector('input[name="addressNumber"]').value
+    
+    const registerInfo = {
+      name,
+      CPF,
+      birthDate,
+      phone,
+      email,
+      password,
+      address,
+      CEP,
+      UF,
+      city,
+      neighborhood,
+      addressNumber: Number(addressNumber)
+    }
+
+    if(typeOfUser === 'candidate') {
+      api.post('/candidates', registerInfo)
+      .then(() => { alert('Cadastro realizado com sucesso !')
+      setCurrentPage(0)
+    })
+      .catch((err) => {alert(`${err.response.data.message}`)})
+    } else if(typeOfUser === 'responsible') {
+      api.post('/responsibles', registerInfo)
+      .then(response => {alert('Cadastro realizado com sucesso !')
+        setResponsibleId(response.data.responsible_id)
+        handlePageChange()
+      })
+      .catch((err) => alert(`${err.response.data.message}`))  
+    }
+  }
+
+  
+
+  async function handleRegisterDependent() {
+    let names =[]
+    let CPFs = []
+    let birthDates = []
+
+    for (let i = 1; i <= numDependentes; i++) {
+      const name = document.querySelector(`input[name="name-${i}"]`).value
+      const CPF = document.querySelector(`input[name="CPF-${i}"]`).value
+      const birthDate = document.querySelector(`input[name="birthDate-${i}"]`).value
+      names.push(name)
+      CPFs.push(CPF)
+      birthDates.push(birthDate)
+    }
+
+    
+      for (let i = 0; i < numDependentes; i++) {
+        const data = {
+          CPF:CPFs[i],
+          birthDate: new Date(birthDates[i]),
+          name: names[i],
+          responsible_id:responsibleId
+        }
+
+        await api.post('/responsibles/legal-dependents', data)
+        .then(() => alert('Cadastro Concluído com sucesso !'))
+        .catch((error) => {console.log(error)
+          alert(`${error.response.data.message}`)
+        })
+      }
+      setCurrentPage(0)
+    
+    
+  } 
 
   function handleBackChange() {
     setCurrentPage((prevPage) => {
@@ -138,7 +248,7 @@ export default function Login() {
             className={`cadastro-second ${currentPage !== 0 && "hidden-page"}`}
           >
             <h2>Cadastre seu email e senha </h2>
-            <form ref={formRef1}>
+            <form ref={loginForm}>
               <div className="user-login mail">
                 <label for="usermail">
                   <UilUserCircle size="40" color="white" />
@@ -161,7 +271,7 @@ export default function Login() {
                   required
                 ></input>
               </div>
-              <button className="login-btn" type="button">
+              <button className="login-btn" type="button" onClick={login}>
                 <div className="btn-entrar">
                   <a>Entrar</a>
                 </div>
@@ -189,7 +299,8 @@ export default function Login() {
                 </label>
                 <input
                   type="text"
-                  id="nome"
+                  id="name"
+                  name="name"
                   placeholder="Exemplo: Jean Carlo do Amaral"
                   required
                 ></input>
@@ -200,7 +311,8 @@ export default function Login() {
                 </label>
                 <input
                   type="text"
-                  id="nome"
+                  id="CPF"
+                  name="CPF"
                   placeholder="Exemplo: XXX.XXX.XXX-XX"
                   required
                 ></input>
@@ -209,7 +321,7 @@ export default function Login() {
                 <label for="nome">
                   <h2 className="info-cadastrado">Data de nascimento</h2>
                 </label>
-                <input type="date" id="nome" value="2003-10-24"></input>
+                <input type="date" name="birthDate" id="nome" placeholder="2003-10-24"></input>
               </div>
               <div>
                 <label for="nome">
@@ -218,6 +330,7 @@ export default function Login() {
                 <input
                   type="text"
                   id="nome"
+                  name="phone"
                   placeholder="Exemplo: +55 (35) 9 8820-7198"
                   required
                 ></input>
@@ -299,8 +412,44 @@ export default function Login() {
                 <input
                   type="number"
                   id="nome"
-                  placeholder="Exemplo: XXX.XXX.XXX-XX"
-                  required
+                  name="CEP"
+                  placeholder="Exemplo: Jean Carlo do Amaral"
+                ></input>
+                 <label for="nome">
+                  <h2 className="info-cadastrado">UF</h2>
+                </label>
+                <input
+                  type="text"
+                  id="nome"
+                  name="UF"
+                  placeholder="Exemplo: Jean Carlo do Amaral"
+                ></input>
+                <label for="nome">
+                  <h2 className="info-cadastrado">Cidade</h2>
+                </label>
+                <input
+                  type="text"
+                  id="nome"
+                  name="city"
+                  placeholder="Exemplo: Jean Carlo do Amaral"
+                ></input>
+                <label for="nome">
+                  <h2 className="info-cadastrado">Bairro</h2>
+                </label>
+                <input
+                  type="text"
+                  id="nome"
+                  name="neighborhood"
+                  placeholder="Exemplo: Jean Carlo do Amaral"
+                ></input>
+                <label for="nome">
+                  <h2 className="info-cadastrado">Número do Endereço</h2>
+                </label>
+                <input
+                  type="text"
+                  id="nome"
+                  name="addressNumber"
+                  placeholder="Exemplo: Jean Carlo do Amaral"
                 ></input>
                 <label for="nome">
                   <h2 className="info-cadastrado">Endereço completo</h2>
@@ -308,6 +457,7 @@ export default function Login() {
                 <input
                   type="text"
                   id="nome"
+                  name="address"
                   placeholder="Exemplo: Jean Carlo do Amaral"
                   required
                 ></input>
@@ -354,6 +504,7 @@ export default function Login() {
                       name="drone"
                       value="responsavel"
                       ref={responsavelRef}
+                      onClick={() => {setTypeOfUser('responsible')}}
                     />
                   </div>
 
@@ -367,6 +518,7 @@ export default function Login() {
                       name="drone"
                       value="candidato"
                       ref={candidatoRef}
+                      onClick={() => {setTypeOfUser('candidate')}}
                     />
                   </div>
                   <div className="radio-input">
@@ -377,7 +529,7 @@ export default function Login() {
                   </div>
                 </div>
               </form>
-              <div className="btn-confirmar" onClick={() => handlePageChange()}>
+              <div className="btn-confirmar" onClick={() => handleRegister()}>
                 <a>Concluir</a>
               </div>
               <div>
@@ -445,7 +597,7 @@ export default function Login() {
             className={`create-subperfil ${currentPage !== 7 && "hidden-page"}`}
           >
             <CadastroDependentes num={numDependentes} />
-            <button className="login-btn finish" type="button">
+            <button className="login-btn finish" type="button" onClick={handleRegisterDependent}>
               <div className="btn-entrar">
                 <a>Concluir</a>
               </div>

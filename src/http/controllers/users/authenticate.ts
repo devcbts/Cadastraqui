@@ -14,7 +14,6 @@ export async function authenticate(
   })
 
   const { email, password } = authenticateBodySchema.parse(request.body)
-
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -50,6 +49,8 @@ export async function authenticate(
       },
     )
 
+    const user_id = user.id
+    const user_role = user.role
     return reply
       .setCookie('refreshToken', refreshToken, {
         path: '/',
@@ -58,10 +59,10 @@ export async function authenticate(
         httpOnly: true,
       })
       .status(200)
-      .send({ token })
+      .send({ token, user_id, user_role })
   } catch (err: any) {
     if (err instanceof InvalidCredentialsError) {
-      return reply.status(400).send({ message: err.message })
+      return reply.status(401).send({ message: err.message })
     }
 
     return reply.status(500).send({ message: err.message })

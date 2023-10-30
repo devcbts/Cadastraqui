@@ -91,6 +91,12 @@ CREATE TYPE "OfferedCourseType" AS ENUM ('UndergraduateBachelor', 'Undergraduate
 -- CreateEnum
 CREATE TYPE "ApplicationStatus" AS ENUM ('Approved', 'Rejected', 'Pending', 'WaitingList');
 
+-- CreateEnum
+CREATE TYPE "SolicitationType" AS ENUM ('Document', 'Interview', 'Visit');
+
+-- CreateEnum
+CREATE TYPE "scholarshipGrantedType" AS ENUM ('UNIFORM', 'TRANSPORT', 'FOOD', 'HOUSING', 'STUDY_MATERIAL');
+
 -- CreateTable
 CREATE TABLE "candidates" (
     "id" TEXT NOT NULL,
@@ -568,9 +574,24 @@ CREATE TABLE "ApplicationHistory" (
     "id" TEXT NOT NULL,
     "application_id" TEXT NOT NULL,
     "description" TEXT NOT NULL,
+    "solicitation" "SolicitationType",
+    "answered" BOOLEAN DEFAULT false,
+    "deadLine" TIMESTAMP(3),
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "ApplicationHistory_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ScholarshipGranted" (
+    "id" TEXT NOT NULL,
+    "gaveUp" BOOLEAN NOT NULL,
+    "ScholarshipCode" TEXT NOT NULL,
+    "types" "scholarshipGrantedType"[],
+    "application_id" TEXT NOT NULL,
+    "announcement_id" TEXT NOT NULL,
+
+    CONSTRAINT "ScholarshipGranted_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -641,6 +662,12 @@ CREATE UNIQUE INDEX "IdentityDetails_responsible_id_key" ON "IdentityDetails"("r
 
 -- CreateIndex
 CREATE UNIQUE INDEX "housing_candidate_id_key" ON "housing"("candidate_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Application_candidate_id_announcement_id_key" ON "Application"("candidate_id", "announcement_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ScholarshipGranted_application_id_key" ON "ScholarshipGranted"("application_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_EntitySubsidiaryToSocialAssistant_AB_unique" ON "_EntitySubsidiaryToSocialAssistant"("A", "B");
@@ -758,6 +785,12 @@ ALTER TABLE "Application" ADD CONSTRAINT "Application_educationLevel_id_fkey" FO
 
 -- AddForeignKey
 ALTER TABLE "ApplicationHistory" ADD CONSTRAINT "ApplicationHistory_application_id_fkey" FOREIGN KEY ("application_id") REFERENCES "Application"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ScholarshipGranted" ADD CONSTRAINT "ScholarshipGranted_application_id_fkey" FOREIGN KEY ("application_id") REFERENCES "Application"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ScholarshipGranted" ADD CONSTRAINT "ScholarshipGranted_announcement_id_fkey" FOREIGN KEY ("announcement_id") REFERENCES "Announcement"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_EntitySubsidiaryToSocialAssistant" ADD CONSTRAINT "_EntitySubsidiaryToSocialAssistant_A_fkey" FOREIGN KEY ("A") REFERENCES "EntitySubsidiary"("id") ON DELETE CASCADE ON UPDATE CASCADE;

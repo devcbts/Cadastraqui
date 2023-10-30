@@ -251,19 +251,20 @@ enum ScholarshipType {
 }
 
 model Candidate {
-  id            String   @id() @default(uuid())
-  name          String
-  CPF           String   @unique
-  birthDate     DateTime
-  phone         String
-  address       String
-  city          String
-  UF            COUNTRY
-  CEP           String
-  neighborhood  String
-  addressNumber Int
-  role          ROLE     @default(CANDIDATE)
-  createdAt     DateTime @default(now())
+  id             String   @id() @default(uuid())
+  name           String
+  CPF            String   @unique
+  birthDate      DateTime
+  phone          String
+  address        String
+  city           String
+  UF             COUNTRY
+  CEP            String
+  neighborhood   String
+  addressNumber  Int
+  role           ROLE     @default(CANDIDATE)
+  createdAt      DateTime @default(now())
+  profilePicture String?
 
   user    User?   @relation(fields: [user_id], references: [id])
   user_id String? @unique
@@ -281,10 +282,11 @@ model Candidate {
 }
 
 model User {
-  id       String @id @default(uuid())
-  email    String @unique
-  password String
-  role     ROLE   @default(CANDIDATE)
+  id             String  @id @default(uuid())
+  email          String  @unique
+  password       String
+  role           ROLE    @default(CANDIDATE)
+  profilePicture String?
 
   createdAt        DateTime           @default(now())
   Candidate        Candidate[]
@@ -743,8 +745,9 @@ model Announcement {
   entityChanged        Boolean? // Did the entity's responsible change?
   branchChanged        Boolean? // Was there an opening or closing of a branch?
   announcementType     AnnouncementType
-  announcementNumber   String
-  announcementDate     DateTime
+  announcementNumber   String?
+  announcementDate     DateTime?
+  announcementName     String?
   offeredVacancies     Int? // Only if announcementType is ScholarshipGrant
   verifiedScholarships Int? // Only if announcementType is ScholarshipGrant
   description          String? //Caso seja desejado inserir uma descrição
@@ -836,12 +839,14 @@ model Application {
   id                   String               @id @default(uuid())
   candidate            Candidate            @relation(fields: [candidate_id], references: [id])
   candidate_id         String
+  candidateName        String?
   announcement         Announcement         @relation(fields: [announcement_id], references: [id])
   announcement_id      String
   status               ApplicationStatus
   applicationHistories ApplicationHistory[]
   SocialAssistant      SocialAssistant?     @relation(fields: [socialAssistant_id], references: [id])
   socialAssistant_id   String?
+  SocialAssistantName  String?
 
   EducationLevel     EducationLevel       @relation(fields: [educationLevel_id], references: [id])
   educationLevel_id  String
@@ -883,7 +888,7 @@ model ScholarshipGranted {
   application     Application              @relation(fields: [application_id], references: [id])
   announmentent   Announcement             @relation(fields: [announcement_id], references: [id])
 
-  application_id String @unique
+  application_id  String @unique
   announcement_id String
 }
 

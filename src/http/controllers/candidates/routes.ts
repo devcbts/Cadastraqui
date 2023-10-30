@@ -21,9 +21,18 @@ import { downloadFile } from '@/http/services/download-file'
 import { downloadDocument } from './download-documents'
 import { subscribeAnnouncement } from './create-application'
 import { verifyRole } from '@/http/middlewares/verify-role'
+import { uploadSolicitationDocument } from './upload-solicitation-documents'
+import { getCandidateProfilePicture } from './get-profile-picture'
+import { uploadCandidateProfilePicture } from './upload-profile-picture'
+import { getOpenAnnouncements } from './get-open-announcements'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
+  app.post(
+    '/upload/:solicitation_id',
+    { onRequest: [verifyJWT] },
+    uploadSolicitationDocument,
+  )
 
   /** Basic Info */
   app.post('/', registerCandidate)
@@ -69,10 +78,28 @@ export async function candidateRoutes(app: FastifyInstance) {
     registerVehicleInfo,
   )
 
+  app.post(
+    '/application/:announcement_id/:educationLevel_id',
+    { onRequest: [verifyJWT, verifyRole('CANDIDATE')] },
+    subscribeAnnouncement,
+  )
 
+  /** Rota para pegar todos os editais abertos  */
+  app.get(
+    '/anouncements/:announcement_id?',
+    { onRequest: [verifyJWT] },
+    getOpenAnnouncements,
+  )
 
-
-
-
-  app.post('/application/:announcement_id/:educationLevel_id', {onRequest: [verifyJWT, verifyRole('CANDIDATE')]}, subscribeAnnouncement)
+  // profile ficture info
+  app.get(
+    '/profilePicture',
+    { onRequest: [verifyJWT] },
+    getCandidateProfilePicture,
+  )
+  app.post(
+    '/profilePicture',
+    { onRequest: [verifyJWT] },
+    uploadCandidateProfilePicture,
+  )
 }

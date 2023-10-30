@@ -7,14 +7,41 @@ import Candidatura from "../../Components/candidatura";
 import Colaboracao from "../../Components/colaboracao";
 import NavBarAssistente from "../../Components/navBarAssistente";
 import { UilFilter } from "@iconscout/react-unicons";
+import { useParams } from "react-router";
+import { useEffect } from "react";
+import { useAuth } from "../../context/auth";
+import { api } from "../../services/axios";
+
 
 export default function CandidatosCadastrados() {
+  const { announcement_id } = useParams()
+  const { user } = useAuth();
+
   const { isShown } = useAppState();
   const [filterIsShown, setFilterIsShown] = useState(false);
+
+  const [applications, setApplications] = useState()
 
   const handleClickFilter = () => {
     setFilterIsShown((prev) => !prev);
   };
+
+
+  useEffect(() => {
+    async function fetchCandidates() {
+      const token = localStorage.getItem("token")
+      const response = await api.get(`/assistant/${announcement_id}`, {
+        headers: {
+          'authorization': `Bearer ${token}`,
+        }
+      })
+
+      setApplications(response.data.applications)
+      console.log(response.data.applications)
+    }
+
+    fetchCandidates()
+  }, [])
 
   return (
     <div className="container">
@@ -93,8 +120,9 @@ export default function CandidatosCadastrados() {
         )}
 
         <div className="solicitacoes">
-          <Candidatura></Candidatura>
-          <Candidatura></Candidatura>
+          {applications ? applications.map((application) => {
+            return (<Candidatura name={application.candidateName} assistente={application.SocialAssistantName} id={application.id} announcement_id={announcement_id}  />)
+          }) : ""}
         </div>
       </div>
     </div>

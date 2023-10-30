@@ -86,7 +86,7 @@ export async function registerLegalResponsible(
       },
     })
 
-    await prisma.legalResponsible.create({
+    const responsible = await prisma.legalResponsible.create({
       data: {
         address,
         CEP,
@@ -101,6 +101,8 @@ export async function registerLegalResponsible(
         name,
       },
     })
+    const responsible_id = responsible.id
+    return reply.status(201).send({ responsible_id })
   } catch (err: any) {
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })
@@ -108,6 +110,4 @@ export async function registerLegalResponsible(
 
     return reply.status(500).send({ message: err.message })
   }
-
-  return reply.status(201).send()
 }

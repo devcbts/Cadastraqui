@@ -16,18 +16,25 @@ import { multerConfig } from './lib/multer'
 import { uploadFile } from './http/services/upload-file'
 import { assistantRoutes } from './http/controllers/social-assistant/routes'
 import fastifyCors from 'fastify-cors'
+import { uploadUserProfilePicture } from './http/controllers/users/upload-profile-picture'
+import { verifyJWT } from './http/middlewares/verify-jwt'
+import { getUserProfilePicture } from './http/controllers/users/get-profile-picture'
+import {fastifyMultipart} from '@fastify/multipart'
 
 export const app = fastify()
+app.register(fastifyMultipart, {
+  limits:{
+    fileSize: 10000000
+  }
+})
 
 // Registre o plugin fastify-cors
 app.register(fastifyCors, {
-  origin: '*',
+  origin: 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 })
-
 export const upload = fastifyMulter(multerConfig)
-app.register(fastifyMulter.contentParser)
 
 app.addHook('onRequest', (request, reply, done) => {
   morgan('dev')(request.raw, reply.raw, done)
@@ -63,6 +70,12 @@ app.post('/session', authenticate)
 app.post('/forgot_password', forgotPassword)
 app.post('/reset_password', resetPassword)
 app.patch('/token/refresh', refresh)
+app.post(
+  '/profilePicture',
+  { onRequest: [verifyJWT] },
+  uploadUserProfilePicture,
+)
+app.get('/profilePicture', { onRequest: [verifyJWT] }, getUserProfilePicture)
 
 app.setErrorHandler((error, _request, reply) => {
   if (error instanceof ZodError) {
@@ -78,4 +91,5 @@ app.setErrorHandler((error, _request, reply) => {
   }
 
   return reply.status(500).send({ message: 'Internal server error.' })
+  
 })
