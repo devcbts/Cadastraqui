@@ -16,7 +16,7 @@ function AuthProvider({children}) {
       setData({user_id, user_role})
 
       //api.defaults.headers.authorization = `Bearer ${token}`
-
+      localStorage.setItem('email', email)
       localStorage.setItem('token', token);
       localStorage.setItem('role', user_role);
       return user_role

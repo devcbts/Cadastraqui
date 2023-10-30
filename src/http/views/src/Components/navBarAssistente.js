@@ -21,6 +21,7 @@ import { api } from "../services/axios";
 export default function NavBarAssistente() {
   const { isShown, handleClick, setIsShown } = useAppState();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [profilePhoto, setProfilePhoto] = useState(null);
 
   const [assistantInfo, setAssistantInfo] = useState();
 
@@ -66,25 +67,59 @@ export default function NavBarAssistente() {
   var location = useLocation();
   var currentPath = location.pathname;
 
-  /*useEffect(() => {
+  useEffect(() => {
     const token = localStorage.getItem("token");
-    async function getAssistantInfo() {
-      const response = await api.get("/assistant/basic-info", {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      });
-      setAssistantInfo(response.data.assistant);
+    const assistant = localStorage.getItem("assistant");
+    if (!assistant) {
+
+      async function getAssistantInfo() {
+        const response = await api.get("/assistant/basic-info", {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+        setAssistantInfo(response.data.assistant);
+        localStorage.setItem("assistant", response.data.assistant)
+      }
+      getAssistantInfo()
+    } else {
+      setAssistantInfo(assistant)
     }
-    getAssistantInfo()
-  },[])*/
+
+    const profilePhoto = localStorage.getItem("profilePhoto");
+    if (!profilePhoto) {
+
+      async function getProfilePhoto() {
+        const token = localStorage.getItem("token");
+
+        try {
+          const profilePhoto = await api.get("/profilePicture", {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          });
+          console.log(profilePhoto);
+          setProfilePhoto(profilePhoto.data.url);
+          localStorage.setItem("profilePhoto", profilePhoto.data.url);
+        } catch (err) {
+          if (err.response.status === 401) {
+            navigate("/login");
+          }
+        }
+      }
+
+      getProfilePhoto();
+    } else {
+      setProfilePhoto(profilePhoto);
+    }
+  }, [])
   console.log(assistantInfo);
   return (
     <div className="outer-sidebar">
       {windowWidth < 1030 && (
         <div className="mobile-menu">
           <div className="mobile-user">
-            <img src={photoProfile} className="user-sidebar"></img>
+            <img src={profilePhoto ? profilePhoto : photoProfile} className="user-sidebar"></img>
           </div>
           <div class="search">
             <input type="text" class="search__input" placeholder="Buscar" />
@@ -116,7 +151,7 @@ export default function NavBarAssistente() {
             <img src={whiteLogoText}></img>
           </div>
           <div className="user">
-            <img src={photoProfile} className="user-sidebar"></img>
+            <img src={profilePhoto ? profilePhoto : photoProfile} className="user-sidebar"></img>
             <div className="user-name">
               <h6>{assistantInfo ? assistantInfo.name : ""}</h6>
             </div>
@@ -126,16 +161,14 @@ export default function NavBarAssistente() {
               <li>
                 <a
                   href="#"
-                  className={`${
-                    currentPath == "/assistente/home" ? "active" : "inactive"
-                  }`}
+                  className={`${currentPath == "/assistente/home" ? "active" : "inactive"
+                    }`}
                   onClick={() => urlNavigation("home")}
                 >
                   <UilEstate
                     size="30"
-                    color={`${
-                      currentPath == "/assistente/home" ? "#1F4B73" : "white"
-                    }`}
+                    color={`${currentPath == "/assistente/home" ? "#1F4B73" : "white"
+                      }`}
                   />
                   <span>Home</span>
                 </a>
@@ -143,16 +176,14 @@ export default function NavBarAssistente() {
               <li>
                 <a
                   href="#"
-                  className={`${
-                    currentPath == "/assistente/editais" ? "active" : "inactive"
-                  }`}
+                  className={`${currentPath == "/assistente/editais" ? "active" : "inactive"
+                    }`}
                   onClick={() => urlNavigation("editais")}
                 >
                   <UilFileAlt
                     size="30"
-                    color={`${
-                      currentPath == "/assistente/editais" ? "#1F4B73" : "white"
-                    }`}
+                    color={`${currentPath == "/assistente/editais" ? "#1F4B73" : "white"
+                      }`}
                   />
                   <span>Editais</span>
                 </a>
@@ -161,16 +192,14 @@ export default function NavBarAssistente() {
               <li>
                 <a
                   href="#"
-                  className={`${
-                    currentPath == "/assistente/sac" ? "active" : "inactive"
-                  }`}
+                  className={`${currentPath == "/assistente/sac" ? "active" : "inactive"
+                    }`}
                   onClick={() => urlNavigation("sac")}
                 >
                   <UilCommentAltNotes
                     size="30"
-                    color={`${
-                      currentPath == "/assistente/sac" ? "#1F4B73" : "white"
-                    }`}
+                    color={`${currentPath == "/assistente/sac" ? "#1F4B73" : "white"
+                      }`}
                   />
                   <span>Sac</span>
                 </a>
@@ -179,16 +208,14 @@ export default function NavBarAssistente() {
               <li>
                 <a
                   href="#"
-                  className={`${
-                    currentPath == "/assistente/perfil" ? "active" : "inactive"
-                  }`}
+                  className={`${currentPath == "/assistente/perfil" ? "active" : "inactive"
+                    }`}
                   onClick={() => urlNavigation("perfil")}
                 >
                   <UilUserCircle
                     size="30"
-                    color={`${
-                      currentPath == "/assistente/perfil" ? "#1F4B73" : "white"
-                    }`}
+                    color={`${currentPath == "/assistente/perfil" ? "#1F4B73" : "white"
+                      }`}
                   />
                   <span>Perfil</span>
                 </a>

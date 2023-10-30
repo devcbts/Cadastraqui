@@ -3,31 +3,33 @@ import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { uploadFile } from '@/http/services/upload-file'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
 
 export async function uploadUserProfilePicture(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const uploadPhotoSchema = z.object({
-    photoPath: z.string(),
-  })
-
-  const { photoPath } = uploadPhotoSchema.parse(request.body)
   try {
     const user_id = request.user.sub
-
     // Verifica se existe um candidato associado ao user_id
-    const user = await prisma.user.findUnique({ where: { id: user_id } })
-    if (!user) {
-      throw new ResourceNotFoundError()
-    }
+  
 
-    const Route = `ProfilePictures/${user.id}`
-    const sended = await uploadFile(user.id, Route)
-    if (!sended) {
-      throw new NotAllowedError()
-    }
+        const data = await request.file();
+        if (!data) {
+            throw new ResourceNotFoundError()
+        }
+        const fileBuffer = await data.toBuffer();
+        console.log(fileBuffer.length)
+        const Route = `ProfilePictures/${user_id}`
+        const sended =  await uploadFile(fileBuffer, Route)
+      
+        if (!sended){
+           
+            throw new NotAllowedError()
+        }
+
+
+
+
 
     reply.status(201).send()
   } catch (error) {

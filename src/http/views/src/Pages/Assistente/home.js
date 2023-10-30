@@ -17,7 +17,7 @@ export default function HomeAssistente() {
   const [activeAnnouncements, setActiveAnnouncements] = useState()
   const [assistantId, setAssistantId] = useState()
 
-  /*useEffect(() => {
+  useEffect(() => {
 
     async function getAssistantInfo() {
       const token = localStorage.getItem("token")
@@ -57,7 +57,7 @@ export default function HomeAssistente() {
       console.log(response.data.announcement)
     }
     fetchAnnouncements()
-  }, [])*/
+  }, [])
 
   return (
     <div className="container">
