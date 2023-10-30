@@ -11,6 +11,7 @@ import whiteLogoText from "../Assets/logo_branca_texto.png";
 import { useAppState } from "../AppGlobal";
 import { useLocation } from "react-router-dom";
 import { Fade as Hamburger } from "hamburger-react";
+import { api } from "../services/axios";
 // ReactDOM.render(element, document.body);
 
 export default function NavBarCandidato(props) {
@@ -20,6 +21,9 @@ export default function NavBarCandidato(props) {
 
   // Utilizado para preencher campos do usuáriocom dados vindo do BackEnd
   const user = props.user
+  const [profilePhoto, setProfilePhoto] = useState(null);
+
+
 
   const handleClosePopup = () => {
     setPopupIsShown((prev) => !prev);
@@ -62,7 +66,29 @@ export default function NavBarCandidato(props) {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+
   }, []); // The empty array ensures this effect only runs once, on mount and unmount
+
+  useEffect(() => {
+    async function getProfilePhoto() {
+      const token = localStorage.getItem("token")
+
+      try {
+        const profilePhoto = await api.get('/candidates/profilePicture', {
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }
+        })
+        setProfilePhoto(profilePhoto.data.url)
+      } catch (err) {
+        if (err.response.status === 401) {
+          navigate('/login')
+        }
+      }
+    }
+
+    getProfilePhoto()
+  })
 
   var location = useLocation();
   var currentPath = location.pathname;
@@ -89,7 +115,7 @@ export default function NavBarCandidato(props) {
       {windowWidth < 1030 && (
         <div className="mobile-menu">
           <div className="mobile-user">
-            <img src={photoProfile} className="user-sidebar"></img>
+            <img src={profilePhoto !== null ? profilePhoto : photoProfile} className="user-sidebar"/>
           </div>
           <div class="search">
             <input type="text" class="search__input" placeholder="Buscar" />
@@ -121,7 +147,7 @@ export default function NavBarCandidato(props) {
             <img src={whiteLogoText}></img>
           </div>
           <div className="user">
-            <img src={photoProfile} className="user-sidebar"></img>
+            <img src={profilePhoto !== null ? profilePhoto : photoProfile} className="user-sidebar"></img>
             <div className="user-name">
               <h6>{user ? user.name : "User Name"}</h6>
             </div>

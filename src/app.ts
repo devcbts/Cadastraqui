@@ -19,19 +19,19 @@ import fastifyCors from 'fastify-cors'
 import { uploadUserProfilePicture } from './http/controllers/users/upload-profile-picture'
 import { verifyJWT } from './http/middlewares/verify-jwt'
 import { getUserProfilePicture } from './http/controllers/users/get-profile-picture'
-import {fastifyMultipart} from '@fastify/multipart'
+import { fastifyMultipart } from '@fastify/multipart'
 
 export const app = fastify()
 app.register(fastifyMultipart, {
-  limits:{
-    fileSize: 10000000
-  }
+  limits: {
+    fileSize: 10000000,
+  },
 })
 
 // Registre o plugin fastify-cors
 app.register(fastifyCors, {
   origin: 'http://localhost:3000',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 })
 export const upload = fastifyMulter(multerConfig)
@@ -91,5 +91,4 @@ app.setErrorHandler((error, _request, reply) => {
   }
 
   return reply.status(500).send({ message: 'Internal server error.' })
-  
 })

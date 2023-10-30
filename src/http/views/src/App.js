@@ -26,6 +26,7 @@ import CadastroInfo from "./Pages/Candidato/cadastroInformacoes";
 import Estatisticas from "./Pages/Assistente/estatisticas";
 import SacAssistente from "./Pages/Assistente/sacAssistente";
 import PerfilAssistente from "./Pages/Assistente/perfilAssistente";
+import SeeCandidatosInfo from "./Pages/Assistente/seeCandidatosInfo";
 
 function App() {
   return (
@@ -100,6 +101,11 @@ function App() {
                 element={<CandidatosCadastrados></CandidatosCadastrados>}
               ></Route>
 
+              <Route
+                path="/assistente/cadastrados"
+                element={<CandidatosCadastrados></CandidatosCadastrados>}
+              ></Route>
+
               <Route path="/login" element={<Login></Login>}></Route>
 
               <Route path="/candidato/info" element={<CadastroInfo />}></Route>
@@ -112,6 +118,11 @@ function App() {
               <Route
                 path="/assistente/perfil"
                 element={<PerfilAssistente></PerfilAssistente>}
+              ></Route>
+
+              <Route
+                path="/assistente/cadastrados/info"
+                element={<SeeCandidatosInfo></SeeCandidatosInfo>}
               ></Route>
             </Routes>
           </AuthProvider>

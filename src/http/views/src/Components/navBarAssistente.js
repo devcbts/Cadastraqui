@@ -66,7 +66,7 @@ export default function NavBarAssistente() {
   var location = useLocation();
   var currentPath = location.pathname;
 
-  useEffect(() => {
+  /*useEffect(() => {
     const token = localStorage.getItem("token");
     async function getAssistantInfo() {
       const response = await api.get("/assistant/basic-info", {
@@ -76,8 +76,8 @@ export default function NavBarAssistente() {
       });
       setAssistantInfo(response.data.assistant);
     }
-    getAssistantInfo();
-  }, []);
+    getAssistantInfo()
+  },[])*/
   console.log(assistantInfo);
   return (
     <div className="outer-sidebar">

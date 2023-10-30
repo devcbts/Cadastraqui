@@ -1,4 +1,3 @@
-import { NotAllowedError } from '@/errors/not-allowed-error'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function refresh(request: FastifyRequest, reply: FastifyReply) {
