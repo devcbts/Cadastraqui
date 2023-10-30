@@ -19,8 +19,14 @@ import fastifyCors from 'fastify-cors'
 import { uploadUserProfilePicture } from './http/controllers/users/upload-profile-picture'
 import { verifyJWT } from './http/middlewares/verify-jwt'
 import { getUserProfilePicture } from './http/controllers/users/get-profile-picture'
+import {fastifyMultipart} from '@fastify/multipart'
 
 export const app = fastify()
+app.register(fastifyMultipart, {
+  limits:{
+    fileSize: 10000000
+  }
+})
 
 // Registre o plugin fastify-cors
 app.register(fastifyCors, {
@@ -29,7 +35,6 @@ app.register(fastifyCors, {
   allowedHeaders: ['Content-Type', 'Authorization'],
 })
 export const upload = fastifyMulter(multerConfig)
-app.register(fastifyMulter.contentParser)
 
 app.addHook('onRequest', (request, reply, done) => {
   morgan('dev')(request.raw, reply.raw, done)
@@ -86,4 +91,5 @@ app.setErrorHandler((error, _request, reply) => {
   }
 
   return reply.status(500).send({ message: 'Internal server error.' })
+  
 })

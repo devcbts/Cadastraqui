@@ -745,9 +745,9 @@ model Announcement {
   entityChanged        Boolean? // Did the entity's responsible change?
   branchChanged        Boolean? // Was there an opening or closing of a branch?
   announcementType     AnnouncementType
-  announcementNumber   String
-  announcementDate     DateTime
-  announcementName     String
+  announcementNumber   String?
+  announcementDate     DateTime?
+  announcementName     String?
   offeredVacancies     Int? // Only if announcementType is ScholarshipGrant
   verifiedScholarships Int? // Only if announcementType is ScholarshipGrant
   description          String? //Caso seja desejado inserir uma descrição

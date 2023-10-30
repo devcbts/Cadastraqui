@@ -93,12 +93,12 @@ export async function candidateRoutes(app: FastifyInstance) {
 
   // profile ficture info
   app.get(
-    '/profilePicutre',
+    '/profilePicture',
     { onRequest: [verifyJWT] },
     getCandidateProfilePicture,
   )
   app.post(
-    '/profilePicutre',
+    '/profilePicture',
     { onRequest: [verifyJWT] },
     uploadCandidateProfilePicture,
   )

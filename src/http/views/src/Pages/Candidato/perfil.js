@@ -22,14 +22,16 @@ export default function PerfilCandidato() {
 
     if (file) {
       const token = localStorage.getItem("token")
-      const photoPath = URL.createObjectURL(file)
-      console.log(photoPath)
+
       try {
-        await api.post('/candidates/profilePicutre',{ photoPath },  {
+        const formData = new FormData();
+        formData.append('file', file);
+        await api.post('candidates/profilePicture', formData, {
           headers: {
             'authorization': `Bearer ${token}`,
-          }} ) 
-      } catch(err) {
+          }
+        })
+      } catch (err) {
         alert('Erro ao atualizar foto de perfil.')
         console.log(err)
       }
@@ -40,29 +42,31 @@ export default function PerfilCandidato() {
     async function getUserInfo() {
       const token = localStorage.getItem("token")
       const user_role = localStorage.getItem("role")
-      if(user_role === 'CANDIDATE') {
+      if (user_role === 'CANDIDATE') {
         try {
           const user_info = await api.get('/candidates/basic-info', {
             headers: {
               'authorization': `Bearer ${token}`,
-            }})
-            setUserInfo(user_info.data.candidate)
-        } catch(err) {
-          if(err.response.status === 401) {
+            }
+          })
+          setUserInfo(user_info.data.candidate)
+        } catch (err) {
+          if (err.response.status === 401) {
             try {
               const newToken = await api.patch('/token/refresh')
               localStorage.setItem("token", newToken)
-            } catch(err) {
+            } catch (err) {
               console.log(err)
             }
           }
         }
-      } else if(user_role === 'RESPONSIBLE') {
+      } else if (user_role === 'RESPONSIBLE') {
         const user_info = await api.get('/responsibles', {
           headers: {
             'authorization': `Bearer ${token}`,
-          }})
-          setUserInfo(user_info.data.responsible)
+          }
+        })
+        setUserInfo(user_info.data.responsible)
       }
     }
 
@@ -73,10 +77,11 @@ export default function PerfilCandidato() {
         const profilePhoto = await api.get('/profilePicture', {
           headers: {
             'authorization': `Bearer ${token}`,
-          }})
-          setProfilePhoto(profilePhoto.data.url)
-      } catch(err) {
-        if(err.response.status === 401) {
+          }
+        })
+        setProfilePhoto(profilePhoto.data.url)
+      } catch (err) {
+        if (err.response.status === 401) {
           navigate('/login')
         }
       }
@@ -84,12 +89,12 @@ export default function PerfilCandidato() {
 
     //getProfilePhoto()
     getUserInfo()
-  },[])
+  }, [])
 
   return (
     <div className="container">
       <div className="section-nav">
-      <NavBarCandidato user={userInfo}></NavBarCandidato>
+        <NavBarCandidato user={userInfo}></NavBarCandidato>
       </div>
 
       <div className="container-contas">
