@@ -91,7 +91,10 @@ export default function PerfilCandidato() {
         console.log(err)
       }
     }
-  }
+
+    getProfilePhoto()
+    getUserInfo()
+  }, [])
 
   return (
     <div className="container">
