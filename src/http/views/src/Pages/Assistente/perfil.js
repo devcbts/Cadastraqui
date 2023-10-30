@@ -13,7 +13,7 @@ export default function PerfilCandidato() {
 
     const [userInfo, setUserInfo] = useState();
 
-    useEffect(() => {
+    /*useEffect(() => {
         async function getUserInfo() {
             const token = localStorage.getItem("token")
 
@@ -26,7 +26,7 @@ export default function PerfilCandidato() {
 
         }
         getUserInfo()
-    }, [])
+    }, [])*/
 
     return (
         <div className="container">

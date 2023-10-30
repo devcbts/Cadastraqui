@@ -10,30 +10,26 @@ import { api } from "../../services/axios";
 import { useNavigate } from "react-router";
 
 export default function PerfilCandidato() {
-  const { isShown } = useAppState();
-  const [profilePhoto, setProfilePhoto] = useState(null);
+  const { isShown } = useAppState()
+  const [profilePhoto, setProfilePhoto] = useState(null)
   const navigate = useNavigate()
 
-  const [userInfo, setUserInfo] = useState();
+  const [userInfo, setUserInfo] = useState()
 
-  async function handleImageUpload(event) {
-    const file = event.target.files[0]
-    console.log(file)
+  async function getProfilePhoto() {
+    const token = localStorage.getItem("token")
 
-    if (file) {
-      const token = localStorage.getItem("token")
-
-      try {
-        const formData = new FormData();
-        formData.append('file', file);
-        await api.post('candidates/profilePicture', formData, {
-          headers: {
-            'authorization': `Bearer ${token}`,
-          }
-        })
-      } catch (err) {
-        alert('Erro ao atualizar foto de perfil.')
-        console.log(err)
+    try {
+      const profilePhoto = await api.get('/candidates/profilePicture', {
+        headers: {
+          'authorization': `Bearer ${token}`,
+        }
+      })
+      console.log(profilePhoto)
+      setProfilePhoto(profilePhoto.data.url)
+    } catch (err) {
+      if (err.response.status === 401) {
+        navigate('/login')
       }
     }
   }
@@ -70,20 +66,29 @@ export default function PerfilCandidato() {
       }
     }
 
-    async function getProfilePhoto() {
+    getProfilePhoto()
+    getUserInfo()
+  }, [])
+
+  async function handleImageUpload(event) {
+    const file = event.target.files[0]
+    console.log(file)
+
+    if (file) {
       const token = localStorage.getItem("token")
 
       try {
-        const profilePhoto = await api.get('/candidates/profilePicture', {
+        const formData = new FormData();
+        formData.append('file', file);
+        await api.post('/candidates/profilePicture', formData, {
           headers: {
             'authorization': `Bearer ${token}`,
           }
         })
-        setProfilePhoto(profilePhoto.data.url)
+        getProfilePhoto()
       } catch (err) {
-        if (err.response.status === 401) {
-          navigate('/login')
-        }
+        alert('Erro ao atualizar foto de perfil.')
+        console.log(err)
       }
     }
 
@@ -104,7 +109,7 @@ export default function PerfilCandidato() {
         <div className="user-photo">
           <div className="profile-photo">
             <div className="bg-image">
-              <img id="profile-photo" src={profilePhoto !== null ? profilePhoto : photoProfile}></img>
+              <img id="profile-photo" className="photo-profile-img" alt="imagem-do-usuario" src={profilePhoto !== null ? profilePhoto : photoProfile}/>
             </div>
             <label className="profile-label" for="photo">Editar Foto</label>
             <input type="file" name="profile-photo" id="photo" accept="image/png, image/jpeg, image/jpg, image/pdf" onChange={handleImageUpload}></input>

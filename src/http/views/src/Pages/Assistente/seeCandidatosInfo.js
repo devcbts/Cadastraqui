@@ -3,11 +3,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useRef } from "react";
 import MultiStep from "react-multistep";
-import "./cadastroInformacoes.css";
+import "./seeCandidatosInfo.css";
 import { UilAngleLeft } from "@iconscout/react-unicons";
 import { UilAngleRight } from "@iconscout/react-unicons";
 
-export default function CadastroInfo() {
+export default function SeeCandidatosInfo() {
   const nextButton = useRef(null);
   const prevButton = useRef(null);
 
@@ -21,13 +21,23 @@ export default function CadastroInfo() {
         <div className="input-cadastro hidden-title"></div>
 
         <div className="input-cadastro">
-          <input type="text" placeholder="Nome completo"></input>
+          <input
+            type="text"
+            placeholder="Nome completo"
+            value="Jean Carlo do Amaral"
+            disabled
+          ></input>
         </div>
         <div className="input-cadastro">
-          <input type="date" placeholder=""></input>
+          <input type="date" placeholder="" value="2003-12-03" disabled></input>
         </div>
         <div className="input-cadastro">
-          <input type="text" placeholder="Sexo"></input>
+          <input
+            type="text"
+            placeholder="Sexo"
+            value="Masculino"
+            disabled
+          ></input>
         </div>
 
         <div className="input-cadastro title">
@@ -37,13 +47,28 @@ export default function CadastroInfo() {
         <div className="input-cadastro hidden-title"></div>
 
         <div className="input-cadastro">
-          <input type="text" placeholder="Estado"></input>
+          <input
+            type="text"
+            placeholder="Estado"
+            value="Minas Gerais"
+            disabled
+          ></input>
         </div>
         <div className="input-cadastro">
-          <input type="text" placeholder="Cidade"></input>
+          <input
+            type="text"
+            placeholder="Cidade"
+            value="Itajubá"
+            disabled
+          ></input>
         </div>
         <div className="input-cadastro">
-          <input type="text" placeholder="Nacionalidade"></input>
+          <input
+            type="text"
+            placeholder="Nacionalidade"
+            value="Brasileira"
+            disabled
+          ></input>
         </div>
 
         <div className="input-cadastro title">
@@ -53,24 +78,60 @@ export default function CadastroInfo() {
         <div className="input-cadastro hidden-title"></div>
 
         <div className="input-cadastro">
-          <input type="text" placeholder="CPF"></input>
+          <input
+            type="text"
+            placeholder="CPF"
+            value="999.999.999-09"
+            disabled
+          ></input>
         </div>
         <div className="input-cadastro">
-          <input type="text" placeholder="RG"></input>
+          <input
+            type="text"
+            placeholder="RG"
+            value="MG - 88.888.888"
+            disabled
+          ></input>
         </div>
         <div className="input-cadastro">
-          <input type="text" placeholder="Orgão Emissor"></input>
+          <input
+            type="text"
+            placeholder="Orgão Emissor"
+            value="IIMG"
+            disabled
+          ></input>
         </div>
         <div className="input-cadastro">
-          <input type="text" placeholder="UF do orgão emissor"></input>
+          <input
+            type="text"
+            placeholder="UF do orgão emissor"
+            value="MG"
+            disabled
+          ></input>
         </div>
         <div className="input-cadastro hidden-title"></div>
         <div className="input-cadastro  hidden-title"></div>
+        <div className="input-cadastro title">
+          <h2>4. Adicionais</h2>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro hidden-title"></div>
         <div className="input-cadastro">
-          <input type="text" placeholder="E-mail" required></input>
+          <input
+            type="text"
+            placeholder="E-mail"
+            required
+            value="jeanjcsa@email.com"
+            disabled
+          ></input>
         </div>
         <div className="input-cadastro">
-          <input type="text" placeholder="Profissão"></input>
+          <input
+            type="text"
+            placeholder="Profissão"
+            value="Estudante"
+            disabled
+          ></input>
         </div>
       </div>
     );
@@ -327,9 +388,14 @@ export default function CadastroInfo() {
 
   return (
     <div className="container-cadastro-candidato">
-      <div className="upper-cadastro-candidato">
-        <h1>CADASTRO</h1>
-        <h1>PREENCHA SEUS DADOS</h1>
+      <div className="upper-cadastro-candidato candidato-info-assistente">
+        <div>
+          <a className="btn-cadastro">{"< "}Voltar</a>
+        </div>
+        <div>
+          <h1>INFORMAÇÔES</h1>
+          <h2>Jean Carlo do Amaral</h2>
+        </div>
       </div>
       <div className="container-info">
         <MultiStep
@@ -338,25 +404,7 @@ export default function CadastroInfo() {
           stepCustomStyle={{
             fontSize: 0.8 + "rem",
           }}
-          prevButton={{
-            title: "<",
-            style: {
-              width: 3 + "rem",
-              marginTop: 1 + "rem",
-              borderWidth: 0,
-              fontSize: 2 + "rem",
-              backgroundColor: "white",
-            },
-          }}
-          nextButton={{
-            title: ">",
-            style: {
-              width: 3 + "rem",
-              borderWidth: 0,
-              fontSize: 2 + "rem",
-              backgroundColor: "white",
-            },
-          }}
+          showNavigation={false}
         >
           <BasicInfoDiv title="Básico"></BasicInfoDiv>
           <FamilyInfoDiv title="Família"></FamilyInfoDiv>
