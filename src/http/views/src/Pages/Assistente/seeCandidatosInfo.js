@@ -6,10 +6,18 @@ import MultiStep from "react-multistep";
 import "./seeCandidatosInfo.css";
 import { UilAngleLeft } from "@iconscout/react-unicons";
 import { UilAngleRight } from "@iconscout/react-unicons";
+import { UilCommentAltMedical } from "@iconscout/react-unicons";
+import { UilTimesSquare } from "@iconscout/react-unicons";
+import Comment from "../../Components/comment";
 
 export default function SeeCandidatosInfo() {
+  const [commentIsShown, setCommentIsShown] = useState(false);
   const nextButton = useRef(null);
   const prevButton = useRef(null);
+
+  const handleCommentClick = () => {
+    setCommentIsShown((prev) => !prev);
+  };
 
   function BasicInfoDiv() {
     return (
@@ -390,7 +398,7 @@ export default function SeeCandidatosInfo() {
     <div className="container-cadastro-candidato">
       <div className="upper-cadastro-candidato candidato-info-assistente">
         <div>
-          <a className="btn-cadastro">{"< "}Voltar</a>
+          <a className="btn-cadastro go-back">{"< "}Voltar</a>
         </div>
         <div>
           <h1>INFORMAÇÔES</h1>
@@ -416,6 +424,51 @@ export default function SeeCandidatosInfo() {
           <DeclarationsInfoDiv title="Declarações"></DeclarationsInfoDiv>
           <DocumentsInfoDiv title="Documentos"></DocumentsInfoDiv>
         </MultiStep>
+        <div className="add-comment">
+          <UilCommentAltMedical
+            size="30"
+            color="#1F4B73"
+            onClick={() => handleCommentClick()}
+          ></UilCommentAltMedical>
+        </div>
+
+        {commentIsShown && <div className="comment-backdrop"></div>}
+
+        {commentIsShown && (
+          <div className="comment-popup">
+            <div className="upper-sections">
+              <div>
+                <h2>Básico</h2>
+                <h3>Jean Carlo do Amaral</h3>
+              </div>
+              <UilTimesSquare
+                size="30"
+                color="#1F4B73"
+                onClick={() => handleCommentClick()}
+                className="btn"
+              ></UilTimesSquare>
+            </div>
+            <div className="create-comment">
+              <h2>Adicionar comentario de seção</h2>
+              <textarea className="text-fixed"></textarea>
+              <div className="send-comment">
+                <div class="box">
+                  <select>
+                    <option>Documento</option>
+                    <option>RG</option>
+                    <option>CPF</option>
+                    <option>Comprovante de residência</option>
+                    <option>...</option>
+                  </select>
+                </div>
+                <button className="btn-send">Enviar</button>
+              </div>
+            </div>
+            <div className="comments-box">
+              <Comment></Comment>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
