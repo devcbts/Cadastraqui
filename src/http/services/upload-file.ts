@@ -1,7 +1,9 @@
 import { uploadToS3 } from '@/lib/S3'
 
-export async function uploadFile(filePath: string, folderInBucket: string) {
-  const fileName = filePath.split('/').pop() || 'file'
-  const s3Path = `${folderInBucket}/${fileName}`
-  return await uploadToS3(filePath, s3Path)
+export async function uploadFile(file: Buffer, folderInBucket: string) {
+  const s3Path = `${folderInBucket}`
+  console.log('====================================');
+  console.log(s3Path);
+  console.log('====================================');
+  return await uploadToS3(file, s3Path)
 }

@@ -7,38 +7,32 @@ import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-interface MulterRequest extends FastifyRequest {
-    file: any;
-}
+
 
 export async function uploadCandidateProfilePicture(
     request: FastifyRequest,
     reply: FastifyReply
 ) {
-    const uploadPhotoSchema = z.object({
-        photoPath: z.string(),
-    })
-
-    
-    const {
-        photoPath,
-    } = uploadPhotoSchema.parse(request.body)
+ 
     try {
         const user_id = request.user.sub
-
         // Verifica se existe um candidato associado ao user_id
         const candidate = await prisma.candidate.findUnique({ where: { user_id } })
         if (!candidate) {
             throw new ResourceNotFoundError()
         }
 
-        const data = await (request as MulterRequest).file();
+        const data = await request.file();
+        if (!data) {
+            throw new ResourceNotFoundError()
+        }
         const fileBuffer = await data.toBuffer();
-
+        console.log(fileBuffer.length)
         const Route = `ProfilePictures/${candidate.id}`
-        const sended =  await uploadFile(photoPath, Route)
-
+        const sended =  await uploadFile(fileBuffer, Route)
+      
         if (!sended){
+           
             throw new NotAllowedError()
         }
 
