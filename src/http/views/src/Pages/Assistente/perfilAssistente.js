@@ -26,7 +26,7 @@ export default function PerfilAssistente() {
       try {
         const formData = new FormData();
         formData.append("file", file);
-        await api.post("candidates/profilePicture", formData, {
+        await api.post("/profilePicture", formData, {
           headers: {
             authorization: `Bearer ${token}`,
           },
@@ -42,14 +42,14 @@ export default function PerfilAssistente() {
     async function getUserInfo() {
       const token = localStorage.getItem("token");
       const user_role = localStorage.getItem("role");
-      if (user_role === "CANDIDATE") {
+      if (user_role === "ASSISTANT") {
         try {
-          const user_info = await api.get("/candidates/basic-info", {
+          const user_info = await api.get("/assistant/basic-info", {
             headers: {
               authorization: `Bearer ${token}`,
             },
           });
-          setUserInfo(user_info.data.candidate);
+          setUserInfo(user_info.data.assistant);
         } catch (err) {
           if (err.response.status === 401) {
             try {
@@ -60,13 +60,6 @@ export default function PerfilAssistente() {
             }
           }
         }
-      } else if (user_role === "RESPONSIBLE") {
-        const user_info = await api.get("/responsibles", {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        });
-        setUserInfo(user_info.data.responsible);
       }
     }
 
@@ -121,12 +114,32 @@ export default function PerfilAssistente() {
               onChange={handleImageUpload}
             ></input>
           </div>
-          <div className="side-photo"></div>
         </div>
         <div className="novos-colaboradores profile-candidate">
           <div className="solicitacoes personal-info">
             <div className="upper-info">
               <h2>Informações pessoais</h2>
+              <div className="info-item">
+                <h3>Nome:</h3>
+                <h3>{userInfo ? userInfo.name : "User Name"}</h3>
+              </div>
+              <div className="info-item">
+                <h3>Telefone:</h3>
+                <h3>{userInfo ? userInfo.phone : ""}</h3>
+              </div>
+              <div className="info-item">
+                <h3>CPF:</h3>
+                <h3>{userInfo ? userInfo.CPF : ""}</h3>
+              </div>
+              <div className="info-item">
+                <h3>CRESS:</h3>
+                <h3>{userInfo ? userInfo.CRESS : ""}</h3>
+              </div>
+              <div className="info-item">
+                <h3>Email:</h3>
+                <h3>{userInfo ? localStorage.getItem("email") : ""}</h3>
+              </div>
+
             </div>
             <a href="#">
               <UilPen size="20" color="#1F4B73"></UilPen>
