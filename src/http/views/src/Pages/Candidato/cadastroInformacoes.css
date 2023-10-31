@@ -17,7 +17,7 @@
     background-color: #ffffff;
     margin: auto;
     margin-top: 0;
-    box-shadow: 0 0 30px rgb(189, 189, 189);
+    box-shadow: 0 0 15px rgb(223, 223, 223);
     border-radius: 2rem 0 0 2rem;
     display: grid;
     grid-template-columns: repeat(3,1fr);

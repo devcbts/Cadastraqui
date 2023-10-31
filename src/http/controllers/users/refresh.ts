@@ -1,30 +1,39 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
+import jwt from 'jsonwebtoken'
+import { env } from '@/env'
 
 export async function refresh(request: FastifyRequest, reply: FastifyReply) {
-  try {
-    await request.jwtVerify({ onlyCookie: true })
+  const refreshParamsSchema = z.object({
+    refreshToken: z.string(),
+  })
+  const { refreshToken } = refreshParamsSchema.parse(request.query)
 
-    const token = await reply.jwtSign(
+  try {
+    const decoded = jwt.verify(refreshToken, env.JWT_SECRET)
+    const user_id = decoded.sub?.toString()
+
+    const newToken = await reply.jwtSign(
       {},
       {
         sign: {
-          sub: request.user.sub,
+          sub: user_id,
         },
       },
     )
 
-    const refreshToken = await reply.jwtSign(
+    const newRefreshToken = await reply.jwtSign(
       {},
       {
         sign: {
-          sub: request.user.sub,
+          sub: user_id,
           expiresIn: '7d',
         },
       },
     )
 
     return reply
-      .setCookie('refreshToken', refreshToken, {
+      .setCookie('refreshToken', newRefreshToken, {
         path: '/',
         secure: true,
         sameSite: true,
@@ -32,7 +41,8 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
       })
       .status(200)
       .send({
-        token,
+        newToken,
+        newRefreshToken,
       })
   } catch (err: any) {
     return reply.status(500).send({ err: err.message })

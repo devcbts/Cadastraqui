@@ -49,7 +49,6 @@ export async function authenticate(
       },
     )
 
-    const user_id = user.id
     const user_role = user.role
     return reply
       .setCookie('refreshToken', refreshToken, {
@@ -59,7 +58,7 @@ export async function authenticate(
         httpOnly: true,
       })
       .status(200)
-      .send({ token, user_id, user_role })
+      .send({ token, user_role, refreshToken })
   } catch (err: any) {
     if (err instanceof InvalidCredentialsError) {
       return reply.status(401).send({ message: err.message })

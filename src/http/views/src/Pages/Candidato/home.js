@@ -6,9 +6,11 @@ import NavBarCandidato from "../../Components/navBarCandidato";
 import Edital from "../../Components/edital";
 import Candidatura from "../../Components/candidatura";
 import { api } from "../../services/axios";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router";
 
 export default function HomeCandidato() {
-  const { isShown } = useAppState();
+  const { isShown } = useAppState()
   
   // Estados para os editais
   const [openAnnouncements, setOpenAnnouncements] = useState()
@@ -16,33 +18,68 @@ export default function HomeCandidato() {
   // Estado para informações acerca do usuário logado
   const [userInfo, setUserInfo] = useState()
 
+  const navigate = useNavigate()
+
+  async function refreshAccessToken() {
+    try{
+      const refreshToken = Cookies.get('refreshToken')
+
+      const response = await api.patch(`/refresh?refreshToken=${refreshToken}`)
+      
+      const {newToken, newRefreshToken} = response.data
+      localStorage.setItem('token', newToken)
+      Cookies.set('refreshToken', newRefreshToken, {
+        expires: 7,
+        sameSite: true,
+        path: '/',
+      })
+    } catch(err) {
+      console.log(err)
+      navigate('/login')
+    }
+  }
+  setInterval(refreshAccessToken, 4800000)
+
   useEffect(() => {
     async function fetchAnnouncements() {
       const token = localStorage.getItem("token")
-
-      const response = await api.get('/candidates/anouncements', {
-        headers: {
-          'authorization': `Bearer ${token}`,
-        }})
-      // Pega todos os editais e armazena em um estado
-      setOpenAnnouncements(response.data.announcements)   
+      try{
+        const response = await api.get('/candidates/anouncements', {
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }})
+        // Pega todos os editais e armazena em um estado
+        setOpenAnnouncements(response.data.announcements)  
+      } catch(err) {
+        console.log(err)  
+      } 
     }
 
     async function getUserInfo() {
       const token = localStorage.getItem("token")
       const user_role = localStorage.getItem("role")
+
       if(user_role === 'CANDIDATE') {
-        const user_info = await api.get('/candidates/basic-info', {
-          headers: {
-            'authorization': `Bearer ${token}`,
-          }})
-          setUserInfo(user_info.data.candidate)
+        try{
+          const user_info = await api.get('/candidates/basic-info', {
+            headers: {
+              'authorization': `Bearer ${token}`,
+            }})
+            setUserInfo(user_info.data.candidate)
+        } catch(err) {
+            console.log(err)
+        }
+        
       } else if(user_role === 'RESPONSIBLE') {
-        const user_info = await api.get('/responsibles', {
-          headers: {
-            'authorization': `Bearer ${token}`,
-          }})
-          setUserInfo(user_info.data.responsible)
+          try{
+            const user_info = await api.get('/responsibles', {
+              headers: {
+                'authorization': `Bearer ${token}`,
+              }})
+              setUserInfo(user_info.data.responsible)
+          } catch(err) {
+            console.log(err)
+        }
       }
     }
     getUserInfo()
