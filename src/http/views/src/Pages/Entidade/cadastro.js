@@ -68,10 +68,7 @@ export default function CadastroEntidade() {
       timelines: "",
       educationLevels: "",
 
-      entity: "",
       entity_id: "",
-
-      entity_subsidiary: "",
       entity_subsidiary_id: "",
     });
 
@@ -183,6 +180,11 @@ export default function CadastroEntidade() {
       .catch((error) => {
         console.error("Error uploading file: ", error);
       });
+  }
+
+  // BackEnd Functions
+  async function CreateAnnouncement() {
+
   }
   return (
     <div className="container">
@@ -312,6 +314,7 @@ export default function CadastroEntidade() {
                     type="submit"
                     id="contact-submit"
                     data-submit="...Sending"
+                    onClick={CreateAnnouncement}
                   >
                     Cadastrar
                   </button>

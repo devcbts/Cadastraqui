@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify'
 import { registerEntity } from './register-entity'
 import { createSubsidiary } from './create-subsidiary'
-import { fetchEntities } from './fetch-entities'
+import { getEntityInfo } from './get-entity-info'
 import { fetchSubsidiarys } from './fetch-subsidiarys'
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { createDirector } from './create-director'
@@ -24,11 +24,7 @@ export async function entityRoutes(app: FastifyInstance) {
    *   Faltam:
    */
   app.post('/', registerEntity) // Adicionar middlewares
-  app.get(
-    '/:_id?',
-    { onRequest: [verifyJWT, verifyRole('ADMIN')] },
-    fetchEntities,
-  )
+  app.get('/', { onRequest: [verifyJWT] }, getEntityInfo)
   app.delete(
     '/:_id?',
     { onRequest: [verifyJWT, verifyRole('ADMIN')] },

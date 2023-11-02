@@ -19,12 +19,6 @@ export default function NavBarCandidato(props) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [popupIsShown, setPopupIsShown] = useState(false);
 
-  // Utilizado para preencher campos do usuáriocom dados vindo do BackEnd
-  const user = props.user
-  const [profilePhoto, setProfilePhoto] = useState(null);
-
-
-
   const handleClosePopup = () => {
     setPopupIsShown((prev) => !prev);
   };
@@ -69,6 +63,11 @@ export default function NavBarCandidato(props) {
 
   }, []); // The empty array ensures this effect only runs once, on mount and unmount
 
+
+  // BackEnd Functions 
+  const user = props.user
+  const [profilePhoto, setProfilePhoto] = useState(null)
+  
   useEffect(() => {
     async function getProfilePhoto() {
       const token = localStorage.getItem("token")

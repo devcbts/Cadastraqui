@@ -11,6 +11,35 @@ import { useNavigate } from "react-router";
 
 export default function HomeCandidato() {
   const { isShown } = useAppState()
+
+  // Armazena todos os estados para colocar no select
+  const UF = ['AC',
+  'AL',
+  'AM',
+  'AP',
+  'BA',
+  'CE',
+  'DF',
+  'ES',
+  'GO',
+  'MA',
+  'MG',
+  'MS',
+  'MT',
+  'PA',
+  'PB',
+  'PE',
+  'PI',
+  'PR',
+  'RJ',
+  'RN',
+  'RO',
+  'RR',
+  'RS',
+  'SC',
+  'SE',
+  'SP',
+  'TO',]
   
   // Estados para os editais
   const [openAnnouncements, setOpenAnnouncements] = useState()
@@ -19,26 +48,6 @@ export default function HomeCandidato() {
   const [userInfo, setUserInfo] = useState()
 
   const navigate = useNavigate()
-
-  async function refreshAccessToken() {
-    try{
-      const refreshToken = Cookies.get('refreshToken')
-
-      const response = await api.patch(`/refresh?refreshToken=${refreshToken}`)
-      
-      const {newToken, newRefreshToken} = response.data
-      localStorage.setItem('token', newToken)
-      Cookies.set('refreshToken', newRefreshToken, {
-        expires: 7,
-        sameSite: true,
-        path: '/',
-      })
-    } catch(err) {
-      console.log(err)
-      navigate('/login')
-    }
-  }
-  setInterval(refreshAccessToken, 4800000)
 
   useEffect(() => {
     async function fetchAnnouncements() {
@@ -55,6 +64,26 @@ export default function HomeCandidato() {
       } 
     }
 
+    async function refreshAccessToken() {
+      try{
+        const refreshToken = Cookies.get('refreshToken')
+  
+        const response = await api.patch(`/refresh?refreshToken=${refreshToken}`)
+        
+        const {newToken, newRefreshToken} = response.data
+        localStorage.setItem('token', newToken)
+        Cookies.set('refreshToken', newRefreshToken, {
+          expires: 7,
+          sameSite: true,
+          path: '/',
+        })
+      } catch(err) {
+        console.log(err)
+        navigate('/login')
+      }
+    }
+    const intervalId = setInterval(refreshAccessToken, 480000) // Chama a função refresh token a cada 
+  
     async function getUserInfo() {
       const token = localStorage.getItem("token")
       const user_role = localStorage.getItem("role")
@@ -82,8 +111,14 @@ export default function HomeCandidato() {
         }
       }
     }
+
     getUserInfo()
     fetchAnnouncements()
+
+    return () => {
+      // Limpar o intervalo
+      clearInterval(intervalId);
+    };
   },[])
 
   return (
@@ -107,11 +142,9 @@ export default function HomeCandidato() {
           <div className="filters">
             <select>
               <option>-- Estado --</option>
-              <option>Option 1</option>
-              <option>Option 2</option>
-              <option>Option 3</option>
-              <option>Option 4</option>
-              <option>Option 5</option>
+              {UF.map((item) => {
+                return(<option>{item}</option>)
+              })}
             </select>
 
             <select>
