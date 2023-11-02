@@ -237,8 +237,8 @@ export default function CadastroEntidade() {
                     <option value="" disabled>
                       Selecionar o nível de ensino
                     </option>
-                    <option value="higherEducation">Ensino superior</option>
-                    <option value="basicEducation">Ensino básico</option>
+                    <option value="higherEducation">Ensino Superior</option>
+                    <option value="basicEducation">Ensino Básico</option>
                   </select>
                 </fieldset>
 

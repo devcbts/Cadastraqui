@@ -17,6 +17,7 @@ import { CreateAnnoucment } from './create-announcement'
 import { updateAnnouncement } from './update-announcement'
 import { createEducationalLevel } from './create-educcation-level'
 import { addAssistantAnnouncement } from './add-social-assistant-to-announcement'
+import { fetchAnnouncements } from './fetch-announcements'
 
 export async function entityRoutes(app: FastifyInstance) {
   /** Admin Routes (Rotas acessadas na página do Admin)
@@ -89,6 +90,12 @@ export async function entityRoutes(app: FastifyInstance) {
     '/announcement',
     { onRequest: [verifyJWT, verifyRole('ENTITY')] },
     CreateAnnoucment,
+  )
+
+  app.get(
+    '/announcement',
+    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    fetchAnnouncements,
   )
   app.patch(
     '/announcement/:announcement_id',
