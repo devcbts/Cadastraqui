@@ -50,8 +50,9 @@ export default function PerfilAssistente() {
             },
           });
           setUserInfo(user_info.data.assistant);
+
         } catch (err) {
-          if (err.response.status === 401) {
+          if (err.response?.status === 401) {
             try {
               const newToken = await api.patch("/token/refresh");
               localStorage.setItem("token", newToken);
@@ -74,6 +75,8 @@ export default function PerfilAssistente() {
         });
         console.log(profilePhoto);
         setProfilePhoto(profilePhoto.data.url);
+        localStorage.setItem("profilePhoto", JSON.stringify(profilePhoto.data.url));
+
       } catch (err) {
         if (err.response.status === 401) {
           navigate("/login");

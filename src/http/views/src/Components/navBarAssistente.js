@@ -23,7 +23,7 @@ export default function NavBarAssistente() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [profilePhoto, setProfilePhoto] = useState(null);
 
-  const [assistantInfo, setAssistantInfo] = useState();
+  const [assistantInfo, setAssistantInfo] = useState(null);
 
   const navigate = useNavigate();
 
@@ -69,7 +69,10 @@ export default function NavBarAssistente() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const assistant = localStorage.getItem("assistant");
+    const assistant = JSON.parse(localStorage.getItem("assistant") || 'null');
+    console.log('====================================');
+    console.log(assistant);
+    console.log('====================================');
     if (!assistant) {
 
       async function getAssistantInfo() {
@@ -79,14 +82,17 @@ export default function NavBarAssistente() {
           },
         });
         setAssistantInfo(response.data.assistant);
-        localStorage.setItem("assistant", response.data.assistant)
+        localStorage.setItem("assistant", JSON.stringify(response.data.assistant))
       }
       getAssistantInfo()
     } else {
       setAssistantInfo(assistant)
     }
 
-    const profilePhoto = localStorage.getItem("profilePhoto");
+    const profilePhoto =  JSON.parse(localStorage.getItem("profilePhoto") || 'null');
+    console.log('====================================');
+    console.log(profilePhoto);
+    console.log('====================================');
     if (!profilePhoto) {
 
       async function getProfilePhoto() {
@@ -100,7 +106,7 @@ export default function NavBarAssistente() {
           });
           console.log(profilePhoto);
           setProfilePhoto(profilePhoto.data.url);
-          localStorage.setItem("profilePhoto", profilePhoto.data.url);
+          localStorage.setItem("profilePhoto", JSON.stringify(profilePhoto.data.url));
         } catch (err) {
           if (err.response.status === 401) {
             navigate("/login");
@@ -113,7 +119,6 @@ export default function NavBarAssistente() {
       setProfilePhoto(profilePhoto);
     }
   }, [])
-  console.log(assistantInfo);
   return (
     <div className="outer-sidebar">
       {windowWidth < 1030 && (

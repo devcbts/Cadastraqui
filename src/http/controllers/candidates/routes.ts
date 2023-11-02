@@ -25,6 +25,7 @@ import { uploadSolicitationDocument } from './upload-solicitation-documents'
 import { getCandidateProfilePicture } from './get-profile-picture'
 import { uploadCandidateProfilePicture } from './upload-profile-picture'
 import { getOpenAnnouncements } from './get-open-announcements'
+import { getApplications } from './get-applications'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -83,6 +84,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT, verifyRole('CANDIDATE')] },
     subscribeAnnouncement,
   )
+  app.post('/application/see/:application_id?', {onRequest: [verifyJWT]}, getApplications)
 
   /** Rota para pegar todos os editais abertos  */
   app.get(

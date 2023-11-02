@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./navBarCandidato.css";
 import photoProfile from "../Assets/profile-padrao.jpg";
-import { UilTimesCircle } from "@iconscout/react-unicons";
+import { UilTimesCircle, UilArchive } from "@iconscout/react-unicons";
 import { UilEstate } from "@iconscout/react-unicons";
 import { UilExchange } from "@iconscout/react-unicons";
 import { UilUserCircle } from "@iconscout/react-unicons";
@@ -217,6 +217,23 @@ export default function NavBarCandidato(props) {
                     }`}
                   />
                   <span>Perfil</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className={`${
+                    currentPath == "/candidato/solicitacoes" ? "active" : "inactive"
+                  }`}
+                  onClick={() => urlNavigation("solicitacoes")}
+                >
+                  <UilArchive
+                    size="30"
+                    color={`${
+                      currentPath == "/candidato/solicitacoes" ? "#1F4B73" : "white"
+                    }`}
+                  />
+                  <span>Solicitações</span>
                 </a>
               </li>
             </ul>
