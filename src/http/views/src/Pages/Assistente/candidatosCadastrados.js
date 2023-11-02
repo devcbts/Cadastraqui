@@ -12,36 +12,34 @@ import { useEffect } from "react";
 import { useAuth } from "../../context/auth";
 import { api } from "../../services/axios";
 
-
 export default function CandidatosCadastrados() {
-  const { announcement_id } = useParams()
+  const { announcement_id } = useParams();
   const { user } = useAuth();
 
   const { isShown } = useAppState();
   const [filterIsShown, setFilterIsShown] = useState(false);
 
-  const [applications, setApplications] = useState()
+  const [applications, setApplications] = useState();
 
   const handleClickFilter = () => {
     setFilterIsShown((prev) => !prev);
   };
 
-
   useEffect(() => {
     async function fetchCandidates() {
-      const token = localStorage.getItem("token")
+      const token = localStorage.getItem("token");
       const response = await api.get(`/assistant/${announcement_id}`, {
         headers: {
-          'authorization': `Bearer ${token}`,
-        }
-      })
+          authorization: `Bearer ${token}`,
+        },
+      });
 
-      setApplications(response.data.applications)
-      console.log(response.data.applications)
+      setApplications(response.data.applications);
+      console.log(response.data.applications);
     }
 
-    fetchCandidates()
-  }, [])
+    fetchCandidates();
+  }, []);
 
   return (
     <div className="container">
@@ -120,9 +118,18 @@ export default function CandidatosCadastrados() {
         )}
 
         <div className="solicitacoes">
-          {applications ? applications.map((application) => {
-            return (<Candidatura name={application.candidateName} assistente={application.SocialAssistantName} id={application.id} announcement_id={announcement_id}  />)
-          }) : ""}
+          {applications
+            ? applications.map((application) => {
+                return (
+                  <Candidatura
+                    name={application.candidateName}
+                    assistente={application.SocialAssistantName}
+                    id={application.id}
+                    announcement_id={announcement_id}
+                  />
+                );
+              })
+            : ""}
         </div>
       </div>
     </div>

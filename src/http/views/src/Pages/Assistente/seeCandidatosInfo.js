@@ -401,7 +401,7 @@ export default function SeeCandidatosInfo() {
           <a className="btn-cadastro go-back">{"< "}Voltar</a>
         </div>
         <div>
-          <h1>INFORMAÇÔES</h1>
+          <h1>Formulário detalhado</h1>
           <h2>Jean Carlo do Amaral</h2>
         </div>
       </div>
@@ -438,7 +438,7 @@ export default function SeeCandidatosInfo() {
           <div className="comment-popup">
             <div className="upper-sections">
               <div>
-                <h2>Básico</h2>
+                <h2>Comentários</h2>
                 <h3>Jean Carlo do Amaral</h3>
               </div>
               <UilTimesSquare

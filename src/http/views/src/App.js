@@ -27,6 +27,7 @@ import Estatisticas from "./Pages/Assistente/estatisticas";
 import SacAssistente from "./Pages/Assistente/sacAssistente";
 import PerfilAssistente from "./Pages/Assistente/perfilAssistente";
 import SeeCandidatosInfo from "./Pages/Assistente/seeCandidatosInfo";
+import GeralCadastrado from "./Pages/Assistente/geralCadastrado";
 
 function App() {
   return (
@@ -123,6 +124,10 @@ function App() {
               <Route
                 path="/assistente/cadastrados/info"
                 element={<SeeCandidatosInfo></SeeCandidatosInfo>}
+              ></Route>
+              <Route
+                path="/assistente/cadastrados/geral"
+                element={<GeralCadastrado></GeralCadastrado>}
               ></Route>
             </Routes>
           </AuthProvider>

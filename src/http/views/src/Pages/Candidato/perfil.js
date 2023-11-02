@@ -10,30 +10,31 @@ import { api } from "../../services/axios";
 import { useNavigate } from "react-router";
 
 export default function PerfilCandidato() {
-  const { isShown } = useAppState()
-  const [profilePhoto, setProfilePhoto] = useState(null)
-  const navigate = useNavigate()
+  const { isShown } = useAppState();
+  const [profilePhoto, setProfilePhoto] = useState(null);
+  const navigate = useNavigate();
 
-  const [userInfo, setUserInfo] = useState()
+  const [userInfo, setUserInfo] = useState();
 
   async function getProfilePhoto() {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
 
     try {
-      const profilePhoto = await api.get('/candidates/profilePicture', {
+      const profilePhoto = await api.get("/candidates/profilePicture", {
         headers: {
-          'authorization': `Bearer ${token}`,
-        }
-      })
-      console.log(profilePhoto)
-      setProfilePhoto(profilePhoto.data.url)
+          authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(profilePhoto);
+      setProfilePhoto(profilePhoto.data.url);
     } catch (err) {
       if (err.response.status === 401) {
-        navigate('/login')
+        navigate("/login");
       }
     }
   }
 
+  /*
   useEffect(() => {
     async function getUserInfo() {
       const token = localStorage.getItem("token")
@@ -94,7 +95,7 @@ export default function PerfilCandidato() {
 
     getProfilePhoto()
     getUserInfo()
-  }, [])
+  }, [])*/
 
   return (
     <div className="container">
@@ -109,10 +110,22 @@ export default function PerfilCandidato() {
         <div className="user-photo">
           <div className="profile-photo">
             <div className="bg-image">
-              <img id="profile-photo" className="photo-profile-img" alt="imagem-do-usuario" src={profilePhoto !== null ? profilePhoto : photoProfile}/>
+              <img
+                id="profile-photo"
+                className="photo-profile-img"
+                alt="imagem-do-usuario"
+                src={profilePhoto !== null ? profilePhoto : photoProfile}
+              />
             </div>
-            <label className="profile-label" for="photo">Editar Foto</label>
-            <input type="file" name="profile-photo" id="photo" accept="image/png, image/jpeg, image/jpg, image/pdf" onChange={handleImageUpload}></input>
+            <label className="profile-label" for="photo">
+              Editar Foto
+            </label>
+            <input
+              type="file"
+              name="profile-photo"
+              id="photo"
+              accept="image/png, image/jpeg, image/jpg, image/pdf"
+            ></input>
           </div>
           <div className="side-photo"></div>
         </div>
