@@ -31,7 +31,7 @@ export default function HomeEntidade() {
   // BackEnd Functions
 
   // Estados para os editais
-  const [openAnnouncements, setOpenAnnouncements] = useState()
+  const [announcements, setAnnouncements] = useState()
   
   // Estado para informações acerca do usuário logado
   const [entityInfo, setEntityInfo] = useState()
@@ -42,12 +42,13 @@ export default function HomeEntidade() {
     async function fetchAnnouncements() {
       const token = localStorage.getItem("token")
       try{
-        const response = await api.get('/candidates/anouncements', {
+        const response = await api.get('/entities/announcement', {
           headers: {
             'authorization': `Bearer ${token}`,
           }})
+          console.log(response.data)
         // Pega todos os editais e armazena em um estado
-        setOpenAnnouncements(response.data.announcements)  
+        setAnnouncements(response.data.announcements)  
       } catch(err) {
         console.log(err)  
       } 
@@ -115,6 +116,9 @@ export default function HomeEntidade() {
           </div>
         </div>
         <div className="container-editais">
+          {announcements  && announcements.length > 0 ? announcements.map((announcement) => {
+            return <Edital announcement={announcement} key={announcement.id}/>
+          }) : <div className="without-announcement">Não há editais abertos no momento </div>}
         </div>
       </div>
     </div>
