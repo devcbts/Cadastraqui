@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./cadastro.css";
 import NavBar from "../../Components/navBar";
 import { UilBell } from "@iconscout/react-unicons";
@@ -6,6 +6,9 @@ import { useAppState } from "../../AppGlobal";
 import { useState } from "react";
 import { useRef } from "react";
 import axios from "axios";
+import { api } from "../../services/axios";
+import { useNavigate } from "react-router";
+import Cookies from "js-cookie";
 
 export default function CadastroEntidade() {
   const { isShown } = useAppState();
@@ -15,7 +18,9 @@ export default function CadastroEntidade() {
   const [value, setValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const firstForm = useRef(null);
+  const firstForm = useRef(null)
+  const secondForm = useRef(null)
+  const thirdForm = useRef(null)
 
   // Properties for the object entity subsidiary
   const nameForm = useRef(null);
@@ -183,13 +188,159 @@ export default function CadastroEntidade() {
   }
 
   // BackEnd Functions
-  async function CreateAnnouncement() {
-
+  async function handleCreateAnnouncement() {
   }
+
+  async function handleCreateDirector() {
+    const directorForm = firstForm.current
+
+    if(directorForm.checkValidity()) {
+      const name = directorForm.querySelector('input[name="director-name"]').value
+      const phone = directorForm.querySelector('input[name="director-phone"]').value
+      const CPF = directorForm.querySelector('input[name="director-CPF"]').value
+      const email = directorForm.querySelector('input[name="director-email"]').value
+      const password = directorForm.querySelector('input[name="director-password"]').value
+      
+      const createInfo = {
+        name,phone,email,password,CPF
+      }  
+
+      const token = localStorage.getItem("token")
+      try{
+        await api.post('/entities/director/', createInfo,{
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }})
+        alert('Diretor cadastrado com sucesso.')
+      } catch(err){
+        alert(`${err.response.data.message}`)
+        console.log(err)
+      }
+    }
+    else {
+      alert('Preencha os campos exigidos.')
+    }
+  }
+
+  async function handleCreateAssistant() {
+    const assistantForm = secondForm.current
+    
+    if(assistantForm.checkValidity()) {
+      const name = assistantForm.querySelector('input[name="assistant-name"]').value
+      const phone = assistantForm.querySelector('input[name="assistant-phone"]').value
+      const CPF = assistantForm.querySelector('input[name="assistant-CPF"]').value
+      const email = assistantForm.querySelector('input[name="assistant-email"]').value
+      const password = assistantForm.querySelector('input[name="assistant-password"]').value
+      const RG = assistantForm.querySelector('input[name="assistant-RG"]').value
+      const CRESS = assistantForm.querySelector('input[name="assistant-CRESS"]').value
+      
+      const createInfo = {
+        name,phone,email,password,CPF,RG,CRESS
+      }  
+
+      const token = localStorage.getItem("token")
+      try{
+        await api.post('/assistant/', createInfo,{
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }})
+        alert('Assistente cadastrado com sucesso.')
+      } catch(err){
+        alert(`${err.response.data.message}`)
+        console.log(err)
+      }
+    }
+    else {
+      alert('Preencha os campos exigidos.')
+    }
+  }
+
+  async function handleCreateSubsidiary() {
+    const subsidiaryForm = thirdForm.current
+    
+    if(subsidiaryForm.checkValidity()) {
+      const name = subsidiaryForm.querySelector('input[name="subsidiary-name"]').value
+      const address = subsidiaryForm.querySelector('input[name="subsidiary-address"]').value
+      const CNPJ = subsidiaryForm.querySelector('input[name="subsidiary-CNPJ"]').value
+      const email = subsidiaryForm.querySelector('input[name="subsidiary-email"]').value
+      const password = subsidiaryForm.querySelector('input[name="subsidiary-password"]').value
+      const educationalInstitutionCode = subsidiaryForm.querySelector('input[name="subsidiary-code"]').value
+      const socialReason = subsidiaryForm.querySelector('input[name="subsidiary-socialReason"]').value
+      const CEP = subsidiaryForm.querySelector('input[name="subsidiary-CEP"]').value
+      
+      const createInfo = {
+        name,email,password,CEP,CNPJ,educationalInstitutionCode, socialReason, address
+      }  
+
+      const token = localStorage.getItem("token")
+      try{
+        await api.post('/entities/subsidiary', createInfo,{
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }})
+        alert('Filial cadastrado com sucesso.')
+      } catch(err){
+        console.log(err)
+        alert(`${err.response.data.message}`)
+      }
+    }
+    else {
+      alert('Preencha os campos exigidos.')
+    }
+  }
+
+
+  // Estado para informações acerca do usuário logado
+  const [entityInfo, setEntityInfo] = useState()
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    async function refreshAccessToken() {
+      try{
+        const refreshToken = Cookies.get('refreshToken')
+  
+        const response = await api.patch(`/refresh?refreshToken=${refreshToken}`)
+        
+        const {newToken, newRefreshToken} = response.data
+        localStorage.setItem('token', newToken)
+        Cookies.set('refreshToken', newRefreshToken, {
+          expires: 7,
+          sameSite: true,
+          path: '/',
+        })
+      } catch(err) {
+        console.log(err)
+        navigate('/login')
+      }
+    }
+    const intervalId = setInterval(refreshAccessToken, 480000) // Chama a função refresh token a cada 
+  
+    async function getEntityInfo() {
+      const token = localStorage.getItem("token")
+
+      try{
+        const entity_info = await api.get('/entities/', {
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }})
+          setEntityInfo(entity_info.data.entity)
+        } catch(err) {
+            console.log(err)
+        }
+    }
+        
+    getEntityInfo()
+    return () => {
+      // Limpar o intervalo
+      clearInterval(intervalId);
+    };
+  },[])
+
   return (
     <div className="container">
       <div className="section-nav">
-        <NavBar></NavBar>
+        <NavBar entity={entityInfo}></NavBar>
       </div>
       <div className={`editais ${isShown ? "hidden-menu" : ""}`}>
         <div className="upper entidade-upper">
@@ -311,10 +462,9 @@ export default function CadastroEntidade() {
                 <fieldset>
                   <button
                     name="submit"
-                    type="submit"
+                    type="button"
                     id="contact-submit"
-                    data-submit="...Sending"
-                    onClick={CreateAnnouncement}
+                    onClick={handleCreateAnnouncement}
                   >
                     Cadastrar
                   </button>
@@ -334,10 +484,7 @@ export default function CadastroEntidade() {
             >
               <form
                 id="contact"
-                ref={firstForm}
-                action=""
-                method="post"
-                onSubmit={handleSubmit}
+                ref={thirdForm}  
               >
                 <h3>Informações de cadastro</h3>
                 <h4>Preencha as informações abaixo para realizar o cadastro</h4>
@@ -349,6 +496,7 @@ export default function CadastroEntidade() {
                     tabindex="1"
                     ref={nameForm}
                     className="nome-entidade"
+                    name="subsidiary-name"
                     required
                     autofocus
                   />
@@ -361,6 +509,56 @@ export default function CadastroEntidade() {
                     tabindex="2"
                     ref={mailForm}
                     id="email-institucional"
+                    name="subsidiary-email"
+                    required
+                  />
+                </fieldset>
+                <fieldset id="senha-entidade">
+                  <label>Senha</label>
+                  <input
+                    type="password"
+                    id="myInput"
+                    ref={passwordForm}
+                    placeholder="Digite a senha..."
+                    name="subsidiary-password"
+                  ></input>
+                  <input type="checkbox" onClick={() => myFunction()} />
+                  Mostrar senha
+                </fieldset>
+                <fieldset>
+                  <label for="email-institucional">Código Educacional</label>
+                  <input
+                    placeholder="Exemplo: universidade@email.com"
+                    type="text"
+                    tabindex="2"
+                    ref={mailForm}
+                    id="email-institucional"
+                    name="subsidiary-code"
+                    required
+                  />
+                </fieldset>
+                <fieldset>
+                  <label for="email-institucional">CEP</label>
+                  <input
+                    placeholder="Exemplo: universidade@email.com"
+                    type="text"
+                    tabindex="2"
+                    ref={mailForm}
+                    id="email-institucional"
+                    name="subsidiary-CEP"
+                    required
+                  />
+                </fieldset>
+
+                <fieldset>
+                  <label for="email-institucional">Endereço</label>
+                  <input
+                    placeholder="Exemplo: universidade@email.com"
+                    type="text"
+                    tabindex="2"
+                    ref={mailForm}
+                    id="email-institucional"
+                    name="subsidiary-address"
                     required
                   />
                 </fieldset>
@@ -370,7 +568,8 @@ export default function CadastroEntidade() {
                   <input
                     placeholder="Exemplo: XX. XXX. XXX/0001-XX"
                     ref={cnpjForm}
-                    type="tel"
+                    type="text"
+                    name="subsidiary-CNPJ"
                     tabindex="3"
                     required
                   />
@@ -382,10 +581,11 @@ export default function CadastroEntidade() {
                     ref={socialReasonForm}
                     type="text"
                     tabindex="4"
+                    name="subsidiary-socialReason"
                     required
                   />
                 </fieldset>
-                <fieldset className="file-div">
+                {/*<fieldset className="file-div">
                   <label
                     for="edital-pdf"
                     className="file-label"
@@ -401,28 +601,16 @@ export default function CadastroEntidade() {
                       onChange={handleChange}
                     />
                   </div>
-                </fieldset>
-                <fieldset id="senha-entidade">
-                  <label>Senha</label>
-                  <input
-                    type="password"
-                    id="myInput"
-                    ref={passwordForm}
-                    placeholder="Digite a senha..."
-                  ></input>
-                  <input type="checkbox" onClick={() => myFunction()} />
-                  Mostrar senha
-                </fieldset>
+            </fieldset>*/}
 
                 <fieldset className="btn-field">
                   <button
                     name="submit"
-                    type="submit"
                     id="contact-submit"
-                    data-submit="...Sending"
-                    onClick={() => handlePageChange()}
+                    type="button"
+                    onClick={handleCreateSubsidiary}
                   >
-                    Próximo
+                    Cadastrar
                   </button>
                 </fieldset>
               </form>
@@ -441,9 +629,6 @@ export default function CadastroEntidade() {
               <form
                 id="contact"
                 ref={firstForm}
-                action=""
-                method="post"
-                onSubmit={handleSubmit}
               >
                 <h3>Informações de cadastro</h3>
                 <h4>Preencha as informações abaixo para realizar o cadastro</h4>
@@ -455,6 +640,7 @@ export default function CadastroEntidade() {
                     tabindex="1"
                     ref={nameForm}
                     className="nome-entidade"
+                    name="director-name"
                     required
                     autofocus
                   />
@@ -467,6 +653,7 @@ export default function CadastroEntidade() {
                     tabindex="2"
                     ref={mailForm}
                     id="email-diretor"
+                    name="director-email"
                     required
                   />
                 </fieldset>
@@ -478,6 +665,7 @@ export default function CadastroEntidade() {
                     ref={socialReasonForm}
                     type="text"
                     tabindex="4"
+                    name="director-phone"
                     required
                   />
                 </fieldset>
@@ -487,6 +675,7 @@ export default function CadastroEntidade() {
                   <input
                     placeholder="Exemplo: (XX) XXXX-XXXX"
                     ref={socialReasonForm}
+                    name="director-CPF"
                     type="text"
                     tabindex="4"
                     required
@@ -499,6 +688,7 @@ export default function CadastroEntidade() {
                     type="password"
                     id="myInput"
                     ref={passwordForm}
+                    name="director-password"
                     placeholder="Digite a senha..."
                   ></input>
                   <input type="checkbox" onClick={() => myFunction()} />
@@ -508,10 +698,9 @@ export default function CadastroEntidade() {
                 <fieldset className="btn-field">
                   <button
                     name="submit"
-                    type="submit"
+                    type="button"
                     id="contact-submit"
-                    data-submit="...Sending"
-                    onClick={() => handlePageChange()}
+                    onClick={handleCreateDirector}
                   >
                     Cadastrar
                   </button>
@@ -531,10 +720,7 @@ export default function CadastroEntidade() {
             >
               <form
                 id="contact"
-                ref={firstForm}
-                action=""
-                method="post"
-                onSubmit={handleSubmit}
+                ref={secondForm}
               >
                 <h3>Informações de cadastro</h3>
                 <h4>Preencha as informações abaixo para realizar o cadastro</h4>
@@ -546,6 +732,7 @@ export default function CadastroEntidade() {
                     tabindex="1"
                     ref={nameForm}
                     className="nome-entidade"
+                    name="assistant-name"
                     required
                     autofocus
                   />
@@ -558,6 +745,7 @@ export default function CadastroEntidade() {
                     tabindex="2"
                     ref={mailForm}
                     id="email-diretor"
+                    name="assistant-email"
                     required
                   />
                 </fieldset>
@@ -568,6 +756,7 @@ export default function CadastroEntidade() {
                     placeholder="Exemplo: (XX) XXXX-XXXX"
                     ref={socialReasonForm}
                     type="text"
+                    name="assistant-phone"
                     tabindex="4"
                     required
                   />
@@ -579,6 +768,29 @@ export default function CadastroEntidade() {
                     placeholder="Exemplo: (XX) XXXX-XXXX"
                     ref={socialReasonForm}
                     type="text"
+                    name="assistant-CPF"
+                    tabindex="4"
+                    required
+                  />
+                </fieldset>
+                <fieldset>
+                  <label for="nome-edital">RG</label>
+                  <input
+                    placeholder="Exemplo: (XX) XXXX-XXXX"
+                    ref={socialReasonForm}
+                    type="text"
+                    name="assistant-RG"
+                    tabindex="4"
+                    required
+                  />
+                </fieldset>
+                <fieldset>
+                  <label for="nome-edital">CRESS</label>
+                  <input
+                    placeholder="Exemplo: (XX) XXXX-XXXX"
+                    ref={socialReasonForm}
+                    type="text"
+                    name="assistant-CRESS"
                     tabindex="4"
                     required
                   />
@@ -590,6 +802,7 @@ export default function CadastroEntidade() {
                     type="password"
                     id="myInput"
                     ref={passwordForm}
+                    name="assistant-password"
                     placeholder="Digite a senha..."
                   ></input>
                   <input type="checkbox" onClick={() => myFunction()} />
@@ -599,10 +812,9 @@ export default function CadastroEntidade() {
                 <fieldset className="btn-field">
                   <button
                     name="submit"
-                    type="submit"
+                    type="button"
                     id="contact-submit"
-                    data-submit="...Sending"
-                    onClick={() => handlePageChange()}
+                    onClick={handleCreateAssistant}
                   >
                     Cadastrar
                   </button>

@@ -1,6 +1,5 @@
 export class AssistantAlreadyExistsError extends Error {
-    constructor() {
-      super('Assistant already exists with this CPF.')
-    }
+  constructor() {
+    super('Já existe assistente social com esse CPF.')
   }
-  
+}
