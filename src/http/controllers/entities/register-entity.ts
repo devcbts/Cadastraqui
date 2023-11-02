@@ -1,3 +1,4 @@
+import { NotAllowedError } from '@/errors/not-allowed-error'
 import { UserAlreadyExistsError } from '@/errors/users-already-exists-error'
 import { prisma } from '@/lib/prisma'
 import { ROLE } from '@prisma/client'
@@ -45,6 +46,15 @@ export async function registerEntity(
       throw new UserAlreadyExistsError()
     }
 
+    // Verifica se já existe alguma entidade com o mesmo CNPJ fornecido
+    const entityWithSameCNPJ = await prisma.entity.findUnique({
+      where: { CNPJ },
+    })
+
+    if (entityWithSameCNPJ) {
+      throw new NotAllowedError()
+    }
+
     const password_hash = await hash(password, 6)
 
     const user = await prisma.user.create({
@@ -73,6 +83,9 @@ export async function registerEntity(
   } catch (err: any) {
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })
+    }
+    if (err instanceof NotAllowedError) {
+      return reply.status(401).send({ message: err.message })
     }
 
     return reply.status(500).send({ message: err.message })

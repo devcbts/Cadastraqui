@@ -5,6 +5,9 @@ import { UilBell } from "@iconscout/react-unicons";
 import { useAppState } from "../../AppGlobal";
 import { useState, useEffect } from "react";
 import Edital from "../../Components/edital";
+import { useNavigate } from "react-router";
+import { api } from "../../services/axios";
+import Cookies from "js-cookie";
 
 export default function HomeEntidade() {
   const { isShown } = useAppState();
@@ -24,10 +27,78 @@ export default function HomeEntidade() {
       window.removeEventListener("resize", handleResize);
     };
   }, []); // The empty array ensures this effect only runs once, on mount and unmount
+
+  // BackEnd Functions
+
+  // Estados para os editais
+  const [openAnnouncements, setOpenAnnouncements] = useState()
+  
+  // Estado para informações acerca do usuário logado
+  const [entityInfo, setEntityInfo] = useState()
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    async function fetchAnnouncements() {
+      const token = localStorage.getItem("token")
+      try{
+        const response = await api.get('/candidates/anouncements', {
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }})
+        // Pega todos os editais e armazena em um estado
+        setOpenAnnouncements(response.data.announcements)  
+      } catch(err) {
+        console.log(err)  
+      } 
+    }
+
+    async function refreshAccessToken() {
+      try{
+        const refreshToken = Cookies.get('refreshToken')
+  
+        const response = await api.patch(`/refresh?refreshToken=${refreshToken}`)
+        
+        const {newToken, newRefreshToken} = response.data
+        localStorage.setItem('token', newToken)
+        Cookies.set('refreshToken', newRefreshToken, {
+          expires: 7,
+          sameSite: true,
+          path: '/',
+        })
+      } catch(err) {
+        console.log(err)
+        navigate('/login')
+      }
+    }
+    const intervalId = setInterval(refreshAccessToken, 480000) // Chama a função refresh token a cada 
+  
+    async function getEntityInfo() {
+      const token = localStorage.getItem("token")
+
+      try{
+        const entity_info = await api.get('/entities/', {
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }})
+          setEntityInfo(entity_info.data.entity)
+        } catch(err) {
+            console.log(err)
+        }
+    }
+        
+    getEntityInfo()
+    fetchAnnouncements()
+
+    return () => {
+      // Limpar o intervalo
+      clearInterval(intervalId);
+    };
+  },[])
   return (
     <div className="container">
       <div className="section-nav">
-        <NavBar></NavBar>
+        <NavBar entity={entityInfo}></NavBar>
       </div>
       <div className={`editais ${isShown ? "hidden-menu" : ""}`}>
         <div className="upper">
@@ -44,12 +115,6 @@ export default function HomeEntidade() {
           </div>
         </div>
         <div className="container-editais">
-          <Edital />
-          <Edital />
-          <Edital />
-          <Edital />
-          <Edital />
-          <Edital />
         </div>
       </div>
     </div>
