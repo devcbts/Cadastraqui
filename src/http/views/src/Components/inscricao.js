@@ -40,7 +40,7 @@ export default function Inscricao(props) {
         className="icon"
       ></UilElipsisDoubleVAlt>
 
-      <Link to={`candidato/solicitacoes/${props.id}`}>
+      <Link to={`/candidato/solicitacoes/${props.id}`}>
         <UilSearch
           size="45"
           color="#7b7b7b"
