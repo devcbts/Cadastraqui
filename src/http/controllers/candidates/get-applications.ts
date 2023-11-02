@@ -43,11 +43,15 @@ export async function getApplications(
             }
 
             if (application_id) {
-                const application = await prisma.application.findUnique({
-                    where: { id: application_id }
+                const solicitations = await prisma.applicationHistory.findMany({
+                    where: {
+                        application_id: application_id, solicitation: {
+                            not: null
+                        }, answered: false
+                    }
                 })
 
-                return reply.status(200).send({ application })
+                return reply.status(200).send({ solicitations })
             }
             else {
                 const applications = await prisma.application.findMany({
@@ -66,11 +70,15 @@ export async function getApplications(
             }
 
             if (application_id) {
-                const application = await prisma.application.findUnique({
-                    where: { id: application_id }
+                const solicitations = await prisma.applicationHistory.findMany({
+                    where: {
+                        application_id: application_id, solicitation: {
+                            not: null
+                        }, answered: false
+                    }
                 })
 
-                return reply.status(200).send({ application })
+                return reply.status(200).send({ solicitations })
             }
             else {
                 const applications = await prisma.application.findMany({

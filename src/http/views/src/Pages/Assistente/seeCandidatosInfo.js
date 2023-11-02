@@ -33,7 +33,7 @@ export default function SeeCandidatosInfo() {
 
 
       const token = localStorage.getItem('token');
-      await api.post(`assistant/solicitation/${application_id.application_id}`, { description: descricao, solicicitation: selectedValue, deadLine: deadLine },
+      await api.post(`assistant/solicitation/${application_id.application_id}`, { description: descricao, solicitation: selectedValue, deadLine: deadLine },
         {
           headers: {
             'authorization': `Bearer ${token}`,

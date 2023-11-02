@@ -85,7 +85,6 @@ export async function candidateRoutes(app: FastifyInstance) {
     subscribeAnnouncement,
   )
   app.post('/application/see/:application_id?', {onRequest: [verifyJWT]}, getApplications)
-
   /** Rota para pegar todos os editais abertos  */
   app.get(
     '/anouncements/:announcement_id?',
