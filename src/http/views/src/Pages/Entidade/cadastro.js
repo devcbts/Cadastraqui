@@ -7,6 +7,9 @@ import { useState } from "react";
 import { useRef } from "react";
 import axios from "axios";
 import CadastroEdital from "../../Components/cadastroEdital"
+import { api } from "../../services/axios";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router";
 
 
 export default function CadastroEntidade() {
