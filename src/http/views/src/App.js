@@ -27,7 +27,11 @@ import Estatisticas from "./Pages/Assistente/estatisticas";
 import SacAssistente from "./Pages/Assistente/sacAssistente";
 import PerfilAssistente from "./Pages/Assistente/perfilAssistente";
 import SeeCandidatosInfo from "./Pages/Assistente/seeCandidatosInfo";
+
 import GeralCadastrado from "./Pages/Assistente/geralCadastrado";
+
+import SolicitacoesCandidato from "./Pages/Candidato/solicitações";
+import VerSolicitacoes from "./Pages/Candidato/verSolicitações";
 
 function App() {
   return (
@@ -69,6 +73,15 @@ function App() {
                 path="/candidato/historico"
                 element={<HistoricoCandidato></HistoricoCandidato>}
               ></Route>
+              <Route
+                path="/candidato/solicitacoes"
+                element={<SolicitacoesCandidato></SolicitacoesCandidato>}
+              ></Route>
+              <Route
+                path="/candidato/solicitacoes/:application_id"
+                element={<VerSolicitacoes></VerSolicitacoes>}
+              ></Route>
+
               <Route
                 path="/assistente/home"
                 element={<HomeAssistente></HomeAssistente>}
@@ -122,7 +135,7 @@ function App() {
               ></Route>
 
               <Route
-                path="/assistente/cadastrados/info"
+                path="/assistente/cadastrados/info/:application_id"
                 element={<SeeCandidatosInfo></SeeCandidatosInfo>}
               ></Route>
               <Route

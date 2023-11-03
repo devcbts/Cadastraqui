@@ -69,7 +69,7 @@ app.register(assistantRoutes, { prefix: '/assistant' })
 app.post('/session', authenticate)
 app.post('/forgot_password', forgotPassword)
 app.post('/reset_password', resetPassword)
-app.patch('/token/refresh', refresh)
+app.patch('/refresh', refresh)
 app.post(
   '/profilePicture',
   { onRequest: [verifyJWT] },

@@ -21,7 +21,7 @@ export default function CadastroInfo() {
         <div className="input-cadastro hidden-title"></div>
 
         <div className="input-cadastro">
-          <input type="text" placeholder="Nome completo"></input>
+          <input type="text" name="" placeholder="Nome completo"></input>
         </div>
         <div className="input-cadastro">
           <input type="date" placeholder=""></input>

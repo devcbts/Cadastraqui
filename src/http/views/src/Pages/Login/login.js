@@ -12,10 +12,7 @@ import { useAuth } from "../../context/auth";
 import { useNavigate } from "react-router";
 
 export default function Login() {
-  const { SignIn, user } = useAuth()
-  const navigate  = useNavigate()
-
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const responsavelRef = useRef(null);
   const candidatoRef = useRef(null);
   const [numDependentes, setNumDependentes] = useState(0);
@@ -32,28 +29,6 @@ export default function Login() {
   const formRef7 = useRef(null);
 
   const loginForm = useRef(null);
-
-  async function login() {
-    // Pega o valor do email e password dos inputs 
-    const loginFormElement = loginForm.current
-    const email = loginFormElement.querySelector('input[id="usermail"]').value
-    const password = loginFormElement.querySelector('input[id="pass"]').value
-
-    const credentials = { email, password }
-
-    // Loga na aplicação
-    const role = await SignIn(credentials)
-
-
-    if(role ==='CANDIDATE' || role === 'RESPONSIBLE') {
-      navigate('/candidato/home')
-    } else if(role === 'ENTITY') {
-      navigate('/entidade/home')
-    } else if(role === 'ASSISTANT') {
-      navigate('/assistente/home')
-    } 
-  }
-
 
   function handlePageChange() {
     let currentForm;
@@ -95,7 +70,7 @@ export default function Login() {
         if (prevPage === 5) return 7;
       });
     } else {
-      alert("Preencha os campos exigidos!");
+      alert("Preencha os campos exigidos!")
     }
   }
 
@@ -128,6 +103,54 @@ export default function Login() {
       components.push(<CadastroComponent key={i} i={i} />);
     }
     return components;
+  }
+
+  function handleBackChange() {
+    setCurrentPage((prevPage) => {
+      if (prevPage === 1) return 0;
+      if (prevPage === 2) return 1;
+      if (prevPage === 3) return 2;
+      if (prevPage === 4) return 3;
+      if (prevPage === 5) return 4;
+      if (prevPage === 6) return 4;
+      if (prevPage === 7) return 5;
+    });
+  }
+
+  function handlePageToRegister() {
+    setCurrentPage(1)
+  }
+
+  // BackEnd Functions 
+  const { SignIn } = useAuth()
+  const navigate  = useNavigate()
+
+  async function login() {
+    // Pega o valor do email e password dos inputs 
+    const loginFormElement = loginForm.current
+    
+    if(loginFormElement.checkValidity()) {
+      const email = loginFormElement.querySelector('input[id="usermail"]').value
+      const password = loginFormElement.querySelector('input[id="pass"]').value
+
+      const credentials = { email, password }
+
+      // Loga na aplicação
+      const role = await SignIn(credentials)
+
+
+      if(role ==='CANDIDATE' || role === 'RESPONSIBLE') {
+        navigate('/candidato/home')
+      } else if(role === 'ENTITY') {
+        navigate('/entidade/home')
+      } else if(role === 'ASSISTANT') {
+        navigate('/assistente/home')
+      } else if(role === 'ENTITY') {
+        navigate('/entidade/home')
+      }
+    } else {
+      alert("Preencha os campos exigidos!")
+    }
   }
 
   async function handleRegister() {
@@ -182,8 +205,6 @@ export default function Login() {
     }
   }
 
-  
-
   async function handleRegisterDependent() {
     let names =[]
     let CPFs = []
@@ -218,17 +239,6 @@ export default function Login() {
     
   } 
 
-  function handleBackChange() {
-    setCurrentPage((prevPage) => {
-      if (prevPage === 1) return 0;
-      if (prevPage === 2) return 1;
-      if (prevPage === 3) return 2;
-      if (prevPage === 4) return 3;
-      if (prevPage === 5) return 4;
-      if (prevPage === 6) return 4;
-      if (prevPage === 7) return 5;
-    });
-  }
   return (
     <div className="login-container">
       <div id="object-one">
@@ -242,12 +252,12 @@ export default function Login() {
           <img src={logo}></img>
         </div>
         <div className="text-login">
-          <h1>CADASTRO</h1>
+          <h1>{currentPage === 0 ? 'LOGIN': 'CADASTRO'}</h1>
 
           <div
             className={`cadastro-second ${currentPage !== 0 && "hidden-page"}`}
           >
-            <h2>Cadastre seu email e senha </h2>
+            <h2>Digite seu email e senha </h2>
             <form ref={loginForm}>
               <div className="user-login mail">
                 <label for="usermail">
@@ -277,7 +287,7 @@ export default function Login() {
                 </div>
               </button>
               <button className="login-btn" type="button">
-                <div className="btn-entrar" onClick={() => handlePageChange()}>
+                <div className="btn-entrar" onClick={handlePageToRegister}>
                   <a>Registrar</a>
                 </div>
               </button>

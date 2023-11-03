@@ -748,6 +748,7 @@ model Announcement {
   announcementNumber   String?
   announcementDate     DateTime?
   announcementName     String?
+  announcementLogo     String?
   offeredVacancies     Int? // Only if announcementType is ScholarshipGrant
   verifiedScholarships Int? // Only if announcementType is ScholarshipGrant
   description          String? //Caso seja desejado inserir uma descrição

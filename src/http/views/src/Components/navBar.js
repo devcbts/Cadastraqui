@@ -17,7 +17,7 @@ import { useLocation } from "react-router-dom";
 import { Fade as Hamburger } from "hamburger-react";
 // ReactDOM.render(element, document.body);
 
-export default function NavBar() {
+export default function NavBar(props) {
   const { isShown, handleClick, setIsShown } = useAppState();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -63,6 +63,9 @@ export default function NavBar() {
   var location = useLocation();
   var currentPath = location.pathname;
 
+  // BackEnd functions
+  const entity = props.entity
+  console.log(props)
   return (
     <div className="outer-sidebar">
       {windowWidth < 1030 && (
@@ -102,7 +105,7 @@ export default function NavBar() {
           <div className="user">
             <img src={photoProfile} className="user-sidebar"></img>
             <div className="user-name">
-              <h6>Current User</h6>
+              <h6>{entity ? entity.name : "Entity Name"}</h6>
             </div>
           </div>
           <div className="menu-itens">

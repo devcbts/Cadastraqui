@@ -7,6 +7,28 @@ import "./geralCadastrado.css";
 import Comment from "../../Components/comment";
 
 export default function GeralCadastrado() {
+  const [formData, setFormData] = useState({
+    dateAndTime: "",
+    candidateName: "",
+    rgId: "",
+    rgIssuer: "",
+    // ... (add other form fields as necessary)
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Form Data Submitted:", formData);
+    // You can process or display the filled out form here
+  };
+
   function EditaisAnteriores() {
     return (
       <div className="fill-container general-info">
@@ -179,8 +201,56 @@ export default function GeralCadastrado() {
 
   function Parecer() {
     return (
-      <div className="fill-container">
-        <h1>4</h1>
+      <div className="fill-container general-info">
+        <form onSubmit={handleSubmit}>
+          <label>
+            Date and Time of Completion:
+            <input
+              type="text"
+              name="dateAndTime"
+              value={formData.dateAndTime}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            Candidate Name:
+            <input
+              type="text"
+              name="candidateName"
+              value={formData.candidateName}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            RG ID Number:
+            <input
+              type="text"
+              name="rgId"
+              value={formData.rgId}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            RG Issuing Body:
+            <input
+              type="text"
+              name="rgIssuer"
+              value={formData.rgIssuer}
+              onChange={handleChange}
+            />
+          </label>
+          {/* Add other input fields as necessary */}
+          <button type="submit">Submit</button>
+        </form>
+
+        <div>
+          {/* Display the filled-out form (for demonstration purposes) */}
+          <p>Date and Time: {formData.dateAndTime}</p>
+          <p>Candidate Name: {formData.candidateName}</p>
+          <p>RG ID: {formData.rgId}</p>
+          <p>RG Issuer: {formData.rgIssuer}</p>
+          {/* Display other filled out fields as necessary */}
+        </div>
       </div>
     );
   }

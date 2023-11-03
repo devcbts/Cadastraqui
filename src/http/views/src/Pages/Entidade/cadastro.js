@@ -68,10 +68,7 @@ export default function CadastroEntidade() {
       timelines: "",
       educationLevels: "",
 
-      entity: "",
       entity_id: "",
-
-      entity_subsidiary: "",
       entity_subsidiary_id: "",
     });
 
@@ -184,6 +181,11 @@ export default function CadastroEntidade() {
         console.error("Error uploading file: ", error);
       });
   }
+
+  // BackEnd Functions
+  async function CreateAnnouncement() {
+
+  }
   return (
     <div className="container">
       <div className="section-nav">
@@ -235,8 +237,8 @@ export default function CadastroEntidade() {
                     <option value="" disabled>
                       Selecionar o nível de ensino
                     </option>
-                    <option value="higherEducation">Ensino superior</option>
-                    <option value="basicEducation">Ensino básico</option>
+                    <option value="higherEducation">Ensino Superior</option>
+                    <option value="basicEducation">Ensino Básico</option>
                   </select>
                 </fieldset>
 
@@ -312,6 +314,7 @@ export default function CadastroEntidade() {
                     type="submit"
                     id="contact-submit"
                     data-submit="...Sending"
+                    onClick={CreateAnnouncement}
                   >
                     Cadastrar
                   </button>

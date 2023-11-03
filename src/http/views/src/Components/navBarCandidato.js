@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./navBarCandidato.css";
 import photoProfile from "../Assets/profile-padrao.jpg";
-import { UilTimesCircle } from "@iconscout/react-unicons";
+import { UilTimesCircle, UilArchive } from "@iconscout/react-unicons";
 import { UilEstate } from "@iconscout/react-unicons";
 import { UilExchange } from "@iconscout/react-unicons";
 import { UilUserCircle } from "@iconscout/react-unicons";
@@ -18,12 +18,6 @@ export default function NavBarCandidato(props) {
   const { isShown, handleClick, setIsShown } = useAppState();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [popupIsShown, setPopupIsShown] = useState(false);
-
-  // Utilizado para preencher campos do usuáriocom dados vindo do BackEnd
-  const user = props.user
-  const [profilePhoto, setProfilePhoto] = useState(null);
-
-
 
   const handleClosePopup = () => {
     setPopupIsShown((prev) => !prev);
@@ -69,6 +63,11 @@ export default function NavBarCandidato(props) {
 
   }, []); // The empty array ensures this effect only runs once, on mount and unmount
 
+
+  // BackEnd Functions 
+  const user = props.user
+  const [profilePhoto, setProfilePhoto] = useState(null)
+  
   useEffect(() => {
     async function getProfilePhoto() {
       const token = localStorage.getItem("token")
@@ -217,6 +216,23 @@ export default function NavBarCandidato(props) {
                     }`}
                   />
                   <span>Perfil</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className={`${
+                    currentPath == "/candidato/solicitacoes" ? "active" : "inactive"
+                  }`}
+                  onClick={() => urlNavigation("solicitacoes")}
+                >
+                  <UilArchive
+                    size="30"
+                    color={`${
+                      currentPath == "/candidato/solicitacoes" ? "#1F4B73" : "white"
+                    }`}
+                  />
+                  <span>Solicitações</span>
                 </a>
               </li>
             </ul>

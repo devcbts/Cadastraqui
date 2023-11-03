@@ -66,36 +66,32 @@ export default function PerfilCandidato() {
         setUserInfo(user_info.data.responsible)
       }
     }
-
-    getProfilePhoto()
-    getUserInfo()
-  }, [])
-
-  async function handleImageUpload(event) {
-    const file = event.target.files[0]
-    console.log(file)
-
-    if (file) {
-      const token = localStorage.getItem("token")
-
-      try {
-        const formData = new FormData();
-        formData.append('file', file);
-        await api.post('/candidates/profilePicture', formData, {
-          headers: {
-            'authorization': `Bearer ${token}`,
-          }
-        })
-        getProfilePhoto()
-      } catch (err) {
-        alert('Erro ao atualizar foto de perfil.')
-        console.log(err)
-      }
-    }
-
     getProfilePhoto()
     getUserInfo()
   }, [])*/
+
+  async function handleImageUpload(event) {
+    const file = event.target.files[0];
+    console.log(file);
+
+    if (file) {
+      const token = localStorage.getItem("token");
+
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        await api.post("/candidates/profilePicture", formData, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+        getProfilePhoto();
+      } catch (err) {
+        alert("Erro ao atualizar foto de perfil.");
+        console.log(err);
+      }
+    }
+  }
 
   return (
     <div className="container">
@@ -125,6 +121,7 @@ export default function PerfilCandidato() {
               name="profile-photo"
               id="photo"
               accept="image/png, image/jpeg, image/jpg, image/pdf"
+              onChange={handleImageUpload}
             ></input>
           </div>
           <div className="side-photo"></div>

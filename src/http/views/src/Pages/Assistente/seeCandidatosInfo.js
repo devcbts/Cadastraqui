@@ -9,15 +9,42 @@ import { UilAngleRight } from "@iconscout/react-unicons";
 import { UilCommentAltMedical } from "@iconscout/react-unicons";
 import { UilTimesSquare } from "@iconscout/react-unicons";
 import Comment from "../../Components/comment";
+import { api } from "../../services/axios";
+import { useParams } from "react-router";
 
 export default function SeeCandidatosInfo() {
   const [commentIsShown, setCommentIsShown] = useState(false);
   const nextButton = useRef(null);
   const prevButton = useRef(null);
-
+  const application_id = useParams()
+  console.log('====================================');
+  console.log(application_id.application_id);
+  console.log('====================================');
   const handleCommentClick = () => {
     setCommentIsShown((prev) => !prev);
   };
+
+  const [descricao, setDescricao] = useState('');
+  const [selectedValue, setSelectedValue] = useState('Document');
+  const [deadLine, setDeadLine] = useState(null);
+
+  const handleSubmitButton = async () => {
+    try {
+
+
+      const token = localStorage.getItem('token');
+      await api.post(`assistant/solicitation/${application_id.application_id}`, { description: descricao, solicitation: selectedValue, deadLine: deadLine },
+        {
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }
+        })
+      setDescricao("")
+    } catch (error) {
+      alert("erro ao criar solicitação")
+
+    }
+  }
 
   function BasicInfoDiv() {
     return (
@@ -148,7 +175,7 @@ export default function SeeCandidatosInfo() {
   function FamilyInfoDiv() {
     return (
       <div className="fill-container">
-        <h1>2</h1>
+        <h1></h1>
       </div>
     );
   }
@@ -184,7 +211,63 @@ export default function SeeCandidatosInfo() {
   function VehicleInfoDiv() {
     return (
       <div className="fill-container">
-        <h1>4</h1>
+        <h2>Informações do veiculo</h2>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Tipo de veículo"
+            value="Carros Pequenos e Utilidades"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Modelo e Marca"
+            value="Fiat"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Ano de fabricação"
+            value="2018"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Situação"
+            value="Financiado"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Possui seguro?"
+            value="Sim"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Valor seguro"
+            value="300"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Utilização"
+            value="Instrumento de Trabalho"
+            disabled
+          ></input>
+        </div>
       </div>
     );
   }
@@ -450,18 +533,29 @@ export default function SeeCandidatosInfo() {
             </div>
             <div className="create-comment">
               <h2>Adicionar comentario de seção</h2>
-              <textarea className="text-fixed"></textarea>
+              <textarea className="text-fixed" onChange={e => setDescricao(e.target.value)}></textarea>
               <div className="send-comment">
                 <div class="box">
-                  <select>
-                    <option>Documento</option>
-                    <option>RG</option>
-                    <option>CPF</option>
-                    <option>Comprovante de residência</option>
-                    <option>...</option>
+                  <select value={selectedValue} onChange={e => setSelectedValue(e.target.value)}>
+                    <option value='Document'>Documento</option>
+                    <option value="Interview">Entrevista</option>
+                    <option value="Visit">Visita Domiciliar</option>
                   </select>
                 </div>
-                <button className="btn-send">Enviar</button>
+                {selectedValue === 'Document' ?
+                  <div class="box">
+                    <h2>Prazo para envio dos documentos</h2>
+                    <select value={deadLine ? deadLine : 1} onChange={e => setDeadLine(e.target.value)}>
+                      <option value="1">1 dia</option>
+                      <option value="2">2 dias</option>
+                      <option value="3">3 dias</option>
+                      <option value="4">4 dias</option>
+                      <option value="5">5 dias</option>
+                      <option value="6">6 dias</option>
+                      <option value="7">7 dias</option>
+                    </select>
+                  </div> : ''}
+                <button className="btn-send" onClick={handleSubmitButton}>Enviar</button>
               </div>
             </div>
             <div className="comments-box">
