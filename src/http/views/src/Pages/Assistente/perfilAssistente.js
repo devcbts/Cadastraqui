@@ -31,9 +31,31 @@ export default function PerfilAssistente() {
             authorization: `Bearer ${token}`,
           },
         });
+        getProfilePhoto();
       } catch (err) {
         alert("Erro ao atualizar foto de perfil.");
         console.log(err);
+      }
+
+    }
+  }
+
+  async function getProfilePhoto() {
+    const token = localStorage.getItem("token");
+
+    try {
+      const profilePhoto = await api.get("/profilePicture", {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(profilePhoto);
+      setProfilePhoto(profilePhoto.data.url);
+      localStorage.setItem("profilePhoto", JSON.stringify(profilePhoto.data.url));
+
+    } catch (err) {
+      if (err.response.status === 401) {
+        navigate("/login");
       }
     }
   }
@@ -50,7 +72,7 @@ export default function PerfilAssistente() {
             },
           });
           setUserInfo(user_info.data.assistant);
-
+          localStorage.setItem("assistant", JSON.stringify(user_info.data.assistant))
         } catch (err) {
           if (err.response?.status === 401) {
             try {
@@ -64,25 +86,7 @@ export default function PerfilAssistente() {
       }
     }
 
-    async function getProfilePhoto() {
-      const token = localStorage.getItem("token");
 
-      try {
-        const profilePhoto = await api.get("/profilePicture", {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        });
-        console.log(profilePhoto);
-        setProfilePhoto(profilePhoto.data.url);
-        localStorage.setItem("profilePhoto", JSON.stringify(profilePhoto.data.url));
-
-      } catch (err) {
-        if (err.response.status === 401) {
-          navigate("/login");
-        }
-      }
-    }
 
     getProfilePhoto();
     getUserInfo();
