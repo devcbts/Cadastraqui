@@ -7,10 +7,11 @@ import Candidatura from "../../Components/candidatura";
 import Colaboracao from "../../Components/colaboracao";
 import NavBarAssistente from "../../Components/navBarAssistente";
 import { UilFilter } from "@iconscout/react-unicons";
-import { useParams } from "react-router";
+import { useParams, } from "react-router";
 import { useEffect } from "react";
 import { useAuth } from "../../context/auth";
 import { api } from "../../services/axios";
+import { Link } from "react-router-dom";
 
 export default function CandidatosCadastrados() {
   const { announcement_id } = useParams();
@@ -49,10 +50,12 @@ export default function CandidatosCadastrados() {
 
       <div className="container-contas">
         <div className="upper-cadastrados">
-          <h1>Editais - Unifei 2023.1</h1>
+          <h1>Editais - USP 2024.1</h1>
           <div className="btns-cadastro">
             <a className="btn-cadastro">Extrair PDF</a>
-            <a className="btn-cadastro">Ver estatísticas</a>
+
+            <a className="btn-cadastro"> <Link className="btn-cadastro" to={`/assistente/estatisticas/${announcement_id}`}>Ver estatísticas</Link></a>
+
           </div>
         </div>
         <h1 className="title-thin">Candidatos</h1>
@@ -120,16 +123,21 @@ export default function CandidatosCadastrados() {
         <div className="solicitacoes">
           {applications
             ? applications.map((application) => {
-                return (
-                  <Candidatura
-                    name={application.candidateName}
-                    assistente={application.SocialAssistantName}
-                    id={application.id}
-                    announcement_id={announcement_id}
-                  />
-                );
-              })
+              return (
+                <Candidatura
+                  name={application.candidateName}
+                  assistente={application.SocialAssistantName}
+                  id={application.id}
+                  announcement_id={announcement_id}
+                />
+              );
+            })
             : ""}
+          <Candidatura
+            name="João Paulo"
+            assistente='Fernado Souza'
+            announcement_id={announcement_id}
+          />
         </div>
       </div>
     </div>

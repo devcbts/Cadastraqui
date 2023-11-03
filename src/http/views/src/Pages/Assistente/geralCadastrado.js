@@ -5,8 +5,16 @@ import { UilCheckSquare } from "@iconscout/react-unicons";
 import { UilSquareFull } from "@iconscout/react-unicons";
 import "./geralCadastrado.css";
 import Comment from "../../Components/comment";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 
 export default function GeralCadastrado() {
+
+  const {announcement_id, application_id} = useParams()
+  console.log('====================================');
+  console.log(announcement_id, application_id);
+  console.log('====================================');
+
   const [formData, setFormData] = useState({
     dateAndTime: "",
     candidateName: "",
@@ -264,8 +272,8 @@ export default function GeralCadastrado() {
         <div className="upper-cadastrados">
           <h1>Editais - Unifei 2023.1</h1>
           <div className="btns-cadastro">
-            <a className="btn-cadastro">{"< "}Voltar</a>
-            <a className="btn-cadastro">Ver formulário</a>
+            <a className="btn-cadastro"><Link className="btn-cadastro" to={`/assistente/cadastrados/${announcement_id}`}>{"< "}Voltar</Link></a>
+            <a className="btn-cadastro"><Link className="btn-cadastro" to={`/assistente/cadastrados/info/${announcement_id}/${application_id}`}>Ver formulário</Link></a>
           </div>
         </div>
         <div className="multistep-container">
