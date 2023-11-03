@@ -6,8 +6,7 @@ import { useAppState } from "../../AppGlobal";
 import { useState } from "react";
 import { useRef } from "react";
 import axios from "axios";
-import CadastroEdital from "../../Components/cadastroEdital"
-
+import CadastroEdital from "../../Components/cadastroEdital";
 
 export default function CadastroEntidade() {
   const { isShown } = useAppState();
@@ -17,9 +16,9 @@ export default function CadastroEntidade() {
   const [value, setValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const firstForm = useRef(null)
-  const secondForm = useRef(null)
-  const thirdForm = useRef(null)
+  const firstForm = useRef(null);
+  const secondForm = useRef(null);
+  const thirdForm = useRef(null);
 
   // Properties for the object entity subsidiary
   const nameForm = useRef(null);
@@ -30,9 +29,6 @@ export default function CadastroEntidade() {
   const adressForm = useRef(null);
   const cepForm = useRef(null);
   const institucionalCodeForm = useRef(null);
-
- 
- 
 
   // Object with info for entity registration
   const [currentRegisterEntity, setCurrentRegisterEntity] = useState({
@@ -177,154 +173,213 @@ export default function CadastroEntidade() {
   }
 
   // BackEnd Functions
-  async function handleCreateAnnouncement() {
-  }
+  /*
+  async function handleCreateAnnouncement() {}
 
   async function handleCreateDirector() {
-    const directorForm = firstForm.current
+    const directorForm = firstForm.current;
 
-    if(directorForm.checkValidity()) {
-      const name = directorForm.querySelector('input[name="director-name"]').value
-      const phone = directorForm.querySelector('input[name="director-phone"]').value
-      const CPF = directorForm.querySelector('input[name="director-CPF"]').value
-      const email = directorForm.querySelector('input[name="director-email"]').value
-      const password = directorForm.querySelector('input[name="director-password"]').value
-      
+    if (directorForm.checkValidity()) {
+      const name = directorForm.querySelector(
+        'input[name="director-name"]'
+      ).value;
+      const phone = directorForm.querySelector(
+        'input[name="director-phone"]'
+      ).value;
+      const CPF = directorForm.querySelector(
+        'input[name="director-CPF"]'
+      ).value;
+      const email = directorForm.querySelector(
+        'input[name="director-email"]'
+      ).value;
+      const password = directorForm.querySelector(
+        'input[name="director-password"]'
+      ).value;
+
       const createInfo = {
-        name,phone,email,password,CPF
-      }  
+        name,
+        phone,
+        email,
+        password,
+        CPF,
+      };
 
-      const token = localStorage.getItem("token")
-      try{
-        await api.post('/entities/director/', createInfo,{
+      const token = localStorage.getItem("token");
+      try {
+        await api.post("/entities/director/", createInfo, {
           headers: {
-            'authorization': `Bearer ${token}`,
-          }})
-        alert('Diretor cadastrado com sucesso.')
-      } catch(err){
-        alert(`${err.response.data.message}`)
-        console.log(err)
+            authorization: `Bearer ${token}`,
+          },
+        });
+        alert("Diretor cadastrado com sucesso.");
+      } catch (err) {
+        alert(`${err.response.data.message}`);
+        console.log(err);
       }
-    }
-    else {
-      alert('Preencha os campos exigidos.')
+    } else {
+      alert("Preencha os campos exigidos.");
     }
   }
 
   async function handleCreateAssistant() {
-    const assistantForm = secondForm.current
-    
-    if(assistantForm.checkValidity()) {
-      const name = assistantForm.querySelector('input[name="assistant-name"]').value
-      const phone = assistantForm.querySelector('input[name="assistant-phone"]').value
-      const CPF = assistantForm.querySelector('input[name="assistant-CPF"]').value
-      const email = assistantForm.querySelector('input[name="assistant-email"]').value
-      const password = assistantForm.querySelector('input[name="assistant-password"]').value
-      const RG = assistantForm.querySelector('input[name="assistant-RG"]').value
-      const CRESS = assistantForm.querySelector('input[name="assistant-CRESS"]').value
-      
-      const createInfo = {
-        name,phone,email,password,CPF,RG,CRESS
-      }  
+    const assistantForm = secondForm.current;
 
-      const token = localStorage.getItem("token")
-      try{
-        await api.post('/assistant/', createInfo,{
+    if (assistantForm.checkValidity()) {
+      const name = assistantForm.querySelector(
+        'input[name="assistant-name"]'
+      ).value;
+      const phone = assistantForm.querySelector(
+        'input[name="assistant-phone"]'
+      ).value;
+      const CPF = assistantForm.querySelector(
+        'input[name="assistant-CPF"]'
+      ).value;
+      const email = assistantForm.querySelector(
+        'input[name="assistant-email"]'
+      ).value;
+      const password = assistantForm.querySelector(
+        'input[name="assistant-password"]'
+      ).value;
+      const RG = assistantForm.querySelector(
+        'input[name="assistant-RG"]'
+      ).value;
+      const CRESS = assistantForm.querySelector(
+        'input[name="assistant-CRESS"]'
+      ).value;
+
+      const createInfo = {
+        name,
+        phone,
+        email,
+        password,
+        CPF,
+        RG,
+        CRESS,
+      };
+
+      const token = localStorage.getItem("token");
+      try {
+        await api.post("/assistant/", createInfo, {
           headers: {
-            'authorization': `Bearer ${token}`,
-          }})
-        alert('Assistente cadastrado com sucesso.')
-      } catch(err){
-        alert(`${err.response.data.message}`)
-        console.log(err)
+            authorization: `Bearer ${token}`,
+          },
+        });
+        alert("Assistente cadastrado com sucesso.");
+      } catch (err) {
+        alert(`${err.response.data.message}`);
+        console.log(err);
       }
-    }
-    else {
-      alert('Preencha os campos exigidos.')
+    } else {
+      alert("Preencha os campos exigidos.");
     }
   }
 
   async function handleCreateSubsidiary() {
-    const subsidiaryForm = thirdForm.current
-    
-    if(subsidiaryForm.checkValidity()) {
-      const name = subsidiaryForm.querySelector('input[name="subsidiary-name"]').value
-      const address = subsidiaryForm.querySelector('input[name="subsidiary-address"]').value
-      const CNPJ = subsidiaryForm.querySelector('input[name="subsidiary-CNPJ"]').value
-      const email = subsidiaryForm.querySelector('input[name="subsidiary-email"]').value
-      const password = subsidiaryForm.querySelector('input[name="subsidiary-password"]').value
-      const educationalInstitutionCode = subsidiaryForm.querySelector('input[name="subsidiary-code"]').value
-      const socialReason = subsidiaryForm.querySelector('input[name="subsidiary-socialReason"]').value
-      const CEP = subsidiaryForm.querySelector('input[name="subsidiary-CEP"]').value
-      
-      const createInfo = {
-        name,email,password,CEP,CNPJ,educationalInstitutionCode, socialReason, address
-      }  
+    const subsidiaryForm = thirdForm.current;
 
-      const token = localStorage.getItem("token")
-      try{
-        await api.post('/entities/subsidiary', createInfo,{
+    if (subsidiaryForm.checkValidity()) {
+      const name = subsidiaryForm.querySelector(
+        'input[name="subsidiary-name"]'
+      ).value;
+      const address = subsidiaryForm.querySelector(
+        'input[name="subsidiary-address"]'
+      ).value;
+      const CNPJ = subsidiaryForm.querySelector(
+        'input[name="subsidiary-CNPJ"]'
+      ).value;
+      const email = subsidiaryForm.querySelector(
+        'input[name="subsidiary-email"]'
+      ).value;
+      const password = subsidiaryForm.querySelector(
+        'input[name="subsidiary-password"]'
+      ).value;
+      const educationalInstitutionCode = subsidiaryForm.querySelector(
+        'input[name="subsidiary-code"]'
+      ).value;
+      const socialReason = subsidiaryForm.querySelector(
+        'input[name="subsidiary-socialReason"]'
+      ).value;
+      const CEP = subsidiaryForm.querySelector(
+        'input[name="subsidiary-CEP"]'
+      ).value;
+
+      const createInfo = {
+        name,
+        email,
+        password,
+        CEP,
+        CNPJ,
+        educationalInstitutionCode,
+        socialReason,
+        address,
+      };
+
+      const token = localStorage.getItem("token");
+      try {
+        await api.post("/entities/subsidiary", createInfo, {
           headers: {
-            'authorization': `Bearer ${token}`,
-          }})
-        alert('Filial cadastrado com sucesso.')
-      } catch(err){
-        console.log(err)
-        alert(`${err.response.data.message}`)
+            authorization: `Bearer ${token}`,
+          },
+        });
+        alert("Filial cadastrado com sucesso.");
+      } catch (err) {
+        console.log(err);
+        alert(`${err.response.data.message}`);
       }
-    }
-    else {
-      alert('Preencha os campos exigidos.')
+    } else {
+      alert("Preencha os campos exigidos.");
     }
   }
-
-
+*/
   // Estado para informações acerca do usuário logado
-  const [entityInfo, setEntityInfo] = useState()
+  const [entityInfo, setEntityInfo] = useState();
 
-  const navigate = useNavigate()
-
+  /*const navigate = useNavigate();*/
+  /*
   useEffect(() => {
     async function refreshAccessToken() {
-      try{
-        const refreshToken = Cookies.get('refreshToken')
-  
-        const response = await api.patch(`/refresh?refreshToken=${refreshToken}`)
-        
-        const {newToken, newRefreshToken} = response.data
-        localStorage.setItem('token', newToken)
-        Cookies.set('refreshToken', newRefreshToken, {
+      try {
+        const refreshToken = Cookies.get("refreshToken");
+
+        const response = await api.patch(
+          `/refresh?refreshToken=${refreshToken}`
+        );
+
+        const { newToken, newRefreshToken } = response.data;
+        localStorage.setItem("token", newToken);
+        Cookies.set("refreshToken", newRefreshToken, {
           expires: 7,
           sameSite: true,
-          path: '/',
-        })
-      } catch(err) {
-        console.log(err)
-        navigate('/login')
+          path: "/",
+        });
+      } catch (err) {
+        console.log(err);
+        navigate("/login");
       }
     }
-    const intervalId = setInterval(refreshAccessToken, 480000) // Chama a função refresh token a cada 
-  
-    async function getEntityInfo() {
-      const token = localStorage.getItem("token")
+    const intervalId = setInterval(refreshAccessToken, 480000); // Chama a função refresh token a cada
 
-      try{
-        const entity_info = await api.get('/entities/', {
+    async function getEntityInfo() {
+      const token = localStorage.getItem("token");
+
+      try {
+        const entity_info = await api.get("/entities/", {
           headers: {
-            'authorization': `Bearer ${token}`,
-          }})
-          setEntityInfo(entity_info.data.entity)
-        } catch(err) {
-            console.log(err)
-        }
+            authorization: `Bearer ${token}`,
+          },
+        });
+        setEntityInfo(entity_info.data.entity);
+      } catch (err) {
+        console.log(err);
+      }
     }
-        
-    getEntityInfo()
+
+    getEntityInfo();
     return () => {
       // Limpar o intervalo
       clearInterval(intervalId);
     };
-  },[])
+  }, []);*/
 
   return (
     <div className="container">
@@ -342,9 +397,7 @@ export default function CadastroEntidade() {
           </select>
         </div>
 
-        {selectedOption === "cadastrar-edital" ? (
-         <CadastroEdital/>
-        ): ''}
+        {selectedOption === "cadastrar-edital" ? <CadastroEdital /> : ""}
 
         {selectedOption === "cadastrar-filial" && (
           <div className="container-cadastros">
@@ -354,10 +407,7 @@ export default function CadastroEntidade() {
                 currentPage !== 1 && "hidden-page"
               }`}
             >
-              <form
-                id="contact"
-                ref={thirdForm}  
-              >
+              <form id="contact" ref={thirdForm}>
                 <h3>Informações de cadastro</h3>
                 <h4>Preencha as informações abaixo para realizar o cadastro</h4>
                 <fieldset>
@@ -476,12 +526,7 @@ export default function CadastroEntidade() {
             </fieldset>*/}
 
                 <fieldset className="btn-field">
-                  <button
-                    name="submit"
-                    id="contact-submit"
-                    type="button"
-                    onClick={handleCreateSubsidiary}
-                  >
+                  <button name="submit" id="contact-submit" type="button">
                     Cadastrar
                   </button>
                 </fieldset>
@@ -498,10 +543,7 @@ export default function CadastroEntidade() {
                 currentPage !== 1 && "hidden-page"
               }`}
             >
-              <form
-                id="contact"
-                ref={firstForm}
-              >
+              <form id="contact" ref={firstForm}>
                 <h3>Informações de cadastro</h3>
                 <h4>Preencha as informações abaixo para realizar o cadastro</h4>
                 <fieldset>
@@ -568,12 +610,7 @@ export default function CadastroEntidade() {
                 </fieldset>
 
                 <fieldset className="btn-field">
-                  <button
-                    name="submit"
-                    type="button"
-                    id="contact-submit"
-                    onClick={handleCreateDirector}
-                  >
+                  <button name="submit" type="button" id="contact-submit">
                     Cadastrar
                   </button>
                 </fieldset>
@@ -590,10 +627,7 @@ export default function CadastroEntidade() {
                 currentPage !== 1 && "hidden-page"
               }`}
             >
-              <form
-                id="contact"
-                ref={secondForm}
-              >
+              <form id="contact" ref={secondForm}>
                 <h3>Informações de cadastro</h3>
                 <h4>Preencha as informações abaixo para realizar o cadastro</h4>
                 <fieldset>
@@ -682,12 +716,7 @@ export default function CadastroEntidade() {
                 </fieldset>
 
                 <fieldset className="btn-field">
-                  <button
-                    name="submit"
-                    type="button"
-                    id="contact-submit"
-                    onClick={handleCreateAssistant}
-                  >
+                  <button name="submit" type="button" id="contact-submit">
                     Cadastrar
                   </button>
                 </fieldset>
