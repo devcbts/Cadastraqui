@@ -77,13 +77,7 @@ export default function EditaisAssistente() {
         {activeAnnouncements ? activeAnnouncements.map((announcement) => {
             return (<EditalAssistente announcement={announcement} />)
           }) : ""}
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
-          <div className="item"></div>
+         
         </div>
       </div>
     </div>

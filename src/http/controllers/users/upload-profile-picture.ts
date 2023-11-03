@@ -11,22 +11,20 @@ export async function uploadUserProfilePicture(
   try {
     const user_id = request.user.sub
     // Verifica se existe um candidato associado ao user_id
-  
-
         const data = await request.file();
         if (!data) {
             throw new ResourceNotFoundError()
         }
         const fileBuffer = await data.toBuffer();
-        console.log(fileBuffer.length)
+        
         const Route = `ProfilePictures/${user_id}`
         const sended =  await uploadFile(fileBuffer, Route)
-      
+        
         if (!sended){
            
             throw new NotAllowedError()
         }
-
+        
 
 
 

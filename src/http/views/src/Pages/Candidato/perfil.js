@@ -8,6 +8,7 @@ import { UilPen } from "@iconscout/react-unicons";
 import { UilLock } from "@iconscout/react-unicons";
 import { api } from "../../services/axios";
 import { useNavigate } from "react-router";
+import { UilHunting } from "@iconscout/react-unicons";
 
 export default function PerfilCandidato() {
   const { isShown } = useAppState();
@@ -124,21 +125,14 @@ export default function PerfilCandidato() {
               onChange={handleImageUpload}
             ></input>
           </div>
-          <div className="side-photo"></div>
-        </div>
-        <div className="novos-colaboradores profile-candidate">
-          <div className="solicitacoes personal-info">
-            <div className="upper-info">
-              <h2>Informações pessoais</h2>
-            </div>
-            <a href="#">
-              <UilPen size="20" color="#1F4B73"></UilPen>
-            </a>
+          <div className="side-profile">
+            <h1>
+              <UilHunting size="30"></UilHunting>LGPD
+            </h1>
           </div>
-          <a href="#" className="btn-alterar">
-            <UilLock size="20" color="white"></UilLock>
-            Alterar senha
-          </a>
+        </div>
+        <div className="personal-informations">
+          <h1>Informações Pessoais</h1>
         </div>
       </div>
     </div>

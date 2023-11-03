@@ -11,6 +11,7 @@ import { UilTimesSquare } from "@iconscout/react-unicons";
 import Comment from "../../Components/comment";
 import { api } from "../../services/axios";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 
 export default function SeeCandidatosInfo() {
   const [commentIsShown, setCommentIsShown] = useState(false)
@@ -731,7 +732,7 @@ export default function SeeCandidatosInfo() {
     <div className="container-cadastro-candidato">
       <div className="upper-cadastro-candidato candidato-info-assistente">
         <div>
-          <a className="btn-cadastro go-back">{"< "}Voltar</a>
+          <a className="btn-cadastro go-back"><Link className="btn-cadastro" to={`/assistente/cadastrados/geral/${announcement_id}/${application_id}`}>{"< "}Voltar</Link></a>
         </div>
         <div>
           <h1>Formulário detalhado</h1>
