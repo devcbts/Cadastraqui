@@ -14,11 +14,12 @@ export async function CreateAnnoucment(
     announcementType: z.enum(['ScholarshipGrant', 'PeriodicVerification']),
     offeredVacancies: z.number(),
     verifiedScholarships: z.number(),
-    entity_id: z.string(),
+    entity_id: z.string().optional(),
     entity_subsidiary_id: z.string().optional(),
-    announcementNumber: z.string(),
+    announcementNumber: z.string().optional(),
     announcementDate: z.string(),
     announcementName: z.string(),
+    description: z.string().optional(),
   })
 
   const {
@@ -32,19 +33,21 @@ export async function CreateAnnoucment(
     announcementNumber,
     announcementDate,
     announcementName,
+    description
   } = registerBodySchema.parse(request.body)
 
   try {
-    const entityMatrix = entity_id
-      ? await prisma.entity.findUnique({
-          where: { id: entity_id },
-        })
-      : null
+    const user_id = request.user.sub
+
+    const entityMatrix = await prisma.entity.findUnique({
+        where: { user_id: user_id },
+      })
+      
 
     const entitySubsidiaryMatrix = entity_subsidiary_id
       ? await prisma.entitySubsidiary.findUnique({
-          where: { id: entity_id },
-        })
+        where: { id: entity_id },
+      })
       : null
 
     if (!entityMatrix && !entitySubsidiaryMatrix) {
@@ -52,40 +55,42 @@ export async function CreateAnnoucment(
     }
 
     if (!entitySubsidiaryMatrix) {
-      await prisma.announcement.create({
+      const announcement = await prisma.announcement.create({
         data: {
           entityChanged,
           branchChanged,
           announcementType,
           offeredVacancies,
           verifiedScholarships,
-          entity_id,
+          entity_id: entityMatrix!.id,
           announcementNumber,
           announcementDate: new Date(announcementDate),
           announcementName,
+          description
         },
       })
-      return reply.status(201).send()
+      return reply.status(201).send({ announcement })
     }
-    await prisma.announcement.create({
+    const announcement = await prisma.announcement.create({
       data: {
         entityChanged,
         branchChanged,
         announcementType,
         offeredVacancies,
         verifiedScholarships,
-        entity_id,
+        entity_id: entityMatrix!.id,
         entity_subsidiary_id,
         announcementNumber,
         announcementDate: new Date(),
         announcementName,
+        description
       },
     })
+    return reply.status(201).send({ announcement })
   } catch (err: any) {
     if (err instanceof announcementAlreadyExists) {
       return reply.status(409).send({ message: err.message })
     }
     return reply.status(500).send({ message: err.message })
   }
-  return reply.status(201).send()
 }
