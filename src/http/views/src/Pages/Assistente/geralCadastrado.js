@@ -9,11 +9,10 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 
 export default function GeralCadastrado() {
-
-  const { announcement_id, application_id } = useParams()
-  console.log('====================================');
+  const {  announcement_id, application_id  } = useParams();
+  console.log("====================================");
   console.log(announcement_id, application_id);
-  console.log('====================================');
+  console.log("====================================");
 
   const [formData, setFormData] = useState({
     dateAndTime: "",
@@ -210,60 +209,52 @@ export default function GeralCadastrado() {
   function Parecer() {
     return (
       <div className="fill-container general-info">
-        <h1>
+        <h1 id="parecer-text">
           Em, {"02-11-2023"} o(a) candidato
           {"("}a{")"} {"Jean Carlo do Amaral"}, portador{"("}a{")"} da cédula de
-          identidade RG número {"22.222.222"}
+          identidade RG número {"22.222.222"}, orgão emissor IIMG, UF do orgão
+          emissor MG, com Nacionalidade Brasileira, solteiro e desempregado,
+          residente no apartamento número 123, CEP 12228460, Campus do DCTA, São
+          José dos Campos, São Paulo, SP. Com email
+          jeancarlosimpliamaral@hotmail.com, se inscreveu para participar do
+          processo seletivo de que trata o Edital Unifei 2023.1 e recebeu número
+          de inscrição 00001.
+          <br></br>
+          <br></br>O candidato possui a idade de 19 anos e reside com: Ana Lúcia
+          {"(Mãe)"}, Mateus Pereira {"(Irmão)"}
+          <br></br>
+          <br></br>O grupo familiar objeto da análise reside em imóvel próprio
+          pelo prazo de 5 anos e a moradia é do tipo casa. Esta moradia possui 6
+          cômodos, sendo que 2 estão servindo permanentemente de dormitório para
+          os moradores deste domicílio.
+          <br></br>
+          <br></br>
+          Nenhum integrante do grupo familiar possui doença grave ou crônica que
+          exija custeio elevado.
+          <br></br>
+          <br></br>
+          Os integrantes possuem veículos conforme identificação abaixo:
         </h1>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Date and Time of Completion:
-            <input
-              type="text"
-              name="dateAndTime"
-              value={formData.dateAndTime}
-              onChange={handleChange}
-            />
-          </label>
-          <label>
-            Candidate Name:
-            <input
-              type="text"
-              name="candidateName"
-              value={formData.candidateName}
-              onChange={handleChange}
-            />
-          </label>
-          <label>
-            RG ID Number:
-            <input
-              type="text"
-              name="rgId"
-              value={formData.rgId}
-              onChange={handleChange}
-            />
-          </label>
-          <label>
-            RG Issuing Body:
-            <input
-              type="text"
-              name="rgIssuer"
-              value={formData.rgIssuer}
-              onChange={handleChange}
-            />
-          </label>
-          {/* Add other input fields as necessary */}
-          <button type="submit">Submit</button>
-        </form>
-
-        <div>
-          {/* Display the filled-out form (for demonstration purposes) */}
-          <p>Date and Time: {formData.dateAndTime}</p>
-          <p>Candidate Name: {formData.candidateName}</p>
-          <p>RG ID: {formData.rgId}</p>
-          <p>RG Issuer: {formData.rgIssuer}</p>
-          {/* Display other filled out fields as necessary */}
-        </div>
+        <table id="vehicle-info">
+          <thead>
+            <tr>
+              <th>Proprietário</th>
+              <th>Carros e utilitários pequenos</th>
+              <th>Modelo/Marca</th>
+              <th>Ano/fabricação</th>
+              <th>Situação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ana Lúcia</td>
+              <td>1</td>
+              <td>Pálio</td>
+              <td>2003</td>
+              <td>Velho</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     );
   }
@@ -388,8 +379,22 @@ export default function GeralCadastrado() {
         <div className="upper-cadastrados">
           <h1>Editais - USP 2024.1</h1>
           <div className="btns-cadastro">
-            <a className="btn-cadastro"><Link className="btn-cadastro" to={`/assistente/cadastrados/${announcement_id}`}>{"< "}Voltar</Link></a>
-            <a className="btn-cadastro"><Link className="btn-cadastro" to={`/assistente/cadastrados/info/${announcement_id}/${application_id}`}>Ver formulário</Link></a>
+            <a className="btn-cadastro">
+              <Link
+                className="btn-cadastro"
+                to={`/assistente/cadastrados/${announcement_id}`}
+              >
+                {"< "}Voltar
+              </Link>
+            </a>
+            <a className="btn-cadastro">
+              <Link
+                className="btn-cadastro"
+                to={`/assistente/cadastrados/info/${announcement_id}/${application_id}`}
+              >
+                Ver formulário
+              </Link>
+            </a>
           </div>
         </div>
         <div className="multistep-container">
