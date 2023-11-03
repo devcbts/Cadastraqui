@@ -202,6 +202,11 @@ export default function GeralCadastrado() {
   function Parecer() {
     return (
       <div className="fill-container general-info">
+        <h1>
+          Em, {"02-11-2023"} o(a) candidato
+          {"("}a{")"} {"Jean Carlo do Amaral"}, portador{"("}a{")"} da cédula de
+          identidade RG número {"22.222.222"}
+        </h1>
         <form onSubmit={handleSubmit}>
           <label>
             Date and Time of Completion:
@@ -255,6 +260,93 @@ export default function GeralCadastrado() {
     );
   }
 
+  function Acoes() {
+    return (
+      <div className="fill-container general-info">
+        <h1 id="title-action">
+          *Informações posteriores à conclusão da análise referente ao processo
+          de matrícula
+        </h1>
+        <div class="container-form">
+          <div class="row">
+            <form id="survey-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name" id="name-label">
+                    Candidato{"(a)"} desistiu da bolsa de estudo ou não efetuou
+                    a matrícula:
+                  </label>
+                  <input
+                    type="checkbox"
+                    class="form-control"
+                    id="name"
+                    placeholder="Enter your name"
+                    required
+                  ></input>
+                </div>
+                <div class="form-group">
+                  <label for="email" id="email-label">
+                    Código de Identificação do bolsista:
+                  </label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder=""
+                    required
+                  ></input>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="exp" id="number-label">
+                    A entidade irá conceder bolsa ao aluno?{" "}
+                    {"(Responder sim ou não)"}
+                  </label>
+                  <input type="radio" name="bolsa" value="yes" />
+                  Sim
+                  <input type="radio" name="bolsa" value="no" />
+                  Não
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="dropdown" id="dropdown-label">
+                    Se sim, especifique quais:
+                  </label>
+                  <select id="dropdown" class="form-control" required>
+                    <option value="">Escolher</option>
+                    <option value="1">Material didático</option>
+                    <option value="2">Uniforme</option>
+                    <option value="3">Transporte escolar</option>
+                    <option value="4">Alimentação</option>
+                    <option value="5">Moradia</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <textarea
+                    class="form-control"
+                    placeholder="Comentários adicionais"
+                  ></textarea>
+                </div>
+              </div>
+
+              <h2 className="law-text">
+                O Termo de Concessão de Benefícios - Tipo 1: Ações de apoio ao
+                aluno bolsista, abaixo será disponibilizado no perfil do
+                candidato para que o mesmo ou seu responsável legal assine e
+                providencie a entrega na entidade
+              </h2>
+
+              <a className="btn-cadastro">Enviar</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container">
       <div className="section-nav">
@@ -283,6 +375,7 @@ export default function GeralCadastrado() {
             <Extrato title="Extrato"></Extrato>
             <Solicitacoes title="Solicitacoes"></Solicitacoes>
             <Parecer title="Parecer"></Parecer>
+            <Acoes title="Ações posteriores"></Acoes>
           </MultiStep>
         </div>
       </div>
