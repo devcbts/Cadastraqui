@@ -35,7 +35,7 @@ export default function Candidatura(props) {
         <h3>Assistente social: {props.assistente}</h3>
       </div>
       <div className="candidatura-btn">
-        <Link to={`/assistente/cadastrados/info/${props.id}`}>
+        <Link to={`/assistente/cadastrados/geral/${props.announcement_id}/${props.id}`}>
         <UilEllipsisH size="30" color="#7b7b7b" className="icon"></UilEllipsisH>
         </Link>
 

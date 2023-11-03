@@ -6,6 +6,8 @@ import NavBarAssistente from "../../Components/navBarAssistente";
 import EditalAssistente from "../../Components/editalAssistente";
 import { useAuth } from "../../context/auth";
 import { api } from "../../services/axios";
+import uspLogo from "../../Assets/usp-logo.png";
+import unifeiLogo from "../../Assets/logo-unifei.png";
 
 export default function HomeAssistente() {
   const { isShown } = useAppState();
@@ -75,7 +77,7 @@ export default function HomeAssistente() {
         <div className="container-editais">
           {activeAnnouncements
             ? activeAnnouncements.map((announcement) => {
-                return <EditalAssistente announcement={announcement} />;
+                return <EditalAssistente logo={uspLogo} announcement={announcement} />;
               })
             : ""}
         </div>
@@ -87,7 +89,7 @@ export default function HomeAssistente() {
         <div className="container-editais">
           {openAnnouncements
             ? openAnnouncements.map((announcement) => {
-                return <EditalAssistente announcement={announcement} />;
+                return <EditalAssistente logo={uspLogo} announcement={announcement} />;
               })
             : ""}
         </div>
@@ -99,7 +101,7 @@ export default function HomeAssistente() {
         <div className="container-editais">
           {closeAnnouncements
             ? closeAnnouncements.map((announcement) => {
-                return <EditalAssistente announcement={announcement} />;
+                return <EditalAssistente logo={unifeiLogo} announcement={announcement} />;
               })
             : ""}
         </div>

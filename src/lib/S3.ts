@@ -19,7 +19,9 @@ export async function uploadToS3(fileInfo: Buffer, fileName: string) {
     Body: fileInfo,
     Key: fileName,
   }
-
+  console.log('====================================');
+  console.log("Cheguei aqui");
+  console.log('====================================');
   try {
     const response = await s3.upload(params).promise()
     console.log(`File uploaded successfully at ${response.Location}`)

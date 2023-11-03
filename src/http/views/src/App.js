@@ -91,7 +91,7 @@ function App() {
                 element={<EditaisAssistente></EditaisAssistente>}
               ></Route>
               <Route
-                path="/assistente/estatisticas"
+                path="/assistente/estatisticas/:announcement_id"
                 element={<Estatisticas />}
               ></Route>
               <Route
@@ -135,11 +135,11 @@ function App() {
               ></Route>
 
               <Route
-                path="/assistente/cadastrados/info/:application_id"
+                path="/assistente/cadastrados/info/:announcement_id/:application_id"
                 element={<SeeCandidatosInfo></SeeCandidatosInfo>}
               ></Route>
               <Route
-                path="/assistente/cadastrados/geral"
+                path="/assistente/cadastrados/geral/:announcement_id/:application_id?"
                 element={<GeralCadastrado></GeralCadastrado>}
               ></Route>
             </Routes>

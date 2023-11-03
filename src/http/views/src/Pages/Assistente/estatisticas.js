@@ -1,10 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import NavBarAssistente from "../../Components/navBarAssistente";
 import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import './estatisticas.css'
 import DadosBox from "../../Components/dadosBox";
-
+import { Link } from "react-router-dom";
 
 
 const PieData = [
@@ -22,6 +22,9 @@ const LineData = [
 
 
 export default function Estatisticas() {
+
+  const announcement_id = useParams()
+
   return (
     <div className="container">
       <div className="section-nav">
@@ -32,7 +35,7 @@ export default function Estatisticas() {
           <h1>Editais - Unifei 2023.1</h1>
           <div className="btns-cadastro">
             <a className="btn-cadastro">Extrair PDF</a>
-            <a className="btn-cadastro">Voltar</a>
+            <a className="btn-cadastro"><Link className="btn-cadastro" to={`/assistente/cadastrados/${announcement_id.announcement_id}`}>Voltar</Link></a>
           </div>
         </div>
         <h1 className="title-thin">Estatísticas</h1>
