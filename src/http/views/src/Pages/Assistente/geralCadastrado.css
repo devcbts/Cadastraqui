@@ -152,7 +152,15 @@ strong {
 
   .general-info h1{
     font-size: 1rem;
+    text-align: justify;
   }
+
+  #parecer-text{
+    width: 90%;
+    margin-bottom: 2rem;
+    color: #696969;
+  }
+  
 
   .container-form{
     display: flex;
@@ -261,4 +269,8 @@ strong {
   .btn-cadastro:hover{
     cursor: pointer;
     opacity: 0.6;
+  }
+
+  #vehicle-info{
+    width: 80%;
   }
