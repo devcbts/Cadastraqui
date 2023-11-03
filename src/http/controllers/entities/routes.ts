@@ -42,11 +42,7 @@ export async function entityRoutes(app: FastifyInstance) {
    *  Concluídas: post, get, delete
    *   Faltam: update,Verificação de ROLE -> ENTITY
    */
-  app.post(
-    '/subsidiary',
-    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
-    createSubsidiary,
-  )
+  app.post('/subsidiary', { onRequest: [verifyJWT] }, createSubsidiary)
   app.get(
     '/subsidiary/:_id?',
     { onRequest: [verifyJWT, verifyRole('ENTITY')] },
