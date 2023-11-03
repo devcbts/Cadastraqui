@@ -14,10 +14,10 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 
 export default function SeeCandidatosInfo() {
-  const [commentIsShown, setCommentIsShown] = useState(false);
-  const nextButton = useRef(null);
-  const prevButton = useRef(null);
-  const {announcement_id,application_id} = useParams()
+  const [commentIsShown, setCommentIsShown] = useState(false)
+  const nextButton = useRef(null)
+  const prevButton = useRef(null)
+  const application_id = useParams()
   console.log('====================================');
   console.log(application_id.application_id);
   console.log('====================================');
@@ -31,8 +31,6 @@ export default function SeeCandidatosInfo() {
 
   const handleSubmitButton = async () => {
     try {
-
-
       const token = localStorage.getItem('token');
       await api.post(`assistant/solicitation/${application_id.application_id}`, { description: descricao, solicitation: selectedValue, deadLine: deadLine },
         {
@@ -117,7 +115,7 @@ export default function SeeCandidatosInfo() {
           <input
             type="text"
             placeholder="CPF"
-            value="999.999.999-09"
+            value="CPF - 999.999.999-09"
             disabled
           ></input>
         </div>
@@ -125,7 +123,7 @@ export default function SeeCandidatosInfo() {
           <input
             type="text"
             placeholder="RG"
-            value="MG - 88.888.888"
+            value="RG - 88.888.888"
             disabled
           ></input>
         </div>
@@ -133,7 +131,7 @@ export default function SeeCandidatosInfo() {
           <input
             type="text"
             placeholder="Orgão Emissor"
-            value="IIMG"
+            value="Orgão Emissor - IIMG"
             disabled
           ></input>
         </div>
@@ -141,34 +139,85 @@ export default function SeeCandidatosInfo() {
           <input
             type="text"
             placeholder="UF do orgão emissor"
-            value="MG"
+            value="UF orgão emissor-MG"
             disabled
           ></input>
         </div>
         <div className="input-cadastro hidden-title"></div>
         <div className="input-cadastro  hidden-title"></div>
         <div className="input-cadastro title">
-          <h2>4. Adicionais</h2>
+          <h2>4. Básicos</h2>
         </div>
         <div className="input-cadastro hidden-title"></div>
         <div className="input-cadastro hidden-title"></div>
         <div className="input-cadastro">
           <input
             type="text"
-            placeholder="E-mail"
+            placeholder="Estado Civil"
             required
-            value="jeanjcsa@email.com"
+            value="Solteiro"
             disabled
           ></input>
         </div>
         <div className="input-cadastro">
           <input
             type="text"
-            placeholder="Profissão"
-            value="Estudante"
+            placeholder="Cor"
+            value="Branca"
             disabled
           ></input>
         </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Religião"
+            value="Cristão"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Nível de Educação"
+            value="Ensino Superior Incompleto"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="NIS"
+            value="Não Possui NIS"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+
+        <div className="input-cadastro title">
+          <h2>5. Contato</h2>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro hidden-title"></div>
+        
+        
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Telefone"
+            required
+            value="(12) 99932 - 2112"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Email"
+            value="jeancarlos@email.com"
+            disabled
+          ></input>
+        </div>
+
       </div>
     );
   }
@@ -184,26 +233,32 @@ export default function SeeCandidatosInfo() {
   function HousingInfoDiv() {
     return (
       <div className="fill-container">
+        <h2>Informações sobre Moradia</h2>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro hidden-title"></div>
         <div className="input-cadastro">
-          <input type="text" placeholder="CEP"></input>
+          <input type="text" placeholder="CEP" value="CEP - 12284612"></input>
         </div>
         <div className="input-cadastro">
-          <input type="text" placeholder="Logradouro"></input>
+          <input type="text" placeholder="Logradouro" value="Logradouro"></input>
         </div>
         <div className="input-cadastro">
-          <input type="text" placeholder="nº"></input>
+          <input type="text" placeholder="nº" value="Número - 215"></input>
         </div>
         <div className="input-cadastro">
-          <input type="text" placeholder="Complemento"></input>
+          <input type="text" placeholder="Complemento" value="Complemento"></input>
         </div>
         <div className="input-cadastro">
-          <input type="text" placeholder="Bairro"></input>
+          <input type="text" placeholder="Bairro" value="DCTA"></input>
         </div>
         <div className="input-cadastro">
-          <input type="text" placeholder="Cidade"></input>
+          <input type="text" placeholder="Cidade" value="São José dos Campos"></input>
         </div>
         <div className="input-cadastro">
-          <input type="text" placeholder="Estado"></input>
+          <input type="text" placeholder="Estado" value="São Paulo"></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Mora com Quantas pessoas ?" value="Mora com 3 pessoas"></input>
         </div>
       </div>
     );
@@ -213,6 +268,8 @@ export default function SeeCandidatosInfo() {
     return (
       <div className="fill-container">
         <h2>Informações do veiculo</h2>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro hidden-title"></div>
         <div className="input-cadastro">
           <input
             type="text"
@@ -233,7 +290,7 @@ export default function SeeCandidatosInfo() {
           <input
             type="text"
             placeholder="Ano de fabricação"
-            value="2018"
+            value="Fabricação - 2018"
             disabled
           ></input>
         </div>
@@ -248,16 +305,8 @@ export default function SeeCandidatosInfo() {
         <div className="input-cadastro">
           <input
             type="text"
-            placeholder="Possui seguro?"
-            value="Sim"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
             placeholder="Valor seguro"
-            value="300"
+            value="Seguro - 300"
             disabled
           ></input>
         </div>
@@ -274,7 +323,7 @@ export default function SeeCandidatosInfo() {
   }
 
   function EarningInfoDiv() {
-    const [isSubscribed, setSubscribed] = useState(null);
+    /*const [isSubscribed, setSubscribed] = useState(null);
 
     useEffect(() => {
       if (isSubscribed === "no") {
@@ -282,16 +331,16 @@ export default function SeeCandidatosInfo() {
       } else {
         document.getElementById("nis-input").disabled = false;
       }
-    }, [isSubscribed]);
+    }, [isSubscribed]);*/
 
     return (
       <div className="fill-container">
         <div className="input-cadastro title question">
-          <h2>5. Inscrito em programas de transferência de renda? </h2>
+          <h2>1.Renda mensal</h2>
         </div>
         <div className="input-cadastro hidden-title"></div>
         <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro input-secondary">
+        {/*<div className="input-cadastro input-secondary">
           <input
             type="radio"
             name="gov-program"
@@ -306,13 +355,45 @@ export default function SeeCandidatosInfo() {
             onClick={() => setSubscribed("no")}
           />
           Não
-        </div>
+    </div>
         <div className="input-cadastro">
           <input type="text" id="nis-input" placeholder="Se sim, informe NIS" />
+    </div>*/}
+
+
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Recebe ajuda"
+            value="Recebe ajuda Financeira "
+            disabled
+          ></input>
         </div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro input-dropbox">
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Valor da ajuda"
+            value="Ajuda de R$2000"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Qual familiar ajuda"
+            value="Familiar que ajuda: Pai"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="CPF do ajudante"
+            value="CPF do Pai - 122.332.345-09"
+            disabled
+          ></input>
+        </div>
+        {/*<div className="input-cadastro input-dropbox">
           <div>
             <input
               type="radio"
@@ -441,7 +522,7 @@ export default function SeeCandidatosInfo() {
             />
             Previdência Privada
           </div>
-        </div>
+        </div>*/}
       </div>
     );
   }
@@ -449,7 +530,125 @@ export default function SeeCandidatosInfo() {
   function BudgetInfoDiv() {
     return (
       <div className="fill-container">
-        <h1>6</h1>
+        <div className="input-cadastro title">
+          <h2>1. Despesas básicas</h2>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Água"
+            value="Água - R$100"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Luz"
+            value="Luz - R$250"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Telefone"
+            value="Telefone - R$60"
+            disabled
+          ></input>
+        </div>
+
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Internet"
+            value="Internet - R$100"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Saúde"
+            value="Saúde - R$200"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Alimentação"
+            value="Alimentação - R$800"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Transporte"
+            value="Transporte - R$150"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Total"
+            value="Total - R$1660"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+        
+        <div className="input-cadastro title">
+          <h2>2. Financiamento</h2>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Valor"
+            value="Valor total - R$5000"
+            disabled
+          ></input>
+        </div>
+
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Parcelas"
+            value="16 Parcelas"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Valor Parcela"
+            value="Valor da parcela - R$312,5"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Quantidade de Parcelas Paga"
+            value="5 Parcelas Pagas"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Banco"
+            value="Banco Itaú"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
       </div>
     );
   }
@@ -457,7 +656,58 @@ export default function SeeCandidatosInfo() {
   function HealthInfoDiv() {
     return (
       <div className="fill-container">
-        <h1>7</h1>
+        <h2>Informações sobre Saúde</h2>
+        <div className="input-cadastro title">
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Tipo da Doença"
+            value="Doença Cardiovascular"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Nome da Doença"
+            value="Arritmia"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Possui Laudo Médico ?"
+            value="Possui Laudo Médico"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Tipo da Doença"
+            value="Doença Respiratória"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Nome da Doença"
+            value="Asma"
+            disabled
+          ></input>
+        </div>
+        <div className="input-cadastro">
+          <input
+            type="text"
+            placeholder="Possui Laudo Médico ?"
+            value="Possui Laudo Médico"
+            disabled
+          ></input>
+        </div>
       </div>
     );
   }

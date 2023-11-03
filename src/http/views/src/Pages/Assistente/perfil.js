@@ -22,6 +22,7 @@ export default function PerfilCandidato() {
                     'authorization': `Bearer ${token}`,
                 }
             })
+            console.log(user_info.data)
             setUserInfo(user_info.data.candidate)
 
         }
