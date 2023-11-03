@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 export default function GeralCadastrado() {
 
-  const {announcement_id, application_id} = useParams()
+  const { announcement_id, application_id } = useParams()
   console.log('====================================');
   console.log(announcement_id, application_id);
   console.log('====================================');
@@ -320,14 +320,38 @@ export default function GeralCadastrado() {
                   <label for="dropdown" id="dropdown-label">
                     Se sim, especifique quais:
                   </label>
-                  <select id="dropdown" class="form-control" required>
-                    <option value="">Escolher</option>
-                    <option value="1">Material didático</option>
-                    <option value="2">Uniforme</option>
-                    <option value="3">Transporte escolar</option>
-                    <option value="4">Alimentação</option>
-                    <option value="5">Moradia</option>
-                  </select>
+                  <form>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="1" id="materialDidatico" />
+                      <label class="form-check-label" for="materialDidatico">
+                        Material didático
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="2" id="uniforme" />
+                      <label class="form-check-label" for="uniforme">
+                        Uniforme
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="3" id="transporteEscolar" />
+                      <label class="form-check-label" for="transporteEscolar">
+                        Transporte escolar
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="4" id="alimentacao" />
+                      <label class="form-check-label" for="alimentacao">
+                        Alimentação
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="5" id="moradia" />
+                      <label class="form-check-label" for="moradia">
+                        Moradia
+                      </label>
+                    </div>
+                  </form>
                 </div>
               </div>
 
