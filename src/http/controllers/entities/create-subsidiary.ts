@@ -36,6 +36,7 @@ export async function createSubsidiary(
   try {
     // Verifica se existe um usuário com o id armazenado no JWT
     const userId = request.user.sub
+    console.log(userId)
 
     if (!userId) {
       throw new NotAllowedError()

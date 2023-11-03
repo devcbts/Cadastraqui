@@ -1,5 +1,5 @@
 export class EntitySubsidiaryAlreadyExistsError extends Error {
   constructor() {
-    super('Entity Subsidiary already exists with this CNPJ.')
+    super('Filial já existe com esse CNPJ.')
   }
 }
