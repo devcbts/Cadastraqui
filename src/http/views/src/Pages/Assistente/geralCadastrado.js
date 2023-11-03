@@ -270,7 +270,7 @@ export default function GeralCadastrado() {
       </div>
       <div className="container-contas">
         <div className="upper-cadastrados">
-          <h1>Editais - Unifei 2023.1</h1>
+          <h1>Editais - USP 2024.1</h1>
           <div className="btns-cadastro">
             <a className="btn-cadastro"><Link className="btn-cadastro" to={`/assistente/cadastrados/${announcement_id}`}>{"< "}Voltar</Link></a>
             <a className="btn-cadastro"><Link className="btn-cadastro" to={`/assistente/cadastrados/info/${announcement_id}/${application_id}`}>Ver formulário</Link></a>
