@@ -7,6 +7,7 @@ import NavBarAssistente from "../../Components/navBarAssistente";
 import { useState, useEffect } from "react";
 import { api } from "../../services/axios";
 import EditalAssistente from "../../Components/editalAssistente";
+import uspLogo from "../../Assets/usp-logo.png";
 
 export default function EditaisAssistente() {
   const { isShown } = useAppState();
@@ -75,7 +76,7 @@ export default function EditaisAssistente() {
         </div>
         <div className="container-editais">
         {activeAnnouncements ? activeAnnouncements.map((announcement) => {
-            return (<EditalAssistente announcement={announcement} />)
+            return (<EditalAssistente logo={uspLogo} announcement={announcement} />)
           }) : ""}
          
         </div>

@@ -17,10 +17,8 @@ export default function SeeCandidatosInfo() {
   const [commentIsShown, setCommentIsShown] = useState(false)
   const nextButton = useRef(null)
   const prevButton = useRef(null)
-  const application_id = useParams()
-  console.log('====================================');
-  console.log(application_id.application_id);
-  console.log('====================================');
+  const { announcement_id, application_id } = useParams()
+
   const handleCommentClick = () => {
     setCommentIsShown((prev) => !prev);
   };
@@ -198,8 +196,8 @@ export default function SeeCandidatosInfo() {
         </div>
         <div className="input-cadastro hidden-title"></div>
         <div className="input-cadastro hidden-title"></div>
-        
-        
+
+
         <div className="input-cadastro">
           <input
             type="text"
@@ -225,7 +223,129 @@ export default function SeeCandidatosInfo() {
   function FamilyInfoDiv() {
     return (
       <div className="fill-container">
-        <h1></h1>
+        {/* Identificação */}
+        <div className="input-cadastro title">
+          <h2>1. Identificação</h2>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro hidden-title"></div>
+
+        <div className="input-cadastro">
+          <input type="text" placeholder="Nome completo" value="João Carlos da Silva" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="date" placeholder="Data de Nascimento" value="1980-05-21" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Sexo" value="Masculino" disabled></input>
+        </div>
+
+        {/* Naturalidade */}
+        <div className="input-cadastro title">
+          <h2>2. Naturalidade</h2>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Estado" value="São Paulo" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Cidade" value="Campinas" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Nacionalidade" value="Brasileira" disabled></input>
+        </div>
+
+        {/* Documentos */}
+        <div className="input-cadastro title">
+          <h2>3. Documentos</h2>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="CPF" value="CPF - 123.456.789-00" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="RG" value="RG - 12.345.678-9" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Orgão Emissor" value="Orgão Emissor - SSP" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="UF do orgão emissor" value="UF orgão emissor - SP" disabled></input>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro hidden-title"></div>
+        {/* Informações Pessoais */}
+        <div className="input-cadastro title">
+          <h2>4. Informações Pessoais</h2>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Estado Civil" value="Casado" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Cor" value="Branca" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Religião" value="Católico" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Nível de Educação" value="Ensino Médio Completo" disabled></input>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro hidden-title"></div>
+        {/* Contato */}
+        <div className="input-cadastro title">
+          <h2>5. Contato</h2>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Telefone Fixo" value="(19) 3322-4455" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Email" value="joaocarlos@exemplo.com" disabled></input>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+        {/* Endereço */}
+        <div className="input-cadastro title">
+          <h2>6. Endereço</h2>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Endereço" value="Rua das Flores, 123" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Cidade" value="Campinas" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="UF" value="SP" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="CEP" value="13000-000" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Bairro" value="Jardim das Acácias" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="number" placeholder="Número" value={123} disabled></input>
+        </div>
+
+        {/* Educação */}
+        <div className="input-cadastro title">
+          <h2>7. Educação</h2>
+        </div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro hidden-title"></div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Instituição de Ensino" value="Escola Estadual de Campinas" disabled></input>
+        </div>
+        <div className="input-cadastro">
+          <input type="text" placeholder="Nível de Educação Cursando" value="Não Aplicável" disabled></input>
+        </div>
       </div>
     );
   }
@@ -601,7 +721,7 @@ export default function SeeCandidatosInfo() {
           ></input>
         </div>
         <div className="input-cadastro hidden-title"></div>
-        
+
         <div className="input-cadastro title">
           <h2>2. Financiamento</h2>
         </div>
