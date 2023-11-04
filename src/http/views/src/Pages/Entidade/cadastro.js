@@ -177,7 +177,7 @@ export default function CadastroEntidade() {
   }
 
   // BackEnd Functions
-  /*
+  
   async function handleCreateAnnouncement() {}
 
   async function handleCreateDirector() {
@@ -334,12 +334,12 @@ export default function CadastroEntidade() {
       alert("Preencha os campos exigidos.");
     }
   }
-*/
+
   // Estado para informações acerca do usuário logado
   const [entityInfo, setEntityInfo] = useState();
 
-  /*const navigate = useNavigate();*/
-  /*
+  const navigate = useNavigate();
+  
   useEffect(() => {
     async function refreshAccessToken() {
       try {
@@ -383,7 +383,7 @@ export default function CadastroEntidade() {
       // Limpar o intervalo
       clearInterval(intervalId);
     };
-  }, []);*/
+  }, []);
 
   return (
     <div className="container">

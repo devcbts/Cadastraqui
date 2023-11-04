@@ -21,13 +21,15 @@ export async function createEducationalLevel(
             z.literal('Elementary'),
             z.literal('HighSchool'),
             z.literal('ProfessionalEducation'),
-        ]),
+            z.literal('')
+        ]).optional(),
         scholarshipType: z.union([
             z.literal('Law187Scholarship'),
             z.literal('StudentWithDisability'),
             z.literal('FullTime'),
             z.literal('EntityWorkers'),
-        ]),
+            z.literal('')
+        ]).optional(),
         higherEduScholarshipType: z.union([
             z.literal('PROUNIFull'),
             z.literal('PROUNIPartial'),
@@ -38,13 +40,16 @@ export async function createEducationalLevel(
             z.literal('HigherEduInstitutionPartial'),
             z.literal('HigherEduInstitutionWorkers'),
             z.literal('PostgraduateStrictoSensu'),
+            z.literal('')
+
             // ... add other enum values here
-        ]),
+        ]).optional(),
         offeredCourseType: z.union([
             z.literal('UndergraduateBachelor'),
             z.literal('UndergraduateLicense'),
             z.literal('UndergraduateTechnologist'),
-        ]),
+            z.literal('')
+        ]).optional(),
         availableCourses: z.string().optional(),
         offeredVacancies: z.number().optional(),
         verifiedScholarships: z.number().optional(),
@@ -94,20 +99,25 @@ export async function createEducationalLevel(
         if (announcement.entity_id !== entity.id ) {
             throw new NotAllowedError()
         }
+
+        const educationLevelData = {
+            level,
+            shift,
+            announcementId: announcement_id,
+            // Add other fields conditionally
+            ...(basicEduType && { basicEduType }),
+            ...(scholarshipType && { scholarshipType }),
+            ...(higherEduScholarshipType && { higherEduScholarshipType }),
+            ...(offeredCourseType && { offeredCourseType }),
+            ...(availableCourses && { availableCourses }),
+            ...(offeredVacancies && { offeredVacancies }),
+            ...(verifiedScholarships && { verifiedScholarships }),
+            ...(semester && { semester }),
+        };
+
         await prisma.educationLevel.create({
-            data: {
-                level,
-                basicEduType,
-                scholarshipType,
-                higherEduScholarshipType,
-                offeredCourseType,
-                availableCourses,
-                offeredVacancies,
-                verifiedScholarships,
-                shift,
-                semester,
-                announcementId:announcement_id,
-            },
+            data: educationLevelData 
+                
         })
         return reply.status(201).send({ message: 'Educational level created successfully!' })
     } catch (err: any) {
