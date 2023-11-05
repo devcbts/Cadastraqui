@@ -9,6 +9,7 @@ import { api } from "../../services/axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
 import Candidatura2 from "../../Components/candidatura2";
+import EditalFake from "../../Components/editalfake";
 
 export default function HomeCandidato() {
   const { isShown } = useAppState()
@@ -191,6 +192,7 @@ export default function HomeCandidato() {
         </div>
 
         <div className="container-editais">
+          <EditalFake></EditalFake>
           {openAnnouncements  && openAnnouncements.length > 0 ? openAnnouncements.map((announcement) => {
             return <Edital announcement={announcement} key={announcement.id}/>
           }) : <div className="without-announcement">Não há editais abertos no momento </div>}

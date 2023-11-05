@@ -37,7 +37,7 @@ export default function AcceptEdital() {
       <div className="select-candidato">
         <h4>Candidato (a)</h4>
         <select>
-          <option>Ricardo</option>
+          <option>João Silva</option>
           <option>Marcelo</option>
         </select>
       </div>
@@ -48,6 +48,7 @@ export default function AcceptEdital() {
           <div>
             <h4>Cidade</h4>
             <select>
+              <option>São Paulo</option>
               <option>Itajubá</option>
               <option>Itabira</option>
             </select>
@@ -55,15 +56,15 @@ export default function AcceptEdital() {
           <div>
             <h4>Instituição</h4>
             <select>
-              <option>Unifei</option>
-              <option>FMIT</option>
+              <option>USP</option>
+              <option>UNESP</option>
             </select>
           </div>
           <div>
             <h4>Edital</h4>
             <select>
-              <option>2023.1</option>
-              <option>2023.2</option>
+              <option>2024.1</option>
+              <option>2024.2</option>
             </select>
           </div>
         </div>

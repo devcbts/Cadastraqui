@@ -107,7 +107,7 @@ function App() {
                 element={<EditalAberto />}
               ></Route>
               <Route
-                path="/candidato/editaltest"
+                path="/candidato/editaltest/:announcement_id"
                 element={<EditalAbertoCandidato></EditalAbertoCandidato>}
               ></Route>
               <Route
