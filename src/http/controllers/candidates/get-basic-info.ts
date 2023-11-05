@@ -9,11 +9,17 @@ export async function getBasicInfo(
   try {
     const user_id = request.user.sub
 
+    const user = await prisma.user.findUnique({ where: { id: user_id } })
+
     // Verifica se existe um candidato associado ao user_id
-    const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-    if (!candidate) {
+    const candidateFromPrisma = await prisma.candidate.findUnique({
+      where: { user_id },
+    })
+    if (!candidateFromPrisma) {
       throw new NotAllowedError()
     }
+    const email = user ? user.email : ''
+    const candidate = { ...candidateFromPrisma, email }
 
     return reply.status(200).send({ candidate })
   } catch (err: any) {
