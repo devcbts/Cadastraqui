@@ -720,7 +720,7 @@ export default function CadastroEntidade() {
                 </fieldset>
 
                 <fieldset className="btn-field">
-                  <button name="submit" type="button" id="contact-submit">
+                  <button onClick={handleCreateAssistant} name="submit" type="button" id="contact-submit">
                     Cadastrar
                   </button>
                 </fieldset>
