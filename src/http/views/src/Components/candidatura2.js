@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import uspLogo from "../Assets/usp-logo.png";
 
 
-export default function Candidatura(props) {
+export default function Candidatura2() {
   const { user } = useAuth();
   const [enrolled, setEnrolled] = useState(false)
   const [applicationStatus, setApplicationStatus] = useState()
@@ -27,22 +27,20 @@ export default function Candidatura(props) {
 
     console.log(response.status)
     setEnrolled(true)
-  }
-  const candidatura = props.application
+  }*/
 
   
 
-  console.log(candidatura.status)*/
 
   return (
     <div className="card-candidatura">
       <div className="candidato-assistente">
-        <h3>Maria</h3>
+        <h3>Geovana</h3>
         <div className="application-info">
           <img src={uspLogo}/>
-          <h2 className="application-name">USP 2024.1</h2>
+          <h2 className="application-name">UNESP 2024.1</h2>
         </div>
-        <h2 className="Pending">Situação:  <span>Pendente</span></h2>
+        <h2 className="waiting">Situação:  <span>Lista de Espera</span></h2>
       </div>
       {/*<div className="candidatura-btn">
         <Link to={`/assistente/cadastrados/geral/${props.announcement_id}/${props.id}`}>

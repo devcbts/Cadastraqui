@@ -84,7 +84,11 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT, verifyRole('CANDIDATE')] },
     subscribeAnnouncement,
   )
-  app.post('/application/see/:application_id?', {onRequest: [verifyJWT]}, getApplications)
+  app.post(
+    '/application/see/:application_id?',
+    { onRequest: [verifyJWT] },
+    getApplications,
+  )
   /** Rota para pegar todos os editais abertos  */
   app.get(
     '/anouncements/:announcement_id?',
