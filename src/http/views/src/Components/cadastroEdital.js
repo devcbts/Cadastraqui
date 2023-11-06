@@ -1,8 +1,60 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { api } from '../services/axios';
 import PdfPreview from './pdfPreview';
+import './cadastroEdital.css'
+import dadosCursos from '../objects/cursos.json'
+
+console.log('====================================');
+console.log(dadosCursos.bacharelado);
+console.log('====================================');
+
+const LevelType = [{
+    value: 'BasicEducation', label: 'Educação Básica'
+},
+{
+    value: 'HigherEducation', label: 'Educação superior'
+}]
+
+const BasicEducationType = [
+    { value: 'Preschool', label: 'Pré-Escola' },
+    { value: 'Elementary', label: 'Fundamental I e II' },
+    { value: 'HighSchool', label: 'Ensino Médio' },
+    { value: 'ProfessionalEducation', label: 'Educação Profissional' }
+];
+
+const ScholarshipOfferType = [
+    { value: 'Law187Scholarship', label: 'Bolsa Lei 187' },
+    { value: 'StudentWithDisability', label: 'Estudante com Deficiência' },
+    { value: 'FullTime', label: 'Tempo Integral' },
+    { value: 'EntityWorkers', label: 'Trabalhadores da Entidade' }
+];
+
+const HigherEducationScholarshipType = [
+    { value: 'PROUNIFull', label: 'PROUNI Integral' },
+    { value: 'PROUNIPartial', label: 'PROUNI Parcial' },
+    { value: 'StateGovernment', label: 'Governo Estadual' },
+    { value: 'CityGovernment', label: 'Governo Municipal' },
+    { value: 'ExternalEntities', label: 'Entidades Externas' },
+    { value: 'HigherEduInstitutionFull', label: 'Instituição de Ensino Superior Integral' },
+    { value: 'HigherEduInstitutionPartial', label: 'Instituição de Ensino Superior Parcial' },
+    { value: 'HigherEduInstitutionWorkers', label: 'Trabalhadores da Instituição de Ensino Superior' },
+    { value: 'PostgraduateStrictoSensu', label: 'Pós-Graduação Stricto Sensu' }
+];
+
+const OfferedCourseType = [
+    { value: 'UndergraduateBachelor', label: 'Graduação - Bacharelado' },
+    { value: 'UndergraduateLicense', label: 'Graduação - Licenciatura' },
+    { value: 'UndergraduateTechnologist', label: 'Graduação - Tecnólogo' }
+];
+
+const SHIFT = [
+    { value: 'Matutino', label: 'Matutino' },
+    { value: 'Vespertino', label: 'Vespertino' },
+    { value: 'Noturno', label: 'Noturno' },
+    { value: 'Integral', label: 'Integral' }
+];
 
 export default function CadastroEdital() {
 
@@ -16,6 +68,41 @@ export default function CadastroEdital() {
     const [description, setDescription] = useState('')
     const [announcementName, setAnnouncementName] = useState('')
     const [filePdf, setFilePdf] = useState(null)
+    const [selectedCursos, setSelectedCursos] = useState([]);
+
+    const [educationalLevels, setEducationalLevels] = useState(
+        selectedCursos.map(curso => ({
+            availableCourses: curso,
+            offeredVacancies: 0,
+            verifiedScholarships: 0,
+            semester: 1,
+            grade: '',
+            basicEduType: null,
+            scholarshipType: null,
+            higherEduScholarshipType: null,
+            offeredCourseType: null,
+            shift: 'Matutino'
+        }))
+    );
+    const [coursetype, setCourseType] = useState('UndergraduateBachelor')
+
+    const handleEducationalChange = (cursoIndex, field, value) => {
+        setEducationalLevels(prevLevels => prevLevels.map((level, index) => {
+            if (index === cursoIndex) {
+                return { ...level, [field]: value };
+            }
+            return level;
+        }));
+        console.log('====================================');
+        console.log(educationalLevels);
+        console.log('====================================');
+    };
+    const handleSelectChange = (event) => {
+        // Convertendo o NodeList para um array usando o operador spread
+        const values = [...event.target.selectedOptions].map(opt => opt.value);
+        setSelectedCursos([...values]);
+    };
+
 
     function handleChange(event) {
         setFile(event.target.files[0]);
@@ -29,6 +116,10 @@ export default function CadastroEdital() {
             // If no file is attached, revert back to default label text
             label.textContent = "Selecione um arquivo";
         }
+
+    }
+
+    useEffect(() => {
         if (file) {
             const reader = new FileReader();
             reader.readAsDataURL(file)
@@ -37,7 +128,25 @@ export default function CadastroEdital() {
                 setFilePdf(e.target.result); // Atualiza o estado com o Uint8Array
             };
         }
-    }
+
+    }, [file])
+
+    useEffect(() => {
+        setEducationalLevels(selectedCursos.map(curso => ({
+            availableCourses: curso,
+            offeredVacancies: 0,
+            verifiedScholarships: 0,
+            semester: 1,
+            grade: '',
+            basicEduType: '',
+            scholarshipType: '',
+            higherEduScholarshipType: '',
+            offeredCourseType: '',
+            shift: ''
+        })));
+
+    }, [selectedCursos]);
+
     // Set announcement type according to the option selected
     const handleAnnouncementTypeChange = (e) => {
         setAnnouncementType(e.target.value);
@@ -91,22 +200,64 @@ export default function CadastroEdital() {
             const announcement = response.data.announcement
 
 
-
-            if (file) {
-
+            educationalLevels.map(async (education) => {
+                const data = {
+                    level: educationLevel,
+                    basicEduType: '',
+                    scholarshipType: education.scholarshipType,
+                    higherEduScholarshipType: education.higherEduScholarshipType,
+                    offeredCourseType: education.offeredCourseType,
+                    availableCourses: education.availableCourses,
+                    offeredVacancies: education.offeredVacancies,
+                    verifiedScholarships: education.verifiedScholarships,
+                    shift: education.shift,
+                    semester: education.semester
+                }
+                console.log('====================================');
+                console.log(data);
+                console.log('====================================');
                 try {
-                    const formData = new FormData();
-                    formData.append("file", file);
-                    await api.post(`/entities/announcement/${announcement.id}`, formData, {
+                    await api.post(`/entities/education/${announcement.id}`,
+                        {
+                            level: educationLevel,
+                            basicEduType: '',
+                            scholarshipType: education.scholarshipType,
+                            higherEduScholarshipType: education.higherEduScholarshipType,
+                            offeredCourseType: education.offeredCourseType,
+                            availableCourses: education.availableCourses,
+                            offeredVancancies: education.offeredVancancies,
+                            verifiedScholarships: education.verifiedScholarships,
+                            shift: education.shift,
+                            semester: education.semester
+                        }, {
                         headers: {
                             authorization: `Bearer ${token}`,
                         },
-                    });
-                } catch (err) {
-                    alert("Erro ao atualizar foto de perfil.");
-                    console.log(err);
+                    })
+                    if (file) {
+
+                        try {
+                            const formData = new FormData();
+                            formData.append("file", file);
+                            await api.post(`/entities/announcement/${announcement.id}`, formData, {
+                                headers: {
+                                    authorization: `Bearer ${token}`,
+                                },
+                            });
+                        } catch (err) {
+                            alert("Erro ao atualizar foto de perfil.");
+                            console.log(err);
+                        }
+                    }
+                } catch (error) {
+                    alert("Erro ao criar os educational levels")
                 }
-            }
+
+            })
+           
+
+
+
         } catch (err) {
             alert("Erro ao atualizar foto de perfil.");
             console.log(err);
@@ -133,9 +284,9 @@ export default function CadastroEdital() {
                             <option value="" disabled>
                                 Selecionar o tipo de edital
                             </option>
-                            <option value="ScholarshipGrant">Scholarship Grant</option>
+                            <option value="ScholarshipGrant">Concessão de bolsa de estudo</option>
                             <option value="PeriodicVerification">
-                                Periodic Verification
+                                Aferição periódica (manutenção)
                             </option>
                         </select>
                     </fieldset>
@@ -148,8 +299,8 @@ export default function CadastroEdital() {
                             <option value="" disabled>
                                 Selecionar o nível de ensino
                             </option>
-                            <option value="higherEducation">Ensino Superior</option>
-                            <option value="basicEducation">Ensino Básico</option>
+                            {LevelType.map(type => <option value={type.value}>{type.label}</option>)}
+
                         </select>
                     </fieldset>
 
@@ -202,6 +353,191 @@ export default function CadastroEdital() {
                             onChange={(e) => setVerifiedScholarships(Number(e.target.value))}
                         />
                     </fieldset>
+
+
+
+
+
+                    {/* Dropdown para basicEduType */}
+                    {educationLevel === 'BasicEducation' &&
+                        <div>
+
+                            <fieldset>
+
+                                <label className="file-label"
+                                >
+                                    Tipo de Educação Básica:
+
+                                </label>
+                                <select className='select-educational'
+                                    onChange={(e) => handleEducationalChange('basicEduType', e.target.value)}
+                                >
+                                    {/* Substitua BasicEducationType pelo seu array de objetos correspondente */}
+                                    {BasicEducationType.map(type => <option value={type.value}>{type.label}</option>)}
+                                </select>
+                            </fieldset>
+                            {/* Dropdown para scholarshipType */}
+
+                            <fieldset>
+
+                                <label>
+                                    Tipo de Bolsa:
+                                </label>
+                                <select className='select-educational'
+                                    onChange={(e) => handleEducationalChange('scholarshipType', e.target.value)}
+                                >
+                                    {/* Substitua ScholarshipOfferType pelo seu array de objetos correspondente */}
+                                    {ScholarshipOfferType.map(type => <option value={type.value}>{type.label}</option>)}
+                                </select>
+                            </fieldset>
+                            <fieldset>
+
+                                <label>
+                                    Série/Ano:
+                                </label>
+                                <input
+                                    type="text"
+                                    onChange={(e) => handleEducationalChange('grade', e.target.value)}
+                                />
+
+                            </fieldset>
+                        </div>
+
+                    }
+
+
+                    {/* Dropdown para higherEduScholarshipType */}
+                    {educationLevel === 'HigherEducation' &&
+                        <div>
+
+                            {/* Dropdown para offeredCourseType */}
+                            <fieldset>
+
+                                <label>
+                                    Tipo de Curso Oferecido:
+                                </label>
+                                <select className='select-educational'
+                                    value={coursetype}
+                                    onChange={(e) => setCourseType(e.target.value)}
+                                >
+                                    {OfferedCourseType.map(type => <option value={type.value}>{type.label}</option>)}
+                                </select>
+
+                            </fieldset>
+                            {/* Input para availableCourses */}
+                            <fieldset>
+
+                                <label>
+                                    Cursos Disponíveis:
+                                </label>
+                                <select id="curso-dropdown" multiple value={selectedCursos} onChange={handleSelectChange}>
+                                    {coursetype === 'UndergraduateBachelor' &&
+                                        <optgroup label="Cursos Gerais">
+                                            {dadosCursos.bacharelado.map((curso, index) => (
+                                                <option key={index} value={curso}>
+                                                    {curso}
+                                                </option>
+                                            ))}
+                                        </optgroup>
+                                    }
+                                    {coursetype === 'UndergraduateLicense' &&
+
+                                        <optgroup label="Cursos de Licenciatura">
+                                            {dadosCursos.licenciatura.map((curso, index) => (
+                                                <option key={`lic-${index}`} value={curso}>
+                                                    {curso}
+                                                </option>
+                                            ))}
+                                        </optgroup>
+                                    }
+                                    {coursetype === 'UndergraduateTechnologist' &&
+                                        <optgroup label="Cursos Tecnólogos">
+                                            {dadosCursos.tecnologos.map((curso, index) => (
+                                                <option key={`tec-${index}`} value={curso}>
+                                                    {curso}
+                                                </option>
+                                            ))}
+                                        </optgroup>
+                                    }
+                                </select>
+                            </fieldset>
+                            {selectedCursos ? selectedCursos.map((curso, index) => {
+                                return (<div key={index}>
+                                    <h2>{curso}</h2>
+                                    <fieldset>
+
+                                        <label>
+                                            Tipo de Bolsa de Ensino Superior:
+                                        </label>
+                                        <select className='select-educational'
+                                            value={educationalLevels[index]?.higherEduScholarshipType}
+                                            onChange={(e) => handleEducationalChange(index, 'higherEduScholarshipType', e.target.value)}
+                                        >
+                                            {/* Substitua HigherEducationScholarshipType pelo seu array de objetos correspondente */}
+                                            {HigherEducationScholarshipType.map(type => <option value={type.value}>{type.label}</option>)}
+                                        </select>
+                                    </fieldset>
+                                    {/* Input para offeredVacancies */}
+                                    <fieldset>
+
+                                        <label>
+                                            Vagas Oferecidas:
+                                        </label>
+                                        <input
+                                            type="number"
+                                            value={educationalLevels[index]?.offeredVacancies}
+                                            onChange={(e) => handleEducationalChange(index, 'offeredVacancies', Number(e.target.value))}
+                                        />
+
+                                    </fieldset>
+                                    {/* Input para verifiedScholarships */}
+                                    <fieldset>
+
+                                        <label>
+                                            Bolsas Verificadas:
+                                        </label>
+                                        <input
+                                            type="number"
+                                            value={educationalLevels[index]?.verifiedScholarships}
+                                            onChange={(e) => handleEducationalChange(index, 'verifiedScholarships', Number(e.target.value))}
+                                        />
+                                    </fieldset>
+
+                                    {/* Dropdown para shift */}
+                                    <fieldset>
+
+                                        <label>
+                                            Turno:
+                                        </label>
+                                        <select
+                                            value={educationalLevels[index]?.shift}
+                                            onChange={(e) => handleEducationalChange(index, 'shift', e.target.value)}
+                                        >
+                                            {/* Substitua SHIFT pelo seu array de objetos correspondente */}
+                                            {SHIFT.map(type => <option value={type.value}>{type.label}</option>)}
+                                        </select>
+                                    </fieldset>
+
+                                    {/* Input para semester */}
+                                    <fieldset>
+
+                                        <label>
+                                            Semestre:
+                                        </label>
+                                        <input
+                                            type="number"
+                                            value={educationalLevels[index]?.semester}
+                                            onChange={(e) => handleEducationalChange(index, 'semester', Number(e.target.value))}
+                                        />
+                                    </fieldset>
+
+                                    {/* Input para grade */}
+
+                                </div>
+                                )
+                            }) : ''}
+                        </div>
+                    }
                     <fieldset className="file-div">
                         <label
                             for="edital-pdf"
@@ -221,6 +557,8 @@ export default function CadastroEdital() {
                         {filePdf ?
                             <PdfPreview file={filePdf} /> : ''}
                     </fieldset>
+
+                    {/* Botão de submissão */}
                     <fieldset>
                         <textarea
                             placeholder="Descrição"
@@ -242,6 +580,7 @@ export default function CadastroEdital() {
                             Cadastrar
                         </button>
                     </fieldset>
+
                 </form>
             </div>
         </div></div>

@@ -19,8 +19,34 @@
 
 .candidato-assistente{
     display: flex;
-    flex-direction: column;
-    justify-content: start;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5vw;
+}
+
+
+
+.candidato-assistente img{
+    width: 20%;
+    margin: 0;
+}
+
+
+.Pending span {
+    margin-left: 1vw;
+    color: orange;
+}
+
+
+.application-info {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    width: 22vw;
+}
+
+.waiting span{
+    color: green;
 }
 
 .candidato-assistente h2{

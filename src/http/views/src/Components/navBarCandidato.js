@@ -67,7 +67,7 @@ export default function NavBarCandidato(props) {
   // BackEnd Functions 
   const user = props.user
   const [profilePhoto, setProfilePhoto] = useState(null)
-  
+  const [candidateInfo, setCandidateInfo] = useState(null);
   useEffect(() => {
     async function getProfilePhoto() {
       const token = localStorage.getItem("token")
@@ -87,7 +87,26 @@ export default function NavBarCandidato(props) {
     }
 
     getProfilePhoto()
-  })
+
+    const token = localStorage.getItem("token");
+    const candidate = JSON.parse(localStorage.getItem("candidate") || 'null');
+
+    if (!candidate) {
+
+      async function getCandidateInfo() {
+        const response = await api.get("/candidates/basic-info", {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+        setCandidateInfo(response.data.candidate);
+        localStorage.setItem("candidate", JSON.stringify(response.data.candidate))
+      }
+      getCandidateInfo()
+    } else {
+      setCandidateInfo(candidate)
+    }
+  },[])
 
   var location = useLocation();
   var currentPath = location.pathname;
@@ -114,7 +133,7 @@ export default function NavBarCandidato(props) {
       {windowWidth < 1030 && (
         <div className="mobile-menu">
           <div className="mobile-user">
-            <img src={profilePhoto !== null ? profilePhoto : photoProfile} className="user-sidebar"/>
+            <img src={profilePhoto !== null ? profilePhoto : photoProfile} className="user-sidebar" />
           </div>
           <div class="search">
             <input type="text" class="search__input" placeholder="Buscar" />
@@ -148,7 +167,7 @@ export default function NavBarCandidato(props) {
           <div className="user">
             <img src={profilePhoto !== null ? profilePhoto : photoProfile} className="user-sidebar"></img>
             <div className="user-name">
-              <h6>{user ? user.name : "User Name"}</h6>
+              <h6>{candidateInfo ? candidateInfo.name : ""}</h6>
             </div>
             <div
               className="alternate"
@@ -165,16 +184,14 @@ export default function NavBarCandidato(props) {
               <li>
                 <a
                   href="#"
-                  className={`${
-                    currentPath == "/candidato/home" ? "active" : "inactive"
-                  }`}
+                  className={`${currentPath == "/candidato/home" ? "active" : "inactive"
+                    }`}
                   onClick={() => urlNavigation("home")}
                 >
                   <UilEstate
                     size="30"
-                    color={`${
-                      currentPath == "/candidato/home" ? "#1F4B73" : "white"
-                    }`}
+                    color={`${currentPath == "/candidato/home" ? "#1F4B73" : "white"
+                      }`}
                   />
                   <span>Home</span>
                 </a>
@@ -183,20 +200,18 @@ export default function NavBarCandidato(props) {
               <li>
                 <a
                   href="#"
-                  className={`${
-                    currentPath == "/candidato/historico"
+                  className={`${currentPath == "/candidato/historico"
                       ? "active"
                       : "inactive"
-                  }`}
+                    }`}
                   onClick={() => urlNavigation("historico")}
                 >
                   <UilHistory
                     size="30"
-                    color={`${
-                      currentPath == "/candidato/historico"
+                    color={`${currentPath == "/candidato/historico"
                         ? "#1F4B73"
                         : "white"
-                    }`}
+                      }`}
                   />
                   <span>Histórico</span>
                 </a>
@@ -204,16 +219,14 @@ export default function NavBarCandidato(props) {
               <li>
                 <a
                   href="#"
-                  className={`${
-                    currentPath == "/candidato/perfil" ? "active" : "inactive"
-                  }`}
+                  className={`${currentPath == "/candidato/perfil" ? "active" : "inactive"
+                    }`}
                   onClick={() => urlNavigation("perfil")}
                 >
                   <UilUserCircle
                     size="30"
-                    color={`${
-                      currentPath == "/candidato/perfil" ? "#1F4B73" : "white"
-                    }`}
+                    color={`${currentPath == "/candidato/perfil" ? "#1F4B73" : "white"
+                      }`}
                   />
                   <span>Perfil</span>
                 </a>
@@ -221,16 +234,14 @@ export default function NavBarCandidato(props) {
               <li>
                 <a
                   href="#"
-                  className={`${
-                    currentPath == "/candidato/solicitacoes" ? "active" : "inactive"
-                  }`}
+                  className={`${currentPath == "/candidato/solicitacoes" ? "active" : "inactive"
+                    }`}
                   onClick={() => urlNavigation("solicitacoes")}
                 >
                   <UilArchive
                     size="30"
-                    color={`${
-                      currentPath == "/candidato/solicitacoes" ? "#1F4B73" : "white"
-                    }`}
+                    color={`${currentPath == "/candidato/solicitacoes" ? "#1F4B73" : "white"
+                      }`}
                   />
                   <span>Solicitações</span>
                 </a>

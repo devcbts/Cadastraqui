@@ -10,12 +10,12 @@ import { Link } from "react-router-dom";
 import uspLogo from "../Assets/usp-logo.png";
 
 
-export default function Candidatura(props) {
+export default function Candidatura2() {
   const { user } = useAuth();
   const [enrolled, setEnrolled] = useState(false)
   const [applicationStatus, setApplicationStatus] = useState()
 
-  async function handleEnrollClick() {
+  /*async function handleEnrollClick() {
     const token = localStorage.getItem("token")
 
 
@@ -27,19 +27,22 @@ export default function Candidatura(props) {
 
     console.log(response.status)
     setEnrolled(true)
-  }
- 
+  }*/
+
+  
+
 
   return (
     <div className="card-candidatura">
       <div className="candidato-assistente">
-        <h3>{props.name}</h3>
+        <h3>Victor</h3>
         <div className="application-info">
           <img src={uspLogo}/>
           <h2 className="application-name">USP 2024.1</h2>
         </div>
+        <h2 className="waiting">Situação:  <span>Lista de Espera</span></h2>
       </div>
-      <div className="candidatura-btn">
+      {/*<div className="candidatura-btn">
         <Link to={`/assistente/cadastrados/geral/${props.announcement_id}/${props.id}`}>
         <UilEllipsisH size="30" color="#7b7b7b" className="icon"></UilEllipsisH>
         </Link>
@@ -55,7 +58,7 @@ export default function Candidatura(props) {
             ></UilPlusSquare>
           </div>
           : ""}
-        </div>
+        </div>*/}
     </div>
   );
 }

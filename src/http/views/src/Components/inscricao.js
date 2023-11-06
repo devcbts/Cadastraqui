@@ -20,14 +20,14 @@ export default function Inscricao(props) {
 
   return (
     <div className="item">
-      <h2>Renan</h2>
+      <h2>Victor</h2>
       <UilElipsisDoubleVAlt
         size="30"
         color="#7b7b7b"
         className="icon"
       ></UilElipsisDoubleVAlt>
       <img src={uspLogo} alt="Icon" />
-      <h2>USP 2024.2</h2>
+      <h2>{props.name}</h2>
       <UilElipsisDoubleVAlt
         size="30"
         color="#7b7b7b"

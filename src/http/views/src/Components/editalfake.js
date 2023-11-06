@@ -5,20 +5,20 @@ import uspLogo from "../Assets/usp-logo.png";
 import { formatDate } from "../utils/get-date-formatted";
 import { Link } from "react-router-dom";
 
-export default function Edital(props) {
+export default function EditalFake() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const announcement = props.announcement
+  
 
-  const announcementDate = formatDate(announcement.announcementDate)
+  //const announcementDate = formatDate(announcement.announcementDate)
   return (
-    <Link to={`/candidato/editaltest/${announcement.id}`}>
+    <Link to={`/candidato/editaltest/teste`}>
       <div className="edital-card">
-        <h3>Prazo: {announcementDate}</h3>
+        <h3>Prazo: 19/01/2024</h3>
         <img src={uspLogo}></img>
-        <h2>{announcement.announcementName}</h2>
+        <h2>USP 2024.1</h2>
       </div>
     </Link>
   );

@@ -70,9 +70,7 @@ export default function NavBarAssistente() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const assistant = JSON.parse(localStorage.getItem("assistant") || 'null');
-    console.log('====================================');
-    console.log(assistant);
-    console.log('====================================');
+  
     if (!assistant) {
 
       async function getAssistantInfo() {

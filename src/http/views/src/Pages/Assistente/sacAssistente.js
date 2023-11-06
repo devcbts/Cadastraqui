@@ -1,5 +1,5 @@
 import React from "react";
-import "./sacAssistente.css";
+import "./sacAssistente.scss";
 import NavBar from "../../Components/navBar";
 import { UilBell } from "@iconscout/react-unicons";
 import { useAppState } from "../../AppGlobal";

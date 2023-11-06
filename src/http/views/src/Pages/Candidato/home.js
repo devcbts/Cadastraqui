@@ -8,6 +8,8 @@ import Candidatura from "../../Components/candidatura";
 import { api } from "../../services/axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
+import Candidatura2 from "../../Components/candidatura2";
+import EditalFake from "../../Components/editalfake";
 
 export default function HomeCandidato() {
   const { isShown } = useAppState()
@@ -43,6 +45,9 @@ export default function HomeCandidato() {
   
   // Estados para os editais
   const [openAnnouncements, setOpenAnnouncements] = useState()
+
+  //Estado para as aplicações
+  const [applications, setApplications] = useState()
   
   // Estado para informações acerca do usuário logado
   const [userInfo, setUserInfo] = useState()
@@ -63,6 +68,21 @@ export default function HomeCandidato() {
         console.log(err)  
       } 
     }
+
+    async function getApplications() {
+      const token = localStorage.getItem("token")
+      try{
+        const response = await api.post('/candidates/application/see', {
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }})
+        
+        console.log(response.data)
+        setApplications(response.data.applications)  
+      } catch(err) {
+        console.log(err)  
+      } 
+    } 
 
     async function refreshAccessToken() {
       try{
@@ -114,6 +134,7 @@ export default function HomeCandidato() {
 
     getUserInfo()
     fetchAnnouncements()
+    getApplications()
 
     return () => {
       // Limpar o intervalo
@@ -133,8 +154,10 @@ export default function HomeCandidato() {
         </div>
 
         <div className="solicitacoes">
-          <Candidatura></Candidatura>
-          <Candidatura></Candidatura>
+          {/*applications  && applications.length > 0 ? applications.map((application) => {
+            return <Candidatura application={application} key={application.id}/>
+          }) : <div className="without-announcement">Você não aplicou para nenhum edital ainda !</div>*/}
+          <Candidatura2></Candidatura2>
         </div>
 
         <div className="upper-contas status-title">
@@ -168,6 +191,7 @@ export default function HomeCandidato() {
         </div>
 
         <div className="container-editais">
+          <EditalFake></EditalFake>
           {openAnnouncements  && openAnnouncements.length > 0 ? openAnnouncements.map((announcement) => {
             return <Edital announcement={announcement} key={announcement.id}/>
           }) : <div className="without-announcement">Não há editais abertos no momento </div>}
