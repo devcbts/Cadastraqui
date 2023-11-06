@@ -35,10 +35,10 @@ export default function Candidatura2() {
   return (
     <div className="card-candidatura">
       <div className="candidato-assistente">
-        <h3>Geovana</h3>
+        <h3>Victor</h3>
         <div className="application-info">
           <img src={uspLogo}/>
-          <h2 className="application-name">UNESP 2024.1</h2>
+          <h2 className="application-name">USP 2024.1</h2>
         </div>
         <h2 className="waiting">Situação:  <span>Lista de Espera</span></h2>
       </div>

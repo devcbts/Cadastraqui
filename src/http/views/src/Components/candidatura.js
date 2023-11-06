@@ -15,7 +15,7 @@ export default function Candidatura(props) {
   const [enrolled, setEnrolled] = useState(false)
   const [applicationStatus, setApplicationStatus] = useState()
 
-  /*async function handleEnrollClick() {
+  async function handleEnrollClick() {
     const token = localStorage.getItem("token")
 
 
@@ -28,23 +28,18 @@ export default function Candidatura(props) {
     console.log(response.status)
     setEnrolled(true)
   }
-  const candidatura = props.application
-
-  
-
-  console.log(candidatura.status)*/
+ 
 
   return (
     <div className="card-candidatura">
       <div className="candidato-assistente">
-        <h3>Maria</h3>
+        <h3>{props.name}</h3>
         <div className="application-info">
           <img src={uspLogo}/>
           <h2 className="application-name">USP 2024.1</h2>
         </div>
-        <h2 className="Pending">Situação:  <span>Pendente</span></h2>
       </div>
-      {/*<div className="candidatura-btn">
+      <div className="candidatura-btn">
         <Link to={`/assistente/cadastrados/geral/${props.announcement_id}/${props.id}`}>
         <UilEllipsisH size="30" color="#7b7b7b" className="icon"></UilEllipsisH>
         </Link>
@@ -60,7 +55,7 @@ export default function Candidatura(props) {
             ></UilPlusSquare>
           </div>
           : ""}
-        </div>*/}
+        </div>
     </div>
   );
 }

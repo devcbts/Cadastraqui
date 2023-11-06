@@ -856,7 +856,7 @@ export default function SeeCandidatosInfo() {
         </div>
         <div>
           <h1>Formulário detalhado</h1>
-          <h2>Jean Carlo do Amaral</h2>
+          <h2>João da Silva</h2>
         </div>
       </div>
       <div className="container-info">

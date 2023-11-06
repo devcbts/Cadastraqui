@@ -157,7 +157,6 @@ export default function HomeCandidato() {
           {/*applications  && applications.length > 0 ? applications.map((application) => {
             return <Candidatura application={application} key={application.id}/>
           }) : <div className="without-announcement">Você não aplicou para nenhum edital ainda !</div>*/}
-          <Candidatura></Candidatura>
           <Candidatura2></Candidatura2>
         </div>
 

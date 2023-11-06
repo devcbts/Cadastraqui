@@ -6,6 +6,7 @@ import MultiStep from "react-multistep";
 import "./cadastroInformacoes.css";
 import { UilAngleLeft } from "@iconscout/react-unicons";
 import { UilAngleRight } from "@iconscout/react-unicons";
+import CadastroFamiliar from "../../Components/cadastroFamiliar";
 
 export default function CadastroInfo() {
   const nextButton = useRef(null);
@@ -788,8 +789,8 @@ export default function CadastroInfo() {
 
   function FamilyInfoDiv() {
     return (
-      <div className="fill-container">
-        <h1>2</h1>
+      <div>
+        <CadastroFamiliar/>
       </div>
     );
   }

@@ -180,7 +180,7 @@ export default function GeralCadastrado() {
         <div className="upper-sections">
           <div>
             <h2>Solicitações</h2>
-            <h3>Jean Carlo do Amaral</h3>
+            <h3>João Silva</h3>
           </div>
         </div>
         <div className="create-comment">
@@ -211,7 +211,7 @@ export default function GeralCadastrado() {
       <div className="fill-container general-info">
         <h1 id="parecer-text">
           Em, {"02-11-2023"} o(a) candidato
-          {"("}a{")"} {"Jean Carlo do Amaral"}, portador{"("}a{")"} da cédula de
+          {"("}a{")"} {"João Silva"}, portador{"("}a{")"} da cédula de
           identidade RG número {"22.222.222"}, orgão emissor IIMG, UF do orgão
           emissor MG, com Nacionalidade Brasileira, solteiro e desempregado,
           residente no apartamento número 123, CEP 12228460, Campus do DCTA, São

@@ -8,7 +8,7 @@ export default function Comment() {
     <div className="comment-container">
       <div className="upper-comment">
         <img src={assistenteImage}></img>
-        <h2>Luciene</h2>
+        <h2>Victor</h2>
       </div>
       <div className="body-comment"></div>
       <div className="attach-file">
