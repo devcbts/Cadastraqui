@@ -206,6 +206,22 @@
     visibility: hidden;
 }
 
+@media (max-width: 800px){
+    .select-data{
+        width: 80vw;
+    }
+    #survey-form{
+        width: 90vw
+    }
+
+    .survey-control{
+        width: 80vw;
+    }
+
+    .fill-box{
+        width: 100%;
+    }
+}
 
 
 
