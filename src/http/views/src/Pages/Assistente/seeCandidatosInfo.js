@@ -56,7 +56,7 @@ export default function SeeCandidatosInfo() {
           <input
             type="text"
             placeholder="Nome completo"
-            value="Jean Carlo do Amaral"
+            value="João da Silva"
             disabled
           ></input>
         </div>
@@ -893,7 +893,7 @@ export default function SeeCandidatosInfo() {
             <div className="upper-sections">
               <div>
                 <h2>Comentários</h2>
-                <h3>Jean Carlo do Amaral</h3>
+                <h3>João da Silva</h3>
               </div>
               <UilTimesSquare
                 size="30"
@@ -915,7 +915,6 @@ export default function SeeCandidatosInfo() {
                 </div>
                 {selectedValue === 'Document' ?
                   <div class="box">
-                    <h2>Prazo para envio dos documentos</h2>
                     <select value={deadLine ? deadLine : 1} onChange={e => setDeadLine(e.target.value)}>
                       <option value="1">1 dia</option>
                       <option value="2">2 dias</option>

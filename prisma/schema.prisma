@@ -318,6 +318,9 @@ model LegalResponsible {
   responsibleShift                SHIFT?
   ResponsibleEducationInstitution String?
   role                            ROLE              @default(RESPONSIBLE)
+  hasScholarship                  Boolean?
+  percentageOfScholarship         String?
+  monthlyAmount                   String?
   createdAt                       DateTime          @default(now())
 
   user            User              @relation(fields: [user_id], references: [id])
@@ -507,6 +510,7 @@ model FamilyMember {
   hasScholarship            Boolean?
   percentageOfScholarship   String?
   monthlyAmount             String?
+  incomeSource              IncomeSource[]
 
   candidate           Candidate             @relation(fields: [candidate_id], references: [id])
   candidate_id        String

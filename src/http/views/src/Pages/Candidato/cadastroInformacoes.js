@@ -7,6 +7,7 @@ import "./cadastroInformacoes.css";
 import { UilAngleLeft } from "@iconscout/react-unicons";
 import { UilAngleRight } from "@iconscout/react-unicons";
 import CadastroFamiliar from "../../Components/cadastroFamiliar";
+import MembrosFamilia from "../../Components/MembrosFamilia";
 
 export default function CadastroInfo() {
   const nextButton = useRef(null);
@@ -790,7 +791,7 @@ export default function CadastroInfo() {
   function FamilyInfoDiv() {
     return (
       <div>
-        <CadastroFamiliar/>
+        <MembrosFamilia/>
       </div>
     );
   }

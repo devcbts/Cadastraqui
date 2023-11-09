@@ -147,7 +147,7 @@
     border: none;
     font-size: 1rem;
     font-weight: 300;
-    box-shadow: 0 5px 15px rgba(157, 157, 157, 0.2);
+    box-shadow: 0 5px 15px rgba(157, 157, 157, 0.1);
     -webkit-appearance: button;
     appearance: button;
     outline: none;
@@ -182,4 +182,8 @@
 .btn-send:hover{
     cursor: pointer;
     opacity: 0.6;
+}
+
+.fill-container{
+    background-color: white;
 }

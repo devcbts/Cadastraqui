@@ -102,6 +102,30 @@ export async function registerFamilyMemberInfo(
   ])
   const SHIFT = z.enum(['Matutino', 'Vespertino', 'Noturno', 'Integral'])
 
+  const IncomeSource = z.enum([
+    'PrivateEmployee',
+   'PublicEmployee',
+    'DomesticEmployee',
+    'TemporaryRuralEmployee',
+    'BusinessOwnerSimplifiedTax',
+    'BusinessOwner',
+    'IndividualEntrepreneur',
+    'SelfEmployed',
+    'Retired',
+    'Pensioner',
+    'Apprentice',
+    'Volunteer',
+    'RentalIncome',
+    'Student',
+    'InformalWorker',
+    'Unemployed',
+    'TemporaryDisabilityBenefit',
+    'LiberalProfessional',
+    'FinancialHelpFromOthers',
+    'Alimony',
+    'PrivatePension'
+  ])
+
   const familyMemberDataSchema = z.object({
     relationship: Relationship,
     otherRelationship: z.string().optional(),
@@ -119,9 +143,9 @@ export async function registerFamilyMemberInfo(
     documentType: DOCUMENT_TYPE.optional(),
     documentNumber: z.string().optional(),
     documentValidity: z.string().optional(),
-    numberOfBirthRegister: z.string(),
-    bookOfBirthRegister: z.string(),
-    pageOfBirthRegister: z.string(),
+    numberOfBirthRegister: z.string().optional(),
+    bookOfBirthRegister: z.string().optional(),
+    pageOfBirthRegister: z.string().optional(),
     maritalStatus: MARITAL_STATUS,
     skinColor: SkinColor,
     religion: RELIGION,
@@ -144,14 +168,17 @@ export async function registerFamilyMemberInfo(
     NIS: z.string().optional(),
     educationPlace: z.union([Institution_Type, z.undefined()]),
     institutionName: z.string().optional(),
-    coursingEducationLevel: z.union([Education_Type, z.undefined()]),
+    coursingEducationLevel: z.union([Education_Type, z.undefined()]).optional(),
     cycleOfEducation: z.string().optional(),
-    turnOfEducation: z.union([SHIFT, z.undefined()]),
+    turnOfEducation: z.union([SHIFT, z.undefined()]).optional(),
     hasScholarship: z.boolean().optional(),
     percentageOfScholarship: z.string().optional(),
     monthlyAmount: z.string().optional(),
+    incomeSource: z.array(IncomeSource).optional(),
   })
-
+  console.log('====================================');
+  console.log(request.body);
+  console.log('====================================');
   const {
     CEP,
     CPF,
@@ -200,8 +227,9 @@ export async function registerFamilyMemberInfo(
     specialNeedsDescription,
     turnOfEducation,
     workPhone,
+    incomeSource
   } = familyMemberDataSchema.parse(request.body)
-
+  
   try {
     const user_id = request.user.sub
 
@@ -226,59 +254,62 @@ export async function registerFamilyMemberInfo(
     ) {
       throw new NotAllowedError()
     }
-
+  
+    const dataToCreate = {
+      relationship,
+      fullName,
+      birthDate: new Date(birthDate),
+      gender,
+      nationality,
+      natural_city,
+      natural_UF,
+      CPF,
+      RG,
+      rgIssuingAuthority,
+      rgIssuingState,
+      maritalStatus,
+      skinColor,
+      religion,
+      educationLevel,
+      email,
+      address,
+      city,
+      UF,
+      CEP,
+      neighborhood,
+      addressNumber,
+      profession,
+      candidate_id: candidate.id,
+      // Campos opcionais são adicionados condicionalmente
+      ...(otherRelationship && { otherRelationship }),
+      ...(socialName && { socialName }),
+      ...(documentType && { documentType }),
+      ...(documentNumber && { documentNumber }),
+      ...(documentValidity && { documentValidity: new Date(documentValidity) }),
+      ...(numberOfBirthRegister && { numberOfBirthRegister }),
+      ...(bookOfBirthRegister && { bookOfBirthRegister }),
+      ...(pageOfBirthRegister && { pageOfBirthRegister }),
+      ...(specialNeeds && { specialNeeds }),
+      ...(specialNeedsDescription && { specialNeedsDescription }),
+      ...(hasMedicalReport && { hasMedicalReport }),
+      ...(landlinePhone && { landlinePhone }),
+      ...(workPhone && { workPhone }),
+      ...(contactNameForMessage && { contactNameForMessage }),
+      ...(enrolledGovernmentProgram && { enrolledGovernmentProgram }),
+      ...(NIS && { NIS }),
+      ...(educationPlace && { educationPlace }),
+      ...(institutionName && { institutionName }),
+      ...(coursingEducationLevel && { coursingEducationLevel }),
+      ...(cycleOfEducation && { cycleOfEducation }),
+      ...(turnOfEducation && { turnOfEducation }),
+      ...(hasScholarship && { hasScholarship }),
+      ...(percentageOfScholarship && { percentageOfScholarship }),
+      ...(monthlyAmount && { monthlyAmount }),
+      ...(incomeSource && { incomeSource }),
+    };
     // Armazena informações acerca do membro da família do candidato
     await prisma.familyMember.create({
-      data: {
-        monthlyAmount,
-        educationLevel,
-        workPhone,
-        email,
-        numberOfBirthRegister,
-        pageOfBirthRegister,
-        address,
-        addressNumber,
-        birthDate: new Date(birthDate),
-        CEP,
-        city,
-        CPF,
-        hasScholarship,
-        coursingEducationLevel,
-        cycleOfEducation,
-        documentNumber,
-        documentType,
-        documentValidity: documentValidity ? new Date(documentValidity) : null,
-        educationPlace,
-        enrolledGovernmentProgram,
-        hasMedicalReport,
-        institutionName,
-        landlinePhone,
-        fullName,
-        gender,
-        maritalStatus,
-        nationality,
-        natural_city,
-        natural_UF,
-        neighborhood,
-        profession,
-        relationship,
-        religion,
-        RG,
-        rgIssuingAuthority,
-        rgIssuingState,
-        skinColor,
-        UF,
-        bookOfBirthRegister,
-        contactNameForMessage,
-        NIS,
-        otherRelationship,
-        percentageOfScholarship,
-        socialName,
-        specialNeeds,
-        specialNeedsDescription,
-        turnOfEducation,
-        candidate_id: candidate.id,
-      },
+      data: dataToCreate
     })
 
     return reply.status(201).send()

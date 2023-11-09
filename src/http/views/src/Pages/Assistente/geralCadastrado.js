@@ -66,7 +66,7 @@ export default function GeralCadastrado() {
                 <strong>2023</strong>
               </td>
               <td>1</td>
-              <td>Itajubá</td>
+              <td>Belo Horizonte</td>
               <td>Administração</td>
               <td>Vespertino</td>
               <td>Luciene</td>
@@ -76,10 +76,10 @@ export default function GeralCadastrado() {
                 <strong>2023</strong>
               </td>
               <td>1</td>
-              <td>Itajubá</td>
-              <td>Administração</td>
+              <td>Uberlândia</td>
+              <td>Farmácia</td>
               <td>Vespertino</td>
-              <td>Luciene</td>
+              <td>Victor</td>
             </tr>
           </tbody>
         </table>
@@ -113,21 +113,21 @@ export default function GeralCadastrado() {
             </tr>
             <tr>
               <td>
-                <strong>Antônio</strong>
+                <strong>Maria</strong>
               </td>
-              <td>123456789-09</td>
-              <td>47</td>
-              <td>Pai</td>
-              <td>Advogado</td>
+              <td>529856789-09</td>
+              <td>43</td>
+              <td>Mãe</td>
+              <td>Professora</td>
             </tr>
             <tr>
               <td>
-                <strong>Antônio</strong>
+                <strong>Luca</strong>
               </td>
-              <td>123456789-09</td>
-              <td>47</td>
-              <td>Pai</td>
-              <td>Advogado</td>
+              <td>321456789-09</td>
+              <td>13</td>
+              <td>Irmão</td>
+              <td>Estudante</td>
             </tr>
           </tbody>
         </table>
