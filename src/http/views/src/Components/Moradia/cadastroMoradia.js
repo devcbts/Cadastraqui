@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import './cadastroMoradia.css'
+import { api } from '../../services/axios';
 const PropertyStatus = [
     { value: 'OwnPaidOff', label: 'Própria e quitada' },
     { value: 'OwnFinanced', label: 'Própria e financiada' },
@@ -46,10 +47,10 @@ const NumberOfRooms = [
     { value: 'Twelve', label: 'Doze' },
 ];
 
-const CadastroMoradia = () => {
+export default function CadastroMoradia() {
     const [formData, setFormData] = useState({
         grantorName: '',
-        propertyStatus: '',
+        propertyStatus: 'OwnPaidOff',
         contractType: '',
         timeLivingInProperty: '',
         domicileType: '',
@@ -63,12 +64,12 @@ const CadastroMoradia = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
         try {
-            const response = await axios.post('/api/moradia', formData, {
+            const response = await api.post('/candidates/housing-info', formData, {
                 headers: {
-                    'Content-Type': 'application/json',
-                    // Aqui você adicionaria o token de autorização se necessário
-                    // 'Authorization': `Bearer ${token}`,
+
+                    'Authorization': `Bearer ${token}`,
                 },
             });
             console.log(response.data);
@@ -80,53 +81,96 @@ const CadastroMoradia = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Nome do cedente:
-                <input type="text" name="grantorName" value={formData.grantorName} onChange={handleChange} required />
-            </label>
-            <label>
-                Status da propriedade:
-                <select name="propertyStatus" value={formData.propertyStatus} onChange={handleChange} required>
-                    {PropertyStatus.map((status) => <option value={status.value}>{status.label}</option>)}
-                </select>
-            </label>
-            <label>
-                Tipo de contrato:
-                <select name="contractType" value={formData.contractType} onChange={handleChange} required>
-                    {ContractType.map((type) => <option value={type.value}>{type.label}</option>)}
-                </select>
-            </label>
-            <label>
-                Tempo vivendo na propriedade:
-                <select name="timeLivingInProperty" value={formData.timeLivingInProperty} onChange={handleChange} required>
-                    {TimeLivingInProperty.map((time) => <option value={time.value}>{time.label}</option>)}
-                </select>
-            </label>
-            <label>
-                Tipo de domicílio:
-                <select name="domicileType" value={formData.domicileType} onChange={handleChange} required>
-                    {DomicileType.map((type) => <option value={type.value}>{type.label}</option>)}
-                </select>
-            </label>
-            <label>
-                Número de cômodos:
-                <select name="numberOfRooms" value={formData.numberOfRooms} onChange={handleChange} required>
-                    {NumberOfRooms.map((number) => <option value={number.value}>{number.label}</option>)}
-                </select>
-            </label>
-            <label>
-                Número de quartos:
-                <input type="number" name="numberOfBedrooms" value={formData.numberOfBedrooms} onChange={handleChange} min="0" required />
-            </label>
-            <label>
-                Número de quartos:
-                <input type="number" name="numberOfBedrooms" value={formData.numberOfBedrooms} onChange={handleChange} min="0" required />
-            </label>
-            <button type="submit">Enviar</button>
-        </form>
+        <div className="fill-box">
+
+            <form onSubmit={handleSubmit} id='survey-form'>
+                <div className='survey-box'>
+
+                    <label>
+                        Status da propriedade:
+
+                    </label>
+                    <br />
+                    <select name="propertyStatus" value={formData.propertyStatus} onChange={handleChange} required>
+                        {PropertyStatus.map((status) => <option value={status.value}>{status.label}</option>)}
+                    </select>
+                </div>
+                {['ProvidedByEmployer', 'ProvidedByFamily', 'ProvidedOtherWay'].includes(formData.propertyStatus) &&
+                    <div className='survey-box'>
+
+                        <label>
+                            Nome do cedente:
+                        </label>
+
+                        <br />
+
+                        <input className='survey-control' type="text" name="grantorName" value={formData.grantorName} onChange={handleChange} required />
+                    </div>
+
+
+                }
+
+                {formData.propertyStatus === 'Rented' &&
+
+                    <div className='survey-box'>
+
+                        <label>
+                            Tipo de contrato:
+
+                        </label>
+                        <br />
+                        <select name="contractType" value={formData.contractType} onChange={handleChange} required>
+                            {ContractType.map((type) => <option value={type.value}>{type.label}</option>)}
+                        </select>
+                    </div>
+                }
+                <div className='survey-box'>
+
+                    <label>
+                        Tempo vivendo na propriedade:
+
+                    </label>
+                    <br />
+                    <select name="timeLivingInProperty" value={formData.timeLivingInProperty} onChange={handleChange} required>
+                        {TimeLivingInProperty.map((time) => <option value={time.value}>{time.label}</option>)}
+                    </select>
+                </div>
+                <div className='survey-box'>
+
+                    <label>
+                        Tipo de domicílio:
+
+                    </label>
+                    <br />
+                    <select name="domicileType" value={formData.domicileType} onChange={handleChange} required>
+                        {DomicileType.map((type) => <option value={type.value}>{type.label}</option>)}
+                    </select>
+                </div>
+                <div className='survey-box'>
+
+                    <label>
+                        Número de cômodos:
+
+                    </label>
+                    <br />
+                    <select name="numberOfRooms" value={formData.numberOfRooms} onChange={handleChange} required>
+                        {NumberOfRooms.map((number) => <option value={number.value}>{number.label}</option>)}
+                    </select>
+                </div>
+                <div className='survey-box'>
+
+                    <label>
+                        Número de quartos:
+                    </label>
+
+                    <input className='survey-control' type="number" name="numberOfBedrooms" value={formData.numberOfBedrooms} onChange={handleChange} min="0" required />
+                    <br />
+                </div>
+
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
 
     );
 };
 
-export default CadastroMoradia;
