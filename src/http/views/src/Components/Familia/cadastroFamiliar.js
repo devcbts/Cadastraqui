@@ -1,7 +1,7 @@
 import React from 'react'
 import './cadastroFamiliar.css'
 import { useState } from 'react';
-import { api } from '../services/axios';
+import { api } from '../../services/axios';
 
 
 const Relationship = [
@@ -150,10 +150,10 @@ export default function CadastroFamiliar() {
         fullName: '',
         socialName: '',
         birthDate: '',
-        gender: '', // deve ser inicializado com um dos valores do enum GENDER
+        gender: 'MALE', // deve ser inicializado com um dos valores do enum GENDER
         nationality: '',
         natural_city: '',
-        natural_UF: '', // deve ser inicializado com um dos valores do enum COUNTRY
+        natural_UF: 'AC', // deve ser inicializado com um dos valores do enum COUNTRY
         CPF: '',
         RG: '',
         rgIssuingAuthority: '',
@@ -177,7 +177,7 @@ export default function CadastroFamiliar() {
         email: '',
         address: '',
         city: '',
-        UF: '', // deve ser inicializado com um dos valores do enum COUNTRY
+        UF: 'AC', // deve ser inicializado com um dos valores do enum COUNTRY
         CEP: '',
         neighborhood: '',
         addressNumber: 0, // Iniciar com um número inteiro
@@ -217,65 +217,12 @@ export default function CadastroFamiliar() {
     async function RegisterFamilyMember(e) {
         e.preventDefault()
         const token = localStorage.getItem('token');
-        const data = {
-            relationship: familyMember.relationship, // deve ser inicializado com um dos valores do enum Relationship
-            otherRelationship: familyMember.otherRelationship ||'Vô',
-            fullName: familyMember.fullName,
-            socialName: familyMember.socialName,
-            birthDate: familyMember.birthDate,
-            gender: familyMember.gender, // deve ser inicializado com um dos valores do enum GENDER
-            nationality: familyMember.nationality,
-            natural_city: familyMember.natural_city,
-            natural_UF: familyMember.natural_UF, // deve ser inicializado com um dos valores do enum COUNTRY
-            CPF: familyMember.CPF, // deve ser inicializado com um,
-            RG: familyMember.RG, // deve ser inicializ,
-            rgIssuingAuthority: familyMember.rgIssuingAuthority,
-            rgIssuingState: familyMember.rgIssuingState, // deve ser inicializado com um dos valores do enum COUNTRY
-            documentType: familyMember.documentType || 'DriversLicense', // deve ser inicializado com um dos valores do enum DOCUMENT_TYPE ou null
-            documentNumber: familyMember.documentNumber || '222',
-            documentValidity: familyMember.documentValidity || '2003-06-18', // deve ser in
-            numberOfBirthRegister: familyMember.numberOfBirthRegister || '222',
-            bookOfBirthRegister: familyMember.bookOfBirthRegister || '212',
-            pageOfBirthRegister: familyMember.pageOfBirthRegister || '1231',
-            maritalStatus: familyMember.maritalStatus, // deve ser inicializado com um dos valores do enum MARITAL_STATUS
-            skinColor: familyMember.skinColor, // deve ser inicializado com um dos valores do enum SkinColor
-            religion: familyMember.religion, // deve ser inicializado com um dos valores do enum RELIGION
-            educationLevel: familyMember.educationLevel, // deve ser inicializado com um dos valores do enum SCHOLARSHIP
-            specialNeeds: familyMember.specialNeeds,
-            specialNeedsDescription: familyMember.specialNeedsDescription,
-            hasMedicalReport: familyMember.hasMedicalReport,
-            landlinePhone: familyMember.landlinePhone,
-            workPhone: familyMember.workPhone,
-            contactNameForMessage: familyMember.contactNameForMessage,
-            email: familyMember.email,
-            address: familyMember.address,
-            city: familyMember.city,
-            UF: familyMember.UF, // deve ser inicializado com um dos valores do enum COUNTRY
-            CEP: familyMember.CEP,
-            neighborhood: familyMember.neighborhood,
-            addressNumber: familyMember.addressNumber, // Iniciar com um número inteiro
-            profession: familyMember.profession,
-            enrolledGovernmentProgram: familyMember.enrolledGovernmentProgram,
-            NIS: familyMember.NIS,
-            educationPlace: 'null9oo', // Iniciar como null ou um dos valores do enum Institution_Type
-            institutionName: 'nullooo',
-            coursingEducationLevel: 'Alfabetizacao', // Iniciar como null ou um dos valores do enum Education_Type
-            cycleOfEducation: '332',
-            turnOfEducation: 'Matutino', // Iniciar como null ou um dos valores do enum SHIFT
-            hasScholarship: false,
-            percentageOfScholarship: '500',
-            monthlyAmount: '544',
-            incomeSource: familyMember.incomeSource
-        }
-
-        console.log(data)
-
         try {
             const response = await api.post('/candidates/family-member', {
                 relationship: familyMember.relationship, // deve ser inicializado com um dos valores do enum Relationship
-                otherRelationship: familyMember.otherRelationship ||'Vô',
+                otherRelationship: familyMember.otherRelationship ||undefined,
                 fullName: familyMember.fullName,
-                socialName: familyMember.socialName,
+                socialName: familyMember.socialName || undefined,
                 birthDate: familyMember.birthDate,
                 gender: familyMember.gender, // deve ser inicializado com um dos valores do enum GENDER
                 nationality: familyMember.nationality,
@@ -285,23 +232,23 @@ export default function CadastroFamiliar() {
                 RG: familyMember.RG, // deve ser inicializ,
                 rgIssuingAuthority: familyMember.rgIssuingAuthority,
                 rgIssuingState: familyMember.rgIssuingState, // deve ser inicializado com um dos valores do enum COUNTRY
-                documentType: familyMember.documentType || 'DriversLicense', // deve ser inicializado com um dos valores do enum DOCUMENT_TYPE ou null
-                documentNumber: familyMember.documentNumber || '222',
-                documentValidity: familyMember.documentValidity || '2003-06-18', // deve ser in
-                numberOfBirthRegister: familyMember.numberOfBirthRegister || '222',
-                bookOfBirthRegister: familyMember.bookOfBirthRegister || '212',
-                pageOfBirthRegister: familyMember.pageOfBirthRegister || '1231',
+                documentType: familyMember.documentType || undefined, // deve ser inicializado com um dos valores do enum DOCUMENT_TYPE ou null
+                documentNumber: familyMember.documentNumber || undefined,
+                documentValidity: familyMember.documentValidity || undefined, // deve ser in
+                numberOfBirthRegister: familyMember.numberOfBirthRegister || undefined,
+                bookOfBirthRegister: familyMember.bookOfBirthRegister || undefined,
+                pageOfBirthRegister: familyMember.pageOfBirthRegister || undefined,
                 maritalStatus: familyMember.maritalStatus, // deve ser inicializado com um dos valores do enum MARITAL_STATUS
                 skinColor: familyMember.skinColor, // deve ser inicializado com um dos valores do enum SkinColor
                 religion: familyMember.religion, // deve ser inicializado com um dos valores do enum RELIGION
                 educationLevel: familyMember.educationLevel, // deve ser inicializado com um dos valores do enum SCHOLARSHIP
                 specialNeeds: familyMember.specialNeeds,
-                specialNeedsDescription: familyMember.specialNeedsDescription,
+                specialNeedsDescription: familyMember.specialNeedsDescription || undefined,
                 hasMedicalReport: familyMember.hasMedicalReport,
-                landlinePhone: familyMember.landlinePhone,
-                workPhone: familyMember.workPhone,
-                contactNameForMessage: familyMember.contactNameForMessage,
-                email: familyMember.email,
+                landlinePhone: familyMember.landlinePhone || undefined,
+                workPhone: familyMember.workPhone || undefined,
+                contactNameForMessage: familyMember.contactNameForMessage || undefined,
+                email: familyMember.email || undefined,
                 address: familyMember.address,
                 city: familyMember.city,
                 UF: familyMember.UF, // deve ser inicializado com um dos valores do enum COUNTRY
@@ -310,7 +257,7 @@ export default function CadastroFamiliar() {
                 addressNumber: Number(familyMember.addressNumber), // Iniciar com um número inteiro
                 profession: familyMember.profession,
                 enrolledGovernmentProgram: familyMember.enrolledGovernmentProgram,
-                NIS: familyMember.NIS,
+                NIS: familyMember.NIS || undefined,
                 incomeSource: familyMember.incomeSource
             }, {
                 headers: {

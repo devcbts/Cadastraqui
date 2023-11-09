@@ -156,7 +156,7 @@ export async function registerFamilyMemberInfo(
     landlinePhone: z.string().optional(),
     workPhone: z.string().optional(),
     contactNameForMessage: z.string().optional(),
-    email: z.string().email(),
+    email: z.string().email().optional(),
     address: z.string(),
     city: z.string(),
     UF: COUNTRY,
@@ -307,7 +307,10 @@ export async function registerFamilyMemberInfo(
       ...(monthlyAmount && { monthlyAmount }),
       ...(incomeSource && { incomeSource }),
     };
-    // Armazena informações acerca do membro da família do candidato
+    
+    console.log('====================================');
+    console.log(dataToCreate);
+    console.log('====================================');
     await prisma.familyMember.create({
       data: dataToCreate
     })

@@ -6,11 +6,11 @@ import MultiStep from "react-multistep";
 import "./cadastroInformacoes.css";
 import { UilAngleLeft } from "@iconscout/react-unicons";
 import { UilAngleRight } from "@iconscout/react-unicons";
-import CadastroFamiliar from "../../Components/cadastroFamiliar";
-import MembrosFamilia from "../../Components/MembrosFamilia";
+import CadastroFamiliar from "../../Components/Familia/cadastroFamiliar";
+import MembrosFamilia from "../../Components/Familia/MembrosFamilia";
 import CadastroBasico from "../../Components/cadastro-basico";
 import CadastroRenda from "../../Components/cadastro-renda";
-
+import Moradia from "../../Components/Moradia/Moradia";
 export default function CadastroInfo() {
   const nextButton = useRef(null);
   const prevButton = useRef(null);
@@ -33,28 +33,8 @@ export default function CadastroInfo() {
 
   function HousingInfoDiv() {
     return (
-      <div className="fill-container">
-        <div className="input-cadastro">
-          <input type="text" placeholder="CEP"></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Logradouro"></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="nº"></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Complemento"></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Bairro"></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Cidade"></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Estado"></input>
-        </div>
+      <div >
+        <Moradia/>
       </div>
     );
   }
