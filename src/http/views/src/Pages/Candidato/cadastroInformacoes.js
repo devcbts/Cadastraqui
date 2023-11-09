@@ -6,8 +6,8 @@ import MultiStep from "react-multistep";
 import "./cadastroInformacoes.css";
 import { UilAngleLeft } from "@iconscout/react-unicons";
 import { UilAngleRight } from "@iconscout/react-unicons";
-import CadastroFamiliar from "../../Components/cadastroFamiliar";
-import MembrosFamilia from "../../Components/MembrosFamilia";
+import CadastroFamiliar from "../../Components/Familia/cadastroFamiliar";
+import MembrosFamilia from "../../Components/Familia/MembrosFamilia";
 
 export default function CadastroInfo() {
   const nextButton = useRef(null);
