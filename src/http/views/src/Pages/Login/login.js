@@ -11,6 +11,7 @@ import { api } from "../../services/axios";
 import { useAuth } from "../../context/auth";
 import { useNavigate } from "react-router";
 
+
 export default function Login() {
   const [currentPage, setCurrentPage] = useState(0);
   const responsavelRef = useRef(null);
@@ -194,7 +195,9 @@ export default function Login() {
       .then(() => { alert('Cadastro realizado com sucesso !')
       setCurrentPage(0)
     })
-      .catch((err) => {alert(`${err.response.data.message}`)})
+      .catch((err) => {
+        alert(`${err.response.data.message}`)
+      })
     } else if(typeOfUser === 'responsible') {
       api.post('/responsibles', registerInfo)
       .then(response => {alert('Cadastro realizado com sucesso !')
@@ -238,6 +241,7 @@ export default function Login() {
     
     
   } 
+
 
   return (
     <div className="login-container">

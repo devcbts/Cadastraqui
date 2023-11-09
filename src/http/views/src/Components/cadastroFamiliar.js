@@ -212,9 +212,6 @@ export default function CadastroFamiliar() {
                 [name]: value
             }));
         }
-        console.log('====================================');
-        console.log(familyMember);
-        console.log('====================================');
     }
 
     async function RegisterFamilyMember(e) {
@@ -325,6 +322,7 @@ export default function CadastroFamiliar() {
             console.log('====================================');
         }
         catch (error) {
+            console.log(error)
             alert(error.issues);
         }
     }

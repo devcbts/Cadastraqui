@@ -1,3 +1,4 @@
+import { AlreadyExistsError } from '@/errors/already-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
@@ -216,7 +217,7 @@ export async function registerIdentityInfo(
       where: { candidate_id: candidate.id },
     })
     if (candidateIdentifyInfo) {
-      throw new NotAllowedError()
+      throw new AlreadyExistsError()
     }
 
     // Armazena informações acerca da identificação no banco de dados
@@ -276,6 +277,9 @@ export async function registerIdentityInfo(
     }
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
+    }
+    if (err instanceof AlreadyExistsError) {
+      return reply.status(409).send({ message: err.message })
     }
 
     return reply.status(500).send({ message: err.message })

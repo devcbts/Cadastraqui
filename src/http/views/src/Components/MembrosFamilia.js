@@ -16,8 +16,6 @@ export default function MembrosFamilia() {
 
     return (
         <div>
-
-
             {mostrarCadastro && <CadastroFamiliar onCadastroCompleto={adicionarMembro} />}
 
             <DropdownMembros membros={membros} />

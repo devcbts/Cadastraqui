@@ -412,7 +412,7 @@ model EntityDirector {
 
 model IdentityDetails {
   id                                         String           @id @default(uuid())
-  fullName                                   String
+  fullName                                   String 
   socialName                                 String
   birthDate                                  DateTime
   gender                                     GENDER
