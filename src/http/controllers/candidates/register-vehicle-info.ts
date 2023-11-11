@@ -26,9 +26,12 @@ export async function registerVehicleInfo(
     hasInsurance: z.boolean().default(false),
     insuranceValue: z.number().optional(),
     usage: VehicleUsage,
-    owner_id: z.string(),
+    owners_id: z.array(z.string()),
   })
 
+  console.log('====================================');
+  console.log(request.body);
+  console.log('====================================');
   const {
     hasInsurance,
     manufacturingYear,
@@ -39,7 +42,7 @@ export async function registerVehicleInfo(
     financedMonths,
     insuranceValue,
     monthsToPayOff,
-    owner_id,
+    owners_id,
   } = vehicleDataSchema.parse(request.body)
 
   try {
@@ -51,13 +54,15 @@ export async function registerVehicleInfo(
       throw new ResourceNotFoundError()
     }
 
-    // Verifica se existe um familiar cadastrado com o owner_id
-    const familyMember = await prisma.familyMember.findUnique({
-      where: { id: owner_id },
-    })
-    if (!familyMember) {
+    const familyMembers = await Promise.all(
+      owners_id.map(owner_id => 
+        prisma.familyMember.findUnique({ where: { id: owner_id } })
+      )
+    )
+
+    if (familyMembers.some(member => member === null)) {
       throw new NotAllowedError()
-    }
+    } 
 
     // Armazena informações acerca do veículo no banco de dados
     await prisma.vehicle.create({
@@ -71,7 +76,9 @@ export async function registerVehicleInfo(
         hasInsurance,
         insuranceValue,
         monthsToPayOff,
-        owner_id,
+        owners: {
+          connect: owners_id.map(id => ({ id })),
+        },
       },
     })
 

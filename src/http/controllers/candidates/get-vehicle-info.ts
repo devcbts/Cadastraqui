@@ -8,45 +8,44 @@ export async function getVehicleInfo(
   reply: FastifyReply,
 ) {
   try {
-    const user_id = request.user.sub
+    const user_id = request.user.sub;
 
     // Verifica se existe um candidato associado ao user_id
     const candidate = await prisma.candidate.findUnique({
       where: { user_id },
-    })
+    });
     if (!candidate) {
-      throw new ResourceNotFoundError()
+      throw new ResourceNotFoundError();
     }
 
-    // Verifica se existe um membro da família associado ao familyMember_id e se ele está associado ao candidato
-    const familyMembers = await prisma.familyMember.findMany({
-      where: { candidate_id: candidate.id },
-    })
+    // Obtém todos os veículos associados aos membros da família do candidato
+    const vehicles = await prisma.vehicle.findMany({
+      where: {
+        owners: {
+          some: {
+            candidate_id: candidate.id,
+          },
+        },
+      },
+      include: {
+        owners: true, // Inclui os proprietários no resultado
+      },
+    });
 
-    async function fetchData(familyMembers: FamilyMember[]) {
-      const vehicleInfoResults = []
-      for (const familyMember of familyMembers) {
-        try {
-          const vehicleInfo = await prisma.vehicle.findMany({
-            where: { owner_id: familyMember.id },
-          })
+    // Prepara os resultados, acumulando os nomes dos proprietários
+    const vehicleInfoResults = vehicles.map(vehicle => {
+      const ownerNames = vehicle.owners.map(owner => owner.fullName);
+      return {
+        ...vehicle,
+        ownerNames, // Array com os nomes de todos os proprietários
+      };
+    });
 
-          vehicleInfoResults.push({ name: familyMember.fullName, vehicleInfo })
-        } catch (error) {
-          throw new ResourceNotFoundError()
-        }
-      }
-      return vehicleInfoResults
-    }
-
-    const vehicleInfoResults = await fetchData(familyMembers)
-
-    return reply.status(200).send({ vehicleInfoResults })
+    return reply.status(200).send({ vehicleInfoResults });
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
-      return reply.status(404).send({ message: err.message })
+      return reply.status(404).send({ message: err.message });
     }
-
-    return reply.status(500).send({ message: err.message })
+    return reply.status(500).send({ message: err.message });
   }
 }

@@ -74,7 +74,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   /** Vehicle Info */
   app.get('/vehicle-info', { onRequest: [verifyJWT] }, getVehicleInfo)
   app.post(
-    '/vehicle-info/:_id',
+    '/vehicle-info',
     { onRequest: [verifyJWT] },
     registerVehicleInfo,
   )

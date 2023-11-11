@@ -126,7 +126,7 @@ const IncomeSource = [
     { value: 'TemporaryRuralEmployee', label: 'Empregado Rural Temporário' },
     { value: 'BusinessOwnerSimplifiedTax', label: 'Empresário - Regime Simples' },
     { value: 'BusinessOwner', label: 'Empresário' },
-    { value: 'IndividualEntrepreneur', label: 'Empreendedor Individual' },
+    { value: 'IndividualEntrepreneur', label: 'MEI' },
     { value: 'SelfEmployed', label: 'Autônomo' },
     { value: 'Retired', label: 'Aposentado' },
     { value: 'Pensioner', label: 'Pensionista' },

@@ -530,8 +530,8 @@ model FamilyMember {
 model Housing {
   id                   String               @id @default(uuid())
   propertyStatus       PropertyStatus
-  contractType         ContractType
-  grantorName          String
+  contractType         ContractType?
+  grantorName          String?
   timeLivingInProperty TimeLivingInProperty
   domicileType         DomicileType
   numberOfRooms        NumberOfRooms
@@ -558,8 +558,7 @@ model Vehicle {
   insuranceValue    Float? // Only if hasInsurance is true
   usage             VehicleUsage
 
-  owner    FamilyMember @relation(fields: [owner_id], references: [id])
-  owner_id String
+  owners FamilyMember[]
 }
 
 enum EmploymentType {

@@ -9,6 +9,7 @@ import { UilAngleRight } from "@iconscout/react-unicons";
 import CadastroFamiliar from "../../Components/Familia/cadastroFamiliar";
 import MembrosFamilia from "../../Components/Familia/MembrosFamilia";
 import Moradia from "../../Components/Moradia/Moradia";
+import Veiculo from "../../Components/Veiculo/Veiculo";
 export default function CadastroInfo() {
   const nextButton = useRef(null);
   const prevButton = useRef(null);
@@ -806,8 +807,8 @@ export default function CadastroInfo() {
 
   function VehicleInfoDiv() {
     return (
-      <div className="fill-container">
-        <h1>4</h1>
+      <div >
+        <Veiculo/>
       </div>
     );
   }
