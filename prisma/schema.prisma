@@ -277,6 +277,10 @@ model Candidate {
   IdentityDetails IdentityDetails[]
   Application     Application[]
   Expense         Expense[]
+  Loan            Loan[]
+  Financing       Financing[]
+  CreditCard      CreditCard[]
+  OtherExpense    OtherExpense[]
 
   @@map("candidates")
 }
@@ -412,7 +416,7 @@ model EntityDirector {
 
 model IdentityDetails {
   id                                         String           @id @default(uuid())
-  fullName                                   String 
+  fullName                                   String
   socialName                                 String
   birthDate                                  DateTime
   gender                                     GENDER
@@ -636,39 +640,57 @@ model MonthlyIncome {
 }
 
 model Expense {
-  id                  String   @id @default(uuid())
-  month               String
-  waterSewage         Float?
-  electricity         Float?
-  landlinePhone       Float?
-  mobilePhone         Float?
-  food                Float?
-  rent                Float?
-  garageRent          Float?
-  condominium         Float?
-  cableTV             Float?
-  streamingServices   Float?
-  fuel                Float?
-  annualIPVA          Float?
-  optedForInstallment Boolean?
-  installmentCount    Int?
-  installmentValue    Float?
-  annualIPTU          Float?
-  annualITR           Float?
-  annualIR            Float?
-  INSS                Float?
-  publicTransport     Float?
-  schoolTransport     Float?
-  internet            Float?
-  courses             Float?
-  healthPlan          Float?
-  dentalPlan          Float?
-  medicationExpenses  Float?
-  otherExpenses       Float?
-  totalExpense        Float?
+  id                       String   @id @default(uuid())
+  month                    String
+  waterSewage              Float?
+  electricity              Float?
+  landlinePhone            Float?
+  mobilePhone              Float?
+  food                     Float?
+  rent                     Float?
+  garageRent               Float?
+  condominium              Float?
+  cableTV                  Float?
+  streamingServices        Float?
+  fuel                     Float?
+  annualIPVA               Float?
+  optedForInstallmentIPVA  Boolean?
+  installmentCountIPVA     Int?
+  installmentValueIPVA     Float?
+  annualIPTU               Float?
+  optedForInstallmentIPTU  Boolean?
+  installmentCountIPTU     Int?
+  installmentValueIPTU     Float?
+  annualITR                Float?
+  optedForInstallmentITR   Boolean?
+  installmentCountITR      Int?
+  installmentValueITR      Float?
+  annualIR                 Float?
+  optedForInstallmentIR    Boolean?
+  installmentCountIR       Int?
+  installmentValueIR       Float?
+  INSS                     Float?
+  publicTransport          Float?
+  schoolTransport          Float?
+  internet                 Float?
+  courses                  Float?
+  healthPlan               Float?
+  dentalPlan               Float?
+  medicationExpenses       Float?
+  otherExpensesDescription String[]
+  otherExpensesValue       Float[]
+  totalExpense             Float?
 
   candidate    Candidate @relation(fields: [candidate_id], references: [id])
   candidate_id String
+}
+
+enum FinancingType {
+  Car
+  Motorcycle
+  Truck
+  House_Apartment_Land
+  Other
 }
 
 model Loan {
@@ -681,19 +703,24 @@ model Loan {
 
   familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
   familyMember_id String
+  candidate       Candidate    @relation(fields: [candidate_id], references: [id])
+  candidate_id    String
 }
 
 model Financing {
-  id                String @id @default(uuid())
+  id                String        @id @default(uuid())
   familyMemberName  String
-  financingType     String
+  financingType     FinancingType
   installmentValue  Float
   totalInstallments Int
   paidInstallments  Int
   bankName          String
+  otherFinancing    String?
 
   familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
   familyMember_id String
+  candidate       Candidate    @relation(fields: [candidate_id], references: [id])
+  candidate_id    String
 }
 
 model CreditCard {
@@ -707,6 +734,8 @@ model CreditCard {
 
   familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
   familyMember_id String
+  candidate       Candidate    @relation(fields: [candidate_id], references: [id])
+  candidate_id    String
 }
 
 model OtherExpense {
@@ -716,6 +745,8 @@ model OtherExpense {
 
   familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
   familyMember_id String
+  candidate       Candidate    @relation(fields: [candidate_id], references: [id])
+  candidate_id     String
 }
 
 model FamilyMemberDisease {

@@ -8,13 +8,20 @@ export async function registerFinancingInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+  const FinancingType = z.enum(['Car',
+  'Motorcycle',
+  'Truck',
+  'House_Apartment_Land',
+  'Other'])
+
   const FinancingDataSchema = z.object({
     familyMemberName: z.string(),
-    financingType: z.string(),
+    financingType: FinancingType,
     installmentValue: z.number(),
     totalInstallments: z.number(),
     paidInstallments: z.number(),
     bankName: z.string(),
+    otherFinancing: z.string().optional(),
   })
 
   const FinancingParamsSchema = z.object({
@@ -24,6 +31,7 @@ export async function registerFinancingInfo(
   // _id === family_member_id
   const { _id } = FinancingParamsSchema.parse(request.params)
 
+  
   const {
     bankName,
     familyMemberName,
@@ -31,6 +39,7 @@ export async function registerFinancingInfo(
     paidInstallments,
     totalInstallments,
     financingType,
+    otherFinancing
   } = FinancingDataSchema.parse(request.body)
 
   try {
@@ -59,7 +68,9 @@ export async function registerFinancingInfo(
         installmentValue,
         paidInstallments,
         totalInstallments,
+        otherFinancing,
         familyMember_id: _id,
+        candidate_id: candidate.id
       },
     })
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import './cadastroFamiliar.css'
+import './Familia/cadastroFamiliar.css'
 import { useState } from 'react';
 import { api } from '../services/axios';
 

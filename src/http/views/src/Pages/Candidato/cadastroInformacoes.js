@@ -12,6 +12,7 @@ import CadastroBasico from "../../Components/cadastro-basico";
 import CadastroRenda from "../../Components/cadastro-renda";
 import Moradia from "../../Components/Moradia/Moradia";
 import Veiculo from "../../Components/Veiculo/Veiculo";
+import DespesasTotais from "../../Components/Despesas/DespesasTotais";
 export default function CadastroInfo() {
   const nextButton = useRef(null);
   const prevButton = useRef(null);
@@ -58,8 +59,8 @@ export default function CadastroInfo() {
 
   function BudgetInfoDiv() {
     return (
-      <div className="fill-container">
-        <h1>6</h1>
+      <div >
+        <DespesasTotais/>
       </div>
     );
   }
