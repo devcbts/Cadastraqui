@@ -34,6 +34,7 @@ import { registerFinancingInfo } from './register-financing-info'
 import { getFinancingInfo } from './get-financing-info'
 import { registerCreditCardInfo } from './register-credit-card-info'
 import { getCreditCardInfo } from './get-credit-card-info'
+import { getDocumentsPDF } from './get-pdf-documents'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -42,6 +43,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     uploadSolicitationDocument,
   )
+  app.get('/documents', { onRequest: [verifyJWT] }, getDocumentsPDF)
 
   /** Basic Info */
   app.post('/', registerCandidate)
@@ -54,7 +56,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.patch('/identity-info', { onRequest: [verifyJWT] }, updateIdentityInfo)
 
   /** Housing Info */
-  app.get('/housing-info', { onRequest: [verifyJWT] }, getHousingInfo)
+  app.get('/housing-info/:_id?', { onRequest: [verifyJWT] }, getHousingInfo)
   app.post('/housing-info', { onRequest: [verifyJWT] }, registerHousingInfo)
   app.patch('/housing-info', { onRequest: [verifyJWT] }, updateHousingInfo)
 
@@ -80,7 +82,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.post('/health-info/:_id', { onRequest: [verifyJWT] }, registerHealthInfo)
 
   /** Vehicle Info */
-  app.get('/vehicle-info', { onRequest: [verifyJWT] }, getVehicleInfo)
+  app.get('/vehicle-info/:_id?', { onRequest: [verifyJWT] }, getVehicleInfo)
   app.post(
     '/vehicle-info',
     { onRequest: [verifyJWT] },
@@ -106,7 +108,7 @@ export async function candidateRoutes(app: FastifyInstance) {
 
  //Despesas
   app.post('/expenses', { onRequest: [verifyJWT] }, registerExpensesInfo)
-  app.get('/expenses', { onRequest: [verifyJWT] }, getExpensesInfo)
+  app.get('/expenses/:_id?', { onRequest: [verifyJWT] }, getExpensesInfo)
   
   //Empréstimos
   app.post('/expenses/loan/:_id', { onRequest: [verifyJWT] }, registerLoanInfo )
@@ -119,6 +121,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   // Cartão de Crédito
   app.post('/expenses/credit-card/:_id' , { onRequest: [verifyJWT] }, registerCreditCardInfo)
   app.get('/expenses/credit-card/:_id?' , { onRequest: [verifyJWT] }, getCreditCardInfo)
+    
 
 
   // profile ficture info

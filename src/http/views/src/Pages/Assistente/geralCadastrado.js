@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBarAssistente from "../../Components/navBarAssistente";
 import MultiStep from "react-multistep";
 import { UilCheckSquare } from "@iconscout/react-unicons";
@@ -7,12 +7,91 @@ import "./geralCadastrado.css";
 import Comment from "../../Components/comment";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import { api } from "../../services/axios";
 
 export default function GeralCadastrado() {
-  const {  announcement_id, application_id  } = useParams();
+  const { announcement_id, application_id } = useParams();
   console.log("====================================");
   console.log(announcement_id, application_id);
   console.log("====================================");
+
+  const [candidateId, setCandidateId] = useState('')
+  const [familyMembers, setFamilyMembers] = useState([])
+  const [housing, setHousing] = useState()
+  const [vehicles, setVehicles] = useState()
+  useEffect(() => {
+    async function getCandidateId() {
+
+      const token = localStorage.getItem('token')
+      try {
+        const response = await api.get(`/assistant/${announcement_id}/${application_id}`, {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        })
+
+        setCandidateId(response.data.application.candidate_id)
+        console.log('====================================');
+        console.log(response.data.application);
+        console.log('====================================');
+      } catch (error) {
+
+      }
+    }
+    getCandidateId()
+
+    async function pegarFamiliares() {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await api.get(`/candidates/family-member/${candidateId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        setFamilyMembers(response.data.familyMembers);
+        console.log('====================================');
+        console.log(response.data.familyMembers);
+        console.log('====================================');
+      } catch (error) {
+        // Trate o erro conforme necessário
+      }
+    }
+    pegarFamiliares();
+
+    async function pegarMoradia() {
+      const token = localStorage.getItem('token');
+      try {
+
+        const response = await api.get(`/candidates/housing-info/${candidateId}`, {
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }
+        })
+        console.log('====================================');
+        console.log(response.data);
+        console.log('====================================');
+        const dadosMoradia = response.data.housingInfo
+        setHousing(dadosMoradia)
+      }
+      catch (err) {
+        alert(err)
+      }
+    }
+    pegarMoradia()
+    async function pegarVeiculos() {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await api.get(`/candidates/vehicle-info/${candidateId}`, {
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }
+        });
+        setVehicles(response.data.vehicleInfoResults);
+       
+      } catch (err) {
+        alert(err);
+      }
+    }
+    pegarVeiculos();
+  }, [candidateId])
 
   const [formData, setFormData] = useState({
     dateAndTime: "",
@@ -102,33 +181,21 @@ export default function GeralCadastrado() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <strong>Antônio</strong>
-              </td>
-              <td>123456789-09</td>
-              <td>47</td>
-              <td>Pai</td>
-              <td>Advogado</td>
-            </tr>
-            <tr>
-              <td>
-                <strong>Maria</strong>
-              </td>
-              <td>529856789-09</td>
-              <td>43</td>
-              <td>Mãe</td>
-              <td>Professora</td>
-            </tr>
-            <tr>
-              <td>
-                <strong>Luca</strong>
-              </td>
-              <td>321456789-09</td>
-              <td>13</td>
-              <td>Irmão</td>
-              <td>Estudante</td>
-            </tr>
+            {familyMembers.map(familyMember => {
+              return (
+                <tr>
+                  <td>
+                    <strong>{familyMember.fullName}</strong>
+                  </td>
+                  <td>{familyMember.CPF}</td>
+                  <td>{familyMember.birthDate}</td>
+                  <td>{familyMember.relationship}</td>
+                  <td>{familyMember.profession}</td>
+                </tr>
+              )
+            })}
+
+
           </tbody>
         </table>
         <h1>Resumo dos dados relevantes</h1>

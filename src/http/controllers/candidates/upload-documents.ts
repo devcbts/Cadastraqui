@@ -5,34 +5,45 @@ import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function uploadDocument(
-    request: FastifyRequest,
-    reply: FastifyReply
-) {
-    const uploadDocumentSchema = z.object({
-        documentPath: z.string(),
-    })
-
-    
-    const {
-        documentPath,
-    } = uploadDocumentSchema.parse(request.body)
+export async function uploadDocument(request: FastifyRequest, reply: FastifyReply) {
     try {
-        const user_id = request.user.sub
+        const user_id = request.user.sub;
 
         // Verifica se existe um candidato associado ao user_id
-        const candidate = await prisma.candidate.findUnique({ where: { user_id } })
+        const candidate = await prisma.candidate.findUnique({ where: { user_id } });
         if (!candidate) {
-            throw new ResourceNotFoundError()
+            throw new ResourceNotFoundError();
         }
 
+        const data = await request.file()
+        if (!data) {
+            throw new ResourceNotFoundError()
+        }
+        const fileBuffer = await data.toBuffer();
+        const documentType = data.fields.documentType
+        // Itera sobre as partes do formulário multipart
         
+        if (!documentType || !fileBuffer) {
+            throw new ResourceNotFoundError();
+        }
 
-        const Folder = `CandidatesDocuments/${candidate.id}`
-        uploadFile(documentPath, Folder)
+        console.log(`Document Type: ${documentType}`);
+        console.log(`File Size: ${fileBuffer.length}`);
 
-        reply.status(201).send()
+        const route = `CandidateDocuments/${candidate.id}/${documentType.value}/${data.filename}`;
+        const sended = await uploadFile(fileBuffer, route);
+
+        if (!sended) {
+            throw new NotAllowedError();
+        }
+
+        reply.status(201).send();
     } catch (error) {
-        return reply.status(400).send()
+        if (error instanceof NotAllowedError) {
+            return reply.status(401).send();
+        } if (error instanceof ResourceNotFoundError) {
+            return reply.status(404).send();
+        }
+        return reply.status(400).send();
     }
 }

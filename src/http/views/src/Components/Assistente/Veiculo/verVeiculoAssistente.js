@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './cadastroVeiculo.css'
+import './verVeiculoAssistente.css'
 import Select from 'react-select'
-import { api } from '../../services/axios';
+import { api } from '../../../services/axios';
 const VehicleType = [
     { value: 'SmallCarsAndUtilities', label: 'Carros Pequenos e Utilitários' },
     { value: 'TrucksAndMinibuses', label: 'Caminhões e Vans' },
@@ -18,7 +18,7 @@ const VehicleUsage = [
     { value: 'NecessaryDisplacement', label: 'Deslocamento Necessário' },
 ];
 // Componente de formulário para registrar informações do veículo
-export default function VerVeiculo({formData}) {
+export default function VerVeiculoAssistente({formData, id}) {
    
 
     const [membros, setMembros] = useState([]);
@@ -36,37 +36,7 @@ export default function VerVeiculo({formData}) {
 
     // Envia o formulário para o servidor
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        // Aqui você incluiria a lógica para enviar os dados para o servidor
-        console.log(formData);
-
-        const token = localStorage.getItem('token');
-        try {
-
-            const response = await api.post("/candidates/vehicle-info", {
-                vehicleType: formData.vehicleType,
-                modelAndBrand: formData.modelAndBrand,
-                manufacturingYear: Number(formData.manufacturingYear),
-                situation: formData.situation,
-                financedMonths: Number(formData.financedMonths) || undefined,
-                monthsToPayOff: Number(formData.monthsToPayOff) || undefined,
-                hasInsurance: formData.hasInsurance,
-                insuranceValue: Number(formData.insuranceValue) || undefined,
-                usage: formData.usage,
-                owners_id: formData.owners_id,
-            }, {
-                headers: {
-                    'authorization': `Bearer ${token}`,
-                }
-            })
-            console.log('====================================');
-            console.log(response.data);
-            console.log('====================================');
-            alert("Registro criado com sucesso")
-        }
-        catch (err) {
-            alert(err)
-        }
+      
     };
 
     useEffect(() => {
@@ -74,7 +44,7 @@ export default function VerVeiculo({formData}) {
             const token = localStorage.getItem('token');
             try {
 
-                const response = await api.get("/candidates/family-member", {
+                const response = await api.get(`/candidates/family-member/${id}`, {
                     headers: {
                         'authorization': `Bearer ${token}`,
                     }

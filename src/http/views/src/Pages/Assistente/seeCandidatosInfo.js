@@ -13,11 +13,41 @@ import { api } from "../../services/axios";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 
+import MembrosFamiliaAssistente from "../../Components/Assistente/Familia/MembrosFamiliaAssistente";
+import MoradiaAssistente from "../../Components/Assistente/Moradia/MoradiaAssistente";
+import VeiculosAssistente from "../../Components/Assistente/Veiculo/VeiculoAssistente";
+import DespesasTotaisAssistente from "../../Components/Assistente/Despesas/DespesasTotaisAssistente";
+
+
 export default function SeeCandidatosInfo() {
   const [commentIsShown, setCommentIsShown] = useState(false)
   const nextButton = useRef(null)
   const prevButton = useRef(null)
   const { announcement_id, application_id } = useParams()
+  const [candidateId, setCandidateId] = useState('')
+
+  useEffect( () => {
+    async function getCandidateId(){
+
+      const token = localStorage.getItem('token')
+      try {
+        const response = await api.get(`/assistant/${announcement_id}/${application_id}`, {
+          headers: {
+            'Authorization' : 'Bearer ' + token
+          }
+        })
+
+        setCandidateId(response.data.application.candidate_id)
+        console.log('====================================');
+        console.log(response.data.application);
+        console.log('====================================');
+      } catch (error) {
+        
+      }
+    }
+    getCandidateId()
+  },[announcement_id])
+
 
   const handleCommentClick = () => {
     setCommentIsShown((prev) => !prev);
@@ -30,7 +60,7 @@ export default function SeeCandidatosInfo() {
   const handleSubmitButton = async () => {
     try {
       const token = localStorage.getItem('token');
-      await api.post(`assistant/solicitation/${application_id.application_id}`, { description: descricao, solicitation: selectedValue, deadLine: deadLine },
+      await api.post(`assistant/solicitation/${application_id}`, { description: descricao, solicitation: selectedValue, deadLine: deadLine },
         {
           headers: {
             'authorization': `Bearer ${token}`,
@@ -222,236 +252,30 @@ export default function SeeCandidatosInfo() {
 
   function FamilyInfoDiv() {
     return (
-      <div className="fill-container">
-        {/* Identificação */}
-        <div className="input-cadastro title">
-          <h2>1. Identificação</h2>
-        </div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro hidden-title"></div>
-
-        <div className="input-cadastro">
-          <input type="text" placeholder="Nome completo" value="João Carlos da Silva" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="date" placeholder="Data de Nascimento" value="1980-05-21" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Sexo" value="Masculino" disabled></input>
-        </div>
-
-        {/* Naturalidade */}
-        <div className="input-cadastro title">
-          <h2>2. Naturalidade</h2>
-        </div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Estado" value="São Paulo" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Cidade" value="Campinas" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Nacionalidade" value="Brasileira" disabled></input>
-        </div>
-
-        {/* Documentos */}
-        <div className="input-cadastro title">
-          <h2>3. Documentos</h2>
-        </div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="CPF" value="CPF - 123.456.789-00" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="RG" value="RG - 12.345.678-9" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Orgão Emissor" value="Orgão Emissor - SSP" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="UF do orgão emissor" value="UF orgão emissor - SP" disabled></input>
-        </div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro hidden-title"></div>
-        {/* Informações Pessoais */}
-        <div className="input-cadastro title">
-          <h2>4. Informações Pessoais</h2>
-        </div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Estado Civil" value="Casado" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Cor" value="Branca" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Religião" value="Católico" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Nível de Educação" value="Ensino Médio Completo" disabled></input>
-        </div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro hidden-title"></div>
-        {/* Contato */}
-        <div className="input-cadastro title">
-          <h2>5. Contato</h2>
-        </div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Telefone Fixo" value="(19) 3322-4455" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Email" value="joaocarlos@exemplo.com" disabled></input>
-        </div>
-        <div className="input-cadastro hidden-title"></div>
-        {/* Endereço */}
-        <div className="input-cadastro title">
-          <h2>6. Endereço</h2>
-        </div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Endereço" value="Rua das Flores, 123" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Cidade" value="Campinas" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="UF" value="SP" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="CEP" value="13000-000" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Bairro" value="Jardim das Acácias" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="number" placeholder="Número" value={123} disabled></input>
-        </div>
-
-        {/* Educação */}
-        <div className="input-cadastro title">
-          <h2>7. Educação</h2>
-        </div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Instituição de Ensino" value="Escola Estadual de Campinas" disabled></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Nível de Educação Cursando" value="Não Aplicável" disabled></input>
-        </div>
+      <div >
+        <MembrosFamiliaAssistente id={candidateId}/>
       </div>
     );
   }
 
   function HousingInfoDiv() {
     return (
-      <div className="fill-container">
-        <h2>Informações sobre Moradia</h2>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="CEP" value="CEP - 12284612"></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Logradouro" value="Logradouro"></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="nº" value="Número - 215"></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Complemento" value="Complemento"></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Bairro" value="DCTA"></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Cidade" value="São José dos Campos"></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Estado" value="São Paulo"></input>
-        </div>
-        <div className="input-cadastro">
-          <input type="text" placeholder="Mora com Quantas pessoas ?" value="Mora com 3 pessoas"></input>
-        </div>
+      <div >
+       <MoradiaAssistente id={candidateId}/>
       </div>
     );
   }
 
   function VehicleInfoDiv() {
     return (
-      <div className="fill-container">
-        <h2>Informações do veiculo</h2>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Tipo de veículo"
-            value="Carros Pequenos e Utilidades"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Modelo e Marca"
-            value="Fiat"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Ano de fabricação"
-            value="Fabricação - 2018"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Situação"
-            value="Financiado"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Valor seguro"
-            value="Seguro - 300"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Utilização"
-            value="Instrumento de Trabalho"
-            disabled
-          ></input>
-        </div>
+      <div >
+       <VeiculosAssistente id={candidateId} />
       </div>
     );
   }
 
   function EarningInfoDiv() {
-    /*const [isSubscribed, setSubscribed] = useState(null);
-
-    useEffect(() => {
-      if (isSubscribed === "no") {
-        document.getElementById("nis-input").disabled = true;
-      } else {
-        document.getElementById("nis-input").disabled = false;
-      }
-    }, [isSubscribed]);*/
+    
 
     return (
       <div className="fill-container">
@@ -649,186 +473,18 @@ export default function SeeCandidatosInfo() {
 
   function BudgetInfoDiv() {
     return (
-      <div className="fill-container">
-        <div className="input-cadastro title">
-          <h2>1. Despesas básicas</h2>
-        </div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Água"
-            value="Água - R$100"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Luz"
-            value="Luz - R$250"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Telefone"
-            value="Telefone - R$60"
-            disabled
-          ></input>
-        </div>
+      <div >
+               <DespesasTotaisAssistente id={candidateId} />
 
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Internet"
-            value="Internet - R$100"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Saúde"
-            value="Saúde - R$200"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Alimentação"
-            value="Alimentação - R$800"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Transporte"
-            value="Transporte - R$150"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Total"
-            value="Total - R$1660"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro hidden-title"></div>
-
-        <div className="input-cadastro title">
-          <h2>2. Financiamento</h2>
-        </div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Valor"
-            value="Valor total - R$5000"
-            disabled
-          ></input>
-        </div>
-
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Parcelas"
-            value="16 Parcelas"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Valor Parcela"
-            value="Valor da parcela - R$312,5"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Quantidade de Parcelas Paga"
-            value="5 Parcelas Pagas"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Banco"
-            value="Banco Itaú"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro hidden-title"></div>
       </div>
     );
   }
 
   function HealthInfoDiv() {
     return (
-      <div className="fill-container">
-        <h2>Informações sobre Saúde</h2>
-        <div className="input-cadastro title">
+      <div >
         </div>
-        <div className="input-cadastro hidden-title"></div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Tipo da Doença"
-            value="Doença Cardiovascular"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Nome da Doença"
-            value="Arritmia"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Possui Laudo Médico ?"
-            value="Possui Laudo Médico"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Tipo da Doença"
-            value="Doença Respiratória"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Nome da Doença"
-            value="Asma"
-            disabled
-          ></input>
-        </div>
-        <div className="input-cadastro">
-          <input
-            type="text"
-            placeholder="Possui Laudo Médico ?"
-            value="Possui Laudo Médico"
-            disabled
-          ></input>
-        </div>
-      </div>
+    
     );
   }
 

@@ -20,14 +20,12 @@ import { uploadUserProfilePicture } from './http/controllers/users/upload-profil
 import { verifyJWT } from './http/middlewares/verify-jwt'
 import { getUserProfilePicture } from './http/controllers/users/get-profile-picture'
 import { fastifyMultipart } from '@fastify/multipart'
-
 export const app = fastify()
 app.register(fastifyMultipart, {
   limits: {
     fileSize: 15000000,
   },
 })
-
 // Registre o plugin fastify-cors
 app.register(fastifyCors, {
   origin: 'http://localhost:3000',

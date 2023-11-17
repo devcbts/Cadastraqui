@@ -12,26 +12,39 @@ export async function getFinancingInfo(
     _id: z.string().optional(),
   });
 
-  const queryParams = queryParamsSchema.parse(request.query);
+  const {_id} = queryParamsSchema.parse(request.params);
 
   try {
     const user_id = request.user.sub;
 
     // Verifica se existe um candidato associado ao user_id
-    const candidate = await prisma.candidate.findUnique({ where: { user_id } });
+    const role = request.user.role
+    let candidate;
+    
+    if (_id) {
+      candidate = await prisma.candidate.findUnique({
+        where: { id: _id },
+      })
+    } else {
+
+      // Verifica se existe um candidato associado ao user_id
+      candidate = await prisma.candidate.findUnique({
+        where: { user_id },
+      })
+    }
     if (!candidate) {
-      throw new ResourceNotFoundError();
+      throw new ResourceNotFoundError()
     }
 
+    
+
     // Constrói a condição de pesquisa baseada na presença do _id
-    const searchCondition = queryParams._id
-      ? { familyMember_id: queryParams._id }
-      : {};
+ 
 
     // Busca as informações de financiamento no banco de dados
     const financings = await prisma.financing.findMany({
       where: {
-        ...searchCondition,
+      
         candidate_id: candidate.id,
       },
     });

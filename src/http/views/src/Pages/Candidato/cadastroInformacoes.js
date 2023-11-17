@@ -13,9 +13,30 @@ import CadastroRenda from "../../Components/cadastro-renda";
 import Moradia from "../../Components/Moradia/Moradia";
 import Veiculo from "../../Components/Veiculo/Veiculo";
 import DespesasTotais from "../../Components/Despesas/DespesasTotais";
+import EnviarDocumentos from "../../Components/Documentos/EnvioDocumentos";
+import { api } from "../../services/axios";
 export default function CadastroInfo() {
   const nextButton = useRef(null);
   const prevButton = useRef(null);
+
+  const [id, setId] = useState(null)
+  useEffect(() =>{
+    async function pegarIdCandidato(){
+      const token = localStorage.getItem("token")
+      try {
+        const response = await api.get("/candidates/basic-info", {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+
+        setId(response.data.candidate.id)
+      } catch (error) {
+        alert(error.message)
+      }
+    }
+    pegarIdCandidato()
+  },[])
 
   function BasicInfoDiv() {
     return (
@@ -83,7 +104,8 @@ export default function CadastroInfo() {
 
   function DocumentsInfoDiv() {
     return (
-      <div className="fill-container">
+      <div>
+        <EnviarDocumentos id={id}/>
       </div>
     );
   }

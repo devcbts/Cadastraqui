@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './verSolicitações.css'
 import { useParams } from 'react-router'
 import { api } from '../../services/axios'
-import { UilTimesSquare } from "@iconscout/react-unicons"
+import { UilTimesSquare, UilLinkAdd } from "@iconscout/react-unicons"
 export default function VerSolicitacoes() {
 
     const application_id = useParams()
@@ -49,36 +49,40 @@ export default function VerSolicitacoes() {
                                 <div className="solicitacao">
 
                                     <div className="create-comment">
-                                        <h2>Adicionar comentario de seção</h2>
+                                        <h2>Comentário</h2>
                                         <textarea className="text-fixed" placeholder={solicitation.description} disabled ></textarea>
                                         <div className="send-comment">
                                             <div class="box">
-                                                <select value={solicitation.solicitation} >
+                                                <select value={solicitation.solicitation} disabled>
                                                     <option value='Document'>Documento</option>
                                                     <option value="Interview">Entrevista</option>
                                                     <option value="Visit">Visita Domiciliar</option>
                                                 </select>
                                             </div>
-
-                                            <div class="box">
-                                                <h2>Prazo para envio dos documentos</h2>
-                                                <select>
-                                                    <option value="1">1 dia</option>
-                                                    <option value="2">2 dias</option>
-                                                    <option value="3">3 dias</option>
-                                                    <option value="4">4 dias</option>
-                                                    <option value="5">5 dias</option>
-                                                    <option value="6">6 dias</option>
-                                                    <option value="7">7 dias</option>
-                                                </select>
-                                            </div>
+                                            {solicitation.solicitation === 'Document' &&
+                                                <div class="box">
+                                                    <h2>Prazo para envio dos documentos</h2>
+                                                    <select>
+                                                        <option value="1">1 dia</option>
+                                                        <option value="2">2 dias</option>
+                                                        <option value="3">3 dias</option>
+                                                        <option value="4">4 dias</option>
+                                                        <option value="5">5 dias</option>
+                                                        <option value="6">6 dias</option>
+                                                        <option value="7">7 dias</option>
+                                                    </select>
+                                                </div>
+                                            }
                                             <button className="btn-send" >Enviar</button>
                                         </div>
                                     </div>
-
+                                    <div className="attach-file">
+                                        <UilLinkAdd size="25" color="#1f4b73"></UilLinkAdd>
+                                        <h3>Anexar documento</h3>
+                                    </div>
                                 </div>
                             </div>
-                            
+
 
                         </div>
                     )
