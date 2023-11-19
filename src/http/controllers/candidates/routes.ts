@@ -47,11 +47,11 @@ export async function candidateRoutes(app: FastifyInstance) {
 
   /** Basic Info */
   app.post('/', registerCandidate)
-  app.get('/basic-info', { onRequest: [verifyJWT] }, getBasicInfo)
+  app.get('/basic-info/:_id?', { onRequest: [verifyJWT] }, getBasicInfo)
   app.patch('/basic-info', { onRequest: [verifyJWT] }, updateBasicInfo)
 
   /** Identity Info */
-  app.get('/identity-info', { onRequest: [verifyJWT] }, getIdentityInfo)
+  app.get('/identity-info/:_id?', { onRequest: [verifyJWT] }, getIdentityInfo)
   app.post('/identity-info', { onRequest: [verifyJWT] }, registerIdentityInfo)
   app.patch('/identity-info', { onRequest: [verifyJWT] }, updateIdentityInfo)
 

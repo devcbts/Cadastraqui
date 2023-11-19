@@ -1,35 +1,40 @@
-import React, { useEffect, useState , useRef} from 'react'
-import './verSolicitações.css'
+import React, { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
-import { api } from '../../services/axios'
 import { UilTimesSquare, UilLinkAdd } from "@iconscout/react-unicons"
-export default function VerSolicitacoes() {
+import { api } from '../../../services/axios'
+import './verSolicitacoesAssistente.css'
+export default function VerSolicitacoesAssistente({ application_id, announcement_id }) {
 
-    const application_id = useParams()
     const [solicitations, setSolicitations] = useState(null)
-    const [selectedFiles, setSelectedFiles] = useState({}); // Mapeamento de solicitation_id para arquivos
+    const [documentLinks, setDocumentLinks] = useState({}); // Estado para armazenar links dos documentos
+    const [useEffectCount, setUseEffectCount] = useState(0);
 
-    const fileInputRefs = useRef({});
-
-    const handleFileSelect = (solicitation_id, event) => {
-        setSelectedFiles({
-            ...selectedFiles,
-            [solicitation_id]: [...(selectedFiles[solicitation_id] || []), ...event.target.files]
-        });
+    const visualizarDocumentos = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            solicitations.forEach(async (solicitation) => {
+                if (solicitation.solicitation === 'Document') {
+                    const response = await api.get(`/assistant/solicitationDocuments/${application_id}/${solicitation.id}`, {
+                        headers: { 'authorization': `Bearer ${token}` }
+                    });
+                    setDocumentLinks(prevLinks => ({
+                        ...prevLinks,
+                        [solicitation.id]: response.data.urls
+                    }));
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
     };
-
-    const handleFileIconClick = (solicitation_id) => {
-        fileInputRefs.current[solicitation_id].click();
-    };
-
     useEffect(() => {
 
         async function getSolicitations() {
             try {
 
                 const token = localStorage.getItem("token")
-                const solicitation = await api.post(`/candidates/application/see/${application_id.application_id}`, {}, {
+                const solicitation = await api.get(`/assistant/solicitation/${application_id}`, {
                     headers: {
                         'authorization': `Bearer ${token}`,
                     }
@@ -42,44 +47,18 @@ export default function VerSolicitacoes() {
                 console.log(err);
             }
         }
-        getSolicitations()
-    }, [])
-    const enviarDocumento = async (solicitation_id, file) => {
-        const formData = new FormData();
-        formData.append("file", file);
-        const token = localStorage.getItem('token');
 
-        try {
-            console.log('====================================');
-            console.log(formData);
-            console.log('====================================');
-            const response = await api.post(`/candidates/upload/${solicitation_id}`, formData, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-            });
-            console.log(response.data);
-            // Trate a resposta conforme necessário
-        } catch (error) {
-            console.error(error.response?.data || error.message);
-            // Trate o erro conforme necessário
-        }
-    };
+        getSolicitations();
+
+    }, [announcement_id])
+
+
+    useEffect(() =>{
+        visualizarDocumentos()
+    },[solicitations])
+
     return (
         <div className="container-solicitacoes">
-              <a className="btn-cadastro">
-              <Link
-                className="btn-cadastro"
-                to={`/candidato/solicitacoes`}
-              >
-                {"< "}Voltar
-              </Link>
-            </a>
-            <header>
-                <h1>Seja bem-vindo!</h1>
-                <p>Aqui você terá acesso...</p>
-            </header>
-
             <div className="main-content">
                 {solicitations ? solicitations.map((solicitation) => {
                     return (
@@ -118,22 +97,18 @@ export default function VerSolicitacoes() {
 
                                                 </div>
                                             }
+
                                         </div>
+                                        {solicitation.solicitation === 'Document' && documentLinks[solicitation.id] && (
+                                            <div>
+                                                <h3>Documentos:</h3>
+                                                {documentLinks[solicitation.id].map((link, index) => (
+                                                    <a key={index} href={link} target="_blank" rel="noopener noreferrer">Documento {index + 1}</a>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
-                                    {solicitation.solicitation === 'Document' &&
-                                       <div className="attach-file">
-                                       <UilLinkAdd size="25" color="#1f4b73" onClick={() => handleFileIconClick(solicitation.id)} />
-                                       <h3 onClick={() => handleFileIconClick(solicitation.id)}>Anexar documento</h3>
-                                       <input
-                                           type="file"
-                                           multiple
-                                           ref={el => fileInputRefs.current[solicitation.id] = el}
-                                           onChange={(e) => handleFileSelect(solicitation.id, e)}
-                                           style={{ display: 'none' }}
-                                       />
-                                       <button className="btn-send" onClick={() => selectedFiles[solicitation.id]?.forEach((file) =>enviarDocumento(solicitation.id,file))}>Enviar</button>
-                                   </div>
-                                    }
+
                                 </div>
                             </div>
 

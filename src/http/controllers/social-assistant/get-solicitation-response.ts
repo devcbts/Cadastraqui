@@ -27,9 +27,7 @@ export async function getSolicitationDocumentsPDF(
         const userId = request.user.sub
 
         // Verifica se usuário é assistente
-        if (userType !== 'ASSISTANT') {
-            throw new NotAllowedError()
-        }
+       
 
         const assistant = await prisma.socialAssistant.findUnique({
             where: { user_id: userId },
@@ -77,7 +75,7 @@ export async function getSolicitationDocumentsPDF(
 
             const urls = await GetUrls(Folder)
 
-            return reply.status(200).send({message: urls})
+            return reply.status(200).send({urls})
 
         } else {
             throw new AnnouncementNotExists();

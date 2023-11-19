@@ -9,55 +9,56 @@ export async function uploadSolicitationDocument(
     request: FastifyRequest,
     reply: FastifyReply
 ) {
-    const uploadDocumentSchema = z.object({
-        documentPath: z.string(),
-    })
     const uploadParamsSchema = z.object({
         solicitation_id: z.string()
-    })
+    });
 
-    const { solicitation_id } = uploadParamsSchema.parse(request.params)
-    const {
-        documentPath,
-    } = uploadDocumentSchema.parse(request.body)
+    const { solicitation_id } = uploadParamsSchema.parse(request.params);
+
     try {
-        const user_id = request.user.sub
+        const user_id = request.user.sub;
 
-        // Verifica se existe um candidato associado ao user_id
-        const candidate = await prisma.candidate.findUnique({ where: { user_id } })
+        const candidate = await prisma.candidate.findUnique({ where: { user_id } });
         if (!candidate) {
-            throw new ResourceNotFoundError()
+            throw new ResourceNotFoundError();
         }
 
-        const solicitation = await prisma.applicationHistory.findUnique({ where: { id: solicitation_id } })
-
+        const solicitation = await prisma.applicationHistory.findUnique({ where: { id: solicitation_id } });
         if (!solicitation) {
-            throw new ResourceNotFoundError()
-
+            throw new ResourceNotFoundError();
         }
 
-
-        const application = await prisma.application.findUnique({
-            where: {id: solicitation.application_id}
-        })
-
+        const application = await prisma.application.findUnique({ where: { id: solicitation.application_id } });
         if (candidate.id != application?.candidate_id) {
-            throw new NotAllowedError()
+            throw new NotAllowedError();
         }
 
-
-        const Folder = `SolicitationDocuments/${application.id}/${solicitation_id}`
-        const response = await uploadFile(documentPath, Folder)
-
-        if (response) {
-            await prisma.applicationHistory.update({
-                where:{ id: solicitation_id},
-                data: {answered : true}
-            })   
+        const data = await request.file();
+        if (!data) {
+            throw new ResourceNotFoundError();
         }
 
-        reply.status(201).send()
+        const fileBuffer = await data.toBuffer();
+        if (!fileBuffer) {
+            throw new ResourceNotFoundError();
+        }
+
+        console.log(`File Size: ${fileBuffer.length}`);
+
+        const route = `SolicitationDocuments/${application.id}/${solicitation_id}/${data.filename}`;
+        const sended = await uploadFile(fileBuffer, route);
+
+        if (!sended) {
+            throw new NotAllowedError();
+        }
+
+        reply.status(201).send();
     } catch (error) {
-        return reply.status(400).send()
+        if (error instanceof NotAllowedError) {
+            return reply.status(401).send();
+        } if (error instanceof ResourceNotFoundError) {
+            return reply.status(404).send();
+        }
+        return reply.status(400).send();
     }
 }
