@@ -2,6 +2,7 @@ import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { uploadFile } from '@/http/services/upload-file'
 import { prisma } from '@/lib/prisma'
+import { Multipart } from '@fastify/multipart'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -20,8 +21,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             throw new ResourceNotFoundError()
         }
         const fileBuffer = await data.toBuffer();
-        const documentType = data.fields.documentType
-        // Itera sobre as partes do formulário multipart
+        const documentType = data.fields.documentType as any; // Assegura que documentType é do tipo Multipart        // Itera sobre as partes do formulário multipart
         
         if (!documentType || !fileBuffer) {
             throw new ResourceNotFoundError();

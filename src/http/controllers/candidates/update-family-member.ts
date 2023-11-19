@@ -203,10 +203,10 @@ export async function updateFamilyMemberInfo(
     const user_id = request.user.sub
 
     const fetchFamilyMemberParamsSchema = z.object({
-      CPF: z.string().optional(),
+      _id: z.string().optional(),
     })
   
-    const { CPF } = fetchFamilyMemberParamsSchema.parse(request.params)
+    const { _id } = fetchFamilyMemberParamsSchema.parse(request.params)
 
     if (!user_id) {
       throw new NotAllowedError()
@@ -219,7 +219,7 @@ export async function updateFamilyMemberInfo(
     }
 
     // Verifica se o familiar em especifico existe
-    if (!await prisma.familyMember.findUnique({ where: { CPF } })) {
+    if (!await prisma.familyMember.findUnique({ where: { id: _id } })) {
       throw new ResourceNotFoundError()
     }
    
@@ -283,15 +283,10 @@ export async function updateFamilyMemberInfo(
     // Atualiza informações acerca do membro da família do candidato
     await prisma.familyMember.update({
       data: dataToUpdate,
-      where: { CPF: CPF }
+      where: { id: _id }
     });
 
-    // Atualiza informações acerca do membro da família do candidato
-    await prisma.familyMember.update({
-      data: parsedData,
-      where: { CPF: CPF }
-    })
-
+  
     return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
