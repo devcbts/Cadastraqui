@@ -13,7 +13,6 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 
 }
-
 enum ROLE {
   ADMIN
   CANDIDATE
