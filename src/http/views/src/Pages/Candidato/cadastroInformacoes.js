@@ -9,12 +9,15 @@ import { UilAngleRight } from "@iconscout/react-unicons";
 import CadastroFamiliar from "../../Components/Familia/cadastroFamiliar";
 import MembrosFamilia from "../../Components/Familia/MembrosFamilia";
 import CadastroBasico from "../../Components/cadastro-basico";
-import CadastroRenda from "../../Components/cadastro-renda";
+import {CadastroRenda} from "../../Components/cadastro-renda";
 import Moradia from "../../Components/Moradia/Moradia";
-import Veiculo from "../../Components/Veiculo/Veiculo";
+import { api } from "../../services/axios";
+import MembrosFamiliaSaude from "../../Components/Saude/membroSaude";
+import Veiculos from "../../Components/Veiculo/Veiculo";
 import DespesasTotais from "../../Components/Despesas/DespesasTotais";
 import EnviarDocumentos from "../../Components/Documentos/EnvioDocumentos";
-import { api } from "../../services/axios";
+import MembrosFamiliaRendaTeste from '../../Components/Renda/membroFamiliateste.js'
+
 export default function CadastroInfo() {
   const nextButton = useRef(null);
   const prevButton = useRef(null);
@@ -65,7 +68,7 @@ export default function CadastroInfo() {
   function VehicleInfoDiv() {
     return (
       <div >
-        <Veiculo/>
+        <Veiculos/>
       </div>
     );
   }
@@ -73,7 +76,7 @@ export default function CadastroInfo() {
   function EarningInfoDiv() {
     return (
       <div>
-        <CadastroRenda/>
+        <MembrosFamiliaRendaTeste/>
       </div>
     )
   }
@@ -89,7 +92,7 @@ export default function CadastroInfo() {
   function HealthInfoDiv() {
     return (
       <div className="fill-container">
-        <h1>7</h1>
+        <MembrosFamiliaSaude/>
       </div>
     );
   }

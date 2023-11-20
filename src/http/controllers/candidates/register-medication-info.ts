@@ -7,19 +7,21 @@ export async function registerMedicationInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+  const medicationParamsSchema = z.object({
+    familyMember_id: z.string(),
+  })
+
+  // _id === familyMemberId
+  const { familyMember_id } = medicationParamsSchema.parse(request.params)
+
   const medicationDataSchema = z.object({
     medicationName: z.string(),
     obtainedPublicly: z.boolean(),
     specificMedicationPublicly: z.string().optional(),
-    familyMember_id: z.string(),
   })
 
-  const {
-    familyMember_id,
-    medicationName,
-    obtainedPublicly,
-    specificMedicationPublicly,
-  } = medicationDataSchema.parse(request.body)
+  const { medicationName, obtainedPublicly, specificMedicationPublicly } =
+    medicationDataSchema.parse(request.body)
 
   try {
     const user_id = request.user.sub

@@ -1,0 +1,16 @@
+.container-teste {
+  width: 70vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid red;
+}
+
+
+.member-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+
+}

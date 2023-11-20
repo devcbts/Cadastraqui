@@ -52,7 +52,7 @@ export async function registerMEIInfo(
     // Armazena informações acerca do MEI no banco de dados
     await prisma.familyMemberIncome.create({
       data: {
-        employmentType: 'MEI',
+        employmentType: 'IndividualEntrepreneur',
         CNPJ,
         averageIncome: avgIncome.toString(),
         startDate,

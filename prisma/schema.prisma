@@ -570,18 +570,27 @@ model Vehicle {
 }
 
 enum EmploymentType {
-  PRIVATE_EMPLOYEE_CLT
-  PUBLIC_EMPLOYEE
-  DOMESTIC_EMPLOYEE
-  TEMPORARY_RURAL_WORKER
-  RETIRED
-  PENSIONER
-  APPRENTICE_INTERN
-  TEMPORARY_DISABILITY_BENEFIT
-  MEI
-  UNEMPLOYED
-  ENTREPRENEUR
-  SELF_EMPLOYED_INFORMAL
+  PrivateEmployee
+  PublicEmployee
+  DomesticEmployee
+  TemporaryRuralEmployee
+  BusinessOwnerSimplifiedTax
+  BusinessOwner
+  IndividualEntrepreneur
+  SelfEmployed
+  Retired
+  Pensioner
+  Apprentice
+  Volunteer
+  RentalIncome
+  Student
+  InformalWorker
+  Unemployed
+  TemporaryDisabilityBenefit
+  LiberalProfessional
+  FinancialHelpFromOthers
+  Alimony
+  PrivatePension
 }
 
 model FamilyMemberIncome {
