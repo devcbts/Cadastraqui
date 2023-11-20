@@ -29,7 +29,6 @@ import PerfilAssistente from "./Pages/Assistente/perfilAssistente";
 import SeeCandidatosInfo from "./Pages/Assistente/seeCandidatosInfo";
 
 import GeralCadastrado from "./Pages/Assistente/geralCadastrado";
-
 import SolicitacoesCandidato from "./Pages/Candidato/solicitações";
 import VerSolicitacoes from "./Pages/Candidato/verSolicitações";
 
