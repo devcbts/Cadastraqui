@@ -55,7 +55,7 @@ export async function registerEntepreneursInfo(
     // Armazena informações acerca do Empresário no banco de dados
     await prisma.familyMemberIncome.create({
       data: {
-        employmentType: 'ENTREPRENEUR',
+        employmentType: 'BusinessOwner',
         CNPJ,
         averageIncome: avgIncome.toString(),
         socialReason,

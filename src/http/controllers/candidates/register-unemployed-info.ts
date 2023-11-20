@@ -45,7 +45,7 @@ export async function registerUnemployedInfo(
     // Armazena informações acerca do Desempregado no banco de dados
     await prisma.familyMemberIncome.create({
       data: {
-        employmentType: 'UNEMPLOYED',
+        employmentType: 'Unemployed',
         firstParcelDate: new Date(firstParcelDate),
         parcelValue,
         parcels,
