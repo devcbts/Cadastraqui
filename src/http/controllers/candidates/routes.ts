@@ -26,6 +26,18 @@ import { getCandidateProfilePicture } from './get-profile-picture'
 import { uploadCandidateProfilePicture } from './upload-profile-picture'
 import { getOpenAnnouncements } from './get-open-announcements'
 import { getApplications } from './get-applications'
+import { getDocumentsPDF } from './get-pdf-documents'
+import { registerAutonomousInfo } from './register-autonomous-info'
+import { registerMonthlyIncomeInfo } from './resgister-monthly-income-info'
+import { registerMedicationInfo } from './register-medication-info'
+import { registerExpensesInfo } from './register-expenses-info'
+import { getExpensesInfo } from './get-expenses'
+import { registerLoanInfo } from './register-loan-info'
+import { getLoanInfo } from './get-loan-info'
+import { registerFinancingInfo } from './register-financing-info'
+import { getFinancingInfo } from './get-financing-info'
+import { registerCreditCardInfo } from './register-credit-card-info'
+import { getCreditCardInfo } from './get-credit-card-info'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -118,22 +130,22 @@ export async function candidateRoutes(app: FastifyInstance) {
     getOpenAnnouncements,
   )
 
- //Despesas
+  //Despesas
   app.post('/expenses', { onRequest: [verifyJWT] }, registerExpensesInfo)
   app.get('/expenses/:_id?', { onRequest: [verifyJWT] }, getExpensesInfo)
-  
+
   //Empréstimos
-  app.post('/expenses/loan/:_id', { onRequest: [verifyJWT] }, registerLoanInfo )
-  app.get('/expenses/loan/:_id?', { onRequest: [verifyJWT] }, getLoanInfo )
-  
+  app.post('/expenses/loan/:_id', { onRequest: [verifyJWT] }, registerLoanInfo)
+  app.get('/expenses/loan/:_id?', { onRequest: [verifyJWT] }, getLoanInfo)
+
   //Financiamento
-  app.post('/expenses/financing/:_id' , { onRequest: [verifyJWT] }, registerFinancingInfo)
-  app.get('/expenses/financing/:_id?' , { onRequest: [verifyJWT] }, getFinancingInfo)
+  app.post('/expenses/financing/:_id', { onRequest: [verifyJWT] }, registerFinancingInfo)
+  app.get('/expenses/financing/:_id?', { onRequest: [verifyJWT] }, getFinancingInfo)
 
   // Cartão de Crédito
-  app.post('/expenses/credit-card/:_id' , { onRequest: [verifyJWT] }, registerCreditCardInfo)
-  app.get('/expenses/credit-card/:_id?' , { onRequest: [verifyJWT] }, getCreditCardInfo)
-    
+  app.post('/expenses/credit-card/:_id', { onRequest: [verifyJWT] }, registerCreditCardInfo)
+  app.get('/expenses/credit-card/:_id?', { onRequest: [verifyJWT] }, getCreditCardInfo)
+
 
 
   // profile ficture info
