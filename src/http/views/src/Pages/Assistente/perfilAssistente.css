@@ -13,10 +13,10 @@
     gap: 1.5rem;
     justify-content: center;
 }
-
+/*
 input[type="file"] {
     display: none;
-}
+}*/
 
 .profile-label {
     color: #1F4B73;

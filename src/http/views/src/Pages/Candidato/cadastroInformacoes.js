@@ -11,12 +11,28 @@ import MembrosFamilia from "../../Components/Familia/MembrosFamilia";
 import CadastroBasico from "../../Components/cadastro-basico";
 import {CadastroRenda} from "../../Components/cadastro-renda";
 import Moradia from "../../Components/Moradia/Moradia";
-import MembrosFamiliaRenda from "../../Components/Renda/membrosFamilia";
-import MembrosFamiliaRendaTeste from "../../Components/Renda/membroFamiliateste";
-import MembrosFamiliaSaude from "../../Components/Saude/membroSaude";
 export default function CadastroInfo() {
   const nextButton = useRef(null);
   const prevButton = useRef(null);
+
+  const [id, setId] = useState(null)
+  useEffect(() =>{
+    async function pegarIdCandidato(){
+      const token = localStorage.getItem("token")
+      try {
+        const response = await api.get("/candidates/basic-info", {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+
+        setId(response.data.candidate.id)
+      } catch (error) {
+        alert(error.message)
+      }
+    }
+    pegarIdCandidato()
+  },[])
 
   function BasicInfoDiv() {
     return (
@@ -44,8 +60,8 @@ export default function CadastroInfo() {
 
   function VehicleInfoDiv() {
     return (
-      <div className="fill-container">
-        <h1>4</h1>
+      <div >
+        <Veiculo/>
       </div>
     );
   }
@@ -60,8 +76,8 @@ export default function CadastroInfo() {
 
   function BudgetInfoDiv() {
     return (
-      <div className="fill-container">
-        <h1>6</h1>
+      <div >
+        <DespesasTotais/>
       </div>
     );
   }
@@ -84,7 +100,8 @@ export default function CadastroInfo() {
 
   function DocumentsInfoDiv() {
     return (
-      <div className="fill-container">
+      <div>
+        <EnviarDocumentos id={id}/>
       </div>
     );
   }

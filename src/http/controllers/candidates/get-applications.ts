@@ -15,7 +15,9 @@ export async function getApplications(
   const applicationBodySchema = z.object({
     candidate_id: z.string().optional(),
   })
-
+  console.log('====================================');
+  console.log(request.body);
+  console.log('====================================');
   const { application_id } = applicationParamsSchema.parse(request.params)
   const { candidate_id } = applicationBodySchema.parse(request.body)
   console.log('chegamos aqui')
@@ -24,9 +26,6 @@ export async function getApplications(
     const userType = request.user.role
     const userId = request.user.sub
 
-    if (userType !== 'CANDIDATE' && userType !== 'RESPONSIBLE') {
-      throw new NotAllowedError()
-    }
 
     if (userType === 'CANDIDATE') {
       const candidate = await prisma.candidate.findUnique({
@@ -78,6 +77,11 @@ export async function getApplications(
       } else {
         const applications = await prisma.application.findMany({
           where: { candidate_id: candidate.id },
+          include: {
+            announcement: true, // inclui detalhes do anúncio
+            EducationLevel: true,
+            SocialAssistant: true
+          }
         })
 
         return reply.status(200).send({ applications })

@@ -2,8 +2,8 @@ import { env } from '@/env'
 import * as AWS from 'aws-sdk'
 
 const region = env.AWS_BUCKET_REGION
-const accessKeyId = env.AWS_ACCESS_KEY
-const secretAccessKey = env.AWS_SECRET_KEY
+const accessKeyId = env.AWS_ACCESS_KEY_ID
+const secretAccessKey = env.AWS_SECRET_KEY_ID
 const bucketName = env.AWS_BUCKET_NAME
 
 const s3 = new AWS.S3({
@@ -103,6 +103,40 @@ export async function getSignedUrlForFile(fileKey: string): Promise<string> {
     return signedUrl
   } catch (error: any) {
     console.error('Error fetching signed URL:', error)
+    throw error
+  }
+}
+export async function getSignedUrlsGroupedByFolder(
+  candidateFolder: string,
+): Promise<{ [folder: string]: string[] }> {
+  const params = {
+    Bucket: bucketName!,
+    Prefix: candidateFolder + `/`, // Ajustado para a pasta do candidato
+  }
+
+  try {
+    const objects = await s3.listObjectsV2(params).promise()
+    const urlsByFolder: { [folder: string]: string[] } = {}
+
+    for (const obj of objects.Contents || []) {
+      if (!obj.Key!.endsWith('/')) { // Ignora 'pastas'
+        const folderPath = obj.Key!.split('/').slice(0, -1).join('/') // Remove o nome do arquivo para obter o caminho da pasta
+        const url = s3.getSignedUrl('getObject', {
+          Bucket: process.env.AWS_BUCKET_NAME!,
+          Key: obj.Key!,
+          Expires: 3600, // O URL será válido por 1 hora
+        })
+
+        if (!urlsByFolder[folderPath]) {
+          urlsByFolder[folderPath] = []
+        }
+        urlsByFolder[folderPath].push(url)
+      }
+    }
+
+    return urlsByFolder
+  } catch (error: any) {
+    console.error('Error fetching signed URLs:', error)
     throw error
   }
 }

@@ -12,11 +12,11 @@
     flex-direction: column;
     gap: 1.5rem;
 }
-
+/*
 input[type="file"] {
     display: none;
 }
-
+*/
 .profile-label {
     color: #1F4B73;
     text-decoration: underline;

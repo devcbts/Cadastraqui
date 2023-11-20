@@ -22,12 +22,21 @@ export async function registerExpensesInfo(
     streamingServices: z.optional(z.number()),
     fuel: z.optional(z.number()),
     annualIPVA: z.optional(z.number()),
-    optedForInstallment: z.optional(z.boolean()),
-    installmentCount: z.optional(z.number()),
-    installmentValue: z.optional(z.number()),
+    optedForInstallmentIPVA: z.optional(z.boolean()),
+    installmentCountIPVA: z.optional(z.number()),
+    installmentValueIPVA: z.optional(z.number()),
     annualIPTU: z.optional(z.number()),
+    optedForInstallmentIPTU: z.optional(z.boolean()),
+    installmentCountIPTU: z.optional(z.number()),
+    installmentValueIPTU: z.optional(z.number()),
     annualITR: z.optional(z.number()),
+    optedForInstallmentITR: z.optional(z.boolean()),
+    installmentCountITR: z.optional(z.number()),
+    installmentValueITR: z.optional(z.number()),
     annualIR: z.optional(z.number()),
+    optedForInstallmentIR: z.optional(z.boolean()),
+    installmentCountIR: z.optional(z.number()),
+    installmentValueIR: z.optional(z.number()),
     INSS: z.optional(z.number()),
     publicTransport: z.optional(z.number()),
     schoolTransport: z.optional(z.number()),
@@ -36,10 +45,15 @@ export async function registerExpensesInfo(
     healthPlan: z.optional(z.number()),
     dentalPlan: z.optional(z.number()),
     medicationExpenses: z.optional(z.number()),
-    otherExpenses: z.optional(z.number()),
+    otherExpensesValue: z.optional(z.array(z.number())),
+    otherExpensesDescription: z.optional(z.array(z.string())),
     totalExpense: z.optional(z.number()),
   })
 
+
+  console.log('====================================');
+  console.log(request.body);
+  console.log('====================================');
   const {
     month,
     INSS,
@@ -50,7 +64,8 @@ export async function registerExpensesInfo(
     healthPlan,
     dentalPlan,
     medicationExpenses,
-    otherExpenses,
+    otherExpensesValue,
+    otherExpensesDescription,
     totalExpense,
     annualIPTU,
     annualIPVA,
@@ -62,11 +77,21 @@ export async function registerExpensesInfo(
     food,
     fuel,
     garageRent,
-    installmentCount,
-    installmentValue,
+    installmentCountIPVA,
+    installmentValueIPVA,
+    optedForInstallmentIPVA,
+    installmentCountIPTU,
+    installmentValueIPTU,
+    optedForInstallmentIPTU,
+    installmentCountITR,
+    installmentValueITR,
+    optedForInstallmentITR,
+    installmentCountIR,
+    installmentValueIR,
+    optedForInstallmentIR,
     landlinePhone,
     mobilePhone,
-    optedForInstallment,
+    
     rent,
     streamingServices,
     waterSewage,
@@ -82,13 +107,7 @@ export async function registerExpensesInfo(
     }
 
     // Verifica se já existe um  cadastro de despesa com o RG ou CPF associados ao candidato
-    if (
-      await prisma.expense.findFirst({
-        where: { candidate_id: candidate.id },
-      })
-    ) {
-      throw new NotAllowedError()
-    }
+    
 
     // Armazena informações acerca das despesas do candidato
     await prisma.expense.create({
@@ -108,19 +127,29 @@ export async function registerExpensesInfo(
         garageRent,
         healthPlan,
         INSS,
-        installmentCount,
-        installmentValue,
+        installmentCountIPVA,
+        installmentValueIPVA,
+        optedForInstallmentIPVA,
+        installmentCountIPTU,
+        installmentValueIPTU,
+        optedForInstallmentIPTU,
+        installmentCountITR,
+        installmentValueITR,
+        optedForInstallmentITR,
+        installmentCountIR,
+        installmentValueIR,
+        optedForInstallmentIR,
         landlinePhone,
         internet,
         candidate_id: candidate.id,
         mobilePhone,
-        optedForInstallment,
         publicTransport,
         rent,
         schoolTransport,
         streamingServices,
         totalExpense,
-        otherExpenses,
+        otherExpensesValue,
+        otherExpensesDescription,
         medicationExpenses,
         waterSewage,
       },

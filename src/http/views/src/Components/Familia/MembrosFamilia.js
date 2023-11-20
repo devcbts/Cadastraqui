@@ -2,19 +2,35 @@ import React, { useEffect, useState } from 'react';
 import CadastroFamiliar from './cadastroFamiliar.js';
 import { api } from '../../services/axios.js';
 import VerFamiliar from './verFamiliar.js';
-
+import Select from 'react-select'
 export default function MembrosFamilia() {
+
+    //Visualização de dados
+
+
+    // Todos os membros da família
     const [membros, setMembros] = useState([]);
+
+    // Decide se vai realizar cadastro ou ver os dados dos membros da familia
     const [mostrarCadastro, setMostrarCadastro] = useState(false);
+
+    // Membro selecionado para ver os dados
     const [membroSelecionado, setMembroSelecionado] = useState(null);
+
+    // Ignora isso por enquanto
     const adicionarMembro = (membro) => {
         setMembros([...membros, membro]);
         setMostrarCadastro(false); // Fecha o cadastro após adicionar o membro
     };
 
+
+
+    // Só pra mudar a visão de cadastro pra visão de visualização de dados (e vice-versa)
     const toggleCadastro = () => {
         setMostrarCadastro(!mostrarCadastro);
     };
+
+    // Setar o membro selecionado
     const selecionarMembro = (membro) => {
         setMembroSelecionado(membro);
         console.log('====================================');
@@ -23,6 +39,8 @@ export default function MembrosFamilia() {
     };
 
 
+
+    // UseEffect para pegar os dados dos membros familiares
     useEffect(() => {
         async function pegarMembros() {
             const token = localStorage.getItem('token');
@@ -65,26 +83,33 @@ export default function MembrosFamilia() {
     );
 }
 
+
+// Função de ser um dropdown para selecionar os dados dos membros familiares
 const DropdownMembros = ({ membros, onSelect }) => {
     if (membros.length === 0) return null;
     
-    const handleSelect = (event) => {
-        const selectedMembro = membros.find(m => m.fullName === event.target.value);
+    const handleSelect = (selectedOption) => {
+        onSelect(selectedOption.membro);
         console.log('====================================');
-        console.log(selectedMembro);
+        console.log(selectedOption);
         console.log('====================================');
-        onSelect(selectedMembro);
+
     };
 
+    // Esse options é só pra passar os dados pra cima, então eu decido o label, value e um objeto com os dados totais para passar como argumento pra cima
+    const options = membros.map(membro => ({
+        membro: membro,
+        value: membro.fullName,
+        label: membro.fullName
+    }));
+    //Select do react select
     return (
-        <div>
-            <select onChange={handleSelect}>
-                {membros.map((membro, index) => (
-                    <option key={index} value={membro.fullName}>
-                        {membro.fullName}
-                    </option>
-                ))}
-            </select>
-        </div>
+        <Select
+        options={options}
+        onChange={handleSelect}
+        getOptionValue={(option) => option.value}
+        getOptionLabel={(option) => option.label}
+
+    />
     );
 };

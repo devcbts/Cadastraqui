@@ -52,9 +52,9 @@ export default function CadastroMoradia() {
         grantorName: '',
         propertyStatus: 'OwnPaidOff',
         contractType: '',
-        timeLivingInProperty: '',
-        domicileType: '',
-        numberOfRooms: '',
+        timeLivingInProperty: 'UpTo11Months',
+        domicileType: 'House',
+        numberOfRooms: 'One',
         numberOfBedrooms: 0,
     });
 
@@ -64,9 +64,18 @@ export default function CadastroMoradia() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
         const token = localStorage.getItem('token');
         try {
-            const response = await api.post('/candidates/housing-info', formData, {
+            const response = await api.post('/candidates/housing-info', {
+                grantorName: formData.grantorName || undefined,
+                propertyStatus: formData.propertyStatus,
+                contractType: formData.contractType || undefined,
+                timeLivingInProperty: formData.timeLivingInProperty || undefined,
+                domicileType: formData.domicileType,
+                numberOfRooms: formData.numberOfRooms || undefined,
+                numberOfBedrooms: Number(formData.numberOfBedrooms),
+            }, {
                 headers: {
 
                     'Authorization': `Bearer ${token}`,

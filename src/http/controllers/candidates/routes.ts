@@ -26,9 +26,6 @@ import { getCandidateProfilePicture } from './get-profile-picture'
 import { uploadCandidateProfilePicture } from './upload-profile-picture'
 import { getOpenAnnouncements } from './get-open-announcements'
 import { getApplications } from './get-applications'
-import { registerMonthlyIncomeInfo } from './resgister-monthly-income-info'
-import { registerAutonomousInfo } from './register-autonomous-info'
-import { registerMedicationInfo } from './register-medication-info'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -37,19 +34,20 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     uploadSolicitationDocument,
   )
+  app.get('/documents', { onRequest: [verifyJWT] }, getDocumentsPDF)
 
   /** Basic Info */
   app.post('/', registerCandidate)
-  app.get('/basic-info', { onRequest: [verifyJWT] }, getBasicInfo)
+  app.get('/basic-info/:_id?', { onRequest: [verifyJWT] }, getBasicInfo)
   app.patch('/basic-info', { onRequest: [verifyJWT] }, updateBasicInfo)
 
   /** Identity Info */
-  app.get('/identity-info', { onRequest: [verifyJWT] }, getIdentityInfo)
+  app.get('/identity-info/:_id?', { onRequest: [verifyJWT] }, getIdentityInfo)
   app.post('/identity-info', { onRequest: [verifyJWT] }, registerIdentityInfo)
   app.patch('/identity-info', { onRequest: [verifyJWT] }, updateIdentityInfo)
 
   /** Housing Info */
-  app.get('/housing-info', { onRequest: [verifyJWT] }, getHousingInfo)
+  app.get('/housing-info/:_id?', { onRequest: [verifyJWT] }, getHousingInfo)
   app.post('/housing-info', { onRequest: [verifyJWT] }, registerHousingInfo)
   app.patch('/housing-info', { onRequest: [verifyJWT] }, updateHousingInfo)
 
@@ -96,9 +94,9 @@ export async function candidateRoutes(app: FastifyInstance) {
   )
 
   /** Vehicle Info */
-  app.get('/vehicle-info', { onRequest: [verifyJWT] }, getVehicleInfo)
+  app.get('/vehicle-info/:_id?', { onRequest: [verifyJWT] }, getVehicleInfo)
   app.post(
-    '/vehicle-info/:_id',
+    '/vehicle-info',
     { onRequest: [verifyJWT] },
     registerVehicleInfo,
   )
@@ -119,6 +117,24 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     getOpenAnnouncements,
   )
+
+ //Despesas
+  app.post('/expenses', { onRequest: [verifyJWT] }, registerExpensesInfo)
+  app.get('/expenses/:_id?', { onRequest: [verifyJWT] }, getExpensesInfo)
+  
+  //Empréstimos
+  app.post('/expenses/loan/:_id', { onRequest: [verifyJWT] }, registerLoanInfo )
+  app.get('/expenses/loan/:_id?', { onRequest: [verifyJWT] }, getLoanInfo )
+  
+  //Financiamento
+  app.post('/expenses/financing/:_id' , { onRequest: [verifyJWT] }, registerFinancingInfo)
+  app.get('/expenses/financing/:_id?' , { onRequest: [verifyJWT] }, getFinancingInfo)
+
+  // Cartão de Crédito
+  app.post('/expenses/credit-card/:_id' , { onRequest: [verifyJWT] }, registerCreditCardInfo)
+  app.get('/expenses/credit-card/:_id?' , { onRequest: [verifyJWT] }, getCreditCardInfo)
+    
+
 
   // profile ficture info
   app.get(

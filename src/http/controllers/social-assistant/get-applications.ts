@@ -22,11 +22,8 @@ export async function getApplications(
     try {
         const userType = request.user.role
         const userId = request.user.sub
-
-        if (userType !== 'ASSISTANT') {
-            throw new NotAllowedError()
-        }
-
+    
+       
         const assistant = await prisma.socialAssistant.findUnique({
             where: { user_id: userId },
         })
@@ -67,7 +64,7 @@ export async function getApplications(
 
     } catch (err: any) {
         if (err instanceof NotAllowedError) {
-            return reply.status(404).send({ message: err.message })
+            return reply.status(401).send({ message: err.message })
         }
         if (err instanceof AnnouncementNotExists) {
             return reply.status(404).send({ message: err.message })

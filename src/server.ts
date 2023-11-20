@@ -1,4 +1,4 @@
-import { env } from '@/env'
+import { env } from './env/index'
 import { app } from './app'
 
 app

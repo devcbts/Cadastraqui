@@ -6,7 +6,7 @@ import { UilTimesCircle, UilArchive } from "@iconscout/react-unicons";
 import { UilEstate } from "@iconscout/react-unicons";
 import { UilExchange } from "@iconscout/react-unicons";
 import { UilUserCircle } from "@iconscout/react-unicons";
-import { UilHistory } from "@iconscout/react-unicons";
+import { UilHistory ,UilPlusCircle } from "@iconscout/react-unicons";
 import whiteLogoText from "../Assets/logo_branca_texto.png";
 import { useAppState } from "../AppGlobal";
 import { useLocation } from "react-router-dom";
@@ -106,7 +106,7 @@ export default function NavBarCandidato(props) {
     } else {
       setCandidateInfo(candidate)
     }
-  },[])
+  }, [])
 
   var location = useLocation();
   var currentPath = location.pathname;
@@ -201,34 +201,19 @@ export default function NavBarCandidato(props) {
                 <a
                   href="#"
                   className={`${currentPath == "/candidato/historico"
-                      ? "active"
-                      : "inactive"
+                    ? "active"
+                    : "inactive"
                     }`}
                   onClick={() => urlNavigation("historico")}
                 >
                   <UilHistory
                     size="30"
                     color={`${currentPath == "/candidato/historico"
-                        ? "#1F4B73"
-                        : "white"
+                      ? "#1F4B73"
+                      : "white"
                       }`}
                   />
                   <span>Histórico</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className={`${currentPath == "/candidato/perfil" ? "active" : "inactive"
-                    }`}
-                  onClick={() => urlNavigation("perfil")}
-                >
-                  <UilUserCircle
-                    size="30"
-                    color={`${currentPath == "/candidato/perfil" ? "#1F4B73" : "white"
-                      }`}
-                  />
-                  <span>Perfil</span>
                 </a>
               </li>
               <li>
@@ -246,6 +231,38 @@ export default function NavBarCandidato(props) {
                   <span>Solicitações</span>
                 </a>
               </li>
+              <li>
+                <a
+                  href="#"
+                  className={`${currentPath == "/candidato/info" ? "active" : "inactive"
+                    }`}
+                  onClick={() => urlNavigation("info")}
+                >
+                  <UilPlusCircle 
+                    size="30"
+                    color={`${currentPath == "/candidato/info" ? "#1F4B73" : "white"
+                      }`}
+                  />
+                  <span >Cadastrar Informações</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className={`${currentPath == "/candidato/perfil" ? "active" : "inactive"
+                    }`}
+                  onClick={() => urlNavigation("perfil")}
+                >
+                  <UilUserCircle
+                    size="30"
+                    color={`${currentPath == "/candidato/perfil" ? "#1F4B73" : "white"
+                      }`}
+                  />
+                  <span>Perfil</span>
+                </a>
+              </li>
+
+
             </ul>
           </div>
         </div>

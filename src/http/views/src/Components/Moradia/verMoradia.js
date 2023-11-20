@@ -73,51 +73,95 @@ export default function VerMoradia ({formData})  {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Nome do cedente:
-                <input type="text" name="grantorName" value={formData.grantorName} disabled onChange={handleChange} required />
-            </label>
-            <label>
-                Status da propriedade:
+        <div className="fill-box">
+
+        <form onSubmit={handleSubmit} id='survey-form'>
+            <div className='survey-box'>
+
+                <label>
+                    Status da propriedade:
+
+                </label>
+                <br />
                 <select name="propertyStatus" value={formData.propertyStatus} disabled onChange={handleChange} required>
                     {PropertyStatus.map((status) => <option value={status.value}>{status.label}</option>)}
                 </select>
-            </label>
-            <label>
-                Tipo de contrato:
-                <select name="contractType" value={formData.contractType} disabled onChange={handleChange} required>
-                    {ContractType.map((type) => <option value={type.value}>{type.label}</option>)}
-                </select>
-            </label>
-            <label>
-                Tempo vivendo na propriedade:
+            </div>
+            {['ProvidedByEmployer', 'ProvidedByFamily', 'ProvidedOtherWay'].includes(formData.propertyStatus) &&
+                <div className='survey-box'>
+
+                    <label>
+                        Nome do cedente:
+                    </label>
+
+                    <br />
+
+                    <input className='survey-control' type="text" name="grantorName" value={formData.grantorName} disabled onChange={handleChange} required />
+                </div>
+
+
+            }
+
+            {formData.propertyStatus === 'Rented' &&
+
+                <div className='survey-box'>
+
+                    <label>
+                        Tipo de contrato:
+
+                    </label>
+                    <br />
+                    <select name="contractType" value={formData.contractType} disabled onChange={handleChange} required>
+                        {ContractType.map((type) => <option value={type.value}>{type.label}</option>)}
+                    </select>
+                </div>
+            }
+            <div className='survey-box'>
+
+                <label>
+                    Tempo vivendo na propriedade:
+
+                </label>
+                <br />
                 <select name="timeLivingInProperty" value={formData.timeLivingInProperty} disabled onChange={handleChange} required>
                     {TimeLivingInProperty.map((time) => <option value={time.value}>{time.label}</option>)}
                 </select>
-            </label>
-            <label>
-                Tipo de domicílio:
+            </div>
+            <div className='survey-box'>
+
+                <label>
+                    Tipo de domicílio:
+
+                </label>
+                <br />
                 <select name="domicileType" value={formData.domicileType} disabled onChange={handleChange} required>
                     {DomicileType.map((type) => <option value={type.value}>{type.label}</option>)}
                 </select>
-            </label>
-            <label>
-                Número de cômodos:
+            </div>
+            <div className='survey-box'>
+
+                <label>
+                    Número de cômodos:
+
+                </label>
+                <br />
                 <select name="numberOfRooms" value={formData.numberOfRooms} disabled onChange={handleChange} required>
                     {NumberOfRooms.map((number) => <option value={number.value}>{number.label}</option>)}
                 </select>
-            </label>
-            <label>
-                Número de quartos:
-                <input type="number" name="numberOfBedrooms" value={formData.numberOfBedrooms} disabled onChange={handleChange} min="0" required />
-            </label>
-            <label>
-                Número de quartos:
-                <input type="number" name="numberOfBedrooms" value={formData.numberOfBedrooms} disabled onChange={handleChange} min="0" required />
-            </label>
+            </div>
+            <div className='survey-box'>
+
+                <label>
+                    Número de quartos:
+                </label>
+
+                <input className='survey-control' type="number" name="numberOfBedrooms" value={formData.numberOfBedrooms} disabled onChange={handleChange} min="0" required />
+                <br />
+            </div>
+
             <button type="submit">Enviar</button>
         </form>
+    </div>
 
     );
 };

@@ -20,8 +20,13 @@ export async function registerLoanInfo(
     _id: z.string(),
   })
 
+
   // _id === family_member_id
   const { _id } = LoanParamsSchema.parse(request.params)
+
+  console.log('====================================');
+  console.log(request.body);
+  console.log('====================================');
 
   const {
     bankName,
@@ -57,6 +62,7 @@ export async function registerLoanInfo(
         paidInstallments,
         totalInstallments,
         familyMember_id: _id,
+        candidate_id: candidate.id
       },
     })
 
