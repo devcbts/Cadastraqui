@@ -11,6 +11,8 @@ import MembrosFamilia from "../../Components/Familia/MembrosFamilia";
 import CadastroBasico from "../../Components/cadastro-basico";
 import {CadastroRenda} from "../../Components/cadastro-renda";
 import Moradia from "../../Components/Moradia/Moradia";
+import { api } from "../../services/axios";
+import MembrosFamiliaSaude from "../../Components/Saude/membroSaude";
 export default function CadastroInfo() {
   const nextButton = useRef(null);
   const prevButton = useRef(null);
