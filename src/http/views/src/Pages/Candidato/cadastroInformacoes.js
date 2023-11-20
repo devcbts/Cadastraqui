@@ -9,8 +9,11 @@ import { UilAngleRight } from "@iconscout/react-unicons";
 import CadastroFamiliar from "../../Components/Familia/cadastroFamiliar";
 import MembrosFamilia from "../../Components/Familia/MembrosFamilia";
 import CadastroBasico from "../../Components/cadastro-basico";
-import CadastroRenda from "../../Components/cadastro-renda";
+import {CadastroRenda} from "../../Components/cadastro-renda";
 import Moradia from "../../Components/Moradia/Moradia";
+import MembrosFamiliaRenda from "../../Components/Renda/membrosFamilia";
+import MembrosFamiliaRendaTeste from "../../Components/Renda/membroFamiliateste";
+import MembrosFamiliaSaude from "../../Components/Saude/membroSaude";
 export default function CadastroInfo() {
   const nextButton = useRef(null);
   const prevButton = useRef(null);
@@ -50,7 +53,7 @@ export default function CadastroInfo() {
   function EarningInfoDiv() {
     return (
       <div>
-        <CadastroRenda/>
+        <MembrosFamiliaRendaTeste/>
       </div>
     )
   }
@@ -66,7 +69,7 @@ export default function CadastroInfo() {
   function HealthInfoDiv() {
     return (
       <div className="fill-container">
-        <h1>7</h1>
+        <MembrosFamiliaSaude/>
       </div>
     );
   }

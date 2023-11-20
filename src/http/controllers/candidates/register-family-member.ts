@@ -104,7 +104,7 @@ export async function registerFamilyMemberInfo(
 
   const IncomeSource = z.enum([
     'PrivateEmployee',
-   'PublicEmployee',
+    'PublicEmployee',
     'DomesticEmployee',
     'TemporaryRuralEmployee',
     'BusinessOwnerSimplifiedTax',
@@ -123,7 +123,7 @@ export async function registerFamilyMemberInfo(
     'LiberalProfessional',
     'FinancialHelpFromOthers',
     'Alimony',
-    'PrivatePension'
+    'PrivatePension',
   ])
 
   const familyMemberDataSchema = z.object({
@@ -176,9 +176,9 @@ export async function registerFamilyMemberInfo(
     monthlyAmount: z.string().optional(),
     incomeSource: z.array(IncomeSource).optional(),
   })
-  console.log('====================================');
-  console.log(request.body);
-  console.log('====================================');
+  console.log('====================================')
+  console.log(request.body)
+  console.log('====================================')
   const {
     CEP,
     CPF,
@@ -227,9 +227,9 @@ export async function registerFamilyMemberInfo(
     specialNeedsDescription,
     turnOfEducation,
     workPhone,
-    incomeSource
+    incomeSource,
   } = familyMemberDataSchema.parse(request.body)
-  
+
   try {
     const user_id = request.user.sub
 
@@ -254,7 +254,7 @@ export async function registerFamilyMemberInfo(
     ) {
       throw new NotAllowedError()
     }
-  
+
     const dataToCreate = {
       relationship,
       fullName,
@@ -306,13 +306,13 @@ export async function registerFamilyMemberInfo(
       ...(percentageOfScholarship && { percentageOfScholarship }),
       ...(monthlyAmount && { monthlyAmount }),
       ...(incomeSource && { incomeSource }),
-    };
-    
-    console.log('====================================');
-    console.log(dataToCreate);
-    console.log('====================================');
+    }
+
+    console.log('====================================')
+    console.log(dataToCreate)
+    console.log('====================================')
     await prisma.familyMember.create({
-      data: dataToCreate
+      data: dataToCreate,
     })
 
     return reply.status(201).send()

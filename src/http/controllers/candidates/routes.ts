@@ -26,6 +26,9 @@ import { getCandidateProfilePicture } from './get-profile-picture'
 import { uploadCandidateProfilePicture } from './upload-profile-picture'
 import { getOpenAnnouncements } from './get-open-announcements'
 import { getApplications } from './get-applications'
+import { registerMonthlyIncomeInfo } from './resgister-monthly-income-info'
+import { registerAutonomousInfo } from './register-autonomous-info'
+import { registerMedicationInfo } from './register-medication-info'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -61,15 +64,36 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     registerFamilyMemberInfo,
   )
+  app.post(
+    '/family-member/MEI/:_id',
+    { onRequest: [verifyJWT] },
+    registerFamilyMemberInfo,
+  )
+
+  app.post(
+    '/family-member/dependent-autonomous/:_id',
+    { onRequest: [verifyJWT] },
+    registerAutonomousInfo,
+  )
   app.patch(
     '/family-info/:CPF?',
     { onRequest: [verifyJWT] },
     updateFamilyMemberInfo,
   )
+  app.post(
+    '/family-member/income/:_id',
+    { onRequest: [verifyJWT] },
+    registerMonthlyIncomeInfo,
+  )
 
   /** Health Info */
   app.get('/health-info', { onRequest: [verifyJWT] }, getHealthInfo)
   app.post('/health-info/:_id', { onRequest: [verifyJWT] }, registerHealthInfo)
+  app.post(
+    '/medication-info/:_id',
+    { onRequest: [verifyJWT] },
+    registerMedicationInfo,
+  )
 
   /** Vehicle Info */
   app.get('/vehicle-info', { onRequest: [verifyJWT] }, getVehicleInfo)
