@@ -1,3 +1,4 @@
+require('module-alias/register');
 import { env } from './env/index'
 import fastify, { FastifyReply, FastifyRequest } from 'fastify'
 import fastifyJwt from '@fastify/jwt'
@@ -20,6 +21,7 @@ import { uploadUserProfilePicture } from './http/controllers/users/upload-profil
 import { verifyJWT } from './http/middlewares/verify-jwt'
 import { getUserProfilePicture } from './http/controllers/users/get-profile-picture'
 import { fastifyMultipart } from '@fastify/multipart'
+
 export const app = fastify()
 app.register(fastifyMultipart, {
   limits: {
