@@ -30,7 +30,7 @@ app.register(fastifyMultipart, {
 })
 // Registre o plugin fastify-cors
 app.register(fastifyCors, {
-  origin: 'http://localhost:3000',
+  origin: 'https://cadastraqui-k36jt338h-victordavisbs-projects.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 })
