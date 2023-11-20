@@ -22,7 +22,7 @@
     "axios": "1.5.1",
     "bcryptjs": "2.4.3",
     "dotenv": "16.3.1",
-    "fastify": "4.23.2",
+    "fastify": "4.24.3",
     "fastify-busboy": "1.1.0",
     "fastify-cors": "3.0.3",
     "fastify-multer": "2.0.3",
@@ -49,6 +49,6 @@
   },
   "_moduleAliases": {
     "@": "./app",
-    "@env" : "./src/env"
+    "@env": "./src/env"
   }
 }
