@@ -13,6 +13,11 @@ import {CadastroRenda} from "../../Components/cadastro-renda";
 import Moradia from "../../Components/Moradia/Moradia";
 import { api } from "../../services/axios";
 import MembrosFamiliaSaude from "../../Components/Saude/membroSaude";
+import Veiculos from "../../Components/Veiculo/Veiculo";
+import DespesasTotais from "../../Components/Despesas/DespesasTotais";
+import EnviarDocumentos from "../../Components/Documentos/EnvioDocumentos";
+import MembrosFamiliaRendaTeste from '../../Components/Renda/membroFamiliateste.js'
+
 export default function CadastroInfo() {
   const nextButton = useRef(null);
   const prevButton = useRef(null);
@@ -63,7 +68,7 @@ export default function CadastroInfo() {
   function VehicleInfoDiv() {
     return (
       <div >
-        <Veiculo/>
+        <Veiculos/>
       </div>
     );
   }
