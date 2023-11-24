@@ -38,7 +38,7 @@ import { registerFinancingInfo } from './register-financing-info'
 import { getFinancingInfo } from './get-financing-info'
 import { registerCreditCardInfo } from './register-credit-card-info'
 import { getCreditCardInfo } from './get-credit-card-info'
-import { getMEIInfo } from './get-income-info'
+import { getIncomeInfo, } from './get-income-info'
 import { registerMEIInfo } from './register-MEI-info'
 
 export async function candidateRoutes(app: FastifyInstance) {
@@ -48,7 +48,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     uploadSolicitationDocument,
   )
-  app.get('/documents', { onRequest: [verifyJWT] }, getDocumentsPDF)
+  app.get('/documents/:_id?', { onRequest: [verifyJWT] }, getDocumentsPDF)
 
   /** Basic Info */
   app.post('/', registerCandidate)
@@ -82,7 +82,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     registerMEIInfo,
   )
 
-  app.get('/family-member/MEI/:_id', { onRequest: [verifyJWT] }, getMEIInfo)
+  app.get('/family-member/income/:_id', { onRequest: [verifyJWT] }, getIncomeInfo)
 
   app.post(
     '/family-member/dependent-autonomous/:_id',
@@ -115,7 +115,7 @@ export async function candidateRoutes(app: FastifyInstance) {
 
   app.post(
     '/application/:announcement_id/:educationLevel_id',
-    { onRequest: [verifyJWT, verifyRole('CANDIDATE')] },
+    { onRequest: [verifyJWT] },
     subscribeAnnouncement,
   )
   app.post(

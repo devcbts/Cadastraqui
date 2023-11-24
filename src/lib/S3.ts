@@ -97,7 +97,7 @@ export async function getSignedUrlForFile(fileKey: string): Promise<string> {
     const signedUrl = s3.getSignedUrl('getObject', {
       Bucket: process.env.AWS_BUCKET_NAME!,
       Key: fileKey,
-      Expires: 3600, // O URL será válido por 1 hora
+      Expires: 100000, // O URL será válido por 1 hora
     })
 
     return signedUrl

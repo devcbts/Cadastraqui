@@ -4,19 +4,35 @@ import { GetUrl } from '@/http/services/get-file'
 import { uploadFile } from '@/http/services/upload-file'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
 
 export async function getEntityProfilePicture(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+  const requestParamsData = z.object({
+    _id: z.string().optional()
+  })
+
+  const { _id } = requestParamsData.parse(request.params)
   try {
     const user_id = request.user.sub
     // Verifica se existe um candidato associado ao user_id
-    const entity = await prisma.entity.findUnique({ where: { user_id } })
+    let entity
+    let entitySubsidiary
+    if (_id) {
+      entity = await prisma.entity.findUnique({ where: { user_id: _id } })
 
-    const entitySubisidary = await prisma.entitySubsidiary.findUnique({ where: { user_id } })
+     entitySubsidiary = await prisma.entitySubsidiary.findUnique({ where: { user_id : _id} })
 
-    if (!entity && !entitySubisidary) {
+    }else{
+
+      entity = await prisma.entity.findUnique({ where: { user_id } })
+      
+      entitySubsidiary = await prisma.entitySubsidiary.findUnique({ where: { user_id } })
+    }
+
+    if (!entity && !entitySubsidiary) {
       throw new ResourceNotFoundError()
     }
 
@@ -28,8 +44,8 @@ export async function getEntityProfilePicture(
        
             reply.status(200).send({ url })
         }
-        if (entitySubisidary) {
-            const Route = `ProfilePictures/${entitySubisidary.id}`
+        if (entitySubsidiary) {
+            const Route = `ProfilePictures/${entitySubsidiary.id}`
             const url = await GetUrl(Route)
 
        

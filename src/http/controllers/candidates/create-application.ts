@@ -62,10 +62,10 @@ export async function subscribeAnnouncement(
     return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
-      return reply.status(404).send({ message: err.message })
+      return reply.status(404).send({ err })
     }
     if (err instanceof ApplicationAlreadyExistsError) {
-      return reply.status(409).send({ message: err.message })
+      return reply.status(409).send({ err })
     }
 
     return reply.status(500).send({ message: err.message })

@@ -11,14 +11,25 @@ export async function getDocumentsPDF(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  
+  const requestParamsData = z.object({
+    _id : z.string().optional()
+  })
+
+  const {_id} = requestParamsData.parse(request.params)
   try {
     const userId = request.user.sub
+    let candidate
+    if (_id) {
+      candidate = await prisma.candidate.findUnique({
+        where: { id: _id },
+      })
+    }
+    else{
 
-  
-    const candidate = await prisma.candidate.findUnique({
-      where: { user_id: userId },
-    })
+       candidate = await prisma.candidate.findUnique({
+        where: { user_id: userId },
+      })
+    }
 
     if (!candidate) {
       throw new ResourceNotFoundError()

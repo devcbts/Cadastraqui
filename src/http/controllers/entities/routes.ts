@@ -111,6 +111,6 @@ export async function entityRoutes(app: FastifyInstance) {
   )
 
   app.post('/profilePicture', {onRequest: [verifyJWT]}, uploadEntityProfilePicture)
-  app.get('/profilePicture', {onRequest: [verifyJWT]}, getEntityProfilePicture)
+  app.get('/profilePicture/:_id?', {onRequest: [verifyJWT]}, getEntityProfilePicture)
 
 }

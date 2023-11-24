@@ -41,10 +41,14 @@ export async function fetchAnnouncements(
     }
 
     const announcements = await prisma.announcement.findMany({
-      where: { entity_id: entity.id },
+      where: { entity_id: entity.id }, include: {
+        entity :true,
+        entity_subsidiary: true
+      }
+      
     })
 
-    return reply.status(200).send({ announcements })
+    return reply.status(200).send({ announcements, entity })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })

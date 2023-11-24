@@ -17,10 +17,19 @@ export async function getOpenAnnouncements(
     if (!announcement_id) {
       announcements = await prisma.announcement.findMany({
         where: { announcementDate: { gte: new Date() } },
+        include: {
+          entity: true,
+          entity_subsidiary: true
+        }
       })
     } else {
       announcements = await prisma.announcement.findUnique({
         where: { id: announcement_id, announcementDate: { gte: new Date() } },
+        include:{
+          educationLevels: true,
+          entity: true,
+          entity_subsidiary: true,
+        }
       })
     }
     return reply.status(200).send({ announcements })

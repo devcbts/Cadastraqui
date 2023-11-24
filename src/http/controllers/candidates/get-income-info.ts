@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function getMEIInfo(request: FastifyRequest, reply: FastifyReply) {
+export async function getIncomeInfo(request: FastifyRequest, reply: FastifyReply) {
   const queryParamsSchema = z.object({
     _id: z.string(),
   })

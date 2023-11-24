@@ -11,11 +11,16 @@ export async function getUserProfilePicture(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+
   try {
     const user_id = request.user.sub
 
+    let user;
     // Verifica se existe um candidato associado ao user_id
-    const user = await prisma.user.findUnique({ where: { id: user_id } })
+    
+
+      user = await prisma.user.findUnique({ where: { id: user_id } })
+    
     if (!user) {
       throw new ResourceNotFoundError()
     }
