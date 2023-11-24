@@ -8,47 +8,47 @@ import Candidatura from "../../Components/candidatura";
 import { api } from "../../services/axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
-import Candidatura2 from "../../Components/candidatura2";
-import EditalFake from "../../Components/editalfake";
+import LoadingCandidaturaAssistente from "../../Components/Loading/loadingCandidaturaAssistente";
+import CandidatoCandidatura from "../../Components/Candidatocandidatura";
 
 export default function HomeCandidato() {
   const { isShown } = useAppState()
 
   // Armazena todos os estados para colocar no select
   const UF = ['AC',
-  'AL',
-  'AM',
-  'AP',
-  'BA',
-  'CE',
-  'DF',
-  'ES',
-  'GO',
-  'MA',
-  'MG',
-  'MS',
-  'MT',
-  'PA',
-  'PB',
-  'PE',
-  'PI',
-  'PR',
-  'RJ',
-  'RN',
-  'RO',
-  'RR',
-  'RS',
-  'SC',
-  'SE',
-  'SP',
-  'TO',]
-  
+    'AL',
+    'AM',
+    'AP',
+    'BA',
+    'CE',
+    'DF',
+    'ES',
+    'GO',
+    'MA',
+    'MG',
+    'MS',
+    'MT',
+    'PA',
+    'PB',
+    'PE',
+    'PI',
+    'PR',
+    'RJ',
+    'RN',
+    'RO',
+    'RR',
+    'RS',
+    'SC',
+    'SE',
+    'SP',
+    'TO',]
+
   // Estados para os editais
   const [openAnnouncements, setOpenAnnouncements] = useState()
 
   //Estado para as aplicações
   const [applications, setApplications] = useState()
-  
+
   // Estado para informações acerca do usuário logado
   const [userInfo, setUserInfo] = useState()
 
@@ -57,77 +57,81 @@ export default function HomeCandidato() {
   useEffect(() => {
     async function fetchAnnouncements() {
       const token = localStorage.getItem("token")
-      try{
+      try {
         const response = await api.get('/candidates/anouncements', {
           headers: {
             'authorization': `Bearer ${token}`,
-          }})
+          }
+        })
         // Pega todos os editais e armazena em um estado
-        setOpenAnnouncements(response.data.announcements)  
-      } catch(err) {
-        console.log(err)  
-      } 
+        setOpenAnnouncements(response.data.announcements)
+      } catch (err) {
+        console.log(err)
+      }
     }
 
     async function getApplications() {
       const token = localStorage.getItem("token")
-      try{
-        const response = await api.post('/candidates/application/see', {
+      try {
+        const response = await api.post('/candidates/application/see', {},{
           headers: {
             'authorization': `Bearer ${token}`,
-          }})
-        
+          }
+        })
+
         console.log(response.data)
-        setApplications(response.data.applications)  
-      } catch(err) {
-        console.log(err)  
-      } 
-    } 
+        setApplications(response.data.applications)
+      } catch (err) {
+        console.log(err)
+      }
+    }
 
     async function refreshAccessToken() {
-      try{
+      try {
         const refreshToken = Cookies.get('refreshToken')
-  
+
         const response = await api.patch(`/refresh?refreshToken=${refreshToken}`)
-        
-        const {newToken, newRefreshToken} = response.data
+
+        const { newToken, newRefreshToken } = response.data
         localStorage.setItem('token', newToken)
         Cookies.set('refreshToken', newRefreshToken, {
           expires: 7,
           sameSite: true,
           path: '/',
         })
-      } catch(err) {
+      } catch (err) {
         console.log(err)
         navigate('/login')
       }
     }
     const intervalId = setInterval(refreshAccessToken, 480000) // Chama a função refresh token a cada 
-  
+
     async function getUserInfo() {
       const token = localStorage.getItem("token")
       const user_role = localStorage.getItem("role")
 
-      if(user_role === 'CANDIDATE') {
-        try{
+      if (user_role === 'CANDIDATE') {
+        try {
           const user_info = await api.get('/candidates/basic-info', {
             headers: {
               'authorization': `Bearer ${token}`,
-            }})
-            setUserInfo(user_info.data.candidate)
-        } catch(err) {
-            console.log(err)
+            }
+          })
+          setUserInfo(user_info.data.candidate)
+        } catch (err) {
+          console.log(err)
         }
-        
-      } else if(user_role === 'RESPONSIBLE') {
-          try{
-            const user_info = await api.get('/responsibles', {
-              headers: {
-                'authorization': `Bearer ${token}`,
-              }})
-              setUserInfo(user_info.data.responsible)
-          } catch(err) {
-            console.log(err)
+
+      } else if (user_role === 'RESPONSIBLE') {
+        try {
+          const user_info = await api.get('/responsibles', {
+            headers: {
+              'authorization': `Bearer ${token}`,
+            }
+          })
+          setUserInfo(user_info.data.responsible)
+        } catch (err) {
+          console.log(err)
         }
       }
     }
@@ -140,7 +144,7 @@ export default function HomeCandidato() {
       // Limpar o intervalo
       clearInterval(intervalId);
     };
-  },[])
+  }, [])
 
   return (
     <div className="container">
@@ -154,10 +158,12 @@ export default function HomeCandidato() {
         </div>
 
         <div className="solicitacoes">
-          {/*applications  && applications.length > 0 ? applications.map((application) => {
-            return <Candidatura application={application} key={application.id}/>
-          }) : <div className="without-announcement">Você não aplicou para nenhum edital ainda !</div>*/}
-          <Candidatura2></Candidatura2>
+          {applications ? applications.map((application) => {
+            return <CandidatoCandidatura application={application} />
+          }) : <div>
+            <LoadingCandidaturaAssistente/> 
+          </div>
+          }
         </div>
 
         <div className="upper-contas status-title">
@@ -166,7 +172,7 @@ export default function HomeCandidato() {
             <select>
               <option>-- Estado --</option>
               {UF.map((item) => {
-                return(<option>{item}</option>)
+                return (<option>{item}</option>)
               })}
             </select>
 
@@ -191,9 +197,8 @@ export default function HomeCandidato() {
         </div>
 
         <div className="container-editais">
-          <EditalFake></EditalFake>
-          {openAnnouncements  && openAnnouncements.length > 0 ? openAnnouncements.map((announcement) => {
-            return <Edital announcement={announcement} key={announcement.id}/>
+          {openAnnouncements && openAnnouncements.length > 0 ? openAnnouncements.map((announcement) => {
+            return <Edital announcement={announcement} key={announcement.id} userId={announcement.entity.user_id}/>
           }) : <div className="without-announcement">Não há editais abertos no momento </div>}
         </div>
       </div>

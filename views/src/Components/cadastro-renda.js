@@ -1856,14 +1856,14 @@ export const CadastroRenda = ({  member  }) => {
                 </div>
                     )}
                     <div class="survey-box">
-                        <button type="submit" onClick={handleRegisterIncome}  id="submit-button">Salvar Informações</button>
+                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'FinancialHelpFromOthers')}  id="submit-button">Salvar Informações</button>
                     </div>
                 </>
                 )
                 }
 
                 {/* Empresário */}
-                {member.incomeSource.includes('Entepreneur') 
+                {member.incomeSource.includes('Entepreneur') &&
                 (
                     <>
                    {/*<!-- Data de Início -->*/}
@@ -1974,7 +1974,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* PrivateEmployee */}
-                {member.incomeSource.includes('PrivateEmployee') 
+                {member.incomeSource.includes('PrivateEmployee') &&
                 (
                     <>
                    {/*<!-- Data de Admissão -->*/}
@@ -2330,7 +2330,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* PublicEmployee */}
-                {member.incomeSource.includes('PublicEmployee') 
+                {member.incomeSource.includes('PublicEmployee') &&
                 (
                     <>
                    {/*<!-- Data de Admissão -->*/}
@@ -2686,7 +2686,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* DomesticEmployee */}
-                {member.incomeSource.includes('DomesticEmployee') 
+                {member.incomeSource.includes('DomesticEmployee') &&
                 (
                     <>
                    {/*<!-- Data de Admissão -->*/}
@@ -3042,7 +3042,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* TemporaryRuralEmployee */}
-                {member.incomeSource.includes('TemporaryRuralEmployee') 
+                {member.incomeSource.includes('TemporaryRuralEmployee') &&
                 (
                     <>
                    {/*<!-- Data de Admissão -->*/}
@@ -3398,7 +3398,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* Retired */}
-                {member.incomeSource.includes('Retired') 
+                {member.incomeSource.includes('Retired') &&
                 (
                     <>
                    {/*<!-- Data de Admissão -->*/}
@@ -3753,7 +3753,7 @@ export const CadastroRenda = ({  member  }) => {
                 ) 
                 }
                 {/* Pensioner */}
-                {member.incomeSource.includes('Pensioner') 
+                {member.incomeSource.includes('Pensioner') &&
                 (
                     <>
                    {/*<!-- Data de Admissão -->*/}
@@ -4108,7 +4108,7 @@ export const CadastroRenda = ({  member  }) => {
                 ) 
                 }
                 {/* TemporaryDisabilityBenefit */}
-                {member.incomeSource.includes('TemporaryDisabilityBenefit') 
+                {member.incomeSource.includes('TemporaryDisabilityBenefit') &&
                 (
                     <>
                    {/*<!-- Data de Admissão -->*/}
@@ -4464,7 +4464,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
                 
                 {/* Apprentice */}
-                {member.incomeSource.includes('Apprentice') 
+                {member.incomeSource.includes('Apprentice') &&
                 (
                     <>
                    {/*<!-- Data de Admissão -->*/}
@@ -4819,9 +4819,6 @@ export const CadastroRenda = ({  member  }) => {
                 ) 
                 }
 
-
-                
-                
             </form>
         </div></div>
         

@@ -19,18 +19,20 @@ export default function DespesasTotais() {
     };
 
     return (
-        <div>
+        <div style={{marginBottom: "200px"}}>
             <h2>Selecione o tipo de Despesas</h2>
             <Select
                 options={despesasOptions}
                 onChange={handleChange}
                 placeholder="Selecionar tipo de despesa"
             />
+            <div style={{marginTop: "30px"}}>
 
             {selectedDespesa === 'despesasMensais' && <DespesasMensais />}
             {selectedDespesa === 'emprestimos' && <Emprestimos />}
             {selectedDespesa === 'financiamento' && <Financiamento />}
             {selectedDespesa === 'cartaoCredito' && <CartaoCredito />}
+            </div>
         </div>
     );
 }

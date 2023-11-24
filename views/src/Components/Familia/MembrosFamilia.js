@@ -3,6 +3,7 @@ import CadastroFamiliar from './cadastroFamiliar.js';
 import { api } from '../../services/axios.js';
 import VerFamiliar from './verFamiliar.js';
 import Select from 'react-select'
+import LoadingCadastroCandidato from '../Loading/LoadingCadastroCandidato.js';
 export default function MembrosFamilia() {
 
     //Visualização de dados
@@ -39,7 +40,7 @@ export default function MembrosFamilia() {
     };
 
 
-
+    const [len, setLen] = useState(2)
     // UseEffect para pegar os dados dos membros familiares
     useEffect(() => {
         async function pegarMembros() {
@@ -57,6 +58,7 @@ export default function MembrosFamilia() {
                 const membrosdaFamilia = response.data.familyMembers
                 setMembros(membrosdaFamilia)
                 setMembroSelecionado(membrosdaFamilia[0])
+                setLen(membrosdaFamilia.length)
             }
             catch (err) {
                 alert(err)
@@ -70,12 +72,18 @@ export default function MembrosFamilia() {
         <div>
 
 
-            {mostrarCadastro && <CadastroFamiliar onCadastroCompleto={adicionarMembro} />}
+            {mostrarCadastro && <CadastroFamiliar onCadastroCompleto={adicionarMembro} /> }
 
 
             {membros? <DropdownMembros membros={membros} onSelect={selecionarMembro}/> : ''}
 
-            {!mostrarCadastro && membroSelecionado && <VerFamiliar familyMember={membroSelecionado} />}
+
+            {!mostrarCadastro && membroSelecionado ? <VerFamiliar familyMember={membroSelecionado} /> : <div>
+                
+                {len > 0 &&<LoadingCadastroCandidato/>}
+                </div>
+                }
+            
             <button onClick={toggleCadastro}>
                 {mostrarCadastro ? 'Fechar Cadastro' : 'Adicionar Membro'}
             </button>

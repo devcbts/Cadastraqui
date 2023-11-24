@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import VerMoradiaAssistente from './verMoradiaAssistente.js';
 import { api } from '../../../services/axios.js';
+import LoadingCadastroCandidato from '../../Loading/LoadingCadastroCandidato.js';
 
     export default function MoradiaAssistente({id}) {
     const [housing, setHousing] = useState(null);
@@ -34,7 +35,7 @@ import { api } from '../../../services/axios.js';
 
     return (
         <div>
-            {housing? <VerMoradiaAssistente formData={housing}/> : ''}
+            {housing? <VerMoradiaAssistente formData={housing}/> : <LoadingCadastroCandidato />}
 
 
 

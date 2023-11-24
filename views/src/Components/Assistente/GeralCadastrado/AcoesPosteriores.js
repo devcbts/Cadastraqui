@@ -3,37 +3,111 @@ import React from 'react'
 export default function VerAcoesPosteriores({ applications }) {
     return (
         <div className="fill-container general-info">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Ano</th>
-                        <th>Edital</th>
-                        <th>Matriz/Filial</th>
-                        <th>Curso</th>
-                        <th>Turno</th>
-                        <th>Assistente Social</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {applications.map((application) => {
-                        return (
-                            <tr>
-                                <td>
-                                    <strong>{application.announcement.anouncementDate}</strong>
-                                </td>
-                                <td>{application.announcement.anouncementName}</td>
-                                <td>Itajubá</td>
-                                <td>{application.EducationLevel.availableCourses}</td>
-                                <td>{application.EducationLevel.shift}</td>
-                                <td>{application.SocialAssistantName}</td>
-                            </tr>
-                        )
-                    })}
+        <h1 id="title-action">
+          *Informações posteriores à conclusão da análise referente ao processo
+          de matrícula
+        </h1>
+        <div class="container-form">
+          <div class="row">
+            <form id="survey-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name" id="name-label">
+                    Candidato{"(a)"} desistiu da bolsa de estudo ou não efetuou
+                    a matrícula:
+                  </label>
+                  <input
+                    type="checkbox"
+                    class="form-control"
+                    id="name"
+                    placeholder="Enter your name"
+                    required
+                  ></input>
+                </div>
+                <div class="form-group">
+                  <label for="email" id="email-label">
+                    Código de Identificação do bolsista:
+                  </label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder=""
+                    required
+                  ></input>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="exp" id="number-label">
+                    A entidade irá conceder bolsa ao aluno?{" "}
+                    {"(Responder sim ou não)"}
+                  </label>
+                  <input type="radio" name="bolsa" value="yes" />
+                  Sim
+                  <input type="radio" name="bolsa" value="no" />
+                  Não
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="dropdown" id="dropdown-label">
+                    Se sim, especifique quais:
+                  </label>
+                  <form>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="1" id="materialDidatico" />
+                      <label class="form-check-label" for="materialDidatico">
+                        Material didático
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="2" id="uniforme" />
+                      <label class="form-check-label" for="uniforme">
+                        Uniforme
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="3" id="transporteEscolar" />
+                      <label class="form-check-label" for="transporteEscolar">
+                        Transporte escolar
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="4" id="alimentacao" />
+                      <label class="form-check-label" for="alimentacao">
+                        Alimentação
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="5" id="moradia" />
+                      <label class="form-check-label" for="moradia">
+                        Moradia
+                      </label>
+                    </div>
+                  </form>
+                </div>
+              </div>
 
-                 
-                </tbody>
-            </table>
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <textarea
+                    class="form-control"
+                    placeholder="Comentários adicionais"
+                  ></textarea>
+                </div>
+              </div>
+
+              <h2 className="law-text">
+                O Termo de Concessão de Benefícios - Tipo 1: Ações de apoio ao
+                aluno bolsista, abaixo será disponibilizado no perfil do
+                candidato para que o mesmo ou seu responsável legal assine e
+                providencie a entrega na entidade
+              </h2>
+
+              <a className="btn-cadastro">Enviar</a>
+            </form>
+          </div>
         </div>
+      </div>
     )
 }
 

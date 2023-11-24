@@ -1,4 +1,11 @@
-.container-solicitacoes{
+.container-solicitacoes-assistente{
     display: flex;
     justify-content: center;
+}
+.box-solicatacao{
+    padding: 5px;
+}
+
+.box{
+    margin-bottom: 10px;
 }

@@ -58,14 +58,23 @@ export default function VerSolicitacoesAssistente({ application_id, announcement
     },[solicitations])
 
     return (
-        <div className="container-solicitacoes">
+        <div className="container-solicitacoes conteiner-solicitacoes-assistente">
             <div className="main-content">
                 {solicitations ? solicitations.map((solicitation) => {
+                    const date = new Date(solicitation.date);
+                    const formattedDate = date.toLocaleString('pt-BR', {
+                        day: '2-digit', // Dia
+                        month: '2-digit', // Mês
+                        year: 'numeric', // Ano
+                        hour: '2-digit', // Hora
+                        minute: '2-digit', // Minuto
+                        second: '2-digit', // Segundo
+                    });
                     return (
-                        <div>
+                        <div className='box-solicatacao'>
 
-                            <div className="solicitacao">
-                                <h2>Solicitações e comunicações enviados pela(o) assistente social</h2>
+                            <div className="box-solicitacao">
+                                <h2>Solicitações enviada em {formattedDate}</h2>
                                 <div className="solicitacao">
 
                                     <div className="create-comment">
@@ -115,7 +124,12 @@ export default function VerSolicitacoesAssistente({ application_id, announcement
 
                         </div>
                     )
-                }) : ''}
+                }) : <div>
+                    <div className='skeleton skeleton-table'/>
+
+                    <div className='skeleton skeleton-table'/>
+
+                    </div>}
 
             </div>
         </div>

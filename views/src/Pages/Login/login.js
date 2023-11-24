@@ -148,6 +148,8 @@ export default function Login() {
         navigate('/assistente/home')
       } else if(role === 'ENTITY') {
         navigate('/entidade/home')
+      }else if(role === 'ADMIN'){
+        navigate('/admin/cadastro')
       }
     } else {
       alert("Preencha os campos exigidos!")

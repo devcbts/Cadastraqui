@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
 import uspLogo from "../../Assets/usp-logo.png";
 import unifeiLogo from "../../Assets/logo-unifei.png";
-
+import LoadingEdital from "../../Components/Loading/LoadingEdital";
 export default function HomeAssistente() {
   const { isShown } = useAppState();
   const [announcements, setAnnouncements] = useState();
@@ -25,44 +25,44 @@ export default function HomeAssistente() {
     async function getAssistantInfo() {
       const token = localStorage.getItem("token");
 
-      try{
+      try {
         const response = await api.get("/assistant/basic-info", {
           headers: {
             authorization: `Bearer ${token}`,
           },
         });
         setAssistantId(response.data.assistant.id);
-      } catch(err) {
+      } catch (err) {
         console.log(err)
       }
     }
     getAssistantInfo();
 
     async function refreshAccessToken() {
-      try{
+      try {
         const refreshToken = Cookies.get('refreshToken')
-  
+
         const response = await api.patch(`/refresh?refreshToken=${refreshToken}`)
-        
-        const {newToken, newRefreshToken} = response.data
+
+        const { newToken, newRefreshToken } = response.data
         localStorage.setItem('token', newToken)
         Cookies.set('refreshToken', newRefreshToken, {
           expires: 7,
           sameSite: true,
           path: '/',
         })
-      } catch(err) {
+      } catch (err) {
         console.log(err)
         navigate('/login')
       }
     }
     const intervalId = setInterval(refreshAccessToken, 480000) // Chama a função refresh token a cada 
-  
+
 
     async function fetchAnnouncements() {
       const token = localStorage.getItem("token");
-      try{
-        const response = await api.get("/assistant/teste/", {
+      try {
+        const response = await api.get("/assistant/announcement/", {
           headers: {
             authorization: `Bearer ${token}`,
           },
@@ -70,18 +70,18 @@ export default function HomeAssistente() {
         // Pega todos os editais e armazena em um estado
         setAnnouncements(response.data.announcement);
         // Pega apenas os editais ainda abertos e armazena em um estado
-  
+
         const openAnnouncements = response.data.announcement.filter(
           (announcement) => new Date(announcement.announcementDate) >= new Date()
         );
         setOpenAnnouncements(openAnnouncements);
         // Pega os editais já fechados e armazena em um estado
-  
+
         const closeAnnouncements = response.data.announcement.filter(
           (announcement) => new Date(announcement.announcementDate) < new Date()
         );
         setCloseAnnouncements(closeAnnouncements);
-  
+
         // Filtra os announcements associados ao assistente social em questão
         const activeAnnouncements = openAnnouncements.filter(
           (announcement) => announcement.socialAssistant === assistantId
@@ -91,7 +91,7 @@ export default function HomeAssistente() {
       } catch (err) {
         console.log(err);
       }
-      
+
     }
     fetchAnnouncements();
   }, []);
@@ -109,10 +109,16 @@ export default function HomeAssistente() {
 
         <div className="container-editais">
           {activeAnnouncements
-            ? activeAnnouncements.map((announcement) => {
-                return <EditalAssistente logo={uspLogo} announcement={announcement} />;
-              })
-            : ""}
+            ? activeAnnouncements?.map((announcement) => {
+              return <EditalAssistente logo={uspLogo} announcement={announcement} />;
+            })
+            : <div className="container-editais">
+
+             <LoadingEdital/>
+             <LoadingEdital/>
+             <LoadingEdital/>
+
+            </div>}
         </div>
 
         <div className="upper-contas status-title">
@@ -122,9 +128,15 @@ export default function HomeAssistente() {
         <div className="container-editais">
           {openAnnouncements
             ? openAnnouncements.map((announcement) => {
-                return <EditalAssistente logo={uspLogo} announcement={announcement} />;
-              })
-            : ""}
+              return <EditalAssistente logo={uspLogo} announcement={announcement} />;
+            })
+            : <div className="container-editais">
+
+            <LoadingEdital/>
+            <LoadingEdital/>
+            <LoadingEdital/>
+
+           </div>}
         </div>
 
         <div className="upper-contas status-title">
@@ -134,11 +146,17 @@ export default function HomeAssistente() {
         <div className="container-editais">
           {closeAnnouncements
             ? closeAnnouncements.map((announcement) => {
-                return <EditalAssistente logo={unifeiLogo} announcement={announcement} />;
-              })
-            : ""}
+              return <EditalAssistente logo={unifeiLogo} announcement={announcement} />;
+            })
+            : <div className="container-editais">
+
+            <LoadingEdital/>
+            <LoadingEdital/>
+            <LoadingEdital/>
+
+           </div>}
         </div>
       </div>
-    </div>
+    </div >
   );
 }

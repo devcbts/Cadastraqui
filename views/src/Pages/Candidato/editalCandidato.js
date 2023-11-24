@@ -94,7 +94,6 @@ export default function EditalAbertoCandidato() {
         {pageState === 'hidden' ? (
         <div className="register">
           <button className="cadastro-btn" type="button" onClick={handlePage}>&larr; Voltar</button>
-          <button type="button" className="cadastro-btn">Salvar/Inscrever</button>
         </div>
         ) : ''}
       </div>

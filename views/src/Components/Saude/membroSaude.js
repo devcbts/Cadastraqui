@@ -2,7 +2,18 @@ import { useEffect, useState } from "react";
 import { api } from "../../services/axios";
 import './membroSaude.css'
 import { CadastroSaude } from "../cadastro-saude";
-
+const Relationship = [
+  { value: 'Wife', label: 'Esposa' },
+  { value: 'Husband', label: 'Marido' },
+  { value: 'Father', label: 'Pai' },
+  { value: 'Mother', label: 'Mãe' },
+  { value: 'Stepfather', label: 'Padrasto' },
+  { value: 'Stepmother', label: 'Madrasta' },
+  { value: 'Sibling', label: 'Irmão/Irmã' },
+  { value: 'Grandparent', label: 'Avô/Avó' },
+  { value: 'Child', label: 'Filho/Filha' },
+  { value: 'Other', label: 'Outro' },
+];
 
 export default function MembrosFamiliaSaude() {
   const [familyMembers, setFamilyMembers] = useState([])
@@ -31,7 +42,10 @@ export default function MembrosFamiliaSaude() {
     fetchFamilyMembers()
     
 },[])
-
+function translateRelationship(relationshipValue) {
+  const relationship = Relationship.find(r => r.value === relationshipValue);
+  return relationship ? relationship.label : 'Não especificado';
+}
  function handleShowRegisterIncome(familyMemberId) {
   const member = familyMembers.find((member) => member.id === familyMemberId)
   setMemberSelected(member)
@@ -48,8 +62,7 @@ export default function MembrosFamiliaSaude() {
         <div id={familyMember.id} className="container-teste">
           <div className="member-info">
             <h4>{familyMember.fullName}</h4>
-            <h4>{familyMember.relationship}</h4>
-            <h4>{familyMember.incomeSource}</h4>
+            <h4>{translateRelationship(familyMember.relationship)}</h4>
           </div>
         <button type="button" onClick={() => handleShowRegisterIncome(familyMember.id)}>Cadastrar Saúde</button>
       </div>

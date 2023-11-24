@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import VerDespesas from './verDespesas.js';
 import { api } from '../../../services/axios.js';
+import LoadingCadastroCandidato from '../../Loading/LoadingCadastroCandidato.js';
 
 export default function DespesasMensais({id}) {
     const [expensesInstances, setExpensesInstances] = useState([]);
@@ -51,7 +52,7 @@ export default function DespesasMensais({id}) {
                 />
             )}
 
-            {!mostrarCadastro && selectedExpense && <VerDespesas formData={selectedExpense} />}
+            {!mostrarCadastro && selectedExpense ? <VerDespesas formData={selectedExpense} /> : <LoadingCadastroCandidato/>}
         </div>
     );
 }

@@ -15,7 +15,7 @@ export default function PerfilCandidato() {
   const [profilePhoto, setProfilePhoto] = useState(null);
   const navigate = useNavigate();
 
-  const [userInfo, setUserInfo] = useState();
+  const [userInfo, setUserInfo] = useState(null);
 
   async function getProfilePhoto() {
     const token = localStorage.getItem("token");
@@ -35,7 +35,7 @@ export default function PerfilCandidato() {
     }
   }
 
-  
+
   useEffect(() => {
     async function getUserInfo() {
       const token = localStorage.getItem("token")
@@ -102,10 +102,10 @@ export default function PerfilCandidato() {
 
       <div className="container-contas">
         <div className="upper-contas status-title">
-          <h1>{userInfo ? userInfo.name : "User Name"}</h1>
+          <h1>{userInfo ? userInfo.name : ''}</h1>
         </div>
         <div className="user-photo">
-            <div className="profile-photo">
+          <div className="profile-photo">
             <div className="bg-image">
               <img
                 id="profile-photo"
@@ -124,7 +124,7 @@ export default function PerfilCandidato() {
               accept="image/png, image/jpeg, image/jpg, image/pdf"
               onChange={handleImageUpload}
             ></input>
-          
+
           </div>
           <div className="side-profile">
             <h1>
@@ -132,46 +132,86 @@ export default function PerfilCandidato() {
             </h1>
           </div>
         </div>
-        <div className="novos-colaboradores profile-candidate">
-          <div className="solicitacoes personal-info">
-            <div className="upper-info">
-              <h2>Informações pessoais</h2>
-              <div className="info-item">
-                <h3>Nome:</h3>
-                <h3>{userInfo ? userInfo.name : "User Name"}</h3>
-              </div>
-              <div className="info-item">
-                <h3>Telefone:</h3>
-                <h3>{userInfo ? userInfo.phone : ""}</h3>
-              </div>
-              <div className="info-item">
-                <h3>CPF:</h3>
-                <h3>{userInfo ? userInfo.CPF : ""}</h3>
-              </div>
-              <div className="info-item">
-                <h3>Endereço:</h3>
-                <h3>{userInfo ? userInfo.address : ""}</h3>
-              </div>
-              <div className="info-item">
-                <h3>Email:</h3>
-                <h3>{userInfo ? userInfo.email : ""}</h3>
-              </div>
-              <div className="info-item">
-                <h3>Senha:</h3>
-                <h3>********</h3>
-              </div>
 
+        <div className="novos-colaboradores profile-candidate">
+          {userInfo ?
+            <div className="solicitacoes personal-info">
+              <div className="upper-info">
+                <h2>Informações pessoais</h2>
+                <div className="info-item">
+                  <h3>Nome:</h3>
+                  <h3>{userInfo ? userInfo.name : "User Name"}</h3>
+                </div>
+                <div className="info-item">
+                  <h3>Telefone:</h3>
+                  <h3>{userInfo ? userInfo.phone : ""}</h3>
+                </div>
+                <div className="info-item">
+                  <h3>CPF:</h3>
+                  <h3>{userInfo ? userInfo.CPF : ""}</h3>
+                </div>
+                <div className="info-item">
+                  <h3>Endereço:</h3>
+                  <h3>{userInfo ? userInfo.address : ""}</h3>
+                </div>
+                <div className="info-item">
+                  <h3>Email:</h3>
+                  <h3>{userInfo ? userInfo.email : ""}</h3>
+                </div>
+                <div className="info-item">
+                  <h3>Senha:</h3>
+                  <h3>********</h3>
+                </div>
+
+              </div>
+              <a href="#">
+                <UilPen size="20" color="#1F4B73"></UilPen>
+              </a>
             </div>
-            <a href="#">
-              <UilPen size="20" color="#1F4B73"></UilPen>
-            </a>
-          </div>
+            :
+
+            <div className="solicitacoes personal-info">
+              <div className="upper-info">
+                <h2>Informações pessoais</h2>
+                <div className="info-item">
+                  <h3>Nome:</h3>
+                  <div className="skeleton-text skeleton-loading"></div>
+                </div>
+                <div className="info-item">
+                  <h3>Telefone:</h3>
+
+                  <div className="skeleton-text skeleton-loading"></div>
+                </div>
+                <div className="info-item">
+                  <h3>CPF:</h3>
+
+                  <div className="skeleton-text skeleton-loading"></div>
+                </div>
+                <div className="info-item">
+                  <h3>Endereço:</h3>
+
+                  <div className="skeleton-text skeleton-loading"></div>
+                </div>
+                <div className="info-item">
+                  <h3>Email:</h3>
+
+                  <div className="skeleton-text skeleton-loading"></div>
+                </div>
+                <div className="info-item">
+                </div>
+
+              </div>
+              <a href="#">
+                <UilPen size="20" color="#1F4B73"></UilPen>
+              </a>
+            </div>
+          }
           <a href="#" className="btn-alterar">
             <UilLock size="20" color="white"></UilLock>
             Alterar senha
           </a>
         </div>
-        </div>
+      </div>
     </div>
   );
 }

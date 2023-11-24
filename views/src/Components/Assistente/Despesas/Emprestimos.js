@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import VerEmprestimo from './verEmprestimos.js'; // Certifique-se de que o nome está correto e é exportável
 import { api } from '../../../services/axios.js';
+import LoadingCadastroCandidato from '../../Loading/LoadingCadastroCandidato.js';
 
 export default function Emprestimos({id}) {
     const [loansInstances, setLoansInstances] = useState([]);
@@ -51,8 +52,8 @@ export default function Emprestimos({id}) {
                 />
             )}
             {
-                selectedLoan && <VerEmprestimo formData={selectedLoan} id={id} />
-            }
+                selectedLoan ? <VerEmprestimo formData={selectedLoan} id={id}  />
+            : <LoadingCadastroCandidato/>}
 
           
         </div>

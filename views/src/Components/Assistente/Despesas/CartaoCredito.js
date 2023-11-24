@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import VerCartao from './verCartao.js'; // Certifique-se de que o nome está correto e é exportável
 import { api } from '../../../services/axios.js';
+import LoadingCadastroCandidato from '../../Loading/LoadingCadastroCandidato.js';
 
 export default function CartaoCredito({id}) {
     const [creditCardsInstances, setCreditCardsInstances] = useState([]);
@@ -51,7 +52,7 @@ export default function CartaoCredito({id}) {
                 />
             )}
             
-                {selectedCreditCard && <VerCartao formData={selectedCreditCard} id={id}/>}
+                {selectedCreditCard ? <VerCartao formData={selectedCreditCard} id={id}/> : <LoadingCadastroCandidato/>}
             
 
             

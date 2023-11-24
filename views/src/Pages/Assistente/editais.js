@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { api } from "../../services/axios";
 import EditalAssistente from "../../Components/editalAssistente";
 import uspLogo from "../../Assets/usp-logo.png";
+import LoadingEdital from "../../Components/Loading/LoadingEdital";
 
 export default function EditaisAssistente() {
   const { isShown } = useAppState();
@@ -31,7 +32,7 @@ export default function EditaisAssistente() {
 
     async function fetchAnnouncements() {
       const token = localStorage.getItem("token")
-      const response = await api.get('/assistant/teste/', {
+      const response = await api.get('/assistant/announcement/', {
         headers: {
           'authorization': `Bearer ${token}`,
         }
@@ -77,7 +78,13 @@ export default function EditaisAssistente() {
         <div className="container-editais">
         {activeAnnouncements ? activeAnnouncements.map((announcement) => {
             return (<EditalAssistente logo={uspLogo} announcement={announcement} />)
-          }) : ""}
+          }) : <div className="container-editais">
+
+          <LoadingEdital/>
+          <LoadingEdital/>
+          <LoadingEdital/>
+
+         </div>}
          
         </div>
       </div>

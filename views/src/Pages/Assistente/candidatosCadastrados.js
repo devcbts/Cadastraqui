@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { useAuth } from "../../context/auth";
 import { api } from "../../services/axios";
 import { Link } from "react-router-dom";
+import LoadingCandidaturaAssistente from "../../Components/Loading/loadingCandidaturaAssistente";
 
 export default function CandidatosCadastrados() {
   const { announcement_id } = useParams();
@@ -122,7 +123,7 @@ export default function CandidatosCadastrados() {
 
         <div className="solicitacoes">
           {applications
-            ? applications.map((application) => {
+            ? applications?.map((application) => {
               return (
                 <Candidatura
                   name={application.candidateName}
@@ -132,7 +133,13 @@ export default function CandidatosCadastrados() {
                 />
               );
             })
-            : ""}
+            : <div>
+              <LoadingCandidaturaAssistente/>
+              <LoadingCandidaturaAssistente/>
+              <LoadingCandidaturaAssistente/>
+              <LoadingCandidaturaAssistente/>
+
+            </div> }
           <Candidatura
             name="João Paulo"
             assistente='Fernado Souza'

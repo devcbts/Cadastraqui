@@ -50,9 +50,7 @@ export default function HistoricoCandidato() {
         </div>
 
         <div className="loading">
-          <Candidatura></Candidatura>
-          <Candidatura></Candidatura>
-          <Candidatura></Candidatura>
+          
         </div>
 
         <div className="sub-title">
@@ -60,9 +58,7 @@ export default function HistoricoCandidato() {
         </div>
 
         <div className="loading">
-          <Candidatura></Candidatura>
-          <Candidatura></Candidatura>
-          <Candidatura></Candidatura>
+          
         </div>
       </div>
     </div>

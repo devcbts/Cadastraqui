@@ -99,7 +99,7 @@
 
 .comments-box{
     width: 90%;
-    height: 37vh;
+    height: fit-content;
     border-radius: 1.5rem;
     border: 1px solid rgb(190, 190, 190);
     margin-top: 1rem;

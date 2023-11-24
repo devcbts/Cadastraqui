@@ -239,7 +239,7 @@ export default function CadastroEdital() {
                         try {
                             const formData = new FormData();
                             formData.append("file", file);
-                            await api.post(`/entities/announcement/${announcement.id}`, formData, {
+                            await api.post(`/entities/upload/${announcement.id}`, formData, {
                                 headers: {
                                     authorization: `Bearer ${token}`,
                                 },

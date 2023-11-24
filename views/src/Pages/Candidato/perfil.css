@@ -1,4 +1,4 @@
-.bg-image{
+.bg-image {
     width: fit-content;
     height: fit-content;
     display: flex;
@@ -12,6 +12,7 @@
     flex-direction: column;
     gap: 1.5rem;
 }
+
 /*
 input[type="file"] {
     display: none;
@@ -23,7 +24,7 @@ input[type="file"] {
     cursor: pointer;
 }
 
-.user-photo img{
+.user-photo img {
     border-radius: 50%;
     height: 15vw;
     width: 15vw;
@@ -31,13 +32,13 @@ input[type="file"] {
     transition: all 0.5s;
 }
 
-.user-photo img:hover{
+.user-photo img:hover {
     opacity: 0.6;
     cursor: pointer;
     filter: blur(2px);
 }
 
-.user-photo{
+.user-photo {
     display: flex;
     gap: 30vw;
     justify-content: space-between;
@@ -45,7 +46,7 @@ input[type="file"] {
     align-items: center;
 }
 
-.side-profile{
+.side-profile {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,41 +58,41 @@ input[type="file"] {
     transition: 0.5s;
 }
 
-.side-profile:hover{
+.side-profile:hover {
     cursor: pointer;
     opacity: 0.5;
 }
 
-.upper-info{
+.upper-info {
     width: 85%;
     height: fit-content;
     display: flex;
     justify-content: space-between;
 }
 
-.personal-info{
+.personal-info {
     display: flex;
     justify-content: center;
     padding-top: 2vh;
     align-items: center;
 }
 
-.personal-info a{
+.personal-info a {
     transition: all 0.6s;
 }
 
-.personal-info a:hover{
+.personal-info a:hover {
     opacity: 0.6;
 }
 
-.profile-candidate{
+.profile-candidate {
     display: flex;
     justify-content: center;
     margin-top: -1vh;
 }
 
 
-.btn-alterar{
+.btn-alterar {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -105,11 +106,11 @@ input[type="file"] {
     transition: all 0.6s;
 }
 
-.btn-alterar:hover{
+.btn-alterar:hover {
     opacity: 0.6;
 }
 
-.personal-informations{
+.personal-informations {
     background-color: white;
     display: flex;
     border-radius: 1rem;
@@ -118,7 +119,7 @@ input[type="file"] {
     align-items: center;
 }
 
-.personal-informations h1{
+.personal-informations h1 {
     width: 90%;
     display: flex;
     font-weight: 400;
@@ -126,28 +127,125 @@ input[type="file"] {
 }
 
 .info-item {
+    text-align: left;
     display: flex;
-    justify-content: left; /* Isso garantirá que o rótulo e o valor estejam em lados opostos do contêiner */
-    align-items: flex-start; /* Isso verticalmente alinhará os itens no meio */
-    width: 100%; /* Ocupa toda a largura disponível */
-    color: #1F4B73;   
+    justify-content: left;
+    /* Isso garantirá que o rótulo e o valor estejam em lados opostos do contêiner */
+    align-items: flex-start;
+    /* Isso verticalmente alinhará os itens no meio */
+    width: 100%;
+    /* Ocupa toda a largura disponível */
+    color: #1F4B73;
 }
 
 .info-item h3:first-child {
     font-weight: bold;
-    width: 100px; /* ou qualquer outra largura fixa que você queira */
+    width: 100px;
+    /* ou qualquer outra largura fixa que você queira */
 }
 
 .upper-info {
     display: flex;
     flex-direction: column;
-    align-items: start; /* Alinha os itens à esquerda */
-    gap: 10px; /* Espaço entre os elementos */
+    align-items: start;
+    /* Alinha os itens à esquerda */
+    gap: 10px;
+    /* Espaço entre os elementos */
 }
 
-.personal-info{
+.personal-info {
     display: flex;
     justify-content: center;
     padding-top: 2vh;
     align-items: center;
+}
+
+.skeleton-loading {
+    background: #e0e0e0;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    width: 60%;
+}
+
+.skeleton-loading::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, #f8f8f8, transparent);
+    background-color: #1F4B73;
+    transform: translateX(-100%);
+    animation: load 1.5s infinite;
+}
+
+.skeleton-loading-box {
+    background: rgb(255, 255, 255);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    width: 60%;
+    height: 30px;
+}
+
+.skeleton-loading-box::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, #f8f8f8, transparent);
+    background-color: #999b9e;
+    transform: translateX(-100%);
+    animation: load 1.5s infinite;
+}
+
+
+@keyframes load {
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* Aplicar estilos específicos para diferentes elementos de carregamento */
+.skeleton-text {
+    height: 1em;
+    margin-bottom: 0.5em;
+    width: 30%;
+    margin-top: 5px;
+}
+
+.skeleton-box {
+    height: 200px;
+}
+
+.skeleton {
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+.skeleton-title-text{
+    height: 30px;
+    width: 50%;
+    margin-bottom: 15px;
+}
+
+.skeleton-big-image{
+    height: 80px;
+    width: 50%;
+    margin-bottom: 15px;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: hsl(200, 20%, 80%);
+    }
+
+    100% {
+        background-color: hsl(200, 20%, 95%);
+    }
 }

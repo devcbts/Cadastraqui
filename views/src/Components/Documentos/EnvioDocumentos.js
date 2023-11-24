@@ -159,6 +159,7 @@ export default function EnviarDocumentos({ id }) {
                                 type="file"
                                 onChange={(e) => handleFileChange(e, category.type)}
                                 className='survey-control'
+                                style={{marginLeft:'135px'}}
                             />
                             <br />
                             <button type="button" onClick={() => documentos[category.type]?.forEach(file => enviarDocumento(category.type, file))}>

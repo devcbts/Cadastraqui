@@ -72,11 +72,8 @@ export default function SolicitacoesCandidato() {
 
         <div className="loading">
           {applications? applications.map((application) =>{
-            return (<Inscricao id={application.id}/>)
+            return (<Inscricao application={application}/>)
           }) : ''}
-          <Inscricao name='USP 2024.1'></Inscricao>
-          <Inscricao name='USP 2023.2'></Inscricao>
-          <Inscricao name='Poli USP 2023.2'></Inscricao>
         </div>
 
         <div className="sub-title">
@@ -84,9 +81,7 @@ export default function SolicitacoesCandidato() {
         </div>
 
         <div className="loading">
-          <Inscricao></Inscricao>
-          <Candidatura></Candidatura>
-          <Candidatura></Candidatura>
+         
         </div>
       </div>
     </div>

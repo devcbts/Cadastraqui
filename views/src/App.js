@@ -29,8 +29,10 @@ import PerfilAssistente from "./Pages/Assistente/perfilAssistente";
 import SeeCandidatosInfo from "./Pages/Assistente/seeCandidatosInfo";
 
 import GeralCadastrado from "./Pages/Assistente/geralCadastrado";
+
 import SolicitacoesCandidato from "./Pages/Candidato/solicitações";
 import VerSolicitacoes from "./Pages/Candidato/verSolicitações";
+import VerEditalEntidade from "./Pages/Entidade/verEdital";
 
 function App() {
   return (
@@ -102,8 +104,8 @@ function App() {
                 element={<EditaisAdmin></EditaisAdmin>}
               ></Route>
               <Route
-                path="/entidade/editaltest"
-                element={<EditalAberto />}
+                path="/entidade/edital/:announcement_id"
+                element={<VerEditalEntidade />}
               ></Route>
               <Route
                 path="/candidato/editaltest/:announcement_id"
@@ -141,6 +143,7 @@ function App() {
                 path="/assistente/cadastrados/geral/:announcement_id/:application_id?"
                 element={<GeralCadastrado></GeralCadastrado>}
               ></Route>
+              
             </Routes>
           </AuthProvider>
         </BrowserRouter>

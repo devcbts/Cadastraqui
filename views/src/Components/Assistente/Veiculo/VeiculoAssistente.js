@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import VerVeiculoAssistente from './verVeiculoAssistente.js';
 import Select from 'react-select';
 import { api } from '../../../services/axios.js';
+import LoadingCadastroCandidato from '../../Loading/LoadingCadastroCandidato.js';
 
 export default function VeiculosAssistente({id}) {
     const [veiculos, setVeiculos] = useState([]);
@@ -50,9 +51,10 @@ export default function VeiculosAssistente({id}) {
                     onSelect={selecionarVeiculo}
                 />
             )}
-            {!mostrarCadastro && veiculoSelecionado && (
+            {!mostrarCadastro && veiculoSelecionado ? 
                 <VerVeiculoAssistente formData={veiculoSelecionado} id={id} />
-            )}
+                : <LoadingCadastroCandidato/>
+            }
             
         </div>
     );

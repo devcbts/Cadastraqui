@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import VerFamiliarAssistente from './verFamiliarAssistente.js';
 import Select from 'react-select'
 import { api } from '../../../services/axios.js';
+import LoadingCadastroCandidato from '../../Loading/LoadingCadastroCandidato.js';
 export default function MembrosFamiliaAssistente({id}) {
 
     //Visualização de dados
@@ -73,10 +74,9 @@ export default function MembrosFamiliaAssistente({id}) {
 
             {membros? <DropdownMembros membros={membros} onSelect={selecionarMembro}/> : ''}
 
-            {!mostrarCadastro && membroSelecionado && <VerFamiliarAssistente familyMember={membroSelecionado} />}
-            <button onClick={toggleCadastro}>
-                {mostrarCadastro ? 'Fechar Cadastro' : 'Adicionar Membro'}
-            </button>
+            {!mostrarCadastro && membroSelecionado ? <VerFamiliarAssistente familyMember={membroSelecionado} />
+            : <LoadingCadastroCandidato/>}
+          
         </div>
     );
 }

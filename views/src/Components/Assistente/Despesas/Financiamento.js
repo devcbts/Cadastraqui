@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import VerFinanciamento from './verFinanciamento';
 import { api } from '../../../services/axios';
+import LoadingCadastroCandidato from '../../Loading/LoadingCadastroCandidato';
 
 export default function Financiamento({id}) {
     const [financingsInstances, setFinancingsInstances] = useState([]);
@@ -54,12 +55,11 @@ export default function Financiamento({id}) {
                 />
             )}
             {
-                selectedFinancing && <VerFinanciamento formData={selectedFinancing} id={id} />
+                selectedFinancing ? <VerFinanciamento formData={selectedFinancing} id={id} />
+                : <LoadingCadastroCandidato/>
             }
 
-            <button onClick={toggleCadastro}>
-                {mostrarCadastro ? 'Fechar Cadastro' : 'Cadastrar Financiamento'}
-            </button>
+          
         </div>
     );
 }

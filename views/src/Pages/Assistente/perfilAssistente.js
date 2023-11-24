@@ -123,35 +123,74 @@ export default function PerfilAssistente() {
           </div>
         </div>
         <div className="novos-colaboradores profile-candidate">
-          <div className="solicitacoes personal-info">
-            <div className="upper-info">
-              <h2>Informações pessoais</h2>
-              <div className="info-item">
-                <h3>Nome:</h3>
-                <h3>{userInfo ? userInfo.name : "User Name"}</h3>
-              </div>
-              <div className="info-item">
-                <h3>Telefone:</h3>
-                <h3>{userInfo ? userInfo.phone : ""}</h3>
-              </div>
-              <div className="info-item">
-                <h3>CPF:</h3>
-                <h3>{userInfo ? userInfo.CPF : ""}</h3>
-              </div>
-              <div className="info-item">
-                <h3>CRESS:</h3>
-                <h3>{userInfo ? userInfo.CRESS : ""}</h3>
-              </div>
-              <div className="info-item">
-                <h3>Email:</h3>
-                <h3>{userInfo ? localStorage.getItem("email") : ""}</h3>
-              </div>
+        {userInfo ?
+            <div className="solicitacoes personal-info">
+              <div className="upper-info">
+                <h2>Informações pessoais</h2>
+                <div className="info-item">
+                  <h3>Nome:</h3>
+                  <h3>{userInfo ? userInfo.name : "User Name"}</h3>
+                </div>
+                <div className="info-item">
+                  <h3>Telefone:</h3>
+                  <h3>{userInfo ? userInfo.phone : ""}</h3>
+                </div>
+                <div className="info-item">
+                  <h3>CPF:</h3>
+                  <h3>{userInfo ? userInfo.CPF : ""}</h3>
+                </div>
+                <div className="info-item">
+                  <h3>CRESS:</h3>
+                  <h3>{userInfo ? userInfo.CRESS : ""}</h3>
+                </div>
+                <div className="info-item">
+                  <h3>Senha:</h3>
+                  <h3>********</h3>
+                </div>
 
+              </div>
+              <a href="#">
+                <UilPen size="20" color="#1F4B73"></UilPen>
+              </a>
             </div>
-            <a href="#">
-              <UilPen size="20" color="#1F4B73"></UilPen>
-            </a>
-          </div>
+            :
+
+            <div className="solicitacoes personal-info">
+              <div className="upper-info">
+                <h2>Informações pessoais</h2>
+                <div className="info-item">
+                  <h3>Nome:</h3>
+                  <div className="skeleton-text skeleton-loading"></div>
+                </div>
+                <div className="info-item">
+                  <h3>Telefone:</h3>
+
+                  <div className="skeleton-text skeleton-loading"></div>
+                </div>
+                <div className="info-item">
+                  <h3>CPF:</h3>
+
+                  <div className="skeleton-text skeleton-loading"></div>
+                </div>
+                <div className="info-item">
+                  <h3>CRESS:</h3>
+
+                  <div className="skeleton-text skeleton-loading"></div>
+                </div>
+                <div className="info-item">
+                  <h3>Senha:</h3>
+
+                  <div className="skeleton-text skeleton-loading"></div>
+                </div>
+                <div className="info-item">
+                </div>
+
+              </div>
+              <a href="#">
+                <UilPen size="20" color="#1F4B73"></UilPen>
+              </a>
+            </div>
+          }
           <a href="#" className="btn-alterar">
             <UilLock size="20" color="white"></UilLock>
             Alterar senha

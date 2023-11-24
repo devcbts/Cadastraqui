@@ -19,7 +19,7 @@ export default function DespesasTotaisAssistente({id}) {
     };
 
     return (
-        <div>
+        <div style={{marginBottom: "200px"}}>
             <h2>Selecione o tipo de Despesas</h2>
             <Select
                 options={despesasOptions}

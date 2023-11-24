@@ -18,11 +18,17 @@ const VehicleUsage = [
     { value: 'NecessaryDisplacement', label: 'Deslocamento Necessário' },
 ];
 // Componente de formulário para registrar informações do veículo
-export default function VerVeiculo({formData}) {
+export default function VerVeiculo({formData,candidate}) {
    
-
+    console.log('====================================');
+    console.log(formData);
+    console.log('====================================');
     const [membros, setMembros] = useState([]);
+    const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
 
+    // Combine as opções de membros da família e candidato
+    const opcoes = [...membros.map(m => ({ value: m.id, label: m.fullName, type: 'family' })),
+    { value: candidato.id, label: candidato.nome, type: 'candidate' }];
 
     // Atualiza o estado do formulário quando um input className='survey-control' muda
     const handleChange = (e) => {
@@ -69,6 +75,9 @@ export default function VerVeiculo({formData}) {
         }
     };
 
+    console.log('====================================');
+    console.log(opcoes);
+    console.log('====================================');
     useEffect(() => {
         async function pegarMembros() {
             const token = localStorage.getItem('token');
@@ -103,18 +112,12 @@ export default function VerVeiculo({formData}) {
                     <Select
                         isMulti
                         name="owners_id"
-                        options={membros.map(membro => ({
-                            value: membro.id,
-                            label: membro.fullName // Substitua 'nome' pela propriedade que contém o nome do membro da família
-                        }))}
+                        options={opcoes}
                         className="survey-select"
                         onChange={handleSelectChange}
-                        value={membros
-                            .filter(membro => formData.ownerNames.includes(membro.fullName))
-                            .map(membro => ({
-                                value: membro.id,
-                                label: membro.fullName // Substitua 'nome' pela propriedade que contém o nome do membro da família
-                            }))}
+                        value={opcoes.filter(option =>
+                            formData.ownerNames.includes(option.label) || option.value === formData.candidate_id
+                        )}
                     />
                 </div>
                 <div className='survey-box'>

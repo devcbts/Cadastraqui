@@ -239,7 +239,7 @@ export default function NavBarCandidato(props) {
                   onClick={() => urlNavigation("info")}
                 >
                   <UilPlusCircle 
-                    size="30"
+                    size="65"
                     color={`${currentPath == "/candidato/info" ? "#1F4B73" : "white"
                       }`}
                   />
@@ -254,7 +254,7 @@ export default function NavBarCandidato(props) {
                   onClick={() => urlNavigation("perfil")}
                 >
                   <UilUserCircle
-                    size="30"
+                    size="30px"
                     color={`${currentPath == "/candidato/perfil" ? "#1F4B73" : "white"
                       }`}
                   />

@@ -8,6 +8,8 @@ import Edital from "../../Components/edital";
 import { useNavigate } from "react-router";
 import { api } from "../../services/axios";
 import Cookies from "js-cookie";
+import EditalEntidade from "../../Components/editalEntidade";
+import LoadingEdital from "../../Components/Loading/LoadingEdital";
 
 export default function HomeEntidade() {
   const { isShown } = useAppState();
@@ -32,7 +34,7 @@ export default function HomeEntidade() {
 
   // Estados para os editais
   const [announcements, setAnnouncements] = useState()
-  
+  const [entity ,setEntity] = useState(null)
   // Estado para informações acerca do usuário logado
   const [entityInfo, setEntityInfo] = useState()
 
@@ -48,9 +50,13 @@ export default function HomeEntidade() {
           }})
           console.log(response.data)
         // Pega todos os editais e armazena em um estado
-        setAnnouncements(response.data.announcements)  
+        setAnnouncements(response.data.announcements) 
+        setEntity(response.data.entity)  
+ 
       } catch(err) {
-        console.log(err)  
+        if (err.response.status === 401) {
+          navigate("/login");
+        } 
       } 
     }
 
@@ -117,8 +123,11 @@ export default function HomeEntidade() {
         </div>
         <div className="container-editais">
           {announcements  && announcements.length > 0 ? announcements.map((announcement) => {
-            return <Edital announcement={announcement} key={announcement.id}/>
-          }) : <div className="without-announcement">Não há editais abertos no momento </div>}
+            return <EditalEntidade announcement={announcement} key={announcement.id}/>
+          }) :<div className="container-editais" ><LoadingEdital/>
+          <LoadingEdital/>
+          <LoadingEdital/>
+          <LoadingEdital/> </div>}
         </div>
       </div>
     </div>

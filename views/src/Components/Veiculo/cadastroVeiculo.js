@@ -18,7 +18,7 @@ const VehicleUsage = [
     { value: 'NecessaryDisplacement', label: 'Deslocamento Necessário' },
 ];
 // Componente de formulário para registrar informações do veículo
-export default function CadastroVeiculo() {
+export default function CadastroVeiculo({ candidate }) {
     const [formData, setFormData] = useState({
         vehicleType: 'SmallCarsAndUtilities',
         modelAndBrand: '',
@@ -30,10 +30,15 @@ export default function CadastroVeiculo() {
         insuranceValue: '',
         usage: 'WorkInstrument',
         owners_id: [],
+        candidate_id: ''
     });
 
     const [membros, setMembros] = useState([]);
+    const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
 
+    // Combine as opções de membros da família e candidato
+    const opcoes = [...membros.map(m => ({ value: m.id, label: m.fullName, type: 'family' })),
+    { value: candidato.id, label: candidato.nome, type: 'candidate' }];
 
     // Atualiza o estado do formulário quando um input className='survey-control' muda
     const handleChange = (e) => {
@@ -45,9 +50,14 @@ export default function CadastroVeiculo() {
     };
 
     const handleSelectChange = (selectedOptions) => {
+        // Filtra para membros da família
+        const owners = selectedOptions.filter(option => option.type === 'family').map(option => option.value);
+        // Verifica se o candidato foi selecionado
+        const candidate = selectedOptions.find(option => option.type === 'candidate')?.value;
         setFormData({
             ...formData,
-            owners_id: selectedOptions ? selectedOptions.map(option => option.value) : [],
+            owners_id: owners,
+            candidate_id: candidate || '',
         });
     };
 
@@ -72,6 +82,7 @@ export default function CadastroVeiculo() {
                 insuranceValue: Number(formData.insuranceValue) || undefined,
                 usage: formData.usage,
                 owners_id: formData.owners_id,
+                candidate_id: candidato.id || undefined
             }, {
                 headers: {
                     'authorization': `Bearer ${token}`,
@@ -121,18 +132,12 @@ export default function CadastroVeiculo() {
                     <Select
                         isMulti
                         name="owners_id"
-                        options={membros.map(membro => ({
-                            value: membro.id,
-                            label: membro.fullName // Substitua 'nome' pela propriedade que contém o nome do membro da família
-                        }))}
+                        options={opcoes}
                         className="survey-select"
                         onChange={handleSelectChange}
-                        value={membros
-                            .filter(membro => formData.owners_id.includes(membro.id))
-                            .map(membro => ({
-                                value: membro.id,
-                                label: membro.fullName // Substitua 'nome' pela propriedade que contém o nome do membro da família
-                            }))}
+                        value={opcoes.filter(option =>
+                            formData.owners_id.includes(option.label) || option.value === formData.candidate_id
+                        )}
                     />
                 </div>
                 <div className='survey-box'>

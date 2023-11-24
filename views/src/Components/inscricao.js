@@ -12,7 +12,7 @@ import uspLogo from "../Assets/usp-logo.png";
 import { UilElipsisDoubleVAlt } from '@iconscout/react-unicons'
 import { UilSearch } from '@iconscout/react-unicons'
 
-export default function Inscricao(props) {
+export default function Inscricao({application}) {
   const { user } = useAuth();
   const [enrolled, setEnrolled] = useState(false)
 
@@ -20,27 +20,27 @@ export default function Inscricao(props) {
 
   return (
     <div className="item">
-      <h2>Victor</h2>
+      <h2>{application?.SocialAssistantName}</h2>
       <UilElipsisDoubleVAlt
         size="30"
         color="#7b7b7b"
         className="icon"
       ></UilElipsisDoubleVAlt>
       <img src={uspLogo} alt="Icon" />
-      <h2>{props.name}</h2>
+      <h2>{application?.announcement?.announcementName}</h2>
       <UilElipsisDoubleVAlt
         size="30"
         color="#7b7b7b"
         className="icon"
       ></UilElipsisDoubleVAlt>
-      <h2>Situação: Lista de espera</h2>
+      <h2>Situação: {application?.status}</h2>
       <UilElipsisDoubleVAlt
         size="30"
         color="#7b7b7b"
         className="icon"
       ></UilElipsisDoubleVAlt>
 
-      <Link to={`/candidato/solicitacoes/${props.id}`}>
+      <Link to={`/candidato/solicitacoes/${application?.id}`}>
         <UilSearch
           size="45"
           color="#7b7b7b"

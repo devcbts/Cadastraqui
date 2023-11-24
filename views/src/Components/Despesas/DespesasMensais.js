@@ -46,14 +46,16 @@ export default function DespesasMensais() {
                 <button onClick={toggleCadastro}>Adicionar Despesa</button>
             )}
 
-            {!mostrarCadastro && expensesInstances.length > 0 && (
+            {!mostrarCadastro && expensesInstances.length > 0 && <div>
+                <h2>Selecione a Despesa</h2>
                 <Select
                     options={expensesInstances.map((expense, index) => ({ value: expense, label: `Despesa ${index + 1}` }))}
                     onChange={handleSelectChange}
                     getOptionLabel={(option) => option.label}
                     getOptionValue={(option) => option.value}
-                />
-            )}
+                    />
+                    </div>
+            }
 
             {!mostrarCadastro && selectedExpense && <VerDespesas formData={selectedExpense} />}
         </div>

@@ -58,7 +58,13 @@ const NumberOfRooms = [
   { value: 'Eleven', label: 'Onze' },
   { value: 'Twelve', label: 'Doze' },
 ];
-export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehicles, candidate }) {
+
+const VehicleSituation = [
+  { value: 'PaidOff', label: 'Quitado' },
+  { value: 'Financed', label: 'Financiado' },
+];
+
+export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehicles, candidate, announcement }) {
   function calculateAge(birthDate) {
     const birthDateObj = new Date(birthDate);
     const today = new Date();
@@ -99,6 +105,12 @@ export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehic
     const type = NumberOfRooms.find(t => t.value === Number);
     return type ? type.label : 'Não especificado';
   }
+
+  function translateVehicleSituation(situation) {
+    const type = VehicleSituation.find(t => t.value === situation);
+    return type ? type.label : 'Não especificado';
+  }
+
   return (
     <div className="fill-container general-info">
       <h1 id="parecer-text">
@@ -106,15 +118,15 @@ export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehic
         {"("}a{")"} {identityInfo.fullName}, portador{"("}a{")"} da cédula de
         identidade RG número {identityInfo.RG}, orgão emissor {identityInfo.rgIssuingAuthority}, UF do orgão
         emissor {identityInfo.rgIssuingState}, com Nacionalidade {identityInfo.nationality}, {identityInfo.maritalStatus} e {identityInfo.profession},
-        residente no apartamento número 123, CEP 12228460, Campus do DCTA, São
-        José dos Campos, São Paulo, SP. Com email
-        jeancarlosimpliamaral@hotmail.com, se inscreveu para participar do
-        processo seletivo de que trata o Edital Unifei 2023.1 e recebeu número
+        residente no {candidate.address} {candidate.addressNumber}, CEP {candidate.CEP}, {candidate.neighborhood}, {candidate.city}, {candidate.UF}. 
+        Com email {candidate.email}, se inscreveu para participar do
+        processo seletivo de que trata o Edital {announcement.announcementName} e recebeu número
         de inscrição 00001.
         <br></br>
       </h1>
       <h1 id='parecer-text'>
         O candidato possui a idade de {calculateAge(identityInfo.birthDate)} anos e reside com:
+        
         {FamilyMembers.map((familyMember, index) => (
           <span key={index}>
             {index > 0 && ", "} {/* Adiciona vírgula entre os nomes, exceto antes do primeiro */}
@@ -152,7 +164,7 @@ export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehic
                 <td>{vehicle.ownerNames.map(name => name.split(" ")[0]).join(", ")} </td>
                 <td>{vehicle.modelAndBrand}</td>
                 <td>{vehicle.manufacturingYear}</td>
-                <td>{vehicle.situation}</td>
+                <td>{translateVehicleSituation(vehicle.situation)}</td>
               </tr>
             )
           })}
