@@ -2,8 +2,8 @@ import { env } from '@/env'
 import * as AWS from 'aws-sdk'
 
 const region = env.AWS_BUCKET_REGION
-const accessKeyId = env.AWS_ACCESS_KEY_ID
-const secretAccessKey = env.AWS_SECRET_KEY_ID
+const accessKeyId = env.AWS_ACCESS_KEY
+const secretAccessKey = env.AWS_SECRET_KEY
 const bucketName = env.AWS_BUCKET_NAME
 
 const s3 = new AWS.S3({

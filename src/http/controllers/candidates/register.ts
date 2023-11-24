@@ -104,6 +104,7 @@ export async function registerCandidate(
         phone,
         UF,
         name,
+        email
       },
     })
 

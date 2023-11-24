@@ -50,6 +50,11 @@ export async function getApplications(
       } else {
         const applications = await prisma.application.findMany({
           where: { candidate_id: candidate.id },
+          include: {
+            announcement: true, // inclui detalhes do anúncio
+            EducationLevel: true,
+            SocialAssistant: true
+          }
         })
 
         return reply.status(200).send({ applications })

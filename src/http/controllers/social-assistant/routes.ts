@@ -61,7 +61,7 @@ export async function assistantRoutes(app: FastifyInstance) {
   )
 
   app.get(
-    '/teste/:announcement_id?',
+    '/announcement/:announcement_id?',
     { onRequest: [verifyJWT] },
     getAnnouncements,
   )

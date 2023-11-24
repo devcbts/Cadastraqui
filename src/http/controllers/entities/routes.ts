@@ -19,13 +19,16 @@ import { createEducationalLevel } from './create-educcation-level'
 import { addAssistantAnnouncement } from './add-social-assistant-to-announcement'
 import { fetchAnnouncements } from './fetch-announcements'
 import { uploadAnnouncementPdf } from './upload-announcement-pdf'
+import { uploadEntityProfilePicture } from './upload-profile-picture'
+import { getEntityProfilePicture } from './get-profile-picture'
+import { getSocialAssistants } from './get-social-assistants'
 
 export async function entityRoutes(app: FastifyInstance) {
   /** Admin Routes (Rotas acessadas na página do Admin)
    *  Concluídas: post, get, delete, update, Verificação de ROLE -> ADMIN
    *   Faltam:
    */
-  app.post('/', registerEntity) // Adicionar middlewares
+  app.post('/',{ onRequest: [verifyJWT, verifyRole('ADMIN')] }, registerEntity) // Adicionar middlewares
   app.get('/', { onRequest: [verifyJWT] }, getEntityInfo)
   app.delete(
     '/:_id?',
@@ -81,16 +84,18 @@ export async function entityRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT, verifyRole('ENTITY')] },
     deleteDirector,
   )
-  app.post('/announcement/assistant', addAssistantAnnouncement)
+  app.get('/announcement/assistant', { onRequest: [verifyJWT]}, getSocialAssistants)
+
+  app.post('/announcement/assistant',{ onRequest: [verifyJWT]},  addAssistantAnnouncement)
 
   app.post(
     '/announcement',
     { onRequest: [verifyJWT, verifyRole('ENTITY')] },
     CreateAnnoucment,
   )
-  app.post('/announcement/:announcement_id' , { onRequest: [verifyJWT, verifyRole('ENTITY')]}, uploadAnnouncementPdf)
+  app.post('/upload/:announcement_id' , { onRequest: [verifyJWT, verifyRole('ENTITY')]}, uploadAnnouncementPdf)
   app.get(
-    '/announcement',
+    '/announcement/:announcement_id?',
     { onRequest: [verifyJWT, verifyRole('ENTITY')] },
     fetchAnnouncements,
   )
@@ -104,4 +109,8 @@ export async function entityRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT, verifyRole('ENTITY')] },
     createEducationalLevel,
   )
+
+  app.post('/profilePicture', {onRequest: [verifyJWT]}, uploadEntityProfilePicture)
+  app.get('/profilePicture', {onRequest: [verifyJWT]}, getEntityProfilePicture)
+
 }

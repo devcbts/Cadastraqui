@@ -4,6 +4,7 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 datasource db {
 
   provider = "postgresql"
@@ -13,6 +14,7 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 
 }
+
 enum ROLE {
   ADMIN
   CANDIDATE
@@ -268,9 +270,9 @@ model Candidate {
   role           ROLE     @default(CANDIDATE)
   createdAt      DateTime @default(now())
   profilePicture String?
-
-  user    User?   @relation(fields: [user_id], references: [id])
-  user_id String? @unique
+  email          String?
+  user           User?    @relation(fields: [user_id], references: [id])
+  user_id        String?  @unique
 
   responsible    LegalResponsible? @relation(fields: [responsible_id], references: [id])
   responsible_id String?
@@ -284,6 +286,7 @@ model Candidate {
   Financing       Financing[]
   CreditCard      CreditCard[]
   OtherExpense    OtherExpense[]
+  Vehicle         Vehicle[]
 
   @@map("candidates")
 }
@@ -565,7 +568,9 @@ model Vehicle {
   insuranceValue    Float? // Only if hasInsurance is true
   usage             VehicleUsage
 
-  owners FamilyMember[]
+  owners      FamilyMember[]
+  candidate   Candidate ?     @relation(fields: [candidate_id], references: [id])
+  candidate_id String?
 }
 
 enum EmploymentType {
@@ -758,7 +763,7 @@ model OtherExpense {
   familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
   familyMember_id String
   candidate       Candidate    @relation(fields: [candidate_id], references: [id])
-  candidate_id     String
+  candidate_id    String
 }
 
 model FamilyMemberDisease {

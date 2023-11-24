@@ -2,11 +2,18 @@ import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
 
 export async function fetchAnnouncements(
   request: FastifyRequest,
   reply: FastifyReply,
+
 ) {
+  const fetchParamsSchema = z.object({
+    announcement_id : z.string().optional()
+  })
+
+  const {announcement_id} = fetchParamsSchema.parse(request.params)
   try {
     const userId = request.user.sub
     if (!userId) {
@@ -19,6 +26,18 @@ export async function fetchAnnouncements(
 
     if (!entity) {
       throw new ResourceNotFoundError()
+    }
+
+    if (announcement_id) {
+      const announcement = await prisma.announcement.findUnique({
+        where: { id: announcement_id }, include:{ 
+          Application: true,
+          educationLevels: true,
+          socialAssistant: true
+        }
+      }) 
+      return reply.status(200).send({ announcement })
+
     }
 
     const announcements = await prisma.announcement.findMany({

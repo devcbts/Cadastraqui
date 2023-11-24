@@ -55,7 +55,7 @@ export async function registerMEIInfo(
         employmentType: 'IndividualEntrepreneur',
         CNPJ,
         averageIncome: avgIncome.toString(),
-        startDate,
+        startDate: new Date(startDate),
         familyMember_id: _id,
       },
     })

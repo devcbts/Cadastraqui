@@ -27,6 +27,7 @@ export async function registerVehicleInfo(
     insuranceValue: z.number().optional(),
     usage: VehicleUsage,
     owners_id: z.array(z.string()),
+    candidate_id: z.string().optional(),
   })
 
   console.log('====================================');
@@ -43,6 +44,7 @@ export async function registerVehicleInfo(
     insuranceValue,
     monthsToPayOff,
     owners_id,
+    candidate_id
   } = vehicleDataSchema.parse(request.body)
 
   try {
@@ -79,7 +81,7 @@ export async function registerVehicleInfo(
         owners: {
           connect: owners_id.map(id => ({ id })),
         },
-      },
+        candidate: candidate_id ? { connect: { id: candidate_id } } : undefined,      },
     })
 
     return reply.status(201).send()

@@ -10,13 +10,13 @@ export async function registerEntity(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+  console.log(request.body)
   const registerBodySchema = z.object({
     name: z.string(),
     email: z.string().email(),
     password: z.string().min(6),
     role: z.enum([ROLE.ENTITY]),
     CNPJ: z.string(),
-    logo: z.string(),
     socialReason: z.string(),
     CEP: z.string(),
     address: z.string(),
@@ -29,13 +29,12 @@ export async function registerEntity(
     password,
     role,
     CNPJ,
-    logo,
     socialReason,
     CEP,
     address,
     educationalInstitutionCode,
   } = registerBodySchema.parse(request.body)
-
+ 
   try {
     // Verifica se já existe algum usuário com o email fornecido
     const userWithSameEmail = await prisma.user.findUnique({
@@ -71,7 +70,6 @@ export async function registerEntity(
         user_id: user.id,
         name,
         CNPJ,
-        logo,
         socialReason,
         address,
         CEP,

@@ -18,14 +18,13 @@ export async function getFamilyMemberInfo(
   try {
     const user_id = request.user.sub
     const role = request.user.role
-    let candidate;
-    
+    let candidate
+
     if (_id) {
       candidate = await prisma.candidate.findUnique({
         where: { id: _id },
       })
     } else {
-
       // Verifica se existe um candidato associado ao user_id
       candidate = await prisma.candidate.findUnique({
         where: { user_id },
@@ -35,14 +34,10 @@ export async function getFamilyMemberInfo(
       throw new ResourceNotFoundError()
     }
 
-    
-      const familyMembers = await prisma.familyMember.findMany({
-        where: { candidate_id: candidate.id },
-      })
-      return reply.status(200).send({ familyMembers })
-    
-
-
+    const familyMembers = await prisma.familyMember.findMany({
+      where: { candidate_id: candidate.id },
+    })
+    return reply.status(200).send({ familyMembers })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
