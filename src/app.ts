@@ -1,4 +1,4 @@
-require('module-alias/register');
+require('module-alias/index');
 import { env } from './env/index'
 import fastify, { FastifyReply, FastifyRequest } from 'fastify'
 import fastifyJwt from '@fastify/jwt'
