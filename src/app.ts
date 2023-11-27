@@ -21,6 +21,7 @@ import { uploadUserProfilePicture } from './http/controllers/users/upload-profil
 import { verifyJWT } from './http/middlewares/verify-jwt'
 import { getUserProfilePicture } from './http/controllers/users/get-profile-picture'
 import { fastifyMultipart } from '@fastify/multipart'
+import { adminRoutes } from './http/controllers/admin/routes';
 
 export const app = fastify()
 app.register(fastifyMultipart, {
@@ -65,6 +66,7 @@ app.register(candidateRoutes, { prefix: '/candidates' })
 app.register(legalResponsibleRoutes, { prefix: '/responsibles' })
 app.register(entityRoutes, { prefix: '/entities' })
 app.register(assistantRoutes, { prefix: '/assistant' })
+app.register(adminRoutes, { prefix: '/admin' })
 
 app.post('/session', authenticate)
 app.post('/forgot_password', forgotPassword)
