@@ -1,0 +1,33 @@
+
+
+  
+  /* Estilos para o formulário */
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+
+  
+  /* Estilos para os checkboxes */
+  .form-check {
+    margin-top: 10px;
+  }
+  
+  .form-check-input {
+    margin-right: 10px;
+  }
+  
+ 
+  
+  /* Estilos para área de texto */
+  .form-control textarea {
+    height: 100px; /* Altura fixa para a área de texto */
+  }
+  

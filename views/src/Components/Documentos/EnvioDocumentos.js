@@ -89,9 +89,11 @@ export default function EnviarDocumentos({ id }) {
             });
             console.log(response.data);
             // Trate a resposta conforme necessário
+            alert("Documento Enviado!")
         } catch (error) {
             console.error(error.response?.data || error.message);
             // Trate o erro conforme necessário
+            alert("Erro ao enviar documento!")
         }
     };
 

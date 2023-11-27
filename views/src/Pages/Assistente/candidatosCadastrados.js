@@ -22,7 +22,7 @@ export default function CandidatosCadastrados() {
   const [filterIsShown, setFilterIsShown] = useState(false);
 
   const [applications, setApplications] = useState();
-
+  const [educationLevels, setEducationLevels] = useState([]);
   const handleClickFilter = () => {
     setFilterIsShown((prev) => !prev);
   };
@@ -39,9 +39,25 @@ export default function CandidatosCadastrados() {
       setApplications(response.data.applications);
       console.log(response.data.applications);
     }
-
+    fetchAnnouncement();
     fetchCandidates();
   }, []);
+
+  async function fetchAnnouncement() {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await api.get(`/assistant/announcement/${announcement_id}`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      setEducationLevels(response.data.announcement.educationLevels);
+      console.log(response.data.announcement)
+    } catch (error) {
+      console.error("Error fetching announcement details:", error);
+    }
+  }
+
 
   return (
     <div className="container">
@@ -122,29 +138,37 @@ export default function CandidatosCadastrados() {
         )}
 
         <div className="solicitacoes">
-          {applications
-            ? applications?.map((application) => {
-              return (
+          
+          <div className="education-levels-container">
+            {educationLevels.map((level) => (
+              <div key={level.id} className="education-level">
+                <h2>{level.availableCourses}</h2>
+                {/* Renderize os candidatos para este nível de educação */}
+                {applications?.filter(app => app.educationLevel_id === level.id).map((application) => (
+                  <div>
+
+                    <Candidatura
+                      key={application.id}
+                      name={application.candidateName}
+                      assistente={application.SocialAssistantName}
+                      id={application.id}
+                      announcement_id={announcement_id}
+                    />
+
+                  </div>
+                ))}
                 <Candidatura
-                  name={application.candidateName}
-                  assistente={application.SocialAssistantName}
-                  id={application.id}
+                  name="João Paulo"
+                  assistente='Fernado Souza'
+                  announcement_id={announcement_id}
+                /><Candidatura
+                  name="João Paulo"
+                  assistente='Fernado Souza'
                   announcement_id={announcement_id}
                 />
-              );
-            })
-            : <div>
-              <LoadingCandidaturaAssistente/>
-              <LoadingCandidaturaAssistente/>
-              <LoadingCandidaturaAssistente/>
-              <LoadingCandidaturaAssistente/>
-
-            </div> }
-          <Candidatura
-            name="João Paulo"
-            assistente='Fernado Souza'
-            announcement_id={announcement_id}
-          />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

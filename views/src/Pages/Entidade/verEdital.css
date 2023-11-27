@@ -8,3 +8,19 @@
 .descricao-edital-entidade{
     width: 90%;
 }
+.general-info {
+    margin-bottom: 30px;
+    background-color: #f2f2f2; /* Cor de fundo claro para diferenciar a seção */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para destaque */
+}
+
+.education-level-details {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: #ffffff; /* Fundo branco para cada seção de nível de educação */
+    border: 1px solid #eaeaea; /* Borda sutil */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra suave para destaque */
+}

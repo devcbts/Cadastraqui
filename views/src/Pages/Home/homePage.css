@@ -1,0 +1,371 @@
+.container-landing{
+    background-color: rgb(0, 0, 0);
+    z-index: 5;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    background-position: fixed;
+}
+
+.upper-page{
+    background-color: red;
+    width: 100px;
+    height: 100px;
+}
+
+.video-header{
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 2;
+    box-shadow: 10px 10px 10px black;
+    opacity: 0.35;
+}
+
+.header-box{
+    position: absolute;
+    width: 100%;
+    min-height: 10vh;
+    top: 30vh;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-section{
+    min-height: 20vh;
+    width: 40vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 1rem;
+}
+
+.text-section h1{
+    color: white;
+    font-size: 2.7rem;
+    width: fit-content;
+    padding-left: 1.5rem;
+    border-left: 0.5rem solid white;
+    text-shadow: 3px 3px 20px black;
+    text-align: left;
+    overflow:visible;
+    letter-spacing: -1px;
+}
+
+.text-section h2{
+    color: white;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    width: fit-content;
+    max-width: 32vw;
+    padding-left: 0rem;
+    text-shadow: 3px 3px 20px black;
+    text-align: left;
+    margin-top: 1rem;
+    width: fit-content;
+    overflow:visible;
+}
+
+.image-section{
+    min-height: 20vh;
+    width: 40vw;
+    overflow: visible;
+}
+
+.image-section img{
+    height: 60vh;
+}
+
+#btn-more{
+    margin-top: 1rem;
+    margin-left: 10vw;
+    border-radius: 0.7rem;
+    color:#1b4f73;
+    background: linear-gradient(-45deg, #b0b0b0, #6c6363, #89daf7, #ffffff);
+	background-size: 400% 400%;
+    padding: 0.5rem 1rem;
+    transition: 0.5s;
+}
+
+#btn-more:hover{
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+.body-landing{
+    min-height: 100vh;
+    background-color: white;
+}
+
+.initial-presentation{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 15vh;
+    gap: 5vh;
+    overflow: visible;
+    margin-bottom: 20vh;
+}
+
+.body-title{
+    height: fit-content;
+    display: flex;
+    width: 45vw;
+    text-align: center;
+    justify-content: center;
+    position: relative;
+    filter: blur(6px);
+    transition: 2s;
+}
+
+.visible-text{
+    filter: blur(0);
+}
+
+.promotional-video{
+    width: 45vw;
+    transform: scaleX(1) scaleY(1) scaleZ(1) rotateX(45deg);
+    box-shadow: 0px 10px 30px rgb(104, 104, 104);
+    transition: 2s;
+}
+
+.video-wrap{
+    perspective: 800px;
+    perspective-origin: 50% 50%;
+    overflow: visible;
+}
+
+.rotated-video{
+    transform: scaleX(1) scaleY(1) scaleZ(1) rotateX(0);
+    box-shadow: 0px 0px 2px rgb(14, 14, 14)
+} 
+
+.our-team{
+    width: 80vw;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Creates two columns of equal width */
+    grid-gap: 10px; /* Adjust the gap between the grid items */
+    transform: translateY(40vh);
+    filter: blur(6px);
+    opacity: 0;
+    transition: all 1.5s;
+}
+
+.visible-team{
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+.team-block{
+    width: 40vw;
+    min-height: 20vw;
+    display: flex;
+    flex-direction: column;
+    align-content: left;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.great-title{
+    height: fit-content;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: -2px;
+    width: 100%;
+    text-align: left;
+}
+
+.great-title span{
+    color: black;
+    font-weight: 700;
+}
+
+.team-block h2{
+    font-size: 1rem;
+    text-align: justify;
+    position: relative;
+}
+
+.team-block .subtitle{
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.founder-picture{
+    width: 80%;
+}
+
+.features-description{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 5vh;
+    padding-bottom: 10vh;
+    width: 100vw;
+    min-height: 20vh;
+    gap: 4rem;
+}
+
+.feature-card{
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Creates two columns of equal width */
+    grid-gap: 0px; /* Adjust the gap between the grid items */
+    align-items: center;
+    justify-content: center; 
+    width: 80vw;
+    height: 30vw;
+    background-color: #ffffff;
+    box-shadow: 0 0 2px #1b4f73;
+    border-radius: 2rem;
+    transition: all 2.5s;
+}
+
+.feature-card:nth-child(1){
+    transform: translateX(-40vw);
+}
+.feature-card:nth-child(2){
+    transform: translateX(40vw);
+}
+.feature-card:nth-child(3){
+    transform: translateX(-40vw);
+}
+
+.visible-card:nth-child(1){
+    transform: translateX(0);
+}
+.visible-card:nth-child(2){
+    transform: translateX(0);
+}
+.visible-card:nth-child(3){
+    transform: translateX(0);
+}
+
+.feature-card img{
+    height: 70%;
+    margin: auto;
+}
+
+.feature-card:nth-child(1) img{
+    aspect-ratio: 6/4;
+}
+
+.feature-card:nth-child(2) img{
+    aspect-ratio: 1/1;
+}
+
+
+
+.feature-card h2{
+    text-align: justify;
+    font-size: 1rem;
+    padding: 1rem;
+    padding-right: 4rem;
+    color: black;
+}
+
+.feature-card h1{
+    letter-spacing: -2px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.footer-container{
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2rem;
+    padding: 3rem;
+    background-color: #08263b;
+    margin-top: 4rem;
+}
+
+.footer-box h1{
+    font-size: 1.3rem;
+    color: white;
+}
+
+.footer-box h2{
+    text-align: justify;
+    font-size: 1rem;
+    color: #5f829b
+}
+
+.footer-box ul{
+    text-decoration: underline;
+}
+
+
+@media (max-width: 800px){
+    .our-team{
+        display: grid;
+        grid-template-columns: 1fr; /* Creates one column */
+        grid-gap: 10px; /* Adjust the gap between the grid items */
+    }
+
+    .team-block{
+        width: 80vw;
+        min-height: 30vw;
+        display: flex;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+    }
+
+    .promotional-video{
+        width: 90vw;
+    }
+
+    .body-title{
+        font-size: 1.5rem;
+        width: 100vw;
+    }
+
+    .feature-card{
+        display: flex;
+        flex-direction: column;
+        height: fit-content;
+    }
+    
+    .subtitle{
+        width: fit-content;
+        display: block;
+        text-align: left;
+    }
+
+    .feature-card img{
+        width: 60vw;
+    }
+
+    .text-section{
+        width: 100vw;
+        align-items: center;
+    }
+
+    .text-section h2{
+        min-width: 50vw;
+        text-align: justify;
+    }
+}

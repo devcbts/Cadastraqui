@@ -73,7 +73,7 @@ export default function CadastroEdital() {
     const [educationalLevels, setEducationalLevels] = useState(
         selectedCursos.map(curso => ({
             availableCourses: curso,
-            offeredVacancies: 0,
+            offeredVacancies: 5000,
             verifiedScholarships: 0,
             semester: 1,
             grade: '',
@@ -86,6 +86,13 @@ export default function CadastroEdital() {
     );
     const [coursetype, setCourseType] = useState('UndergraduateBachelor')
 
+    useEffect(() => {
+        const totalScholarships = educationalLevels.reduce((total, currentLevel) => {
+            return total + currentLevel.verifiedScholarships;
+        }, 0);
+    
+        setVerifiedScholarships(totalScholarships);
+    }, [educationalLevels]);
     const handleEducationalChange = (cursoIndex, field, value) => {
         setEducationalLevels(prevLevels => prevLevels.map((level, index) => {
             if (index === cursoIndex) {
@@ -134,7 +141,7 @@ export default function CadastroEdital() {
     useEffect(() => {
         setEducationalLevels(selectedCursos.map(curso => ({
             availableCourses: curso,
-            offeredVacancies: 0,
+            offeredVacancies: 5000,
             verifiedScholarships: 0,
             semester: 1,
             grade: '',
@@ -185,7 +192,7 @@ export default function CadastroEdital() {
                 announcementType: announcementType,
                 announcementDate: announcementDate,
                 announcementName: announcementName,
-                offeredVacancies: offeredVancancies,
+                offeredVacancies: 5000,
                 verifiedScholarships: verifiedScholarships,
                 description: description,
 
@@ -225,7 +232,7 @@ export default function CadastroEdital() {
                             higherEduScholarshipType: education.higherEduScholarshipType,
                             offeredCourseType: education.offeredCourseType,
                             availableCourses: education.availableCourses,
-                            offeredVancancies: education.offeredVancancies,
+                            offeredVacancies: education.offeredVacancies,
                             verifiedScholarships: education.verifiedScholarships,
                             shift: education.shift,
                             semester: education.semester
@@ -256,7 +263,7 @@ export default function CadastroEdital() {
             })
            
 
-
+        alert("Edital criado com suceeso")
 
         } catch (err) {
             alert("Erro ao atualizar foto de perfil.");
@@ -331,28 +338,7 @@ export default function CadastroEdital() {
                             onChange={(e) => setAnnouncementDate(e.target.value)}
                         />
                     </fieldset>
-                    <fieldset>
-                        <label for="nome-edital">Número de total de vagas</label>
-                        <input
-                            placeholder="Exemplo: 10"
-                            type="number"
-                            tabindex="3"
-                            required
-                            value={offeredVancancies}
-                            onChange={(e) => setOfferedVancancies(Number(e.target.value))}
-                        />
-                    </fieldset>
-                    <fieldset>
-                        <label for="nome-edital">Número de total de bolsas</label>
-                        <input
-                            placeholder="Exemplo: 7"
-                            type="number"
-                            tabindex="3"
-                            required
-                            value={verifiedScholarships}
-                            onChange={(e) => setVerifiedScholarships(Number(e.target.value))}
-                        />
-                    </fieldset>
+               
 
 
 
@@ -478,23 +464,12 @@ export default function CadastroEdital() {
                                         </select>
                                     </fieldset>
                                     {/* Input para offeredVacancies */}
-                                    <fieldset>
-
-                                        <label>
-                                            Vagas Oferecidas:
-                                        </label>
-                                        <input
-                                            type="number"
-                                            value={educationalLevels[index]?.offeredVacancies}
-                                            onChange={(e) => handleEducationalChange(index, 'offeredVacancies', Number(e.target.value))}
-                                        />
-
-                                    </fieldset>
+                                  
                                     {/* Input para verifiedScholarships */}
                                     <fieldset>
 
                                         <label>
-                                            Bolsas Verificadas:
+                                            Número total de bolsas:
                                         </label>
                                         <input
                                             type="number"

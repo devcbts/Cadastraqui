@@ -33,6 +33,7 @@ import GeralCadastrado from "./Pages/Assistente/geralCadastrado";
 import SolicitacoesCandidato from "./Pages/Candidato/solicitações";
 import VerSolicitacoes from "./Pages/Candidato/verSolicitações";
 import VerEditalEntidade from "./Pages/Entidade/verEdital";
+import HomePage from "./Pages/Home/homePage";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <BrowserRouter>
           <AuthProvider>
             <Routes>
+              <Route path="/" element={<HomePage/>}></Route>
               {/*Here we have the routes for the "entidade" user type */}
               <Route path="/entidade/home" element={<HomeEntidade />}></Route>
               <Route

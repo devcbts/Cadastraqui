@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-
+import VerExtrato from './Extrato';
+import './Parecer.css'
 const Relationship = [
   { value: 'Wife', label: 'Esposa' },
   { value: 'Husband', label: 'Marido' },
@@ -63,7 +64,14 @@ const VehicleSituation = [
   { value: 'PaidOff', label: 'Quitado' },
   { value: 'Financed', label: 'Financiado' },
 ];
-
+const MARITAL_STATUS = [
+  { value: 'Single', label: 'Solteiro(a)' },
+  { value: 'Married', label: 'Casado(a)' },
+  { value: 'Separated', label: 'Separado(a)' },
+  { value: 'Divorced', label: 'Divorciado(a)' },
+  { value: 'Widowed', label: 'Viúvo(a)' },
+  { value: 'StableUnion', label: 'União Estável' },
+];
 export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehicles, candidate, announcement }) {
   function calculateAge(birthDate) {
     const birthDateObj = new Date(birthDate);
@@ -110,15 +118,18 @@ export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehic
     const type = VehicleSituation.find(t => t.value === situation);
     return type ? type.label : 'Não especificado';
   }
-
+  function translateMaritalStatus(status) {
+    const type = MARITAL_STATUS.find(t => t.value === status);
+    return type ? type.label : 'Não especificado';
+  }
   return (
     <div className="fill-container general-info">
       <h1 id="parecer-text">
         Em, {"02-11-2023"} o(a) candidato
         {"("}a{")"} {identityInfo.fullName}, portador{"("}a{")"} da cédula de
         identidade RG número {identityInfo.RG}, orgão emissor {identityInfo.rgIssuingAuthority}, UF do orgão
-        emissor {identityInfo.rgIssuingState}, com Nacionalidade {identityInfo.nationality}, {identityInfo.maritalStatus} e {identityInfo.profession},
-        residente no {candidate.address} {candidate.addressNumber}, CEP {candidate.CEP}, {candidate.neighborhood}, {candidate.city}, {candidate.UF}. 
+        emissor {identityInfo.rgIssuingState}, com Nacionalidade {identityInfo.nationality}, {translateMaritalStatus(identityInfo.maritalStatus)} e {identityInfo.profession},
+        residente no {candidate.address} {candidate.addressNumber}, CEP {candidate.CEP}, {candidate.neighborhood}, {candidate.city}, {candidate.UF}.
         Com email {candidate.email}, se inscreveu para participar do
         processo seletivo de que trata o Edital {announcement.announcementName} e recebeu número
         de inscrição 00001.
@@ -126,7 +137,7 @@ export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehic
       </h1>
       <h1 id='parecer-text'>
         O candidato possui a idade de {calculateAge(identityInfo.birthDate)} anos e reside com:
-        
+
         {FamilyMembers.map((familyMember, index) => (
           <span key={index}>
             {index > 0 && ", "} {/* Adiciona vírgula entre os nomes, exceto antes do primeiro */}
@@ -170,6 +181,11 @@ export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehic
           })}
         </tbody>
       </table>
+      <VerExtrato familyMembers={FamilyMembers} />
+      <div className="decision-buttons">
+        <button className="button-deferido">Deferido</button>
+        <button className="button-indeferido">Indeferido</button>
+      </div>
     </div>
   )
 }

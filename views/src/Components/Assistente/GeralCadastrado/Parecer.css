@@ -1,0 +1,32 @@
+.decision-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .button-deferido, .button-indeferido {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  .button-deferido {
+    background-color: #4CAF50; /* Cor esverdeada */
+  }
+
+  .button-deferido:hover {
+    background-color: #45a049;
+  }
+
+  .button-indeferido {
+    background-color: #f44336; /* Cor avermelhada */
+  }
+
+  .button-indeferido:hover {
+    background-color: #d32f2f;
+  }

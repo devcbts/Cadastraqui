@@ -29,6 +29,12 @@ export default function VerEditalEntidade() {
     //assistentes
     const [assistants, setAssistants] = useState([]);
     const [selectedAssistants, setSelectedAssistants] = useState([]);
+    const [showAddAssistantSection, setShowAddAssistantSection] = useState(false);
+
+
+    const [applications, setApplications] = useState([])
+    const [educationLevels, setEducationLevels] = useState([])
+
 
 
 
@@ -63,8 +69,24 @@ export default function VerEditalEntidade() {
         }
     }
 
+
+    async function getApplications() {
+        const token = localStorage.getItem("token");
+        try {
+            const response = await api.get(`/entities/applications/${announcement_id.announcement_id}`, {
+                headers: {
+                    'authorization': `Bearer ${token}`,
+                }
+            });
+            console.log(response.data.applications)
+            setApplications(response.data.applications);
+        } catch (err) {
+            console.log(err);
+        }
+    }
     useEffect(() => {
         fetchAssistants()
+        getApplications()
     }, [])
 
     useEffect(() => {
@@ -79,6 +101,7 @@ export default function VerEditalEntidade() {
                 console.log(response.data.announcement)
                 // Pega todos os editais e armazena em um estado
                 setAnnouncement(response.data.announcement)
+                setEducationLevels(response.data.announcement.educationLevels)
             } catch (err) {
                 console.log(err)
             }
@@ -153,7 +176,7 @@ export default function VerEditalEntidade() {
             <div className="container-open-edital">
 
                 <div className="container-inscricao">
-                    <div className="school-logo">
+                    <div className="school-logo" style={{ height: 'fit-content', overflowX: 'clip' }}>
                         {profilePhoto ?
                             <img src={profilePhoto}></img>
                             : <div className="skeleton skeleton-big-image" />}
@@ -162,38 +185,45 @@ export default function VerEditalEntidade() {
                         <div className="descricao-edital-entidade descricao-edital">
                             <h1>{announcement?.announcementName}</h1>
                             <h2>Detalhes</h2>
-
-                            <div className="container-info-edital-entidade">
-                                <div>
+                            <h3>{announcement.description}</h3>
+                            <div className="container-info-edital-entidade" >
+                                <div className="education-level-details">
                                     <h1> Inscritos</h1>
-                                    <h2>{announcement.Application.length}</h2>
+                                    <h2>{applications.length}</h2>
                                 </div>
-                                <div>
+                                <div style={{ marginBottom: '20px', marginTop: '30px', overflowX: 'clip' }} className="education-level-details">
 
                                     <h1>Assistentes Atuais</h1>
                                     <AssistantsList assistants={announcement.socialAssistant} />
-                                    <h1> Assistentes</h1>
-                                    <Select
-                                        options={assistants.map(assistant => ({ value: assistant.id, label: assistant.name }))}
-                                        isMulti
-                                        onChange={(selectedOptions) => setSelectedAssistants(selectedOptions)}
-                                        className="basic-multi-select"
-                                        classNamePrefix="select"
-                                    />
-                                    <button onClick={handleAddAssistantsToAnnouncement}>Adicionar Assistentes</button>
+                                    <button onClick={() => setShowAddAssistantSection(!showAddAssistantSection)} style={{width:'fit-content', marginTop:"15px", fontSize:'15px', opacity:'80%'}}>
+                                        {showAddAssistantSection ? 'Esconder' : 'Mostrar'} Seleção de Assistentes
+                                    </button>
+                                    {showAddAssistantSection && (
+                                        <div className="add-assistant-section">
+                                            <h2>Selecionar Assistentes</h2>
+                                            <Select
+                                                options={assistants.map(assistant => ({ value: assistant.id, label: assistant.name }))}
+                                                isMulti
+                                                onChange={(selectedOptions) => setSelectedAssistants(selectedOptions)}
+                                                className="basic-multi-select"
+                                                classNamePrefix="select"
+                                            />
+                                            <button onClick={handleAddAssistantsToAnnouncement} style={{width:'fit-content', marginTop:"15px", fontSize:'15px', backgroundColor:'green', opacity:'80%'}}>Adicionar Assistentes</button>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
 
-                            <h4>
-                                {/*announcementInfo ? announcementInfo.description : ''*/}
-                            </h4>
+                            <div className="general-info">
+                                <h2>Total de Bolsas: {announcement.verifiedScholarships}</h2>
+                            </div>
                         </div>
                         : ''}
-                    <div className="info-inscricao">
-                        <h2>Vagas: Medicina{/*announcementInfo ? announcementInfo.offeredVacancies : ''*/}</h2>
-                        <h2>Escolaridade: Ensino Superior</h2>
-                        <h2>Turno: Tarde</h2>
+
+
+                    <div className="education-level-section">
+                        {educationLevels.map(educationLevel => renderEducationLevelDetails(educationLevel))}
                     </div>
                 </div>
             </div>
@@ -210,5 +240,19 @@ const AssistantsList = ({ assistants }) => {
                 <li key={assistant.id}>{assistant.name}</li>
             ))}
         </ul>
+    );
+};
+
+const renderEducationLevelDetails = (educationLevel) => {
+    return (
+        <div key={educationLevel.id} className="education-level-details">
+            <h1>{educationLevel.name}</h1>
+            <div className="course-details">
+                <h1>Curso: {educationLevel.availableCourses}</h1>
+                <h2>Bolsas: {educationLevel.verifiedScholarships}</h2>
+                <h2>Turno : {educationLevel.shift}</h2>
+                <h2>Semestre: {educationLevel.semester}</h2>
+            </div>
+        </div>
     );
 };
