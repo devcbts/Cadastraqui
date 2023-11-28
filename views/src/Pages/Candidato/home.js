@@ -166,41 +166,7 @@ export default function HomeCandidato() {
           }
         </div>
 
-        <div className="upper-contas status-title">
-          <h1>Editais Abertos</h1>
-          <div className="filters">
-            <select>
-              <option>-- Estado --</option>
-              {UF.map((item) => {
-                return (<option>{item}</option>)
-              })}
-            </select>
-
-            <select>
-              <option>-- Cidade --</option>
-              <option>Option 1</option>
-              <option>Option 2</option>
-              <option>Option 3</option>
-              <option>Option 4</option>
-              <option>Option 5</option>
-            </select>
-
-            <select>
-              <option>-- Ensino --</option>
-              <option>Option 1</option>
-              <option>Option 2</option>
-              <option>Option 3</option>
-              <option>Option 4</option>
-              <option>Option 5</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="container-editais">
-          {openAnnouncements && openAnnouncements.length > 0 ? openAnnouncements.map((announcement) => {
-            return <Edital announcement={announcement} key={announcement.id} userId={announcement.entity.user_id}/>
-          }) : <div className="without-announcement">Não há editais abertos no momento </div>}
-        </div>
+        
       </div>
     </div>
   );
