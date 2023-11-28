@@ -136,7 +136,7 @@ export default function CadastroVeiculo({ candidate }) {
                         className="survey-select"
                         onChange={handleSelectChange}
                         value={opcoes.filter(option =>
-                            formData.owners_id.includes(option.label) || option.value === formData.candidate_id
+                            formData.owners_id.includes(option.value) || option.value === formData.candidate_id
                         )}
                     />
                 </div>
