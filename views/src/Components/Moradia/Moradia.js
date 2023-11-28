@@ -19,9 +19,7 @@ export default function Moradia() {
                         'authorization': `Bearer ${token}`,
                     }
                 })
-                console.log('====================================');
-                console.log(response.data);
-                console.log('====================================');
+               
                 if(response === null){
                     setLen(0)
                     return

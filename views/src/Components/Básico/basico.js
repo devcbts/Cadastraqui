@@ -24,9 +24,12 @@ export default function Basico() {
                     setLen(0)
                     return
                 }
-                const dadosIdentidade = response.data.identityInfo
-                setBasicInfo(dadosIdentidade)
-                setLen(dadosIdentidade.length)
+                else{
+
+                    const dadosIdentidade = response.data.identityInfo
+                    setBasicInfo(dadosIdentidade)
+                    setLen(dadosIdentidade.length)
+                }
             }
             catch (err) {
                 alert(err)
