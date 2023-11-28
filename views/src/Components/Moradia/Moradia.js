@@ -22,6 +22,10 @@ export default function Moradia() {
                 console.log('====================================');
                 console.log(response.data);
                 console.log('====================================');
+                if(response === null){
+                    setLen(0)
+                    return
+                }
                 const dadosMoradia = response.data.housingInfo
                 setHousing(dadosMoradia)
                 setLen(dadosMoradia.length)

@@ -20,9 +20,10 @@ export default function Basico() {
                         'authorization': `Bearer ${token}`,
                     }
                 })
-                console.log('====================================');
-                console.log(response.data);
-                console.log('====================================');
+                if (response === null) {
+                    setLen(0)
+                    return
+                }
                 const dadosIdentidade = response.data.identityInfo
                 setBasicInfo(dadosIdentidade)
                 setLen(dadosIdentidade.length)
