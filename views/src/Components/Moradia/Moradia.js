@@ -20,7 +20,7 @@ export default function Moradia() {
                     }
                 })
                
-                if(response === null){
+                if(response.data.housingInfo === null){
                     setLen(0)
                     return
                 }

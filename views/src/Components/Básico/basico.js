@@ -20,7 +20,7 @@ export default function Basico() {
                         'authorization': `Bearer ${token}`,
                     }
                 })
-                if (response === null) {
+                if (response.data.identityInfo === null) {
                     setLen(0)
                     return
                 }
