@@ -8,10 +8,15 @@ import videoBg from "../../Assets/topvideo.mp4";
 import promotionalVideo from "../../Assets/final2.mp4";
 import ricardo from "../../Assets/ricardo.png";
 import marcelo from "../../Assets/marcelo.png";
+import candidate from "../../Assets/candidate.jpg";
+import assistant from "../../Assets/assistant.jpg";
+import entity from "../../Assets/entity.jpg";
+import confirm from "../../Assets/confirm.jpg";
 import featureOnePicture from "../../Assets/banner-security.jpg";
 import featureTwoPicture from "../../Assets/comfort.jpg";
 import featureThreePicture from "../../Assets/business.jpg";
 import computerImg from "../../Assets/top-image.png";
+import laptop from "../../Assets/laptop.png";
 import "react-bootstrap";
 
 export default function HomePage() {
@@ -100,15 +105,15 @@ export default function HomePage() {
         <div className="header-box">
           <div className="text-section">
             <h1>
-              Segurança & <br></br>Agilidade
-            </h1>
-            <h2>
               Segurança e agilidade no processo de concessão e manutenção de
               bolsas estudantis.
-            </h2>
+            </h1>
+            <h2></h2>
             <a id="btn-more">Saiba mais</a>
           </div>
-          <div className="image-section"></div>
+          <div className="image-section">
+            <img src={laptop}></img>
+          </div>
         </div>
       </div>
       <div className="body-landing">
@@ -120,37 +125,36 @@ export default function HomePage() {
           </div>
           <div className="team-block">
             <h2>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Pellentesque quis sem arcu. Maecenas sit amet odio ornare,
-              tristique ante in, lacinia tellus. Nullam hendrerit felis a lorem
-              euismod, quis consequat justo fermentum
+              <h1 className="subtitle">Segurança por Lei</h1>
+              Toda a plataforma é aparada na LC n° 187/21 que garante segurança
+              e embasamento jurídico
             </h2>
           </div>
           <div className="team-block">
             <h2>
-              <h1 className="subtitle">Ricardo Scarpari</h1>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Pellentesque quis sem arcu. Maecenas sit amet odio ornare,
-              tristique ante in, lacinia tellus. Nullam hendrerit felis a lorem
-              euismod, quis consequat justo fermentum
+              <h1 className="subtitle">Candidatos</h1>
+              Visualize a situação de todas as suas candidaturas, bem como o
+              acompanhamento de todas as notificações e pendências
+              compartilhadas diretamente pelas as assistentes sociais
             </h2>
           </div>
           <div className="team-block">
-            <img src={ricardo} className="founder-picture"></img>
+            <img src={confirm} className="founder-picture"></img>
           </div>
 
           {windowWidth > 800 && (
             <>
               <div className="team-block">
-                <img src={marcelo} className="founder-picture"></img>
+                <img src={assistant} className="founder-picture"></img>
               </div>
               <div className="team-block">
                 <h2>
-                  <h1 className="subtitle">Marcelo Torres</h1>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Pellentesque quis sem arcu. Maecenas sit amet odio ornare,
-                  tristique ante in, lacinia tellus. Nullam hendrerit felis a
-                  lorem euismod, quis consequat justo fermentum
+                  <h1 className="subtitle">Assistentes sociais</h1>A plataforma
+                  disponibiliza uma pré-avaliação dos candidatos, fornecendo um
+                  ranking de acordo com critérios pré-estabelecidos. O sistema
+                  utiliza IAs e APIs para a leitura de documentos e cruzamento
+                  de dados, além de possibilitar a solicitação de nova
+                  documentação e agendamento de entrevistas.
                 </h2>
               </div>
             </>
@@ -160,49 +164,61 @@ export default function HomePage() {
             <>
               <div className="team-block">
                 <h2>
-                  <h1 className="subtitle">Marcelo Torres</h1>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Pellentesque quis sem arcu. Maecenas sit amet odio ornare,
-                  tristique ante in, lacinia tellus. Nullam hendrerit felis a
-                  lorem euismod, quis consequat justo fermentum
+                  <h1 className="subtitle">Assistentes sociais</h1>O sistema
+                  utiliza IAs e APIs para a leitura de documentos e cruzamento
+                  de dados, além de possibilitar a solicitação de nova
+                  documentação e agendamento de entrevistas.
                 </h2>
               </div>
               <div className="team-block">
-                <img src={marcelo} className="founder-picture"></img>
+                <img src={assistant} className="founder-picture"></img>
               </div>
             </>
           )}
+
+          <div className="team-block">
+            <h2>
+              <h1 className="subtitle">Instituições</h1>A plataforma permite uma
+              visão gerencial que detalhe todos os pontos relevantes para o
+              processo, além de emitir automaticamente relatórios padronizados
+              sobre cada um dos editais, prontos para auditoria
+            </h2>
+          </div>
+          <div className="team-block">
+            <img src={entity} className="founder-picture"></img>
+          </div>
         </div>
 
         <div className="features-description">
           <div className="feature-card">
             <img src={featureOnePicture}></img>
+
             <h2>
               <h1 className="subtitle">
-                Segurança &<br></br> Agilidade
+                Segurança &<br></br> Conformidade{" "}
               </h1>
-              Uma jornada digital que permite o manuseio seguro e ágil dos
-              documentos
+              Toda a plataforma é amparada na LC n° 187/21, que garante
+              segurança e embasamento jurídico
             </h2>
           </div>
           <div className="feature-card">
             <img src={featureTwoPicture}></img>
             <h2>
               <h1 className="subtitle">
-                Facilidade &<br></br> Conforto
+                Simplicidade &<br></br> Velocidade
               </h1>
-              Uma inscrição digital simplificada com o acompanhamento dos seus
-              editais torna o processo ainda mais fácil
+              A plataforma disponibiliza uma pré-avaliação dos candidatos,
+              fornecendo um ranking de acordo com critérios pré-estabelecidos
             </h2>
           </div>
           <div className="feature-card">
             <img src={featureThreePicture}></img>
             <h2>
               <h1 className="subtitle">
-                Controle &<br></br> Coordenação{" "}
+                Agilidade &<br></br> Conforto
               </h1>
-              A rápida visualização dos relatórios padronizados auxilia uma
-              melhor organização e detalhamento do processo
+              Envio rápido e fácil de toda a documentação necessária torna a
+              inscrição nos processos seletivos mais dinâmica e simples.
             </h2>
           </div>
         </div>

@@ -8,7 +8,9 @@
     position: relative;
     background-position: fixed;
 }
-
+.feature-card img{
+        overflow-x: hidden;
+}
 .upper-page{
     background-color: red;
     width: 100px;
@@ -37,12 +39,13 @@
 
 .text-section{
     min-height: 20vh;
-    width: 40vw;
+    width: 100vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: start;
     gap: 1rem;
+    padding-left: 4rem;
 }
 
 .text-section h1{
@@ -74,12 +77,12 @@
 
 .image-section{
     min-height: 20vh;
-    width: 40vw;
     overflow: visible;
 }
 
 .image-section img{
     height: 60vh;
+    aspect-ratio: auto;
 }
 
 #btn-more{
@@ -170,6 +173,10 @@
     transition: all 1.5s;
 }
 
+.our-team{
+    overflow: visible;
+}
+
 .visible-team{
     opacity: 1;
     transform: translateY(0);
@@ -205,6 +212,7 @@
     font-size: 1rem;
     text-align: justify;
     position: relative;
+    overflow: visible;
 }
 
 .team-block .subtitle{
@@ -213,8 +221,13 @@
     margin-bottom: 2rem;
 }
 
+.team-secondary-block{
+    width: 80vw;
+    display: flex;
+}
+
 .founder-picture{
-    width: 80%;
+    width: 60%;
 }
 
 .features-description{
@@ -226,7 +239,7 @@
     padding-bottom: 10vh;
     width: 100vw;
     min-height: 20vh;
-    gap: 4rem;
+    gap: 1rem;
 }
 
 .feature-card{
@@ -256,9 +269,11 @@
 .visible-card:nth-child(1){
     transform: translateX(0);
 }
+
 .visible-card:nth-child(2){
     transform: translateX(0);
 }
+
 .visible-card:nth-child(3){
     transform: translateX(0);
 }
@@ -318,6 +333,24 @@
 
 
 @media (max-width: 800px){
+    .header-box{
+        flex-direction: column;
+    }
+
+    .image-section{
+        display: none;
+    }
+
+    .text-section{
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .text-section h1{
+        font-size: 1.8rem;
+    }
+
     .our-team{
         display: grid;
         grid-template-columns: 1fr; /* Creates one column */

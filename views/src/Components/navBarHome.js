@@ -49,7 +49,9 @@ const NavBarHome = () => {
         <div className={`navbar-inner ${isSticky ? "sticky-inner" : ""}`}>
           <div className="logo-box">
             <a
-              className={`logo-home secondary-logo ${!isSticky ? "typewriter" : ""}`}
+              className={`logo-home secondary-logo ${
+                !isSticky ? "typewriter" : ""
+              }`}
             >
               <img
                 src={LogoBlue}
@@ -78,8 +80,12 @@ const NavBarHome = () => {
                   <a>Contato</a>
                 </li>
                 <li>
-                  <Link to={"/login"}> 
-                  <a>Login</a>
+                  <Link to={"/login"}>
+                    <a
+                      className={`${!isSticky ? "dark-login" : "white-login"}`}
+                    >
+                      Login
+                    </a>
                   </Link>
                 </li>
               </ul>
