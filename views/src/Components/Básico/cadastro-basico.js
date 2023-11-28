@@ -255,6 +255,7 @@ export default function CadastroBasico() {
             console.log('====================================');
             console.log(response.status);
             console.log('====================================');
+            alert("Dados cadastrados com sucesso!")
         }
         catch (error) {
           console.log(error)

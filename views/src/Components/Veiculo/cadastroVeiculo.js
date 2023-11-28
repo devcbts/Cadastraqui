@@ -91,7 +91,7 @@ export default function CadastroVeiculo({ candidate }) {
             console.log('====================================');
             console.log(response.data);
             console.log('====================================');
-            alert("Registro criado com sucesso")
+            alert("Dados cadastrados com sucesso!")
         }
         catch (err) {
             alert(err)

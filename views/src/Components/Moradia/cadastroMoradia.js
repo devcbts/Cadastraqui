@@ -82,6 +82,8 @@ export default function CadastroMoradia() {
                 },
             });
             console.log(response.data);
+            alert("Dados cadastrados com sucesso!")
+
             // Tratar a resposta conforme necessário
         } catch (error) {
             console.error(error.response.data);

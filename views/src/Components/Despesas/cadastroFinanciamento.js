@@ -38,6 +38,8 @@ export default function CadastroFinanciamento() {
                 },
             });
             console.log(response.data);
+            alert("Dados cadastrados com sucesso!")
+
             // Trate a resposta conforme necessário
         } catch (error) {
             console.error(error.response?.data || error.message);
