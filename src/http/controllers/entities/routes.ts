@@ -22,6 +22,7 @@ import { uploadAnnouncementPdf } from './upload-announcement-pdf'
 import { uploadEntityProfilePicture } from './upload-profile-picture'
 import { getEntityProfilePicture } from './get-profile-picture'
 import { getSocialAssistants } from './get-social-assistants'
+import { getApplications } from './get-applications'
 
 export async function entityRoutes(app: FastifyInstance) {
   /** Admin Routes (Rotas acessadas na página do Admin)
@@ -112,5 +113,9 @@ export async function entityRoutes(app: FastifyInstance) {
 
   app.post('/profilePicture', {onRequest: [verifyJWT]}, uploadEntityProfilePicture)
   app.get('/profilePicture/:_id?', {onRequest: [verifyJWT]}, getEntityProfilePicture)
-
+  app.get(
+    '/applications/:announcement_id',
+    { onRequest: [verifyJWT] },
+    getApplications,
+  )
 }

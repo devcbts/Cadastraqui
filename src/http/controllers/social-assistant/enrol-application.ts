@@ -18,12 +18,9 @@ export async function enrollApplication(
 
     const { application_id } = applicationParamsSchema.parse(request.params)
     try {
-        const userType = request.user.role
         const userId = request.user.sub
 
-        if (userType !== 'ASSISTANT') {
-            throw new NotAllowedError()
-        }
+        
 
         const assistant = await prisma.socialAssistant.findUnique({
             where: { user_id: userId },
