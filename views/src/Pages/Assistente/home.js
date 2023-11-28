@@ -17,10 +17,29 @@ export default function HomeAssistente() {
   const [openAnnouncements, setOpenAnnouncements] = useState();
   const [closeAnnouncements, setCloseAnnouncements] = useState();
   const [activeAnnouncements, setActiveAnnouncements] = useState();
-  const [assistantId, setAssistantId] = useState();
+  const [assistant, setAssistant] = useState();
 
   const navigate = useNavigate()
+  const [profilePhoto, setProfilePhoto] = useState(null)
+  useEffect(() => {
+    async function getProfilePhotoEntity() {
+      const token = localStorage.getItem("token");
 
+      try {
+        const profilePhoto = await api.get(`/entities/profilePicture/${assistant.entity.user_id}`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(profilePhoto);
+        setProfilePhoto(profilePhoto.data.url);
+
+      } catch (err) {
+
+      }
+    }
+    getProfilePhotoEntity()
+  }, [assistant])
   useEffect(() => {
     async function getAssistantInfo() {
       const token = localStorage.getItem("token");
@@ -31,7 +50,8 @@ export default function HomeAssistente() {
             authorization: `Bearer ${token}`,
           },
         });
-        setAssistantId(response.data.assistant.id);
+        console.log(response.data)
+        setAssistant(response.data.assistant);
       } catch (err) {
         console.log(err)
       }
@@ -59,6 +79,8 @@ export default function HomeAssistente() {
     const intervalId = setInterval(refreshAccessToken, 480000) // Chama a função refresh token a cada 
 
 
+  }, []);
+  
     async function fetchAnnouncements() {
       const token = localStorage.getItem("token");
       try {
@@ -70,7 +92,7 @@ export default function HomeAssistente() {
         // Pega todos os editais e armazena em um estado
         setAnnouncements(response.data.announcement);
         // Pega apenas os editais ainda abertos e armazena em um estado
-
+        console.log(assistant)
         const openAnnouncements = response.data.announcement.filter(
           (announcement) => new Date(announcement.announcementDate) >= new Date()
         );
@@ -84,7 +106,7 @@ export default function HomeAssistente() {
 
         // Filtra os announcements associados ao assistente social em questão
         const activeAnnouncements = openAnnouncements.filter(
-          (announcement) => announcement.socialAssistant === assistantId
+          (announcement) => announcement.socialAssistant === assistant?.id
         );
         setActiveAnnouncements(activeAnnouncements);
         console.log(response);
@@ -93,8 +115,10 @@ export default function HomeAssistente() {
       }
 
     }
-    fetchAnnouncements();
-  }, []);
+    useEffect(() => {
+      fetchAnnouncements();
+
+    },[assistant])
 
   return (
     <div className="container">
@@ -108,9 +132,9 @@ export default function HomeAssistente() {
         </div>
 
         <div className="container-editais">
-          {activeAnnouncements
-            ? activeAnnouncements?.map((announcement) => {
-              return <EditalAssistente logo={uspLogo} announcement={announcement} />;
+          {activeAnnouncements && profilePhoto
+            ? openAnnouncements?.map((announcement) => {
+              return <EditalAssistente logo={profilePhoto} announcement={announcement} />;
             })
             : <div className="container-editais">
 
@@ -126,9 +150,9 @@ export default function HomeAssistente() {
         </div>
 
         <div className="container-editais">
-          {openAnnouncements
+          {openAnnouncements && profilePhoto
             ? openAnnouncements.map((announcement) => {
-              return <EditalAssistente logo={uspLogo} announcement={announcement} />;
+              return <EditalAssistente logo={profilePhoto} announcement={announcement} />;
             })
             : <div className="container-editais">
 
