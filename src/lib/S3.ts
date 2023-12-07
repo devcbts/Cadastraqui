@@ -11,7 +11,6 @@ const s3 = new AWS.S3({
   accessKeyId,
   secretAccessKey,
 })
-
 // Função genérica para upload de arquivo no S3
 export async function uploadToS3(fileInfo: Buffer, fileName: string) {
   const params = {
