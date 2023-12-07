@@ -1,4 +1,3 @@
-require('module-alias/register');
 import { env } from './env/index'
 import fastify, { FastifyReply, FastifyRequest } from 'fastify'
 import fastifyJwt from '@fastify/jwt'
@@ -21,8 +20,8 @@ import { uploadUserProfilePicture } from './http/controllers/users/upload-profil
 import { verifyJWT } from './http/middlewares/verify-jwt'
 import { getUserProfilePicture } from './http/controllers/users/get-profile-picture'
 import { fastifyMultipart } from '@fastify/multipart'
-import { adminRoutes } from './http/controllers/admin/routes';
-
+import { adminRoutes } from './http/controllers/admin/routes'
+import { logout } from './http/controllers/users/logout'
 export const app = fastify()
 app.register(fastifyMultipart, {
   limits: {
@@ -31,7 +30,7 @@ app.register(fastifyMultipart, {
 })
 // Registre o plugin fastify-cors
 app.register(fastifyCors, {
-  origin: ["https://cadastraqui.vercel.app", "http://localhost:3000", "https://www.cadastraqui.com.br"],
+  origin: 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 })
@@ -67,10 +66,10 @@ app.register(legalResponsibleRoutes, { prefix: '/responsibles' })
 app.register(entityRoutes, { prefix: '/entities' })
 app.register(assistantRoutes, { prefix: '/assistant' })
 app.register(adminRoutes, { prefix: '/admin' })
-
 app.post('/session', authenticate)
 app.post('/forgot_password', forgotPassword)
 app.post('/reset_password', resetPassword)
+app.post('/logout', logout)
 app.patch('/refresh', refresh)
 app.post(
   '/profilePicture',
