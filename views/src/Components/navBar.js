@@ -15,6 +15,7 @@ import whiteLogoText from "../Assets/logo_branca_texto.png";
 import { useAppState } from "../AppGlobal";
 import { useLocation } from "react-router-dom";
 import { Fade as Hamburger } from "hamburger-react";
+import Logout from "../utils/logout";
 // ReactDOM.render(element, document.body);
 
 export default function NavBar(props) {
@@ -211,6 +212,10 @@ export default function NavBar(props) {
                   />
                   <span>Perfil</span>
                 </a>
+              </li>
+
+              <li>
+                <Logout/>
               </li>
             </ul>
           </div>

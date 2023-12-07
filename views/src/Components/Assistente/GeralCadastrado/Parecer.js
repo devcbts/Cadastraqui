@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import VerExtrato from './Extrato';
 import './Parecer.css'
+import { api } from '../../../services/axios';
 const Relationship = [
   { value: 'Wife', label: 'Esposa' },
   { value: 'Husband', label: 'Marido' },
@@ -73,6 +74,23 @@ const MARITAL_STATUS = [
   { value: 'StableUnion', label: 'União Estável' },
 ];
 export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehicles, candidate, announcement }) {
+
+
+
+  function updateApplicationStatus(newStatus) {
+    api.patch(`/assistant/${announcement.announcementId}/${candidate.applicationId}`, {
+      status: newStatus
+    })
+    .then(response => {
+      // Handle successful response
+      console.log("Status atualizado com sucesso:", response.data);
+    })
+    .catch(error => {
+      // Handle error
+      console.error("Erro ao atualizar status:", error);
+    });
+  }
+
   function calculateAge(birthDate) {
     const birthDateObj = new Date(birthDate);
     const today = new Date();
@@ -183,9 +201,9 @@ export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehic
       </table>
       <VerExtrato familyMembers={FamilyMembers} />
       <div className="decision-buttons">
-        <button className="button-deferido">Deferido</button>
-        <button className="button-indeferido">Indeferido</button>
-      </div>
+      <button className="button-deferido" onClick={() => updateApplicationStatus('Approved')}>Deferido</button>
+      <button className="button-indeferido" onClick={() => updateApplicationStatus('Rejected')}>Indeferido</button>
+    </div>
     </div>
   )
 }

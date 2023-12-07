@@ -5,7 +5,7 @@ import { api } from '../services/axios';
 import PdfPreview from './pdfPreview';
 import './cadastroEdital.css'
 import dadosCursos from '../objects/cursos.json'
-
+import Select from 'react-select';
 console.log('====================================');
 console.log(dadosCursos.bacharelado);
 console.log('====================================');
@@ -55,7 +55,14 @@ const SHIFT = [
     { value: 'Noturno', label: 'Noturno' },
     { value: 'Integral', label: 'Integral' }
 ];
-
+const types1Options = [
+    { value: 'UNIFORM', label: 'Uniforme' },
+    { value: 'TRANSPORT', label: 'Transporte' },
+    { value: 'FOOD', label: 'Alimentação' },
+    { value: 'HOUSING', label: 'Moradia' },
+    { value: 'STUDY_MATERIAL', label: 'Material Didático' },
+    // ...outras opções
+];
 export default function CadastroEdital() {
 
     const [announcementType, setAnnouncementType] = useState(""); // Initial value can be set to default if needed.
@@ -69,6 +76,29 @@ export default function CadastroEdital() {
     const [announcementName, setAnnouncementName] = useState('')
     const [filePdf, setFilePdf] = useState(null)
     const [selectedCursos, setSelectedCursos] = useState([]);
+
+
+    // para os tipos de bolsas
+    const [selectedTypes1, setSelectedTypes1] = useState([]);
+    const [type2, setType2] = useState('');
+    const [benefitsGrantedYes, setBenefitsGrantedYes] = useState(false);
+    const [benefitsGrantedNo, setBenefitsGrantedNo] = useState(false);
+    const [actionsForFamilyYes, setActionsForFamilyYes] = useState(false);
+    const [actionsForFamilyNo, setActionsForFamilyNo] = useState(false);
+    // ... outros estados
+
+    // Handler para as checkboxes de benefícios
+    const handleBenefitsChange = (value) => {
+        setBenefitsGrantedYes(value === 'yes');
+        setBenefitsGrantedNo(value === 'no');
+    };
+
+    // Handler para as checkboxes de ações e serviços
+    const handleActionsChange = (value) => {
+        setActionsForFamilyYes(value === 'yes');
+        setActionsForFamilyNo(value === 'no');
+    };
+
 
     const [educationalLevels, setEducationalLevels] = useState(
         selectedCursos.map(curso => ({
@@ -90,7 +120,7 @@ export default function CadastroEdital() {
         const totalScholarships = educationalLevels.reduce((total, currentLevel) => {
             return total + currentLevel.verifiedScholarships;
         }, 0);
-    
+
         setVerifiedScholarships(totalScholarships);
     }, [educationalLevels]);
     const handleEducationalChange = (cursoIndex, field, value) => {
@@ -179,7 +209,9 @@ export default function CadastroEdital() {
             announcementName: announcementName,
             offeredVacancies: offeredVancancies,
             verifiedScholarships: verifiedScholarships,
-            description: description
+            description: description,
+            types1: selectedTypes1.map(option => option.value), // Envia apenas os valores
+            type2: type2,
         }
         console.log('====================================');
         console.log(data);
@@ -195,6 +227,8 @@ export default function CadastroEdital() {
                 offeredVacancies: 5000,
                 verifiedScholarships: verifiedScholarships,
                 description: description,
+                types1: selectedTypes1.map(option => option.value), // Envia apenas os valores
+                type2: type2,
 
             },
                 {
@@ -261,9 +295,9 @@ export default function CadastroEdital() {
                 }
 
             })
-           
 
-        alert("Edital criado com suceeso")
+
+            alert("Edital criado com suceeso")
 
         } catch (err) {
             alert("Erro ao atualizar foto de perfil.");
@@ -338,7 +372,7 @@ export default function CadastroEdital() {
                             onChange={(e) => setAnnouncementDate(e.target.value)}
                         />
                     </fieldset>
-               
+
 
 
 
@@ -394,7 +428,7 @@ export default function CadastroEdital() {
 
                     {/* Dropdown para higherEduScholarshipType */}
                     {educationLevel === 'HigherEducation' &&
-                        <div>
+                        <div className='box-edital'>
 
                             {/* Dropdown para offeredCourseType */}
                             <fieldset>
@@ -448,7 +482,7 @@ export default function CadastroEdital() {
                                 </select>
                             </fieldset>
                             {selectedCursos ? selectedCursos.map((curso, index) => {
-                                return (<div key={index}>
+                                return (<div className='box-edital' key={index}>
                                     <h2>{curso}</h2>
                                     <fieldset>
 
@@ -464,14 +498,14 @@ export default function CadastroEdital() {
                                         </select>
                                     </fieldset>
                                     {/* Input para offeredVacancies */}
-                                  
+
                                     {/* Input para verifiedScholarships */}
-                                    <fieldset>
+                                    <fieldset style={{ textAlign: 'left' }}>
 
                                         <label>
                                             Número total de bolsas:
                                         </label>
-                                        <input
+                                        <input style={{ width: '30%' }}
                                             type="number"
                                             value={educationalLevels[index]?.verifiedScholarships}
                                             onChange={(e) => handleEducationalChange(index, 'verifiedScholarships', Number(e.target.value))}
@@ -494,12 +528,12 @@ export default function CadastroEdital() {
                                     </fieldset>
 
                                     {/* Input para semester */}
-                                    <fieldset>
+                                    <fieldset style={{ textAlign: 'left' }}>
 
                                         <label>
                                             Semestre:
                                         </label>
-                                        <input
+                                        <input style={{ width: '30%' }}
                                             type="number"
                                             value={educationalLevels[index]?.semester}
                                             onChange={(e) => handleEducationalChange(index, 'semester', Number(e.target.value))}
@@ -513,6 +547,81 @@ export default function CadastroEdital() {
                             }) : ''}
                         </div>
                     }
+                    <div className='box-edital'>
+
+                        <h2>Das ações de apoio ao aluno</h2>
+                        <fieldset>
+                            <label>A entidade concederá benefícios ao aluno?</label>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    checked={benefitsGrantedYes}
+                                    onChange={() => handleBenefitsChange('yes')}
+                                /> Sim
+                                <input
+                                    type="checkbox"
+                                    checked={benefitsGrantedNo}
+                                    onChange={() => handleBenefitsChange('no')}
+                                /> Não
+                            </div>
+                        </fieldset>
+                        {benefitsGrantedYes && (
+                            <fieldset>
+                                <label>Especifique qual(is)</label>
+                                <Select
+                                    className="select-educational"
+                                    isMulti
+                                    name="types1"
+                                    options={types1Options}
+                                    classNamePrefix="select"
+                                    onChange={setSelectedTypes1} // Atualiza o state com a seleção
+                                    value={selectedTypes1}
+                                />
+                                <h4>O Termo de Concessão de Benefícios - Tipo 1: Ações de apoio ao aluno bolsista, será disponibilizado no perfil do candidato para que o mesmo ou seu responsável legal, quando for o caso, assine e providencie a entrega na entidade.</h4>
+
+                            </fieldset>
+                        )}
+                    </div>
+
+                    <div className='box-edital'>
+
+                        <h2>Das ações e serviços destinados ao aluno e seu grupo familiar</h2>
+                        <fieldset>
+                            <label>Haverá ações e serviços destinados a alunos e seu grupo familiar?</label>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    checked={actionsForFamilyYes}
+                                    onChange={() => handleActionsChange('yes')}
+                                /> Sim
+                                <input
+                                    type="checkbox"
+                                    checked={actionsForFamilyNo}
+                                    onChange={() => handleActionsChange('no')}
+                                /> Não
+                            </div>
+                        </fieldset>
+                        {actionsForFamilyYes && (
+                            <fieldset>
+                                <label>Descreva o(s) serviço(s) que será(ão) usufruído(s):</label>
+                                <input style={{ width: '80%' }}
+                                    type="text"
+                                    value={type2}
+                                    onChange={(e) => setType2(e.target.value)}
+                                    placeholder="Digite a descrição do tipo 2"
+
+                                />
+                                <h4>O Termo de Concessão de Benefícios - Tipo 2: Ações e serviços destinados a alunos e seu grupo familiar, será disponibilizado no perfil do candidato para que o mesmo ou seu responsável legal, quando for o caso, assine e providencie a entrega na entidade.</h4>
+                            </fieldset>
+
+                        )}
+
+                    </div>
+
+
+
+
+
                     <fieldset className="file-div">
                         <label
                             for="edital-pdf"

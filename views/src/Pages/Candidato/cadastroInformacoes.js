@@ -19,6 +19,7 @@ import DespesasTotais from "../../Components/Despesas/DespesasTotais";
 import EnviarDocumentos from "../../Components/Documentos/EnvioDocumentos";
 import MembrosFamiliaRendaTeste from '../../Components/Renda/membroFamiliateste.js'
 import Basico from "../../Components/Básico/basico.js";
+import EnviarDeclaracoes from "../../Components/Declarações/Declarações.js";
 
 export default function CadastroInfo() {
   const nextButton = useRef(null);
@@ -102,7 +103,7 @@ export default function CadastroInfo() {
   function DeclarationsInfoDiv() {
     return (
       <div>
-        <h1>8</h1>
+        <EnviarDeclaracoes/>
       </div>
     );
   }
@@ -146,14 +147,14 @@ export default function CadastroInfo() {
           }}
         >
           <BasicInfoDiv title="Básico"></BasicInfoDiv>
-          <FamilyInfoDiv title="Família"></FamilyInfoDiv>
+          <FamilyInfoDiv title="Grupo Familiar"></FamilyInfoDiv>
           <HousingInfoDiv title="Moradia"></HousingInfoDiv>
           <VehicleInfoDiv title="Veículo"></VehicleInfoDiv>
           <EarningInfoDiv title="Renda"></EarningInfoDiv>
           <BudgetInfoDiv title="Despesas"></BudgetInfoDiv>
           <HealthInfoDiv title="Saúde"></HealthInfoDiv>
-          <DeclarationsInfoDiv title="Declarações"></DeclarationsInfoDiv>
           <DocumentsInfoDiv title="Documentos"></DocumentsInfoDiv>
+          <DeclarationsInfoDiv title="Declarações"></DeclarationsInfoDiv>
         </MultiStep>
       </div>
     </div>

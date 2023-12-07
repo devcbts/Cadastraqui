@@ -126,8 +126,7 @@ export default function HomePage() {
           <div className="team-block">
             <h2>
               <h1 className="subtitle">Segurança por Lei</h1>
-              Toda a plataforma é aparada na LC n° 187/21 que garante segurança
-              e embasamento jurídico
+              Toda a plataforma é amparada na LC n° 187/21 e Decreto nº 11.791/23 que garante segurança e embasamento jurídico.
             </h2>
           </div>
           <div className="team-block">
@@ -149,12 +148,10 @@ export default function HomePage() {
               </div>
               <div className="team-block">
                 <h2>
-                  <h1 className="subtitle">Assistentes sociais</h1>A plataforma
-                  disponibiliza uma pré-avaliação dos candidatos, fornecendo um
-                  ranking de acordo com critérios pré-estabelecidos. O sistema
-                  utiliza IAs e APIs para a leitura de documentos e cruzamento
-                  de dados, além de possibilitar a solicitação de nova
-                  documentação e agendamento de entrevistas.
+                  <h1 className="subtitle">Assistentes sociais</h1>A plataforma disponibiliza uma pré-avaliação dos candidatos, 
+                  fornecendo um ranking de acordo com critérios pré-estabelecidos.
+                  O sistema utiliza IAs e APIs para leitura de documentos e cruzamentos de dados, 
+                  além de possibilitar a solicitação de novos documentos e agendamento de entrevistas e visitas domiciliares.
                 </h2>
               </div>
             </>
@@ -164,10 +161,10 @@ export default function HomePage() {
             <>
               <div className="team-block">
                 <h2>
-                  <h1 className="subtitle">Assistentes sociais</h1>O sistema
-                  utiliza IAs e APIs para a leitura de documentos e cruzamento
-                  de dados, além de possibilitar a solicitação de nova
-                  documentação e agendamento de entrevistas.
+                  <h1 className="subtitle">Assistentes sociais</h1>A plataforma disponibiliza uma pré-avaliação dos candidatos, 
+                  fornecendo um ranking de acordo com critérios pré-estabelecidos.
+                  O sistema utiliza IAs e APIs para leitura de documentos e cruzamentos de dados, 
+                  além de possibilitar a solicitação de novos documentos e agendamento de entrevistas e visitas domiciliares.
                 </h2>
               </div>
               <div className="team-block">
@@ -197,8 +194,7 @@ export default function HomePage() {
               <h1 className="subtitle">
                 Segurança &<br></br> Conformidade{" "}
               </h1>
-              Toda a plataforma é amparada na LC n° 187/21, que garante
-              segurança e embasamento jurídico
+              Toda a plataforma é amparada na LC n° 187/21 e Decreto nº 11.791/23 que garante segurança e embasamento jurídico.
             </h2>
           </div>
           <div className="feature-card">
@@ -217,8 +213,7 @@ export default function HomePage() {
               <h1 className="subtitle">
                 Agilidade &<br></br> Conforto
               </h1>
-              Envio rápido e fácil de toda a documentação necessária torna a
-              inscrição nos processos seletivos mais dinâmica e simples.
+              O envio rápido e fácil de toda a documentação necessária torna a inscrição no processo seletivo mais dinâmico e simples.
             </h2>
           </div>
         </div>

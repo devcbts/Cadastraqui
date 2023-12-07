@@ -5,3 +5,12 @@
 #curso-dropdown{
     height: 200px;
 }
+
+.box-edital{
+    border: 3px;
+    border-color: #8080802e;
+    border-style: solid;
+    padding: 5px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}

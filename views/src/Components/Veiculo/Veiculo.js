@@ -25,16 +25,16 @@ export default function Veiculos({candidato}) {
                         'authorization': `Bearer ${token}`,
                     }
                 });
-                setVeiculos(response.data.vehicleInfoResults);
-                console.log('====================================');
-                console.log(response.data.vehicleInfoResults[0]);
-                console.log('====================================');
                 if (response.data.vehicleInfoResults.length > 0) {
+                    setVeiculos(response.data.vehicleInfoResults);
                     setVeiculoSelecionado(response.data.vehicleInfoResults[0]);
                 }
                 setLen(response.data.vehicleInfoResults.length)
             } catch (err) {
-                alert(err);
+               
+                if(err.response.status === 500){
+                    setLen(0)
+                }
             }
         }
         pegarVeiculos();

@@ -16,6 +16,7 @@ import { useAppState } from "../AppGlobal";
 import { useLocation } from "react-router-dom";
 import { Fade as Hamburger } from "hamburger-react";
 import { api } from "../services/axios";
+import Logout from "../utils/logout";
 // ReactDOM.render(element, document.body);
 
 export default function NavBarAssistente() {
@@ -222,6 +223,10 @@ export default function NavBarAssistente() {
                   />
                   <span>Perfil</span>
                 </a>
+              </li>
+
+              <li>
+                <Logout/>
               </li>
             </ul>
           </div>
