@@ -1,57 +1,63 @@
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
-import { FamilyMember } from '@prisma/client'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+
 export async function getVehicleInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
   const AssistantParamsSchema = z.object({
-    _id: z.string().optional(),
+    _id: z.string().optional(), // _id === candidate_id
   })
 
-  // _id === familyMember_id
   const { _id } = AssistantParamsSchema.parse(request.params)
+
   try {
     const user_id = request.user.sub;
-    console.log('====================================');
-    console.log(request.user);
-    console.log('====================================');
-    const role = request.user.role
+    console.log('User info:', request.user);
+
     let candidate;
-    
+
+    // Verifica se um ID foi fornecido e busca o candidato apropriado
     if (_id) {
       candidate = await prisma.candidate.findUnique({
         where: { id: _id },
       })
     } else {
-
-      // Verifica se existe um candidato associado ao user_id
+      // Busca o candidato associado ao user_id
       candidate = await prisma.candidate.findUnique({
         where: { user_id },
       })
     }
- if (!candidate) {
+
+    if (!candidate) {
       throw new ResourceNotFoundError()
     }
-    // Obtém todos os veículos associados aos membros da família do candidato
+
+    // Obtém todos os veículos associados ao candidato
     const vehicles = await prisma.vehicle.findMany({
       where: {
-        owners: {
+        FamilyMemberToVehicle: {
           some: {
-            candidate_id: candidate.id,
+            familyMembers: {
+              candidate_id: candidate.id,
+            },
           },
         },
       },
       include: {
-        owners: true, // Inclui os proprietários no resultado
+        FamilyMemberToVehicle: {
+          include: {
+            familyMembers: true,
+          },
+        },
       },
     });
 
     // Prepara os resultados, acumulando os nomes dos proprietários
     const vehicleInfoResults = vehicles.map(vehicle => {
-      const ownerNames = vehicle.owners.map(owner => owner.fullName);
+      const ownerNames = vehicle.FamilyMemberToVehicle.map(fmv => fmv.familyMembers.fullName);
       return {
         ...vehicle,
         ownerNames, // Array com os nomes de todos os proprietários

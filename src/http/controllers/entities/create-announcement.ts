@@ -8,6 +8,8 @@ export async function CreateAnnoucment(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+  const scholarshipGrantedType = z.enum(['UNIFORM', 'TRANSPORT', 'FOOD', 'HOUSING', 'STUDY_MATERIAL'])
+
   const registerBodySchema = z.object({
     entityChanged: z.boolean(),
     branchChanged: z.boolean(),
@@ -20,6 +22,8 @@ export async function CreateAnnoucment(
     announcementDate: z.string(),
     announcementName: z.string(),
     description: z.string().optional(),
+    types1: z.array(scholarshipGrantedType).optional(),
+    type2: z.string().optional(),
   })
 
   const {
@@ -33,16 +37,18 @@ export async function CreateAnnoucment(
     announcementNumber,
     announcementDate,
     announcementName,
-    description
+    description,
+    types1,
+    type2
   } = registerBodySchema.parse(request.body)
 
   try {
     const user_id = request.user.sub
 
     const entityMatrix = await prisma.entity.findUnique({
-        where: { user_id: user_id },
-      })
-      
+      where: { user_id: user_id },
+    })
+
 
     const entitySubsidiaryMatrix = entity_subsidiary_id
       ? await prisma.entitySubsidiary.findUnique({
@@ -66,7 +72,9 @@ export async function CreateAnnoucment(
           announcementNumber,
           announcementDate: new Date(announcementDate),
           announcementName,
-          description
+          description,
+          types1,
+          type2
         },
       })
       return reply.status(201).send({ announcement })
@@ -83,7 +91,9 @@ export async function CreateAnnoucment(
         announcementNumber,
         announcementDate: new Date(),
         announcementName,
-        description
+        description,
+        types1,
+        type2
       },
     })
     return reply.status(201).send({ announcement })

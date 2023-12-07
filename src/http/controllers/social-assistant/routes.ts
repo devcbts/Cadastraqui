@@ -11,6 +11,7 @@ import { createSolicitation } from './create-solicitation'
 import { closeApplication } from './close-application'
 import { getBasicAssistantInfo } from './get-social-assistant-information'
 import { getAnnouncements } from './get-announcements'
+import { updateApplication } from './update-application'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -59,6 +60,7 @@ export async function assistantRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     closeApplication,
   )
+  app.patch('/:announcement_id/:application_id', { onRequest: [verifyJWT]}, updateApplication)
 
   app.get(
     '/announcement/:announcement_id?',
