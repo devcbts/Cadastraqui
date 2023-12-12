@@ -43,6 +43,16 @@ const NavBarHome = () => {
   // A variable that defines if the menu is open or not
   const [isOPen, setIsOpen] = useState(false);
 
+  // Function to set the window scroll Y position
+  const scrollToPosition = (multiplier) => {
+    const viewPortHeight = window.innerHeight;
+
+    window.scrollTo({
+      top: multiplier * viewPortHeight, // Y position to scroll to
+      behavior: "smooth", // Optional: smooth scrolling
+    });
+  };
+
   return (
     <div>
       <div className={`navbar-container ${isSticky ? "sticky" : ""}`}>
@@ -68,16 +78,13 @@ const NavBarHome = () => {
             {windowWidth > 800 && (
               <ul>
                 <li>
-                  <a>Início</a>
+                  <a onClick={() => scrollToPosition(0)}>Início</a>
                 </li>
                 <li>
-                  <a>Recursos</a>
+                  <a onClick={() => scrollToPosition(1)}>Recursos</a>
                 </li>
                 <li>
-                  <a>Sobre</a>
-                </li>
-                <li>
-                  <a>Contato</a>
+                  <a onClick={() => scrollToPosition(10)}>Contato</a>
                 </li>
                 <li>
                   <Link to={"/login"}>
@@ -104,22 +111,18 @@ const NavBarHome = () => {
         <div className="nav-buttons">
           <ul>
             <li>
-              <a href="#" className="menu-button">
+              <a className="menu-button" onClick={() => scrollToPosition(0)}>
                 Início
               </a>
             </li>
             <li>
-              <a href="#" className="menu-button">
+              <a className="menu-button" onClick={() => scrollToPosition(1)}>
                 Recursos
               </a>
             </li>
+
             <li>
-              <a href="#" className="menu-button">
-                Sobre
-              </a>
-            </li>
-            <li>
-              <a href="#" className="menu-button">
+              <a className="menu-button" onClick={() => scrollToPosition(10)}>
                 Contato
               </a>
             </li>
