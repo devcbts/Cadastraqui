@@ -431,10 +431,10 @@ model CreditCard {
   bankName         String
   cardFlag         String
   invoiceValue     Float
-  familyMember_id  String
+  familyMember_id  String?
   candidate_id     String
   candidate        Candidate    @relation(fields: [candidate_id], references: [id])
-  familyMember     FamilyMember @relation(fields: [familyMember_id], references: [id])
+  familyMember     FamilyMember? @relation(fields: [familyMember_id], references: [id])
 }
 
 model OtherExpense {
