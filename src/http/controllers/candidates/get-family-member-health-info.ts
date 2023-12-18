@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function getIncomeInfo(
+export async function getFamilyMemberHealthInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
@@ -21,11 +21,19 @@ export async function getIncomeInfo(
       throw new ResourceNotFoundError()
     }
 
-    const familyMemberIncomeInfo = await prisma.familyMemberIncome.findMany({
+    const familyMemberIncomeInfo = await prisma.familyMemberDisease.findMany({
+      where: { familyMember_id: familyMember.id },
+    })
+    const familyMemberMedicationInfo = await prisma.medication.findFirst({
       where: { familyMember_id: familyMember.id },
     })
 
-    return reply.status(200).send({ familyMemberIncomeInfo })
+    const healthInfo = {
+      ...familyMemberIncomeInfo,
+      ...familyMemberMedicationInfo,
+    }
+
+    return reply.status(200).send({ healthInfo })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

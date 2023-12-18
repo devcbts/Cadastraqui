@@ -12,6 +12,9 @@ import { closeApplication } from './close-application'
 import { getBasicAssistantInfo } from './get-social-assistant-information'
 import { getAnnouncements } from './get-announcements'
 import { updateApplication } from './update-application'
+import { rankCandidatesIncome } from './rank-candidates-income'
+import { calculateExpenses } from './calculate-expenses'
+import { getCandidateIncome } from './get-candidate-income'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -26,6 +29,12 @@ export async function assistantRoutes(app: FastifyInstance) {
     '/:announcement_id/:application_id',
     { onRequest: [verifyJWT] },
     enrollApplication,
+  )
+  // Rankear os candidatos por menor renda
+  app.get(
+    '/rank-income/:announcement_id',
+    { onRequest: [verifyJWT] },
+    rankCandidatesIncome,
   )
 
   // Adicionar histórico na inscrição
@@ -60,7 +69,11 @@ export async function assistantRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     closeApplication,
   )
-  app.patch('/:announcement_id/:application_id', { onRequest: [verifyJWT]}, updateApplication)
+  app.patch(
+    '/:announcement_id/:application_id',
+    { onRequest: [verifyJWT] },
+    updateApplication,
+  )
 
   app.get(
     '/announcement/:announcement_id?',
@@ -68,6 +81,9 @@ export async function assistantRoutes(app: FastifyInstance) {
     getAnnouncements,
   )
 
+  //Despesas Candidato Inscrito
+  app.get('/expenses/:candidate_id', {onRequest: [verifyJWT] }, calculateExpenses)
+  app.get('/income/:candidate_id', {onRequest: [verifyJWT]} , getCandidateIncome)
   // informações
   app.get('/basic-info', { onRequest: [verifyJWT] }, getBasicAssistantInfo)
 }
