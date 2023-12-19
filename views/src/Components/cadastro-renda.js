@@ -1830,7 +1830,7 @@ export const CadastroRenda = ({  member  }) => {
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
                             value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                            onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
                             className="survey-control"
                             />
                         </div>
@@ -2308,7 +2308,7 @@ export const CadastroRenda = ({  member  }) => {
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
                             value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                            onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
                             className="survey-control"
                             />
                         </div>
@@ -2664,7 +2664,7 @@ export const CadastroRenda = ({  member  }) => {
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
                             value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                            onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
                             className="survey-control"
                             />
                         </div>
@@ -3019,8 +3019,8 @@ export const CadastroRenda = ({  member  }) => {
                             type="number"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                            value={incomeInfo[`grossAmount${i+1}`]}
+                            onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
                             className="survey-control"
                             />
                         </div>
@@ -3376,7 +3376,7 @@ export const CadastroRenda = ({  member  }) => {
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
                             value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                            onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
                             className="survey-control"
                             />
                         </div>
@@ -3732,7 +3732,7 @@ export const CadastroRenda = ({  member  }) => {
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
                             value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                            onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
                             className="survey-control"
                             />
                         </div>
@@ -4087,7 +4087,7 @@ export const CadastroRenda = ({  member  }) => {
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
                             value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                            onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
                             className="survey-control"
                             />
                         </div>
@@ -4442,7 +4442,7 @@ export const CadastroRenda = ({  member  }) => {
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
                             value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                            onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
                             className="survey-control"
                             />
                         </div>
@@ -4798,7 +4798,7 @@ export const CadastroRenda = ({  member  }) => {
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
                             value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                            onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
                             className="survey-control"
                             />
                         </div>

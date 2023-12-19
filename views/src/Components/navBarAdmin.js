@@ -135,51 +135,35 @@ export default function NavBarAdmin() {
                 <a
                   href="#"
                   className={`${
-                    currentPath == "/admin/editais" ? "active" : "inactive"
+                    currentPath == "/admin/entidades" ? "active" : "inactive"
                   }`}
-                  onClick={() => urlNavigation("editais")}
+                  onClick={() => urlNavigation("entidades")}
                 >
                   <UilFileAlt
                     size="30"
                     color={`${
-                      currentPath == "/admin/editais" ? "#1F4B73" : "white"
-                    }`}
-                  />
-                  <span>Editais</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className={`${
-                    currentPath == "/candidato/perfil" ? "active" : "inactive"
-                  }`}
-                  onClick={() => urlNavigation("perfil")}
-                >
-                  <UilUniversity
-                    size="30"
-                    color={`${
-                      currentPath == "/candidato/perfil" ? "#1F4B73" : "white"
+                      currentPath == "/admin/entidades" ? "#1F4B73" : "white"
                     }`}
                   />
                   <span>Entidades</span>
                 </a>
               </li>
+
               <li>
                 <a
                   href="#"
                   className={`${
-                    currentPath == "/candidato/perfil" ? "active" : "inactive"
+                    currentPath == "/admin/geral" ? "active" : "inactive"
                   }`}
-                  onClick={() => urlNavigation("perfil")}
+                  onClick={() => urlNavigation("geral")}
                 >
                   <UilUserCircle
                     size="30"
                     color={`${
-                      currentPath == "/candidato/perfil" ? "#1F4B73" : "white"
+                      currentPath == "/admin/geral" ? "#1F4B73" : "white"
                     }`}
                   />
-                  <span>Perfil</span>
+                  <span>Geral</span>
                 </a>
               </li>
 

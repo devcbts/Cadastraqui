@@ -3,7 +3,7 @@ import Select from 'react-select';
 import { api } from '../../services/axios';
 import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o formulário
 
-export default function CadastroCartao() {
+export default function CadastroCartao({ candidate }) {
     const [formData, setFormData] = useState({
         familyMemberName: '',
         usersCount: 1, // Valor padrão
@@ -15,6 +15,10 @@ export default function CadastroCartao() {
 
     const [familyMembers, setFamilyMembers] = useState([]);
     const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState('');
+    const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
+
+    const opcoes = [...familyMembers.map(m => ({ value: m.id, label: m.fullName, type: 'family' })),
+    { value: candidato.id, label: candidato.nome, type: 'candidate' }];
 
     useEffect(() => {
         async function pegarFamiliares() {
@@ -39,8 +43,10 @@ export default function CadastroCartao() {
     };
 
     const handleSelectChange = selectedOption => {
-        setFormData({ ...formData, familyMemberName: selectedOption.label });
-        setSelectedFamilyMemberId(selectedOption.value);
+        const owners = selectedOption.filter(option => option.type === 'family').map(option => option.value);
+        // Verifica se o candidato foi selecionado
+        const candidate = selectedOption.find(option => option.type === 'candidate')?.value;
+        
     };
 
     const handleSubmit = async (e) => {
@@ -75,9 +81,9 @@ export default function CadastroCartao() {
                 <div className='survey-box'>
                     <label>Nome do Familiar:</label>
                     <Select
-                        options={familyMembers}
+                        options={opcoes}
                         onChange={handleSelectChange}
-                        value={familyMembers.find(option => option.label === formData.familyMemberName)}
+                        value={opcoes.find(option => option.value === selectedFamilyMemberId)}
                         required
                     />
                 </div>

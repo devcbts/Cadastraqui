@@ -58,6 +58,27 @@ export default function EditaisAssistente() {
     fetchAnnouncements()
   }, [])
 
+
+  const [profilePhoto, setProfilePhoto] = useState(null)
+  useEffect(() => {
+    async function getProfilePhotoEntity() {
+      const token = localStorage.getItem("token");
+
+      try {
+        const profilePhoto = await api.get(`/entities/profilePicture/${activeAnnouncements[0].entity.user_id}`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(profilePhoto);
+        setProfilePhoto(profilePhoto.data.url);
+
+      } catch (err) {
+
+      }
+    }
+    getProfilePhotoEntity()
+  }, [openAnnouncements])
   return (
     <div className="container">
       <div className="section-nav">
@@ -76,16 +97,16 @@ export default function EditaisAssistente() {
           </div>
         </div>
         <div className="container-editais">
-        {activeAnnouncements ? activeAnnouncements.map((announcement) => {
-            return (<EditalAssistente logo={uspLogo} announcement={announcement} />)
+          {activeAnnouncements && profilePhoto ? activeAnnouncements.map((announcement) => {
+            return (<EditalAssistente logo={profilePhoto} announcement={announcement} />)
           }) : <div className="container-editais">
 
-          <LoadingEdital/>
-          <LoadingEdital/>
-          <LoadingEdital/>
+            <LoadingEdital />
+            <LoadingEdital />
+            <LoadingEdital />
 
-         </div>}
-         
+          </div>}
+
         </div>
       </div>
     </div>

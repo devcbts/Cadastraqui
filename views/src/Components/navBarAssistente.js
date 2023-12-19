@@ -81,7 +81,6 @@ export default function NavBarAssistente() {
           },
         });
         setAssistantInfo(response.data.assistant);
-        localStorage.setItem("assistant", JSON.stringify(response.data.assistant))
       }
       getAssistantInfo()
     } else {

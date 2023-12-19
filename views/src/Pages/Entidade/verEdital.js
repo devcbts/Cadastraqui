@@ -168,6 +168,18 @@ export default function VerEditalEntidade() {
             clearInterval(intervalId);
         };
     }, [])
+
+    const copyEditalLink = () => {
+        const url = `${window.location.origin}/candidato/edital/${announcement_id.announcement_id}`;
+        navigator.clipboard.writeText(url)
+            .then(() => {
+                alert('Link copiado com sucesso!');
+            })
+            .catch(err => {
+                console.error('Erro ao copiar o link: ', err);
+            });
+    };
+
     return (
         <div className="container">
             <div className="section-nav">
@@ -181,6 +193,9 @@ export default function VerEditalEntidade() {
                             <img src={profilePhoto}></img>
                             : <div className="skeleton skeleton-big-image" />}
                     </div>
+                    <button onClick={copyEditalLink} className="copy-link-button">
+                        Copiar link do edital
+                    </button>
                     {announcement ?
                         <div className="descricao-edital-entidade descricao-edital">
                             <h1>{announcement?.announcementName}</h1>
@@ -195,7 +210,7 @@ export default function VerEditalEntidade() {
 
                                     <h1>Assistentes Atuais</h1>
                                     <AssistantsList assistants={announcement.socialAssistant} />
-                                    <button onClick={() => setShowAddAssistantSection(!showAddAssistantSection)} style={{width:'fit-content', marginTop:"15px", fontSize:'15px', opacity:'80%'}}>
+                                    <button onClick={() => setShowAddAssistantSection(!showAddAssistantSection)} style={{ width: 'fit-content', marginTop: "15px", fontSize: '15px', opacity: '80%' }}>
                                         {showAddAssistantSection ? 'Esconder' : 'Mostrar'} Seleção de Assistentes
                                     </button>
                                     {showAddAssistantSection && (
@@ -208,7 +223,7 @@ export default function VerEditalEntidade() {
                                                 className="basic-multi-select"
                                                 classNamePrefix="select"
                                             />
-                                            <button onClick={handleAddAssistantsToAnnouncement} style={{width:'fit-content', marginTop:"15px", fontSize:'15px', backgroundColor:'green', opacity:'80%'}}>Adicionar Assistentes</button>
+                                            <button onClick={handleAddAssistantsToAnnouncement} style={{ width: 'fit-content', marginTop: "15px", fontSize: '15px', backgroundColor: 'green', opacity: '80%' }}>Adicionar Assistentes</button>
                                         </div>
                                     )}
                                 </div>

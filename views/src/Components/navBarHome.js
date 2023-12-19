@@ -43,16 +43,6 @@ const NavBarHome = () => {
   // A variable that defines if the menu is open or not
   const [isOPen, setIsOpen] = useState(false);
 
-  // Function to set the window scroll Y position
-  const scrollToPosition = (multiplier) => {
-    const viewPortHeight = window.innerHeight;
-
-    window.scrollTo({
-      top: multiplier * viewPortHeight, // Y position to scroll to
-      behavior: "smooth", // Optional: smooth scrolling
-    });
-  };
-
   return (
     <div>
       <div className={`navbar-container ${isSticky ? "sticky" : ""}`}>
@@ -78,13 +68,16 @@ const NavBarHome = () => {
             {windowWidth > 800 && (
               <ul>
                 <li>
-                  <a onClick={() => scrollToPosition(0)}>Início</a>
+                  <a>Início</a>
                 </li>
                 <li>
-                  <a onClick={() => scrollToPosition(1)}>Recursos</a>
+                  <a>Recursos</a>
                 </li>
                 <li>
-                  <a onClick={() => scrollToPosition(10)}>Contato</a>
+                  <a>Sobre</a>
+                </li>
+                <li>
+                  <a>Contato</a>
                 </li>
                 <li>
                   <Link to={"/login"}>
@@ -111,18 +104,22 @@ const NavBarHome = () => {
         <div className="nav-buttons">
           <ul>
             <li>
-              <a className="menu-button" onClick={() => scrollToPosition(0)}>
+              <a href="#" className="menu-button">
                 Início
               </a>
             </li>
             <li>
-              <a className="menu-button" onClick={() => scrollToPosition(1)}>
+              <a href="#" className="menu-button">
                 Recursos
               </a>
             </li>
-
             <li>
-              <a className="menu-button" onClick={() => scrollToPosition(10)}>
+              <a href="#" className="menu-button">
+                Sobre
+              </a>
+            </li>
+            <li>
+              <a href="#" className="menu-button">
                 Contato
               </a>
             </li>

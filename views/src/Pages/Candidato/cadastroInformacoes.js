@@ -103,7 +103,7 @@ export default function CadastroInfo() {
   function DeclarationsInfoDiv() {
     return (
       <div>
-        <EnviarDeclaracoes/>
+        <EnviarDeclaracoes id={candidato.id}/>
       </div>
     );
   }

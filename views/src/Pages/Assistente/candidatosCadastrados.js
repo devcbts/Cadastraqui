@@ -18,10 +18,14 @@ export default function CandidatosCadastrados() {
   const { announcement_id } = useParams();
   const { user } = useAuth();
 
+  //Lista rankeada pela renda
+  const [rankedList, setRankedList] = useState([])
   const { isShown } = useAppState();
   const [filterIsShown, setFilterIsShown] = useState(false);
-
   const [applications, setApplications] = useState();
+
+  //Edital e education levels
+  const [announcement, setAnnouncement] = useState();
   const [educationLevels, setEducationLevels] = useState([]);
   const handleClickFilter = () => {
     setFilterIsShown((prev) => !prev);
@@ -39,8 +43,10 @@ export default function CandidatosCadastrados() {
       setApplications(response.data.applications);
       console.log(response.data.applications);
     }
+
     fetchAnnouncement();
     fetchCandidates();
+    fetchRankedCandidates();
   }, []);
 
   async function fetchAnnouncement() {
@@ -52,12 +58,27 @@ export default function CandidatosCadastrados() {
         },
       });
       setEducationLevels(response.data.announcement.educationLevels);
+      setAnnouncement(response.data.announcement)
       console.log(response.data.announcement)
     } catch (error) {
       console.error("Error fetching announcement details:", error);
     }
   }
 
+  async function fetchRankedCandidates() {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await api.get(`/assistant/rank-income/${announcement_id}`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data)
+      setRankedList(response.data.rankedList)
+    } catch (error) {
+      console.error("Erro ao rankear candidatos", error);
+    }
+  }
 
   return (
     <div className="container">
@@ -67,7 +88,7 @@ export default function CandidatosCadastrados() {
 
       <div className="container-contas">
         <div className="upper-cadastrados">
-          <h1>Editais - USP 2024.1</h1>
+          <h1>Editail - {announcement?.announcementName}</h1>
           <div className="btns-cadastro">
             <a className="btn-cadastro">Extrair PDF</a>
 
@@ -144,15 +165,17 @@ export default function CandidatosCadastrados() {
               <div key={level.id} className="education-level">
                 <h2>{level.availableCourses}</h2>
                 {/* Renderize os candidatos para este nível de educação */}
-                {applications?.filter(app => app.educationLevel_id === level.id).map((application) => (
+                {rankedList[level.id]?.map((application) => (
                   <div>
-
+                    {console.log(application)}
                     <Candidatura
-                      key={application.id}
-                      name={application.candidateName}
-                      assistente={application.SocialAssistantName}
-                      id={application.id}
+                      key={application.candidateApplication.id}
+                      name={application.candidateApplication.candidateName}
+                      assistente={application.candidateApplication.SocialAssistantName}
+                      id={application.candidateApplication.id}
                       announcement_id={announcement_id}
+                      valor={application.totalIncomePerCapita}
+                      announcementName = {announcement.announcementName}
                     />
 
                   </div>
@@ -161,10 +184,12 @@ export default function CandidatosCadastrados() {
                   name="João Paulo"
                   assistente='Fernado Souza'
                   announcement_id={announcement_id}
+                  valor = {3500}
                 /><Candidatura
                   name="João Paulo"
                   assistente='Fernado Souza'
                   announcement_id={announcement_id}
+                  valor = {5000}
                 />
               </div>
             ))}

@@ -73,12 +73,12 @@ const MARITAL_STATUS = [
   { value: 'Widowed', label: 'Viúvo(a)' },
   { value: 'StableUnion', label: 'União Estável' },
 ];
-export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehicles, candidate, announcement }) {
+export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehicles, candidate, announcement, application_id }) {
 
 
 
   function updateApplicationStatus(newStatus) {
-    api.patch(`/assistant/${announcement.announcementId}/${candidate.applicationId}`, {
+    api.patch(`/assistant/${announcement.id}/${application_id}`, {
       status: newStatus
     })
     .then(response => {
@@ -199,7 +199,7 @@ export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehic
           })}
         </tbody>
       </table>
-      <VerExtrato familyMembers={FamilyMembers} />
+      <VerExtrato familyMembers={FamilyMembers} candidate_id={candidate.id} />
       <div className="decision-buttons">
       <button className="button-deferido" onClick={() => updateApplicationStatus('Approved')}>Deferido</button>
       <button className="button-indeferido" onClick={() => updateApplicationStatus('Rejected')}>Indeferido</button>

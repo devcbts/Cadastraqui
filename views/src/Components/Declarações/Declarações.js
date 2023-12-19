@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { api } from '../../services/axios';
 import imovelCedidoPDF from '../../Assets/imovel-cedido.pdf'; // Importando o arquivo PDF
 import auxilioTerceirosPDF from '../../Assets/auxilio-terceiros.pdf'; // Importando o arquivo PDF
@@ -20,6 +20,15 @@ export default function EnviarDeclaracoes({ id }) {
         auxilioTerceiros: [],
         imovelCedido: [],
         // Outras categorias podem ser adicionadas conforme necessário
+    });
+
+
+    const [declarationLinks, setDeclarationLinks] = useState({
+        responsavelLegal: [],
+        grupoFamiliar: [],
+        auxilioTerceiros: [],
+        imovelCedido: [],
+        // ... other categories as needed
     });
 
     const handleFileChange = (e, category) => {
@@ -65,6 +74,43 @@ export default function EnviarDeclaracoes({ id }) {
         imovelCedido: imovelCedidoPDF
     };
 
+
+    // Fetching document links
+    useEffect(() => {
+        const fetchDeclarationLinks = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await api.get('/candidates/documents', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                // Process and set the fetched links in the state
+                const linksData = response.data.urls;
+                const updatedDeclarationLinks = {};
+                
+                Object.keys(DECLARATION_CATEGORIES).forEach(categoryKey => {
+                    console.log(`CandidateDocuments/${id}/${categoryKey}`)
+                    console.log(linksData[`CandidateDocuments/${id}/${categoryKey}`])
+                    updatedDeclarationLinks[categoryKey] = linksData[`CandidateDocuments/${id}/${categoryKey}`]?.map(doc => ({
+                        nome: (doc.split('/')[6]).split('?')[0],
+                        url: doc
+                    })) || [];
+                });
+
+                setDeclarationLinks(updatedDeclarationLinks);
+                console.log('====================================');
+                console.log(updatedDeclarationLinks);
+                console.log('====================================');
+            } catch (error) {
+                console.error("Erro ao buscar links das declarações", error);
+            }
+        };
+
+        fetchDeclarationLinks();
+    }, []); // Dependency array includes 'id' to refetch when 'id' changes
+
     return (
         <div className='fill-box' >
             <form onSubmit={handleSubmit} id='survey-form'>
@@ -83,9 +129,17 @@ export default function EnviarDeclaracoes({ id }) {
 
                             onChange={(e) => handleFileChange(e, categoryKey)}
                         />
+
                         <button type="button" onClick={() => declaracoes[categoryKey].forEach(file => enviarDeclaracao(categoryKey, file))}>
                             Enviar Declaração
                         </button>
+                        {declarationLinks[categoryKey]?.map((objeto, index) => (
+                            <div key={index}>
+                                <a href={objeto.url} target="_blank" rel="noopener noreferrer">
+                                    {objeto.nome}
+                                </a>
+                            </div>
+                        ))}
                     </div>
                 ))}
             </form>

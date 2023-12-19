@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../../services/axios";
 import './membroSaude.css'
 import { CadastroSaude } from "../cadastro-saude";
+import { VerSaude } from "./verSaude";
 const Relationship = [
   { value: 'Wife', label: 'Esposa' },
   { value: 'Husband', label: 'Marido' },
@@ -51,23 +52,44 @@ function translateRelationship(relationshipValue) {
   setMemberSelected(member)
  }
 
+ function handleShowHealth(familyMemberId) {
+  const member = familyMembers.find((member) => member.id === familyMemberId)
+  setMemberSelectedToSeeHealth(member)
+ }
+
  function handleHideRegisterIncome() {
   setMemberSelected(null)
  }
 
+ function handleHideSeeIncome() {
+  setMemberSelectedToSeeHealth(null)
+ }
+ 
+ const [memberSelectedToSeeHealth, setMemberSelectedToSeeHealth] = useState(null)
+
   return (
     <>
-    {!memberSelected && familyMembers.map(familyMember => {
+    {(!memberSelected && !memberSelectedToSeeHealth) && familyMembers.map(familyMember => {
       return (
         <div id={familyMember.id} className="container-teste">
           <div className="member-info">
             <h4>{familyMember.fullName}</h4>
             <h4>{translateRelationship(familyMember.relationship)}</h4>
           </div>
+          <button type="button" onClick={() => handleShowHealth(familyMember.id)}>Ver Saúde</button>
         <button type="button" onClick={() => handleShowRegisterIncome(familyMember.id)}>Cadastrar Saúde</button>
       </div>
       )
     })}
+
+    {
+      memberSelectedToSeeHealth && (
+        <>
+      <VerSaude member={memberSelectedToSeeHealth}/>
+      <button type="button" onClick={handleHideSeeIncome}>Voltar</button>
+      </>
+      )
+    }
 
     {memberSelected && (
       <>

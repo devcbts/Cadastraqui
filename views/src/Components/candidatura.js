@@ -35,9 +35,9 @@ export default function Candidatura(props) {
       <div className="candidato-assistente">
         <h3>{props.name}</h3>
         <div className="application-info">
-          <img src={uspLogo}/>
-          <h2 className="application-name">USP 2024.1</h2>
+          <h4 className="application-name">Renda per capita: R${props.valor?.toFixed(2)}</h4>
         </div>
+      
       </div>
       <div className="candidatura-btn">
         <Link to={`/assistente/cadastrados/geral/${props.announcement_id}/${props.id}`}>

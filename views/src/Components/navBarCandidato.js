@@ -101,7 +101,6 @@ export default function NavBarCandidato(props) {
           },
         });
         setCandidateInfo(response.data.candidate);
-        localStorage.setItem("candidate", JSON.stringify(response.data.candidate))
       }
       getCandidateInfo()
     } else {

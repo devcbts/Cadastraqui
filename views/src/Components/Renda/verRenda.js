@@ -257,10 +257,12 @@ const [apprenticeInfo, setApprenticeInfo] = useState({
               }
           })
           if(member.incomeSource.includes('IndividualEntrepreneur')) {
-            const MEIIncomeInfo = response.data.filter(data => data.employmentType === 'IndividualEntrepreneur')
-            MEIInfo.startDate = response.data.MEIIncomeInfo.startDate;
-            MEIInfo.CNPJ = response.data.MEIIncomeInfo.CNPJ;
-            MEIInfo.averageIncome = response.data.MEIIncomeInfo.averageIncome;
+            console.log(response.data.familyMemberIncomeInfo)
+            const MEIIncomeInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'IndividualEntrepreneur')
+            console.log(MEIIncomeInfo)
+            MEIInfo.startDate = MEIIncomeInfo[0].startDate;
+            MEIInfo.CNPJ = MEIIncomeInfo[0].CNPJ;
+            MEIInfo.averageIncome = MEIIncomeInfo[0].averageIncome;
             console.log(MEIInfo)
           }
 

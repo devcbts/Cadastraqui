@@ -1,5 +1,6 @@
-import react from 'react'
+import react, { useEffect, useState } from 'react'
 import {UilCheckSquare, UilSquareFull} from '@iconscout/react-unicons'
+import { api } from '../../../services/axios';
 const Relationship = [
   { value: 'Wife', label: 'Esposa' },
   { value: 'Husband', label: 'Marido' },
@@ -12,7 +13,7 @@ const Relationship = [
   { value: 'Child', label: 'Filho/Filha' },
   { value: 'Other', label: 'Outro' },
 ];
-export default function VerExtrato({ familyMembers }) {
+export default function VerExtrato(props) {
   function calculateAge(birthDate) {
     const birthDateObj = new Date(birthDate);
     const today = new Date();
@@ -25,10 +26,53 @@ export default function VerExtrato({ familyMembers }) {
 
     return age;
   }
+  //Despesas
+  const [totalExpenses, setTotalExpenses] = useState(0);
+  //Renda
+  const [candidateIncome, setCandidateIncome] = useState(0)
+    useEffect(() => {
+      const fetchExpenses = async () => {
+        try {
+          const token = localStorage.getItem('token');
+          const response = await api.get(`/assistant/expenses/${props.candidate_id}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+  
+         
+  
+          const data = response.data;
+          setTotalExpenses(`R$${data.grandTotal.toFixed(2)}`);
+          console.log('====================================');
+          console.log(response.data);
+          console.log('====================================');
+        } catch (error) {
+          console.error('Falha ao buscar despesas:', error);
+        } 
+      };
+  
+      fetchExpenses();
+      fetchIncomeCandidate();
+    }, [props.familyMembers]);
 
   function translateRelationship(relationshipValue) {
     const relationship = Relationship.find(r => r.value === relationshipValue);
     return relationship ? relationship.label : 'Não especificado';
+  }
+  async function fetchIncomeCandidate() {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await api.get(`/assistant/income/${props.candidate_id}`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data)
+      setCandidateIncome(`R$${response.data.totalIncomePerCapita.toFixed(2)}`)
+    } catch (error) {
+      console.error("Erro ao rankear candidatos", error);
+    }
   }
   return (
 
@@ -45,7 +89,7 @@ export default function VerExtrato({ familyMembers }) {
           </tr>
         </thead>
         <tbody>
-          {familyMembers.map(familyMember => {
+          {props.familyMembers.map(familyMember => {
             return (
               <tr>
                 <td>
@@ -70,7 +114,6 @@ export default function VerExtrato({ familyMembers }) {
             <th>Renda familiar bruta</th>
             <th>Soma das despesas</th>
             <th>Doença grave</th>
-            <th>Distância da residência</th>
             <th>Situação da moradia</th>
             <th>Veículos discriminados</th>
           </tr>
@@ -78,10 +121,9 @@ export default function VerExtrato({ familyMembers }) {
         <tbody>
           <tr>
             <td>Sim</td>
-            <td>R$3500,00</td>
-            <td>R$3487,00</td>
+            <td>{candidateIncome}</td>
+            <td>{totalExpenses}</td>
             <td>Não</td>
-            <td>2,4 km</td>
             <td>Casa própria</td>
             <td>0</td>
           </tr>

@@ -22,6 +22,7 @@ import BasicoAssistente from "../../Components/Assistente/Básico/BasicoAssisten
 import MembrosFamiliaRendaAssistente from "../../Components/Assistente/Renda/rendaAssistente";
 import VerDocumentosAssistente from "../../Components/Assistente/Documentos/VerDocumentos";
 import MembrosFamiliaSaudeAssistente from "../../Components/Assistente/Saúde/membroSaudeAssistente";
+import VerDeclaracoes from "../../Components/Assistente/Declarações/VerDeclarações";
 
 
 export default function SeeCandidatosInfo() {
@@ -30,7 +31,6 @@ export default function SeeCandidatosInfo() {
   const prevButton = useRef(null)
   const { announcement_id, application_id } = useParams()
   const [candidateId, setCandidateId] = useState('')
-
   useEffect( () => {
     async function getCandidateId(){
 
@@ -141,8 +141,8 @@ export default function SeeCandidatosInfo() {
 
   function DeclarationsInfoDiv() {
     return (
-      <div className="fill-container">
-        <h1>8</h1>
+      <div>
+        <VerDeclaracoes id={candidateId}/>
       </div>
     );
   }
@@ -163,7 +163,6 @@ export default function SeeCandidatosInfo() {
         </div>
         <div>
           <h1>Formulário detalhado</h1>
-          <h2>João da Silva</h2>
         </div>
       </div>
       <div className="container-info">
@@ -176,14 +175,14 @@ export default function SeeCandidatosInfo() {
           showNavigation={false}
         >
           <BasicInfoDiv title="Básico"></BasicInfoDiv>
-          <FamilyInfoDiv title="Família"></FamilyInfoDiv>
+          <FamilyInfoDiv title="Grupo Familiar"></FamilyInfoDiv>
           <HousingInfoDiv title="Moradia"></HousingInfoDiv>
           <VehicleInfoDiv title="Veículo"></VehicleInfoDiv>
           <EarningInfoDiv title="Renda"></EarningInfoDiv>
           <BudgetInfoDiv title="Despesas"></BudgetInfoDiv>
           <HealthInfoDiv title="Saúde"></HealthInfoDiv>
-          <DeclarationsInfoDiv title="Declarações"></DeclarationsInfoDiv>
           <DocumentsInfoDiv title="Documentos"></DocumentsInfoDiv>
+          <DeclarationsInfoDiv title="Declarações"></DeclarationsInfoDiv>
         </MultiStep>
         <div className="add-comment">
           <UilCommentAltMedical
@@ -200,7 +199,6 @@ export default function SeeCandidatosInfo() {
             <div className="upper-sections">
               <div>
                 <h2>Comentários</h2>
-                <h3>João da Silva</h3>
               </div>
               <UilTimesSquare
                 size="30"

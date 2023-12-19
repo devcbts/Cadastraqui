@@ -17,11 +17,9 @@ import LoadingGeralCadastrado from "../../Components/Loading/LoadingGeralCadastr
 
 export default function GeralCadastrado() {
   const { announcement_id, application_id } = useParams();
-  console.log("====================================");
-  console.log(announcement_id, application_id);
-  console.log("====================================");
+  
 
-  const [candidateId, setCandidateId] = useState('')
+  const [candidateId, setCandidateId] = useState()
   const [familyMembers, setFamilyMembers] = useState([])
   const [housing, setHousing] = useState()
   const [vehicles, setVehicles] = useState()
@@ -67,12 +65,13 @@ export default function GeralCadastrado() {
         console.log('====================================');
         console.log(response.data.application);
         console.log('====================================');
-      } catch (error) {
+      } catch (error) { 
 
       }
     }
     getCandidateId()
-
+  })
+  useEffect(() => {
     async function pegarFamiliares() {
       const token = localStorage.getItem('token');
       try {
@@ -131,7 +130,7 @@ export default function GeralCadastrado() {
           }
         });
         setCandidateInfo(response.data.candidate);
-
+     
       } catch (err) {
         alert(err);
       }
@@ -173,9 +172,9 @@ export default function GeralCadastrado() {
     }
 
     if (candidateId) {
-      pegarInscricoes()
       pegarCandidato()
       pegarVeiculos()
+      pegarInscricoes()
       pegarMoradia()
       pegarFamiliares()
       pegarIdentidade()
@@ -213,7 +212,7 @@ export default function GeralCadastrado() {
   function Extrato() {
     return (
       <div>
-        <VerExtrato familyMembers={familyMembers} />
+        <VerExtrato familyMembers={familyMembers} candidate_id={candidateId}  />
       </div>
     );
   }
@@ -226,7 +225,7 @@ export default function GeralCadastrado() {
 
   function Parecer() {
     return (
-      <VerParecer FamilyMembers={familyMembers} Housing={housing} Vehicles={vehicles} candidate={candidateInfo} identityInfo={identityInfo} announcement={announcement} />
+      <VerParecer FamilyMembers={familyMembers} Housing={housing} Vehicles={vehicles} candidate={candidateInfo} identityInfo={identityInfo} announcement={announcement} application_id={application_id} />
     );
   }
 
@@ -243,7 +242,7 @@ export default function GeralCadastrado() {
       </div>
       <div className="container-contas">
         <div className="upper-cadastrados">
-          {announcement ?
+          {candidateInfo ?
             <h1>Editais - {announcement.announcementName}</h1>
             : <div className="skeleton skeleton-text" />
           }

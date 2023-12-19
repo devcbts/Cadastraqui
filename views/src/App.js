@@ -34,6 +34,8 @@ import SolicitacoesCandidato from "./Pages/Candidato/solicitações";
 import VerSolicitacoes from "./Pages/Candidato/verSolicitações";
 import VerEditalEntidade from "./Pages/Entidade/verEdital";
 import HomePage from "./Pages/Home/homePage";
+import Entidades from "./Pages/Admin/entidades";
+import VerEntidade from "./Pages/Admin/verEntidade";
 
 function App() {
   return (
@@ -42,7 +44,7 @@ function App() {
         <BrowserRouter>
           <AuthProvider>
             <Routes>
-              <Route path="/" element={<HomePage/>}></Route>
+              <Route path="/" element={<HomePage />}></Route>
               {/*Here we have the routes for the "entidade" user type */}
               <Route path="/entidade/home" element={<HomeEntidade />}></Route>
               <Route
@@ -106,11 +108,20 @@ function App() {
                 element={<EditaisAdmin></EditaisAdmin>}
               ></Route>
               <Route
+                path="/admin/entidades"
+                element={<Entidades />}>
+
+              </Route>
+              <Route
+                path="/admin/entidades/:entity_id"
+                element={<VerEntidade />}
+              ></Route>
+              <Route
                 path="/entidade/edital/:announcement_id"
                 element={<VerEditalEntidade />}
               ></Route>
               <Route
-                path="/candidato/editaltest/:announcement_id"
+                path="/candidato/edital/:announcement_id"
                 element={<EditalAbertoCandidato></EditalAbertoCandidato>}
               ></Route>
               <Route
@@ -145,7 +156,7 @@ function App() {
                 path="/assistente/cadastrados/geral/:announcement_id/:application_id?"
                 element={<GeralCadastrado></GeralCadastrado>}
               ></Route>
-              
+
             </Routes>
           </AuthProvider>
         </BrowserRouter>

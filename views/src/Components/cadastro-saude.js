@@ -49,7 +49,7 @@ export const CadastroSaude = ({  member  }) => {
               ...prevState,
               [name]: selectedOptions
           }));
-          if(e.target.name ==='disease' ) {
+          if(e.target.multiple && e.target.name ==='disease' ) {
             console.log(e.target.value)
             if(e.target.value.includes('RARE_DISEASE') || e.target.value.includes( 'OTHER_HIGH_COST_DISEASE')) {
               setDiseaseSpecific(true)

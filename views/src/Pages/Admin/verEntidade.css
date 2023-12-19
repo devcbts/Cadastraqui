@@ -1,0 +1,34 @@
+.container-entidade-admin {
+    background-color: white;
+    border-radius: 2%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.admin-endidade-field {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.entidade-informacao{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.entidade-informacao h3{
+    margin-top: 7px;
+    margin-left: 15px;
+}
+
+.box-editais-admin{
+    justify-content: center;
+    display: flex;
+}
+
+.box-entidade-info{
+    display: flex;
+    justify-content: center;
+}
