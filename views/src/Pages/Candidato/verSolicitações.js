@@ -77,7 +77,7 @@ export default function VerSolicitacoes() {
             </a>
             <header>
                 <h1>Seja bem-vindo!</h1>
-                <p>Aqui você terá acesso...</p>
+                <p>Aqui você terá acesso às solicitações do seu Assistente Social</p>
             </header>
 
             <div className="main-content">

@@ -88,7 +88,7 @@ export default function CandidatosCadastrados() {
 
       <div className="container-contas">
         <div className="upper-cadastrados">
-          <h1>Editail - {announcement?.announcementName}</h1>
+          <h1>Edital - {announcement?.announcementName}</h1>
           <div className="btns-cadastro">
             <a className="btn-cadastro">Extrair PDF</a>
 

@@ -115,7 +115,7 @@ export default function EnviarDeclaracoes({ id }) {
         <div className='fill-box' >
             <form onSubmit={handleSubmit} id='survey-form'>
                 {Object.entries(DECLARATION_CATEGORIES).map(([categoryKey, categoryLabel]) => (
-                    <div key={categoryKey} className='survey-box'>
+                    <div key={categoryKey} className='survey-box' style={{width: '75%'}}>
                         <h2>{categoryLabel}</h2>
 
                         <a href={pdfLinks[categoryKey]} target="_blank" rel="noopener noreferrer">
@@ -125,7 +125,7 @@ export default function EnviarDeclaracoes({ id }) {
                             type="file"
                             accept=".pdf"
                             className='survey-control'
-                            style={{ marginLeft: '145px' }}
+                            style={{ marginLeft: '175px', justifyContent: 'center' , marginBottom: '10px'}}
 
                             onChange={(e) => handleFileChange(e, categoryKey)}
                         />

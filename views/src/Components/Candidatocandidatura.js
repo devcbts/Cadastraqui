@@ -34,7 +34,6 @@ export default function CandidatoCandidatura({application}) {
         color="#7b7b7b"
         className="icon"
       ></UilElipsisDoubleVAlt>
-      <img src={uspLogo} alt="Icon" />
       <h2>{application?.announcement?.announcementName}</h2>
       <UilElipsisDoubleVAlt
         size="30"

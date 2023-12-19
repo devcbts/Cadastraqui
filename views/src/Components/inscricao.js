@@ -12,10 +12,18 @@ import uspLogo from "../Assets/usp-logo.png";
 import { UilElipsisDoubleVAlt } from '@iconscout/react-unicons'
 import { UilSearch } from '@iconscout/react-unicons'
 
+const statusTranslations = {
+  'Pending': 'Pendente',
+  'Rejected': 'Reprovado',
+  'Approved': 'Aprovado'
+};
+
 export default function Inscricao({application}) {
   const { user } = useAuth();
   const [enrolled, setEnrolled] = useState(false)
-
+  function translateStatus(status) {
+    return statusTranslations[status] || 'Status Desconhecido';
+  }
 
 
   return (
@@ -33,7 +41,7 @@ export default function Inscricao({application}) {
         color="#7b7b7b"
         className="icon"
       ></UilElipsisDoubleVAlt>
-      <h2>Situação: {application?.status}</h2>
+      <h2>Situação: {translateStatus(application?.status)}</h2>
       <UilElipsisDoubleVAlt
         size="30"
         color="#7b7b7b"

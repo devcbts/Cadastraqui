@@ -64,7 +64,7 @@ export default function SolicitacoesCandidato() {
 
       <div className="container-contas">
         <div className="upper-contas status-title">
-          <h1>Historico</h1>
+          <h1>Solicitações</h1>
         </div>
         <div className="sub-title">
           <h2>Candidaturas em andamento</h2>
@@ -76,10 +76,7 @@ export default function SolicitacoesCandidato() {
           }) : ''}
         </div>
 
-        <div className="sub-title">
-          <h2>Candidaturas finalizadas</h2>
-        </div>
-
+      
         <div className="loading">
          
         </div>

@@ -12,6 +12,12 @@ import { useNavigate, useParams } from 'react-router';
 import EditalEntidade from "../../Components/editalEntidade";
 import './verEdital.css'
 import Select from 'react-select';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
+
 export default function VerEditalEntidade() {
     const { isShown } = useAppState();
     // The empty array ensures this effect only runs once, on mount and unmount
@@ -173,10 +179,26 @@ export default function VerEditalEntidade() {
         const url = `${window.location.origin}/candidato/edital/${announcement_id.announcement_id}`;
         navigator.clipboard.writeText(url)
             .then(() => {
-                alert('Link copiado com sucesso!');
+                toast.success('Link copiado com sucesso!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
             .catch(err => {
-                console.error('Erro ao copiar o link: ', err);
+                toast.error('Erro ao copiar o link.', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             });
     };
 
@@ -186,7 +208,7 @@ export default function VerEditalEntidade() {
                 <NavBar entity={entityInfo}></NavBar>
             </div>
             <div className="container-open-edital">
-
+                <ToastContainer />
                 <div className="container-inscricao">
                     <div className="school-logo" style={{ height: 'fit-content', overflowX: 'clip' }}>
                         {profilePhoto ?
