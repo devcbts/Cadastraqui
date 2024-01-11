@@ -37,7 +37,8 @@ export async function getAnnouncements(
           },
         },
         include: {
-          entity: true
+          entity: true,
+          socialAssistant: true
         }
       })
     } else {
