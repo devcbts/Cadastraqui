@@ -26,7 +26,7 @@ export default function HomeAssistente() {
       const token = localStorage.getItem("token");
 
       try {
-        const profilePhoto = await api.get(`/entities/profilePicture/${assistant.entity.user_id}`, {
+        const profilePhoto = await api.get(`/entities/profilePicture/${openAnnouncements[0].entity.user_id}`, {
           headers: {
             authorization: `Bearer ${token}`,
           },
@@ -39,7 +39,7 @@ export default function HomeAssistente() {
       }
     }
     getProfilePhotoEntity()
-  }, [assistant])
+  }, [openAnnouncements])
   useEffect(() => {
     async function getAssistantInfo() {
       const token = localStorage.getItem("token");
@@ -92,7 +92,6 @@ export default function HomeAssistente() {
         // Pega todos os editais e armazena em um estado
         setAnnouncements(response.data.announcement);
         // Pega apenas os editais ainda abertos e armazena em um estado
-        console.log(assistant)
         const openAnnouncements = response.data.announcement.filter(
           (announcement) => new Date(announcement.announcementDate) >= new Date()
         );
@@ -106,8 +105,12 @@ export default function HomeAssistente() {
 
         // Filtra os announcements associados ao assistente social em questão
         const activeAnnouncements = openAnnouncements.filter(
-          (announcement) => announcement.socialAssistant === assistant?.id
+          (announcement) =>
+            announcement.socialAssistant.some(
+              (assistantObj) => assistantObj.id === assistant?.id
+            )
         );
+        console.log(activeAnnouncements)
         setActiveAnnouncements(activeAnnouncements);
         console.log(response);
       } catch (err) {
@@ -133,7 +136,7 @@ export default function HomeAssistente() {
 
         <div className="container-editais">
           {activeAnnouncements && profilePhoto
-            ? openAnnouncements?.map((announcement) => {
+            ? activeAnnouncements?.map((announcement) => {
               return <EditalAssistente logo={profilePhoto} announcement={announcement} />;
             })
             : <div className="container-editais">
@@ -145,41 +148,6 @@ export default function HomeAssistente() {
             </div>}
         </div>
 
-        <div className="upper-contas status-title">
-          <h1>Editais abertos</h1>
-        </div>
-
-        <div className="container-editais">
-          {openAnnouncements && profilePhoto
-            ? openAnnouncements.map((announcement) => {
-              return <EditalAssistente logo={profilePhoto} announcement={announcement} />;
-            })
-            : <div className="container-editais">
-
-            <LoadingEdital/>
-            <LoadingEdital/>
-            <LoadingEdital/>
-
-           </div>}
-        </div>
-
-        <div className="upper-contas status-title">
-          <h1>Editais anteriores</h1>
-        </div>
-
-        <div className="container-editais">
-          {closeAnnouncements
-            ? closeAnnouncements.map((announcement) => {
-              return <EditalAssistente logo={unifeiLogo} announcement={announcement} />;
-            })
-            : <div className="container-editais">
-
-            <LoadingEdital/>
-            <LoadingEdital/>
-            <LoadingEdital/>
-
-           </div>}
-        </div>
       </div>
     </div >
   );

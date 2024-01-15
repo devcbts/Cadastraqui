@@ -27,6 +27,7 @@ export default function GeralCadastrado() {
   const [identityInfo, setIdentityInfo] = useState()
   const [applications, setApplications] = useState()
   const [announcement, setAnnouncement] = useState(null)
+  const [application, setApplication] = useState(null)
   useEffect(() => {
     async function fetchAnnouncements() {
       const token = localStorage.getItem("token");
@@ -48,7 +49,7 @@ export default function GeralCadastrado() {
 
     }
     fetchAnnouncements();
-  }, []);
+  }, [announcement_id]);
 
   useEffect(() => {
     async function getCandidateId() {
@@ -62,15 +63,13 @@ export default function GeralCadastrado() {
         })
 
         setCandidateId(response.data.application.candidate_id)
-        console.log('====================================');
-        console.log(response.data.application);
-        console.log('====================================');
+        setApplication(response.data.application)
       } catch (error) { 
 
       }
     }
     getCandidateId()
-  })
+  },[announcement_id])
   useEffect(() => {
     async function pegarFamiliares() {
       const token = localStorage.getItem('token');
@@ -212,7 +211,7 @@ export default function GeralCadastrado() {
   function Extrato() {
     return (
       <div>
-        <VerExtrato familyMembers={familyMembers} candidate_id={candidateId}  />
+        <VerExtrato familyMembers={familyMembers} candidate_id={candidateId}  identityInfo={identityInfo} application={application} Vehicles={vehicles} />
       </div>
     );
   }

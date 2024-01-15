@@ -123,15 +123,16 @@ export default function PerfilAssistente() {
           {userInfo ?
             <div className="solicitacoes personal-info">
               <div className="upper-info">
-                <h2>Informações pessoais</h2>
-                <div className="info-item">
-                  <h3>Nome:</h3>
-                  <h3>{userInfo ? userInfo.name : "User Name"}</h3>
-                </div>
+                <h2>Informações cadastrais</h2>
                 <div className="info-item">
                   <h3>Razão Social:</h3>
                   <h3>{userInfo ? userInfo.socialReason : ""}</h3>
                 </div>
+                <div className="info-item">
+                  <h3>Nome Fantasia:</h3>
+                  <h3>{userInfo ? userInfo.name : "User Name"}</h3>
+                </div>
+                
                 <div className="info-item">
                   <h3>CNPJ:</h3>
                   <h3>{userInfo ? userInfo.CNPJ : ""}</h3>
@@ -139,6 +140,10 @@ export default function PerfilAssistente() {
                 <div className="info-item">
                   <h3>CEP:</h3>
                   <h3>{userInfo ? userInfo.CEP : ""}</h3>
+                </div>
+                <div className="info-item">
+                  <h3>Endereço:</h3>
+                  <h3>{userInfo ? userInfo.address : ""}</h3>
                 </div>
                 <div className="info-item">
                   <h3>Senha:</h3>
@@ -154,14 +159,14 @@ export default function PerfilAssistente() {
 
             <div className="solicitacoes personal-info">
               <div className="upper-info">
-                <h2>Informações pessoais</h2>
-                <div className="info-item">
-                  <h3>Nome:</h3>
-                  <div className="skeleton-text skeleton-loading"></div>
-                </div>
+                <h2>Informações cadastrais</h2>
                 <div className="info-item">
                   <h3>Razão Social:</h3>
 
+                  <div className="skeleton-text skeleton-loading"></div>
+                </div>
+                <div className="info-item">
+                  <h3>Nome Fantasia:</h3>
                   <div className="skeleton-text skeleton-loading"></div>
                 </div>
                 <div className="info-item">
@@ -171,6 +176,11 @@ export default function PerfilAssistente() {
                 </div>
                 <div className="info-item">
                   <h3>CEP:</h3>
+
+                  <div className="skeleton-text skeleton-loading"></div>
+                </div>
+                <div className="info-item">
+                  <h3>Endereço:</h3>
 
                   <div className="skeleton-text skeleton-loading"></div>
                 </div>

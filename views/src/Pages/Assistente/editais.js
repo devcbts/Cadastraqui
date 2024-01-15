@@ -48,11 +48,7 @@ export default function EditaisAssistente() {
       setCloseAnnouncements(closeAnnouncements)
 
 
-      // Filtra os announcements associados ao assistente social em questão
-      const activeAnnouncements = openAnnouncements.filter(announcement =>
-        announcement.socialAssistant === assistantId
-      );
-      setActiveAnnouncements(activeAnnouncements);
+      
       console.log(response)
     }
     fetchAnnouncements()
@@ -65,7 +61,7 @@ export default function EditaisAssistente() {
       const token = localStorage.getItem("token");
 
       try {
-        const profilePhoto = await api.get(`/entities/profilePicture/${activeAnnouncements[0].entity.user_id}`, {
+        const profilePhoto = await api.get(`/entities/profilePicture/${openAnnouncements[0].entity.user_id}`, {
           headers: {
             authorization: `Bearer ${token}`,
           },
@@ -96,8 +92,23 @@ export default function EditaisAssistente() {
             </div>
           </div>
         </div>
+        <h1>Editais Abertos</h1>
         <div className="container-editais">
-          {activeAnnouncements && profilePhoto ? activeAnnouncements.map((announcement) => {
+
+          {openAnnouncements && profilePhoto ? openAnnouncements.map((announcement) => {
+            return (<EditalAssistente logo={profilePhoto} announcement={announcement} />)
+          }) : <div className="container-editais">
+
+            <LoadingEdital />
+            <LoadingEdital />
+            <LoadingEdital />
+
+          </div>}
+
+        </div>
+          <h1>Editais Encerrados</h1>
+        <div className="container-editais">
+          {closeAnnouncements && profilePhoto ? closeAnnouncements.map((announcement) => {
             return (<EditalAssistente logo={profilePhoto} announcement={announcement} />)
           }) : <div className="container-editais">
 

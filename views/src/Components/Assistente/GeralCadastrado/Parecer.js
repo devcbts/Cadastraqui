@@ -81,14 +81,14 @@ export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehic
     api.patch(`/assistant/${announcement.id}/${application_id}`, {
       status: newStatus
     })
-    .then(response => {
-      // Handle successful response
-      console.log("Status atualizado com sucesso:", response.data);
-    })
-    .catch(error => {
-      // Handle error
-      console.error("Erro ao atualizar status:", error);
-    });
+      .then(response => {
+        // Handle successful response
+        console.log("Status atualizado com sucesso:", response.data);
+      })
+      .catch(error => {
+        // Handle error
+        console.error("Erro ao atualizar status:", error);
+      });
   }
 
   function calculateAge(birthDate) {
@@ -198,12 +198,59 @@ export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehic
             )
           })}
         </tbody>
+       
+
+     
+
       </table>
-      <VerExtrato familyMembers={FamilyMembers} candidate_id={candidate.id} />
+
+      <VerExtrato familyMembers={FamilyMembers} candidate_id={candidate.id} identityInfo={identityInfo} Vehicles={Vehicles} />
+      <h1>Informações de Saúde do Grupo Familiar</h1>
+      <table id="health-info-family">
+        <thead>
+          <tr>
+            <th>Integrante do grupo familiar</th>
+            <th>Doença</th>
+            <th>Possui relatório médico e laudo de exames?</th>
+          </tr>
+        </thead>
+        <tbody>
+          {/* Adicione linhas estáticas ou dinâmicas conforme necessário */}
+          <tr>
+            <td>Nome do Integrante</td>
+            <td>Nome da Doença</td>
+            <td>Sim/Não</td>
+          </tr>
+          {/* ... mais linhas conforme necessário */}
+        </tbody>
+      </table>
+
+      <h1>Medicamentos Usados pelo Grupo Familiar</h1>
+      <table id="medication-info-family">
+        <thead>
+          <tr>
+            <th>Integrante do grupo</th>
+            <th>Nome do(s) Medicamento(s)</th>
+            <th>Obtém medicamentos através da rede pública?</th>
+            <th>Relação de medicamentos obtidos através da rede pública.</th>
+          </tr>
+        </thead>
+        <tbody>
+          {/* Adicione linhas estáticas ou dinâmicas conforme necessário */}
+          <tr>
+            <td>Nome do Integrante</td>
+            <td>Nome do Medicamento</td>
+            <td>Sim/Não</td>
+            <td>Relação dos Medicamentos</td>
+          </tr>
+          {/* ... mais linhas conforme necessário */}
+        </tbody>
+      </table>
+
       <div className="decision-buttons">
-      <button className="button-deferido" onClick={() => updateApplicationStatus('Approved')}>Deferido</button>
-      <button className="button-indeferido" onClick={() => updateApplicationStatus('Rejected')}>Indeferido</button>
-    </div>
+        <button className="button-deferido" onClick={() => updateApplicationStatus('Approved')}>Deferimento</button>
+        <button className="button-indeferido" onClick={() => updateApplicationStatus('Rejected')}>Indeferimento</button>
+      </div>
     </div>
   )
 }

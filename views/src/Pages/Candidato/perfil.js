@@ -128,7 +128,10 @@ export default function PerfilCandidato() {
           </div>
           <div className="side-profile">
             <h1>
-              <UilHunting size="30"></UilHunting>LGPD
+              <a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm">
+
+                <UilHunting size="30"></UilHunting>LGPD
+              </a>
             </h1>
           </div>
         </div>

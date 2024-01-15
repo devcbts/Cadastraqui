@@ -1,7 +1,7 @@
 import React from 'react'
 import './verFamiliarAssistente.css'
 import { useState } from 'react';
-
+import Select from 'react-select'
 
 const Relationship = [
     { value: 'Wife', label: 'Esposa' },
@@ -455,9 +455,16 @@ export default function VerFamiliarAssistente({familyMember}) {
                 <div class="survey-box">
                     <label for="incomeSource" id="incomeSource-label">Fonte(s) de renda:</label>
                     <br />
-                    <select name="incomeSource" multiple disabled onChange={handleInputChange} value={familyMember.incomeSource} id="incomeSource" class="select-data">
-                        {IncomeSource.map((type) => <option value={type.value}>{type.label}</option>)}
-                    </select>
+                    <Select
+                        name="incomeSource"
+                        isMulti
+                        isDisabled // Remova esta linha se o campo não deve ser desabilitado
+                        onChange={handleInputChange}
+                        value={IncomeSource.filter(obj => familyMember.incomeSource.includes(obj.value))}
+                        options={IncomeSource}
+                        className="select-data"
+                        id="incomeSource"
+                    />
                 </div>
 
                 <div class="survey-box">

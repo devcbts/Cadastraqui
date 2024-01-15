@@ -14,6 +14,7 @@ const Relationship = [
   { value: 'Other', label: 'Outro' },
 ];
 export default function VerExtrato(props) {
+  console.log(props.application)
   function calculateAge(birthDate) {
     const birthDateObj = new Date(birthDate);
     const today = new Date();
@@ -30,7 +31,6 @@ export default function VerExtrato(props) {
   const [totalExpenses, setTotalExpenses] = useState(0);
   //Renda
   const [candidateIncome, setCandidateIncome] = useState(0)
-    useEffect(() => {
       const fetchExpenses = async () => {
         try {
           const token = localStorage.getItem('token');
@@ -52,14 +52,21 @@ export default function VerExtrato(props) {
         } 
       };
   
-      fetchExpenses();
-      fetchIncomeCandidate();
-    }, [props.familyMembers]);
-
+   
   function translateRelationship(relationshipValue) {
     const relationship = Relationship.find(r => r.value === relationshipValue);
     return relationship ? relationship.label : 'Não especificado';
   }
+  useEffect(() => {
+    async function fetchData() {
+      await fetchExpenses();
+      await fetchIncomeCandidate();
+    }
+  
+    fetchData();
+    // Remova props.application se não for necessário ou se estiver causando re-renderizações constantes
+  }, [props.application]); // Potencialmente remova props.application deste array
+  
   async function fetchIncomeCandidate() {
     const token = localStorage.getItem("token");
     try {
@@ -69,7 +76,7 @@ export default function VerExtrato(props) {
         },
       });
       console.log(response.data)
-      setCandidateIncome(`R$${response.data.totalIncomePerCapita.toFixed(2)}`)
+      setCandidateIncome(`R$${(response.data.totalIncomePerCapita*(props.familyMembers.length+1)).toFixed(2)}`)
     } catch (error) {
       console.error("Erro ao rankear candidatos", error);
     }
@@ -125,10 +132,31 @@ export default function VerExtrato(props) {
             <td>{totalExpenses}</td>
             <td>Não</td>
             <td>Casa própria</td>
-            <td>0</td>
+            <td>{props.Vehicles.length}</td>
           </tr>
         </tbody>
       </table>
+      <h1>Resumo dos dados do candidato</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Edital</th>
+        <th>Inscrição</th>
+        <th>Nome civil completo</th>
+        <th>RG</th>
+       
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>001/2024</td>
+        <td>12345</td>
+        <td>{props.identityInfo.fullName}</td>
+        <td>{props.identityInfo.RG}</td>
+      
+      </tr>
+    </tbody>
+  </table>
       <h1>Renda familiar bruta mensal compatível com:</h1>
       <div className="check-options">
         <ul>
@@ -137,9 +165,10 @@ export default function VerExtrato(props) {
             Bolsa de estudo integral a aluno cuja renda mensal não exceda a
             1,5 salários mínimos per capita.
           </li>
-          <li>
+          <li style={{fontSize: '12px'}}>
             <UilSquareFull size="25" color="#1b4f73"></UilSquareFull>
-            Bolsa de estudo parcial.
+            Bolsa de estudo parcial com 50% (cinquenta por cento) de gratuidade a aluno cuja renda familiar bruta mensal per capita não exceda o valor de 3 (três) salários mínimos.
+
           </li>
         </ul>
       </div>

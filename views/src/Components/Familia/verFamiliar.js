@@ -2,7 +2,7 @@ import React from 'react'
 import './verFamiliar.css'
 import { useState } from 'react';
 import { api } from '../../services/axios';
-
+import Select from 'react-select'
 
 const Relationship = [
     { value: 'Wife', label: 'Esposa' },
@@ -142,7 +142,7 @@ const IncomeSource = [
     { value: 'Alimony', label: 'Pensão Alimentícia' },
     { value: 'PrivatePension', label: 'Previdência Privada' },
 ];
-export default function VerFamiliar({familyMember}) {
+export default function VerFamiliar({ familyMember }) {
 
 
     function handleInputChange(event) {
@@ -168,13 +168,13 @@ export default function VerFamiliar({familyMember}) {
                     <input type="text" name="otherRelationship" value={familyMember.otherRelationship} disabled onChange={handleInputChange} id="otherRelationship" class="survey-control" required />
                 </div>}
                 <div class="survey-box">
-                    <label for="fullName" id="fullName-label">Nome Completo:</label>
+                    <label for="fullName" id="fullName-label">Nome Civil Completo:</label>
                     <br />
                     <input type="text" name="fullName" value={familyMember.fullName} disabled onChange={handleInputChange} id="fullName" class="survey-control" required />
                 </div>
 
                 <div class="survey-box">
-                    <label for="socialName" id="socialName-label">Nome Social:</label>
+                    <label for="socialName" id="socialName-label">Nome Social, quando aplicável:</label>
                     <br />
                     <input type="text" name="socialName" value={familyMember.socialName} disabled onChange={handleInputChange} id="socialName" class="survey-control" />
                 </div>
@@ -303,7 +303,7 @@ export default function VerFamiliar({familyMember}) {
 
                 {/*<!-- Cor da Pele -->*/}
                 <div class="survey-box">
-                    <label for="skinColor" id="skinColor-label">Cor da Pele:</label>
+                    <label for="skinColor" id="skinColor-label">Cor ou Raça:</label>
                     <br />
                     <select name="skinColor" disabled onChange={handleInputChange} value={familyMember.skinColor} id="skinColor" class="select-data">
                         {SkinColor.map((type) => <option value={type.value}>{type.label}</option>)}
@@ -363,7 +363,7 @@ export default function VerFamiliar({familyMember}) {
 
                 {/*<!-- Telefone de Trabalho -->*/}
                 <div class="survey-box">
-                    <label for="workPhone" id="workPhone-label">Telefone de Trabalho:</label>
+                    <label for="workPhone" id="workPhone-label">Telefone Alternativo/Recado:</label>
                     <br />
                     <input type="text" name="workPhone" disabled onChange={handleInputChange} value={familyMember.workPhone} id="workPhone" class="survey-control" />
                 </div>
@@ -454,9 +454,16 @@ export default function VerFamiliar({familyMember}) {
                 <div class="survey-box">
                     <label for="incomeSource" id="incomeSource-label">Fonte(s) de renda:</label>
                     <br />
-                    <select name="incomeSource" multiple disabled onChange={handleInputChange} value={familyMember.incomeSource} id="incomeSource" class="select-data">
-                        {IncomeSource.map((type) => <option value={type.value}>{type.label}</option>)}
-                    </select>
+                    <Select
+                        name="incomeSource"
+                        isMulti
+                        isDisabled // Remova esta linha se o campo não deve ser desabilitado
+                        onChange={handleInputChange}
+                        value={IncomeSource.filter(obj => familyMember.incomeSource.includes(obj.value))}
+                        options={IncomeSource}
+                        className="select-data"
+                        id="incomeSource"
+                    />
                 </div>
 
                 <div class="survey-box">

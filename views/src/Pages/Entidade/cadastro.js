@@ -87,7 +87,7 @@ export default function CadastroEntidade() {
   function handlePageChange() {
     if (firstForm.current.checkValidity()) {
       // Set the name in the currentRegisterEntity object
-      const nameValue = nameForm.current.value;
+      const nameValue = socialReasonForm.current.value;
       const mailValue = mailForm.current.value;
       const passwordValue = passwordForm.current.value;
       const cnpjValue = cnpjForm.current.value;
@@ -394,10 +394,10 @@ export default function CadastroEntidade() {
         <div className="upper entidade-upper">
           <select onChange={handleSelectChange}>
             <option value="">Selecionar ação</option>
-            <option value="cadastrar-edital">Cadastrar Edital</option>
-            <option value="cadastrar-assistente">Cadastrar Assistente</option>
-            <option value="cadastrar-diretor">Cadastrar Diretor</option>
             <option value="cadastrar-filial">Cadastrar Filial</option>
+            <option value="cadastrar-diretor">Cadastrar Responsável</option>
+            <option value="cadastrar-assistente">Cadastrar Assistente</option>
+            <option value="cadastrar-edital">Cadastrar Edital</option>
           </select>
         </div>
 
@@ -412,10 +412,21 @@ export default function CadastroEntidade() {
               }`}
             >
               <form id="contact" ref={thirdForm}>
-                <h3>Informações de cadastro</h3>
+                <h3>Informações cadastrais</h3>
                 <h4>Preencha as informações abaixo para realizar o cadastro</h4>
                 <fieldset>
-                  <label for="nome-edital">Instituição</label>
+                  <label for="nome-edital">Razão social</label>
+                  <input
+                    placeholder=""
+                    ref={socialReasonForm}
+                    type="text"
+                    tabindex="4"
+                    name="subsidiary-socialReason"
+                    required
+                  />
+                </fieldset>
+                {/*<fieldset>
+                  <label for="nome-edital" style={{display:'none'}}>Instituição</label>
                   <input
                     placeholder="Exemplo: Unicamp"
                     type="text"
@@ -425,15 +436,63 @@ export default function CadastroEntidade() {
                     name="subsidiary-name"
                     required
                     autofocus
+                    style={{display: 'none'}}
+                  />
+            </fieldset>*/}
+                <fieldset>
+                  <label for="nome-edital">CNPJ</label>
+                  <input
+                    placeholder="Exemplo: XX. XXX. XXX/0001-XX"
+                    ref={cnpjForm}
+                    type="text"
+                    name="subsidiary-CNPJ"
+                    tabindex="3"
+                    required
                   />
                 </fieldset>
                 <fieldset>
-                  <label for="email-institucional">Email institucional</label>
+                  <label for="email-institucional">CEP</label>
+                  <input
+                    placeholder="Exemplo: universidade@email.com"
+                    type="text"
+                    tabindex="2"
+                    ref={cepForm}
+                    id="email-institucional"
+                    name="subsidiary-CEP"
+                    required
+                  />
+                </fieldset>
+                <fieldset>
+                  <label for="email-institucional">Endereço</label>
+                  <input
+                    placeholder="Exemplo: universidade@email.com"
+                    type="text"
+                    tabindex="2"
+                    ref={adressForm}
+                    id="email-institucional"
+                    name="subsidiary-address"
+                    required
+                  />
+                </fieldset>
+                <fieldset>
+                  <label for="email-institucional">Código no Educacenso/e-MEC</label>
+                  <input
+                    placeholder="Exemplo: universidade@email.com"
+                    type="text"
+                    tabindex="2"
+                    ref={mailForm}
+                    id="email-institucional"
+                    name="subsidiary-code"
+                    required
+                  />
+                </fieldset>
+                <fieldset>
+                  <label for="email-institucional">E-mail institucional</label>
                   <input
                     placeholder="Exemplo: universidade@email.com"
                     type="email"
                     tabindex="2"
-                    ref={mailForm}
+                    ref={institucionalCodeForm}
                     id="email-institucional"
                     name="subsidiary-email"
                     required
@@ -451,66 +510,9 @@ export default function CadastroEntidade() {
                   <input type="checkbox" onClick={() => myFunction()} />
                   Mostrar senha
                 </fieldset>
-                <fieldset>
-                  <label for="email-institucional">Código Educacional</label>
-                  <input
-                    placeholder="Exemplo: universidade@email.com"
-                    type="text"
-                    tabindex="2"
-                    ref={mailForm}
-                    id="email-institucional"
-                    name="subsidiary-code"
-                    required
-                  />
-                </fieldset>
-                <fieldset>
-                  <label for="email-institucional">CEP</label>
-                  <input
-                    placeholder="Exemplo: universidade@email.com"
-                    type="text"
-                    tabindex="2"
-                    ref={mailForm}
-                    id="email-institucional"
-                    name="subsidiary-CEP"
-                    required
-                  />
-                </fieldset>
+               
 
-                <fieldset>
-                  <label for="email-institucional">Endereço</label>
-                  <input
-                    placeholder="Exemplo: universidade@email.com"
-                    type="text"
-                    tabindex="2"
-                    ref={mailForm}
-                    id="email-institucional"
-                    name="subsidiary-address"
-                    required
-                  />
-                </fieldset>
 
-                <fieldset>
-                  <label for="nome-edital">CNPJ</label>
-                  <input
-                    placeholder="Exemplo: XX. XXX. XXX/0001-XX"
-                    ref={cnpjForm}
-                    type="text"
-                    name="subsidiary-CNPJ"
-                    tabindex="3"
-                    required
-                  />
-                </fieldset>
-                <fieldset>
-                  <label for="nome-edital">Razão social</label>
-                  <input
-                    placeholder=""
-                    ref={socialReasonForm}
-                    type="text"
-                    tabindex="4"
-                    name="subsidiary-socialReason"
-                    required
-                  />
-                </fieldset>
                 {/*<fieldset className="file-div">
                   <label
                     for="edital-pdf"
@@ -548,7 +550,7 @@ export default function CadastroEntidade() {
               }`}
             >
               <form id="contact" ref={firstForm}>
-                <h3>Informações de cadastro</h3>
+                <h3>Informações cadastrais</h3>
                 <h4>Preencha as informações abaixo para realizar o cadastro</h4>
                 <fieldset>
                   <label for="nome-edital">Nome</label>
@@ -577,7 +579,7 @@ export default function CadastroEntidade() {
                 </fieldset>
 
                 <fieldset>
-                  <label for="nome-edital">Celular</label>
+                  <label for="nome-edital">Celular / Telefone Comercial</label>
                   <input
                     placeholder="Exemplo: (XX) XXXX-XXXX"
                     ref={socialReasonForm}
@@ -632,7 +634,7 @@ export default function CadastroEntidade() {
               }`}
             >
               <form id="contact" ref={secondForm}>
-                <h3>Informações de cadastro</h3>
+                <h3>Informações cadastrais</h3>
                 <h4>Preencha as informações abaixo para realizar o cadastro</h4>
                 <fieldset>
                   <label for="nome-edital">Nome</label>
@@ -661,7 +663,7 @@ export default function CadastroEntidade() {
                 </fieldset>
 
                 <fieldset>
-                  <label for="nome-edital">Celular</label>
+                  <label for="nome-edital">Celular / Telefone Comercial</label>
                   <input
                     placeholder="Exemplo: (XX) XXXX-XXXX"
                     ref={socialReasonForm}

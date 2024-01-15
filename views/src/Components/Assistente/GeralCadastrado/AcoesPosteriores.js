@@ -25,18 +25,7 @@ export default function VerAcoesPosteriores({ applications }) {
                   style={{marginTop: '0px'}}
                 ></input>
               </div>
-              <div class="form-group">
-                <label for="email" id="email-label" style={{ marginTop: '20px' }}>
-                  Código de Identificação do bolsista:
-                </label>
-                <input
-                  type="email"
-                  class="survey-control"
-                  id="email"
-                  placeholder=""
-                  required
-                ></input>
-              </div>
+              
             </div>
             <div className="form-row" style={{ display: 'flex', alignItems: 'center' }}>
               <div className="form-group col-md-4">
@@ -94,7 +83,19 @@ export default function VerAcoesPosteriores({ applications }) {
               providencie a entrega na entidade
             </h2>
 
-            <a className="btn-cadastro">Enviar</a>
+            <div class="form-group">
+                <label for="email" id="email-label" style={{ marginTop: '20px' }}>
+                  Código de Identificação do bolsista:
+                </label>
+                <input
+                  type="email"
+                  class="survey-control"
+                  id="email"
+                  placeholder=""
+                  required
+                ></input>
+              </div>
+            <a className="btn-cadastro">Salvar</a>
           </form>
         </div>
       </div>

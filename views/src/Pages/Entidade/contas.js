@@ -68,7 +68,6 @@ export default function ContasEntidade() {
       <div className="container-contas">
         <div className="upper-contas">
           <h1>Universidade</h1>
-          <a className="btn-solicitar">Solicitar Cadastro</a>
         </div>
 
         <h2>Status das solicitações de cadastro de novos colaboradores</h2>

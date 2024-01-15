@@ -148,12 +148,9 @@ export default function HomePage() {
               </div>
               <div className="team-block">
                 <h2>
-                  <h1 className="subtitle">Assistentes sociais</h1>A plataforma
-                  disponibiliza uma pré-avaliação dos candidatos, fornecendo um
-                  ranking de acordo com critérios pré-estabelecidos. O sistema
-                  utiliza IAs e APIs para a leitura de documentos e cruzamento
-                  de dados, além de possibilitar a solicitação de nova
-                  documentação e agendamento de entrevistas.
+                  <h1 className="subtitle">Assistentes sociais</h1>A plataforma disponibiliza uma pré-avaliação dos candidatos,
+                   fornecendo um ranking de acordo com critérios pré-estabelecidos.
+                   O sistema possibilita a solicitação de novos documentos e agendamento de entrevistas e visitas domiciliares.
                 </h2>
               </div>
             </>
@@ -163,10 +160,9 @@ export default function HomePage() {
             <>
               <div className="team-block">
                 <h2>
-                  <h1 className="subtitle">Assistentes sociais</h1>O sistema
-                  utiliza IAs e APIs para a leitura de documentos e cruzamento
-                  de dados, além de possibilitar a solicitação de nova
-                  documentação e agendamento de entrevistas e visitas domiciliares..
+                  <h1 className="subtitle">Assistentes sociais</h1>A plataforma disponibiliza uma pré-avaliação dos candidatos,
+                   fornecendo um ranking de acordo com critérios pré-estabelecidos.
+                   O sistema possibilita a solicitação de novos documentos e agendamento de entrevistas e visitas domiciliares.
                 </h2>
               </div>
               <div className="team-block">
@@ -222,7 +218,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="initial-presentation">
+        {/*<div className="initial-presentation">
           <h1 className="body-title">
             Conheça um pouco mais sobre<br></br>a nossa plataforma
           </h1>
@@ -237,7 +233,7 @@ export default function HomePage() {
               controls
             />
           </div>
-        </div>
+          </div>*/}
 
         <div className="footer-container">
           <div className="footer-box">

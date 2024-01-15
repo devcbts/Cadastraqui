@@ -75,12 +75,12 @@ export default function MembrosFamilia() {
             {mostrarCadastro && <CadastroFamiliar onCadastroCompleto={adicionarMembro} /> }
 
 
-            {membros? <DropdownMembros membros={membros} onSelect={selecionarMembro}/> : ''}
+            {membros && !mostrarCadastro? <DropdownMembros membros={membros} onSelect={selecionarMembro}/> : ''}
 
 
             {!mostrarCadastro && membroSelecionado ? <VerFamiliar familyMember={membroSelecionado} /> : <div>
                 
-                {len > 0 &&<LoadingCadastroCandidato/>}
+                {len == 0 &&<LoadingCadastroCandidato/>}
                 </div>
                 }
             

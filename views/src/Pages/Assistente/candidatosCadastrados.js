@@ -80,6 +80,18 @@ export default function CandidatosCadastrados() {
     }
   }
 
+
+  const [selectedEducationLevel, setSelectedEducationLevel] = useState(null);
+
+  const handleEducationLevelChange = (e) => {
+    const selectedLevel = e.target.value;
+    setSelectedEducationLevel(selectedLevel);
+  };
+
+  // Filtrar cursos com base no nível de educação selecionado
+  const filteredCourses = selectedEducationLevel
+    ? educationLevels.find(level => level.id === selectedEducationLevel)?.availableCourses
+    : [];
   return (
     <div className="container">
       <div className="section-nav">
@@ -111,88 +123,59 @@ export default function CandidatosCadastrados() {
             <ul>
               <li>
                 <div>
-                  <select>
-                    <option>USP Bauru</option>
-                    <option>USP Pinheiros</option>
+                  <select onChange={handleEducationLevelChange}>
+                    <option value={null}>Selecione um curso</option>
+                    {educationLevels.map((level) => (
+                      <option key={level.id} value={level.id}>{level.availableCourses}</option>
+                    ))}
                   </select>
                 </div>
               </li>
 
-              <li>
-                <div>
-                  <select>
-                    <option value="" disabled>
-                      Curso
-                    </option>
-                    <option>Engenharia</option>
-                    <option>Medicina</option>
-                  </select>
-                </div>
-              </li>
 
-              <li>
-                <div>
-                  <select>
-                    <option value="" disabled>
-                      Turno
-                    </option>
-                    <option>Matutino</option>
-                    <option>Vespertino</option>
-                    <option>Noturno</option>
-                  </select>
-                </div>
-              </li>
-
-              <li>
-                <div>
-                  <select>
-                    <option value="" disabled>
-                      Assistente
-                    </option>
-                    <option>Todos</option>
-                    <option></option>
-                  </select>
-                </div>
-              </li>
+              {/* ... (outros filtros) */}
             </ul>
           </div>
         )}
+        {/* ... (restante da renderização) */}
 
         <div className="solicitacoes">
-          
-          <div className="education-levels-container">
-            {educationLevels.map((level) => (
-              <div key={level.id} className="education-level">
-                <h2>{level.availableCourses}</h2>
-                {/* Renderize os candidatos para este nível de educação */}
-                {rankedList[level.id]?.map((application) => (
-                  <div>
-                    {console.log(application)}
-                    <Candidatura
-                      key={application.candidateApplication.id}
-                      name={application.candidateApplication.candidateName}
-                      assistente={application.candidateApplication.SocialAssistantName}
-                      id={application.candidateApplication.id}
-                      announcement_id={announcement_id}
-                      valor={application.totalIncomePerCapita}
-                      announcementName = {announcement.announcementName}
-                    />
 
-                  </div>
-                ))}
-                <Candidatura
-                  name="João Paulo"
-                  assistente='Fernado Souza'
-                  announcement_id={announcement_id}
-                  valor = {3500}
-                /><Candidatura
-                  name="João Paulo"
-                  assistente='Fernado Souza'
-                  announcement_id={announcement_id}
-                  valor = {5000}
-                />
-              </div>
-            ))}
+          <div className="education-levels-container">
+            {educationLevels
+              .filter(level => selectedEducationLevel === null || level.id === selectedEducationLevel)
+              .map((level) => (
+                <div key={level.id} className="education-level">
+                  <h2>{level.availableCourses}</h2>
+                  {/* Renderize os candidatos para este nível de educação */}
+                  {rankedList[level.id]?.map((application) => (
+                    <div key={application.candidateApplication.id}>
+                      <Candidatura
+                        name={application.candidateApplication.candidateName}
+                        assistente={application.candidateApplication.SocialAssistantName}
+                        id={application.candidateApplication.id}
+                        announcement_id={announcement_id}
+                        valor={application.totalIncomePerCapita}
+                        announcementName={announcement.announcementName}
+                      />
+                    
+                    </div>
+                    
+                  ))}
+                    <Candidatura
+                        name="João Paulo"
+                        assistente='Fernado Souza'
+                        announcement_id={announcement_id}
+                        valor={3500}
+                      /><Candidatura
+                        name="João Paulo"
+                        assistente='Fernado Souza'
+                        announcement_id={announcement_id}
+                        valor={5000}
+                      />
+                </div>
+              ))
+            }
           </div>
         </div>
       </div>

@@ -100,22 +100,45 @@ export default function CadastroEdital() {
     };
 
 
-    const [educationalLevels, setEducationalLevels] = useState(
-        selectedCursos.map(curso => ({
-            availableCourses: curso,
+    const [currentCourse, setCurrentCourse] = useState({
+        availableCourses: '',
+        offeredVacancies: 5000,
+        verifiedScholarships: 0,
+        semester: 1,
+        grade: '',
+        basicEduType: '',
+        scholarshipType: '',
+        higherEduScholarshipType: '',
+        offeredCourseType: '',
+        shift: 'Matutino'
+    });
+
+    const [educationalLevels, setEducationalLevels] = useState([]);
+    const handleEducationalChange = (field, value) => {
+        setCurrentCourse({ ...currentCourse, [field]: value });
+        console.log(currentCourse)
+    };
+
+
+    const completeCourseRegistration = () => {
+        setEducationalLevels([...educationalLevels, currentCourse]);
+        setCurrentCourse({
+            availableCourses: '',
             offeredVacancies: 5000,
             verifiedScholarships: 0,
             semester: 1,
             grade: '',
-            basicEduType: null,
-            scholarshipType: null,
-            higherEduScholarshipType: null,
-            offeredCourseType: null,
+            basicEduType: '',
+            scholarshipType: '',
+            higherEduScholarshipType: '',
+            offeredCourseType: '',
             shift: 'Matutino'
-        }))
-    );
-    const [coursetype, setCourseType] = useState('UndergraduateBachelor')
+        })
+        setIsAddingCourse(false)
+    };
 
+
+    const [coursetype, setCourseType] = useState('UndergraduateBachelor')
     useEffect(() => {
         const totalScholarships = educationalLevels.reduce((total, currentLevel) => {
             return total + currentLevel.verifiedScholarships;
@@ -123,22 +146,14 @@ export default function CadastroEdital() {
 
         setVerifiedScholarships(totalScholarships);
     }, [educationalLevels]);
-    const handleEducationalChange = (cursoIndex, field, value) => {
-        setEducationalLevels(prevLevels => prevLevels.map((level, index) => {
-            if (index === cursoIndex) {
-                return { ...level, [field]: value };
-            }
-            return level;
-        }));
-        console.log('====================================');
-        console.log(educationalLevels);
-        console.log('====================================');
-    };
+
     const handleSelectChange = (event) => {
-        // Convertendo o NodeList para um array usando o operador spread
-        const values = [...event.target.selectedOptions].map(opt => opt.value);
-        setSelectedCursos([...values]);
+        // Atualiza o estado currentCourse com o valor do curso selecionado.
+        const selectedCourse = event.target.value;
+        setCurrentCourse({ ...currentCourse, availableCourses: selectedCourse });
     };
+
+
 
 
     function handleChange(event) {
@@ -168,21 +183,7 @@ export default function CadastroEdital() {
 
     }, [file])
 
-    useEffect(() => {
-        setEducationalLevels(selectedCursos.map(curso => ({
-            availableCourses: curso,
-            offeredVacancies: 5000,
-            verifiedScholarships: 0,
-            semester: 1,
-            grade: '',
-            basicEduType: '',
-            scholarshipType: '',
-            higherEduScholarshipType: '',
-            offeredCourseType: '',
-            shift: ''
-        })));
 
-    }, [selectedCursos]);
 
     // Set announcement type according to the option selected
     const handleAnnouncementTypeChange = (e) => {
@@ -305,6 +306,42 @@ export default function CadastroEdital() {
         }
     }
 
+
+    const [isAddingCourse, setIsAddingCourse] = useState(false);
+    //Tabela dos educational Level
+    const EducationalLevelsTable = ({ educationalLevels }) => {
+        return (
+            <table>
+                <thead>
+                    <tr>
+                        <th>Matriz ou Filial</th>
+                        <th>Quantidade de Vagas</th>
+                        <th>Curso</th>
+                        <th>Ciclo/Ano/Série/Semestre</th>
+                        <th>Turno</th>
+                        <th>Percentual de Gratuidade</th>
+                        {/* Adicione mais cabeçalhos de colunas conforme necessário */}
+                    </tr>
+                </thead>
+                <tbody>
+                    {educationalLevels.map((level, index) => (
+                        <tr key={index}>
+                            <td>Entidade A</td>
+                            <td>{level.verifiedScholarships}</td>
+                            <td>{level.availableCourses}</td>
+                            <td>{level.semester}</td>
+                            <td>{level.shift}</td>
+                            <td>{level.higherEduScholarshipType}</td>
+                            {/* Adicione mais células de dados conforme necessário */}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        );
+    };
+
+
+
     return (
         <div> <div className="container-cadastros">
             <div className="novo-cadastro">
@@ -351,7 +388,7 @@ export default function CadastroEdital() {
                             placeholder="Exemplo: 2023.1"
                             type="text"
                             tabindex="1"
-                            id="nome-edital"
+                            id='input-edital'
                             required
                             autofocus
                             value={announcementName}
@@ -366,8 +403,8 @@ export default function CadastroEdital() {
                             placeholder="Exemplo: 10/11/2023"
                             type="date"
                             tabindex="2"
-                            id="email-institucional"
                             required
+                            id='input-edital'
                             value={announcementDate}
                             onChange={(e) => setAnnouncementDate(e.target.value)}
                         />
@@ -425,9 +462,11 @@ export default function CadastroEdital() {
 
                     }
 
-
+                    {!isAddingCourse && (
+                        <button onClick={() => setIsAddingCourse(true)}>Cadastrar Vaga</button>
+                    )}
                     {/* Dropdown para higherEduScholarshipType */}
-                    {educationLevel === 'HigherEducation' &&
+                    {isAddingCourse && educationLevel === 'HigherEducation' &&
                         <div className='box-edital'>
 
                             {/* Dropdown para offeredCourseType */}
@@ -450,7 +489,7 @@ export default function CadastroEdital() {
                                 <label>
                                     Cursos Disponíveis:
                                 </label>
-                                <select id="curso-dropdown" multiple value={selectedCursos} onChange={handleSelectChange}>
+                                <select id="curso-dropdown" value={currentCourse.availableCourses} onChange={handleSelectChange}>
                                     {coursetype === 'UndergraduateBachelor' &&
                                         <optgroup label="Cursos Gerais">
                                             {dadosCursos.bacharelado.map((curso, index) => (
@@ -481,72 +520,74 @@ export default function CadastroEdital() {
                                     }
                                 </select>
                             </fieldset>
-                            {selectedCursos ? selectedCursos.map((curso, index) => {
-                                return (<div className='box-edital' key={index}>
-                                    <h2>{curso}</h2>
-                                    <fieldset>
+                            <div className='box-edital' >
+                                <h2>{currentCourse.availableCourses}</h2>
+                                <fieldset>
 
-                                        <label>
-                                            Tipo de Bolsa de Ensino Superior:
-                                        </label>
-                                        <select className='select-educational'
-                                            value={educationalLevels[index]?.higherEduScholarshipType}
-                                            onChange={(e) => handleEducationalChange(index, 'higherEduScholarshipType', e.target.value)}
-                                        >
-                                            {/* Substitua HigherEducationScholarshipType pelo seu array de objetos correspondente */}
-                                            {HigherEducationScholarshipType.map(type => <option value={type.value}>{type.label}</option>)}
-                                        </select>
-                                    </fieldset>
-                                    {/* Input para offeredVacancies */}
+                                    <label>
+                                        Tipo de Bolsa de Ensino Superior:
+                                    </label>
+                                    <select className='select-educational'
+                                        value={currentCourse.higherEduScholarshipType}
+                                        onChange={(e) => handleEducationalChange( 'higherEduScholarshipType', e.target.value)}
+                                    >
+                                        {/* Substitua HigherEducationScholarshipType pelo seu array de objetos correspondente */}
+                                        {HigherEducationScholarshipType.map(type => <option value={type.value}>{type.label}</option>)}
+                                    </select>
+                                </fieldset>
+                                {/* Input para offeredVacancies */}
 
-                                    {/* Input para verifiedScholarships */}
-                                    <fieldset style={{ textAlign: 'left' }}>
+                                {/* Input para verifiedScholarships */}
+                                <fieldset style={{ textAlign: 'left' }}>
 
-                                        <label>
-                                            Número total de bolsas:
-                                        </label>
-                                        <input style={{ width: '30%' }}
-                                            type="number"
-                                            value={educationalLevels[index]?.verifiedScholarships}
-                                            onChange={(e) => handleEducationalChange(index, 'verifiedScholarships', Number(e.target.value))}
-                                        />
-                                    </fieldset>
+                                    <label>
+                                        Número total de bolsas:
+                                    </label>
+                                    <input style={{ width: '30%' }}
+                                        type="number"
+                                        value={currentCourse.verifiedScholarships}
+                                        onChange={(e) => handleEducationalChange( 'verifiedScholarships', Number(e.target.value))}
+                                    />
+                                </fieldset>
 
-                                    {/* Dropdown para shift */}
-                                    <fieldset>
+                                {/* Dropdown para shift */}
+                                <fieldset>
 
-                                        <label>
-                                            Turno:
-                                        </label>
-                                        <select
-                                            value={educationalLevels[index]?.shift}
-                                            onChange={(e) => handleEducationalChange(index, 'shift', e.target.value)}
-                                        >
-                                            {/* Substitua SHIFT pelo seu array de objetos correspondente */}
-                                            {SHIFT.map(type => <option value={type.value}>{type.label}</option>)}
-                                        </select>
-                                    </fieldset>
+                                    <label>
+                                        Turno:
+                                    </label>
+                                    <select
+                                        value={currentCourse.shift}
+                                        onChange={(e) => handleEducationalChange( 'shift', e.target.value)}
+                                    >
+                                        {/* Substitua SHIFT pelo seu array de objetos correspondente */}
+                                        {SHIFT.map(type => <option value={type.value}>{type.label}</option>)}
+                                    </select>
+                                </fieldset>
 
-                                    {/* Input para semester */}
-                                    <fieldset style={{ textAlign: 'left' }}>
+                                {/* Input para semester */}
+                                <fieldset style={{ textAlign: 'left' }}>
 
-                                        <label>
-                                            Semestre:
-                                        </label>
-                                        <input style={{ width: '30%' }}
-                                            type="number"
-                                            value={educationalLevels[index]?.semester}
-                                            onChange={(e) => handleEducationalChange(index, 'semester', Number(e.target.value))}
-                                        />
-                                    </fieldset>
+                                    <label>
+                                        Semestre:
+                                    </label>
+                                    <input style={{ width: '30%' }}
+                                        type="number"
+                                        value={currentCourse.semester}
+                                        onChange={(e) => handleEducationalChange('semester', Number(e.target.value))}
+                                    />
+                                </fieldset>
 
-                                    {/* Input para grade */}
+                                {/* Input para grade */}
 
-                                </div>
-                                )
-                            }) : ''}
+                            </div>
+                            <button onClick={completeCourseRegistration}>Concluir Cadastro</button>
                         </div>
                     }
+
+
+                    <h1>Quadro Resumo</h1>
+                    <EducationalLevelsTable educationalLevels={educationalLevels} />
                     <div className='box-edital'>
 
                         <h2>Das ações de apoio ao aluno</h2>
@@ -622,13 +663,52 @@ export default function CadastroEdital() {
 
 
 
+                    <div className='box-edital'  >
+
+                        <h2>Critérios de seleção e desempate</h2>
+
+                        <div className="checkbox-wrapper">
+                            <fieldset className='checkbox-filtro'>
+                                <input type="checkbox" id="cadastro-unico" />
+                                <span for="cadastro-unico" className="checkbox-label">Cadastro Único</span>
+                            </fieldset>
+
+                            <fieldset className='checkbox-filtro'>
+                                <input type="checkbox" id="renda-familiar" />
+                                <span for="renda-familiar" className="checkbox-label">Menor renda familiar bruta mensal</span>
+                            </fieldset>
+
+                            <fieldset className='checkbox-filtro'>
+                                <input type="checkbox" id="doenca-grave" />
+                                <span for="doenca-grave" className="checkbox-label">Doença grave</span>
+                            </fieldset>
+
+                            <fieldset className='checkbox-filtro'>
+                                <input type="checkbox" id="proximidade-residencia" />
+                                <span for="proximidade-residencia" className="checkbox-label">Proximidade da residência</span>
+                            </fieldset>
+
+                            <fieldset className='checkbox-filtro'>
+                                <input type="checkbox" id="nota-enem" />
+                                <span for="nota-enem" className="checkbox-label">Nota do ENEM</span>
+                            </fieldset>
+
+                            <fieldset className='checkbox-filtro'>
+                                <input type="checkbox" id="sorteio" />
+                                <span for="sorteio" className="checkbox-label">Sorteio</span>
+                            </fieldset>
+                        </div>
+
+                    </div>
+
+
                     <fieldset className="file-div">
                         <label
                             for="edital-pdf"
                             className="file-label"
                             id="label-file"
                         >
-                            Fazer upload do PDF do Edital
+                            Fazer upload do PDF do Edital, Termo Aditivo ou Comunicados
                         </label>
                         <div className="upload">
                             <input

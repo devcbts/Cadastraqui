@@ -1486,7 +1486,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* Profissional Liberal */}
-                {(member.incomeSource.includes('LiberalProfessional') 
+                {(member.incomeSource.includes('LiberalProfessional') || member.incomeSource.includes('SelfEmployed') 
                  ) && 
                 (
                     <>

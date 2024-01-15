@@ -24,7 +24,7 @@ export default function EditalAssistente(props) {
   return (
     <>
       <div className="edital-card">
-        <h3>Prazo: {`${props.announcement ? announcementDate : ""}`}</h3>
+        <h3 style={{fontSize: "18px"}}>Prazo: {`${props.announcement ? announcementDate : ""}`}</h3>
         <img className="logo-card" src={props.logo}></img>
         <h2>{props.announcement.announcementName}</h2>
         <Link to={`/assistente/cadastrados/${props.announcement.id}`}>

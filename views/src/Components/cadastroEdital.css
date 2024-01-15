@@ -14,3 +14,25 @@
     margin-top: 20px;
     margin-bottom: 15px;
 }
+
+.checkbox-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px; /* ou a largura que preferir */
+    margin: auto;
+}
+
+.checkbox-filtro {
+    display: flex;
+    align-items: center;
+    margin-top: 5px; /* Espaçamento entre os checkboxes */
+}
+
+.checkbox-label {
+    margin-left: 8px; /* Espaçamento entre a caixa de seleção e o texto */
+}
+
+#input-edital{
+    font-size: 20px;
+    size: 20px;
+}
