@@ -31,7 +31,7 @@ export async function registerHealthInfo(
   ])
 
   const healthDataSchema = z.object({
-    disease: DiseaseType,
+    diseases: z.array(DiseaseType),
     specificDisease: z.string().optional(),
     hasMedicalReport: z.boolean(),
   })
@@ -43,7 +43,7 @@ export async function registerHealthInfo(
   // _id === familyMemberId
   const { _id } = healthParamsSchema.parse(request.params)
 
-  const { disease, hasMedicalReport, specificDisease } = healthDataSchema.parse(
+  const { diseases, hasMedicalReport, specificDisease } = healthDataSchema.parse(
     request.body,
   )
 
@@ -68,9 +68,9 @@ export async function registerHealthInfo(
     await prisma.familyMemberDisease.create({
       data: {
         hasMedicalReport,
-        familyMember_id: _id,
-        disease,
-        specificDisease,
+        familyMember_id: familyMember.id,
+        diseases,
+        specificDisease : specificDisease? specificDisease : undefined,
       },
     })
 

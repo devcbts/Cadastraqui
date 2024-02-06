@@ -3,18 +3,38 @@ import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FamilyMember } from '@prisma/client'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
+
+
+
+
 
 export async function getHealthInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+  // O _id do familiar é opcional
+  const queryParamsSchema = z.object({
+    _id: z.string().optional(),
+  });
+
+  const { _id } = queryParamsSchema.parse(request.params);
+
   try {
     const user_id = request.user.sub
+    let candidate;
 
-    // Verifica se existe um candidato associado ao user_id
-    const candidate = await prisma.candidate.findUnique({
-      where: { user_id },
-    })
+    if (_id) {
+      candidate = await prisma.candidate.findUnique({
+        where: { user_id: _id },
+      })
+    } else {
+
+      // Verifica se existe um candidato associado ao user_id
+      candidate = await prisma.candidate.findUnique({
+        where: { user_id },
+      })
+    }
     if (!candidate) {
       throw new ResourceNotFoundError()
     }
@@ -28,9 +48,17 @@ export async function getHealthInfo(
       const healthInfoResults = []
       for (const familyMember of familyMembers) {
         try {
-          const healthInfo = await prisma.familyMemberDisease.findMany({
+          const familyMemberIncomeInfo = await prisma.familyMemberDisease.findMany({
             where: { familyMember_id: familyMember.id },
           })
+          const familyMemberMedicationInfo = await prisma.medication.findFirst({
+            where: { familyMember_id: familyMember.id },
+          })
+      
+          const healthInfo = {
+            ...familyMemberIncomeInfo,
+            ...familyMemberMedicationInfo,
+          }
 
           healthInfoResults.push({ name: familyMember.fullName, healthInfo })
         } catch (error) {

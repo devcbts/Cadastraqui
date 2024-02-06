@@ -8,11 +8,11 @@ export async function registerMedicationInfo(
   reply: FastifyReply,
 ) {
   const medicationParamsSchema = z.object({
-    familyMember_id: z.string(),
+    _id: z.string(),
   })
 
   // _id === familyMemberId
-  const { familyMember_id } = medicationParamsSchema.parse(request.params)
+  const { _id } = medicationParamsSchema.parse(request.params)
 
   const medicationDataSchema = z.object({
     medicationName: z.string(),
@@ -35,7 +35,7 @@ export async function registerMedicationInfo(
     // Verifica se existe um familiar cadastrado com o familyMember_id
 
     const familyMember = await prisma.familyMember.findFirst({
-      where: { candidate_id: candidate.id, id: familyMember_id },
+      where: { candidate_id: candidate.id, id: _id },
     })
     if (!familyMember) {
       throw new ResourceNotFoundError()
@@ -46,7 +46,7 @@ export async function registerMedicationInfo(
       data: {
         medicationName,
         obtainedPublicly,
-        familyMember_id,
+        familyMember_id: _id,
         specificMedicationPublicly,
       },
     })
