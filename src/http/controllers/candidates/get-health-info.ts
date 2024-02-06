@@ -26,7 +26,7 @@ export async function getHealthInfo(
 
     if (_id) {
       candidate = await prisma.candidate.findUnique({
-        where: { user_id: _id },
+        where: { id: _id },
       })
     } else {
 
