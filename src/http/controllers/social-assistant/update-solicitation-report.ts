@@ -18,7 +18,7 @@ export async function updateSolicitationWithReport(
     reply: FastifyReply,
 ) {
     const solictationParamsSchema = z.object({
-        applicationHistory_id: z.string(),
+        solicitation_id: z.string(),
        
 
     })
@@ -27,7 +27,7 @@ export async function updateSolicitationWithReport(
         report: z.string()
     })
    
-    const { applicationHistory_id } = solictationParamsSchema.parse(request.params)
+    const { solicitation_id } = solictationParamsSchema.parse(request.params)
     const { report } = solicitationBodySchema.parse(request.body)
 
     try {
@@ -44,7 +44,7 @@ export async function updateSolicitationWithReport(
 
         // Caso 1: gaveUp true
         await prisma.applicationHistory.update({
-            where: {id: applicationHistory_id},
+            where: {id: solicitation_id},
             data:{
                 report: report
             }
