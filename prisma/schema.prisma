@@ -547,6 +547,7 @@ model ApplicationHistory {
   application_id String
   description    String
   solicitation   SolicitationType?
+  report         String?
   answered       Boolean?          @default(false)
   deadLine       DateTime?
   date           DateTime          @default(now())
