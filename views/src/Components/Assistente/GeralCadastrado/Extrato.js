@@ -83,7 +83,7 @@ export default function VerExtrato(props) {
   }
   return (
 
-    <div className="fill-container general-info">
+    <div className="fill-container general-info" style={{maxHeight: 'fit-content'}}>
       <h1>Integrantes do grupo familiar</h1>
       <table>
         <thead>

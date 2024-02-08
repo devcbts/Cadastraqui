@@ -6,7 +6,28 @@
     background-size: contain;
     border-radius: 50%;
 }
+.lgpd-popup-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 85%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
+.lgpd-popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    max-height: 80%; /* Limita a altura máxima do popup */
+    overflow-y: auto; /* Habilita a barra de rolagem vertical se o conteúdo exceder a altura máxima */
+    width: 80%; /* Você pode ajustar a largura conforme necessário */
+    text-align: justify;
+  }
 .profile-photo {
     display: flex;
     flex-direction: column;
@@ -228,13 +249,13 @@ input[type="file"] {
     animation: skeleton-loading 1s linear infinite alternate;
 }
 
-.skeleton-title-text{
+.skeleton-title-text {
     height: 30px;
     width: 50%;
     margin-bottom: 15px;
 }
 
-.skeleton-big-image{
+.skeleton-big-image {
     height: 80px;
     width: 50%;
     margin-bottom: 15px;

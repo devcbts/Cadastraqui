@@ -3,6 +3,10 @@ import { useState, useEffect } from 'react'
 import VerExtrato from './Extrato';
 import './Parecer.css'
 import { api } from '../../../services/axios';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
+
 const Relationship = [
   { value: 'Wife', label: 'Esposa' },
   { value: 'Husband', label: 'Marido' },
@@ -73,10 +77,31 @@ const MARITAL_STATUS = [
   { value: 'Widowed', label: 'Viúvo(a)' },
   { value: 'StableUnion', label: 'União Estável' },
 ];
-export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehicles, candidate, announcement, application_id }) {
 
+const Disease = [
+  { value: 'ALIENATION_MENTAL', label: 'Alienação Mental' },
+  { value: 'CARDIOPATHY_SEVERE', label: 'Cardiopatia Grave' },
+  { value: 'BLINDNESS', label: 'Cegueira' },
+  { value: 'RADIATION_CONTAMINATION', label: 'Contaminação por Radiação' },
+  { value: 'PARKINSONS_DISEASE', label: 'Doença de Parkinson' },
+  { value: 'ANKYLOSING_SPONDYLITIS', label: 'Espondilite Anquilosante' },
+  { value: 'PAGETS_DISEASE', label: 'Doença de Paget' },
+  { value: 'HANSENS_DISEASE', label: 'Hanseníase (Lepra)' },
+  { value: 'SEVERE_HEPATOPATHY', label: 'Hepatopatia Grave' },
+  { value: 'SEVERE_NEPHROPATHY', label: 'Nefropatia Grave' },
+  { value: 'PARALYSIS', label: 'Paralisia' },
+  { value: 'ACTIVE_TUBERCULOSIS', label: 'Tuberculose Ativa' },
+  { value: 'HIV_AIDS', label: 'HIV/AIDS' },
+  { value: 'MALIGNANT_NEOPLASM', label: 'Neoplasma Maligno (Câncer)' },
+  { value: 'TERMINAL_STAGE', label: 'Estágio Terminal' },
+  { value: 'MICROCEPHALY', label: 'Microcefalia' },
+  { value: 'AUTISM_SPECTRUM_DISORDER', label: 'Transtorno do Espectro Autista' },
+  { value: 'RARE_DISEASE', label: 'Doença Rara' },
+  { value: 'OTHER_HIGH_COST_DISEASE', label: 'Outra Doença de Alto Custo' }
+]
+export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehicles, candidate, announcement, application_id, healthInfo }) {
 
-
+  console.log(healthInfo[0].healthInfo[0].diseases)
   function updateApplicationStatus(newStatus) {
     api.patch(`/assistant/${announcement.id}/${application_id}`, {
       status: newStatus
@@ -140,8 +165,15 @@ export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehic
     const type = MARITAL_STATUS.find(t => t.value === status);
     return type ? type.label : 'Não especificado';
   }
+
+  const getDiseaseValuesByLabels = (diseaseLabels) => {
+    return diseaseLabels.map(value => {
+      const diseaseItem = Disease.find(item => item.value === value);
+      return diseaseItem ? diseaseItem.label : '';
+    }).filter(label => label !== ''); // Filtra quaisquer valores não encontrados (strings vazias)
+  };
   return (
-    <div className="fill-container general-info">
+    <div id='parecer-print' className="fill-container general-info" style={{maxHeight: 'fit-content'}}>
       <h1 id="parecer-text">
         Em, {"02-11-2023"} o(a) candidato
         {"("}a{")"} {identityInfo.fullName}, portador{"("}a{")"} da cédula de
@@ -198,13 +230,13 @@ export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehic
             )
           })}
         </tbody>
-       
 
-     
+
+
 
       </table>
 
-      <VerExtrato familyMembers={FamilyMembers} candidate_id={candidate.id} identityInfo={identityInfo} Vehicles={Vehicles} />
+      <VerExtrato familyMembers={FamilyMembers} candidate_id={candidate.id} identityInfo={identityInfo} Vehicles={Vehicles}/>
       <h1>Informações de Saúde do Grupo Familiar</h1>
       <table id="health-info-family">
         <thead>
@@ -216,11 +248,16 @@ export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehic
         </thead>
         <tbody>
           {/* Adicione linhas estáticas ou dinâmicas conforme necessário */}
-          <tr>
-            <td>Nome do Integrante</td>
-            <td>Nome da Doença</td>
-            <td>Sim/Não</td>
-          </tr>
+          {healthInfo?.map((member) => {
+            console.log(member.healthInfo[0]?.diseases)
+            return (
+              <tr>
+                <td>{member.name}</td>
+                <td>{member.healthInfo[0]?.diseases ? getDiseaseValuesByLabels(member.healthInfo[0]?.diseases).join(', ') : 'Não há'}</td>
+                <td>{member.healthInfo[0]?.hasMedicalReport ? 'Sim' : 'Não'}</td>
+              </tr>
+            )
+          })}
           {/* ... mais linhas conforme necessário */}
         </tbody>
       </table>
@@ -237,12 +274,19 @@ export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehic
         </thead>
         <tbody>
           {/* Adicione linhas estáticas ou dinâmicas conforme necessário */}
-          <tr>
-            <td>Nome do Integrante</td>
-            <td>Nome do Medicamento</td>
-            <td>Sim/Não</td>
-            <td>Relação dos Medicamentos</td>
-          </tr>
+          {healthInfo?.map((member) => {
+            if (member.healthInfo.medicationName) {
+
+              return (
+                <tr>
+                  <td>{member.name}</td>
+                  <td>{member.healthInfo?.medicationName ? member.healthInfo?.medicationName : 'Não há'}</td>
+                  <td>{member.healthInfo?.obtainedPublicly ? 'Sim' : 'Não'}</td>
+                  <td>{member.healthInfo?.specificMedicationPublicly ? member.healthInfo?.specificMedicationPublicly : 'Não há'}</td>
+                </tr>
+              )
+            }
+          })}
           {/* ... mais linhas conforme necessário */}
         </tbody>
       </table>
@@ -251,7 +295,24 @@ export default function VerParecer({ identityInfo, FamilyMembers, Housing, Vehic
         <button className="button-deferido" onClick={() => updateApplicationStatus('Approved')}>Deferimento</button>
         <button className="button-indeferido" onClick={() => updateApplicationStatus('Rejected')}>Indeferimento</button>
       </div>
+
+      <button onClick={printDocument}>Gerar PDF</button>
     </div>
   )
 }
 
+const printDocument = () => {
+  const input = document.getElementById('parecer-print'); // O ID do elemento que você deseja converter em PDF
+  html2canvas(input)
+    .then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: "portrait",
+      });
+      const imgProps= pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save("download.pdf");
+    });
+}

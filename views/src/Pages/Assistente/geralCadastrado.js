@@ -28,6 +28,7 @@ export default function GeralCadastrado() {
   const [applications, setApplications] = useState()
   const [announcement, setAnnouncement] = useState(null)
   const [application, setApplication] = useState(null)
+  const [healthInfo, setHealthInfo] = useState()
   useEffect(() => {
     async function fetchAnnouncements() {
       const token = localStorage.getItem("token");
@@ -150,6 +151,23 @@ export default function GeralCadastrado() {
         alert(err);
       }
     }
+   
+      async function PegarSaude() {
+          try {
+              const token = localStorage.getItem("token")
+              const response = await api.get(`/candidates/health-info/${candidateId}`, {
+                  headers: {
+                      'authorization': `Bearer ${token}`,
+                  }
+              })
+              console.log(response.data)
+              setHealthInfo(response.data.healthInfoResults)
+          } catch (err) {
+              console.log(err)
+          }
+      }
+  
+
 
     async function pegarInscricoes() {
       const token = localStorage.getItem('token');
@@ -177,6 +195,7 @@ export default function GeralCadastrado() {
       pegarMoradia()
       pegarFamiliares()
       pegarIdentidade()
+      PegarSaude()
     }
   }, [candidateId])
 
@@ -224,13 +243,13 @@ export default function GeralCadastrado() {
 
   function Parecer() {
     return (
-      <VerParecer FamilyMembers={familyMembers} Housing={housing} Vehicles={vehicles} candidate={candidateInfo} identityInfo={identityInfo} announcement={announcement} application_id={application_id} />
+      <VerParecer FamilyMembers={familyMembers} Housing={housing} Vehicles={vehicles} candidate={candidateInfo} identityInfo={identityInfo} announcement={announcement} application_id={application_id} healthInfo={healthInfo}/>
     );
   }
 
   function Acoes() {
     return (
-      <VerAcoesPosteriores />
+      <VerAcoesPosteriores announcement={announcement}/>
     );
   }
 

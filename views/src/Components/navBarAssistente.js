@@ -179,13 +179,13 @@ export default function NavBarAssistente() {
               <li>
                 <a
                   href="#"
-                  className={`${currentPath == "/assistente/editais" ? "active" : "inactive"
+                  className={`${currentPath == "/assistente/editais" || currentPath.includes("/assistente/cadastrados") ? "active" : "inactive"
                     }`}
                   onClick={() => urlNavigation("editais")}
                 >
                   <UilFileAlt
                     size="30"
-                    color={`${currentPath == "/assistente/editais" ? "#1F4B73" : "white"
+                    color={`${currentPath == "/assistente/editais" || currentPath.includes("/assistente/cadastrados") ? "#1F4B73" : "white"
                       }`}
                   />
                   <span>Editais</span>
