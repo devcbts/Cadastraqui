@@ -42,7 +42,7 @@ export default function EditaisEntidade() {
 
     async function refreshAccessToken() {
       try{
-        const refreshToken =Cookies.get('refreshToken')
+        const refreshToken = Cookies.get('refreshToken')
   
         const response = await api.patch(`/refresh?refreshToken=${refreshToken}`)
         

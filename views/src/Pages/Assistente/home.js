@@ -110,7 +110,7 @@ export default function HomeAssistente() {
               (assistantObj) => assistantObj.id === assistant?.id
             )
         );
-        console.log(activeAnnouncements)
+        console.log(openAnnouncements)
         setActiveAnnouncements(activeAnnouncements);
         console.log(response);
       } catch (err) {

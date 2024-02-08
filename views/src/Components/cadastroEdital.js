@@ -61,7 +61,6 @@ const types1Options = [
     { value: 'FOOD', label: 'Alimentação' },
     { value: 'HOUSING', label: 'Moradia' },
     { value: 'STUDY_MATERIAL', label: 'Material Didático' },
-    // ...outras opções
 ];
 export default function CadastroEdital() {
 
@@ -72,6 +71,7 @@ export default function CadastroEdital() {
     const [offeredVancancies, setOfferedVancancies] = useState(0)
     const [verifiedScholarships, setVerifiedScholarships] = useState(0)
     const [announcementDate, setAnnouncementDate] = useState(new Date().toISOString().split('T')[0])
+    const [announcementBegin, setAnnouncementBegin] = useState(new Date().toISOString().split('T')[0])
     const [description, setDescription] = useState('')
     const [announcementName, setAnnouncementName] = useState('')
     const [filePdf, setFilePdf] = useState(null)
@@ -207,6 +207,7 @@ export default function CadastroEdital() {
             branchChanged: false,
             announcementType: announcementType,
             announcementDate: announcementDate,
+            announcementBegin: announcementBegin,
             announcementName: announcementName,
             offeredVacancies: offeredVancancies,
             verifiedScholarships: verifiedScholarships,
@@ -224,6 +225,7 @@ export default function CadastroEdital() {
                 branchChanged: false,
                 announcementType: announcementType,
                 announcementDate: announcementDate,
+                announcementBegin: announcementBegin,
                 announcementName: announcementName,
                 offeredVacancies: 5000,
                 verifiedScholarships: verifiedScholarships,
@@ -308,6 +310,7 @@ export default function CadastroEdital() {
 
 
     const [isAddingCourse, setIsAddingCourse] = useState(false);
+    const [isEdittingCourse, setIsEdittingCourse] = useState(true);
     //Tabela dos educational Level
     const EducationalLevelsTable = ({ educationalLevels }) => {
         return (
@@ -320,6 +323,7 @@ export default function CadastroEdital() {
                         <th>Ciclo/Ano/Série/Semestre</th>
                         <th>Turno</th>
                         <th>Percentual de Gratuidade</th>
+                        <th></th>
                         {/* Adicione mais cabeçalhos de colunas conforme necessário */}
                     </tr>
                 </thead>
@@ -332,6 +336,10 @@ export default function CadastroEdital() {
                             <td>{level.semester}</td>
                             <td>{level.shift}</td>
                             <td>{level.higherEduScholarshipType}</td>
+                            <td> 
+                                <button onClick={() => editEducationalLevel(index)}>Editar</button>
+                                <button onClick={() => deleteEducationalLevel(index)}>Excluir</button>
+                            </td>
                             {/* Adicione mais células de dados conforme necessário */}
                         </tr>
                     ))}
@@ -340,6 +348,20 @@ export default function CadastroEdital() {
         );
     };
 
+    // Edição dos dados da tabela
+    const editEducationalLevel = (index) => {
+        const level = educationalLevels[index];
+        setCurrentCourse(level);
+        setIsAddingCourse(true);
+        deleteEducationalLevel(index)
+    };
+
+    // Deletar algum dos dados da tabela
+    const deleteEducationalLevel = (index) => {
+        setEducationalLevels(currentLevels => currentLevels.filter((_, i) => i !== index));
+    };
+
+    
 
 
     return (
@@ -397,10 +419,24 @@ export default function CadastroEdital() {
                     </fieldset>
                     <fieldset>
                         <label for="email-institucional">
+                            Data de início das inscrições
+                        </label>
+                        <input
+                            placeholder="Exemplo: 5/6/2024"
+                            type="date"
+                            tabindex="2"
+                            required
+                            id='input-edital'
+                            value={announcementBegin}
+                            onChange={(e) => setAnnouncementBegin(e.target.value)}
+                        />
+                    </fieldset>
+                    <fieldset>
+                        <label for="email-institucional">
                             Data limite para inscrição
                         </label>
                         <input
-                            placeholder="Exemplo: 10/11/2023"
+                            placeholder="Exemplo: 10/11/2024"
                             type="date"
                             tabindex="2"
                             required
@@ -529,7 +565,7 @@ export default function CadastroEdital() {
                                     </label>
                                     <select className='select-educational'
                                         value={currentCourse.higherEduScholarshipType}
-                                        onChange={(e) => handleEducationalChange( 'higherEduScholarshipType', e.target.value)}
+                                        onChange={(e) => handleEducationalChange('higherEduScholarshipType', e.target.value)}
                                     >
                                         {/* Substitua HigherEducationScholarshipType pelo seu array de objetos correspondente */}
                                         {HigherEducationScholarshipType.map(type => <option value={type.value}>{type.label}</option>)}
@@ -546,7 +582,7 @@ export default function CadastroEdital() {
                                     <input style={{ width: '30%' }}
                                         type="number"
                                         value={currentCourse.verifiedScholarships}
-                                        onChange={(e) => handleEducationalChange( 'verifiedScholarships', Number(e.target.value))}
+                                        onChange={(e) => handleEducationalChange('verifiedScholarships', Number(e.target.value))}
                                     />
                                 </fieldset>
 
@@ -558,7 +594,7 @@ export default function CadastroEdital() {
                                     </label>
                                     <select
                                         value={currentCourse.shift}
-                                        onChange={(e) => handleEducationalChange( 'shift', e.target.value)}
+                                        onChange={(e) => handleEducationalChange('shift', e.target.value)}
                                     >
                                         {/* Substitua SHIFT pelo seu array de objetos correspondente */}
                                         {SHIFT.map(type => <option value={type.value}>{type.label}</option>)}

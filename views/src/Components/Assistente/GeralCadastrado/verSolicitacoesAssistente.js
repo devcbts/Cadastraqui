@@ -53,9 +53,38 @@ export default function VerSolicitacoesAssistente({ application_id, announcement
     }, [announcement_id])
 
 
-    useEffect(() =>{
+    useEffect(() => {
         visualizarDocumentos()
-    },[solicitations])
+    }, [solicitations])
+
+
+    const [report, setReport] = useState(""); // Estado para armazenar o relatório
+
+    // Função para lidar com a mudança no textarea
+    const handleReportChange = (event) => {
+        setReport(event.target.value);
+    };
+
+    // Função para salvar o relatório
+    const saveReport = async (solicitationId) => {
+        // Aqui você pode adicionar a lógica para enviar o relatório para o backend
+        try {
+            
+            const token = localStorage.getItem('token');
+            const response = await api.patch(`/assistant/solicitation/${solicitationId}`, {
+                report: report
+            },{
+                headers:{
+                    'authorization' : `Bearer ${token}`
+                }
+            }
+            )
+            console.log(response.data)
+        } catch (error) {
+            console.log(error)
+        }
+        // Exemplo: api.post('URL_PARA_SALVAR_RELATORIO', { id: solicitationId, report: report });
+    };
 
     return (
         <div className="container-solicitacoes conteiner-solicitacoes-assistente">
@@ -74,7 +103,7 @@ export default function VerSolicitacoesAssistente({ application_id, announcement
                         <div className='box-solicatacao'>
 
                             <div className="box-solicitacao">
-                                <h2>Solicitações enviada em {formattedDate}</h2>
+                                <h2>Solicitação enviada em {formattedDate}</h2>
                                 <div className="solicitacao">
 
                                     <div className="create-comment">
@@ -116,6 +145,27 @@ export default function VerSolicitacoesAssistente({ application_id, announcement
                                                 ))}
                                             </div>
                                         )}
+                                        <div>
+                                            <h2>Relatório sobre a solicitação feita:</h2>
+                                            {!solicitation.report ? 
+                                            <>
+
+                                            <textarea
+                                            value={report}
+                                            onChange={handleReportChange}
+                                            placeholder="Escreva aqui o resultado da solicitação..."
+                                            rows="2" // Define o número de linhas
+                                            className="report-textarea"
+                                            ></textarea>
+                                            <button onClick={() => saveReport(solicitation.id)}>Salvar Relatório</button>
+                                            </>
+                                            :
+                                            <textarea
+                                            value={solicitation.report}
+                                            rows="2" // Define o número de linhas
+                                            className="report-textarea"
+                                            ></textarea>}
+                                        </div>
                                     </div>
 
                                 </div>
@@ -125,11 +175,11 @@ export default function VerSolicitacoesAssistente({ application_id, announcement
                         </div>
                     )
                 }) : <div>
-                    <div className='skeleton skeleton-table'/>
+                    <div className='skeleton skeleton-table' />
 
-                    <div className='skeleton skeleton-table'/>
+                    <div className='skeleton skeleton-table' />
 
-                    </div>}
+                </div>}
 
             </div>
         </div>

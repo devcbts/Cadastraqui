@@ -172,6 +172,7 @@ export default function CadastroBasico() {
   institutionName_professional: '', 
   institutionCNPJ_professional: '', 
   nameOfScholarshipCourse_professional: null, 
+  CadUnico: false
     });
 
 
@@ -242,6 +243,7 @@ export default function CadastroBasico() {
           institutionName_professional: candidate.institutionName_professional,
           institutionCNPJ_professional: candidate.institutionCNPJ_professional,
           nameOfScholarshipCourse_professional: candidate.nameOfScholarshipCourse_professional|| undefined,
+          CadUnico: candidate.CadUnico
         };
 
         console.log(data)
@@ -506,6 +508,11 @@ export default function CadastroBasico() {
                     <input type="checkbox" name="livesAlone" value={candidate.livesAlone} onChange={handleInputChange} id="livesAlone" class="survey-control" />
                 </div>
 
+                <div class="survey-box">
+                    <label for="livesAlone" id="livesAlone-label">Familia registrada no Cadastro Único?</label>
+                    <br />
+                    <input type="checkbox" name="CadUnico" checked={candidate.CadUnico} onChange={handleInputChange} id="livesAlone" class="survey-control" />
+                </div>
                 {/*<!-- Deseja Obter Bolsa Escolar ? -->*/}
                 <div class="survey-box">
                     <label for="intendsToGetScholarship" id="intendsToGetScholarship-label">Deseja obter bolsa Escolar ?</label>

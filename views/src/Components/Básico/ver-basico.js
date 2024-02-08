@@ -507,7 +507,11 @@ function handleInputChange(event) {
                     <br />
                     <input type="checkbox" name="livesAlone" value={candidate.livesAlone} disabled onChange={handleInputChange} id="livesAlone" class="survey-control" />
                 </div>
-
+                <div class="survey-box">
+                    <label for="livesAlone" id="livesAlone-label">Familia registrada no Cadastro Único?</label>
+                    <br />
+                    <input type="checkbox" name="CadUnico" checked={candidate.CadUnico} disabled onChange={handleInputChange} id="livesAlone" class="survey-control" />
+                </div>
                 {/*<!-- Deseja Obter Bolsa Escolar ? -->*/}
                 <div class="survey-box">
                     <label for="intendsToGetScholarship" id="intendsToGetScholarship-label">Deseja obter bolsa Escolar ?</label>

@@ -16,6 +16,9 @@ import { useAppState } from "../AppGlobal";
 import { useLocation } from "react-router-dom";
 import { Fade as Hamburger } from "hamburger-react";
 import Logout from "../utils/logout";
+import { api } from "../services/axios";
+import Cookies from "js-cookie";
+
 // ReactDOM.render(element, document.body);
 
 export default function NavBar(props) {
@@ -28,6 +31,25 @@ export default function NavBar(props) {
     let path = `/entidade/${entry}`;
     navigate(path);
   }
+  async function refreshAccessToken() {
+    try{
+      const refreshToken = Cookies.get('refreshToken')
+
+      const response = await api.patch(`/refresh?refreshToken=${refreshToken}`)
+      
+      const {newToken, newRefreshToken} = response.data
+      localStorage.setItem('token', newToken)
+      Cookies.set('refreshToken', newRefreshToken, {
+        expires: 7,
+        sameSite: true,
+        path: '/',
+      })
+    } catch(err) {
+      console.log(err)
+      navigate('/login')
+    }
+  }
+  const intervalId = setInterval(refreshAccessToken, 480000) // Chama a função refresh token a cada 
 
   useEffect(() => {
     // Function to handle the resize event
