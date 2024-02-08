@@ -157,6 +157,7 @@ export async function registerIdentityInfo(
     institutionName_professional: z.union([z.string(), z.undefined()]),
     institutionCNPJ_professional: z.union([z.string(), z.undefined()]),
     nameOfScholarshipCourse_professional: z.union([z.string(), z.undefined()]),
+    CadUnico: z.boolean()
   })
 
   const {
@@ -200,6 +201,7 @@ export async function registerIdentityInfo(
     institutionName_professional,
     institutionCNPJ_professional,
     nameOfScholarshipCourse_professional,
+    CadUnico
   } = userDataSchema.parse(request.body)
 
   try {
@@ -267,6 +269,7 @@ export async function registerIdentityInfo(
         workPhone,
         yearsBenefitedFromCebas_basic,
         candidate_id: candidate.id,
+        CadUnico
       },
     })
 
