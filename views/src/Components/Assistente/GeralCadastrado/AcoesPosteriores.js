@@ -1,5 +1,7 @@
 import React from 'react'
+import { useState } from 'react';
 import './AcoesPosteriores.css'
+import { api } from '../../../services/axios';
 
 const types1Options = [
   { value: 'UNIFORM', label: 'Uniforme' },
@@ -9,8 +11,40 @@ const types1Options = [
   { value: 'STUDY_MATERIAL', label: 'Material Didático' },
 ];
 
-export default function VerAcoesPosteriores({ announcement }) {
-  console.log(announcement)
+export default function VerAcoesPosteriores({ announcement, application }) {
+
+
+  const [gaveUp, setGaveUp] = useState(false);
+  const [scholarshipCode, setScholarshipCode] = useState('');
+  const [comments, setComments] = useState('');
+  const [granted, setGranted] = useState(false); // Supondo que você quer capturar se foi concedida ou não a bolsa
+
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      if (!gaveUp) {
+        setGranted(true)
+      }
+      const response = await api.post(`assistant/close/${announcement.id}/${application.id}`, {
+        application_id: application.id,
+        announcement_id: announcement.id,
+        description: comments,
+        gaveUp,
+        granted,
+        ScholarshipCode: scholarshipCode,
+        types: announcement.types1,
+      });
+      console.log(response.data);
+      // Aqui você pode lidar com a resposta da API, como mostrar um aviso de sucesso
+    } catch (error) {
+      console.error('Erro ao enviar dados:', error);
+      // Aqui você pode lidar com erros de rede, mostrar um popup de erro, etc.
+    }
+  };
+
+
   return (
     <div className="fill-container general-info">
       <h1 id="title-action">
@@ -19,7 +53,7 @@ export default function VerAcoesPosteriores({ announcement }) {
       </h1>
       <div class="container-form">
         <div class="row">
-          <form id="survey-form">
+          <form id="survey-form" onSubmit={handleSubmit}>
             <div class="form-row">
               <div class="form-group">
                 <label for="name" id="name-label">
@@ -31,8 +65,12 @@ export default function VerAcoesPosteriores({ announcement }) {
                   class="form-control"
                   id="name"
                   placeholder="Enter your name"
-                  required
+                  
                   style={{ marginTop: '0px' }}
+                  onChange={(e) => {
+                    setGaveUp(!gaveUp)
+                  }}
+                  checked={gaveUp}
                 ></input>
               </div>
 
@@ -60,6 +98,7 @@ export default function VerAcoesPosteriores({ announcement }) {
             <div class="form-row">
               <div class="form-group col-md-12">
                 <textarea
+                onChange={(e) => setComments(e.target.value)}
                   class="form-control"
                   placeholder="Comentários adicionais"
                 ></textarea>
@@ -74,18 +113,20 @@ export default function VerAcoesPosteriores({ announcement }) {
             </h2>
 
             <div class="form-group">
-              <label for="email" id="email-label" style={{ marginTop: '20px' }}>
+              <label for="text" id="email-label" style={{ marginTop: '20px' }}>
                 Código de Identificação do bolsista:
               </label>
               <input
-                type="email"
+                type="text"
                 class="survey-control"
                 id="email"
                 placeholder=""
                 required
+                onChange={(e) => setScholarshipCode(e.target.value)}
+                value={scholarshipCode}
               ></input>
             </div>
-            <a className="btn-cadastro">Salvar</a>
+            <button className="btn-cadastro" type="submit">Salvar</button>
           </form>
         </div>
       </div>
