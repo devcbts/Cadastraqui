@@ -8,7 +8,8 @@ export const AuthContext = createContext({})
 
 function AuthProvider({children}) {
   const [data,setData] = useState({})
-  
+  const [error, setError] = useState(null); // Adicione um novo estado para o erro
+  const clearError = () => setError(null);
   async function SignIn({email, password}) {
     try {
       const response = await api.post('/session', {email, password})
@@ -29,20 +30,20 @@ function AuthProvider({children}) {
       return user_role
     } catch(err) {
       if(err.code === "ERR_NETWORK") {
-        alert('Erro de conexão.')
+        setError('Erro de conexão.')
       }
       else if(err ) {
         console.log(err)
-        alert('Não foi possível entrar')
+        setError(err)
       } else {
-        alert('Não foi possível entrar')
+        setError(true)
       }
     }
   }
 
 
   return(
-    <AuthContext.Provider value={{ SignIn, user: data }}>
+    <AuthContext.Provider value={{ SignIn, user: data , error, clearError}}>
       {children}
     </AuthContext.Provider>
   )

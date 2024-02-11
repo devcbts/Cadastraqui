@@ -1,0 +1,72 @@
+.error-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.4); /* Sombra leve */
+  }
+  
+  .error-popup {
+    background-color: rgba(255, 255, 255, 0.822);
+    border-radius: 10px;
+    padding: 10px;
+    width: 35%; /* Ajuste conforme necessário */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-color: rgba(33, 33, 33, 0.189);
+    border-width: 2px;
+  }
+  
+  .error-popup-header {
+    background-color: #FF6B6B;
+    color: white;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaço entre o ícone e o título */
+  }
+  
+  .error-popup-icon {
+    cursor: pointer; /* Se o ícone for clicável para fechar */
+  }
+  
+  #error-popup-title {
+    margin: 0;
+    color: whitesmoke;
+  }
+  
+  .error-popup-message {
+    margin: 20px 0;
+    text-align: center;
+    background-color: whitesmoke;
+  }
+  
+  .error-popup-close-btn {
+    background-color: #FF6B6B;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    display: block;
+    margin: 0 auto; /* Centralizar o botão */
+    outline: none;
+  }
+  
+  .error-popup-close-btn:hover {
+    background-color: #ff5252; /* Efeito hover */
+  }
+  
+  .error-popup-body{
+    padding: 20px;
+    background-color: whitesmoke;
+    border-radius: 10px;
+
+    
+  }

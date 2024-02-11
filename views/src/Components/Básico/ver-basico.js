@@ -129,7 +129,7 @@ const IncomeSource = [
 ];
 
 export default function VerBasico({candidate}) {
-
+    console.log(candidate)
    /* const [candidate, setCandidate] = useState({
       fullName: '', 
   socialName: '', 

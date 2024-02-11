@@ -10,6 +10,7 @@ import { UilAngleLeft } from "@iconscout/react-unicons";
 import { api } from "../../services/axios";
 import { useAuth } from "../../context/auth";
 import { useNavigate } from "react-router";
+import ErrorPopup from "../../Components/Popups/errorPopup";
 
 
 export default function Login() {
@@ -123,39 +124,42 @@ export default function Login() {
   }
 
   // BackEnd Functions 
-  const { SignIn } = useAuth()
-  const navigate  = useNavigate()
-
+  const { SignIn, error, clearError } = useAuth()
+  const navigate = useNavigate()
+  const [showErrorPopup, setShowErrorPopup] = useState(false);
   async function login() {
     // Pega o valor do email e password dos inputs 
     const loginFormElement = loginForm.current
-    
-    if(loginFormElement.checkValidity()) {
+
+    if (loginFormElement.checkValidity()) {
       const email = loginFormElement.querySelector('input[id="usermail"]').value
       const password = loginFormElement.querySelector('input[id="pass"]').value
 
       const credentials = { email, password }
 
       // Loga na aplicação
-      const role = await SignIn(credentials)
+     
+
+        const role = await SignIn(credentials)
 
 
-      if(role ==='CANDIDATE' || role === 'RESPONSIBLE') {
-        navigate('/candidato/home')
-      } else if(role === 'ENTITY') {
-        navigate('/entidade/home')
-      } else if(role === 'ASSISTANT') {
-        navigate('/assistente/home')
-      } else if(role === 'ENTITY') {
-        navigate('/entidade/home')
-      }else if(role === 'ADMIN'){
-        navigate('/admin/cadastro')
-      }
-    } else {
-      alert("Preencha os campos exigidos!")
+        if (role === 'CANDIDATE' || role === 'RESPONSIBLE') {
+          navigate('/candidato/home')
+        } else if (role === 'ENTITY') {
+          navigate('/entidade/home')
+        } else if (role === 'ASSISTANT') {
+          navigate('/assistente/home')
+        } else if (role === 'ENTITY') {
+          navigate('/entidade/home')
+        } else if (role === 'ADMIN') {
+          navigate('/admin/cadastro')
+        } 
+      
+    }else{
+      setShowErrorPopup(true)
+
     }
   }
-
   async function handleRegister() {
     // Acesse o elemento do formulário usando a referência
     const firstFormElement = formRef2.current
@@ -176,7 +180,7 @@ export default function Login() {
     const city = addressFormElement.querySelector('input[name="city"]').value
     const neighborhood = addressFormElement.querySelector('input[name="neighborhood"]').value
     const addressNumber = addressFormElement.querySelector('input[name="addressNumber"]').value
-    
+
     const registerInfo = {
       name,
       CPF,
@@ -192,26 +196,28 @@ export default function Login() {
       addressNumber: Number(addressNumber)
     }
 
-    if(typeOfUser === 'candidate') {
+    if (typeOfUser === 'candidate') {
       api.post('/candidates', registerInfo)
-      .then(() => { alert('Cadastro realizado com sucesso !')
-      setCurrentPage(0)
-    })
-      .catch((err) => {
-        alert(`${err.response.data.message}`)
-      })
-    } else if(typeOfUser === 'responsible') {
+        .then(() => {
+          alert('Cadastro realizado com sucesso !')
+          setCurrentPage(0)
+        })
+        .catch((err) => {
+          alert(`${err.response.data.message}`)
+        })
+    } else if (typeOfUser === 'responsible') {
       api.post('/responsibles', registerInfo)
-      .then(response => {alert('Cadastro realizado com sucesso !')
-        setResponsibleId(response.data.responsible_id)
-        handlePageChange()
-      })
-      .catch((err) => alert(`${err.response.data.message}`))  
+        .then(response => {
+          alert('Cadastro realizado com sucesso !')
+          setResponsibleId(response.data.responsible_id)
+          handlePageChange()
+        })
+        .catch((err) => alert(`${err.response.data.message}`))
     }
   }
 
   async function handleRegisterDependent() {
-    let names =[]
+    let names = []
     let CPFs = []
     let birthDates = []
 
@@ -224,25 +230,26 @@ export default function Login() {
       birthDates.push(birthDate)
     }
 
-    
-      for (let i = 0; i < numDependentes; i++) {
-        const data = {
-          CPF:CPFs[i],
-          birthDate: new Date(birthDates[i]),
-          name: names[i],
-          responsible_id:responsibleId
-        }
 
-        await api.post('/responsibles/legal-dependents', data)
+    for (let i = 0; i < numDependentes; i++) {
+      const data = {
+        CPF: CPFs[i],
+        birthDate: new Date(birthDates[i]),
+        name: names[i],
+        responsible_id: responsibleId
+      }
+
+      await api.post('/responsibles/legal-dependents', data)
         .then(() => alert('Cadastro Concluído com sucesso !'))
-        .catch((error) => {console.log(error)
+        .catch((error) => {
+          console.log(error)
           alert(`${error.response.data.message}`)
         })
-      }
-      setCurrentPage(0)
-    
-    
-  } 
+    }
+    setCurrentPage(0)
+
+
+  }
 
 
   return (
@@ -258,7 +265,7 @@ export default function Login() {
           <img src={logo}></img>
         </div>
         <div className="text-login">
-          <h1>{currentPage === 0 ? 'LOGIN': 'CADASTRO'}</h1>
+          <h1>{currentPage === 0 ? 'LOGIN' : 'CADASTRO'}</h1>
 
           <div
             className={`cadastro-second ${currentPage !== 0 && "hidden-page"}`}
@@ -297,12 +304,20 @@ export default function Login() {
                   <a>Registrar</a>
                 </div>
               </button>
-              <button className="login-btn" type="button">
-                <div className="btn-google">
-                  <UilGoogle size="30" color="#1F4B73"></UilGoogle>
-                </div>
-              </button>
+              
             </form>
+            {error && (
+        <ErrorPopup
+          message="Credenciais inválidas."
+          onClose={() => clearError()}
+        />
+      )}
+      {showErrorPopup && (
+        <ErrorPopup
+          message="Digite um email válido"
+          onClose={() => setShowErrorPopup(false)}
+        />
+      )}
           </div>
 
           <div
@@ -431,7 +446,7 @@ export default function Login() {
                   name="CEP"
                   placeholder="Exemplo: Jean Carlo do Amaral"
                 ></input>
-                 <label for="nome">
+                <label for="nome">
                   <h2 className="info-cadastrado">UF</h2>
                 </label>
                 <input
@@ -498,9 +513,8 @@ export default function Login() {
           </div>
 
           <div
-            className={`cadastro-subperfil ${
-              currentPage !== 4 && "hidden-page"
-            }`}
+            className={`cadastro-subperfil ${currentPage !== 4 && "hidden-page"
+              }`}
           >
             <div>
               <h2>
@@ -520,7 +534,7 @@ export default function Login() {
                       name="drone"
                       value="responsavel"
                       ref={responsavelRef}
-                      onClick={() => {setTypeOfUser('responsible')}}
+                      onClick={() => { setTypeOfUser('responsible') }}
                     />
                   </div>
 
@@ -534,7 +548,7 @@ export default function Login() {
                       name="drone"
                       value="candidato"
                       ref={candidatoRef}
-                      onClick={() => {setTypeOfUser('candidate')}}
+                      onClick={() => { setTypeOfUser('candidate') }}
                     />
                   </div>
                   <div className="radio-input">
@@ -563,9 +577,8 @@ export default function Login() {
           </div>
 
           <div
-            className={`cadastro-subperfil ${
-              currentPage !== 5 && "hidden-page"
-            }`}
+            className={`cadastro-subperfil ${currentPage !== 5 && "hidden-page"
+              }`}
           >
             <div>
               <h2 style={{ marginTop: "1rem" }}>
