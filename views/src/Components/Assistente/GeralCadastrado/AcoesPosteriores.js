@@ -17,16 +17,17 @@ export default function VerAcoesPosteriores({ announcement, application }) {
   const [gaveUp, setGaveUp] = useState(false);
   const [scholarshipCode, setScholarshipCode] = useState('');
   const [comments, setComments] = useState('');
-  const [granted, setGranted] = useState(false); // Supondo que você quer capturar se foi concedida ou não a bolsa
+  const [granted, setGranted] = useState(true); // Supondo que você quer capturar se foi concedida ou não a bolsa
 
 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (gaveUp) {
+      setGranted(false)
+    }
     try {
-      if (!gaveUp) {
-        setGranted(true)
-      }
+      
       const response = await api.post(`assistant/close/${announcement.id}/${application.id}`, {
         application_id: application.id,
         announcement_id: announcement.id,
@@ -51,7 +52,7 @@ export default function VerAcoesPosteriores({ announcement, application }) {
         *Informações posteriores à conclusão da análise referente ao processo
         de matrícula
       </h1>
-      <div class="container-form">
+      { application.status === "Approved" ? <div class="container-form">
         <div class="row">
           <form id="survey-form" onSubmit={handleSubmit}>
             <div class="form-row">
@@ -129,7 +130,10 @@ export default function VerAcoesPosteriores({ announcement, application }) {
             <button className="btn-cadastro" type="submit">Salvar</button>
           </form>
         </div>
+      </div>: <div>
+        <h1>Sessão Disponível apenas após o Deferimento da candidatura</h1>
       </div>
+        }
     </div>
   )
 }

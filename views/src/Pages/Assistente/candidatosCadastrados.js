@@ -148,31 +148,36 @@ export default function CandidatosCadastrados() {
                 <div key={level.id} className="education-level">
                   <h2>{level.availableCourses}</h2>
                   {/* Renderize os candidatos para este nível de educação */}
-                  {rankedList[level.id]?.map((application) => (
-                    <div key={application.candidateApplication.id}>
-                      <Candidatura
-                        name={application.candidateApplication.candidateName}
-                        assistente={application.candidateApplication.SocialAssistantName}
-                        id={application.candidateApplication.id}
-                        announcement_id={announcement_id}
-                        valor={application.totalIncomePerCapita}
-                        announcementName={announcement.announcementName}
-                      />
-                    
-                    </div>
-                    
-                  ))}
-                    <Candidatura
-                        name="João Paulo"
-                        assistente='Fernado Souza'
-                        announcement_id={announcement_id}
-                        valor={3500}
-                      /><Candidatura
-                        name="João Paulo"
-                        assistente='Fernado Souza'
-                        announcement_id={announcement_id}
-                        valor={5000}
-                      />
+                  {rankedList[level.id]?.map((application) => {
+                    if (application.candidateApplication.status !== 'Rejected') {
+
+                      return (
+                        <div key={application.candidateApplication.id}>
+                          <Candidatura
+                            name={application.candidateApplication.candidateName}
+                            assistente={application.candidateApplication.SocialAssistantName}
+                            id={application.candidateApplication.id}
+                            announcement_id={announcement_id}
+                            valor={application.totalIncomePerCapita}
+                            announcementName={announcement.announcementName}
+                          />
+
+                        </div>
+
+                      )
+                    }
+                  })}
+                  <Candidatura
+                    name="João Paulo"
+                    assistente='Fernado Souza'
+                    announcement_id={announcement_id}
+                    valor={3500}
+                  /><Candidatura
+                    name="João Paulo"
+                    assistente='Fernado Souza'
+                    announcement_id={announcement_id}
+                    valor={5000}
+                  />
                 </div>
               ))
             }
