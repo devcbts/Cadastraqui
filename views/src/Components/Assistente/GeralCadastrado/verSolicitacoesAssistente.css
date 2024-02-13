@@ -2,14 +2,22 @@
     display: flex;
     justify-content: center;
 }
-.box-solicatacao{
-    padding: 5px;
+.box-solicitacao{
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .box{
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .solicitacao{
     padding: 5px;
+    width: 100% !important;
+    margin-left: 0 !important;
 }

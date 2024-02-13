@@ -50,6 +50,41 @@
     margin: auto;
   }
 
+  .personal-info{
+    padding: 1rem;
+  }
+
+  .info-item{
+    display: flex;
+    flex-direction: column;
+    height: 10vh;
+    width: fit-content;
+    justify-content: center;
+  }
+
+  .info-item h3{
+    display: flex;
+    flex-direction: row;
+    width: max-content !important;
+  }
+
+  .info-item .info-text{
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1rem;
+    opacity: 0.8;
+  }
+
+  #photo{
+    visibility: hidden;
+  }
+
+
+  .user-photo h1{
+    display: flex;
+    width: max-content !important;
+  }
+  
   @media screen and (max-width: 1030px){
     .container-perfil{
       margin-top: 13vh;

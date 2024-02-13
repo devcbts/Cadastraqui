@@ -7,6 +7,7 @@ import { UilPen } from "@iconscout/react-unicons";
 import { UilLock } from "@iconscout/react-unicons";
 import { api } from "../../services/axios";
 import { useNavigate } from "react-router";
+import "./perfil.css";
 
 export default function PerfilAssistente() {
   const { isShown } = useAppState();
@@ -35,7 +36,6 @@ export default function PerfilAssistente() {
         alert("Erro ao atualizar foto de perfil.");
         console.log(err);
       }
-
     }
   }
 
@@ -50,8 +50,10 @@ export default function PerfilAssistente() {
       });
       console.log(profilePhoto);
       setProfilePhoto(profilePhoto.data.url);
-      localStorage.setItem("profilePhoto", JSON.stringify(profilePhoto.data.url));
-
+      localStorage.setItem(
+        "profilePhoto",
+        JSON.stringify(profilePhoto.data.url)
+      );
     } catch (err) {
       if (err.response.status === 401) {
         navigate("/login");
@@ -80,10 +82,7 @@ export default function PerfilAssistente() {
           }
         }
       }
-
     }
-
-
 
     getProfilePhotoEntity();
     getUserInfo();
@@ -96,20 +95,16 @@ export default function PerfilAssistente() {
       </div>
 
       <div className="container-contas">
-        <div className="upper-contas status-title">
-          <h1>{userInfo ? userInfo.name : "User Name"}</h1>
-        </div>
         <div className="user-photo">
           <div className="profile-photo">
             <div className="bg-image">
-              <img
-                id="profile-photo"
-                src={profilePhoto !== null ? profilePhoto : photoProfile}
-              ></img>
+              <label className="profile-label" for="photo">
+                <img
+                  id="profile-photo"
+                  src={profilePhoto !== null ? profilePhoto : photoProfile}
+                ></img>
+              </label>
             </div>
-            <label className="profile-label" for="photo">
-              Editar Foto
-            </label>
             <input
               type="file"
               name="profile-photo"
@@ -118,45 +113,52 @@ export default function PerfilAssistente() {
               onChange={handleImageUpload}
             ></input>
           </div>
+          <div className="upper-contas status-title">
+            <h1>{userInfo ? userInfo.name : "User Name"}</h1>
+          </div>
         </div>
         <div className="novos-colaboradores profile-candidate">
-          {userInfo ?
+          {userInfo ? (
             <div className="solicitacoes personal-info">
               <div className="upper-info">
                 <h2>Informações cadastrais</h2>
                 <div className="info-item">
                   <h3>Razão Social:</h3>
-                  <h3>{userInfo ? userInfo.socialReason : ""}</h3>
+                  <h3 className="info-text">
+                    {userInfo ? userInfo.socialReason : ""}
+                  </h3>
                 </div>
                 <div className="info-item">
-                  <h3>Nome Fantasia:</h3>
-                  <h3>{userInfo ? userInfo.name : "User Name"}</h3>
+                  <h3>Nome:</h3>
+                  <h3 className="info-text">
+                    {userInfo ? userInfo.name : "User Name"}
+                  </h3>
                 </div>
-                
+
                 <div className="info-item">
                   <h3>CNPJ:</h3>
-                  <h3>{userInfo ? userInfo.CNPJ : ""}</h3>
+                  <h3 className="info-text">{userInfo ? userInfo.CNPJ : ""}</h3>
                 </div>
                 <div className="info-item">
                   <h3>CEP:</h3>
-                  <h3>{userInfo ? userInfo.CEP : ""}</h3>
+                  <h3 className="info-text">{userInfo ? userInfo.CEP : ""}</h3>
                 </div>
                 <div className="info-item">
                   <h3>Endereço:</h3>
-                  <h3>{userInfo ? userInfo.address : ""}</h3>
+                  <h3 className="info-text">
+                    {userInfo ? userInfo.address : ""}
+                  </h3>
                 </div>
                 <div className="info-item">
                   <h3>Senha:</h3>
-                  <h3>********</h3>
+                  <h3 className="info-text">********</h3>
                 </div>
-
               </div>
               <a href="#">
                 <UilPen size="20" color="#1F4B73"></UilPen>
               </a>
             </div>
-            :
-
+          ) : (
             <div className="solicitacoes personal-info">
               <div className="upper-info">
                 <h2>Informações cadastrais</h2>
@@ -189,15 +191,13 @@ export default function PerfilAssistente() {
 
                   <div className="skeleton-text skeleton-loading"></div>
                 </div>
-                <div className="info-item">
-                </div>
-
+                <div className="info-item"></div>
               </div>
               <a href="#">
                 <UilPen size="20" color="#1F4B73"></UilPen>
               </a>
             </div>
-          }
+          )}
           <a href="#" className="btn-alterar">
             <UilLock size="20" color="white"></UilLock>
             Alterar senha
