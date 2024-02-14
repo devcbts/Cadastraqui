@@ -6,13 +6,13 @@ import { UilTimesCircle, UilArchive } from "@iconscout/react-unicons";
 import { UilEstate } from "@iconscout/react-unicons";
 import { UilExchange } from "@iconscout/react-unicons";
 import { UilUserCircle } from "@iconscout/react-unicons";
-import { UilHistory ,UilPlusCircle } from "@iconscout/react-unicons";
+import { UilHistory, UilPlusCircle } from "@iconscout/react-unicons";
 import whiteLogoText from "../Assets/logo_branca_texto.png";
 import { useAppState } from "../AppGlobal";
 import { useLocation } from "react-router-dom";
 import { Fade as Hamburger } from "hamburger-react";
 import { api } from "../services/axios";
-import Logout from '../utils/logout'
+import Logout from "../utils/logout";
 // ReactDOM.render(element, document.body);
 
 export default function NavBarCandidato(props) {
@@ -61,39 +61,36 @@ export default function NavBarCandidato(props) {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-
   }, []); // The empty array ensures this effect only runs once, on mount and unmount
 
-
-  // BackEnd Functions 
-  const user = props.user
-  const [profilePhoto, setProfilePhoto] = useState(null)
+  // BackEnd Functions
+  const user = props.user;
+  const [profilePhoto, setProfilePhoto] = useState(null);
   const [candidateInfo, setCandidateInfo] = useState(null);
   useEffect(() => {
     async function getProfilePhoto() {
-      const token = localStorage.getItem("token")
+      const token = localStorage.getItem("token");
 
       try {
-        const profilePhoto = await api.get('/candidates/profilePicture', {
+        const profilePhoto = await api.get("/candidates/profilePicture", {
           headers: {
-            'authorization': `Bearer ${token}`,
-          }
-        })
-        setProfilePhoto(profilePhoto.data.url)
+            authorization: `Bearer ${token}`,
+          },
+        });
+        setProfilePhoto(profilePhoto.data.url);
       } catch (err) {
         if (err.response.status === 401) {
-          navigate('/login')
+          navigate("/login");
         }
       }
     }
 
-    getProfilePhoto()
+    getProfilePhoto();
 
     const token = localStorage.getItem("token");
-    const candidate = JSON.parse(localStorage.getItem("candidate") || 'null');
+    const candidate = JSON.parse(localStorage.getItem("candidate") || "null");
 
     if (!candidate) {
-
       async function getCandidateInfo() {
         const response = await api.get("/candidates/basic-info", {
           headers: {
@@ -102,11 +99,11 @@ export default function NavBarCandidato(props) {
         });
         setCandidateInfo(response.data.candidate);
       }
-      getCandidateInfo()
+      getCandidateInfo();
     } else {
-      setCandidateInfo(candidate)
+      setCandidateInfo(candidate);
     }
-  }, [])
+  }, []);
 
   var location = useLocation();
   var currentPath = location.pathname;
@@ -133,7 +130,10 @@ export default function NavBarCandidato(props) {
       {windowWidth < 1030 && (
         <div className="mobile-menu">
           <div className="mobile-user">
-            <img src={profilePhoto !== null ? profilePhoto : photoProfile} className="user-sidebar" />
+            <img
+              src={profilePhoto !== null ? profilePhoto : photoProfile}
+              className="user-sidebar"
+            />
           </div>
           <div class="search">
             <input type="text" class="search__input" placeholder="Buscar" />
@@ -165,7 +165,10 @@ export default function NavBarCandidato(props) {
             <img src={whiteLogoText}></img>
           </div>
           <div className="user">
-            <img src={profilePhoto !== null ? profilePhoto : photoProfile} className="user-sidebar"></img>
+            <img
+              src={profilePhoto !== null ? profilePhoto : photoProfile}
+              className="user-sidebar"
+            ></img>
             <div className="user-name">
               <h6>{candidateInfo ? candidateInfo.name : ""}</h6>
             </div>
@@ -184,14 +187,16 @@ export default function NavBarCandidato(props) {
               <li>
                 <a
                   href="#"
-                  className={`${currentPath == "/candidato/home" ? "active" : "inactive"
-                    }`}
+                  className={`${
+                    currentPath == "/candidato/home" ? "active" : "inactive"
+                  }`}
                   onClick={() => urlNavigation("home")}
                 >
                   <UilEstate
                     size="30"
-                    color={`${currentPath == "/candidato/home" ? "#1F4B73" : "white"
-                      }`}
+                    color={`${
+                      currentPath == "/candidato/home" ? "#1F4B73" : "white"
+                    }`}
                   />
                   <span>Home</span>
                 </a>
@@ -200,18 +205,20 @@ export default function NavBarCandidato(props) {
               <li>
                 <a
                   href="#"
-                  className={`${currentPath == "/candidato/historico"
-                    ? "active"
-                    : "inactive"
-                    }`}
+                  className={`${
+                    currentPath == "/candidato/historico"
+                      ? "active"
+                      : "inactive"
+                  }`}
                   onClick={() => urlNavigation("historico")}
                 >
                   <UilHistory
                     size="30"
-                    color={`${currentPath == "/candidato/historico"
-                      ? "#1F4B73"
-                      : "white"
-                      }`}
+                    color={`${
+                      currentPath == "/candidato/historico"
+                        ? "#1F4B73"
+                        : "white"
+                    }`}
                   />
                   <span>Histórico</span>
                 </a>
@@ -219,14 +226,20 @@ export default function NavBarCandidato(props) {
               <li>
                 <a
                   href="#"
-                  className={`${currentPath == "/candidato/solicitacoes" ? "active" : "inactive"
-                    }`}
+                  className={`${
+                    currentPath == "/candidato/solicitacoes"
+                      ? "active"
+                      : "inactive"
+                  }`}
                   onClick={() => urlNavigation("solicitacoes")}
                 >
                   <UilArchive
                     size="30"
-                    color={`${currentPath == "/candidato/solicitacoes" ? "#1F4B73" : "white"
-                      }`}
+                    color={`${
+                      currentPath == "/candidato/solicitacoes"
+                        ? "#1F4B73"
+                        : "white"
+                    }`}
                   />
                   <span>Solicitações</span>
                 </a>
@@ -234,37 +247,41 @@ export default function NavBarCandidato(props) {
               <li>
                 <a
                   href="#"
-                  className={`${currentPath == "/candidato/info" ? "active" : "inactive"
-                    }`}
+                  className={`${
+                    currentPath == "/candidato/info" ? "active" : "inactive"
+                  }`}
                   onClick={() => urlNavigation("info")}
                 >
-                  <UilPlusCircle 
-                    size="65"
-                    color={`${currentPath == "/candidato/info" ? "#1F4B73" : "white"
-                      }`}
+                  <UilPlusCircle
+                    size="30"
+                    color={`${
+                      currentPath == "/candidato/info" ? "#1F4B73" : "white"
+                    }`}
                   />
-                  <span >Cadastrar Informações</span>
+                  <span>Cadastros</span>
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className={`${currentPath == "/candidato/perfil" ? "active" : "inactive"
-                    }`}
+                  className={`${
+                    currentPath == "/candidato/perfil" ? "active" : "inactive"
+                  }`}
                   onClick={() => urlNavigation("perfil")}
                 >
                   <UilUserCircle
-                    size="30px"
-                    color={`${currentPath == "/candidato/perfil" ? "#1F4B73" : "white"
-                      }`}
+                    size="30"
+                    color={`${
+                      currentPath == "/candidato/perfil" ? "#1F4B73" : "white"
+                    }`}
                   />
                   <span>Perfil</span>
                 </a>
               </li>
 
               <li>
-               <Logout/>
-              </li> 
+                <Logout />
+              </li>
             </ul>
           </div>
         </div>

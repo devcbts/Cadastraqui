@@ -1,0 +1,10 @@
+#submit-button{
+    background-color: #1b4f8e !important;
+    border: 2px solid white;
+    box-shadow: 0 0 10px rgb(107, 107, 107);
+    transition: all 0.6s;
+}
+
+#submit-button:hover{
+    opacity: 0.7;
+}

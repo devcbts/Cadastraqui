@@ -69,4 +69,10 @@
     opacity: 0.6;
 }
 
+.menu-itens ul li a{
+    width: 90% !important;
+    margin-left: 0 !important;
+    font-size: 0.8rem !important;
+}
+
 /* ---------------------------------------- */

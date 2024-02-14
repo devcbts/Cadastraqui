@@ -1,8 +1,4 @@
-
-
-  
   /* Estilos para o formulário */
-
   .form-group {
     margin-bottom: 15px;
   }
@@ -30,4 +26,14 @@
   .form-control textarea {
     height: 100px; /* Altura fixa para a área de texto */
   }
+
+  #title-action{
+    font-size: 0.8rem;
+    opacity: 0.6;
+  }
+  
+
+
+
+  
   

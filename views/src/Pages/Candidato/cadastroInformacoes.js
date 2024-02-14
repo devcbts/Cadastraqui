@@ -17,7 +17,7 @@ import MembrosFamiliaSaude from "../../Components/Saude/membroSaude";
 import Veiculos from "../../Components/Veiculo/Veiculo";
 import DespesasTotais from "../../Components/Despesas/DespesasTotais";
 import EnviarDocumentos from "../../Components/Documentos/EnvioDocumentos";
-import MembrosFamiliaRendaTeste from '../../Components/Renda/membroFamiliateste.js'
+import MembrosFamiliaRendaTeste from "../../Components/Renda/membroFamiliateste.js";
 import Basico from "../../Components/Básico/basico.js";
 import EnviarDeclaracoes from "../../Components/Declarações/Declarações.js";
 
@@ -25,10 +25,10 @@ export default function CadastroInfo() {
   const nextButton = useRef(null);
   const prevButton = useRef(null);
 
-  const [candidato, setCandidato] = useState(null)
+  const [candidato, setCandidato] = useState(null);
   useEffect(() => {
     async function pegarCandidato() {
-      const token = localStorage.getItem("token")
+      const token = localStorage.getItem("token");
       try {
         const response = await api.get("/candidates/basic-info", {
           headers: {
@@ -36,20 +36,20 @@ export default function CadastroInfo() {
           },
         });
 
-        setCandidato(response.data.candidate)
+        setCandidato(response.data.candidate);
       } catch (error) {
-        alert(error.message)
+        alert(error.message);
       }
     }
-    pegarCandidato()
-  }, [])
+    pegarCandidato();
+  }, []);
 
   function BasicInfoDiv() {
     return (
       <div>
         <Basico />
       </div>
-    )
+    );
   }
 
   function FamilyInfoDiv() {
@@ -62,7 +62,7 @@ export default function CadastroInfo() {
 
   function HousingInfoDiv() {
     return (
-      <div >
+      <div>
         <Moradia />
       </div>
     );
@@ -70,8 +70,8 @@ export default function CadastroInfo() {
 
   function VehicleInfoDiv() {
     return (
-      <div >
-        <Veiculos candidato={candidato}/>
+      <div>
+        <Veiculos candidato={candidato} />
       </div>
     );
   }
@@ -81,12 +81,12 @@ export default function CadastroInfo() {
       <div>
         <MembrosFamiliaRendaTeste />
       </div>
-    )
+    );
   }
 
   function BudgetInfoDiv() {
     return (
-      <div >
+      <div>
         <DespesasTotais />
       </div>
     );
@@ -94,7 +94,7 @@ export default function CadastroInfo() {
 
   function HealthInfoDiv() {
     return (
-      <div >
+      <div>
         <MembrosFamiliaSaude />
       </div>
     );
@@ -103,7 +103,7 @@ export default function CadastroInfo() {
   function DeclarationsInfoDiv() {
     return (
       <div>
-        <EnviarDeclaracoes id={candidato.id}/>
+        <EnviarDeclaracoes id={candidato.id} />
       </div>
     );
   }
@@ -119,7 +119,11 @@ export default function CadastroInfo() {
   return (
     <div className="container-cadastro-candidato">
       <div className="upper-cadastro-candidato candidato-info-assistente">
-        <a className="btn-cadastro go-back"><Link className="btn-cadastro" to={`/candidato/home`}>{"< "}Voltar</Link></a>
+        <a className="btn-cadastro go-back">
+          <Link className="btn-cadastro" to={`/candidato/home`}>
+            {"< "}Voltar
+          </Link>
+        </a>
 
         <div className="upper-cadastro-candidato">
           <h1>CADASTRO</h1>
@@ -132,17 +136,18 @@ export default function CadastroInfo() {
           className="multi-step"
           stepCustomStyle={{
             fontSize: 0.8 + "rem",
+            margin: "auto",
           }}
           prevButton={{
             title: "<",
             style: {
-              display: "none"
+              display: "none",
             },
           }}
           nextButton={{
             title: ">",
             style: {
-              display: "none"
+              display: "none",
             },
           }}
         >

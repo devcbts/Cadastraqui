@@ -27,7 +27,6 @@
   }
   
   .survey-control{
-    width:25vw;
     height: 2rem;
     display: block;
     padding: 0.3rem 0.55rem;
@@ -204,6 +203,42 @@
 
 .hidden-title{
     visibility: hidden;
+}
+
+.send-document-btn{
+    background-color: #1F4B73;
+    border: 2px solid white;
+    box-shadow: 0 0 10px rgb(165, 165, 165);
+    margin: 1rem auto;
+    font-size: 0.8rem;
+}
+
+.doc-box{
+    border: 1px solid rgb(209, 209, 209);
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 35vw;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.doc-box h2{
+    margin-bottom: 1rem;
+    text-decoration: underline;
+    font-size: 1rem;
+}
+
+.doc-box .survey-box label{
+    font-size: 0.9rem;
+}
+
+.doc-box .survey-box input{
+    border-color: rgb(209, 209, 209) !important;
+    width: 20vw !important;
+    margin: 0 auto !important;
 }
 
 
