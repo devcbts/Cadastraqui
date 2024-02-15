@@ -280,7 +280,7 @@ export default function CadastroBasico() {
           {/* Nome Completo */}
           <div class="survey-box">
             <label for="fullName" id="fullName-label">
-              Nome Completo:
+              Nome Civil Completo:
             </label>
             <br />
             <input
@@ -576,7 +576,7 @@ export default function CadastroBasico() {
           {/*<!-- Cor da Pele -->*/}
           <div class="survey-box">
             <label for="skinColor" id="skinColor-label">
-              Cor da Pele:
+              Cor / Raça:
             </label>
             <br />
             <select
@@ -706,7 +706,7 @@ export default function CadastroBasico() {
           {/*<!-- Telefone de Trabalho -->*/}
           <div class="survey-box">
             <label for="workPhone" id="workPhone-label">
-              Telefone de Trabalho:
+              Telefone Comercial:
             </label>
             <br />
             <input
