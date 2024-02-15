@@ -114,7 +114,33 @@ export default function VerParecer({
   application_id,
   healthInfo,
 }) {
-  console.log(healthInfo[0].healthInfo[0].diseases);
+
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const printDocument = () => {
+    const input = document.getElementById('parecer-print');
+    setIsGeneratingPDF(true)
+    // Ajusta o estilo para garantir que toda a página seja capturada
+    const originalStyle = input.style.cssText;
+    input.style.maxHeight = 'none';
+    input.style.overflow = 'visible';
+  
+    html2canvas(input, { scrollY: -window.scrollY, scale: 2 }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+      });
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('parecer.pdf');
+      // Restaura o estilo original após a captura
+      input.style.cssText = originalStyle;
+      setIsGeneratingPDF(false)
+    });
+  };
+  
+  
   function updateApplicationStatus(newStatus) {
     api
       .patch(`/assistant/${announcement.id}/${application_id}`, {
@@ -295,8 +321,8 @@ export default function VerParecer({
                 <td>
                   {member.healthInfo[0]?.diseases
                     ? getDiseaseValuesByLabels(
-                        member.healthInfo[0]?.diseases
-                      ).join(", ")
+                      member.healthInfo[0]?.diseases
+                    ).join(", ")
                     : "Não há"}
                 </td>
                 <td>
@@ -344,6 +370,7 @@ export default function VerParecer({
           {/* ... mais linhas conforme necessário */}
         </tbody>
       </table>
+      <h1 style={{marginTop: '18px' ,width: 'fit-content', fontSize: '19px'}}>Diante do acima exposto, conclui-se a análise pelo:</h1>
       <div className="buttons-box">
         <div className="decision-buttons">
           <button
@@ -367,21 +394,30 @@ export default function VerParecer({
           Gerar PDF
         </button>
       </div>
+      
+      <div style={{ display: isGeneratingPDF ? 'block' : 'block', fontSize: '12px', fontFamily: 'Arial, sans-serif' }}>
+        <div style={{ marginBottom: '20px' }}>
+          <label>Local:</label>
+          <div style={{ borderBottom: '1px solid #000', width: '70%', display: 'inline-block' }}></div>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px' }}>
+          <div>
+            <label>Nome:</label>
+            <div style={{ borderBottom: '1px solid #000', width: '200px', display: 'inline-block' }}></div>
+          </div>
+          <div>
+            <label>CPF:</label>
+            <div style={{ borderBottom: '1px solid #000', width: '200px', display: 'inline-block' }}></div>
+          </div>
+          <div>
+            <label>CRESS/ :</label>
+            <div style={{ borderBottom: '1px solid #000', width: '80px', display: 'inline-block' }}></div>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }
 
-const printDocument = () => {
-  const input = document.getElementById("parecer-print"); // O ID do elemento que você deseja converter em PDF
-  html2canvas(input).then((canvas) => {
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF({
-      orientation: "portrait",
-    });
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("download.pdf");
-  });
-};

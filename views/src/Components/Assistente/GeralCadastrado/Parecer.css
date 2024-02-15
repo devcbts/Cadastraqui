@@ -1,7 +1,7 @@
 .decision-buttons {
     display: flex;
     justify-content: center;
-    margin: 2rem 0;
+    margin: 1rem 0;
   }
 
   .button-deferido, .button-indeferido {

@@ -3,7 +3,7 @@
 }
 
 #curso-dropdown{
-    height: 200px;
+    height: 50px;
 }
 
 .box-edital{
@@ -35,4 +35,20 @@
 #input-edital{
     font-size: 20px;
     size: 20px;
+}
+
+
+.button-edital-editar{
+    height: fit-content;
+    width: fit-content;
+    font-size: 10px;
+    margin-bottom: 5px;
+    background-color: rgba(59, 162, 59, 0.922);
+}
+
+.button-edital-excluir{
+    background-color: rgba(235, 28, 28, 0.921);
+    height: fit-content;
+    width: fit-content;
+    font-size: 10px;
 }

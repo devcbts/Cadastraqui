@@ -337,8 +337,8 @@ export default function CadastroEdital() {
                             <td>{level.shift}</td>
                             <td>{level.higherEduScholarshipType}</td>
                             <td> 
-                                <button onClick={() => editEducationalLevel(index)}>Editar</button>
-                                <button onClick={() => deleteEducationalLevel(index)}>Excluir</button>
+                                <button className='button-edital-editar' onClick={() => editEducationalLevel(index)}>Editar</button>
+                                <button className='button-edital-excluir' onClick={() => deleteEducationalLevel(index)}>Excluir</button>
                             </td>
                             {/* Adicione mais células de dados conforme necessário */}
                         </tr>
