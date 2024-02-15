@@ -1,11 +1,15 @@
   /* Estilos para o formulário */
   .form-group {
     margin-bottom: 15px;
+    display: flex !important;
+    flex-direction: row;
+    align-items: center !important;
+    padding: 1rem;
   }
   
   .form-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 0;
     font-weight: bold;
   }
   
@@ -13,7 +17,7 @@
   
   /* Estilos para os checkboxes */
   .form-check {
-    margin-top: 10px;
+    margin-top: 0;
   }
   
   .form-check-input {
@@ -30,7 +34,18 @@
   #title-action{
     font-size: 0.8rem;
     opacity: 0.6;
+    margin: auto;
+    margin-left: 2rem;
   }
+
+  #survey-form-next{
+    display: flex;
+    flex-direction: column !important;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+
   
 
 
