@@ -19,7 +19,7 @@ export default function VerAcoesPosteriores({ announcement }) {
       </h1>
       <div class="container-form">
         <div class="row">
-          <form id="survey-form">
+          <form id="survey-form-next">
             <div class="form-row">
               <div class="form-group">
                 <label for="name" id="name-label">

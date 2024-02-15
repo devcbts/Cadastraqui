@@ -206,6 +206,9 @@
     visibility: hidden;
 }
 
-
+.width-control{
+    max-width: 20vw !important;
+    margin: auto;
+}
 
 
