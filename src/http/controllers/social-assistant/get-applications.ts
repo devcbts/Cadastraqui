@@ -32,6 +32,7 @@ export async function getApplications(
     // verifica se existe o processo seletivo
     const announcement = await prisma.announcement.findUnique({
       where: { id: announcement_id },
+      include: { entity: true}
     })
 
     if (announcement) {
@@ -39,19 +40,19 @@ export async function getApplications(
       if (announcement.entity_id !== assistant.entity_id) {
         throw new NotAllowedError()
       }
-
+      const entity = announcement.entity
       // Encontra uma ou mais inscrições
       if (!application_id) {
         const applications = await prisma.application.findMany({
           where: { announcement_id },
         })
 
-        return reply.status(200).send({ applications })
+        return reply.status(200).send({ applications, entity })
       } else {
         const application = await prisma.application.findUnique({
           where: { id: application_id },
         })
-        return reply.status(200).send({ application })
+        return reply.status(200).send({ application, entity })
       }
     } else {
       throw new AnnouncementNotExists()
