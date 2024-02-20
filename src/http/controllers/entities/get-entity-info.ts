@@ -14,6 +14,9 @@ export async function getEntityInfo(
 
     const entity = await prisma.entity.findUnique({
       where: { user_id: entityId },
+      include: {
+        EntitySubsidiary: true
+      }
     })
 
     return reply.status(200).send({ entity })
