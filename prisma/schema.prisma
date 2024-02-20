@@ -142,6 +142,7 @@ model EntitySubsidiary {
   entity                     Entity            @relation(fields: [entity_id], references: [id])
   user                       User              @relation(fields: [user_id], references: [id])
   SocialAssistant            SocialAssistant[] @relation("EntitySubsidiaryToSocialAssistant")
+  EducationLevel             EducationLevel[]
 }
 
 model EntityDirector {
@@ -170,7 +171,7 @@ model IdentityDetails {
   rgIssuingAuthority                         String
   rgIssuingState                             String
   documentType                               DOCUMENT_TYPE?
-  CadUnico                                   Boolean @default(false)
+  CadUnico                                   Boolean           @default(false)
   documentNumber                             String?
   documentValidity                           DateTime?
   maritalStatus                              MARITAL_STATUS
@@ -483,13 +484,12 @@ model Announcement {
   verifiedScholarships Int?
   description          String?
   entity_id            String
-  entity_subsidiary_id String?
   announcementName     String?
   announcementLogo     String?
   type2                String?
   types1               scholarshipGrantedType[]
   entity               Entity                   @relation(fields: [entity_id], references: [id])
-  entity_subsidiary    EntitySubsidiary?        @relation(fields: [entity_subsidiary_id], references: [id])
+  entity_subsidiary    EntitySubsidiary[]
   Application          Application[]
   educationLevels      EducationLevel[]
   ScholarshipGranted   ScholarshipGranted[]
@@ -522,6 +522,8 @@ model EducationLevel {
   announcementId           String
   Application              Application[]
   announcement             Announcement                    @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+  entitySubsidiary         EntitySubsidiary?               @relation(fields: [entitySubsidiaryId], references: [id])
+  entitySubsidiaryId       String?
 }
 
 model Application {

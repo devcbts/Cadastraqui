@@ -17,7 +17,7 @@ export async function CreateAnnoucment(
     offeredVacancies: z.number(),
     verifiedScholarships: z.number(),
     entity_id: z.string().optional(),
-    entity_subsidiary_id: z.string().optional(),
+    entity_subsidiary_id: z.array(z.string()).optional(),
     announcementNumber: z.string().optional(),
     announcementDate: z.string(),
     announcementBegin: z.string(),
@@ -51,18 +51,44 @@ export async function CreateAnnoucment(
       where: { user_id: user_id },
     })
 
+    let subsidiaries
+    if (entity_subsidiary_id && entity_subsidiary_id.length > 0) {
+      // Supondo que você queira verificar a existência de cada subsidiária
+      subsidiaries = await prisma.entitySubsidiary.findMany({
+        where: {
+          id: { in: entity_subsidiary_id },
+        },
+      });
 
-    const entitySubsidiaryMatrix = entity_subsidiary_id
-      ? await prisma.entitySubsidiary.findUnique({
-        where: { id: entity_id },
-      })
-      : null
+      // Se a quantidade de subsidiárias encontradas não corresponder à quantidade de IDs fornecidos
+      if (subsidiaries.length !== entity_subsidiary_id.length) {
+        throw new Error("Uma ou mais subsidiárias fornecidas não existem.");
+      }
 
-    if (!entityMatrix && !entitySubsidiaryMatrix) {
-      throw new EntityNotExistsError()
-    }
+      if (!entityMatrix) {
+        throw new EntityNotExistsError()
+      }
 
-    if (!entitySubsidiaryMatrix) {
+      if (!subsidiaries) {
+        const announcement = await prisma.announcement.create({
+          data: {
+            entityChanged,
+            branchChanged,
+            announcementType,
+            offeredVacancies,
+            verifiedScholarships,
+            entity_id: entityMatrix!.id,
+            announcementNumber,
+            announcementDate: new Date(announcementDate),
+            announcementBegin: new Date(announcementBegin),
+            announcementName,
+            description,
+            types1,
+            type2
+          },
+        })
+        return reply.status(201).send({ announcement })
+      }
       const announcement = await prisma.announcement.create({
         data: {
           entityChanged,
@@ -71,6 +97,9 @@ export async function CreateAnnoucment(
           offeredVacancies,
           verifiedScholarships,
           entity_id: entityMatrix!.id,
+          entity_subsidiary: {
+            connect: entity_subsidiary_id.map(id => ({ id })),
+          },
           announcementNumber,
           announcementDate: new Date(announcementDate),
           announcementBegin: new Date(announcementBegin),
@@ -82,25 +111,6 @@ export async function CreateAnnoucment(
       })
       return reply.status(201).send({ announcement })
     }
-    const announcement = await prisma.announcement.create({
-      data: {
-        entityChanged,
-        branchChanged,
-        announcementType,
-        offeredVacancies,
-        verifiedScholarships,
-        entity_id: entityMatrix!.id,
-        entity_subsidiary_id,
-        announcementNumber,
-        announcementDate: new Date(announcementDate),
-        announcementBegin: new Date(announcementBegin),
-        announcementName,
-        description,
-        types1,
-        type2
-      },
-    })
-    return reply.status(201).send({ announcement })
   } catch (err: any) {
     if (err instanceof announcementAlreadyExists) {
       return reply.status(409).send({ message: err.message })

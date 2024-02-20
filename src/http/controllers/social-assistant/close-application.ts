@@ -96,7 +96,7 @@ export async function closeApplication(
                 await prisma.applicationHistory.create({
                     data: {
                         application_id,
-                        description: "Processo Deferido"
+                        description: description
 
                     },
                 })
