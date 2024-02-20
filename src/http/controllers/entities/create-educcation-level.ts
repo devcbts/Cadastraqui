@@ -55,6 +55,7 @@ export async function createEducationalLevel(
         verifiedScholarships: z.number().optional(),
         shift: SHIFT,
         semester: z.number().optional(),
+        entity_subsidary_id: z.string().optional(),
     })
 
     const educationLevelParamsSchema = z.object({
@@ -72,6 +73,7 @@ export async function createEducationalLevel(
         verifiedScholarships,
         shift,
         semester,
+        entity_subsidary_id
     } = educationalLevelBodySchema.parse(request.body)
 
     const { announcement_id} = educationLevelParamsSchema.parse(request.params)
@@ -90,6 +92,9 @@ export async function createEducationalLevel(
 
         const announcement = await prisma.announcement.findUnique({
             where: {id: announcement_id}
+        })
+        const entitySubsidiary = await prisma.entitySubsidiary.findUnique({
+            where: {id : entity_subsidary_id}
         })
 
         if (!announcement) {
@@ -113,6 +118,7 @@ export async function createEducationalLevel(
             ...(offeredVacancies && { offeredVacancies }),
             ...(verifiedScholarships && { verifiedScholarships }),
             ...(semester && { semester }),
+            ...(entitySubsidiary && {entitySubsidiaryId : entity_subsidary_id} )
         };
 
         await prisma.educationLevel.create({

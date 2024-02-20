@@ -45,6 +45,7 @@ export async function getAnnouncements(
       announcement = await prisma.announcement.findUnique({
         where: { id: announcement_id }, include: {
           educationLevels:true,
+          entity_subsidiary: true
 
           
         }
