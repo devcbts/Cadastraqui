@@ -88,7 +88,7 @@ export default function NavBarCandidato(props) {
     getProfilePhoto();
 
     const token = localStorage.getItem("token");
-    const candidate = JSON.parse(localStorage.getItem("candidate") || "null");
+    const candidate = JSON.parse(localStorage.getItem("candidat") || "null");
 
     if (!candidate) {
       async function getCandidateInfo() {

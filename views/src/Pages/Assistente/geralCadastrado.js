@@ -249,7 +249,7 @@ export default function GeralCadastrado() {
 
   function Acoes() {
     return (
-      <VerAcoesPosteriores announcement={announcement}/>
+      <VerAcoesPosteriores announcement={announcement} application={application}/>
     );
   }
 

@@ -282,9 +282,7 @@ export default function CadastroEntidade() {
     const subsidiaryForm = thirdForm.current;
 
     if (subsidiaryForm.checkValidity()) {
-      const name = subsidiaryForm.querySelector(
-        'input[name="subsidiary-name"]'
-      ).value;
+      const name = 'Exemplo'
       const address = subsidiaryForm.querySelector(
         'input[name="subsidiary-address"]'
       ).value;
@@ -532,7 +530,7 @@ export default function CadastroEntidade() {
             </fieldset>*/}
 
                 <fieldset className="btn-field">
-                  <button name="submit" id="contact-submit" type="button">
+                  <button name="submit" id="contact-submit" type="button" onClick={handleCreateSubsidiary}>
                     Cadastrar
                   </button>
                 </fieldset>

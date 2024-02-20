@@ -9,15 +9,18 @@ const types1Options = [
   { value: "STUDY_MATERIAL", label: "Material Didático" },
 ];
 
-export default function VerAcoesPosteriores({ announcement }) {
+export default function VerAcoesPosteriores({ announcement, application }) {
   console.log(announcement);
   return (
     <div className="fill-container general-info acoes-posteriores">
+
       <h1 id="title-action">
         *Informações posteriores à conclusão da análise referente ao processo de
         matrícula
       </h1>
+      
       <div class="container-form">
+        { application.status === 'Approved' ?
         <div class="row">
           <form id="survey-form-next">
             <div class="form-row">
@@ -109,6 +112,11 @@ export default function VerAcoesPosteriores({ announcement }) {
             <a className="btn-cadastro">Salvar</a>
           </form>
         </div>
+        : <div>
+          <h1>Sessão disponível apenas após o deferimento da candidatura na sessão do Parecer!</h1>
+        </div>
+          }
+
       </div>
     </div>
   );

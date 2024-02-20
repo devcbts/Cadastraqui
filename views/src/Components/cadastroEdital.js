@@ -1,5 +1,8 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+
 import axios from 'axios';
 import { api } from '../services/axios';
 import PdfPreview from './pdfPreview';
@@ -64,6 +67,10 @@ const types1Options = [
 ];
 export default function CadastroEdital() {
 
+
+    const navigate = useNavigate();
+
+
     const [announcementType, setAnnouncementType] = useState(""); // Initial value can be set to default if needed.
     const [educationLevel, setEducationLevel] = useState("");
     const [file, setFile] = useState(null);
@@ -77,6 +84,71 @@ export default function CadastroEdital() {
     const [filePdf, setFilePdf] = useState(null)
     const [selectedCursos, setSelectedCursos] = useState([]);
 
+
+    // Para as subsidiarias e entidade
+    const [subsidiaries, setSubsidiaries] = useState(null)
+    const [selectedSubsidiaries, setSelectedSubsidiaries] = useState([])
+    const [entity, setEntity] = useState([])
+    const [selectedEntityOrSubsidiary, setSelectedEntityOrSubsidiary] = useState('');
+    useEffect(() => {
+        async function getEntityInfo() {
+
+            const token = localStorage.getItem("token")
+            
+            try {
+
+                const response = await api.get('/entities/', {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+                console.log(response.data)
+                setEntity(response.data.entity)
+                setSubsidiaries(response.data.entity.EntitySubsidiary)
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        async function refreshAccessToken() {
+            try{
+              const refreshToken = Cookies.get('refreshToken')
+        
+              const response = await api.patch(`/refresh?refreshToken=${refreshToken}`)
+              
+              const {newToken, newRefreshToken} = response.data
+              localStorage.setItem('token', newToken)
+              Cookies.set('refreshToken', newRefreshToken, {
+                expires: 7,
+                sameSite: true,
+                path: '/',
+              })
+            } catch(err) {
+              console.log(err)
+              navigate('/login')
+            }
+          }
+          refreshAccessToken()
+        getEntityInfo()
+    }, [])
+
+    // Mudança de entidade e subsidiaria
+    const handleEntityOrSubsidiaryChange = (value) => {
+        setSelectedEntityOrSubsidiary(value);
+      
+        // Se a matriz for selecionada, resetar selectedSubsidiaries e entity_subsidiary_id
+        if (value === entity.id) {
+          setCurrentCourse({ ...currentCourse, entity_subsidiary_id: null });
+        } else {
+          // Se uma filial for selecionada, adicionar ao selectedSubsidiaries
+          const selectedSubsidiary = subsidiaries?.find(sub => sub.id === value);
+          if (selectedSubsidiary) {
+            setSelectedSubsidiaries([...selectedSubsidiaries, selectedSubsidiary]);
+            setCurrentCourse({ ...currentCourse, entity_subsidiary_id: selectedSubsidiary.id });
+          }
+        }
+      };
+      
 
     // para os tipos de bolsas
     const [selectedTypes1, setSelectedTypes1] = useState([]);
@@ -100,6 +172,8 @@ export default function CadastroEdital() {
     };
 
 
+
+
     const [currentCourse, setCurrentCourse] = useState({
         availableCourses: '',
         offeredVacancies: 5000,
@@ -108,9 +182,10 @@ export default function CadastroEdital() {
         grade: '',
         basicEduType: '',
         scholarshipType: '',
-        higherEduScholarshipType: '',
+        higherEduScholarshipType: 'PROUNIFull',
         offeredCourseType: '',
-        shift: 'Matutino'
+        shift: 'Matutino',
+        entity_subsidiary_id: subsidiaries ? subsidiaries[0].id : null
     });
 
     const [educationalLevels, setEducationalLevels] = useState([]);
@@ -132,7 +207,8 @@ export default function CadastroEdital() {
             scholarshipType: '',
             higherEduScholarshipType: '',
             offeredCourseType: '',
-            shift: 'Matutino'
+            shift: 'Matutino',
+            entity_subsidiary_id: subsidiaries ? subsidiaries[0].id : null
         })
         setIsAddingCourse(false)
     };
@@ -202,6 +278,7 @@ export default function CadastroEdital() {
 
     async function handleSubmit(event) {
         event.preventDefault();
+       
         const data = {
             entityChanged: false,
             branchChanged: false,
@@ -232,6 +309,7 @@ export default function CadastroEdital() {
                 description: description,
                 types1: selectedTypes1.map(option => option.value), // Envia apenas os valores
                 type2: type2,
+                entity_subsidiary_id: selectedSubsidiaries.map(subsidiary => subsidiary.id), // Adiciona os IDs das filiais
 
             },
                 {
@@ -255,7 +333,8 @@ export default function CadastroEdital() {
                     offeredVacancies: education.offeredVacancies,
                     verifiedScholarships: education.verifiedScholarships,
                     shift: education.shift,
-                    semester: education.semester
+                    semester: education.semester,
+                    entity_subsidiary_id: education.entity_subsidiary_id
                 }
                 console.log('====================================');
                 console.log(data);
@@ -272,7 +351,9 @@ export default function CadastroEdital() {
                             offeredVacancies: education.offeredVacancies,
                             verifiedScholarships: education.verifiedScholarships,
                             shift: education.shift,
-                            semester: education.semester
+                            semester: education.semester,
+                            entity_subsidiary_id: education.entity_subsidiary_id
+
                         }, {
                         headers: {
                             authorization: `Bearer ${token}`,
@@ -312,7 +393,18 @@ export default function CadastroEdital() {
     const [isAddingCourse, setIsAddingCourse] = useState(false);
     const [isEdittingCourse, setIsEdittingCourse] = useState(true);
     //Tabela dos educational Level
-    const EducationalLevelsTable = ({ educationalLevels }) => {
+    const EducationalLevelsTable = ({ educationalLevels  }) => {
+        // Função auxiliar para encontrar o nome da matriz ou da filial
+        const findEntityOrSubsidiaryName = (level) => {
+            // Se level.entity_subsidiary_id estiver definido, tente encontrar a filial correspondente
+            if (level.entity_subsidiary_id) {
+                const subsidiary = subsidiaries.find(sub => sub.id === level.entity_subsidiary_id);
+                return subsidiary ? subsidiary.socialReason : "Filial não encontrada";
+            }
+            // Caso contrário, retorne o nome da matriz
+            return entity.name;
+        };
+        console.log(selectedSubsidiaries)
         return (
             <table>
                 <thead>
@@ -330,13 +422,13 @@ export default function CadastroEdital() {
                 <tbody>
                     {educationalLevels.map((level, index) => (
                         <tr key={index}>
-                            <td>Entidade A</td>
+                            <td>{findEntityOrSubsidiaryName(level)}</td>
                             <td>{level.verifiedScholarships}</td>
                             <td>{level.availableCourses}</td>
                             <td>{level.semester}</td>
                             <td>{level.shift}</td>
-                            <td>{level.higherEduScholarshipType}</td>
-                            <td> 
+                            <td>{translateHigherEducationScholashipType(level.higherEduScholarshipType)}</td>
+                            <td>
                                 <button className='button-edital-editar' onClick={() => editEducationalLevel(index)}>Editar</button>
                                 <button className='button-edital-excluir' onClick={() => deleteEducationalLevel(index)}>Excluir</button>
                             </td>
@@ -347,6 +439,7 @@ export default function CadastroEdital() {
             </table>
         );
     };
+    
 
     // Edição dos dados da tabela
     const editEducationalLevel = (index) => {
@@ -361,7 +454,7 @@ export default function CadastroEdital() {
         setEducationalLevels(currentLevels => currentLevels.filter((_, i) => i !== index));
     };
 
-    
+
 
 
     return (
@@ -506,6 +599,21 @@ export default function CadastroEdital() {
                         <div className='box-edital'>
 
                             {/* Dropdown para offeredCourseType */}
+                            <fieldset>
+                                <label>Matriz ou Filial:</label>
+                                <select
+                                    value={selectedEntityOrSubsidiary}
+                                    onChange={(e) => handleEntityOrSubsidiaryChange(e.target.value)}
+                                >
+                                    <option value={entity.id}>Matriz - {entity.name}</option>
+                                    {subsidiaries.map((subsidiary) => (
+                                        <option key={subsidiary.id} value={subsidiary.id}>
+                                            Filial - {subsidiary.socialReason}
+                                        </option>
+                                    ))}
+                                </select>
+                            </fieldset>
+
                             <fieldset>
 
                                 <label>
@@ -787,3 +895,9 @@ export default function CadastroEdital() {
     )
 }
 
+function translateHigherEducationScholashipType(HigherEducationScholarship) {
+    const HigherEducation = HigherEducationScholarshipType.find(
+      (r) => r.value === HigherEducationScholarship
+    );
+    return HigherEducation ? HigherEducation.label : "Não especificado";
+  }

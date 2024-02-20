@@ -21,7 +21,39 @@ export default function CandidatosCadastrados() {
   //Lista rankeada pela renda
   const [rankedList, setRankedList] = useState([])
   const { isShown } = useAppState();
+
+  // Filtragem no sistema 
   const [filterIsShown, setFilterIsShown] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState('');
+  const [selectedShift, setSelectedShift] = useState('');
+  const [selectedScholarshipType, setSelectedScholarshipType] = useState('');
+
+  // Função para manipular a mudança de curso
+  const handleCourseSelection = (event) => {
+    const course = event.target.value;
+    setSelectedCourse(course);
+    // Resetar os outros seletores para garantir consistência
+    setSelectedShift('');
+    setSelectedScholarshipType('');
+  };
+
+  // Função para manipular a mudança de período
+  const handleShiftChange = (event) => {
+    const shift = event.target.value;
+    setSelectedShift(shift);
+    // Pode querer resetar o tipo de bolsa se for dependente do turno
+    setSelectedScholarshipType('');
+  };
+
+  // Função para manipular a mudança do tipo de bolsa
+  const handleScholarshipTypeChange = (event) => {
+    const scholarshipType = event.target.value;
+    setSelectedScholarshipType(scholarshipType);
+  };
+
+  //------------------------------------------------------
+
+
   const [applications, setApplications] = useState();
 
   //Edital e education levels
@@ -119,34 +151,68 @@ export default function CandidatosCadastrados() {
         </div>
 
         {filterIsShown && (
-          <div className="filters">
-            <ul>
-              <li>
-                <div>
-                  <select onChange={handleEducationLevelChange}>
-                    <option value={null}>Selecione um curso</option>
-                    {educationLevels.map((level) => (
-                      <option key={level.id} value={level.id}>{level.availableCourses}</option>
-                    ))}
-                  </select>
-                </div>
-              </li>
+  <div className="filters">
+    <ul>
+      <li>
+        <div>
+          <select onChange={handleCourseSelection}>
+            <option value="">Selecione um curso</option>
+            {educationLevels
+              .map(level => level.availableCourses)
+              .filter((course, index, self) => self.indexOf(course) === index) // Remove duplicatas
+              .map((course, index) => (
+                <option key={index} value={course}>{course}</option>
+              ))}
+          </select>
+        </div>
+      </li>
+      <li>
+        <div>
+          <select onChange={handleShiftChange} value={selectedShift}>
+            <option value="">Selecione um período</option>
+            {educationLevels
+              .filter(level => level.availableCourses === selectedCourse)
+              .map(level => level.shift)
+              .filter((shift, index, self) => self.indexOf(shift) === index) // Remove duplicatas
+              .map((shift, index) => (
+                <option key={index} value={shift}>{shift}</option>
+              ))}
+          </select>
+        </div>
+      </li>
+      <li>
+        <div>
+          <select onChange={handleScholarshipTypeChange} value={selectedScholarshipType}>
+            <option value="">Selecione um tipo de bolsa</option>
+            {educationLevels
+              .filter(level => level.availableCourses === selectedCourse && level.shift === selectedShift)
+              .flatMap(level => level.higherEduScholarshipType) // Supondo que `types1` contém os tipos de bolsa
+              .filter((type, index, self) => self.indexOf(type) === index) // Remove duplicatas
+              .map((type, index) => (
+                <option key={index} value={type}>{translateHigherEducationScholashipType(type)}</option> // Use uma função de tradução se necessário
+              ))}
+          </select>
+        </div>
+      </li>
+      {/* ... (outros filtros conforme necessário) */}
+    </ul>
+  </div>
+)}
 
-
-              {/* ... (outros filtros) */}
-            </ul>
-          </div>
-        )}
         {/* ... (restante da renderização) */}
 
         <div className="solicitacoes">
 
           <div className="education-levels-container">
             {educationLevels
-              .filter(level => selectedEducationLevel === null || level.id === selectedEducationLevel)
+              .filter(level => (selectedEducationLevel === null || level.id === selectedEducationLevel) &&
+              (selectedShift === '' || level.shift === selectedShift) &&
+              (selectedCourse === '' || level.availableCourses.includes(selectedCourse)) &&
+              (selectedScholarshipType === '' || level.higherEduScholarshipType === selectedScholarshipType))
+        
               .map((level) => (
                 <div key={level.id} className="education-level">
-                  <h2>{level.availableCourses}</h2>
+                  <h2>{level.availableCourses} | {level.shift} | {translateHigherEducationScholashipType(level.higherEduScholarshipType) }</h2>
                   {/* Renderize os candidatos para este nível de educação */}
                   {rankedList[level.id]?.map((application) => (
                     <div key={application.candidateApplication.id}>
@@ -158,21 +224,21 @@ export default function CandidatosCadastrados() {
                         valor={application.totalIncomePerCapita}
                         announcementName={announcement.announcementName}
                       />
-                    
+
                     </div>
-                    
+
                   ))}
-                    <Candidatura
-                        name="João Paulo"
-                        assistente='Fernado Souza'
-                        announcement_id={announcement_id}
-                        valor={3500}
-                      /><Candidatura
-                        name="João Paulo"
-                        assistente='Fernado Souza'
-                        announcement_id={announcement_id}
-                        valor={5000}
-                      />
+                  <Candidatura
+                    name="João Paulo"
+                    assistente='Fernado Souza'
+                    announcement_id={announcement_id}
+                    valor={3500}
+                  /><Candidatura
+                    name="João Paulo"
+                    assistente='Fernado Souza'
+                    announcement_id={announcement_id}
+                    valor={5000}
+                  />
                 </div>
               ))
             }
@@ -182,3 +248,24 @@ export default function CandidatosCadastrados() {
     </div>
   );
 }
+
+
+
+
+function translateHigherEducationScholashipType(HigherEducationScholarship) {
+  const HigherEducation = HigherEducationScholarshipType.find(
+    (r) => r.value === HigherEducationScholarship
+  );
+  return HigherEducation ? HigherEducation.label : "Não especificado";
+}
+const HigherEducationScholarshipType = [
+  { value: 'PROUNIFull', label: 'PROUNI Integral' },
+  { value: 'PROUNIPartial', label: 'PROUNI Parcial' },
+  { value: 'StateGovernment', label: 'Governo Estadual' },
+  { value: 'CityGovernment', label: 'Governo Municipal' },
+  { value: 'ExternalEntities', label: 'Entidades Externas' },
+  { value: 'HigherEduInstitutionFull', label: 'Instituição de Ensino Superior Integral' },
+  { value: 'HigherEduInstitutionPartial', label: 'Instituição de Ensino Superior Parcial' },
+  { value: 'HigherEduInstitutionWorkers', label: 'Trabalhadores da Instituição de Ensino Superior' },
+  { value: 'PostgraduateStrictoSensu', label: 'Pós-Graduação Stricto Sensu' }
+];

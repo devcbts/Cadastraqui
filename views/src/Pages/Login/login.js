@@ -12,11 +12,15 @@ import { useAuth } from "../../context/auth";
 import { useNavigate } from "react-router";
 
 
+
+
+
 export default function Login() {
   const [currentPage, setCurrentPage] = useState(0);
   const responsavelRef = useRef(null);
   const candidatoRef = useRef(null);
   const [numDependentes, setNumDependentes] = useState(0);
+  const [showLgpdPopup, setShowLgpdPopup] = useState(false);
 
   const [responsibleId, setResponsibleId] = useState();
   const [typeOfUser, setTypeOfUser] = useState()
@@ -124,13 +128,13 @@ export default function Login() {
 
   // BackEnd Functions 
   const { SignIn } = useAuth()
-  const navigate  = useNavigate()
+  const navigate = useNavigate()
 
   async function login() {
     // Pega o valor do email e password dos inputs 
     const loginFormElement = loginForm.current
-    
-    if(loginFormElement.checkValidity()) {
+
+    if (loginFormElement.checkValidity()) {
       const email = loginFormElement.querySelector('input[id="usermail"]').value
       const password = loginFormElement.querySelector('input[id="pass"]').value
 
@@ -140,15 +144,15 @@ export default function Login() {
       const role = await SignIn(credentials)
 
 
-      if(role ==='CANDIDATE' || role === 'RESPONSIBLE') {
+      if (role === 'CANDIDATE' || role === 'RESPONSIBLE') {
         navigate('/candidato/home')
-      } else if(role === 'ENTITY') {
+      } else if (role === 'ENTITY') {
         navigate('/entidade/home')
-      } else if(role === 'ASSISTANT') {
+      } else if (role === 'ASSISTANT') {
         navigate('/assistente/home')
-      } else if(role === 'ENTITY') {
+      } else if (role === 'ENTITY') {
         navigate('/entidade/home')
-      }else if(role === 'ADMIN'){
+      } else if (role === 'ADMIN') {
         navigate('/admin/cadastro')
       }
     } else {
@@ -172,11 +176,10 @@ export default function Login() {
 
     const address = addressFormElement.querySelector('input[name="address"]').value
     const CEP = addressFormElement.querySelector('input[name="CEP"]').value
-    const UF = addressFormElement.querySelector('input[name="UF"]').value
+    const UF = addressFormElement.querySelector('select[name="UF"]').value;
     const city = addressFormElement.querySelector('input[name="city"]').value
     const neighborhood = addressFormElement.querySelector('input[name="neighborhood"]').value
     const addressNumber = addressFormElement.querySelector('input[name="addressNumber"]').value
-    
     const registerInfo = {
       name,
       CPF,
@@ -191,27 +194,30 @@ export default function Login() {
       neighborhood,
       addressNumber: Number(addressNumber)
     }
-
-    if(typeOfUser === 'candidate') {
+    
+    if (typeOfUser === 'candidate') {
       api.post('/candidates', registerInfo)
-      .then(() => { alert('Cadastro realizado com sucesso !')
-      setCurrentPage(0)
-    })
-      .catch((err) => {
-        alert(`${err.response.data.message}`)
-      })
-    } else if(typeOfUser === 'responsible') {
+        .then(() => {
+          alert('Cadastro realizado com sucesso !')
+          setCurrentPage(0)
+        })
+        .catch((err) => {
+          console.log(err)
+          alert(`${err.response.data.message}`)
+        })
+    } else if (typeOfUser === 'responsible') {
       api.post('/responsibles', registerInfo)
-      .then(response => {alert('Cadastro realizado com sucesso !')
-        setResponsibleId(response.data.responsible_id)
-        handlePageChange()
-      })
-      .catch((err) => alert(`${err.response.data.message}`))  
+        .then(response => {
+          alert('Cadastro realizado com sucesso !')
+          setResponsibleId(response.data.responsible_id)
+          handlePageChange()
+        })
+        .catch((err) => alert(`${err.response.data.message}`))
     }
   }
 
   async function handleRegisterDependent() {
-    let names =[]
+    let names = []
     let CPFs = []
     let birthDates = []
 
@@ -224,26 +230,29 @@ export default function Login() {
       birthDates.push(birthDate)
     }
 
-    
-      for (let i = 0; i < numDependentes; i++) {
-        const data = {
-          CPF:CPFs[i],
-          birthDate: new Date(birthDates[i]),
-          name: names[i],
-          responsible_id:responsibleId
-        }
 
-        await api.post('/responsibles/legal-dependents', data)
+    for (let i = 0; i < numDependentes; i++) {
+      const data = {
+        CPF: CPFs[i],
+        birthDate: new Date(birthDates[i]),
+        name: names[i],
+        responsible_id: responsibleId
+      }
+
+      await api.post('/responsibles/legal-dependents', data)
         .then(() => alert('Cadastro Concluído com sucesso !'))
-        .catch((error) => {console.log(error)
+        .catch((error) => {
+          console.log(error)
           alert(`${error.response.data.message}`)
         })
-      }
-      setCurrentPage(0)
-    
-    
-  } 
+    }
+    setCurrentPage(0)
 
+
+  }
+  const toggleLgpdPopup = () => {
+    setShowLgpdPopup(!showLgpdPopup);
+  };
 
   return (
     <div className="login-container">
@@ -258,7 +267,7 @@ export default function Login() {
           <img src={logo}></img>
         </div>
         <div className="text-login">
-          <h1>{currentPage === 0 ? 'LOGIN': 'CADASTRO'}</h1>
+          <h1>{currentPage === 0 ? 'LOGIN' : 'CADASTRO'}</h1>
 
           <div
             className={`cadastro-second ${currentPage !== 0 && "hidden-page"}`}
@@ -429,17 +438,16 @@ export default function Login() {
                   type="number"
                   id="nome"
                   name="CEP"
-                  placeholder="Exemplo: Jean Carlo do Amaral"
+                  placeholder="Exemplo: 12228-402"
                 ></input>
-                 <label for="nome">
+                <label for="nome">
                   <h2 className="info-cadastrado">UF</h2>
                 </label>
-                <input
-                  type="text"
-                  id="nome"
-                  name="UF"
-                  placeholder="Exemplo: Jean Carlo do Amaral"
-                ></input>
+                <select id="uf" name="UF">
+                  {COUNTRY.map(({ value, label }) => (
+                    <option value={value}>{label}</option>
+                  ))}
+                </select>
                 <label for="nome">
                   <h2 className="info-cadastrado">Cidade</h2>
                 </label>
@@ -447,7 +455,7 @@ export default function Login() {
                   type="text"
                   id="nome"
                   name="city"
-                  placeholder="Exemplo: Jean Carlo do Amaral"
+                  placeholder="Exemplo: São Paulo"
                 ></input>
                 <label for="nome">
                   <h2 className="info-cadastrado">Bairro</h2>
@@ -456,7 +464,7 @@ export default function Login() {
                   type="text"
                   id="nome"
                   name="neighborhood"
-                  placeholder="Exemplo: Jean Carlo do Amaral"
+                  placeholder="Exemplo: Ipiranga"
                 ></input>
                 <label for="nome">
                   <h2 className="info-cadastrado">Número do Endereço</h2>
@@ -465,7 +473,7 @@ export default function Login() {
                   type="text"
                   id="nome"
                   name="addressNumber"
-                  placeholder="Exemplo: Jean Carlo do Amaral"
+
                 ></input>
                 <label for="nome">
                   <h2 className="info-cadastrado">Endereço completo</h2>
@@ -474,7 +482,6 @@ export default function Login() {
                   type="text"
                   id="nome"
                   name="address"
-                  placeholder="Exemplo: Jean Carlo do Amaral"
                   required
                 ></input>
               </div>
@@ -498,9 +505,8 @@ export default function Login() {
           </div>
 
           <div
-            className={`cadastro-subperfil ${
-              currentPage !== 4 && "hidden-page"
-            }`}
+            className={`cadastro-subperfil ${currentPage !== 4 && "hidden-page"
+              }`}
           >
             <div>
               <h2>
@@ -520,7 +526,7 @@ export default function Login() {
                       name="drone"
                       value="responsavel"
                       ref={responsavelRef}
-                      onClick={() => {setTypeOfUser('responsible')}}
+                      onClick={() => { setTypeOfUser('responsible') }}
                     />
                   </div>
 
@@ -534,15 +540,17 @@ export default function Login() {
                       name="drone"
                       value="candidato"
                       ref={candidatoRef}
-                      onClick={() => {setTypeOfUser('candidate')}}
+                      onClick={() => { setTypeOfUser('candidate') }}
                     />
                   </div>
                   <div className="radio-input">
-                    <label for="confirm-read">
+                    <label for="confirm-read" onClick={toggleLgpdPopup}>
                       <h3>Li e concordo com os termos LGPD</h3>
                     </label>
                     <input type="checkbox" id="confirm-read" required></input>
                   </div>
+                  {showLgpdPopup && <LgpdPopup onClose={() => setShowLgpdPopup(false)} />}
+
                 </div>
               </form>
               <div className="btn-confirmar" onClick={() => handleRegister()}>
@@ -563,9 +571,8 @@ export default function Login() {
           </div>
 
           <div
-            className={`cadastro-subperfil ${
-              currentPage !== 5 && "hidden-page"
-            }`}
+            className={`cadastro-subperfil ${currentPage !== 5 && "hidden-page"
+              }`}
           >
             <div>
               <h2 style={{ marginTop: "1rem" }}>
@@ -635,3 +642,115 @@ export default function Login() {
     </div>
   );
 }
+
+const LgpdPopup = ({ onClose }) => (
+  <div className="lgpd-popup-overlay" style={{ width: '100%' }}>
+    <div className="lgpd-popup-content">
+      <h2>DO TRATAMENTO E PROTEÇÃO DE DADOS PESSOAIS COM SEU CONSENTIMENTO</h2>
+      <p>
+        O tratamento de dados pessoais e sensíveis realizado pela CADASTRAQUI
+        está de acordo com a legislação relativa à privacidade e à proteção de
+        dados pessoais no Brasil, tais como a Lei Geral de Proteção de Dados
+        Pessoais (Lei nº 13.709/2018), as leis e normas setoriais, a Lei nº
+        12.965/2014 e o Decreto nº 8771/16; bem como se dará nos termos dos
+        Editais de Seleção ou Manutenção de Bolsa de Estudo, concedidas ou
+        mantidas nos termos da Lei Complementar nº 187, de 16 de dezembro de
+        2021. A finalidade específica do tratamento dos dados é a seleção de
+        beneficiários de bolsas de estudo integrais e parciais com 50%
+        (cinquenta por cento) de gratuidade, com base em critérios
+        socioeconômicos.
+      </p>
+      <p>
+        Ao realizar o processo de preenchimento do formulário eletrônico, bem
+        como o upload da documentação exigida, os candidatos(as)/alunos(as)
+        maiores de idade, os pais e/ou responsáveis legais de candidatos(as) ou
+        alunos(as) já beneficiários autorizam a CADASTRAQUI acessar e a
+        disponibilizar as informações à INSTITUIÇÃO DE ENSINO de sua escolha
+        para que esta realize o tratamento dos dados pessoais e sensíveis e esta
+        poderá comunicar ou transferir em parte, ou na sua totalidade, os dados
+        pessoais do candidato, familiares, representantes legais, a entidades
+        públicas e/ou privadas, sempre que o fornecimento dos respectivos dados
+        decorra de obrigação legal e/ou seja necessário para o cumprimento do
+        Edital aberto. Cabe ressaltar, que a INSTITUIÇÃO DE ENSINO presta contas
+        de seus processos seletivos (como: quantidade de inscritos, aprovados e
+        indeferidos) e beneficiários de suas bolsas de estudo ao Ministério da
+        Educação.
+      </p>
+      <p>
+        A CADASTRAQUI fará o arquivo da documentação que instruiu o processo de
+        seleção de candidatos (novos alunos ou renovação) para a concessão da
+        gratuidade integral ou parcial com 50% (cinquenta por cento de
+        gratuidade) pelo prazo de 10 (dez) anos, a contar do encerramento dos
+        prazos de que trata cada Edital, conforme determina a Lei Complementar
+        nº 187, de 16 de dezembro de 2021, facultando a INSTITUIÇÃO DE ENSINO
+        obter cópia para manter arquivo secundário.{" "}
+      </p>
+      <p>
+        A CADASTRAQUI firmou acordo de confidencialidade com seus colaboradores,
+        prepostos, subcontratados e outros que possam ter acesso às informações
+        sobre o dever de confidencialidade e sigilo.
+      </p>
+      <p>
+        As informações constantes do formulário eletrônico, da análise técnica
+        dos documentos apresentados e da análise da condição social dos alunos
+        não selecionados serão submetidas ao processo de anonimização pela
+        CADASTRAQUI e após o cumprimento do prazo legal de guarda e arquivo, as
+        informações prestadas e arquivos de upload de documentos serão
+        eliminados, através de procedimentos seguros que garantam a exclusão das
+        informações.{" "}
+      </p>
+      <p>
+        É garantido aos usuários maiores de idade e representantes legais o
+        exercício de todos os direitos, nos termos do art. 18 da Lei Geral de
+        Proteção de Dados, bem como o livre acesso aos dados pessoais do(a)
+        CANDIDATO(A)/ALUNO(A), especialmente em razão da obrigação destes em
+        manter os dados atualizados, mediante procedimento de login no sistema.
+      </p>
+      <p>
+        Em casos de violação de dados pessoais, a controladora, comunicará o
+        fato aos titulares de dados e a Autoridade Nacional de Proteção de Dados
+        – ANPD, atendendo aos termos e condições previstos na Lei Geral de
+        Proteção de Dados.{" "}
+      </p>
+      <p>
+        Para esclarecimentos adicionais, dúvidas ou sugestões, sobre o sistema
+        CADASTRAQUI, solicita-se o envio pelo SAC disponível no sistema.
+      </p>
+
+      <button className="btn-accept" onClick={onClose}>
+        Li e Aceito
+      </button>
+    </div>
+  </div>
+);
+
+
+const COUNTRY = [
+  { value: "AC", label: "Acre" },
+  { value: "AL", label: "Alagoas" },
+  { value: "AM", label: "Amazonas" },
+  { value: "AP", label: "Amapá" },
+  { value: "BA", label: "Bahia" },
+  { value: "CE", label: "Ceará" },
+  { value: "DF", label: "Distrito Federal" },
+  { value: "ES", label: "Espírito Santo" },
+  { value: "GO", label: "Goiás" },
+  { value: "MA", label: "Maranhão" },
+  { value: "MG", label: "Minas Gerais" },
+  { value: "MS", label: "Mato Grosso do Sul" },
+  { value: "MT", label: "Mato Grosso" },
+  { value: "PA", label: "Pará" },
+  { value: "PB", label: "Paraíba" },
+  { value: "PE", label: "Pernambuco" },
+  { value: "PI", label: "Piauí" },
+  { value: "PR", label: "Paraná" },
+  { value: "RJ", label: "Rio de Janeiro" },
+  { value: "RN", label: "Rio Grande do Norte" },
+  { value: "RO", label: "Rondônia" },
+  { value: "RR", label: "Roraima" },
+  { value: "RS", label: "Rio Grande do Sul" },
+  { value: "SC", label: "Santa Catarina" },
+  { value: "SE", label: "Sergipe" },
+  { value: "SP", label: "São Paulo" },
+  { value: "TO", label: "Tocantins" },
+];
