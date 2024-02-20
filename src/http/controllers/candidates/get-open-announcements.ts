@@ -26,7 +26,11 @@ export async function getOpenAnnouncements(
       announcements = await prisma.announcement.findUnique({
         where: { id: announcement_id, announcementDate: { gte: new Date() } },
         include:{
-          educationLevels: true,
+          educationLevels: {
+            include: {
+              entitySubsidiary: true
+            }
+          },
           entity: true,
           entity_subsidiary: true,
         }
