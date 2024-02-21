@@ -95,7 +95,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     registerAutonomousInfo,
   )
   app.patch(
-    '/family-info/:CPF?',
+    '/family-info/:_id',
     { onRequest: [verifyJWT] },
     updateFamilyMemberInfo,
   )
