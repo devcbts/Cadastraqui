@@ -109,53 +109,53 @@ export async function updateIdentityInfo(
   const userDataSchema = z.object({
     fullName: z.string().optional(),
     socialName: z.string().optional(),
-    gender: z.union([GENDER, z.undefined()]),
+    gender: z.union([GENDER, z.null()]),
     nationality: z.string().optional(),
     natural_city: z.string().optional(),
-    natural_UF: z.union([COUNTRY, z.undefined()]),
+    natural_UF: z.union([COUNTRY, z.null()]),
     RG: z.string().optional(),
     rgIssuingAuthority: z.string().optional(),
     rgIssuingState: z.string().optional(),
-    documentType: z.union([DOCUMENT_TYPE, z.undefined()]),
-    documentNumber: z.union([z.string(), z.undefined()]),
-    documentValidity: z.union([z.string(), z.undefined()]),
+    documentType: z.union([DOCUMENT_TYPE, z.null()]),
+    documentNumber: z.union([z.string(), z.null()]),
+    documentValidity: z.union([z.string(), z.null()]),
     numberOfBirthRegister: z.string().optional(),
     bookOfBirthRegister: z.string().optional(),
     pageOfBirthRegister: z.string().optional(),
-    maritalStatus: z.union([MARITAL_STATUS, z.undefined()]),
-    skinColor: z.union([SkinColor, z.undefined()]),
-    religion: z.union([RELIGION, z.undefined()]),
-    educationLevel: z.union([SCHOLARSHIP, z.undefined()]),
-    specialNeeds: z.union([z.boolean(), z.undefined()]),
-    specialNeedsDescription: z.union([z.string(), z.undefined()]),
-    hasMedicalReport: z.union([z.boolean(), z.undefined()]),
-    landlinePhone: z.union([z.string(), z.undefined()]),
-    workPhone: z.union([z.string(), z.undefined()]),
-    contactNameForMessage: z.union([z.string(), z.undefined()]),
+    maritalStatus: z.union([MARITAL_STATUS, z.null()]),
+    skinColor: z.union([SkinColor, z.null()]),
+    religion: z.union([RELIGION, z.null()]),
+    educationLevel: z.union([SCHOLARSHIP, z.null()]),
+    specialNeeds: z.union([z.boolean(), z.null()]),
+    specialNeedsDescription: z.union([z.string(), z.null()]),
+    hasMedicalReport: z.union([z.boolean(), z.null()]),
+    landlinePhone: z.union([z.string(), z.null()]),
+    workPhone: z.union([z.string(), z.null()]),
+    contactNameForMessage: z.union([z.string(), z.null()]),
     profession: z.string().optional(),
-    enrolledGovernmentProgram: z.union([z.boolean(), z.undefined()]),
-    NIS: z.union([z.string(), z.undefined()]),
+    enrolledGovernmentProgram: z.union([z.boolean(), z.null()]),
+    NIS: z.union([z.string(), z.null()]),
     incomeSource: z.array(IncomeSource).optional(),
     livesAlone: z.boolean().optional(),
     intendsToGetScholarship: z.boolean().optional(),
-    attendedPublicHighSchool: z.union([z.boolean(), z.undefined()]),
-    benefitedFromCebasScholarship_basic: z.union([z.boolean(), z.undefined()]),
+    attendedPublicHighSchool: z.union([z.boolean(), z.null()]),
+    benefitedFromCebasScholarship_basic: z.union([z.boolean(), z.null()]),
     yearsBenefitedFromCebas_basic: z.array(z.string()).optional(), // Certifique-se de que isso está correto
-    scholarshipType_basic: z.union([ScholarshipType, z.undefined()]),
-    institutionName_basic: z.union([z.string(), z.undefined()]),
-    institutionCNPJ_basic: z.union([z.string(), z.undefined()]),
+    scholarshipType_basic: z.union([ScholarshipType, z.null()]),
+    institutionName_basic: z.union([z.string(), z.null()]),
+    institutionCNPJ_basic: z.union([z.string(), z.null()]),
     benefitedFromCebasScholarship_professional: z.union([
       z.boolean(),
-      z.undefined(),
+      z.null(),
     ]),
     lastYearBenefitedFromCebas_professional: z.union([
       z.string(),
-      z.undefined(),
+      z.null(),
     ]),
-    scholarshipType_professional: z.union([ScholarshipType, z.undefined()]),
-    institutionName_professional: z.union([z.string(), z.undefined()]),
-    institutionCNPJ_professional: z.union([z.string(), z.undefined()]),
-    nameOfScholarshipCourse_professional: z.union([z.string(), z.undefined()]),
+    scholarshipType_professional: z.union([ScholarshipType, z.null()]),
+    institutionName_professional: z.union([z.string(), z.null()]),
+    institutionCNPJ_professional: z.union([z.string(), z.null()]),
+    nameOfScholarshipCourse_professional: z.union([z.string(), z.null()]),
   })
 
   const {
@@ -240,7 +240,7 @@ export async function updateIdentityInfo(
       documentType,
       documentValidity: documentValidity
         ? new Date(documentValidity)
-        : undefined,
+        : null,
       enrolledGovernmentProgram,
       hasMedicalReport,
       incomeSource,
@@ -272,7 +272,7 @@ export async function updateIdentityInfo(
 
     for (const key in parsedData) {
       const value = parsedData[key as keyof typeof parsedData]
-      if (value !== undefined && value !== null) {
+      if (value !== null && value !== null) {
         dataToUpdate[key as keyof typeof parsedData] = value
       }
     }

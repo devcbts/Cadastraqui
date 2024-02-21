@@ -51,6 +51,9 @@ export async function getApplications(
       } else {
         const application = await prisma.application.findUnique({
           where: { id: application_id },
+          include: { EducationLevel : {
+              include: {entitySubsidiary: true}
+          }}
         })
         return reply.status(200).send({ application, entity })
       }
