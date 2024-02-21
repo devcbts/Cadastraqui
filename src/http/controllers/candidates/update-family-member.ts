@@ -141,11 +141,11 @@ export async function updateFamilyMemberInfo(
     profession: z.string(),
     enrolledGovernmentProgram: z.boolean().optional(),
     NIS: z.string().optional(),
-    educationPlace: z.union([Institution_Type, z.undefined()]),
+    educationPlace: z.union([Institution_Type, z.null()]),
     institutionName: z.string().optional(),
-    coursingEducationLevel: z.union([Education_Type, z.undefined()]),
+    coursingEducationLevel: z.union([Education_Type, z.null()]),
     cycleOfEducation: z.string().optional(),
-    turnOfEducation: z.union([SHIFT, z.undefined()]),
+    turnOfEducation: z.union([SHIFT, z.null()]),
     hasScholarship: z.boolean().optional(),
     percentageOfScholarship: z.string().optional(),
     monthlyAmount: z.string().optional(),
@@ -275,7 +275,7 @@ export async function updateFamilyMemberInfo(
 
     for (const key in parsedData) {
       const value = parsedData[key as keyof typeof parsedData];
-      if (value !== undefined && value !== null) {
+      if (value !== null && value !== null) {
         dataToUpdate[key as keyof typeof parsedData] = value;
       }
     }
