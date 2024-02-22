@@ -323,6 +323,7 @@ const [apprenticeInfo, setApprenticeInfo] = useState({
             privateEmployeeInfo.payingSourcePhone  = response.data.PrivateEmployeeInfo.payingSourcePhone
             privateEmployeeInfo.position = response.data.PrivateEmployeeInfo.position
             console.log(privateEmployeeInfo)
+            console.log(reponse)
           }
           if(member.incomeSource.includes('PublicEmployee')) {
             const PublicEmployeeInfo = response.data.filter(data => data.employmentType === 'PublicEmployee')
