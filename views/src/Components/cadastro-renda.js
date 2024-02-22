@@ -153,9 +153,12 @@ export const CadastroRenda = ({  member  }) => {
         return relationship ? relationship.label : "Não especificado";
       }
 
-    function translateIncomeSource(incomeValue) {
-        const incomeSource = IncomeSource.find((r) => r.value === incomeValue);
-        return incomeSource ? incomeValue.label : "Não especificado";
+      function translateIncomeSource(incomeArray) {
+        const translatedIncome = incomeArray.map(incomeValue => {
+            const foundIncome = IncomeSource.find(item => item.value === incomeValue);
+            return foundIncome ? foundIncome.label : "Não especificado";
+        });
+        return translatedIncome.join(', ');
     }
 
     const [monthlyIncomes, setMonthlyIncomes] = useState([]);
@@ -985,7 +988,7 @@ export const CadastroRenda = ({  member  }) => {
             <form id="survey-form">
                 <h4>Cadastro do {member.fullName} ( {translateRelationship(member.relationship)} )</h4>
                 {/* Fonte de Renda  */}
-                <h4>Fonte de renda: {translateIncomeSource(member.incomeSource[0])}</h4>
+                <h4>Fonte de renda: {translateIncomeSource(member.incomeSource)}</h4>
 
 
                 {/* MEI */}
@@ -2468,12 +2471,14 @@ export const CadastroRenda = ({  member  }) => {
                    </div>
                    {/*<!-- Recebe Gratificação ? -->*/}
                    <div class="survey-box">
-                        <label for="gratification" id="gratification-label"> Recebe Gratificação ? </label>
+                        <label for="gratification" id="gratification-label"> Recebe horas extras, premiação ou gratificação ? </label>
                         <br />
                         <input type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
-                    </div>
+                   </div>
+
                    <div>
-                   {gratificationAutonomous ? (<div>
+                        {gratificationAutonomous ? (
+                    <div>
                             {Array.from({ length: 6 }).map((_, i) => (
                             <>
                             <div key={`month-${i}`} className="survey-box">
@@ -2518,14 +2523,57 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                                 />
                             </div>
-                            {/*<!-- Teve deduções ? -->*/}
+                                    {/*<!-- Teve deduções ? -->*/}
                    <div class="survey-box" key={`deductions-${i+1}`}>
                         <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
                         <br />
-                        <input type="checkbox" name="deductions" value={deductionsCLT} onChange={handleDeductionsCLT} id="deductions" class="survey-control" />
+                        <input type="checkbox" name="deductions" value={deductionsCLT[i+1]} onChange={() => handleDeductionsCLT(i+1)} id="deductions" class="survey-control" />
                     </div>
-                   <div>
-                   {deductionsCLT ? (<div>
+                    {deductionsCLT[i+1] ? ( <div>
+                    <div key={`incomeTax-${i}`} className="survey-box">
+                                <label htmlFor={`incomeTax${i}`} id={`incomeTax${i}-label`}>
+                                Imposto de Renda {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`incomeTax${i}`}
+                                id={`incomeTax${i}`}
+                                value={Number(incomeInfo[`incomeTax${i+1}`])}
+                                onChange={(e) => handleInputChange(`incomeTax${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                            </div>
+                            <div key={`publicPension-${i}`} className="survey-box">
+                                <label htmlFor={`publicPension${i}`} id={`publicPension${i}-label`}>
+                                Previdência Pública {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`publicPension${i}`}
+                                id={`publicPension${i}`}
+                                value={incomeInfo[`publicPension${i+1}`]}
+                                onChange={(e) => handleInputChange(`publicPension${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                            </div>
+                            <div key={`otherDeductions-${i}`} className="survey-box">
+                                <label htmlFor={`otherDeductions${i}`} id={`otherDeductions${i}-label`}>
+                                Outras Deduções {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`otherDeductions${i}`}
+                                id={`otherDeductions${i}`}
+                                value={Number(incomeInfo[`otherDeductions${i+1}`])}
+                                onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                            </div>
+                    </div>): ( <div></div> )}
+                            <div>
                     <div key={`foodAllowanceValue-${i}`} className="survey-box">
                                 <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
                                 Auxílio Alimentação {i + 1}
@@ -2624,470 +2672,13 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                                 />
                             </div>
-                        
-                    
-                    </div>): (
-                        <div>
-                        <div key={`foodAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
-                                Auxílio Alimentação {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`foodAllowanceValue${i}`}
-                                id={`foodAllowanceValue${i}`}
-                                value={incomeInfo[`foodAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`transportAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
-                                Auxílio Transporte {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`transportAllowanceValue${i}`}
-                                id={`transportAllowanceValue${i}`}
-                                value={incomeInfo[`transportAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`expenseReimbursementValue-${i}`} className="survey-box">
-                                <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`expenseReimbursementValue${i}`}
-                                id={`expenseReimbursementValue${i}`}
-                                value={incomeInfo[`expenseReimbursementValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`advancePaymentValue${i}`}
-                                id={`advancePaymentValue${i}`}
-                                value={incomeInfo[`advancePaymentValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`reversalValue${i}`}
-                                id={`reversalValue${i}`}
-                                value={incomeInfo[`reversalValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`compensationValue${i}`}
-                                id={`compensationValue${i}`}
-                                value={incomeInfo[`compensationValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`judicialPensionValue-${i}`} className="survey-box">
-                                <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`judicialPensionValue${i}`}
-                                id={`judicialPensionValue${i}`}
-                                value={incomeInfo[`judicialPensionValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                </div>
-                    )}
+                    </div>
+                   <div>
                    </div>
                             </>
                     ))}
-                    </div>): (
-                        <div>
-                        {Array.from({ length: 3 }).map((_, i) => (
-                            <>
-                        <div key={`month-${i}`} className="survey-box">
-                            <label htmlFor={`month${i}`} id={`month${i}-label`}>
-                            Mês {i + 1}
-                         </label>
-                            <br />
-                            <input
-                            type="text"
-                            name={`month${i}`}
-                            id={`month${i}`}
-                            value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
-                            className="survey-control"
-                            />
-                        </div>
-                        <div key={`year-${i}`} className="survey-box">
-                            <label htmlFor={`year${i}`} id={`year${i}-label`}>
-                            Ano {i + 1}
-                         </label>
-                            <br />
-                            <input
-                            type="text"
-                            name={`year${i}`}
-                            id={`year${i}`}
-                            value={incomeInfo[`year${i+1}`]}
-                            onChange={(e) => handleInputChange(`year${i + 1}`, e.target.value)}
-                            className="survey-control"
-                            />
-                        </div>
-                        <div key={`grossAmount-${i}`} className="survey-box">
-                            <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>
-                            Valor Bruto {i + 1}
-                         </label>
-                            <br />
-                            <input
-                            type="number"
-                            name={`grossAmount${i}`}
-                            id={`grossAmount${i}`}
-                            value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
-                            className="survey-control"
-                            />
-                        </div>
-                        
-                        </>
-
-                        
-                ))}
-                </div>
-                    )}
-                           
-                   </div>
-                   <div class="survey-box">
-                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'PublicEmployee')}  id="submit-button">Salvar Informações</button>
-                   </div>
-                   
-               </>
-                ) 
-                }
-
-                {/* DomesticEmployee */}
-                {member.incomeSource.includes('DomesticEmployee') &&
-                (
-                    <>
-                   {/*<!-- Data de Admissão -->*/}
-                   <div class="survey-box">
-                       <label for="admissionDate" id="admissionDate-label">Data de Admissão</label>
-                       <br />
-                       <input type="date" name="admissionDate" value={CLTInfo.admissionDate} onChange={handleCLTInputChange} id="admissionDate" class="survey-control" />
-                   </div>
-                   {/*<!-- Cargo -->*/}
-                   <div class="survey-box">
-                       <label for="position" id="position-label">Cargo</label>
-                       <br />
-                       <input type="text" name="position" value={CLTInfo.position} onChange={handleCLTInputChange} id="position" class="survey-control" />
-                   </div>
-                   {/*<!-- Fonte Pagadora( Empresa/Governo/ Pessoa Física) -->*/}
-                   <div class="survey-box">
-                       <label for="payingSource" id="payingSource-label">Fonte Pagadora</label>
-                       <br />
-                       <input type="text" name="payingSource" value={CLTInfo.payingSource} onChange={handleCLTInputChange} id="payingSource" class="survey-control" />
-                   </div>
-                   {/*<!-- Telefone da Fonte Pagadora -->*/}
-                   <div class="survey-box">
-                       <label for="payingSourcePhone" id="payingSourcePhone-label">Telefone da Fonte Pagadora</label>
-                       <br />
-                       <input type="text" name="payingSourcePhone" value={CLTInfo.payingSourcePhone} onChange={handleCLTInputChange} id="payingSourcePhone" class="survey-control" />
-                   </div>
-                   {/*<!-- Recebe Gratificação ? -->*/}
-                   <div class="survey-box">
-                        <label for="gratification" id="gratification-label"> Recebe Gratificação ? </label>
-                        <br />
-                        <input type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
                     </div>
-                   <div>
-                   {gratificationAutonomous ? (<div>
-                            {Array.from({ length: 6 }).map((_, i) => (
-                            <>
-                            <div key={`month-${i}`} className="survey-box">
-                                <label htmlFor={`month${i}`} id={`month${i}-label`}>
-                                Mês {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`month${i}`}
-                                id={`month${i}`}
-                                value={incomeInfo[`month${i+1}`]}
-                                onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`year-${i}`} className="survey-box">
-                                <label htmlFor={`year${i}`} id={`year${i}-label`}>
-                                Ano {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`year${i}`}
-                                id={`year${i}`}
-                                value={incomeInfo[`year${i+1}`]}
-                                onChange={(e) => handleInputChange(`year${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`grossAmount-${i}`} className="survey-box">
-                                <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>
-                                Valor Bruto {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`grossAmount${i}`}
-                                id={`grossAmount${i}`}
-                                value={incomeInfo[`grossAmount${i+1}`]}
-                                onChange={(e) => handleInputChange(`grossAmount${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            {/*<!-- Teve deduções ? -->*/}
-                   <div class="survey-box" key={`deductions-${i+1}`}>
-                        <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
-                        <br />
-                        <input type="checkbox" name="deductions" value={deductionsCLT} onChange={handleDeductionsCLT} id="deductions" class="survey-control" />
-                    </div>
-                   <div>
-                   {deductionsCLT ? (<div>
-                    <div key={`foodAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
-                                Auxílio Alimentação {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`foodAllowanceValue${i}`}
-                                id={`foodAllowanceValue${i}`}
-                                value={incomeInfo[`foodAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`transportAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
-                                Auxílio Transporte {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`transportAllowanceValue${i}`}
-                                id={`transportAllowanceValue${i}`}
-                                value={incomeInfo[`transportAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`expenseReimbursementValue-${i}`} className="survey-box">
-                                <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`expenseReimbursementValue${i}`}
-                                id={`expenseReimbursementValue${i}`}
-                                value={incomeInfo[`expenseReimbursementValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`advancePaymentValue${i}`}
-                                id={`advancePaymentValue${i}`}
-                                value={incomeInfo[`advancePaymentValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`reversalValue${i}`}
-                                id={`reversalValue${i}`}
-                                value={incomeInfo[`reversalValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`compensationValue${i}`}
-                                id={`compensationValue${i}`}
-                                value={incomeInfo[`compensationValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`judicialPensionValue-${i}`} className="survey-box">
-                                <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`judicialPensionValue${i}`}
-                                id={`judicialPensionValue${i}`}
-                                value={incomeInfo[`judicialPensionValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                        
-                    
-                    </div>): (
-                        <div>
-                        <div key={`foodAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
-                                Auxílio Alimentação {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`foodAllowanceValue${i}`}
-                                id={`foodAllowanceValue${i}`}
-                                value={incomeInfo[`foodAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`transportAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
-                                Auxílio Transporte {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`transportAllowanceValue${i}`}
-                                id={`transportAllowanceValue${i}`}
-                                value={incomeInfo[`transportAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`expenseReimbursementValue-${i}`} className="survey-box">
-                                <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`expenseReimbursementValue${i}`}
-                                id={`expenseReimbursementValue${i}`}
-                                value={incomeInfo[`expenseReimbursementValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`advancePaymentValue${i}`}
-                                id={`advancePaymentValue${i}`}
-                                value={incomeInfo[`advancePaymentValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`reversalValue${i}`}
-                                id={`reversalValue${i}`}
-                                value={incomeInfo[`reversalValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`compensationValue${i}`}
-                                id={`compensationValue${i}`}
-                                value={incomeInfo[`compensationValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`judicialPensionValue-${i}`} className="survey-box">
-                                <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`judicialPensionValue${i}`}
-                                id={`judicialPensionValue${i}`}
-                                value={incomeInfo[`judicialPensionValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                </div>
-                    )}
-                   </div>
-                            </>
-                    ))}
-                    </div>): (
+                        ): (
                         <div>
                         {Array.from({ length: 3 }).map((_, i) => (
                             <>
@@ -3133,20 +2724,620 @@ export const CadastroRenda = ({  member  }) => {
                             className="survey-control"
                             />
                         </div>
-                        
+                        {/*<!-- Teve deduções ? -->*/}
+                        <div class="survey-box" key={`deductions-${i+1}`}>
+                        <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
+                        <br />
+                        <input type="checkbox" name="deductions" value={deductionsCLT[i + 1]} onChange={() => handleDeductionsCLT(i+1)} id="deductions" class="survey-control" />
+                        </div>
+                        {deductionsCLT[i + 1] ? ( 
+                            <div>
+                                <div key={`incomeTax-${i}`} className="survey-box">
+                                    <label htmlFor={`incomeTax${i}`} id={`incomeTax${i}-label`}>
+                                    Imposto de Renda {i + 1}
+                                    </label>
+                                    <br />
+                                    <input
+                                    type="number"
+                                    name={`incomeTax${i}`}
+                                    id={`incomeTax${i}`}
+                                    value={incomeInfo[`incomeTax${i+1}`]}
+                                    onChange={(e) => handleInputChange(`incomeTax${i + 1}`, e.target.value)}
+                                    className="survey-control"
+                                    />
+                                </div>
+                                <div key={`publicPension-${i}`} className="survey-box">
+                                <label htmlFor={`publicPension${i}`} id={`publicPension${i}-label`}>
+                                Previdência Pública {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`publicPension${i}`}
+                                id={`publicPension${i}`}
+                                value={incomeInfo[`publicPension${i+1}`]}
+                                onChange={(e) => handleInputChange(`publicPension${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                                </div>
+                                <div key={`otherDeductions-${i}`} className="survey-box">
+                                <label htmlFor={`otherDeductions${i}`} id={`otherDeductions${i}-label`}>
+                                Outras Deduções {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`otherDeductions${i}`}
+                                id={`otherDeductions${i}`}
+                                value={Number(incomeInfo[`otherDeductions${i+1}`])}
+                                onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                            </div>
+                            </div>
+                        ): ( 
+                        <div></div> 
+                        )}
+                        <div key={`foodAllowanceValue-${i}`} className="survey-box">
+                                <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
+                                Auxílio Alimentação {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="text"
+                                name={`foodAllowanceValue${i}`}
+                                id={`foodAllowanceValue${i}`}
+                                value={incomeInfo[`foodAllowanceValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`transportAllowanceValue-${i}`} className="survey-box">
+                                <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
+                                Auxílio Transporte {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="text"
+                                name={`transportAllowanceValue${i}`}
+                                id={`transportAllowanceValue${i}`}
+                                value={incomeInfo[`transportAllowanceValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`expenseReimbursementValue-${i}`} className="survey-box">
+                                <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
+                                Reembolso de despesas {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`expenseReimbursementValue${i}`}
+                                id={`expenseReimbursementValue${i}`}
+                                value={incomeInfo[`expenseReimbursementValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`advancePaymentValue-${i}`} className="survey-box">
+                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
+                                Adiantamento ou Antecipações  {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`advancePaymentValue${i}`}
+                                id={`advancePaymentValue${i}`}
+                                value={incomeInfo[`advancePaymentValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`reversalValue-${i}`} className="survey-box">
+                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
+                                Estornos e Compensações {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`reversalValue${i}`}
+                                id={`reversalValue${i}`}
+                                value={incomeInfo[`reversalValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`compensationValue-${i}`} className="survey-box">
+                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
+                                    Indenizações {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`compensationValue${i}`}
+                                id={`compensationValue${i}`}
+                                value={incomeInfo[`compensationValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`judicialPensionValue-${i}`} className="survey-box">
+                                <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
+                                Pensão Judicial {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`judicialPensionValue${i}`}
+                                id={`judicialPensionValue${i}`}
+                                value={incomeInfo[`judicialPensionValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
                         </>
 
-                        
                 ))}
-                </div>
-                    )}
-                           
-                   </div>
+                        </div>
+                        )}
+                    </div>
+
                    <div class="survey-box">
-                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'DomesticEmployee')}  id="submit-button">Salvar Informações</button>
+                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
                    </div>
                    
                </>
+                ) 
+                }
+
+                {/* DomesticEmployee */}
+                {member.incomeSource.includes('DomesticEmployee') &&
+                (
+                    <>
+                    {/*<!-- Data de Admissão -->*/}
+                    <div class="survey-box">
+                        <label for="admissionDate" id="admissionDate-label">Data de Admissão</label>
+                        <br />
+                        <input type="date" name="admissionDate" value={CLTInfo.admissionDate} onChange={handleCLTInputChange} id="admissionDate" class="survey-control" />
+                    </div>
+                    {/*<!-- Cargo -->*/}
+                    <div class="survey-box">
+                        <label for="position" id="position-label">Cargo</label>
+                        <br />
+                        <input type="text" name="position" value={CLTInfo.position} onChange={handleCLTInputChange} id="position" class="survey-control" />
+                    </div>
+                    {/*<!-- Fonte Pagadora( Empresa/Governo/ Pessoa Física) -->*/}
+                    <div class="survey-box">
+                        <label for="payingSource" id="payingSource-label">Fonte Pagadora</label>
+                        <br />
+                        <input type="text" name="payingSource" value={CLTInfo.payingSource} onChange={handleCLTInputChange} id="payingSource" class="survey-control" />
+                    </div>
+                    {/*<!-- Telefone da Fonte Pagadora -->*/}
+                    <div class="survey-box">
+                        <label for="payingSourcePhone" id="payingSourcePhone-label">Telefone da Fonte Pagadora</label>
+                        <br />
+                        <input type="text" name="payingSourcePhone" value={CLTInfo.payingSourcePhone} onChange={handleCLTInputChange} id="payingSourcePhone" class="survey-control" />
+                    </div>
+                    {/*<!-- Recebe Gratificação ? -->*/}
+                    <div class="survey-box">
+                         <label for="gratification" id="gratification-label"> Recebe horas extras, premiação ou gratificação ? </label>
+                         <br />
+                         <input type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
+                    </div>
+ 
+                    <div>
+                         {gratificationAutonomous ? (
+                     <div>
+                             {Array.from({ length: 6 }).map((_, i) => (
+                             <>
+                             <div key={`month-${i}`} className="survey-box">
+                                 <label htmlFor={`month${i}`} id={`month${i}-label`}>
+                                 Mês {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`month${i}`}
+                                 id={`month${i}`}
+                                 value={incomeInfo[`month${i+1}`]}
+                                 onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`year-${i}`} className="survey-box">
+                                 <label htmlFor={`year${i}`} id={`year${i}-label`}>
+                                 Ano {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`year${i}`}
+                                 id={`year${i}`}
+                                 value={incomeInfo[`year${i+1}`]}
+                                 onChange={(e) => handleInputChange(`year${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`grossAmount-${i}`} className="survey-box">
+                                 <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>
+                                 Valor Bruto {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`grossAmount${i}`}
+                                 id={`grossAmount${i}`}
+                                 value={incomeInfo[`grossAmount${i+1}`]}
+                                 onChange={(e) => handleInputChange(`grossAmount${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                                     {/*<!-- Teve deduções ? -->*/}
+                    <div class="survey-box" key={`deductions-${i+1}`}>
+                         <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
+                         <br />
+                         <input type="checkbox" name="deductions" value={deductionsCLT[i+1]} onChange={() => handleDeductionsCLT(i+1)} id="deductions" class="survey-control" />
+                     </div>
+                     {deductionsCLT[i+1] ? ( <div>
+                     <div key={`incomeTax-${i}`} className="survey-box">
+                                 <label htmlFor={`incomeTax${i}`} id={`incomeTax${i}-label`}>
+                                 Imposto de Renda {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`incomeTax${i}`}
+                                 id={`incomeTax${i}`}
+                                 value={Number(incomeInfo[`incomeTax${i+1}`])}
+                                 onChange={(e) => handleInputChange(`incomeTax${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`publicPension-${i}`} className="survey-box">
+                                 <label htmlFor={`publicPension${i}`} id={`publicPension${i}-label`}>
+                                 Previdência Pública {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`publicPension${i}`}
+                                 id={`publicPension${i}`}
+                                 value={incomeInfo[`publicPension${i+1}`]}
+                                 onChange={(e) => handleInputChange(`publicPension${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`otherDeductions-${i}`} className="survey-box">
+                                 <label htmlFor={`otherDeductions${i}`} id={`otherDeductions${i}-label`}>
+                                 Outras Deduções {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`otherDeductions${i}`}
+                                 id={`otherDeductions${i}`}
+                                 value={Number(incomeInfo[`otherDeductions${i+1}`])}
+                                 onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                     </div>): ( <div></div> )}
+                             <div>
+                     <div key={`foodAllowanceValue-${i}`} className="survey-box">
+                                 <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
+                                 Auxílio Alimentação {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`foodAllowanceValue${i}`}
+                                 id={`foodAllowanceValue${i}`}
+                                 value={incomeInfo[`foodAllowanceValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`transportAllowanceValue-${i}`} className="survey-box">
+                                 <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
+                                 Auxílio Transporte {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`transportAllowanceValue${i}`}
+                                 id={`transportAllowanceValue${i}`}
+                                 value={incomeInfo[`transportAllowanceValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`expenseReimbursementValue-${i}`} className="survey-box">
+                                 <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
+                                 Reembolso de despesas {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`expenseReimbursementValue${i}`}
+                                 id={`expenseReimbursementValue${i}`}
+                                 value={incomeInfo[`expenseReimbursementValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`advancePaymentValue-${i}`} className="survey-box">
+                                 <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
+                                 Adiantamento ou Antecipações  {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`advancePaymentValue${i}`}
+                                 id={`advancePaymentValue${i}`}
+                                 value={incomeInfo[`advancePaymentValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`reversalValue-${i}`} className="survey-box">
+                                 <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
+                                 Estornos e Compensações {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`reversalValue${i}`}
+                                 id={`reversalValue${i}`}
+                                 value={incomeInfo[`reversalValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`compensationValue-${i}`} className="survey-box">
+                                 <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
+                                     Indenizações {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`compensationValue${i}`}
+                                 id={`compensationValue${i}`}
+                                 value={incomeInfo[`compensationValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`judicialPensionValue-${i}`} className="survey-box">
+                                 <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
+                                 Pensão Judicial {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`judicialPensionValue${i}`}
+                                 id={`judicialPensionValue${i}`}
+                                 value={incomeInfo[`judicialPensionValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                     </div>
+                    <div>
+                    </div>
+                             </>
+                     ))}
+                     </div>
+                         ): (
+                         <div>
+                         {Array.from({ length: 3 }).map((_, i) => (
+                             <>
+                         <div key={`month-${i}`} className="survey-box">
+                             <label htmlFor={`month${i}`} id={`month${i}-label`}>
+                             Mês {i + 1}
+                          </label>
+                             <br />
+                             <input
+                             type="text"
+                             name={`month${i}`}
+                             id={`month${i}`}
+                             value={incomeInfo[`month${i+1}`]}
+                             onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                             className="survey-control"
+                             />
+                         </div>
+                         <div key={`year-${i}`} className="survey-box">
+                             <label htmlFor={`year${i}`} id={`year${i}-label`}>
+                             Ano {i + 1}
+                          </label>
+                             <br />
+                             <input
+                             type="text"
+                             name={`year${i}`}
+                             id={`year${i}`}
+                             value={incomeInfo[`year${i+1}`]}
+                             onChange={(e) => handleInputChange(`year${i + 1}`, e.target.value)}
+                             className="survey-control"
+                             />
+                         </div>
+                         <div key={`grossAmount-${i}`} className="survey-box">
+                             <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>
+                             Valor Bruto {i + 1}
+                          </label>
+                             <br />
+                             <input
+                             type="number"
+                             name={`grossAmount${i}`}
+                             id={`grossAmount${i}`}
+                             value={incomeInfo[`grossAmount${i+1}`]}
+                             onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
+                             className="survey-control"
+                             />
+                         </div>
+                         {/*<!-- Teve deduções ? -->*/}
+                         <div class="survey-box" key={`deductions-${i+1}`}>
+                         <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
+                         <br />
+                         <input type="checkbox" name="deductions" value={deductionsCLT[i + 1]} onChange={() => handleDeductionsCLT(i+1)} id="deductions" class="survey-control" />
+                         </div>
+                         {deductionsCLT[i + 1] ? ( 
+                             <div>
+                                 <div key={`incomeTax-${i}`} className="survey-box">
+                                     <label htmlFor={`incomeTax${i}`} id={`incomeTax${i}-label`}>
+                                     Imposto de Renda {i + 1}
+                                     </label>
+                                     <br />
+                                     <input
+                                     type="number"
+                                     name={`incomeTax${i}`}
+                                     id={`incomeTax${i}`}
+                                     value={incomeInfo[`incomeTax${i+1}`]}
+                                     onChange={(e) => handleInputChange(`incomeTax${i + 1}`, e.target.value)}
+                                     className="survey-control"
+                                     />
+                                 </div>
+                                 <div key={`publicPension-${i}`} className="survey-box">
+                                 <label htmlFor={`publicPension${i}`} id={`publicPension${i}-label`}>
+                                 Previdência Pública {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`publicPension${i}`}
+                                 id={`publicPension${i}`}
+                                 value={incomeInfo[`publicPension${i+1}`]}
+                                 onChange={(e) => handleInputChange(`publicPension${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                                 </div>
+                                 <div key={`otherDeductions-${i}`} className="survey-box">
+                                 <label htmlFor={`otherDeductions${i}`} id={`otherDeductions${i}-label`}>
+                                 Outras Deduções {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`otherDeductions${i}`}
+                                 id={`otherDeductions${i}`}
+                                 value={Number(incomeInfo[`otherDeductions${i+1}`])}
+                                 onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             </div>
+                         ): ( 
+                         <div></div> 
+                         )}
+                         <div key={`foodAllowanceValue-${i}`} className="survey-box">
+                                 <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
+                                 Auxílio Alimentação {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`foodAllowanceValue${i}`}
+                                 id={`foodAllowanceValue${i}`}
+                                 value={incomeInfo[`foodAllowanceValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`transportAllowanceValue-${i}`} className="survey-box">
+                                 <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
+                                 Auxílio Transporte {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`transportAllowanceValue${i}`}
+                                 id={`transportAllowanceValue${i}`}
+                                 value={incomeInfo[`transportAllowanceValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`expenseReimbursementValue-${i}`} className="survey-box">
+                                 <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
+                                 Reembolso de despesas {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`expenseReimbursementValue${i}`}
+                                 id={`expenseReimbursementValue${i}`}
+                                 value={incomeInfo[`expenseReimbursementValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`advancePaymentValue-${i}`} className="survey-box">
+                                 <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
+                                 Adiantamento ou Antecipações  {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`advancePaymentValue${i}`}
+                                 id={`advancePaymentValue${i}`}
+                                 value={incomeInfo[`advancePaymentValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`reversalValue-${i}`} className="survey-box">
+                                 <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
+                                 Estornos e Compensações {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`reversalValue${i}`}
+                                 id={`reversalValue${i}`}
+                                 value={incomeInfo[`reversalValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`compensationValue-${i}`} className="survey-box">
+                                 <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
+                                     Indenizações {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`compensationValue${i}`}
+                                 id={`compensationValue${i}`}
+                                 value={incomeInfo[`compensationValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`judicialPensionValue-${i}`} className="survey-box">
+                                 <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
+                                 Pensão Judicial {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`judicialPensionValue${i}`}
+                                 id={`judicialPensionValue${i}`}
+                                 value={incomeInfo[`judicialPensionValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         </>
+ 
+                 ))}
+                         </div>
+                         )}
+                     </div>
+ 
+                    <div class="survey-box">
+                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                    </div>
+                    
+                </>
                 ) 
                 }
 
@@ -3180,12 +3371,14 @@ export const CadastroRenda = ({  member  }) => {
                    </div>
                    {/*<!-- Recebe Gratificação ? -->*/}
                    <div class="survey-box">
-                        <label for="gratification" id="gratification-label"> Recebe Gratificação ? </label>
+                        <label for="gratification" id="gratification-label"> Recebe horas extras, premiação ou gratificação ? </label>
                         <br />
                         <input type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
-                    </div>
+                   </div>
+
                    <div>
-                   {gratificationAutonomous ? (<div>
+                        {gratificationAutonomous ? (
+                    <div>
                             {Array.from({ length: 6 }).map((_, i) => (
                             <>
                             <div key={`month-${i}`} className="survey-box">
@@ -3230,14 +3423,57 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                                 />
                             </div>
-                            {/*<!-- Teve deduções ? -->*/}
+                                    {/*<!-- Teve deduções ? -->*/}
                    <div class="survey-box" key={`deductions-${i+1}`}>
                         <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
                         <br />
-                        <input type="checkbox" name="deductions" value={deductionsCLT} onChange={handleDeductionsCLT} id="deductions" class="survey-control" />
+                        <input type="checkbox" name="deductions" value={deductionsCLT[i+1]} onChange={() => handleDeductionsCLT(i+1)} id="deductions" class="survey-control" />
                     </div>
-                   <div>
-                   {deductionsCLT ? (<div>
+                    {deductionsCLT[i+1] ? ( <div>
+                    <div key={`incomeTax-${i}`} className="survey-box">
+                                <label htmlFor={`incomeTax${i}`} id={`incomeTax${i}-label`}>
+                                Imposto de Renda {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`incomeTax${i}`}
+                                id={`incomeTax${i}`}
+                                value={Number(incomeInfo[`incomeTax${i+1}`])}
+                                onChange={(e) => handleInputChange(`incomeTax${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                            </div>
+                            <div key={`publicPension-${i}`} className="survey-box">
+                                <label htmlFor={`publicPension${i}`} id={`publicPension${i}-label`}>
+                                Previdência Pública {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`publicPension${i}`}
+                                id={`publicPension${i}`}
+                                value={incomeInfo[`publicPension${i+1}`]}
+                                onChange={(e) => handleInputChange(`publicPension${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                            </div>
+                            <div key={`otherDeductions-${i}`} className="survey-box">
+                                <label htmlFor={`otherDeductions${i}`} id={`otherDeductions${i}-label`}>
+                                Outras Deduções {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`otherDeductions${i}`}
+                                id={`otherDeductions${i}`}
+                                value={Number(incomeInfo[`otherDeductions${i+1}`])}
+                                onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                            </div>
+                    </div>): ( <div></div> )}
+                            <div>
                     <div key={`foodAllowanceValue-${i}`} className="survey-box">
                                 <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
                                 Auxílio Alimentação {i + 1}
@@ -3336,114 +3572,13 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                                 />
                             </div>
-                        
-                    
-                    </div>): (
-                        <div>
-                        <div key={`foodAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
-                                Auxílio Alimentação {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`foodAllowanceValue${i}`}
-                                id={`foodAllowanceValue${i}`}
-                                value={incomeInfo[`foodAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`transportAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
-                                Auxílio Transporte {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`transportAllowanceValue${i}`}
-                                id={`transportAllowanceValue${i}`}
-                                value={incomeInfo[`transportAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`expenseReimbursementValue-${i}`} className="survey-box">
-                                <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`expenseReimbursementValue${i}`}
-                                id={`expenseReimbursementValue${i}`}
-                                value={incomeInfo[`expenseReimbursementValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`advancePaymentValue${i}`}
-                                id={`advancePaymentValue${i}`}
-                                value={incomeInfo[`advancePaymentValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`reversalValue${i}`}
-                                id={`reversalValue${i}`}
-                                value={incomeInfo[`reversalValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`compensationValue${i}`}
-                                id={`compensationValue${i}`}
-                                value={incomeInfo[`compensationValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`judicialPensionValue-${i}`} className="survey-box">
-                                <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`judicialPensionValue${i}`}
-                                id={`judicialPensionValue${i}`}
-                                value={incomeInfo[`judicialPensionValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                </div>
-                    )}
+                    </div>
+                   <div>
                    </div>
                             </>
                     ))}
-                    </div>): (
+                    </div>
+                        ): (
                         <div>
                         {Array.from({ length: 3 }).map((_, i) => (
                             <>
@@ -3484,22 +3619,172 @@ export const CadastroRenda = ({  member  }) => {
                             type="number"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`month${i+1}`]}
+                            value={incomeInfo[`grossAmount${i+1}`]}
                             onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
                             className="survey-control"
                             />
                         </div>
-                        
+                        {/*<!-- Teve deduções ? -->*/}
+                        <div class="survey-box" key={`deductions-${i+1}`}>
+                        <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
+                        <br />
+                        <input type="checkbox" name="deductions" value={deductionsCLT[i + 1]} onChange={() => handleDeductionsCLT(i+1)} id="deductions" class="survey-control" />
+                        </div>
+                        {deductionsCLT[i + 1] ? ( 
+                            <div>
+                                <div key={`incomeTax-${i}`} className="survey-box">
+                                    <label htmlFor={`incomeTax${i}`} id={`incomeTax${i}-label`}>
+                                    Imposto de Renda {i + 1}
+                                    </label>
+                                    <br />
+                                    <input
+                                    type="number"
+                                    name={`incomeTax${i}`}
+                                    id={`incomeTax${i}`}
+                                    value={incomeInfo[`incomeTax${i+1}`]}
+                                    onChange={(e) => handleInputChange(`incomeTax${i + 1}`, e.target.value)}
+                                    className="survey-control"
+                                    />
+                                </div>
+                                <div key={`publicPension-${i}`} className="survey-box">
+                                <label htmlFor={`publicPension${i}`} id={`publicPension${i}-label`}>
+                                Previdência Pública {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`publicPension${i}`}
+                                id={`publicPension${i}`}
+                                value={incomeInfo[`publicPension${i+1}`]}
+                                onChange={(e) => handleInputChange(`publicPension${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                                </div>
+                                <div key={`otherDeductions-${i}`} className="survey-box">
+                                <label htmlFor={`otherDeductions${i}`} id={`otherDeductions${i}-label`}>
+                                Outras Deduções {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`otherDeductions${i}`}
+                                id={`otherDeductions${i}`}
+                                value={Number(incomeInfo[`otherDeductions${i+1}`])}
+                                onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                            </div>
+                            </div>
+                        ): ( 
+                        <div></div> 
+                        )}
+                        <div key={`foodAllowanceValue-${i}`} className="survey-box">
+                                <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
+                                Auxílio Alimentação {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="text"
+                                name={`foodAllowanceValue${i}`}
+                                id={`foodAllowanceValue${i}`}
+                                value={incomeInfo[`foodAllowanceValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`transportAllowanceValue-${i}`} className="survey-box">
+                                <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
+                                Auxílio Transporte {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="text"
+                                name={`transportAllowanceValue${i}`}
+                                id={`transportAllowanceValue${i}`}
+                                value={incomeInfo[`transportAllowanceValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`expenseReimbursementValue-${i}`} className="survey-box">
+                                <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
+                                Reembolso de despesas {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`expenseReimbursementValue${i}`}
+                                id={`expenseReimbursementValue${i}`}
+                                value={incomeInfo[`expenseReimbursementValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`advancePaymentValue-${i}`} className="survey-box">
+                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
+                                Adiantamento ou Antecipações  {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`advancePaymentValue${i}`}
+                                id={`advancePaymentValue${i}`}
+                                value={incomeInfo[`advancePaymentValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`reversalValue-${i}`} className="survey-box">
+                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
+                                Estornos e Compensações {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`reversalValue${i}`}
+                                id={`reversalValue${i}`}
+                                value={incomeInfo[`reversalValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`compensationValue-${i}`} className="survey-box">
+                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
+                                    Indenizações {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`compensationValue${i}`}
+                                id={`compensationValue${i}`}
+                                value={incomeInfo[`compensationValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`judicialPensionValue-${i}`} className="survey-box">
+                                <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
+                                Pensão Judicial {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`judicialPensionValue${i}`}
+                                id={`judicialPensionValue${i}`}
+                                value={incomeInfo[`judicialPensionValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
                         </>
 
-                        
                 ))}
-                </div>
-                    )}
-                           
-                   </div>
+                        </div>
+                        )}
+                    </div>
+
                    <div class="survey-box">
-                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'TemporaryRuralEmployee')}  id="submit-button">Salvar Informações</button>
+                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
                    </div>
                    
                </>
@@ -3510,710 +3795,898 @@ export const CadastroRenda = ({  member  }) => {
                 {member.incomeSource.includes('Retired') &&
                 (
                     <>
-                   {/*<!-- Data de Admissão -->*/}
-                   <div class="survey-box">
-                       <label for="admissionDate" id="admissionDate-label">Data de Admissão</label>
-                       <br />
-                       <input type="date" name="admissionDate" value={CLTInfo.admissionDate} onChange={handleCLTInputChange} id="admissionDate" class="survey-control" />
-                   </div>
-                   {/*<!-- Cargo -->*/}
-                   <div class="survey-box">
-                       <label for="position" id="position-label">Cargo</label>
-                       <br />
-                       <input type="text" name="position" value={CLTInfo.position} onChange={handleCLTInputChange} id="position" class="survey-control" />
-                   </div>
-                   {/*<!-- Fonte Pagadora( Empresa/Governo/ Pessoa Física) -->*/}
-                   <div class="survey-box">
-                       <label for="payingSource" id="payingSource-label">Fonte Pagadora</label>
-                       <br />
-                       <input type="text" name="payingSource" value={CLTInfo.payingSource} onChange={handleCLTInputChange} id="payingSource" class="survey-control" />
-                   </div>
-                   {/*<!-- Telefone da Fonte Pagadora -->*/}
-                   <div class="survey-box">
-                       <label for="payingSourcePhone" id="payingSourcePhone-label">Telefone da Fonte Pagadora</label>
-                       <br />
-                       <input type="text" name="payingSourcePhone" value={CLTInfo.payingSourcePhone} onChange={handleCLTInputChange} id="payingSourcePhone" class="survey-control" />
-                   </div>
-                   {/*<!-- Recebe Gratificação ? -->*/}
-                   <div class="survey-box">
-                        <label for="gratification" id="gratification-label"> Recebe Gratificação ? </label>
+                    {/*<!-- Data de Admissão -->*/}
+                    <div class="survey-box">
+                        <label for="admissionDate" id="admissionDate-label">Data de Admissão</label>
                         <br />
-                        <input type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
+                        <input type="date" name="admissionDate" value={CLTInfo.admissionDate} onChange={handleCLTInputChange} id="admissionDate" class="survey-control" />
                     </div>
-                   <div>
-                   {gratificationAutonomous ? (<div>
-                            {Array.from({ length: 6 }).map((_, i) => (
-                            <>
-                            <div key={`month-${i}`} className="survey-box">
-                                <label htmlFor={`month${i}`} id={`month${i}-label`}>
-                                Mês {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`month${i}`}
-                                id={`month${i}`}
-                                value={incomeInfo[`month${i+1}`]}
-                                onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`year-${i}`} className="survey-box">
-                                <label htmlFor={`year${i}`} id={`year${i}-label`}>
-                                Ano {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`year${i}`}
-                                id={`year${i}`}
-                                value={incomeInfo[`year${i+1}`]}
-                                onChange={(e) => handleInputChange(`year${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`grossAmount-${i}`} className="survey-box">
-                                <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>
-                                Valor Bruto {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`grossAmount${i}`}
-                                id={`grossAmount${i}`}
-                                value={incomeInfo[`grossAmount${i+1}`]}
-                                onChange={(e) => handleInputChange(`grossAmount${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            {/*<!-- Teve deduções ? -->*/}
-                   <div class="survey-box" key={`deductions-${i+1}`}>
-                        <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
+                    {/*<!-- Cargo -->*/}
+                    <div class="survey-box">
+                        <label for="position" id="position-label">Cargo</label>
                         <br />
-                        <input type="checkbox" name="deductions" value={deductionsCLT} onChange={handleDeductionsCLT} id="deductions" class="survey-control" />
+                        <input type="text" name="position" value={CLTInfo.position} onChange={handleCLTInputChange} id="position" class="survey-control" />
                     </div>
-                   <div>
-                   {deductionsCLT ? (<div>
-                    <div key={`foodAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
-                                Auxílio Alimentação {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`foodAllowanceValue${i}`}
-                                id={`foodAllowanceValue${i}`}
-                                value={incomeInfo[`foodAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`transportAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
-                                Auxílio Transporte {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`transportAllowanceValue${i}`}
-                                id={`transportAllowanceValue${i}`}
-                                value={incomeInfo[`transportAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`expenseReimbursementValue-${i}`} className="survey-box">
-                                <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`expenseReimbursementValue${i}`}
-                                id={`expenseReimbursementValue${i}`}
-                                value={incomeInfo[`expenseReimbursementValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`advancePaymentValue${i}`}
-                                id={`advancePaymentValue${i}`}
-                                value={incomeInfo[`advancePaymentValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`reversalValue${i}`}
-                                id={`reversalValue${i}`}
-                                value={incomeInfo[`reversalValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`compensationValue${i}`}
-                                id={`compensationValue${i}`}
-                                value={incomeInfo[`compensationValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`judicialPensionValue-${i}`} className="survey-box">
-                                <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`judicialPensionValue${i}`}
-                                id={`judicialPensionValue${i}`}
-                                value={incomeInfo[`judicialPensionValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                        
+                    {/*<!-- Fonte Pagadora( Empresa/Governo/ Pessoa Física) -->*/}
+                    <div class="survey-box">
+                        <label for="payingSource" id="payingSource-label">Fonte Pagadora</label>
+                        <br />
+                        <input type="text" name="payingSource" value={CLTInfo.payingSource} onChange={handleCLTInputChange} id="payingSource" class="survey-control" />
+                    </div>
+                    {/*<!-- Telefone da Fonte Pagadora -->*/}
+                    <div class="survey-box">
+                        <label for="payingSourcePhone" id="payingSourcePhone-label">Telefone da Fonte Pagadora</label>
+                        <br />
+                        <input type="text" name="payingSourcePhone" value={CLTInfo.payingSourcePhone} onChange={handleCLTInputChange} id="payingSourcePhone" class="survey-control" />
+                    </div>
+                    {/*<!-- Recebe Gratificação ? -->*/}
+                    <div class="survey-box">
+                         <label for="gratification" id="gratification-label"> Recebe horas extras, premiação ou gratificação ? </label>
+                         <br />
+                         <input type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
+                    </div>
+ 
+                    <div>
+                         {gratificationAutonomous ? (
+                     <div>
+                             {Array.from({ length: 6 }).map((_, i) => (
+                             <>
+                             <div key={`month-${i}`} className="survey-box">
+                                 <label htmlFor={`month${i}`} id={`month${i}-label`}>
+                                 Mês {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`month${i}`}
+                                 id={`month${i}`}
+                                 value={incomeInfo[`month${i+1}`]}
+                                 onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`year-${i}`} className="survey-box">
+                                 <label htmlFor={`year${i}`} id={`year${i}-label`}>
+                                 Ano {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`year${i}`}
+                                 id={`year${i}`}
+                                 value={incomeInfo[`year${i+1}`]}
+                                 onChange={(e) => handleInputChange(`year${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`grossAmount-${i}`} className="survey-box">
+                                 <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>
+                                 Valor Bruto {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`grossAmount${i}`}
+                                 id={`grossAmount${i}`}
+                                 value={incomeInfo[`grossAmount${i+1}`]}
+                                 onChange={(e) => handleInputChange(`grossAmount${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                                     {/*<!-- Teve deduções ? -->*/}
+                    <div class="survey-box" key={`deductions-${i+1}`}>
+                         <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
+                         <br />
+                         <input type="checkbox" name="deductions" value={deductionsCLT[i+1]} onChange={() => handleDeductionsCLT(i+1)} id="deductions" class="survey-control" />
+                     </div>
+                     {deductionsCLT[i+1] ? ( <div>
+                     <div key={`incomeTax-${i}`} className="survey-box">
+                                 <label htmlFor={`incomeTax${i}`} id={`incomeTax${i}-label`}>
+                                 Imposto de Renda {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`incomeTax${i}`}
+                                 id={`incomeTax${i}`}
+                                 value={Number(incomeInfo[`incomeTax${i+1}`])}
+                                 onChange={(e) => handleInputChange(`incomeTax${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`publicPension-${i}`} className="survey-box">
+                                 <label htmlFor={`publicPension${i}`} id={`publicPension${i}-label`}>
+                                 Previdência Pública {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`publicPension${i}`}
+                                 id={`publicPension${i}`}
+                                 value={incomeInfo[`publicPension${i+1}`]}
+                                 onChange={(e) => handleInputChange(`publicPension${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`otherDeductions-${i}`} className="survey-box">
+                                 <label htmlFor={`otherDeductions${i}`} id={`otherDeductions${i}-label`}>
+                                 Outras Deduções {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`otherDeductions${i}`}
+                                 id={`otherDeductions${i}`}
+                                 value={Number(incomeInfo[`otherDeductions${i+1}`])}
+                                 onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                     </div>): ( <div></div> )}
+                             <div>
+                     <div key={`foodAllowanceValue-${i}`} className="survey-box">
+                                 <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
+                                 Auxílio Alimentação {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`foodAllowanceValue${i}`}
+                                 id={`foodAllowanceValue${i}`}
+                                 value={incomeInfo[`foodAllowanceValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`transportAllowanceValue-${i}`} className="survey-box">
+                                 <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
+                                 Auxílio Transporte {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`transportAllowanceValue${i}`}
+                                 id={`transportAllowanceValue${i}`}
+                                 value={incomeInfo[`transportAllowanceValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`expenseReimbursementValue-${i}`} className="survey-box">
+                                 <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
+                                 Reembolso de despesas {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`expenseReimbursementValue${i}`}
+                                 id={`expenseReimbursementValue${i}`}
+                                 value={incomeInfo[`expenseReimbursementValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`advancePaymentValue-${i}`} className="survey-box">
+                                 <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
+                                 Adiantamento ou Antecipações  {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`advancePaymentValue${i}`}
+                                 id={`advancePaymentValue${i}`}
+                                 value={incomeInfo[`advancePaymentValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`reversalValue-${i}`} className="survey-box">
+                                 <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
+                                 Estornos e Compensações {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`reversalValue${i}`}
+                                 id={`reversalValue${i}`}
+                                 value={incomeInfo[`reversalValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`compensationValue-${i}`} className="survey-box">
+                                 <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
+                                     Indenizações {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`compensationValue${i}`}
+                                 id={`compensationValue${i}`}
+                                 value={incomeInfo[`compensationValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`judicialPensionValue-${i}`} className="survey-box">
+                                 <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
+                                 Pensão Judicial {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`judicialPensionValue${i}`}
+                                 id={`judicialPensionValue${i}`}
+                                 value={incomeInfo[`judicialPensionValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                     </div>
+                    <div>
+                    </div>
+                             </>
+                     ))}
+                     </div>
+                         ): (
+                         <div>
+                         {Array.from({ length: 3 }).map((_, i) => (
+                             <>
+                         <div key={`month-${i}`} className="survey-box">
+                             <label htmlFor={`month${i}`} id={`month${i}-label`}>
+                             Mês {i + 1}
+                          </label>
+                             <br />
+                             <input
+                             type="text"
+                             name={`month${i}`}
+                             id={`month${i}`}
+                             value={incomeInfo[`month${i+1}`]}
+                             onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                             className="survey-control"
+                             />
+                         </div>
+                         <div key={`year-${i}`} className="survey-box">
+                             <label htmlFor={`year${i}`} id={`year${i}-label`}>
+                             Ano {i + 1}
+                          </label>
+                             <br />
+                             <input
+                             type="text"
+                             name={`year${i}`}
+                             id={`year${i}`}
+                             value={incomeInfo[`year${i+1}`]}
+                             onChange={(e) => handleInputChange(`year${i + 1}`, e.target.value)}
+                             className="survey-control"
+                             />
+                         </div>
+                         <div key={`grossAmount-${i}`} className="survey-box">
+                             <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>
+                             Valor Bruto {i + 1}
+                          </label>
+                             <br />
+                             <input
+                             type="number"
+                             name={`grossAmount${i}`}
+                             id={`grossAmount${i}`}
+                             value={incomeInfo[`grossAmount${i+1}`]}
+                             onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
+                             className="survey-control"
+                             />
+                         </div>
+                         {/*<!-- Teve deduções ? -->*/}
+                         <div class="survey-box" key={`deductions-${i+1}`}>
+                         <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
+                         <br />
+                         <input type="checkbox" name="deductions" value={deductionsCLT[i + 1]} onChange={() => handleDeductionsCLT(i+1)} id="deductions" class="survey-control" />
+                         </div>
+                         {deductionsCLT[i + 1] ? ( 
+                             <div>
+                                 <div key={`incomeTax-${i}`} className="survey-box">
+                                     <label htmlFor={`incomeTax${i}`} id={`incomeTax${i}-label`}>
+                                     Imposto de Renda {i + 1}
+                                     </label>
+                                     <br />
+                                     <input
+                                     type="number"
+                                     name={`incomeTax${i}`}
+                                     id={`incomeTax${i}`}
+                                     value={incomeInfo[`incomeTax${i+1}`]}
+                                     onChange={(e) => handleInputChange(`incomeTax${i + 1}`, e.target.value)}
+                                     className="survey-control"
+                                     />
+                                 </div>
+                                 <div key={`publicPension-${i}`} className="survey-box">
+                                 <label htmlFor={`publicPension${i}`} id={`publicPension${i}-label`}>
+                                 Previdência Pública {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`publicPension${i}`}
+                                 id={`publicPension${i}`}
+                                 value={incomeInfo[`publicPension${i+1}`]}
+                                 onChange={(e) => handleInputChange(`publicPension${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                                 </div>
+                                 <div key={`otherDeductions-${i}`} className="survey-box">
+                                 <label htmlFor={`otherDeductions${i}`} id={`otherDeductions${i}-label`}>
+                                 Outras Deduções {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`otherDeductions${i}`}
+                                 id={`otherDeductions${i}`}
+                                 value={Number(incomeInfo[`otherDeductions${i+1}`])}
+                                 onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             </div>
+                         ): ( 
+                         <div></div> 
+                         )}
+                         <div key={`foodAllowanceValue-${i}`} className="survey-box">
+                                 <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
+                                 Auxílio Alimentação {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`foodAllowanceValue${i}`}
+                                 id={`foodAllowanceValue${i}`}
+                                 value={incomeInfo[`foodAllowanceValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`transportAllowanceValue-${i}`} className="survey-box">
+                                 <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
+                                 Auxílio Transporte {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`transportAllowanceValue${i}`}
+                                 id={`transportAllowanceValue${i}`}
+                                 value={incomeInfo[`transportAllowanceValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`expenseReimbursementValue-${i}`} className="survey-box">
+                                 <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
+                                 Reembolso de despesas {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`expenseReimbursementValue${i}`}
+                                 id={`expenseReimbursementValue${i}`}
+                                 value={incomeInfo[`expenseReimbursementValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`advancePaymentValue-${i}`} className="survey-box">
+                                 <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
+                                 Adiantamento ou Antecipações  {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`advancePaymentValue${i}`}
+                                 id={`advancePaymentValue${i}`}
+                                 value={incomeInfo[`advancePaymentValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`reversalValue-${i}`} className="survey-box">
+                                 <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
+                                 Estornos e Compensações {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`reversalValue${i}`}
+                                 id={`reversalValue${i}`}
+                                 value={incomeInfo[`reversalValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`compensationValue-${i}`} className="survey-box">
+                                 <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
+                                     Indenizações {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`compensationValue${i}`}
+                                 id={`compensationValue${i}`}
+                                 value={incomeInfo[`compensationValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`judicialPensionValue-${i}`} className="survey-box">
+                                 <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
+                                 Pensão Judicial {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`judicialPensionValue${i}`}
+                                 id={`judicialPensionValue${i}`}
+                                 value={incomeInfo[`judicialPensionValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         </>
+ 
+                 ))}
+                         </div>
+                         )}
+                     </div>
+ 
+                    <div class="survey-box">
+                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                    </div>
                     
-                    </div>): (
-                        <div>
-                        <div key={`foodAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
-                                Auxílio Alimentação {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`foodAllowanceValue${i}`}
-                                id={`foodAllowanceValue${i}`}
-                                value={incomeInfo[`foodAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`transportAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
-                                Auxílio Transporte {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`transportAllowanceValue${i}`}
-                                id={`transportAllowanceValue${i}`}
-                                value={incomeInfo[`transportAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`expenseReimbursementValue-${i}`} className="survey-box">
-                                <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`expenseReimbursementValue${i}`}
-                                id={`expenseReimbursementValue${i}`}
-                                value={incomeInfo[`expenseReimbursementValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`advancePaymentValue${i}`}
-                                id={`advancePaymentValue${i}`}
-                                value={incomeInfo[`advancePaymentValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`reversalValue${i}`}
-                                id={`reversalValue${i}`}
-                                value={incomeInfo[`reversalValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`compensationValue${i}`}
-                                id={`compensationValue${i}`}
-                                value={incomeInfo[`compensationValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`judicialPensionValue-${i}`} className="survey-box">
-                                <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`judicialPensionValue${i}`}
-                                id={`judicialPensionValue${i}`}
-                                value={incomeInfo[`judicialPensionValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                </div>
-                    )}
-                   </div>
-                            </>
-                    ))}
-                    </div>): (
-                        <div>
-                        {Array.from({ length: 3 }).map((_, i) => (
-                            <>
-                        <div key={`month-${i}`} className="survey-box">
-                            <label htmlFor={`month${i}`} id={`month${i}-label`}>
-                            Mês {i + 1}
-                         </label>
-                            <br />
-                            <input
-                            type="text"
-                            name={`month${i}`}
-                            id={`month${i}`}
-                            value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
-                            className="survey-control"
-                            />
-                        </div>
-                        <div key={`year-${i}`} className="survey-box">
-                            <label htmlFor={`year${i}`} id={`year${i}-label`}>
-                            Ano {i + 1}
-                         </label>
-                            <br />
-                            <input
-                            type="text"
-                            name={`year${i}`}
-                            id={`year${i}`}
-                            value={incomeInfo[`year${i+1}`]}
-                            onChange={(e) => handleInputChange(`year${i + 1}`, e.target.value)}
-                            className="survey-control"
-                            />
-                        </div>
-                        <div key={`grossAmount-${i}`} className="survey-box">
-                            <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>
-                            Valor Bruto {i + 1}
-                         </label>
-                            <br />
-                            <input
-                            type="number"
-                            name={`grossAmount${i}`}
-                            id={`grossAmount${i}`}
-                            value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
-                            className="survey-control"
-                            />
-                        </div>
-                        
-                        </>
-
-                        
-                ))}
-                </div>
-                    )}
-                           
-                   </div>
-                   <div class="survey-box">
-                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'Retired')}  id="submit-button">Salvar Informações</button>
-                   </div>
-                   
-               </>
+                </>
                 ) 
                 }
                 {/* Pensioner */}
                 {member.incomeSource.includes('Pensioner') &&
                 (
                     <>
-                   {/*<!-- Data de Admissão -->*/}
-                   <div class="survey-box">
-                       <label for="admissionDate" id="admissionDate-label">Data de Admissão</label>
-                       <br />
-                       <input type="date" name="admissionDate" value={CLTInfo.admissionDate} onChange={handleCLTInputChange} id="admissionDate" class="survey-control" />
-                   </div>
-                   {/*<!-- Cargo -->*/}
-                   <div class="survey-box">
-                       <label for="position" id="position-label">Cargo</label>
-                       <br />
-                       <input type="text" name="position" value={CLTInfo.position} onChange={handleCLTInputChange} id="position" class="survey-control" />
-                   </div>
-                   {/*<!-- Fonte Pagadora( Empresa/Governo/ Pessoa Física) -->*/}
-                   <div class="survey-box">
-                       <label for="payingSource" id="payingSource-label">Fonte Pagadora</label>
-                       <br />
-                       <input type="text" name="payingSource" value={CLTInfo.payingSource} onChange={handleCLTInputChange} id="payingSource" class="survey-control" />
-                   </div>
-                   {/*<!-- Telefone da Fonte Pagadora -->*/}
-                   <div class="survey-box">
-                       <label for="payingSourcePhone" id="payingSourcePhone-label">Telefone da Fonte Pagadora</label>
-                       <br />
-                       <input type="text" name="payingSourcePhone" value={CLTInfo.payingSourcePhone} onChange={handleCLTInputChange} id="payingSourcePhone" class="survey-control" />
-                   </div>
-                   {/*<!-- Recebe Gratificação ? -->*/}
-                   <div class="survey-box">
-                        <label for="gratification" id="gratification-label"> Recebe Gratificação ? </label>
+                    {/*<!-- Data de Admissão -->*/}
+                    <div class="survey-box">
+                        <label for="admissionDate" id="admissionDate-label">Data de Admissão</label>
                         <br />
-                        <input type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
+                        <input type="date" name="admissionDate" value={CLTInfo.admissionDate} onChange={handleCLTInputChange} id="admissionDate" class="survey-control" />
                     </div>
-                   <div>
-                   {gratificationAutonomous ? (<div>
-                            {Array.from({ length: 6 }).map((_, i) => (
-                            <>
-                            <div key={`month-${i}`} className="survey-box">
-                                <label htmlFor={`month${i}`} id={`month${i}-label`}>
-                                Mês {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`month${i}`}
-                                id={`month${i}`}
-                                value={incomeInfo[`month${i+1}`]}
-                                onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`year-${i}`} className="survey-box">
-                                <label htmlFor={`year${i}`} id={`year${i}-label`}>
-                                Ano {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`year${i}`}
-                                id={`year${i}`}
-                                value={incomeInfo[`year${i+1}`]}
-                                onChange={(e) => handleInputChange(`year${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`grossAmount-${i}`} className="survey-box">
-                                <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>
-                                Valor Bruto {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`grossAmount${i}`}
-                                id={`grossAmount${i}`}
-                                value={incomeInfo[`grossAmount${i+1}`]}
-                                onChange={(e) => handleInputChange(`grossAmount${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            {/*<!-- Teve deduções ? -->*/}
-                   <div class="survey-box" key={`deductions-${i+1}`}>
-                        <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
+                    {/*<!-- Cargo -->*/}
+                    <div class="survey-box">
+                        <label for="position" id="position-label">Cargo</label>
                         <br />
-                        <input type="checkbox" name="deductions" value={deductionsCLT} onChange={handleDeductionsCLT} id="deductions" class="survey-control" />
+                        <input type="text" name="position" value={CLTInfo.position} onChange={handleCLTInputChange} id="position" class="survey-control" />
                     </div>
-                   <div>
-                   {deductionsCLT ? (<div>
-                    <div key={`foodAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
-                                Auxílio Alimentação {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`foodAllowanceValue${i}`}
-                                id={`foodAllowanceValue${i}`}
-                                value={incomeInfo[`foodAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`transportAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
-                                Auxílio Transporte {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`transportAllowanceValue${i}`}
-                                id={`transportAllowanceValue${i}`}
-                                value={incomeInfo[`transportAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`expenseReimbursementValue-${i}`} className="survey-box">
-                                <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`expenseReimbursementValue${i}`}
-                                id={`expenseReimbursementValue${i}`}
-                                value={incomeInfo[`expenseReimbursementValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`advancePaymentValue${i}`}
-                                id={`advancePaymentValue${i}`}
-                                value={incomeInfo[`advancePaymentValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`reversalValue${i}`}
-                                id={`reversalValue${i}`}
-                                value={incomeInfo[`reversalValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`compensationValue${i}`}
-                                id={`compensationValue${i}`}
-                                value={incomeInfo[`compensationValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`judicialPensionValue-${i}`} className="survey-box">
-                                <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`judicialPensionValue${i}`}
-                                id={`judicialPensionValue${i}`}
-                                value={incomeInfo[`judicialPensionValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                        
+                    {/*<!-- Fonte Pagadora( Empresa/Governo/ Pessoa Física) -->*/}
+                    <div class="survey-box">
+                        <label for="payingSource" id="payingSource-label">Fonte Pagadora</label>
+                        <br />
+                        <input type="text" name="payingSource" value={CLTInfo.payingSource} onChange={handleCLTInputChange} id="payingSource" class="survey-control" />
+                    </div>
+                    {/*<!-- Telefone da Fonte Pagadora -->*/}
+                    <div class="survey-box">
+                        <label for="payingSourcePhone" id="payingSourcePhone-label">Telefone da Fonte Pagadora</label>
+                        <br />
+                        <input type="text" name="payingSourcePhone" value={CLTInfo.payingSourcePhone} onChange={handleCLTInputChange} id="payingSourcePhone" class="survey-control" />
+                    </div>
+                    {/*<!-- Recebe Gratificação ? -->*/}
+                    <div class="survey-box">
+                         <label for="gratification" id="gratification-label"> Recebe horas extras, premiação ou gratificação ? </label>
+                         <br />
+                         <input type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
+                    </div>
+ 
+                    <div>
+                         {gratificationAutonomous ? (
+                     <div>
+                             {Array.from({ length: 6 }).map((_, i) => (
+                             <>
+                             <div key={`month-${i}`} className="survey-box">
+                                 <label htmlFor={`month${i}`} id={`month${i}-label`}>
+                                 Mês {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`month${i}`}
+                                 id={`month${i}`}
+                                 value={incomeInfo[`month${i+1}`]}
+                                 onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`year-${i}`} className="survey-box">
+                                 <label htmlFor={`year${i}`} id={`year${i}-label`}>
+                                 Ano {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`year${i}`}
+                                 id={`year${i}`}
+                                 value={incomeInfo[`year${i+1}`]}
+                                 onChange={(e) => handleInputChange(`year${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`grossAmount-${i}`} className="survey-box">
+                                 <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>
+                                 Valor Bruto {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`grossAmount${i}`}
+                                 id={`grossAmount${i}`}
+                                 value={incomeInfo[`grossAmount${i+1}`]}
+                                 onChange={(e) => handleInputChange(`grossAmount${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                                     {/*<!-- Teve deduções ? -->*/}
+                    <div class="survey-box" key={`deductions-${i+1}`}>
+                         <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
+                         <br />
+                         <input type="checkbox" name="deductions" value={deductionsCLT[i+1]} onChange={() => handleDeductionsCLT(i+1)} id="deductions" class="survey-control" />
+                     </div>
+                     {deductionsCLT[i+1] ? ( <div>
+                     <div key={`incomeTax-${i}`} className="survey-box">
+                                 <label htmlFor={`incomeTax${i}`} id={`incomeTax${i}-label`}>
+                                 Imposto de Renda {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`incomeTax${i}`}
+                                 id={`incomeTax${i}`}
+                                 value={Number(incomeInfo[`incomeTax${i+1}`])}
+                                 onChange={(e) => handleInputChange(`incomeTax${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`publicPension-${i}`} className="survey-box">
+                                 <label htmlFor={`publicPension${i}`} id={`publicPension${i}-label`}>
+                                 Previdência Pública {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`publicPension${i}`}
+                                 id={`publicPension${i}`}
+                                 value={incomeInfo[`publicPension${i+1}`]}
+                                 onChange={(e) => handleInputChange(`publicPension${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`otherDeductions-${i}`} className="survey-box">
+                                 <label htmlFor={`otherDeductions${i}`} id={`otherDeductions${i}-label`}>
+                                 Outras Deduções {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`otherDeductions${i}`}
+                                 id={`otherDeductions${i}`}
+                                 value={Number(incomeInfo[`otherDeductions${i+1}`])}
+                                 onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                     </div>): ( <div></div> )}
+                             <div>
+                     <div key={`foodAllowanceValue-${i}`} className="survey-box">
+                                 <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
+                                 Auxílio Alimentação {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`foodAllowanceValue${i}`}
+                                 id={`foodAllowanceValue${i}`}
+                                 value={incomeInfo[`foodAllowanceValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`transportAllowanceValue-${i}`} className="survey-box">
+                                 <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
+                                 Auxílio Transporte {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`transportAllowanceValue${i}`}
+                                 id={`transportAllowanceValue${i}`}
+                                 value={incomeInfo[`transportAllowanceValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`expenseReimbursementValue-${i}`} className="survey-box">
+                                 <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
+                                 Reembolso de despesas {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`expenseReimbursementValue${i}`}
+                                 id={`expenseReimbursementValue${i}`}
+                                 value={incomeInfo[`expenseReimbursementValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`advancePaymentValue-${i}`} className="survey-box">
+                                 <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
+                                 Adiantamento ou Antecipações  {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`advancePaymentValue${i}`}
+                                 id={`advancePaymentValue${i}`}
+                                 value={incomeInfo[`advancePaymentValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`reversalValue-${i}`} className="survey-box">
+                                 <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
+                                 Estornos e Compensações {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`reversalValue${i}`}
+                                 id={`reversalValue${i}`}
+                                 value={incomeInfo[`reversalValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`compensationValue-${i}`} className="survey-box">
+                                 <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
+                                     Indenizações {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`compensationValue${i}`}
+                                 id={`compensationValue${i}`}
+                                 value={incomeInfo[`compensationValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`judicialPensionValue-${i}`} className="survey-box">
+                                 <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
+                                 Pensão Judicial {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`judicialPensionValue${i}`}
+                                 id={`judicialPensionValue${i}`}
+                                 value={incomeInfo[`judicialPensionValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                     </div>
+                    <div>
+                    </div>
+                             </>
+                     ))}
+                     </div>
+                         ): (
+                         <div>
+                         {Array.from({ length: 3 }).map((_, i) => (
+                             <>
+                         <div key={`month-${i}`} className="survey-box">
+                             <label htmlFor={`month${i}`} id={`month${i}-label`}>
+                             Mês {i + 1}
+                          </label>
+                             <br />
+                             <input
+                             type="text"
+                             name={`month${i}`}
+                             id={`month${i}`}
+                             value={incomeInfo[`month${i+1}`]}
+                             onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                             className="survey-control"
+                             />
+                         </div>
+                         <div key={`year-${i}`} className="survey-box">
+                             <label htmlFor={`year${i}`} id={`year${i}-label`}>
+                             Ano {i + 1}
+                          </label>
+                             <br />
+                             <input
+                             type="text"
+                             name={`year${i}`}
+                             id={`year${i}`}
+                             value={incomeInfo[`year${i+1}`]}
+                             onChange={(e) => handleInputChange(`year${i + 1}`, e.target.value)}
+                             className="survey-control"
+                             />
+                         </div>
+                         <div key={`grossAmount-${i}`} className="survey-box">
+                             <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>
+                             Valor Bruto {i + 1}
+                          </label>
+                             <br />
+                             <input
+                             type="number"
+                             name={`grossAmount${i}`}
+                             id={`grossAmount${i}`}
+                             value={incomeInfo[`grossAmount${i+1}`]}
+                             onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
+                             className="survey-control"
+                             />
+                         </div>
+                         {/*<!-- Teve deduções ? -->*/}
+                         <div class="survey-box" key={`deductions-${i+1}`}>
+                         <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
+                         <br />
+                         <input type="checkbox" name="deductions" value={deductionsCLT[i + 1]} onChange={() => handleDeductionsCLT(i+1)} id="deductions" class="survey-control" />
+                         </div>
+                         {deductionsCLT[i + 1] ? ( 
+                             <div>
+                                 <div key={`incomeTax-${i}`} className="survey-box">
+                                     <label htmlFor={`incomeTax${i}`} id={`incomeTax${i}-label`}>
+                                     Imposto de Renda {i + 1}
+                                     </label>
+                                     <br />
+                                     <input
+                                     type="number"
+                                     name={`incomeTax${i}`}
+                                     id={`incomeTax${i}`}
+                                     value={incomeInfo[`incomeTax${i+1}`]}
+                                     onChange={(e) => handleInputChange(`incomeTax${i + 1}`, e.target.value)}
+                                     className="survey-control"
+                                     />
+                                 </div>
+                                 <div key={`publicPension-${i}`} className="survey-box">
+                                 <label htmlFor={`publicPension${i}`} id={`publicPension${i}-label`}>
+                                 Previdência Pública {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`publicPension${i}`}
+                                 id={`publicPension${i}`}
+                                 value={incomeInfo[`publicPension${i+1}`]}
+                                 onChange={(e) => handleInputChange(`publicPension${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                                 </div>
+                                 <div key={`otherDeductions-${i}`} className="survey-box">
+                                 <label htmlFor={`otherDeductions${i}`} id={`otherDeductions${i}-label`}>
+                                 Outras Deduções {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`otherDeductions${i}`}
+                                 id={`otherDeductions${i}`}
+                                 value={Number(incomeInfo[`otherDeductions${i+1}`])}
+                                 onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             </div>
+                         ): ( 
+                         <div></div> 
+                         )}
+                         <div key={`foodAllowanceValue-${i}`} className="survey-box">
+                                 <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
+                                 Auxílio Alimentação {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`foodAllowanceValue${i}`}
+                                 id={`foodAllowanceValue${i}`}
+                                 value={incomeInfo[`foodAllowanceValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`transportAllowanceValue-${i}`} className="survey-box">
+                                 <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
+                                 Auxílio Transporte {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`transportAllowanceValue${i}`}
+                                 id={`transportAllowanceValue${i}`}
+                                 value={incomeInfo[`transportAllowanceValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`expenseReimbursementValue-${i}`} className="survey-box">
+                                 <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
+                                 Reembolso de despesas {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`expenseReimbursementValue${i}`}
+                                 id={`expenseReimbursementValue${i}`}
+                                 value={incomeInfo[`expenseReimbursementValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`advancePaymentValue-${i}`} className="survey-box">
+                                 <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
+                                 Adiantamento ou Antecipações  {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`advancePaymentValue${i}`}
+                                 id={`advancePaymentValue${i}`}
+                                 value={incomeInfo[`advancePaymentValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`reversalValue-${i}`} className="survey-box">
+                                 <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
+                                 Estornos e Compensações {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`reversalValue${i}`}
+                                 id={`reversalValue${i}`}
+                                 value={incomeInfo[`reversalValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`compensationValue-${i}`} className="survey-box">
+                                 <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
+                                     Indenizações {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`compensationValue${i}`}
+                                 id={`compensationValue${i}`}
+                                 value={incomeInfo[`compensationValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`judicialPensionValue-${i}`} className="survey-box">
+                                 <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
+                                 Pensão Judicial {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`judicialPensionValue${i}`}
+                                 id={`judicialPensionValue${i}`}
+                                 value={incomeInfo[`judicialPensionValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         </>
+ 
+                 ))}
+                         </div>
+                         )}
+                     </div>
+ 
+                    <div class="survey-box">
+                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                    </div>
                     
-                    </div>): (
-                        <div>
-                        <div key={`foodAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
-                                Auxílio Alimentação {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`foodAllowanceValue${i}`}
-                                id={`foodAllowanceValue${i}`}
-                                value={incomeInfo[`foodAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`transportAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
-                                Auxílio Transporte {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`transportAllowanceValue${i}`}
-                                id={`transportAllowanceValue${i}`}
-                                value={incomeInfo[`transportAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`expenseReimbursementValue-${i}`} className="survey-box">
-                                <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`expenseReimbursementValue${i}`}
-                                id={`expenseReimbursementValue${i}`}
-                                value={incomeInfo[`expenseReimbursementValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`advancePaymentValue${i}`}
-                                id={`advancePaymentValue${i}`}
-                                value={incomeInfo[`advancePaymentValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`reversalValue${i}`}
-                                id={`reversalValue${i}`}
-                                value={incomeInfo[`reversalValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`compensationValue${i}`}
-                                id={`compensationValue${i}`}
-                                value={incomeInfo[`compensationValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`judicialPensionValue-${i}`} className="survey-box">
-                                <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`judicialPensionValue${i}`}
-                                id={`judicialPensionValue${i}`}
-                                value={incomeInfo[`judicialPensionValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                </div>
-                    )}
-                   </div>
-                            </>
-                    ))}
-                    </div>): (
-                        <div>
-                        {Array.from({ length: 3 }).map((_, i) => (
-                            <>
-                        <div key={`month-${i}`} className="survey-box">
-                            <label htmlFor={`month${i}`} id={`month${i}-label`}>
-                            Mês {i + 1}
-                         </label>
-                            <br />
-                            <input
-                            type="text"
-                            name={`month${i}`}
-                            id={`month${i}`}
-                            value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
-                            className="survey-control"
-                            />
-                        </div>
-                        <div key={`year-${i}`} className="survey-box">
-                            <label htmlFor={`year${i}`} id={`year${i}-label`}>
-                            Ano {i + 1}
-                         </label>
-                            <br />
-                            <input
-                            type="text"
-                            name={`year${i}`}
-                            id={`year${i}`}
-                            value={incomeInfo[`year${i+1}`]}
-                            onChange={(e) => handleInputChange(`year${i + 1}`, e.target.value)}
-                            className="survey-control"
-                            />
-                        </div>
-                        <div key={`grossAmount-${i}`} className="survey-box">
-                            <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>
-                            Valor Bruto {i + 1}
-                         </label>
-                            <br />
-                            <input
-                            type="number"
-                            name={`grossAmount${i}`}
-                            id={`grossAmount${i}`}
-                            value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
-                            className="survey-control"
-                            />
-                        </div>
-                        
-                        </>
-
-                        
-                ))}
-                </div>
-                    )}
-                           
-                   </div>
-                   <div class="survey-box">
-                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'Pensioner')}  id="submit-button">Salvar Informações</button>
-                   </div>
-                   
-               </>
+                </>
                 ) 
                 }
                 {/* TemporaryDisabilityBenefit */}
@@ -4246,12 +4719,14 @@ export const CadastroRenda = ({  member  }) => {
                    </div>
                    {/*<!-- Recebe Gratificação ? -->*/}
                    <div class="survey-box">
-                        <label for="gratification" id="gratification-label"> Recebe Gratificação ? </label>
+                        <label for="gratification" id="gratification-label"> Recebe horas extras, premiação ou gratificação ? </label>
                         <br />
                         <input type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
-                    </div>
+                   </div>
+
                    <div>
-                   {gratificationAutonomous ? (<div>
+                        {gratificationAutonomous ? (
+                    <div>
                             {Array.from({ length: 6 }).map((_, i) => (
                             <>
                             <div key={`month-${i}`} className="survey-box">
@@ -4296,14 +4771,57 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                                 />
                             </div>
-                            {/*<!-- Teve deduções ? -->*/}
+                                    {/*<!-- Teve deduções ? -->*/}
                    <div class="survey-box" key={`deductions-${i+1}`}>
                         <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
                         <br />
-                        <input type="checkbox" name="deductions" value={deductionsCLT} onChange={handleDeductionsCLT} id="deductions" class="survey-control" />
+                        <input type="checkbox" name="deductions" value={deductionsCLT[i+1]} onChange={() => handleDeductionsCLT(i+1)} id="deductions" class="survey-control" />
                     </div>
-                   <div>
-                   {deductionsCLT ? (<div>
+                    {deductionsCLT[i+1] ? ( <div>
+                    <div key={`incomeTax-${i}`} className="survey-box">
+                                <label htmlFor={`incomeTax${i}`} id={`incomeTax${i}-label`}>
+                                Imposto de Renda {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`incomeTax${i}`}
+                                id={`incomeTax${i}`}
+                                value={Number(incomeInfo[`incomeTax${i+1}`])}
+                                onChange={(e) => handleInputChange(`incomeTax${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                            </div>
+                            <div key={`publicPension-${i}`} className="survey-box">
+                                <label htmlFor={`publicPension${i}`} id={`publicPension${i}-label`}>
+                                Previdência Pública {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`publicPension${i}`}
+                                id={`publicPension${i}`}
+                                value={incomeInfo[`publicPension${i+1}`]}
+                                onChange={(e) => handleInputChange(`publicPension${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                            </div>
+                            <div key={`otherDeductions-${i}`} className="survey-box">
+                                <label htmlFor={`otherDeductions${i}`} id={`otherDeductions${i}-label`}>
+                                Outras Deduções {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`otherDeductions${i}`}
+                                id={`otherDeductions${i}`}
+                                value={Number(incomeInfo[`otherDeductions${i+1}`])}
+                                onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                            </div>
+                    </div>): ( <div></div> )}
+                            <div>
                     <div key={`foodAllowanceValue-${i}`} className="survey-box">
                                 <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
                                 Auxílio Alimentação {i + 1}
@@ -4402,114 +4920,13 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                                 />
                             </div>
-                        
-                    
-                    </div>): (
-                        <div>
-                        <div key={`foodAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
-                                Auxílio Alimentação {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`foodAllowanceValue${i}`}
-                                id={`foodAllowanceValue${i}`}
-                                value={incomeInfo[`foodAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`transportAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
-                                Auxílio Transporte {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`transportAllowanceValue${i}`}
-                                id={`transportAllowanceValue${i}`}
-                                value={incomeInfo[`transportAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`expenseReimbursementValue-${i}`} className="survey-box">
-                                <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`expenseReimbursementValue${i}`}
-                                id={`expenseReimbursementValue${i}`}
-                                value={incomeInfo[`expenseReimbursementValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`advancePaymentValue${i}`}
-                                id={`advancePaymentValue${i}`}
-                                value={incomeInfo[`advancePaymentValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`reversalValue${i}`}
-                                id={`reversalValue${i}`}
-                                value={incomeInfo[`reversalValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`compensationValue${i}`}
-                                id={`compensationValue${i}`}
-                                value={incomeInfo[`compensationValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`judicialPensionValue-${i}`} className="survey-box">
-                                <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`judicialPensionValue${i}`}
-                                id={`judicialPensionValue${i}`}
-                                value={incomeInfo[`judicialPensionValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                </div>
-                    )}
+                    </div>
+                   <div>
                    </div>
                             </>
                     ))}
-                    </div>): (
+                    </div>
+                        ): (
                         <div>
                         {Array.from({ length: 3 }).map((_, i) => (
                             <>
@@ -4550,22 +4967,172 @@ export const CadastroRenda = ({  member  }) => {
                             type="number"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`month${i+1}`]}
+                            value={incomeInfo[`grossAmount${i+1}`]}
                             onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
                             className="survey-control"
                             />
                         </div>
-                        
+                        {/*<!-- Teve deduções ? -->*/}
+                        <div class="survey-box" key={`deductions-${i+1}`}>
+                        <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
+                        <br />
+                        <input type="checkbox" name="deductions" value={deductionsCLT[i + 1]} onChange={() => handleDeductionsCLT(i+1)} id="deductions" class="survey-control" />
+                        </div>
+                        {deductionsCLT[i + 1] ? ( 
+                            <div>
+                                <div key={`incomeTax-${i}`} className="survey-box">
+                                    <label htmlFor={`incomeTax${i}`} id={`incomeTax${i}-label`}>
+                                    Imposto de Renda {i + 1}
+                                    </label>
+                                    <br />
+                                    <input
+                                    type="number"
+                                    name={`incomeTax${i}`}
+                                    id={`incomeTax${i}`}
+                                    value={incomeInfo[`incomeTax${i+1}`]}
+                                    onChange={(e) => handleInputChange(`incomeTax${i + 1}`, e.target.value)}
+                                    className="survey-control"
+                                    />
+                                </div>
+                                <div key={`publicPension-${i}`} className="survey-box">
+                                <label htmlFor={`publicPension${i}`} id={`publicPension${i}-label`}>
+                                Previdência Pública {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`publicPension${i}`}
+                                id={`publicPension${i}`}
+                                value={incomeInfo[`publicPension${i+1}`]}
+                                onChange={(e) => handleInputChange(`publicPension${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                                </div>
+                                <div key={`otherDeductions-${i}`} className="survey-box">
+                                <label htmlFor={`otherDeductions${i}`} id={`otherDeductions${i}-label`}>
+                                Outras Deduções {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`otherDeductions${i}`}
+                                id={`otherDeductions${i}`}
+                                value={Number(incomeInfo[`otherDeductions${i+1}`])}
+                                onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                            </div>
+                            </div>
+                        ): ( 
+                        <div></div> 
+                        )}
+                        <div key={`foodAllowanceValue-${i}`} className="survey-box">
+                                <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
+                                Auxílio Alimentação {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="text"
+                                name={`foodAllowanceValue${i}`}
+                                id={`foodAllowanceValue${i}`}
+                                value={incomeInfo[`foodAllowanceValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`transportAllowanceValue-${i}`} className="survey-box">
+                                <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
+                                Auxílio Transporte {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="text"
+                                name={`transportAllowanceValue${i}`}
+                                id={`transportAllowanceValue${i}`}
+                                value={incomeInfo[`transportAllowanceValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`expenseReimbursementValue-${i}`} className="survey-box">
+                                <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
+                                Reembolso de despesas {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`expenseReimbursementValue${i}`}
+                                id={`expenseReimbursementValue${i}`}
+                                value={incomeInfo[`expenseReimbursementValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`advancePaymentValue-${i}`} className="survey-box">
+                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
+                                Adiantamento ou Antecipações  {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`advancePaymentValue${i}`}
+                                id={`advancePaymentValue${i}`}
+                                value={incomeInfo[`advancePaymentValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`reversalValue-${i}`} className="survey-box">
+                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
+                                Estornos e Compensações {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`reversalValue${i}`}
+                                id={`reversalValue${i}`}
+                                value={incomeInfo[`reversalValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`compensationValue-${i}`} className="survey-box">
+                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
+                                    Indenizações {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`compensationValue${i}`}
+                                id={`compensationValue${i}`}
+                                value={incomeInfo[`compensationValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
+                        <div key={`judicialPensionValue-${i}`} className="survey-box">
+                                <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
+                                Pensão Judicial {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`judicialPensionValue${i}`}
+                                id={`judicialPensionValue${i}`}
+                                value={incomeInfo[`judicialPensionValue${i+1}`]}
+                                onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                        </div>
                         </>
 
-                        
                 ))}
-                </div>
-                    )}
-                           
-                   </div>
+                        </div>
+                        )}
+                    </div>
+
                    <div class="survey-box">
-                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'TemporaryDisabilityBenefit')}  id="submit-button">Salvar Informações</button>
+                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
                    </div>
                    
                </>
@@ -4576,355 +5143,449 @@ export const CadastroRenda = ({  member  }) => {
                 {member.incomeSource.includes('Apprentice') &&
                 (
                     <>
-                   {/*<!-- Data de Admissão -->*/}
-                   <div class="survey-box">
-                       <label for="admissionDate" id="admissionDate-label">Data de Admissão</label>
-                       <br />
-                       <input type="date" name="admissionDate" value={CLTInfo.admissionDate} onChange={handleCLTInputChange} id="admissionDate" class="survey-control" />
-                   </div>
-                   {/*<!-- Cargo -->*/}
-                   <div class="survey-box">
-                       <label for="position" id="position-label">Cargo</label>
-                       <br />
-                       <input type="text" name="position" value={CLTInfo.position} onChange={handleCLTInputChange} id="position" class="survey-control" />
-                   </div>
-                   {/*<!-- Fonte Pagadora( Empresa/Governo/ Pessoa Física) -->*/}
-                   <div class="survey-box">
-                       <label for="payingSource" id="payingSource-label">Fonte Pagadora</label>
-                       <br />
-                       <input type="text" name="payingSource" value={CLTInfo.payingSource} onChange={handleCLTInputChange} id="payingSource" class="survey-control" />
-                   </div>
-                   {/*<!-- Telefone da Fonte Pagadora -->*/}
-                   <div class="survey-box">
-                       <label for="payingSourcePhone" id="payingSourcePhone-label">Telefone da Fonte Pagadora</label>
-                       <br />
-                       <input type="text" name="payingSourcePhone" value={CLTInfo.payingSourcePhone} onChange={handleCLTInputChange} id="payingSourcePhone" class="survey-control" />
-                   </div>
-                   {/*<!-- Recebe Gratificação ? -->*/}
-                   <div class="survey-box">
-                        <label for="gratification" id="gratification-label"> Recebe Gratificação ? </label>
+                    {/*<!-- Data de Admissão -->*/}
+                    <div class="survey-box">
+                        <label for="admissionDate" id="admissionDate-label">Data de Admissão</label>
                         <br />
-                        <input type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
+                        <input type="date" name="admissionDate" value={CLTInfo.admissionDate} onChange={handleCLTInputChange} id="admissionDate" class="survey-control" />
                     </div>
-                   <div>
-                   {gratificationAutonomous ? (<div>
-                            {Array.from({ length: 6 }).map((_, i) => (
-                            <>
-                            <div key={`month-${i}`} className="survey-box">
-                                <label htmlFor={`month${i}`} id={`month${i}-label`}>
-                                Mês {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`month${i}`}
-                                id={`month${i}`}
-                                value={incomeInfo[`month${i+1}`]}
-                                onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`year-${i}`} className="survey-box">
-                                <label htmlFor={`year${i}`} id={`year${i}-label`}>
-                                Ano {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`year${i}`}
-                                id={`year${i}`}
-                                value={incomeInfo[`year${i+1}`]}
-                                onChange={(e) => handleInputChange(`year${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`grossAmount-${i}`} className="survey-box">
-                                <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>
-                                Valor Bruto {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`grossAmount${i}`}
-                                id={`grossAmount${i}`}
-                                value={incomeInfo[`grossAmount${i+1}`]}
-                                onChange={(e) => handleInputChange(`grossAmount${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            {/*<!-- Teve deduções ? -->*/}
-                   <div class="survey-box" key={`deductions-${i+1}`}>
-                        <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
+                    {/*<!-- Cargo -->*/}
+                    <div class="survey-box">
+                        <label for="position" id="position-label">Cargo</label>
                         <br />
-                        <input type="checkbox" name="deductions" value={deductionsCLT} onChange={handleDeductionsCLT} id="deductions" class="survey-control" />
+                        <input type="text" name="position" value={CLTInfo.position} onChange={handleCLTInputChange} id="position" class="survey-control" />
                     </div>
-                   <div>
-                   {deductionsCLT ? (<div>
-                    <div key={`foodAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
-                                Auxílio Alimentação {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`foodAllowanceValue${i}`}
-                                id={`foodAllowanceValue${i}`}
-                                value={incomeInfo[`foodAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`transportAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
-                                Auxílio Transporte {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`transportAllowanceValue${i}`}
-                                id={`transportAllowanceValue${i}`}
-                                value={incomeInfo[`transportAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`expenseReimbursementValue-${i}`} className="survey-box">
-                                <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`expenseReimbursementValue${i}`}
-                                id={`expenseReimbursementValue${i}`}
-                                value={incomeInfo[`expenseReimbursementValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`advancePaymentValue${i}`}
-                                id={`advancePaymentValue${i}`}
-                                value={incomeInfo[`advancePaymentValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`reversalValue${i}`}
-                                id={`reversalValue${i}`}
-                                value={incomeInfo[`reversalValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`compensationValue${i}`}
-                                id={`compensationValue${i}`}
-                                value={incomeInfo[`compensationValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`judicialPensionValue-${i}`} className="survey-box">
-                                <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`judicialPensionValue${i}`}
-                                id={`judicialPensionValue${i}`}
-                                value={incomeInfo[`judicialPensionValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                        
+                    {/*<!-- Fonte Pagadora( Empresa/Governo/ Pessoa Física) -->*/}
+                    <div class="survey-box">
+                        <label for="payingSource" id="payingSource-label">Fonte Pagadora</label>
+                        <br />
+                        <input type="text" name="payingSource" value={CLTInfo.payingSource} onChange={handleCLTInputChange} id="payingSource" class="survey-control" />
+                    </div>
+                    {/*<!-- Telefone da Fonte Pagadora -->*/}
+                    <div class="survey-box">
+                        <label for="payingSourcePhone" id="payingSourcePhone-label">Telefone da Fonte Pagadora</label>
+                        <br />
+                        <input type="text" name="payingSourcePhone" value={CLTInfo.payingSourcePhone} onChange={handleCLTInputChange} id="payingSourcePhone" class="survey-control" />
+                    </div>
+                    {/*<!-- Recebe Gratificação ? -->*/}
+                    <div class="survey-box">
+                         <label for="gratification" id="gratification-label"> Recebe horas extras, premiação ou gratificação ? </label>
+                         <br />
+                         <input type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
+                    </div>
+ 
+                    <div>
+                         {gratificationAutonomous ? (
+                     <div>
+                             {Array.from({ length: 6 }).map((_, i) => (
+                             <>
+                             <div key={`month-${i}`} className="survey-box">
+                                 <label htmlFor={`month${i}`} id={`month${i}-label`}>
+                                 Mês {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`month${i}`}
+                                 id={`month${i}`}
+                                 value={incomeInfo[`month${i+1}`]}
+                                 onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`year-${i}`} className="survey-box">
+                                 <label htmlFor={`year${i}`} id={`year${i}-label`}>
+                                 Ano {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`year${i}`}
+                                 id={`year${i}`}
+                                 value={incomeInfo[`year${i+1}`]}
+                                 onChange={(e) => handleInputChange(`year${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`grossAmount-${i}`} className="survey-box">
+                                 <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>
+                                 Valor Bruto {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`grossAmount${i}`}
+                                 id={`grossAmount${i}`}
+                                 value={incomeInfo[`grossAmount${i+1}`]}
+                                 onChange={(e) => handleInputChange(`grossAmount${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                                     {/*<!-- Teve deduções ? -->*/}
+                    <div class="survey-box" key={`deductions-${i+1}`}>
+                         <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
+                         <br />
+                         <input type="checkbox" name="deductions" value={deductionsCLT[i+1]} onChange={() => handleDeductionsCLT(i+1)} id="deductions" class="survey-control" />
+                     </div>
+                     {deductionsCLT[i+1] ? ( <div>
+                     <div key={`incomeTax-${i}`} className="survey-box">
+                                 <label htmlFor={`incomeTax${i}`} id={`incomeTax${i}-label`}>
+                                 Imposto de Renda {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`incomeTax${i}`}
+                                 id={`incomeTax${i}`}
+                                 value={Number(incomeInfo[`incomeTax${i+1}`])}
+                                 onChange={(e) => handleInputChange(`incomeTax${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`publicPension-${i}`} className="survey-box">
+                                 <label htmlFor={`publicPension${i}`} id={`publicPension${i}-label`}>
+                                 Previdência Pública {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`publicPension${i}`}
+                                 id={`publicPension${i}`}
+                                 value={incomeInfo[`publicPension${i+1}`]}
+                                 onChange={(e) => handleInputChange(`publicPension${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`otherDeductions-${i}`} className="survey-box">
+                                 <label htmlFor={`otherDeductions${i}`} id={`otherDeductions${i}-label`}>
+                                 Outras Deduções {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`otherDeductions${i}`}
+                                 id={`otherDeductions${i}`}
+                                 value={Number(incomeInfo[`otherDeductions${i+1}`])}
+                                 onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                     </div>): ( <div></div> )}
+                             <div>
+                     <div key={`foodAllowanceValue-${i}`} className="survey-box">
+                                 <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
+                                 Auxílio Alimentação {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`foodAllowanceValue${i}`}
+                                 id={`foodAllowanceValue${i}`}
+                                 value={incomeInfo[`foodAllowanceValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`transportAllowanceValue-${i}`} className="survey-box">
+                                 <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
+                                 Auxílio Transporte {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`transportAllowanceValue${i}`}
+                                 id={`transportAllowanceValue${i}`}
+                                 value={incomeInfo[`transportAllowanceValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`expenseReimbursementValue-${i}`} className="survey-box">
+                                 <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
+                                 Reembolso de despesas {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`expenseReimbursementValue${i}`}
+                                 id={`expenseReimbursementValue${i}`}
+                                 value={incomeInfo[`expenseReimbursementValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`advancePaymentValue-${i}`} className="survey-box">
+                                 <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
+                                 Adiantamento ou Antecipações  {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`advancePaymentValue${i}`}
+                                 id={`advancePaymentValue${i}`}
+                                 value={incomeInfo[`advancePaymentValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`reversalValue-${i}`} className="survey-box">
+                                 <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
+                                 Estornos e Compensações {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`reversalValue${i}`}
+                                 id={`reversalValue${i}`}
+                                 value={incomeInfo[`reversalValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`compensationValue-${i}`} className="survey-box">
+                                 <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
+                                     Indenizações {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`compensationValue${i}`}
+                                 id={`compensationValue${i}`}
+                                 value={incomeInfo[`compensationValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             <div key={`judicialPensionValue-${i}`} className="survey-box">
+                                 <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
+                                 Pensão Judicial {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`judicialPensionValue${i}`}
+                                 id={`judicialPensionValue${i}`}
+                                 value={incomeInfo[`judicialPensionValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                     </div>
+                    <div>
+                    </div>
+                             </>
+                     ))}
+                     </div>
+                         ): (
+                         <div>
+                         {Array.from({ length: 3 }).map((_, i) => (
+                             <>
+                         <div key={`month-${i}`} className="survey-box">
+                             <label htmlFor={`month${i}`} id={`month${i}-label`}>
+                             Mês {i + 1}
+                          </label>
+                             <br />
+                             <input
+                             type="text"
+                             name={`month${i}`}
+                             id={`month${i}`}
+                             value={incomeInfo[`month${i+1}`]}
+                             onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
+                             className="survey-control"
+                             />
+                         </div>
+                         <div key={`year-${i}`} className="survey-box">
+                             <label htmlFor={`year${i}`} id={`year${i}-label`}>
+                             Ano {i + 1}
+                          </label>
+                             <br />
+                             <input
+                             type="text"
+                             name={`year${i}`}
+                             id={`year${i}`}
+                             value={incomeInfo[`year${i+1}`]}
+                             onChange={(e) => handleInputChange(`year${i + 1}`, e.target.value)}
+                             className="survey-control"
+                             />
+                         </div>
+                         <div key={`grossAmount-${i}`} className="survey-box">
+                             <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>
+                             Valor Bruto {i + 1}
+                          </label>
+                             <br />
+                             <input
+                             type="number"
+                             name={`grossAmount${i}`}
+                             id={`grossAmount${i}`}
+                             value={incomeInfo[`grossAmount${i+1}`]}
+                             onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
+                             className="survey-control"
+                             />
+                         </div>
+                         {/*<!-- Teve deduções ? -->*/}
+                         <div class="survey-box" key={`deductions-${i+1}`}>
+                         <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
+                         <br />
+                         <input type="checkbox" name="deductions" value={deductionsCLT[i + 1]} onChange={() => handleDeductionsCLT(i+1)} id="deductions" class="survey-control" />
+                         </div>
+                         {deductionsCLT[i + 1] ? ( 
+                             <div>
+                                 <div key={`incomeTax-${i}`} className="survey-box">
+                                     <label htmlFor={`incomeTax${i}`} id={`incomeTax${i}-label`}>
+                                     Imposto de Renda {i + 1}
+                                     </label>
+                                     <br />
+                                     <input
+                                     type="number"
+                                     name={`incomeTax${i}`}
+                                     id={`incomeTax${i}`}
+                                     value={incomeInfo[`incomeTax${i+1}`]}
+                                     onChange={(e) => handleInputChange(`incomeTax${i + 1}`, e.target.value)}
+                                     className="survey-control"
+                                     />
+                                 </div>
+                                 <div key={`publicPension-${i}`} className="survey-box">
+                                 <label htmlFor={`publicPension${i}`} id={`publicPension${i}-label`}>
+                                 Previdência Pública {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`publicPension${i}`}
+                                 id={`publicPension${i}`}
+                                 value={incomeInfo[`publicPension${i+1}`]}
+                                 onChange={(e) => handleInputChange(`publicPension${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                                 </div>
+                                 <div key={`otherDeductions-${i}`} className="survey-box">
+                                 <label htmlFor={`otherDeductions${i}`} id={`otherDeductions${i}-label`}>
+                                 Outras Deduções {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`otherDeductions${i}`}
+                                 id={`otherDeductions${i}`}
+                                 value={Number(incomeInfo[`otherDeductions${i+1}`])}
+                                 onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                             </div>
+                             </div>
+                         ): ( 
+                         <div></div> 
+                         )}
+                         <div key={`foodAllowanceValue-${i}`} className="survey-box">
+                                 <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
+                                 Auxílio Alimentação {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`foodAllowanceValue${i}`}
+                                 id={`foodAllowanceValue${i}`}
+                                 value={incomeInfo[`foodAllowanceValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`transportAllowanceValue-${i}`} className="survey-box">
+                                 <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
+                                 Auxílio Transporte {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="text"
+                                 name={`transportAllowanceValue${i}`}
+                                 id={`transportAllowanceValue${i}`}
+                                 value={incomeInfo[`transportAllowanceValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`expenseReimbursementValue-${i}`} className="survey-box">
+                                 <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
+                                 Reembolso de despesas {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`expenseReimbursementValue${i}`}
+                                 id={`expenseReimbursementValue${i}`}
+                                 value={incomeInfo[`expenseReimbursementValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`advancePaymentValue-${i}`} className="survey-box">
+                                 <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
+                                 Adiantamento ou Antecipações  {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`advancePaymentValue${i}`}
+                                 id={`advancePaymentValue${i}`}
+                                 value={incomeInfo[`advancePaymentValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`reversalValue-${i}`} className="survey-box">
+                                 <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
+                                 Estornos e Compensações {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`reversalValue${i}`}
+                                 id={`reversalValue${i}`}
+                                 value={incomeInfo[`reversalValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`compensationValue-${i}`} className="survey-box">
+                                 <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
+                                     Indenizações {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`compensationValue${i}`}
+                                 id={`compensationValue${i}`}
+                                 value={incomeInfo[`compensationValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         <div key={`judicialPensionValue-${i}`} className="survey-box">
+                                 <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
+                                 Pensão Judicial {i + 1}
+                              </label>
+                                 <br />
+                                 <input
+                                 type="number"
+                                 name={`judicialPensionValue${i}`}
+                                 id={`judicialPensionValue${i}`}
+                                 value={incomeInfo[`judicialPensionValue${i+1}`]}
+                                 onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
+                                 className="survey-control"
+                                 />
+                         </div>
+                         </>
+ 
+                 ))}
+                         </div>
+                         )}
+                     </div>
+ 
+                    <div class="survey-box">
+                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                    </div>
                     
-                    </div>): (
-                        <div>
-                        <div key={`foodAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
-                                Auxílio Alimentação {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`foodAllowanceValue${i}`}
-                                id={`foodAllowanceValue${i}`}
-                                value={incomeInfo[`foodAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`transportAllowanceValue-${i}`} className="survey-box">
-                                <label htmlFor={`transportAllowanceValue${i}`} id={`transportAllowanceValue${i}-label`}>
-                                Auxílio Transporte {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="text"
-                                name={`transportAllowanceValue${i}`}
-                                id={`transportAllowanceValue${i}`}
-                                value={incomeInfo[`transportAllowanceValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`expenseReimbursementValue-${i}`} className="survey-box">
-                                <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`expenseReimbursementValue${i}`}
-                                id={`expenseReimbursementValue${i}`}
-                                value={incomeInfo[`expenseReimbursementValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`advancePaymentValue${i}`}
-                                id={`advancePaymentValue${i}`}
-                                value={incomeInfo[`advancePaymentValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`reversalValue${i}`}
-                                id={`reversalValue${i}`}
-                                value={incomeInfo[`reversalValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`compensationValue${i}`}
-                                id={`compensationValue${i}`}
-                                value={incomeInfo[`compensationValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                            <div key={`judicialPensionValue-${i}`} className="survey-box">
-                                <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
-                             </label>
-                                <br />
-                                <input
-                                type="number"
-                                name={`judicialPensionValue${i}`}
-                                id={`judicialPensionValue${i}`}
-                                value={incomeInfo[`judicialPensionValue${i+1}`]}
-                                onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
-                                className="survey-control"
-                                />
-                            </div>
-                </div>
-                    )}
-                   </div>
-                            </>
-                    ))}
-                    </div>): (
-                        <div>
-                        {Array.from({ length: 3 }).map((_, i) => (
-                            <>
-                        <div key={`month-${i}`} className="survey-box">
-                            <label htmlFor={`month${i}`} id={`month${i}-label`}>
-                            Mês {i + 1}
-                         </label>
-                            <br />
-                            <input
-                            type="text"
-                            name={`month${i}`}
-                            id={`month${i}`}
-                            value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`month${i + 1}`, e.target.value)}
-                            className="survey-control"
-                            />
-                        </div>
-                        <div key={`year-${i}`} className="survey-box">
-                            <label htmlFor={`year${i}`} id={`year${i}-label`}>
-                            Ano {i + 1}
-                         </label>
-                            <br />
-                            <input
-                            type="text"
-                            name={`year${i}`}
-                            id={`year${i}`}
-                            value={incomeInfo[`year${i+1}`]}
-                            onChange={(e) => handleInputChange(`year${i + 1}`, e.target.value)}
-                            className="survey-control"
-                            />
-                        </div>
-                        <div key={`grossAmount-${i}`} className="survey-box">
-                            <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>
-                            Valor Bruto {i + 1}
-                         </label>
-                            <br />
-                            <input
-                            type="number"
-                            name={`grossAmount${i}`}
-                            id={`grossAmount${i}`}
-                            value={incomeInfo[`month${i+1}`]}
-                            onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
-                            className="survey-control"
-                            />
-                        </div>
-                        
-                        </>
-
-                        
-                ))}
-                </div>
-                    )}
-                           
-                   </div>
-                   <div class="survey-box">
-                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'Apprentice')}  id="submit-button">Salvar Informações</button>
-                   </div>
-                   
-               </>
+                </>
                 ) 
                 }
 
