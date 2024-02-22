@@ -92,10 +92,13 @@ export default function MembrosFamiliaRendaTeste() {
     );
     return relationship ? relationship.label : "Não especificado";
   }
-  function translateIncomeSource(incomeValue) {
-    const incomeSource = IncomeSource.find((r) => r.value === incomeValue);
-    return incomeSource ? incomeValue.label : "Não especificado";
-  }
+  function translateIncomeSource(incomeArray) {
+    const translatedIncome = incomeArray.map(incomeValue => {
+        const foundIncome = IncomeSource.find(item => item.value === incomeValue);
+        return foundIncome ? foundIncome.label : "Não especificado";
+    });
+    return translatedIncome.join(', ');
+}
   return (
     <>
       {!memberSelected &&
