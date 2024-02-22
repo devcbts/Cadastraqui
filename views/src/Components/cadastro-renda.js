@@ -655,6 +655,7 @@ export const CadastroRenda = ({  member  }) => {
             quantity: incomeInfo.quantity,
           
         };
+        console.log(data)
     
 
         setIncomeInfo({
