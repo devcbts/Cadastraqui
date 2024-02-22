@@ -557,7 +557,7 @@ export const CadastroRenda = ({  member  }) => {
             dividends1: incomeInfo.dividends1,
             deductionValue1: incomeInfo.deductionValue1,
             publicPension1: incomeInfo.publicPension1,
-            incomeTax1: incomeInfo.incomeTax1,
+            incomeTax1: Number(incomeInfo.incomeTax1),
             otherDeductions1: incomeInfo.otherDeductions1,
             foodAllowanceValue1: incomeInfo.foodAllowanceValue1,
             transportAllowanceValue1: incomeInfo.transportAllowanceValue1,
@@ -2085,7 +2085,7 @@ export const CadastroRenda = ({  member  }) => {
                                 type="number"
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={incomeInfo[`incomeTax${i+1}`]}
+                                value={Number(incomeInfo[`incomeTax${i+1}`])}
                                 onChange={(e) => handleInputChange(`incomeTax${i + 1}`, e.target.value)}
                                 className="survey-control"
                                 />
