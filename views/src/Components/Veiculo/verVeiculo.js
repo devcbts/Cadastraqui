@@ -18,8 +18,35 @@ const VehicleUsage = [
     { value: 'NecessaryDisplacement', label: 'Deslocamento Necessário' },
 ];
 // Componente de formulário para registrar informações do veículo
-export default function VerVeiculo({formData,candidate}) {
-   
+export default function VerVeiculo({ initialFormData, candidate }) {
+
+
+    // Edição de dados!
+    const [formData, setFormData] = useState(initialFormData);
+    const [isEditing, setIsEditing] = useState(false);
+    useEffect(() => {
+        setFormData(initialFormData)
+        setIsEditing(false)
+    },[initialFormData])
+
+    const toggleEdit = () => {
+        if (!isEditing) {
+            // Atualiza formData com os IDs dos proprietários selecionados quando entra em modo de edição
+            const selectedOwnerIds = opcoes
+                .filter(option => formData.ownerNames.includes(option.label) || option.value === formData.candidate_id)
+                .map(option => option.value);
+    
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                // Assumindo que 'owners_id' é o campo que estamos tentando atualizar
+                owners_id: selectedOwnerIds,
+            }));
+        }
+    
+        setIsEditing(!isEditing);
+    };
+
+
     console.log('====================================');
     console.log(formData);
     console.log('====================================');
@@ -32,12 +59,25 @@ export default function VerVeiculo({formData,candidate}) {
 
     // Atualiza o estado do formulário quando um input className='survey-control' muda
     const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        const updatedValue = name === "manufacturingYear" || name === "financedMonths" || name === "monthsToPayOff" || name === "insuranceValue"
+            ? Number(value) : type === 'checkbox' ? checked : value;
+
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: updatedValue,
+        }));
+    };
+
+    const handleSelectChange = (selectedOption) => {
+        // Atualize aqui a lógica para lidar com a mudança dos selects, assumindo que eles alteram 'owners_id'
+        setFormData(prevState => ({
+            ...prevState,
+            owners_id: selectedOption.map(option => option.value),
+        }));
         
     };
 
-    const handleSelectChange = (selectedOptions) => {
-      
-    };
 
 
     // Envia o formulário para o servidor
@@ -48,30 +88,26 @@ export default function VerVeiculo({formData,candidate}) {
 
         const token = localStorage.getItem('token');
         try {
-
-            const response = await api.post("/candidates/vehicle-info", {
-                vehicleType: formData.vehicleType,
-                modelAndBrand: formData.modelAndBrand,
-                manufacturingYear: Number(formData.manufacturingYear),
-                situation: formData.situation,
-                financedMonths: Number(formData.financedMonths) || undefined,
-                monthsToPayOff: Number(formData.monthsToPayOff) || undefined,
-                hasInsurance: formData.hasInsurance,
-                insuranceValue: Number(formData.insuranceValue) || undefined,
-                usage: formData.usage,
-                owners_id: formData.owners_id,
-            }, {
-                headers: {
-                    'authorization': `Bearer ${token}`,
-                }
-            })
+            const { ownerNames, FamilyMemberToVehicle, ...formDataToSend } = formData;
+            console.log(formDataToSend)
+            const response = await api.patch("/candidates/vehicle-info",
+                formDataToSend
+                , {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
             console.log('====================================');
             console.log(response.data);
             console.log('====================================');
             alert("Registro criado com sucesso")
+            setIsEditing(false); // Desabilitar edição ao enviar
+
+            // Lógica para enviar os dados atualizados para o servidor
+            console.log('Dados enviados:', formData);
         }
         catch (err) {
-            alert(err)
+            console.log(err)
         }
     };
 
@@ -114,7 +150,7 @@ export default function VerVeiculo({formData,candidate}) {
                         name="owners_id"
                         options={opcoes}
                         className="survey-select"
-                        onChange={handleSelectChange}
+                        disabled={!isEditing} onChange={handleSelectChange}
                         value={opcoes.filter(option =>
                             formData.ownerNames.includes(option.label) || option.value === formData.candidate_id
                         )}
@@ -123,7 +159,7 @@ export default function VerVeiculo({formData,candidate}) {
                 <div className='survey-box'>
                     <label >Tipo de Veículo:</label>
                     <br />
-                    <select name="vehicleType" value={formData.vehicleType} onChange={handleChange} required>
+                    <select name="vehicleType" value={formData.vehicleType} disabled={!isEditing} onChange={handleChange} required>
                         <option value="">Selecione</option>
                         {VehicleType.map((type) => (
                             <option key={type.value} value={type.value}>{type.label}</option>))}
@@ -134,21 +170,21 @@ export default function VerVeiculo({formData,candidate}) {
                     <label >Modelo e Marca:</label>
                     <br />
 
-                    <input className='survey-control' type="text" name="modelAndBrand" value={formData.modelAndBrand} onChange={handleChange} required />
+                    <input className='survey-control' type="text" name="modelAndBrand" value={formData.modelAndBrand} disabled={!isEditing} onChange={handleChange} required />
                 </div>
 
                 <div className='survey-box'>
                     <label >Ano de Fabricação:</label>
                     <br />
 
-                    <input className='survey-control' type="number" name="manufacturingYear" value={formData.manufacturingYear} onChange={handleChange} required />
+                    <input className='survey-control' type="number" name="manufacturingYear" value={formData.manufacturingYear} disabled={!isEditing} onChange={handleChange} required />
                 </div>
 
                 <div className='survey-box'>
                     <label >Situação do Veículo:</label>
                     <br />
 
-                    <select name="situation" value={formData.situation} onChange={handleChange} required>
+                    <select name="situation" value={formData.situation} disabled={!isEditing} onChange={handleChange} required>
                         {VehicleSituation.map((type) => (
                             <option key={type.value} value={type.value}>{type.label}</option>))}
                     </select>
@@ -161,13 +197,13 @@ export default function VerVeiculo({formData,candidate}) {
                             <label >Meses Financiados:</label>
                             <br />
 
-                            <input className='survey-control' type="number" name="financedMonths" value={formData.financedMonths} onChange={handleChange} />
+                            <input className='survey-control' type="number" name="financedMonths" value={formData.financedMonths} disabled={!isEditing} onChange={handleChange} />
                         </div>
                         <div className='survey-box'>
                             <label>Meses para Quitação:</label>
                             <br />
 
-                            <input className='survey-control' type="number" name="monthsToPayOff" value={formData.monthsToPayOff} onChange={handleChange} />
+                            <input className='survey-control' type="number" name="monthsToPayOff" value={formData.monthsToPayOff} disabled={!isEditing} onChange={handleChange} />
                         </div>
                     </>
                 )}
@@ -176,7 +212,7 @@ export default function VerVeiculo({formData,candidate}) {
                     <label >Possui Seguro?</label>
                     <br />
 
-                    <input className='survey-control' type="checkbox" name="hasInsurance" checked={formData.hasInsurance} onChange={handleChange} />
+                    <input className='survey-control' type="checkbox" name="hasInsurance" checked={formData.hasInsurance} disabled={!isEditing} onChange={handleChange} />
                 </div>
 
                 {/* Renderiza condicionalmente o campo de valor do seguro se o seguro estiver marcado */}
@@ -185,7 +221,7 @@ export default function VerVeiculo({formData,candidate}) {
                         <label >Valor do Seguro:</label>
                         <br />
 
-                        <input className='survey-control' type="number" name="insuranceValue" value={formData.insuranceValue} onChange={handleChange} />
+                        <input className='survey-control' type="number" name="insuranceValue" value={formData.insuranceValue} disabled={!isEditing} onChange={handleChange} />
                     </div>
                 )}
 
@@ -193,13 +229,22 @@ export default function VerVeiculo({formData,candidate}) {
                     <label >Uso do Veículo:</label>
                     <br />
 
-                    <select name="usage" value={formData.usage} disabled onChange={handleChange} required>
+                    <select name="usage" value={formData.usage}  disabled={!isEditing} onChange={handleChange} required>
                         {VehicleUsage.map((type) => (
                             <option key={type.value} value={type.value}>{type.label}</option>))}
                     </select>
                 </div>
 
-
+                <div className="survey-box">
+                    {!isEditing ? (
+                        <button type="button" className="over-button" onClick={toggleEdit}>Editar</button>
+                    ) : (
+                        <>
+                            <button type="button" className="over-button" onClick={handleSubmit}>Salvar Dados</button>
+                            <button type="button" className="over-button" onClick={toggleEdit}>Cancelar</button>
+                        </>
+                    )}
+                </div>
             </form>
         </div>
     );

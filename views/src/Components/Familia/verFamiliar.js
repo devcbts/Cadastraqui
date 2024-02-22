@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './verFamiliar.css'
 import { useState } from 'react';
 import { api } from '../../services/axios';
@@ -144,51 +144,94 @@ const IncomeSource = [
 ];
 export default function VerFamiliar({ familyMember }) {
 
-
+    const [familyMemberInfo, setFamilyMemberInfo] = useState(familyMember)
+    const [isEditing, setIsEditing] = useState(false);
+    function toggleEdit() {
+        setIsEditing(!isEditing); // Alterna o estado de edição
+    }
+    useEffect(() =>{
+        setFamilyMemberInfo(familyMember)
+    },[familyMember])
     function handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
+
+        setFamilyMemberInfo(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
     }
 
+    function handleInputChangeSelect(selectedOptions) {
+        // Com react-select, selectedOptions é um array de objetos { value, label } ou null
+        const values = selectedOptions ? selectedOptions.map(option => option.value) : [];
+        setFamilyMemberInfo(prevState => ({
+            ...prevState,
+            incomeSource: values
+        }));
+        console.log(familyMemberInfo)
 
+    }
+
+    async function saveFamilyMemberInfoData() {
+        // Aqui você implementaria o código para enviar os dados para o backend
+        // Exemplo:
+        const token =  localStorage.getItem('token');
+        try {
+            const response = await api.patch(`/candidates/family-info/${familyMemberInfo.id}`, familyMemberInfo, {
+              headers: {
+                authorization: `Bearer ${token}`,
+              },
+            });
+            console.log("====================================");
+            console.log(response.status);
+            console.log("====================================");
+            alert("Dados cadastrados com sucesso!");
+          } catch (error) {
+            console.log(error);
+            alert(error.response.data.message);
+          }
+        console.log('Dados salvos', familyMemberInfo);
+        setIsEditing(false); // Desabilita o modo de edição após salvar
+    }
     return (
         <div><div className="fill-box">
             <form id="survey-form">
                 <div class="survey-box">
                     <label for="relationship" id="relationship-label">Relação:</label>
                     <br />
-                    <select name="relationship" value={familyMember.relationship} disabled onChange={handleInputChange} id="relationship" class="select-data">
+                    <select name="relationship" value={familyMemberInfo.relationship} disabled={!isEditing} onChange={handleInputChange} id="relationship" class="select-data">
                         {Relationship.map((type) => <option value={type.value}>{type.label}</option>)}
                     </select>
                 </div>
-                {familyMember.relationship === 'Other' && <div class="survey-box">
+                {familyMemberInfo.relationship === 'Other' && <div class="survey-box">
                     <label for="otherRelationship" id="otherRelationship-label">Tipo de Relação:</label>
                     <br />
-                    <input type="text" name="otherRelationship" value={familyMember.otherRelationship} disabled onChange={handleInputChange} id="otherRelationship" class="survey-control" required />
+                    <input type="text" name="otherRelationship" value={familyMemberInfo.otherRelationship} disabled={!isEditing} onChange={handleInputChange} id="otherRelationship" class="survey-control" required />
                 </div>}
                 <div class="survey-box">
                     <label for="fullName" id="fullName-label">Nome Civil Completo:</label>
                     <br />
-                    <input type="text" name="fullName" value={familyMember.fullName} disabled onChange={handleInputChange} id="fullName" class="survey-control" required />
+                    <input type="text" name="fullName" value={familyMemberInfo.fullName} disabled={!isEditing} onChange={handleInputChange} id="fullName" class="survey-control" required />
                 </div>
 
                 <div class="survey-box">
                     <label for="socialName" id="socialName-label">Nome Social, quando aplicável:</label>
                     <br />
-                    <input type="text" name="socialName" value={familyMember.socialName} disabled onChange={handleInputChange} id="socialName" class="survey-control" />
+                    <input type="text" name="socialName" value={familyMemberInfo.socialName} disabled={!isEditing} onChange={handleInputChange} id="socialName" class="survey-control" />
                 </div>
 
                 <div class="survey-box">
                     <label for="birthDate" id="birthDate-label">Data de Nascimento:</label>
                     <br />
-                    <input type="date" name="birthDate" value={familyMember.birthDate.split('T')[0]} disabled onChange={handleInputChange} id="birthDate" class="survey-control" required />
+                    <input type="date" name="birthDate" value={familyMemberInfo.birthDate.split('T')[0]} disabled={!isEditing} onChange={handleInputChange} id="birthDate" class="survey-control" required />
                 </div>
 
                 <div class="survey-box">
                     <label for="gender" id="gender-label">Sexo:</label>
                     <br />
-                    <select name="gender" id="gender" value={familyMember.gender} disabled onChange={handleInputChange} class="select-data" required>
+                    <select name="gender" id="gender" value={familyMemberInfo.gender} disabled={!isEditing} onChange={handleInputChange} class="select-data" required>
                         {GENDER.map((type) => <option value={type.value}>{type.label}</option>)}
 
                     </select>
@@ -197,13 +240,13 @@ export default function VerFamiliar({ familyMember }) {
                 <div class="survey-box">
                     <label for="nationality" id="nationality-label">Nacionalidade:</label>
                     <br />
-                    <input type="text" name="nationality" disabled onChange={handleInputChange} value={familyMember.nationality} id="nationality" class="survey-control" required />
+                    <input type="text" name="nationality" disabled={!isEditing} onChange={handleInputChange} value={familyMemberInfo.nationality} id="nationality" class="survey-control" required />
                 </div>
 
                 <div class="survey-box">
                     <label for="natural_city" id="natural_city-label">Cidade Natal:</label>
                     <br />
-                    <input type="text" name="natural_city" value={familyMember.natural_city} disabled onChange={handleInputChange} id="natural_city" class="survey-control" required />
+                    <input type="text" name="natural_city" value={familyMemberInfo.natural_city} disabled={!isEditing} onChange={handleInputChange} id="natural_city" class="survey-control" required />
                 </div>
 
 
@@ -211,7 +254,7 @@ export default function VerFamiliar({ familyMember }) {
                 <div class="survey-box">
                     <label for="natural_UF" id="natural_UF-label">Unidade Federativa:</label>
                     <br />
-                    <select name="natural_UF" disabled onChange={handleInputChange} value={familyMember.natural_UF} id="natural_UF" class="select-data">
+                    <select name="natural_UF" disabled={!isEditing} onChange={handleInputChange} value={familyMemberInfo.natural_UF} id="natural_UF" class="select-data">
                         {COUNTRY.map((type) => <option value={type.value}>{type.label}</option>)}
 
                     </select>
@@ -220,34 +263,34 @@ export default function VerFamiliar({ familyMember }) {
                 <div class="survey-box">
                     <label for="CPF" id="CPF-label">CPF:</label>
                     <br />
-                    <input type="text" name="CPF" value={familyMember.CPF} disabled onChange={handleInputChange} id="CPF" class="survey-control" required />
+                    <input type="text" name="CPF" value={familyMemberInfo.CPF} disabled={!isEditing} onChange={handleInputChange} id="CPF" class="survey-control" required />
                 </div>
 
                 <div class="survey-box">
                     <label for="RG" id="RG-label">Nº de RG:</label>
                     <br />
-                    <input type="text" name="RG" value={familyMember.RG} disabled onChange={handleInputChange} id="RG" class="survey-control" required />
+                    <input type="text" name="RG" value={familyMemberInfo.RG} disabled={!isEditing} onChange={handleInputChange} id="RG" class="survey-control" required />
                 </div>
 
                 <div class="survey-box">
                     <label for="rgIssuingAuthority" id="rgIssuingAuthority-label">Órgão Emissor do RG:</label>
                     <br />
-                    <input type="text" name="rgIssuingAuthority" value={familyMember.rgIssuingAuthority} disabled onChange={handleInputChange} id="rgIssuingAuthority" class="survey-control" required />
+                    <input type="text" name="rgIssuingAuthority" value={familyMemberInfo.rgIssuingAuthority} disabled={!isEditing} onChange={handleInputChange} id="rgIssuingAuthority" class="survey-control" required />
                 </div>
 
                 <div class="survey-box">
                     <label for="rgIssuingState" id="rgIssuingState-label">Estado do Órgão Emissor do RG:</label>
                     <br />
-                    <select name="rgIssuingState" value={familyMember.rgIssuingState} disabled onChange={handleInputChange} id="rgIssuingState" class="select-data">
+                    <select name="rgIssuingState" value={familyMemberInfo.rgIssuingState} disabled={!isEditing} onChange={handleInputChange} id="rgIssuingState" class="select-data">
                         {COUNTRY.map((type) => <option value={type.value}>{type.label}</option>)}
 
                     </select>
                 </div>
-                {!familyMember.RG && <div>
+                {!familyMemberInfo.RG && <div>
                     <div class="survey-box">
                         <label for="documentType" id="documentType-label">Tipo de Documento Adicional:</label>
                         <br />
-                        <select name="documentType" disabled onChange={handleInputChange} value={familyMember.documentType} id="documentType" class="select-data">
+                        <select name="documentType" disabled={!isEditing} onChange={handleInputChange} value={familyMemberInfo.documentType} id="documentType" class="select-data">
                             {DOCUMENT_TYPE.map((type) => <option value={type.value}>{type.label}</option>)}
 
                         </select>
@@ -256,13 +299,13 @@ export default function VerFamiliar({ familyMember }) {
                     <div class="survey-box">
                         <label for="documentNumber" id="documentNumber-label">Número do Documento:</label>
                         <br />
-                        <input type="text" name="documentNumber" value={familyMember.documentNumber} disabled onChange={handleInputChange} id="documentNumber" class="survey-control" />
+                        <input type="text" name="documentNumber" value={familyMemberInfo.documentNumber} disabled={!isEditing} onChange={handleInputChange} id="documentNumber" class="survey-control" />
                     </div>
 
                     <div class="survey-box">
                         <label for="documentValidity" id="documentValidity-label">Data de Validade:</label>
                         <br />
-                        <input type="date" name="documentValidity" value={familyMember.documentValidity} disabled onChange={handleInputChange} id="documentValidity" class="survey-control" />
+                        <input type="date" name="documentValidity" value={familyMemberInfo.documentValidity} disabled={!isEditing} onChange={handleInputChange} id="documentValidity" class="survey-control" />
                     </div>
 
 
@@ -272,21 +315,21 @@ export default function VerFamiliar({ familyMember }) {
                     <div class="survey-box">
                         <label for="numberOfBirthRegister" id="numberOfBirthRegister-label">Nº do Registro de Nascimento:</label>
                         <br />
-                        <input type="text" name="numberOfBirthRegister" disabled onChange={handleInputChange} value={familyMember.numberOfBirthRegister} id="numberOfBirthRegister" class="survey-control" required />
+                        <input type="text" name="numberOfBirthRegister" disabled={!isEditing} onChange={handleInputChange} value={familyMemberInfo.numberOfBirthRegister} id="numberOfBirthRegister" class="survey-control" required />
                     </div>
 
                     {/*<!-- Livro do Registro de Nascimento -->*/}
                     <div class="survey-box">
                         <label for="bookOfBirthRegister" id="bookOfBirthRegister-label">Livro do Registro de Nascimento:</label>
                         <br />
-                        <input type="text" name="bookOfBirthRegister" disabled onChange={handleInputChange} value={familyMember.bookOfBirthRegister} id="bookOfBirthRegister" class="survey-control" required />
+                        <input type="text" name="bookOfBirthRegister" disabled={!isEditing} onChange={handleInputChange} value={familyMemberInfo.bookOfBirthRegister} id="bookOfBirthRegister" class="survey-control" required />
                     </div>
 
                     {/*<!-- Página do Registro de Nascimento -->*/}
                     <div class="survey-box">
                         <label for="pageOfBirthRegister" id="pageOfBirthRegister-label">Página do Registro de Nascimento:</label>
                         <br />
-                        <input type="text" name="pageOfBirthRegister" disabled onChange={handleInputChange} value={familyMember.pageOfBirthRegister} id="pageOfBirthRegister" class="survey-control" required />
+                        <input type="text" name="pageOfBirthRegister" disabled={!isEditing} onChange={handleInputChange} value={familyMemberInfo.pageOfBirthRegister} id="pageOfBirthRegister" class="survey-control" required />
                     </div>
 
                 </div>}
@@ -295,7 +338,7 @@ export default function VerFamiliar({ familyMember }) {
                 <div class="survey-box">
                     <label for="maritalStatus" id="maritalStatus-label">Estado Civil:</label>
                     <br />
-                    <select name="maritalStatus" value={familyMember.maritalStatus} disabled onChange={handleInputChange} id="maritalStatus" class="select-data">
+                    <select name="maritalStatus" value={familyMemberInfo.maritalStatus} disabled={!isEditing} onChange={handleInputChange} id="maritalStatus" class="select-data">
                         {MARITAL_STATUS.map((type) => <option value={type.value}>{type.label}</option>)}
 
                     </select>
@@ -305,7 +348,7 @@ export default function VerFamiliar({ familyMember }) {
                 <div class="survey-box">
                     <label for="skinColor" id="skinColor-label">Cor ou Raça:</label>
                     <br />
-                    <select name="skinColor" disabled onChange={handleInputChange} value={familyMember.skinColor} id="skinColor" class="select-data">
+                    <select name="skinColor" disabled={!isEditing} onChange={handleInputChange} value={familyMemberInfo.skinColor} id="skinColor" class="select-data">
                         {SkinColor.map((type) => <option value={type.value}>{type.label}</option>)}
 
                     </select>
@@ -315,7 +358,7 @@ export default function VerFamiliar({ familyMember }) {
                 <div class="survey-box">
                     <label for="religion" id="religion-label">Religião:</label>
                     <br />
-                    <select name="religion" value={familyMember.religion} disabled onChange={handleInputChange} id="religion" class="select-data">
+                    <select name="religion" value={familyMemberInfo.religion} disabled={!isEditing} onChange={handleInputChange} id="religion" class="select-data">
                         {RELIGION.map((type) => <option value={type.value}>{type.label}</option>)}
 
                     </select>
@@ -325,7 +368,7 @@ export default function VerFamiliar({ familyMember }) {
                 <div class="survey-box">
                     <label for="educationLevel" id="educationLevel-label">Nível de Educação:</label>
                     <br />
-                    <select name="educationLevel" disabled onChange={handleInputChange} value={familyMember.educationLevel} id="educationLevel" class="select-data">
+                    <select name="educationLevel" disabled={!isEditing} onChange={handleInputChange} value={familyMemberInfo.educationLevel} id="educationLevel" class="select-data">
                         {SCHOLARSHIP.map((type) => <option value={type.value}>{type.label}</option>)}
 
                     </select>
@@ -335,14 +378,14 @@ export default function VerFamiliar({ familyMember }) {
                 <div class="survey-box">
                     <label for="specialNeeds" id="specialNeeds-label">Necessidades Especiais:</label>
                     <br />
-                    <input type="checkbox" name="specialNeeds" disabled onChange={handleInputChange} value={familyMember.specialNeeds} id="specialNeeds" class="survey-control" />
+                    <input type="checkbox" name="specialNeeds" disabled={!isEditing} onChange={handleInputChange} value={familyMemberInfo.specialNeeds} id="specialNeeds" class="survey-control" />
                 </div>
-                {familyMember.specialNeeds && <div>
+                {familyMemberInfo.specialNeeds && <div>
                     {/*<!-- Descrição das Necessidades Especiais -->*/}
                     <div class="survey-box">
                         <label for="specialNeedsDescription" id="specialNeedsDescription-label">Descrição das Necessidades Especiais:</label>
                         <br />
-                        <input type="text" name="specialNeedsDescription" disabled onChange={handleInputChange} value={familyMember.specialNeedsDescription} id="specialNeedsDescription" class="survey-control" />
+                        <input type="text" name="specialNeedsDescription" disabled={!isEditing} onChange={handleInputChange} value={familyMemberInfo.specialNeedsDescription} id="specialNeedsDescription" class="survey-control" />
                     </div>
 
 
@@ -350,7 +393,7 @@ export default function VerFamiliar({ familyMember }) {
                     <div class="survey-box">
                         <label for="hasMedicalReport" id="hasMedicalReport-label">Possui relatório médico:</label>
                         <br />
-                        <input type="checkbox" name="hasMedicalReport" disabled onChange={handleInputChange} value={familyMember.hasMedicalReport} id="hasMedicalReport" class="survey-control" />
+                        <input type="checkbox" name="hasMedicalReport" disabled={!isEditing} onChange={handleInputChange} value={familyMemberInfo.hasMedicalReport} id="hasMedicalReport" class="survey-control" />
                     </div>
                 </div>}
 
@@ -358,49 +401,49 @@ export default function VerFamiliar({ familyMember }) {
                 <div class="survey-box">
                     <label for="landlinePhone" id="landlinePhone-label">Telefone Fixo:</label>
                     <br />
-                    <input type="text" name="landlinePhone" disabled onChange={handleInputChange} value={familyMember.landlinePhone} id="landlinePhone" class="survey-control" />
+                    <input type="text" name="landlinePhone" disabled={!isEditing} onChange={handleInputChange} value={familyMemberInfo.landlinePhone} id="landlinePhone" class="survey-control" />
                 </div>
 
                 {/*<!-- Telefone de Trabalho -->*/}
                 <div class="survey-box">
                     <label for="workPhone" id="workPhone-label">Telefone Alternativo/Recado:</label>
                     <br />
-                    <input type="text" name="workPhone" disabled onChange={handleInputChange} value={familyMember.workPhone} id="workPhone" class="survey-control" />
+                    <input type="text" name="workPhone" disabled={!isEditing} onChange={handleInputChange} value={familyMemberInfo.workPhone} id="workPhone" class="survey-control" />
                 </div>
 
                 {/*<!-- Nome para Contato -->*/}
                 <div class="survey-box">
                     <label for="contactNameForMessage" id="contactNameForMessage-label">Nome para Contato:</label>
                     <br />
-                    <input type="text" name="contactNameForMessage" disabled onChange={handleInputChange} value={familyMember.contactNameForMessage} id="contactNameForMessage" class="survey-control" />
+                    <input type="text" name="contactNameForMessage" disabled={!isEditing} onChange={handleInputChange} value={familyMemberInfo.contactNameForMessage} id="contactNameForMessage" class="survey-control" />
                 </div>
 
                 {/*<!-- Email -->*/}
                 <div class="survey-box">
                     <label for="email" id="email-label">Email:</label>
                     <br />
-                    <input type="email" name="email" value={familyMember.email} disabled onChange={handleInputChange} id="email" class="survey-control" required />
+                    <input type="email" name="email" value={familyMemberInfo.email} disabled={!isEditing} onChange={handleInputChange} id="email" class="survey-control" required />
                 </div>
 
                 {/*<!-- Endereço -->*/}
                 <div class="survey-box">
                     <label for="address" id="address-label">Endereço:</label>
                     <br />
-                    <input type="text" name="address" value={familyMember.address} disabled onChange={handleInputChange} id="address" class="survey-control" required />
+                    <input type="text" name="address" value={familyMemberInfo.address} disabled={!isEditing} onChange={handleInputChange} id="address" class="survey-control" required />
                 </div>
 
                 {/*<!-- Cidade -->*/}
                 <div class="survey-box">
                     <label for="city" id="city-label">Cidade:</label>
                     <br />
-                    <input type="text" name="city" value={familyMember.city} disabled onChange={handleInputChange} id="city" class="survey-control" required />
+                    <input type="text" name="city" value={familyMemberInfo.city} disabled={!isEditing} onChange={handleInputChange} id="city" class="survey-control" required />
                 </div>
 
                 {/*<!-- Unidade Federativa -->*/}
                 <div class="survey-box">
                     <label for="UF" id="UF-label">Unidade Federativa:</label>
                     <br />
-                    <select name="UF" id="UF" value={familyMember.UF} disabled onChange={handleInputChange} class="select-data">
+                    <select name="UF" id="UF" value={familyMemberInfo.UF} disabled={!isEditing} onChange={handleInputChange} class="select-data">
                         {COUNTRY.map((type) => <option value={type.value}>{type.label}</option>)}
 
 
@@ -411,43 +454,43 @@ export default function VerFamiliar({ familyMember }) {
                 <div class="survey-box">
                     <label for="CEP" id="CEP-label">CEP:</label>
                     <br />
-                    <input type="text" name="CEP" value={familyMember.CEP} disabled onChange={handleInputChange} id="CEP" class="survey-control" required />
+                    <input type="text" name="CEP" value={familyMemberInfo.CEP} disabled={!isEditing} onChange={handleInputChange} id="CEP" class="survey-control" required />
                 </div>
 
                 {/*<!-- Bairro -->*/}
                 <div class="survey-box">
                     <label for="neighborhood" id="neighborhood-label">Bairro:</label>
                     <br />
-                    <input type="text" name="neighborhood" value={familyMember.neighborhood} disabled onChange={handleInputChange} id="neighborhood" class="survey-control" required />
+                    <input type="text" name="neighborhood" value={familyMemberInfo.neighborhood} disabled={!isEditing} onChange={handleInputChange} id="neighborhood" class="survey-control" required />
                 </div>
 
                 {/*<!-- Número de Endereço -->*/}
                 <div class="survey-box">
                     <label for="addressNumber" id="addressNumber-label">Número de Endereço:</label>
                     <br />
-                    <input type="number" name="addressNumber" value={familyMember.addressNumber} disabled onChange={handleInputChange} id="addressNumber" class="survey-control" required />
+                    <input type="number" name="addressNumber" value={familyMemberInfo.addressNumber} disabled={!isEditing} onChange={handleInputChange} id="addressNumber" class="survey-control" required />
                 </div>
 
                 {/*<!-- Profissão -->*/}
                 <div class="survey-box">
                     <label for="profession" id="profession-label">Profissão:</label>
                     <br />
-                    <input type="text" name="profession" value={familyMember.profession} disabled onChange={handleInputChange} id="profession" class="survey-control" required />
+                    <input type="text" name="profession" value={familyMemberInfo.profession} disabled={!isEditing} onChange={handleInputChange} id="profession" class="survey-control" required />
                 </div>
 
                 {/*<!-- Inscrito em Programa Governamental -->*/}
                 <div class="survey-box">
                     <label for="enrolledGovernmentProgram" id="enrolledGovernmentProgram-label">Inscrito em Programa Governamental:</label>
                     <br />
-                    <input type="checkbox" name="enrolledGovernmentProgram" value={familyMember.enrolledGovernmentProgram} disabled onChange={handleInputChange} id="enrolledGovernmentProgram" class="survey-control" />
+                    <input type="checkbox" name="enrolledGovernmentProgram" value={familyMemberInfo.enrolledGovernmentProgram} disabled={!isEditing} onChange={handleInputChange} id="enrolledGovernmentProgram" class="survey-control" />
                 </div>
 
-                {familyMember.enrolledGovernmentProgram === true && <div>
+                {familyMemberInfo.enrolledGovernmentProgram === true && <div>
                     {/*<!-- NIS -->*/}
                     <div class="survey-box">
                         <label for="NIS" id="NIS-label">NIS:</label>
                         <br />
-                        <input type="text" name="NIS" value={familyMember.NIS} disabled onChange={handleInputChange} id="NIS" class="survey-control" />
+                        <input type="text" name="NIS" value={familyMemberInfo.NIS} disabled={!isEditing} onChange={handleInputChange} id="NIS" class="survey-control" />
                     </div>
 
                 </div>}
@@ -457,17 +500,24 @@ export default function VerFamiliar({ familyMember }) {
                     <Select
                         name="incomeSource"
                         isMulti
-                        isDisabled // Remova esta linha se o campo não deve ser desabilitado
-                        onChange={handleInputChange}
-                        value={IncomeSource.filter(obj => familyMember.incomeSource.includes(obj.value))}
+                        isDisabled={!isEditing} // Remova esta linha se o campo não deve ser desabilitado
+                        onChange={handleInputChangeSelect}
+                        value={IncomeSource.filter(obj => familyMemberInfo.incomeSource.includes(obj.value))}
                         options={IncomeSource}
                         className="select-data"
                         id="incomeSource"
                     />
                 </div>
 
-                <div class="survey-box">
-                    <button type="submit" id="submit-button">Enviar</button>
+                <div className="survey-box">
+                    {!isEditing ? (
+                        <button className="over-button" type="button" onClick={toggleEdit}>Editar</button>
+                    ) : (
+                        <>
+                            <button className="over-button" type="button" onClick={saveFamilyMemberInfoData}>Salvar Dados</button>
+                            <button  className="over-button"type="button" onClick={toggleEdit}>Cancelar</button>
+                        </>
+                    )}
                 </div>
 
 

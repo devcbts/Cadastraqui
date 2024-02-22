@@ -39,7 +39,7 @@ export default function Moradia() {
 
     return (
         <div>
-            {housing? <VerMoradia formData={housing}/> : <div>
+            {housing? <VerMoradia candidateProp={housing}/> : <div>
                 
             {len > 0 ?
                 <LoadingCadastroCandidato/>

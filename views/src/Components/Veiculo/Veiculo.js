@@ -50,7 +50,7 @@ export default function Veiculos({ candidato }) {
         <DropdownVeiculos veiculos={veiculos} onSelect={selecionarVeiculo} />
       )}
       {!mostrarCadastro && veiculoSelecionado ? (
-        <VerVeiculo formData={veiculoSelecionado} candidate={candidato} />
+        <VerVeiculo initialFormData={veiculoSelecionado} candidate={candidato} />
       ) : (
         <div>{len > 0 && <LoadingCadastroCandidato />}</div>
       )}

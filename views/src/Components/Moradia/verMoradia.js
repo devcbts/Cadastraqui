@@ -48,19 +48,37 @@ const NumberOfRooms = [
   { value: "Twelve", label: "Doze" },
 ];
 
-export default function VerMoradia({ formData }) {
+export default function VerMoradia({ candidateProp  }) {
+  console.log(candidateProp)
   const handleChange = (e) => {
-    //setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    const updatedValue = name === "numberOfBedrooms" ? Number(value) : value;
+    setCandidate(prevState => ({
+      ...prevState,
+      [name]: type === 'checkbox' ? checked : updatedValue,
+    }));
   };
+  // Estado inicial dos dados do candidato
+  const [candidate, setCandidate] = useState(candidateProp );
+  // Estado para controlar o modo de edição
+  const [isEditing, setIsEditing] = useState(false);
 
-  const handleSubmit = async (e) => {
+
+
+  function toggleEdit() {
+    setIsEditing(!isEditing); 
+    setCandidate(candidateProp)// Alterna o estado de edição
+  }
+
+  async function saveCandidateData(e) {
     e.preventDefault();
+    const token = localStorage.getItem('token')
     try {
-      const response = await api.get("/candidates/housing-info", {
+      const response = await api.patch("/candidates/housing-info", candidate, {
         headers: {
           "Content-Type": "application/json",
           // Aqui você adicionaria o token de autorização se necessário
-          // 'Authorization': `Bearer ${token}`,
+           'Authorization': `Bearer ${token}`,
         },
       });
       console.log(response.data);
@@ -69,18 +87,21 @@ export default function VerMoradia({ formData }) {
       console.error(error.response.data);
       // Tratar o erro conforme necessário
     }
-  };
+    console.log('Dados salvos', candidate);
+    setIsEditing(false); // Desabilita o modo de edição após salvar
+  }
+  
 
   return (
     <div className="fill-box">
-      <form onSubmit={handleSubmit} id="survey-form">
+      <form id="survey-form">
         <div className="survey-box">
           <label>Status da propriedade:</label>
           <br />
           <select
             name="propertyStatus"
-            value={formData.propertyStatus}
-            disabled
+            value={candidate.propertyStatus}
+            disabled={!isEditing}
             onChange={handleChange}
             required
           >
@@ -93,32 +114,32 @@ export default function VerMoradia({ formData }) {
           "ProvidedByEmployer",
           "ProvidedByFamily",
           "ProvidedOtherWay",
-        ].includes(formData.propertyStatus) && (
-          <div className="survey-box">
-            <label>Nome do cedente:</label>
+        ].includes(candidate.propertyStatus) && (
+            <div className="survey-box">
+              <label>Nome do cedente:</label>
 
-            <br />
+              <br />
 
-            <input
-              className="survey-control"
-              type="text"
-              name="grantorName"
-              value={formData.grantorName}
-              disabled
-              onChange={handleChange}
-              required
-            />
-          </div>
-        )}
+              <input
+                className="survey-control"
+                type="text"
+                name="grantorName"
+                value={candidate.grantorName}
+                disabled={!isEditing}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          )}
 
-        {formData.propertyStatus === "Rented" && (
+        {candidate.propertyStatus === "Rented" && (
           <div className="survey-box">
             <label>Tipo de contrato:</label>
             <br />
             <select
               name="contractType"
-              value={formData.contractType}
-              disabled
+              value={candidate.contractType}
+              disabled={!isEditing}
               onChange={handleChange}
               required
             >
@@ -133,8 +154,8 @@ export default function VerMoradia({ formData }) {
           <br />
           <select
             name="timeLivingInProperty"
-            value={formData.timeLivingInProperty}
-            disabled
+            value={candidate.timeLivingInProperty}
+            disabled={!isEditing}
             onChange={handleChange}
             required
           >
@@ -148,8 +169,8 @@ export default function VerMoradia({ formData }) {
           <br />
           <select
             name="domicileType"
-            value={formData.domicileType}
-            disabled
+            value={candidate.domicileType}
+            disabled={!isEditing}
             onChange={handleChange}
             required
           >
@@ -163,8 +184,9 @@ export default function VerMoradia({ formData }) {
           <br />
           <select
             name="numberOfRooms"
-            value={formData.numberOfRooms}
-            disabled
+            value={candidate.numberOfRooms}
+            
+            disabled={!isEditing}
             onChange={handleChange}
             required
           >
@@ -180,8 +202,8 @@ export default function VerMoradia({ formData }) {
             className="survey-control"
             type="number"
             name="numberOfBedrooms"
-            value={formData.numberOfBedrooms}
-            disabled
+            value={candidate.numberOfBedrooms}
+            disabled={!isEditing}
             onChange={handleChange}
             min="0"
             required
@@ -189,9 +211,16 @@ export default function VerMoradia({ formData }) {
           <br />
         </div>
 
-        <button type="submit" id="send-btn">
-          Enviar
-        </button>
+        <div className="survey-box">
+          {!isEditing ? (
+            <button type="button" className="over-button" onClick={toggleEdit}>Editar</button>
+          ) : (
+            <>
+              <button type="button" className="over-button" onClick={saveCandidateData}>Salvar Dados</button>
+              <button type="button" className="over-button" onClick={toggleEdit}>Cancelar</button>
+            </>
+          )}
+        </div>
       </form>
     </div>
   );

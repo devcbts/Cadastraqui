@@ -110,25 +110,7 @@ export default function CadastroEdital() {
                 console.log(error)
             }
         }
-        async function refreshAccessToken() {
-            try{
-              const refreshToken = Cookies.get('refreshToken')
         
-              const response = await api.patch(`/refresh?refreshToken=${refreshToken}`)
-              
-              const {newToken, newRefreshToken} = response.data
-              localStorage.setItem('token', newToken)
-              Cookies.set('refreshToken', newRefreshToken, {
-                expires: 7,
-                sameSite: true,
-                path: '/',
-              })
-            } catch(err) {
-              console.log(err)
-              navigate('/login')
-            }
-          }
-          refreshAccessToken()
         getEntityInfo()
     }, [])
 
@@ -142,7 +124,8 @@ export default function CadastroEdital() {
         } else {
           // Se uma filial for selecionada, adicionar ao selectedSubsidiaries
           const selectedSubsidiary = subsidiaries?.find(sub => sub.id === value);
-          if (selectedSubsidiary) {
+          const selectedSubsidiaryAlreadySelected = selectedSubsidiaries.find(sub => sub.id === value);
+          if (selectedSubsidiary && !selectedSubsidiaryAlreadySelected) {
             setSelectedSubsidiaries([...selectedSubsidiaries, selectedSubsidiary]);
             setCurrentCourse({ ...currentCourse, entity_subsidiary_id: selectedSubsidiary.id });
           }
@@ -352,7 +335,7 @@ export default function CadastroEdital() {
                             verifiedScholarships: education.verifiedScholarships,
                             shift: education.shift,
                             semester: education.semester,
-                            entity_subsidiary_id: education.entity_subsidiary_id
+                            entity_subsidiary_id: education.entity_subsidiary_id || '2132'
 
                         }, {
                         headers: {
@@ -370,12 +353,13 @@ export default function CadastroEdital() {
                                 },
                             });
                         } catch (err) {
-                            alert("Erro ao atualizar foto de perfil.");
+                            alert("Erro ao enviar o pdf.");
                             console.log(err);
                         }
                     }
                 } catch (error) {
                     alert("Erro ao criar os educational levels")
+                    console.log(error)
                 }
 
             })
