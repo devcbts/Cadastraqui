@@ -553,104 +553,104 @@ export const CadastroRenda = ({  member  }) => {
             month1: incomeInfo.month1,
             year1: incomeInfo.year1,
             grossAmount1:  Number(incomeInfo.grossAmount1),
-            proLabore1: incomeInfo.proLabore1,
-            dividends1: incomeInfo.dividends1,
-            deductionValue1: incomeInfo.deductionValue1,
-            publicPension1: incomeInfo.publicPension1,
+            proLabore1: Number(incomeInfo.proLabore1),
+            dividends1: Number(incomeInfo.dividends1),
+            deductionValue1: Number(incomeInfo.deductionValue1),
+            publicPension1: Number(incomeInfo.publicPension1),
             incomeTax1: Number(incomeInfo.incomeTax1),
-            otherDeductions1: incomeInfo.otherDeductions1,
-            foodAllowanceValue1: incomeInfo.foodAllowanceValue1,
-            transportAllowanceValue1: incomeInfo.transportAllowanceValue1,
-            expenseReimbursementValue1: incomeInfo.expenseReimbursementValue1,
-            advancePaymentValue1: incomeInfo.advancePaymentValue1,
-            reversalValue1: incomeInfo.reversalValue1,
-            compensationValue1: incomeInfo.compensationValue1,
-            judicialPensionValue1: incomeInfo.judicialPensionValue1,
+            otherDeductions1: Number(incomeInfo.otherDeductions1),
+            foodAllowanceValue1: Number(incomeInfo.foodAllowanceValue1),
+            transportAllowanceValue1: Number(incomeInfo.transportAllowanceValue1),
+            expenseReimbursementValue1: Number(incomeInfo.expenseReimbursementValue1),
+            advancePaymentValue1: Number(incomeInfo.advancePaymentValue1),
+            reversalValue1: Number(incomeInfo.reversalValue1),
+            compensationValue1: Number(incomeInfo.compensationValue1),
+            judicialPensionValue1: Number(incomeInfo.judicialPensionValue1),
         
             month2: incomeInfo.month2,
             year2: incomeInfo.year2,
             grossAmount2: Number(incomeInfo.grossAmount2),
-            proLabore2: incomeInfo.proLabore2,
-            dividends2: incomeInfo.dividends2,
-            deductionValue2: incomeInfo.deductionValue2,
-            publicPension2: incomeInfo.publicPension2,
-            incomeTax2: incomeInfo.incomeTax2,
-            otherDeductions2: incomeInfo.otherDeductions2,
-            foodAllowanceValue2: incomeInfo.foodAllowanceValue2,
-            transportAllowanceValue2: incomeInfo.transportAllowanceValue2,
-            expenseReimbursementValue2: incomeInfo.expenseReimbursementValue2,
-            advancePaymentValue2: incomeInfo.advancePaymentValue2,
-            reversalValue2: incomeInfo.reversalValue2,
-            compensationValue2: incomeInfo.compensationValue2,
-            judicialPensionValue2: incomeInfo.judicialPensionValue2,
+            proLabore2: Number(incomeInfo.proLabore2),
+            dividends2: Number(incomeInfo.dividends2),
+            deductionValue2: Number(incomeInfo.deductionValue2),
+            publicPension2: Number(incomeInfo.publicPension2),
+            incomeTax2: Number(incomeInfo.incomeTax2),
+            otherDeductions2: Number(incomeInfo.otherDeductions2),
+            foodAllowanceValue2: Number(incomeInfo.foodAllowanceValue2),
+            transportAllowanceValue2: Number(incomeInfo.transportAllowanceValue2),
+            expenseReimbursementValue2: Number(incomeInfo.expenseReimbursementValue2),
+            advancePaymentValue2: Number(incomeInfo.advancePaymentValue2),
+            reversalValue2: Number(incomeInfo.reversalValue2),
+            compensationValue2: Number(incomeInfo.compensationValue2),
+            judicialPensionValue2: Number(incomeInfo.judicialPensionValue2),
 
             month3: incomeInfo.month3,
             year3: incomeInfo.year3,
             grossAmount3: Number(incomeInfo.grossAmount3),
-            proLabore3: incomeInfo.proLabore3,
-            dividends3: incomeInfo.dividends3,
-            deductionValue3: incomeInfo.deductionValue3,
-            publicPension3: incomeInfo.publicPension3,
-            incomeTax3: incomeInfo.incomeTax3,
-            otherDeductions3: incomeInfo.otherDeductions3,
-            foodAllowanceValue3: incomeInfo.foodAllowanceValue3,
-            transportAllowanceValue3: incomeInfo.transportAllowanceValue3,
-            expenseReimbursementValue3: incomeInfo.expenseReimbursementValue3,
-            advancePaymentValue3: incomeInfo.advancePaymentValue3,
-            reversalValue3: incomeInfo.reversalValue3,
-            compensationValue3: incomeInfo.compensationValue3,
-            judicialPensionValue3: incomeInfo.judicialPensionValue3,
+            proLabore3: Number(incomeInfo.proLabore3),
+            dividends3: Number(incomeInfo.dividends3),
+            deductionValue3: Number(incomeInfo.deductionValue3),
+            publicPension3: Number(incomeInfo.publicPension3),
+            incomeTax3: Number(incomeInfo.incomeTax3),
+            otherDeductions3: Number(incomeInfo.otherDeductions3),
+            foodAllowanceValue3: Number(incomeInfo.foodAllowanceValue3),
+            transportAllowanceValue3: Number(incomeInfo.transportAllowanceValue3),
+            expenseReimbursementValue3: Number(incomeInfo.expenseReimbursementValue3),
+            advancePaymentValue3: Number(incomeInfo.advancePaymentValue3),
+            reversalValue3: Number(incomeInfo.reversalValue3),
+            compensationValue3: Number(incomeInfo.compensationValue3),
+            judicialPensionValue3: Number(incomeInfo.judicialPensionValue3),
 
             month4: incomeInfo.month4,
             year4: incomeInfo.year4,
             grossAmount4: Number(incomeInfo.grossAmount4),
-            proLabore4: incomeInfo.proLabore4,
-            dividends4: incomeInfo.dividends4,
-            deductionValue4: incomeInfo.deductionValue4,
-            publicPension4: incomeInfo.publicPension4,
-            incomeTax4: incomeInfo.incomeTax4,
-            otherDeductions4: incomeInfo.otherDeductions4,
-            foodAllowanceValue4: incomeInfo.foodAllowanceValue4,
-            transportAllowanceValue4: incomeInfo.transportAllowanceValue4,
-            expenseReimbursementValue4: incomeInfo.expenseReimbursementValue4,
-            advancePaymentValue4: incomeInfo.advancePaymentValue4,
-            reversalValue4: incomeInfo.reversalValue4,
-            compensationValue4: incomeInfo.compensationValue4,
-            judicialPensionValue4: incomeInfo.judicialPensionValue4,
+            proLabore4: Number(incomeInfo.proLabore4),
+            dividends4: Number(incomeInfo.dividends4),
+            deductionValue4: Number(incomeInfo.deductionValue4),
+            publicPension4: Number(incomeInfo.publicPension4),
+            incomeTax4: Number(incomeInfo.incomeTax4),
+            otherDeductions4: Number(incomeInfo.otherDeductions4),
+            foodAllowanceValue4: Number(incomeInfo.foodAllowanceValue4),
+            transportAllowanceValue4: Number(incomeInfo.transportAllowanceValue4),
+            expenseReimbursementValue4: Number(incomeInfo.expenseReimbursementValue4),
+            advancePaymentValue4: Number(incomeInfo.advancePaymentValue4),
+            reversalValue4: Number(incomeInfo.reversalValue4),
+            compensationValue4: Number(incomeInfo.compensationValue4),
+            judicialPensionValue4: Number(incomeInfo.judicialPensionValue4),
 
             month5: incomeInfo.month5,
             year5: incomeInfo.year5,
             grossAmount5: Number(incomeInfo.grossAmount5),
-            proLabore5: incomeInfo.proLabore5,
-            dividends5: incomeInfo.dividends5,
-            deductionValue5: incomeInfo.deductionValue5,
-            publicPension5: incomeInfo.publicPension5,
-            incomeTax5: incomeInfo.incomeTax5,
-            otherDeductions5: incomeInfo.otherDeductions5,
-            foodAllowanceValue5: incomeInfo.foodAllowanceValue5,
-            transportAllowanceValue5: incomeInfo.transportAllowanceValue5,
-            expenseReimbursementValue5: incomeInfo.expenseReimbursementValue5,
-            advancePaymentValue5: incomeInfo.advancePaymentValue5,
-            reversalValue5: incomeInfo.reversalValue5,
-            compensationValue5: incomeInfo.compensationValue5,
-            judicialPensionValue5: incomeInfo.judicialPensionValue5,
+            proLabore5: Number(incomeInfo.proLabore5),
+            dividends5: Number(incomeInfo.dividends5),
+            deductionValue5: Number(incomeInfo.deductionValue5),
+            publicPension5: Number(incomeInfo.publicPension5),
+            incomeTax5: Number(incomeInfo.incomeTax5),
+            otherDeductions5: Number(incomeInfo.otherDeductions5),
+            foodAllowanceValue5: Number(incomeInfo.foodAllowanceValue5),
+            transportAllowanceValue5: Number(incomeInfo.transportAllowanceValue5),
+            expenseReimbursementValue5: Number(incomeInfo.expenseReimbursementValue5),
+            advancePaymentValue5: Number(incomeInfo.advancePaymentValue5),
+            reversalValue5: Number(incomeInfo.reversalValue5),
+            compensationValue5: Number(incomeInfo.compensationValue5),
+            judicialPensionValue5: Number(incomeInfo.judicialPensionValue5),
 
             month6: incomeInfo.month6,
             year6: incomeInfo.year6,
             grossAmount6: Number(incomeInfo.grossAmount6),
-            proLabore6: incomeInfo.proLabore6,
-            dividends6: incomeInfo.dividends6,
-            deductionValue6: incomeInfo.deductionValue6,
-            publicPension6: incomeInfo.publicPension6,
-            incomeTax6: incomeInfo.incomeTax6,
-            otherDeductions6: incomeInfo.otherDeductions6,
-            foodAllowanceValue6: incomeInfo.foodAllowanceValue6,
-            transportAllowanceValue6: incomeInfo.transportAllowanceValue6,
-            expenseReimbursementValue6: incomeInfo.expenseReimbursementValue6,
-            advancePaymentValue6: incomeInfo.advancePaymentValue6,
-            reversalValue6: incomeInfo.reversalValue6,
-            compensationValue6: incomeInfo.compensationValue6,
-            judicialPensionValue6: incomeInfo.judicialPensionValue6,
+            proLabore6: Number(incomeInfo.proLabore6),
+            dividends6: Number(incomeInfo.dividends6),
+            deductionValue6: Number(incomeInfo.deductionValue6),
+            publicPension6: Number(incomeInfo.publicPension6),
+            incomeTax6: Number(incomeInfo.incomeTax6),
+            otherDeductions6: Number(incomeInfo.otherDeductions6),
+            foodAllowanceValue6: Number(incomeInfo.foodAllowanceValue6),
+            transportAllowanceValue6: Number(incomeInfo.transportAllowanceValue6),
+            expenseReimbursementValue6: Number(incomeInfo.expenseReimbursementValue6),
+            advancePaymentValue6: Number(incomeInfo.advancePaymentValue6),
+            reversalValue6: Number(incomeInfo.reversalValue6),
+            compensationValue6: Number(incomeInfo.compensationValue6),
+            judicialPensionValue6: Number(incomeInfo.judicialPensionValue6),
 
             quantity: incomeInfo.quantity,
           
@@ -985,7 +985,7 @@ export const CadastroRenda = ({  member  }) => {
             <form id="survey-form">
                 <h4>Cadastro do {member.fullName} ( {translateRelationship(member.relationship)} )</h4>
                 {/* Fonte de Renda  */}
-                <h4>Fonte de renda: {translateIncomeSource(member.incomeSource)}</h4>
+                <h4>Fonte de renda: {translateIncomeSource(member.incomeSource[0])}</h4>
 
 
                 {/* MEI */}
@@ -2105,6 +2105,20 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                                 />
                             </div>
+                            <div key={`otherDeductions-${i}`} className="survey-box">
+                                <label htmlFor={`otherDeductions${i}`} id={`otherDeductions${i}-label`}>
+                                Outras Deduções {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`otherDeductions${i}`}
+                                id={`otherDeductions${i}`}
+                                value={Number(incomeInfo[`otherDeductions${i+1}`])}
+                                onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                            </div>
                     </div>): ( <div></div> )}
                             <div>
                     <div key={`foodAllowanceValue-${i}`} className="survey-box">
@@ -2293,6 +2307,20 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                                 />
                                 </div>
+                                <div key={`otherDeductions-${i}`} className="survey-box">
+                                <label htmlFor={`otherDeductions${i}`} id={`otherDeductions${i}-label`}>
+                                Outras Deduções {i + 1}
+                             </label>
+                                <br />
+                                <input
+                                type="number"
+                                name={`otherDeductions${i}`}
+                                id={`otherDeductions${i}`}
+                                value={Number(incomeInfo[`otherDeductions${i+1}`])}
+                                onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
+                                className="survey-control"
+                                />
+                            </div>
                             </div>
                         ): ( 
                         <div></div> 
