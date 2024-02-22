@@ -2270,7 +2270,7 @@ export const CadastroRenda = ({  member  }) => {
                                     </label>
                                     <br />
                                     <input
-                                    type="text"
+                                    type="number"
                                     name={`incomeTax${i}`}
                                     id={`incomeTax${i}`}
                                     value={incomeInfo[`incomeTax${i+1}`]}
@@ -2284,7 +2284,7 @@ export const CadastroRenda = ({  member  }) => {
                              </label>
                                 <br />
                                 <input
-                                type="text"
+                                type="number"
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
                                 value={incomeInfo[`publicPension${i+1}`]}
