@@ -982,7 +982,7 @@ export const CadastroRenda = ({  member  }) => {
     return (
         <div><div className="fill-box">
             <form id="survey-form">
-                <h4>Cadastro do {member.fullName} ( translateRelationship({member.relationship}) )</h4>
+                <h4>Cadastro do {member.fullName} ( {translateRelationship(member.relationship)} )</h4>
                 {/* Fonte de Renda  */}
                 <h4>Fonte de renda: {translateIncomeSource(member.incomeSource)}</h4>
 
@@ -2082,7 +2082,7 @@ export const CadastroRenda = ({  member  }) => {
                              </label>
                                 <br />
                                 <input
-                                type="text"
+                                type="number"
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
                                 value={incomeInfo[`incomeTax${i+1}`]}
@@ -2096,7 +2096,7 @@ export const CadastroRenda = ({  member  }) => {
                              </label>
                                 <br />
                                 <input
-                                type="text"
+                                type="number"
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
                                 value={incomeInfo[`publicPension${i+1}`]}
@@ -2251,7 +2251,7 @@ export const CadastroRenda = ({  member  }) => {
                             type="number"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`month${i+1}`]}
+                            value={incomeInfo[`grossAmount${i+1}`]}
                             onChange={(e) => handleInputChange(`grossAmount${i+1}`, e.target.value)}
                             className="survey-control"
                             />
