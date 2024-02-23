@@ -43,6 +43,9 @@ import { registerMEIInfo } from './register-MEI-info'
 import { getFamilyMemberHealthInfo } from './get-family-member-health-info'
 import { updateVehicleInfo } from './update-vehicle-info'
 import { updateExpensesInfo } from './update-expenses-info'
+import { updateFinancingInfo } from './update-financing-info'
+import { updateCreditCardInfo } from './update-credit-card-info'
+import { updateLoanInfo } from './update-loan-info'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -114,7 +117,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     getFamilyMemberHealthInfo,
   )
-  
+
   app.get('/health-info/:_id', { onRequest: [verifyJWT] }, getHealthInfo)
 
   app.post('/health-info/:_id', { onRequest: [verifyJWT] }, registerHealthInfo)
@@ -148,11 +151,11 @@ export async function candidateRoutes(app: FastifyInstance) {
   // Despesas
   app.post('/expenses', { onRequest: [verifyJWT] }, registerExpensesInfo)
   app.get('/expenses/:_id?', { onRequest: [verifyJWT] }, getExpensesInfo)
-  app.patch('/expenses', { onRequest: [verifyJWT ] }, updateExpensesInfo)
+  app.patch('/expenses', { onRequest: [verifyJWT] }, updateExpensesInfo)
   // Empréstimos
   app.post('/expenses/loan/:_id', { onRequest: [verifyJWT] }, registerLoanInfo)
   app.get('/expenses/loan/:_id?', { onRequest: [verifyJWT] }, getLoanInfo)
-
+  app.patch('/expenses/loan/:_id', { onRequest: [verifyJWT] }, updateLoanInfo)
   // Financiamento
   app.post(
     '/expenses/financing/:_id',
@@ -164,7 +167,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     getFinancingInfo,
   )
-
+  app.patch('/expenses/financing/', { onRequest: [verifyJWT] }, updateFinancingInfo)
   // Cartão de Crédito
   app.post(
     '/expenses/credit-card/:_id',
@@ -176,7 +179,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     getCreditCardInfo,
   )
-
+  app.patch('/expenses/credit-card', { onRequest: [verifyJWT] }, updateCreditCardInfo)
   // profile ficture info
   app.get(
     '/profilePicture',
