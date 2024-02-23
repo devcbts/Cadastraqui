@@ -50,13 +50,13 @@ export async function updateHousingInfo(
   ])
 
   const housingDataSchema = z.object({
-    grantorName: z.string().optional(),
+    grantorName: z.string().optional().nullable(),
     propertyStatus: PropertyStatus,
-    contractType: ContractType.optional(),
-    timeLivingInProperty: TimeLivingInProperty.optional(),
-    domicileType: DomicileType.optional(),
-    numberOfRooms: NumberOfRooms.optional(),
-    numberOfBedrooms: z.number().optional(),
+    contractType: ContractType.optional().nullable(),
+    timeLivingInProperty: TimeLivingInProperty,
+    domicileType: DomicileType,
+    numberOfRooms: NumberOfRooms,
+    numberOfBedrooms: z.number(),
   })
 
   const updateData = housingDataSchema.parse(request.body)
