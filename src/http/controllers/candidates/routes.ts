@@ -173,7 +173,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     getFinancingInfo,
   )
-  app.patch('/expenses/financing/', { onRequest: [verifyJWT] }, updateFinancingInfo)
+  app.patch('/expenses/financing', { onRequest: [verifyJWT] }, updateFinancingInfo)
   // Cartão de Crédito
   app.post(
     '/expenses/credit-card/:_id',

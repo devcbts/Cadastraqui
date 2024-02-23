@@ -24,7 +24,7 @@ export async function updateFinancingInfo(request: FastifyRequest, reply: Fastif
     totalInstallments: z.number(),
     paidInstallments: z.number(),
     financingType: FinancingType,
-    otherFinancing: z.string().nullable(),
+    otherFinancing: z.string().optional().nullable(),
   });
 
   // Define o esquema para os parâmetros da requisição
