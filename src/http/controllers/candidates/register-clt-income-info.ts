@@ -83,7 +83,7 @@ export async function registerCLTInfo(
         employmentType,
         averageIncome: avgIncome.toString(),
         familyMember_id: _id,
-        admissionDate,
+        admissionDate: new Date(admissionDate),
         payingSource,payingSourcePhone,position,
       },
     })
