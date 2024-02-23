@@ -69,12 +69,16 @@ export default function VerVeiculo({ initialFormData, candidate }) {
         }));
     };
 
-    const handleSelectChange = (selectedOption) => {
-        // Atualize aqui a lógica para lidar com a mudança dos selects, assumindo que eles alteram 'owners_id'
-        setFormData(prevState => ({
-            ...prevState,
-            owners_id: selectedOption.map(option => option.value),
-        }));
+    const handleSelectChange = (selectedOptions) => {
+        // Filtra para membros da família
+        const owners = selectedOptions.filter(option => option.type === 'family').map(option => option.value);
+        // Verifica se o candidato foi selecionado
+        const candidate = selectedOptions.find(option => option.type === 'candidate')?.value;
+        setFormData({
+            ...formData,
+            owners_id: owners,
+            candidate_id: candidate || '',
+        });
         
     };
 
@@ -150,7 +154,7 @@ export default function VerVeiculo({ initialFormData, candidate }) {
                         name="owners_id"
                         options={opcoes}
                         className="survey-select"
-                        disabled={!isEditing} onChange={handleSelectChange}
+                       isDisabled={!isEditing} onChange={handleSelectChange}
                         value={opcoes.filter(option =>
                             formData.ownerNames.includes(option.label) || option.value === formData.candidate_id
                         )}

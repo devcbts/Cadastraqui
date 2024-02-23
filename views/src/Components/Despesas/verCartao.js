@@ -3,19 +3,19 @@ import Select from 'react-select';
 import { api } from '../../services/axios';
 import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o formulário
 
-export default function VerCartao({formData}) {
-   /* const [formData, setFormData] = useState({
-        familyMemberName: '',
-        usersCount: 1, // Valor padrão
-        cardType: '',
-        bankName: '',
-        cardFlag: '',
-        invoiceValue: '',
-    });*/
+export default function VerCartao({formDataInfo}) {
+    const [formData, setFormData] = useState(formDataInfo);
 
     const [familyMembers, setFamilyMembers] = useState([]);
     const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState('');
-
+    const [isEditing, setIsEditing] = useState(false)
+    function toggleEdit() {
+        setIsEditing(!isEditing); // Alterna o estado de edição
+    }
+    useEffect(() => {
+        setFormData(formDataInfo)
+        setIsEditing(false)
+    },[formDataInfo])
     useEffect(() => {
         async function pegarFamiliares() {
             const token = localStorage.getItem('token');
@@ -35,11 +35,11 @@ export default function VerCartao({formData}) {
     }, []);
 
     const handleChange = (e) => {
-        //setFormData({ ...formData, [e.target.name]: e.target.value });
+       setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleSelectChange = selectedOption => {
-      //  setFormData({ ...formData, familyMemberName: selectedOption.label });
+    setFormData({ ...formData, familyMemberName: selectedOption.label });
         setSelectedFamilyMemberId(selectedOption.value);
     };
 
@@ -48,7 +48,8 @@ export default function VerCartao({formData}) {
 
         const token = localStorage.getItem('token');
         try {
-            const response = await api.post(`/candidates/expenses/credit-card/${selectedFamilyMemberId}`, {
+            const response = await api.patch(`/candidates/expenses/credit-card`, {
+                id: formData.id,
                 familyMemberName: formData.familyMemberName,
                 usersCount: Number(formData.usersCount), // Valor padrão
                 cardType: formData.cardType,
@@ -59,6 +60,7 @@ export default function VerCartao({formData}) {
                 headers: { 'Authorization': `Bearer ${token}` },
             });
             console.log(response.data);
+            setIsEditing(false)
             // Trate a resposta conforme necessário
         } catch (error) {
             console.error(error.response?.data || error.message);
@@ -74,7 +76,7 @@ export default function VerCartao({formData}) {
                     <label>Nome do Familiar:</label>
                     <Select
                         options={familyMembers}
-                        disabled onChange={handleSelectChange}
+                        isDisabled={!isEditing} onChange={handleSelectChange}
                         value={familyMembers.find(option => option.label === formData.familyMemberName)}
                         required
                     />
@@ -83,31 +85,39 @@ export default function VerCartao({formData}) {
                 {/* Outros campos do formulário */}
                 <div className='survey-box'>
                     <label>Quantidade de Usuários:</label>
-                    <input type="number" name="usersCount" value={formData.usersCount} className='survey-control' disabled onChange={handleChange} required />
+                    <input type="number" name="usersCount" value={formData.usersCount} className='survey-control' disabled={!isEditing} onChange={handleChange} required />
                 </div>
 
                 <div className='survey-box'>
                     <label>Tipo de Cartão:</label>
-                    <input type="text" name="cardType" value={formData.cardType} className='survey-control' disabled onChange={handleChange} required />
+                    <input type="text" name="cardType" value={formData.cardType} className='survey-control' disabled={!isEditing} onChange={handleChange} required />
                 </div>
 
                 <div className='survey-box'>
                     <label>Nome do Banco:</label>
-                    <input type="text" name="bankName" value={formData.bankName} className='survey-control' disabled onChange={handleChange} required />
+                    <input type="text" name="bankName" value={formData.bankName} className='survey-control' disabled={!isEditing} onChange={handleChange} required />
                 </div>
 
                 <div className='survey-box'>
                     <label>Bandeira do Cartão:</label>
-                    <input type="text" name="cardFlag" value={formData.cardFlag} className='survey-control' disabled onChange={handleChange} required />
+                    <input type="text" name="cardFlag" value={formData.cardFlag} className='survey-control' disabled={!isEditing} onChange={handleChange} required />
                 </div>
 
                 <div className='survey-box'>
                     <label>Valor da Fatura:</label>
-                    <input type="number" name="invoiceValue" value={formData.invoiceValue} className='survey-control' disabled onChange={handleChange} required />
+                    <input type="number" name="invoiceValue" value={formData.invoiceValue} className='survey-control' disabled={!isEditing} onChange={handleChange} required />
                 </div>
 
-                <button type="submit" disabled>Enviar</button>
-            </form>
+                <div className="survey-box">
+                    {!isEditing ? (
+                        <button className="over-button" type="button" onClick={toggleEdit}>Editar</button>
+                    ) : (
+                        <>
+                            <button className="over-button" type="button" onClick={handleSubmit}>Salvar Dados</button>
+                            <button  className="over-button"type="button" onClick={toggleEdit}>Cancelar</button>
+                        </>
+                    )}
+                </div>             </form>
         </div>
     );
 }

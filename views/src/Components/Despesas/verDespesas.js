@@ -2,62 +2,34 @@ import React, { useEffect, useState } from 'react';
 import { api } from '../../services/axios';
 import './cadastroDespesas.css';
 
-export default function VerDespesas({ formData }) {
-    console.log('====================================');
-    console.log(formData.otherExpensesDescription);
-    console.log('====================================');
+export default function VerDespesas({ formDataInfo }) {
+  
     const getCurrentDate = () => {
         const today = new Date();
         const month = `${today.getMonth() + 1}`.padStart(2, '0'); // Adiciona um zero à esquerda se necessário
         const year = today.getFullYear();
         return `${year}-${month}`;
     };
-    /*const [formData, setFormData] = useState({
-        month: '',
-        waterSewage: '',
-        electricity: '',
-        landlinePhone: '',
-        mobilePhone: '',
-        food: '',
-        rent: '',
-        garageRent: '',
-        condominium: '',
-        cableTV: '',
-        streamingServices: '',
-        fuel: '',
-        annualIPVA: '',
-        optedForInstallmentIPVA: false,
-        installmentCountIPVA: '',
-        installmentValueIPVA: '',
-        optedForInstallmentIPTU: false,
-        installmentCountIPTU: '',
-        installmentValueIPTU: '',
-        optedForInstallmentITR: false,
-        installmentCountITR: '',
-        installmentValueITR: '',
-        optedForInstallmentIR: false,
-        installmentCountIR: '',
-        installmentValueIR: '',
-        otherExpensesDescription: [],
-        otherExpensesValue: [],
-        annualIPTU: '',
-        annualITR: '',
-        annualIR: '',
-        INSS: '',
-        publicTransport: '',
-        schoolTransport: '',
-        internet: '',
-        courses: '',
-        healthPlan: '',
-        dentalPlan: '',
-        medicationExpenses: '',
-        totalExpense: '',
-    });
+    const [formData, setFormData] = useState(
+        formDataInfo
+    );
+    console.log(formData)
+    //Edição de dados
+    const [isEditing, setIsEditing] = useState(false)
 
-    */
+    function toggleEdit() {
+        setIsEditing(!isEditing); // Alterna o estado de edição
+    }
+
+    useEffect(() => {
+        setFormData(formDataInfo);
+        setIsEditing(false);
+    },[formDataInfo])
+
+
 
     const handleOtherExpensesChange = (e, index, type) => {
-        /*
+
         if (type === 'description') {
             const newDescriptions = [...formData.otherExpensesDescription];
             newDescriptions[index] = e.target.value;
@@ -66,28 +38,28 @@ export default function VerDespesas({ formData }) {
             const newValues = [...formData.otherExpensesValue];
             newValues[index] = Number(e.target.value);
             setFormData({ ...formData, otherExpensesValue: newValues });
-        }*/
+        }
     };
 
     const addOtherExpense = () => {
-        /*
+        
         setFormData(prevFormData => ({
             ...prevFormData,
             otherExpensesDescription: [...prevFormData.otherExpensesDescription, ''],
             otherExpensesValue: [...prevFormData.otherExpensesValue, '']
         }));
-        */
+       
     };
 
 
     const handleChange = (e) => {
-        /*
+        
         const { name, value, type, checked } = e.target;
         setFormData({
             ...formData,
             [name]: type === 'checkbox' ? checked : value,
         });
-    */
+    
     };
 
     const renderOtherExpenses = () => {
@@ -105,7 +77,7 @@ export default function VerDespesas({ formData }) {
                                 className='survey-control'
                                 type="text"
                                 value={formData.otherExpensesDescription[index]}
-                                disabled
+                                disabled={!isEditing}
                             />
                         </div>
                         <div className='survey-box'>
@@ -114,7 +86,7 @@ export default function VerDespesas({ formData }) {
                                 className='survey-control'
                                 type="number"
                                 value={formData.otherExpensesValue[index]}
-                                disabled
+                                disabled={!isEditing}
                             />
                         </div>
                     </div>
@@ -129,9 +101,10 @@ export default function VerDespesas({ formData }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
-
+        calculateTotalExpense()
         try {
-            const response = await api.post("/candidates/expenses", {
+            const response = await api.patch("/candidates/expenses", {
+                id: formData.id,
                 month: formData.month,
                 waterSewage: Number(formData.waterSewage) || undefined,
                 electricity: Number(formData.electricity) || undefined,
@@ -182,41 +155,48 @@ export default function VerDespesas({ formData }) {
             alert(err.message);
         }
     };
-    /*
+    const calculateTotalExpense = () => {
+        const expenses = [
+            formData.waterSewage,
+            formData.electricity,
+            formData.landlinePhone,
+            formData.mobilePhone,
+            formData.food,
+            formData.rent,
+            formData.garageRent,
+            formData.condominium,
+            formData.cableTV,
+            formData.streamingServices,
+            formData.fuel,
+            formData.annualIPVA,
+            formData.annualIPTU,
+            formData.annualITR,
+            formData.annualIR,
+            formData.INSS,
+            formData.publicTransport,
+            formData.schoolTransport,
+            formData.internet,
+            formData.courses,
+            formData.healthPlan,
+            formData.dentalPlan,
+            formData.medicationExpenses
+        ];
+    
+        // Verifica se formData.otherExpensesValue é um array e tem elementos antes de adicionar ao array de despesas
+        if (Array.isArray(formData.otherExpensesValue) && formData.otherExpensesValue.length > 0) {
+            expenses.push(...formData.otherExpensesValue);
+        }
+    
+        const total = expenses.reduce((acc, value) => acc + (parseFloat(value) || 0), 0);
+        setFormData({ ...formData, totalExpense: total });
+    };
+    
         useEffect(() =>{
-            const calculateTotalExpense = () => {
-                const total = [
-                    formData.waterSewage,
-                    formData.electricity,
-                    formData.landlinePhone,
-                    formData.mobilePhone,
-                    formData.food,
-                    formData.rent,
-                    formData.garageRent,
-                    formData.condominium,
-                    formData.cableTV,
-                    formData.streamingServices,
-                    formData.fuel,
-                    formData.annualIPVA,
-                    formData.annualIPTU,
-                    formData.annualITR,
-                    formData.annualIR,
-                    formData.INSS,
-                    formData.publicTransport,
-                    formData.schoolTransport,
-                    formData.internet,
-                    formData.courses,
-                    formData.healthPlan,
-                    formData.dentalPlan,
-                    formData.medicationExpenses,
-                    ...formData.otherExpensesValue
-                ].reduce((acc, value) => acc + (parseFloat(value) || 0), 0);
             
-                setFormData({ ...formData, totalExpense: total });
-            };
+            
             calculateTotalExpense();
-        },[formData])
-    */
+        },[formDataInfo])
+    
     return (
         <div className='fill-box'>
             <form onSubmit={handleSubmit} id='survey-form'>
@@ -229,7 +209,7 @@ export default function VerDespesas({ formData }) {
                         type="date"
                         name="month"
                         value={formData.month}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                         required
                     />
@@ -245,7 +225,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="waterSewage"
                         value={formData.waterSewage}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -258,7 +238,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="electricity"
                         value={formData.electricity}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -270,7 +250,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="landlinePhone"
                         value={formData.landlinePhone}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -283,7 +263,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="mobilePhone"
                         value={formData.mobilePhone}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -296,7 +276,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="food"
                         value={formData.food}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -309,7 +289,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="rent"
                         value={formData.rent}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -322,7 +302,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="garageRent"
                         value={formData.garageRent}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -335,7 +315,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="condominium"
                         value={formData.condominium}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -348,7 +328,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="cableTV"
                         value={formData.cableTV}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -361,7 +341,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="streamingServices"
                         value={formData.streamingServices}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -374,7 +354,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="fuel"
                         value={formData.fuel}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -387,7 +367,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="annualIPVA"
                         value={formData.annualIPVA}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -398,7 +378,7 @@ export default function VerDespesas({ formData }) {
                         type="checkbox"
                         name="optedForInstallmentIPVA"
                         checked={formData.optedForInstallmentIPVA}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -411,7 +391,7 @@ export default function VerDespesas({ formData }) {
                                 type="number"
                                 name="installmentCountIPVA"
                                 value={formData.installmentCountIPVA}
-                                disabled
+                                disabled={!isEditing}
                                 onChange={handleChange}
                             />
                         </div>
@@ -422,7 +402,7 @@ export default function VerDespesas({ formData }) {
                                 type="number"
                                 name="installmentValueIPVA"
                                 value={formData.installmentValueIPVA}
-                                disabled
+                                disabled={!isEditing}
                                 onChange={handleChange}
                             />
                         </div>
@@ -436,7 +416,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="annualIPTU"
                         value={formData.annualIPTU}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -449,7 +429,7 @@ export default function VerDespesas({ formData }) {
                         type="checkbox"
                         name="optedForInstallmentIPTU"
                         checked={formData.optedForInstallmentIPTU}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -462,7 +442,7 @@ export default function VerDespesas({ formData }) {
                                 type="number"
                                 name="installmentCountIPTU"
                                 value={formData.installmentCountIPTU}
-                                disabled
+                                disabled={!isEditing}
                                 onChange={handleChange}
                             />
                         </div>
@@ -473,7 +453,7 @@ export default function VerDespesas({ formData }) {
                                 type="number"
                                 name="installmentValueIPTU"
                                 value={formData.installmentValueIPTU}
-                                disabled
+                                disabled={!isEditing}
                                 onChange={handleChange}
                             />
                         </div>
@@ -489,7 +469,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="annualITR"
                         value={formData.annualITR}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -502,7 +482,7 @@ export default function VerDespesas({ formData }) {
                         type="checkbox"
                         name="optedForInstallmentITR"
                         checked={formData.optedForInstallmentITR}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -515,7 +495,7 @@ export default function VerDespesas({ formData }) {
                                 type="number"
                                 name="installmentCountITR"
                                 value={formData.installmentCountITR}
-                                disabled
+                                disabled={!isEditing}
                                 onChange={handleChange}
                             />
                         </div>
@@ -526,7 +506,7 @@ export default function VerDespesas({ formData }) {
                                 type="number"
                                 name="installmentValueITR"
                                 value={formData.installmentValueITR}
-                                disabled
+                                disabled={!isEditing}
                                 onChange={handleChange}
                             />
                         </div>
@@ -541,7 +521,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="annualIR"
                         value={formData.annualIR}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -553,7 +533,7 @@ export default function VerDespesas({ formData }) {
                         type="checkbox"
                         name="optedForInstallmentIR"
                         checked={formData.optedForInstallmentIR}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -566,7 +546,7 @@ export default function VerDespesas({ formData }) {
                                 type="number"
                                 name="installmentCountIR"
                                 value={formData.installmentCountIR}
-                                disabled
+                                disabled={!isEditing}
                                 onChange={handleChange}
                             />
                         </div>
@@ -577,7 +557,7 @@ export default function VerDespesas({ formData }) {
                                 type="number"
                                 name="installmentValueIR"
                                 value={formData.installmentValueIR}
-                                disabled
+                                disabled={!isEditing}
                                 onChange={handleChange}
                             />
                         </div>
@@ -592,7 +572,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="INSS"
                         value={formData.INSS}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -605,7 +585,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="publicTransport"
                         value={formData.publicTransport}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -618,7 +598,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="schoolTransport"
                         value={formData.schoolTransport}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -631,7 +611,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="internet"
                         value={formData.internet}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -644,7 +624,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="courses"
                         value={formData.courses}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -657,7 +637,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="healthPlan"
                         value={formData.healthPlan}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -670,7 +650,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="dentalPlan"
                         value={formData.dentalPlan}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -683,7 +663,7 @@ export default function VerDespesas({ formData }) {
                         type="number"
                         name="medicationExpenses"
                         value={formData.medicationExpenses}
-                        disabled
+                        disabled={!isEditing}
                         onChange={handleChange}
                     />
                 </div>
@@ -695,6 +675,8 @@ export default function VerDespesas({ formData }) {
                 {/* Campos para outras despesas */}
                 {renderOtherExpenses()}
                 {/* Despesa Total */}
+                <button style={{display: isEditing? 'block' : 'none'}}  onClick={calculateTotalExpense}>Calcular Despesa total:</button>
+                {/* Despesa Total */}
                 <div className='survey-box'>
                     <label>Despesa Total:</label>
                     <input
@@ -705,8 +687,17 @@ export default function VerDespesas({ formData }) {
                         disabled
                     />
                 </div>
-
-                <button disabled type="submit">Cadastrar Despesas</button>
+                
+                <div className="survey-box">
+                    {!isEditing ? (
+                        <button className="over-button" type="button" onClick={toggleEdit}>Editar</button>
+                    ) : (
+                        <>
+                            <button className="over-button" type="button" onClick={handleSubmit}>Salvar Dados</button>
+                            <button  className="over-button"type="button" onClick={toggleEdit}>Cancelar</button>
+                        </>
+                    )}
+                </div>
             </form>
         </div>
     );

@@ -16,9 +16,8 @@ export default function CadastroCartao({ candidate }) {
     const [familyMembers, setFamilyMembers] = useState([]);
     const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState('');
     const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
-
-    const opcoes = [...familyMembers.map(m => ({ value: m.id, label: m.fullName, type: 'family' })),
-    { value: candidato.id, label: candidato.nome, type: 'candidate' }];
+    const [opcoes, setOpcoes] = useState([])
+     
 
     useEffect(() => {
         async function pegarFamiliares() {
@@ -31,24 +30,29 @@ export default function CadastroCartao({ candidate }) {
                     value: member.id,
                     label: member.fullName,
                 })));
+              
             } catch (error) {
+                console.log(error)
                 // Trate o erro conforme necessário
             }
         }
         pegarFamiliares();
-    }, []);
+    }, [candidate]);
+
+    useEffect(() => {
+        setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
+        { value: candidato.id, label: candidato.nome, type: 'candidate' }])
+        console.log(familyMembers)
+    },[familyMembers])
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSelectChange = selectedOption => {
-        const owners = selectedOption.filter(option => option.type === 'family').map(option => option.value);
-        // Verifica se o candidato foi selecionado
-        const candidate = selectedOption.find(option => option.type === 'candidate')?.value;
-        
+    const handleSelectChange = (selectedOption) => {
+        setSelectedFamilyMemberId(selectedOption.value); // Atualiza o estado com o ID do membro da família selecionado
+        setFormData({ ...formData, familyMemberName: selectedOption.label }); // Atualiza o nome do familiar no estado do formulário
     };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 

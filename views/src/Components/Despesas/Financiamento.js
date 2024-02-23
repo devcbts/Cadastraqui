@@ -59,7 +59,7 @@ export default function Financiamento() {
       {mostrarCadastro ? (
         <CadastroFinanciamento />
       ) : (
-        selectedFinancing && <VerFinanciamento formData={selectedFinancing} />
+        selectedFinancing && <VerFinanciamento formDataInfo={selectedFinancing} />
       )}
 
       <button className="budget-btn" onClick={toggleCadastro}>

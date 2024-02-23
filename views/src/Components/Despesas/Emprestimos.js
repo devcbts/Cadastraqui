@@ -56,7 +56,7 @@ export default function Emprestimos() {
       {mostrarCadastro ? (
         <CadastroEmprestimo />
       ) : (
-        selectedLoan && <VerEmprestimo formData={selectedLoan} />
+        selectedLoan && <VerEmprestimo formDataInfo={selectedLoan} />
       )}
 
       <button className="budget-btn" onClick={toggleCadastro}>

@@ -3,25 +3,30 @@ import axios from 'axios';
 import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o formulário
 import { api } from '../../services/axios';
 import Select from 'react-select';
-export default function VerEmprestimo({formData}) {
-    /*const [formData, setFormData] = useState({
-        familyMemberName: '',
-        installmentValue: '',
-        totalInstallments: '',
-        paidInstallments: '',
-        bankName: '',
-    });*/
+export default function VerEmprestimo({formDataInfo}) {
+    const [formData, setFormData] = useState(formDataInfo)
+    const [isEditing, setIsEditing] = useState(false)
+
+    function toggleEdit() {
+        setIsEditing(!isEditing); // Alterna o estado de edição
+    }
+    useEffect(() => {
+        setFormData(formDataInfo)
+        setIsEditing(false)
+    },formDataInfo)
 
     const handleChange = (e) => {
-        //setFormData({ ...formData, [e.target.name]: e.target.value });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        console.log(formData)
         const token = localStorage.getItem('token');
         try {
-            const response = await api.post(`/candidates/expenses/loan/${selectedFamilyMemberId}`, {
+            const response = await api.patch(`/candidates/expenses/loan/${formData.familyMember_id}`, {
+                id: formData.id,
                 familyMemberName: formData.familyMemberName,
                 installmentValue: Number(formData.installmentValue),
                 totalInstallments: Number(formData.totalInstallments),
@@ -34,8 +39,10 @@ export default function VerEmprestimo({formData}) {
 
             });
             console.log(response.data);
+            setIsEditing(false)
             // Trate a resposta conforme necessário
         } catch (error) {
+            alert(error.message)
             console.error(error.response?.data || error.message);
             // Trate o erro conforme necessário
         }
@@ -69,8 +76,8 @@ export default function VerEmprestimo({formData}) {
     }, [])
 
     const handleSelectChange = selectedOption => {
-        //setFormData({ ...formData, familyMemberName: selectedOption.label });
-        //setSelectedFamilyMemberId(selectedOption.value);
+        setFormData({ ...formData, familyMemberName: selectedOption.label });
+        setSelectedFamilyMemberId(selectedOption.value);
     };
 
 
@@ -81,7 +88,7 @@ export default function VerEmprestimo({formData}) {
                     <label>Nome do Familiar:</label>
                     <Select
                         options={familyMembers}
-                        isDisabled
+                        isDisabled={!isEditing}
                         onChange={handleSelectChange}
                         value={familyMembers.find(option => option.label === formData.familyMemberName)}
                         required
@@ -91,26 +98,35 @@ export default function VerEmprestimo({formData}) {
                 <div className='survey-box'>
                     <label>Valor da Parcela:</label>
                     <br />
-                    <input type="number" name="installmentValue" value={formData.installmentValue} disabled onChange={handleChange} className='survey-control' required />
+                    <input type="number" name="installmentValue" value={formData.installmentValue} disabled={!isEditing} onChange={handleChange} className='survey-control' required />
                 </div>
 
                 <div className='survey-box'>
                     <label>Total de Parcelas:</label>
-                    <input type="number" name="totalInstallments" value={formData.totalInstallments} disabled onChange={handleChange} className='survey-control' required />
+                    <input type="number" name="totalInstallments" value={formData.totalInstallments} disabled={!isEditing} onChange={handleChange} className='survey-control' required />
                 </div>
 
                 <div className='survey-box'>
                     <label>Parcelas Pagas:</label>
-                    <input type="number" name="paidInstallments" value={formData.paidInstallments} disabled onChange={handleChange} className='survey-control' required />
+                    <input type="number" name="paidInstallments" value={formData.paidInstallments} disabled={!isEditing} onChange={handleChange} className='survey-control' required />
                 </div>
 
                 <div className='survey-box'>
                     <label>Nome do Banco:</label>
-                    <input type="text" name="bankName" value={formData.bankName} disabled onChange={handleChange} className='survey-control' required />
+                    <input type="text" name="bankName" value={formData.bankName} disabled={!isEditing} onChange={handleChange} className='survey-control' required />
                 </div>
 
-                <button type="submit" disabled>Enviar</button>
-            </form>
+  
+                <div className="survey-box">
+                    {!isEditing ? (
+                        <button className="over-button" type="button" onClick={toggleEdit}>Editar</button>
+                    ) : (
+                        <>
+                            <button className="over-button" type="button" onClick={handleSubmit}>Salvar Dados</button>
+                            <button  className="over-button"type="button" onClick={toggleEdit}>Cancelar</button>
+                        </>
+                    )}
+                </div>            </form>
         </div>
     );
 }

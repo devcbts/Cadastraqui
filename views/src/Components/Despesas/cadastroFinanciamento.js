@@ -134,7 +134,7 @@ export default function CadastroFinanciamento() {
                     <input type="text" name="bankName" value={formData.bankName} onChange={handleChange} className='survey-control' required />
                 </div>
 
-                <button type="submit" className="submit-button">Enviar</button>            </form>
+                <button type="submit" className="button">Enviar</button>            </form>
         </div>
     );
 }

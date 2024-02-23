@@ -1881,7 +1881,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* Empresário */}
-                {member.incomeSource.includes('Entepreneur') &&
+                {member.incomeSource.includes('BusinessOwner') &&
                 (
                     <>
                    {/*<!-- Data de Início -->*/}

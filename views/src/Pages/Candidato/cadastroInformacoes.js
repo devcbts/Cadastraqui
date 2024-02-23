@@ -87,7 +87,7 @@ export default function CadastroInfo() {
   function BudgetInfoDiv() {
     return (
       <div>
-        <DespesasTotais />
+        <DespesasTotais candidate={candidato} />
       </div>
     );
   }

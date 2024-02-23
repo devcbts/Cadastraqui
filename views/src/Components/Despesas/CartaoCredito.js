@@ -4,11 +4,10 @@ import { api } from "../../services/axios.js";
 import CadastroCartao from "./cadastroCartao.js";
 import VerCartao from "./verCartao.js"; // Certifique-se de que o nome está correto e é exportável
 
-export default function CartaoCredito() {
+export default function CartaoCredito({candidate}) {
   const [creditCardsInstances, setCreditCardsInstances] = useState([]);
   const [selectedCreditCard, setSelectedCreditCard] = useState(null);
   const [mostrarCadastro, setMostrarCadastro] = useState(false);
-
   useEffect(() => {
     async function pegarCartoes() {
       const token = localStorage.getItem("token");
@@ -54,9 +53,9 @@ export default function CartaoCredito() {
         />
       )}
       {mostrarCadastro ? (
-        <CadastroCartao />
+        <CadastroCartao candidate={candidate} />
       ) : (
-        selectedCreditCard && <VerCartao formData={selectedCreditCard} />
+        selectedCreditCard && <VerCartao formDataInfo={selectedCreditCard} />
       )}
 
       <button className="budget-btn" onClick={toggleCadastro}>

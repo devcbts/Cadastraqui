@@ -63,7 +63,7 @@ export default function DespesasMensais() {
       )}
 
       {!mostrarCadastro && selectedExpense && (
-        <VerDespesas formData={selectedExpense} />
+        <VerDespesas formDataInfo={selectedExpense} />
       )}
     </div>
   );
