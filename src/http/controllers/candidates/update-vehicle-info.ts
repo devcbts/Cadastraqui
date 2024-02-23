@@ -77,24 +77,7 @@ export async function updateVehicleInfo(request: FastifyRequest, reply: FastifyR
 
             // Etapa 3: Atualizar o banco de dados
             // Adicionar novos proprietários
-            await Promise.all(ownersToAdd.map(ownerId =>
-                prisma.familyMemberToVehicle.create({
-                    data: {
-                        A: ownerId,
-                        B: id
-                    }
-                })
-            ));
-
-            // Remover proprietários que não estão mais na lista
-            await Promise.all(ownersToRemove.map(ownerId =>
-                prisma.familyMemberToVehicle.deleteMany({
-                    where: {
-                        A: ownerId,
-                        B: id
-                    }
-                })
-            ));
+          
         
 
         return reply.status(200).send({ message: 'Informações do veículo atualizadas com sucesso.' });
