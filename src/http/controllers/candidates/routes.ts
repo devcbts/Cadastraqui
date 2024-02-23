@@ -43,6 +43,7 @@ import { registerMEIInfo } from './register-MEI-info'
 import { getFamilyMemberHealthInfo } from './get-family-member-health-info'
 import { registerCLTInfo } from './register-clt-income-info'
 import { updateVehicleInfo } from './update-vehicle-info'
+import { updateExpensesInfo } from './update-expenses-info'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
