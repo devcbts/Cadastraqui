@@ -41,6 +41,7 @@ import { getCreditCardInfo } from './get-credit-card-info'
 import { getIncomeInfo } from './get-income-info'
 import { registerMEIInfo } from './register-MEI-info'
 import { getFamilyMemberHealthInfo } from './get-family-member-health-info'
+import { registerCLTInfo } from './register-clt-income-info'
 import { updateVehicleInfo } from './update-vehicle-info'
 import { updateExpensesInfo } from './update-expenses-info'
 import { updateFinancingInfo } from './update-financing-info'
@@ -98,6 +99,11 @@ export async function candidateRoutes(app: FastifyInstance) {
     '/family-member/dependent-autonomous/:_id',
     { onRequest: [verifyJWT] },
     registerAutonomousInfo,
+  )
+  app.post(
+    '/family-member/CLT/:_id',
+    { onRequest: [verifyJWT] },
+    registerCLTInfo,
   )
   app.patch(
     '/family-info/:_id',
