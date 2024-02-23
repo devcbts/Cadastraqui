@@ -849,6 +849,119 @@ export const CadastroRenda = ({  member  }) => {
                     }
                 })
             }
+            // CLT types
+            if(incomeSource === 'Apprentice') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    admissionDate: CLTInfo.admissionDate,
+                    payingSource: CLTInfo.payingSource,
+                    payingSourcePhone: CLTInfo.payingSourcePhone,
+                    position: CLTInfo.position,
+                }
+                await api.post(`/candidates/family-member/CLT/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+            }
+            if(incomeSource === 'PrivateEmployee') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    admissionDate: CLTInfo.admissionDate,
+                    payingSource: CLTInfo.payingSource,
+                    payingSourcePhone: CLTInfo.payingSourcePhone,
+                    position: CLTInfo.position,
+                }
+                await api.post(`/candidates/family-member/CLT/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+            }
+            if(incomeSource === 'PublicEmployee') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    admissionDate: CLTInfo.admissionDate,
+                    payingSource: CLTInfo.payingSource,
+                    payingSourcePhone: CLTInfo.payingSourcePhone,
+                    position: CLTInfo.position,
+                }
+                await api.post(`/candidates/family-member/CLT/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+            }
+            if(incomeSource === 'Pensioner') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    admissionDate: CLTInfo.admissionDate,
+                    payingSource: CLTInfo.payingSource,
+                    payingSourcePhone: CLTInfo.payingSourcePhone,
+                    position: CLTInfo.position,
+                }
+                await api.post(`/candidates/family-member/CLT/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+            }
+            if(incomeSource === 'Retired') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    admissionDate: CLTInfo.admissionDate,
+                    payingSource: CLTInfo.payingSource,
+                    payingSourcePhone: CLTInfo.payingSourcePhone,
+                    position: CLTInfo.position,
+                }
+                await api.post(`/candidates/family-member/CLT/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+            }
+            if(incomeSource === 'DomesticEmployee') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    admissionDate: CLTInfo.admissionDate,
+                    payingSource: CLTInfo.payingSource,
+                    payingSourcePhone: CLTInfo.payingSourcePhone,
+                    position: CLTInfo.position,
+                }
+                await api.post(`/candidates/family-member/CLT/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+            }
+            if(incomeSource === 'TemporaryRuralEmployee') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    admissionDate: CLTInfo.admissionDate,
+                    payingSource: CLTInfo.payingSource,
+                    payingSourcePhone: CLTInfo.payingSourcePhone,
+                    position: CLTInfo.position,
+                }
+                await api.post(`/candidates/family-member/CLT/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+            }
+            if(incomeSource === 'TemporaryDisabilityBenefit') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    admissionDate: CLTInfo.admissionDate,
+                    payingSource: CLTInfo.payingSource,
+                    payingSourcePhone: CLTInfo.payingSourcePhone,
+                    position: CLTInfo.position,
+                }
+                await api.post(`/candidates/family-member/CLT/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+            }
             
             console.log('====================================');
             console.log(response.status);
@@ -2884,7 +2997,7 @@ export const CadastroRenda = ({  member  }) => {
                     </div>
 
                    <div class="survey-box">
-                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'PublicEmployee')}  id="submit-button">Salvar Informações</button>
                    </div>
                    
                </>
@@ -3334,7 +3447,7 @@ export const CadastroRenda = ({  member  }) => {
                      </div>
  
                     <div class="survey-box">
-                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'DomesticEmployee')}  id="submit-button">Salvar Informações</button>
                     </div>
                     
                 </>
@@ -3784,7 +3897,7 @@ export const CadastroRenda = ({  member  }) => {
                     </div>
 
                    <div class="survey-box">
-                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'TemporaryRuralEmployee')}  id="submit-button">Salvar Informações</button>
                    </div>
                    
                </>
@@ -4234,7 +4347,7 @@ export const CadastroRenda = ({  member  }) => {
                      </div>
  
                     <div class="survey-box">
-                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'Retired')}  id="submit-button">Salvar Informações</button>
                     </div>
                     
                 </>
@@ -4683,7 +4796,7 @@ export const CadastroRenda = ({  member  }) => {
                      </div>
  
                     <div class="survey-box">
-                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'Pensioner')}  id="submit-button">Salvar Informações</button>
                     </div>
                     
                 </>
@@ -5132,7 +5245,7 @@ export const CadastroRenda = ({  member  }) => {
                     </div>
 
                    <div class="survey-box">
-                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'TemporaryDisabilityBenefit')}  id="submit-button">Salvar Informações</button>
                    </div>
                    
                </>
@@ -5582,7 +5695,7 @@ export const CadastroRenda = ({  member  }) => {
                      </div>
  
                     <div class="survey-box">
-                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'Apprentice')}  id="submit-button">Salvar Informações</button>
                     </div>
                     
                 </>

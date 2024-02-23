@@ -143,20 +143,40 @@ const IncomeSource = [
 ];
 export const VerRenda = ({  member  }) => {
     const [monthlyIncomes, setMonthlyIncomes] = useState([]);
-    console.log(member);
+    function translateRelationship(relationshipValue) {
+        const relationship = Relationship.find(
+          (r) => r.value === relationshipValue
+        );
+        return relationship ? relationship.label : "Não especificado";
+      }
+
+      function calculateAverageIncome(arrayDeObjetos) {
+        const { soma, contador } = arrayDeObjetos.reduce((acumulador, objeto) => {
+          if (objeto.averageIncome !== null) {
+            acumulador.soma += parseFloat(objeto.averageIncome);
+            acumulador.contador++;
+          }
+          return acumulador;
+        }, { soma: 0, contador: 0 });
+      
+        const averageIncome = contador > 0 ? soma / contador : 0;
+      
+        return averageIncome
+      }
      
     const [entepreneurInfo, setEntepreneurInfo] = useState({
         startDate:'',
         socialReason: '',
         fantasyName: '',
-        CNPJ: ''
+        CNPJ: '',
+        averageIncome: '0.0'
     })
 
     const [unemployedInfo, setUnemployedInfo] = useState({
         receivesUnemployment: false,
         parcels:0,
         firstParcelDate: '',
-        parcelValue:0
+        parcelValue:0,
     })
 
     const [informalWorkerInfo, setInformalWorkerInfo] = useState({
@@ -187,6 +207,7 @@ export const VerRenda = ({  member  }) => {
     })
 
     const [privateEmployeeInfo, setprivateEmployeeInfo] = useState({
+        averageIncome: '0.0',
       admissionDate: '',
       position:'',
       payingSource:'',
@@ -195,18 +216,21 @@ export const VerRenda = ({  member  }) => {
     
 
       const [publicEmployeeInfo, setPublicEmployeeInfo] = useState({
+        averageIncome: '0.0',
         admissionDate: '',
         position:'',
         payingSource:'',
         payingSourcePhone: ''
     })
     const [domesticEmployeeInfo, setDomesticEmployeeInfo] = useState({
+        averageIncome: '0.0',
       admissionDate: '',
       position:'',
       payingSource:'',
       payingSourcePhone: ''
   })
   const [retiredInfo, setRetiredInfo] = useState({
+    averageIncome: '0.0',
     admissionDate: '',
     position:'',
     payingSource:'',
@@ -214,12 +238,14 @@ export const VerRenda = ({  member  }) => {
 })
   
   const [temporaryRuralEmployeeInfo, setTemporaryRuralEmployeeInfo] = useState({
+    averageIncome: '0.0',
     admissionDate: '',
     position:'',
     payingSource:'',
     payingSourcePhone: ''
 })
 const [pensionerInfo, setPensionerInfo] = useState({
+    averageIncome: '0.0',
   admissionDate: '',
   position:'',
   payingSource:'',
@@ -227,12 +253,14 @@ const [pensionerInfo, setPensionerInfo] = useState({
 })
 
 const [temporaryDisabilityBenefitInfo, setTemporaryDisabilityBenefitInfo] = useState({
+    averageIncome: '0.0',
   admissionDate: '',
   position:'',
   payingSource:'',
   payingSourcePhone: ''
 })
 const [apprenticeInfo, setApprenticeInfo] = useState({
+    averageIncome: '0.0',
   admissionDate: '',
   position:'',
   payingSource:'',
@@ -256,136 +284,232 @@ const [apprenticeInfo, setApprenticeInfo] = useState({
                   'authorization': `Bearer ${token}`,
               }
           })
+          console.log(response)
           if(member.incomeSource.includes('IndividualEntrepreneur')) {
-            console.log(response.data.familyMemberIncomeInfo)
             const MEIIncomeInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'IndividualEntrepreneur')
-            console.log(MEIIncomeInfo)
-            MEIInfo.startDate = MEIIncomeInfo[0].startDate;
-            MEIInfo.CNPJ = MEIIncomeInfo[0].CNPJ;
-            MEIInfo.averageIncome = MEIIncomeInfo[0].averageIncome;
+            const startDate = MEIIncomeInfo[0].startDate;
+            const CNPJ = MEIIncomeInfo[0].CNPJ;
+            const averageIncome = calculateAverageIncome(MEIIncomeInfo)
+
+            setMEIInfo({
+                startDate,
+                CNPJ,
+                averageIncome
+            })
+
             console.log(MEIInfo)
           }
 
           if(member.incomeSource.includes('Autonomous')) {
-            const AutonomousInfo = response.data.filter(data => data.employmentType === 'Autonomous')
-            autonomousInfo.averageIncome = response.data.AutonomousInfo.averageIncome;
+            const AutonomousInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'Autonomous')
+            const averageIncome = calculateAverageIncome(AutonomousInfo)
+            setAutonomousInfo({ averageIncome })
             console.log(autonomousInfo)
           }
 
           if(member.incomeSource.includes('Unemployed')) {
-            const UnemployedInfo = response.data.filter(data => data.employmentType === 'Unemployed')
-            unemployedInfo.firstParcelDate = response.data.UnemployedInfo.firstParcelDate
-            unemployedInfo.parcelValue = response.data.UnemployedInfo.parcelValue
-            unemployedInfo.parcels = response.data.UnemployedInfo.parcels
-            unemployedInfo.receivesUnemployment = response.data.UnemployedInfo.receivesUnemployment
+            const UnemployedInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'Unemployed')
+            const firstParcelDate = UnemployedInfo[0].firstParcelDate
+            const parcelValue = UnemployedInfo[0].parcelValue
+            const parcels = UnemployedInfo[0].parcels
+            const receivesUnemployment = UnemployedInfo[0].receivesUnemployment
+
+            setUnemployedInfo({
+                receivesUnemployment,
+                parcels,
+                firstParcelDate,
+                parcelValue,
+            })
+
             console.log(unemployedInfo)
           }
           if(member.incomeSource.includes('InformalWorker')) {
-            const InformalWorkerInfo = response.data.filter(data => data.employmentType === 'InformalWorker')
-            informalWorkerInfo.averageIncome = response.data.InformalWorkerInfo.averageIncome;
+            const InformalWorkerInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'InformalWorker')
+            const averageIncome = calculateAverageIncome(InformalWorkerInfo)
+            setInformalWorkerInfo({ averageIncome })
             console.log(informalWorkerInfo)
           }
           if(member.incomeSource.includes('RentalIncome')) {
-            const RentalIncomeInfo = response.data.filter(data => data.employmentType === 'RentalIncome')
-            rentalIncomeInfo.averageIncome = response.data.RentalIncomeInfo.averageIncome;
+            const RentalIncomeInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'RentalIncome')
+            const averageIncome = calculateAverageIncome(RentalIncomeInfo)
+            setRentalIncomeInfo({ averageIncome })
             console.log(rentalIncomeInfo)
           }
           if(member.incomeSource.includes('LiberalProfessional')) {
-            const LiberalProfessionalInfo = response.data.filter(data => data.employmentType === 'LiberalProfessional')
-            liberalProfessionalInfo.averageIncome = response.data.LiberalProfessionalInfo.averageIncome;
+            const LiberalProfessionalInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'LiberalProfessional')
+            const averageIncome = calculateAverageIncome(LiberalProfessionalInfo)
+            setLiberalProfessionalInfo({ averageIncome })
             console.log(liberalProfessionalInfo)
           }
           if(member.incomeSource.includes('PrivatePension')) {
-            const PrivatePensionInfo = response.data.filter(data => data.employmentType === 'PrivatePension')
-            privatePensionInfo.averageIncome = response.data.PrivatePensionInfo.averageIncome;
+            const PrivatePensionInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'PrivatePension')
+            const averageIncome = calculateAverageIncome(PrivatePensionInfo)
+            setPrivatePensionInfo({ averageIncome })
             console.log(privatePensionInfo)
           }
           if(member.incomeSource.includes('FinancialHelpFromOthers')) {
-            const FinancialHelpFromOthersInfo = response.data.filter(data => data.employmentType === 'FinancialHelpFromOthers')
-            financialHelpFromOthersInfo.averageIncome = response.data.FinancialHelpFromOthersInfo.averageIncome;
-            financialHelpFromOthersInfo.financialAssistantCPF = response.data.FinancialHelpFromOthersInfo.financialAssistantCPF;
+            const FinancialHelpFromOthersInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'FinancialHelpFromOthers')
+            const averageIncome = calculateAverageIncome(FinancialHelpFromOthersInfo)
+            const financialAssistantCPF = FinancialHelpFromOthersInfo[0].financialAssistantCPF
+
+            setFinancialHelpFromOthersInfo({
+                averageIncome,
+                financialAssistantCPF
+            })
+
             console.log(financialHelpFromOthersInfo)
           }
           if(member.incomeSource.includes('Entepreneur')) {
-            const EntepreneurInfo = response.data.filter(data => data.employmentType === 'Entepreneur')
-            entepreneurInfo.averageIncome = response.data.EntepreneurInfo.averageIncome;
-            entepreneurInfo.CNPJ = response.data.EntepreneurInfo.CNPJ
-            entepreneurInfo.fantasyName = response.data.EntepreneurInfo.fantasyName
-            entepreneurInfo.startDate = response.data.EntepreneurInfo.startDate
-            entepreneurInfo.socialReason = response.data.EntepreneurInfo.socialReason
+            const EntepreneurInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'Entepreneur')
+            const averageIncome = calculateAverageIncome(EntepreneurInfo)
+            const CNPJ = EntepreneurInfo[0].CNPJ
+            const fantasyName = EntepreneurInfo[0].fantasyName
+            const startDate = EntepreneurInfo[0].startDate
+            const socialReason = EntepreneurInfo[0].socialReason
+
+            setEntepreneurInfo({
+                startDate,
+                socialReason,
+                fantasyName,
+                CNPJ,
+                averageIncome
+            })
             console.log(entepreneurInfo)
           }
           if(member.incomeSource.includes('PrivateEmployee')) {
-            const PrivateEmployeeInfo = response.data.filter(data => data.employmentType === 'PrivateEmployee')
-            privateEmployeeInfo.averageIncome = response.data.PrivateEmployeeInfo.averageIncome;
-            privateEmployeeInfo.admissionDate = response.data.PrivateEmployeeInfo.admissionDate;
-            privateEmployeeInfo.payingSource = response.data.PrivateEmployeeInfo.payingSource
-            privateEmployeeInfo.payingSourcePhone  = response.data.PrivateEmployeeInfo.payingSourcePhone
-            privateEmployeeInfo.position = response.data.PrivateEmployeeInfo.position
+            const PrivateEmployeeInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'PrivateEmployee')
+            const averageIncome = calculateAverageIncome(PrivateEmployeeInfo)
+            const admissionDate = PrivateEmployeeInfo[0].admissionDate
+            const payingSource = PrivateEmployeeInfo[0].payingSource
+            const payingSourcePhone  = PrivateEmployeeInfo[0].payingSourcePhone
+            const position = PrivateEmployeeInfo[0].position
+            
+            setprivateEmployeeInfo({
+                admissionDate,
+                position,
+                payingSource,
+                payingSourcePhone,
+                averageIncome
+            })
             console.log(privateEmployeeInfo)
-            console.log(response)
           }
           if(member.incomeSource.includes('PublicEmployee')) {
-            const PublicEmployeeInfo = response.data.filter(data => data.employmentType === 'PublicEmployee')
-            publicEmployeeInfo.averageIncome = response.data.PublicEmployeeInfo.averageIncome;
-            publicEmployeeInfo.admissionDate = response.data.PublicEmployeeInfo.admissionDate;
-            publicEmployeeInfo.payingSource = response.data.PublicEmployeeInfo.payingSource
-            publicEmployeeInfo.payingSourcePhone  = response.data.PublicEmployeeInfo.payingSourcePhone
-            publicEmployeeInfo.position = response.data.PublicEmployeeInfo.position
+            const PublicEmployeeInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'PublicEmployee')
+            const averageIncome = calculateAverageIncome(PublicEmployeeInfo)
+            const admissionDate = PublicEmployeeInfo[0].admissionDate
+            const payingSource = PublicEmployeeInfo[0].payingSource
+            const payingSourcePhone  = PublicEmployeeInfo[0].payingSourcePhone
+            const position = PublicEmployeeInfo[0].position
+            
+            setPublicEmployeeInfo({
+                admissionDate,
+                position,
+                payingSource,
+                payingSourcePhone,
+                averageIncome
+            })
             console.log(publicEmployeeInfo)
           }
           if(member.incomeSource.includes('DomesticEmployee')) {
-            const DomesticEmployeeInfo = response.data.filter(data => data.employmentType === 'DomesticEmployee')
-            domesticEmployeeInfo.averageIncome = response.data.DomesticEmployeeInfo.averageIncome;
-            domesticEmployeeInfo.admissionDate = response.data.DomesticEmployeeInfo.admissionDate;
-            domesticEmployeeInfo.payingSource = response.data.DomesticEmployeeInfo.payingSource
-            domesticEmployeeInfo.payingSourcePhone  = response.data.DomesticEmployeeInfo.payingSourcePhone
-            domesticEmployeeInfo.position = response.data.DomesticEmployeeInfo.position
+            const DomesticEmployeeInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'DomesticEmployee')
+            const averageIncome = calculateAverageIncome(DomesticEmployeeInfo)
+            const admissionDate = DomesticEmployeeInfo[0].admissionDate
+            const payingSource = DomesticEmployeeInfo[0].payingSource
+            const payingSourcePhone  = DomesticEmployeeInfo[0].payingSourcePhone
+            const position = DomesticEmployeeInfo[0].position
+            
+            setDomesticEmployeeInfo({
+                admissionDate,
+                position,
+                payingSource,
+                payingSourcePhone,
+                averageIncome
+            })
             console.log(domesticEmployeeInfo)
           }
           if(member.incomeSource.includes('TemporaryRuralEmployee')) {
-            const TemporaryRuralEmployeeInfo = response.data.filter(data => data.employmentType === 'TemporaryRuralEmployee')
-            temporaryRuralEmployeeInfo.averageIncome = response.data.TemporaryRuralEmployeeInfo.averageIncome;
-            temporaryRuralEmployeeInfo.admissionDate = response.data.TemporaryRuralEmployeeInfo.admissionDate;
-            temporaryRuralEmployeeInfo.payingSource = response.data.TemporaryRuralEmployeeInfo.payingSource
-            temporaryRuralEmployeeInfo.payingSourcePhone  = response.data.TemporaryRuralEmployeeInfo.payingSourcePhone
-            temporaryRuralEmployeeInfo.position = response.data.TemporaryRuralEmployeeInfo.position
+            const TemporaryRuralEmployeeInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'TemporaryRuralEmployee')
+            const averageIncome = calculateAverageIncome(TemporaryRuralEmployeeInfo)
+            const admissionDate = TemporaryRuralEmployeeInfo[0].admissionDate
+            const payingSource = TemporaryRuralEmployeeInfo[0].payingSource
+            const payingSourcePhone  = TemporaryRuralEmployeeInfo[0].payingSourcePhone
+            const position = TemporaryRuralEmployeeInfo[0].position
+            
+            setTemporaryRuralEmployeeInfo({
+                admissionDate,
+                position,
+                payingSource,
+                payingSourcePhone,
+                averageIncome
+            })
             console.log(temporaryRuralEmployeeInfo)
           }
           if(member.incomeSource.includes('Retired')) {
-            const RetiredInfo = response.data.filter(data => data.employmentType === 'Retired')
-            retiredInfo.averageIncome = response.data.RetiredInfo.averageIncome;
-            retiredInfo.admissionDate = response.data.RetiredInfo.admissionDate;
-            retiredInfo.payingSource = response.data.RetiredInfo.payingSource
-            retiredInfo.payingSourcePhone  = response.data.RetiredInfo.payingSourcePhone
-            retiredInfo.position = response.data.RetiredInfo.position
+            const RetiredInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'Retired')
+            const averageIncome = calculateAverageIncome(RetiredInfo)
+            const admissionDate = RetiredInfo[0].admissionDate
+            const payingSource = RetiredInfo[0].payingSource
+            const payingSourcePhone  = RetiredInfo[0].payingSourcePhone
+            const position = RetiredInfo[0].position
+            
+            setRetiredInfo({
+                admissionDate,
+                position,
+                payingSource,
+                payingSourcePhone,
+                averageIncome
+            })
             console.log(retiredInfo)
           }
           if(member.incomeSource.includes('Pensioner')) {
-            const PensionerInfo = response.data.filter(data => data.employmentType === 'Pensioner')
-            pensionerInfo.averageIncome = response.data.PensionerInfo.averageIncome;
-            pensionerInfo.admissionDate = response.data.PensionerInfo.admissionDate;
-            pensionerInfo.payingSource = response.data.PensionerInfo.payingSource
-            pensionerInfo.payingSourcePhone  = response.data.PensionerInfo.payingSourcePhone
-            pensionerInfo.position = response.data.PensionerInfo.position
+            const PensionerInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'Pensioner')
+            const averageIncome = calculateAverageIncome(PensionerInfo)
+            const admissionDate = PensionerInfo[0].admissionDate
+            const payingSource = PensionerInfo[0].payingSource
+            const payingSourcePhone  = PensionerInfo[0].payingSourcePhone
+            const position = PensionerInfo[0].position
+            
+            setPensionerInfo({
+                admissionDate,
+                position,
+                payingSource,
+                payingSourcePhone,
+                averageIncome
+            })
             console.log(pensionerInfo)
           }
           if(member.incomeSource.includes('TemporaryDisabilityBenefit')) {
-            const TemporaryDisabilityBenefitInfo = response.data.filter(data => data.employmentType === 'TemporaryDisabilityBenefit')
-            temporaryDisabilityBenefitInfo.averageIncome = response.data.TemporaryDisabilityBenefitInfo.averageIncome;
-            temporaryDisabilityBenefitInfo.admissionDate = response.data.TemporaryDisabilityBenefitInfo.admissionDate;
-            temporaryDisabilityBenefitInfo.payingSource = response.data.TemporaryDisabilityBenefitInfo.payingSource
-            temporaryDisabilityBenefitInfo.payingSourcePhone  = response.data.TemporaryDisabilityBenefitInfo.payingSourcePhone
-            temporaryDisabilityBenefitInfo.position = response.data.TemporaryDisabilityBenefitInfo.position
+            const TemporaryDisabilityBenefitInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'TemporaryDisabilityBenefit')
+            const averageIncome = calculateAverageIncome(TemporaryDisabilityBenefitInfo)
+            const admissionDate = TemporaryDisabilityBenefitInfo[0].admissionDate
+            const payingSource = TemporaryDisabilityBenefitInfo[0].payingSource
+            const payingSourcePhone  = TemporaryDisabilityBenefitInfo[0].payingSourcePhone
+            const position = TemporaryDisabilityBenefitInfo[0].position
+            
+            setTemporaryDisabilityBenefitInfo({
+                admissionDate,
+                position,
+                payingSource,
+                payingSourcePhone,
+                averageIncome
+            })
             console.log(temporaryDisabilityBenefitInfo)
           }
           if(member.incomeSource.includes('Apprentice')) {
-            const ApprenticeInfo = response.data.filter(data => data.employmentType === 'Apprentice')
-            apprenticeInfo.averageIncome = response.data.ApprenticeInfo.averageIncome;
-            apprenticeInfo.admissionDate = response.data.ApprenticeInfo.admissionDate;
-            apprenticeInfo.payingSource = response.data.ApprenticeInfo.payingSource
-            apprenticeInfo.payingSourcePhone  = response.data.ApprenticeInfo.payingSourcePhone
-            apprenticeInfo.position = response.data.ApprenticeInfo.position
+            const ApprenticeInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'Apprentice')
+            const averageIncome = calculateAverageIncome(ApprenticeInfo)
+            const admissionDate = ApprenticeInfo[0].admissionDate
+            const payingSource = ApprenticeInfo[0].payingSource
+            const payingSourcePhone  = ApprenticeInfo[0].payingSourcePhone
+            const position = ApprenticeInfo[0].position
+            
+            setApprenticeInfo({
+                admissionDate,
+                position,
+                payingSource,
+                payingSourcePhone,
+                averageIncome
+            })
             console.log(apprenticeInfo)
           }
           
@@ -400,7 +524,7 @@ const [apprenticeInfo, setApprenticeInfo] = useState({
     return (
         <div><div className="fill-box">
             <form id="survey-form">
-                <h4>Renda do {member.fullName} ({member.relationship})</h4>
+                <h4>Renda do {member.fullName} ({translateRelationship(member.relationship)})</h4>
                 {/* MEI */}
                 {member.incomeSource.includes('IndividualEntrepreneur') && 
                 (<>

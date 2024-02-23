@@ -145,7 +145,7 @@ const IncomeSource = [
 export default function CadastroFamiliar() {
 
     const [familyMember, setFamilyMember] = useState({
-        relationship: '', // deve ser inicializado com um dos valores do enum Relationship
+        relationship: 'Wife', // deve ser inicializado com um dos valores do enum Relationship
         otherRelationship: '',
         fullName: '',
         socialName: '',
@@ -157,17 +157,17 @@ export default function CadastroFamiliar() {
         CPF: '',
         RG: '',
         rgIssuingAuthority: '',
-        rgIssuingState: '', // deve ser inicializado com um dos valores do enum COUNTRY
+        rgIssuingState: 'AC', // deve ser inicializado com um dos valores do enum COUNTRY
         documentType: '', // deve ser inicializado com um dos valores do enum DOCUMENT_TYPE ou null
         documentNumber: '',
         documentValidity: '',
         numberOfBirthRegister: '',
         bookOfBirthRegister: '',
         pageOfBirthRegister: '',
-        maritalStatus: '', // deve ser inicializado com um dos valores do enum MARITAL_STATUS
-        skinColor: '', // deve ser inicializado com um dos valores do enum SkinColor
-        religion: '', // deve ser inicializado com um dos valores do enum RELIGION
-        educationLevel: '', // deve ser inicializado com um dos valores do enum SCHOLARSHIP
+        maritalStatus: 'Single', // deve ser inicializado com um dos valores do enum MARITAL_STATUS
+        skinColor: 'Yellow', // deve ser inicializado com um dos valores do enum SkinColor
+        religion: 'Catholic', // deve ser inicializado com um dos valores do enum RELIGION
+        educationLevel: 'Illiterate', // deve ser inicializado com um dos valores do enum SCHOLARSHIP
         specialNeeds: false,
         specialNeedsDescription: '',
         hasMedicalReport: false,
