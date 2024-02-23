@@ -63,39 +63,53 @@ export async function updateVehicleInfo(request: FastifyRequest, reply: FastifyR
         });
 
         // Opcional: Atualizar relação com os proprietários, se necessário
-            // Etapa 1: Buscar os proprietários atuais do veículo
-            const currentOwners = await prisma.familyMemberToVehicle.findMany({
-                where: { B: id }, // 'B' seria a coluna que relaciona com o ID do veículo
-                select: { A: true } // 'A' seria a coluna que armazena o ID do proprietário (membro da família)
+        // Etapa 1: Buscar os proprietários atuais do veículo
+        const currentOwners = await prisma.familyMemberToVehicle.findMany({
+            where: { B: id }, // 'B' seria a coluna que relaciona com o ID do veículo
+            select: { A: true } // 'A' seria a coluna que armazena o ID do proprietário (membro da família)
+        });
+
+        const currentOwnerIds = currentOwners.map(owner => owner.A);
+
+        // Etapa 2: Identificar proprietários para adicionar e remover
+        const ownersToAdd = owners_id.filter(ownerId => !currentOwnerIds.includes(ownerId));
+        const ownersToRemove = currentOwnerIds.filter(ownerId => !owners_id.includes(ownerId));
+
+        // Etapa 3: Atualizar o banco de dados
+        // Inicia uma transação para garantir a atomicidade das operações
+        await prisma.$transaction(async (prisma) => {
+            // Verifica a existência dos proprietários antes de adicionar
+            const existingOwners = await prisma.familyMember.findMany({
+                where: {
+                    id: {
+                        in: ownersToAdd,
+                    },
+                },
             });
+            const existingOwnerIds = existingOwners.map(owner => owner.id);
 
-            const currentOwnerIds = currentOwners.map(owner => owner.A);
-
-            // Etapa 2: Identificar proprietários para adicionar e remover
-            const ownersToAdd = owners_id.filter(ownerId => !currentOwnerIds.includes(ownerId));
-            const ownersToRemove = currentOwnerIds.filter(ownerId => !owners_id.includes(ownerId));
-
-            // Etapa 3: Atualizar o banco de dados
-            // Adicionar novos proprietários
-            await Promise.all(ownersToAdd.map(ownerId =>
+            // Adicionar novos proprietários que existem
+            await Promise.all(existingOwnerIds.map(ownerId =>
                 prisma.familyMemberToVehicle.create({
                     data: {
                         A: ownerId,
-                        B: id
-                    }
+                        B: id,
+                    },
                 })
             ));
-            
+
             // Remover proprietários que não estão mais na lista
             await Promise.all(ownersToRemove.map(ownerId =>
                 prisma.familyMemberToVehicle.deleteMany({
                     where: {
                         A: ownerId,
-                        B: id
-                    }
+                        B: id,
+                    },
                 })
             ));
-        
+        });
+
+
 
         return reply.status(200).send({ message: 'Informações do veículo atualizadas com sucesso.' });
     } catch (err: any) {
