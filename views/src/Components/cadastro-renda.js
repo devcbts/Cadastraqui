@@ -849,6 +849,119 @@ export const CadastroRenda = ({  member  }) => {
                     }
                 })
             }
+            // CLT types
+            if(incomeSource === 'Apprentice') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    admissionDate: CLTInfo.admissionDate,
+                    payingSource: CLTInfo.payingSource,
+                    payingSourcePhone: CLTInfo.payingSourcePhone,
+                    position: CLTInfo.position,
+                }
+                await api.post(`/candidates/family-member/CLT/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+            }
+            if(incomeSource === 'PrivateEmployee') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    admissionDate: CLTInfo.admissionDate,
+                    payingSource: CLTInfo.payingSource,
+                    payingSourcePhone: CLTInfo.payingSourcePhone,
+                    position: CLTInfo.position,
+                }
+                await api.post(`/candidates/family-member/CLT/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+            }
+            if(incomeSource === 'PublicEmployee') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    admissionDate: CLTInfo.admissionDate,
+                    payingSource: CLTInfo.payingSource,
+                    payingSourcePhone: CLTInfo.payingSourcePhone,
+                    position: CLTInfo.position,
+                }
+                await api.post(`/candidates/family-member/CLT/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+            }
+            if(incomeSource === 'Pensioner') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    admissionDate: CLTInfo.admissionDate,
+                    payingSource: CLTInfo.payingSource,
+                    payingSourcePhone: CLTInfo.payingSourcePhone,
+                    position: CLTInfo.position,
+                }
+                await api.post(`/candidates/family-member/CLT/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+            }
+            if(incomeSource === 'Retired') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    admissionDate: CLTInfo.admissionDate,
+                    payingSource: CLTInfo.payingSource,
+                    payingSourcePhone: CLTInfo.payingSourcePhone,
+                    position: CLTInfo.position,
+                }
+                await api.post(`/candidates/family-member/CLT/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+            }
+            if(incomeSource === 'DomesticEmployee') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    admissionDate: CLTInfo.admissionDate,
+                    payingSource: CLTInfo.payingSource,
+                    payingSourcePhone: CLTInfo.payingSourcePhone,
+                    position: CLTInfo.position,
+                }
+                await api.post(`/candidates/family-member/CLT/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+            }
+            if(incomeSource === 'TemporaryRuralEmployee') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    admissionDate: CLTInfo.admissionDate,
+                    payingSource: CLTInfo.payingSource,
+                    payingSourcePhone: CLTInfo.payingSourcePhone,
+                    position: CLTInfo.position,
+                }
+                await api.post(`/candidates/family-member/CLT/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+            }
+            if(incomeSource === 'TemporaryDisabilityBenefit') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    admissionDate: CLTInfo.admissionDate,
+                    payingSource: CLTInfo.payingSource,
+                    payingSourcePhone: CLTInfo.payingSourcePhone,
+                    position: CLTInfo.position,
+                }
+                await api.post(`/candidates/family-member/CLT/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+            }
             
             console.log('====================================');
             console.log(response.status);
