@@ -42,6 +42,7 @@ import { getIncomeInfo } from './get-income-info'
 import { registerMEIInfo } from './register-MEI-info'
 import { getFamilyMemberHealthInfo } from './get-family-member-health-info'
 import { updateVehicleInfo } from './update-vehicle-info'
+import { updateExpensesInfo } from './update-expenses-info'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -147,7 +148,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   // Despesas
   app.post('/expenses', { onRequest: [verifyJWT] }, registerExpensesInfo)
   app.get('/expenses/:_id?', { onRequest: [verifyJWT] }, getExpensesInfo)
-
+  app.patch('/expenses', { onRequest: [verifyJWT ] }, updateExpensesInfo)
   // Empréstimos
   app.post('/expenses/loan/:_id', { onRequest: [verifyJWT] }, registerLoanInfo)
   app.get('/expenses/loan/:_id?', { onRequest: [verifyJWT] }, getLoanInfo)

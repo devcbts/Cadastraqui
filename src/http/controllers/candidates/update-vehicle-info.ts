@@ -57,7 +57,9 @@ export async function updateVehicleInfo(request: FastifyRequest, reply: FastifyR
                 monthsToPayOff,
                 hasInsurance,
                 usage,
-                candidate: candidate_id ? { connect: { id: candidate_id } } : undefined,
+                candidate:  candidate_id 
+                ? { connect: { id: candidate_id } } 
+                : { disconnect: true },
                 // Para atualizar os proprietários, precisamos de uma lógica adicional se owners_id for fornecido
             },
         });
