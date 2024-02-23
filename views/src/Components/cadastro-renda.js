@@ -2997,7 +2997,7 @@ export const CadastroRenda = ({  member  }) => {
                     </div>
 
                    <div class="survey-box">
-                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'PublicEmployee')}  id="submit-button">Salvar Informações</button>
                    </div>
                    
                </>
@@ -3447,7 +3447,7 @@ export const CadastroRenda = ({  member  }) => {
                      </div>
  
                     <div class="survey-box">
-                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'DomesticEmployee')}  id="submit-button">Salvar Informações</button>
                     </div>
                     
                 </>
@@ -3897,7 +3897,7 @@ export const CadastroRenda = ({  member  }) => {
                     </div>
 
                    <div class="survey-box">
-                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'TemporaryRuralEmployee')}  id="submit-button">Salvar Informações</button>
                    </div>
                    
                </>
@@ -4347,7 +4347,7 @@ export const CadastroRenda = ({  member  }) => {
                      </div>
  
                     <div class="survey-box">
-                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'Retired')}  id="submit-button">Salvar Informações</button>
                     </div>
                     
                 </>
@@ -4796,7 +4796,7 @@ export const CadastroRenda = ({  member  }) => {
                      </div>
  
                     <div class="survey-box">
-                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'Pensioner')}  id="submit-button">Salvar Informações</button>
                     </div>
                     
                 </>
@@ -5245,7 +5245,7 @@ export const CadastroRenda = ({  member  }) => {
                     </div>
 
                    <div class="survey-box">
-                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                       <button type="submit" onClick={(e) => handleRegisterIncome(e,'TemporaryDisabilityBenefit')}  id="submit-button">Salvar Informações</button>
                    </div>
                    
                </>
@@ -5695,7 +5695,7 @@ export const CadastroRenda = ({  member  }) => {
                      </div>
  
                     <div class="survey-box">
-                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'PrivateEmployee')}  id="submit-button">Salvar Informações</button>
+                        <button type="submit" onClick={(e) => handleRegisterIncome(e,'Apprentice')}  id="submit-button">Salvar Informações</button>
                     </div>
                     
                 </>
