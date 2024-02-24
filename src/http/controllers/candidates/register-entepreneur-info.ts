@@ -50,7 +50,10 @@ export async function registerEntepreneursInfo(
       return acc + (current.total || 0)
     }, 0)
 
-    const avgIncome = totalAmount / monthlyIncomes.length
+    let avgIncome = 0;
+    if (monthlyIncomes.length > 0) {
+      avgIncome = totalAmount / monthlyIncomes.length;
+    }
 
     // Armazena informações acerca do Empresário no banco de dados
     await prisma.familyMemberIncome.create({

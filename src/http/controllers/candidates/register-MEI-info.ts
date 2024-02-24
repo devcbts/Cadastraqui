@@ -47,7 +47,10 @@ export async function registerMEIInfo(
       return acc + (current.grossAmount || 0)
     }, 0)
 
-    const avgIncome = totalAmount / monthlyIncomes.length
+    let avgIncome = 0;
+    if (monthlyIncomes.length > 0) {
+      avgIncome = totalAmount / monthlyIncomes.length;
+    }
 
     // Armazena informações acerca do MEI no banco de dados
     await prisma.familyMemberIncome.create({
