@@ -76,11 +76,14 @@ export async function registerOthersInfo(
       where: { familyMember_id: _id },
     })
 
-    const totalAmount = monthlyIncomes.reduce((acc, current) => {
-      return acc + (current.liquidAmount || 0)
-    }, 0)
+    const validIncomes = monthlyIncomes.filter(income => income.liquidAmount !== null && income.liquidAmount > 0);
+    // Calcula o totalAmount usando o array filtrado
+    const totalAmount = validIncomes.reduce((acc, current) => {
+      return acc + (current.liquidAmount || 0);
+    }, 0);
 
-    const avgIncome = totalAmount / monthlyIncomes.length
+    // Calcula a média apenas com os incomes válidos
+    const avgIncome = validIncomes.length > 0 ? totalAmount / validIncomes.length : 0;
 
     // Armazena informações acerca do Empresário no banco de dados
     await prisma.familyMemberIncome.create({
