@@ -54,6 +54,7 @@ export async function createEducationalLevel(
         offeredVacancies: z.number().optional(),
         verifiedScholarships: z.number().optional(),
         shift: SHIFT,
+        grade: z.string().optional().nullable(),
         semester: z.number().optional(),
         entity_subsidiary_id: z.string().optional(),
     })
@@ -72,6 +73,7 @@ export async function createEducationalLevel(
         offeredVacancies,
         verifiedScholarships,
         shift,
+        grade,
         semester,
         entity_subsidiary_id
     } = educationalLevelBodySchema.parse(request.body)
@@ -118,6 +120,8 @@ export async function createEducationalLevel(
             ...(offeredVacancies && { offeredVacancies }),
             ...(verifiedScholarships && { verifiedScholarships }),
             ...(semester && { semester }),
+            ...(grade && { grade }),
+
             ...(entitySubsidiary && {entitySubsidiaryId : entity_subsidiary_id} )
         };
 
