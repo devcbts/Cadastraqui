@@ -271,7 +271,113 @@ export const CadastroRenda = ({  member  }) => {
     quantity: 0,
     })
     
-
+    useEffect(()=> {
+        setIncomeInfo({
+            month1: '',
+        year1: '',
+        grossAmount1: null,
+        proLabore1: 0,
+        dividends1: 0,
+        deductionValue1: 0,
+        publicPension1: 0,
+        incomeTax1: 0,
+        otherDeductions1: 0,
+        foodAllowanceValue1: 0,
+        transportAllowanceValue1: 0,
+        expenseReimbursementValue1: 0,
+        advancePaymentValue1: 0,
+        reversalValue1: 0,
+        compensationValue1: 0,
+        judicialPensionValue1: 0,
+    
+        month2: '',
+        year2: '',
+        grossAmount2: null,
+        proLabore2: 0,
+        dividends2: 0,
+        deductionValue2: 0,
+        publicPension2: 0,
+        incomeTax2: 0,
+        otherDeductions2: 0,
+        foodAllowanceValue2: 0,
+        transportAllowanceValue2: 0,
+        expenseReimbursementValue2: 0,
+        advancePaymentValue2: 0,
+        reversalValue2: 0,
+        compensationValue2: 0,
+        judicialPensionValue2: 0,
+    
+        month3: '',
+        year3: '',
+        grossAmount3: null,
+        proLabore3: 0,
+        dividends3: 0,
+        deductionValue3: 0,
+        publicPension3: 0,
+        incomeTax3: 0,
+        otherDeductions3: 0,
+        foodAllowanceValue3: 0,
+        transportAllowanceValue3: 0,
+        expenseReimbursementValue3: 0,
+        advancePaymentValue3: 0,
+        reversalValue3: 0,
+        compensationValue3: 0,
+        judicialPensionValue3: 0,
+    
+        month4: '',
+        year4: '',
+        grossAmount4: null,
+        proLabore4: 0,
+        dividends4: 0,
+        deductionValue4: 0,
+        publicPension4: 0,
+        incomeTax4: 0,
+        otherDeductions4: 0,
+        foodAllowanceValue4: 0,
+        transportAllowanceValue4: 0,
+        expenseReimbursementValue4: 0,
+        advancePaymentValue4: 0,
+        reversalValue4: 0,
+        compensationValue4: 0,
+        judicialPensionValue4: 0,
+    
+        month5: '',
+        year5: '',
+        grossAmount5: null,
+        proLabore5: 0,
+        dividends5: 0,
+        deductionValue5: 0,
+        publicPension5: 0,
+        incomeTax5: 0,
+        otherDeductions5: 0,
+        foodAllowanceValue5: 0,
+        transportAllowanceValue5: 0,
+        expenseReimbursementValue5: 0,
+        advancePaymentValue5: 0,
+        reversalValue5: 0,
+        compensationValue5: 0,
+        judicialPensionValue5: 0,
+    
+        month6: '',
+        year6: '',
+        grossAmount6: null,
+        proLabore6: 0,
+        dividends6: 0,
+        deductionValue6: 0,
+        publicPension6: 0,
+        incomeTax6: 0,
+        otherDeductions6: 0,
+        foodAllowanceValue6: 0,
+        transportAllowanceValue6: 0,
+        expenseReimbursementValue6: 0,
+        advancePaymentValue6: 0,
+        reversalValue6: 0,
+        compensationValue6: 0,
+        judicialPensionValue6: 0,
+    
+        quantity: 0,
+        })
+    },[member])
     /*function handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -979,9 +1085,13 @@ export const CadastroRenda = ({  member  }) => {
     function handleFixIncomeAutonomous() {
         if(fixIncomeAutonomous === true) {
             setFixIncomeAutonomous(false)
+            handleInputChange('quantity', 6)
+
         } 
         if(fixIncomeAutonomous === false) {
             setFixIncomeAutonomous(true)
+            handleInputChange('quantity', 3)
+
         } 
     }
     const [fixIncomeInformalWorker, setFixIncomeInformalWorker] = useState(false)
@@ -989,9 +1099,13 @@ export const CadastroRenda = ({  member  }) => {
     function handleFixIncomeInformalWorker() {
         if(fixIncomeInformalWorker === true) {
             setFixIncomeInformalWorker(false)
+            handleInputChange('quantity', 6)
+
         } 
         if(fixIncomeInformalWorker === false) {
             setFixIncomeInformalWorker(true)
+            handleInputChange('quantity', 3)
+
         } 
     }
     const [fixIncomePrivatePension, setFixIncomePrivatePension] = useState(false)
@@ -999,9 +1113,13 @@ export const CadastroRenda = ({  member  }) => {
     function handleFixIncomePrivatePension() {
         if(fixIncomePrivatePension === true) {
             setFixIncomePrivatePension(false)
+            handleInputChange('quantity', 6)
+
         } 
         if(fixIncomePrivatePension === false) {
             setFixIncomePrivatePension(true)
+            handleInputChange('quantity', 3)
+
         } 
     }
 
@@ -1010,9 +1128,13 @@ export const CadastroRenda = ({  member  }) => {
     function handleFixIncomeLiberalProfessional() {
         if(fixIncomeLiberalProfessional === true) {
             setFixIncomeLiberalProfessional(false)
+            handleInputChange('quantity', 6)
+
         } 
         if(fixIncomeLiberalProfessional === false) {
             setFixIncomeLiberalProfessional(true)
+            handleInputChange('quantity', 3)
+
         } 
     }
 
@@ -1021,9 +1143,13 @@ export const CadastroRenda = ({  member  }) => {
     function handleFixIncomeRentalIncome() {
         if(fixIncomeRentalIncome === true) {
             setFixIncomeRentalIncome(false)
+            handleInputChange('quantity', 6)
+
         } 
         if(fixIncomeRentalIncome === false) {
             setFixIncomeRentalIncome(true)
+            handleInputChange('quantity', 3)
+
         } 
     }
     const [gratificationAutonomous, setGratificationAutonomous] = useState(false)
@@ -1031,9 +1157,13 @@ export const CadastroRenda = ({  member  }) => {
     function handleGratificationAutonomous() {
         if(gratificationAutonomous === true) {
             setGratificationAutonomous(false)
+            handleInputChange('quantity', 6)
+
         } 
         if(gratificationAutonomous === false) {
             setGratificationAutonomous(true)
+            handleInputChange('quantity', 3)
+
         } 
     }
 
