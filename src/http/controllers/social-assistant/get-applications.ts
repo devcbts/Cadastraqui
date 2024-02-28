@@ -53,7 +53,15 @@ export async function getApplications(
           where: { id: application_id },
           include: { EducationLevel : {
               include: {entitySubsidiary: true}
-          }}
+          }
+        ,
+        candidate:{
+          include: {
+            IdentityDetails: true,
+            
+          }
+        }
+        }
         })
         return reply.status(200).send({ application, entity })
       }
