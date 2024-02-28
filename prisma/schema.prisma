@@ -172,6 +172,7 @@ model IdentityDetails {
   rgIssuingState                             String
   documentType                               DOCUMENT_TYPE?
   CadUnico                                   Boolean           @default(false)
+  hasSevereDesease                           Boolean           @default(false)
   documentNumber                             String?
   documentValidity                           DateTime?
   maritalStatus                              MARITAL_STATUS

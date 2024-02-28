@@ -73,7 +73,10 @@ export async function registerHealthInfo(
         specificDisease : specificDisease? specificDisease : undefined,
       },
     })
-
+    await prisma.identityDetails.update({
+      where: { candidate_id: candidate.id },
+      data: {hasSevereDesease: true}
+    })
     return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
