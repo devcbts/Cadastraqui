@@ -17,6 +17,18 @@ export default function AcceptEdital() {
   const [entity, setEntity] = useState('');
   const [subsidiaries, setSubsidiaries] = useState('');
   const [selectedEntityOrSubsidiary, setSelectedEntityOrSubsidiary] = useState('');
+  // Determinar se é educação básica
+  const [isBasicEducation, setIsBasicEducation] = useState(false)
+  const [selectedBasicScholarshipType, setSelectedBasicScholarshipType] = useState('')
+  const [selectedBasicEduType, setSelectedBasicEduType] = useState('')
+  const [selectedGrade, setSelectedGrade] = useState('')
+
+  function isEarlyEducation(educationLevels) {
+    const earlyEducation = educationLevels?.some(level => level.level === "BasicEducation");
+    if (earlyEducation) {
+      setIsBasicEducation(true)
+    }
+  }
 
   // Função para tratar a seleção da matriz ou filial
   const handleEntityOrSubsidiaryChange = (value) => {
@@ -58,35 +70,80 @@ export default function AcceptEdital() {
 
   useEffect(() => {
     if (announcementInfo) {
-      let matchedLevels = announcementInfo.educationLevels.filter(level => {
-        const matchesCourse = level.availableCourses === selectedCourse;
-        const matchesShift = level.shift === selectedShift;
-        const matchesScholarshipType = level.higherEduScholarshipType === selectedScholarshipType;
-        const matchesEntityOrSubsidiary = selectedEntityOrSubsidiary === '' || // Caso nenhuma entidade ou filial tenha sido selecionada (tratando como seleção padrão)
-          level.entitySubsidiaryId === selectedEntityOrSubsidiary || // Filial corresponde à selecionada
-          (!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id); // Nível pertence à matriz e matriz está selecionada
+      let matchedLevels
+      if (isBasicEducation) {
+        // Filtragem para educação básica
+        matchedLevels = announcementInfo.educationLevels.filter(level => {
+          const matchesShift = level.shift === selectedShift;
+          const matchesBasicEduType = level.basicEduType === selectedBasicEduType;
+          const matchesGrade = level.grade === selectedGrade;
+          const matchesBasicScholarshipType = level.scholarshipType === selectedBasicScholarshipType;
+          const matchesEntityOrSubsidiary = selectedEntityOrSubsidiary === '' ||
+            level.entitySubsidiaryId === selectedEntityOrSubsidiary ||
+            (!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id);
 
-        return matchesCourse && matchesShift && matchesEntityOrSubsidiary && (matchesScholarshipType || !selectedScholarshipType);
-      });
+          return  matchesShift && matchesEntityOrSubsidiary && matchesBasicEduType && matchesGrade && matchesBasicScholarshipType;
+        });
+      } else {
+        // Filtragem para outros tipos de educação
+        matchedLevels = announcementInfo.educationLevels.filter(level => {
+          const matchesCourse = level.availableCourses === selectedCourse;
+          const matchesShift = level.shift === selectedShift;
+          const matchesScholarshipType = level.higherEduScholarshipType === selectedScholarshipType;
+          const matchesEntityOrSubsidiary = selectedEntityOrSubsidiary === '' ||
+            level.entitySubsidiaryId === selectedEntityOrSubsidiary ||
+            (!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id);
+
+          return matchesCourse && matchesShift && matchesEntityOrSubsidiary && (matchesScholarshipType || !selectedScholarshipType);
+        });
+      }
+
       if (matchedLevels.length === 0) {
-        // Se nenhum nível corresponder exatamente, relaxe o filtro de tipo de bolsa
-        matchedLevels = announcementInfo.educationLevels.filter(level =>
-          level.availableCourses === selectedCourse &&
-          level.shift === selectedShift &&
-          (selectedEntityOrSubsidiary === '' || level.entitySubsidiaryId === selectedEntityOrSubsidiary || (!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id))
-        );
+        // Se nenhum nível corresponder exatamente e não for educação básica, relaxe o filtro de tipo de bolsa
+        if (!isBasicEducation) {
 
+          matchedLevels = announcementInfo.educationLevels.filter(level =>
+            level.availableCourses === selectedCourse &&
+            level.shift === selectedShift &&
+            (selectedEntityOrSubsidiary === '' || level.entitySubsidiaryId === selectedEntityOrSubsidiary || (!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id))
+          );
+        } else {
+          matchedLevels = announcementInfo.educationLevels.filter(level =>
+            level.basicEduType === selectedBasicEduType &&
+            level.grade === selectedGrade &&
+            level.shift === selectedShift &&
+            (selectedEntityOrSubsidiary === '' || level.entitySubsidiaryId === selectedEntityOrSubsidiary || (!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id)))
+            console.log(matchedLevels)
+            if (matchedLevels.length === 0) {
+              matchedLevels = announcementInfo.educationLevels.filter(level =>
+                level.basicEduType === selectedBasicEduType &&
+                level.grade === selectedGrade &&
+                
+                (selectedEntityOrSubsidiary === '' || level.entitySubsidiaryId === selectedEntityOrSubsidiary || (!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id)))
+              }
+        }
       }
 
       // Seleciona o primeiro nível correspondente ou define um padrão se nenhum corresponder
       const levelToSelect = matchedLevels[0] || announcementInfo.educationLevels[0];
       setSelectedLevel(levelToSelect);
-      setSelectedLevelId(levelToSelect?.id);
-      setSelectedCourse(levelToSelect?.availableCourses);
-      setSelectedScholarshipType(levelToSelect?.higherEduScholarshipType);
       setSelectedShift(levelToSelect?.shift);
+      console.log("aqui")
+      // Ajuste para configurações específicas de educação básica ou superior
+      if (isBasicEducation) {
+        setSelectedBasicEduType(levelToSelect?.basicEduType);
+        setSelectedGrade(levelToSelect?.grade);
+        setSelectedBasicScholarshipType(levelToSelect?.scholarshipType);
+      } else {
+        setSelectedCourse(levelToSelect?.availableCourses);
+
+        setSelectedScholarshipType(levelToSelect?.higherEduScholarshipType);
+      }
     }
-  }, [selectedCourse, selectedShift, selectedScholarshipType, selectedEntityOrSubsidiary, announcementInfo, entity.id]);
+
+
+
+  }, [selectedCourse, selectedShift, selectedBasicEduType, selectedGrade, selectedBasicScholarshipType, selectedScholarshipType, selectedEntityOrSubsidiary, announcementInfo, entity.id]);
 
 
 
@@ -112,6 +169,25 @@ export default function AcceptEdital() {
     }
   }
 
+  function handleBasicEduSelection(event) {
+    const courseName = event.target.value;
+    setSelectedBasicEduType(courseName);
+
+    // Filtrar educationLevels para encontrar os que correspondem ao curso selecionado
+    const filteredLevels = announcementInfo?.educationLevels.filter(level => level.basicEduType.includes(courseName));
+
+    // Supondo que exista uma propriedade `numberOfVacancies` para ordenar,
+    // ajuste conforme a sua estrutura de dados real.
+    const sortedLevels = filteredLevels.sort((a, b) => a.numberOfVacancies - b.numberOfVacancies);
+
+    // Selecionar o primeiro educationLevel do grupo ordenado
+    if (sortedLevels.length > 0) {
+      const selectedLevel = sortedLevels[0];
+      setSelectedLevel(selectedLevel); // Atualiza o estado com o level selecionado
+      setSelectedGrade(selectedLevel.grade); // Atualiza o tipo de bolsa
+     
+    }
+  }
 
 
 
@@ -135,9 +211,14 @@ export default function AcceptEdital() {
         setSelectedLevel(response.data.announcements.educationLevels[0])
         setSelectedCourse(response.data.announcements.educationLevels[0].availableCourses)
         setSelectedShift(response.data.announcements.educationLevels[0].shift)
-        
-
+        setSelectedBasicEduType(response.data.announcements.educationLevels[0].basicEduType)
+        setSelectedGrade(response.data.announcements.educationLevels[0].grade)
+        setSelectedBasicScholarshipType(response.data.announcements.educationLevels[0].scholarshipType)
         console.log(announcementInfo.educationLevels)
+
+
+        isEarlyEducation(announcementInfo.educationLevels)
+
       } catch (err) {
         console.log(err)
       }
@@ -204,7 +285,6 @@ export default function AcceptEdital() {
       // Trate o erro conforme necessário, talvez exibindo uma mensagem ao usuário
     }
   }
-
 
 
   return (
@@ -291,67 +371,141 @@ export default function AcceptEdital() {
         </div>
         <div className="select-fields">
 
-          <div>
-            <h4>Curso</h4>
-            {announcementInfo ?
-              <select onChange={handleCourseSelection}>
-                {announcementInfo?.educationLevels
-                  .filter(level =>
-                    (!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id) || // Pertence à matriz
-                    level.entitySubsidiaryId === selectedEntityOrSubsidiary // Pertence à filial selecionada
-                  )
-                  .map(level => level.availableCourses)
-                  .filter((value, index, self) => self.indexOf(value) === index) // Filtra para ter valores únicos
-                  .map(course => (
-                    <option value={course}>{course}</option>
-                  ))}
-              </select>
+          {isBasicEducation ?
+            <div>
 
-              : ''}
-          </div>
-          <div>
-            <h4>Periodo: </h4>
-            <select value={selectedLevel?.shift} onChange={(e) => setSelectedShift(e.target.value)}>
-              {announcementInfo?.educationLevels
-                .filter(level =>
-                  level.availableCourses === selectedCourse &&
-                  ((!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id) || level.entitySubsidiaryId === selectedEntityOrSubsidiary)
-                )
-                .map(level => level.shift)
-                .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicatas
-                .map(shift => (
-                  <option value={shift}>{shift}</option>
-                ))}
-            </select>
-          </div>
+              <div>
+                <h4>Tipo de Educação Básica</h4>
+                <select onChange={(e) => handleBasicEduSelection(e)}>
+                  {announcementInfo?.educationLevels
+                    .filter(level => level.basicEduType !== null &&
+                      ((!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id) ||
+                        level.entitySubsidiaryId === selectedEntityOrSubsidiary))
+                    .map(level => level.basicEduType)
+                    .filter((value, index, self) => self.indexOf(value) === index) // Filtra para ter valores únicos
+                    .map(basicEduType => (
+                      <option value={basicEduType}>{translateBasicEducationScholashipType(basicEduType)}</option>
+                    ))}
+                </select>
+              </div>
 
-          <div>
-            <h4>Semestre</h4>
-            <select disabled>
-              {announcementInfo?.educationLevels.map((level) => {
-                return <option>{level.semester}</option>
-              })}
-            </select>
-          </div>
-          <div>
-            <h4>Bolsa: </h4>
-            <select value={selectedLevel?.higherEduScholarshipType} onChange={(e) => setSelectedScholarshipType(e.target.value)}>
-              {announcementInfo?.educationLevels
-                .filter(level =>
-                  level.availableCourses === selectedCourse &&
-                  level.shift === selectedShift &&
-                  ((!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id) || level.entitySubsidiaryId === selectedEntityOrSubsidiary)
-                )
-                .map(level => level.higherEduScholarshipType)
-                .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicatas
-                .map(scholarshipType => (
-                  <option value={scholarshipType}>{translateHigherEducationScholashipType(scholarshipType)}</option>
-                ))}
-            </select>
-          </div>
+              <div>
+                <h4>Série/Ano</h4>
+                <select onChange={(e) => setSelectedGrade(e.target.value)}>
+                  {announcementInfo?.educationLevels
+                    .filter(level =>
+                      level.basicEduType === selectedBasicEduType &&
+                      ((!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id) ||
+                        level.entitySubsidiaryId === selectedEntityOrSubsidiary))
+                    .map(level => level.grade)
+                    .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicatas
+                    .map(grade => (
+                      <option value={grade}>{grade}</option>
+                    ))}
+                </select>
+              </div>
+              <div>
+                <h4>Periodo: </h4>
+                <select value={selectedLevel?.shift} onChange={(e) => setSelectedShift(e.target.value)}>
+                  {announcementInfo?.educationLevels
+                    .filter(level =>
+                      level.basicEduType === selectedBasicEduType &&
+                      level.grade === selectedGrade &&
+                      ((!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id) || level.entitySubsidiaryId === selectedEntityOrSubsidiary)
+                    )
+                    .map(level => level.shift)
+                    .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicatas
+                    .map(shift => (
+                      <option value={shift}>{shift}</option>
+                    ))}
+                </select>
+              </div>
+              <div>
+                <h4>Bolsa para Educação Básica</h4>
+                <select onChange={(e) => setSelectedBasicScholarshipType(e.target.value)}>
+                  {announcementInfo?.educationLevels
+                    .filter(level =>
+                      level.basicEduType === selectedBasicEduType &&
+                      level.grade === selectedGrade &&
+                      level.shift === selectedShift &&
+                      ((!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id) ||
+                        level.entitySubsidiaryId === selectedEntityOrSubsidiary))
+                    .map(level => level.scholarshipType)
+                    .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicatas
+                    .map(scholarshipType => (
+                      <option value={scholarshipType}>{translateBasicEducationScholashipofferType(scholarshipType)}</option>
+                    ))}
+                </select>
+              </div>
+
+
+            </div>
+
+
+            : <div>
+
+              <div>
+                <h4>Curso</h4>
+                {announcementInfo ?
+                  <select onChange={handleCourseSelection}>
+                    {announcementInfo?.educationLevels
+                      .filter(level =>
+                        (!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id) || // Pertence à matriz
+                        level.entitySubsidiaryId === selectedEntityOrSubsidiary // Pertence à filial selecionada
+                      )
+                      .map(level => level.availableCourses)
+                      .filter((value, index, self) => self.indexOf(value) === index) // Filtra para ter valores únicos
+                      .map(course => (
+                        <option value={course}>{course}</option>
+                      ))}
+                  </select>
+
+                  : ''}
+              </div>
+              <div>
+                <h4>Periodo: </h4>
+                <select value={selectedLevel?.shift} onChange={(e) => setSelectedShift(e.target.value)}>
+                  {announcementInfo?.educationLevels
+                    .filter(level =>
+                      level.availableCourses === selectedCourse &&
+                      ((!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id) || level.entitySubsidiaryId === selectedEntityOrSubsidiary)
+                    )
+                    .map(level => level.shift)
+                    .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicatas
+                    .map(shift => (
+                      <option value={shift}>{shift}</option>
+                    ))}
+                </select>
+              </div>
+
+              <div>
+                <h4>Semestre</h4>
+                <select disabled>
+                  {announcementInfo?.educationLevels.map((level) => {
+                    return <option>{level.semester}</option>
+                  })}
+                </select>
+              </div>
+              <div>
+                <h4>Bolsa: </h4>
+                <select value={selectedLevel?.higherEduScholarshipType} onChange={(e) => setSelectedScholarshipType(e.target.value)}>
+                  {announcementInfo?.educationLevels
+                    .filter(level =>
+                      level.availableCourses === selectedCourse &&
+                      level.shift === selectedShift &&
+                      ((!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id) || level.entitySubsidiaryId === selectedEntityOrSubsidiary)
+                    )
+                    .map(level => level.higherEduScholarshipType)
+                    .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicatas
+                    .map(scholarshipType => (
+                      <option value={scholarshipType}>{translateHigherEducationScholashipType(scholarshipType)}</option>
+                    ))}
+                </select>
+              </div>
+            </div>
+          }
         </div>
         <div className="select-fields" style={{ justifyContent: 'center' }}>
-
 
           <div>
             <h2>Número de bolsas:  </h2>
@@ -386,4 +540,34 @@ const HigherEducationScholarshipType = [
   { value: 'HigherEduInstitutionPartial', label: 'Instituição de Ensino Superior Parcial' },
   { value: 'HigherEduInstitutionWorkers', label: 'Trabalhadores da Instituição de Ensino Superior' },
   { value: 'PostgraduateStrictoSensu', label: 'Pós-Graduação Stricto Sensu' }
+];
+
+function translateBasicEducationScholashipType(BasicEducationScholarship) {
+  const  BasicEducation = BasicEducationType.find(
+
+      (r) => r.value === BasicEducationScholarship
+      )
+      return BasicEducation ? BasicEducation.label : "Não especificado";
+}
+
+const BasicEducationType = [
+  { value: 'Preschool', label: 'Pré-Escola' },
+  { value: 'Elementary', label: 'Fundamental I e II' },
+  { value: 'HighSchool', label: 'Ensino Médio' },
+  { value: 'ProfessionalEducation', label: 'Educação Profissional' }
+];
+
+function translateBasicEducationScholashipofferType(BasicEducationScholarship) {
+  const  BasicEducation = ScholarshipOfferType.find(
+
+      (r) => r.value === BasicEducationScholarship
+      )
+      return BasicEducation ? BasicEducation.label : "Não especificado";
+}
+
+const ScholarshipOfferType = [
+  { value: 'Law187Scholarship', label: 'Bolsa Lei 187' },
+  { value: 'StudentWithDisability', label: 'Estudante com Deficiência' },
+  { value: 'FullTime', label: 'Tempo Integral' },
+  { value: 'EntityWorkers', label: 'Trabalhadores da Entidade' }
 ];

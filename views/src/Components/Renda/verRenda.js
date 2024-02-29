@@ -151,6 +151,7 @@ export const VerRenda = ({  member  }) => {
       }
 
       function calculateAverageIncome(arrayDeObjetos) {
+        console.log(arrayDeObjetos)
         const { soma, contador } = arrayDeObjetos.reduce((acumulador, objeto) => {
           if (objeto.averageIncome !== null) {
             acumulador.soma += parseFloat(objeto.averageIncome);
@@ -732,7 +733,7 @@ const [apprenticeInfo, setApprenticeInfo] = useState({
                    <div class="survey-box">
                        <label for="admissionDate" id="admissionDate-label">Data de Admissão</label>
                        <br />
-                       <input disabled type="date" name="admissionDate" value={loading ? '': privateEmployeeInfo.admissionDate.split('T')[0]}  id="admissionDate" class="survey-control" />
+                       <input disabled type="date" name="admissionDate" value={loading ? '': privateEmployeeInfo.admissionDate?.split('T')[0]}  id="admissionDate" class="survey-control" />
                    </div>
                    {/*<!-- Cargo -->*/}
                    <div class="survey-box">
