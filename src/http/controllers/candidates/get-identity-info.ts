@@ -17,7 +17,7 @@ export async function getIdentityInfo(
     const user_id = request.user.sub
     const role = request.user.role
     if (role === 'RESPONSIBLE') {
-      const identityInfo = prisma.identityDetails.findUnique({
+      const identityInfo = await prisma.identityDetails.findUnique({
 
         where: {responsible_id: user_id}
       }

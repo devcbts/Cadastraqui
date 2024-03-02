@@ -18,7 +18,7 @@ export async function getBasicInfo(
     const role = request.user.role
     if (role === 'RESPONSIBLE') {
       console.log("cheguei aqui")
-      const candidate = prisma.legalResponsible.findUnique({
+      const candidate = await prisma.legalResponsible.findUnique({
 
         where: {user_id}
       }
