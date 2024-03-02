@@ -17,15 +17,15 @@ export async function getBasicInfo(
     const user_id = request.user.sub
     const role = request.user.role
     if (role === 'RESPONSIBLE') {
-      const responsible = prisma.legalResponsible.findUnique({
+      console.log("cheguei aqui")
+      const candidate = prisma.legalResponsible.findUnique({
 
         where: {user_id}
       }
       )
-      if (!responsible) {
+      if (!candidate) {
         throw new ResourceNotFoundError()
       }
-      const candidate = responsible
       return reply.status(200).send({ candidate })
     }
 
