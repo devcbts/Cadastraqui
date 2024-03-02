@@ -38,7 +38,41 @@ export async function registerCreditCardInfo(
 
   try {
     const user_id = request.user.sub
+    const role = request.user.role
+    if (role === 'RESPONSIBLE') {
 
+      const responsible = await prisma.legalResponsible.findUnique({
+        where: { user_id }
+      })
+      if (!responsible) {
+        throw new NotAllowedError()
+      }
+      // Verifica se existe um familiar cadastrado com o owner_id
+      const familyMember = await prisma.familyMember.findUnique({
+        where: { id: _id },
+      })
+      if (!familyMember) {
+        throw new NotAllowedError()
+      }
+
+      // Armazena informações acerca do Loan no banco de dados
+      await prisma.creditCard.create({
+        data: {
+          bankName,
+          familyMemberName,
+          cardFlag,
+          cardType,
+          invoiceValue,
+          usersCount,
+          familyMember_id: _id,
+          legalResponsibleId: responsible.id
+        },
+      })
+
+      return reply.status(201).send()
+
+
+    }
     // Verifica se existe um candidato associado ao user_id
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
     if (!candidate) {
@@ -63,7 +97,7 @@ export async function registerCreditCardInfo(
         invoiceValue,
         usersCount,
         familyMember_id: _id,
-        candidate_id : candidate.id
+        candidate_id: candidate.id
       },
     })
 

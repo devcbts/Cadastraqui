@@ -1,3 +1,4 @@
+import { NotAllowedError } from '@/errors/not-allowed-error';
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error';
 import { prisma } from '@/lib/prisma';
 import { FastifyReply, FastifyRequest } from 'fastify';
@@ -18,6 +19,23 @@ export async function getCreditCardInfo(
     const user_id = request.user.sub;
      // Verifica se existe um candidato associado ao user_id
      const role = request.user.role
+     if (role === 'RESPONSIBLE') {
+       
+         const responsible = await prisma.legalResponsible.findUnique({
+           where: { user_id}
+         })
+         if (!responsible) {
+           throw new NotAllowedError()
+         }
+         const creditCards = await prisma.creditCard.findMany({
+          where: {
+            legalResponsibleId: responsible.id,
+          },
+        });
+    
+        return reply.status(200).send({creditCards});
+       
+     }
      let candidate;
      
      if (_id) {
