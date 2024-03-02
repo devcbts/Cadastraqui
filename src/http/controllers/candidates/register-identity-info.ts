@@ -206,7 +206,64 @@ export async function registerIdentityInfo(
 
   try {
     const user_id = request.user.sub
-
+    const role = request.user.role
+    if (role === 'RESPONSIBLE') {
+      const responsible = await prisma.candidate.findUnique({ where: { user_id } })
+      if (!responsible) {
+        throw new NotAllowedError()
+      }
+      await prisma.identityDetails.create({
+        data: {
+          birthDate: responsible.birthDate,
+          educationLevel,
+          fullName,
+          gender,
+          intendsToGetScholarship,
+          livesAlone,
+          maritalStatus,
+          nationality,
+          natural_city,
+          natural_UF,
+          profession,
+          religion,
+          RG,
+          rgIssuingAuthority,
+          rgIssuingState,
+          skinColor,
+          socialName,
+          attendedPublicHighSchool,
+          benefitedFromCebasScholarship_basic,
+          benefitedFromCebasScholarship_professional,
+          contactNameForMessage,
+          documentNumber,
+          documentType,
+          documentValidity: documentValidity
+            ? new Date(documentValidity)
+            : undefined,
+          enrolledGovernmentProgram,
+          hasMedicalReport,
+          incomeSource,
+          institutionCNPJ_basic,
+          institutionCNPJ_professional,
+          institutionName_basic,
+          institutionName_professional,
+          landlinePhone,
+          lastYearBenefitedFromCebas_professional,
+          nameOfScholarshipCourse_professional,
+          NIS,
+          scholarshipType_basic,
+          scholarshipType_professional,
+          specialNeeds,
+          specialNeedsDescription,
+          workPhone,
+          yearsBenefitedFromCebas_basic,
+          responsible_id: responsible.id,
+          CadUnico
+        },
+      })
+  
+      return reply.status(201).send()
+    }
     // Verifica se existe um candidato associado ao user_id
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
 

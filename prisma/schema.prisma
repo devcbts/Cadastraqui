@@ -84,7 +84,14 @@ model LegalResponsible {
   percentageOfScholarship         String?
   IdentityDetails                 IdentityDetails?
   Candidate                       Candidate[]
-  Housing                         Housing[]
+  Housing                         Housing?
+  FamillyMember                   FamilyMember[]
+  CreditCard                      CreditCard[]
+  Expense                         Expense[]
+  Financing                       Financing[]
+  Loan                            Loan[]
+  OtherExpense                    OtherExpense[]
+  Vehicle                         Vehicle[]
   user                            User              @relation(fields: [user_id], references: [id])
 
   @@map("responsibles")
@@ -203,9 +210,9 @@ model IdentityDetails {
   institutionName_professional               String?
   institutionCNPJ_professional               String?
   nameOfScholarshipCourse_professional       String?
-  candidate_id                               String            @unique
+  candidate_id                               String?           @unique
   responsible_id                             String?           @unique
-  candidate                                  Candidate         @relation(fields: [candidate_id], references: [id])
+  candidate                                  Candidate?        @relation(fields: [candidate_id], references: [id])
   responsible                                LegalResponsible? @relation(fields: [responsible_id], references: [id])
 }
 
@@ -258,7 +265,7 @@ model FamilyMember {
   hasScholarship            Boolean?
   percentageOfScholarship   String?
   monthlyAmount             String?
-  candidate_id              String
+  candidate_id              String?
   incomeSource              IncomeSource[]
   CreditCard                CreditCard[]
   FamilyMemberIncome        FamilyMemberIncome[]
@@ -268,8 +275,10 @@ model FamilyMember {
   OtherExpense              OtherExpense[]
   FamilyMemberToVehicle     FamilyMemberToVehicle[]
   FamilyMemberDisease       FamilyMemberDisease[]
-  candidate                 Candidate               @relation(fields: [candidate_id], references: [id])
+  candidate                 Candidate?               @relation(fields: [candidate_id], references: [id])
   Medication                Medication[]
+  LegalResponsible          LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId        String?
 
   @@map("familyMembers")
 }
@@ -283,9 +292,9 @@ model Housing {
   domicileType         DomicileType
   numberOfRooms        NumberOfRooms
   numberOfBedrooms     Int
-  candidate_id         String               @unique
-  responsible_id       String?
-  candidate            Candidate            @relation(fields: [candidate_id], references: [id])
+  candidate_id         String?              @unique
+  responsible_id       String?              @unique
+  candidate            Candidate?           @relation(fields: [candidate_id], references: [id])
   responsible          LegalResponsible?    @relation(fields: [responsible_id], references: [id])
 
   @@map("housing")
@@ -305,6 +314,8 @@ model Vehicle {
   candidate_id          String?
   candidate             Candidate?              @relation(fields: [candidate_id], references: [id])
   FamilyMemberToVehicle FamilyMemberToVehicle[]
+  LegalResponsible      LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId    String?
 }
 
 model FamilyMemberIncome {
@@ -354,7 +365,7 @@ model MonthlyIncome {
 }
 
 model Expense {
-  id                       String    @id @default(uuid())
+  id                       String            @id @default(uuid())
   month                    String
   waterSewage              Float?
   electricity              Float?
@@ -395,59 +406,69 @@ model Expense {
   optedForInstallmentITR   Boolean?
   otherExpensesDescription String[]
   otherExpensesValue       Float[]
-  candidate                Candidate @relation(fields: [candidate_id], references: [id])
+  candidate                Candidate?         @relation(fields: [candidate_id], references: [id])
+  LegalResponsible         LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId       String?
 }
 
 model Loan {
-  id                String       @id @default(uuid())
-  familyMemberName  String
-  installmentValue  Float
-  totalInstallments Int
-  paidInstallments  Int
-  bankName          String
-  familyMember_id   String
-  candidate_id      String
-  candidate         Candidate    @relation(fields: [candidate_id], references: [id])
-  familyMember      FamilyMember @relation(fields: [familyMember_id], references: [id])
+  id                 String            @id @default(uuid())
+  familyMemberName   String
+  installmentValue   Float
+  totalInstallments  Int
+  paidInstallments   Int
+  bankName           String
+  familyMember_id    String
+  candidate_id       String
+  candidate          Candidate?         @relation(fields: [candidate_id], references: [id])
+  familyMember       FamilyMember?      @relation(fields: [familyMember_id], references: [id])
+  LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId String?
 }
 
 model Financing {
-  id                String        @id @default(uuid())
-  familyMemberName  String
-  installmentValue  Float
-  totalInstallments Int
-  paidInstallments  Int
-  bankName          String
-  familyMember_id   String
-  candidate_id      String
-  otherFinancing    String?
-  financingType     FinancingType
-  candidate         Candidate     @relation(fields: [candidate_id], references: [id])
-  familyMember      FamilyMember  @relation(fields: [familyMember_id], references: [id])
+  id                 String            @id @default(uuid())
+  familyMemberName   String
+  installmentValue   Float
+  totalInstallments  Int
+  paidInstallments   Int
+  bankName           String
+  familyMember_id    String
+  candidate_id       String
+  otherFinancing     String?
+  financingType      FinancingType
+  candidate          Candidate?         @relation(fields: [candidate_id], references: [id])
+  familyMember       FamilyMember?      @relation(fields: [familyMember_id], references: [id])
+  LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId String?
 }
 
 model CreditCard {
-  id               String        @id @default(uuid())
-  familyMemberName String
-  usersCount       Int
-  cardType         String
-  bankName         String
-  cardFlag         String
-  invoiceValue     Float
-  familyMember_id  String?
-  candidate_id     String
-  candidate        Candidate     @relation(fields: [candidate_id], references: [id])
-  familyMember     FamilyMember? @relation(fields: [familyMember_id], references: [id])
+  id                 String            @id @default(uuid())
+  familyMemberName   String
+  usersCount         Int
+  cardType           String
+  bankName           String
+  cardFlag           String
+  invoiceValue       Float
+  familyMember_id    String?
+  candidate_id       String
+  candidate          Candidate         @relation(fields: [candidate_id], references: [id])
+  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
+  LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId String?
 }
 
 model OtherExpense {
-  id              String       @id @default(uuid())
-  description     String
-  value           Float
-  familyMember_id String
-  candidate_id    String
-  candidate       Candidate    @relation(fields: [candidate_id], references: [id])
-  familyMember    FamilyMember @relation(fields: [familyMember_id], references: [id])
+  id                 String            @id @default(uuid())
+  description        String
+  value              Float
+  familyMember_id    String
+  candidate_id       String
+  candidate          Candidate?         @relation(fields: [candidate_id], references: [id])
+  familyMember       FamilyMember?      @relation(fields: [familyMember_id], references: [id])
+  LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId String?
 }
 
 model FamilyMemberDisease {

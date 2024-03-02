@@ -15,7 +15,18 @@ export async function getIdentityInfo(
   const { _id } = queryParamsSchema.parse(request.params)
   try {
     const user_id = request.user.sub
+    const role = request.user.role
+    if (role === 'RESPONSIBLE') {
+      const identityInfo = prisma.identityDetails.findUnique({
 
+        where: {responsible_id: user_id}
+      }
+      )
+      if (!identityInfo) {
+        throw new ResourceNotFoundError()
+      }
+      return reply.status(200).send({ identityInfo })
+    }
     // Verifica se existe um candidato associado ao user_id
     let candidate
 

@@ -91,10 +91,10 @@ export async function entityRoutes(app: FastifyInstance) {
 
   app.post(
     '/announcement',
-    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    { onRequest: [verifyJWT] },
     CreateAnnoucment,
   )
-  app.post('/upload/:announcement_id' , { onRequest: [verifyJWT, verifyRole('ENTITY')]}, uploadAnnouncementPdf)
+  app.post('/upload/:announcement_id' , { onRequest: [verifyJWT]}, uploadAnnouncementPdf)
   app.get(
     '/announcement/:announcement_id?',
     { onRequest: [verifyJWT, verifyRole('ENTITY')] },
@@ -107,7 +107,7 @@ export async function entityRoutes(app: FastifyInstance) {
   )
   app.post(
     '/education/:announcement_id',
-    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    { onRequest: [verifyJWT] },
     createEducationalLevel,
   )
 
