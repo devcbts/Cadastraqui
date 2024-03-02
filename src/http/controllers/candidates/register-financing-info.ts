@@ -44,7 +44,38 @@ export async function registerFinancingInfo(
 
   try {
     const user_id = request.user.sub
-
+    const role = request.user.role
+    if (role === 'RESPONSIBLE') {
+      
+        const responsible = await prisma.legalResponsible.findUnique({
+          where: { user_id}
+        })
+        if (!responsible) {
+          throw new NotAllowedError()
+        }
+        const familyMember = await prisma.familyMember.findUnique({
+          where: { id: _id },
+        })
+        if (!familyMember) {
+          throw new ResourceNotFoundError()
+        }
+        await prisma.financing.create({
+          data: {
+            bankName,
+            familyMemberName,
+            financingType,
+            installmentValue,
+            paidInstallments,
+            totalInstallments,
+            otherFinancing,
+            familyMember_id: _id,
+            legalResponsibleId: responsible.id
+          },
+        })
+    
+        return reply.status(201).send()
+      
+    }
     // Verifica se existe um candidato associado ao user_id
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
     if (!candidate) {

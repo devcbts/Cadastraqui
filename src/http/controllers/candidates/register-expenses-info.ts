@@ -99,7 +99,62 @@ export async function registerExpensesInfo(
 
   try {
     const user_id = request.user.sub
+    const role = request.user.role
+    if (role === 'RESPONSIBLE') {
+      const responsible = await prisma.legalResponsible.findUnique({
+        where: { user_id}
+      })
+      if (!responsible) {
+        throw new NotAllowedError()
+      }
+      // Armazena informações acerca das despesas do candidato
+    await prisma.expense.create({
+      data: {
+        month,
+        annualIPTU,
+        annualIPVA,
+        annualIR,
+        annualITR,
+        cableTV,
+        condominium,
+        courses,
+        dentalPlan,
+        electricity,
+        food,
+        fuel,
+        garageRent,
+        healthPlan,
+        INSS,
+        installmentCountIPVA,
+        installmentValueIPVA,
+        optedForInstallmentIPVA,
+        installmentCountIPTU,
+        installmentValueIPTU,
+        optedForInstallmentIPTU,
+        installmentCountITR,
+        installmentValueITR,
+        optedForInstallmentITR,
+        installmentCountIR,
+        installmentValueIR,
+        optedForInstallmentIR,
+        landlinePhone,
+        internet,
+        legalResponsibleId: responsible.id,
+        mobilePhone,
+        publicTransport,
+        rent,
+        schoolTransport,
+        streamingServices,
+        totalExpense,
+        otherExpensesValue,
+        otherExpensesDescription,
+        medicationExpenses,
+        waterSewage,
+      },
+    })
 
+    return reply.status(201).send()
+    }
     // Verifica se existe um candidato associado ao user_id
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
     if (!candidate) {

@@ -1,3 +1,4 @@
+import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -15,8 +16,8 @@ export async function getVehicleInfo(
 
   try {
     const user_id = request.user.sub;
-    console.log('User info:', request.user);
-
+    const role = request.user.role;
+ 
     let candidate;
 
     // Verifica se um ID foi fornecido e busca o candidato apropriado
@@ -63,6 +64,45 @@ export async function getVehicleInfo(
         ownerNames, // Array com os nomes de todos os proprietários
       };
     });
+
+    if (role === 'RESPONSIBLE') {
+      const responsible = await prisma.legalResponsible.findUnique({
+        where: { user_id}
+      })
+      if (!responsible) {
+        throw new NotAllowedError()
+      }
+
+      // Obtém todos os veículos associados ao candidato
+    const vehicles = await prisma.vehicle.findMany({
+      where: {
+        FamilyMemberToVehicle: {
+          some: {
+            familyMembers: {
+              legalResponsibleId: responsible.id,
+            },
+          },
+        },
+      },
+      include: {
+        FamilyMemberToVehicle: {
+          include: {
+            familyMembers: true,
+          },
+        },
+      },
+    });
+
+    // Prepara os resultados, acumulando os nomes dos proprietários
+    const vehicleInfoResults = vehicles.map(vehicle => {
+      const ownerNames = vehicle.FamilyMemberToVehicle.map(fmv => fmv.familyMembers.fullName);
+      return {
+        ...vehicle,
+        ownerNames, // Array com os nomes de todos os proprietários
+      }});
+      return reply.status(200).send({ vehicleInfoResults })
+    }
+
 
     return reply.status(200).send({ vehicleInfoResults });
   } catch (err: any) {
