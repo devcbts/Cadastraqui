@@ -208,7 +208,7 @@ export async function registerIdentityInfo(
     const user_id = request.user.sub
     const role = request.user.role
     if (role === 'RESPONSIBLE') {
-      const responsible = await prisma.candidate.findUnique({ where: { user_id } })
+      const responsible = await prisma.legalResponsible.findUnique({ where: { user_id } })
       if (!responsible) {
         throw new NotAllowedError()
       }

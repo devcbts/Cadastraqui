@@ -71,7 +71,32 @@ export async function registerHousingInfo(
 
   try {
     const user_id = request.user.sub
-
+    const role = request.user.role
+    if (role === 'RESPONSIBLE') {
+      const responsible = await prisma.legalResponsible.findUnique({
+        where: {user_id}
+      })
+      if (!responsible) {
+        throw new NotAllowedError()
+      }
+      const dataToCreate = {
+        domicileType,
+        
+        numberOfBedrooms,
+        numberOfRooms,
+        propertyStatus,
+        timeLivingInProperty,
+        responsible_id: responsible.id,
+        ...(contractType && {contractType}),
+        ...(grantorName && {grantorName})
+      }
+      await prisma.housing.create({
+        data: dataToCreate
+        
+      })
+  
+      return reply.status(201).send()
+    }
     // Verifica se existe um candidato associado ao user_id
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
     if (!candidate) {

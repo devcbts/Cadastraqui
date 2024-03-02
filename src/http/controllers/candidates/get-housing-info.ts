@@ -18,7 +18,18 @@ export async function getHousingInfo(
   try {
     const user_id = request.user.sub;
     const role = request.user.role;
-
+    if (role === 'RESPONSIBLE') {
+      const responsible = await prisma.legalResponsible.findUnique({
+        where: {user_id}
+      })
+      if (!responsible) {
+        throw new NotAllowedError()
+      }
+      const housingInfo = await prisma.housing.findUnique({
+        where: { responsible_id: responsible.id },
+      })
+      return reply.status(200).send({ housingInfo })
+    }
     let candidate;
     
     if (_id) {
