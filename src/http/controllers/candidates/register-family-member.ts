@@ -232,25 +232,35 @@ export async function registerFamilyMemberInfo(
 
   try {
     const user_id = request.user.sub
-
+    const role = request.user.role
+  
+    const responsible = await prisma.legalResponsible.findUnique(
+      {where:{
+        user_id
+      }}
+    )
     // Verifica se existe um candidato associado ao user_id
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-    if (!candidate) {
+    if (!candidate && !responsible) {
       throw new ResourceNotFoundError()
     }
 
     // Verifica se já existe um familiar com o RG ou CPF associados ao candidato
     if (
       await prisma.familyMember.findFirst({
-        where: { CPF, candidate_id: candidate.id },
-      })
+        where: { CPF, candidate_id: candidate?.id },
+      })  || await prisma.familyMember.findFirst({
+        where: { CPF, candidate_id: responsible?.id },
+      }) 
     ) {
       throw new NotAllowedError()
     }
     if (
       await prisma.familyMember.findFirst({
-        where: { RG, candidate_id: candidate.id },
-      })
+        where: { RG, candidate_id: candidate?.id },
+      }) || await prisma.familyMember.findFirst({
+        where: { RG, candidate_id: responsible?.id },
+      }) 
     ) {
       throw new NotAllowedError()
     }
@@ -279,7 +289,8 @@ export async function registerFamilyMemberInfo(
       neighborhood,
       addressNumber,
       profession,
-      candidate_id: candidate.id,
+      candidate_id: candidate?.id,
+      legalResponsibleId: responsible?.id,
       // Campos opcionais são adicionados condicionalmente
       ...(otherRelationship && { otherRelationship }),
       ...(socialName && { socialName }),

@@ -18,6 +18,18 @@ export async function getFamilyMemberInfo(
   try {
     const user_id = request.user.sub
     const role = request.user.role
+    if (role === 'RESPONSIBLE') {
+      const responsible = await prisma.legalResponsible.findUnique({
+        where: { user_id}
+      })
+      if (!responsible) {
+        throw new NotAllowedError()
+      }
+      const familyMembers = await prisma.familyMember.findMany({
+        where: { legalResponsibleId: responsible.id },
+      })
+      return reply.status(200).send({ familyMembers })
+    }
     let candidate
 
     if (_id) {
