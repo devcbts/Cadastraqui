@@ -11,8 +11,13 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
         const user_id = request.user.sub;
 
         // Verifica se existe um candidato associado ao user_id
+
+        const responsible = await prisma.legalResponsible.findUnique({
+            where: { user_id: user_id}
+        })
+
         const candidate = await prisma.candidate.findUnique({ where: { user_id } });
-        if (!candidate) {
+        if (!candidate && !responsible) {
             throw new ResourceNotFoundError();
         }
 
@@ -29,8 +34,17 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
 
         console.log(`Document Type: ${documentType}`);
         console.log(`File Size: ${fileBuffer.length}`);
+        let route
+        if (candidate) {
+            
+             route = `CandidateDocuments/${candidate.id}/${documentType.value}/${data.filename}`;
+        }
+        else if (responsible) {
+             route = `CandidateDocuments/${responsible.id}/${documentType.value}/${data.filename}`;
 
-        const route = `CandidateDocuments/${candidate.id}/${documentType.value}/${data.filename}`;
+        } else{
+            throw new ResourceNotFoundError()
+        }
         const sended = await uploadFile(fileBuffer, route);
 
         if (!sended) {
