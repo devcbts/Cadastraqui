@@ -159,12 +159,12 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.get('/expenses/:_id?', { onRequest: [verifyJWT] }, getExpensesInfo)
   app.patch('/expenses', { onRequest: [verifyJWT] }, updateExpensesInfo)
   // Empréstimos
-  app.post('/expenses/loan/:_id', { onRequest: [verifyJWT] }, registerLoanInfo)
+  app.post('/expenses/loan/:_id?', { onRequest: [verifyJWT] }, registerLoanInfo)
   app.get('/expenses/loan/:_id?', { onRequest: [verifyJWT] }, getLoanInfo)
   app.patch('/expenses/loan/:_id', { onRequest: [verifyJWT] }, updateLoanInfo)
   // Financiamento
   app.post(
-    '/expenses/financing/:_id',
+    '/expenses/financing/:_id?',
     { onRequest: [verifyJWT] },
     registerFinancingInfo,
   )
@@ -176,7 +176,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.patch('/expenses/financing', { onRequest: [verifyJWT] }, updateFinancingInfo)
   // Cartão de Crédito
   app.post(
-    '/expenses/credit-card/:_id',
+    '/expenses/credit-card/:_id?',
     { onRequest: [verifyJWT] },
     registerCreditCardInfo,
   )

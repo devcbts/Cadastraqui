@@ -48,13 +48,22 @@ export async function registerCreditCardInfo(
         throw new NotAllowedError()
       }
       // Verifica se existe um familiar cadastrado com o owner_id
-      const familyMember = await prisma.familyMember.findUnique({
-        where: { id: _id },
-      })
-      if (!familyMember) {
-        throw new NotAllowedError()
+      if (_id === responsible.id) {
+        await prisma.creditCard.create({
+          data: {
+            bankName,
+            familyMemberName,
+            cardFlag,
+            cardType,
+            invoiceValue,
+            usersCount,
+            legalResponsibleId: responsible.id
+          },
+        })
+  
+        return reply.status(201).send()
+  
       }
-
       // Armazena informações acerca do Loan no banco de dados
       await prisma.creditCard.create({
         data: {
@@ -78,7 +87,22 @@ export async function registerCreditCardInfo(
     if (!candidate) {
       throw new ResourceNotFoundError()
     }
+    if (_id === candidate.id) {
+      await prisma.creditCard.create({
+        data: {
+          bankName,
+          familyMemberName,
+          cardFlag,
+          cardType,
+          invoiceValue,
+          usersCount,
+          candidate_id: candidate.id
+        },
+      })
 
+      return reply.status(201).send()
+
+    }
     // Verifica se existe um familiar cadastrado com o owner_id
     const familyMember = await prisma.familyMember.findUnique({
       where: { id: _id },

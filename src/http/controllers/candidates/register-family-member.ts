@@ -253,7 +253,7 @@ export async function registerFamilyMemberInfo(
         where: { CPF, candidate_id: responsible?.id },
       }) 
     ) {
-      throw new NotAllowedError()
+      throw new ResourceNotFoundError()
     }
     if (
       await prisma.familyMember.findFirst({
