@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import {useNavigate} from 'react-router';
 import EditalEntidade from "../../Components/editalEntidade";
 import LoadingEdital from "../../Components/Loading/LoadingEdital";
+import { handleAuthError } from "../../ErrorHandling/handleError";
 export default function EditaisEntidade() {
   const { isShown } = useAppState();
  // The empty array ensures this effect only runs once, on mount and unmount
@@ -36,7 +37,7 @@ export default function EditaisEntidade() {
         // Pega todos os editais e armazena em um estado
         setAnnouncements(response.data.announcements)  
       } catch(err) {
-        console.log(err)  
+        handleAuthError(err, navigate) 
       } 
     }
 

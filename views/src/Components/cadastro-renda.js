@@ -2397,7 +2397,7 @@ export const CadastroRenda = ({  member  }) => {
                             </div>
                             <div key={`expenseReimbursementValue-${i}`} className="survey-box">
                                 <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
+                                Diárias e reembolsos de despesas {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -2410,8 +2410,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                             </div>
                             <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
+                                <label htmlFor={`advancePaymentValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`advancePaymentValue${i}-label`}>
+                                Adiantamentos, Antecipações, Estornos e Compensações referentes a períodos anteriores {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -2424,8 +2424,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                             </div>
                             <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
+                                <label htmlFor={`reversalValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`reversalValue${i}-label`}>
+                                Indenizações decorrentes de contratos de seguros e por força de decisão judicial {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -2438,8 +2438,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                             </div>
                             <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
+                                <label htmlFor={`compensationValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`compensationValue${i}-label`}>
+                                    Rendimentos percebidos no âmbito de programas governamentais {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -2453,7 +2453,7 @@ export const CadastroRenda = ({  member  }) => {
                             </div>
                             <div key={`judicialPensionValue-${i}`} className="survey-box">
                                 <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
+                                Pensão alimentícia, exclusivamente no caso de decisão judicial {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -2601,7 +2601,7 @@ export const CadastroRenda = ({  member  }) => {
                         </div>
                         <div key={`expenseReimbursementValue-${i}`} className="survey-box">
                                 <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
+                                Diárias e reembolsos de despesas {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -2614,8 +2614,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                         </div>
                         <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
+                                <label htmlFor={`advancePaymentValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`advancePaymentValue${i}-label`}>
+                                Adiantamentos, Antecipações, Estornos e Compensações referentes a períodos anteriores {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -2628,8 +2628,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                         </div>
                         <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
+                                <label htmlFor={`reversalValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`reversalValue${i}-label`}>
+                                Indenizações decorrentes de contratos de seguros e por força de decisão judicial {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -2642,8 +2642,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                         </div>
                         <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
+                                <label htmlFor={`compensationValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`compensationValue${i}-label`}>
+                                    Rendimentos percebidos no âmbito de programas governamentais {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -2657,7 +2657,7 @@ export const CadastroRenda = ({  member  }) => {
                         </div>
                         <div key={`judicialPensionValue-${i}`} className="survey-box">
                                 <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
+                                Pensão alimentícia, exclusivamente no caso de decisão judicial {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -2847,7 +2847,7 @@ export const CadastroRenda = ({  member  }) => {
                             </div>
                             <div key={`expenseReimbursementValue-${i}`} className="survey-box">
                                 <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
+                                Diárias e reembolsos de despesas {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -2860,8 +2860,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                             </div>
                             <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
+                                <label htmlFor={`advancePaymentValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`advancePaymentValue${i}-label`}>
+                                Adiantamentos, Antecipações, Estornos e Compensações referentes a períodos anteriores {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -2874,8 +2874,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                             </div>
                             <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
+                                <label htmlFor={`reversalValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`reversalValue${i}-label`}>
+                                Indenizações decorrentes de contratos de seguros e por força de decisão judicial {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -2888,8 +2888,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                             </div>
                             <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
+                                <label htmlFor={`compensationValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`compensationValue${i}-label`}>
+                                    Rendimentos percebidos no âmbito de programas governamentais {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -2903,7 +2903,7 @@ export const CadastroRenda = ({  member  }) => {
                             </div>
                             <div key={`judicialPensionValue-${i}`} className="survey-box">
                                 <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
+                                Pensão alimentícia, exclusivamente no caso de decisão judicial {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -3051,7 +3051,7 @@ export const CadastroRenda = ({  member  }) => {
                         </div>
                         <div key={`expenseReimbursementValue-${i}`} className="survey-box">
                                 <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
+                                Diárias e reembolsos de despesas {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -3064,8 +3064,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                         </div>
                         <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
+                                <label htmlFor={`advancePaymentValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`advancePaymentValue${i}-label`}>
+                                Adiantamentos, Antecipações, Estornos e Compensações referentes a períodos anteriores {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -3078,8 +3078,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                         </div>
                         <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
+                                <label htmlFor={`reversalValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`reversalValue${i}-label`}>
+                                Indenizações decorrentes de contratos de seguros e por força de decisão judicial {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -3092,8 +3092,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                         </div>
                         <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
+                                <label htmlFor={`compensationValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`compensationValue${i}-label`}>
+                                    Rendimentos percebidos no âmbito de programas governamentais {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -3107,7 +3107,7 @@ export const CadastroRenda = ({  member  }) => {
                         </div>
                         <div key={`judicialPensionValue-${i}`} className="survey-box">
                                 <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
+                                Pensão alimentícia, exclusivamente no caso de decisão judicial {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -3297,7 +3297,7 @@ export const CadastroRenda = ({  member  }) => {
                              </div>
                              <div key={`expenseReimbursementValue-${i}`} className="survey-box">
                                  <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                 Reembolso de despesas {i + 1}
+                                 Diárias e reembolsos de despesas {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -3310,8 +3310,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                              </div>
                              <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                 <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                 Adiantamento ou Antecipações  {i + 1}
+                                 <label htmlFor={`advancePaymentValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`advancePaymentValue${i}-label`}>
+                                 Adiantamentos, Antecipações, Estornos e Compensações referentes a períodos anteriores {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -3324,8 +3324,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                              </div>
                              <div key={`reversalValue-${i}`} className="survey-box">
-                                 <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                 Estornos e Compensações {i + 1}
+                                 <label htmlFor={`reversalValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`reversalValue${i}-label`}>
+                                 Indenizações decorrentes de contratos de seguros e por força de decisão judicial {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -3338,8 +3338,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                              </div>
                              <div key={`compensationValue-${i}`} className="survey-box">
-                                 <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                     Indenizações {i + 1}
+                                 <label htmlFor={`compensationValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`compensationValue${i}-label`}>
+                                     Rendimentos percebidos no âmbito de programas governamentais {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -3353,7 +3353,7 @@ export const CadastroRenda = ({  member  }) => {
                              </div>
                              <div key={`judicialPensionValue-${i}`} className="survey-box">
                                  <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                 Pensão Judicial {i + 1}
+                                 Pensão alimentícia, exclusivamente no caso de decisão judicial {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -3501,7 +3501,7 @@ export const CadastroRenda = ({  member  }) => {
                          </div>
                          <div key={`expenseReimbursementValue-${i}`} className="survey-box">
                                  <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                 Reembolso de despesas {i + 1}
+                                 Diárias e reembolsos de despesas {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -3514,8 +3514,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                          </div>
                          <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                 <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                 Adiantamento ou Antecipações  {i + 1}
+                                 <label htmlFor={`advancePaymentValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`advancePaymentValue${i}-label`}>
+                                 Adiantamentos, Antecipações, Estornos e Compensações referentes a períodos anteriores {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -3528,8 +3528,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                          </div>
                          <div key={`reversalValue-${i}`} className="survey-box">
-                                 <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                 Estornos e Compensações {i + 1}
+                                 <label htmlFor={`reversalValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`reversalValue${i}-label`}>
+                                 Indenizações decorrentes de contratos de seguros e por força de decisão judicial {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -3542,8 +3542,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                          </div>
                          <div key={`compensationValue-${i}`} className="survey-box">
-                                 <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                     Indenizações {i + 1}
+                                 <label htmlFor={`compensationValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`compensationValue${i}-label`}>
+                                     Rendimentos percebidos no âmbito de programas governamentais {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -3557,7 +3557,7 @@ export const CadastroRenda = ({  member  }) => {
                          </div>
                          <div key={`judicialPensionValue-${i}`} className="survey-box">
                                  <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                 Pensão Judicial {i + 1}
+                                 Pensão alimentícia, exclusivamente no caso de decisão judicial {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -3747,7 +3747,7 @@ export const CadastroRenda = ({  member  }) => {
                             </div>
                             <div key={`expenseReimbursementValue-${i}`} className="survey-box">
                                 <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
+                                Diárias e reembolsos de despesas {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -3760,8 +3760,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                             </div>
                             <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
+                                <label htmlFor={`advancePaymentValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`advancePaymentValue${i}-label`}>
+                                Adiantamentos, Antecipações, Estornos e Compensações referentes a períodos anteriores {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -3774,8 +3774,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                             </div>
                             <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
+                                <label htmlFor={`reversalValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`reversalValue${i}-label`}>
+                                Indenizações decorrentes de contratos de seguros e por força de decisão judicial {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -3788,8 +3788,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                             </div>
                             <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
+                                <label htmlFor={`compensationValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`compensationValue${i}-label`}>
+                                    Rendimentos percebidos no âmbito de programas governamentais {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -3803,7 +3803,7 @@ export const CadastroRenda = ({  member  }) => {
                             </div>
                             <div key={`judicialPensionValue-${i}`} className="survey-box">
                                 <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
+                                Pensão alimentícia, exclusivamente no caso de decisão judicial {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -3951,7 +3951,7 @@ export const CadastroRenda = ({  member  }) => {
                         </div>
                         <div key={`expenseReimbursementValue-${i}`} className="survey-box">
                                 <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
+                                Diárias e reembolsos de despesas {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -3964,8 +3964,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                         </div>
                         <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
+                                <label htmlFor={`advancePaymentValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`advancePaymentValue${i}-label`}>
+                                Adiantamentos, Antecipações, Estornos e Compensações referentes a períodos anteriores {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -3978,8 +3978,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                         </div>
                         <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
+                                <label htmlFor={`reversalValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`reversalValue${i}-label`}>
+                                Indenizações decorrentes de contratos de seguros e por força de decisão judicial {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -3992,8 +3992,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                         </div>
                         <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
+                                <label htmlFor={`compensationValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`compensationValue${i}-label`}>
+                                    Rendimentos percebidos no âmbito de programas governamentais {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -4007,7 +4007,7 @@ export const CadastroRenda = ({  member  }) => {
                         </div>
                         <div key={`judicialPensionValue-${i}`} className="survey-box">
                                 <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
+                                Pensão alimentícia, exclusivamente no caso de decisão judicial {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -4197,7 +4197,7 @@ export const CadastroRenda = ({  member  }) => {
                              </div>
                              <div key={`expenseReimbursementValue-${i}`} className="survey-box">
                                  <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                 Reembolso de despesas {i + 1}
+                                 Diárias e reembolsos de despesas {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4210,8 +4210,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                              </div>
                              <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                 <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                 Adiantamento ou Antecipações  {i + 1}
+                                 <label htmlFor={`advancePaymentValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`advancePaymentValue${i}-label`}>
+                                 Adiantamentos, Antecipações, Estornos e Compensações referentes a períodos anteriores {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4224,8 +4224,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                              </div>
                              <div key={`reversalValue-${i}`} className="survey-box">
-                                 <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                 Estornos e Compensações {i + 1}
+                                 <label htmlFor={`reversalValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`reversalValue${i}-label`}>
+                                 Indenizações decorrentes de contratos de seguros e por força de decisão judicial {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4238,8 +4238,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                              </div>
                              <div key={`compensationValue-${i}`} className="survey-box">
-                                 <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                     Indenizações {i + 1}
+                                 <label htmlFor={`compensationValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`compensationValue${i}-label`}>
+                                     Rendimentos percebidos no âmbito de programas governamentais {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4253,7 +4253,7 @@ export const CadastroRenda = ({  member  }) => {
                              </div>
                              <div key={`judicialPensionValue-${i}`} className="survey-box">
                                  <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                 Pensão Judicial {i + 1}
+                                 Pensão alimentícia, exclusivamente no caso de decisão judicial {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4401,7 +4401,7 @@ export const CadastroRenda = ({  member  }) => {
                          </div>
                          <div key={`expenseReimbursementValue-${i}`} className="survey-box">
                                  <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                 Reembolso de despesas {i + 1}
+                                 Diárias e reembolsos de despesas {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4414,8 +4414,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                          </div>
                          <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                 <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                 Adiantamento ou Antecipações  {i + 1}
+                                 <label htmlFor={`advancePaymentValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`advancePaymentValue${i}-label`}>
+                                 Adiantamentos, Antecipações, Estornos e Compensações referentes a períodos anteriores {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4428,8 +4428,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                          </div>
                          <div key={`reversalValue-${i}`} className="survey-box">
-                                 <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                 Estornos e Compensações {i + 1}
+                                 <label htmlFor={`reversalValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`reversalValue${i}-label`}>
+                                 Indenizações decorrentes de contratos de seguros e por força de decisão judicial {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4442,8 +4442,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                          </div>
                          <div key={`compensationValue-${i}`} className="survey-box">
-                                 <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                     Indenizações {i + 1}
+                                 <label htmlFor={`compensationValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`compensationValue${i}-label`}>
+                                     Rendimentos percebidos no âmbito de programas governamentais {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4457,7 +4457,7 @@ export const CadastroRenda = ({  member  }) => {
                          </div>
                          <div key={`judicialPensionValue-${i}`} className="survey-box">
                                  <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                 Pensão Judicial {i + 1}
+                                 Pensão alimentícia, exclusivamente no caso de decisão judicial {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4646,7 +4646,7 @@ export const CadastroRenda = ({  member  }) => {
                              </div>
                              <div key={`expenseReimbursementValue-${i}`} className="survey-box">
                                  <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                 Reembolso de despesas {i + 1}
+                                 Diárias e reembolsos de despesas {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4659,8 +4659,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                              </div>
                              <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                 <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                 Adiantamento ou Antecipações  {i + 1}
+                                 <label htmlFor={`advancePaymentValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`advancePaymentValue${i}-label`}>
+                                 Adiantamentos, Antecipações, Estornos e Compensações referentes a períodos anteriores {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4673,8 +4673,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                              </div>
                              <div key={`reversalValue-${i}`} className="survey-box">
-                                 <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                 Estornos e Compensações {i + 1}
+                                 <label htmlFor={`reversalValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`reversalValue${i}-label`}>
+                                 Indenizações decorrentes de contratos de seguros e por força de decisão judicial {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4687,8 +4687,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                              </div>
                              <div key={`compensationValue-${i}`} className="survey-box">
-                                 <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                     Indenizações {i + 1}
+                                 <label htmlFor={`compensationValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`compensationValue${i}-label`}>
+                                     Rendimentos percebidos no âmbito de programas governamentais {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4702,7 +4702,7 @@ export const CadastroRenda = ({  member  }) => {
                              </div>
                              <div key={`judicialPensionValue-${i}`} className="survey-box">
                                  <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                 Pensão Judicial {i + 1}
+                                 Pensão alimentícia, exclusivamente no caso de decisão judicial {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4850,7 +4850,7 @@ export const CadastroRenda = ({  member  }) => {
                          </div>
                          <div key={`expenseReimbursementValue-${i}`} className="survey-box">
                                  <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                 Reembolso de despesas {i + 1}
+                                 Diárias e reembolsos de despesas {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4863,8 +4863,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                          </div>
                          <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                 <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                 Adiantamento ou Antecipações  {i + 1}
+                                 <label htmlFor={`advancePaymentValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`advancePaymentValue${i}-label`}>
+                                 Adiantamentos, Antecipações, Estornos e Compensações referentes a períodos anteriores {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4877,8 +4877,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                          </div>
                          <div key={`reversalValue-${i}`} className="survey-box">
-                                 <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                 Estornos e Compensações {i + 1}
+                                 <label htmlFor={`reversalValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`reversalValue${i}-label`}>
+                                 Indenizações decorrentes de contratos de seguros e por força de decisão judicial {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4891,8 +4891,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                          </div>
                          <div key={`compensationValue-${i}`} className="survey-box">
-                                 <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                     Indenizações {i + 1}
+                                 <label htmlFor={`compensationValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`compensationValue${i}-label`}>
+                                     Rendimentos percebidos no âmbito de programas governamentais {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -4906,7 +4906,7 @@ export const CadastroRenda = ({  member  }) => {
                          </div>
                          <div key={`judicialPensionValue-${i}`} className="survey-box">
                                  <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                 Pensão Judicial {i + 1}
+                                 Pensão alimentícia, exclusivamente no caso de decisão judicial {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -5095,7 +5095,7 @@ export const CadastroRenda = ({  member  }) => {
                             </div>
                             <div key={`expenseReimbursementValue-${i}`} className="survey-box">
                                 <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
+                                Diárias e reembolsos de despesas {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -5108,8 +5108,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                             </div>
                             <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
+                                <label htmlFor={`advancePaymentValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`advancePaymentValue${i}-label`}>
+                                Adiantamentos, Antecipações, Estornos e Compensações referentes a períodos anteriores {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -5122,8 +5122,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                             </div>
                             <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
+                                <label htmlFor={`reversalValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`reversalValue${i}-label`}>
+                                Indenizações decorrentes de contratos de seguros e por força de decisão judicial {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -5136,8 +5136,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                             </div>
                             <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
+                                <label htmlFor={`compensationValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`compensationValue${i}-label`}>
+                                    Rendimentos percebidos no âmbito de programas governamentais {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -5151,7 +5151,7 @@ export const CadastroRenda = ({  member  }) => {
                             </div>
                             <div key={`judicialPensionValue-${i}`} className="survey-box">
                                 <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
+                                Pensão alimentícia, exclusivamente no caso de decisão judicial {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -5299,7 +5299,7 @@ export const CadastroRenda = ({  member  }) => {
                         </div>
                         <div key={`expenseReimbursementValue-${i}`} className="survey-box">
                                 <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                Reembolso de despesas {i + 1}
+                                Diárias e reembolsos de despesas {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -5312,8 +5312,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                         </div>
                         <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                Adiantamento ou Antecipações  {i + 1}
+                                <label htmlFor={`advancePaymentValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`advancePaymentValue${i}-label`}>
+                                Adiantamentos, Antecipações, Estornos e Compensações referentes a períodos anteriores {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -5326,8 +5326,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                         </div>
                         <div key={`reversalValue-${i}`} className="survey-box">
-                                <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                Estornos e Compensações {i + 1}
+                                <label htmlFor={`reversalValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`reversalValue${i}-label`}>
+                                Indenizações decorrentes de contratos de seguros e por força de decisão judicial {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -5340,8 +5340,8 @@ export const CadastroRenda = ({  member  }) => {
                                 />
                         </div>
                         <div key={`compensationValue-${i}`} className="survey-box">
-                                <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                    Indenizações {i + 1}
+                                <label htmlFor={`compensationValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`compensationValue${i}-label`}>
+                                    Rendimentos percebidos no âmbito de programas governamentais {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -5355,7 +5355,7 @@ export const CadastroRenda = ({  member  }) => {
                         </div>
                         <div key={`judicialPensionValue-${i}`} className="survey-box">
                                 <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                Pensão Judicial {i + 1}
+                                Pensão alimentícia, exclusivamente no caso de decisão judicial {i + 1}
                              </label>
                                 <br />
                                 <input
@@ -5545,7 +5545,7 @@ export const CadastroRenda = ({  member  }) => {
                              </div>
                              <div key={`expenseReimbursementValue-${i}`} className="survey-box">
                                  <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                 Reembolso de despesas {i + 1}
+                                 Diárias e reembolsos de despesas {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -5558,8 +5558,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                              </div>
                              <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                 <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                 Adiantamento ou Antecipações  {i + 1}
+                                 <label htmlFor={`advancePaymentValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`advancePaymentValue${i}-label`}>
+                                 Adiantamentos, Antecipações, Estornos e Compensações referentes a períodos anteriores {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -5572,8 +5572,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                              </div>
                              <div key={`reversalValue-${i}`} className="survey-box">
-                                 <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                 Estornos e Compensações {i + 1}
+                                 <label htmlFor={`reversalValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`reversalValue${i}-label`}>
+                                 Indenizações decorrentes de contratos de seguros e por força de decisão judicial {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -5586,8 +5586,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                              </div>
                              <div key={`compensationValue-${i}`} className="survey-box">
-                                 <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                     Indenizações {i + 1}
+                                 <label htmlFor={`compensationValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`compensationValue${i}-label`}>
+                                     Rendimentos percebidos no âmbito de programas governamentais {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -5601,7 +5601,7 @@ export const CadastroRenda = ({  member  }) => {
                              </div>
                              <div key={`judicialPensionValue-${i}`} className="survey-box">
                                  <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                 Pensão Judicial {i + 1}
+                                 Pensão alimentícia, exclusivamente no caso de decisão judicial {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -5749,7 +5749,7 @@ export const CadastroRenda = ({  member  }) => {
                          </div>
                          <div key={`expenseReimbursementValue-${i}`} className="survey-box">
                                  <label htmlFor={`expenseReimbursementValue${i}`} id={`expenseReimbursementValue${i}-label`}>
-                                 Reembolso de despesas {i + 1}
+                                 Diárias e reembolsos de despesas {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -5762,8 +5762,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                          </div>
                          <div key={`advancePaymentValue-${i}`} className="survey-box">
-                                 <label htmlFor={`advancePaymentValue${i}`} id={`advancePaymentValue${i}-label`}>
-                                 Adiantamento ou Antecipações  {i + 1}
+                                 <label htmlFor={`advancePaymentValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`advancePaymentValue${i}-label`}>
+                                 Adiantamentos, Antecipações, Estornos e Compensações referentes a períodos anteriores {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -5776,8 +5776,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                          </div>
                          <div key={`reversalValue-${i}`} className="survey-box">
-                                 <label htmlFor={`reversalValue${i}`} id={`reversalValue${i}-label`}>
-                                 Estornos e Compensações {i + 1}
+                                 <label htmlFor={`reversalValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`reversalValue${i}-label`}>
+                                 Indenizações decorrentes de contratos de seguros e por força de decisão judicial {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -5790,8 +5790,8 @@ export const CadastroRenda = ({  member  }) => {
                                  />
                          </div>
                          <div key={`compensationValue-${i}`} className="survey-box">
-                                 <label htmlFor={`compensationValue${i}`} id={`compensationValue${i}-label`}>
-                                     Indenizações {i + 1}
+                                 <label htmlFor={`compensationValue${i}`} style={{fontSize:'12px', display:'block', width:'80%'}} id={`compensationValue${i}-label`}>
+                                     Rendimentos percebidos no âmbito de programas governamentais {i + 1}
                               </label>
                                  <br />
                                  <input
@@ -5805,7 +5805,7 @@ export const CadastroRenda = ({  member  }) => {
                          </div>
                          <div key={`judicialPensionValue-${i}`} className="survey-box">
                                  <label htmlFor={`judicialPensionValue${i}`} id={`judicialPensionValue${i}-label`}>
-                                 Pensão Judicial {i + 1}
+                                 Pensão alimentícia, exclusivamente no caso de decisão judicial {i + 1}
                               </label>
                                  <br />
                                  <input

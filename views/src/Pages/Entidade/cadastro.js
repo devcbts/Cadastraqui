@@ -10,6 +10,8 @@ import CadastroEdital from "../../Components/cadastroEdital"
 import { api } from "../../services/axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
+import { handleAuthError } from "../../ErrorHandling/handleError";
+import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 
 
 export default function CadastroEntidade() {
@@ -318,15 +320,16 @@ export default function CadastroEntidade() {
 
       const token = localStorage.getItem("token");
       try {
-        await api.post("/entities/subsidiary", createInfo, {
+       const response = await api.post("/entities/subsidiary", createInfo, {
           headers: {
             authorization: `Bearer ${token}`,
           },
         });
-        alert("Filial cadastrado com sucesso.");
+        handleSuccess(response, "Filial cadastrada com sucesso.");
       } catch (err) {
         console.log(err);
-        alert(`${err.response.data.message}`);
+        handleAuthError(err,navigate)
+
       }
     } else {
       alert("Preencha os campos exigidos.");
@@ -355,8 +358,7 @@ export default function CadastroEntidade() {
           path: "/",
         });
       } catch (err) {
-        console.log(err);
-        navigate("/login");
+       handleAuthError(err,navigate)
       }
     }
     const intervalId = setInterval(refreshAccessToken, 480000); // Chama a função refresh token a cada

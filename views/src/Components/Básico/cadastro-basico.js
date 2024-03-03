@@ -3,6 +3,7 @@ import "../Familia/cadastroFamiliar.css";
 import { useState } from "react";
 import { api } from "../../services/axios";
 import "./cadastro-basico.css";
+import Select from 'react-select'
 
 const GENDER = [
   { value: "MALE", label: "Masculino" },
@@ -272,7 +273,16 @@ export default function CadastroBasico() {
       alert(error.response.data.message);
     }
   }
+ 
+  function handleInputChangeSelect(selectedOptions) {
+    // Com react-select, selectedOptions é um array de objetos { value, label } ou null
+    const values = selectedOptions ? selectedOptions.map(option => option.value) : [];
+    setCandidate(prevState => ({
+        ...prevState,
+        incomeSource: values
+    }));
 
+}
   return (
     <div>
       <div className="fill-box">
@@ -395,6 +405,8 @@ export default function CadastroBasico() {
               ))}
             </select>
           </div>
+         
+          
           {/* RG */}
           <div class="survey-box">
             <label for="RG" id="RG-label">
@@ -796,18 +808,17 @@ export default function CadastroBasico() {
               Fonte(s) de renda:
             </label>
             <br />
-            <select
+            <Select
               name="incomeSource"
-              multiple
-              onChange={handleInputChange}
-              value={candidate.incomeSource}
+              isMulti
+              onChange={handleInputChangeSelect}
+              options={IncomeSource}
+              value={IncomeSource.filter(obj => candidate.incomeSource.includes(obj.value))}
               id="incomeSource"
               class="select-data"
-            >
-              {IncomeSource.map((type) => (
-                <option value={type.value}>{type.label}</option>
-              ))}
-            </select>
+            />
+              
+           
           </div>
 
           {/*<!-- Mora Sozinho ? -->*/}

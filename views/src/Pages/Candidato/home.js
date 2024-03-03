@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
 import LoadingCandidaturaAssistente from "../../Components/Loading/loadingCandidaturaAssistente";
 import CandidatoCandidatura from "../../Components/Candidatocandidatura";
+import { handleAuthError } from "../../ErrorHandling/handleError";
 
 export default function HomeCandidato() {
   const { isShown } = useAppState()
@@ -82,6 +83,8 @@ export default function HomeCandidato() {
         console.log(response.data)
         setApplications(response.data.applications)
       } catch (err) {
+        handleAuthError(err,navigate)
+
         console.log(err)
       }
     }
@@ -109,7 +112,7 @@ export default function HomeCandidato() {
     async function getUserInfo() {
       const token = localStorage.getItem("token")
       const user_role = localStorage.getItem("role")
-
+      console.log(user_role)
       if (user_role === 'CANDIDATE') {
         try {
           const user_info = await api.get('/candidates/basic-info', {
@@ -131,7 +134,7 @@ export default function HomeCandidato() {
           })
           setUserInfo(user_info.data.responsible)
         } catch (err) {
-          console.log(err)
+          handleAuthError(err,navigate)
         }
       }
     }

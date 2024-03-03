@@ -285,11 +285,45 @@ const renderEducationLevelDetails = (educationLevel) => {
         <div key={educationLevel.id} className="education-level-details">
             <h1>{educationLevel.name}</h1>
             <div className="course-details">
-                <h1>Curso: {educationLevel.availableCourses}</h1>
+                <h1>Curso: {educationLevel.availableCourses ||  educationLevel.grade }</h1>
                 <h2>Bolsas: {educationLevel.verifiedScholarships}</h2>
                 <h2>Turno : {educationLevel.shift}</h2>
-                <h2>Semestre: {educationLevel.semester}</h2>
+                {educationLevel.basicEduType ?
+                <h2>Semestre: {educationLevel.semester}</h2>:
+                <h2>Grau de Escolaridade: {translateBasicEducationScholashipType(educationLevel.basicEduType)}</h2>
+                }
             </div>
         </div>
     );
 };
+
+
+const BasicEducationType = [
+    { value: 'Preschool', label: 'Pré-Escola' },
+    { value: 'Elementary', label: 'Fundamental I e II' },
+    { value: 'HighSchool', label: 'Ensino Médio' },
+    { value: 'ProfessionalEducation', label: 'Educação Profissional' }
+];
+
+const ScholarshipOfferType = [
+    { value: 'Law187Scholarship', label: 'Bolsa Lei 187' },
+    { value: 'StudentWithDisability', label: 'Estudante com Deficiência' },
+    { value: 'FullTime', label: 'Tempo Integral' },
+    { value: 'EntityWorkers', label: 'Trabalhadores da Entidade' }
+];
+function translateBasicEducationScholashipType(BasicEducationScholarship) {
+    const BasicEducation = BasicEducationType.find(
+
+        (r) => r.value === BasicEducationScholarship
+    )
+    return BasicEducation ? BasicEducation.label : "Não especificado";
+}
+
+
+function translateBasicEducationScholashipofferType(BasicEducationScholarship) {
+    const BasicEducation = ScholarshipOfferType.find(
+
+        (r) => r.value === BasicEducationScholarship
+    )
+    return BasicEducation ? BasicEducation.label : "Não especificado";
+}
