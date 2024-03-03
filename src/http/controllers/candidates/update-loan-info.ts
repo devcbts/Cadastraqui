@@ -43,10 +43,14 @@ export async function updateLoanInfo(
 
     // Verifica se existe um candidato associado ao user_id
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-    if (!candidate) {
+   
+    const responsible = await prisma.legalResponsible.findUnique({
+      where: {user_id}
+    })
+
+    if (!candidate && !responsible) {
       throw new ResourceNotFoundError()
     }
-
     // Verifica se existe um familiar cadastrado com o owner_id
     const familyMember = await prisma.familyMember.findUnique({
       where: { id: _id },
@@ -64,7 +68,8 @@ export async function updateLoanInfo(
         paidInstallments,
         totalInstallments,
         familyMember_id: _id,
-        candidate_id: candidate.id
+        candidate_id: candidate?.id,
+        legalResponsibleId: responsible?.id
       },
       where: {id: id}
     })

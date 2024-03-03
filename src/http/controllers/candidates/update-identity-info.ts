@@ -209,13 +209,15 @@ export async function updateIdentityInfo(
     }
 
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-    // Se o candidato não existir
-    if (!candidate) {
+   
+    const responsible = await prisma.legalResponsible.findUnique({
+      where: {user_id}
+    })
+
+    if (!candidate && !responsible) {
       throw new ResourceNotFoundError()
     }
-
     const parsedData = {
-      birthDate: candidate.birthDate,
       educationLevel,
       fullName,
       gender,
@@ -260,12 +262,15 @@ export async function updateIdentityInfo(
       yearsBenefitedFromCebas_basic,
     }
 
-    const candidateIdentifyInfo = await prisma.identityDetails.findUnique({
-      where: { candidate_id: candidate.id },
-    })
-    // Analisa se o candidato não possui cadastro de identificação
-    if (!candidateIdentifyInfo) {
-      throw new NotAllowedError()
+    if (candidate) {
+      
+      const candidateIdentifyInfo = await prisma.identityDetails.findUnique({
+        where: { candidate_id: candidate.id },
+      })
+      // Analisa se o candidato não possui cadastro de identificação
+      if (!candidateIdentifyInfo) {
+        throw new NotAllowedError()
+      }
     }
 
     const dataToUpdate: Record<string, any> = {}
@@ -278,10 +283,19 @@ export async function updateIdentityInfo(
     }
 
     // Atualiza informações acerca da identificação no banco de dados
-    await prisma.identityDetails.update({
-      data: dataToUpdate,
-      where: { candidate_id: candidate.id },
-    })
+    if (candidate) {
+      
+      await prisma.identityDetails.update({
+        data: dataToUpdate,
+        where: { candidate_id: candidate.id },
+      })
+    }
+    if (responsible) {
+      await prisma.identityDetails.update({
+        data: dataToUpdate,
+        where: { responsible_id: responsible.id },
+      })
+    }
 
     return reply.status(201).send()
   } catch (err: any) {

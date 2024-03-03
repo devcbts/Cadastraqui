@@ -97,12 +97,12 @@ export async function entityRoutes(app: FastifyInstance) {
   app.post('/upload/:announcement_id' , { onRequest: [verifyJWT]}, uploadAnnouncementPdf)
   app.get(
     '/announcement/:announcement_id?',
-    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    { onRequest: [verifyJWT] },
     fetchAnnouncements,
   )
   app.patch(
     '/announcement/:announcement_id',
-    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    { onRequest: [verifyJWT] },
     updateAnnouncement,
   )
   app.post(
