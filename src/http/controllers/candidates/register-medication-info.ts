@@ -1,3 +1,4 @@
+import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -25,7 +26,34 @@ export async function registerMedicationInfo(
 
   try {
     const user_id = request.user.sub
-
+    const role = request.user.role
+    if (role === 'RESPONSIBLE') {
+      
+        const responsible = await prisma.legalResponsible.findUnique({
+          where: { user_id}
+        })
+        if (!responsible) {
+          throw new NotAllowedError()
+        }
+        const familyMember = await prisma.familyMember.findUnique({
+          where: { id: _id },
+        })
+        if (!familyMember) {
+          throw new NotAllowedError()
+        }
+    
+        // Armazena informações acerca do veículo no banco de dados
+        await prisma.medication.create({
+          data: {
+            medicationName,
+            obtainedPublicly,
+            familyMember_id: _id,
+            specificMedicationPublicly,
+          },
+        })
+        return reply.status(201).send()
+      
+    }
     // Verifica se existe um candidato associado ao user_id
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
     if (!candidate) {

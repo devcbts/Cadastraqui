@@ -49,7 +49,38 @@ export async function registerHealthInfo(
 
   try {
     const user_id = request.user.sub
-
+    const role = request.user.role
+    if (role === 'RESPONSIBLE') {
+      
+        const responsible = await prisma.legalResponsible.findUnique({
+          where: { user_id}
+        })
+        if (!responsible) {
+          throw new NotAllowedError()
+        }
+        const familyMember = await prisma.familyMember.findUnique({
+          where: { id: _id },
+        })
+        if (!familyMember) {
+          throw new NotAllowedError()
+        }
+    
+        // Armazena informações acerca do veículo no banco de dados
+        await prisma.familyMemberDisease.create({
+          data: {
+            hasMedicalReport,
+            familyMember_id: familyMember.id,
+            diseases,
+            specificDisease : specificDisease? specificDisease : undefined,
+          },
+        })
+        await prisma.identityDetails.update({
+          where: { responsible_id: responsible.id },
+          data: {hasSevereDesease: true}
+        })
+        return reply.status(201).send()
+      
+    }
     // Verifica se existe um candidato associado ao user_id
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
     if (!candidate) {

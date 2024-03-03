@@ -59,8 +59,12 @@ export async function registerOthersInfo(
     const user_id = request.user.sub
 
     // Verifica se existe um candidato associado ao user_id
+    // Verifica se existe um candidato associado ao user_id
+    const responsible = await prisma.legalResponsible.findUnique({
+      where: {user_id}
+    })
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-    if (!candidate) {
+    if (!candidate && !responsible) {
       throw new ResourceNotFoundError()
     }
 
