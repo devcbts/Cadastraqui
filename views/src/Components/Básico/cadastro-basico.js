@@ -4,6 +4,8 @@ import { useState } from "react";
 import { api } from "../../services/axios";
 import "./cadastro-basico.css";
 import Select from 'react-select'
+import { handleSuccess } from "../../ErrorHandling/handleSuceess";
+import { handleAuthError } from "../../ErrorHandling/handleError";
 
 const GENDER = [
   { value: "MALE", label: "Masculino" },
@@ -267,10 +269,9 @@ export default function CadastroBasico() {
       console.log("====================================");
       console.log(response.status);
       console.log("====================================");
-      alert("Dados cadastrados com sucesso!");
+      handleSuccess(response,"Dados cadastrados com sucesso!");
     } catch (error) {
-      console.log(error);
-      alert(error.response.data.message);
+      handleAuthError(error)
     }
   }
  

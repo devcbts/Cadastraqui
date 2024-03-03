@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { api } from '../../services/axios';
 import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o formulário
+import { handleSuccess } from '../../ErrorHandling/handleSuceess';
+import { handleAuthError } from '../../ErrorHandling/handleError';
 
 export default function VerCartao({formDataInfo}) {
     const [formData, setFormData] = useState(formDataInfo);
@@ -60,9 +62,11 @@ export default function VerCartao({formDataInfo}) {
                 headers: { 'Authorization': `Bearer ${token}` },
             });
             console.log(response.data);
+            handleSuccess(response, 'Dados Atualizados com sucesso!')
             setIsEditing(false)
             // Trate a resposta conforme necessário
         } catch (error) {
+            handleAuthError(error)
             console.error(error.response?.data || error.message);
             // Trate o erro conforme necessário
         }

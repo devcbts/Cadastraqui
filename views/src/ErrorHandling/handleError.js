@@ -49,6 +49,14 @@ export const handleAuthError = (error,navigate,message) => {
   }
    else {
     // Trata outros tipos de erros aqui, se necessário
+    Swal.fire({
+        title: 'Erro!',
+        text: 'Aconteceu algum erro, tente novamente ou verifique as informações inseridas.',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      }).then((result) => {
+        
+      });
     console.log(error);
   }
 };

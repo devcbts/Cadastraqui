@@ -4,6 +4,8 @@ import { useState } from "react";
 import { api } from "../../services/axios";
 import "./cadastro-basico.css";
 import Select from 'react-select'
+import { handleSuccess } from "../../ErrorHandling/handleSuceess";
+import { handleAuthError } from "../../ErrorHandling/handleError";
 const GENDER = [
   { value: "MALE", label: "Masculino" },
   { value: "FEMALE", label: "Feminino" },
@@ -166,10 +168,9 @@ export default function VerBasico({ candidate, basic }) {
       console.log("====================================");
       console.log(response.status);
       console.log("====================================");
-      alert("Dados cadastrados com sucesso!");
+      handleSuccess(response,"Dados cadastrados com sucesso!");
     } catch (error) {
-      console.log(error);
-      alert(error.response.data.message);
+      handleAuthError(error)
     }
     console.log("Dados salvos", candidateInfo);
     setIsEditing(false); // Desabilita o modo de edição após salvar

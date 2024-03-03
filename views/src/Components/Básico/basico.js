@@ -4,6 +4,7 @@ import VerBasico from './ver-basico.js';
 import LoadingCadastroCandidato from '../Loading/LoadingCadastroCandidato.js';
 import CadastroBasico from './cadastro-basico.js';
 import { api } from '../../services/axios.js';
+import { handleAuthError } from '../../ErrorHandling/handleError.js';
 
 export default function Basico() {
     const [basicInfo, setBasicInfo] = useState(null);
@@ -39,7 +40,7 @@ export default function Basico() {
             }
             catch (err) {
                 setLen(0)
-                alert(err)
+                handleAuthError(err)
             }
         }
         async function pegarBasicInfo() {
@@ -64,7 +65,7 @@ export default function Basico() {
 
             }
             catch (err) {
-                alert(err)
+                handleAuthError(err)
             }
         }
         

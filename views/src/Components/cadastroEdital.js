@@ -623,6 +623,7 @@ export default function CadastroEdital() {
                                 </label>
                                 <input style={{ width: '30%' }}
                                     type="number"
+                                    min={1}
                                     value={currentCourse.verifiedScholarships}
                                     onChange={(e) => handleEducationalChange('verifiedScholarships', Number(e.target.value))}
                                 />

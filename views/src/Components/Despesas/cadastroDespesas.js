@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../../services/axios';
 import './cadastroDespesas.css';
+import { handleSuccess } from '../../ErrorHandling/handleSuceess';
+import { handleAuthError } from '../../ErrorHandling/handleError';
 
 export default function CadastroDespesas() {
     const getCurrentDate = () => {
@@ -136,9 +138,9 @@ export default function CadastroDespesas() {
                 }
             });
             console.log(response.data);
-            alert("Despesas cadastradas com sucesso");
+            handleSuccess(response,"Despesas cadastradas com sucesso");
         } catch (err) {
-            alert(err.message);
+            handleAuthError(err)
         }
     };
 
@@ -638,7 +640,7 @@ export default function CadastroDespesas() {
                         </div>
                     </div>
                 ))}
-                <button onClick={calculateTotalExpense}>Calcular Despesa total:</button>
+                <button type='button' onClick={calculateTotalExpense}>Calcular Despesa total:</button>
                 {/* Despesa Total */}
                 <div className='survey-box'>
                     <label>Despesa Total:</label>
