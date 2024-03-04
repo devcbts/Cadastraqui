@@ -340,8 +340,8 @@ model FamilyMemberIncome {
   parcelValue           Float?
   familyMember_id       String?
   familyMember          FamilyMember?  @relation(fields: [familyMember_id], references: [id])
-  candidate             Candidate?     @relation(fields: [candidateId], references: [id])
-  candidateId           String?
+  candidate             Candidate?     @relation(fields: [candidate_id], references: [id])
+  candidate_id          String?
 }
 
 model MonthlyIncome {
@@ -366,8 +366,8 @@ model MonthlyIncome {
   judicialPensionValue      Decimal?
   familyMember_id           String?
   familyMember              FamilyMember? @relation(fields: [familyMember_id], references: [id])
-  candidate                 Candidate?     @relation(fields: [candidateId], references: [id])
-  candidateId               String?
+  candidate                 Candidate?    @relation(fields: [candidate_id], references: [id])
+  candidate_id              String?
 }
 
 model Expense {

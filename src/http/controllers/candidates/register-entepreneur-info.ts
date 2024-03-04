@@ -35,15 +35,15 @@ export async function registerEntepreneursInfo(
     }
 
     // Verifica se existe um familiar cadastrado com o owner_id
-    const familyMember = await prisma.familyMember.findUnique({
-      where: { id: _id },
+     // Verifica se o cadastro é para o candidato
+     const isCandidate = await prisma.candidate.findUnique({
+      where: {id: _id}
     })
-    if (!familyMember) {
-      throw new NotAllowedError()
-    }
+    
+    const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
 
     const monthlyIncomes = await prisma.monthlyIncome.findMany({
-      where: { familyMember_id: _id },
+      where: idField,
     })
 
     const totalAmount = monthlyIncomes.reduce((acc, current) => {
@@ -63,7 +63,7 @@ export async function registerEntepreneursInfo(
         averageIncome: avgIncome.toString(),
         socialReason,
         fantasyName,
-        familyMember_id: _id,
+        ...idField
       },
     })
 
