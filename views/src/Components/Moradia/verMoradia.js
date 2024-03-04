@@ -48,37 +48,35 @@ const NumberOfRooms = [
   { value: "Twelve", label: "Doze" },
 ];
 
-export default function VerMoradia({ candidateProp  }) {
-  console.log(candidateProp)
+export default function VerMoradia({ candidateProp }) {
+  console.log(candidateProp);
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const updatedValue = name === "numberOfBedrooms" ? Number(value) : value;
-    setCandidate(prevState => ({
+    setCandidate((prevState) => ({
       ...prevState,
-      [name]: type === 'checkbox' ? checked : updatedValue,
+      [name]: type === "checkbox" ? checked : updatedValue,
     }));
   };
   // Estado inicial dos dados do candidato
-  const [candidate, setCandidate] = useState(candidateProp );
+  const [candidate, setCandidate] = useState(candidateProp);
   // Estado para controlar o modo de edição
   const [isEditing, setIsEditing] = useState(false);
 
-
-
   function toggleEdit() {
-    setIsEditing(!isEditing); 
-    setCandidate(candidateProp)// Alterna o estado de edição
+    setIsEditing(!isEditing);
+    setCandidate(candidateProp); // Alterna o estado de edição
   }
 
   async function saveCandidateData(e) {
     e.preventDefault();
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token");
     try {
       const response = await api.patch("/candidates/housing-info", candidate, {
         headers: {
           "Content-Type": "application/json",
           // Aqui você adicionaria o token de autorização se necessário
-           'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       console.log(response.data);
@@ -87,10 +85,9 @@ export default function VerMoradia({ candidateProp  }) {
       console.error(error.response.data);
       // Tratar o erro conforme necessário
     }
-    console.log('Dados salvos', candidate);
+    console.log("Dados salvos", candidate);
     setIsEditing(false); // Desabilita o modo de edição após salvar
   }
-  
 
   return (
     <div className="fill-box">
@@ -104,6 +101,7 @@ export default function VerMoradia({ candidateProp  }) {
             disabled={!isEditing}
             onChange={handleChange}
             required
+            class="select-data"
           >
             {PropertyStatus.map((status) => (
               <option value={status.value}>{status.label}</option>
@@ -115,22 +113,22 @@ export default function VerMoradia({ candidateProp  }) {
           "ProvidedByFamily",
           "ProvidedOtherWay",
         ].includes(candidate.propertyStatus) && (
-            <div className="survey-box">
-              <label>Nome do cedente:</label>
+          <div className="survey-box">
+            <label>Nome do cedente:</label>
 
-              <br />
+            <br />
 
-              <input
-                className="survey-control"
-                type="text"
-                name="grantorName"
-                value={candidate.grantorName}
-                disabled={!isEditing}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          )}
+            <input
+              className="survey-control"
+              type="text"
+              name="grantorName"
+              value={candidate.grantorName}
+              disabled={!isEditing}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        )}
 
         {candidate.propertyStatus === "Rented" && (
           <div className="survey-box">
@@ -142,6 +140,7 @@ export default function VerMoradia({ candidateProp  }) {
               disabled={!isEditing}
               onChange={handleChange}
               required
+              class="select-data"
             >
               {ContractType.map((type) => (
                 <option value={type.value}>{type.label}</option>
@@ -158,6 +157,7 @@ export default function VerMoradia({ candidateProp  }) {
             disabled={!isEditing}
             onChange={handleChange}
             required
+            class="select-data"
           >
             {TimeLivingInProperty.map((time) => (
               <option value={time.value}>{time.label}</option>
@@ -173,6 +173,7 @@ export default function VerMoradia({ candidateProp  }) {
             disabled={!isEditing}
             onChange={handleChange}
             required
+            class="select-data"
           >
             {DomicileType.map((type) => (
               <option value={type.value}>{type.label}</option>
@@ -185,10 +186,10 @@ export default function VerMoradia({ candidateProp  }) {
           <select
             name="numberOfRooms"
             value={candidate.numberOfRooms}
-            
             disabled={!isEditing}
             onChange={handleChange}
             required
+            class="select-data"
           >
             {NumberOfRooms.map((number) => (
               <option value={number.value}>{number.label}</option>
@@ -213,11 +214,25 @@ export default function VerMoradia({ candidateProp  }) {
 
         <div className="survey-box">
           {!isEditing ? (
-            <button type="button" className="over-button" onClick={toggleEdit}>Editar</button>
+            <button type="button" className="over-button" onClick={toggleEdit}>
+              Editar
+            </button>
           ) : (
             <>
-              <button type="button" className="over-button" onClick={saveCandidateData}>Salvar Dados</button>
-              <button type="button" className="over-button" onClick={toggleEdit}>Cancelar</button>
+              <button
+                type="button"
+                className="over-button"
+                onClick={saveCandidateData}
+              >
+                Salvar Dados
+              </button>
+              <button
+                type="button"
+                className="over-button"
+                onClick={toggleEdit}
+              >
+                Cancelar
+              </button>
             </>
           )}
         </div>

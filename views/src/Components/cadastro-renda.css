@@ -1,0 +1,39 @@
+.mes-ano-box{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#survey-input{
+    width: 15vw !important;
+}
+
+#survey-input input{
+    width: 15vw;
+}
+
+#box-renda-fixa{
+    width: fit-content;
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid #1b4e7354;
+}
+
+#box-renda-fixa label{
+    min-width: fit-content !important;
+    margin: 0;
+}
+
+#box-renda-fixa input{
+    margin: 0 !important;
+}
+
+#fixIncome{
+   width: 1.5rem;
+   height: 1.5rem;
+   border-color: #1b4e7354 !important;
+   outline-color: #1b4e7354;
+}
+
+

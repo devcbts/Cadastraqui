@@ -7,35 +7,36 @@ import "./candidatura.css";
 import { api } from "../services/axios";
 import { useAuth } from "../context/auth";
 import { Link } from "react-router-dom";
-import './inscricao.css'
+import "./inscricao.css";
 import uspLogo from "../Assets/usp-logo.png";
-import { UilElipsisDoubleVAlt } from '@iconscout/react-unicons'
-import { UilSearch } from '@iconscout/react-unicons'
+import { UilElipsisDoubleVAlt } from "@iconscout/react-unicons";
+import { UilSearch } from "@iconscout/react-unicons";
 
 const statusTranslations = {
-  'Pending': 'Pendente',
-  'Rejected': 'Reprovado',
-  'Approved': 'Aprovado'
+  Pending: "Pendente",
+  Rejected: "Reprovado",
+  Approved: "Aprovado",
 };
 
-export default function Inscricao({application}) {
+export default function Inscricao({ application }) {
   const { user } = useAuth();
-  const [enrolled, setEnrolled] = useState(false)
+  const [enrolled, setEnrolled] = useState(false);
   function translateStatus(status) {
-    return statusTranslations[status] || 'Status Desconhecido';
+    return statusTranslations[status] || "Status Desconhecido";
   }
-
 
   return (
     <div className="item">
-      <h2>{application?.SocialAssistantName}</h2>
+      <h2 className="nome-pessoa">{application?.SocialAssistantName}</h2>
       <UilElipsisDoubleVAlt
         size="30"
         color="#7b7b7b"
         className="icon"
       ></UilElipsisDoubleVAlt>
       <img src={uspLogo} alt="Icon" />
-      <h2>{application?.announcement?.announcementName}</h2>
+      <h2 className="nome-edital">
+        {application?.announcement?.announcementName}
+      </h2>
       <UilElipsisDoubleVAlt
         size="30"
         color="#7b7b7b"
@@ -49,11 +50,7 @@ export default function Inscricao({application}) {
       ></UilElipsisDoubleVAlt>
 
       <Link to={`/candidato/solicitacoes/${application?.id}`}>
-        <UilSearch
-          size="45"
-          color="#7b7b7b"
-          className="icon"
-        ></UilSearch>
+        <UilSearch size="45" color="#7b7b7b" className="icon"></UilSearch>
       </Link>
     </div>
   );
