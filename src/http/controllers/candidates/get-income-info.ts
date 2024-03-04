@@ -13,6 +13,17 @@ export async function getIncomeInfo(
 
   const { _id } = queryParamsSchema.parse(request.params)
   try {
+
+    const candidate = await prisma.candidate.findUnique({
+      where: {id: _id}
+    })
+    if (candidate) {
+      const familyMemberIncomeInfo = await prisma.familyMemberIncome.findMany({
+        where: { candidate_id: candidate.id },
+      })
+  
+      return reply.status(200).send({ familyMemberIncomeInfo })
+    }
     const familyMember = await prisma.familyMember.findUnique({
       where: { id: _id },
     })
