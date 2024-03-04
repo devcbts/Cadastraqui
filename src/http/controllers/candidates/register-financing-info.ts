@@ -53,6 +53,24 @@ export async function registerFinancingInfo(
         if (!responsible) {
           throw new NotAllowedError()
         }
+
+        if (_id === responsible.id) {
+          await prisma.financing.create({
+            data: {
+              bankName,
+              familyMemberName,
+              financingType,
+              installmentValue,
+              paidInstallments,
+              totalInstallments,
+              otherFinancing,
+              legalResponsibleId: responsible.id
+            },
+          })
+      
+          return reply.status(201).send()
+        }
+
         const familyMember = await prisma.familyMember.findUnique({
           where: { id: _id },
         })
@@ -82,6 +100,24 @@ export async function registerFinancingInfo(
       throw new ResourceNotFoundError()
     }
 
+
+
+    if (_id === candidate.id) {
+      await prisma.financing.create({
+        data: {
+          bankName,
+          familyMemberName,
+          financingType,
+          installmentValue,
+          paidInstallments,
+          totalInstallments,
+          otherFinancing,
+          candidate_id: candidate.id
+        },
+      })
+  
+      return reply.status(201).send()
+    }
     // Verifica se existe um familiar cadastrado com o owner_id
     const familyMember = await prisma.familyMember.findUnique({
       where: { id: _id },

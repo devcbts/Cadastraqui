@@ -34,13 +34,12 @@ export async function registerUnemployedInfo(
       throw new ResourceNotFoundError()
     }
 
-    // Verifica se existe um familiar cadastrado com o owner_id
-    const familyMember = await prisma.familyMember.findUnique({
-      where: { id: _id },
+    const isCandidate = await prisma.candidate.findUnique({
+      where: {id: _id}
     })
-    if (!familyMember) {
-      throw new NotAllowedError()
-    }
+    // Verifica se existe um familiar cadastrado com o owner_id
+    
+    const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
 
     // Armazena informações acerca do Desempregado no banco de dados
     await prisma.familyMemberIncome.create({
@@ -51,7 +50,7 @@ export async function registerUnemployedInfo(
         parcels,
         receivesUnemployment,
         averageIncome: '0',
-        familyMember_id: _id,
+       ...idField
       },
     })
 

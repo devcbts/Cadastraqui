@@ -227,13 +227,12 @@ export async function registerMonthlyIncomeInfo(
       throw new ResourceNotFoundError()
     }
 
-    // Verifica se existe um familiar cadastrado com o owner_id
-    const familyMember = await prisma.familyMember.findUnique({
-      where: { id: _id },
+    const isCandidate = await prisma.candidate.findUnique({
+      where: {id: _id}
     })
-    if (!familyMember) {
-      throw new NotAllowedError()
-    }
+    // Verifica se existe um familiar cadastrado com o owner_id
+    
+    const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
 
     if (quantity === 3) {
       if (grossAmount1) {
@@ -257,7 +256,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue1,
             deductionValue: deductionValue1,
             expenseReimbursementValue: expenseReimbursementValue1,
-            familyMember_id: _id,
             incomeTax: incomeTax1,
             judicialPensionValue: judicialPensionValue1,
             otherDeductions: otherDeductions1,
@@ -265,6 +263,7 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue1,
             foodAllowanceValue: foodAllowanceValue1,
             transportAllowanceValue: transportAllowanceValue1,
+            ...idField
           },
         })
       } else {
@@ -279,7 +278,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue1,
             deductionValue: deductionValue1,
             expenseReimbursementValue: expenseReimbursementValue1,
-            familyMember_id: _id,
             incomeTax: incomeTax1,
             judicialPensionValue: judicialPensionValue1,
             otherDeductions: otherDeductions1,
@@ -290,6 +288,7 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends1,
             proLabore: proLabore1,
             total,
+            ...idField
           },
         })
       }
@@ -314,7 +313,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue2,
             deductionValue: deductionValue2,
             expenseReimbursementValue: expenseReimbursementValue2,
-            familyMember_id: _id,
             incomeTax: incomeTax2,
             judicialPensionValue: judicialPensionValue2,
             otherDeductions: otherDeductions2,
@@ -322,6 +320,7 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue2,
             foodAllowanceValue: foodAllowanceValue2,
             transportAllowanceValue: transportAllowanceValue2,
+            ...idField
           },
         })
       } else {
@@ -336,7 +335,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue2,
             deductionValue: deductionValue2,
             expenseReimbursementValue: expenseReimbursementValue2,
-            familyMember_id: _id,
             incomeTax: incomeTax2,
             judicialPensionValue: judicialPensionValue2,
             otherDeductions: otherDeductions2,
@@ -347,6 +345,7 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends2,
             proLabore: proLabore2,
             total,
+            ...idField
           },
         })
       }
@@ -371,7 +370,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue3,
             deductionValue: deductionValue3,
             expenseReimbursementValue: expenseReimbursementValue3,
-            familyMember_id: _id,
             incomeTax: incomeTax3,
             judicialPensionValue: judicialPensionValue3,
             otherDeductions: otherDeductions3,
@@ -379,6 +377,7 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue3,
             foodAllowanceValue: foodAllowanceValue3,
             transportAllowanceValue: transportAllowanceValue3,
+            ...idField
           },
         })
       } else {
@@ -393,7 +392,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue3,
             deductionValue: deductionValue3,
             expenseReimbursementValue: expenseReimbursementValue3,
-            familyMember_id: _id,
             incomeTax: incomeTax3,
             judicialPensionValue: judicialPensionValue3,
             otherDeductions: otherDeductions3,
@@ -404,6 +402,7 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends3,
             proLabore: proLabore3,
             total,
+            ...idField
           },
         })
       }
@@ -429,7 +428,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue1,
             deductionValue: deductionValue1,
             expenseReimbursementValue: expenseReimbursementValue1,
-            familyMember_id: _id,
             incomeTax: incomeTax1,
             judicialPensionValue: judicialPensionValue1,
             otherDeductions: otherDeductions1,
@@ -437,6 +435,7 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue1,
             foodAllowanceValue: foodAllowanceValue1,
             transportAllowanceValue: transportAllowanceValue1,
+            ...idField
           },
         })
       } else {
@@ -451,7 +450,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue1,
             deductionValue: deductionValue1,
             expenseReimbursementValue: expenseReimbursementValue1,
-            familyMember_id: _id,
             incomeTax: incomeTax1,
             judicialPensionValue: judicialPensionValue1,
             otherDeductions: otherDeductions1,
@@ -462,6 +460,7 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends1,
             proLabore: proLabore1,
             total,
+            ...idField
           },
         })
       }
@@ -486,7 +485,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue2,
             deductionValue: deductionValue2,
             expenseReimbursementValue: expenseReimbursementValue2,
-            familyMember_id: _id,
             incomeTax: incomeTax2,
             judicialPensionValue: judicialPensionValue2,
             otherDeductions: otherDeductions2,
@@ -494,6 +492,7 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue2,
             foodAllowanceValue: foodAllowanceValue2,
             transportAllowanceValue: transportAllowanceValue2,
+            ...idField
           },
         })
       } else {
@@ -508,7 +507,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue2,
             deductionValue: deductionValue2,
             expenseReimbursementValue: expenseReimbursementValue2,
-            familyMember_id: _id,
             incomeTax: incomeTax2,
             judicialPensionValue: judicialPensionValue2,
             otherDeductions: otherDeductions2,
@@ -519,6 +517,7 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends2,
             proLabore: proLabore2,
             total,
+            ...idField
           },
         })
       }
@@ -543,7 +542,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue3,
             deductionValue: deductionValue3,
             expenseReimbursementValue: expenseReimbursementValue3,
-            familyMember_id: _id,
             incomeTax: incomeTax3,
             judicialPensionValue: judicialPensionValue3,
             otherDeductions: otherDeductions3,
@@ -551,6 +549,7 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue3,
             foodAllowanceValue: foodAllowanceValue3,
             transportAllowanceValue: transportAllowanceValue3,
+            ...idField
           },
         })
       } else {
@@ -565,7 +564,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue3,
             deductionValue: deductionValue3,
             expenseReimbursementValue: expenseReimbursementValue3,
-            familyMember_id: _id,
             incomeTax: incomeTax3,
             judicialPensionValue: judicialPensionValue3,
             otherDeductions: otherDeductions3,
@@ -576,6 +574,7 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends3,
             proLabore: proLabore3,
             total,
+            ...idField
           },
         })
       }
@@ -600,7 +599,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue4,
             deductionValue: deductionValue4,
             expenseReimbursementValue: expenseReimbursementValue4,
-            familyMember_id: _id,
             incomeTax: incomeTax4,
             judicialPensionValue: judicialPensionValue4,
             otherDeductions: otherDeductions4,
@@ -608,6 +606,7 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue4,
             foodAllowanceValue: foodAllowanceValue4,
             transportAllowanceValue: transportAllowanceValue4,
+            ...idField
           },
         })
       } else {
@@ -622,7 +621,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue4,
             deductionValue: deductionValue4,
             expenseReimbursementValue: expenseReimbursementValue4,
-            familyMember_id: _id,
             incomeTax: incomeTax4,
             judicialPensionValue: judicialPensionValue4,
             otherDeductions: otherDeductions4,
@@ -633,6 +631,7 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends4,
             proLabore: proLabore4,
             total,
+            ...idField
           },
         })
       }
@@ -657,7 +656,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue5,
             deductionValue: deductionValue5,
             expenseReimbursementValue: expenseReimbursementValue5,
-            familyMember_id: _id,
             incomeTax: incomeTax5,
             judicialPensionValue: judicialPensionValue5,
             otherDeductions: otherDeductions5,
@@ -665,6 +663,7 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue5,
             foodAllowanceValue: foodAllowanceValue5,
             transportAllowanceValue: transportAllowanceValue5,
+            ...idField
           },
         })
       } else {
@@ -679,7 +678,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue5,
             deductionValue: deductionValue5,
             expenseReimbursementValue: expenseReimbursementValue5,
-            familyMember_id: _id,
             incomeTax: incomeTax5,
             judicialPensionValue: judicialPensionValue5,
             otherDeductions: otherDeductions5,
@@ -690,6 +688,7 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends5,
             proLabore: proLabore5,
             total,
+            ...idField
           },
         })
       }
@@ -714,7 +713,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue6,
             deductionValue: deductionValue6,
             expenseReimbursementValue: expenseReimbursementValue6,
-            familyMember_id: _id,
             incomeTax: incomeTax6,
             judicialPensionValue: judicialPensionValue6,
             otherDeductions: otherDeductions6,
@@ -722,6 +720,7 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue6,
             foodAllowanceValue: foodAllowanceValue6,
             transportAllowanceValue: transportAllowanceValue6,
+            ...idField
           },
         })
       } else {
@@ -736,7 +735,6 @@ export async function registerMonthlyIncomeInfo(
             compensationValue: compensationValue6,
             deductionValue: deductionValue6,
             expenseReimbursementValue: expenseReimbursementValue6,
-            familyMember_id: _id,
             incomeTax: incomeTax6,
             judicialPensionValue: judicialPensionValue6,
             otherDeductions: otherDeductions6,
@@ -747,6 +745,7 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends6,
             proLabore: proLabore6,
             total,
+            ...idField
           },
         })
       }

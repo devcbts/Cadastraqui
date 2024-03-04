@@ -61,15 +61,16 @@ export async function registerAutonomousInfo(
       throw new ResourceNotFoundError()
     }
 
-    const familyMember = await prisma.familyMember.findUnique({
-      where: { id: _id },
-    })
-    if (!familyMember) {
-      throw new NotAllowedError()
-    }
+      // Verifica se o cadastro é para o candidato
+      const isCandidate = await prisma.candidate.findUnique({
+        where: {id: _id}
+      })
+      
+      const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
+  
 
     const monthlyIncomes = await prisma.monthlyIncome.findMany({
-      where: { familyMember_id: _id },
+      where: idField,
     })
 
     const totalAmount = monthlyIncomes.reduce((acc, current) => {
@@ -86,8 +87,8 @@ export async function registerAutonomousInfo(
       data: {
         employmentType,
         averageIncome: avgIncome.toString(),
-        familyMember_id: _id,
         financialAssistantCPF,
+        ...idField
       },
     })
 

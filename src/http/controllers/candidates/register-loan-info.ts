@@ -76,6 +76,20 @@ export async function registerLoanInfo(
       throw new ResourceNotFoundError()
     }
 
+    if (_id === candidate.id) {
+      await prisma.loan.create({
+        data: {
+          bankName,
+          familyMemberName,
+          installmentValue,
+          paidInstallments,
+          totalInstallments,
+          candidate_id: candidate.id
+        },
+      })
+  
+      return reply.status(201).send()
+    }
     // Verifica se existe um familiar cadastrado com o owner_id
     const familyMember = await prisma.familyMember.findUnique({
       where: { id: _id },

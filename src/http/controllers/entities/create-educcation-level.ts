@@ -25,8 +25,12 @@ export async function createEducationalLevel(
         ]).optional(),
         scholarshipType: z.union([
             z.literal('Law187Scholarship'),
+            z.literal('Law187ScholarshipPartial'),
+            z.literal('StudentWithDisabilityPartial'),
             z.literal('StudentWithDisability'),
             z.literal('FullTime'),
+            z.literal('FullTimePartial'),
+            z.literal('EntityWorkersPartial'),
             z.literal('EntityWorkers'),
             z.literal('')
         ]).optional(),

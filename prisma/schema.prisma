@@ -8,35 +8,37 @@ datasource db {
 }
 
 model Candidate {
-  id              String            @id @default(uuid())
-  name            String
-  CPF             String            @unique
-  birthDate       DateTime
-  phone           String
-  address         String
-  city            String
-  UF              COUNTRY
-  CEP             String
-  neighborhood    String
-  addressNumber   Int
-  role            ROLE              @default(CANDIDATE)
-  createdAt       DateTime          @default(now())
-  user_id         String?           @unique
-  responsible_id  String?
-  profilePicture  String?
-  email           String?
-  Application     Application[]
-  CreditCard      CreditCard[]
-  Expense         Expense[]
-  Financing       Financing[]
-  IdentityDetails IdentityDetails?
-  Loan            Loan[]
-  OtherExpense    OtherExpense[]
-  Vehicle         Vehicle[]
-  responsible     LegalResponsible? @relation(fields: [responsible_id], references: [id])
-  user            User?             @relation(fields: [user_id], references: [id])
-  FamillyMember   FamilyMember[]
-  Housing         Housing?
+  id                 String               @id @default(uuid())
+  name               String
+  CPF                String               @unique
+  birthDate          DateTime
+  phone              String
+  address            String
+  city               String
+  UF                 COUNTRY
+  CEP                String
+  neighborhood       String
+  addressNumber      Int
+  role               ROLE                 @default(CANDIDATE)
+  createdAt          DateTime             @default(now())
+  user_id            String?              @unique
+  responsible_id     String?
+  profilePicture     String?
+  email              String?
+  Application        Application[]
+  CreditCard         CreditCard[]
+  Expense            Expense[]
+  Financing          Financing[]
+  IdentityDetails    IdentityDetails?
+  FamilyMemberIncome FamilyMemberIncome[]
+  Loan               Loan[]
+  OtherExpense       OtherExpense[]
+  Vehicle            Vehicle[]
+  responsible        LegalResponsible?    @relation(fields: [responsible_id], references: [id])
+  user               User?                @relation(fields: [user_id], references: [id])
+  FamillyMember      FamilyMember[]
+  Housing            Housing?
+  MonthlyIncome      MonthlyIncome[]
 
   @@map("candidates")
 }
@@ -336,8 +338,10 @@ model FamilyMemberIncome {
   parcels               Int?
   firstParcelDate       DateTime?
   parcelValue           Float?
-  familyMember_id       String
-  familyMember          FamilyMember   @relation(fields: [familyMember_id], references: [id])
+  familyMember_id       String?
+  familyMember          FamilyMember?  @relation(fields: [familyMember_id], references: [id])
+  candidate             Candidate?     @relation(fields: [candidateId], references: [id])
+  candidateId           String?
 }
 
 model MonthlyIncome {
@@ -362,6 +366,8 @@ model MonthlyIncome {
   judicialPensionValue      Decimal?
   familyMember_id           String?
   familyMember              FamilyMember? @relation(fields: [familyMember_id], references: [id])
+  candidate                 Candidate?     @relation(fields: [candidateId], references: [id])
+  candidateId               String?
 }
 
 model Expense {
@@ -418,7 +424,7 @@ model Loan {
   totalInstallments  Int
   paidInstallments   Int
   bankName           String
-  familyMember_id    String
+  familyMember_id    String?
   candidate_id       String?
   candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
   familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
@@ -433,7 +439,7 @@ model Financing {
   totalInstallments  Int
   paidInstallments   Int
   bankName           String
-  familyMember_id    String
+  familyMember_id    String?
   candidate_id       String?
   otherFinancing     String?
   financingType      FinancingType
@@ -453,7 +459,7 @@ model CreditCard {
   invoiceValue       Float
   familyMember_id    String?
   candidate_id       String?
-  candidate          Candidate?         @relation(fields: [candidate_id], references: [id])
+  candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
   familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?
@@ -889,9 +895,13 @@ enum BasicEducationType {
 }
 
 enum ScholarshipOfferType {
+  Law187ScholarshipPartial
   Law187Scholarship
+  StudentWithDisabilityPartial
   StudentWithDisability
+  FullTimePartial
   FullTime
+  EntityWorkersPartial
   EntityWorkers
 }
 
