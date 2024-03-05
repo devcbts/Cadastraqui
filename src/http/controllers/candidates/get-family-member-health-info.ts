@@ -21,11 +21,16 @@ export async function getFamilyMemberHealthInfo(
       throw new ResourceNotFoundError()
     }
 
+    const isCandidate = await prisma.candidate.findUnique({
+      where: { id: _id },
+    })
+
+    const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
     const familyMemberIncomeInfo = await prisma.familyMemberDisease.findMany({
-      where: { familyMember_id: familyMember.id },
+      where: idField,
     })
     const familyMemberMedicationInfo = await prisma.medication.findFirst({
-      where: { familyMember_id: familyMember.id },
+      where:idField,
     })
 
     const healthInfo = {
