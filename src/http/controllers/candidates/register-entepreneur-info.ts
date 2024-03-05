@@ -8,10 +8,35 @@ export async function registerEntepreneursInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+  const EmploymentType = z.enum([
+    'PrivateEmployee',
+    'PublicEmployee',
+    'DomesticEmployee',
+    'TemporaryRuralEmployee',
+    'BusinessOwnerSimplifiedTax',
+    'BusinessOwner',
+    'IndividualEntrepreneur',
+    'SelfEmployed',
+    'Retired',
+    'Pensioner',
+    'Apprentice',
+    'Volunteer',
+    'RentalIncome',
+    'Student',
+    'InformalWorker',
+    'Unemployed',
+    'TemporaryDisabilityBenefit',
+    'LiberalProfessional',
+    'FinancialHelpFromOthers',
+    'Alimony',
+    'PrivatePension',
+  ])
   const EntepreneurDataSchema = z.object({
+    startDate: z.string(),
     fantasyName: z.string(),
     CNPJ: z.string(),
     socialReason: z.string(),
+    employmentType: EmploymentType,
   })
 
   const EntepreneurParamsSchema = z.object({
@@ -21,7 +46,7 @@ export async function registerEntepreneursInfo(
   // _id === family_member_id
   const { _id } = EntepreneurParamsSchema.parse(request.params)
 
-  const { CNPJ, fantasyName, socialReason } = EntepreneurDataSchema.parse(
+  const { CNPJ, fantasyName, socialReason, employmentType, startDate } = EntepreneurDataSchema.parse(
     request.body,
   )
 
@@ -59,11 +84,12 @@ export async function registerEntepreneursInfo(
     // Armazena informações acerca do Empresário no banco de dados
     await prisma.familyMemberIncome.create({
       data: {
-        employmentType: 'BusinessOwner',
+        employmentType: employmentType,
         CNPJ,
         averageIncome: avgIncome.toString(),
         socialReason,
         fantasyName,
+        startDate: new Date(startDate),
         ...idField
       },
     })

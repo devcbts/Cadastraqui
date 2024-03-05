@@ -47,6 +47,7 @@ import { updateExpensesInfo } from './update-expenses-info'
 import { updateFinancingInfo } from './update-financing-info'
 import { updateCreditCardInfo } from './update-credit-card-info'
 import { updateLoanInfo } from './update-loan-info'
+import { registerEntepreneursInfo } from './register-entepreneur-info'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -84,6 +85,17 @@ export async function candidateRoutes(app: FastifyInstance) {
     registerFamilyMemberInfo,
   )
   app.post(
+    '/family-member/income/:_id',
+    { onRequest: [verifyJWT] },
+    registerMonthlyIncomeInfo,
+  )
+  app.patch(
+    '/family-info/:_id',
+    { onRequest: [verifyJWT] },
+    updateFamilyMemberInfo,
+  )
+  // Income Info
+  app.post(
     '/family-member/MEI/:_id',
     { onRequest: [verifyJWT] },
     registerMEIInfo,
@@ -105,17 +117,8 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     registerCLTInfo,
   )
-  app.patch(
-    '/family-info/:_id',
-    { onRequest: [verifyJWT] },
-    updateFamilyMemberInfo,
-  )
-  app.post(
-    '/family-member/income/:_id',
-    { onRequest: [verifyJWT] },
-    registerMonthlyIncomeInfo,
-  )
 
+  app.post('/family-member/entepreneur/:_id', { onRequest: [verifyJWT] }, registerEntepreneursInfo)
   /** Health Info */
   // app.get('/health-info', { onRequest: [verifyJWT] }, getHealthInfo)
   app.get(
