@@ -8,37 +8,39 @@ datasource db {
 }
 
 model Candidate {
-  id                 String               @id @default(uuid())
-  name               String
-  CPF                String               @unique
-  birthDate          DateTime
-  phone              String
-  address            String
-  city               String
-  UF                 COUNTRY
-  CEP                String
-  neighborhood       String
-  addressNumber      Int
-  role               ROLE                 @default(CANDIDATE)
-  createdAt          DateTime             @default(now())
-  user_id            String?              @unique
-  responsible_id     String?
-  profilePicture     String?
-  email              String?
-  Application        Application[]
-  CreditCard         CreditCard[]
-  Expense            Expense[]
-  Financing          Financing[]
-  IdentityDetails    IdentityDetails?
-  FamilyMemberIncome FamilyMemberIncome[]
-  Loan               Loan[]
-  OtherExpense       OtherExpense[]
-  Vehicle            Vehicle[]
-  responsible        LegalResponsible?    @relation(fields: [responsible_id], references: [id])
-  user               User?                @relation(fields: [user_id], references: [id])
-  FamillyMember      FamilyMember[]
-  Housing            Housing?
-  MonthlyIncome      MonthlyIncome[]
+  id                  String                @id @default(uuid())
+  name                String
+  CPF                 String                @unique
+  birthDate           DateTime
+  phone               String
+  address             String
+  city                String
+  UF                  COUNTRY
+  CEP                 String
+  neighborhood        String
+  addressNumber       Int
+  role                ROLE                  @default(CANDIDATE)
+  createdAt           DateTime              @default(now())
+  user_id             String?               @unique
+  responsible_id      String?
+  profilePicture      String?
+  email               String?
+  Application         Application[]
+  CreditCard          CreditCard[]
+  Expense             Expense[]
+  Financing           Financing[]
+  IdentityDetails     IdentityDetails?
+  FamilyMemberIncome  FamilyMemberIncome[]
+  Loan                Loan[]
+  OtherExpense        OtherExpense[]
+  Vehicle             Vehicle[]
+  responsible         LegalResponsible?     @relation(fields: [responsible_id], references: [id])
+  user                User?                 @relation(fields: [user_id], references: [id])
+  FamillyMember       FamilyMember[]
+  Housing             Housing?
+  MonthlyIncome       MonthlyIncome[]
+  FamilyMemberDisease FamilyMemberDisease[]
+  Medication          Medication[]
 
   @@map("candidates")
 }
@@ -61,9 +63,9 @@ model User {
 }
 
 model LegalResponsible {
-  id                              String            @id @default(uuid())
+  id                              String                @id @default(uuid())
   name                            String
-  CPF                             String            @unique
+  CPF                             String                @unique
   birthDate                       DateTime
   phone                           String
   address                         String
@@ -78,9 +80,9 @@ model LegalResponsible {
   responsibleGradeOrSemester      String?
   responsibleShift                SHIFT?
   ResponsibleEducationInstitution String?
-  role                            ROLE              @default(RESPONSIBLE)
-  createdAt                       DateTime          @default(now())
-  user_id                         String            @unique
+  role                            ROLE                  @default(RESPONSIBLE)
+  createdAt                       DateTime              @default(now())
+  user_id                         String                @unique
   hasScholarship                  Boolean?
   monthlyAmount                   String?
   percentageOfScholarship         String?
@@ -94,7 +96,9 @@ model LegalResponsible {
   Loan                            Loan[]
   OtherExpense                    OtherExpense[]
   Vehicle                         Vehicle[]
-  user                            User              @relation(fields: [user_id], references: [id])
+  user                            User                  @relation(fields: [user_id], references: [id])
+  FamilyMemberDisease             FamilyMemberDisease[]
+  Medication                      Medication[]
 
   @@map("responsibles")
 }
@@ -339,8 +343,8 @@ model FamilyMemberIncome {
   firstParcelDate       DateTime?
   parcelValue           Float?
   familyMember_id       String?
-  familyMember          FamilyMember?  @relation(fields: [familyMember_id], references: [id])
-  candidate             Candidate?     @relation(fields: [candidate_id], references: [id])
+  familyMember          FamilyMember?  @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  candidate             Candidate?     @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id          String?
 }
 
@@ -365,8 +369,8 @@ model MonthlyIncome {
   compensationValue         Decimal?
   judicialPensionValue      Decimal?
   familyMember_id           String?
-  familyMember              FamilyMember? @relation(fields: [familyMember_id], references: [id])
-  candidate                 Candidate?    @relation(fields: [candidate_id], references: [id])
+  familyMember              FamilyMember? @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  candidate                 Candidate?    @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id              String?
 }
 
@@ -478,24 +482,32 @@ model OtherExpense {
 }
 
 model FamilyMemberDisease {
-  id               String       @id @default(uuid())
-  disease          Disease?
-  diseases         Disease[]
-  specificDisease  String?
-  hasMedicalReport Boolean
-  familyMember_id  String
-  familyMember     FamilyMember @relation(fields: [familyMember_id], references: [id])
+  id                 String           @id @default(uuid())
+  disease            Disease?
+  diseases           Disease[]
+  specificDisease    String?
+  hasMedicalReport   Boolean
+  familyMember_id    String?
+  familyMember       FamilyMember?    @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  candidate          Candidate?       @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  candidate_id       String?
+  legalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId String?
 
   @@map("familyMemberDiseases")
 }
 
 model Medication {
-  id                         String       @id @default(uuid())
+  id                         String           @id @default(uuid())
   medicationName             String
   obtainedPublicly           Boolean
   specificMedicationPublicly String?
-  familyMember_id            String
-  familyMember               FamilyMember @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  familyMember_id            String?
+  familyMember               FamilyMember?    @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  candidate                  Candidate?       @relation(fields: [candidate_id], references: [id])
+  candidate_id               String?
+  legalResponsible           LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId         String?
 
   @@map("medications")
 }

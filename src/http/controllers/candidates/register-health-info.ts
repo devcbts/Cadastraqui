@@ -87,6 +87,22 @@ export async function registerHealthInfo(
       throw new ResourceNotFoundError()
     }
 
+    if (_id === candidate.id) {
+      await prisma.familyMemberDisease.create({
+        data: {
+          hasMedicalReport,
+          diseases,
+          specificDisease : specificDisease? specificDisease : undefined,
+          candidate_id: _id
+        },
+      })
+      await prisma.identityDetails.update({
+        where: { candidate_id: candidate.id },
+        data: {hasSevereDesease: true}
+      })
+      return reply.status(201).send()
+    }
+
     // Verifica se existe um familiar cadastrado com o family_member_id
     const familyMember = await prisma.familyMember.findUnique({
       where: { id: _id },

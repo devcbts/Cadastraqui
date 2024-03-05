@@ -60,6 +60,19 @@ export async function registerMedicationInfo(
       throw new ResourceNotFoundError()
     }
 
+    if (_id === candidate.id) {
+      await prisma.medication.create({
+        data: {
+          medicationName,
+          obtainedPublicly,
+          candidate_id: _id,
+          specificMedicationPublicly,
+        },
+      })
+  
+      return reply.status(201).send()
+    }
+
     // Verifica se existe um familiar cadastrado com o familyMember_id
 
     const familyMember = await prisma.familyMember.findFirst({

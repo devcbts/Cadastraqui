@@ -77,8 +77,27 @@ export async function getHealthInfo(
       }
       return healthInfoResults
     }
+    const candidateDisease = await prisma.familyMemberDisease.findMany({
+      where: candidate ? { candidate_id: candidate.id} : { legalResponsibleId: responsible?.id}
+    })
+    const candidateMedication = await prisma.medication.findFirst({
+      where: candidate ? { candidate_id: candidate.id} : { legalResponsibleId: responsible?.id}
+    })
+    const healthInfo = {
+      ...candidateDisease,
+      ...candidateMedication,
+    }
 
-    const healthInfoResults = await fetchData(familyMembers)
+    
+    
+    let healthInfoResults = await fetchData(familyMembers)
+    if (candidate) {
+      
+      healthInfoResults.push({ name: candidate.name, healthInfo })
+    }else if (responsible) {
+      
+      healthInfoResults.push({ name: responsible.name, healthInfo })
+    }
 
     return reply.status(200).send({ healthInfoResults })
   } catch (err: any) {
