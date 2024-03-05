@@ -921,12 +921,17 @@ enum HigherEducationScholarshipType {
   PROUNIFull
   PROUNIPartial
   StateGovernment
+  StateGovernmentPartial
   CityGovernment
+  CityGovernmentPartial
   ExternalEntities
+  ExternalEntitiesPartial
   HigherEduInstitutionFull
   HigherEduInstitutionPartial
   HigherEduInstitutionWorkers
+  HigherEduInstitutionWorkersPartial
   PostgraduateStrictoSensu
+  PostgraduateStrictoSensuPartial
 }
 
 enum OfferedCourseType {

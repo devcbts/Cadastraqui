@@ -17,9 +17,6 @@ export async function getFamilyMemberHealthInfo(
       where: { id: _id },
     })
 
-    if (!familyMember) {
-      throw new ResourceNotFoundError()
-    }
 
     const isCandidate = await prisma.candidate.findUnique({
       where: { id: _id },
