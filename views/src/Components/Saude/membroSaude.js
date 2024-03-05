@@ -16,7 +16,7 @@ const Relationship = [
   { value: "Other", label: "Outro" },
 ];
 
-export default function MembrosFamiliaSaude() {
+export default function MembrosFamiliaSaude({candidate}) {
   const [familyMembers, setFamilyMembers] = useState([]);
   const [memberSelected, setMemberSelected] = useState(null);
 
@@ -33,7 +33,12 @@ export default function MembrosFamiliaSaude() {
         console.log(response.data);
         console.log("====================================");
         const membrosdaFamilia = response.data.familyMembers;
-        setFamilyMembers(membrosdaFamilia);
+        const candidateWithIncomeInfo = {
+          ...candidate,
+        };
+        console.log(candidate)
+        // Inclui o candidato atualizado no início do array de membros da família
+        setFamilyMembers([candidateWithIncomeInfo, ...membrosdaFamilia]);
       } catch (err) {
         alert(err);
       }
@@ -75,7 +80,7 @@ export default function MembrosFamiliaSaude() {
           return (
             <div id={familyMember.id} className="container-teste">
               <div className="member-info">
-                <h4 className="family-name">{familyMember.fullName}</h4>
+                <h4 className="family-name">{familyMember.fullName || familyMember.name}</h4>
                 <h4>{translateRelationship(familyMember.relationship)}</h4>
               </div>
               <div className="box-renda-btn">

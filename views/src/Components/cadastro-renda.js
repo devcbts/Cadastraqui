@@ -3,6 +3,8 @@ import './Familia/cadastroFamiliar.css'
 import { useState } from 'react';
 import { api } from '../services/axios';
 import FamilyMember from './family-member';
+import { handleSuccess } from '../ErrorHandling/handleSuceess';
+import { handleAuthError } from '../ErrorHandling/handleError';
 
 
 
@@ -1070,13 +1072,13 @@ export const CadastroRenda = ({  member  }) => {
             }
             
             console.log('====================================');
-            console.log(response.status);
-            alert('Cadastro Realizado com Sucesso, prossiga para a próxima parte.');
+            handleSuccess(response, 'Dados cadastrados com sucesso')
+            ;
             console.log('====================================');
         }
         catch (error) {
           console.log(error)
-          alert(error.response.data.message);
+          handleAuthError(error)
         }
       }
 

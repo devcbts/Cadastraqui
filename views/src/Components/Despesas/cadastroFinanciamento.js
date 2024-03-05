@@ -5,7 +5,7 @@ import { api } from '../../services/axios';
 import Select from 'react-select';
 import { handleSuccess } from '../../ErrorHandling/handleSuceess';
 
-export default function CadastroFinanciamento() {
+export default function CadastroFinanciamento({candidate}) {
     const [formData, setFormData] = useState({
         familyMemberName: '',
         financingType: 'House_Apartment_Land', // Valor padrão
@@ -50,6 +50,16 @@ export default function CadastroFinanciamento() {
 
     const [familyMembers, setFamilyMembers] = useState([]);
     const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState('');
+    const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
+    const [opcoes, setOpcoes] = useState([])
+     
+
+    useEffect(() => {
+        setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
+        { value: candidato.id, label: candidato.nome, type: 'candidate' }])
+        console.log(familyMembers)
+    },[familyMembers])
+
 
     useEffect(() => {
         async function pegarFamiliares() {
@@ -108,9 +118,9 @@ export default function CadastroFinanciamento() {
                 <div className='survey-box'>
                     <label>Nome do Familiar:</label>
                     <Select
-                        options={familyMembers}
-                        onChange={handleSelectChange}
-                        value={familyMembers.find(option => option.label === formData.familyMemberName)}
+                         options={opcoes}
+                         onChange={handleSelectChange}
+                         value={opcoes.find(option => option.value === selectedFamilyMemberId)}
                         required
                     />
                 </div>

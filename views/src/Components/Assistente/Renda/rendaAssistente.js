@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { VerRendaAssistente } from "./verRendaAssistente";
 import { api } from "../../../services/axios";
+import { handleAuthError } from "../../../ErrorHandling/handleError";
 
 const IncomeSource = [
   { value: "PrivateEmployee", label: "Empregado Privado" },
@@ -41,12 +42,46 @@ const Relationship = [
   { value: "Other", label: "Outro" },
 ];
 
-export default function MembrosFamiliaRendaAssistente({ id }) {
+export default function MembrosFamiliaRendaAssistente({ id}) {
   const [familyMembers, setFamilyMembers] = useState([]);
   const [memberSelected, setMemberSelected] = useState(null);
   const [memberSelectedToSeeIncome, setMemberSelectedToSeeIncome] =
     useState(null);
+    const [candidato, setCandidato] = useState(null);
+  const [identityInfo, setIdentityInfo] = useState(null);
+  useEffect(() => {
+    async function pegarCandidato() {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await api.get(`/candidates/basic-info/${id}`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
 
+        setCandidato(response.data.candidate);
+      } catch (error) {
+        handleAuthError(error);
+      }
+    }
+    async function pegarIdentityInfo() {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await api.get(`/candidates/identity-info/${id}`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+
+        setIdentityInfo(response.data.identityInfo);
+      } catch (error) {
+        handleAuthError(error);
+      }
+    }
+    
+    pegarCandidato();
+    pegarIdentityInfo();
+  })
   useEffect(() => {
     async function fetchFamilyMembers() {
       const token = localStorage.getItem("token");
@@ -56,17 +91,20 @@ export default function MembrosFamiliaRendaAssistente({ id }) {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log("====================================");
-        console.log(response.data);
-        console.log("====================================");
+       
         const membrosdaFamilia = response.data.familyMembers;
-        setFamilyMembers(membrosdaFamilia);
+        const candidateWithIncomeInfo = {
+          ...candidato,
+          incomeSource: identityInfo.incomeSource || [], // Adiciona ou sobrescreve o campo incomeSource com o valor de identityInfo.IncomeSource
+        };
+        // Inclui o candidato atualizado no início do array de membros da família
+        setFamilyMembers([candidateWithIncomeInfo, ...membrosdaFamilia]);
       } catch (err) {
         alert(err);
       }
     }
     fetchFamilyMembers();
-  }, []);
+  }, [identityInfo]);
 
   function handleShowRegisterIncome(familyMemberId) {
     const member = familyMembers.find((member) => member.id === familyMemberId);
@@ -109,7 +147,7 @@ export default function MembrosFamiliaRendaAssistente({ id }) {
           return (
             <div id={familyMember.id} className="container-teste">
               <div className="member-info">
-                <h4>{familyMember.fullName}</h4>
+                <h4>{familyMember.fullName || familyMember.name}</h4>
                 <h4>{translateRelationship(familyMember.relationship)}</h4>
                 <h4>{translateIncomeSource(familyMember.incomeSource)}</h4>
               </div>

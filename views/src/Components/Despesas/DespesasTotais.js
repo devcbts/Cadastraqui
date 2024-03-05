@@ -28,8 +28,8 @@ export default function DespesasTotais({candidate}) {
             <div style={{marginTop: "30px"}}>
 
             {selectedDespesa === 'despesasMensais' && <DespesasMensais />}
-            {selectedDespesa === 'emprestimos' && <Emprestimos />}
-            {selectedDespesa === 'financiamento' && <Financiamento />}
+            {selectedDespesa === 'emprestimos' && <Emprestimos candidate={candidate} />}
+            {selectedDespesa === 'financiamento' && <Financiamento candidate={candidate}/>}
             {selectedDespesa === 'cartaoCredito' && <CartaoCredito candidate={candidate}/>}
             </div>
         </div>

@@ -30,10 +30,18 @@ const BasicEducationType = [
 ];
 
 const ScholarshipOfferType = [
-    { value: 'Law187Scholarship', label: 'Bolsa Lei 187' },
-    { value: 'StudentWithDisability', label: 'Estudante com Deficiência' },
-    { value: 'FullTime', label: 'Tempo Integral' },
-    { value: 'EntityWorkers', label: 'Trabalhadores da Entidade' }
+    { value: 'Law187Scholarship', label: 'Bolsa Lei 187 Integral' },
+    { value: 'Law187ScholarshipPartial', label: 'Bolsa Lei 187 Parcial' },
+
+    { value: 'StudentWithDisabilityPartial', label: 'Estudante com Deficiência Parcial' },
+    { value: 'StudentWithDisability', label: 'Estudante com Deficiência Integral' },
+
+    { value: 'FullTime', label: 'Tempo Integral (Integral)' },
+    { value: 'FullTimePartial', label: 'Tempo Integral (Parcial)' },
+
+    { value: 'EntityWorkers', label: 'Trabalhadores da Entidade Integral' },
+    { value: 'EntityWorkersPartial', label: 'Trabalhadores da Entidade Parcial' }
+
 ];
 
 const HigherEducationScholarshipType = [
@@ -182,19 +190,37 @@ export default function CadastroEdital() {
 
     const completeCourseRegistration = () => {
         setEducationalLevels([...educationalLevels, currentCourse]);
-        setCurrentCourse({
-            availableCourses: '',
-            offeredVacancies: 5000,
-            verifiedScholarships: 0,
-            semester: 1,
-            grade: '',
-            basicEduType: '',
-            scholarshipType: '',
-            higherEduScholarshipType: '',
-            offeredCourseType: '',
-            shift: 'Matutino',
-            entity_subsidiary_id: subsidiaries ? subsidiaries[0].id : null
-        })
+        if (educationLevel === "BasicEducation") {
+            setCurrentCourse({
+                availableCourses: '',
+                offeredVacancies: 5000,
+                verifiedScholarships: 0,
+                semester: 1,
+                grade: '',
+                basicEduType: 'Preschool',
+                scholarshipType: 'Law187Scholarship',
+                higherEduScholarshipType: '',
+                offeredCourseType: '',
+                shift: 'Matutino',
+                entity_subsidiary_id: subsidiaries ? subsidiaries[0].id : null
+            })
+        }
+        else {
+
+            setCurrentCourse({
+                availableCourses: '',
+                offeredVacancies: 5000,
+                verifiedScholarships: 0,
+                semester: 1,
+                grade: '',
+                basicEduType: '',
+                scholarshipType: '',
+                higherEduScholarshipType: 'PROUNIFull',
+                offeredCourseType: '',
+                shift: 'Matutino',
+                entity_subsidiary_id: subsidiaries ? subsidiaries[0].id : null
+            })
+        }
         setIsAddingCourse(false)
     };
 
@@ -358,12 +384,12 @@ export default function CadastroEdital() {
                                 },
                             });
                         } catch (err) {
-                            handleAuthError(err,navigate,'Erro ao enviar PDF')
+                            handleAuthError(err, navigate, 'Erro ao enviar PDF')
                             console.log(err);
                         }
                     }
                 } catch (error) {
-                    handleAuthError(error,navigate, 'Erro ao criar os cursos')
+                    handleAuthError(error, navigate, 'Erro ao criar os cursos')
                 }
 
             })

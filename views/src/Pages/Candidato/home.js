@@ -103,8 +103,7 @@ export default function HomeCandidato() {
           path: '/',
         })
       } catch (err) {
-        console.log(err)
-        navigate('/login')
+        handleAuthError(err)
       }
     }
     const intervalId = setInterval(refreshAccessToken, 480000) // Chama a função refresh token a cada 
@@ -122,7 +121,7 @@ export default function HomeCandidato() {
           })
           setUserInfo(user_info.data.candidate)
         } catch (err) {
-          console.log(err)
+          handleAuthError(err)
         }
 
       } else if (user_role === 'RESPONSIBLE') {

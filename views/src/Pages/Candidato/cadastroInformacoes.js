@@ -20,12 +20,14 @@ import EnviarDocumentos from "../../Components/Documentos/EnvioDocumentos";
 import MembrosFamiliaRendaTeste from "../../Components/Renda/membroFamiliateste.js";
 import Basico from "../../Components/Básico/basico.js";
 import EnviarDeclaracoes from "../../Components/Declarações/Declarações.js";
+import { handleAuthError } from "../../ErrorHandling/handleError.js";
 
 export default function CadastroInfo() {
   const nextButton = useRef(null);
   const prevButton = useRef(null);
 
   const [candidato, setCandidato] = useState(null);
+  const [identityInfo, setIdentityInfo] = useState(null);
   useEffect(() => {
     async function pegarCandidato() {
       const token = localStorage.getItem("token");
@@ -38,10 +40,26 @@ export default function CadastroInfo() {
 
         setCandidato(response.data.candidate);
       } catch (error) {
-        alert(error.message);
+        handleAuthError(error);
       }
     }
+    async function pegarIdentityInfo() {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await api.get("/candidates/identity-info", {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+
+        setIdentityInfo(response.data.identityInfo);
+      } catch (error) {
+        handleAuthError(error);
+      }
+    }
+    
     pegarCandidato();
+    pegarIdentityInfo();
   }, []);
 
   function BasicInfoDiv() {
@@ -79,7 +97,7 @@ export default function CadastroInfo() {
   function EarningInfoDiv() {
     return (
       <div>
-        <MembrosFamiliaRendaTeste />
+        <MembrosFamiliaRendaTeste candidate={candidato} identityInfo={identityInfo}/>
       </div>
     );
   }
@@ -95,7 +113,7 @@ export default function CadastroInfo() {
   function HealthInfoDiv() {
     return (
       <div>
-        <MembrosFamiliaSaude />
+        <MembrosFamiliaSaude candidate={candidato} />
       </div>
     );
   }
@@ -151,7 +169,7 @@ export default function CadastroInfo() {
             },
           }}
         >
-          <BasicInfoDiv title="Básico"></BasicInfoDiv>
+          <BasicInfoDiv title="Cadastrante"></BasicInfoDiv>
           <FamilyInfoDiv title="Grupo Familiar"></FamilyInfoDiv>
           <HousingInfoDiv title="Moradia"></HousingInfoDiv>
           <VehicleInfoDiv title="Veículo"></VehicleInfoDiv>

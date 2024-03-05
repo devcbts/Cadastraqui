@@ -4,7 +4,7 @@ import { api } from "../../services/axios.js";
 import CadastroFinanciamento from "./cadastroFinanciamento";
 import VerFinanciamento from "./verFinanciamento";
 
-export default function Financiamento() {
+export default function Financiamento({candidate}) {
   const [financingsInstances, setFinancingsInstances] = useState([]);
   const [selectedFinancing, setSelectedFinancing] = useState(null);
   const [mostrarCadastro, setMostrarCadastro] = useState(false);
@@ -57,9 +57,9 @@ export default function Financiamento() {
         />
       )}
       {mostrarCadastro ? (
-        <CadastroFinanciamento />
+        <CadastroFinanciamento candidate={candidate} />
       ) : (
-        selectedFinancing && <VerFinanciamento formDataInfo={selectedFinancing} />
+        selectedFinancing && <VerFinanciamento candidate={candidate} formDataInfo={selectedFinancing} />
       )}
 
       <button className="budget-btn" onClick={toggleCadastro}>

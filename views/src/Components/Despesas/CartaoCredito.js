@@ -56,7 +56,7 @@ export default function CartaoCredito({candidate}) {
       {mostrarCadastro ? (
         <CadastroCartao candidate={candidate} />
       ) : (
-        selectedCreditCard && <VerCartao formDataInfo={selectedCreditCard} />
+        selectedCreditCard && <VerCartao candidate={candidate} formDataInfo={selectedCreditCard} />
       )}
 
       <button className="budget-btn" onClick={toggleCadastro}>
