@@ -48,6 +48,7 @@ import { updateFinancingInfo } from './update-financing-info'
 import { updateCreditCardInfo } from './update-credit-card-info'
 import { updateLoanInfo } from './update-loan-info'
 import { registerEntepreneursInfo } from './register-entepreneur-info'
+import { getMonthlyIncomeBySource } from './get-monthly-income'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -106,7 +107,11 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     getIncomeInfo,
   )
-
+  app.get(
+    '/family-member/monthly-income/:_id',
+    { onRequest: [verifyJWT] },
+    getMonthlyIncomeBySource,
+  )
   app.post(
     '/family-member/dependent-autonomous/:_id',
     { onRequest: [verifyJWT] },
