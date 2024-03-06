@@ -372,6 +372,7 @@ model MonthlyIncome {
   familyMember              FamilyMember? @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
   candidate                 Candidate?    @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id              String?
+  incomeSource              IncomeSource?
 }
 
 model Expense {
@@ -482,14 +483,14 @@ model OtherExpense {
 }
 
 model FamilyMemberDisease {
-  id                 String           @id @default(uuid())
+  id                 String            @id @default(uuid())
   disease            Disease?
   diseases           Disease[]
   specificDisease    String?
   hasMedicalReport   Boolean
   familyMember_id    String?
-  familyMember       FamilyMember?    @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
-  candidate          Candidate?       @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  candidate          Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id       String?
   legalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
   legalResponsibleId String?
@@ -498,13 +499,13 @@ model FamilyMemberDisease {
 }
 
 model Medication {
-  id                         String           @id @default(uuid())
+  id                         String            @id @default(uuid())
   medicationName             String
   obtainedPublicly           Boolean
   specificMedicationPublicly String?
   familyMember_id            String?
-  familyMember               FamilyMember?    @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
-  candidate                  Candidate?       @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  familyMember               FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  candidate                  Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id               String?
   legalResponsible           LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
   legalResponsibleId         String?

@@ -8,6 +8,31 @@ export async function registerMonthlyIncomeInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+
+  const IncomeSource = z.enum([
+    'PrivateEmployee',
+  "PublicEmployee",
+  "DomesticEmployee",
+  "TemporaryRuralEmployee",
+  "BusinessOwnerSimplifiedTax",
+  "BusinessOwner",
+  "IndividualEntrepreneur",
+  "SelfEmployed",
+  "Retired",
+  "Pensioner",
+  "Apprentice",
+  "Volunteer",
+  "RentalIncome",
+  "Student",
+  "InformalWorker",
+  "Unemployed",
+  "TemporaryDisabilityBenefit",
+  "LiberalProfessional",
+  "FinancialHelpFromOthers",
+  "Alimony",
+  "PrivatePension"
+  ])
+
   const MontlhyIncomeDataSchema = z.object({
     month1: z.string(),
     year1: z.string(),
@@ -106,6 +131,7 @@ export async function registerMonthlyIncomeInfo(
     compensationValue6: z.number().default(0),
     judicialPensionValue6: z.number().default(0),
     quantity: z.number(),
+    incomeSource: IncomeSource
   })
 
   const incomeParamsSchema = z.object({
@@ -213,6 +239,7 @@ export async function registerMonthlyIncomeInfo(
     year4,
     year5,
     year6,
+    incomeSource
   } = MontlhyIncomeDataSchema.parse(request.body)
 
   try {
@@ -263,8 +290,9 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue1,
             foodAllowanceValue: foodAllowanceValue1,
             transportAllowanceValue: transportAllowanceValue1,
-            ...idField
-          },
+            ...idField,
+            incomeSource
+          }
         })
       } else {
         const total = (dividends1 || 0) + (proLabore1 || 0)
@@ -288,8 +316,8 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends1,
             proLabore: proLabore1,
             total,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       }
       if (grossAmount2) {
@@ -320,8 +348,8 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue2,
             foodAllowanceValue: foodAllowanceValue2,
             transportAllowanceValue: transportAllowanceValue2,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       } else {
         const total = (dividends2 || 0) + (proLabore2 || 0)
@@ -345,8 +373,8 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends2,
             proLabore: proLabore2,
             total,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       }
       if (grossAmount3) {
@@ -377,8 +405,8 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue3,
             foodAllowanceValue: foodAllowanceValue3,
             transportAllowanceValue: transportAllowanceValue3,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       } else {
         const total = (dividends3 || 0) + (proLabore3 || 0)
@@ -402,8 +430,8 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends3,
             proLabore: proLabore3,
             total,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       }
     } else {
@@ -435,8 +463,8 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue1,
             foodAllowanceValue: foodAllowanceValue1,
             transportAllowanceValue: transportAllowanceValue1,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       } else {
         const total = (dividends1 || 0) + (proLabore1 || 0)
@@ -460,8 +488,8 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends1,
             proLabore: proLabore1,
             total,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       }
       if (grossAmount2) {
@@ -492,8 +520,8 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue2,
             foodAllowanceValue: foodAllowanceValue2,
             transportAllowanceValue: transportAllowanceValue2,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       } else {
         const total = (dividends2 || 0) + (proLabore2 || 0)
@@ -517,8 +545,8 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends2,
             proLabore: proLabore2,
             total,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       }
       if (grossAmount3) {
@@ -549,8 +577,8 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue3,
             foodAllowanceValue: foodAllowanceValue3,
             transportAllowanceValue: transportAllowanceValue3,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       } else {
         const total = (dividends3 || 0) + (proLabore3 || 0)
@@ -574,8 +602,8 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends3,
             proLabore: proLabore3,
             total,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       }
       if (grossAmount4) {
@@ -606,8 +634,8 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue4,
             foodAllowanceValue: foodAllowanceValue4,
             transportAllowanceValue: transportAllowanceValue4,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       } else {
         const total = (dividends4 || 0) + (proLabore4 || 0)
@@ -631,8 +659,8 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends4,
             proLabore: proLabore4,
             total,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       }
       if (grossAmount5) {
@@ -663,8 +691,8 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue5,
             foodAllowanceValue: foodAllowanceValue5,
             transportAllowanceValue: transportAllowanceValue5,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       } else {
         const total = (dividends5 || 0) + (proLabore5 || 0)
@@ -688,8 +716,8 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends5,
             proLabore: proLabore5,
             total,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       }
       if (grossAmount6) {
@@ -720,8 +748,8 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue6,
             foodAllowanceValue: foodAllowanceValue6,
             transportAllowanceValue: transportAllowanceValue6,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       } else {
         const total = (dividends6 || 0) + (proLabore6 || 0)
@@ -745,8 +773,8 @@ export async function registerMonthlyIncomeInfo(
             dividends: dividends6,
             proLabore: proLabore6,
             total,
-            ...idField
-          },
+            ...idField,
+          incomeSource          },
         })
       }
     }
