@@ -49,40 +49,40 @@ export async function entityRoutes(app: FastifyInstance) {
   app.post('/subsidiary', { onRequest: [verifyJWT] }, createSubsidiary)
   app.get(
     '/subsidiary/:_id?',
-    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    { onRequest: [verifyJWT] },
     fetchSubsidiarys,
   )
   app.delete(
     '/subsidiary/:_id',
-    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    { onRequest: [verifyJWT] },
     deleteSubsidiary,
   )
   app.patch(
     '/subsidiary/:_id',
     {
-      onRequest: [verifyJWT, verifyRole('ENTITY')],
+      onRequest: [verifyJWT],
     },
     updateSubsidiary,
   )
 
   app.post(
     '/director/:_id?',
-    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    { onRequest: [verifyJWT] },
     createDirector,
   )
   app.get(
     '/director/:_id?',
-    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    { onRequest: [verifyJWT] },
     fetchDirectors,
   )
   app.patch(
     '/director/:_id',
-    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    { onRequest: [verifyJWT] },
     updateDirector,
   )
   app.delete(
     '/director/:_id',
-    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    { onRequest: [verifyJWT] },
     deleteDirector,
   )
   app.get('/announcement/assistant', { onRequest: [verifyJWT]}, getSocialAssistants)

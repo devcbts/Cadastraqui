@@ -1,10 +1,10 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
-import { SubsidiaryNotExistsError } from '@/errors/subsidiary-not-exists-error'
+import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function deleteSubsidiary(
+export async function deleteDirector(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
@@ -24,32 +24,26 @@ export async function deleteSubsidiary(
         throw new NotAllowedError()
     }
 
-
-    const subsidiary = await prisma.entitySubsidiary.findUnique({
+    const assistant = await prisma.socialAssistant.findUnique({
       where: { id: _id },
     })
 
-    if (!subsidiary) {
-      throw new SubsidiaryNotExistsError()
+    if (!assistant) {
+      throw new ResourceNotFoundError()
     }
 
-    // Falta deletar os usuários relacionados com os diretores excluídos
-    await prisma.entityDirector.deleteMany({
-      where: { entity_subsidiary_id: _id },
-    })
+    await prisma.socialAssistant.delete({ where: { id: _id } })
 
-    await prisma.entitySubsidiary.delete({ where: { id: _id } })
-
-    await prisma.user.delete({ where: { id: subsidiary.user_id } })
+    await prisma.user.delete({ where: { id: assistant.user_id } })
 
     return reply.status(204).send()
   } catch (err: any) {
-    if (err instanceof SubsidiaryNotExistsError) {
+    if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
     }
     if (err instanceof NotAllowedError) {
-      return reply.status(401).send({ message: err.message })
-  }
+        return reply.status(401).send({ message: err.message })
+    }
 
     return reply.status(500).send({ message: err.message })
   }

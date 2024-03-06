@@ -491,7 +491,7 @@ model FamilyMemberDisease {
   familyMember       FamilyMember?    @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
   candidate          Candidate?       @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id       String?
-  legalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
   legalResponsibleId String?
 
   @@map("familyMemberDiseases")
@@ -504,9 +504,9 @@ model Medication {
   specificMedicationPublicly String?
   familyMember_id            String?
   familyMember               FamilyMember?    @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
-  candidate                  Candidate?       @relation(fields: [candidate_id], references: [id])
+  candidate                  Candidate?       @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id               String?
-  legalResponsible           LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsible           LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
   legalResponsibleId         String?
 
   @@map("medications")
