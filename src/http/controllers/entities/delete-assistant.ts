@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function deleteDirector(
+export async function deleteAssistant(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
