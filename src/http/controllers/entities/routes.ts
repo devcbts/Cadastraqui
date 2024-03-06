@@ -90,7 +90,7 @@ export async function entityRoutes(app: FastifyInstance) {
   app.get('/announcement/assistant', { onRequest: [verifyJWT]}, getSocialAssistants)
 
   app.post('/announcement/assistant',{ onRequest: [verifyJWT]},  addAssistantAnnouncement)
-  app.delete('/assistant/_id', {onRequest: [verifyJWT]}, deleteAssistant)
+  app.delete('/assistant/:_id', {onRequest: [verifyJWT]}, deleteAssistant)
 
 
   app.post(
