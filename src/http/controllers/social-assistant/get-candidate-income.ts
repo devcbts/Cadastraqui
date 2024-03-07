@@ -95,9 +95,9 @@ export async function getCandidateIncome(
         }
       });
     });
-
+    
     let totalAverageIncomeForMember = 0;
-
+    console.log(memberIncomeDetails)
     // Cálculo das médias por membro e tipo de emprego
     Object.keys(memberIncomeDetails).forEach(memberId => {
       const details = memberIncomeDetails[memberId];
@@ -107,7 +107,8 @@ export async function getCandidateIncome(
         totalAverageIncomeForMember += averageIncomeByType; // Soma das médias para cada tipo de emprego para o membro
       });
     });
-    const totalIncomePerCapita = totalAverageIncomeForMember / (familyMembers.length + 1);
+    console.log(totalAverageIncomeForMember)
+    let totalIncomePerCapita = totalAverageIncomeForMember;
     return reply.status(200).send({ candidate_id, totalIncomePerCapita });
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
