@@ -218,12 +218,7 @@ export default function CandidatosCadastrados() {
       <div className="container-contas">
         <div className="upper-cadastrados">
           <h1>Edital - {announcement?.announcementName}</h1>
-          <div className="btns-cadastro">
-            <a className="btn-cadastro">Extrair PDF</a>
-
-            <a className="btn-cadastro"> <Link className="btn-cadastro" to={`/assistente/estatisticas/${announcement_id}`}>Ver estatísticas</Link></a>
-
-          </div>
+          
         </div>
         <h1 className="title-thin">Candidatos</h1>
         <div
@@ -364,13 +359,16 @@ export default function CandidatosCadastrados() {
 
 
           <h2>Selecione a ordem de prioridade</h2>
-          <div className="select-fields" style={{justifyContent: 'center'}}>
+          <div className="select-fields" style={{ justifyContent: 'center' }}>
 
 
             <select onChange={(e) => setPriorityOrder([...e.target.value])}>
               <option value={['totalIncomePerCapita', 'isCadUnico', 'hasSevereDisease']}>Renda Per Capita, CadÚnico, Doença Grave</option>
               <option value={['isCadUnico', 'hasSevereDisease', 'totalIncomePerCapita']}>CadÚnico, Doença Grave, Renda Per Capita</option>
               <option value={['hasSevereDisease', 'totalIncomePerCapita', 'isCadUnico']}>Doença Grave, Renda Per Capita, CadÚnico</option>
+              <option value={['totalIncomePerCapita', 'hasSevereDisease', 'isCadUnico']}>Renda Per Capita, Doença Grave, CadÚnico</option>
+              <option value={['isCadUnico', 'totalIncomePerCapita', 'hasSevereDisease']}>CadÚnico, Renda Per Capita, Doença Grave</option>
+              <option value={['hasSevereDisease', 'isCadUnico', 'totalIncomePerCapita']}>Doença Grave, CadÚnico, Renda Per Capita</option>
             </select>
           </div>
           <div className="education-levels-container">

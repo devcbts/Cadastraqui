@@ -21,6 +21,7 @@ import MembrosFamiliaRendaTeste from "../../Components/Renda/membroFamiliateste.
 import Basico from "../../Components/Básico/basico.js";
 import EnviarDeclaracoes from "../../Components/Declarações/Declarações.js";
 import { handleAuthError } from "../../ErrorHandling/handleError.js";
+import Swal from 'sweetalert2';
 
 export default function CadastroInfo() {
   const nextButton = useRef(null);
@@ -61,7 +62,44 @@ export default function CadastroInfo() {
     pegarCandidato();
     pegarIdentityInfo();
   }, []);
+  const finishRegistration = async () => {
+    const token = localStorage.getItem("token");
 
+    try {
+      const response = await api.post("/candidates/finish", {}, 
+      {
+        headers: {
+          authorization: `Bearer ${token}`,
+        }});
+      // Aqui você pode tratar a resposta como desejar
+      if (response.status === 201) {
+        Swal.fire(
+          'Sucesso!',
+          'Cadastro finalizado com sucesso!',
+          'success'
+        );
+      }
+    } catch (error) {
+      handleAuthError(error);
+    }
+  };
+
+  // Função chamada ao clicar no botão "Finalizar inscrição"
+  const handleFinishClick = () => {
+    Swal.fire({
+      title: 'Você está certo?',
+      text: "Confirma que deseja finalizar o cadastro?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, finalizar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        finishRegistration();
+      }
+    });
+  };
   function BasicInfoDiv() {
     return (
       <div>
@@ -146,7 +184,7 @@ export default function CadastroInfo() {
         <div className="upper-cadastro-candidato">
           <h1>CADASTRO</h1>
           <h1>PREENCHA SEUS DADOS</h1>
-        </div>
+          <button  onClick={handleFinishClick}>Finalizar inscrição</button>        </div>
       </div>
       <div className="container-info">
         <MultiStep

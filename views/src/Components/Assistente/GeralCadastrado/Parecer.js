@@ -113,8 +113,9 @@ export default function VerParecer({
   announcement,
   application_id,
   healthInfo,
+  application
 }) {
-
+  console.log(application)
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const printDocument = () => {
     const input = document.getElementById('parecer-print');
@@ -234,7 +235,7 @@ export default function VerParecer({
         {candidate.addressNumber}, CEP {candidate.CEP}, {candidate.neighborhood}
         , {candidate.city}, {candidate.UF}. Com email {candidate.email}, se
         inscreveu para participar do processo seletivo de que trata o Edital{" "}
-        {announcement.announcementName} e recebeu número de inscrição 00001.
+        {announcement.announcementName} e recebeu número de inscrição {application.number.toString().padStart(4,'0')}.
         <br></br>
       </h1>
       <h1 id="parecer-text" style={{display: 'block'}}>
