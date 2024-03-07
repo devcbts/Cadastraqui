@@ -25,6 +25,7 @@ model Candidate {
   responsible_id      String?
   profilePicture      String?
   email               String?
+  finishedRegistration Boolean @default(false)
   Application         Application[]
   CreditCard          CreditCard[]
   Expense             Expense[]

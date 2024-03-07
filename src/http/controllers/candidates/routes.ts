@@ -49,6 +49,7 @@ import { updateCreditCardInfo } from './update-credit-card-info'
 import { updateLoanInfo } from './update-loan-info'
 import { registerEntepreneursInfo } from './register-entepreneur-info'
 import { getMonthlyIncomeBySource } from './get-monthly-income'
+import { finishRegistration } from './finish-registration'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -205,4 +206,10 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     uploadCandidateProfilePicture,
   )
+
+  //Terminar o cadastro
+  app.post('/finish', { onRequest: [verifyJWT] }, finishRegistration)
+
 }
+
+

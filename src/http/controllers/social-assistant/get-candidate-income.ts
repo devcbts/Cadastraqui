@@ -126,8 +126,6 @@ export async function getCandidateIncome(
     // Incrementa a contagem total de pessoas (cada membro + o candidato)
     totalPeopleCount++;
   });
-  console.log(totalPeopleCount)
-  console.log(totalSumOfAverageIncomes)
   // Calcula a renda per capita do grupo familiar
   const totalIncomePerCapita = totalPeopleCount > 0 ? totalSumOfAverageIncomes / totalPeopleCount : 0;
 

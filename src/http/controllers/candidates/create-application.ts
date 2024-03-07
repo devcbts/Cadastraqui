@@ -32,6 +32,9 @@ export async function subscribeAnnouncement(
     if (!candidate) {
       throw new ResourceNotFoundError()
     }
+    if (!candidate.finishedRegistration) {
+      throw new Error('Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.')
+    }
 
     const applicationExists = await prisma.application.findFirst({
       where: { candidate_id: candidate.id, announcement_id },
@@ -75,7 +78,9 @@ export async function subscribeAnnouncement(
     if (err instanceof ApplicationAlreadyExistsError) {
       return reply.status(409).send({ err })
     }
-
+    if (err instanceof Error) {
+      return reply.status(405).send({ err })
+    }
     return reply.status(500).send({ message: err.message })
   }
 }
