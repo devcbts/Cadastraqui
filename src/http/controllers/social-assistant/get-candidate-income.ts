@@ -108,7 +108,7 @@ export async function getCandidateIncome(
     // Calcula a soma das médias para cada tipo de emprego para o membro
     Object.keys(details.totalIncomeByType).forEach((typeKey) => {
       const type = typeKey as IncomeSource;
-      const averageIncomeByType = details.totalIncomeByType[type] / details.incomesCountByType[type];
+      const averageIncomeByType = details.incomesCountByType[type] ? details.totalIncomeByType[type] / details.incomesCountByType[type] : 0;
       totalAverageIncomeForMember += averageIncomeByType;
       incomeTypesCount++;
     });
