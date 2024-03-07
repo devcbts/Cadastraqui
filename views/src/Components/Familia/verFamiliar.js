@@ -3,6 +3,8 @@ import "./verFamiliar.css";
 import { useState } from "react";
 import { api } from "../../services/axios";
 import Select from "react-select";
+import { handleSuccess } from "../../ErrorHandling/handleSuceess";
+import { handleAuthError } from "../../ErrorHandling/handleError";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
@@ -194,10 +196,10 @@ export default function VerFamiliar({ familyMember }) {
       console.log("====================================");
       console.log(response.status);
       console.log("====================================");
-      alert("Dados cadastrados com sucesso!");
+      handleSuccess(response, "Dados cadastrados com sucesso!");
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
+      handleAuthError(error);
     }
     console.log("Dados salvos", familyMemberInfo);
     setIsEditing(false); // Desabilita o modo de edição após salvar

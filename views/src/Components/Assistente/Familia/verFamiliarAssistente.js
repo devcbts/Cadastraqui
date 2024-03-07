@@ -576,7 +576,7 @@ export default function VerFamiliarAssistente({ familyMember }) {
           </div>
 
           {/*<!-- Necessidades Especiais -->*/}
-          <div class="survey-box">
+          <div class="survey-box survey-check">
             <label for="specialNeeds" id="specialNeeds-label">
               Necessidades Especiais:
             </label>
@@ -830,7 +830,7 @@ export default function VerFamiliarAssistente({ familyMember }) {
           </div>
 
           {/*<!-- Inscrito em Programa Governamental -->*/}
-          <div class="survey-box">
+          <div class="survey-box survey-check">
             <label
               for="enrolledGovernmentProgram"
               id="enrolledGovernmentProgram-label"
@@ -883,7 +883,7 @@ export default function VerFamiliarAssistente({ familyMember }) {
                 familyMember.incomeSource.includes(obj.value)
               )}
               options={IncomeSource}
-              className="select-data"
+              className="survey-select"
               id="incomeSource"
             />
           </div>

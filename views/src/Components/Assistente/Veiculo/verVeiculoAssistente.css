@@ -1,0 +1,21 @@
+.select-data{
+    border-radius: 1.5rem !important;
+    height: 3rem !important;
+    width: 26vw !important;
+    display: flex;
+    justify-content: center;
+    opacity: 1;
+}
+
+.survey-control, .select-data{
+    background-color: white;
+    color: #1b4f8e !important;
+    border-color: #1b4f8e !important;
+    font-size: 0.9rem;
+}
+
+.survey-select{
+    width: 25vw;
+    margin: auto;
+    height: 2.4rem;
+}

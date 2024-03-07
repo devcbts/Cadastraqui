@@ -1,8 +1,11 @@
 import React from "react";
 import "./cadastroFamiliar.css";
 import { useState } from "react";
-import { api } from "../../services/axios";
 import Select from "react-select";
+import { handleSuccess } from "../../ErrorHandling/handleSuceess";
+import { handleAuthError } from "../../ErrorHandling/handleError";
+import "./cadastroFamiliar.css";
+import { api } from "../../services/axios";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
@@ -280,10 +283,10 @@ export default function CadastroFamiliar() {
       console.log("====================================");
       console.log(response.status);
       console.log("====================================");
-      alert("Dados cadastrados com sucesso!");
+      handleSuccess(response, "Dados cadastrados com sucesso!");
     } catch (error) {
       console.log(error);
-      alert(error.issues);
+      handleAuthError(error);
     }
   }
 

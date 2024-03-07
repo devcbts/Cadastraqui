@@ -7,7 +7,8 @@ import "./BasicoAssistente.css";
 
 export default function BasicoAssistente({ id }) {
   const [basicInfo, setBasicInfo] = useState(null);
-
+  const [registerInfo, setRegisterInfo] = useState(null);
+ 
   useEffect(() => {
     async function pegarIdentidade() {
       const token = localStorage.getItem("token");
@@ -26,15 +27,42 @@ export default function BasicoAssistente({ id }) {
         alert(err);
       }
     }
-    if (id) {
+    async function pegarBasicInfo() {
+      const token = localStorage.getItem('token');
+     
+      try {
+
+          const response = await api.get(`/candidates/basic-info/${id}`, {
+              headers: {
+                  'authorization': `Bearer ${token}`,
+              }
+          })
+          
+          
+              console.log(response.data)
+              const dadosBasico = response.data.candidate
+              
+                  
+                  setRegisterInfo(dadosBasico)
+              
+              console.log(dadosBasico)
+
+      }
+      catch (err) {
+          alert(err)
+      }
+  }
+  
+  if (id) {
+      pegarBasicInfo()
       pegarIdentidade();
     }
   }, []);
 
   return (
     <div>
-      {basicInfo ? (
-        <VerBasico candidate={basicInfo} />
+      {basicInfo && registerInfo ? (
+        <VerBasico candidate={basicInfo} basic={registerInfo} />
       ) : (
         <div>
           <LoadingCadastroCandidato />

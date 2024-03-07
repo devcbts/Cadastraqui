@@ -3,7 +3,9 @@ import "../Familia/cadastroFamiliar.css";
 import { useState } from "react";
 import { api } from "../../services/axios";
 import "./cadastro-basico.css";
-
+import Select from 'react-select'
+import { handleSuccess } from "../../ErrorHandling/handleSuceess";
+import { handleAuthError } from "../../ErrorHandling/handleError";
 const GENDER = [
   { value: "MALE", label: "Masculino" },
   { value: "FEMALE", label: "Feminino" },
@@ -131,7 +133,8 @@ const IncomeSource = [
   { value: "PrivatePension", label: "Previdência Privada" },
 ];
 
-export default function VerBasico({ candidate }) {
+export default function VerBasico({ candidate, basic }) {
+  console.log(basic)
   const [candidateInfo, setCandidateInfo] = useState(candidate);
   // Estado para controlar o modo de edição
   const [isEditing, setIsEditing] = useState(false);
@@ -165,80 +168,24 @@ export default function VerBasico({ candidate }) {
       console.log("====================================");
       console.log(response.status);
       console.log("====================================");
-      alert("Dados cadastrados com sucesso!");
+      handleSuccess(response,"Dados cadastrados com sucesso!");
     } catch (error) {
-      console.log(error);
-      alert(error.response.data.message);
+      handleAuthError(error)
     }
     console.log("Dados salvos", candidateInfo);
     setIsEditing(false); // Desabilita o modo de edição após salvar
   }
 
-  async function RegisterCandidateInfoBasicInfo(e) {
-    /*
-        e.preventDefault()
-        const token = localStorage.getItem('token');
-        const data = {
-          fullName: candidateInfo.fullName,
-          socialName: candidateInfo.socialName,
-          birthDate: candidateInfo.birthDate,
-          gender: candidateInfo.gender,
-          nationality: candidateInfo.nationality,
-          natural_city: candidateInfo.natural_city,
-          natural_UF: candidateInfo.natural_UF,
-          RG: candidateInfo.RG,
-          rgIssuingAuthority: candidateInfo.rgIssuingAuthority,
-          rgIssuingState: candidateInfo.rgIssuingState,
-          documentType: candidateInfo.documentType || undefined,
-          documentNumber: candidateInfo.documentNumber|| undefined,
-          documentValidity: candidateInfo.documentValidity|| undefined,
-          maritalStatus: candidateInfo.maritalStatus,
-          skinColor: candidateInfo.skinColor,
-          religion: candidateInfo.religion,
-          educationLevel: candidateInfo.educationLevel,
-          specialNeeds: candidateInfo.specialNeeds,
-          specialNeedsDescription: candidateInfo.specialNeedsDescription,
-          hasMedicalReport: candidateInfo.hasMedicalReport,
-          landlinePhone: candidateInfo.landlinePhone,
-          workPhone: candidateInfo.workPhone,
-          contactNameForMessage: candidateInfo.contactNameForMessage,
-          profession: candidateInfo.profession,
-          enrolledGovernmentProgram: candidateInfo.enrolledGovernmentProgram,
-          NIS: candidateInfo.NIS,
-          incomeSource: candidateInfo.incomeSource,
-          livesAlone: candidateInfo.livesAlone,
-          intendsToGetScholarship: candidateInfo.intendsToGetScholarship,
-          attendedPublicHighSchool: candidateInfo.attendedPublicHighSchool,
-          benefitedFromCebasScholarship_basic: candidateInfo.benefitedFromCebasScholarship_basic,
-          yearsBenefitedFromCebas_basic: candidateInfo.yearsBenefitedFromCebas_basic,
-          scholarshipType_basic: candidateInfo.scholarshipType_basic|| undefined,
-          institutionName_basic: candidateInfo.institutionName_basic,
-          institutionCNPJ_basic: candidateInfo.institutionCNPJ_basic,
-          benefitedFromCebasScholarship_professional: candidateInfo.benefitedFromCebasScholarship_professional,
-          lastYearBenefitedFromCebas_professional: candidateInfo.lastYearBenefitedFromCebas_professional,
-          scholarshipType_professional: candidateInfo.scholarshipType_professional|| undefined,
-          institutionName_professional: candidateInfo.institutionName_professional,
-          institutionCNPJ_professional: candidateInfo.institutionCNPJ_professional,
-          nameOfScholarshipCourse_professional: candidateInfo.nameOfScholarshipCourse_professional|| undefined,
-        };
+  
+  function handleInputChangeSelect(selectedOptions) {
+    // Com react-select, selectedOptions é um array de objetos { value, label } ou null
+    const values = selectedOptions ? selectedOptions.map(option => option.value) : [];
+    setCandidateInfo(prevState => ({
+        ...prevState,
+        incomeSource: values
+    }));
 
-        console.log(data)
-
-        try {
-            const response = await api.post('/candidateInfos/identity-info', data, {
-                headers: {
-                    'authorization': `Bearer ${token}`,
-                }
-            })
-            console.log('====================================');
-            console.log(response.status);
-            console.log('====================================');
-        }
-        catch (error) {
-          console.log(error)
-          alert(error.response.data.message);
-        }*/
-  }
+}
 
   return (
     <div>
@@ -286,7 +233,7 @@ export default function VerBasico({ candidate }) {
             <input
               type="date"
               name="birthDate"
-              value={candidateInfo.birthDate.split("T")[0]}
+              value={candidateInfo?.birthDate?.split("T")[0]}
               disabled={!isEditing}
               onChange={handleInputChange}
               id="birthDate"
@@ -369,6 +316,13 @@ export default function VerBasico({ candidate }) {
               ))}
             </select>
           </div>
+          {/* CPF */}
+          <div class="survey-box">
+            <label for="CPF" id="CPF-label">CPF:</label>
+            <br />
+            <input type="text" name="CPF" value={basic.CPF} disabled onChange={handleInputChange} id="CPF" class="survey-control" required />
+          </div>
+
           {/* RG */}
           <div class="survey-box">
             <label for="RG" id="RG-label">
@@ -560,7 +514,7 @@ export default function VerBasico({ candidate }) {
           {/*<!-- Cor da Pele -->*/}
           <div class="survey-box">
             <label for="skinColor" id="skinColor-label">
-              Cor da Pele:
+              Cor ou Raça:
             </label>
             <br />
             <select
@@ -727,6 +681,59 @@ export default function VerBasico({ candidate }) {
               class="survey-control"
             />
           </div>
+          {/*<!-- Email -->*/}
+          <div class="survey-box">
+            <label for="email" id="email-label">Email:</label>
+            <br />
+            <input type="email" name="email" value={basic.email} disabled onChange={handleInputChange} id="email" class="survey-control" required />
+          </div>
+
+          {/*<!-- Endereço -->*/}
+          <div class="survey-box">
+            <label for="address" id="address-label">Endereço:</label>
+            <br />
+            <input type="text" name="address" value={basic.address} disabled onChange={handleInputChange} id="address" class="survey-control" required />
+          </div>
+
+          {/*<!-- Cidade -->*/}
+          <div class="survey-box">
+            <label for="city" id="city-label">Cidade:</label>
+            <br />
+            <input type="text" name="city" value={basic.city} disabled onChange={handleInputChange} id="city" class="survey-control" required />
+          </div>
+
+          {/*<!-- Unidade Federativa -->*/}
+          <div class="survey-box">
+            <label for="UF" id="UF-label">Unidade Federativa:</label>
+            <br />
+            <select name="UF" id="UF" value={basic.UF} disabled onChange={handleInputChange} class="select-data">
+              {COUNTRY.map((type) => <option value={type.value}>{type.label}</option>)}
+
+
+            </select>
+          </div>
+
+          {/*<!-- CEP -->*/}
+          <div class="survey-box">
+            <label for="CEP" id="CEP-label">CEP:</label>
+            <br />
+            <input type="text" name="CEP" value={basic.CEP} disabled onChange={handleInputChange} id="CEP" class="survey-control" required />
+          </div>
+
+          {/*<!-- Bairro -->*/}
+          <div class="survey-box">
+            <label for="neighborhood" id="neighborhood-label">Bairro:</label>
+            <br />
+            <input type="text" name="neighborhood" value={basic.neighborhood} disabled onChange={handleInputChange} id="neighborhood" class="survey-control" required />
+          </div>
+
+          {/*<!-- Número de Endereço -->*/}
+          <div class="survey-box">
+            <label for="addressNumber" id="addressNumber-label">Número de Endereço:</label>
+            <br />
+            <input type="number" name="addressNumber" value={basic.addressNumber} disabled onChange={handleInputChange} id="addressNumber" class="survey-control" required />
+          </div>
+
 
           {/*<!-- Profissão -->*/}
           <div class="survey-box">
@@ -792,19 +799,16 @@ export default function VerBasico({ candidate }) {
               Fonte(s) de renda:
             </label>
             <br />
-            <select
+            <Select
               name="incomeSource"
-              multiple
-              disabled={!isEditing}
-              onChange={handleInputChange}
-              value={candidateInfo.incomeSource}
+              isMulti
+              isDisabled={!isEditing}
+              onChange={handleInputChangeSelect}
+              options={IncomeSource}
+              value={IncomeSource.filter(obj => candidateInfo.incomeSource.includes(obj.value))}
               id="incomeSource"
               class="select-data"
-            >
-              {IncomeSource.map((type) => (
-                <option value={type.value}>{type.label}</option>
-              ))}
-            </select>
+            />
           </div>
 
           {/*<!-- Mora Sozinho ? -->*/}

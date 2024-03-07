@@ -1,14 +1,30 @@
 .mes-ano-box{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+}
+
+.mes-ano-box .survey-box{
+    width: 25vw !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mes-ano-box .survey-box label{
+    font-size: 0.8rem;
+    height: 2rem;
 }
 
 #survey-input{
-    width: 15vw !important;
+    width: 25vw !important;
+    height: 12vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 #survey-input input{
-    width: 15vw;
+    max-width: 15vw;
 }
 
 #box-renda-fixa{

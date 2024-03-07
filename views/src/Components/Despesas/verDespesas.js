@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../../services/axios';
 import './cadastroDespesas.css';
+import { handleAuthError } from '../../ErrorHandling/handleError';
+import { handleSuccess } from '../../ErrorHandling/handleSuceess';
 
 export default function VerDespesas({ formDataInfo }) {
   
@@ -150,9 +152,10 @@ export default function VerDespesas({ formDataInfo }) {
                 }
             });
             console.log(response.data);
-            alert("Despesas cadastradas com sucesso");
+            handleSuccess(response, 'Dados Atualizados com sucesso!')
         } catch (err) {
-            alert(err.message);
+            handleAuthError(err)
+            
         }
     };
     const calculateTotalExpense = () => {

@@ -3,6 +3,7 @@ import axios from 'axios';
 import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o formulário
 import { api } from '../../services/axios';
 import Select from 'react-select';
+import { handleSuccess } from '../../ErrorHandling/handleSuceess';
 
 export default function CadastroFinanciamento() {
     const [formData, setFormData] = useState({
@@ -38,7 +39,7 @@ export default function CadastroFinanciamento() {
                 },
             });
             console.log(response.data);
-            alert("Dados cadastrados com sucesso!")
+            handleSuccess(response,"Dados cadastrados com sucesso!")
 
             // Trate a resposta conforme necessário
         } catch (error) {

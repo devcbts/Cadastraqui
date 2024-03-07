@@ -9,6 +9,8 @@ import PdfPreview from './pdfPreview';
 import './cadastroEdital.css'
 import dadosCursos from '../objects/cursos.json'
 import Select from 'react-select';
+import { handleAuthError } from '../ErrorHandling/handleError';
+import { handleSuccess } from '../ErrorHandling/handleSuceess';
 console.log('====================================');
 console.log(dadosCursos.bacharelado);
 console.log('====================================');
@@ -308,7 +310,7 @@ export default function CadastroEdital() {
             educationalLevels.map(async (education) => {
                 const data = {
                     level: educationLevel,
-                    basicEduType: education.basicEduType || '', 
+                    basicEduType: education.basicEduType || '',
                     scholarshipType: education.scholarshipType,
                     higherEduScholarshipType: education.higherEduScholarshipType,
                     offeredCourseType: education.offeredCourseType,
@@ -356,23 +358,21 @@ export default function CadastroEdital() {
                                 },
                             });
                         } catch (err) {
-                            alert("Erro ao enviar o pdf.");
+                            handleAuthError(err,navigate,'Erro ao enviar PDF')
                             console.log(err);
                         }
                     }
                 } catch (error) {
-                    alert("Erro ao criar os educational levels")
-                    console.log(error)
+                    handleAuthError(error,navigate, 'Erro ao criar os cursos')
                 }
 
             })
 
 
-            alert("Edital criado com suceeso")
+            handleSuccess(response, 'Edital Criado com sucesso')
 
         } catch (err) {
-            alert("Erro ao atualizar foto de perfil.");
-            console.log(err);
+            handleAuthError(err, navigate, 'Erro ao criar o edital')
         }
     }
 
@@ -623,6 +623,7 @@ export default function CadastroEdital() {
                                 </label>
                                 <input style={{ width: '30%' }}
                                     type="number"
+                                    min={1}
                                     value={currentCourse.verifiedScholarships}
                                     onChange={(e) => handleEducationalChange('verifiedScholarships', Number(e.target.value))}
                                 />
@@ -878,7 +879,7 @@ export default function CadastroEdital() {
 
 
 
-                  
+
 
 
                     <fieldset className="file-div">
@@ -938,19 +939,18 @@ function translateHigherEducationScholashipType(HigherEducationScholarship) {
 }
 
 function translateBasicEducationScholashipType(BasicEducationScholarship) {
-    const  BasicEducation = BasicEducationType.find(
+    const BasicEducation = BasicEducationType.find(
 
         (r) => r.value === BasicEducationScholarship
-        )
-        return BasicEducation ? BasicEducation.label : "Não especificado";
+    )
+    return BasicEducation ? BasicEducation.label : "Não especificado";
 }
 
 
 function translateBasicEducationScholashipofferType(BasicEducationScholarship) {
-    const  BasicEducation = ScholarshipOfferType.find(
-  
+    const BasicEducation = ScholarshipOfferType.find(
+
         (r) => r.value === BasicEducationScholarship
-        )
-        return BasicEducation ? BasicEducation.label : "Não especificado";
-  }
-  
+    )
+    return BasicEducation ? BasicEducation.label : "Não especificado";
+}

@@ -66,7 +66,7 @@ export default function NavBarCandidato(props) {
   // BackEnd Functions
   const user = props.user;
   const [profilePhoto, setProfilePhoto] = useState(null);
-  const [candidateInfo, setCandidateInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
   useEffect(() => {
     async function getProfilePhoto() {
       const token = localStorage.getItem("token");
@@ -87,22 +87,37 @@ export default function NavBarCandidato(props) {
 
     getProfilePhoto();
 
-    const token = localStorage.getItem("token");
-    const candidate = JSON.parse(localStorage.getItem("candidat") || "null");
+    async function getUserInfo() {
+      const token = localStorage.getItem("token")
+      const user_role = localStorage.getItem("role")
+      console.log(user_role)
+      if (user_role === 'CANDIDATE') {
+        try {
+          const user_info = await api.get('/candidates/basic-info', {
+            headers: {
+              'authorization': `Bearer ${token}`,
+            }
+          })
+          setUserInfo(user_info.data.candidate)
+        } catch (err) {
+          console.log(err)
+        }
 
-    if (!candidate) {
-      async function getCandidateInfo() {
-        const response = await api.get("/candidates/basic-info", {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        });
-        setCandidateInfo(response.data.candidate);
+      } else if (user_role === 'RESPONSIBLE') {
+        try {
+          const user_info = await api.get('/responsibles', {
+            headers: {
+              'authorization': `Bearer ${token}`,
+            }
+          })
+          setUserInfo(user_info.data.responsible)
+        } catch (err) {
+          console.log(err)
+        }
       }
-      getCandidateInfo();
-    } else {
-      setCandidateInfo(candidate);
     }
+
+    getUserInfo()
   }, []);
 
   var location = useLocation();
@@ -170,7 +185,7 @@ export default function NavBarCandidato(props) {
               className="user-sidebar"
             ></img>
             <div className="user-name">
-              <h6>{candidateInfo ? candidateInfo.name : ""}</h6>
+              <h6>{userInfo ? userInfo.name : ""}</h6>
             </div>
             <div
               className="alternate"

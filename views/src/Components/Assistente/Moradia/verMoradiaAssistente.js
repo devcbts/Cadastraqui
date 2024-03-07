@@ -65,6 +65,7 @@ export default function VerMoradiaAssistente({ formData }) {
             disabled
             onChange={handleChange}
             required
+            className="select-data"
           >
             {PropertyStatus.map((status) => (
               <option value={status.value}>{status.label}</option>
@@ -103,6 +104,7 @@ export default function VerMoradiaAssistente({ formData }) {
               disabled
               onChange={handleChange}
               required
+              className="select-data"
             >
               {ContractType.map((type) => (
                 <option value={type.value}>{type.label}</option>
@@ -119,6 +121,7 @@ export default function VerMoradiaAssistente({ formData }) {
             disabled
             onChange={handleChange}
             required
+            className="select-data"
           >
             {TimeLivingInProperty.map((time) => (
               <option value={time.value}>{time.label}</option>
@@ -134,6 +137,7 @@ export default function VerMoradiaAssistente({ formData }) {
             disabled
             onChange={handleChange}
             required
+            className="select-data"
           >
             {DomicileType.map((type) => (
               <option value={type.value}>{type.label}</option>
@@ -149,6 +153,7 @@ export default function VerMoradiaAssistente({ formData }) {
             disabled
             onChange={handleChange}
             required
+            className="select-data"
           >
             {NumberOfRooms.map((number) => (
               <option value={number.value}>{number.label}</option>

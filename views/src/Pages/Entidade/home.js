@@ -10,6 +10,7 @@ import { api } from "../../services/axios";
 import Cookies from "js-cookie";
 import EditalEntidade from "../../Components/editalEntidade";
 import LoadingEdital from "../../Components/Loading/LoadingEdital";
+import { handleAuthError } from "../../ErrorHandling/handleError";
 
 export default function HomeEntidade() {
   const { isShown } = useAppState();
@@ -54,9 +55,7 @@ export default function HomeEntidade() {
         setEntity(response.data.entity)  
  
       } catch(err) {
-        if (err.response.status === 401) {
-          navigate("/login");
-        } 
+        handleAuthError(err,navigate)
       } 
     }
 
@@ -75,7 +74,6 @@ export default function HomeEntidade() {
         })
       } catch(err) {
         console.log(err)
-        navigate('/login')
       }
     }
     const intervalId = setInterval(refreshAccessToken, 480000) // Chama a função refresh token a cada 

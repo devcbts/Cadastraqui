@@ -3,6 +3,8 @@ import axios from 'axios';
 import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o formulário
 import { api } from '../../services/axios';
 import Select from 'react-select';
+import { handleAuthError } from '../../ErrorHandling/handleError';
+import { handleSuccess } from '../../ErrorHandling/handleSuceess';
 export default function VerEmprestimo({formDataInfo}) {
     const [formData, setFormData] = useState(formDataInfo)
     const [isEditing, setIsEditing] = useState(false)
@@ -40,9 +42,11 @@ export default function VerEmprestimo({formDataInfo}) {
             });
             console.log(response.data);
             setIsEditing(false)
+            handleSuccess(response, 'Dados Atualizados com sucesso!')
+
             // Trate a resposta conforme necessário
         } catch (error) {
-            alert(error.message)
+            handleAuthError(error)
             console.error(error.response?.data || error.message);
             // Trate o erro conforme necessário
         }
