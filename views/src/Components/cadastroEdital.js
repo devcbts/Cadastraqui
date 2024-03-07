@@ -170,7 +170,7 @@ export default function CadastroEdital() {
     const [currentCourse, setCurrentCourse] = useState({
         availableCourses: '',
         offeredVacancies: 5000,
-        verifiedScholarships: 0,
+        verifiedScholarships: 1,
         semester: 1,
         grade: '',
         basicEduType: '',
@@ -194,11 +194,11 @@ export default function CadastroEdital() {
             setCurrentCourse({
                 availableCourses: '',
                 offeredVacancies: 5000,
-                verifiedScholarships: 0,
+                verifiedScholarships: 1,
                 semester: 1,
                 grade: '',
-                basicEduType: 'Preschool',
-                scholarshipType: 'Law187Scholarship',
+                basicEduType: '',
+                scholarshipType: '',
                 higherEduScholarshipType: '',
                 offeredCourseType: '',
                 shift: 'Matutino',
@@ -210,7 +210,7 @@ export default function CadastroEdital() {
             setCurrentCourse({
                 availableCourses: '',
                 offeredVacancies: 5000,
-                verifiedScholarships: 0,
+                verifiedScholarships: 1,
                 semester: 1,
                 grade: '',
                 basicEduType: '',
@@ -624,6 +624,7 @@ export default function CadastroEdital() {
                                 <select className='select-educational'
                                     onChange={(e) => handleEducationalChange('basicEduType', e.target.value)}
                                 >
+                                    <option value="">Selecione</option>
                                     {/* Substitua BasicEducationType pelo seu array de objetos correspondente */}
                                     {BasicEducationType.map(type => <option value={type.value}>{type.label}</option>)}
                                 </select>
@@ -638,6 +639,7 @@ export default function CadastroEdital() {
                                 <select className='select-educational'
                                     onChange={(e) => handleEducationalChange('scholarshipType', e.target.value)}
                                 >
+                                    <option value="">Selecione</option>
                                     {/* Substitua ScholarshipOfferType pelo seu array de objetos correspondente */}
                                     {ScholarshipOfferType.map(type => <option value={type.value}>{type.label}</option>)}
                                 </select>
@@ -657,7 +659,7 @@ export default function CadastroEdital() {
                             <fieldset>
 
                                 <label>
-                                    Série/Ano:
+                                Ciclo/Ano/Série/Curso:
                                 </label>
                                 <input
                                     type="text"
@@ -721,6 +723,7 @@ export default function CadastroEdital() {
                                     value={coursetype}
                                     onChange={(e) => setCourseType(e.target.value)}
                                 >
+                                    <option value="">Selecione</option>
                                     {OfferedCourseType.map(type => <option value={type.value}>{type.label}</option>)}
                                 </select>
 
@@ -734,6 +737,7 @@ export default function CadastroEdital() {
                                 <select id="curso-dropdown" value={currentCourse.availableCourses} onChange={handleSelectChange}>
                                     {coursetype === 'UndergraduateBachelor' &&
                                         <optgroup label="Cursos Gerais">
+
                                             {dadosCursos.bacharelado.map((curso, index) => (
                                                 <option key={index} value={curso}>
                                                     {curso}
@@ -787,6 +791,7 @@ export default function CadastroEdital() {
                                     </label>
                                     <input style={{ width: '30%' }}
                                         type="number"
+                                        min={1}
                                         value={currentCourse.verifiedScholarships}
                                         onChange={(e) => handleEducationalChange('verifiedScholarships', Number(e.target.value))}
                                     />

@@ -103,7 +103,10 @@ export default function MembrosFamiliaRendaAssistente({ id}) {
         alert(err);
       }
     }
-    fetchFamilyMembers();
+    if (identityInfo) {
+      
+      fetchFamilyMembers();
+    }
   }, [identityInfo]);
 
   function handleShowRegisterIncome(familyMemberId) {

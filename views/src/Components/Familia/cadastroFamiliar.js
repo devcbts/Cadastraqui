@@ -436,6 +436,7 @@ export default function CadastroFamiliar() {
                     <label for="skinColor" id="skinColor-label">Cor ou Raça:</label>
                     <br />
                     <select name="skinColor" onChange={handleInputChange} value={familyMember.skinColor} id="skinColor" class="select-data">
+                        <option value="">Selecione</option>
                         {SkinColor.map((type) => <option value={type.value}>{type.label}</option>)}
 
                     </select>
@@ -493,7 +494,7 @@ export default function CadastroFamiliar() {
 
                 {/*<!-- Telefone de Trabalho -->*/}
                 <div class="survey-box">
-                    <label for="workPhone" id="workPhone-label">Telefone Alternativo/Recado:</label>
+                    <label for="workPhone" id="workPhone-label"> Telefone de trabalho/recado:</label>
                     <br />
                     <input type="text" name="workPhone" onChange={handleInputChange} value={familyMember.workPhone} id="workPhone" class="survey-control" />
                 </div>

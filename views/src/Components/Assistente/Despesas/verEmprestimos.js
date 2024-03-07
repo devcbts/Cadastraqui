@@ -3,7 +3,7 @@ import axios from 'axios';
 import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o formulário
 import Select from 'react-select';
 import { api } from '../../../services/axios';
-export default function VerEmprestimo({formData,id}) {
+export default function VerEmprestimo({formData,id, candidate}) {
     /*const [formData, setFormData] = useState({
         familyMemberName: '',
         installmentValue: '',
@@ -44,7 +44,14 @@ export default function VerEmprestimo({formData,id}) {
 
     const [familyMembers, setFamilyMembers] = useState([]);
     const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState('');
+    const [opcoes, setOpcoes] = useState([])
+    const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
 
+    useEffect(() => {
+        setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
+        { value: candidato.id, label: candidato.nome, type: 'candidate' }])
+        console.log(familyMembers)
+    },[familyMembers])
     useEffect(() => {
 
         async function pegarFamiliares() {
@@ -80,10 +87,10 @@ export default function VerEmprestimo({formData,id}) {
                 <div className='survey-box'>
                     <label>Nome do Familiar:</label>
                     <Select
-                        options={familyMembers}
+                        options={opcoes}
                         isDisabled
                         onChange={handleSelectChange}
-                        value={familyMembers.find(option => option.label === formData.familyMemberName)}
+                        value={opcoes.find(option => option.label === formData.familyMemberName)}
                         required
                     />
                 </div>

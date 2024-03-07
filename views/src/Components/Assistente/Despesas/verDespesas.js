@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './cadastroDespesas.css';
 import { api } from '../../../services/axios';
 
-export default function VerDespesas({ formData }) {
+export default function VerDespesas({ formData, candidate }) {
     console.log('====================================');
     console.log(formData.otherExpensesDescription);
     console.log('====================================');

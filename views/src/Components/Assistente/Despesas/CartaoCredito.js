@@ -4,7 +4,7 @@ import VerCartao from './verCartao.js'; // Certifique-se de que o nome está cor
 import { api } from '../../../services/axios.js';
 import LoadingCadastroCandidato from '../../Loading/LoadingCadastroCandidato.js';
 
-export default function CartaoCredito({id}) {
+export default function CartaoCredito({candidate,id}) {
     const [creditCardsInstances, setCreditCardsInstances] = useState([]);
     const [selectedCreditCard, setSelectedCreditCard] = useState(null);
     const [mostrarCadastro, setMostrarCadastro] = useState(false);
@@ -52,7 +52,7 @@ export default function CartaoCredito({id}) {
                 />
             )}
             
-                {selectedCreditCard ? <VerCartao formData={selectedCreditCard} id={id}/> : <LoadingCadastroCandidato/>}
+                {selectedCreditCard ? <VerCartao formData={selectedCreditCard} candidate={candidate} id={id}/> : <LoadingCadastroCandidato/>}
             
 
             

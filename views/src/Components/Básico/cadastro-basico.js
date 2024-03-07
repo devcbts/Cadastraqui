@@ -589,7 +589,7 @@ export default function CadastroBasico() {
           {/*<!-- Cor da Pele -->*/}
           <div class="survey-box">
             <label for="skinColor" id="skinColor-label">
-              Cor / Raça:
+              Cor ou Raça:
             </label>
             <br />
             <select
@@ -599,7 +599,7 @@ export default function CadastroBasico() {
               id="skinColor"
               class="select-data"
             >
-              <option value="undefined">Escolha a Cor de Pele</option>
+              <option value="undefined">Selecione</option>
               {SkinColor.map((type) => (
                 <option value={type.value}>{type.label}</option>
               ))}
@@ -719,7 +719,7 @@ export default function CadastroBasico() {
           {/*<!-- Telefone de Trabalho -->*/}
           <div class="survey-box">
             <label for="workPhone" id="workPhone-label">
-              Telefone Comercial:
+            Telefone de trabalho/recado:
             </label>
             <br />
             <input

@@ -351,6 +351,7 @@ export default function VerFamiliar({ familyMember }) {
                     <label for="skinColor" id="skinColor-label">Cor ou Raça:</label>
                     <br />
                     <select name="skinColor" disabled={!isEditing} onChange={handleInputChange} value={familyMemberInfo.skinColor} id="skinColor" class="select-data">
+                        <option value="">Selecione</option>
                         {SkinColor.map((type) => <option value={type.value}>{type.label}</option>)}
 
                     </select>
@@ -408,7 +409,7 @@ export default function VerFamiliar({ familyMember }) {
 
                 {/*<!-- Telefone de Trabalho -->*/}
                 <div class="survey-box">
-                    <label for="workPhone" id="workPhone-label">Telefone Alternativo/Recado:</label>
+                    <label for="workPhone" id="workPhone-label"> Telefone de trabalho/recado:</label>
                     <br />
                     <input type="text" name="workPhone" disabled={!isEditing} onChange={handleInputChange} value={familyMemberInfo.workPhone} id="workPhone" class="survey-control" />
                 </div>

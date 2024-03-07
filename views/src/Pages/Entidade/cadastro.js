@@ -212,14 +212,14 @@ export default function CadastroEntidade() {
 
       const token = localStorage.getItem("token");
       try {
-        await api.post("/entities/director/", createInfo, {
+       const response = await api.post("/entities/director/", createInfo, {
           headers: {
             authorization: `Bearer ${token}`,
           },
         });
-        alert("Diretor cadastrado com sucesso.");
+        handleSuccess(response,"Diretor cadastrado com sucesso.");
       } catch (err) {
-        alert(`${err.response.data.message}`);
+        handleAuthError(err)
         console.log(err);
       }
     } else {
@@ -616,7 +616,7 @@ export default function CadastroEntidade() {
                 </fieldset>
 
                 <fieldset className="btn-field">
-                  <button name="submit" type="button" id="contact-submit">
+                  <button name="submit" type="button" id="contact-submit" onClick={handleCreateDirector}>
                     Cadastrar
                   </button>
                 </fieldset>

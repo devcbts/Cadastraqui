@@ -289,7 +289,7 @@ const LgpdPopup = ({ onClose }) => (
       </p>
 
       <button className="btn-accept" onClick={onClose}>
-        Li e Aceito
+        Fechar
       </button>
     </div>
   </div>

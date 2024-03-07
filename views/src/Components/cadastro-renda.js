@@ -377,207 +377,10 @@ export const CadastroRenda = ({  member  }) => {
         compensationValue6: 0,
         judicialPensionValue6: 0,
     
-        quantity: 0,
+        quantity: 3,
         })
     },[member])
-    /*function handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-        if (event.target.multiple) {
-            const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-            setFamilyMemberIncome(prevState => ({
-                ...prevState,
-                [name]: selectedOptions
-            }));
-        } else {
-          setFamilyMemberIncome(prevState => ({
-                ...prevState,
-                [name]: value
-            }));
-        }
 
-        if (name === 'incomeSource') {
-            const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-
-            // Verifica se "Empresário" está selecionado
-            if (selectedOptions.includes('BusinessOwner')) {
-                setIsEntepreneur(true);
-            } else {
-                setIsEntepreneur(false);
-            }
-            // Verifica se "Desempregado" está selecionado
-            if (selectedOptions.includes('Unemployed')) {
-                setIsUnemployed(true);
-            } else {
-                setIsUnemployed(false);
-            }
-            // Verifica se "Autônomo" está selecionado
-            if (selectedOptions.includes('SelfEmployed')) {
-                setIsAutonomous(true);
-            } else {
-                setIsAutonomous(false);
-            }
-            // Verifica se "MEI" está selecionado
-            if (selectedOptions.includes('IndividualEntrepreneur')) {
-                setIsMEI(true);
-            } else {
-                setIsMEI(false);
-            }
-        }
-        console.log('====================================');
-        console.log(familyMemberIncome);
-        console.log('====================================');
-    }
-
-    const [familyMembers, setFamilyMembers] = useState()
-    const [showRegisterFields,setShowRegisterFields] = useState()
-
-    function handleShowRegisterFields() {
-      if(showRegisterFields === 'show') {
-        setShowRegisterFields('hide')
-      } else if(showRegisterFields === 'hide') {
-        setShowRegisterFields('show')
-      }
-    }
-
-    /*async function handleRegisterMEIIncome(e) {
-        e.preventDefault()
-        const token = localStorage.getItem('token');
-        
-        
-        console.log(data)
-
-        try {
-
-            
-                const response = await api.post('/canditexts/family-member/income', data, {
-                    headers: {
-                        'authorization': `Bearer ${token}`,
-                    }
-                })
-                console.log('====================================');
-                console.log(response.status);
-                console.log('====================================');
-            
-        }
-        catch (error) {
-          console.log(error)
-          alert(error.response.data.message);
-        }
-    }
-
-    /*async function RegisterFamilyMemberIncome(e) {
-        e.preventDefault()
-        const token = localStorage.getItem('token');
-        const data = {
-            relationship: familyMemberIncome.relationship, // deve ser inicializado com um dos valores do enum Relationship
-            otherRelationship: familyMemberIncome.otherRelationship ||'Vô',
-            fullName: familyMemberIncome.fullName,
-            socialName: familyMemberIncome.socialName,
-            birthtext: familyMemberIncome.birthDate,
-            gender: familyMemberIncome.gender, // deve ser inicializado com um dos valores do enum GENDER
-            nationality: familyMemberIncome.nationality,
-            natural_city: familyMemberIncome.natural_city,
-            natural_UF: familyMemberIncome.natural_UF, // deve ser inicializado com um dos valores do enum COUNTRY
-            CPF: familyMemberIncome.CPF, // deve ser inicializado com um,
-            RG: familyMemberIncome.RG, // deve ser inicializ,
-            rgIssuingAuthority: familyMemberIncome.rgIssuingAuthority,
-            rgIssuingState: familyMemberIncome.rgIssuingState, // deve ser inicializado com um dos valores do enum COUNTRY
-            documentType: familyMemberIncome.documentType || 'DriversLicense', // deve ser inicializado com um dos valores do enum DOCUMENT_TYPE ou null
-            documentNumber: familyMemberIncome.documentNumber || '222',
-            documentValidity: familyMemberIncome.documentValidity || '2003-06-18', // deve ser in
-            numberOfBirthRegister: familyMemberIncome.numberOfBirthRegister || '222',
-            bookOfBirthRegister: familyMemberIncome.bookOfBirthRegister || '212',
-            pageOfBirthRegister: familyMemberIncome.pageOfBirthRegister || '1231',
-            maritalStatus: familyMemberIncome.maritalStatus, // deve ser inicializado com um dos valores do enum MARITAL_STATUS
-            skinColor: familyMemberIncome.skinColor, // deve ser inicializado com um dos valores do enum SkinColor
-            religion: familyMemberIncome.religion, // deve ser inicializado com um dos valores do enum RELIGION
-            educationLevel: familyMemberIncome.educationLevel, // deve ser inicializado com um dos valores do enum SCHOLARSHIP
-            specialNeeds: familyMemberIncome.specialNeeds,
-            specialNeedsDescription: familyMemberIncome.specialNeedsDescription,
-            hasMedicalReport: familyMemberIncome.hasMedicalReport,
-            landlinePhone: familyMemberIncome.landlinePhone,
-            workPhone: familyMemberIncome.workPhone,
-            contactNameForMessage: familyMemberIncome.contactNameForMessage,
-            email: familyMemberIncome.email,
-            address: familyMemberIncome.address,
-            city: familyMemberIncome.city,
-            UF: familyMemberIncome.UF, // deve ser inicializado com um dos valores do enum COUNTRY
-            CEP: familyMemberIncome.CEP,
-            neighborhood: familyMemberIncome.neighborhood,
-            addressNumber: familyMemberIncome.addressNumber, // Iniciar com um número inteiro
-            profession: familyMemberIncome.profession,
-            enrolledGovernmentProgram: familyMemberIncome.enrolledGovernmentProgram,
-            NIS: familyMemberIncome.NIS,
-            educationPlace: 'null9oo', // Iniciar como null ou um dos valores do enum Institution_Type
-            institutionName: 'nullooo',
-            coursingEducationLevel: 'Alfabetizacao', // Iniciar como null ou um dos valores do enum Education_Type
-            cycleOfEducation: '332',
-            turnOfEducation: 'Matutino', // Iniciar como null ou um dos valores do enum SHIFT
-            hasScholarship: false,
-            percentageOfScholarship: '500',
-            monthlyAmount: '544',
-            incomeSource: familyMemberIncome.incomeSource
-        }
-
-        console.log(data)
-
-        try {
-            const response = await api.post('/candidates/family-member', {
-                relationship: familyMemberIncome.relationship, // deve ser inicializado com um dos valores do enum Relationship
-                otherRelationship: familyMemberIncome.otherRelationship ||'Vô',
-                fullName: familyMemberIncome.fullName,
-                socialName: familyMemberIncome.socialName,
-                birthDate: familyMemberIncome.birthDate,
-                gender: familyMemberIncome.gender, // deve ser inicializado com um dos valores do enum GENDER
-                nationality: familyMemberIncome.nationality,
-                natural_city: familyMemberIncome.natural_city,
-                natural_UF: familyMemberIncome.natural_UF, // deve ser inicializado com um dos valores do enum COUNTRY
-                CPF: familyMemberIncome.CPF, // deve ser inicializado com um,
-                RG: familyMemberIncome.RG, // deve ser inicializ,
-                rgIssuingAuthority: familyMemberIncome.rgIssuingAuthority,
-                rgIssuingState: familyMemberIncome.rgIssuingState, // deve ser inicializado com um dos valores do enum COUNTRY
-                documentType: familyMemberIncome.documentType || 'DriversLicense', // deve ser inicializado com um dos valores do enum DOCUMENT_TYPE ou null
-                documentNumber: familyMemberIncome.documentNumber || '222',
-                documentValidity: familyMemberIncome.documentValidity || '2003-06-18', // deve ser in
-                numberOfBirthRegister: familyMemberIncome.numberOfBirthRegister || '222',
-                bookOfBirthRegister: familyMemberIncome.bookOfBirthRegister || '212',
-                pageOfBirthRegister: familyMemberIncome.pageOfBirthRegister || '1231',
-                maritalStatus: familyMemberIncome.maritalStatus, // deve ser inicializado com um dos valores do enum MARITAL_STATUS
-                skinColor: familyMemberIncome.skinColor, // deve ser inicializado com um dos valores do enum SkinColor
-                religion: familyMemberIncome.religion, // deve ser inicializado com um dos valores do enum RELIGION
-                educationLevel: familyMemberIncome.educationLevel, // deve ser inicializado com um dos valores do enum SCHOLARSHIP
-                specialNeeds: familyMemberIncome.specialNeeds,
-                specialNeedsDescription: familyMemberIncome.specialNeedsDescription,
-                hasMedicalReport: familyMemberIncome.hasMedicalReport,
-                landlinePhone: familyMemberIncome.landlinePhone,
-                workPhone: familyMemberIncome.workPhone,
-                contactNameForMessage: familyMemberIncome.contactNameForMessage,
-                email: familyMemberIncome.email,
-                address: familyMemberIncome.address,
-                city: familyMemberIncome.city,
-                UF: familyMemberIncome.UF, // deve ser inicializado com um dos valores do enum COUNTRY
-                CEP: familyMemberIncome.CEP,
-                neighborhood: familyMemberIncome.neighborhood,
-                addressNumber: Number(familyMemberIncome.addressNumber), // Iniciar com um número inteiro
-                profession: familyMemberIncome.profession,
-                enrolledGovernmentProgram: familyMemberIncome.enrolledGovernmentProgram,
-                NIS: familyMemberIncome.NIS,
-                incomeSource: familyMemberIncome.incomeSource
-            }, {
-                headers: {
-                    'authorization': `Bearer ${token}`,
-                }
-            })
-            console.log('====================================');
-            console.log(response.status);
-            console.log('====================================');
-        }
-        catch (error) {
-            alert(error.issues);
-        }
-    }*/
     const [MEIInfo, setMEIInfo] = useState({
         startDate:'',
         CNPJ: ''
@@ -764,6 +567,7 @@ export const CadastroRenda = ({  member  }) => {
             judicialPensionValue6: Number(incomeInfo.judicialPensionValue6),
 
             quantity: incomeInfo.quantity,
+            incomeSource: incomeSource
           
         };
         console.log(data)
@@ -937,7 +741,7 @@ export const CadastroRenda = ({  member  }) => {
                     }
                 })
             }
-            if(incomeSource === 'Autonomous') {
+            if(incomeSource === 'SelfEmployed') {
                 const data2 = {
                     employmentType: incomeSource
                 }
@@ -1070,7 +874,20 @@ export const CadastroRenda = ({  member  }) => {
                     }
                 })
             }
-            
+            if (incomeSource === 'BusinessOwner' || incomeSource === 'BusinessOwnerSimplifiedTax') {
+                const data2 = {
+                    employmentType: incomeSource,
+                    startDate: entepreneurInfo.startDate,
+                    socialReason: entepreneurInfo.socialReason,
+                    fantasyName: entepreneurInfo.fantasyName,
+                    CNPJ: entepreneurInfo.CNPJ,
+                }
+                await api.post(`/candidates/family-member/entepreneur/${member.id}`, data2, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                }) 
+            }
             console.log('====================================');
             handleSuccess(response, 'Dados cadastrados com sucesso')
             ;
@@ -1401,7 +1218,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* Autônomo */}
-                {(member.incomeSource.includes('Autonomous') 
+                {(member.incomeSource.includes('SelfEmployed') 
                  ) && 
                 (
                     <>
@@ -1749,7 +1566,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* Profissional Liberal */}
-                {(member.incomeSource.includes('LiberalProfessional') || member.incomeSource.includes('SelfEmployed') 
+                {(member.incomeSource.includes('LiberalProfessional')
                  ) && 
                 (
                     <>
@@ -2126,7 +1943,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* Empresário */}
-                {member.incomeSource.includes('BusinessOwner') &&
+                {member.incomeSource.includes('BusinessOwner') && member.incomeSource.includes('BusinessOwnerSimplifiedTax')
                 (
                     <>
                    {/*<!-- Data de Início -->*/}
@@ -2145,7 +1962,7 @@ export const CadastroRenda = ({  member  }) => {
                    <div class="survey-box">
                        <label for="fantasyName" id="fantasyName-label">Nome Fantasia</label>
                        <br />
-                       <input type="date" name="fantasyName" value={entepreneurInfo.fantasyName} onChange={handleEntepreneurInputChange} id="fantasyName" class="survey-control" />
+                       <input type="text" name="fantasyName" value={entepreneurInfo.fantasyName} onChange={handleEntepreneurInputChange} id="fantasyName" class="survey-control" />
                    </div>
                    {/*<!-- CNPJ -->*/}
                    <div class="survey-box">
