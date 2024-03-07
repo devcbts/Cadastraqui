@@ -25,15 +25,14 @@ export async function getApplications(
   try {
     const userType = request.user.role
     const userId = request.user.sub
-
-
-    if (userType === 'CANDIDATE') {
-      const candidate = await prisma.candidate.findUnique({
-        where: { user_id: userId },
-      })
-      if (!candidate) {
-        throw new NotAllowedError()
-      }
+    
+    const candidate = await prisma.candidate.findUnique({
+      where: { user_id: userId },
+    })
+    
+    if (candidate) {
+      
+      
 
       if (application_id) {
         const solicitations = await prisma.applicationHistory.findMany({
