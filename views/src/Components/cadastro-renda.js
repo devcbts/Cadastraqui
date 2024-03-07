@@ -3,8 +3,8 @@ import "./Familia/cadastroFamiliar.css";
 import { useState } from "react";
 import { api } from "../services/axios";
 import FamilyMember from "./family-member";
-import "./cadastro-renda.css";
-import "./cadastro-renda.scss";
+import { handleSuccess } from "../ErrorHandling/handleSuceess";
+import { handleAuthError } from "../ErrorHandling/handleError";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
@@ -379,207 +379,10 @@ export const CadastroRenda = ({ member }) => {
       compensationValue6: 0,
       judicialPensionValue6: 0,
 
-      quantity: 0,
+      quantity: 3,
     });
   }, [member]);
-  /*function handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-        if (event.target.multiple) {
-            const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-            setFamilyMemberIncome(prevState => ({
-                ...prevState,
-                [name]: selectedOptions
-            }));
-        } else {
-          setFamilyMemberIncome(prevState => ({
-                ...prevState,
-                [name]: value
-            }));
-        }
 
-        if (name === 'incomeSource') {
-            const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-
-            // Verifica se "Empresário" está selecionado
-            if (selectedOptions.includes('BusinessOwner')) {
-                setIsEntepreneur(true);
-            } else {
-                setIsEntepreneur(false);
-            }
-            // Verifica se "Desempregado" está selecionado
-            if (selectedOptions.includes('Unemployed')) {
-                setIsUnemployed(true);
-            } else {
-                setIsUnemployed(false);
-            }
-            // Verifica se "Autônomo" está selecionado
-            if (selectedOptions.includes('SelfEmployed')) {
-                setIsAutonomous(true);
-            } else {
-                setIsAutonomous(false);
-            }
-            // Verifica se "MEI" está selecionado
-            if (selectedOptions.includes('IndividualEntrepreneur')) {
-                setIsMEI(true);
-            } else {
-                setIsMEI(false);
-            }
-        }
-        console.log('====================================');
-        console.log(familyMemberIncome);
-        console.log('====================================');
-    }
-
-    const [familyMembers, setFamilyMembers] = useState()
-    const [showRegisterFields,setShowRegisterFields] = useState()
-
-    function handleShowRegisterFields() {
-      if(showRegisterFields === 'show') {
-        setShowRegisterFields('hide')
-      } else if(showRegisterFields === 'hide') {
-        setShowRegisterFields('show')
-      }
-    }
-
-    /*async function handleRegisterMEIIncome(e) {
-        e.preventDefault()
-        const token = localStorage.getItem('token');
-        
-        
-        console.log(data)
-
-        try {
-
-            
-                const response = await api.post('/canditexts/family-member/income', data, {
-                    headers: {
-                        'authorization': `Bearer ${token}`,
-                    }
-                })
-                console.log('====================================');
-                console.log(response.status);
-                console.log('====================================');
-            
-        }
-        catch (error) {
-          console.log(error)
-          alert(error.response.data.message);
-        }
-    }
-
-    /*async function RegisterFamilyMemberIncome(e) {
-        e.preventDefault()
-        const token = localStorage.getItem('token');
-        const data = {
-            relationship: familyMemberIncome.relationship, // deve ser inicializado com um dos valores do enum Relationship
-            otherRelationship: familyMemberIncome.otherRelationship ||'Vô',
-            fullName: familyMemberIncome.fullName,
-            socialName: familyMemberIncome.socialName,
-            birthtext: familyMemberIncome.birthDate,
-            gender: familyMemberIncome.gender, // deve ser inicializado com um dos valores do enum GENDER
-            nationality: familyMemberIncome.nationality,
-            natural_city: familyMemberIncome.natural_city,
-            natural_UF: familyMemberIncome.natural_UF, // deve ser inicializado com um dos valores do enum COUNTRY
-            CPF: familyMemberIncome.CPF, // deve ser inicializado com um,
-            RG: familyMemberIncome.RG, // deve ser inicializ,
-            rgIssuingAuthority: familyMemberIncome.rgIssuingAuthority,
-            rgIssuingState: familyMemberIncome.rgIssuingState, // deve ser inicializado com um dos valores do enum COUNTRY
-            documentType: familyMemberIncome.documentType || 'DriversLicense', // deve ser inicializado com um dos valores do enum DOCUMENT_TYPE ou null
-            documentNumber: familyMemberIncome.documentNumber || '222',
-            documentValidity: familyMemberIncome.documentValidity || '2003-06-18', // deve ser in
-            numberOfBirthRegister: familyMemberIncome.numberOfBirthRegister || '222',
-            bookOfBirthRegister: familyMemberIncome.bookOfBirthRegister || '212',
-            pageOfBirthRegister: familyMemberIncome.pageOfBirthRegister || '1231',
-            maritalStatus: familyMemberIncome.maritalStatus, // deve ser inicializado com um dos valores do enum MARITAL_STATUS
-            skinColor: familyMemberIncome.skinColor, // deve ser inicializado com um dos valores do enum SkinColor
-            religion: familyMemberIncome.religion, // deve ser inicializado com um dos valores do enum RELIGION
-            educationLevel: familyMemberIncome.educationLevel, // deve ser inicializado com um dos valores do enum SCHOLARSHIP
-            specialNeeds: familyMemberIncome.specialNeeds,
-            specialNeedsDescription: familyMemberIncome.specialNeedsDescription,
-            hasMedicalReport: familyMemberIncome.hasMedicalReport,
-            landlinePhone: familyMemberIncome.landlinePhone,
-            workPhone: familyMemberIncome.workPhone,
-            contactNameForMessage: familyMemberIncome.contactNameForMessage,
-            email: familyMemberIncome.email,
-            address: familyMemberIncome.address,
-            city: familyMemberIncome.city,
-            UF: familyMemberIncome.UF, // deve ser inicializado com um dos valores do enum COUNTRY
-            CEP: familyMemberIncome.CEP,
-            neighborhood: familyMemberIncome.neighborhood,
-            addressNumber: familyMemberIncome.addressNumber, // Iniciar com um número inteiro
-            profession: familyMemberIncome.profession,
-            enrolledGovernmentProgram: familyMemberIncome.enrolledGovernmentProgram,
-            NIS: familyMemberIncome.NIS,
-            educationPlace: 'null9oo', // Iniciar como null ou um dos valores do enum Institution_Type
-            institutionName: 'nullooo',
-            coursingEducationLevel: 'Alfabetizacao', // Iniciar como null ou um dos valores do enum Education_Type
-            cycleOfEducation: '332',
-            turnOfEducation: 'Matutino', // Iniciar como null ou um dos valores do enum SHIFT
-            hasScholarship: false,
-            percentageOfScholarship: '500',
-            monthlyAmount: '544',
-            incomeSource: familyMemberIncome.incomeSource
-        }
-
-        console.log(data)
-
-        try {
-            const response = await api.post('/candidates/family-member', {
-                relationship: familyMemberIncome.relationship, // deve ser inicializado com um dos valores do enum Relationship
-                otherRelationship: familyMemberIncome.otherRelationship ||'Vô',
-                fullName: familyMemberIncome.fullName,
-                socialName: familyMemberIncome.socialName,
-                birthDate: familyMemberIncome.birthDate,
-                gender: familyMemberIncome.gender, // deve ser inicializado com um dos valores do enum GENDER
-                nationality: familyMemberIncome.nationality,
-                natural_city: familyMemberIncome.natural_city,
-                natural_UF: familyMemberIncome.natural_UF, // deve ser inicializado com um dos valores do enum COUNTRY
-                CPF: familyMemberIncome.CPF, // deve ser inicializado com um,
-                RG: familyMemberIncome.RG, // deve ser inicializ,
-                rgIssuingAuthority: familyMemberIncome.rgIssuingAuthority,
-                rgIssuingState: familyMemberIncome.rgIssuingState, // deve ser inicializado com um dos valores do enum COUNTRY
-                documentType: familyMemberIncome.documentType || 'DriversLicense', // deve ser inicializado com um dos valores do enum DOCUMENT_TYPE ou null
-                documentNumber: familyMemberIncome.documentNumber || '222',
-                documentValidity: familyMemberIncome.documentValidity || '2003-06-18', // deve ser in
-                numberOfBirthRegister: familyMemberIncome.numberOfBirthRegister || '222',
-                bookOfBirthRegister: familyMemberIncome.bookOfBirthRegister || '212',
-                pageOfBirthRegister: familyMemberIncome.pageOfBirthRegister || '1231',
-                maritalStatus: familyMemberIncome.maritalStatus, // deve ser inicializado com um dos valores do enum MARITAL_STATUS
-                skinColor: familyMemberIncome.skinColor, // deve ser inicializado com um dos valores do enum SkinColor
-                religion: familyMemberIncome.religion, // deve ser inicializado com um dos valores do enum RELIGION
-                educationLevel: familyMemberIncome.educationLevel, // deve ser inicializado com um dos valores do enum SCHOLARSHIP
-                specialNeeds: familyMemberIncome.specialNeeds,
-                specialNeedsDescription: familyMemberIncome.specialNeedsDescription,
-                hasMedicalReport: familyMemberIncome.hasMedicalReport,
-                landlinePhone: familyMemberIncome.landlinePhone,
-                workPhone: familyMemberIncome.workPhone,
-                contactNameForMessage: familyMemberIncome.contactNameForMessage,
-                email: familyMemberIncome.email,
-                address: familyMemberIncome.address,
-                city: familyMemberIncome.city,
-                UF: familyMemberIncome.UF, // deve ser inicializado com um dos valores do enum COUNTRY
-                CEP: familyMemberIncome.CEP,
-                neighborhood: familyMemberIncome.neighborhood,
-                addressNumber: Number(familyMemberIncome.addressNumber), // Iniciar com um número inteiro
-                profession: familyMemberIncome.profession,
-                enrolledGovernmentProgram: familyMemberIncome.enrolledGovernmentProgram,
-                NIS: familyMemberIncome.NIS,
-                incomeSource: familyMemberIncome.incomeSource
-            }, {
-                headers: {
-                    'authorization': `Bearer ${token}`,
-                }
-            })
-            console.log('====================================');
-            console.log(response.status);
-            console.log('====================================');
-        }
-        catch (error) {
-            alert(error.issues);
-        }
-    }*/
   const [MEIInfo, setMEIInfo] = useState({
     startDate: "",
     CNPJ: "",
@@ -766,6 +569,7 @@ export const CadastroRenda = ({ member }) => {
       judicialPensionValue6: Number(incomeInfo.judicialPensionValue6),
 
       quantity: incomeInfo.quantity,
+      incomeSource: incomeSource,
     };
     console.log(data);
 
@@ -957,7 +761,7 @@ export const CadastroRenda = ({ member }) => {
           }
         );
       }
-      if (incomeSource === "Autonomous") {
+      if (incomeSource === "SelfEmployed") {
         const data2 = {
           employmentType: incomeSource,
         };
@@ -1098,14 +902,33 @@ export const CadastroRenda = ({ member }) => {
           },
         });
       }
-
+      if (
+        incomeSource === "BusinessOwner" ||
+        incomeSource === "BusinessOwnerSimplifiedTax"
+      ) {
+        const data2 = {
+          employmentType: incomeSource,
+          startDate: entepreneurInfo.startDate,
+          socialReason: entepreneurInfo.socialReason,
+          fantasyName: entepreneurInfo.fantasyName,
+          CNPJ: entepreneurInfo.CNPJ,
+        };
+        await api.post(
+          `/candidates/family-member/entepreneur/${member.id}`,
+          data2,
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      }
       console.log("====================================");
-      console.log(response.status);
-      alert("Cadastro Realizado com Sucesso, prossiga para a próxima parte.");
+      handleSuccess(response, "Dados cadastrados com sucesso");
       console.log("====================================");
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
+      handleAuthError(error);
     }
   }
 
@@ -1552,14 +1375,14 @@ export const CadastroRenda = ({ member }) => {
           )}
 
           {/* Autônomo */}
-          {member.incomeSource.includes("Autonomous") && (
+          {member.incomeSource.includes("SelfEmployed") && (
             <>
               {/*<!-- Renda Fixa ? -->*/}
-              <div class="survey-box survey-renda" id="box-renda-fixa">
+              <div class="survey-box">
                 <label for="fixIncome" id="fixIncome-label">
                   Renda Fixa ?
                 </label>
-
+                <br />
                 <input
                   type="checkbox"
                   name="fixIncome"
@@ -1570,14 +1393,10 @@ export const CadastroRenda = ({ member }) => {
                 />
               </div>
               {!fixIncomeAutonomous ? (
-                <div className="mes-ano-box">
+                <div>
                   {Array.from({ length: 6 }).map((_, i) => (
                     <>
-                      <div
-                        key={`month-${i}`}
-                        className="survey-box survey-renda"
-                        id="survey-input"
-                      >
+                      <div key={`month-${i}`} className="survey-box">
                         <label htmlFor={`month${i}`} id={`month${i}-label`}>
                           Mês {i + 1}
                         </label>
@@ -1593,11 +1412,7 @@ export const CadastroRenda = ({ member }) => {
                           className="survey-control"
                         />
                       </div>
-                      <div
-                        key={`year-${i}`}
-                        className="survey-box survey-renda"
-                        id="survey-input"
-                      >
+                      <div key={`year-${i}`} className="survey-box">
                         <label htmlFor={`year${i}`} id={`year${i}-label`}>
                           Ano {i + 1}
                         </label>
@@ -1613,11 +1428,7 @@ export const CadastroRenda = ({ member }) => {
                           className="survey-control"
                         />
                       </div>
-                      <div
-                        key={`grossAmount-${i}`}
-                        className="survey-box survey-renda"
-                        id="survey-input"
-                      >
+                      <div key={`grossAmount-${i}`} className="survey-box">
                         <label
                           htmlFor={`grossAmount${i}`}
                           id={`grossAmount${i}-label`}
@@ -1643,14 +1454,10 @@ export const CadastroRenda = ({ member }) => {
                   ))}
                 </div>
               ) : (
-                <div className="mes-ano-box">
+                <div>
                   {Array.from({ length: 3 }).map((_, i) => (
                     <>
-                      <div
-                        key={`month-${i}`}
-                        className="survey-box survey-renda"
-                        id="survey-input"
-                      >
+                      <div key={`month-${i}`} className="survey-box">
                         <label htmlFor={`month${i}`} id={`month${i}-label`}>
                           Mês {i + 1}
                         </label>
@@ -1666,11 +1473,7 @@ export const CadastroRenda = ({ member }) => {
                           className="survey-control"
                         />
                       </div>
-                      <div
-                        key={`year-${i}`}
-                        className="survey-box survey-renda"
-                        id="survey-input"
-                      >
+                      <div key={`year-${i}`} className="survey-box">
                         <label htmlFor={`year${i}`} id={`year${i}-label`}>
                           Ano {i + 1}
                         </label>
@@ -1686,11 +1489,7 @@ export const CadastroRenda = ({ member }) => {
                           className="survey-control"
                         />
                       </div>
-                      <div
-                        key={`grossAmount-${i}`}
-                        className="survey-box survey-renda"
-                        id="survey-input"
-                      >
+                      <div key={`grossAmount-${i}`} className="survey-box">
                         <label
                           htmlFor={`grossAmount${i}`}
                           id={`grossAmount${i}-label`}
@@ -2083,15 +1882,14 @@ export const CadastroRenda = ({ member }) => {
           )}
 
           {/* Profissional Liberal */}
-          {(member.incomeSource.includes("LiberalProfessional") ||
-            member.incomeSource.includes("SelfEmployed")) && (
+          {member.incomeSource.includes("LiberalProfessional") && (
             <>
               {/*<!-- Renda Fixa ? -->*/}
-              <div class="survey-box survey-renda" id="box-renda-fixa">
+              <div class="survey-box">
                 <label for="fixIncome" id="fixIncome-label">
                   Renda Fixa ?
                 </label>
-
+                <br />
                 <input
                   type="checkbox"
                   name="fixIncome"
@@ -2102,14 +1900,10 @@ export const CadastroRenda = ({ member }) => {
                 />
               </div>
               {!fixIncomeLiberalProfessional ? (
-                <div className="mes-ano-box">
+                <div>
                   {Array.from({ length: 6 }).map((_, i) => (
                     <>
-                      <div
-                        key={`month-${i}`}
-                        className="survey-box survey-renda"
-                        id="survey-input"
-                      >
+                      <div key={`month-${i}`} className="survey-box">
                         <label htmlFor={`month${i}`} id={`month${i}-label`}>
                           Mês {i + 1}
                         </label>
@@ -2125,11 +1919,7 @@ export const CadastroRenda = ({ member }) => {
                           className="survey-control"
                         />
                       </div>
-                      <div
-                        key={`year-${i}`}
-                        className="survey-box survey-renda"
-                        id="survey-input"
-                      >
+                      <div key={`year-${i}`} className="survey-box">
                         <label htmlFor={`year${i}`} id={`year${i}-label`}>
                           Ano {i + 1}
                         </label>
@@ -2145,11 +1935,7 @@ export const CadastroRenda = ({ member }) => {
                           className="survey-control"
                         />
                       </div>
-                      <div
-                        key={`grossAmount-${i}`}
-                        className="survey-box survey-renda"
-                        id="survey-input"
-                      >
+                      <div key={`grossAmount-${i}`} className="survey-box">
                         <label
                           htmlFor={`grossAmount${i}`}
                           id={`grossAmount${i}-label`}
@@ -2175,14 +1961,10 @@ export const CadastroRenda = ({ member }) => {
                   ))}
                 </div>
               ) : (
-                <div className="mes-ano-box">
+                <div>
                   {Array.from({ length: 3 }).map((_, i) => (
                     <>
-                      <div
-                        key={`month-${i}`}
-                        className="survey-box survey-renda"
-                        id="survey-input"
-                      >
+                      <div key={`month-${i}`} className="survey-box">
                         <label htmlFor={`month${i}`} id={`month${i}-label`}>
                           Mês {i + 1}
                         </label>
@@ -2198,11 +1980,7 @@ export const CadastroRenda = ({ member }) => {
                           className="survey-control"
                         />
                       </div>
-                      <div
-                        key={`year-${i}`}
-                        className="survey-box survey-renda"
-                        id="survey-input"
-                      >
+                      <div key={`year-${i}`} className="survey-box">
                         <label htmlFor={`year${i}`} id={`year${i}-label`}>
                           Ano {i + 1}
                         </label>
@@ -2218,11 +1996,7 @@ export const CadastroRenda = ({ member }) => {
                           className="survey-control"
                         />
                       </div>
-                      <div
-                        key={`grossAmount-${i}`}
-                        className="survey-box survey-renda"
-                        id="survey-input"
-                      >
+                      <div key={`grossAmount-${i}`} className="survey-box">
                         <label
                           htmlFor={`grossAmount${i}`}
                           id={`grossAmount${i}-label`}
@@ -2653,197 +2427,184 @@ export const CadastroRenda = ({ member }) => {
           )}
 
           {/* Empresário */}
-          {member.incomeSource.includes("BusinessOwner") && (
-            <>
-              {/*<!-- Data de Início -->*/}
-              <div class="survey-box survey-renda">
-                <label for="startDate" id="startDate-label">
-                  Data de Início
-                </label>
-                <br />
-                <input
-                  type="date"
-                  name="startDate"
-                  value={entepreneurInfo.startDate}
-                  onChange={handleEntepreneurInputChange}
-                  id="startDate"
-                  class="survey-control"
-                />
-              </div>
-              {/*<!-- Razao Social -->*/}
-              <div class="survey-box survey-renda">
-                <label for="socialReason" id="socialReason-label">
-                  Razão Social
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="socialReason"
-                  value={entepreneurInfo.socialReason}
-                  onChange={handleEntepreneurInputChange}
-                  id="socialReason"
-                  class="survey-control"
-                />
-              </div>
-              {/*<!-- Nome Fantasia -->*/}
-              <div class="survey-box survey-renda">
-                <label for="fantasyName" id="fantasyName-label">
-                  Nome Fantasia
-                </label>
-                <br />
-                <input
-                  type="date"
-                  name="fantasyName"
-                  value={entepreneurInfo.fantasyName}
-                  onChange={handleEntepreneurInputChange}
-                  id="fantasyName"
-                  class="survey-control"
-                />
-              </div>
-              {/*<!-- CNPJ -->*/}
-              <div class="survey-box survey-renda">
-                <label for="CNPJ" id="CNPJ-label">
-                  CNPJ
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="CNPJ"
-                  value={entepreneurInfo.CNPJ}
-                  onChange={handleEntepreneurInputChange}
-                  id="CNPJ"
-                  class="survey-control"
-                />
-              </div>
-              <div className="mes-ano-box">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <>
-                    <div
-                      key={`month-${i}`}
-                      className="survey-box survey-renda"
-                      id="survey-input"
-                    >
-                      <label htmlFor={`month${i}`} id={`month${i}-label`}>
-                        Mês {i + 1}
-                      </label>
-                      <br />
-                      <input
-                        type="text"
-                        name={`month${i}`}
-                        id={`month${i}`}
-                        value={incomeInfo[`month${i + 1}`]}
-                        onChange={(e) =>
-                          handleInputChange(`month${i + 1}`, e.target.value)
-                        }
-                        className="survey-control"
-                      />
-                    </div>
-                    <div
-                      key={`year-${i}`}
-                      className="survey-box survey-renda"
-                      id="survey-input"
-                    >
-                      <label htmlFor={`year${i}`} id={`year${i}-label`}>
-                        Ano {i + 1}
-                      </label>
-                      <br />
-                      <input
-                        type="text"
-                        name={`year${i}`}
-                        id={`year${i}`}
-                        value={incomeInfo[`year${i + 1}`]}
-                        onChange={(e) =>
-                          handleInputChange(`year${i + 1}`, e.target.value)
-                        }
-                        className="survey-control"
-                      />
-                    </div>
-                    <div
-                      key={`grossAmount-${i}`}
-                      className="survey-box survey-renda"
-                      id="survey-input"
-                    >
-                      <label
-                        htmlFor={`grossAmount${i}`}
-                        id={`grossAmount${i}-label`}
-                      >
-                        Valor Bruto {i + 1}
-                      </label>
-                      <br />
-                      <input
-                        type="number"
-                        name={`grossAmount${i}`}
-                        id={`grossAmount${i}`}
-                        value={incomeInfo[`grossAmount${i + 1}`]}
-                        onChange={(e) =>
-                          handleInputChange(
-                            `grossAmount${i + 1}`,
-                            e.target.value
-                          )
-                        }
-                        className="survey-control"
-                      />
-                    </div>
-                    <div
-                      key={`proLabore-${i}`}
-                      className="survey-box survey-renda"
-                      id="survey-input"
-                    >
-                      <label
-                        htmlFor={`proLabore${i}`}
-                        id={`proLabore${i}-label`}
-                      >
-                        Valor Do Pró-labore {i + 1}
-                      </label>
-                      <br />
-                      <input
-                        type="number"
-                        name={`proLabore${i}`}
-                        id={`proLabore${i}`}
-                        value={incomeInfo[`proLabore${i + 1}`]}
-                        onChange={(e) =>
-                          handleInputChange(`proLabore${i + 1}`, e.target.value)
-                        }
-                        className="survey-control"
-                      />
-                    </div>
-                    <div
-                      key={`dividends-${i}`}
-                      className="survey-box survey-renda"
-                      id="survey-input"
-                    >
-                      <label
-                        htmlFor={`dividends${i}`}
-                        id={`dividends${i}-label`}
-                      >
-                        Valor dos Dividendos {i + 1}
-                      </label>
-                      <br />
-                      <input
-                        type="number"
-                        name={`dividends${i}`}
-                        id={`dividends${i}`}
-                        value={incomeInfo[`dividends${i + 1}`]}
-                        onChange={(e) =>
-                          handleInputChange(`dividends${i + 1}`, e.target.value)
-                        }
-                        className="survey-control"
-                      />
-                    </div>
-                  </>
-                ))}
-              </div>
-              <div class="survey-box survey-renda">
-                <button
-                  type="submit"
-                  onClick={(e) => handleRegisterIncome(e, "Entepreneur")}
-                  id="submit-button"
-                >
-                  Salvar Informações
-                </button>
-              </div>
-            </>
-          )}
+          {member.incomeSource.includes("BusinessOwner") &&
+            member.incomeSource.includes("BusinessOwnerSimplifiedTax")(
+              <>
+                {/*<!-- Data de Início -->*/}
+                <div class="survey-box">
+                  <label for="startDate" id="startDate-label">
+                    Data de Início
+                  </label>
+                  <br />
+                  <input
+                    type="date"
+                    name="startDate"
+                    value={entepreneurInfo.startDate}
+                    onChange={handleEntepreneurInputChange}
+                    id="startDate"
+                    class="survey-control"
+                  />
+                </div>
+                {/*<!-- Razao Social -->*/}
+                <div class="survey-box">
+                  <label for="socialReason" id="socialReason-label">
+                    Razão Social
+                  </label>
+                  <br />
+                  <input
+                    type="text"
+                    name="socialReason"
+                    value={entepreneurInfo.socialReason}
+                    onChange={handleEntepreneurInputChange}
+                    id="socialReason"
+                    class="survey-control"
+                  />
+                </div>
+                {/*<!-- Nome Fantasia -->*/}
+                <div class="survey-box">
+                  <label for="fantasyName" id="fantasyName-label">
+                    Nome Fantasia
+                  </label>
+                  <br />
+                  <input
+                    type="text"
+                    name="fantasyName"
+                    value={entepreneurInfo.fantasyName}
+                    onChange={handleEntepreneurInputChange}
+                    id="fantasyName"
+                    class="survey-control"
+                  />
+                </div>
+                {/*<!-- CNPJ -->*/}
+                <div class="survey-box">
+                  <label for="CNPJ" id="CNPJ-label">
+                    CNPJ
+                  </label>
+                  <br />
+                  <input
+                    type="text"
+                    name="CNPJ"
+                    value={entepreneurInfo.CNPJ}
+                    onChange={handleEntepreneurInputChange}
+                    id="CNPJ"
+                    class="survey-control"
+                  />
+                </div>
+                <div>
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <>
+                      <div key={`month-${i}`} className="survey-box">
+                        <label htmlFor={`month${i}`} id={`month${i}-label`}>
+                          Mês {i + 1}
+                        </label>
+                        <br />
+                        <input
+                          type="text"
+                          name={`month${i}`}
+                          id={`month${i}`}
+                          value={incomeInfo[`month${i + 1}`]}
+                          onChange={(e) =>
+                            handleInputChange(`month${i + 1}`, e.target.value)
+                          }
+                          className="survey-control"
+                        />
+                      </div>
+                      <div key={`year-${i}`} className="survey-box">
+                        <label htmlFor={`year${i}`} id={`year${i}-label`}>
+                          Ano {i + 1}
+                        </label>
+                        <br />
+                        <input
+                          type="text"
+                          name={`year${i}`}
+                          id={`year${i}`}
+                          value={incomeInfo[`year${i + 1}`]}
+                          onChange={(e) =>
+                            handleInputChange(`year${i + 1}`, e.target.value)
+                          }
+                          className="survey-control"
+                        />
+                      </div>
+                      <div key={`grossAmount-${i}`} className="survey-box">
+                        <label
+                          htmlFor={`grossAmount${i}`}
+                          id={`grossAmount${i}-label`}
+                        >
+                          Valor Bruto {i + 1}
+                        </label>
+                        <br />
+                        <input
+                          type="number"
+                          name={`grossAmount${i}`}
+                          id={`grossAmount${i}`}
+                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          onChange={(e) =>
+                            handleInputChange(
+                              `grossAmount${i + 1}`,
+                              e.target.value
+                            )
+                          }
+                          className="survey-control"
+                        />
+                      </div>
+                      <div key={`proLabore-${i}`} className="survey-box">
+                        <label
+                          htmlFor={`proLabore${i}`}
+                          id={`proLabore${i}-label`}
+                        >
+                          Valor Do Pró-labore {i + 1}
+                        </label>
+                        <br />
+                        <input
+                          type="number"
+                          name={`proLabore${i}`}
+                          id={`proLabore${i}`}
+                          value={incomeInfo[`proLabore${i + 1}`]}
+                          onChange={(e) =>
+                            handleInputChange(
+                              `proLabore${i + 1}`,
+                              e.target.value
+                            )
+                          }
+                          className="survey-control"
+                        />
+                      </div>
+                      <div key={`dividends-${i}`} className="survey-box">
+                        <label
+                          htmlFor={`dividends${i}`}
+                          id={`dividends${i}-label`}
+                        >
+                          Valor dos Dividendos {i + 1}
+                        </label>
+                        <br />
+                        <input
+                          type="number"
+                          name={`dividends${i}`}
+                          id={`dividends${i}`}
+                          value={incomeInfo[`dividends${i + 1}`]}
+                          onChange={(e) =>
+                            handleInputChange(
+                              `dividends${i + 1}`,
+                              e.target.value
+                            )
+                          }
+                          className="survey-control"
+                        />
+                      </div>
+                    </>
+                  ))}
+                </div>
+                <div class="survey-box">
+                  <button
+                    type="submit"
+                    onClick={(e) => handleRegisterIncome(e, "Entepreneur")}
+                    id="submit-button"
+                  >
+                    Salvar Informações
+                  </button>
+                </div>
+              </>
+            )}
 
           {/* PrivateEmployee */}
           {member.incomeSource.includes("PrivateEmployee") && (

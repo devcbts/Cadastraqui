@@ -174,7 +174,7 @@ export default function SeeCandidatosInfo() {
           }}
           showNavigation={false}
         >
-          <BasicInfoDiv title="Básico"></BasicInfoDiv>
+          <BasicInfoDiv title="Cadastrante"></BasicInfoDiv>
           <FamilyInfoDiv title="Grupo Familiar"></FamilyInfoDiv>
           <HousingInfoDiv title="Moradia"></HousingInfoDiv>
           <VehicleInfoDiv title="Veículo"></VehicleInfoDiv>

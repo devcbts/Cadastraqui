@@ -324,10 +324,18 @@ const BasicEducationType = [
 ];
 
 const ScholarshipOfferType = [
-    { value: 'Law187Scholarship', label: 'Bolsa Lei 187' },
-    { value: 'StudentWithDisability', label: 'Estudante com Deficiência' },
-    { value: 'FullTime', label: 'Tempo Integral' },
-    { value: 'EntityWorkers', label: 'Trabalhadores da Entidade' }
+    { value: 'Law187Scholarship', label: 'Bolsa Lei 187 Integral' },
+    { value: 'Law187ScholarshipPartial', label: 'Bolsa Lei 187 Parcial' },
+
+    { value: 'StudentWithDisabilityPartial', label: 'Estudante com Deficiência Parcial' },
+    { value: 'StudentWithDisability', label: 'Estudante com Deficiência Integral' },
+
+    { value: 'FullTime', label: 'Tempo Integral (Integral)' },
+    { value: 'FullTimePartial', label: 'Tempo Integral (Parcial)' },
+
+    { value: 'EntityWorkers', label: 'Trabalhadores da Entidade Integral' },
+    { value: 'EntityWorkersPartial', label: 'Trabalhadores da Entidade Parcial' }
+
 ];
 function translateBasicEducationScholashipType(BasicEducationScholarship) {
     const BasicEducation = BasicEducationType.find(

@@ -5,9 +5,10 @@ import { api } from '../../services/axios';
 import Select from 'react-select';
 import { handleAuthError } from '../../ErrorHandling/handleError';
 import { handleSuccess } from '../../ErrorHandling/handleSuceess';
-export default function VerEmprestimo({formDataInfo}) {
+export default function VerEmprestimo({formDataInfo,candidate}) {
     const [formData, setFormData] = useState(formDataInfo)
     const [isEditing, setIsEditing] = useState(false)
+    const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
 
     function toggleEdit() {
         setIsEditing(!isEditing); // Alterna o estado de edição
@@ -15,7 +16,7 @@ export default function VerEmprestimo({formDataInfo}) {
     useEffect(() => {
         setFormData(formDataInfo)
         setIsEditing(false)
-    },formDataInfo)
+    },[formDataInfo])
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -55,6 +56,13 @@ export default function VerEmprestimo({formDataInfo}) {
 
     const [familyMembers, setFamilyMembers] = useState([]);
     const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState('');
+    const [opcoes, setOpcoes] = useState([])
+
+    useEffect(() => {
+        setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
+        { value: candidato.id, label: candidato.nome, type: 'candidate' }])
+        console.log(familyMembers)
+    },[familyMembers])
 
     useEffect(() => {
 
@@ -91,10 +99,9 @@ export default function VerEmprestimo({formDataInfo}) {
                 <div className='survey-box'>
                     <label>Nome do Familiar:</label>
                     <Select
-                        options={familyMembers}
-                        isDisabled={!isEditing}
-                        onChange={handleSelectChange}
-                        value={familyMembers.find(option => option.label === formData.familyMemberName)}
+                         options={opcoes}
+                        isDisabled={!isEditing} onChange={handleSelectChange}
+                        value={opcoes.find(option => option.label === formData.familyMemberName)}
                         required
                     />
                 </div>

@@ -4,7 +4,7 @@ import { api } from "../../services/axios.js";
 import CadastroEmprestimo from "./cadastroEmprestimo.js";
 import VerEmprestimo from "./verEmprestimos.js"; // Certifique-se de que o nome está correto e é exportável
 
-export default function Emprestimos() {
+export default function Emprestimos({candidate}) {
   const [loansInstances, setLoansInstances] = useState([]);
   const [selectedLoan, setSelectedLoan] = useState(null);
   const [mostrarCadastro, setMostrarCadastro] = useState(false);
@@ -54,9 +54,9 @@ export default function Emprestimos() {
         />
       )}
       {mostrarCadastro ? (
-        <CadastroEmprestimo />
+        <CadastroEmprestimo candidate={candidate} />
       ) : (
-        selectedLoan && <VerEmprestimo formDataInfo={selectedLoan} />
+        selectedLoan && <VerEmprestimo candidate={candidate} formDataInfo={selectedLoan} />
       )}
 
       <button className="budget-btn" onClick={toggleCadastro}>

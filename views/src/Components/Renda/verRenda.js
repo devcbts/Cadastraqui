@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "../Familia/cadastroFamiliar.css";
 import { useState } from "react";
 import { api } from "../../services/axios";
-import "./verRenda.css";
+import { VerRendaMensal } from "./verRendaMensal";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
@@ -146,7 +146,7 @@ const IncomeSource = [
   { value: "PrivatePension", label: "Previdência Privada" },
 ];
 export const VerRenda = ({ member }) => {
-  const [monthlyIncomes, setMonthlyIncomes] = useState([]);
+  const [monthlyIncomes, setMonthlyIncomes] = useState(null);
   function translateRelationship(relationshipValue) {
     const relationship = Relationship.find(
       (r) => r.value === relationshipValue
@@ -313,9 +313,9 @@ export const VerRenda = ({ member }) => {
           console.log(MEIInfo);
         }
 
-        if (member.incomeSource.includes("Autonomous")) {
+        if (member.incomeSource.includes("SelfEmployed")) {
           const AutonomousInfo = response.data.familyMemberIncomeInfo.filter(
-            (data) => data.employmentType === "Autonomous"
+            (data) => data.employmentType === "SelfEmployed"
           );
           const averageIncome = calculateAverageIncome(AutonomousInfo);
           setAutonomousInfo({ averageIncome });
@@ -393,9 +393,14 @@ export const VerRenda = ({ member }) => {
 
           console.log(financialHelpFromOthersInfo);
         }
-        if (member.incomeSource.includes("Entepreneur")) {
+        if (
+          member.incomeSource.includes("BusinessOwner") ||
+          member.incomeSource.includes("BusinessOwnerSimplifiedTax")
+        ) {
           const EntepreneurInfo = response.data.familyMemberIncomeInfo.filter(
-            (data) => data.employmentType === "Entepreneur"
+            (data) =>
+              data.employmentType === "BusinessOwner" ||
+              data.employmentType === "BusinessOwnerSimplifiedTax"
           );
           const averageIncome = calculateAverageIncome(EntepreneurInfo);
           const CNPJ = EntepreneurInfo[0].CNPJ;
@@ -584,6 +589,27 @@ export const VerRenda = ({ member }) => {
     getIncomeInfo();
   }, []);
 
+  useEffect(() => {
+    async function getMonthlyIncome() {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await api.get(
+          `/candidates/family-member/monthly-income/${member.id}`,
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setMonthlyIncomes(response.data.incomeBySource);
+        console.log(response.data.incomeBySource);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getMonthlyIncome();
+  }, [IncomeSource]);
+
   return (
     <div>
       <div className="fill-box">
@@ -647,6 +673,7 @@ export const VerRenda = ({ member }) => {
               </div>
             </>
           )}
+
           {/* Desempregado */}
           {member.incomeSource.includes("Unemployed") && (
             <>
@@ -718,8 +745,9 @@ export const VerRenda = ({ member }) => {
               </div>
             </>
           )}
+
           {/* Autônomo */}
-          {member.incomeSource.includes("Autonomous") && (
+          {member.incomeSource.includes("SelfEmployed") && (
             <>
               <h4>Fonte de renda: Autônomo</h4>
               {/*<!-- Renda Média -->*/}
@@ -743,7 +771,8 @@ export const VerRenda = ({ member }) => {
               </div>
             </>
           )}
-          {/* Trabalhador Informal */}a
+
+          {/* Trabalhador Informal */}
           {member.incomeSource.includes("InformalWorker") && (
             <>
               <h4>Fonte de renda: Trabalhador Informal</h4>
@@ -770,6 +799,7 @@ export const VerRenda = ({ member }) => {
               </div>
             </>
           )}
+
           {/* Renda de Aluguel... */}
           {member.incomeSource.includes("RentalIncome") && (
             <>
@@ -797,6 +827,7 @@ export const VerRenda = ({ member }) => {
               </div>
             </>
           )}
+
           {/* Profissional Liberal */}
           {member.incomeSource.includes("LiberalProfessional") && (
             <>
@@ -824,6 +855,7 @@ export const VerRenda = ({ member }) => {
               </div>
             </>
           )}
+
           {/* Pensão Privada */}
           {member.incomeSource.includes("PrivatePension") && (
             <>
@@ -851,6 +883,7 @@ export const VerRenda = ({ member }) => {
               </div>
             </>
           )}
+
           {/* Ajuda Financeira de Terceiros */}
           {member.incomeSource.includes("FinancialHelpFromOthers") && (
             <>
@@ -900,93 +933,98 @@ export const VerRenda = ({ member }) => {
               </div>
             </>
           )}
+
           {/* Empresário */}
-          {member.incomeSource.includes("Entepreneur") && (
-            <>
-              <h4>Fonte de renda: Empresário</h4>
-              {/*<!-- Data de Início -->*/}
-              <div class="survey-box">
-                <label for="startDate" id="startDate-label">
-                  Data de Início
-                </label>
-                <br />
-                <input
-                  disabled
-                  type="date"
-                  name="startDate"
-                  value={loading ? "" : entepreneurInfo.startDate.split("T")[0]}
-                  id="startDate"
-                  class="survey-control"
-                />
-              </div>
-              {/*<!-- Razao Social -->*/}
-              <div class="survey-box">
-                <label for="socialReason" id="socialReason-label">
-                  Razão Social
-                </label>
-                <br />
-                <input
-                  disabled
-                  type="text"
-                  name="socialReason"
-                  value={loading ? "" : entepreneurInfo.socialReason}
-                  id="socialReason"
-                  class="survey-control"
-                />
-              </div>
-              {/*<!-- Nome Fantasia -->*/}
-              <div class="survey-box">
-                <label for="fantasyName" id="fantasyName-label">
-                  Nome Fantasia
-                </label>
-                <br />
-                <input
-                  disabled
-                  type="date"
-                  name="fantasyName"
-                  value={loading ? "" : entepreneurInfo.socialReason}
-                  id="fantasyName"
-                  class="survey-control"
-                />
-              </div>
-              {/*<!-- CNPJ -->*/}
-              <div class="survey-box">
-                <label for="CNPJ" id="CNPJ-label">
-                  CNPJ
-                </label>
-                <br />
-                <input
-                  disabled
-                  type="text"
-                  name="CNPJ"
-                  value={loading ? "" : entepreneurInfo.CNPJ}
-                  id="CNPJ"
-                  class="survey-control"
-                />
-              </div>
-              {/*<!-- Renda Média -->*/}
-              <div class="survey-box">
-                <label for="averageIncome" id="averageIncome-label">
-                  Renda Média
-                </label>
-                <br />
-                <input
-                  disabled
-                  type="text"
-                  name="averageIncome"
-                  value={
-                    loading
-                      ? ""
-                      : `R$ ${parseFloat(entepreneurInfo.averageIncome).toFixed(
-                          2
-                        )}`
-                  }
-                  id="averageIncome"
-                  class="survey-control"
-                />
-              </div>
-            </>
-          )}
+          {member.incomeSource.includes("BusinessOwner") ||
+            (member.incomeSource.includes("BusinessOwnerSimplifiedTax") && (
+              <>
+                <h4>Fonte de renda: Empresário</h4>
+                {/*<!-- Data de Início -->*/}
+                <div class="survey-box">
+                  <label for="startDate" id="startDate-label">
+                    Data de Início
+                  </label>
+                  <br />
+                  <input
+                    disabled
+                    type="date"
+                    name="startDate"
+                    value={
+                      loading ? "" : entepreneurInfo.startDate.split("T")[0]
+                    }
+                    id="startDate"
+                    class="survey-control"
+                  />
+                </div>
+                {/*<!-- Razao Social -->*/}
+                <div class="survey-box">
+                  <label for="socialReason" id="socialReason-label">
+                    Razão Social
+                  </label>
+                  <br />
+                  <input
+                    disabled
+                    type="text"
+                    name="socialReason"
+                    value={loading ? "" : entepreneurInfo.socialReason}
+                    id="socialReason"
+                    class="survey-control"
+                  />
+                </div>
+                {/*<!-- Nome Fantasia -->*/}
+                <div class="survey-box">
+                  <label for="fantasyName" id="fantasyName-label">
+                    Nome Fantasia
+                  </label>
+                  <br />
+                  <input
+                    disabled
+                    type="date"
+                    name="fantasyName"
+                    value={loading ? "" : entepreneurInfo.socialReason}
+                    id="fantasyName"
+                    class="survey-control"
+                  />
+                </div>
+                {/*<!-- CNPJ -->*/}
+                <div class="survey-box">
+                  <label for="CNPJ" id="CNPJ-label">
+                    CNPJ
+                  </label>
+                  <br />
+                  <input
+                    disabled
+                    type="text"
+                    name="CNPJ"
+                    value={loading ? "" : entepreneurInfo.CNPJ}
+                    id="CNPJ"
+                    class="survey-control"
+                  />
+                </div>
+                {/*<!-- Renda Média -->*/}
+                <div class="survey-box">
+                  <label for="averageIncome" id="averageIncome-label">
+                    Renda Média
+                  </label>
+                  <br />
+                  <input
+                    disabled
+                    type="text"
+                    name="averageIncome"
+                    value={
+                      loading
+                        ? ""
+                        : `R$ ${parseFloat(
+                            entepreneurInfo.averageIncome
+                          ).toFixed(2)}`
+                    }
+                    id="averageIncome"
+                    class="survey-control"
+                  />
+                </div>
+              </>
+            ))}
+
           {/* PrivateEmployee */}
           {member.incomeSource.includes("PrivateEmployee") && (
             <>
@@ -1078,6 +1116,7 @@ export const VerRenda = ({ member }) => {
               </div>
             </>
           )}
+
           {/* PublicEmployee */}
           {member.incomeSource.includes("PublicEmployee") && (
             <>
@@ -1169,6 +1208,7 @@ export const VerRenda = ({ member }) => {
               </div>
             </>
           )}
+
           {/* DomesticEmployee */}
           {member.incomeSource.includes("DomesticEmployee") && (
             <>
@@ -1260,6 +1300,7 @@ export const VerRenda = ({ member }) => {
               </div>
             </>
           )}
+
           {/* TemporaryRuralEmployee */}
           {member.incomeSource.includes("TemporaryRuralEmployee") && (
             <>
@@ -1353,6 +1394,7 @@ export const VerRenda = ({ member }) => {
               </div>
             </>
           )}
+
           {/* Retired */}
           {member.incomeSource.includes("Retired") && (
             <>
@@ -1629,6 +1671,7 @@ export const VerRenda = ({ member }) => {
               </div>
             </>
           )}
+
           {/* Aprendiz */}
           {member.incomeSource.includes("Apprentice") && (
             <>
@@ -1719,6 +1762,22 @@ export const VerRenda = ({ member }) => {
             </>
           )}
         </form>
+      </div>
+      <div>
+        {monthlyIncomes &&
+          Object.entries(monthlyIncomes).map(
+            ([incomeSource, monthlyIncomesGrouped]) => (
+              <div>
+                {console.log(monthlyIncomesGrouped)}
+                <VerRendaMensal
+                  key={incomeSource} // A chave deve ser única para cada item na lista
+                  incomeSource={incomeSource} // A string representando a fonte de renda
+                  monthlyIncomesByType={monthlyIncomesGrouped} // Passando diretamente o array
+                  id={member.id} // O ID do membro, assumido estar disponível no escopo
+                />
+              </div>
+            )
+          )}
       </div>
     </div>
   );

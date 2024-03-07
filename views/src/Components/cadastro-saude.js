@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './Familia/cadastroFamiliar.css'
 import { api } from '../services/axios';
+import { handleAuthError } from '../ErrorHandling/handleError';
+import { handleSuccess } from '../ErrorHandling/handleSuceess';
 
 const Disease = [
   { value: 'ALIENATION_MENTAL', label: 'Alienação Mental' },
@@ -102,10 +104,10 @@ export const CadastroSaude = ({ member }) => {
           'authorization': `Bearer ${token}`,
         }
       })
-      console.log(response)
+      handleSuccess(response, 'Dados cadastrados com sucesso')
     } catch (err) {
-      console.log(err)
-      alert(err.response.data.message);
+
+      handleAuthError(err);
     }
   }
 
@@ -126,7 +128,7 @@ export const CadastroSaude = ({ member }) => {
       console.log(response)
     } catch (err) {
       console.log(err)
-      alert(err.response.data.message);
+      handleAuthError(err)
     }
   }
 

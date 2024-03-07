@@ -5,7 +5,7 @@ import { api } from '../../services/axios';
 import Select from 'react-select';
 import { handleSuccess } from '../../ErrorHandling/handleSuceess';
 import { handleAuthError } from '../../ErrorHandling/handleError';
-export default function CadastroEmprestimo() {
+export default function CadastroEmprestimo({candidate}) {
     const [formData, setFormData] = useState({
         familyMemberName: '',
         installmentValue: '',
@@ -49,6 +49,15 @@ export default function CadastroEmprestimo() {
 
     const [familyMembers, setFamilyMembers] = useState([]);
     const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState('');
+    const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
+    const [opcoes, setOpcoes] = useState([])
+
+    useEffect(() => {
+        setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
+        { value: candidato.id, label: candidato.nome, type: 'candidate' }])
+        console.log(familyMembers)
+    },[familyMembers])
+ 
 
     useEffect(() => {
 
@@ -85,10 +94,10 @@ export default function CadastroEmprestimo() {
                 <div className='survey-box'>
                     <label>Nome do Familiar:</label>
                     <Select
-                        options={familyMembers}
+                       options={opcoes}
                         onChange={handleSelectChange}
-                        value={familyMembers.find(option => option.label === formData.familyMemberName)}
-                         required
+                        value={opcoes.find(option => option.value === selectedFamilyMemberId)}
+                        required
                     />
                 </div>
 

@@ -43,8 +43,8 @@ const Relationship = [
   { value: "Other", label: "Outro" },
 ];
 
-export default function MembrosFamiliaRendaTeste() {
-  const [familyMembers, setFamilyMembers] = useState([]);
+export default function MembrosFamiliaRendaTeste({candidate, identityInfo}) {
+  const [familyMembers, setFamilyMembers] = useState(null);
   const [memberSelected, setMemberSelected] = useState(null);
   const [memberSelectedToSeeIncome, setMemberSelectedToSeeIncome] =
     useState(null);
@@ -62,8 +62,14 @@ export default function MembrosFamiliaRendaTeste() {
         console.log(response.data);
         console.log("====================================");
         const membrosdaFamilia = response.data.familyMembers;
-        setFamilyMembers(membrosdaFamilia);
-      } catch (err) {
+        const candidateWithIncomeInfo = {
+          ...candidate,
+          incomeSource: identityInfo.incomeSource || [], // Adiciona ou sobrescreve o campo incomeSource com o valor de identityInfo.IncomeSource
+        };
+        console.log(candidate)
+        // Inclui o candidato atualizado no início do array de membros da família
+        setFamilyMembers([candidateWithIncomeInfo, ...membrosdaFamilia]);
+            } catch (err) {
         alert(err);
       }
     }
@@ -93,21 +99,21 @@ export default function MembrosFamiliaRendaTeste() {
     return relationship ? relationship.label : "Não especificado";
   }
   function translateIncomeSource(incomeArray) {
-    const translatedIncome = incomeArray.map(incomeValue => {
+    const translatedIncome = incomeArray?.map(incomeValue => {
         const foundIncome = IncomeSource.find(item => item.value === incomeValue);
         return foundIncome ? foundIncome.label : "Não especificado";
     });
-    return translatedIncome.join(', ');
+    return translatedIncome?.join(', ');
 }
   return (
     <>
       {!memberSelected &&
-        !memberSelectedToSeeIncome &&
+        !memberSelectedToSeeIncome && familyMembers &&
         familyMembers.map((familyMember) => {
           return (
             <div id={familyMember.id} className="container-teste">
               <div className="member-info">
-                <h4 className="family-name">{familyMember.fullName}</h4>
+                <h4 className="family-name">{familyMember.fullName || familyMember.name}</h4>
                 <h4>{translateRelationship(familyMember.relationship)}</h4>
                 <h4>{translateIncomeSource(familyMember.incomeSource)}</h4>
               </div>

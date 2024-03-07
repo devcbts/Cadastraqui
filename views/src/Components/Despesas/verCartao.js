@@ -5,8 +5,9 @@ import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o for
 import { handleSuccess } from '../../ErrorHandling/handleSuceess';
 import { handleAuthError } from '../../ErrorHandling/handleError';
 
-export default function VerCartao({formDataInfo}) {
+export default function VerCartao({formDataInfo, candidate}) {
     const [formData, setFormData] = useState(formDataInfo);
+    const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
 
     const [familyMembers, setFamilyMembers] = useState([]);
     const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState('');
@@ -71,6 +72,13 @@ export default function VerCartao({formDataInfo}) {
             // Trate o erro conforme necessário
         }
     };
+    const [opcoes, setOpcoes] = useState([])
+
+    useEffect(() => {
+        setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
+        { value: candidato.id, label: candidato.nome, type: 'candidate' }])
+        console.log(familyMembers)
+    },[familyMembers])
 
     return (
         <div className="fill-box">
@@ -79,9 +87,9 @@ export default function VerCartao({formDataInfo}) {
                 <div className='survey-box'>
                     <label>Nome do Familiar:</label>
                     <Select
-                        options={familyMembers}
+                        options={opcoes}
                         isDisabled={!isEditing} onChange={handleSelectChange}
-                        value={familyMembers.find(option => option.label === formData.familyMemberName)}
+                        value={opcoes.find(option => option.label === formData.familyMemberName)}
                         required
                     />
                 </div>

@@ -30,10 +30,18 @@ const BasicEducationType = [
 ];
 
 const ScholarshipOfferType = [
-    { value: 'Law187Scholarship', label: 'Bolsa Lei 187' },
-    { value: 'StudentWithDisability', label: 'Estudante com Deficiência' },
-    { value: 'FullTime', label: 'Tempo Integral' },
-    { value: 'EntityWorkers', label: 'Trabalhadores da Entidade' }
+    { value: 'Law187Scholarship', label: 'Bolsa Lei 187 Integral' },
+    { value: 'Law187ScholarshipPartial', label: 'Bolsa Lei 187 Parcial' },
+
+    { value: 'StudentWithDisabilityPartial', label: 'Estudante com Deficiência Parcial' },
+    { value: 'StudentWithDisability', label: 'Estudante com Deficiência Integral' },
+
+    { value: 'FullTime', label: 'Tempo Integral (Integral)' },
+    { value: 'FullTimePartial', label: 'Tempo Integral (Parcial)' },
+
+    { value: 'EntityWorkers', label: 'Trabalhadores da Entidade Integral' },
+    { value: 'EntityWorkersPartial', label: 'Trabalhadores da Entidade Parcial' }
+
 ];
 
 const HigherEducationScholarshipType = [
@@ -162,7 +170,7 @@ export default function CadastroEdital() {
     const [currentCourse, setCurrentCourse] = useState({
         availableCourses: '',
         offeredVacancies: 5000,
-        verifiedScholarships: 0,
+        verifiedScholarships: 1,
         semester: 1,
         grade: '',
         basicEduType: '',
@@ -182,19 +190,37 @@ export default function CadastroEdital() {
 
     const completeCourseRegistration = () => {
         setEducationalLevels([...educationalLevels, currentCourse]);
-        setCurrentCourse({
-            availableCourses: '',
-            offeredVacancies: 5000,
-            verifiedScholarships: 0,
-            semester: 1,
-            grade: '',
-            basicEduType: '',
-            scholarshipType: '',
-            higherEduScholarshipType: '',
-            offeredCourseType: '',
-            shift: 'Matutino',
-            entity_subsidiary_id: subsidiaries ? subsidiaries[0].id : null
-        })
+        if (educationLevel === "BasicEducation") {
+            setCurrentCourse({
+                availableCourses: '',
+                offeredVacancies: 5000,
+                verifiedScholarships: 1,
+                semester: 1,
+                grade: '',
+                basicEduType: '',
+                scholarshipType: '',
+                higherEduScholarshipType: '',
+                offeredCourseType: '',
+                shift: 'Matutino',
+                entity_subsidiary_id: subsidiaries ? subsidiaries[0].id : null
+            })
+        }
+        else {
+
+            setCurrentCourse({
+                availableCourses: '',
+                offeredVacancies: 5000,
+                verifiedScholarships: 1,
+                semester: 1,
+                grade: '',
+                basicEduType: '',
+                scholarshipType: '',
+                higherEduScholarshipType: 'PROUNIFull',
+                offeredCourseType: '',
+                shift: 'Matutino',
+                entity_subsidiary_id: subsidiaries ? subsidiaries[0].id : null
+            })
+        }
         setIsAddingCourse(false)
     };
 
@@ -358,12 +384,12 @@ export default function CadastroEdital() {
                                 },
                             });
                         } catch (err) {
-                            handleAuthError(err,navigate,'Erro ao enviar PDF')
+                            handleAuthError(err, navigate, 'Erro ao enviar PDF')
                             console.log(err);
                         }
                     }
                 } catch (error) {
-                    handleAuthError(error,navigate, 'Erro ao criar os cursos')
+                    handleAuthError(error, navigate, 'Erro ao criar os cursos')
                 }
 
             })
@@ -598,6 +624,7 @@ export default function CadastroEdital() {
                                 <select className='select-educational'
                                     onChange={(e) => handleEducationalChange('basicEduType', e.target.value)}
                                 >
+                                    <option value="">Selecione</option>
                                     {/* Substitua BasicEducationType pelo seu array de objetos correspondente */}
                                     {BasicEducationType.map(type => <option value={type.value}>{type.label}</option>)}
                                 </select>
@@ -612,6 +639,7 @@ export default function CadastroEdital() {
                                 <select className='select-educational'
                                     onChange={(e) => handleEducationalChange('scholarshipType', e.target.value)}
                                 >
+                                    <option value="">Selecione</option>
                                     {/* Substitua ScholarshipOfferType pelo seu array de objetos correspondente */}
                                     {ScholarshipOfferType.map(type => <option value={type.value}>{type.label}</option>)}
                                 </select>
@@ -631,7 +659,7 @@ export default function CadastroEdital() {
                             <fieldset>
 
                                 <label>
-                                    Série/Ano:
+                                Ciclo/Ano/Série/Curso:
                                 </label>
                                 <input
                                     type="text"
@@ -695,6 +723,7 @@ export default function CadastroEdital() {
                                     value={coursetype}
                                     onChange={(e) => setCourseType(e.target.value)}
                                 >
+                                    <option value="">Selecione</option>
                                     {OfferedCourseType.map(type => <option value={type.value}>{type.label}</option>)}
                                 </select>
 
@@ -708,6 +737,7 @@ export default function CadastroEdital() {
                                 <select id="curso-dropdown" value={currentCourse.availableCourses} onChange={handleSelectChange}>
                                     {coursetype === 'UndergraduateBachelor' &&
                                         <optgroup label="Cursos Gerais">
+
                                             {dadosCursos.bacharelado.map((curso, index) => (
                                                 <option key={index} value={curso}>
                                                     {curso}
@@ -761,6 +791,7 @@ export default function CadastroEdital() {
                                     </label>
                                     <input style={{ width: '30%' }}
                                         type="number"
+                                        min={1}
                                         value={currentCourse.verifiedScholarships}
                                         onChange={(e) => handleEducationalChange('verifiedScholarships', Number(e.target.value))}
                                     />
