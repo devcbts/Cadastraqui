@@ -3,6 +3,7 @@ import "../Familia/cadastroFamiliar.css";
 import { useState } from "react";
 import { api } from "../../services/axios";
 import { VerRendaMensal } from "./verRendaMensal";
+import "./verRenda.css";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
