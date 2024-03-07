@@ -326,7 +326,7 @@ model Vehicle {
 
 model FamilyMemberIncome {
   id                    String         @id @default(uuid())
-  employmentType        EmploymentType
+  employmentType        EmploymentType @unique
   averageIncome         String
   admissionDate         DateTime?
   position              String?

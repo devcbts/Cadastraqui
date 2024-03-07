@@ -260,7 +260,9 @@ export async function registerMonthlyIncomeInfo(
     // Verifica se existe um familiar cadastrado com o owner_id
     
     const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
-
+    await prisma.monthlyIncome.deleteMany({
+      where: {...idField, incomeSource}
+    })
     if (quantity === 3) {
       if (grossAmount1) {
         const liquidAmount =
@@ -778,6 +780,27 @@ export async function registerMonthlyIncomeInfo(
         })
       }
     }
+    const monthlyIncomes = await prisma.monthlyIncome.findMany({
+      where: {...idField, incomeSource },
+    })
+
+    const validIncomes = monthlyIncomes.filter(income => income.liquidAmount !== null && income.liquidAmount > 0);
+    // Calcula o totalAmount usando o array filtrado
+    const totalAmount = validIncomes.reduce((acc, current) => {
+      return acc + (current.liquidAmount || 0);
+    }, 0);
+    const avgIncome = validIncomes.length > 0 ? totalAmount / validIncomes.length : 0;
+
+    await prisma.familyMemberIncome.update({
+      data: {
+        
+        averageIncome: avgIncome.toString(),
+       
+      },
+      where: {
+        employmentType: incomeSource
+      },
+    })
 
     return reply.status(201).send()
   } catch (err: any) {
