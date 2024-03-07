@@ -96,20 +96,38 @@ export async function getCandidateIncome(
       });
     });
     
+    let totalSumOfAverageIncomes = 0;
+  let totalPeopleCount = 0;
+
+  // Cálculo das médias por membro e tipo de emprego
+  Object.keys(memberIncomeDetails).forEach(memberId => {
+    const details = memberIncomeDetails[memberId];
     let totalAverageIncomeForMember = 0;
-    console.log(memberIncomeDetails)
-    // Cálculo das médias por membro e tipo de emprego
-    Object.keys(memberIncomeDetails).forEach(memberId => {
-      const details = memberIncomeDetails[memberId];
-      Object.keys(details.totalIncomeByType).forEach((typeKey) => {
-        const type = typeKey as IncomeSource;
-        const averageIncomeByType = details.totalIncomeByType[type] / details.incomesCountByType[type];
-        totalAverageIncomeForMember += averageIncomeByType; // Soma das médias para cada tipo de emprego para o membro
-      });
+    let incomeTypesCount = 0;
+
+    // Calcula a soma das médias para cada tipo de emprego para o membro
+    Object.keys(details.totalIncomeByType).forEach((typeKey) => {
+      const type = typeKey as IncomeSource;
+      const averageIncomeByType = details.totalIncomeByType[type] / details.incomesCountByType[type];
+      totalAverageIncomeForMember += averageIncomeByType;
+      incomeTypesCount++;
     });
-    console.log(totalAverageIncomeForMember)
-    let totalIncomePerCapita = totalAverageIncomeForMember;
-    return reply.status(200).send({ candidate_id, totalIncomePerCapita });
+
+    // Caso existam tipos de renda, adiciona a média do membro à soma total
+    if (incomeTypesCount > 0) {
+      const averageIncomePerMember = totalAverageIncomeForMember / incomeTypesCount;
+      totalSumOfAverageIncomes += averageIncomePerMember;
+    }
+
+    // Incrementa a contagem total de pessoas (cada membro + o candidato)
+    totalPeopleCount++;
+  });
+
+  // Calcula a renda per capita do grupo familiar
+  const totalIncomePerCapita = totalPeopleCount > 0 ? totalSumOfAverageIncomes / totalPeopleCount : 0;
+
+  // Retorna a renda per capita calculada
+  return reply.status(200).send({ candidate_id, totalIncomePerCapita });
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message });

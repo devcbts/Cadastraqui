@@ -40,6 +40,13 @@ export async function subscribeAnnouncement(
       throw new ApplicationAlreadyExistsError()
     }
 
+    const numberOfApplications = await prisma.application.count({
+      where: { announcement_id },
+    });
+    
+    // O número da inscrição será o total de inscrições existentes + 1
+    const applicationNumber = numberOfApplications + 1;
+
     // Criar inscrição
     const application = await prisma.application.create({
       data: {
@@ -48,6 +55,7 @@ export async function subscribeAnnouncement(
         status: 'Pending',
         educationLevel_id,
         candidateName: candidate.name,
+        number: applicationNumber
       },
     })
 
