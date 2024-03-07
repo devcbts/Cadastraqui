@@ -11,26 +11,26 @@ export async function registerMonthlyIncomeInfo(
 
   const IncomeSource = z.enum([
     'PrivateEmployee',
-  "PublicEmployee",
-  "DomesticEmployee",
-  "TemporaryRuralEmployee",
-  "BusinessOwnerSimplifiedTax",
-  "BusinessOwner",
-  "IndividualEntrepreneur",
-  "SelfEmployed",
-  "Retired",
-  "Pensioner",
-  "Apprentice",
-  "Volunteer",
-  "RentalIncome",
-  "Student",
-  "InformalWorker",
-  "Unemployed",
-  "TemporaryDisabilityBenefit",
-  "LiberalProfessional",
-  "FinancialHelpFromOthers",
-  "Alimony",
-  "PrivatePension"
+    "PublicEmployee",
+    "DomesticEmployee",
+    "TemporaryRuralEmployee",
+    "BusinessOwnerSimplifiedTax",
+    "BusinessOwner",
+    "IndividualEntrepreneur",
+    "SelfEmployed",
+    "Retired",
+    "Pensioner",
+    "Apprentice",
+    "Volunteer",
+    "RentalIncome",
+    "Student",
+    "InformalWorker",
+    "Unemployed",
+    "TemporaryDisabilityBenefit",
+    "LiberalProfessional",
+    "FinancialHelpFromOthers",
+    "Alimony",
+    "PrivatePension"
   ])
 
   const MontlhyIncomeDataSchema = z.object({
@@ -247,7 +247,7 @@ export async function registerMonthlyIncomeInfo(
 
     // Verifica se existe um candidato associado ao user_id
     const responsible = await prisma.legalResponsible.findUnique({
-      where: {user_id}
+      where: { user_id }
     })
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
     if (!candidate && !responsible) {
@@ -255,13 +255,13 @@ export async function registerMonthlyIncomeInfo(
     }
 
     const isCandidate = await prisma.candidate.findUnique({
-      where: {id: _id}
+      where: { id: _id }
     })
     // Verifica se existe um familiar cadastrado com o owner_id
-    
+
     const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
     await prisma.monthlyIncome.deleteMany({
-      where: {...idField, incomeSource}
+      where: { ...idField, incomeSource }
     })
     if (quantity === 3) {
       if (grossAmount1) {
@@ -319,7 +319,8 @@ export async function registerMonthlyIncomeInfo(
             proLabore: proLabore1,
             total,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       }
       if (grossAmount2) {
@@ -351,7 +352,8 @@ export async function registerMonthlyIncomeInfo(
             foodAllowanceValue: foodAllowanceValue2,
             transportAllowanceValue: transportAllowanceValue2,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       } else {
         const total = (dividends2 || 0) + (proLabore2 || 0)
@@ -376,7 +378,8 @@ export async function registerMonthlyIncomeInfo(
             proLabore: proLabore2,
             total,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       }
       if (grossAmount3) {
@@ -408,7 +411,8 @@ export async function registerMonthlyIncomeInfo(
             foodAllowanceValue: foodAllowanceValue3,
             transportAllowanceValue: transportAllowanceValue3,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       } else {
         const total = (dividends3 || 0) + (proLabore3 || 0)
@@ -433,7 +437,8 @@ export async function registerMonthlyIncomeInfo(
             proLabore: proLabore3,
             total,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       }
     } else {
@@ -466,7 +471,8 @@ export async function registerMonthlyIncomeInfo(
             foodAllowanceValue: foodAllowanceValue1,
             transportAllowanceValue: transportAllowanceValue1,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       } else {
         const total = (dividends1 || 0) + (proLabore1 || 0)
@@ -491,7 +497,8 @@ export async function registerMonthlyIncomeInfo(
             proLabore: proLabore1,
             total,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       }
       if (grossAmount2) {
@@ -523,7 +530,8 @@ export async function registerMonthlyIncomeInfo(
             foodAllowanceValue: foodAllowanceValue2,
             transportAllowanceValue: transportAllowanceValue2,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       } else {
         const total = (dividends2 || 0) + (proLabore2 || 0)
@@ -548,7 +556,8 @@ export async function registerMonthlyIncomeInfo(
             proLabore: proLabore2,
             total,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       }
       if (grossAmount3) {
@@ -580,7 +589,8 @@ export async function registerMonthlyIncomeInfo(
             foodAllowanceValue: foodAllowanceValue3,
             transportAllowanceValue: transportAllowanceValue3,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       } else {
         const total = (dividends3 || 0) + (proLabore3 || 0)
@@ -605,7 +615,8 @@ export async function registerMonthlyIncomeInfo(
             proLabore: proLabore3,
             total,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       }
       if (grossAmount4) {
@@ -637,7 +648,8 @@ export async function registerMonthlyIncomeInfo(
             foodAllowanceValue: foodAllowanceValue4,
             transportAllowanceValue: transportAllowanceValue4,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       } else {
         const total = (dividends4 || 0) + (proLabore4 || 0)
@@ -662,7 +674,8 @@ export async function registerMonthlyIncomeInfo(
             proLabore: proLabore4,
             total,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       }
       if (grossAmount5) {
@@ -694,7 +707,8 @@ export async function registerMonthlyIncomeInfo(
             foodAllowanceValue: foodAllowanceValue5,
             transportAllowanceValue: transportAllowanceValue5,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       } else {
         const total = (dividends5 || 0) + (proLabore5 || 0)
@@ -719,7 +733,8 @@ export async function registerMonthlyIncomeInfo(
             proLabore: proLabore5,
             total,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       }
       if (grossAmount6) {
@@ -751,7 +766,8 @@ export async function registerMonthlyIncomeInfo(
             foodAllowanceValue: foodAllowanceValue6,
             transportAllowanceValue: transportAllowanceValue6,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       } else {
         const total = (dividends6 || 0) + (proLabore6 || 0)
@@ -776,12 +792,13 @@ export async function registerMonthlyIncomeInfo(
             proLabore: proLabore6,
             total,
             ...idField,
-          incomeSource          },
+            incomeSource
+          },
         })
       }
     }
     const monthlyIncomes = await prisma.monthlyIncome.findMany({
-      where: {...idField, incomeSource },
+      where: { ...idField, incomeSource },
     })
 
     const validIncomes = monthlyIncomes.filter(income => income.liquidAmount !== null && income.liquidAmount > 0);
@@ -791,16 +808,25 @@ export async function registerMonthlyIncomeInfo(
     }, 0);
     const avgIncome = validIncomes.length > 0 ? totalAmount / validIncomes.length : 0;
 
-    await prisma.familyMemberIncome.update({
-      data: {
-        
-        averageIncome: avgIncome.toString(),
-       
-      },
+    const familyMemberIncome = await prisma.familyMemberIncome.findUnique({
+
       where: {
         employmentType: incomeSource
       },
     })
+    if (familyMemberIncome) {
+
+      await prisma.familyMemberIncome.update({
+        data: {
+
+          averageIncome: avgIncome.toString(),
+
+        },
+        where: {
+          employmentType: incomeSource
+        },
+      })
+    }
 
     return reply.status(201).send()
   } catch (err: any) {
