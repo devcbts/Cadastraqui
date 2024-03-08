@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import "./acceptEdital.css";
 import { useParams, useNavigate } from 'react-router'
 import { api } from "../../services/axios";
+import { handleAuthError } from "../../ErrorHandling/handleError";
+import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 export default function AcceptEdital() {
   const params = useParams()
   const navigate = useNavigate()
@@ -41,7 +43,7 @@ export default function AcceptEdital() {
       return (value === entity.id && !level.entitySubsidiaryId) ||
         (level.entitySubsidiaryId && level.entitySubsidiaryId === value);
     });
-
+    console.log(filteredLevels)
     // Se existirem levels filtrados, seleciona o primeiro. Caso contrário, mantém o selectedLevel atual
     if (filteredLevels.length > 0) {
       const firstLevel = filteredLevels[0];
@@ -50,6 +52,9 @@ export default function AcceptEdital() {
       setSelectedCourse(firstLevel.availableCourses);
       setSelectedScholarshipType(firstLevel.higherEduScholarshipType);
       setSelectedShift(firstLevel.shift);
+      setSelectedGrade(firstLevel.grade)
+      setSelectedBasicScholarshipType(firstLevel.scholarshipType)
+      
     } else {
       // Se não houver levels correspondentes à seleção, você pode optar por resetar selectedLevel ou manter o último selecionado
       // Exemplo de reset (ajuste conforme necessário):
@@ -273,15 +278,14 @@ export default function AcceptEdital() {
     }
 
     try {
-      await api.post(`/candidates/application/${announcementInfo.id}/${selectedLevelId}`, {}, {
+      const response =await api.post(`/candidates/application/${announcementInfo.id}/${selectedLevelId}`, {}, {
         headers: {
           'authorization': `Bearer ${token}`,
         }
       });
-      alert("Inscrição realizada com sucesso!");
+      handleSuccess(response,"Inscrição realizada com sucesso!");
     } catch (err) {
-      alert("Erro ao enviar inscrição:", err);
-      console.log(err)
+      handleAuthError(err,navigate ,'Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.' )
       // Trate o erro conforme necessário, talvez exibindo uma mensagem ao usuário
     }
   }
@@ -376,7 +380,7 @@ export default function AcceptEdital() {
 
               <div>
                 <h4>Tipo de Educação Básica</h4>
-                <select onChange={(e) => handleBasicEduSelection(e)}>
+                <select  onChange={(e) => handleBasicEduSelection(e)}>
                   {announcementInfo?.educationLevels
                     .filter(level => level.basicEduType !== null &&
                       ((!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id) ||
@@ -391,7 +395,7 @@ export default function AcceptEdital() {
 
               <div>
                 <h4>Série/Ano</h4>
-                <select onChange={(e) => setSelectedGrade(e.target.value)}>
+                <select value={selectedShift} onChange={(e) => setSelectedGrade(e.target.value)}>
                   {announcementInfo?.educationLevels
                     .filter(level =>
                       level.basicEduType === selectedBasicEduType &&

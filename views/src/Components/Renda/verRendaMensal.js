@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "../Familia/cadastroFamiliar.css";
+import "../cadastro-renda.css";
 import { useState } from "react";
 import { api } from "../../services/axios";
 import { handleSuccess } from "../../ErrorHandling/handleSuceess";
@@ -153,7 +153,7 @@ export const VerRendaMensal = ({
   role,
 }) => {
   function translateRelationship(relationshipValue) {
-    const relationship = Relationship.find(
+    const relationship = IncomeSource.find(
       (r) => r.value === relationshipValue
     );
     return relationship ? relationship.label : "Não especificado";
@@ -773,15 +773,15 @@ export const VerRendaMensal = ({
   return (
     <div>
       <div className="fill-box">
-        <form id="survey-form">
+        <form id="survey-form" style={{display: 'block'}}>
           {/* Fonte de Renda  */}
-          <h4>Fonte de renda: {incomeSource}</h4>
+          <h4>Fonte de renda: {incomeSource ? translateRelationship(incomeSource)  : ''}</h4>
 
           {/* MEI */}
           {incomeSource.includes("IndividualEntrepreneur") && (
             <>
               {!fixIncomeMEI ? (
-                <div>
+                <div className='mes-ano-box'>
                   {Array.from({ length: 6 }).map((_, i) => (
                     <>
                       <div key={`month-${i}`} className="survey-box">
@@ -845,7 +845,7 @@ export const VerRendaMensal = ({
                   ))}
                 </div>
               ) : (
-                <div>
+                <div className='mes-ano-box'>
                   {Array.from({ length: 3 }).map((_, i) => (
                     <>
                       <div key={`month-${i}`} className="survey-box">
@@ -1008,7 +1008,7 @@ export const VerRendaMensal = ({
                 />
               </div>
               {!fixIncomeAutonomous ? (
-                <div>
+                <div className='mes-ano-box'>
                   {Array.from({ length: 6 }).map((_, i) => (
                     <>
                       <div key={`month-${i}`} className="survey-box">
@@ -1072,7 +1072,7 @@ export const VerRendaMensal = ({
                   ))}
                 </div>
               ) : (
-                <div>
+                <div className='mes-ano-box'>
                   {Array.from({ length: 3 }).map((_, i) => (
                     <>
                       <div key={`month-${i}`} className="survey-box">
@@ -1159,7 +1159,7 @@ export const VerRendaMensal = ({
                 />
               </div>
               {!fixIncomeInformalWorker ? (
-                <div>
+                <div className='mes-ano-box'>
                   {Array.from({ length: 6 }).map((_, i) => (
                     <>
                       <div key={`month-${i}`} className="survey-box">
@@ -1223,7 +1223,7 @@ export const VerRendaMensal = ({
                   ))}
                 </div>
               ) : (
-                <div>
+                <div className='mes-ano-box'>
                   {Array.from({ length: 3 }).map((_, i) => (
                     <>
                       <div key={`month-${i}`} className="survey-box">
@@ -1310,7 +1310,7 @@ export const VerRendaMensal = ({
                 />
               </div>
               {!fixIncomeRentalIncome ? (
-                <div>
+                <div className='mes-ano-box'>
                   {Array.from({ length: 6 }).map((_, i) => (
                     <>
                       <div key={`month-${i}`} className="survey-box">
@@ -1374,7 +1374,7 @@ export const VerRendaMensal = ({
                   ))}
                 </div>
               ) : (
-                <div>
+                <div className='mes-ano-box'>
                   {Array.from({ length: 3 }).map((_, i) => (
                     <>
                       <div key={`month-${i}`} className="survey-box">
@@ -1461,7 +1461,7 @@ export const VerRendaMensal = ({
                 />
               </div>
               {!fixIncomeLiberalProfessional ? (
-                <div>
+                <div className='mes-ano-box'>
                   {Array.from({ length: 6 }).map((_, i) => (
                     <>
                       <div key={`month-${i}`} className="survey-box">
@@ -1525,7 +1525,7 @@ export const VerRendaMensal = ({
                   ))}
                 </div>
               ) : (
-                <div>
+                <div className='mes-ano-box'>
                   {Array.from({ length: 3 }).map((_, i) => (
                     <>
                       <div key={`month-${i}`} className="survey-box">
@@ -1612,7 +1612,7 @@ export const VerRendaMensal = ({
                 />
               </div>
               {!fixIncomePrivatePension ? (
-                <div>
+                <div className='mes-ano-box'>
                   {Array.from({ length: 6 }).map((_, i) => (
                     <>
                       <div key={`month-${i}`} className="survey-box">
@@ -1676,7 +1676,7 @@ export const VerRendaMensal = ({
                   ))}
                 </div>
               ) : (
-                <div>
+                <div className='mes-ano-box'>
                   {Array.from({ length: 3 }).map((_, i) => (
                     <>
                       <div key={`month-${i}`} className="survey-box">
@@ -1763,7 +1763,7 @@ export const VerRendaMensal = ({
                 />
               </div>
               {!fixIncomeMEI ? (
-                <div>
+                <div className='mes-ano-box'>
                   {Array.from({ length: 6 }).map((_, i) => (
                     <>
                       <div key={`month-${i}`} className="survey-box">
@@ -1845,7 +1845,7 @@ export const VerRendaMensal = ({
                   </div>
                 </div>
               ) : (
-                <div>
+                <div className='mes-ano-box'>
                   {Array.from({ length: 3 }).map((_, i) => (
                     <>
                       <div key={`month-${i}`} className="survey-box">
@@ -1998,7 +1998,7 @@ export const VerRendaMensal = ({
                     class="survey-control"
                   />
                 </div>
-                <div>
+                <div className='mes-ano-box'>
                   {Array.from({ length: 6 }).map((_, i) => (
                     <>
                       <div key={`month-${i}`} className="survey-box">
@@ -2133,7 +2133,7 @@ export const VerRendaMensal = ({
 
               <div>
                 {gratificationAutonomous ? (
-                  <div>
+                  <div className='mes-ano-box'>
                     {Array.from({ length: 6 }).map((_, i) => (
                       <>
                         <div key={`month-${i}`} className="survey-box">
@@ -2506,7 +2506,7 @@ export const VerRendaMensal = ({
                     ))}
                   </div>
                 ) : (
-                  <div>
+                  <div className='mes-ano-box'>
                     {Array.from({ length: 3 }).map((_, i) => (
                       <>
                         <div key={`month-${i}`} className="survey-box">
@@ -2899,7 +2899,7 @@ export const VerRendaMensal = ({
 
               <div>
                 {gratificationAutonomous ? (
-                  <div>
+                  <div className='mes-ano-box'>
                     {Array.from({ length: 6 }).map((_, i) => (
                       <>
                         <div key={`month-${i}`} className="survey-box">
@@ -3272,7 +3272,7 @@ export const VerRendaMensal = ({
                     ))}
                   </div>
                 ) : (
-                  <div>
+                  <div className='mes-ano-box'>
                     {Array.from({ length: 3 }).map((_, i) => (
                       <>
                         <div key={`month-${i}`} className="survey-box">
@@ -3665,7 +3665,7 @@ export const VerRendaMensal = ({
 
               <div>
                 {gratificationAutonomous ? (
-                  <div>
+                  <div className='mes-ano-box'>
                     {Array.from({ length: 6 }).map((_, i) => (
                       <>
                         <div key={`month-${i}`} className="survey-box">
@@ -4038,7 +4038,7 @@ export const VerRendaMensal = ({
                     ))}
                   </div>
                 ) : (
-                  <div>
+                  <div className='mes-ano-box'>
                     {Array.from({ length: 3 }).map((_, i) => (
                       <>
                         <div key={`month-${i}`} className="survey-box">
@@ -4431,7 +4431,7 @@ export const VerRendaMensal = ({
 
               <div>
                 {gratificationAutonomous ? (
-                  <div>
+                  <div className='mes-ano-box'>
                     {Array.from({ length: 6 }).map((_, i) => (
                       <>
                         <div key={`month-${i}`} className="survey-box">
@@ -4804,7 +4804,7 @@ export const VerRendaMensal = ({
                     ))}
                   </div>
                 ) : (
-                  <div>
+                  <div className='mes-ano-box'>
                     {Array.from({ length: 3 }).map((_, i) => (
                       <>
                         <div key={`month-${i}`} className="survey-box">
@@ -5197,7 +5197,7 @@ export const VerRendaMensal = ({
 
               <div>
                 {gratificationAutonomous ? (
-                  <div>
+                  <div className='mes-ano-box'>
                     {Array.from({ length: 6 }).map((_, i) => (
                       <>
                         <div key={`month-${i}`} className="survey-box">
@@ -5570,7 +5570,7 @@ export const VerRendaMensal = ({
                     ))}
                   </div>
                 ) : (
-                  <div>
+                  <div className='mes-ano-box'>
                     {Array.from({ length: 3 }).map((_, i) => (
                       <>
                         <div key={`month-${i}`} className="survey-box">
@@ -5962,7 +5962,7 @@ export const VerRendaMensal = ({
 
               <div>
                 {gratificationAutonomous ? (
-                  <div>
+                  <div className='mes-ano-box'>
                     {Array.from({ length: 6 }).map((_, i) => (
                       <>
                         <div key={`month-${i}`} className="survey-box">
@@ -6335,7 +6335,7 @@ export const VerRendaMensal = ({
                     ))}
                   </div>
                 ) : (
-                  <div>
+                  <div className='mes-ano-box'>
                     {Array.from({ length: 3 }).map((_, i) => (
                       <>
                         <div key={`month-${i}`} className="survey-box">
@@ -6727,7 +6727,7 @@ export const VerRendaMensal = ({
 
               <div>
                 {gratificationAutonomous ? (
-                  <div>
+                  <div className='mes-ano-box'>
                     {Array.from({ length: 6 }).map((_, i) => (
                       <>
                         <div key={`month-${i}`} className="survey-box">
@@ -7100,7 +7100,7 @@ export const VerRendaMensal = ({
                     ))}
                   </div>
                 ) : (
-                  <div>
+                  <div className='mes-ano-box'>
                     {Array.from({ length: 3 }).map((_, i) => (
                       <>
                         <div key={`month-${i}`} className="survey-box">
@@ -7493,7 +7493,7 @@ export const VerRendaMensal = ({
 
               <div>
                 {gratificationAutonomous ? (
-                  <div>
+                  <div className='mes-ano-box'>
                     {Array.from({ length: 6 }).map((_, i) => (
                       <>
                         <div key={`month-${i}`} className="survey-box">
@@ -7866,7 +7866,7 @@ export const VerRendaMensal = ({
                     ))}
                   </div>
                 ) : (
-                  <div>
+                  <div className='mes-ano-box'>
                     {Array.from({ length: 3 }).map((_, i) => (
                       <>
                         <div key={`month-${i}`} className="survey-box">
