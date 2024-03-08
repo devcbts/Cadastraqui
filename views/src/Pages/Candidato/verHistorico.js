@@ -29,6 +29,7 @@ export default function VerHistorico() {
         setHistory(response.data.applicationHistory)
         console.log(response.data)
       } catch (error) {
+        console.log(error)
         handleAuthError(error)
       }
     }
