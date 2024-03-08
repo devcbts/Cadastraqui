@@ -188,11 +188,14 @@ export default function CadastroInfo() {
       </div>
       <div className="container-info">
         <MultiStep
+        
           activeStep={0}
           className="multi-step"
+          
           stepCustomStyle={{
             fontSize: 0.8 + "rem",
             margin: "auto",
+            alignItems: 'center'
           }}
           prevButton={{
             title: "<",

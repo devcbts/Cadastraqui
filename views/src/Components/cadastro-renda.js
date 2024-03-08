@@ -2227,8 +2227,8 @@ export const CadastroRenda = ({  member  }) => {
           )}
 
           {/* Empresário */}
-          {(loading ? '' :(member.incomeSource.includes("BusinessOwner") || !incomeAlreadyRegistered) ||
-            member.incomeSource.includes("BusinessOwnerSimplifiedTax") )&&(
+          {(loading ? '' : (((member.incomeSource.includes("BusinessOwner")) ||
+            member.incomeSource.includes("BusinessOwnerSimplifiedTax")) && !incomeAlreadyRegistered) )&&(
               <>
                 {/*<!-- Data de Início -->*/}
                 <div class="survey-box">
@@ -2577,7 +2577,7 @@ export const CadastroRenda = ({  member  }) => {
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div
                               key={`incomeTax-${i}`}
                               className="survey-box survey-renda"
@@ -2658,9 +2658,9 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -2863,7 +2863,7 @@ export const CadastroRenda = ({  member  }) => {
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -2957,7 +2957,7 @@ export const CadastroRenda = ({  member  }) => {
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div
                               key={`incomeTax-${i}`}
                               className="survey-box survey-renda"
@@ -3038,9 +3038,9 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -3428,7 +3428,7 @@ export const CadastroRenda = ({  member  }) => {
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div
                               key={`incomeTax-${i}`}
                               className="survey-box survey-renda"
@@ -3509,9 +3509,9 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -3714,7 +3714,7 @@ export const CadastroRenda = ({  member  }) => {
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -3808,7 +3808,7 @@ export const CadastroRenda = ({  member  }) => {
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div
                               key={`incomeTax-${i}`}
                               className="survey-box survey-renda"
@@ -3889,9 +3889,9 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -4279,7 +4279,7 @@ export const CadastroRenda = ({  member  }) => {
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div
                               key={`incomeTax-${i}`}
                               className="survey-box survey-renda"
@@ -4360,9 +4360,9 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -4565,7 +4565,7 @@ export const CadastroRenda = ({  member  }) => {
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -4655,7 +4655,7 @@ export const CadastroRenda = ({  member  }) => {
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div
                               key={`incomeTax-${i}`}
                               className="survey-box survey-renda"
@@ -4736,9 +4736,9 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -5124,7 +5124,7 @@ export const CadastroRenda = ({  member  }) => {
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div
                               key={`incomeTax-${i}`}
                               className="survey-box survey-renda"
@@ -5205,9 +5205,9 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -5410,7 +5410,7 @@ export const CadastroRenda = ({  member  }) => {
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -5504,7 +5504,7 @@ export const CadastroRenda = ({  member  }) => {
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div
                               key={`incomeTax-${i}`}
                               className="survey-box survey-renda"
@@ -5585,9 +5585,9 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -5977,7 +5977,7 @@ export const CadastroRenda = ({  member  }) => {
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div
                               key={`incomeTax-${i}`}
                               className="survey-box survey-renda"
@@ -6058,9 +6058,9 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -6263,7 +6263,7 @@ export const CadastroRenda = ({  member  }) => {
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -6353,7 +6353,7 @@ export const CadastroRenda = ({  member  }) => {
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div
                               key={`incomeTax-${i}`}
                               className="survey-box survey-renda"
@@ -6427,9 +6427,9 @@ export const CadastroRenda = ({  member  }) => {
                                  className="survey-control"
                                  />
                              </div>
-                             </div>
+                             </>
                          ): ( 
-                         <div></div> 
+                         '' 
                          )}
                          <div key={`foodAllowanceValue-${i}`} className="survey-box">
                                  <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
@@ -6707,7 +6707,7 @@ export const CadastroRenda = ({  member  }) => {
                             </div>
                           </div>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -6910,7 +6910,7 @@ export const CadastroRenda = ({  member  }) => {
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -7000,7 +7000,7 @@ export const CadastroRenda = ({  member  }) => {
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div
                               key={`incomeTax-${i}`}
                               className="survey-box survey-renda"
@@ -7074,9 +7074,9 @@ export const CadastroRenda = ({  member  }) => {
                                  className="survey-control"
                                  />
                              </div>
-                             </div>
+                             </>
                          ): ( 
-                         <div></div> 
+                         '' 
                          )}
                          <div key={`foodAllowanceValue-${i}`} className="survey-box">
                                  <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>
@@ -7316,7 +7316,7 @@ export const CadastroRenda = ({  member  }) => {
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div
                               key={`incomeTax-${i}`}
                               className="survey-box survey-renda"
@@ -7397,9 +7397,9 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -7602,7 +7602,7 @@ export const CadastroRenda = ({  member  }) => {
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -7696,7 +7696,7 @@ export const CadastroRenda = ({  member  }) => {
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div
                               key={`incomeTax-${i}`}
                               className="survey-box survey-renda"
@@ -7777,9 +7777,9 @@ export const CadastroRenda = ({  member  }) => {
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -8156,7 +8156,7 @@ export const CadastroRenda = ({  member  }) => {
                             </div>
                           </div>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -8359,7 +8359,7 @@ export const CadastroRenda = ({  member  }) => {
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -8449,7 +8449,7 @@ export const CadastroRenda = ({  member  }) => {
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div
                               key={`incomeTax-${i}`}
                               className="survey-box survey-renda"
@@ -8523,9 +8523,9 @@ export const CadastroRenda = ({  member  }) => {
                                  className="survey-control"
                                  />
                              </div>
-                             </div>
+                             </>
                          ): ( 
-                         <div></div> 
+                         '' 
                          )}
                          <div key={`foodAllowanceValue-${i}`} className="survey-box">
                                  <label htmlFor={`foodAllowanceValue${i}`} id={`foodAllowanceValue${i}-label`}>

@@ -215,11 +215,11 @@
 
 .doc-box{
     border: 1px solid rgb(209, 209, 209);
-    height: 50vh;
+    height: 40vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 35vw;
+    width: 24vw;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;

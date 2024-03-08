@@ -934,13 +934,13 @@ export default function VerFamiliar({ familyMember }) {
               isMulti
               onChange={handleInputChangeSelect}
               value={IncomeSource.filter((obj) =>
-                familyMember.incomeSource.includes(obj.value)
+                familyMemberInfo.incomeSource.includes(obj.value)
               )}
+              isDisabled={!isEditing}
               options={IncomeSource}
               className="select-data"
               id="incomeSource"
               // Se você quiser que o campo seja desabilitado, mantenha a próxima linha
-              isDisabled={false} // Se for verdadeiro, o campo estará desabilitado
             />
           </div>
 

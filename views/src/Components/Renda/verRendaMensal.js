@@ -2211,7 +2211,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -2289,9 +2289,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -2501,7 +2501,7 @@ export const VerRendaMensal = ({
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -2584,7 +2584,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -2662,9 +2662,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -2977,7 +2977,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -3055,9 +3055,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -3267,7 +3267,7 @@ export const VerRendaMensal = ({
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -3350,7 +3350,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -3428,9 +3428,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -3743,7 +3743,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -3821,9 +3821,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -4033,7 +4033,7 @@ export const VerRendaMensal = ({
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -4116,7 +4116,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -4194,9 +4194,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -4509,7 +4509,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -4587,9 +4587,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -4799,7 +4799,7 @@ export const VerRendaMensal = ({
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -4882,7 +4882,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -4960,9 +4960,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -5275,7 +5275,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -5353,9 +5353,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -5565,7 +5565,7 @@ export const VerRendaMensal = ({
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -5648,7 +5648,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -5726,9 +5726,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -6040,7 +6040,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -6118,9 +6118,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -6330,7 +6330,7 @@ export const VerRendaMensal = ({
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -6413,7 +6413,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -6491,9 +6491,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -6805,7 +6805,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -6883,9 +6883,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -7095,7 +7095,7 @@ export const VerRendaMensal = ({
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -7178,7 +7178,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -7256,9 +7256,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -7571,7 +7571,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -7649,9 +7649,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -7861,7 +7861,7 @@ export const VerRendaMensal = ({
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -7944,7 +7944,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -8022,9 +8022,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -8235,8 +8235,8 @@ export const VerRendaMensal = ({
               </div>
             </>
           )}
-          {role !== "Assistant"}
-          {
+          {role !== "Assistant" &&
+          
             <div>
               {!isEditing ? (
                 <button
@@ -8264,8 +8264,9 @@ export const VerRendaMensal = ({
                   </button>
                 </>
               )}
-            </div>
-          }
+              </div>
+            }
+          
         </form>
       </div>
     </div>
