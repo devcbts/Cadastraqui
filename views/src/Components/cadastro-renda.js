@@ -2406,7 +2406,7 @@ export const CadastroRenda = ({ member }) => {
                     :
                     <button
                       type="submit"
-                      onClick={(e) => handleRegisterIncome(e, "BussinessOwner")}
+                      onClick={(e) => handleRegisterIncome(e, "BusinessOwner")}
                       id="submit-button"
                     >
                       Salvar Informações
