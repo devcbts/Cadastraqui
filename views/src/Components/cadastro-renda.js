@@ -145,6 +145,29 @@ const IncomeSource = [
     { value: 'PrivatePension', label: 'Previdência Privada' },
 ];
 export const CadastroRenda = ({  member  }) => {
+    const [incomeAlreadyRegistered, setIncomeAlreadyRegistered] = useState(false)
+    const [loading, setLoading] = useState (true)
+    useEffect(() => {
+        async function fetchFamilyMemberIncome() {
+          const token = localStorage.getItem("token");
+          try {
+            const response = await api.get(`/candidates/family-member/income/${member.id}`, {
+              headers: {
+                authorization: `Bearer ${token}`,
+              },
+            })
+            console.log(response.data.familyMemberIncomeInfo)
+            if(response.data.familyMemberIncomeInfo.length !== 0) {
+                setIncomeAlreadyRegistered(true)
+            }
+            setLoading(false)
+            
+          } catch (err) {
+            alert(err);
+          }
+        }
+        fetchFamilyMemberIncome();
+      }, []);
 
     function translateRelationship(relationshipValue) {
         const relationship = Relationship.find(
@@ -271,205 +294,6 @@ export const CadastroRenda = ({  member  }) => {
     quantity: 0,
     })
     
-
-    /*function handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-        if (event.target.multiple) {
-            const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-            setFamilyMemberIncome(prevState => ({
-                ...prevState,
-                [name]: selectedOptions
-            }));
-        } else {
-          setFamilyMemberIncome(prevState => ({
-                ...prevState,
-                [name]: value
-            }));
-        }
-
-        if (name === 'incomeSource') {
-            const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-
-            // Verifica se "Empresário" está selecionado
-            if (selectedOptions.includes('BusinessOwner')) {
-                setIsEntepreneur(true);
-            } else {
-                setIsEntepreneur(false);
-            }
-            // Verifica se "Desempregado" está selecionado
-            if (selectedOptions.includes('Unemployed')) {
-                setIsUnemployed(true);
-            } else {
-                setIsUnemployed(false);
-            }
-            // Verifica se "Autônomo" está selecionado
-            if (selectedOptions.includes('SelfEmployed')) {
-                setIsAutonomous(true);
-            } else {
-                setIsAutonomous(false);
-            }
-            // Verifica se "MEI" está selecionado
-            if (selectedOptions.includes('IndividualEntrepreneur')) {
-                setIsMEI(true);
-            } else {
-                setIsMEI(false);
-            }
-        }
-        console.log('====================================');
-        console.log(familyMemberIncome);
-        console.log('====================================');
-    }
-
-    const [familyMembers, setFamilyMembers] = useState()
-    const [showRegisterFields,setShowRegisterFields] = useState()
-
-    function handleShowRegisterFields() {
-      if(showRegisterFields === 'show') {
-        setShowRegisterFields('hide')
-      } else if(showRegisterFields === 'hide') {
-        setShowRegisterFields('show')
-      }
-    }
-
-    /*async function handleRegisterMEIIncome(e) {
-        e.preventDefault()
-        const token = localStorage.getItem('token');
-        
-        
-        console.log(data)
-
-        try {
-
-            
-                const response = await api.post('/canditexts/family-member/income', data, {
-                    headers: {
-                        'authorization': `Bearer ${token}`,
-                    }
-                })
-                console.log('====================================');
-                console.log(response.status);
-                console.log('====================================');
-            
-        }
-        catch (error) {
-          console.log(error)
-          alert(error.response.data.message);
-        }
-    }
-
-    /*async function RegisterFamilyMemberIncome(e) {
-        e.preventDefault()
-        const token = localStorage.getItem('token');
-        const data = {
-            relationship: familyMemberIncome.relationship, // deve ser inicializado com um dos valores do enum Relationship
-            otherRelationship: familyMemberIncome.otherRelationship ||'Vô',
-            fullName: familyMemberIncome.fullName,
-            socialName: familyMemberIncome.socialName,
-            birthtext: familyMemberIncome.birthDate,
-            gender: familyMemberIncome.gender, // deve ser inicializado com um dos valores do enum GENDER
-            nationality: familyMemberIncome.nationality,
-            natural_city: familyMemberIncome.natural_city,
-            natural_UF: familyMemberIncome.natural_UF, // deve ser inicializado com um dos valores do enum COUNTRY
-            CPF: familyMemberIncome.CPF, // deve ser inicializado com um,
-            RG: familyMemberIncome.RG, // deve ser inicializ,
-            rgIssuingAuthority: familyMemberIncome.rgIssuingAuthority,
-            rgIssuingState: familyMemberIncome.rgIssuingState, // deve ser inicializado com um dos valores do enum COUNTRY
-            documentType: familyMemberIncome.documentType || 'DriversLicense', // deve ser inicializado com um dos valores do enum DOCUMENT_TYPE ou null
-            documentNumber: familyMemberIncome.documentNumber || '222',
-            documentValidity: familyMemberIncome.documentValidity || '2003-06-18', // deve ser in
-            numberOfBirthRegister: familyMemberIncome.numberOfBirthRegister || '222',
-            bookOfBirthRegister: familyMemberIncome.bookOfBirthRegister || '212',
-            pageOfBirthRegister: familyMemberIncome.pageOfBirthRegister || '1231',
-            maritalStatus: familyMemberIncome.maritalStatus, // deve ser inicializado com um dos valores do enum MARITAL_STATUS
-            skinColor: familyMemberIncome.skinColor, // deve ser inicializado com um dos valores do enum SkinColor
-            religion: familyMemberIncome.religion, // deve ser inicializado com um dos valores do enum RELIGION
-            educationLevel: familyMemberIncome.educationLevel, // deve ser inicializado com um dos valores do enum SCHOLARSHIP
-            specialNeeds: familyMemberIncome.specialNeeds,
-            specialNeedsDescription: familyMemberIncome.specialNeedsDescription,
-            hasMedicalReport: familyMemberIncome.hasMedicalReport,
-            landlinePhone: familyMemberIncome.landlinePhone,
-            workPhone: familyMemberIncome.workPhone,
-            contactNameForMessage: familyMemberIncome.contactNameForMessage,
-            email: familyMemberIncome.email,
-            address: familyMemberIncome.address,
-            city: familyMemberIncome.city,
-            UF: familyMemberIncome.UF, // deve ser inicializado com um dos valores do enum COUNTRY
-            CEP: familyMemberIncome.CEP,
-            neighborhood: familyMemberIncome.neighborhood,
-            addressNumber: familyMemberIncome.addressNumber, // Iniciar com um número inteiro
-            profession: familyMemberIncome.profession,
-            enrolledGovernmentProgram: familyMemberIncome.enrolledGovernmentProgram,
-            NIS: familyMemberIncome.NIS,
-            educationPlace: 'null9oo', // Iniciar como null ou um dos valores do enum Institution_Type
-            institutionName: 'nullooo',
-            coursingEducationLevel: 'Alfabetizacao', // Iniciar como null ou um dos valores do enum Education_Type
-            cycleOfEducation: '332',
-            turnOfEducation: 'Matutino', // Iniciar como null ou um dos valores do enum SHIFT
-            hasScholarship: false,
-            percentageOfScholarship: '500',
-            monthlyAmount: '544',
-            incomeSource: familyMemberIncome.incomeSource
-        }
-
-        console.log(data)
-
-        try {
-            const response = await api.post('/candidates/family-member', {
-                relationship: familyMemberIncome.relationship, // deve ser inicializado com um dos valores do enum Relationship
-                otherRelationship: familyMemberIncome.otherRelationship ||'Vô',
-                fullName: familyMemberIncome.fullName,
-                socialName: familyMemberIncome.socialName,
-                birthDate: familyMemberIncome.birthDate,
-                gender: familyMemberIncome.gender, // deve ser inicializado com um dos valores do enum GENDER
-                nationality: familyMemberIncome.nationality,
-                natural_city: familyMemberIncome.natural_city,
-                natural_UF: familyMemberIncome.natural_UF, // deve ser inicializado com um dos valores do enum COUNTRY
-                CPF: familyMemberIncome.CPF, // deve ser inicializado com um,
-                RG: familyMemberIncome.RG, // deve ser inicializ,
-                rgIssuingAuthority: familyMemberIncome.rgIssuingAuthority,
-                rgIssuingState: familyMemberIncome.rgIssuingState, // deve ser inicializado com um dos valores do enum COUNTRY
-                documentType: familyMemberIncome.documentType || 'DriversLicense', // deve ser inicializado com um dos valores do enum DOCUMENT_TYPE ou null
-                documentNumber: familyMemberIncome.documentNumber || '222',
-                documentValidity: familyMemberIncome.documentValidity || '2003-06-18', // deve ser in
-                numberOfBirthRegister: familyMemberIncome.numberOfBirthRegister || '222',
-                bookOfBirthRegister: familyMemberIncome.bookOfBirthRegister || '212',
-                pageOfBirthRegister: familyMemberIncome.pageOfBirthRegister || '1231',
-                maritalStatus: familyMemberIncome.maritalStatus, // deve ser inicializado com um dos valores do enum MARITAL_STATUS
-                skinColor: familyMemberIncome.skinColor, // deve ser inicializado com um dos valores do enum SkinColor
-                religion: familyMemberIncome.religion, // deve ser inicializado com um dos valores do enum RELIGION
-                educationLevel: familyMemberIncome.educationLevel, // deve ser inicializado com um dos valores do enum SCHOLARSHIP
-                specialNeeds: familyMemberIncome.specialNeeds,
-                specialNeedsDescription: familyMemberIncome.specialNeedsDescription,
-                hasMedicalReport: familyMemberIncome.hasMedicalReport,
-                landlinePhone: familyMemberIncome.landlinePhone,
-                workPhone: familyMemberIncome.workPhone,
-                contactNameForMessage: familyMemberIncome.contactNameForMessage,
-                email: familyMemberIncome.email,
-                address: familyMemberIncome.address,
-                city: familyMemberIncome.city,
-                UF: familyMemberIncome.UF, // deve ser inicializado com um dos valores do enum COUNTRY
-                CEP: familyMemberIncome.CEP,
-                neighborhood: familyMemberIncome.neighborhood,
-                addressNumber: Number(familyMemberIncome.addressNumber), // Iniciar com um número inteiro
-                profession: familyMemberIncome.profession,
-                enrolledGovernmentProgram: familyMemberIncome.enrolledGovernmentProgram,
-                NIS: familyMemberIncome.NIS,
-                incomeSource: familyMemberIncome.incomeSource
-            }, {
-                headers: {
-                    'authorization': `Bearer ${token}`,
-                }
-            })
-            console.log('====================================');
-            console.log(response.status);
-            console.log('====================================');
-        }
-        catch (error) {
-            alert(error.issues);
-        }
-    }*/
     const [MEIInfo, setMEIInfo] = useState({
         startDate:'',
         CNPJ: ''
@@ -1036,11 +860,6 @@ export const CadastroRenda = ({  member  }) => {
             setGratificationAutonomous(true)
         } 
     }
-
-    
-
-    
-
     const [dependentInfo, setDependentInfo] = useState({
         financialAssistantCPF: '',
         employmentType: 'FinancialHelpFromOthers'
@@ -1102,10 +921,11 @@ export const CadastroRenda = ({  member  }) => {
                 <h4>Cadastro do {member.fullName} ( {translateRelationship(member.relationship)} )</h4>
                 {/* Fonte de Renda  */}
                 <h4>Fonte de renda: {translateIncomeSource(member.incomeSource)}</h4>
-
+                
+                {(!loading && incomeAlreadyRegistered) && <h4>Renda já cadastrada</h4> }
 
                 {/* MEI */}
-                {member.incomeSource.includes('IndividualEntrepreneur') && 
+                {loading ? '' : (member.incomeSource.includes('IndividualEntrepreneur') && !incomeAlreadyRegistered) && 
                 (<>
                     {/*<!-- Data de Início -->*/}
                     <div class="survey-box">
@@ -1231,7 +1051,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* Desempregado */}
-                {member.incomeSource.includes('Unemployed')&& 
+                {loading ? '' :(member.incomeSource.includes('Unemployed')&& !incomeAlreadyRegistered) && 
                 (<>
                     {/*<!-- Recebe Seguro Desemprego ? -->*/}
                     <div class="survey-box">
@@ -1269,7 +1089,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* Autônomo */}
-                {(member.incomeSource.includes('Autonomous') 
+                {loading ? '' :(member.incomeSource.includes('Autonomous') && !incomeAlreadyRegistered
                  ) && 
                 (
                     <>
@@ -1385,7 +1205,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* Trabalhador Informal */}
-                {(member.incomeSource.includes('InformalWorker') 
+                {loading ? '' :(member.incomeSource.includes('InformalWorker') && !incomeAlreadyRegistered
                  ) && 
                 (
                     <>
@@ -1501,7 +1321,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* Renda de Aluguel... */}
-                {(member.incomeSource.includes('RentalIncome') 
+                {loading ? '' :(member.incomeSource.includes('RentalIncome') && !incomeAlreadyRegistered
                  ) && 
                 (
                     <>
@@ -1617,7 +1437,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* Profissional Liberal */}
-                {(member.incomeSource.includes('LiberalProfessional') || member.incomeSource.includes('SelfEmployed') 
+                {loading ? '' :((member.incomeSource.includes('LiberalProfessional') || member.incomeSource.includes('SelfEmployed')) && !incomeAlreadyRegistered
                  ) && 
                 (
                     <>
@@ -1733,7 +1553,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* Pensão Privada */}
-                {(member.incomeSource.includes('PrivatePension') 
+                {loading ? '' :(member.incomeSource.includes('PrivatePension') && !incomeAlreadyRegistered
                 ) && 
                (
                    <>
@@ -1849,7 +1669,7 @@ export const CadastroRenda = ({  member  }) => {
                }
                 
                 {/* Ajuda Financeira de Terceiros */}
-                {member.incomeSource.includes('FinancialHelpFromOthers') &&
+                {loading ? '' :(member.incomeSource.includes('FinancialHelpFromOthers')&& !incomeAlreadyRegistered) &&
                 (
                     <>
                     {/*<!-- Renda Fixa ? -->*/}
@@ -1994,7 +1814,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* Empresário */}
-                {member.incomeSource.includes('BusinessOwner') &&
+                {loading ? '' :(member.incomeSource.includes('BusinessOwner') && !incomeAlreadyRegistered) &&
                 (
                     <>
                    {/*<!-- Data de Início -->*/}
@@ -2105,7 +1925,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* PrivateEmployee */}
-                {member.incomeSource.includes('PrivateEmployee') &&
+                {loading ? '' :(member.incomeSource.includes('PrivateEmployee')&& !incomeAlreadyRegistered) &&
                 (
                     <>
                    {/*<!-- Data de Admissão -->*/}
@@ -2555,7 +2375,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* PublicEmployee */}
-                {member.incomeSource.includes('PublicEmployee') &&
+                {loading ? '' :(member.incomeSource.includes('PublicEmployee')&& !incomeAlreadyRegistered) &&
                 (
                     <>
                    {/*<!-- Data de Admissão -->*/}
@@ -3005,7 +2825,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* DomesticEmployee */}
-                {member.incomeSource.includes('DomesticEmployee') &&
+                {loading ? '' :(member.incomeSource.includes('DomesticEmployee')&& !incomeAlreadyRegistered) &&
                 (
                     <>
                     {/*<!-- Data de Admissão -->*/}
@@ -3455,7 +3275,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* TemporaryRuralEmployee */}
-                {member.incomeSource.includes('TemporaryRuralEmployee') &&
+                {loading ? '' :(member.incomeSource.includes('TemporaryRuralEmployee') && !incomeAlreadyRegistered)&&
                 (
                     <>
                    {/*<!-- Data de Admissão -->*/}
@@ -3905,7 +3725,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
 
                 {/* Retired */}
-                {member.incomeSource.includes('Retired') &&
+                {loading ? '' :(member.incomeSource.includes('Retired') && !incomeAlreadyRegistered) &&
                 (
                     <>
                     {/*<!-- Data de Admissão -->*/}
@@ -4354,7 +4174,7 @@ export const CadastroRenda = ({  member  }) => {
                 ) 
                 }
                 {/* Pensioner */}
-                {member.incomeSource.includes('Pensioner') &&
+                {loading ? '' :(member.incomeSource.includes('Pensioner')&& !incomeAlreadyRegistered) &&
                 (
                     <>
                     {/*<!-- Data de Admissão -->*/}
@@ -4803,7 +4623,7 @@ export const CadastroRenda = ({  member  }) => {
                 ) 
                 }
                 {/* TemporaryDisabilityBenefit */}
-                {member.incomeSource.includes('TemporaryDisabilityBenefit') &&
+                {loading ? '' :(member.incomeSource.includes('TemporaryDisabilityBenefit') && !incomeAlreadyRegistered) &&
                 (
                     <>
                    {/*<!-- Data de Admissão -->*/}
@@ -5253,7 +5073,7 @@ export const CadastroRenda = ({  member  }) => {
                 }
                 
                 {/* Apprentice */}
-                {member.incomeSource.includes('Apprentice') &&
+                {loading ? '' :(member.incomeSource.includes('Apprentice') && !incomeAlreadyRegistered) &&
                 (
                     <>
                     {/*<!-- Data de Admissão -->*/}
@@ -5701,6 +5521,7 @@ export const CadastroRenda = ({  member  }) => {
                 </>
                 ) 
                 }
+
 
             </form>
         </div></div>

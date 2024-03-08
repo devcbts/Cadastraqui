@@ -583,7 +583,7 @@ const [apprenticeInfo, setApprenticeInfo] = useState({
                 ) 
                 }
 
-                {/* Autônomo */}
+                {/* Autônomo !!!!!!!*/}
                 {(member.incomeSource.includes('Autonomous') 
                  ) && 
                 (
