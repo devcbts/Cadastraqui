@@ -173,31 +173,6 @@ export const VerRenda = ({ member }) => {
     return averageIncome;
   }
 
-<<<<<<< HEAD
-                {/* Autônomo !!!!!!!*/}
-                {(member.incomeSource.includes('Autonomous') 
-                 ) && 
-                (
-                  <>
-                  <h4>Fonte de renda: Autônomo</h4>
-                    {/*<!-- Renda Média -->*/}
-                    <div class="survey-box">
-                        <label for="averageIncome" id="averageIncome-label">Renda Média</label>
-                        <br />
-                        <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(MEIInfo.averageIncome).toFixed(2)}`}  id="averageIncome" class="survey-control" />
-                    </div>
-                  </>
-                    )}
-=======
-  const [entepreneurInfo, setEntepreneurInfo] = useState({
-    startDate: "",
-    socialReason: "",
-    fantasyName: "",
-    CNPJ: "",
-    averageIncome: "0.0",
-  });
->>>>>>> refs/remotes/origin/frontend
-
   const [unemployedInfo, setUnemployedInfo] = useState({
     receivesUnemployment: false,
     parcels: 0,
