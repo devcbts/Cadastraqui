@@ -35,11 +35,20 @@ export async function getApplicationHistory(
         const applicationHistory = await prisma.applicationHistory.findMany({
           where: {
             application_id,
+
           },
           
         })
-
-        return reply.status(200).send({ applicationHistory })
+        const application = await prisma.application.findUnique({
+            where: {
+                id: application_id
+            },
+            include: {
+                announcement: true
+                
+            }
+        })
+        return reply.status(200).send({ applicationHistory, application })
       } else {
         const applications = await prisma.application.findMany({
           where: { candidate_id: candidate.id },
