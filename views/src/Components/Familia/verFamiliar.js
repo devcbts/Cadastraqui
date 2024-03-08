@@ -373,6 +373,8 @@ export default function VerFamiliar({ familyMember }) {
             </label>
             <br />
             <input
+            
+           
               type="text"
               name="CPF"
               value={familyMemberInfo.CPF}

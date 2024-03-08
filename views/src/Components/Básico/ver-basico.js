@@ -320,7 +320,8 @@ export default function VerBasico({ candidate, basic }) {
           <div class="survey-box">
             <label for="CPF" id="CPF-label">CPF:</label>
             <br />
-            <input type="text" name="CPF" value={basic.CPF} disabled onChange={handleInputChange} id="CPF" class="survey-control" required />
+            <input                     pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" 
+ type="text" name="CPF" value={basic.CPF} disabled onChange={handleInputChange} id="CPF" class="survey-control" required />
           </div>
 
           {/* RG */}

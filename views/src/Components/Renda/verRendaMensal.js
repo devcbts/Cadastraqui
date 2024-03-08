@@ -1834,6 +1834,7 @@ export const VerRendaMensal = ({
                     </label>
                     <br />
                     <input
+                    pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" 
                       type="text"
                       disabled={!isEditing}
                       name={"financialAssistantCPF"}
@@ -1916,6 +1917,8 @@ export const VerRendaMensal = ({
                     </label>
                     <br />
                     <input
+                                        pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" 
+
                       type="text"
                       disabled={!isEditing}
                       name={"financialAssistantCPF"}
@@ -1934,70 +1937,7 @@ export const VerRendaMensal = ({
           {(incomeSource.includes("BusinessOwner") ||
             incomeSource.includes("BusinessOwnerSimplifiedTax")) && (
               <>
-                {/*<!-- Data de Início -->*/}
-                <div class="survey-box">
-                  <label for="startDate" id="startDate-label">
-                    Data de Início
-                  </label>
-                  <br />
-                  <input
-                    type="date"
-                    disabled={!isEditing}
-                    name="startDate"
-                    value={entepreneurInfo.startDate}
-                    onChange={handleEntepreneurInputChange}
-                    id="startDate"
-                    class="survey-control"
-                  />
-                </div>
-                {/*<!-- Razao Social -->*/}
-                <div class="survey-box">
-                  <label for="socialReason" id="socialReason-label">
-                    Razão Social
-                  </label>
-                  <br />
-                  <input
-                    type="text"
-                    disabled={!isEditing}
-                    name="socialReason"
-                    value={entepreneurInfo.socialReason}
-                    onChange={handleEntepreneurInputChange}
-                    id="socialReason"
-                    class="survey-control"
-                  />
-                </div>
-                {/*<!-- Nome Fantasia -->*/}
-                <div class="survey-box">
-                  <label for="fantasyName" id="fantasyName-label">
-                    Nome Fantasia
-                  </label>
-                  <br />
-                  <input
-                    type="text"
-                    disabled={!isEditing}
-                    name="fantasyName"
-                    value={entepreneurInfo.fantasyName}
-                    onChange={handleEntepreneurInputChange}
-                    id="fantasyName"
-                    class="survey-control"
-                  />
-                </div>
-                {/*<!-- CNPJ -->*/}
-                <div class="survey-box">
-                  <label for="CNPJ" id="CNPJ-label">
-                    CNPJ
-                  </label>
-                  <br />
-                  <input
-                    type="text"
-                    disabled={!isEditing}
-                    name="CNPJ"
-                    value={entepreneurInfo.CNPJ}
-                    onChange={handleEntepreneurInputChange}
-                    id="CNPJ"
-                    class="survey-control"
-                  />
-                </div>
+              
                 <div className='mes-ano-box'>
                   {Array.from({ length: 6 }).map((_, i) => (
                     <>

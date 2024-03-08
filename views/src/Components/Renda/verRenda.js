@@ -933,8 +933,8 @@ export const VerRenda = ({ member }) => {
           )}
 
           {/* Empresário */}
-          {member.incomeSource.includes("BusinessOwner") ||
-            (member.incomeSource.includes("BusinessOwnerSimplifiedTax") && (
+          {(member.incomeSource.includes("BusinessOwner") || member.incomeSource.includes("BusinessOwnerSimplifiedTax") )
+          && (
               <>
                 <h4>Fonte de renda: Empresário</h4>
                 {/*<!-- Data de Início -->*/}
@@ -977,7 +977,7 @@ export const VerRenda = ({ member }) => {
                   <br />
                   <input
                     disabled
-                    type="date"
+                    type="text"
                     name="fantasyName"
                     value={loading ? "" : entepreneurInfo.socialReason}
                     id="fantasyName"
@@ -1021,7 +1021,7 @@ export const VerRenda = ({ member }) => {
                   />
                 </div>
               </>
-            ))}
+            )}
 
           {/* PrivateEmployee */}
           {member.incomeSource.includes("PrivateEmployee") && (

@@ -450,6 +450,8 @@ export default function CadastroFamiliar() {
             </label>
             <br />
             <input
+              pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" 
+
               type="text"
               name="CPF"
               value={familyMember.CPF}
