@@ -80,7 +80,10 @@ export async function registerEntepreneursInfo(
     // Calcula a média apenas com os incomes válidos
     const avgIncome = validIncomes.length > 0 ? totalAmount / validIncomes.length : 0;
 
-
+    // Deleta todas as antigas instancias daquele tipo de renda
+    await prisma.familyMemberIncome.deleteMany({
+      where: {...idField, employmentType: employmentType}
+    })
     // Armazena informações acerca do Empresário no banco de dados
     await prisma.familyMemberIncome.create({
       data: {

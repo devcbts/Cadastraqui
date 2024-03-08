@@ -808,25 +808,6 @@ export async function registerMonthlyIncomeInfo(
     }, 0);
     const avgIncome = validIncomes.length > 0 ? totalAmount / validIncomes.length : 0;
 
-    const familyMemberIncome = await prisma.familyMemberIncome.findUnique({
-
-      where: {
-        employmentType: incomeSource
-      },
-    })
-    if (familyMemberIncome) {
-
-      await prisma.familyMemberIncome.update({
-        data: {
-
-          averageIncome: avgIncome.toString(),
-
-        },
-        where: {
-          employmentType: incomeSource
-        },
-      })
-    }
 
     return reply.status(201).send()
   } catch (err: any) {

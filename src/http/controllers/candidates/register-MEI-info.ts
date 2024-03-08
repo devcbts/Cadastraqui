@@ -54,7 +54,9 @@ export async function registerMEIInfo(
 
     // Calcula a média apenas com os incomes válidos
     const avgIncome = validIncomes.length > 0 ? totalAmount / validIncomes.length : 0;
-
+    await prisma.familyMemberIncome.deleteMany({
+      where: {...idField, employmentType: employmentType}
+    })
     // Armazena informações acerca do MEI no banco de dados
     await prisma.familyMemberIncome.create({
       data: {
