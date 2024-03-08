@@ -295,6 +295,8 @@ export async function registerMonthlyIncomeInfo(
             foodAllowanceValue: foodAllowanceValue1,
             transportAllowanceValue: transportAllowanceValue1,
             ...idField,
+            dividends: dividends1,
+            proLabore: proLabore1,
             incomeSource
           }
         })
@@ -317,8 +319,6 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue1,
             foodAllowanceValue: foodAllowanceValue1,
             transportAllowanceValue: transportAllowanceValue1,
-            dividends: dividends1,
-            proLabore: proLabore1,
             total,
             ...idField,
             incomeSource
@@ -473,6 +473,8 @@ export async function registerMonthlyIncomeInfo(
             foodAllowanceValue: foodAllowanceValue1,
             transportAllowanceValue: transportAllowanceValue1,
             ...idField,
+            dividends: dividends1,
+            proLabore: proLabore1,
             incomeSource
           },
         })
@@ -495,8 +497,6 @@ export async function registerMonthlyIncomeInfo(
             reversalValue: reversalValue1,
             foodAllowanceValue: foodAllowanceValue1,
             transportAllowanceValue: transportAllowanceValue1,
-            dividends: dividends1,
-            proLabore: proLabore1,
             total,
             ...idField,
             incomeSource
