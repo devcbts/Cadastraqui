@@ -36,6 +36,7 @@ import VerEditalEntidade from "./Pages/Entidade/verEdital";
 import HomePage from "./Pages/Home/homePage";
 import Entidades from "./Pages/Admin/entidades";
 import VerEntidade from "./Pages/Admin/verEntidade";
+import VerHistorico from "./Pages/Candidato/verHistorico";
 
 function App() {
   return (
@@ -107,11 +108,7 @@ function App() {
                 path="/admin/editais"
                 element={<EditaisAdmin></EditaisAdmin>}
               ></Route>
-              <Route
-                path="/admin/entidades"
-                element={<Entidades />}>
-
-              </Route>
+              <Route path="/admin/entidades" element={<Entidades />}></Route>
               <Route
                 path="/admin/entidades/:entity_id"
                 element={<VerEntidade />}
@@ -156,7 +153,10 @@ function App() {
                 path="/assistente/cadastrados/geral/:announcement_id/:application_id?"
                 element={<GeralCadastrado></GeralCadastrado>}
               ></Route>
-
+              <Route
+                path="/candidato/historico/verhistorico"
+                element={<VerHistorico></VerHistorico>}
+              ></Route>
             </Routes>
           </AuthProvider>
         </BrowserRouter>
