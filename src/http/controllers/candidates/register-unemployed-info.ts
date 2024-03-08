@@ -41,7 +41,7 @@ export async function registerUnemployedInfo(
     
     const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
     await prisma.familyMemberIncome.deleteMany({
-      where: {...idField, employmentType: employmentType}
+      where: {...idField, employmentType: 'Unemployed'}
     })
     // Armazena informações acerca do Desempregado no banco de dados
     await prisma.familyMemberIncome.create({

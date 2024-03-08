@@ -242,6 +242,8 @@ export async function registerMonthlyIncomeInfo(
     incomeSource
   } = MontlhyIncomeDataSchema.parse(request.body)
 
+  console.log(request.body)
+
   try {
     const user_id = request.user.sub
 
