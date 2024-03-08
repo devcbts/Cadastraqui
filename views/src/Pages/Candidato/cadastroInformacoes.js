@@ -20,12 +20,15 @@ import EnviarDocumentos from "../../Components/Documentos/EnvioDocumentos";
 import MembrosFamiliaRendaTeste from "../../Components/Renda/membroFamiliateste.js";
 import Basico from "../../Components/Básico/basico.js";
 import EnviarDeclaracoes from "../../Components/Declarações/Declarações.js";
+import { handleAuthError } from "../../ErrorHandling/handleError.js";
+import Swal from 'sweetalert2';
 
 export default function CadastroInfo() {
   const nextButton = useRef(null);
   const prevButton = useRef(null);
 
   const [candidato, setCandidato] = useState(null);
+  const [identityInfo, setIdentityInfo] = useState(null);
   useEffect(() => {
     async function pegarCandidato() {
       const token = localStorage.getItem("token");
@@ -38,12 +41,65 @@ export default function CadastroInfo() {
 
         setCandidato(response.data.candidate);
       } catch (error) {
-        alert(error.message);
+        handleAuthError(error);
       }
     }
-    pegarCandidato();
-  }, []);
+    async function pegarIdentityInfo() {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await api.get("/candidates/identity-info", {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
 
+        setIdentityInfo(response.data.identityInfo);
+      } catch (error) {
+        handleAuthError(error);
+      }
+    }
+    
+    pegarCandidato();
+    pegarIdentityInfo();
+  }, []);
+  const finishRegistration = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await api.post("/candidates/finish", {}, 
+      {
+        headers: {
+          authorization: `Bearer ${token}`,
+        }});
+      // Aqui você pode tratar a resposta como desejar
+      if (response.status === 201) {
+        Swal.fire(
+          'Sucesso!',
+          'Cadastro finalizado com sucesso!',
+          'success'
+        );
+      }
+    } catch (error) {
+      handleAuthError(error);
+    }
+  };
+
+  // Função chamada ao clicar no botão "Finalizar inscrição"
+  const handleFinishClick = () => {
+    Swal.fire({
+      title: 'Você está certo?',
+      text: "Confirma que deseja finalizar o cadastro?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, finalizar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        finishRegistration();
+      }
+    });
+  };
   function BasicInfoDiv() {
     return (
       <div>
@@ -79,7 +135,7 @@ export default function CadastroInfo() {
   function EarningInfoDiv() {
     return (
       <div>
-        <MembrosFamiliaRendaTeste />
+        <MembrosFamiliaRendaTeste candidate={candidato} identityInfo={identityInfo}/>
       </div>
     );
   }
@@ -95,7 +151,7 @@ export default function CadastroInfo() {
   function HealthInfoDiv() {
     return (
       <div>
-        <MembrosFamiliaSaude />
+        <MembrosFamiliaSaude candidate={candidato} />
       </div>
     );
   }
@@ -128,7 +184,7 @@ export default function CadastroInfo() {
         <div className="upper-cadastro-candidato">
           <h1>CADASTRO</h1>
           <h1>PREENCHA SEUS DADOS</h1>
-        </div>
+          <button  onClick={handleFinishClick}>Finalizar inscrição</button>        </div>
       </div>
       <div className="container-info">
         <MultiStep
@@ -151,7 +207,7 @@ export default function CadastroInfo() {
             },
           }}
         >
-          <BasicInfoDiv title="Básico"></BasicInfoDiv>
+          <BasicInfoDiv title="Cadastrante"></BasicInfoDiv>
           <FamilyInfoDiv title="Grupo Familiar"></FamilyInfoDiv>
           <HousingInfoDiv title="Moradia"></HousingInfoDiv>
           <VehicleInfoDiv title="Veículo"></VehicleInfoDiv>

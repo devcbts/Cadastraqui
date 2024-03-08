@@ -49,6 +49,7 @@ export const VerSaude = ({ member }) => {
                     }
                 })
                 setHealthInfo(response.data.healthInfo)
+                console.log(response.data)
                 setLoading(false)
             } catch (err) {
                 console.log(err)
@@ -60,7 +61,7 @@ export const VerSaude = ({ member }) => {
 
 
     const getDiseaseValuesByLabels = (diseaseLabels) => {
-        return diseaseLabels.map(value => {
+        return diseaseLabels?.map(value => {
           const diseaseItem = Disease.find(item => item.value === value);
           return diseaseItem ? diseaseItem.label : '';
         }).filter(label => label !== ''); // Filtra quaisquer valores não encontrados (strings vazias)
@@ -69,9 +70,9 @@ export const VerSaude = ({ member }) => {
     return (
         <div><div className="fill-box">
             <form id="survey-form">
-                <h4>Saúde do {member.fullName} ({member.relationship})</h4>
+                <h4>Saúde do {member.fullName || member.name} ({member.relationship || 'Cadastrante'})</h4>
                 {/* Informações de Saúde */}
-                {!loading && healthInfo ? <>
+                {!loading && healthInfo[0]?.diseases ? <>
                     <h4>Informações Gerais</h4>
                     {/*<!-- Doença -->*/}
                     <div class="survey-box">

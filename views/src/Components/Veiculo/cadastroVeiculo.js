@@ -30,7 +30,8 @@ export default function CadastroVeiculo({ candidate }) {
         insuranceValue: '',
         usage: 'WorkInstrument',
         owners_id: [],
-        candidate_id: ''
+        candidate_id: '',
+        reponsible_id: ''
     });
 
     const [membros, setMembros] = useState([]);
@@ -54,11 +55,22 @@ export default function CadastroVeiculo({ candidate }) {
         const owners = selectedOptions.filter(option => option.type === 'family').map(option => option.value);
         // Verifica se o candidato foi selecionado
         const candidate = selectedOptions.find(option => option.type === 'candidate')?.value;
-        setFormData({
-            ...formData,
-            owners_id: owners,
-            candidate_id: candidate || '',
-        });
+        const role = localStorage.getItem('role');
+        if (role === 'RESPONSIBLE') {
+            setFormData({
+                ...formData,
+                owners_id: owners,
+                responsible_id: candidate || '',
+            });
+        }
+        else{
+
+            setFormData({
+                ...formData,
+                owners_id: owners,
+                candidate_id: candidate || '',
+            });
+        }
     };
 
 
@@ -82,7 +94,8 @@ export default function CadastroVeiculo({ candidate }) {
                 insuranceValue: Number(formData.insuranceValue) || undefined,
                 usage: formData.usage,
                 owners_id: formData.owners_id,
-                candidate_id: candidato.id || undefined
+                candidate_id: formData.candidate_id || undefined,
+                responsible_id: formData.reponsible_id || undefined,
             }, {
                 headers: {
                     'authorization': `Bearer ${token}`,

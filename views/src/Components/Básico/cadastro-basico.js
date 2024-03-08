@@ -3,6 +3,9 @@ import "../Familia/cadastroFamiliar.css";
 import { useState } from "react";
 import { api } from "../../services/axios";
 import "./cadastro-basico.css";
+import Select from "react-select";
+import { handleSuccess } from "../../ErrorHandling/handleSuceess";
+import { handleAuthError } from "../../ErrorHandling/handleError";
 
 const GENDER = [
   { value: "MALE", label: "Masculino" },
@@ -266,13 +269,22 @@ export default function CadastroBasico() {
       console.log("====================================");
       console.log(response.status);
       console.log("====================================");
-      alert("Dados cadastrados com sucesso!");
+      handleSuccess(response, "Dados cadastrados com sucesso!");
     } catch (error) {
-      console.log(error);
-      alert(error.response.data.message);
+      handleAuthError(error);
     }
   }
 
+  function handleInputChangeSelect(selectedOptions) {
+    // Com react-select, selectedOptions é um array de objetos { value, label } ou null
+    const values = selectedOptions
+      ? selectedOptions.map((option) => option.value)
+      : [];
+    setCandidate((prevState) => ({
+      ...prevState,
+      incomeSource: values,
+    }));
+  }
   return (
     <div>
       <div className="fill-box">
@@ -395,6 +407,7 @@ export default function CadastroBasico() {
               ))}
             </select>
           </div>
+
           {/* RG */}
           <div class="survey-box">
             <label for="RG" id="RG-label">
@@ -576,7 +589,7 @@ export default function CadastroBasico() {
           {/*<!-- Cor da Pele -->*/}
           <div class="survey-box">
             <label for="skinColor" id="skinColor-label">
-              Cor / Raça:
+              Cor ou Raça:
             </label>
             <br />
             <select
@@ -586,7 +599,7 @@ export default function CadastroBasico() {
               id="skinColor"
               class="select-data"
             >
-              <option value="undefined">Escolha a Cor de Pele</option>
+              <option value="undefined">Selecione</option>
               {SkinColor.map((type) => (
                 <option value={type.value}>{type.label}</option>
               ))}
@@ -706,7 +719,7 @@ export default function CadastroBasico() {
           {/*<!-- Telefone de Trabalho -->*/}
           <div class="survey-box">
             <label for="workPhone" id="workPhone-label">
-              Telefone Comercial:
+            Telefone de trabalho/recado:
             </label>
             <br />
             <input
@@ -753,7 +766,7 @@ export default function CadastroBasico() {
           </div>
 
           {/*<!-- Inscrito em Programa Governamental -->*/}
-          <div class="survey-box check-box-survey">
+          <div class="survey-box survey-checkbox">
             <label
               for="enrolledGovernmentProgram"
               id="enrolledGovernmentProgram-label"
@@ -796,22 +809,21 @@ export default function CadastroBasico() {
               Fonte(s) de renda:
             </label>
             <br />
-            <select
+            <Select
               name="incomeSource"
-              multiple
-              onChange={handleInputChange}
-              value={candidate.incomeSource}
+              isMulti
+              onChange={handleInputChangeSelect}
+              options={IncomeSource}
+              value={IncomeSource.filter((obj) =>
+                candidate.incomeSource.includes(obj.value)
+              )}
               id="incomeSource"
               class="select-data"
-            >
-              {IncomeSource.map((type) => (
-                <option value={type.value}>{type.label}</option>
-              ))}
-            </select>
+            />
           </div>
 
           {/*<!-- Mora Sozinho ? -->*/}
-          <div class="survey-box check-box-survey">
+          <div class="survey-box">
             <label for="livesAlone" id="livesAlone-label">
               Mora Sozinho ?
             </label>
@@ -826,7 +838,7 @@ export default function CadastroBasico() {
             />
           </div>
 
-          <div class="survey-box check-box-survey">
+          <div class="survey-box survey-checkbox">
             <label for="livesAlone" id="livesAlone-label">
               Familia registrada no Cadastro Único?
             </label>
@@ -841,7 +853,7 @@ export default function CadastroBasico() {
             />
           </div>
           {/*<!-- Deseja Obter Bolsa Escolar ? -->*/}
-          <div class="survey-box check-box-survey">
+          <div class="survey-box survey-checkbox">
             <label
               for="intendsToGetScholarship"
               id="intendsToGetScholarship-label"
@@ -860,7 +872,7 @@ export default function CadastroBasico() {
           </div>
 
           {/*<!-- Estudou em Instituição Pública ? -->*/}
-          <div class="survey-box check-box-survey">
+          <div class="survey-box survey-checkbox">
             <label
               for="attendedPublicHighSchool"
               id="attendedPublicHighSchool-label"
@@ -880,7 +892,7 @@ export default function CadastroBasico() {
           </div>
 
           {/*<!-- Já recebeu bolsa CEBAS para educação Básica ? -->*/}
-          <div class="survey-box check-box-survey">
+          <div class="survey-box survey-checkbox">
             <label
               for="benefitedFromCebasScholarship_basic"
               id="benefitedFromCebasScholarship_basic-label"
@@ -982,7 +994,7 @@ export default function CadastroBasico() {
           )}
 
           {/*<!-- Já recebeu bolsa CEBAS para educação profissional ? -->*/}
-          <div class="survey-box check-box-survey">
+          <div class="survey-box survey-checkbox">
             <label
               for="benefitedFromCebasScholarship_professional"
               id="benefitedFromCebasScholarship_professional-label"

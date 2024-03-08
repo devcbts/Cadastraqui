@@ -4,6 +4,8 @@ import imovelCedidoPDF from "../../Assets/imovel-cedido.pdf"; // Importando o ar
 import auxilioTerceirosPDF from "../../Assets/auxilio-terceiros.pdf"; // Importando o arquivo PDF
 import declaracaoCandidatoResponsavelPDF from "../../Assets/candidato-responsavel-declaracao.pdf"; // Importando o arquivo PDF
 import declaracaoGrupoFamiliarPDF from "../../Assets/declaracao-grupo-familiar.pdf"; // Importando o arquivo PDF
+import { handleAuthError } from "../../ErrorHandling/handleError";
+import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 
 const DECLARATION_CATEGORIES = {
   responsavelLegal:
@@ -51,10 +53,10 @@ export default function EnviarDeclaracoes({ id }) {
         },
       });
       // Trate a resposta conforme necessário
-      alert("Declaração Enviada!");
+      handleSuccess(response,"Declaração Enviada!");
     } catch (error) {
       // Trate o erro conforme necessário
-      alert("Erro ao enviar declaração!");
+      handleAuthError(error)
     }
   };
 
@@ -106,6 +108,7 @@ export default function EnviarDeclaracoes({ id }) {
         console.log(updatedDeclarationLinks);
         console.log("====================================");
       } catch (error) {
+        handleAuthError(error)
         console.error("Erro ao buscar links das declarações", error);
       }
     };

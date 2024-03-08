@@ -28,8 +28,10 @@ export default function Veiculos({ candidato }) {
           setVeiculos(response.data.vehicleInfoResults);
           setVeiculoSelecionado(response.data.vehicleInfoResults[0]);
         }
+        console.log(response)
         setLen(response.data.vehicleInfoResults.length);
       } catch (err) {
+        console.log(err)
         if (err.response.status === 500) {
           setLen(0);
         }

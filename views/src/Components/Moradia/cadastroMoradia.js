@@ -101,6 +101,7 @@ export default function CadastroMoradia() {
           <label>Status da propriedade:</label>
           <br />
           <select
+            className="select-data"
             name="propertyStatus"
             value={formData.propertyStatus}
             onChange={handleChange}
@@ -137,6 +138,7 @@ export default function CadastroMoradia() {
             <label>Tipo de contrato:</label>
             <br />
             <select
+              className="select-data"
               name="contractType"
               value={formData.contractType}
               onChange={handleChange}
@@ -152,6 +154,7 @@ export default function CadastroMoradia() {
           <label>Tempo vivendo na propriedade:</label>
           <br />
           <select
+            className="select-data"
             name="timeLivingInProperty"
             value={formData.timeLivingInProperty}
             onChange={handleChange}
@@ -166,6 +169,7 @@ export default function CadastroMoradia() {
           <label>Tipo de domicílio:</label>
           <br />
           <select
+            className="select-data"
             name="domicileType"
             value={formData.domicileType}
             onChange={handleChange}
@@ -180,6 +184,7 @@ export default function CadastroMoradia() {
           <label>Número de cômodos:</label>
           <br />
           <select
+            className="select-data-2"
             name="numberOfRooms"
             value={formData.numberOfRooms}
             onChange={handleChange}

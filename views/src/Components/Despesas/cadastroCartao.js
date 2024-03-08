@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { api } from '../../services/axios';
 import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o formulário
+import { handleSuccess } from '../../ErrorHandling/handleSuceess';
+import { handleAuthError } from '../../ErrorHandling/handleError';
 
 export default function CadastroCartao({ candidate }) {
     const [formData, setFormData] = useState({
@@ -69,10 +71,11 @@ export default function CadastroCartao({ candidate }) {
                 headers: { 'Authorization': `Bearer ${token}` },
             });
             console.log(response.data);
-            alert("Dados cadastrados com sucesso!")
+            handleSuccess(response,"Dados cadastrados com sucesso!")
 
             // Trate a resposta conforme necessário
         } catch (error) {
+            handleAuthError(error)
             console.error(error.response?.data || error.message);
             // Trate o erro conforme necessário
         }

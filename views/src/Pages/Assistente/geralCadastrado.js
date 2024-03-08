@@ -243,7 +243,7 @@ export default function GeralCadastrado() {
 
   function Parecer() {
     return (
-      <VerParecer FamilyMembers={familyMembers} Housing={housing} Vehicles={vehicles} candidate={candidateInfo} identityInfo={identityInfo} announcement={announcement} application_id={application_id} healthInfo={healthInfo}/>
+      <VerParecer application={application} FamilyMembers={familyMembers} Housing={housing} Vehicles={vehicles} candidate={candidateInfo} identityInfo={identityInfo} announcement={announcement} application_id={application_id} healthInfo={healthInfo}/>
     );
   }
 

@@ -3,6 +3,7 @@ import Select from "react-select";
 import { api } from "../../services/axios.js";
 import CadastroDespesas from "./cadastroDespesas.js";
 import VerDespesas from "./verDespesas.js";
+import { handleAuthError } from "../../ErrorHandling/handleError.js";
 
 export default function DespesasMensais() {
   const [expensesInstances, setExpensesInstances] = useState([]);
@@ -27,7 +28,7 @@ export default function DespesasMensais() {
           setSelectedExpense(response.data.expenses[0]);
         }
       } catch (err) {
-        alert(err);
+        handleAuthError(err);
       }
     }
     pegarDespesas();

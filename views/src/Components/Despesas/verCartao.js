@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { api } from '../../services/axios';
 import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o formulário
+import { handleSuccess } from '../../ErrorHandling/handleSuceess';
+import { handleAuthError } from '../../ErrorHandling/handleError';
 
-export default function VerCartao({formDataInfo}) {
+export default function VerCartao({formDataInfo, candidate}) {
     const [formData, setFormData] = useState(formDataInfo);
+    const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
 
     const [familyMembers, setFamilyMembers] = useState([]);
     const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState('');
@@ -60,13 +63,22 @@ export default function VerCartao({formDataInfo}) {
                 headers: { 'Authorization': `Bearer ${token}` },
             });
             console.log(response.data);
+            handleSuccess(response, 'Dados Atualizados com sucesso!')
             setIsEditing(false)
             // Trate a resposta conforme necessário
         } catch (error) {
+            handleAuthError(error)
             console.error(error.response?.data || error.message);
             // Trate o erro conforme necessário
         }
     };
+    const [opcoes, setOpcoes] = useState([])
+
+    useEffect(() => {
+        setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
+        { value: candidato.id, label: candidato.nome, type: 'candidate' }])
+        console.log(familyMembers)
+    },[familyMembers])
 
     return (
         <div className="fill-box">
@@ -75,9 +87,9 @@ export default function VerCartao({formDataInfo}) {
                 <div className='survey-box'>
                     <label>Nome do Familiar:</label>
                     <Select
-                        options={familyMembers}
+                        options={opcoes}
                         isDisabled={!isEditing} onChange={handleSelectChange}
-                        value={familyMembers.find(option => option.label === formData.familyMemberName)}
+                        value={opcoes.find(option => option.label === formData.familyMemberName)}
                         required
                     />
                 </div>

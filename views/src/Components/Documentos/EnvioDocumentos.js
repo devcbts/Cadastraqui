@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { api } from "../../services/axios";
 import "./envioDocumentos.css";
+import { handleSuccess } from "../../ErrorHandling/handleSuceess";
+import { handleAuthError } from "../../ErrorHandling/handleError";
 
 const DOCUMENT_CATEGORIES = {
   identificacao: {
@@ -94,11 +96,11 @@ export default function EnviarDocumentos({ id }) {
       });
       console.log(response.data);
       // Trate a resposta conforme necessário
-      alert("Documento Enviado!");
+      handleSuccess(response,"Documento Enviado!");
     } catch (error) {
       console.error(error.response?.data || error.message);
       // Trate o erro conforme necessário
-      alert("Erro ao enviar documento!");
+      handleAuthError(error, {} , "Erro ao enviar documento!");
     }
   };
 

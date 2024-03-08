@@ -9,6 +9,8 @@ import PdfPreview from './pdfPreview';
 import './cadastroEdital.css'
 import dadosCursos from '../objects/cursos.json'
 import Select from 'react-select';
+import { handleAuthError } from '../ErrorHandling/handleError';
+import { handleSuccess } from '../ErrorHandling/handleSuceess';
 console.log('====================================');
 console.log(dadosCursos.bacharelado);
 console.log('====================================');
@@ -28,10 +30,18 @@ const BasicEducationType = [
 ];
 
 const ScholarshipOfferType = [
-    { value: 'Law187Scholarship', label: 'Bolsa Lei 187' },
-    { value: 'StudentWithDisability', label: 'Estudante com Deficiência' },
-    { value: 'FullTime', label: 'Tempo Integral' },
-    { value: 'EntityWorkers', label: 'Trabalhadores da Entidade' }
+    { value: 'Law187Scholarship', label: 'Bolsa Lei 187 Integral' },
+    { value: 'Law187ScholarshipPartial', label: 'Bolsa Lei 187 Parcial' },
+
+    { value: 'StudentWithDisabilityPartial', label: 'Estudante com Deficiência Parcial' },
+    { value: 'StudentWithDisability', label: 'Estudante com Deficiência Integral' },
+
+    { value: 'FullTime', label: 'Tempo Integral (Integral)' },
+    { value: 'FullTimePartial', label: 'Tempo Integral (Parcial)' },
+
+    { value: 'EntityWorkers', label: 'Trabalhadores da Entidade Integral' },
+    { value: 'EntityWorkersPartial', label: 'Trabalhadores da Entidade Parcial' }
+
 ];
 
 const HigherEducationScholarshipType = [
@@ -94,7 +104,7 @@ export default function CadastroEdital() {
         async function getEntityInfo() {
 
             const token = localStorage.getItem("token")
-            
+
             try {
 
                 const response = await api.get('/entities/', {
@@ -110,28 +120,28 @@ export default function CadastroEdital() {
                 console.log(error)
             }
         }
-        
+
         getEntityInfo()
     }, [])
 
     // Mudança de entidade e subsidiaria
     const handleEntityOrSubsidiaryChange = (value) => {
         setSelectedEntityOrSubsidiary(value);
-      
+
         // Se a matriz for selecionada, resetar selectedSubsidiaries e entity_subsidiary_id
         if (value === entity.id) {
-          setCurrentCourse({ ...currentCourse, entity_subsidiary_id: null });
+            setCurrentCourse({ ...currentCourse, entity_subsidiary_id: null });
         } else {
-          // Se uma filial for selecionada, adicionar ao selectedSubsidiaries
-          const selectedSubsidiary = subsidiaries?.find(sub => sub.id === value);
-          const selectedSubsidiaryAlreadySelected = selectedSubsidiaries.find(sub => sub.id === value);
-          if (selectedSubsidiary && !selectedSubsidiaryAlreadySelected) {
-            setSelectedSubsidiaries([...selectedSubsidiaries, selectedSubsidiary]);
-            setCurrentCourse({ ...currentCourse, entity_subsidiary_id: selectedSubsidiary.id });
-          }
+            // Se uma filial for selecionada, adicionar ao selectedSubsidiaries
+            const selectedSubsidiary = subsidiaries?.find(sub => sub.id === value);
+            const selectedSubsidiaryAlreadySelected = selectedSubsidiaries.find(sub => sub.id === value);
+            if (selectedSubsidiary && !selectedSubsidiaryAlreadySelected) {
+                setSelectedSubsidiaries([...selectedSubsidiaries, selectedSubsidiary]);
+                setCurrentCourse({ ...currentCourse, entity_subsidiary_id: selectedSubsidiary.id });
+            }
         }
-      };
-      
+    };
+
 
     // para os tipos de bolsas
     const [selectedTypes1, setSelectedTypes1] = useState([]);
@@ -160,7 +170,7 @@ export default function CadastroEdital() {
     const [currentCourse, setCurrentCourse] = useState({
         availableCourses: '',
         offeredVacancies: 5000,
-        verifiedScholarships: 0,
+        verifiedScholarships: 1,
         semester: 1,
         grade: '',
         basicEduType: '',
@@ -180,19 +190,37 @@ export default function CadastroEdital() {
 
     const completeCourseRegistration = () => {
         setEducationalLevels([...educationalLevels, currentCourse]);
-        setCurrentCourse({
-            availableCourses: '',
-            offeredVacancies: 5000,
-            verifiedScholarships: 0,
-            semester: 1,
-            grade: '',
-            basicEduType: '',
-            scholarshipType: '',
-            higherEduScholarshipType: '',
-            offeredCourseType: '',
-            shift: 'Matutino',
-            entity_subsidiary_id: subsidiaries ? subsidiaries[0].id : null
-        })
+        if (educationLevel === "BasicEducation") {
+            setCurrentCourse({
+                availableCourses: '',
+                offeredVacancies: 5000,
+                verifiedScholarships: 1,
+                semester: 1,
+                grade: '',
+                basicEduType: '',
+                scholarshipType: '',
+                higherEduScholarshipType: '',
+                offeredCourseType: '',
+                shift: 'Matutino',
+                entity_subsidiary_id: subsidiaries ? subsidiaries[0].id : null
+            })
+        }
+        else {
+
+            setCurrentCourse({
+                availableCourses: '',
+                offeredVacancies: 5000,
+                verifiedScholarships: 1,
+                semester: 1,
+                grade: '',
+                basicEduType: '',
+                scholarshipType: '',
+                higherEduScholarshipType: 'PROUNIFull',
+                offeredCourseType: '',
+                shift: 'Matutino',
+                entity_subsidiary_id: subsidiaries ? subsidiaries[0].id : null
+            })
+        }
         setIsAddingCourse(false)
     };
 
@@ -261,7 +289,7 @@ export default function CadastroEdital() {
 
     async function handleSubmit(event) {
         event.preventDefault();
-       
+
         const data = {
             entityChanged: false,
             branchChanged: false,
@@ -308,7 +336,7 @@ export default function CadastroEdital() {
             educationalLevels.map(async (education) => {
                 const data = {
                     level: educationLevel,
-                    basicEduType: '',
+                    basicEduType: education.basicEduType || '',
                     scholarshipType: education.scholarshipType,
                     higherEduScholarshipType: education.higherEduScholarshipType,
                     offeredCourseType: education.offeredCourseType,
@@ -316,6 +344,7 @@ export default function CadastroEdital() {
                     offeredVacancies: education.offeredVacancies,
                     verifiedScholarships: education.verifiedScholarships,
                     shift: education.shift,
+                    grade: education.grade || '',
                     semester: education.semester,
                     entity_subsidiary_id: education.entity_subsidiary_id
                 }
@@ -326,7 +355,7 @@ export default function CadastroEdital() {
                     await api.post(`/entities/education/${announcement.id}`,
                         {
                             level: educationLevel,
-                            basicEduType: '',
+                            basicEduType: education.basicEduType || '',
                             scholarshipType: education.scholarshipType,
                             higherEduScholarshipType: education.higherEduScholarshipType,
                             offeredCourseType: education.offeredCourseType,
@@ -334,6 +363,8 @@ export default function CadastroEdital() {
                             offeredVacancies: education.offeredVacancies,
                             verifiedScholarships: education.verifiedScholarships,
                             shift: education.shift,
+                            grade: education.grade || '',
+
                             semester: education.semester,
                             entity_subsidiary_id: education.entity_subsidiary_id || '2132'
 
@@ -353,23 +384,21 @@ export default function CadastroEdital() {
                                 },
                             });
                         } catch (err) {
-                            alert("Erro ao enviar o pdf.");
+                            handleAuthError(err, navigate, 'Erro ao enviar PDF')
                             console.log(err);
                         }
                     }
                 } catch (error) {
-                    alert("Erro ao criar os educational levels")
-                    console.log(error)
+                    handleAuthError(error, navigate, 'Erro ao criar os cursos')
                 }
 
             })
 
 
-            alert("Edital criado com suceeso")
+            handleSuccess(response, 'Edital Criado com sucesso')
 
         } catch (err) {
-            alert("Erro ao atualizar foto de perfil.");
-            console.log(err);
+            handleAuthError(err, navigate, 'Erro ao criar o edital')
         }
     }
 
@@ -377,7 +406,7 @@ export default function CadastroEdital() {
     const [isAddingCourse, setIsAddingCourse] = useState(false);
     const [isEdittingCourse, setIsEdittingCourse] = useState(true);
     //Tabela dos educational Level
-    const EducationalLevelsTable = ({ educationalLevels  }) => {
+    const EducationalLevelsTable = ({ educationalLevels }) => {
         // Função auxiliar para encontrar o nome da matriz ou da filial
         const findEntityOrSubsidiaryName = (level) => {
             // Se level.entity_subsidiary_id estiver definido, tente encontrar a filial correspondente
@@ -388,42 +417,79 @@ export default function CadastroEdital() {
             // Caso contrário, retorne o nome da matriz
             return entity.name;
         };
-        console.log(selectedSubsidiaries)
-        return (
-            <table>
-                <thead>
-                    <tr>
-                        <th>Matriz ou Filial</th>
-                        <th>Quantidade de Vagas</th>
-                        <th>Curso</th>
-                        <th>Ciclo/Ano/Série/Semestre</th>
-                        <th>Turno</th>
-                        <th>Percentual de Gratuidade</th>
-                        <th></th>
-                        {/* Adicione mais cabeçalhos de colunas conforme necessário */}
-                    </tr>
-                </thead>
-                <tbody>
-                    {educationalLevels.map((level, index) => (
-                        <tr key={index}>
-                            <td>{findEntityOrSubsidiaryName(level)}</td>
-                            <td>{level.verifiedScholarships}</td>
-                            <td>{level.availableCourses}</td>
-                            <td>{level.semester}</td>
-                            <td>{level.shift}</td>
-                            <td>{translateHigherEducationScholashipType(level.higherEduScholarshipType)}</td>
-                            <td>
-                                <button className='button-edital-editar' onClick={() => editEducationalLevel(index)}>Editar</button>
-                                <button className='button-edital-excluir' onClick={() => deleteEducationalLevel(index)}>Excluir</button>
-                            </td>
-                            {/* Adicione mais células de dados conforme necessário */}
+        if (educationLevel === 'HigherEducation') {
+
+
+            return (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Matriz ou Filial</th>
+                            <th>Quantidade de Vagas</th>
+                            <th>Curso</th>
+                            <th>Ciclo/Ano/Série/Semestre</th>
+                            <th>Turno</th>
+                            <th>Percentual de Gratuidade</th>
+                            <th></th>
+                            {/* Adicione mais cabeçalhos de colunas conforme necessário */}
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-        );
+                    </thead>
+                    <tbody>
+                        {educationalLevels.map((level, index) => (
+                            <tr key={index}>
+                                <td>{findEntityOrSubsidiaryName(level)}</td>
+                                <td>{level.verifiedScholarships}</td>
+                                <td>{level.availableCourses}</td>
+                                <td>{level.semester}</td>
+                                <td>{level.shift}</td>
+                                <td>{translateHigherEducationScholashipType(level.higherEduScholarshipType)}</td>
+                                <td>
+                                    <button className='button-edital-editar' onClick={() => editEducationalLevel(index)}>Editar</button>
+                                    <button className='button-edital-excluir' onClick={() => deleteEducationalLevel(index)}>Excluir</button>
+                                </td>
+                                {/* Adicione mais células de dados conforme necessário */}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            );
+        } else if (educationLevel === 'BasicEducation') {
+            return (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Matriz ou Filial</th>
+                            <th>Quantidade de Vagas</th>
+                            <th>Tipo de Educação básica</th>
+                            <th>Ciclo/Ano/Série/Semestre</th>
+                            <th>Turno</th>
+                            <th>Tipo de Bolsa</th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {educationalLevels.map((level, index) => (
+                            <tr key={index}>
+                                <td>{findEntityOrSubsidiaryName(level)}</td>
+                                <td>{level.verifiedScholarships}</td>
+                                <td>{translateBasicEducationScholashipType(level.basicEduType)}</td>
+                                <td>{level.grade}</td>
+                                <td>{level.shift}</td>
+                                <td>{translateBasicEducationScholashipofferType(level.scholarshipType)}</td>
+                                <td>
+                                    <button className='button-edital-editar' onClick={() => editEducationalLevel(index)}>Editar</button>
+                                    <button className='button-edital-excluir' onClick={() => deleteEducationalLevel(index)}>Excluir</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            );
+        }
+        return <div>Selecione um nível educacional para visualizar os registros.</div>;
     };
-    
+
 
     // Edição dos dados da tabela
     const editEducationalLevel = (index) => {
@@ -529,9 +595,25 @@ export default function CadastroEdital() {
 
 
                     {/* Dropdown para basicEduType */}
-                    {educationLevel === 'BasicEducation' &&
+                    {isAddingCourse && educationLevel === 'BasicEducation' &&
                         <div>
 
+
+                            {/* Dropdown para offeredCourseType */}
+                            <fieldset>
+                                <label>Matriz ou Filial:</label>
+                                <select
+                                    value={selectedEntityOrSubsidiary}
+                                    onChange={(e) => handleEntityOrSubsidiaryChange(e.target.value)}
+                                >
+                                    <option value={entity.id}>Matriz - {entity.name}</option>
+                                    {subsidiaries.map((subsidiary) => (
+                                        <option key={subsidiary.id} value={subsidiary.id}>
+                                            Filial - {subsidiary.socialReason}
+                                        </option>
+                                    ))}
+                                </select>
+                            </fieldset>
                             <fieldset>
 
                                 <label className="file-label"
@@ -542,6 +624,7 @@ export default function CadastroEdital() {
                                 <select className='select-educational'
                                     onChange={(e) => handleEducationalChange('basicEduType', e.target.value)}
                                 >
+                                    <option value="">Selecione</option>
                                     {/* Substitua BasicEducationType pelo seu array de objetos correspondente */}
                                     {BasicEducationType.map(type => <option value={type.value}>{type.label}</option>)}
                                 </select>
@@ -556,21 +639,54 @@ export default function CadastroEdital() {
                                 <select className='select-educational'
                                     onChange={(e) => handleEducationalChange('scholarshipType', e.target.value)}
                                 >
+                                    <option value="">Selecione</option>
                                     {/* Substitua ScholarshipOfferType pelo seu array de objetos correspondente */}
                                     {ScholarshipOfferType.map(type => <option value={type.value}>{type.label}</option>)}
                                 </select>
                             </fieldset>
+                            <fieldset style={{ textAlign: 'left' }}>
+
+                                <label>
+                                    Número total de bolsas:
+                                </label>
+                                <input style={{ width: '30%' }}
+                                    type="number"
+                                    min={1}
+                                    value={currentCourse.verifiedScholarships}
+                                    onChange={(e) => handleEducationalChange('verifiedScholarships', Number(e.target.value))}
+                                />
+                            </fieldset>
                             <fieldset>
 
                                 <label>
-                                    Série/Ano:
+                                Ciclo/Ano/Série/Curso:
                                 </label>
                                 <input
                                     type="text"
+                                    value={currentCourse.grade}
                                     onChange={(e) => handleEducationalChange('grade', e.target.value)}
                                 />
 
                             </fieldset>
+
+
+                            {/* Dropdown para shift */}
+                            <fieldset>
+
+                                <label>
+                                    Turno:
+                                </label>
+                                <select
+                                    value={currentCourse.shift}
+                                    onChange={(e) => handleEducationalChange('shift', e.target.value)}
+                                >
+                                    {/* Substitua SHIFT pelo seu array de objetos correspondente */}
+                                    {SHIFT.map(type => <option value={type.value}>{type.label}</option>)}
+                                </select>
+                            </fieldset>
+
+                            <button onClick={completeCourseRegistration}>Concluir Cadastro</button>
+
                         </div>
 
                     }
@@ -607,6 +723,7 @@ export default function CadastroEdital() {
                                     value={coursetype}
                                     onChange={(e) => setCourseType(e.target.value)}
                                 >
+                                    <option value="">Selecione</option>
                                     {OfferedCourseType.map(type => <option value={type.value}>{type.label}</option>)}
                                 </select>
 
@@ -620,6 +737,7 @@ export default function CadastroEdital() {
                                 <select id="curso-dropdown" value={currentCourse.availableCourses} onChange={handleSelectChange}>
                                     {coursetype === 'UndergraduateBachelor' &&
                                         <optgroup label="Cursos Gerais">
+
                                             {dadosCursos.bacharelado.map((curso, index) => (
                                                 <option key={index} value={curso}>
                                                     {curso}
@@ -673,6 +791,7 @@ export default function CadastroEdital() {
                                     </label>
                                     <input style={{ width: '30%' }}
                                         type="number"
+                                        min={1}
                                         value={currentCourse.verifiedScholarships}
                                         onChange={(e) => handleEducationalChange('verifiedScholarships', Number(e.target.value))}
                                     />
@@ -791,43 +910,7 @@ export default function CadastroEdital() {
 
 
 
-                    <div className='box-edital'  >
 
-                        <h2>Critérios de seleção e desempate</h2>
-
-                        <div className="checkbox-wrapper">
-                            <fieldset className='checkbox-filtro'>
-                                <input type="checkbox" id="cadastro-unico" />
-                                <span for="cadastro-unico" className="checkbox-label">Cadastro Único</span>
-                            </fieldset>
-
-                            <fieldset className='checkbox-filtro'>
-                                <input type="checkbox" id="renda-familiar" />
-                                <span for="renda-familiar" className="checkbox-label">Menor renda familiar bruta mensal</span>
-                            </fieldset>
-
-                            <fieldset className='checkbox-filtro'>
-                                <input type="checkbox" id="doenca-grave" />
-                                <span for="doenca-grave" className="checkbox-label">Doença grave</span>
-                            </fieldset>
-
-                            <fieldset className='checkbox-filtro'>
-                                <input type="checkbox" id="proximidade-residencia" />
-                                <span for="proximidade-residencia" className="checkbox-label">Proximidade da residência</span>
-                            </fieldset>
-
-                            <fieldset className='checkbox-filtro'>
-                                <input type="checkbox" id="nota-enem" />
-                                <span for="nota-enem" className="checkbox-label">Nota do ENEM</span>
-                            </fieldset>
-
-                            <fieldset className='checkbox-filtro'>
-                                <input type="checkbox" id="sorteio" />
-                                <span for="sorteio" className="checkbox-label">Sorteio</span>
-                            </fieldset>
-                        </div>
-
-                    </div>
 
 
                     <fieldset className="file-div">
@@ -881,7 +964,24 @@ export default function CadastroEdital() {
 
 function translateHigherEducationScholashipType(HigherEducationScholarship) {
     const HigherEducation = HigherEducationScholarshipType.find(
-      (r) => r.value === HigherEducationScholarship
+        (r) => r.value === HigherEducationScholarship
     );
     return HigherEducation ? HigherEducation.label : "Não especificado";
-  }
+}
+
+function translateBasicEducationScholashipType(BasicEducationScholarship) {
+    const BasicEducation = BasicEducationType.find(
+
+        (r) => r.value === BasicEducationScholarship
+    )
+    return BasicEducation ? BasicEducation.label : "Não especificado";
+}
+
+
+function translateBasicEducationScholashipofferType(BasicEducationScholarship) {
+    const BasicEducation = ScholarshipOfferType.find(
+
+        (r) => r.value === BasicEducationScholarship
+    )
+    return BasicEducation ? BasicEducation.label : "Não especificado";
+}

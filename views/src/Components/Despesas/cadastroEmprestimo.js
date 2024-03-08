@@ -3,7 +3,9 @@ import axios from 'axios';
 import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o formulário
 import { api } from '../../services/axios';
 import Select from 'react-select';
-export default function CadastroEmprestimo() {
+import { handleSuccess } from '../../ErrorHandling/handleSuceess';
+import { handleAuthError } from '../../ErrorHandling/handleError';
+export default function CadastroEmprestimo({candidate}) {
     const [formData, setFormData] = useState({
         familyMemberName: '',
         installmentValue: '',
@@ -34,10 +36,11 @@ export default function CadastroEmprestimo() {
 
             });
             console.log(response.data);
-            alert("Dados cadastrados com sucesso!")
+            handleSuccess(response,"Dados cadastrados com sucesso!")
 
             // Trate a resposta conforme necessário
         } catch (error) {
+            handleAuthError(error)
             console.error(error.response?.data || error.message);
             // Trate o erro conforme necessário
         }
@@ -46,6 +49,15 @@ export default function CadastroEmprestimo() {
 
     const [familyMembers, setFamilyMembers] = useState([]);
     const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState('');
+    const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
+    const [opcoes, setOpcoes] = useState([])
+
+    useEffect(() => {
+        setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
+        { value: candidato.id, label: candidato.nome, type: 'candidate' }])
+        console.log(familyMembers)
+    },[familyMembers])
+ 
 
     useEffect(() => {
 
@@ -82,10 +94,10 @@ export default function CadastroEmprestimo() {
                 <div className='survey-box'>
                     <label>Nome do Familiar:</label>
                     <Select
-                        options={familyMembers}
+                       options={opcoes}
                         onChange={handleSelectChange}
-                        value={familyMembers.find(option => option.label === formData.familyMemberName)}
-                         required
+                        value={opcoes.find(option => option.value === selectedFamilyMemberId)}
+                        required
                     />
                 </div>
 

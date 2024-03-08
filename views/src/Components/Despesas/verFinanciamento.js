@@ -3,9 +3,11 @@ import axios from 'axios';
 import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o formulário
 import { api } from '../../services/axios';
 import Select from 'react-select';
+import { handleSuccess } from '../../ErrorHandling/handleSuceess';
 
-export default function VerFinanciamento({ formDataInfo }) {
-   
+export default function VerFinanciamento({ formDataInfo, candidate }) {
+    const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
+
     const [formData, setFormData] = useState(formDataInfo);
     const [isEditing, setIsEditing] = useState(false)
 
@@ -41,6 +43,8 @@ export default function VerFinanciamento({ formDataInfo }) {
             });
             console.log(response.data);
             setIsEditing(false)
+            handleSuccess(response, 'Dados Atualizados com sucesso!')
+
             // Trate a resposta conforme necessário
         } catch (error) {
             console.error(error.response?.data || error.message);
@@ -50,6 +54,13 @@ export default function VerFinanciamento({ formDataInfo }) {
 
     const [familyMembers, setFamilyMembers] = useState([]);
     const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState('');
+    const [opcoes, setOpcoes] = useState([])
+
+    useEffect(() => {
+        setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
+        { value: candidato.id, label: candidato.nome, type: 'candidate' }])
+        console.log(familyMembers)
+    },[familyMembers])
 
     useEffect(() => {
         async function pegarFamiliares() {
@@ -72,8 +83,8 @@ export default function VerFinanciamento({ formDataInfo }) {
     }, []);
 
     const handleSelectChange = selectedOption => {
-       // setFormData({ ...formData, familyMemberName: selectedOption.label });
-        //setSelectedFamilyMemberId(selectedOption.value);
+       setFormData({ ...formData, familyMemberName: selectedOption.label });
+        setSelectedFamilyMemberId(selectedOption.value);
     };
 
     const financingTypes = [
@@ -109,9 +120,9 @@ export default function VerFinanciamento({ formDataInfo }) {
                 <div className='survey-box'>
                     <label>Nome do Familiar:</label>
                     <Select
-                        options={familyMembers}
-                        disabled={!isEditing} onChange={handleSelectChange}
-                        value={familyMembers.find(option => option.label === formData.familyMemberName)}
+                        options={opcoes}
+                        isDisabled={!isEditing} onChange={handleSelectChange}
+                        value={opcoes.find(option => option.label === formData.familyMemberName)}
                         required
                     />
                 </div>

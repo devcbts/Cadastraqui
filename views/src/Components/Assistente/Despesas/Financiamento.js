@@ -4,7 +4,7 @@ import VerFinanciamento from './verFinanciamento';
 import { api } from '../../../services/axios';
 import LoadingCadastroCandidato from '../../Loading/LoadingCadastroCandidato';
 
-export default function Financiamento({id}) {
+export default function Financiamento({candidate, id}) {
     const [financingsInstances, setFinancingsInstances] = useState([]);
     const [selectedFinancing, setSelectedFinancing] = useState(null);
     const [mostrarCadastro, setMostrarCadastro] = useState(false);
@@ -55,7 +55,7 @@ export default function Financiamento({id}) {
                 />
             )}
             {
-                selectedFinancing ? <VerFinanciamento formData={selectedFinancing} id={id} />
+                selectedFinancing ? <VerFinanciamento candidate={candidate} formData={selectedFinancing} id={id} />
                 : <LoadingCadastroCandidato/>
             }
 

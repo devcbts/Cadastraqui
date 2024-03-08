@@ -12,9 +12,9 @@
     height: 5rem;
     position: relative;
     padding: 1.5rem 2rem;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     border-radius: 0.5rem;
     box-shadow: 1px 1px 10px rgb(185, 185, 185);
@@ -25,6 +25,19 @@
     border-top: none;
   }
   
+  .item h2{
+    font-size: 1.2rem;
+    text-align: left;
+  }
+
+  .nome-pessoa{
+    width: 15%;
+  }
+
+  .nome-edital{
+    width: 25%;
+  }
+
   img {
     aspect-ratio: 1;
     height: 100%;

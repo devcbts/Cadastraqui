@@ -4,7 +4,7 @@ import VerEmprestimo from './verEmprestimos.js'; // Certifique-se de que o nome 
 import { api } from '../../../services/axios.js';
 import LoadingCadastroCandidato from '../../Loading/LoadingCadastroCandidato.js';
 
-export default function Emprestimos({id}) {
+export default function Emprestimos({id, candidate}) {
     const [loansInstances, setLoansInstances] = useState([]);
     const [selectedLoan, setSelectedLoan] = useState(null);
     const [mostrarCadastro, setMostrarCadastro] = useState(false);
@@ -52,7 +52,7 @@ export default function Emprestimos({id}) {
                 />
             )}
             {
-                selectedLoan ? <VerEmprestimo formData={selectedLoan} id={id}  />
+                selectedLoan ? <VerEmprestimo candidate={candidate} formData={selectedLoan} id={id}  />
             : <LoadingCadastroCandidato/>}
 
           

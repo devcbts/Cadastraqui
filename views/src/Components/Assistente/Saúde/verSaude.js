@@ -1,8 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react'
+import { useState } from 'react';
 import { api } from '../../../services/axios';
-
+const Relationship = [
+  { value: 'Wife', label: 'Esposa' },
+  { value: 'Husband', label: 'Marido' },
+  { value: 'Father', label: 'Pai' },
+  { value: 'Mother', label: 'Mãe' },
+  { value: 'Stepfather', label: 'Padrasto' },
+  { value: 'Stepmother', label: 'Madrasta' },
+  { value: 'Sibling', label: 'Irmão/Irmã' },
+  { value: 'Grandparent', label: 'Avô/Avó' },
+  { value: 'Child', label: 'Filho/Filha' },
+  { value: 'Other', label: 'Outro' },
+];
 const Disease = [
-  { value: 'ALIENATION_MENTAL', label: 'Alienação Mental' },
+    { value: 'ALIENATION_MENTAL', label: 'Alienação Mental' },
     { value: 'CARDIOPATHY_SEVERE', label: 'Cardiopatia Grave' },
     { value: 'BLINDNESS', label: 'Cegueira' },
     { value: 'RADIATION_CONTAMINATION', label: 'Contaminação por Radiação' },
@@ -22,170 +34,102 @@ const Disease = [
     { value: 'RARE_DISEASE', label: 'Doença Rara' },
     { value: 'OTHER_HIGH_COST_DISEASE', label: 'Outra Doença de Alto Custo' }
 ]
+export const VerSaudeAssistente = ({ member }) => {
+    const [monthlyIncomes, setMonthlyIncomes] = useState([]);
+    console.log(member);
 
-export const VerSaudeAssistente = ({  member  }) => {
- 
-  
-  const [diseaseSpecific, setDiseaseSpecific] = useState(false)
-  const [controlledMedication, setControlledMedication] = useState(false)
-  const [healthInfo, setHealthInfo] = useState({
-    disease:'',
-    specificDisease: '',
-    hasMedicalReport: false
-  })
-  const [medicationInfo, setMedicationInfo] = useState({
-    medicationName:'',
-    obtainedPublicly: false,
-    specificMedicationPublicly: ''
-  })
-  
-  console.log(member)
-    const handleHealthChange = (e) => {
-      const target = e.target;
-      const name = target.name;
-      if (e.target.multiple) {
-          const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
-          setHealthInfo(prevState => ({
-              ...prevState,
-              [name]: selectedOptions
-          }));
-          if(e.target.name ==='disease' ) {
-            console.log(e.target.value)
-            if(e.target.value.includes('RARE_DISEASE') || e.target.value.includes( 'OTHER_HIGH_COST_DISEASE')) {
-              setDiseaseSpecific(true)
-            } else{
-              setDiseaseSpecific(false)
+    const [healthInfo, setHealthInfo] = useState({
+        diseases: '',
+        specificDisease: '',
+        hasMedicalReport: false,
+        medicationName: '',
+        obtainedPublicly: false,
+        specificMedicationPublicly: ''
+    });
+
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        async function getHealthInfo() {
+            try {
+                const token = localStorage.getItem("token")
+                const response = await api.get(`/candidates/health-info/family-member/${member.id}`, {
+                    headers: {
+                        'authorization': `Bearer ${token}`,
+                    }
+                })
+                setHealthInfo(response.data.healthInfo)
+                console.log(response.data)
+                setLoading(false)
+            } catch (err) {
+                console.log(err)
             }
-          }
-      } else {
-        setHealthInfo({ ...healthInfo, [e.target.name]: e.target.value });
-        console.log(healthInfo)
-      }
-      
-    };
+        }
+        getHealthInfo()
+    }, [member])
 
-    const handleMedicationChange = (e) => {
-      const target = e.target;
-      const value = target.type === 'checkbox' ? target.checked : target.value;
-      const name = target.name;
-          setMedicationInfo(prevState => ({
-              ...prevState,
-              [name]: value
-          }));
-      
-    };
 
-    function handleControlledMedication() {
-      if(controlledMedication === true) {
-        setControlledMedication(false)
-      }
-      if(controlledMedication === false) {
-        setControlledMedication(true)
-      }
-    }
 
-    async function handleRegisterHealth() {
-      const data = {
-        disease:healthInfo.disease,
-        specificDisease: healthInfo.specificDisease,
-        hasMedicalReport: healthInfo.hasMedicalReport
+    const getDiseaseValuesByLabels = (diseaseLabels) => {
+        return diseaseLabels?.map(value => {
+          const diseaseItem = Disease.find(item => item.value === value);
+          return diseaseItem ? diseaseItem.label : '';
+        }).filter(label => label !== ''); // Filtra quaisquer valores não encontrados (strings vazias)
+      };
+      function translateRelationship(relationshipValue) {
+        const relationship = Relationship.find(r => r.value === relationshipValue);
+        return relationship ? relationship.label : 'Não especificado';
       }
-      try {
-        const token = localStorage.getItem("token")
-        const response = await api.post(`/candidates/health-info/${member.id}`, data, {
-          headers: {
-              'authorization': `Bearer ${token}`,
-          }
-      })
-      console.log(response)
-      } catch(err) {
-        console.log(err)
-          alert(err.response.data.message);
-      }
-    }
-
-    async function handleRegisterMedication() {
-      const data = {
-        medicationName:medicationInfo.medicationName,
-      obtainedPublicly: medicationInfo.obtainedPublicly,
-      specificMedicationPublicly: medicationInfo.specificMedicationPublicly
-      }
-      try {
-        const token = localStorage.getItem("token")
-        const response = await api.post(`/candidates/medication-info/${member.id}`, data, {
-          headers: {
-              'authorization': `Bearer ${token}`,
-          }
-      })
-      console.log(response)
-      } catch(err) {
-        console.log(err)
-          alert(err.response.data.message);
-      }
-    }
-    
-
     return (
-        <div className="fill-box">
-            <form id='survey-form'>
-              <div class="survey-box">
-                <label> 
-                        Doença:
-                    </label>
-                    <br />
-                    <select name="disease" multiple value={healthInfo.disease} onChange={handleHealthChange} required>
-                        {Disease.map((status) => <option value={status.value}>{status.label}</option>)}
-                    </select>
-              </div>
-              {diseaseSpecific && (
-              <div class="survey-box">
-                  <label for="specificDisease" id="specificDisease-label">Especifique a Doença</label>
-                  <br />
-                  <input type="text" name="specificDisease" value={healthInfo.specificDisease} onChange={handleHealthChange} id="specificDisease" class="survey-control" />
-              </div>
-                    )}
-                <div class="survey-box">
-                  <label for="hasMedicalReport" id="hasMedicalReport-label">Possui atestado médico ?</label>
-                  <br />
-                  <input type="checkbox" name="hasMedicalReport" value={healthInfo.hasMedicalReport} onChange={handleHealthChange} id="hasMedicalReport" class="survey-control" />
-              </div>
-
-              <div class="survey-box">
-                  <button type="submit" onClick={handleRegisterHealth}  id="submit-button">Salvar Informações</button>
-              </div>
-
-              <div class="survey-box">
-                  <label for="ControlledMedication" id="ControlledMedication-label">Toma Remédio Controlado?</label>
-                  <br />
-                  <input type="checkbox" name="ControlledMedication" value={controlledMedication} onChange={handleControlledMedication} id="ControlledMedication" class="survey-control" />
-              </div>
-              {controlledMedication && (
-                <>
-                  <div class="survey-box">
-                    <label for="medicationName" id="medicationName-label">Nome do Medicamento</label>
-                    <br />
-                    <input type="text" name="medicationName" value={medicationInfo.medicationName} onChange={handleMedicationChange} id="medicationName" class="survey-control" />
-                  </div>
-                  <div class="survey-box">
-                    <label for="obtainedPublicly" id="obtainedPublicly-label">Obtêm através da Rede Pública ?</label>
-                    <br />
-                    <input type="checkbox" name="obtainedPublicly" value={medicationInfo.obtainedPublicly} onChange={handleMedicationChange} id="obtainedPublicly" class="survey-control" />
-                  </div>
-                  {medicationInfo.obtainedPublicly && (
+        <div><div className="fill-box">
+            <form id="survey-form">
+                <h4>Saúde do {member.fullName || member.name} ({translateRelationship(member.relationship) || 'Cadastrante'})</h4>
+                {/* Informações de Saúde */}
+                {!loading && healthInfo[0]?.diseases ? <>
+                    <h4>Informações Gerais</h4>
+                    {/*<!-- Doença -->*/}
                     <div class="survey-box">
-                    <label for="specificMedicationPublicly" id="specificMedicationPublicly-label">Informe Quais:</label>
-                    <br />
-                    <input type="text" name="specificMedicationPublicly" value={medicationInfo.specificMedicationPublicly} onChange={handleMedicationChange} id="specificMedicationPublicly" class="survey-control" />
-                  </div>
-                  )}
-                  <div class="survey-box">
-                    <button type="submit" onClick={handleRegisterMedication}  id="submit-button">Salvar Informações</button>
-                  </div>
+                        <label for="disease" id="disease-label">Doença</label>
+                        <br />
+                        <input disabled type="text" name="disease" value={ getDiseaseValuesByLabels(healthInfo[0]?.diseases).join(', ')} id="disease" class="survey-control" />
+                    </div>
+                    {/*<!-- Doença Específica -->*/}
+                    <div class="survey-box">
+                        <label for="specificDisease" id="specificDisease-label">Doença Específica</label>
+                        <br />
+                        <input disabled type="text" name="specificDisease" value={loading ? '' : healthInfo[0]?.specificDisease} id="specificDisease" class="survey-control" />
+                    </div>
+                    {/*<!-- Relatório Médico -->*/}
+                    <div class="survey-box">
+                        <label for="hasMedicalReport" id="hasMedicalReport-label">Tem Relatório Médico ?</label>
+                        <br />
+                        <input disabled type="checkbox" name="hasMedicalReport" checked={loading ? '' : healthInfo[0].hasMedicalReport ? true : false} id="hasMedicalReport" class="survey-control" />
+                    </div>
+                    <h4>Uso de medicamento contínuo e/ou controlado:</h4>
+                    {/*<!-- Nome do medicamento -->*/}
+                    <div class="survey-box">
+                        <label for="medicationName" id="medicationName-label">Nome do Medicamento</label>
+                        <br />
+                        <input disabled type="text" name="medicationName" value={loading ? '' : healthInfo.medicationName} id="medicationName" class="survey-control" />
+                    </div>
+                    {/*<!-- Obtém atraves da rede Pública -->*/}
+                    <div class="survey-box">
+                        <label for="obtainedPublicly" id="obtainedPublicly-label">Obtém atraves da Rede Pública ?</label>
+                        <br />
+                        <input disabled type="checkbox" name="obtainedPublicly" value={loading ? '' : healthInfo.obtainedPublicly} id="obtainedPublicly" class="survey-control" />
+                    </div>
+                    {/*<!-- Medicações obtidas na Rede Pública -->*/}
+                    <div class="survey-box">
+                        <label for="specificMedicationPublicly" id="specificMedicationPublicly-label"> Medicações obtidas na Rede Pública</label>
+                        <br />
+                        <input disabled type="text" name="specificMedicationPublicly" value={loading ? '' : healthInfo.specificMedicationPublicly} id="specificMedicationPublicly" class="survey-control" />
+                    </div>
                 </>
-              )}
+                    : ''}
+
+
             </form>
-        </div>
+        </div></div>
 
-    );
-};
-
+    )
+}

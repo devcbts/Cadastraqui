@@ -52,7 +52,7 @@ export default function EditaisAssistente() {
       console.log(response)
     }
     fetchAnnouncements()
-  }, [])
+  }, [isShown])
 
 
   const [profilePhoto, setProfilePhoto] = useState(null)

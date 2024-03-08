@@ -3,7 +3,7 @@ import Select from 'react-select';
 import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o formulário
 import { api } from '../../../services/axios';
 
-export default function VerCartao({formData,id}) {
+export default function VerCartao({formData,id, candidate}) {
    /* const [formData, setFormData] = useState({
         familyMemberName: '',
         usersCount: 1, // Valor padrão
@@ -43,20 +43,25 @@ export default function VerCartao({formData,id}) {
         setSelectedFamilyMemberId(selectedOption.value);
     };
 
-    const handleSubmit = async (e) => {
-       
-    };
+    const [opcoes, setOpcoes] = useState([])
+    const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
+
+    useEffect(() => {
+        setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
+        { value: candidato.id, label: candidato.nome, type: 'candidate' }])
+        console.log(familyMembers)
+    },[familyMembers])
 
     return (
         <div className="fill-box">
-            <form onSubmit={handleSubmit} id='survey-form'>
+            <form  id='survey-form'>
                 {/* Seleção de familiar */}
                 <div className='survey-box'>
                     <label>Nome do Familiar:</label>
                     <Select
-                        options={familyMembers}
+                        options={opcoes}
                         disabled onChange={handleSelectChange}
-                        value={familyMembers.find(option => option.label === formData.familyMemberName)}
+                        value={opcoes.find(option => option.label === formData.familyMemberName)}
                         required
                     />
                 </div>

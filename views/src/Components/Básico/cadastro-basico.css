@@ -8,3 +8,75 @@
 #submit-button:hover{
     opacity: 0.7;
 }
+
+.check-box-input{
+    display: flex !important;
+    justify-content: center !important;
+    border: 1px solid #d0e5ff;
+    width: 25vw;
+    align-items: center;
+    
+}
+
+.check-box-input label{
+    width: 60vw !important;
+    text-align: left;
+}
+
+.survey-control{
+    height: 3rem;
+    border-radius: 1.5rem !important;
+    width: 25vw !important;
+}
+
+.select-data{
+    border-radius: 1.5rem !important;
+    height: 3rem !important;
+    width: 26vw !important;
+    display: flex;
+    justify-content: center;
+    opacity: 1;
+}
+
+.survey-control, .select-data{
+    background-color: white;
+    color: #1b4f8e !important;
+    border-color: #1b4f8e !important;
+    font-size: 0.9rem;
+}
+
+.survey-check{
+    padding: 0;
+    height: 2rem;
+    border-radius: 1.5rem !important;
+    width: 25vw !important;
+    background-color: white;
+    color: #1b4f8e !important;
+    border: 1px solid #1b4f8e;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transform: translateY(0.8rem);
+}
+
+.survey-check input{
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    margin: 0 1.5rem 0 0;
+}
+
+.survey-check label{
+    width: fit-content !important;
+    max-width: 15rem !important;
+    text-align: left;
+    margin-left: 1.5rem;
+}
+
+.over-button{
+    margin-top: 1rem;
+}
+
+
+
+

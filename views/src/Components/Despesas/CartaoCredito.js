@@ -3,6 +3,7 @@ import Select from "react-select";
 import { api } from "../../services/axios.js";
 import CadastroCartao from "./cadastroCartao.js";
 import VerCartao from "./verCartao.js"; // Certifique-se de que o nome está correto e é exportável
+import { handleAuthError } from "../../ErrorHandling/handleError.js";
 
 export default function CartaoCredito({candidate}) {
   const [creditCardsInstances, setCreditCardsInstances] = useState([]);
@@ -28,7 +29,7 @@ export default function CartaoCredito({candidate}) {
           setSelectedCreditCard(response.data.creditCards[0]);
         }
       } catch (err) {
-        alert(err);
+        handleAuthError(err);
       }
     }
     pegarCartoes();
@@ -55,7 +56,7 @@ export default function CartaoCredito({candidate}) {
       {mostrarCadastro ? (
         <CadastroCartao candidate={candidate} />
       ) : (
-        selectedCreditCard && <VerCartao formDataInfo={selectedCreditCard} />
+        selectedCreditCard && <VerCartao candidate={candidate} formDataInfo={selectedCreditCard} />
       )}
 
       <button className="budget-btn" onClick={toggleCadastro}>

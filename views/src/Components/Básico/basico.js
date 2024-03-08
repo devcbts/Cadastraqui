@@ -1,61 +1,75 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import VerBasico from './ver-basico.js';
-import LoadingCadastroCandidato from '../Loading/LoadingCadastroCandidato.js';
-import CadastroBasico from './cadastro-basico.js';
-import { api } from '../../services/axios.js';
+import VerBasico from "./ver-basico.js";
+import LoadingCadastroCandidato from "../Loading/LoadingCadastroCandidato.js";
+import CadastroBasico from "./cadastro-basico.js";
+import { api } from "../../services/axios.js";
+import { handleAuthError } from "../../ErrorHandling/handleError.js";
 
 export default function Basico() {
-    const [basicInfo, setBasicInfo] = useState(null);
+  const [basicInfo, setBasicInfo] = useState(null);
+  const [registerInfo, setRegisterInfo] = useState(null);
+  const [len, setLen] = useState(2);
 
-    const [len,setLen] = useState(2)
+  useEffect(() => {
+    async function pegarIdentidade() {
+      const token = localStorage.getItem("token");
+      const role = localStorage.getItem("role");
+      console.log(role);
+      try {
+        const response = await api.get(`/candidates/identity-info`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.data.identityInfo === null) {
+          setLen(0);
+          return;
+        } else {
+          const dadosIdentidade = response.data.identityInfo;
 
-    useEffect(() => {
-        async function pegarIdentidade() {
-            const token = localStorage.getItem('token');
-            try {
+          setBasicInfo(dadosIdentidade);
 
-                const response = await api.get(`/candidates/identity-info`, {
-                    headers: {
-                        'authorization': `Bearer ${token}`,
-                    }
-                })
-                if (response.data.identityInfo === null) {
-                    setLen(0)
-                    return
-                }
-                else{
-
-                    const dadosIdentidade = response.data.identityInfo
-                    setBasicInfo(dadosIdentidade)
-                    setLen(dadosIdentidade.length)
-                }
-            }
-            catch (err) {
-                alert(err)
-            }
+          setLen(dadosIdentidade.length);
+          console.log(dadosIdentidade);
         }
-        
-            
-            pegarIdentidade()
-        
+      } catch (err) {
+        setLen(0);
+        handleAuthError(err);
+      }
+    }
+    async function pegarBasicInfo() {
+      const token = localStorage.getItem("token");
 
-    }, [])
+      try {
+        const response = await api.get(`/candidates/basic-info`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
 
-    return (
-        <div>
-            {basicInfo ? <VerBasico candidate={basicInfo} /> : 
-            <div>
-                {len > 0 ?
-                <LoadingCadastroCandidato/>
-            : <CadastroBasico/>}
-                </div>}
+        console.log(response.data);
+        const dadosBasico = response.data.candidate;
 
+        setRegisterInfo(dadosBasico);
 
+        console.log(dadosBasico);
+      } catch (err) {
+        handleAuthError(err);
+      }
+    }
 
+    pegarBasicInfo();
+    pegarIdentidade();
+  }, []);
 
-
-        </div>
-    );
+  return (
+    <div>
+      {basicInfo && registerInfo ? (
+        <VerBasico candidate={basicInfo} basic={registerInfo} />
+      ) : (
+        <div>{len > 0 ? <LoadingCadastroCandidato /> : <CadastroBasico />}</div>
+      )}
+    </div>
+  );
 }
-

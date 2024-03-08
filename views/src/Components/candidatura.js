@@ -44,7 +44,7 @@ export default function Candidatura(props) {
         <UilEllipsisH size="30" color="#7b7b7b" className="icon"></UilEllipsisH>
         </Link>
 
-        <a href="">Extrair PDF</a>
+     
         {!enrolled && !props.assistente ?
           <div onClick={handleEnrollClick}>
 
