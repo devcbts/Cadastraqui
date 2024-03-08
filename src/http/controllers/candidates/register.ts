@@ -48,7 +48,7 @@ export async function registerCandidate(
       'SP',
       'TO',
     ]),
-    addressNumber: z.number(),
+    addressNumber: z.string(),
   })
 
   const {

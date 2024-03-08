@@ -49,7 +49,7 @@ export async function registerLegalResponsible(
       'SP',
       'TO',
     ]),
-    addressNumber: z.number(),
+    addressNumber: z.string(),
   })
 
   const {

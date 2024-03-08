@@ -65,7 +65,7 @@ export async function getApplicationHistory(
     }
    catch (err: any) {
     if (err instanceof NotAllowedError) {
-      return reply.status(404).send({ message: err.message })
+      return reply.status(401).send({ message: err.message })
     }
     if (err instanceof AnnouncementNotExists) {
       return reply.status(404).send({ message: err.message })
