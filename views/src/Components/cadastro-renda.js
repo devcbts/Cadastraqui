@@ -2427,8 +2427,8 @@ export const CadastroRenda = ({ member }) => {
           )}
 
           {/* Empresário */}
-          {member.incomeSource.includes("BusinessOwner") &&
-            member.incomeSource.includes("BusinessOwnerSimplifiedTax")(
+          {(member.incomeSource.includes("BusinessOwner") ||
+            member.incomeSource.includes("BusinessOwnerSimplifiedTax") )&&(
               <>
                 {/*<!-- Data de Início -->*/}
                 <div class="survey-box">

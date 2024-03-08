@@ -929,17 +929,18 @@ export default function VerFamiliar({ familyMember }) {
               Fonte(s) de renda:
             </label>
             <br />
-            <select
+            <Select
               name="incomeSource"
               isMulti
-              isDisabled={!isEditing} // Remova esta linha se o campo não deve ser desabilitado
               onChange={handleInputChangeSelect}
               value={IncomeSource.filter((obj) =>
-                familyMemberInfo.incomeSource.includes(obj.value)
+                familyMember.incomeSource.includes(obj.value)
               )}
               options={IncomeSource}
               className="select-data"
               id="incomeSource"
+              // Se você quiser que o campo seja desabilitado, mantenha a próxima linha
+              isDisabled={false} // Se for verdadeiro, o campo estará desabilitado
             />
           </div>
 

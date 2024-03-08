@@ -1931,8 +1931,8 @@ export const VerRendaMensal = ({
           )}
 
           {/* Empresário */}
-          {incomeSource.includes("BusinessOwner") &&
-            incomeSource.includes("BusinessOwnerSimplifiedTax")(
+          {(incomeSource.includes("BusinessOwner") ||
+            incomeSource.includes("BusinessOwnerSimplifiedTax")) && (
               <>
                 {/*<!-- Data de Início -->*/}
                 <div class="survey-box">
