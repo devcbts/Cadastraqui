@@ -163,7 +163,7 @@ export async function updateFamilyMemberInfo(
     UF: COUNTRY,
     CEP: z.string(),
     neighborhood: z.string(),
-    addressNumber: z.number().int(),
+    addressNumber: z.string(),
     profession: z.string(),
     enrolledGovernmentProgram: z.boolean().optional().nullable(),
     NIS: z.string().optional().nullable(),
