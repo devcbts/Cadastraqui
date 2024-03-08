@@ -50,6 +50,7 @@ import { updateLoanInfo } from './update-loan-info'
 import { registerEntepreneursInfo } from './register-entepreneur-info'
 import { getMonthlyIncomeBySource } from './get-monthly-income'
 import { finishRegistration } from './finish-registration'
+import { getApplicationHistory } from './get-application-history'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -162,7 +163,8 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     getOpenAnnouncements,
   )
-
+  // Historico
+  app.get('/application/history/:application_id', { onRequest: [verifyJWT] }, getApplicationHistory)
   // Despesas
   app.post('/expenses', { onRequest: [verifyJWT] }, registerExpensesInfo)
   app.get('/expenses/:_id?', { onRequest: [verifyJWT] }, getExpensesInfo)
