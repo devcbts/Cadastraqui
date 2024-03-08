@@ -160,9 +160,7 @@ export const CadastroRenda = ({ member }) => {
           },
         })
         console.log(response.data.familyMemberIncomeInfo)
-        if (response.data.familyMemberIncomeInfo.length !== 0) {
-          setIncomeAlreadyRegistered(true)
-        }
+        
         setLoading(false)
 
       } catch (err) {
