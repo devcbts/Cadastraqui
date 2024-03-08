@@ -172,7 +172,12 @@ export const VerRenda = ({ member }) => {
 
     return averageIncome;
   }
-
+  const [entepreneurInfo, setEntepreneurInfo] = useState({
+    startDate: "",
+    socialReason: "",
+    fantasyName: "",
+    CNPJ: "",
+  });
   const [unemployedInfo, setUnemployedInfo] = useState({
     receivesUnemployment: false,
     parcels: 0,

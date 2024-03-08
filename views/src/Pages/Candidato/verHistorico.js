@@ -6,8 +6,35 @@ import "./verHistorico.css";
 import { api } from "../../services/axios";
 import { UilSearch } from "@iconscout/react-unicons";
 import sampleimg from "../../Assets/profile-padrao.jpg";
-
+import { useParams } from "react-router-dom";
+import { handleAuthError } from "../../ErrorHandling/handleError";
 export default function VerHistorico() {
+  const params = useParams()
+  const application_id = params.application_id
+  console.log(application_id)
+
+  const [application, setApplication] = useState(null)
+  const [history, setHistory] = useState(null)
+ 
+  useEffect(() => {
+    async function getApplication(){
+      const token = localStorage.getItem('token')
+      try {
+        const response = await api.get(`/candidates/application/history/${application_id}`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        setApplication(response.data.application)
+        setHistory(response.data.applicationHistory)
+        console.log(response.data)
+      } catch (error) {
+        handleAuthError(error)
+      }
+    }
+    getApplication()
+  }, [application_id])
+
   return (
     <div className="container">
       <div className="section-nav">

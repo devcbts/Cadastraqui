@@ -851,11 +851,11 @@ export default function VerFamiliar({ familyMember }) {
           {/*<!-- Número de Endereço -->*/}
           <div class="survey-box">
             <label for="addressNumber" id="addressNumber-label">
-              Número de Endereço:
+              Número de Endereço / Complemento:
             </label>
             <br />
             <input
-              type="number"
+              type="text"
               name="addressNumber"
               value={familyMemberInfo.addressNumber}
               disabled={!isEditing}

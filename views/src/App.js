@@ -154,7 +154,7 @@ function App() {
                 element={<GeralCadastrado></GeralCadastrado>}
               ></Route>
               <Route
-                path="/candidato/historico/verhistorico"
+                path="/candidato/historico/:application_id"
                 element={<VerHistorico></VerHistorico>}
               ></Route>
             </Routes>

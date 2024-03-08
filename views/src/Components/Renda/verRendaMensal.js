@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "../cadastro-renda.css";
+import "./verRenda.css";
 import { useState } from "react";
 import { api } from "../../services/axios";
 import { handleSuccess } from "../../ErrorHandling/handleSuceess";
@@ -773,7 +773,7 @@ export const VerRendaMensal = ({
   return (
     <div>
       <div className="fill-box">
-        <form id="survey-form" style={{display: 'block'}}>
+        <form className="form-ver-renda">
           {/* Fonte de Renda  */}
           <h4>Fonte de renda: {incomeSource ? translateRelationship(incomeSource)  : ''}</h4>
 
