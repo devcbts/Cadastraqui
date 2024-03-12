@@ -531,7 +531,10 @@ export const CadastroRenda = ({ member }) => {
     if (name === 'CNPJ') {
       const formattedCNPJ = formatCNPJ(value);
         // Atualiza o valor no estado com o CNPJ formatado
-        setMEIInfo({ ...entityInfo, CNPJ: formattedCNPJ });
+        setMEIInfo((prevState) => ({
+          ...prevState,
+          [name]: formatCNPJ,
+        }));
     }else{
 
       setMEIInfo((prevState) => ({
@@ -1001,10 +1004,10 @@ export const CadastroRenda = ({ member }) => {
     if (name === "financialAssistantCPF") {
       // Se o campo for CPF, aplica a máscara de CPF
       const formattedCPF = formatCPF(value);
-      setDependentInfo({ ...familyMemberInfo, CPF: formattedCPF });
+      setDependentInfo({ ...dependentInfo, CPF: formattedCPF });
   } else {
       // Para outros campos, apenas atualiza o valor
-      setDependentInfo({ ...familyMemberInfo, [name]: value });
+      setDependentInfo({ ...dependentInfo, [name]: value });
   }
   };
 
