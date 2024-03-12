@@ -49,6 +49,14 @@ export async function rankCandidatesIncome(
 
     const applications = await prisma.application.findMany({
       where: { announcement_id },
+      include: {
+        candidate: {
+          include:{
+            IdentityDetails: true
+          }
+        }
+
+      }
 
     });
 
