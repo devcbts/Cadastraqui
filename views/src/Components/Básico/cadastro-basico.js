@@ -719,7 +719,7 @@ export default function CadastroBasico() {
           {/*<!-- Telefone de Trabalho -->*/}
           <div class="survey-box">
             <label for="workPhone" id="workPhone-label">
-            Telefone de trabalho/recado:
+              Telefone de trabalho/recado:
             </label>
             <br />
             <input
@@ -766,7 +766,7 @@ export default function CadastroBasico() {
           </div>
 
           {/*<!-- Inscrito em Programa Governamental -->*/}
-          <div class="survey-box survey-checkbox">
+          <div class="survey-box survey-check">
             <label
               for="enrolledGovernmentProgram"
               id="enrolledGovernmentProgram-label"
@@ -838,7 +838,7 @@ export default function CadastroBasico() {
             />
           </div>
 
-          <div class="survey-box survey-checkbox">
+          <div class="survey-box survey-check">
             <label for="livesAlone" id="livesAlone-label">
               Familia registrada no Cadastro Único?
             </label>
@@ -853,7 +853,7 @@ export default function CadastroBasico() {
             />
           </div>
           {/*<!-- Deseja Obter Bolsa Escolar ? -->*/}
-          <div class="survey-box survey-checkbox">
+          <div class="survey-box survey-check">
             <label
               for="intendsToGetScholarship"
               id="intendsToGetScholarship-label"
@@ -872,7 +872,7 @@ export default function CadastroBasico() {
           </div>
 
           {/*<!-- Estudou em Instituição Pública ? -->*/}
-          <div class="survey-box survey-checkbox">
+          <div class="survey-box survey-check">
             <label
               for="attendedPublicHighSchool"
               id="attendedPublicHighSchool-label"
@@ -892,7 +892,7 @@ export default function CadastroBasico() {
           </div>
 
           {/*<!-- Já recebeu bolsa CEBAS para educação Básica ? -->*/}
-          <div class="survey-box survey-checkbox">
+          <div class="survey-box survey-check">
             <label
               for="benefitedFromCebasScholarship_basic"
               id="benefitedFromCebasScholarship_basic-label"
@@ -994,7 +994,7 @@ export default function CadastroBasico() {
           )}
 
           {/*<!-- Já recebeu bolsa CEBAS para educação profissional ? -->*/}
-          <div class="survey-box survey-checkbox">
+          <div class="survey-box survey-check">
             <label
               for="benefitedFromCebasScholarship_professional"
               id="benefitedFromCebasScholarship_professional-label"

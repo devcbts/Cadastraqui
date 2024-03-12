@@ -55,7 +55,7 @@
     border: 1px solid #1b4f8e;
     font-size: 0.9rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between !important;
     align-items: center;
     transform: translateY(0.8rem);
 }
@@ -71,11 +71,13 @@
     max-width: 15rem !important;
     text-align: left;
     margin-left: 1.5rem;
+    margin-right: 0 !important ;
 }
 
 .over-button{
     margin-top: 1rem;
 }
+
 
 
 

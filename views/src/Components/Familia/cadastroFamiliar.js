@@ -693,7 +693,7 @@ export default function CadastroFamiliar() {
           </div>
 
           {/*<!-- Necessidades Especiais -->*/}
-          <div class="survey-box survey-checkbox">
+          <div class="survey-box survey-check">
             <label for="specialNeeds" id="specialNeeds-label">
               Necessidades Especiais:
             </label>

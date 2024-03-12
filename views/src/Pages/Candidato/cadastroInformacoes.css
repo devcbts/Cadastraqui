@@ -69,7 +69,9 @@
 }
 
 .upper-cadastro-candidato h1{
-    font-size: 1.5rem;
+    text-align: left;
+    font-size: 1rem !important;
+    margin-bottom: 1rem;
 }
 
 
@@ -228,4 +230,16 @@
 
 .multi-step{
     justify-content: center;
+}
+
+.btn-primary{
+    background-color: #1b4f73;
+    border: 2px solid white;
+    box-shadow: 0 0 10px rgb(202, 202, 202);
+    transition: all 0.6s;
+    font-size: 0.8rem;
+}
+
+.btn-primary:hover{
+    opacity: 0.7;
 }

@@ -652,7 +652,7 @@ export default function VerFamiliarAssistente({ familyMember }) {
           {/*<!-- Telefone de Trabalho -->*/}
           <div class="survey-box">
             <label for="workPhone" id="workPhone-label">
-            Telefone de trabalho/recado:
+              Telefone de trabalho/recado:
             </label>
             <br />
             <input

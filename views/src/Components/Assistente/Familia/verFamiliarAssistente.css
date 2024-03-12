@@ -211,5 +211,16 @@
     grid-template-columns: 1fr 1fr !important;
 }
 
+.survey-check{
+    display: flex;
+    justify-content: space-between !important;
+}
+
+.survey-check input{
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    margin: 0;
+    margin-right: 1.5rem;
+}
 
 

@@ -1,0 +1,9 @@
+.btn-logout{
+    background-color: #1b4f73;
+    box-shadow: 0 0 5px rgba(23, 23, 23, 0.5);    
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    gap: 0.5rem;
+}

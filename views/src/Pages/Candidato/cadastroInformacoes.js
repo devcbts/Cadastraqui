@@ -21,7 +21,7 @@ import MembrosFamiliaRendaTeste from "../../Components/Renda/membroFamiliateste.
 import Basico from "../../Components/Básico/basico.js";
 import EnviarDeclaracoes from "../../Components/Declarações/Declarações.js";
 import { handleAuthError } from "../../ErrorHandling/handleError.js";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 export default function CadastroInfo() {
   const nextButton = useRef(null);
@@ -58,7 +58,7 @@ export default function CadastroInfo() {
         handleAuthError(error);
       }
     }
-    
+
     pegarCandidato();
     pegarIdentityInfo();
   }, []);
@@ -66,18 +66,18 @@ export default function CadastroInfo() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await api.post("/candidates/finish", {}, 
-      {
-        headers: {
-          authorization: `Bearer ${token}`,
-        }});
+      const response = await api.post(
+        "/candidates/finish",
+        {},
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
       // Aqui você pode tratar a resposta como desejar
       if (response.status === 201) {
-        Swal.fire(
-          'Sucesso!',
-          'Cadastro finalizado com sucesso!',
-          'success'
-        );
+        Swal.fire("Sucesso!", "Cadastro finalizado com sucesso!", "success");
       }
     } catch (error) {
       handleAuthError(error);
@@ -87,13 +87,13 @@ export default function CadastroInfo() {
   // Função chamada ao clicar no botão "Finalizar inscrição"
   const handleFinishClick = () => {
     Swal.fire({
-      title: 'Você está certo?',
+      title: "Você está certo?",
       text: "Confirma que deseja finalizar o cadastro?",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sim, finalizar!'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sim, finalizar!",
     }).then((result) => {
       if (result.isConfirmed) {
         finishRegistration();
@@ -135,7 +135,10 @@ export default function CadastroInfo() {
   function EarningInfoDiv() {
     return (
       <div>
-        <MembrosFamiliaRendaTeste candidate={candidato} identityInfo={identityInfo}/>
+        <MembrosFamiliaRendaTeste
+          candidate={candidato}
+          identityInfo={identityInfo}
+        />
       </div>
     );
   }
@@ -182,9 +185,13 @@ export default function CadastroInfo() {
         </a>
 
         <div className="upper-cadastro-candidato">
-          <h1>CADASTRO</h1>
-          <h1>PREENCHA SEUS DADOS</h1>
-          <button  onClick={handleFinishClick}>Finalizar inscrição</button>        </div>
+          <h1>
+            CADASTRO<br></br> PREENCHA SEUS DADOS
+          </h1>
+          <button onClick={handleFinishClick} className="btn-primary">
+            Finalizar inscrição
+          </button>{" "}
+        </div>
       </div>
       <div className="container-info">
         <MultiStep
