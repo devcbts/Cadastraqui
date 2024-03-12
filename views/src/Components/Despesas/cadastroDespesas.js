@@ -3,6 +3,7 @@ import { api } from '../../services/axios';
 import './cadastroDespesas.css';
 import { handleSuccess } from '../../ErrorHandling/handleSuceess';
 import { handleAuthError } from '../../ErrorHandling/handleError';
+import { formatCurrency } from '../../utils/format-currency';
 
 export default function CadastroDespesas() {
     const getCurrentDate = () => {
@@ -11,6 +12,17 @@ export default function CadastroDespesas() {
         const year = today.getFullYear();
         return `${year}-${month}`;
     };
+
+    // Antes de renderizar os inputs numéricos, formata o valor para exibição.
+    function getFormattedValue(name) {
+        const value = formData[name];
+        if (!value) return ''; // Se não houver valor, retorna string vazia para evitar a exibição de "0"
+
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+        }).format(value);
+    }
     const [formData, setFormData] = useState({
         month: '',
         waterSewage: '',
@@ -77,14 +89,22 @@ export default function CadastroDespesas() {
 
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData({
-            ...formData,
-            [name]: type === 'checkbox' ? checked : value,
-        });
-
+        const { name, value } = e.target;
+    
+        if (['waterSewage', 'electricity', 'landlinePhone', 'mobilePhone', 'food', 'rent', 'garageRent', 'condominium', 'cableTV', 'streamingServices', 
+        'fuel', 'annualIPVA', 'annualIPTU', 'annualITR', 'annualIR', 'INSS', 'publicTransport', 'schoolTransport', 'internet', 'courses', 'healthPlan', 
+        'dentalPlan', 'medicationExpenses', 'otherExpensesValue', "installmentValueIPVA","installmentValueIPTU", "installmentValueIR", "installmentValueITR" ].includes(name)) {
+            // Para campos monetários, formata o valor antes de atualizar o estado
+            const numericValue = parseFloat(value.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1.$2')) || '';
+            setFormData({ ...formData, [name]: numericValue });
+        } else if (['optedForInstallmentIPVA', 'optedForInstallmentIPTU', 'optedForInstallmentITR', 'optedForInstallmentIR'].includes(name)) {
+            // Para checkboxes, trata o valor booleano
+            setFormData({ ...formData, [name]: e.target.checked });
+        } else {
+            // Para todos os outros campos, atualiza o estado diretamente
+            setFormData({ ...formData, [name]: value });
+        }
     };
-
 
 
     const handleSubmit = async (e) => {
@@ -138,7 +158,7 @@ export default function CadastroDespesas() {
                 }
             });
             console.log(response.data);
-            handleSuccess(response,"Despesas cadastradas com sucesso");
+            handleSuccess(response, "Despesas cadastradas com sucesso");
         } catch (err) {
             handleAuthError(err)
         }
@@ -176,7 +196,16 @@ export default function CadastroDespesas() {
         setFormData({ ...formData, totalExpense: total });
     };
 
-
+    function getFormattedValue(name) {
+        const value = formData[name];
+        if (value || value === 0) {
+          return value.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+          });
+        }
+        return '';
+      }
 
     return (
         <div className='fill-box'>
@@ -202,9 +231,9 @@ export default function CadastroDespesas() {
                     <label>Água e Esgoto:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="waterSewage"
-                        value={formData.waterSewage}
+                        value={formatCurrency(formData.waterSewage)}
                         onChange={handleChange}
                     />
                 </div>
@@ -214,9 +243,9 @@ export default function CadastroDespesas() {
                     <label>Eletricidade:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="electricity"
-                        value={formData.electricity}
+                        value={formatCurrency(formData.electricity)}
                         onChange={handleChange}
                     />
                 </div>
@@ -225,9 +254,9 @@ export default function CadastroDespesas() {
                     <label>Telefone Fixo:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="landlinePhone"
-                        value={formData.landlinePhone}
+                        value={formatCurrency(formData.landlinePhone)}
                         onChange={handleChange}
                     />
                 </div>
@@ -237,9 +266,9 @@ export default function CadastroDespesas() {
                     <label>Telefone Celular:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="mobilePhone"
-                        value={formData.mobilePhone}
+                        value={formatCurrency(formData.mobilePhone)}
                         onChange={handleChange}
                     />
                 </div>
@@ -249,9 +278,9 @@ export default function CadastroDespesas() {
                     <label>Alimentação:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="food"
-                        value={formData.food}
+                        value={formatCurrency(formData.food)}
                         onChange={handleChange}
                     />
                 </div>
@@ -261,9 +290,9 @@ export default function CadastroDespesas() {
                     <label>Aluguel:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="rent"
-                        value={formData.rent}
+                        value={formatCurrency(formData.rent)}
                         onChange={handleChange}
                     />
                 </div>
@@ -273,9 +302,9 @@ export default function CadastroDespesas() {
                     <label>Aluguel de Garagem:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="garageRent"
-                        value={formData.garageRent}
+                        value={formatCurrency(formData.garageRent)}
                         onChange={handleChange}
                     />
                 </div>
@@ -285,9 +314,9 @@ export default function CadastroDespesas() {
                     <label>Condomínio:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="condominium"
-                        value={formData.condominium}
+                        value={formatCurrency(formData.condominium)}
                         onChange={handleChange}
                     />
                 </div>
@@ -297,9 +326,9 @@ export default function CadastroDespesas() {
                     <label>TV a Cabo:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="cableTV"
-                        value={formData.cableTV}
+                        value={formatCurrency(formData.cableTV)}
                         onChange={handleChange}
                     />
                 </div>
@@ -309,9 +338,9 @@ export default function CadastroDespesas() {
                     <label>Serviços de Streaming:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="streamingServices"
-                        value={formData.streamingServices}
+                        value={formatCurrency(formData.streamingServices)}
                         onChange={handleChange}
                     />
                 </div>
@@ -321,9 +350,9 @@ export default function CadastroDespesas() {
                     <label>Combustível:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="fuel"
-                        value={formData.fuel}
+                        value={formatCurrency(formData.fuel)}
                         onChange={handleChange}
                     />
                 </div>
@@ -333,9 +362,9 @@ export default function CadastroDespesas() {
                     <label>IPVA Anual:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="annualIPVA"
-                        value={formData.annualIPVA}
+                        value={formatCurrency(formData.annualIPVA)}
                         onChange={handleChange}
                     />
                 </div>
@@ -357,7 +386,7 @@ export default function CadastroDespesas() {
                                 className='survey-control'
                                 type="number"
                                 name="installmentCountIPVA"
-                                value={formData.installmentCountIPVA}
+                                value={(formData.installmentCountIPVA)}
                                 onChange={handleChange}
                             />
                         </div>
@@ -365,9 +394,9 @@ export default function CadastroDespesas() {
                             <label>Valor da Parcela de IPVA:</label>
                             <input
                                 className='survey-control'
-                                type="number"
+                                type="text"
                                 name="installmentValueIPVA"
-                                value={formData.installmentValueIPVA}
+                                value={formatCurrency(formData.installmentValueIPVA)}
                                 onChange={handleChange}
                             />
                         </div>
@@ -378,9 +407,9 @@ export default function CadastroDespesas() {
                     <label>IPTU Anual:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="annualIPTU"
-                        value={formData.annualIPTU}
+                        value={formatCurrency(formData.annualIPTU)}
                         onChange={handleChange}
                     />
                 </div>
@@ -404,7 +433,7 @@ export default function CadastroDespesas() {
                                 className='survey-control'
                                 type="number"
                                 name="installmentCountIPTU"
-                                value={formData.installmentCountIPTU}
+                                value={(formData.installmentCountIPTU)}
                                 onChange={handleChange}
                             />
                         </div>
@@ -412,9 +441,9 @@ export default function CadastroDespesas() {
                             <label>Valor da Parcela de IPTU:</label>
                             <input
                                 className='survey-control'
-                                type="number"
+                                type="text"
                                 name="installmentValueIPTU"
-                                value={formData.installmentValueIPTU}
+                                value={formatCurrency(formData.installmentValueIPTU)}
                                 onChange={handleChange}
                             />
                         </div>
@@ -427,9 +456,9 @@ export default function CadastroDespesas() {
                     <label>ITR Anual:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="annualITR"
-                        value={formData.annualITR}
+                        value={formatCurrency(formData.annualITR)}
                         onChange={handleChange}
                     />
                 </div>
@@ -453,7 +482,7 @@ export default function CadastroDespesas() {
                                 className='survey-control'
                                 type="number"
                                 name="installmentCountITR"
-                                value={formData.installmentCountITR}
+                                value={(formData.installmentCountITR)}
                                 onChange={handleChange}
                             />
                         </div>
@@ -461,9 +490,9 @@ export default function CadastroDespesas() {
                             <label>Valor da Parcela de ITR:</label>
                             <input
                                 className='survey-control'
-                                type="number"
+                                type="text"
                                 name="installmentValueITR"
-                                value={formData.installmentValueITR}
+                                value={formatCurrency(formData.installmentValueITR)}
                                 onChange={handleChange}
                             />
                         </div>
@@ -475,9 +504,9 @@ export default function CadastroDespesas() {
                     <label>IR Anual:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="annualIR"
-                        value={formData.annualIR}
+                        value={formatCurrency(formData.annualIR)}
                         onChange={handleChange}
                     />
                 </div>
@@ -500,7 +529,7 @@ export default function CadastroDespesas() {
                                 className='survey-control'
                                 type="number"
                                 name="installmentCountIR"
-                                value={formData.installmentCountIR}
+                                value={(formData.installmentCountIR)}
                                 onChange={handleChange}
                             />
                         </div>
@@ -508,9 +537,9 @@ export default function CadastroDespesas() {
                             <label>Valor da Parcela de IR:</label>
                             <input
                                 className='survey-control'
-                                type="number"
+                                type="text"
                                 name="installmentValueIR"
-                                value={formData.installmentValueIR}
+                                value={formatCurrency(formData.installmentValueIR)}
                                 onChange={handleChange}
                             />
                         </div>
@@ -522,9 +551,9 @@ export default function CadastroDespesas() {
                     <label>INSS:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="INSS"
-                        value={formData.INSS}
+                        value={formatCurrency(formData.INSS)}
                         onChange={handleChange}
                     />
                 </div>
@@ -534,9 +563,9 @@ export default function CadastroDespesas() {
                     <label>Transporte Público:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="publicTransport"
-                        value={formData.publicTransport}
+                        value={formatCurrency(formData.publicTransport)}
                         onChange={handleChange}
                     />
                 </div>
@@ -546,9 +575,9 @@ export default function CadastroDespesas() {
                     <label>Transporte Escolar:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="schoolTransport"
-                        value={formData.schoolTransport}
+                        value={formatCurrency(formData.schoolTransport)}
                         onChange={handleChange}
                     />
                 </div>
@@ -558,9 +587,9 @@ export default function CadastroDespesas() {
                     <label>Internet:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="internet"
-                        value={formData.internet}
+                        value={formatCurrency(formData.internet)}
                         onChange={handleChange}
                     />
                 </div>
@@ -570,9 +599,9 @@ export default function CadastroDespesas() {
                     <label>Cursos:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="courses"
-                        value={formData.courses}
+                        value={formatCurrency(formData.courses)}
                         onChange={handleChange}
                     />
                 </div>
@@ -582,9 +611,9 @@ export default function CadastroDespesas() {
                     <label>Plano de Saúde:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="healthPlan"
-                        value={formData.healthPlan}
+                        value={formatCurrency(formData.healthPlan)}
                         onChange={handleChange}
                     />
                 </div>
@@ -594,9 +623,9 @@ export default function CadastroDespesas() {
                     <label>Plano Dental:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="dentalPlan"
-                        value={formData.dentalPlan}
+                        value={formatCurrency(formData.dentalPlan)}
                         onChange={handleChange}
                     />
                 </div>
@@ -606,9 +635,9 @@ export default function CadastroDespesas() {
                     <label>Despesas com Medicamentos:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="medicationExpenses"
-                        value={formData.medicationExpenses}
+                        value={formatCurrency(formData.medicationExpenses)}
                         onChange={handleChange}
                     />
                 </div>
@@ -624,7 +653,7 @@ export default function CadastroDespesas() {
                             <label>Descrição da Despesa {index + 1}:</label>
                             <input
                                 className='survey-control'
-                                type="text"
+                                type="number"
                                 value={formData.otherExpensesDescription[index]}
                                 onChange={(e) => handleOtherExpensesChange(e, index, 'description')}
                             />
@@ -633,7 +662,7 @@ export default function CadastroDespesas() {
                             <label>Valor da Despesa {index + 1}:</label>
                             <input
                                 className='survey-control'
-                                type="number"
+                                type="text"
                                 value={formData.otherExpensesValue[index]}
                                 onChange={(e) => handleOtherExpensesChange(e, index, 'value')}
                             />
@@ -646,9 +675,9 @@ export default function CadastroDespesas() {
                     <label>Despesa Total:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="totalExpense"
-                        value={formData.totalExpense}
+                        value={formatCurrency(formData.totalExpense)}
                         disabled
                     />
                 </div>

@@ -6,6 +6,7 @@ import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 import { handleAuthError } from "../../ErrorHandling/handleError";
 import "./cadastroFamiliar.css";
 import { api } from "../../services/axios";
+import { formatCPF } from "../../utils/format-cpf";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
@@ -205,10 +206,14 @@ export default function CadastroFamiliar() {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
-    setFamilyMember((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    if (name === "CPF") {
+      const formattedCPF = formatCPF(value);
+      // Atualiza o valor no estado com o CPF formatado
+      setFamilyMember({ ...familyMember, CPF: formattedCPF });
+  } else {
+      // Para outros campos, apenas atualiza o valor
+      setFamilyMember({ ...familyMember, [name]: value });
+  }
   }
 
   function handleInputChangeSelect(selectedOptions) {
@@ -450,11 +455,10 @@ export default function CadastroFamiliar() {
             </label>
             <br />
             <input
-              pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" 
 
               type="text"
               name="CPF"
-              value={familyMember.CPF}
+              value={formatCPF(familyMember.CPF)}
               onChange={handleInputChange}
               id="CPF"
               class="survey-control"

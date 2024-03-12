@@ -62,7 +62,7 @@ export default function BasicoAssistente({ id }) {
   return (
     <div>
       {basicInfo && registerInfo ? (
-        <VerBasico candidate={basicInfo} basic={registerInfo} />
+        <VerBasico candidate={basicInfo} basic={registerInfo} role={'Assistant'} />
       ) : (
         <div>
           <LoadingCadastroCandidato />

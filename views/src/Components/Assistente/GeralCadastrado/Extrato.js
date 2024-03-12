@@ -2,6 +2,8 @@ import react, { useEffect, useState } from "react";
 import { UilCheckSquare, UilSquareFull } from "@iconscout/react-unicons";
 import { api } from "../../../services/axios";
 import "./Extrato.css";
+import { formatCurrency } from "../../../utils/format-currency";
+import { formatCPF } from "../../../utils/format-cpf";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
@@ -46,7 +48,7 @@ export default function VerExtrato(props) {
       );
 
       const data = response.data;
-      setTotalExpenses(`R$${data.grandTotal.toFixed(2)}`);
+      setTotalExpenses(data.grandTotal);
       console.log("====================================");
       console.log(response.data);
       console.log("====================================");
@@ -84,10 +86,8 @@ export default function VerExtrato(props) {
       );
       console.log(response.data);
       setCandidateIncome(
-        `R$${(
-          response.data.totalIncomePerCapita *
-          (props.familyMembers.length + 1)
-        ).toFixed(2)}`
+        response.data.totalIncomePerCapita *
+        (props.familyMembers.length + 1)
       );
     } catch (error) {
       console.error("Erro ao rankear candidatos", error);
@@ -116,7 +116,7 @@ export default function VerExtrato(props) {
                 <td>
                   <strong>{familyMember.fullName}</strong>
                 </td>
-                <td>{familyMember.CPF}</td>
+                <td>{formatCPF(familyMember.CPF)}</td>
                 <td>{calculateAge(familyMember.birthDate)}</td>
                 <td>{translateRelationship(familyMember.relationship)}</td>
                 <td>{familyMember.profession}</td>
@@ -140,8 +140,8 @@ export default function VerExtrato(props) {
         <tbody>
           <tr>
             <td>Sim</td>
-            <td>{candidateIncome}</td>
-            <td>{totalExpenses}</td>
+            <td>{formatCurrency(candidateIncome)}</td>
+            <td>{formatCurrency(totalExpenses)}</td>
             <td>Não</td>
             <td>Casa própria</td>
             <td>{props.Vehicles.length}</td>
@@ -161,7 +161,7 @@ export default function VerExtrato(props) {
         <tbody>
           <tr>
             <td>001/2024</td>
-            <td>12345</td>
+            <td>{props.application.number.toString().padStart(4,'0')}</td>
             <td>{props.identityInfo.fullName}</td>
             <td>{props.identityInfo.RG}</td>
           </tr>

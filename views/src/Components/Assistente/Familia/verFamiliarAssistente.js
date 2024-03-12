@@ -2,6 +2,7 @@ import React from "react";
 import "./verFamiliarAssistente.css";
 import { useState } from "react";
 import Select from "react-select";
+import { formatCPF } from "../../../utils/format-cpf";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
@@ -322,7 +323,7 @@ export default function VerFamiliarAssistente({ familyMember }) {
             <input
               type="text"
               name="CPF"
-              value={familyMember.CPF}
+              value={formatCPF(familyMember.CPF)}
               disabled
               onChange={handleInputChange}
               id="CPF"

@@ -461,7 +461,7 @@ export default function CadastroEdital() {
                             <th>Matriz ou Filial</th>
                             <th>Quantidade de Vagas</th>
                             <th>Tipo de Educação básica</th>
-                            <th>Ciclo/Ano/Série/Semestre</th>
+                            <th>Ciclo/Ano/Série/Semestre/Curso</th>
                             <th>Turno</th>
                             <th>Tipo de Bolsa</th>
                             <th></th>

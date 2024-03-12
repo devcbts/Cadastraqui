@@ -8,6 +8,7 @@ import { UilPen } from "@iconscout/react-unicons";
 import { UilLock } from "@iconscout/react-unicons";
 import { api } from "../../services/axios";
 import { useNavigate } from "react-router";
+import { formatCPF } from "../../utils/format-cpf";
 
 export default function PerfilAssistente() {
   const { isShown } = useAppState();
@@ -137,7 +138,7 @@ export default function PerfilAssistente() {
                 </div>
                 <div className="info-item">
                   <h3>CPF:</h3>
-                  <h3>{userInfo ? userInfo.CPF : ""}</h3>
+                  <h3>{userInfo ? formatCPF(userInfo.CPF) : ""}</h3>
                 </div>
                 <div className="info-item">
                   <h3>CRESS:</h3>

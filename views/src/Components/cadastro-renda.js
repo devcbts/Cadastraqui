@@ -5,6 +5,9 @@ import { api } from "../services/axios";
 import FamilyMember from "./family-member";
 import { handleSuccess } from "../ErrorHandling/handleSuceess";
 import { handleAuthError } from "../ErrorHandling/handleError";
+import { formatCurrency } from "../utils/format-currency";
+import { formatCPF } from "../utils/format-cpf";
+import { formatCNPJ } from "../utils/format-cnpj";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
@@ -160,7 +163,7 @@ export const CadastroRenda = ({ member }) => {
           },
         })
         console.log(response.data.familyMemberIncomeInfo)
-        
+
         setLoading(false)
 
       } catch (err) {
@@ -418,7 +421,12 @@ export const CadastroRenda = ({ member }) => {
 
   const handleEntepreneurInputChange = (e) => {
     const { name, value } = e.target;
-
+    if (name === 'CNPJ') {
+      const formattedCNPJ = formatCNPJ(value);
+      setEntepreneurInfo((prevState) => ({
+        ...prevState, CNPJ: formattedCNPJ
+      }))
+    }
     setEntepreneurInfo((prevState) => ({
       ...prevState,
       [name]: value,
@@ -434,21 +442,64 @@ export const CadastroRenda = ({ member }) => {
   });
 
   const handleInputChange = (fieldName, value) => {
-    setIncomeInfo((prevData) => ({
-      ...prevData,
-      [fieldName]: value,
-    }));
-    console.log(incomeInfo);
+    // Identifica se o campo é monetário
+    const monetaryFields = [
+      "grossAmount", "incomeTax", "publicPension", "otherDeductions",
+      "foodAllowanceValue", "transportAllowanceValue", "expenseReimbursementValue",
+      "advancePaymentValue", "reversalValue", "compensationValue", "judicialPensionValue", "proLabore", "dividends", "parcelValue"
+    ];
+    const isMonetaryField = monetaryFields.some(field => fieldName.startsWith(field));
+    console.log(isMonetaryField)
+    // Identifica se o campo é de checkbox
+    const checkboxFields = ["deductions"];
+    const isCheckboxField = checkboxFields.some(field => fieldName.includes(field));
+
+    // Tratamento para campos monetários
+    if (isMonetaryField) {
+      // Converte o valor formatado em moeda para número
+      const numericValue = parseFloat(value.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1.$2')) || '';
+      setIncomeInfo(prevData => ({
+        ...prevData,
+        [fieldName]: numericValue
+      }));
+    }
+    // Tratamento para checkboxes
+    else if (isCheckboxField) {
+      // Converte o valor para booleano
+      const booleanValue = !incomeInfo[fieldName]; // Assumindo que um clique alterna o estado
+      setIncomeInfo(prevData => ({
+        ...prevData,
+        [fieldName]: booleanValue
+      }));
+    }
+    // Tratamento para outros campos
+    else {
+      setIncomeInfo(prevData => ({
+        ...prevData,
+        [fieldName]: value
+      }));
+    }
   };
 
   function handleInputUnemployedChange(e) {
     const { name, value } = e.target;
+    const monetaryFields = [
+      "parcelValue"
+    ];
+    const isMonetaryField = monetaryFields.some(field => name.startsWith(field));
+    if (isMonetaryField) {
+      const numericValue = parseFloat(value.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1.$2')) || '';
+      setUnemployedInfo(prevData => ({
+        ...prevData,
+        [name]: numericValue
+      }));
+    } else {
 
-    setUnemployedInfo((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-    console.log(unemployedInfo);
+      setUnemployedInfo((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   }
   const [fixIncomeMEI, setFixIncomeMEI] = useState(false);
 
@@ -477,16 +528,24 @@ export const CadastroRenda = ({ member }) => {
   const handleMEIInputChange = (e) => {
     const { name, value } = e.target;
 
-    setMEIInfo((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    if (name === 'CNPJ') {
+      const formattedCNPJ = formatCNPJ(value);
+        // Atualiza o valor no estado com o CNPJ formatado
+        setMEIInfo({ ...entityInfo, CNPJ: formattedCNPJ });
+    }else{
+
+      setMEIInfo((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
+
     console.log(MEIInfo);
   };
 
   async function handleRegisterIncome(e, incomeSource) {
     e.preventDefault();
-    
+
     const token = localStorage.getItem("token");
     let data = {
       month1: incomeInfo.month1,
@@ -595,8 +654,8 @@ export const CadastroRenda = ({ member }) => {
       incomeSource: incomeSource,
     };
     console.log(data);
-    if ( incomeSource === "BusinessOwner" ||
-    incomeSource === "BusinessOwnerSimplifiedTax") {
+    if (incomeSource === "BusinessOwner" ||
+      incomeSource === "BusinessOwnerSimplifiedTax") {
       data.quantity = 6
     }
 
@@ -844,7 +903,7 @@ export const CadastroRenda = ({ member }) => {
           }
         );
       }
-     
+
 
       console.log("====================================");
       handleSuccess(response, "Dados cadastrados com sucesso");
@@ -939,11 +998,14 @@ export const CadastroRenda = ({ member }) => {
   const handleDependentInputChange = (e) => {
     const { name, value } = e.target;
 
-    setDependentInfo((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-    console.log(dependentInfo);
+    if (name === "financialAssistantCPF") {
+      // Se o campo for CPF, aplica a máscara de CPF
+      const formattedCPF = formatCPF(value);
+      setDependentInfo({ ...familyMemberInfo, CPF: formattedCPF });
+  } else {
+      // Para outros campos, apenas atualiza o valor
+      setDependentInfo({ ...familyMemberInfo, [name]: value });
+  }
   };
 
   const [CLTInfo, setCLTInfo] = useState({
@@ -1031,7 +1093,7 @@ export const CadastroRenda = ({ member }) => {
                 <input
                   type="text"
                   name="CNPJ"
-                  value={MEIInfo.CNPJ}
+                  value={formatCNPJ(MEIInfo.CNPJ)}
                   onChange={handleMEIInputChange}
                   id="CNPJ"
                   class="survey-control"
@@ -1112,10 +1174,10 @@ export const CadastroRenda = ({ member }) => {
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -1185,10 +1247,10 @@ export const CadastroRenda = ({ member }) => {
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -1246,7 +1308,7 @@ export const CadastroRenda = ({ member }) => {
                     </label>
                     <br />
                     <input
-                      type="number"
+                      type="text"
                       name="parcels"
                       value={unemployedInfo.parcels}
                       id="parcels"
@@ -1275,9 +1337,9 @@ export const CadastroRenda = ({ member }) => {
                     </label>
                     <br />
                     <input
-                      type="number"
+                      type="text"
                       name="parcelValue"
-                      value={unemployedInfo.parcelValue}
+                      value={formatCurrency(unemployedInfo.parcelValue)}
                       onChange={handleInputUnemployedChange}
                       id="parcelValue"
                       class="survey-control"
@@ -1373,10 +1435,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -1446,10 +1508,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -1551,10 +1613,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -1624,10 +1686,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -1717,10 +1779,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -1778,10 +1840,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -1852,10 +1914,10 @@ export const CadastroRenda = ({ member }) => {
                       <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>Valor Bruto {i + 1}</label>
                       <br />
                       <input
-                        type="number"
+                        type="text"
                         name={`grossAmount${i}`}
                         id={`grossAmount${i}`}
-                        value={incomeInfo[`grossAmount${i + 1}`]}
+                        value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                         onChange={(e) => handleInputChange(`grossAmount${i + 1}`, e.target.value)}
                         className="survey-control"
                       />
@@ -1889,10 +1951,10 @@ export const CadastroRenda = ({ member }) => {
                       <label htmlFor={`grossAmount${i}`} id={`grossAmount${i}-label`}>Valor Bruto {i + 1}</label>
                       <br />
                       <input
-                        type="number"
+                        type="text"
                         name={`grossAmount${i}`}
                         id={`grossAmount${i}`}
-                        value={incomeInfo[`grossAmount${i + 1}`]}
+                        value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                         onChange={(e) => handleInputChange(`grossAmount${i + 1}`, e.target.value)}
                         className="survey-control"
                       />
@@ -1987,10 +2049,10 @@ export const CadastroRenda = ({ member }) => {
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -2014,7 +2076,7 @@ export const CadastroRenda = ({ member }) => {
                       type="text"
                       name={"financialAssistantCPF"}
                       id={"financialAssistantCPF"}
-                      value={dependentInfo}
+                      value={formatCPF(dependentInfo)}
                       onChange={handleDependentInputChange}
                       className="survey-control"
                     />
@@ -2077,10 +2139,10 @@ export const CadastroRenda = ({ member }) => {
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`month${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -2104,7 +2166,7 @@ export const CadastroRenda = ({ member }) => {
                       type="text"
                       name={"financialAssistantCPF"}
                       id={"financialAssistantCPF"}
-                      value={dependentInfo}
+                      value={formatCPF(dependentInfo)}
                       onChange={handleDependentInputChange}
                       className="survey-control"
                     />
@@ -2183,7 +2245,7 @@ export const CadastroRenda = ({ member }) => {
                   <input
                     type="text"
                     name="CNPJ"
-                    value={entepreneurInfo.CNPJ}
+                    value={formatCNPJ(entepreneurInfo.CNPJ)}
                     onChange={handleEntepreneurInputChange}
                     id="CNPJ"
                     class="survey-control"
@@ -2233,10 +2295,10 @@ export const CadastroRenda = ({ member }) => {
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -2255,10 +2317,10 @@ export const CadastroRenda = ({ member }) => {
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           name={`proLabore${i}`}
                           id={`proLabore${i}`}
-                          value={incomeInfo[`proLabore${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`proLabore${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `proLabore${i + 1}`,
@@ -2277,10 +2339,10 @@ export const CadastroRenda = ({ member }) => {
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           name={`dividends${i}`}
                           id={`dividends${i}`}
-                          value={incomeInfo[`dividends${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`dividends${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `dividends${i + 1}`,
@@ -2452,10 +2514,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -2499,10 +2561,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={Number(incomeInfo[`incomeTax${i + 1}`])}
+                                value={formatCurrency(formatCurrency(incomeInfo[`incomeTax${i + 1}`]))}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -2525,10 +2587,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -2551,11 +2613,11 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
-                                  incomeInfo[`otherDeductions${i + 1}`]
+                                value={(
+                                  formatCurrency(incomeInfo[`otherDeductions${i + 1}`])
                                 )}
                                 onChange={(e) =>
                                   handleInputChange(
@@ -2586,7 +2648,7 @@ export const CadastroRenda = ({ member }) => {
                               type="text"
                               name={`foodAllowanceValue${i}`}
                               id={`foodAllowanceValue${i}`}
-                              value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `foodAllowanceValue${i + 1}`,
@@ -2612,7 +2674,7 @@ export const CadastroRenda = ({ member }) => {
                               name={`transportAllowanceValue${i}`}
                               id={`transportAllowanceValue${i}`}
                               value={
-                                incomeInfo[`transportAllowanceValue${i + 1}`]
+                                formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -2635,11 +2697,11 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`expenseReimbursementValue${i}`}
                               id={`expenseReimbursementValue${i}`}
                               value={
-                                incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -2669,10 +2731,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`advancePaymentValue${i}`}
                               id={`advancePaymentValue${i}`}
-                              value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `advancePaymentValue${i + 1}`,
@@ -2700,10 +2762,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`reversalValue${i}`}
                               id={`reversalValue${i}`}
-                              value={incomeInfo[`reversalValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `reversalValue${i + 1}`,
@@ -2731,10 +2793,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`compensationValue${i}`}
                               id={`compensationValue${i}`}
-                              value={incomeInfo[`compensationValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `compensationValue${i + 1}`,
@@ -2757,10 +2819,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`judicialPensionValue${i}`}
                               id={`judicialPensionValue${i}`}
-                              value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                              value={formatCurrency(formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`]))}
                               onChange={(e) =>
                                 handleInputChange(
                                   `judicialPensionValue${i + 1}`,
@@ -2832,10 +2894,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -2879,10 +2941,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={incomeInfo[`incomeTax${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`incomeTax${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -2905,10 +2967,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -2931,11 +2993,11 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
-                                  incomeInfo[`otherDeductions${i + 1}`]
+                                value={(
+                                  formatCurrency(incomeInfo[`otherDeductions${i + 1}`])
                                 )}
                                 onChange={(e) =>
                                   handleInputChange(
@@ -2966,7 +3028,7 @@ export const CadastroRenda = ({ member }) => {
                             type="text"
                             name={`foodAllowanceValue${i}`}
                             id={`foodAllowanceValue${i}`}
-                            value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `foodAllowanceValue${i + 1}`,
@@ -2993,7 +3055,7 @@ export const CadastroRenda = ({ member }) => {
                             name={`transportAllowanceValue${i}`}
                             id={`transportAllowanceValue${i}`}
                             value={
-                              incomeInfo[`transportAllowanceValue${i + 1}`]
+                              formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -3016,11 +3078,11 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`expenseReimbursementValue${i}`}
                             id={`expenseReimbursementValue${i}`}
                             value={
-                              incomeInfo[`expenseReimbursementValue${i + 1}`]
+                              formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -3049,10 +3111,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`advancePaymentValue${i}`}
                             id={`advancePaymentValue${i}`}
-                            value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `advancePaymentValue${i + 1}`,
@@ -3077,10 +3139,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`reversalValue${i}`}
                             id={`reversalValue${i}`}
-                            value={incomeInfo[`reversalValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `reversalValue${i + 1}`,
@@ -3108,10 +3170,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`compensationValue${i}`}
                             id={`compensationValue${i}`}
-                            value={incomeInfo[`compensationValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `compensationValue${i + 1}`,
@@ -3134,10 +3196,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`judicialPensionValue${i}`}
                             id={`judicialPensionValue${i}`}
-                            value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `judicialPensionValue${i + 1}`,
@@ -3303,10 +3365,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -3350,10 +3412,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={Number(incomeInfo[`incomeTax${i + 1}`])}
+                                value={(formatCurrency(incomeInfo[`incomeTax${i + 1}`]))}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -3376,10 +3438,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -3402,11 +3464,11 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
-                                  incomeInfo[`otherDeductions${i + 1}`]
+                                value={(
+                                  formatCurrency(incomeInfo[`otherDeductions${i + 1}`])
                                 )}
                                 onChange={(e) =>
                                   handleInputChange(
@@ -3437,7 +3499,7 @@ export const CadastroRenda = ({ member }) => {
                               type="text"
                               name={`foodAllowanceValue${i}`}
                               id={`foodAllowanceValue${i}`}
-                              value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `foodAllowanceValue${i + 1}`,
@@ -3463,7 +3525,7 @@ export const CadastroRenda = ({ member }) => {
                               name={`transportAllowanceValue${i}`}
                               id={`transportAllowanceValue${i}`}
                               value={
-                                incomeInfo[`transportAllowanceValue${i + 1}`]
+                                formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -3486,11 +3548,11 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`expenseReimbursementValue${i}`}
                               id={`expenseReimbursementValue${i}`}
                               value={
-                                incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -3520,10 +3582,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`advancePaymentValue${i}`}
                               id={`advancePaymentValue${i}`}
-                              value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `advancePaymentValue${i + 1}`,
@@ -3551,10 +3613,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`reversalValue${i}`}
                               id={`reversalValue${i}`}
-                              value={incomeInfo[`reversalValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `reversalValue${i + 1}`,
@@ -3582,10 +3644,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`compensationValue${i}`}
                               id={`compensationValue${i}`}
-                              value={incomeInfo[`compensationValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `compensationValue${i + 1}`,
@@ -3608,10 +3670,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`judicialPensionValue${i}`}
                               id={`judicialPensionValue${i}`}
-                              value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `judicialPensionValue${i + 1}`,
@@ -3683,10 +3745,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -3730,10 +3792,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={incomeInfo[`incomeTax${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`incomeTax${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -3756,10 +3818,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -3782,11 +3844,11 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
-                                  incomeInfo[`otherDeductions${i + 1}`]
+                                value={(
+                                  formatCurrency(incomeInfo[`otherDeductions${i + 1}`])
                                 )}
                                 onChange={(e) =>
                                   handleInputChange(
@@ -3817,7 +3879,7 @@ export const CadastroRenda = ({ member }) => {
                             type="text"
                             name={`foodAllowanceValue${i}`}
                             id={`foodAllowanceValue${i}`}
-                            value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `foodAllowanceValue${i + 1}`,
@@ -3844,7 +3906,7 @@ export const CadastroRenda = ({ member }) => {
                             name={`transportAllowanceValue${i}`}
                             id={`transportAllowanceValue${i}`}
                             value={
-                              incomeInfo[`transportAllowanceValue${i + 1}`]
+                              formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -3867,11 +3929,11 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`expenseReimbursementValue${i}`}
                             id={`expenseReimbursementValue${i}`}
                             value={
-                              incomeInfo[`expenseReimbursementValue${i + 1}`]
+                              formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -3900,10 +3962,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`advancePaymentValue${i}`}
                             id={`advancePaymentValue${i}`}
-                            value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `advancePaymentValue${i + 1}`,
@@ -3928,10 +3990,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`reversalValue${i}`}
                             id={`reversalValue${i}`}
-                            value={incomeInfo[`reversalValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `reversalValue${i + 1}`,
@@ -3959,10 +4021,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`compensationValue${i}`}
                             id={`compensationValue${i}`}
-                            value={incomeInfo[`compensationValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `compensationValue${i + 1}`,
@@ -3985,10 +4047,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`judicialPensionValue${i}`}
                             id={`judicialPensionValue${i}`}
-                            value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `judicialPensionValue${i + 1}`,
@@ -4154,10 +4216,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -4201,10 +4263,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={Number(incomeInfo[`incomeTax${i + 1}`])}
+                                value={(formatCurrency(incomeInfo[`incomeTax${i + 1}`]))}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -4227,10 +4289,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -4253,11 +4315,11 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
-                                  incomeInfo[`otherDeductions${i + 1}`]
+                                value={(
+                                  formatCurrency(incomeInfo[`otherDeductions${i + 1}`])
                                 )}
                                 onChange={(e) =>
                                   handleInputChange(
@@ -4288,7 +4350,7 @@ export const CadastroRenda = ({ member }) => {
                               type="text"
                               name={`foodAllowanceValue${i}`}
                               id={`foodAllowanceValue${i}`}
-                              value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `foodAllowanceValue${i + 1}`,
@@ -4314,7 +4376,7 @@ export const CadastroRenda = ({ member }) => {
                               name={`transportAllowanceValue${i}`}
                               id={`transportAllowanceValue${i}`}
                               value={
-                                incomeInfo[`transportAllowanceValue${i + 1}`]
+                                formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -4337,11 +4399,11 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`expenseReimbursementValue${i}`}
                               id={`expenseReimbursementValue${i}`}
                               value={
-                                incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -4371,10 +4433,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`advancePaymentValue${i}`}
                               id={`advancePaymentValue${i}`}
-                              value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `advancePaymentValue${i + 1}`,
@@ -4402,10 +4464,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`reversalValue${i}`}
                               id={`reversalValue${i}`}
-                              value={incomeInfo[`reversalValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `reversalValue${i + 1}`,
@@ -4433,10 +4495,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`compensationValue${i}`}
                               id={`compensationValue${i}`}
-                              value={incomeInfo[`compensationValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `compensationValue${i + 1}`,
@@ -4459,10 +4521,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`judicialPensionValue${i}`}
                               id={`judicialPensionValue${i}`}
-                              value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `judicialPensionValue${i + 1}`,
@@ -4530,10 +4592,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -4577,10 +4639,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={incomeInfo[`incomeTax${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`incomeTax${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -4603,10 +4665,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -4629,11 +4691,11 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
-                                  incomeInfo[`otherDeductions${i + 1}`]
+                                value={(
+                                  formatCurrency(incomeInfo[`otherDeductions${i + 1}`])
                                 )}
                                 onChange={(e) =>
                                   handleInputChange(
@@ -4663,7 +4725,7 @@ export const CadastroRenda = ({ member }) => {
                             type="text"
                             name={`foodAllowanceValue${i}`}
                             id={`foodAllowanceValue${i}`}
-                            value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `foodAllowanceValue${i + 1}`,
@@ -4689,7 +4751,7 @@ export const CadastroRenda = ({ member }) => {
                             name={`transportAllowanceValue${i}`}
                             id={`transportAllowanceValue${i}`}
                             value={
-                              incomeInfo[`transportAllowanceValue${i + 1}`]
+                              formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -4712,11 +4774,11 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`expenseReimbursementValue${i}`}
                             id={`expenseReimbursementValue${i}`}
                             value={
-                              incomeInfo[`expenseReimbursementValue${i + 1}`]
+                              formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -4745,10 +4807,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`advancePaymentValue${i}`}
                             id={`advancePaymentValue${i}`}
-                            value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `advancePaymentValue${i + 1}`,
@@ -4773,10 +4835,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`reversalValue${i}`}
                             id={`reversalValue${i}`}
-                            value={incomeInfo[`reversalValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `reversalValue${i + 1}`,
@@ -4804,10 +4866,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`compensationValue${i}`}
                             id={`compensationValue${i}`}
-                            value={incomeInfo[`compensationValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `compensationValue${i + 1}`,
@@ -4830,10 +4892,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`judicialPensionValue${i}`}
                             id={`judicialPensionValue${i}`}
-                            value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `judicialPensionValue${i + 1}`,
@@ -4999,10 +5061,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -5046,10 +5108,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={Number(incomeInfo[`incomeTax${i + 1}`])}
+                                value={(formatCurrency(incomeInfo[`incomeTax${i + 1}`]))}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -5072,10 +5134,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -5098,11 +5160,11 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
-                                  incomeInfo[`otherDeductions${i + 1}`]
+                                value={(
+                                  formatCurrency(incomeInfo[`otherDeductions${i + 1}`])
                                 )}
                                 onChange={(e) =>
                                   handleInputChange(
@@ -5133,7 +5195,7 @@ export const CadastroRenda = ({ member }) => {
                               type="text"
                               name={`foodAllowanceValue${i}`}
                               id={`foodAllowanceValue${i}`}
-                              value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `foodAllowanceValue${i + 1}`,
@@ -5159,7 +5221,7 @@ export const CadastroRenda = ({ member }) => {
                               name={`transportAllowanceValue${i}`}
                               id={`transportAllowanceValue${i}`}
                               value={
-                                incomeInfo[`transportAllowanceValue${i + 1}`]
+                                formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -5182,11 +5244,11 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`expenseReimbursementValue${i}`}
                               id={`expenseReimbursementValue${i}`}
                               value={
-                                incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -5216,10 +5278,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`advancePaymentValue${i}`}
                               id={`advancePaymentValue${i}`}
-                              value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `advancePaymentValue${i + 1}`,
@@ -5247,10 +5309,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`reversalValue${i}`}
                               id={`reversalValue${i}`}
-                              value={incomeInfo[`reversalValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `reversalValue${i + 1}`,
@@ -5278,10 +5340,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`compensationValue${i}`}
                               id={`compensationValue${i}`}
-                              value={incomeInfo[`compensationValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `compensationValue${i + 1}`,
@@ -5304,10 +5366,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`judicialPensionValue${i}`}
                               id={`judicialPensionValue${i}`}
-                              value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `judicialPensionValue${i + 1}`,
@@ -5379,10 +5441,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -5426,10 +5488,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={incomeInfo[`incomeTax${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`incomeTax${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -5452,10 +5514,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -5478,11 +5540,11 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
-                                  incomeInfo[`otherDeductions${i + 1}`]
+                                value={(
+                                  formatCurrency(incomeInfo[`otherDeductions${i + 1}`])
                                 )}
                                 onChange={(e) =>
                                   handleInputChange(
@@ -5513,7 +5575,7 @@ export const CadastroRenda = ({ member }) => {
                             type="text"
                             name={`foodAllowanceValue${i}`}
                             id={`foodAllowanceValue${i}`}
-                            value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `foodAllowanceValue${i + 1}`,
@@ -5540,7 +5602,7 @@ export const CadastroRenda = ({ member }) => {
                             name={`transportAllowanceValue${i}`}
                             id={`transportAllowanceValue${i}`}
                             value={
-                              incomeInfo[`transportAllowanceValue${i + 1}`]
+                              formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -5563,11 +5625,11 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`expenseReimbursementValue${i}`}
                             id={`expenseReimbursementValue${i}`}
                             value={
-                              incomeInfo[`expenseReimbursementValue${i + 1}`]
+                              formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -5596,10 +5658,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`advancePaymentValue${i}`}
                             id={`advancePaymentValue${i}`}
-                            value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `advancePaymentValue${i + 1}`,
@@ -5624,10 +5686,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`reversalValue${i}`}
                             id={`reversalValue${i}`}
-                            value={incomeInfo[`reversalValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `reversalValue${i + 1}`,
@@ -5655,10 +5717,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`compensationValue${i}`}
                             id={`compensationValue${i}`}
-                            value={incomeInfo[`compensationValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `compensationValue${i + 1}`,
@@ -5681,10 +5743,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`judicialPensionValue${i}`}
                             id={`judicialPensionValue${i}`}
-                            value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `judicialPensionValue${i + 1}`,
@@ -5852,10 +5914,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -5899,10 +5961,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={Number(incomeInfo[`incomeTax${i + 1}`])}
+                                value={(formatCurrency(incomeInfo[`incomeTax${i + 1}`]))}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -5925,10 +5987,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -5951,11 +6013,11 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
-                                  incomeInfo[`otherDeductions${i + 1}`]
+                                value={(
+                                  formatCurrency(incomeInfo[`otherDeductions${i + 1}`])
                                 )}
                                 onChange={(e) =>
                                   handleInputChange(
@@ -5986,7 +6048,7 @@ export const CadastroRenda = ({ member }) => {
                               type="text"
                               name={`foodAllowanceValue${i}`}
                               id={`foodAllowanceValue${i}`}
-                              value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `foodAllowanceValue${i + 1}`,
@@ -6012,7 +6074,7 @@ export const CadastroRenda = ({ member }) => {
                               name={`transportAllowanceValue${i}`}
                               id={`transportAllowanceValue${i}`}
                               value={
-                                incomeInfo[`transportAllowanceValue${i + 1}`]
+                                formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -6035,11 +6097,11 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`expenseReimbursementValue${i}`}
                               id={`expenseReimbursementValue${i}`}
                               value={
-                                incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -6069,10 +6131,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`advancePaymentValue${i}`}
                               id={`advancePaymentValue${i}`}
-                              value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `advancePaymentValue${i + 1}`,
@@ -6100,10 +6162,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`reversalValue${i}`}
                               id={`reversalValue${i}`}
-                              value={incomeInfo[`reversalValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `reversalValue${i + 1}`,
@@ -6131,10 +6193,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`compensationValue${i}`}
                               id={`compensationValue${i}`}
-                              value={incomeInfo[`compensationValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `compensationValue${i + 1}`,
@@ -6157,10 +6219,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`judicialPensionValue${i}`}
                               id={`judicialPensionValue${i}`}
-                              value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `judicialPensionValue${i + 1}`,
@@ -6228,10 +6290,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -6275,10 +6337,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={incomeInfo[`incomeTax${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`incomeTax${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -6301,10 +6363,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -6327,10 +6389,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(incomeInfo[`otherDeductions${i + 1}`])}
+                                value={Number(formatCurrency(incomeInfo[`otherDeductions${i + 1}`]))}
                                 onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
                                 className="survey-control"
                               />
@@ -6348,7 +6410,7 @@ export const CadastroRenda = ({ member }) => {
                             type="text"
                             name={`foodAllowanceValue${i}`}
                             id={`foodAllowanceValue${i}`}
-                            value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                             onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
                             className="survey-control"
                           />
@@ -6362,7 +6424,7 @@ export const CadastroRenda = ({ member }) => {
                             type="text"
                             name={`transportAllowanceValue${i}`}
                             id={`transportAllowanceValue${i}`}
-                            value={incomeInfo[`transportAllowanceValue${i + 1}`]}
+                            valueformatCurrency={(incomeInfo[`transportAllowanceValue${i + 1}`])}
                             onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
                             className="survey-control"
                           />
@@ -6373,10 +6435,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`expenseReimbursementValue${i}`}
                             id={`expenseReimbursementValue${i}`}
-                            value={incomeInfo[`expenseReimbursementValue${i + 1}`]}
+                            formatCurrency value={(incomeInfo[`expenseReimbursementValue${i + 1}`])}
                             onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
                             className="survey-control"
                           />
@@ -6387,10 +6449,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`advancePaymentValue${i}`}
                             id={`advancePaymentValue${i}`}
-                            value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                             onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
                             className="survey-control"
                           />
@@ -6401,10 +6463,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`reversalValue${i}`}
                             id={`reversalValue${i}`}
-                            value={incomeInfo[`reversalValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                             onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
                             className="survey-control"
                           />
@@ -6415,10 +6477,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`compensationValue${i}`}
                             id={`compensationValue${i}`}
-                            value={incomeInfo[`compensationValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                             onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
                             className="survey-control"
                           />
@@ -6429,10 +6491,10 @@ export const CadastroRenda = ({ member }) => {
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             name={`judicialPensionValue${i}`}
                             id={`judicialPensionValue${i}`}
-                            value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                             onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
                             className="survey-control"
                           />
@@ -6525,10 +6587,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`grossAmount${i}`}
                               id={`grossAmount${i}`}
-                              value={incomeInfo[`grossAmount${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                               onChange={(e) => handleInputChange(`grossAmount${i + 1}`, e.target.value)}
                               className="survey-control"
                             />
@@ -6546,10 +6608,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={Number(incomeInfo[`incomeTax${i + 1}`])}
+                                value={(formatCurrency(incomeInfo[`incomeTax${i + 1}`]))}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -6572,10 +6634,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -6598,11 +6660,11 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
-                                  incomeInfo[`otherDeductions${i + 1}`]
+                                value={(
+                                  formatCurrency(incomeInfo[`otherDeductions${i + 1}`])
                                 )}
                                 onChange={(e) =>
                                   handleInputChange(
@@ -6633,7 +6695,7 @@ export const CadastroRenda = ({ member }) => {
                                 type="text"
                                 name={`foodAllowanceValue${i}`}
                                 id={`foodAllowanceValue${i}`}
-                                value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `foodAllowanceValue${i + 1}`,
@@ -6659,7 +6721,7 @@ export const CadastroRenda = ({ member }) => {
                                 name={`transportAllowanceValue${i}`}
                                 id={`transportAllowanceValue${i}`}
                                 value={
-                                  incomeInfo[`transportAllowanceValue${i + 1}`]
+                                  formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                                 }
                                 onChange={(e) =>
                                   handleInputChange(
@@ -6682,11 +6744,11 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`expenseReimbursementValue${i}`}
                                 id={`expenseReimbursementValue${i}`}
                                 value={
-                                  incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                  formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                                 }
                                 onChange={(e) =>
                                   handleInputChange(
@@ -6716,10 +6778,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`advancePaymentValue${i}`}
                                 id={`advancePaymentValue${i}`}
-                                value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `advancePaymentValue${i + 1}`,
@@ -6747,10 +6809,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`reversalValue${i}`}
                                 id={`reversalValue${i}`}
-                                value={incomeInfo[`reversalValue${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `reversalValue${i + 1}`,
@@ -6778,10 +6840,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`compensationValue${i}`}
                                 id={`compensationValue${i}`}
-                                value={incomeInfo[`compensationValue${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `compensationValue${i + 1}`,
@@ -6804,10 +6866,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`judicialPensionValue${i}`}
                                 id={`judicialPensionValue${i}`}
-                                value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `judicialPensionValue${i + 1}`,
@@ -6875,10 +6937,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`grossAmount${i}`}
                               id={`grossAmount${i}`}
-                              value={incomeInfo[`grossAmount${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `grossAmount${i + 1}`,
@@ -6922,10 +6984,10 @@ export const CadastroRenda = ({ member }) => {
                                 </label>
                                 <br />
                                 <input
-                                  type="number"
+                                  type="text"
                                   name={`incomeTax${i}`}
                                   id={`incomeTax${i}`}
-                                  value={incomeInfo[`incomeTax${i + 1}`]}
+                                  value={formatCurrency(incomeInfo[`incomeTax${i + 1}`])}
                                   onChange={(e) =>
                                     handleInputChange(
                                       `incomeTax${i + 1}`,
@@ -6948,10 +7010,10 @@ export const CadastroRenda = ({ member }) => {
                                 </label>
                                 <br />
                                 <input
-                                  type="number"
+                                  type="text"
                                   name={`publicPension${i}`}
                                   id={`publicPension${i}`}
-                                  value={incomeInfo[`publicPension${i + 1}`]}
+                                  value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                   onChange={(e) =>
                                     handleInputChange(
                                       `publicPension${i + 1}`,
@@ -6974,10 +7036,10 @@ export const CadastroRenda = ({ member }) => {
                                 </label>
                                 <br />
                                 <input
-                                  type="number"
+                                  type="text"
                                   name={`otherDeductions${i}`}
                                   id={`otherDeductions${i}`}
-                                  value={Number(incomeInfo[`otherDeductions${i + 1}`])}
+                                  value={Number(formatCurrency(incomeInfo[`otherDeductions${i + 1}`]))}
                                   onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
                                   className="survey-control"
                                 />
@@ -6995,7 +7057,7 @@ export const CadastroRenda = ({ member }) => {
                               type="text"
                               name={`foodAllowanceValue${i}`}
                               id={`foodAllowanceValue${i}`}
-                              value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                               onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
                               className="survey-control"
                             />
@@ -7009,7 +7071,7 @@ export const CadastroRenda = ({ member }) => {
                               type="text"
                               name={`transportAllowanceValue${i}`}
                               id={`transportAllowanceValue${i}`}
-                              value={incomeInfo[`transportAllowanceValue${i + 1}`]}
+                              valueformatCurrency={(incomeInfo[`transportAllowanceValue${i + 1}`])}
                               onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
                               className="survey-control"
                             />
@@ -7020,10 +7082,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`expenseReimbursementValue${i}`}
                               id={`expenseReimbursementValue${i}`}
-                              value={incomeInfo[`expenseReimbursementValue${i + 1}`]}
+                              formatCurrency value={(incomeInfo[`expenseReimbursementValue${i + 1}`])}
                               onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
                               className="survey-control"
                             />
@@ -7034,10 +7096,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`advancePaymentValue${i}`}
                               id={`advancePaymentValue${i}`}
-                              value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                               onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
                               className="survey-control"
                             />
@@ -7048,10 +7110,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`reversalValue${i}`}
                               id={`reversalValue${i}`}
-                              value={incomeInfo[`reversalValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                               onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
                               className="survey-control"
                             />
@@ -7062,10 +7124,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`compensationValue${i}`}
                               id={`compensationValue${i}`}
-                              value={incomeInfo[`compensationValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                               onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
                               className="survey-control"
                             />
@@ -7076,10 +7138,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`judicialPensionValue${i}`}
                               id={`judicialPensionValue${i}`}
-                              value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                               onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
                               className="survey-control"
                             />
@@ -7191,10 +7253,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`grossAmount${i}`}
                               id={`grossAmount${i}`}
-                              value={incomeInfo[`grossAmount${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `grossAmount${i + 1}`,
@@ -7238,10 +7300,10 @@ export const CadastroRenda = ({ member }) => {
                                 </label>
                                 <br />
                                 <input
-                                  type="number"
+                                  type="text"
                                   name={`incomeTax${i}`}
                                   id={`incomeTax${i}`}
-                                  value={Number(incomeInfo[`incomeTax${i + 1}`])}
+                                  value={(formatCurrency(incomeInfo[`incomeTax${i + 1}`]))}
                                   onChange={(e) =>
                                     handleInputChange(
                                       `incomeTax${i + 1}`,
@@ -7264,10 +7326,10 @@ export const CadastroRenda = ({ member }) => {
                                 </label>
                                 <br />
                                 <input
-                                  type="number"
+                                  type="text"
                                   name={`publicPension${i}`}
                                   id={`publicPension${i}`}
-                                  value={incomeInfo[`publicPension${i + 1}`]}
+                                  value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                   onChange={(e) =>
                                     handleInputChange(
                                       `publicPension${i + 1}`,
@@ -7290,11 +7352,11 @@ export const CadastroRenda = ({ member }) => {
                                 </label>
                                 <br />
                                 <input
-                                  type="number"
+                                  type="text"
                                   name={`otherDeductions${i}`}
                                   id={`otherDeductions${i}`}
                                   value={Number(
-                                    incomeInfo[`otherDeductions${i + 1}`]
+                                    formatCurrency(incomeInfo[`otherDeductions${i + 1}`])
                                   )}
                                   onChange={(e) =>
                                     handleInputChange(
@@ -7325,7 +7387,7 @@ export const CadastroRenda = ({ member }) => {
                                 type="text"
                                 name={`foodAllowanceValue${i}`}
                                 id={`foodAllowanceValue${i}`}
-                                value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `foodAllowanceValue${i + 1}`,
@@ -7351,7 +7413,7 @@ export const CadastroRenda = ({ member }) => {
                                 name={`transportAllowanceValue${i}`}
                                 id={`transportAllowanceValue${i}`}
                                 value={
-                                  incomeInfo[`transportAllowanceValue${i + 1}`]
+                                  formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                                 }
                                 onChange={(e) =>
                                   handleInputChange(
@@ -7374,11 +7436,11 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`expenseReimbursementValue${i}`}
                                 id={`expenseReimbursementValue${i}`}
                                 value={
-                                  incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                  formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                                 }
                                 onChange={(e) =>
                                   handleInputChange(
@@ -7408,10 +7470,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`advancePaymentValue${i}`}
                                 id={`advancePaymentValue${i}`}
-                                value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `advancePaymentValue${i + 1}`,
@@ -7439,10 +7501,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`reversalValue${i}`}
                                 id={`reversalValue${i}`}
-                                value={incomeInfo[`reversalValue${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `reversalValue${i + 1}`,
@@ -7470,10 +7532,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`compensationValue${i}`}
                                 id={`compensationValue${i}`}
-                                value={incomeInfo[`compensationValue${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `compensationValue${i + 1}`,
@@ -7496,10 +7558,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`judicialPensionValue${i}`}
                                 id={`judicialPensionValue${i}`}
-                                value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `judicialPensionValue${i + 1}`,
@@ -7571,10 +7633,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`grossAmount${i}`}
                               id={`grossAmount${i}`}
-                              value={incomeInfo[`grossAmount${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `grossAmount${i + 1}`,
@@ -7618,10 +7680,10 @@ export const CadastroRenda = ({ member }) => {
                                 </label>
                                 <br />
                                 <input
-                                  type="number"
+                                  type="text"
                                   name={`incomeTax${i}`}
                                   id={`incomeTax${i}`}
-                                  value={incomeInfo[`incomeTax${i + 1}`]}
+                                  value={formatCurrency(incomeInfo[`incomeTax${i + 1}`])}
                                   onChange={(e) =>
                                     handleInputChange(
                                       `incomeTax${i + 1}`,
@@ -7644,10 +7706,10 @@ export const CadastroRenda = ({ member }) => {
                                 </label>
                                 <br />
                                 <input
-                                  type="number"
+                                  type="text"
                                   name={`publicPension${i}`}
                                   id={`publicPension${i}`}
-                                  value={incomeInfo[`publicPension${i + 1}`]}
+                                  value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                   onChange={(e) =>
                                     handleInputChange(
                                       `publicPension${i + 1}`,
@@ -7670,11 +7732,11 @@ export const CadastroRenda = ({ member }) => {
                                 </label>
                                 <br />
                                 <input
-                                  type="number"
+                                  type="text"
                                   name={`otherDeductions${i}`}
                                   id={`otherDeductions${i}`}
                                   value={Number(
-                                    incomeInfo[`otherDeductions${i + 1}`]
+                                    formatCurrency(incomeInfo[`otherDeductions${i + 1}`])
                                   )}
                                   onChange={(e) =>
                                     handleInputChange(
@@ -7705,7 +7767,7 @@ export const CadastroRenda = ({ member }) => {
                               type="text"
                               name={`foodAllowanceValue${i}`}
                               id={`foodAllowanceValue${i}`}
-                              value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `foodAllowanceValue${i + 1}`,
@@ -7732,7 +7794,7 @@ export const CadastroRenda = ({ member }) => {
                               name={`transportAllowanceValue${i}`}
                               id={`transportAllowanceValue${i}`}
                               value={
-                                incomeInfo[`transportAllowanceValue${i + 1}`]
+                                formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -7755,11 +7817,11 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`expenseReimbursementValue${i}`}
                               id={`expenseReimbursementValue${i}`}
                               value={
-                                incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -7788,10 +7850,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`advancePaymentValue${i}`}
                               id={`advancePaymentValue${i}`}
-                              value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `advancePaymentValue${i + 1}`,
@@ -7816,10 +7878,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`reversalValue${i}`}
                               id={`reversalValue${i}`}
-                              value={incomeInfo[`reversalValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `reversalValue${i + 1}`,
@@ -7847,10 +7909,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`compensationValue${i}`}
                               id={`compensationValue${i}`}
-                              value={incomeInfo[`compensationValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `compensationValue${i + 1}`,
@@ -7873,10 +7935,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`judicialPensionValue${i}`}
                               id={`judicialPensionValue${i}`}
-                              value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `judicialPensionValue${i + 1}`,
@@ -7974,10 +8036,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`grossAmount${i}`}
                               id={`grossAmount${i}`}
-                              value={incomeInfo[`grossAmount${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                               onChange={(e) => handleInputChange(`grossAmount${i + 1}`, e.target.value)}
                               className="survey-control"
                             />
@@ -7995,10 +8057,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={Number(incomeInfo[`incomeTax${i + 1}`])}
+                                value={(formatCurrency(incomeInfo[`incomeTax${i + 1}`]))}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -8021,10 +8083,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -8047,11 +8109,11 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
-                                  incomeInfo[`otherDeductions${i + 1}`]
+                                value={(
+                                  formatCurrency(incomeInfo[`otherDeductions${i + 1}`])
                                 )}
                                 onChange={(e) =>
                                   handleInputChange(
@@ -8082,7 +8144,7 @@ export const CadastroRenda = ({ member }) => {
                                 type="text"
                                 name={`foodAllowanceValue${i}`}
                                 id={`foodAllowanceValue${i}`}
-                                value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `foodAllowanceValue${i + 1}`,
@@ -8108,7 +8170,7 @@ export const CadastroRenda = ({ member }) => {
                                 name={`transportAllowanceValue${i}`}
                                 id={`transportAllowanceValue${i}`}
                                 value={
-                                  incomeInfo[`transportAllowanceValue${i + 1}`]
+                                  formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                                 }
                                 onChange={(e) =>
                                   handleInputChange(
@@ -8131,11 +8193,11 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`expenseReimbursementValue${i}`}
                                 id={`expenseReimbursementValue${i}`}
                                 value={
-                                  incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                  formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                                 }
                                 onChange={(e) =>
                                   handleInputChange(
@@ -8165,10 +8227,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`advancePaymentValue${i}`}
                                 id={`advancePaymentValue${i}`}
-                                value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `advancePaymentValue${i + 1}`,
@@ -8196,10 +8258,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`reversalValue${i}`}
                                 id={`reversalValue${i}`}
-                                value={incomeInfo[`reversalValue${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `reversalValue${i + 1}`,
@@ -8227,10 +8289,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`compensationValue${i}`}
                                 id={`compensationValue${i}`}
-                                value={incomeInfo[`compensationValue${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `compensationValue${i + 1}`,
@@ -8253,10 +8315,10 @@ export const CadastroRenda = ({ member }) => {
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 name={`judicialPensionValue${i}`}
                                 id={`judicialPensionValue${i}`}
-                                value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `judicialPensionValue${i + 1}`,
@@ -8324,10 +8386,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`grossAmount${i}`}
                               id={`grossAmount${i}`}
-                              value={incomeInfo[`grossAmount${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `grossAmount${i + 1}`,
@@ -8371,10 +8433,10 @@ export const CadastroRenda = ({ member }) => {
                                 </label>
                                 <br />
                                 <input
-                                  type="number"
+                                  type="text"
                                   name={`incomeTax${i}`}
                                   id={`incomeTax${i}`}
-                                  value={incomeInfo[`incomeTax${i + 1}`]}
+                                  value={formatCurrency(incomeInfo[`incomeTax${i + 1}`])}
                                   onChange={(e) =>
                                     handleInputChange(
                                       `incomeTax${i + 1}`,
@@ -8397,10 +8459,10 @@ export const CadastroRenda = ({ member }) => {
                                 </label>
                                 <br />
                                 <input
-                                  type="number"
+                                  type="text"
                                   name={`publicPension${i}`}
                                   id={`publicPension${i}`}
-                                  value={incomeInfo[`publicPension${i + 1}`]}
+                                  value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                   onChange={(e) =>
                                     handleInputChange(
                                       `publicPension${i + 1}`,
@@ -8423,10 +8485,10 @@ export const CadastroRenda = ({ member }) => {
                                 </label>
                                 <br />
                                 <input
-                                  type="number"
+                                  type="text"
                                   name={`otherDeductions${i}`}
                                   id={`otherDeductions${i}`}
-                                  value={Number(incomeInfo[`otherDeductions${i + 1}`])}
+                                  value={Number(formatCurrency(incomeInfo[`otherDeductions${i + 1}`]))}
                                   onChange={(e) => handleInputChange(`otherDeductions${i + 1}`, e.target.value)}
                                   className="survey-control"
                                 />
@@ -8444,7 +8506,7 @@ export const CadastroRenda = ({ member }) => {
                               type="text"
                               name={`foodAllowanceValue${i}`}
                               id={`foodAllowanceValue${i}`}
-                              value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                               onChange={(e) => handleInputChange(`foodAllowanceValue${i + 1}`, e.target.value)}
                               className="survey-control"
                             />
@@ -8458,7 +8520,7 @@ export const CadastroRenda = ({ member }) => {
                               type="text"
                               name={`transportAllowanceValue${i}`}
                               id={`transportAllowanceValue${i}`}
-                              value={incomeInfo[`transportAllowanceValue${i + 1}`]}
+                              valueformatCurrency={(incomeInfo[`transportAllowanceValue${i + 1}`])}
                               onChange={(e) => handleInputChange(`transportAllowanceValue${i + 1}`, e.target.value)}
                               className="survey-control"
                             />
@@ -8469,10 +8531,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`expenseReimbursementValue${i}`}
                               id={`expenseReimbursementValue${i}`}
-                              value={incomeInfo[`expenseReimbursementValue${i + 1}`]}
+                              formatCurrency value={(incomeInfo[`expenseReimbursementValue${i + 1}`])}
                               onChange={(e) => handleInputChange(`expenseReimbursementValue${i + 1}`, e.target.value)}
                               className="survey-control"
                             />
@@ -8483,10 +8545,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`advancePaymentValue${i}`}
                               id={`advancePaymentValue${i}`}
-                              value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                               onChange={(e) => handleInputChange(`advancePaymentValue${i + 1}`, e.target.value)}
                               className="survey-control"
                             />
@@ -8497,10 +8559,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`reversalValue${i}`}
                               id={`reversalValue${i}`}
-                              value={incomeInfo[`reversalValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                               onChange={(e) => handleInputChange(`reversalValue${i + 1}`, e.target.value)}
                               className="survey-control"
                             />
@@ -8511,10 +8573,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`compensationValue${i}`}
                               id={`compensationValue${i}`}
-                              value={incomeInfo[`compensationValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                               onChange={(e) => handleInputChange(`compensationValue${i + 1}`, e.target.value)}
                               className="survey-control"
                             />
@@ -8525,10 +8587,10 @@ export const CadastroRenda = ({ member }) => {
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               name={`judicialPensionValue${i}`}
                               id={`judicialPensionValue${i}`}
-                              value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                               onChange={(e) => handleInputChange(`judicialPensionValue${i + 1}`, e.target.value)}
                               className="survey-control"
                             />

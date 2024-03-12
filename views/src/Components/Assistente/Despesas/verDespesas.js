@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './cadastroDespesas.css';
 import { api } from '../../../services/axios';
+import { formatCurrency } from '../../../utils/format-currency';
 
 export default function VerDespesas({ formData, candidate }) {
     console.log('====================================');
-    console.log(formData.otherExpensesDescription);
+    console.log(formData);
     console.log('====================================');
     const getCurrentDate = () => {
         const today = new Date();
@@ -92,9 +93,7 @@ export default function VerDespesas({ formData, candidate }) {
 
     const renderOtherExpenses = () => {
         const elements = [];
-        console.log('====================================');
-        console.log(formData);
-        console.log('====================================');
+     
         if (formData && Array.isArray(formData.otherExpensesDescription)) {
             for (let index = 0; index < formData.otherExpensesDescription.length; index++) {
                 elements.push(
@@ -112,8 +111,9 @@ export default function VerDespesas({ formData, candidate }) {
                             <label>Valor da Despesa {index + 1}:</label>
                             <input
                                 className='survey-control'
-                                type="number"
-                                value={formData.otherExpensesValue[index]}
+                                type="text"
+
+                                value={formatCurrency(formData.otherExpensesValue[index])}
                                 disabled
                             />
                         </div>
@@ -242,9 +242,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Água e Esgoto:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="waterSewage"
-                        value={formData.waterSewage}
+                        value={formatCurrency(formData.waterSewage)}
                         disabled
                         onChange={handleChange}
                     />
@@ -255,9 +255,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Eletricidade:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="electricity"
-                        value={formData.electricity}
+                        value={formatCurrency(formData.electricity)}
                         disabled
                         onChange={handleChange}
                     />
@@ -267,9 +267,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Telefone Fixo:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="landlinePhone"
-                        value={formData.landlinePhone}
+                        value={formatCurrency(formData.landlinePhone)}
                         disabled
                         onChange={handleChange}
                     />
@@ -280,9 +280,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Telefone Celular:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="mobilePhone"
-                        value={formData.mobilePhone}
+                        value={formatCurrency(formData.mobilePhone)}
                         disabled
                         onChange={handleChange}
                     />
@@ -293,9 +293,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Alimentação:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="food"
-                        value={formData.food}
+                        value={formatCurrency(formData.food)}
                         disabled
                         onChange={handleChange}
                     />
@@ -306,9 +306,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Aluguel:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="rent"
-                        value={formData.rent}
+                        value={formatCurrency(formData.rent)}
                         disabled
                         onChange={handleChange}
                     />
@@ -319,9 +319,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Aluguel de Garagem:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="garageRent"
-                        value={formData.garageRent}
+                        value={formatCurrency(formData.garageRent)}
                         disabled
                         onChange={handleChange}
                     />
@@ -332,9 +332,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Condomínio:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="condominium"
-                        value={formData.condominium}
+                        value={formatCurrency(formData.condominium)}
                         disabled
                         onChange={handleChange}
                     />
@@ -345,9 +345,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>TV a Cabo:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="cableTV"
-                        value={formData.cableTV}
+                        value={formatCurrency(formData.cableTV)}
                         disabled
                         onChange={handleChange}
                     />
@@ -358,9 +358,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Serviços de Streaming:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="streamingServices"
-                        value={formData.streamingServices}
+                        value={formatCurrency(formData.streamingServices)}
                         disabled
                         onChange={handleChange}
                     />
@@ -371,9 +371,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Combustível:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="fuel"
-                        value={formData.fuel}
+                        value={formatCurrency(formData.fuel)}
                         disabled
                         onChange={handleChange}
                     />
@@ -384,9 +384,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>IPVA Anual:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="annualIPVA"
-                        value={formData.annualIPVA}
+                        value={formatCurrency(formData.annualIPVA)}
                         disabled
                         onChange={handleChange}
                     />
@@ -408,9 +408,9 @@ export default function VerDespesas({ formData, candidate }) {
                             <label>Número de Parcelas de IPVA:</label>
                             <input
                                 className='survey-control'
-                                type="number"
+                                type="text"
                                 name="installmentCountIPVA"
-                                value={formData.installmentCountIPVA}
+                                value={formatCurrency(formData.installmentCountIPVA)}
                                 disabled
                                 onChange={handleChange}
                             />
@@ -419,9 +419,9 @@ export default function VerDespesas({ formData, candidate }) {
                             <label>Valor da Parcela de IPVA:</label>
                             <input
                                 className='survey-control'
-                                type="number"
+                                type="text"
                                 name="installmentValueIPVA"
-                                value={formData.installmentValueIPVA}
+                                value={formatCurrency(formData.installmentValueIPVA)}
                                 disabled
                                 onChange={handleChange}
                             />
@@ -433,9 +433,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>IPTU Anual:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="annualIPTU"
-                        value={formData.annualIPTU}
+                        value={formatCurrency(formData.annualIPTU)}
                         disabled
                         onChange={handleChange}
                     />
@@ -459,9 +459,9 @@ export default function VerDespesas({ formData, candidate }) {
                             <label>Número de Parcelas de IPTU:</label>
                             <input
                                 className='survey-control'
-                                type="number"
+                                type="text"
                                 name="installmentCountIPTU"
-                                value={formData.installmentCountIPTU}
+                                value={(formData.installmentCountIPTU)}
                                 disabled
                                 onChange={handleChange}
                             />
@@ -470,9 +470,9 @@ export default function VerDespesas({ formData, candidate }) {
                             <label>Valor da Parcela de IPTU:</label>
                             <input
                                 className='survey-control'
-                                type="number"
+                                type="text"
                                 name="installmentValueIPTU"
-                                value={formData.installmentValueIPTU}
+                                value={formatCurrency(formData.installmentValueIPTU)}
                                 disabled
                                 onChange={handleChange}
                             />
@@ -486,9 +486,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>ITR Anual:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="annualITR"
-                        value={formData.annualITR}
+                        value={formatCurrency(formData.annualITR)}
                         disabled
                         onChange={handleChange}
                     />
@@ -514,7 +514,7 @@ export default function VerDespesas({ formData, candidate }) {
                                 className='survey-control'
                                 type="number"
                                 name="installmentCountITR"
-                                value={formData.installmentCountITR}
+                                value={(formData.installmentCountITR)}
                                 disabled
                                 onChange={handleChange}
                             />
@@ -523,9 +523,9 @@ export default function VerDespesas({ formData, candidate }) {
                             <label>Valor da Parcela de ITR:</label>
                             <input
                                 className='survey-control'
-                                type="number"
+                                type="text"
                                 name="installmentValueITR"
-                                value={formData.installmentValueITR}
+                                value={formatCurrency(formData.installmentValueITR)}
                                 disabled
                                 onChange={handleChange}
                             />
@@ -538,9 +538,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>IR Anual:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="annualIR"
-                        value={formData.annualIR}
+                        value={formatCurrency(formData.annualIR)}
                         disabled
                         onChange={handleChange}
                     />
@@ -565,7 +565,7 @@ export default function VerDespesas({ formData, candidate }) {
                                 className='survey-control'
                                 type="number"
                                 name="installmentCountIR"
-                                value={formData.installmentCountIR}
+                                value={(formData.installmentCountIR)}
                                 disabled
                                 onChange={handleChange}
                             />
@@ -574,9 +574,9 @@ export default function VerDespesas({ formData, candidate }) {
                             <label>Valor da Parcela de IR:</label>
                             <input
                                 className='survey-control'
-                                type="number"
+                                type="text"
                                 name="installmentValueIR"
-                                value={formData.installmentValueIR}
+                                value={formatCurrency(formData.installmentValueIR)}
                                 disabled
                                 onChange={handleChange}
                             />
@@ -589,9 +589,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>INSS:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="INSS"
-                        value={formData.INSS}
+                        value={formatCurrency(formData.INSS)}
                         disabled
                         onChange={handleChange}
                     />
@@ -602,9 +602,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Transporte Público:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="publicTransport"
-                        value={formData.publicTransport}
+                        value={formatCurrency(formData.publicTransport)}
                         disabled
                         onChange={handleChange}
                     />
@@ -615,9 +615,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Transporte Escolar:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="schoolTransport"
-                        value={formData.schoolTransport}
+                        value={formatCurrency(formData.schoolTransport)}
                         disabled
                         onChange={handleChange}
                     />
@@ -628,9 +628,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Internet:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="internet"
-                        value={formData.internet}
+                        value={formatCurrency(formData.internet)}
                         disabled
                         onChange={handleChange}
                     />
@@ -641,9 +641,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Cursos:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="courses"
-                        value={formData.courses}
+                        value={formatCurrency(formData.courses)}
                         disabled
                         onChange={handleChange}
                     />
@@ -654,9 +654,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Plano de Saúde:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="healthPlan"
-                        value={formData.healthPlan}
+                        value={formatCurrency(formData.healthPlan)}
                         disabled
                         onChange={handleChange}
                     />
@@ -667,9 +667,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Plano Dental:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="dentalPlan"
-                        value={formData.dentalPlan}
+                        value={formatCurrency(formData.dentalPlan)}
                         disabled
                         onChange={handleChange}
                     />
@@ -680,9 +680,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Despesas com Medicamentos:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="medicationExpenses"
-                        value={formData.medicationExpenses}
+                        value={formatCurrency(formData.medicationExpenses)}
                         disabled
                         onChange={handleChange}
                     />
@@ -690,7 +690,6 @@ export default function VerDespesas({ formData, candidate }) {
 
                 {/* Outras Despesas */}
                 {/* Botão para adicionar outras despesas */}
-                <button type="button" onClick={addOtherExpense}>Adicionar Outra Despesa</button>
 
                 {/* Campos para outras despesas */}
                 {renderOtherExpenses()}
@@ -699,9 +698,9 @@ export default function VerDespesas({ formData, candidate }) {
                     <label>Despesa Total:</label>
                     <input
                         className='survey-control'
-                        type="number"
+                        type="text"
                         name="totalExpense"
-                        value={formData.totalExpense}
+                        value={formatCurrency(formData.totalExpense)}
                         disabled
                     />
                 </div>

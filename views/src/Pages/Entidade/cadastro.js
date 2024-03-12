@@ -12,6 +12,8 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
 import { handleAuthError } from "../../ErrorHandling/handleError";
 import { handleSuccess } from "../../ErrorHandling/handleSuceess";
+import { formatCPF } from "../../utils/format-cpf";
+import { formatCNPJ } from "../../utils/format-cnpj";
 
 
 export default function CadastroEntidade() {
@@ -35,106 +37,25 @@ export default function CadastroEntidade() {
   const adressForm = useRef(null);
   const cepForm = useRef(null);
   const institucionalCodeForm = useRef(null);
-
+  const [CPFDirector, setCPFDirector] = useState('')
+  const [CPFAssistant, setCPFAssistant] = useState('')
+  const [CNPJSubsidiary, setCNPJSubsidiary] = useState('')
   // Object with info for entity registration
-  const [currentRegisterEntity, setCurrentRegisterEntity] = useState({
-    name: "",
-    email: "",
-    password: "",
-    role: "",
-    CNPJ: "",
-    logo: "",
-    socialReason: "",
-    CEP: "",
-    address: "",
-    educationalInstitutionCode: "",
-  });
-
-  // Object with info for announcement registration
-  const [currentRegisterAnnouncement, setCurrentRegisterAnnouncement] =
-    useState({
-      id: "",
-      entityChanged: "",
-      branchChanged: "",
-      announcementType: "",
-      announcementNumber: "",
-      announcementDate: "",
-      offeredVacancies: "",
-      verifiedScholarships: "",
-      timelines: "",
-      educationLevels: "",
-
-      entity_id: "",
-      entity_subsidiary_id: "",
-    });
-
-  // Object with info for social assistant registration
-  const [socialAssistant, setSocialAssistant] = useState({
-    name: "",
-    email: "",
-    password: "",
-    phone: "",
-    CPF: "",
-  });
-
-  // Object with info for director registration
-  const [entityDirector, setEntityDirector] = useState({
-    name: "",
-    email: "",
-    password: "",
-    phone: "",
-    CPF: "",
-  });
-
-  function handlePageChange() {
-    if (firstForm.current.checkValidity()) {
-      // Set the name in the currentRegisterEntity object
-      const nameValue = socialReasonForm.current.value;
-      const mailValue = mailForm.current.value;
-      const passwordValue = passwordForm.current.value;
-      const cnpjValue = cnpjForm.current.value;
-      const socialReasonValue = socialReasonForm.current.value;
-      const adressValue = adressForm.current.value;
-      const cepValue = cepForm.current.value;
-      const institucionalCodeValue = institucionalCodeForm.current.value;
-
-      setCurrentRegisterEntity((prevState) => ({
-        ...prevState,
-        name: nameValue,
-        email: mailValue,
-        password: passwordValue,
-        CNPJ: cnpjValue,
-        socialReason: socialReasonValue,
-        address: adressValue,
-        CEP: cepValue,
-        educationalInstitutionCode: institucionalCodeValue,
-      }));
-
-      setCurrentPage((prevPage) => {
-        if (prevPage === 1) {
-          return 2;
-        }
-        if (prevPage === 2) return 3;
-        return 1; // Default to page 1 for all other cases
-      });
-    } else {
-      alert("Preencha os campos exigidos!");
-    }
-  }
-
-  function handleChange(event) {
-    setFile(event.target.files[0]);
-    const fileInput = event.target;
-    const label = document.querySelector(".file-label");
-
-    if (fileInput.files && fileInput.files.length > 0) {
-      // If there's a file attached, update label text with file name
-      label.textContent = "Alterar arquivo";
-    } else {
-      // If no file is attached, revert back to default label text
-      label.textContent = "Selecione um arquivo";
-    }
-  }
+ 
+  const handleCPFAssistantChange = (e) => {
+    const formattedCPF = formatCPF(e.target.value);
+    setCPFAssistant(formattedCPF); // Atualiza o estado com o CPF formatado
+  };
+ 
+  const handleCPFDirectorChange = (e) => {
+    const formattedCPF = formatCPF(e.target.value);
+    setCPFDirector(formattedCPF); // Atualiza o estado com o CPF formatado
+  };
+  const handleCNPJChange = (e) => {
+    const formattedCNPJ = formatCNPJ(e.target.value);
+    setCNPJSubsidiary(formattedCNPJ); // Atualiza o estado com o CPF formatado
+  };
+ 
 
   function handleSelectChange(event) {
     setSelectedOption(event.target.value);
@@ -150,37 +71,10 @@ export default function CadastroEntidade() {
     }
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const url = "http://localhost:3000/uploadFile";
-    const formData = new FormData();
-    formData.append("file", file);
-
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-      onUploadProgress: function (progressEvent) {
-        const percentCompleted = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
-        setUploadProgress(percentCompleted);
-      },
-    };
-
-    axios
-      .post(url, formData, config)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error uploading file: ", error);
-      });
-  }
+  
 
   // BackEnd Functions
   
-  async function handleCreateAnnouncement() {}
 
   async function handleCreateDirector() {
     const directorForm = firstForm.current;
@@ -192,9 +86,7 @@ export default function CadastroEntidade() {
       const phone = directorForm.querySelector(
         'input[name="director-phone"]'
       ).value;
-      const CPF = directorForm.querySelector(
-        'input[name="director-CPF"]'
-      ).value;
+      const CPF =CPFDirector;
       const email = directorForm.querySelector(
         'input[name="director-email"]'
       ).value;
@@ -237,9 +129,7 @@ export default function CadastroEntidade() {
       const phone = assistantForm.querySelector(
         'input[name="assistant-phone"]'
       ).value;
-      const CPF = assistantForm.querySelector(
-        'input[name="assistant-CPF"]'
-      ).value;
+      const CPF = CPFAssistant
       const email = assistantForm.querySelector(
         'input[name="assistant-email"]'
       ).value;
@@ -288,9 +178,7 @@ export default function CadastroEntidade() {
       const address = subsidiaryForm.querySelector(
         'input[name="subsidiary-address"]'
       ).value;
-      const CNPJ = subsidiaryForm.querySelector(
-        'input[name="subsidiary-CNPJ"]'
-      ).value;
+      const CNPJ = CNPJSubsidiary;
       const email = subsidiaryForm.querySelector(
         'input[name="subsidiary-email"]'
       ).value;
@@ -448,6 +336,8 @@ export default function CadastroEntidade() {
                     name="subsidiary-CNPJ"
                     tabindex="3"
                     required
+                    value={CNPJSubsidiary}
+                    onChange={handleCNPJChange}
                   />
                 </fieldset>
                 <fieldset>
@@ -593,12 +483,14 @@ export default function CadastroEntidade() {
                 <fieldset>
                   <label for="nome-edital">CPF</label>
                   <input
-                    placeholder="Exemplo: (XX) XXXX-XXXX"
+                    placeholder="Exemplo: XXX.XXX.XXX-XX"
                     ref={socialReasonForm}
                     name="director-CPF"
                     type="text"
                     tabindex="4"
                     required
+                    value={CPFDirector}
+                    onChange={handleCPFDirectorChange}
                   />
                 </fieldset>
 
@@ -683,6 +575,8 @@ export default function CadastroEntidade() {
                     name="assistant-CPF"
                     tabindex="4"
                     required
+                    value={CPFAssistant}
+                    onChange={handleCPFAssistantChange}
                   />
                 </fieldset>
                 <fieldset>

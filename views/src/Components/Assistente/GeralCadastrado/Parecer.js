@@ -302,6 +302,7 @@ export default function VerParecer({
         candidate_id={candidate.id}
         identityInfo={identityInfo}
         Vehicles={Vehicles}
+        application={application}
       />
       <h1>Informações de Saúde do Grupo Familiar</h1>
       <table id="health-info-family">

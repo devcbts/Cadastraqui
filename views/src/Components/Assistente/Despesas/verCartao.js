@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o formulário
 import { api } from '../../../services/axios';
+import { formatCurrency } from '../../../utils/format-currency';
 
 export default function VerCartao({formData,id, candidate}) {
    /* const [formData, setFormData] = useState({
@@ -89,7 +90,7 @@ export default function VerCartao({formData,id, candidate}) {
 
                 <div className='survey-box'>
                     <label>Valor da Fatura:</label>
-                    <input type="number" name="invoiceValue" value={formData.invoiceValue} className='survey-control' disabled onChange={handleChange} required />
+                    <input type="text" name="invoiceValue" value={formatCurrency(formData.invoiceValue)} className='survey-control' disabled onChange={handleChange} required />
                 </div>
 
             </form>
