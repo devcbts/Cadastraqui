@@ -8,6 +8,7 @@ import { api } from "../services/axios";
 import { useAuth } from "../context/auth";
 import { Link } from "react-router-dom";
 import uspLogo from "../Assets/usp-logo.png";
+import { formatCurrency } from "../utils/format-currency";
 
 
 export default function Candidatura(props) {
@@ -35,7 +36,7 @@ export default function Candidatura(props) {
       <div className="candidato-assistente">
         <h3>{props.name}</h3>
         <div className="application-info">
-          <h4 className="application-name">Renda per capita: R${props.valor?.toFixed(2)}</h4>
+          <h4 className="application-name">Renda per capita: {formatCurrency(props?.valor)}</h4>
         </div>
       
       </div>

@@ -23,25 +23,24 @@ export default function Edital(props) {
         });
         console.log(profilePhoto);
         setProfilePhoto(profilePhoto.data.url);
-        localStorage.setItem("profilePhoto", JSON.stringify(profilePhoto.data.url));
 
       } catch (err) {
 
       }
     }
     getProfilePhotoEntity()
-  }, [])
+  }, [props])
   const announcement = props.announcement
 
   const announcementDate = formatDate(announcement.announcementDate)
   return (
-    <Link to={`/candidato/editaltest/${announcement.id}`}>
+    <Link to={`/candidato/edital/${announcement.id}`}>
       <div className="edital-card">
         <h3>Prazo: {announcementDate}</h3>
         {profilePhoto ? 
-        <img src={profilePhoto}></img>
+        <img style={{width: '50%', height: '70%', borderRadius: '50%', boxShadow:'initial'}}  src={profilePhoto}></img>
         :'' }
-        <h2>{announcement.announcementName}</h2>
+        <h2 style={{height: '30%', maxWidth: '70%'}}>{announcement.announcementName}</h2>
       </div>
     </Link>
   );

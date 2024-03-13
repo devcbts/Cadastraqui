@@ -9,6 +9,7 @@ import { UilLock } from "@iconscout/react-unicons";
 import { api } from "../../services/axios";
 import { useNavigate } from "react-router";
 import { UilHunting } from "@iconscout/react-unicons";
+import { formatCPF } from "../../utils/format-cpf";
 
 export default function PerfilCandidato() {
   const { isShown } = useAppState();
@@ -150,7 +151,7 @@ export default function PerfilCandidato() {
                 </div>
                 <div className="info-item">
                   <h3>CPF:</h3>
-                  <h3>{userInfo ? userInfo.CPF : ""}</h3>
+                  <h3>{userInfo ? formatCPF(userInfo.CPF) : ""}</h3>
                 </div>
                 <div className="info-item">
                   <h3>Endereço:</h3>

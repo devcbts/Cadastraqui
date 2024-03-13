@@ -4,6 +4,7 @@ import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o for
 import { api } from '../../services/axios';
 import Select from 'react-select';
 import { handleSuccess } from '../../ErrorHandling/handleSuceess';
+import { formatCurrency } from '../../utils/format-currency';
 
 export default function CadastroFinanciamento({candidate}) {
     const [formData, setFormData] = useState({
@@ -17,8 +18,19 @@ export default function CadastroFinanciamento({candidate}) {
     });
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+    
+        if (name === "installmentValue") {
+            // Extrai números e vírgula, substitui vírgula por ponto para conversão.
+            const numericValue = parseFloat(value.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1.$2')) || '';
+            // Armazena o valor numérico no estado para envio ao backend.
+            setFormData({ ...formData, [name]: numericValue });
+        } else {
+            // Para outros campos, atualiza o estado diretamente com o valor.
+            setFormData({ ...formData, [name]: value });
+        }
     };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -127,7 +139,7 @@ export default function CadastroFinanciamento({candidate}) {
 
                 <div className='survey-box'>
                     <label>Valor da Parcela:</label>
-                    <input type="number" name="installmentValue" value={formData.installmentValue} onChange={handleChange} className='survey-control' required />
+                    <input type="text" name="installmentValue" value={formatCurrency(formData.installmentValue)} onChange={handleChange} className='survey-control' required />
                 </div>
 
                 <div className='survey-box'>

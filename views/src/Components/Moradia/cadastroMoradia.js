@@ -181,7 +181,7 @@ export default function CadastroMoradia() {
           </select>
         </div>
         <div className="survey-box">
-          <label>Número de cômodos:</label>
+          <label>Quantos cômodos tem esse domicílio?</label>
           <br />
           <select
             className="select-data-2"
@@ -196,7 +196,7 @@ export default function CadastroMoradia() {
           </select>
         </div>
         <div className="survey-box">
-          <label>Número de quartos:</label>
+        <label style={{fontSize:'13px'}}>Quantos cômodos estão servindo permanentemente de dormitório aos moradores?</label>
 
           <input
             className="survey-control"

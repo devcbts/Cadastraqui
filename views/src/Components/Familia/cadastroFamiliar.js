@@ -6,6 +6,7 @@ import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 import { handleAuthError } from "../../ErrorHandling/handleError";
 import "./cadastroFamiliar.css";
 import { api } from "../../services/axios";
+import { formatCPF } from "../../utils/format-cpf";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
@@ -185,7 +186,7 @@ export default function CadastroFamiliar() {
     UF: "AC", // deve ser inicializado com um dos valores do enum COUNTRY
     CEP: "",
     neighborhood: "",
-    addressNumber: 0, // Iniciar com um número inteiro
+    addressNumber: "", // Iniciar com um número inteiro
     profession: "",
     enrolledGovernmentProgram: false,
     NIS: "",
@@ -205,10 +206,14 @@ export default function CadastroFamiliar() {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
-    setFamilyMember((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    if (name === "CPF") {
+      const formattedCPF = formatCPF(value);
+      // Atualiza o valor no estado com o CPF formatado
+      setFamilyMember({ ...familyMember, CPF: formattedCPF });
+  } else {
+      // Para outros campos, apenas atualiza o valor
+      setFamilyMember({ ...familyMember, [name]: value });
+  }
   }
 
   function handleInputChangeSelect(selectedOptions) {
@@ -268,7 +273,7 @@ export default function CadastroFamiliar() {
           UF: familyMember.UF, // deve ser inicializado com um dos valores do enum COUNTRY
           CEP: familyMember.CEP,
           neighborhood: familyMember.neighborhood,
-          addressNumber: Number(familyMember.addressNumber), // Iniciar com um número inteiro
+          addressNumber:familyMember.addressNumber, // Iniciar com um número inteiro
           profession: familyMember.profession,
           enrolledGovernmentProgram: familyMember.enrolledGovernmentProgram,
           NIS: familyMember.NIS || undefined,
@@ -450,9 +455,10 @@ export default function CadastroFamiliar() {
             </label>
             <br />
             <input
+
               type="text"
               name="CPF"
-              value={familyMember.CPF}
+              value={formatCPF(familyMember.CPF)}
               onChange={handleInputChange}
               id="CPF"
               class="survey-control"
@@ -902,11 +908,11 @@ export default function CadastroFamiliar() {
           {/*<!-- Número de Endereço -->*/}
           <div class="survey-box">
             <label for="addressNumber" id="addressNumber-label">
-              Número de Endereço:
+              Número de Endereço / Complemento:
             </label>
             <br />
             <input
-              type="number"
+              type="text"
               name="addressNumber"
               value={familyMember.addressNumber}
               onChange={handleInputChange}

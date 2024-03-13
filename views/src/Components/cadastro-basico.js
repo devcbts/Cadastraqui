@@ -493,6 +493,7 @@ export default function CadastroBasico() {
                   id="documentValidity"
                   class="survey-control"
                 />
+                
               </div>
 
               {/*<!-- Número do Registro de Nascimento -->*/}

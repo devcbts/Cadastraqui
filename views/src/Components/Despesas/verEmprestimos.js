@@ -5,7 +5,7 @@ import { api } from '../../services/axios';
 import Select from 'react-select';
 import { handleAuthError } from '../../ErrorHandling/handleError';
 import { handleSuccess } from '../../ErrorHandling/handleSuceess';
-export default function VerEmprestimo({formDataInfo,candidate}) {
+export default function VerEmprestimo({ formDataInfo, candidate }) {
     const [formData, setFormData] = useState(formDataInfo)
     const [isEditing, setIsEditing] = useState(false)
     const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
@@ -16,13 +16,21 @@ export default function VerEmprestimo({formDataInfo,candidate}) {
     useEffect(() => {
         setFormData(formDataInfo)
         setIsEditing(false)
-    },[formDataInfo])
+    }, [formDataInfo])
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+        const { name, value } = e.target;
     
-
+        if (name === "installmentValue") {
+            // Extrai números e vírgula, substitui vírgula por ponto para conversão.
+            const numericValue = parseFloat(value.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1.$2')) || '';
+            // Armazena o valor numérico no estado para envio ao backend.
+            setFormData({ ...formData, [name]: numericValue });
+        } else {
+            // Para outros campos, atualiza o estado diretamente com o valor.
+            setFormData({ ...formData, [name]: value });
+        }
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formData)
@@ -62,7 +70,7 @@ export default function VerEmprestimo({formDataInfo,candidate}) {
         setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
         { value: candidato.id, label: candidato.nome, type: 'candidate' }])
         console.log(familyMembers)
-    },[familyMembers])
+    }, [familyMembers])
 
     useEffect(() => {
 
@@ -92,14 +100,21 @@ export default function VerEmprestimo({formDataInfo,candidate}) {
         setSelectedFamilyMemberId(selectedOption.value);
     };
 
-
+    function formatCurrency(value) {
+        const numericValue = Number(value);
+        if (isNaN(numericValue)) return '';
+        return numericValue.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+        });
+    }
     return (
         <div className="fill-box">
             <form onSubmit={handleSubmit} id='survey-form'>
                 <div className='survey-box'>
                     <label>Nome do Familiar:</label>
                     <Select
-                         options={opcoes}
+                        options={opcoes}
                         isDisabled={!isEditing} onChange={handleSelectChange}
                         value={opcoes.find(option => option.label === formData.familyMemberName)}
                         required
@@ -109,7 +124,14 @@ export default function VerEmprestimo({formDataInfo,candidate}) {
                 <div className='survey-box'>
                     <label>Valor da Parcela:</label>
                     <br />
-                    <input type="number" name="installmentValue" value={formData.installmentValue} disabled={!isEditing} onChange={handleChange} className='survey-control' required />
+                    <input
+                        type="text"
+                        name="installmentValue"
+                        value={formData.installmentValue ? formatCurrency(formData.installmentValue) : ''}
+                        onChange={handleChange}
+                        className='survey-control'
+                        required
+                    />
                 </div>
 
                 <div className='survey-box'>
@@ -127,14 +149,14 @@ export default function VerEmprestimo({formDataInfo,candidate}) {
                     <input type="text" name="bankName" value={formData.bankName} disabled={!isEditing} onChange={handleChange} className='survey-control' required />
                 </div>
 
-  
+
                 <div className="survey-box">
                     {!isEditing ? (
                         <button className="over-button" type="button" onClick={toggleEdit}>Editar</button>
                     ) : (
                         <>
                             <button className="over-button" type="button" onClick={handleSubmit}>Salvar Dados</button>
-                            <button  className="over-button"type="button" onClick={toggleEdit}>Cancelar</button>
+                            <button className="over-button" type="button" onClick={toggleEdit}>Cancelar</button>
                         </>
                     )}
                 </div>            </form>

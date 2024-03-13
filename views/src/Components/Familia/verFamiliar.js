@@ -5,6 +5,7 @@ import { api } from "../../services/axios";
 import Select from "react-select";
 import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 import { handleAuthError } from "../../ErrorHandling/handleError";
+import { formatCPF } from "../../utils/format-cpf";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
@@ -161,10 +162,14 @@ export default function VerFamiliar({ familyMember }) {
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
-    setFamilyMemberInfo((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    if (name === "CPF") {
+      const formattedCPF = formatCPF(value);
+      // Atualiza o valor no estado com o CPF formatado
+      setFamilyMemberInfo({ ...familyMemberInfo, CPF: formattedCPF });
+  } else {
+      // Para outros campos, apenas atualiza o valor
+      setFamilyMemberInfo({ ...familyMemberInfo, [name]: value });
+  }
   }
 
   function handleInputChangeSelect(selectedOptions) {
@@ -208,7 +213,7 @@ export default function VerFamiliar({ familyMember }) {
     <div>
       <div className="fill-box">
         <form id="survey-form">
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="relationship" id="relationship-label">
               Relação:
             </label>
@@ -219,7 +224,7 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="relationship"
-              class="select-data"
+              className="select-data"
             >
               {Relationship.map((type) => (
                 <option value={type.value}>{type.label}</option>
@@ -227,7 +232,7 @@ export default function VerFamiliar({ familyMember }) {
             </select>
           </div>
           {familyMemberInfo.relationship === "Other" && (
-            <div class="survey-box">
+            <div className="survey-box">
               <label for="otherRelationship" id="otherRelationship-label">
                 Tipo de Relação:
               </label>
@@ -239,12 +244,12 @@ export default function VerFamiliar({ familyMember }) {
                 disabled={!isEditing}
                 onChange={handleInputChange}
                 id="otherRelationship"
-                class="survey-control"
+                className="survey-control"
                 required
               />
             </div>
           )}
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="fullName" id="fullName-label">
               Nome Civil Completo:
             </label>
@@ -256,12 +261,12 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="fullName"
-              class="survey-control"
+              className="survey-control"
               required
             />
           </div>
 
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="socialName" id="socialName-label">
               Nome Social, quando aplicável:
             </label>
@@ -273,11 +278,11 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="socialName"
-              class="survey-control"
+              className="survey-control"
             />
           </div>
 
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="birthDate" id="birthDate-label">
               Data de Nascimento:
             </label>
@@ -289,12 +294,12 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="birthDate"
-              class="survey-control"
+              className="survey-control"
               required
             />
           </div>
 
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="gender" id="gender-label">
               Sexo:
             </label>
@@ -305,7 +310,7 @@ export default function VerFamiliar({ familyMember }) {
               value={familyMemberInfo.gender}
               disabled={!isEditing}
               onChange={handleInputChange}
-              class="select-data"
+              className="select-data"
               required
             >
               {GENDER.map((type) => (
@@ -314,7 +319,7 @@ export default function VerFamiliar({ familyMember }) {
             </select>
           </div>
 
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="nationality" id="nationality-label">
               Nacionalidade:
             </label>
@@ -326,12 +331,12 @@ export default function VerFamiliar({ familyMember }) {
               onChange={handleInputChange}
               value={familyMemberInfo.nationality}
               id="nationality"
-              class="survey-control"
+              className="survey-control"
               required
             />
           </div>
 
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="natural_city" id="natural_city-label">
               Cidade Natal:
             </label>
@@ -343,12 +348,12 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="natural_city"
-              class="survey-control"
+              className="survey-control"
               required
             />
           </div>
 
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="natural_UF" id="natural_UF-label">
               Unidade Federativa:
             </label>
@@ -359,7 +364,7 @@ export default function VerFamiliar({ familyMember }) {
               onChange={handleInputChange}
               value={familyMemberInfo.natural_UF}
               id="natural_UF"
-              class="select-data"
+              className="select-data"
             >
               {COUNTRY.map((type) => (
                 <option value={type.value}>{type.label}</option>
@@ -367,24 +372,26 @@ export default function VerFamiliar({ familyMember }) {
             </select>
           </div>
 
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="CPF" id="CPF-label">
               CPF:
             </label>
             <br />
             <input
+            
+           
               type="text"
               name="CPF"
-              value={familyMemberInfo.CPF}
+              value={formatCPF(familyMemberInfo.CPF)}
               disabled={!isEditing}
               onChange={handleInputChange}
               id="CPF"
-              class="survey-control"
+              className="survey-control"
               required
             />
           </div>
 
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="RG" id="RG-label">
               Nº de RG:
             </label>
@@ -396,12 +403,12 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="RG"
-              class="survey-control"
+              className="survey-control"
               required
             />
           </div>
 
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="rgIssuingAuthority" id="rgIssuingAuthority-label">
               Órgão Emissor do RG:
             </label>
@@ -413,12 +420,12 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="rgIssuingAuthority"
-              class="survey-control"
+              className="survey-control"
               required
             />
           </div>
 
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="rgIssuingState" id="rgIssuingState-label">
               Estado do Órgão Emissor do RG:
             </label>
@@ -429,7 +436,7 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="rgIssuingState"
-              class="select-data"
+              className="select-data"
             >
               {COUNTRY.map((type) => (
                 <option value={type.value}>{type.label}</option>
@@ -438,7 +445,7 @@ export default function VerFamiliar({ familyMember }) {
           </div>
           {!familyMemberInfo.RG && (
             <div>
-              <div class="survey-box">
+              <div className="survey-box">
                 <label for="documentType" id="documentType-label">
                   Tipo de Documento Adicional:
                 </label>
@@ -449,7 +456,7 @@ export default function VerFamiliar({ familyMember }) {
                   onChange={handleInputChange}
                   value={familyMemberInfo.documentType}
                   id="documentType"
-                  class="select-data"
+                  className="select-data"
                 >
                   {DOCUMENT_TYPE.map((type) => (
                     <option value={type.value}>{type.label}</option>
@@ -457,7 +464,7 @@ export default function VerFamiliar({ familyMember }) {
                 </select>
               </div>
 
-              <div class="survey-box">
+              <div className="survey-box">
                 <label for="documentNumber" id="documentNumber-label">
                   Número do Documento:
                 </label>
@@ -469,11 +476,11 @@ export default function VerFamiliar({ familyMember }) {
                   disabled={!isEditing}
                   onChange={handleInputChange}
                   id="documentNumber"
-                  class="survey-control"
+                  className="survey-control"
                 />
               </div>
 
-              <div class="survey-box">
+              <div className="survey-box">
                 <label for="documentValidity" id="documentValidity-label">
                   Data de Validade:
                 </label>
@@ -485,12 +492,12 @@ export default function VerFamiliar({ familyMember }) {
                   disabled={!isEditing}
                   onChange={handleInputChange}
                   id="documentValidity"
-                  class="survey-control"
+                  className="survey-control"
                 />
               </div>
 
               {/*<!-- Número do Registro de Nascimento -->*/}
-              <div class="survey-box">
+              <div className="survey-box">
                 <label
                   for="numberOfBirthRegister"
                   id="numberOfBirthRegister-label"
@@ -505,13 +512,13 @@ export default function VerFamiliar({ familyMember }) {
                   onChange={handleInputChange}
                   value={familyMemberInfo.numberOfBirthRegister}
                   id="numberOfBirthRegister"
-                  class="survey-control"
+                  className="survey-control"
                   required
                 />
               </div>
 
               {/*<!-- Livro do Registro de Nascimento -->*/}
-              <div class="survey-box">
+              <div className="survey-box">
                 <label for="bookOfBirthRegister" id="bookOfBirthRegister-label">
                   Livro do Registro de Nascimento:
                 </label>
@@ -523,13 +530,13 @@ export default function VerFamiliar({ familyMember }) {
                   onChange={handleInputChange}
                   value={familyMemberInfo.bookOfBirthRegister}
                   id="bookOfBirthRegister"
-                  class="survey-control"
+                  className="survey-control"
                   required
                 />
               </div>
 
               {/*<!-- Página do Registro de Nascimento -->*/}
-              <div class="survey-box">
+              <div className="survey-box">
                 <label for="pageOfBirthRegister" id="pageOfBirthRegister-label">
                   Página do Registro de Nascimento:
                 </label>
@@ -541,7 +548,7 @@ export default function VerFamiliar({ familyMember }) {
                   onChange={handleInputChange}
                   value={familyMemberInfo.pageOfBirthRegister}
                   id="pageOfBirthRegister"
-                  class="survey-control"
+                  className="survey-control"
                   required
                 />
               </div>
@@ -549,7 +556,7 @@ export default function VerFamiliar({ familyMember }) {
           )}
           <h2>Dados básicos</h2>
           {/*<!-- Estado Civil -->*/}
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="maritalStatus" id="maritalStatus-label">
               Estado Civil:
             </label>
@@ -560,7 +567,7 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="maritalStatus"
-              class="select-data"
+              className="select-data"
             >
               {MARITAL_STATUS.map((type) => (
                 <option value={type.value}>{type.label}</option>
@@ -569,7 +576,7 @@ export default function VerFamiliar({ familyMember }) {
           </div>
 
           {/*<!-- Cor da Pele -->*/}
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="skinColor" id="skinColor-label">
               Cor ou Raça:
             </label>
@@ -580,7 +587,7 @@ export default function VerFamiliar({ familyMember }) {
               onChange={handleInputChange}
               value={familyMemberInfo.skinColor}
               id="skinColor"
-              class="select-data"
+              className="select-data"
             >
               <option value="">Selecione</option>
               {SkinColor.map((type) => (
@@ -590,7 +597,7 @@ export default function VerFamiliar({ familyMember }) {
           </div>
 
           {/*<!-- Religião -->*/}
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="religion" id="religion-label">
               Religião:
             </label>
@@ -601,7 +608,7 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="religion"
-              class="select-data"
+              className="select-data"
             >
               {RELIGION.map((type) => (
                 <option value={type.value}>{type.label}</option>
@@ -610,7 +617,7 @@ export default function VerFamiliar({ familyMember }) {
           </div>
 
           {/*<!-- Nível de Educação -->*/}
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="educationLevel" id="educationLevel-label">
               Nível de Educação:
             </label>
@@ -621,7 +628,7 @@ export default function VerFamiliar({ familyMember }) {
               onChange={handleInputChange}
               value={familyMemberInfo.educationLevel}
               id="educationLevel"
-              class="select-data"
+              className="select-data"
             >
               {SCHOLARSHIP.map((type) => (
                 <option value={type.value}>{type.label}</option>
@@ -630,7 +637,7 @@ export default function VerFamiliar({ familyMember }) {
           </div>
 
           {/*<!-- Necessidades Especiais -->*/}
-          <div class="survey-box survey-check">
+          <div className="survey-box survey-check">
             <label for="specialNeeds" id="specialNeeds-label">
               Necessidades Especiais:
             </label>
@@ -642,13 +649,13 @@ export default function VerFamiliar({ familyMember }) {
               onChange={handleInputChange}
               value={familyMemberInfo.specialNeeds}
               id="specialNeeds"
-              class="survey-control"
+              className="survey-control"
             />
           </div>
           {familyMemberInfo.specialNeeds && (
             <div>
               {/*<!-- Descrição das Necessidades Especiais -->*/}
-              <div class="survey-box">
+              <div className="survey-box">
                 <label
                   for="specialNeedsDescription"
                   id="specialNeedsDescription-label"
@@ -663,12 +670,12 @@ export default function VerFamiliar({ familyMember }) {
                   onChange={handleInputChange}
                   value={familyMemberInfo.specialNeedsDescription}
                   id="specialNeedsDescription"
-                  class="survey-control"
+                  className="survey-control"
                 />
               </div>
 
               {/*<!-- Tem relatório médico -->*/}
-              <div class="survey-box survey-check">
+              <div className="survey-box survey-check">
                 <label for="hasMedicalReport" id="hasMedicalReport-label">
                   Possui relatório médico:
                 </label>
@@ -680,14 +687,14 @@ export default function VerFamiliar({ familyMember }) {
                   onChange={handleInputChange}
                   value={familyMemberInfo.hasMedicalReport}
                   id="hasMedicalReport"
-                  class="survey-control"
+                  className="survey-control"
                 />
               </div>
             </div>
           )}
 
           {/*<!-- Telefone Fixo -->*/}
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="landlinePhone" id="landlinePhone-label">
               Telefone Fixo:
             </label>
@@ -699,12 +706,12 @@ export default function VerFamiliar({ familyMember }) {
               onChange={handleInputChange}
               value={familyMemberInfo.landlinePhone}
               id="landlinePhone"
-              class="survey-control"
+              className="survey-control"
             />
           </div>
 
           {/*<!-- Telefone de Trabalho -->*/}
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="workPhone" id="workPhone-label">
               {" "}
               Telefone de trabalho/recado:
@@ -717,12 +724,12 @@ export default function VerFamiliar({ familyMember }) {
               onChange={handleInputChange}
               value={familyMemberInfo.workPhone}
               id="workPhone"
-              class="survey-control"
+              className="survey-control"
             />
           </div>
 
           {/*<!-- Nome para Contato -->*/}
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="contactNameForMessage" id="contactNameForMessage-label">
               Nome para Contato:
             </label>
@@ -734,12 +741,12 @@ export default function VerFamiliar({ familyMember }) {
               onChange={handleInputChange}
               value={familyMemberInfo.contactNameForMessage}
               id="contactNameForMessage"
-              class="survey-control"
+              className="survey-control"
             />
           </div>
 
           {/*<!-- Email -->*/}
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="email" id="email-label">
               Email:
             </label>
@@ -751,13 +758,13 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="email"
-              class="survey-control"
+              className="survey-control"
               required
             />
           </div>
 
           {/*<!-- Endereço -->*/}
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="address" id="address-label">
               Endereço:
             </label>
@@ -769,13 +776,13 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="address"
-              class="survey-control"
+              className="survey-control"
               required
             />
           </div>
 
           {/*<!-- Cidade -->*/}
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="city" id="city-label">
               Cidade:
             </label>
@@ -787,13 +794,13 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="city"
-              class="survey-control"
+              className="survey-control"
               required
             />
           </div>
 
           {/*<!-- Unidade Federativa -->*/}
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="UF" id="UF-label">
               Unidade Federativa:
             </label>
@@ -804,7 +811,7 @@ export default function VerFamiliar({ familyMember }) {
               value={familyMemberInfo.UF}
               disabled={!isEditing}
               onChange={handleInputChange}
-              class="select-data"
+              className="select-data"
             >
               {COUNTRY.map((type) => (
                 <option value={type.value}>{type.label}</option>
@@ -813,7 +820,7 @@ export default function VerFamiliar({ familyMember }) {
           </div>
 
           {/*<!-- CEP -->*/}
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="CEP" id="CEP-label">
               CEP:
             </label>
@@ -825,13 +832,13 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="CEP"
-              class="survey-control"
+              className="survey-control"
               required
             />
           </div>
 
           {/*<!-- Bairro -->*/}
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="neighborhood" id="neighborhood-label">
               Bairro:
             </label>
@@ -843,31 +850,31 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="neighborhood"
-              class="survey-control"
+              className="survey-control"
               required
             />
           </div>
 
           {/*<!-- Número de Endereço -->*/}
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="addressNumber" id="addressNumber-label">
-              Número de Endereço:
+              Número de Endereço / Complemento:
             </label>
             <br />
             <input
-              type="number"
+              type="text"
               name="addressNumber"
               value={familyMemberInfo.addressNumber}
               disabled={!isEditing}
               onChange={handleInputChange}
               id="addressNumber"
-              class="survey-control"
+              className="survey-control"
               required
             />
           </div>
 
           {/*<!-- Profissão -->*/}
-          <div class="survey-box">
+          <div className="survey-box">
             <label for="profession" id="profession-label">
               Profissão:
             </label>
@@ -879,13 +886,31 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="profession"
-              class="survey-control"
+              className="survey-control"
               required
             />
           </div>
-
+          <div className="survey-box">
+            <label for="incomeSource" id="incomeSource-label">
+              Fonte(s) de renda:
+            </label>
+            <br />
+            <Select
+              name="incomeSource"
+              isMulti
+              onChange={handleInputChangeSelect}
+              value={IncomeSource.filter((obj) =>
+                familyMemberInfo.incomeSource.includes(obj.value)
+              )}
+              isDisabled={!isEditing}
+              options={IncomeSource}
+              className="select-data"
+              id="incomeSource"
+              // Se você quiser que o campo seja desabilitado, mantenha a próxima linha
+            />
+          </div>
           {/*<!-- Inscrito em Programa Governamental -->*/}
-          <div class="survey-box survey-check">
+          <div className="survey-box survey-check">
             <label
               for="enrolledGovernmentProgram"
               id="enrolledGovernmentProgram-label"
@@ -900,14 +925,14 @@ export default function VerFamiliar({ familyMember }) {
               disabled={!isEditing}
               onChange={handleInputChange}
               id="enrolledGovernmentProgram"
-              class="survey-control"
+              className="survey-control"
             />
           </div>
-
+         
           {familyMemberInfo.enrolledGovernmentProgram === true && (
             <div>
               {/*<!-- NIS -->*/}
-              <div class="survey-box">
+              <div className="survey-box">
                 <label for="NIS" id="NIS-label">
                   NIS:
                 </label>
@@ -919,29 +944,12 @@ export default function VerFamiliar({ familyMember }) {
                   disabled={!isEditing}
                   onChange={handleInputChange}
                   id="NIS"
-                  class="survey-control"
+                  className="survey-control"
                 />
               </div>
             </div>
           )}
-          <div class="survey-box">
-            <label for="incomeSource" id="incomeSource-label">
-              Fonte(s) de renda:
-            </label>
-            <br />
-            <select
-              name="incomeSource"
-              isMulti
-              isDisabled={!isEditing} // Remova esta linha se o campo não deve ser desabilitado
-              onChange={handleInputChangeSelect}
-              value={IncomeSource.filter((obj) =>
-                familyMemberInfo.incomeSource.includes(obj.value)
-              )}
-              options={IncomeSource}
-              className="select-data"
-              id="incomeSource"
-            />
-          </div>
+          
 
           <div className="survey-box">
             {!isEditing ? (

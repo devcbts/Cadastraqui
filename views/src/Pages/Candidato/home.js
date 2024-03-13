@@ -74,7 +74,7 @@ export default function HomeCandidato() {
     async function getApplications() {
       const token = localStorage.getItem("token")
       try {
-        const response = await api.post('/candidates/application/see', {},{
+        const response = await api.post('/candidates/application/see', {}, {
           headers: {
             'authorization': `Bearer ${token}`,
           }
@@ -83,7 +83,7 @@ export default function HomeCandidato() {
         console.log(response.data)
         setApplications(response.data.applications)
       } catch (err) {
-        handleAuthError(err,navigate)
+        handleAuthError(err, navigate)
 
         console.log(err)
       }
@@ -133,7 +133,7 @@ export default function HomeCandidato() {
           })
           setUserInfo(user_info.data.responsible)
         } catch (err) {
-          handleAuthError(err,navigate)
+          handleAuthError(err, navigate)
         }
       }
     }
@@ -147,7 +147,13 @@ export default function HomeCandidato() {
       clearInterval(intervalId);
     };
   }, [])
+  const filterAnnouncementsNotApplied = () => {
+    if (!applications || !openAnnouncements) return [];
 
+    return openAnnouncements.filter(announcement =>
+      !applications.some(application => application.announcement_id === announcement.id)
+    );
+  };
   return (
     <div className="container">
       <div className="section-nav">
@@ -163,12 +169,22 @@ export default function HomeCandidato() {
           {applications ? applications.map((application) => {
             return <CandidatoCandidatura application={application} />
           }) : <div>
-            <LoadingCandidaturaAssistente/> 
+            <LoadingCandidaturaAssistente />
           </div>
           }
         </div>
+        <div>
+          <h1>Editais abertos</h1>
+          <div className="container-editais">
+          {openAnnouncements && applications && filterAnnouncementsNotApplied().map((announcement) => {
+            return <Edital
+              key={announcement.id} // Recomenda-se usar uma key única para cada item na lista
+              announcement={announcement}
+              userId={announcement.entity.user_id} />
+          })}
+          </div>
+        </div>
 
-        
       </div>
     </div>
   );

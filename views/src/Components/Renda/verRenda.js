@@ -4,6 +4,8 @@ import { useState } from "react";
 import { api } from "../../services/axios";
 import { VerRendaMensal } from "./verRendaMensal";
 import "./verRenda.css";
+import { formatCNPJ } from "../../utils/format-cnpj";
+import { formatCurrency } from "../../utils/format-currency";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
@@ -172,7 +174,12 @@ export const VerRenda = ({ member }) => {
 
     return averageIncome;
   }
-
+  const [entepreneurInfo, setEntepreneurInfo] = useState({
+    startDate: "",
+    socialReason: "",
+    fantasyName: "",
+    CNPJ: "",
+  });
   const [unemployedInfo, setUnemployedInfo] = useState({
     receivesUnemployment: false,
     parcels: 0,
@@ -640,7 +647,7 @@ export const VerRenda = ({ member }) => {
                   disabled
                   type="text"
                   name="CNPJ"
-                  value={loading ? "" : MEIInfo.CNPJ}
+                  value={loading ? "" : formatCNPJ(MEIInfo.CNPJ)}
                   id="CNPJ"
                   class="survey-control"
                 />
@@ -658,7 +665,7 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : `R$ ${parseFloat(MEIInfo.averageIncome).toFixed(2)}`
+                      : formatCurrency(MEIInfo.averageIncome)
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -756,7 +763,7 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : `R$ ${parseFloat(MEIInfo.averageIncome).toFixed(2)}`
+                      : formatCurrency(MEIInfo.averageIncome)
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -782,9 +789,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : `R$ ${parseFloat(
-                          informalWorkerInfo.averageIncome
-                        ).toFixed(2)}`
+                      : 
+                          formatCurrency(informalWorkerInfo.averageIncome)
+                        
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -810,9 +817,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : `R$ ${parseFloat(
-                          rentalIncomeInfo.averageIncome
-                        ).toFixed(2)}`
+                      : 
+                          formatCurrency(rentalIncomeInfo.averageIncome)
+                        
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -838,9 +845,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : `R$ ${parseFloat(
-                          liberalProfessionalInfo.averageIncome
-                        ).toFixed(2)}`
+                      : 
+                          formatCurrency(liberalProfessionalInfo.averageIncome)
+                        
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -866,9 +873,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : `R$ ${parseFloat(
-                          privatePensionInfo.averageIncome
-                        ).toFixed(2)}`
+                      : 
+                          formatCurrency(privatePensionInfo.averageIncome)
+                        
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -916,9 +923,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : `R$ ${parseFloat(
-                          financialHelpFromOthersInfo.averageIncome
-                        ).toFixed(2)}`
+                      : 
+                          formatCurrency(financialHelpFromOthersInfo.averageIncome)
+                        
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -928,8 +935,8 @@ export const VerRenda = ({ member }) => {
           )}
 
           {/* Empresário */}
-          {member.incomeSource.includes("BusinessOwner") ||
-            (member.incomeSource.includes("BusinessOwnerSimplifiedTax") && (
+          {(member.incomeSource.includes("BusinessOwner") || member.incomeSource.includes("BusinessOwnerSimplifiedTax") )
+          && (
               <>
                 <h4>Fonte de renda: Empresário</h4>
                 {/*<!-- Data de Início -->*/}
@@ -972,7 +979,7 @@ export const VerRenda = ({ member }) => {
                   <br />
                   <input
                     disabled
-                    type="date"
+                    type="text"
                     name="fantasyName"
                     value={loading ? "" : entepreneurInfo.socialReason}
                     id="fantasyName"
@@ -989,7 +996,7 @@ export const VerRenda = ({ member }) => {
                     disabled
                     type="text"
                     name="CNPJ"
-                    value={loading ? "" : entepreneurInfo.CNPJ}
+                    value={loading ? "" : formatCNPJ(entepreneurInfo.CNPJ)}
                     id="CNPJ"
                     class="survey-control"
                   />
@@ -1007,16 +1014,16 @@ export const VerRenda = ({ member }) => {
                     value={
                       loading
                         ? ""
-                        : `R$ ${parseFloat(
-                            entepreneurInfo.averageIncome
-                          ).toFixed(2)}`
+                        : 
+                            formatCurrency(entepreneurInfo.averageIncome)
+                          
                     }
                     id="averageIncome"
                     class="survey-control"
                   />
                 </div>
               </>
-            ))}
+            )}
 
           {/* PrivateEmployee */}
           {member.incomeSource.includes("PrivateEmployee") && (
@@ -1099,9 +1106,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : `R$ ${parseFloat(
-                          privateEmployeeInfo.averageIncome
-                        ).toFixed(2)}`
+                      : 
+                          formatCurrency(privateEmployeeInfo.averageIncome)
+                        
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -1191,9 +1198,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : `R$ ${parseFloat(
-                          publicEmployeeInfo.averageIncome
-                        ).toFixed(2)}`
+                      : 
+                          formatCurrency(publicEmployeeInfo.averageIncome)
+                        
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -1283,9 +1290,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : `R$ ${parseFloat(
-                          domesticEmployeeInfo.averageIncome
-                        ).toFixed(2)}`
+                      : 
+                          formatCurrency(domesticEmployeeInfo.averageIncome)
+                        
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -1377,9 +1384,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : `R$ ${parseFloat(
-                          temporaryRuralEmployeeInfo.averageIncome
-                        ).toFixed(2)}`
+                      : 
+                          formatCurrency(temporaryRuralEmployeeInfo.averageIncome)
+                        
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -1465,7 +1472,7 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : `R$ ${parseFloat(retiredInfo.averageIncome).toFixed(2)}`
+                      : formatCurrency(retiredInfo.averageIncome)
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -1552,9 +1559,7 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : `R$ ${parseFloat(pensionerInfo.averageIncome).toFixed(
-                          2
-                        )}`
+                      : formatCurrency(pensionerInfo.averageIncome)
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -1654,9 +1659,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : `R$ ${parseFloat(
-                          temporaryDisabilityBenefitInfo.averageIncome
-                        ).toFixed(2)}`
+                      : 
+                          formatCurrency(temporaryDisabilityBenefitInfo.averageIncome)
+                        
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -1744,9 +1749,7 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : `R$ ${parseFloat(apprenticeInfo.averageIncome).toFixed(
-                          2
-                        )}`
+                      : formatCurrency(apprenticeInfo.averageIncome)
                   }
                   id="averageIncome"
                   class="survey-control"

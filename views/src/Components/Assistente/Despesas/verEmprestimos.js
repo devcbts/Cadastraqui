@@ -3,6 +3,7 @@ import axios from 'axios';
 import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o formulário
 import Select from 'react-select';
 import { api } from '../../../services/axios';
+import { formatCurrency } from '../../../utils/format-currency';
 export default function VerEmprestimo({formData,id, candidate}) {
     /*const [formData, setFormData] = useState({
         familyMemberName: '',
@@ -98,7 +99,7 @@ export default function VerEmprestimo({formData,id, candidate}) {
                 <div className='survey-box'>
                     <label>Valor da Parcela:</label>
                     <br />
-                    <input type="number" name="installmentValue" value={formData.installmentValue} disabled onChange={handleChange} className='survey-control' required />
+                    <input type="text" name="installmentValue" value={formatCurrency(formData.installmentValue)} disabled onChange={handleChange} className='survey-control' required />
                 </div>
 
                 <div className='survey-box'>

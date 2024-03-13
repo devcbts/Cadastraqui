@@ -6,6 +6,7 @@ import "./cadastro-basico.css";
 import Select from 'react-select'
 import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 import { handleAuthError } from "../../ErrorHandling/handleError";
+import { formatCPF } from "../../utils/format-cpf";
 const GENDER = [
   { value: "MALE", label: "Masculino" },
   { value: "FEMALE", label: "Feminino" },
@@ -133,7 +134,7 @@ const IncomeSource = [
   { value: "PrivatePension", label: "Previdência Privada" },
 ];
 
-export default function VerBasico({ candidate, basic }) {
+export default function VerBasico({ candidate, basic, role }) {
   console.log(basic)
   const [candidateInfo, setCandidateInfo] = useState(candidate);
   // Estado para controlar o modo de edição
@@ -320,7 +321,8 @@ export default function VerBasico({ candidate, basic }) {
           <div class="survey-box">
             <label for="CPF" id="CPF-label">CPF:</label>
             <br />
-            <input type="text" name="CPF" value={basic.CPF} disabled onChange={handleInputChange} id="CPF" class="survey-control" required />
+            <input                     
+ type="text" name="CPF" value={formatCPF(basic.CPF)} disabled onChange={handleInputChange} id="CPF" class="survey-control" required />
           </div>
 
           {/* RG */}
@@ -1117,8 +1119,8 @@ export default function VerBasico({ candidate, basic }) {
             </div>
           )}
 
-          <div className="survey-box">
-            {!isEditing ? (
+          {role !== 'Assistant' && <div className="survey-box">
+            {!isEditing  ? (
               <button
                 className="over-button"
                 type="button"
@@ -1144,7 +1146,7 @@ export default function VerBasico({ candidate, basic }) {
                 </button>
               </>
             )}
-          </div>
+          </div>}
         </form>
       </div>
     </div>

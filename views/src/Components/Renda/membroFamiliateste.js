@@ -70,11 +70,14 @@ export default function MembrosFamiliaRendaTeste({candidate, identityInfo}) {
         // Inclui o candidato atualizado no início do array de membros da família
         setFamilyMembers([candidateWithIncomeInfo, ...membrosdaFamilia]);
             } catch (err) {
-        alert(err);
+        
       }
     }
-    fetchFamilyMembers();
-  }, []);
+    if (identityInfo) {
+      
+      fetchFamilyMembers();
+    }
+  }, [identityInfo]);
 
   function handleShowRegisterIncome(familyMemberId) {
     const member = familyMembers.find((member) => member.id === familyMemberId);

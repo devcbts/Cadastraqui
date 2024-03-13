@@ -4,6 +4,7 @@ import { api } from '../../services/axios';
 import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o formulário
 import { handleSuccess } from '../../ErrorHandling/handleSuceess';
 import { handleAuthError } from '../../ErrorHandling/handleError';
+import { formatCurrency } from '../../utils/format-currency';
 
 export default function VerCartao({formDataInfo, candidate}) {
     const [formData, setFormData] = useState(formDataInfo);
@@ -38,9 +39,18 @@ export default function VerCartao({formDataInfo, candidate}) {
     }, []);
 
     const handleChange = (e) => {
-       setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+    
+        if (name === "invoiceValue") {
+            // Extrai números e vírgula, substitui vírgula por ponto para conversão.
+            const numericValue = parseFloat(value.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1.$2')) || '';
+            // Armazena o valor numérico no estado para envio ao backend.
+            setFormData({ ...formData, [name]: numericValue });
+        } else {
+            // Para outros campos, atualiza o estado diretamente com o valor.
+            setFormData({ ...formData, [name]: value });
+        }
     };
-
     const handleSelectChange = selectedOption => {
     setFormData({ ...formData, familyMemberName: selectedOption.label });
         setSelectedFamilyMemberId(selectedOption.value);
@@ -117,7 +127,7 @@ export default function VerCartao({formDataInfo, candidate}) {
 
                 <div className='survey-box'>
                     <label>Valor da Fatura:</label>
-                    <input type="number" name="invoiceValue" value={formData.invoiceValue} className='survey-control' disabled={!isEditing} onChange={handleChange} required />
+                    <input type="text" name="invoiceValue" value={formatCurrency(formData.invoiceValue)} className='survey-control' disabled={!isEditing} onChange={handleChange} required />
                 </div>
 
                 <div className="survey-box">

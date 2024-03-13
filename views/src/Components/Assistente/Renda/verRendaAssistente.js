@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { api } from '../../../services/axios';
 import { VerRendaMensal } from '../../Renda/verRendaMensal';
+import { formatCNPJ } from '../../../utils/format-cnpj';
+import { formatCurrency } from '../../../utils/format-currency';
 
 const Relationship = [
     { value: 'Wife', label: 'Esposa' },
@@ -542,13 +544,13 @@ export const VerRendaAssistente = ({ member }) => {
                         <div class="survey-box">
                             <label for="CNPJ" id="CNPJ-label">CNPJ</label>
                             <br />
-                            <input disabled type="text" name="CNPJ" value={loading ? '' : MEIInfo.CNPJ} id="CNPJ" class="survey-control" />
+                            <input disabled type="text" name="CNPJ" value={loading ? '' : formatCNPJ(MEIInfo.CNPJ)} id="CNPJ" class="survey-control" />
                         </div>
                         {/*<!-- Renda Média -->*/}
                         <div class="survey-box">
                             <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                             <br />
-                            <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(MEIInfo.averageIncome).toFixed(2)}`} id="averageIncome" class="survey-control" />
+                            <input disabled type="text" name="averageIncome" value={loading ? '' : formatCurrency(MEIInfo.averageIncome)} id="averageIncome" class="survey-control" />
                         </div>
                     </>
                     )
@@ -596,7 +598,7 @@ export const VerRendaAssistente = ({ member }) => {
                             <div class="survey-box">
                                 <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                                 <br />
-                                <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(MEIInfo.averageIncome).toFixed(2)}`} id="averageIncome" class="survey-control" />
+                                <input disabled type="text" name="averageIncome" value={loading ? '' : formatCurrency(MEIInfo.averageIncome)} id="averageIncome" class="survey-control" />
                             </div>
                         </>
                     )}
@@ -611,7 +613,7 @@ export const VerRendaAssistente = ({ member }) => {
                             <div class="survey-box">
                                 <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                                 <br />
-                                <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(informalWorkerInfo.averageIncome).toFixed(2)}`} id="averageIncome" class="survey-control" />
+                                <input disabled type="text" name="averageIncome" value={loading ? '' : formatCurrency(informalWorkerInfo.averageIncome)} id="averageIncome" class="survey-control" />
                             </div>
                         </>
 
@@ -628,7 +630,7 @@ export const VerRendaAssistente = ({ member }) => {
                             <div class="survey-box">
                                 <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                                 <br />
-                                <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(rentalIncomeInfo.averageIncome).toFixed(2)}`} id="averageIncome" class="survey-control" />
+                                <input disabled type="text" name="averageIncome" value={loading ? '' : formatCurrency(rentalIncomeInfo.averageIncome)} id="averageIncome" class="survey-control" />
                             </div>
                         </>
                     )
@@ -644,7 +646,7 @@ export const VerRendaAssistente = ({ member }) => {
                             <div class="survey-box">
                                 <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                                 <br />
-                                <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(liberalProfessionalInfo.averageIncome).toFixed(2)}`} id="averageIncome" class="survey-control" />
+                                <input disabled type="text" name="averageIncome" value={loading ? '' : formatCurrency(liberalProfessionalInfo.averageIncome)} id="averageIncome" class="survey-control" />
                             </div>
                         </>
                     )
@@ -660,7 +662,7 @@ export const VerRendaAssistente = ({ member }) => {
                             <div class="survey-box">
                                 <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                                 <br />
-                                <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(privatePensionInfo.averageIncome).toFixed(2)}`} id="averageIncome" class="survey-control" />
+                                <input disabled type="text" name="averageIncome" value={loading ? '' : formatCurrency(privatePensionInfo.averageIncome)} id="averageIncome" class="survey-control" />
                             </div>
                         </>
                     )
@@ -681,7 +683,7 @@ export const VerRendaAssistente = ({ member }) => {
                             <div class="survey-box">
                                 <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                                 <br />
-                                <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(financialHelpFromOthersInfo.averageIncome).toFixed(2)}`} id="averageIncome" class="survey-control" />
+                                <input disabled type="text" name="averageIncome" value={loading ? '' : formatCurrency(financialHelpFromOthersInfo.averageIncome)} id="averageIncome" class="survey-control" />
                             </div>
                         </>
                     )
@@ -714,13 +716,13 @@ export const VerRendaAssistente = ({ member }) => {
                             <div class="survey-box">
                                 <label for="CNPJ" id="CNPJ-label">CNPJ</label>
                                 <br />
-                                <input disabled type="text" name="CNPJ" value={loading ? '' : entepreneurInfo.CNPJ} id="CNPJ" class="survey-control" />
+                                <input disabled type="text" name="CNPJ" value={loading ? '' : formatCNPJ(entepreneurInfo.CNPJ)} id="CNPJ" class="survey-control" />
                             </div>
                             {/*<!-- Renda Média -->*/}
                             <div class="survey-box">
                                 <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                                 <br />
-                                <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(entepreneurInfo.averageIncome).toFixed(2)}`} id="averageIncome" class="survey-control" />
+                                <input disabled type="text" name="averageIncome" value={loading ? '' : formatCurrency(entepreneurInfo.averageIncome)} id="averageIncome" class="survey-control" />
                             </div>
                         </>
                     )
@@ -759,7 +761,7 @@ export const VerRendaAssistente = ({ member }) => {
                             <div class="survey-box">
                                 <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                                 <br />
-                                <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(privateEmployeeInfo.averageIncome).toFixed(2)}`} id="averageIncome" class="survey-control" />
+                                <input disabled type="text" name="averageIncome" value={loading ? '' : formatCurrency(privateEmployeeInfo.averageIncome)} id="averageIncome" class="survey-control" />
                             </div>
                         </>
                     )
@@ -798,7 +800,7 @@ export const VerRendaAssistente = ({ member }) => {
                             <div class="survey-box">
                                 <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                                 <br />
-                                <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(publicEmployeeInfo.averageIncome).toFixed(2)}`} id="averageIncome" class="survey-control" />
+                                <input disabled type="text" name="averageIncome" value={loading ? '' : formatCurrency(publicEmployeeInfo.averageIncome)} id="averageIncome" class="survey-control" />
                             </div>
 
                         </>
@@ -838,7 +840,7 @@ export const VerRendaAssistente = ({ member }) => {
                             <div class="survey-box">
                                 <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                                 <br />
-                                <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(domesticEmployeeInfo.averageIncome).toFixed(2)}`} id="averageIncome" class="survey-control" />
+                                <input disabled type="text" name="averageIncome" value={loading ? '' : formatCurrency(domesticEmployeeInfo.averageIncome)} id="averageIncome" class="survey-control" />
                             </div>
 
                         </>
@@ -878,7 +880,7 @@ export const VerRendaAssistente = ({ member }) => {
                             <div class="survey-box">
                                 <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                                 <br />
-                                <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(temporaryRuralEmployeeInfo.averageIncome).toFixed(2)}`} id="averageIncome" class="survey-control" />
+                                <input disabled type="text" name="averageIncome" value={loading ? '' : formatCurrency(temporaryRuralEmployeeInfo.averageIncome)} id="averageIncome" class="survey-control" />
                             </div>
                         </>
                     )
@@ -918,7 +920,7 @@ export const VerRendaAssistente = ({ member }) => {
                             <div class="survey-box">
                                 <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                                 <br />
-                                <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(retiredInfo.averageIncome).toFixed(2)}`} id="averageIncome" class="survey-control" />
+                                <input disabled type="text" name="averageIncome" value={loading ? '' : formatCurrency(retiredInfo.averageIncome)} id="averageIncome" class="survey-control" />
                             </div>
                         </>
                     )
@@ -956,7 +958,7 @@ export const VerRendaAssistente = ({ member }) => {
                             <div class="survey-box">
                                 <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                                 <br />
-                                <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(pensionerInfo.averageIncome).toFixed(2)}`} id="averageIncome" class="survey-control" />
+                                <input disabled type="text" name="averageIncome" value={loading ? '' :formatCurrency(pensionerInfo.averageIncome)} id="averageIncome" class="survey-control" />
                             </div>
                         </>
                     )
@@ -994,7 +996,7 @@ export const VerRendaAssistente = ({ member }) => {
                             <div class="survey-box">
                                 <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                                 <br />
-                                <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(temporaryDisabilityBenefitInfo.averageIncome).toFixed(2)}`} id="averageIncome" class="survey-control" />
+                                <input disabled type="text" name="averageIncome" value={loading ? '' : formatCurrency(temporaryDisabilityBenefitInfo.averageIncome)} id="averageIncome" class="survey-control" />
                             </div>
 
                         </>
@@ -1034,7 +1036,7 @@ export const VerRendaAssistente = ({ member }) => {
                             <div class="survey-box">
                                 <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                                 <br />
-                                <input disabled type="text" name="averageIncome" value={loading ? '' : `R$ ${parseFloat(apprenticeInfo.averageIncome).toFixed(2)}`} id="averageIncome" class="survey-control" />
+                                <input disabled type="text" name="averageIncome" value={loading ? '' : formatCurrency(apprenticeInfo.averageIncome)} id="averageIncome" class="survey-control" />
                             </div>
                         </>
                     )

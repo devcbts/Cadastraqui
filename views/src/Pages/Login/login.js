@@ -10,7 +10,10 @@ import { UilAngleLeft } from "@iconscout/react-unicons";
 import { api } from "../../services/axios";
 import { useAuth } from "../../context/auth";
 import { useNavigate } from "react-router";
-
+import { formatCPF } from "../../utils/format-cpf";
+import { calculateAge } from "../../utils/calculate-age";
+import Swal from 'sweetalert2';
+import { isValidCPF } from "../../utils/validate-cpf";
 
 
 
@@ -24,6 +27,10 @@ export default function Login() {
 
   const [responsibleId, setResponsibleId] = useState();
   const [typeOfUser, setTypeOfUser] = useState()
+
+  // CPF dinamico
+  const [CPFCandidate, setCPFCandidate] = useState('')
+
 
   const formRef1 = useRef(null);
   const formRef2 = useRef(null);
@@ -44,6 +51,27 @@ export default function Login() {
         break;
       case 1:
         currentForm = formRef2;
+        // Additional step to check age when moving away from page 1
+        const birthDate = new Date(currentForm.current['birthDate'].value); // Assuming the input's name is 'birthDate'
+        const age = calculateAge(birthDate);
+        if (!isValidCPF(CPFCandidate)) {
+          Swal.fire({
+            title: 'Erro!',
+            text:'CPF inválido.',
+            icon: 'warning',
+            confirmButtonText: 'Ok'
+          });
+          return; // Prevents the transition to the next page
+        }
+        if (age < 18) {
+          Swal.fire({
+            title: 'Erro!',
+            text:'Você deve ter mais de 18 anos para continuar.',
+            icon: 'warning',
+            confirmButtonText: 'Ok'
+          });
+          return; // Prevents the transition to the next page
+        }
         break;
       case 2:
         currentForm = formRef3;
@@ -75,7 +103,12 @@ export default function Login() {
         if (prevPage === 5) return 7;
       });
     } else {
-      alert("Preencha os campos exigidos!")
+      Swal.fire({
+        title: 'Erro!',
+        text: 'Preencha os campos exigidos.',
+        icon: 'warning',
+        confirmButtonText: 'Ok'
+      });
     }
   }
 
@@ -168,7 +201,7 @@ export default function Login() {
 
     // Acesse os campos do formulário pelo nome
     const name = firstFormElement.querySelector('input[name="name"]').value
-    const CPF = firstFormElement.querySelector('input[name="CPF"]').value
+    const CPF = CPFCandidate;
     const birthDate = firstFormElement.querySelector('input[name="birthDate"]').value
     const phone = firstFormElement.querySelector('input[name="phone"]').value
     const email = credentialsFormElement.querySelector('input[id="usermail"]').value
@@ -192,9 +225,9 @@ export default function Login() {
       UF,
       city,
       neighborhood,
-      addressNumber: Number(addressNumber)
+      addressNumber: (addressNumber)
     }
-    
+
     if (typeOfUser === 'candidate') {
       api.post('/candidates', registerInfo)
         .then(() => {
@@ -212,7 +245,7 @@ export default function Login() {
           setResponsibleId(response.data.responsible_id)
           handlePageChange()
         })
-        .catch((err) => alert(`${err.response.data.message}`))
+        .catch((err) => console.log(err))
     }
   }
 
@@ -303,14 +336,10 @@ export default function Login() {
               </button>
               <button className="login-btn" type="button">
                 <div className="btn-entrar" onClick={handlePageToRegister}>
-                  <a>Registrar</a>
+                  <a>Cadastrar-se</a>
                 </div>
               </button>
-              <button className="login-btn" type="button">
-                <div className="btn-google">
-                  <UilGoogle size="30" color="#1F4B73"></UilGoogle>
-                </div>
-              </button>
+              
             </form>
           </div>
 
@@ -339,6 +368,8 @@ export default function Login() {
                   id="CPF"
                   name="CPF"
                   placeholder="Exemplo: XXX.XXX.XXX-XX"
+                  value={CPFCandidate}
+                  onChange={(e) => setCPFCandidate(formatCPF(e.target.value))}
                   required
                 ></input>
               </div>
@@ -435,7 +466,7 @@ export default function Login() {
                   <h2 className="info-cadastrado">CEP</h2>
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   id="nome"
                   name="CEP"
                   placeholder="Exemplo: 12228-402"
@@ -467,7 +498,7 @@ export default function Login() {
                   placeholder="Exemplo: Ipiranga"
                 ></input>
                 <label for="nome">
-                  <h2 className="info-cadastrado">Número do Endereço</h2>
+                  <h2 className="info-cadastrado">Número do Endereço / Complemento</h2>
                 </label>
                 <input
                   type="text"

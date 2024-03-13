@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import "../cadastro-renda.css";
+import "./verRenda.css";
 import { useState } from "react";
 import { api } from "../../services/axios";
 import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 import { handleAuthError } from "../../ErrorHandling/handleError";
+import { formatCurrency } from "../../utils/format-currency";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
@@ -341,11 +342,43 @@ export const VerRendaMensal = ({
   });
 
   const handleInputChange = (fieldName, value) => {
-    setIncomeInfo((prevData) => ({
-      ...prevData,
-      [fieldName]: value,
-    }));
-    console.log(incomeInfo);
+    // Identifica se o campo é monetário
+    const monetaryFields = [
+      "grossAmount", "incomeTax", "publicPension", "otherDeductions",
+      "foodAllowanceValue", "transportAllowanceValue", "expenseReimbursementValue",
+      "advancePaymentValue", "reversalValue", "compensationValue", "judicialPensionValue", "proLabore", "dividends", "parcelValue"
+    ];
+    const isMonetaryField = monetaryFields.some(field => fieldName.startsWith(field));
+    console.log(isMonetaryField)
+    // Identifica se o campo é de checkbox
+    const checkboxFields = ["deductions"];
+    const isCheckboxField = checkboxFields.some(field => fieldName.includes(field));
+
+    // Tratamento para campos monetários
+    if (isMonetaryField) {
+      // Converte o valor formatado em moeda para número
+      const numericValue = parseFloat(value.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1.$2')) || '';
+      setIncomeInfo(prevData => ({
+        ...prevData,
+        [fieldName]: numericValue
+      }));
+    }
+    // Tratamento para checkboxes
+    else if (isCheckboxField) {
+      // Converte o valor para booleano
+      const booleanValue = !incomeInfo[fieldName]; // Assumindo que um clique alterna o estado
+      setIncomeInfo(prevData => ({
+        ...prevData,
+        [fieldName]: booleanValue
+      }));
+    }
+    // Tratamento para outros campos
+    else {
+      setIncomeInfo(prevData => ({
+        ...prevData,
+        [fieldName]: value
+      }));
+    }
   };
 
   function handleInputUnemployedChange(e) {
@@ -502,113 +535,7 @@ export const VerRendaMensal = ({
     };
     console.log(data);
 
-    setIncomeInfo({
-      month1: "",
-      year1: "",
-      grossAmount1: null,
-      proLabore1: 0,
-      dividends1: 0,
-      deductionValue1: 0,
-      publicPension1: 0,
-      incomeTax1: 0,
-      otherDeductions1: 0,
-      foodAllowanceValue1: 0,
-      transportAllowanceValue1: 0,
-      expenseReimbursementValue1: 0,
-      advancePaymentValue1: 0,
-      reversalValue1: 0,
-      compensationValue1: 0,
-      judicialPensionValue1: 0,
-
-      month2: "",
-      year2: "",
-      grossAmount2: null,
-      proLabore2: 0,
-      dividends2: 0,
-      deductionValue2: 0,
-      publicPension2: 0,
-      incomeTax2: 0,
-      otherDeductions2: 0,
-      foodAllowanceValue2: 0,
-      transportAllowanceValue2: 0,
-      expenseReimbursementValue2: 0,
-      advancePaymentValue2: 0,
-      reversalValue2: 0,
-      compensationValue2: 0,
-      judicialPensionValue2: 0,
-
-      month3: "",
-      year3: "",
-      grossAmount3: null,
-      proLabore3: 0,
-      dividends3: 0,
-      deductionValue3: 0,
-      publicPension3: 0,
-      incomeTax3: 0,
-      otherDeductions3: 0,
-      foodAllowanceValue3: 0,
-      transportAllowanceValue3: 0,
-      expenseReimbursementValue3: 0,
-      advancePaymentValue3: 0,
-      reversalValue3: 0,
-      compensationValue3: 0,
-      judicialPensionValue3: 0,
-
-      month4: "",
-      year4: "",
-      grossAmount4: null,
-      proLabore4: 0,
-      dividends4: 0,
-      deductionValue4: 0,
-      publicPension4: 0,
-      incomeTax4: 0,
-      otherDeductions4: 0,
-      foodAllowanceValue4: 0,
-      transportAllowanceValue4: 0,
-      expenseReimbursementValue4: 0,
-      advancePaymentValue4: 0,
-      reversalValue4: 0,
-      compensationValue4: 0,
-      judicialPensionValue4: 0,
-
-      month5: "",
-      year5: "",
-      grossAmount5: null,
-      proLabore5: 0,
-      dividends5: 0,
-      deductionValue5: 0,
-      publicPension5: 0,
-      incomeTax5: 0,
-      otherDeductions5: 0,
-      foodAllowanceValue5: 0,
-      transportAllowanceValue5: 0,
-      expenseReimbursementValue5: 0,
-      advancePaymentValue5: 0,
-      reversalValue5: 0,
-      compensationValue5: 0,
-      judicialPensionValue5: 0,
-
-      month6: "",
-      year6: "",
-      grossAmount6: null,
-      proLabore6: 0,
-      dividends6: 0,
-      deductionValue6: 0,
-      publicPension6: 0,
-      incomeTax6: 0,
-      otherDeductions6: 0,
-      foodAllowanceValue6: 0,
-      transportAllowanceValue6: 0,
-      expenseReimbursementValue6: 0,
-      advancePaymentValue6: 0,
-      reversalValue6: 0,
-      compensationValue6: 0,
-      judicialPensionValue6: 0,
-
-      quantity: 0,
-      incomeSource: incomeSource,
-    });
-
+    
     console.log(data);
 
     try {
@@ -624,7 +551,8 @@ export const VerRendaMensal = ({
 
       console.log("====================================");
       handleSuccess(response, "Dados Atualizados com sucesso");
-
+      
+  
       console.log("====================================");
       setIsEditing(false);
     } catch (error) {
@@ -773,7 +701,7 @@ export const VerRendaMensal = ({
   return (
     <div>
       <div className="fill-box">
-        <form id="survey-form" style={{display: 'block'}}>
+        <form className="form-ver-renda">
           {/* Fonte de Renda  */}
           <h4>Fonte de renda: {incomeSource ? translateRelationship(incomeSource)  : ''}</h4>
 
@@ -811,7 +739,7 @@ export const VerRendaMensal = ({
                           disabled={!isEditing}
                           name={`year${i}`}
                           id={`year${i}`}
-                          value={incomeInfo[`year${i + 1}`]}
+                          value={(incomeInfo[`year${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(`year${i + 1}`, e.target.value)
                           }
@@ -827,11 +755,11 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -875,7 +803,7 @@ export const VerRendaMensal = ({
                           disabled={!isEditing}
                           name={`year${i}`}
                           id={`year${i}`}
-                          value={incomeInfo[`year${i + 1}`]}
+                          value={(incomeInfo[`year${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(`year${i + 1}`, e.target.value)
                           }
@@ -891,11 +819,11 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -943,7 +871,7 @@ export const VerRendaMensal = ({
                     </label>
                     <br />
                     <input
-                      type="number"
+                      type="text"
                       disabled={!isEditing}
                       name="parcels"
                       value={unemployedInfo.parcels}
@@ -974,10 +902,10 @@ export const VerRendaMensal = ({
                     </label>
                     <br />
                     <input
-                      type="number"
+                      type="text"
                       disabled={!isEditing}
                       name="parcelValue"
-                      value={unemployedInfo.parcelValue}
+                      value={formatCurrency(unemployedInfo.parcelValue)}
                       onChange={handleInputUnemployedChange}
                       id="parcelValue"
                       class="survey-control"
@@ -1038,7 +966,7 @@ export const VerRendaMensal = ({
                           disabled={!isEditing}
                           name={`year${i}`}
                           id={`year${i}`}
-                          value={incomeInfo[`year${i + 1}`]}
+                          value={(incomeInfo[`year${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(`year${i + 1}`, e.target.value)
                           }
@@ -1054,11 +982,11 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -1102,7 +1030,7 @@ export const VerRendaMensal = ({
                           disabled={!isEditing}
                           name={`year${i}`}
                           id={`year${i}`}
-                          value={incomeInfo[`year${i + 1}`]}
+                          value={(incomeInfo[`year${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(`year${i + 1}`, e.target.value)
                           }
@@ -1118,11 +1046,11 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -1189,7 +1117,7 @@ export const VerRendaMensal = ({
                           disabled={!isEditing}
                           name={`year${i}`}
                           id={`year${i}`}
-                          value={incomeInfo[`year${i + 1}`]}
+                          value={(incomeInfo[`year${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(`year${i + 1}`, e.target.value)
                           }
@@ -1205,11 +1133,11 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -1253,7 +1181,7 @@ export const VerRendaMensal = ({
                           disabled={!isEditing}
                           name={`year${i}`}
                           id={`year${i}`}
-                          value={incomeInfo[`year${i + 1}`]}
+                          value={(incomeInfo[`year${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(`year${i + 1}`, e.target.value)
                           }
@@ -1269,11 +1197,11 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -1340,7 +1268,7 @@ export const VerRendaMensal = ({
                           disabled={!isEditing}
                           name={`year${i}`}
                           id={`year${i}`}
-                          value={incomeInfo[`year${i + 1}`]}
+                          value={(incomeInfo[`year${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(`year${i + 1}`, e.target.value)
                           }
@@ -1356,11 +1284,11 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -1404,7 +1332,7 @@ export const VerRendaMensal = ({
                           disabled={!isEditing}
                           name={`year${i}`}
                           id={`year${i}`}
-                          value={incomeInfo[`year${i + 1}`]}
+                          value={(incomeInfo[`year${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(`year${i + 1}`, e.target.value)
                           }
@@ -1420,11 +1348,11 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -1491,7 +1419,7 @@ export const VerRendaMensal = ({
                           disabled={!isEditing}
                           name={`year${i}`}
                           id={`year${i}`}
-                          value={incomeInfo[`year${i + 1}`]}
+                          value={(incomeInfo[`year${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(`year${i + 1}`, e.target.value)
                           }
@@ -1507,11 +1435,11 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -1555,7 +1483,7 @@ export const VerRendaMensal = ({
                           disabled={!isEditing}
                           name={`year${i}`}
                           id={`year${i}`}
-                          value={incomeInfo[`year${i + 1}`]}
+                          value={(incomeInfo[`year${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(`year${i + 1}`, e.target.value)
                           }
@@ -1571,11 +1499,11 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -1642,7 +1570,7 @@ export const VerRendaMensal = ({
                           disabled={!isEditing}
                           name={`year${i}`}
                           id={`year${i}`}
-                          value={incomeInfo[`year${i + 1}`]}
+                          value={(incomeInfo[`year${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(`year${i + 1}`, e.target.value)
                           }
@@ -1658,11 +1586,11 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -1706,7 +1634,7 @@ export const VerRendaMensal = ({
                           disabled={!isEditing}
                           name={`year${i}`}
                           id={`year${i}`}
-                          value={incomeInfo[`year${i + 1}`]}
+                          value={(incomeInfo[`year${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(`year${i + 1}`, e.target.value)
                           }
@@ -1722,11 +1650,11 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -1793,7 +1721,7 @@ export const VerRendaMensal = ({
                           disabled={!isEditing}
                           name={`year${i}`}
                           id={`year${i}`}
-                          value={incomeInfo[`year${i + 1}`]}
+                          value={(incomeInfo[`year${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(`year${i + 1}`, e.target.value)
                           }
@@ -1809,11 +1737,11 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -1834,6 +1762,7 @@ export const VerRendaMensal = ({
                     </label>
                     <br />
                     <input
+                    pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" 
                       type="text"
                       disabled={!isEditing}
                       name={"financialAssistantCPF"}
@@ -1875,7 +1804,7 @@ export const VerRendaMensal = ({
                           disabled={!isEditing}
                           name={`year${i}`}
                           id={`year${i}`}
-                          value={incomeInfo[`year${i + 1}`]}
+                          value={(incomeInfo[`year${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(`year${i + 1}`, e.target.value)
                           }
@@ -1891,7 +1820,7 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
@@ -1916,6 +1845,8 @@ export const VerRendaMensal = ({
                     </label>
                     <br />
                     <input
+                                        pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" 
+
                       type="text"
                       disabled={!isEditing}
                       name={"financialAssistantCPF"}
@@ -1931,73 +1862,10 @@ export const VerRendaMensal = ({
           )}
 
           {/* Empresário */}
-          {incomeSource.includes("BusinessOwner") &&
-            incomeSource.includes("BusinessOwnerSimplifiedTax")(
+          {(incomeSource.includes("BusinessOwner") ||
+            incomeSource.includes("BusinessOwnerSimplifiedTax")) && (
               <>
-                {/*<!-- Data de Início -->*/}
-                <div class="survey-box">
-                  <label for="startDate" id="startDate-label">
-                    Data de Início
-                  </label>
-                  <br />
-                  <input
-                    type="date"
-                    disabled={!isEditing}
-                    name="startDate"
-                    value={entepreneurInfo.startDate}
-                    onChange={handleEntepreneurInputChange}
-                    id="startDate"
-                    class="survey-control"
-                  />
-                </div>
-                {/*<!-- Razao Social -->*/}
-                <div class="survey-box">
-                  <label for="socialReason" id="socialReason-label">
-                    Razão Social
-                  </label>
-                  <br />
-                  <input
-                    type="text"
-                    disabled={!isEditing}
-                    name="socialReason"
-                    value={entepreneurInfo.socialReason}
-                    onChange={handleEntepreneurInputChange}
-                    id="socialReason"
-                    class="survey-control"
-                  />
-                </div>
-                {/*<!-- Nome Fantasia -->*/}
-                <div class="survey-box">
-                  <label for="fantasyName" id="fantasyName-label">
-                    Nome Fantasia
-                  </label>
-                  <br />
-                  <input
-                    type="text"
-                    disabled={!isEditing}
-                    name="fantasyName"
-                    value={entepreneurInfo.fantasyName}
-                    onChange={handleEntepreneurInputChange}
-                    id="fantasyName"
-                    class="survey-control"
-                  />
-                </div>
-                {/*<!-- CNPJ -->*/}
-                <div class="survey-box">
-                  <label for="CNPJ" id="CNPJ-label">
-                    CNPJ
-                  </label>
-                  <br />
-                  <input
-                    type="text"
-                    disabled={!isEditing}
-                    name="CNPJ"
-                    value={entepreneurInfo.CNPJ}
-                    onChange={handleEntepreneurInputChange}
-                    id="CNPJ"
-                    class="survey-control"
-                  />
-                </div>
+              
                 <div className='mes-ano-box'>
                   {Array.from({ length: 6 }).map((_, i) => (
                     <>
@@ -2028,7 +1896,7 @@ export const VerRendaMensal = ({
                           disabled={!isEditing}
                           name={`year${i}`}
                           id={`year${i}`}
-                          value={incomeInfo[`year${i + 1}`]}
+                          value={(incomeInfo[`year${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(`year${i + 1}`, e.target.value)
                           }
@@ -2044,11 +1912,11 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`grossAmount${i}`}
                           id={`grossAmount${i}`}
-                          value={incomeInfo[`grossAmount${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `grossAmount${i + 1}`,
@@ -2067,11 +1935,11 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`proLabore${i}`}
                           id={`proLabore${i}`}
-                          value={incomeInfo[`proLabore${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`proLabore${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `proLabore${i + 1}`,
@@ -2090,11 +1958,11 @@ export const VerRendaMensal = ({
                         </label>
                         <br />
                         <input
-                          type="number"
+                          type="text"
                           disabled={!isEditing}
                           name={`dividends${i}`}
                           id={`dividends${i}`}
-                          value={incomeInfo[`dividends${i + 1}`]}
+                          value={formatCurrency(incomeInfo[`dividends${i + 1}`])}
                           onChange={(e) =>
                             handleInputChange(
                               `dividends${i + 1}`,
@@ -2163,7 +2031,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`year${i}`}
                             id={`year${i}`}
-                            value={incomeInfo[`year${i + 1}`]}
+                            value={(incomeInfo[`year${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(`year${i + 1}`, e.target.value)
                             }
@@ -2179,11 +2047,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -2211,7 +2079,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -2221,11 +2089,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={Number(incomeInfo[`incomeTax${i + 1}`])}
+                                value={(formatCurrency(incomeInfo[`incomeTax${i + 1}`]))}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -2247,11 +2115,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -2273,11 +2141,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
+                                value={formatCurrency(
                                   incomeInfo[`otherDeductions${i + 1}`]
                                 )}
                                 onChange={(e) =>
@@ -2289,9 +2157,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -2310,7 +2178,7 @@ export const VerRendaMensal = ({
                               disabled={!isEditing}
                               name={`foodAllowanceValue${i}`}
                               id={`foodAllowanceValue${i}`}
-                              value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `foodAllowanceValue${i + 1}`,
@@ -2337,7 +2205,7 @@ export const VerRendaMensal = ({
                               name={`transportAllowanceValue${i}`}
                               id={`transportAllowanceValue${i}`}
                               value={
-                                incomeInfo[`transportAllowanceValue${i + 1}`]
+                                formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -2360,12 +2228,12 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`expenseReimbursementValue${i}`}
                               id={`expenseReimbursementValue${i}`}
                               value={
-                                incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -2395,11 +2263,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`advancePaymentValue${i}`}
                               id={`advancePaymentValue${i}`}
-                              value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `advancePaymentValue${i + 1}`,
@@ -2427,11 +2295,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`reversalValue${i}`}
                               id={`reversalValue${i}`}
-                              value={incomeInfo[`reversalValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `reversalValue${i + 1}`,
@@ -2459,11 +2327,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`compensationValue${i}`}
                               id={`compensationValue${i}`}
-                              value={incomeInfo[`compensationValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `compensationValue${i + 1}`,
@@ -2486,11 +2354,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`judicialPensionValue${i}`}
                               id={`judicialPensionValue${i}`}
-                              value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `judicialPensionValue${i + 1}`,
@@ -2501,7 +2369,7 @@ export const VerRendaMensal = ({
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -2536,7 +2404,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`year${i}`}
                             id={`year${i}`}
-                            value={incomeInfo[`year${i + 1}`]}
+                            value={(incomeInfo[`year${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(`year${i + 1}`, e.target.value)
                             }
@@ -2552,11 +2420,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -2584,7 +2452,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -2594,11 +2462,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={incomeInfo[`incomeTax${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`incomeTax${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -2620,11 +2488,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -2646,11 +2514,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
+                                value={formatCurrency(
                                   incomeInfo[`otherDeductions${i + 1}`]
                                 )}
                                 onChange={(e) =>
@@ -2662,9 +2530,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -2682,7 +2550,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`foodAllowanceValue${i}`}
                             id={`foodAllowanceValue${i}`}
-                            value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `foodAllowanceValue${i + 1}`,
@@ -2709,7 +2577,7 @@ export const VerRendaMensal = ({
                             name={`transportAllowanceValue${i}`}
                             id={`transportAllowanceValue${i}`}
                             value={
-                              incomeInfo[`transportAllowanceValue${i + 1}`]
+                              formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -2732,12 +2600,12 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`expenseReimbursementValue${i}`}
                             id={`expenseReimbursementValue${i}`}
                             value={
-                              incomeInfo[`expenseReimbursementValue${i + 1}`]
+                              formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -2766,11 +2634,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`advancePaymentValue${i}`}
                             id={`advancePaymentValue${i}`}
-                            value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `advancePaymentValue${i + 1}`,
@@ -2795,11 +2663,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`reversalValue${i}`}
                             id={`reversalValue${i}`}
-                            value={incomeInfo[`reversalValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `reversalValue${i + 1}`,
@@ -2827,11 +2695,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`compensationValue${i}`}
                             id={`compensationValue${i}`}
-                            value={incomeInfo[`compensationValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `compensationValue${i + 1}`,
@@ -2854,11 +2722,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`judicialPensionValue${i}`}
                             id={`judicialPensionValue${i}`}
-                            value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `judicialPensionValue${i + 1}`,
@@ -2929,7 +2797,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`year${i}`}
                             id={`year${i}`}
-                            value={incomeInfo[`year${i + 1}`]}
+                            value={(incomeInfo[`year${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(`year${i + 1}`, e.target.value)
                             }
@@ -2945,11 +2813,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -2977,7 +2845,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -2987,11 +2855,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={Number(incomeInfo[`incomeTax${i + 1}`])}
+                                value={(formatCurrency(incomeInfo[`incomeTax${i + 1}`]))}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -3013,11 +2881,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -3039,11 +2907,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
+                                value={formatCurrency(
                                   incomeInfo[`otherDeductions${i + 1}`]
                                 )}
                                 onChange={(e) =>
@@ -3055,9 +2923,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -3076,7 +2944,7 @@ export const VerRendaMensal = ({
                               disabled={!isEditing}
                               name={`foodAllowanceValue${i}`}
                               id={`foodAllowanceValue${i}`}
-                              value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `foodAllowanceValue${i + 1}`,
@@ -3103,7 +2971,7 @@ export const VerRendaMensal = ({
                               name={`transportAllowanceValue${i}`}
                               id={`transportAllowanceValue${i}`}
                               value={
-                                incomeInfo[`transportAllowanceValue${i + 1}`]
+                                formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -3126,12 +2994,12 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`expenseReimbursementValue${i}`}
                               id={`expenseReimbursementValue${i}`}
                               value={
-                                incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -3161,11 +3029,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`advancePaymentValue${i}`}
                               id={`advancePaymentValue${i}`}
-                              value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `advancePaymentValue${i + 1}`,
@@ -3193,11 +3061,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`reversalValue${i}`}
                               id={`reversalValue${i}`}
-                              value={incomeInfo[`reversalValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `reversalValue${i + 1}`,
@@ -3225,11 +3093,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`compensationValue${i}`}
                               id={`compensationValue${i}`}
-                              value={incomeInfo[`compensationValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `compensationValue${i + 1}`,
@@ -3252,11 +3120,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`judicialPensionValue${i}`}
                               id={`judicialPensionValue${i}`}
-                              value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `judicialPensionValue${i + 1}`,
@@ -3267,7 +3135,7 @@ export const VerRendaMensal = ({
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -3302,7 +3170,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`year${i}`}
                             id={`year${i}`}
-                            value={incomeInfo[`year${i + 1}`]}
+                            value={(incomeInfo[`year${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(`year${i + 1}`, e.target.value)
                             }
@@ -3318,11 +3186,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -3350,7 +3218,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -3360,11 +3228,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={incomeInfo[`incomeTax${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`incomeTax${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -3386,11 +3254,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -3412,11 +3280,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
+                                value={formatCurrency(
                                   incomeInfo[`otherDeductions${i + 1}`]
                                 )}
                                 onChange={(e) =>
@@ -3428,9 +3296,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -3448,7 +3316,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`foodAllowanceValue${i}`}
                             id={`foodAllowanceValue${i}`}
-                            value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `foodAllowanceValue${i + 1}`,
@@ -3475,7 +3343,7 @@ export const VerRendaMensal = ({
                             name={`transportAllowanceValue${i}`}
                             id={`transportAllowanceValue${i}`}
                             value={
-                              incomeInfo[`transportAllowanceValue${i + 1}`]
+                              formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -3498,12 +3366,12 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`expenseReimbursementValue${i}`}
                             id={`expenseReimbursementValue${i}`}
                             value={
-                              incomeInfo[`expenseReimbursementValue${i + 1}`]
+                              formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -3532,11 +3400,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`advancePaymentValue${i}`}
                             id={`advancePaymentValue${i}`}
-                            value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `advancePaymentValue${i + 1}`,
@@ -3561,11 +3429,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`reversalValue${i}`}
                             id={`reversalValue${i}`}
-                            value={incomeInfo[`reversalValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `reversalValue${i + 1}`,
@@ -3593,11 +3461,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`compensationValue${i}`}
                             id={`compensationValue${i}`}
-                            value={incomeInfo[`compensationValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `compensationValue${i + 1}`,
@@ -3620,11 +3488,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`judicialPensionValue${i}`}
                             id={`judicialPensionValue${i}`}
-                            value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `judicialPensionValue${i + 1}`,
@@ -3695,7 +3563,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`year${i}`}
                             id={`year${i}`}
-                            value={incomeInfo[`year${i + 1}`]}
+                            value={(incomeInfo[`year${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(`year${i + 1}`, e.target.value)
                             }
@@ -3711,11 +3579,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -3743,7 +3611,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -3753,11 +3621,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={Number(incomeInfo[`incomeTax${i + 1}`])}
+                                value={(formatCurrency(incomeInfo[`incomeTax${i + 1}`]))}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -3779,11 +3647,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -3805,11 +3673,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
+                                value={formatCurrency(
                                   incomeInfo[`otherDeductions${i + 1}`]
                                 )}
                                 onChange={(e) =>
@@ -3821,9 +3689,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -3842,7 +3710,7 @@ export const VerRendaMensal = ({
                               disabled={!isEditing}
                               name={`foodAllowanceValue${i}`}
                               id={`foodAllowanceValue${i}`}
-                              value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `foodAllowanceValue${i + 1}`,
@@ -3869,7 +3737,7 @@ export const VerRendaMensal = ({
                               name={`transportAllowanceValue${i}`}
                               id={`transportAllowanceValue${i}`}
                               value={
-                                incomeInfo[`transportAllowanceValue${i + 1}`]
+                                formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -3892,12 +3760,12 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`expenseReimbursementValue${i}`}
                               id={`expenseReimbursementValue${i}`}
                               value={
-                                incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -3927,11 +3795,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`advancePaymentValue${i}`}
                               id={`advancePaymentValue${i}`}
-                              value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `advancePaymentValue${i + 1}`,
@@ -3959,11 +3827,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`reversalValue${i}`}
                               id={`reversalValue${i}`}
-                              value={incomeInfo[`reversalValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `reversalValue${i + 1}`,
@@ -3991,11 +3859,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`compensationValue${i}`}
                               id={`compensationValue${i}`}
-                              value={incomeInfo[`compensationValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `compensationValue${i + 1}`,
@@ -4018,11 +3886,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`judicialPensionValue${i}`}
                               id={`judicialPensionValue${i}`}
-                              value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `judicialPensionValue${i + 1}`,
@@ -4033,7 +3901,7 @@ export const VerRendaMensal = ({
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -4068,7 +3936,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`year${i}`}
                             id={`year${i}`}
-                            value={incomeInfo[`year${i + 1}`]}
+                            value={(incomeInfo[`year${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(`year${i + 1}`, e.target.value)
                             }
@@ -4084,11 +3952,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -4116,7 +3984,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -4126,11 +3994,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={incomeInfo[`incomeTax${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`incomeTax${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -4152,11 +4020,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -4178,11 +4046,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
+                                value={formatCurrency(
                                   incomeInfo[`otherDeductions${i + 1}`]
                                 )}
                                 onChange={(e) =>
@@ -4194,9 +4062,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -4214,7 +4082,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`foodAllowanceValue${i}`}
                             id={`foodAllowanceValue${i}`}
-                            value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `foodAllowanceValue${i + 1}`,
@@ -4241,7 +4109,7 @@ export const VerRendaMensal = ({
                             name={`transportAllowanceValue${i}`}
                             id={`transportAllowanceValue${i}`}
                             value={
-                              incomeInfo[`transportAllowanceValue${i + 1}`]
+                              formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -4264,12 +4132,12 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`expenseReimbursementValue${i}`}
                             id={`expenseReimbursementValue${i}`}
                             value={
-                              incomeInfo[`expenseReimbursementValue${i + 1}`]
+                              formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -4298,11 +4166,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`advancePaymentValue${i}`}
                             id={`advancePaymentValue${i}`}
-                            value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `advancePaymentValue${i + 1}`,
@@ -4327,11 +4195,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`reversalValue${i}`}
                             id={`reversalValue${i}`}
-                            value={incomeInfo[`reversalValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `reversalValue${i + 1}`,
@@ -4359,11 +4227,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`compensationValue${i}`}
                             id={`compensationValue${i}`}
-                            value={incomeInfo[`compensationValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `compensationValue${i + 1}`,
@@ -4386,11 +4254,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`judicialPensionValue${i}`}
                             id={`judicialPensionValue${i}`}
-                            value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `judicialPensionValue${i + 1}`,
@@ -4461,7 +4329,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`year${i}`}
                             id={`year${i}`}
-                            value={incomeInfo[`year${i + 1}`]}
+                            value={(incomeInfo[`year${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(`year${i + 1}`, e.target.value)
                             }
@@ -4477,11 +4345,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -4509,7 +4377,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -4519,11 +4387,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={Number(incomeInfo[`incomeTax${i + 1}`])}
+                                value={(formatCurrency(incomeInfo[`incomeTax${i + 1}`]))}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -4545,11 +4413,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -4571,11 +4439,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
+                                value={formatCurrency(
                                   incomeInfo[`otherDeductions${i + 1}`]
                                 )}
                                 onChange={(e) =>
@@ -4587,9 +4455,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -4608,7 +4476,7 @@ export const VerRendaMensal = ({
                               disabled={!isEditing}
                               name={`foodAllowanceValue${i}`}
                               id={`foodAllowanceValue${i}`}
-                              value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `foodAllowanceValue${i + 1}`,
@@ -4635,7 +4503,7 @@ export const VerRendaMensal = ({
                               name={`transportAllowanceValue${i}`}
                               id={`transportAllowanceValue${i}`}
                               value={
-                                incomeInfo[`transportAllowanceValue${i + 1}`]
+                                formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -4658,12 +4526,12 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`expenseReimbursementValue${i}`}
                               id={`expenseReimbursementValue${i}`}
                               value={
-                                incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -4693,11 +4561,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`advancePaymentValue${i}`}
                               id={`advancePaymentValue${i}`}
-                              value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `advancePaymentValue${i + 1}`,
@@ -4725,11 +4593,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`reversalValue${i}`}
                               id={`reversalValue${i}`}
-                              value={incomeInfo[`reversalValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `reversalValue${i + 1}`,
@@ -4757,11 +4625,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`compensationValue${i}`}
                               id={`compensationValue${i}`}
-                              value={incomeInfo[`compensationValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `compensationValue${i + 1}`,
@@ -4784,11 +4652,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`judicialPensionValue${i}`}
                               id={`judicialPensionValue${i}`}
-                              value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `judicialPensionValue${i + 1}`,
@@ -4799,7 +4667,7 @@ export const VerRendaMensal = ({
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -4834,7 +4702,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`year${i}`}
                             id={`year${i}`}
-                            value={incomeInfo[`year${i + 1}`]}
+                            value={(incomeInfo[`year${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(`year${i + 1}`, e.target.value)
                             }
@@ -4850,11 +4718,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -4882,7 +4750,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -4892,11 +4760,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={incomeInfo[`incomeTax${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`incomeTax${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -4918,11 +4786,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -4944,11 +4812,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
+                                value={formatCurrency(
                                   incomeInfo[`otherDeductions${i + 1}`]
                                 )}
                                 onChange={(e) =>
@@ -4960,9 +4828,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -4980,7 +4848,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`foodAllowanceValue${i}`}
                             id={`foodAllowanceValue${i}`}
-                            value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `foodAllowanceValue${i + 1}`,
@@ -5007,7 +4875,7 @@ export const VerRendaMensal = ({
                             name={`transportAllowanceValue${i}`}
                             id={`transportAllowanceValue${i}`}
                             value={
-                              incomeInfo[`transportAllowanceValue${i + 1}`]
+                              formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -5030,12 +4898,12 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`expenseReimbursementValue${i}`}
                             id={`expenseReimbursementValue${i}`}
                             value={
-                              incomeInfo[`expenseReimbursementValue${i + 1}`]
+                              formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -5064,11 +4932,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`advancePaymentValue${i}`}
                             id={`advancePaymentValue${i}`}
-                            value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `advancePaymentValue${i + 1}`,
@@ -5093,11 +4961,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`reversalValue${i}`}
                             id={`reversalValue${i}`}
-                            value={incomeInfo[`reversalValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `reversalValue${i + 1}`,
@@ -5125,11 +4993,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`compensationValue${i}`}
                             id={`compensationValue${i}`}
-                            value={incomeInfo[`compensationValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `compensationValue${i + 1}`,
@@ -5152,11 +5020,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`judicialPensionValue${i}`}
                             id={`judicialPensionValue${i}`}
-                            value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `judicialPensionValue${i + 1}`,
@@ -5227,7 +5095,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`year${i}`}
                             id={`year${i}`}
-                            value={incomeInfo[`year${i + 1}`]}
+                            value={(incomeInfo[`year${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(`year${i + 1}`, e.target.value)
                             }
@@ -5243,11 +5111,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -5275,7 +5143,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -5285,11 +5153,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={Number(incomeInfo[`incomeTax${i + 1}`])}
+                                value={(formatCurrency(incomeInfo[`incomeTax${i + 1}`]))}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -5311,11 +5179,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -5337,11 +5205,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
+                                value={formatCurrency(
                                   incomeInfo[`otherDeductions${i + 1}`]
                                 )}
                                 onChange={(e) =>
@@ -5353,9 +5221,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -5374,7 +5242,7 @@ export const VerRendaMensal = ({
                               disabled={!isEditing}
                               name={`foodAllowanceValue${i}`}
                               id={`foodAllowanceValue${i}`}
-                              value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `foodAllowanceValue${i + 1}`,
@@ -5401,7 +5269,7 @@ export const VerRendaMensal = ({
                               name={`transportAllowanceValue${i}`}
                               id={`transportAllowanceValue${i}`}
                               value={
-                                incomeInfo[`transportAllowanceValue${i + 1}`]
+                                formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -5424,12 +5292,12 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`expenseReimbursementValue${i}`}
                               id={`expenseReimbursementValue${i}`}
                               value={
-                                incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -5459,11 +5327,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`advancePaymentValue${i}`}
                               id={`advancePaymentValue${i}`}
-                              value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `advancePaymentValue${i + 1}`,
@@ -5491,11 +5359,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`reversalValue${i}`}
                               id={`reversalValue${i}`}
-                              value={incomeInfo[`reversalValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `reversalValue${i + 1}`,
@@ -5523,11 +5391,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`compensationValue${i}`}
                               id={`compensationValue${i}`}
-                              value={incomeInfo[`compensationValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `compensationValue${i + 1}`,
@@ -5550,11 +5418,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`judicialPensionValue${i}`}
                               id={`judicialPensionValue${i}`}
-                              value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `judicialPensionValue${i + 1}`,
@@ -5565,7 +5433,7 @@ export const VerRendaMensal = ({
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -5600,7 +5468,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`year${i}`}
                             id={`year${i}`}
-                            value={incomeInfo[`year${i + 1}`]}
+                            value={(incomeInfo[`year${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(`year${i + 1}`, e.target.value)
                             }
@@ -5616,11 +5484,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -5648,7 +5516,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -5658,11 +5526,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={incomeInfo[`incomeTax${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`incomeTax${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -5684,11 +5552,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -5710,11 +5578,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
+                                value={formatCurrency(
                                   incomeInfo[`otherDeductions${i + 1}`]
                                 )}
                                 onChange={(e) =>
@@ -5726,9 +5594,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -5746,7 +5614,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`foodAllowanceValue${i}`}
                             id={`foodAllowanceValue${i}`}
-                            value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `foodAllowanceValue${i + 1}`,
@@ -5773,7 +5641,7 @@ export const VerRendaMensal = ({
                             name={`transportAllowanceValue${i}`}
                             id={`transportAllowanceValue${i}`}
                             value={
-                              incomeInfo[`transportAllowanceValue${i + 1}`]
+                              formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -5796,12 +5664,12 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`expenseReimbursementValue${i}`}
                             id={`expenseReimbursementValue${i}`}
                             value={
-                              incomeInfo[`expenseReimbursementValue${i + 1}`]
+                              formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -5830,11 +5698,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`advancePaymentValue${i}`}
                             id={`advancePaymentValue${i}`}
-                            value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `advancePaymentValue${i + 1}`,
@@ -5859,11 +5727,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`reversalValue${i}`}
                             id={`reversalValue${i}`}
-                            value={incomeInfo[`reversalValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `reversalValue${i + 1}`,
@@ -5891,11 +5759,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`compensationValue${i}`}
                             id={`compensationValue${i}`}
-                            value={incomeInfo[`compensationValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `compensationValue${i + 1}`,
@@ -5918,11 +5786,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`judicialPensionValue${i}`}
                             id={`judicialPensionValue${i}`}
-                            value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `judicialPensionValue${i + 1}`,
@@ -5992,7 +5860,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`year${i}`}
                             id={`year${i}`}
-                            value={incomeInfo[`year${i + 1}`]}
+                            value={(incomeInfo[`year${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(`year${i + 1}`, e.target.value)
                             }
@@ -6008,11 +5876,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -6040,7 +5908,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -6050,11 +5918,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={Number(incomeInfo[`incomeTax${i + 1}`])}
+                                value={(formatCurrency(incomeInfo[`incomeTax${i + 1}`]))}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -6076,11 +5944,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -6102,11 +5970,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
+                                value={formatCurrency(
                                   incomeInfo[`otherDeductions${i + 1}`]
                                 )}
                                 onChange={(e) =>
@@ -6118,9 +5986,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -6139,7 +6007,7 @@ export const VerRendaMensal = ({
                               disabled={!isEditing}
                               name={`foodAllowanceValue${i}`}
                               id={`foodAllowanceValue${i}`}
-                              value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `foodAllowanceValue${i + 1}`,
@@ -6166,7 +6034,7 @@ export const VerRendaMensal = ({
                               name={`transportAllowanceValue${i}`}
                               id={`transportAllowanceValue${i}`}
                               value={
-                                incomeInfo[`transportAllowanceValue${i + 1}`]
+                                formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -6189,12 +6057,12 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`expenseReimbursementValue${i}`}
                               id={`expenseReimbursementValue${i}`}
                               value={
-                                incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -6224,11 +6092,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`advancePaymentValue${i}`}
                               id={`advancePaymentValue${i}`}
-                              value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `advancePaymentValue${i + 1}`,
@@ -6256,11 +6124,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`reversalValue${i}`}
                               id={`reversalValue${i}`}
-                              value={incomeInfo[`reversalValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `reversalValue${i + 1}`,
@@ -6288,11 +6156,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`compensationValue${i}`}
                               id={`compensationValue${i}`}
-                              value={incomeInfo[`compensationValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `compensationValue${i + 1}`,
@@ -6315,11 +6183,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`judicialPensionValue${i}`}
                               id={`judicialPensionValue${i}`}
-                              value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `judicialPensionValue${i + 1}`,
@@ -6330,7 +6198,7 @@ export const VerRendaMensal = ({
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -6365,7 +6233,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`year${i}`}
                             id={`year${i}`}
-                            value={incomeInfo[`year${i + 1}`]}
+                            value={(incomeInfo[`year${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(`year${i + 1}`, e.target.value)
                             }
@@ -6381,11 +6249,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -6413,7 +6281,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -6423,11 +6291,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={incomeInfo[`incomeTax${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`incomeTax${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -6449,11 +6317,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -6475,11 +6343,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
+                                value={formatCurrency(
                                   incomeInfo[`otherDeductions${i + 1}`]
                                 )}
                                 onChange={(e) =>
@@ -6491,9 +6359,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -6511,7 +6379,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`foodAllowanceValue${i}`}
                             id={`foodAllowanceValue${i}`}
-                            value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `foodAllowanceValue${i + 1}`,
@@ -6538,7 +6406,7 @@ export const VerRendaMensal = ({
                             name={`transportAllowanceValue${i}`}
                             id={`transportAllowanceValue${i}`}
                             value={
-                              incomeInfo[`transportAllowanceValue${i + 1}`]
+                              formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -6561,12 +6429,12 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`expenseReimbursementValue${i}`}
                             id={`expenseReimbursementValue${i}`}
                             value={
-                              incomeInfo[`expenseReimbursementValue${i + 1}`]
+                              formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -6595,11 +6463,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`advancePaymentValue${i}`}
                             id={`advancePaymentValue${i}`}
-                            value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `advancePaymentValue${i + 1}`,
@@ -6624,11 +6492,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`reversalValue${i}`}
                             id={`reversalValue${i}`}
-                            value={incomeInfo[`reversalValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `reversalValue${i + 1}`,
@@ -6656,11 +6524,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`compensationValue${i}`}
                             id={`compensationValue${i}`}
-                            value={incomeInfo[`compensationValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `compensationValue${i + 1}`,
@@ -6683,11 +6551,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`judicialPensionValue${i}`}
                             id={`judicialPensionValue${i}`}
-                            value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `judicialPensionValue${i + 1}`,
@@ -6757,7 +6625,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`year${i}`}
                             id={`year${i}`}
-                            value={incomeInfo[`year${i + 1}`]}
+                            value={(incomeInfo[`year${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(`year${i + 1}`, e.target.value)
                             }
@@ -6773,11 +6641,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -6805,7 +6673,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -6815,11 +6683,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={Number(incomeInfo[`incomeTax${i + 1}`])}
+                                value={(formatCurrency(incomeInfo[`incomeTax${i + 1}`]))}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -6841,11 +6709,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -6867,11 +6735,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
+                                value={formatCurrency(
                                   incomeInfo[`otherDeductions${i + 1}`]
                                 )}
                                 onChange={(e) =>
@@ -6883,9 +6751,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -6904,7 +6772,7 @@ export const VerRendaMensal = ({
                               disabled={!isEditing}
                               name={`foodAllowanceValue${i}`}
                               id={`foodAllowanceValue${i}`}
-                              value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `foodAllowanceValue${i + 1}`,
@@ -6931,7 +6799,7 @@ export const VerRendaMensal = ({
                               name={`transportAllowanceValue${i}`}
                               id={`transportAllowanceValue${i}`}
                               value={
-                                incomeInfo[`transportAllowanceValue${i + 1}`]
+                                formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -6954,12 +6822,12 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`expenseReimbursementValue${i}`}
                               id={`expenseReimbursementValue${i}`}
                               value={
-                                incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -6989,11 +6857,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`advancePaymentValue${i}`}
                               id={`advancePaymentValue${i}`}
-                              value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `advancePaymentValue${i + 1}`,
@@ -7021,11 +6889,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`reversalValue${i}`}
                               id={`reversalValue${i}`}
-                              value={incomeInfo[`reversalValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `reversalValue${i + 1}`,
@@ -7053,11 +6921,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`compensationValue${i}`}
                               id={`compensationValue${i}`}
-                              value={incomeInfo[`compensationValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `compensationValue${i + 1}`,
@@ -7080,11 +6948,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`judicialPensionValue${i}`}
                               id={`judicialPensionValue${i}`}
-                              value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `judicialPensionValue${i + 1}`,
@@ -7095,7 +6963,7 @@ export const VerRendaMensal = ({
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -7130,7 +6998,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`year${i}`}
                             id={`year${i}`}
-                            value={incomeInfo[`year${i + 1}`]}
+                            value={(incomeInfo[`year${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(`year${i + 1}`, e.target.value)
                             }
@@ -7146,11 +7014,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -7178,7 +7046,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -7188,11 +7056,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={incomeInfo[`incomeTax${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`incomeTax${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -7214,11 +7082,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -7240,11 +7108,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
+                                value={formatCurrency(
                                   incomeInfo[`otherDeductions${i + 1}`]
                                 )}
                                 onChange={(e) =>
@@ -7256,9 +7124,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -7276,7 +7144,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`foodAllowanceValue${i}`}
                             id={`foodAllowanceValue${i}`}
-                            value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `foodAllowanceValue${i + 1}`,
@@ -7303,7 +7171,7 @@ export const VerRendaMensal = ({
                             name={`transportAllowanceValue${i}`}
                             id={`transportAllowanceValue${i}`}
                             value={
-                              incomeInfo[`transportAllowanceValue${i + 1}`]
+                              formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -7326,12 +7194,12 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`expenseReimbursementValue${i}`}
                             id={`expenseReimbursementValue${i}`}
                             value={
-                              incomeInfo[`expenseReimbursementValue${i + 1}`]
+                              formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -7360,11 +7228,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`advancePaymentValue${i}`}
                             id={`advancePaymentValue${i}`}
-                            value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `advancePaymentValue${i + 1}`,
@@ -7389,11 +7257,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`reversalValue${i}`}
                             id={`reversalValue${i}`}
-                            value={incomeInfo[`reversalValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `reversalValue${i + 1}`,
@@ -7421,11 +7289,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`compensationValue${i}`}
                             id={`compensationValue${i}`}
-                            value={incomeInfo[`compensationValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `compensationValue${i + 1}`,
@@ -7448,11 +7316,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`judicialPensionValue${i}`}
                             id={`judicialPensionValue${i}`}
-                            value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `judicialPensionValue${i + 1}`,
@@ -7523,7 +7391,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`year${i}`}
                             id={`year${i}`}
-                            value={incomeInfo[`year${i + 1}`]}
+                            value={(incomeInfo[`year${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(`year${i + 1}`, e.target.value)
                             }
@@ -7539,11 +7407,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -7571,7 +7439,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -7581,11 +7449,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={Number(incomeInfo[`incomeTax${i + 1}`])}
+                                value={(formatCurrency(incomeInfo[`incomeTax${i + 1}`]))}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -7607,11 +7475,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -7633,11 +7501,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
+                                value={formatCurrency(
                                   incomeInfo[`otherDeductions${i + 1}`]
                                 )}
                                 onChange={(e) =>
@@ -7649,9 +7517,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div>
                           <div
@@ -7670,7 +7538,7 @@ export const VerRendaMensal = ({
                               disabled={!isEditing}
                               name={`foodAllowanceValue${i}`}
                               id={`foodAllowanceValue${i}`}
-                              value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `foodAllowanceValue${i + 1}`,
@@ -7697,7 +7565,7 @@ export const VerRendaMensal = ({
                               name={`transportAllowanceValue${i}`}
                               id={`transportAllowanceValue${i}`}
                               value={
-                                incomeInfo[`transportAllowanceValue${i + 1}`]
+                                formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -7720,12 +7588,12 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`expenseReimbursementValue${i}`}
                               id={`expenseReimbursementValue${i}`}
                               value={
-                                incomeInfo[`expenseReimbursementValue${i + 1}`]
+                                formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                               }
                               onChange={(e) =>
                                 handleInputChange(
@@ -7755,11 +7623,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`advancePaymentValue${i}`}
                               id={`advancePaymentValue${i}`}
-                              value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `advancePaymentValue${i + 1}`,
@@ -7787,11 +7655,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`reversalValue${i}`}
                               id={`reversalValue${i}`}
-                              value={incomeInfo[`reversalValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `reversalValue${i + 1}`,
@@ -7819,11 +7687,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`compensationValue${i}`}
                               id={`compensationValue${i}`}
-                              value={incomeInfo[`compensationValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `compensationValue${i + 1}`,
@@ -7846,11 +7714,11 @@ export const VerRendaMensal = ({
                             </label>
                             <br />
                             <input
-                              type="number"
+                              type="text"
                               disabled={!isEditing}
                               name={`judicialPensionValue${i}`}
                               id={`judicialPensionValue${i}`}
-                              value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                              value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                               onChange={(e) =>
                                 handleInputChange(
                                   `judicialPensionValue${i + 1}`,
@@ -7861,7 +7729,7 @@ export const VerRendaMensal = ({
                             />
                           </div>
                         </div>
-                        <div></div>
+                        ''
                       </>
                     ))}
                   </div>
@@ -7896,7 +7764,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`year${i}`}
                             id={`year${i}`}
-                            value={incomeInfo[`year${i + 1}`]}
+                            value={(incomeInfo[`year${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(`year${i + 1}`, e.target.value)
                             }
@@ -7912,11 +7780,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`grossAmount${i}`}
                             id={`grossAmount${i}`}
-                            value={incomeInfo[`grossAmount${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`grossAmount${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `grossAmount${i + 1}`,
@@ -7944,7 +7812,7 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {deductionsCLT[i + 1] ? (
-                          <div>
+                          <>
                             <div key={`incomeTax-${i}`} className="survey-box">
                               <label
                                 htmlFor={`incomeTax${i}`}
@@ -7954,11 +7822,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`incomeTax${i}`}
                                 id={`incomeTax${i}`}
-                                value={incomeInfo[`incomeTax${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`incomeTax${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `incomeTax${i + 1}`,
@@ -7980,11 +7848,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`publicPension${i}`}
                                 id={`publicPension${i}`}
-                                value={incomeInfo[`publicPension${i + 1}`]}
+                                value={formatCurrency(incomeInfo[`publicPension${i + 1}`])}
                                 onChange={(e) =>
                                   handleInputChange(
                                     `publicPension${i + 1}`,
@@ -8006,11 +7874,11 @@ export const VerRendaMensal = ({
                               </label>
                               <br />
                               <input
-                                type="number"
+                                type="text"
                                 disabled={!isEditing}
                                 name={`otherDeductions${i}`}
                                 id={`otherDeductions${i}`}
-                                value={Number(
+                                value={formatCurrency(
                                   incomeInfo[`otherDeductions${i + 1}`]
                                 )}
                                 onChange={(e) =>
@@ -8022,9 +7890,9 @@ export const VerRendaMensal = ({
                                 className="survey-control"
                               />
                             </div>
-                          </div>
+                          </>
                         ) : (
-                          <div></div>
+                          ''
                         )}
                         <div
                           key={`foodAllowanceValue-${i}`}
@@ -8042,7 +7910,7 @@ export const VerRendaMensal = ({
                             disabled={!isEditing}
                             name={`foodAllowanceValue${i}`}
                             id={`foodAllowanceValue${i}`}
-                            value={incomeInfo[`foodAllowanceValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`foodAllowanceValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `foodAllowanceValue${i + 1}`,
@@ -8069,7 +7937,7 @@ export const VerRendaMensal = ({
                             name={`transportAllowanceValue${i}`}
                             id={`transportAllowanceValue${i}`}
                             value={
-                              incomeInfo[`transportAllowanceValue${i + 1}`]
+                              formatCurrency(incomeInfo[`transportAllowanceValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -8092,12 +7960,12 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`expenseReimbursementValue${i}`}
                             id={`expenseReimbursementValue${i}`}
                             value={
-                              incomeInfo[`expenseReimbursementValue${i + 1}`]
+                              formatCurrency(incomeInfo[`expenseReimbursementValue${i + 1}`])
                             }
                             onChange={(e) =>
                               handleInputChange(
@@ -8126,11 +7994,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`advancePaymentValue${i}`}
                             id={`advancePaymentValue${i}`}
-                            value={incomeInfo[`advancePaymentValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`advancePaymentValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `advancePaymentValue${i + 1}`,
@@ -8155,11 +8023,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`reversalValue${i}`}
                             id={`reversalValue${i}`}
-                            value={incomeInfo[`reversalValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`reversalValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `reversalValue${i + 1}`,
@@ -8187,11 +8055,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`compensationValue${i}`}
                             id={`compensationValue${i}`}
-                            value={incomeInfo[`compensationValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`compensationValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `compensationValue${i + 1}`,
@@ -8214,11 +8082,11 @@ export const VerRendaMensal = ({
                           </label>
                           <br />
                           <input
-                            type="number"
+                            type="text"
                             disabled={!isEditing}
                             name={`judicialPensionValue${i}`}
                             id={`judicialPensionValue${i}`}
-                            value={incomeInfo[`judicialPensionValue${i + 1}`]}
+                            value={formatCurrency(incomeInfo[`judicialPensionValue${i + 1}`])}
                             onChange={(e) =>
                               handleInputChange(
                                 `judicialPensionValue${i + 1}`,
@@ -8235,8 +8103,8 @@ export const VerRendaMensal = ({
               </div>
             </>
           )}
-          {role !== "Assistant"}
-          {
+          {role !== "Assistant" &&
+          
             <div>
               {!isEditing ? (
                 <button
@@ -8264,8 +8132,9 @@ export const VerRendaMensal = ({
                   </button>
                 </>
               )}
-            </div>
-          }
+              </div>
+            }
+          
         </form>
       </div>
     </div>
