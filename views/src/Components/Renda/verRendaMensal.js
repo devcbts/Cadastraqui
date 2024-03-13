@@ -644,13 +644,16 @@ export const VerRendaMensal = ({
 
   const handleDependentInputChange = (e) => {
     const { name, value } = e.target;
-    setDependentInfo((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-    console.log(dependentInfo);
-  };
 
+    if (name === "financialAssistantCPF") {
+      // Se o campo for CPF, aplica a máscara de CPF
+      const formattedCPF = formatCPF(value);
+      setDependentInfo({ ...dependentInfo, financialAssistantCPF: formattedCPF });
+  } else {
+      // Para outros campos, apenas atualiza o valor
+      setDependentInfo({ ...dependentInfo, [name]: value });
+  }
+  };
   const [CLTInfo, setCLTInfo] = useState({
     admissionDate: "",
     position: "",
@@ -1767,7 +1770,7 @@ export const VerRendaMensal = ({
                       disabled={!isEditing}
                       name={"financialAssistantCPF"}
                       id={"financialAssistantCPF"}
-                      value={dependentInfo}
+                      value={dependentInfo.financialAssistantCPF}
                       onChange={handleDependentInputChange}
                       className="survey-control"
                     />
@@ -1851,7 +1854,7 @@ export const VerRendaMensal = ({
                       disabled={!isEditing}
                       name={"financialAssistantCPF"}
                       id={"financialAssistantCPF"}
-                      value={dependentInfo}
+                      value={dependentInfo.financialAssistantCPF}
                       onChange={handleDependentInputChange}
                       className="survey-control"
                     />

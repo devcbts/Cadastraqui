@@ -14,6 +14,8 @@ import { formatCPF } from "../../utils/format-cpf";
 import { calculateAge } from "../../utils/calculate-age";
 import Swal from 'sweetalert2';
 import { isValidCPF } from "../../utils/validate-cpf";
+import { formatCEP } from "../../utils/format-cep";
+import { formatTelephone } from "../../utils/format-telephone";
 
 
 
@@ -30,8 +32,8 @@ export default function Login() {
 
   // CPF dinamico
   const [CPFCandidate, setCPFCandidate] = useState('')
-
-
+  const [CEPCandidate, setCEPCandidate] = useState('')
+  const [phoneCandidate, setPhoneCandidate] = useState('')
   const formRef1 = useRef(null);
   const formRef2 = useRef(null);
   const formRef3 = useRef(null);
@@ -384,6 +386,8 @@ export default function Login() {
                   <h2 className="info-cadastrado">Telefone</h2>
                 </label>
                 <input
+                value={phoneCandidate}
+                onChange={(e) => setPhoneCandidate(formatTelephone(e.target.value))}
                   type="text"
                   id="nome"
                   name="phone"
@@ -466,6 +470,8 @@ export default function Login() {
                   <h2 className="info-cadastrado">CEP</h2>
                 </label>
                 <input
+                  value={CEPCandidate}
+                  onChange={(e) => setCEPCandidate(formatCEP(e.target.value))}
                   type="text"
                   id="nome"
                   name="CEP"

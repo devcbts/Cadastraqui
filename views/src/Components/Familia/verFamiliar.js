@@ -6,6 +6,7 @@ import Select from "react-select";
 import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 import { handleAuthError } from "../../ErrorHandling/handleError";
 import { formatCPF } from "../../utils/format-cpf";
+import { formatRG } from "../../utils/format-rg";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
@@ -399,7 +400,7 @@ export default function VerFamiliar({ familyMember }) {
             <input
               type="text"
               name="RG"
-              value={familyMemberInfo.RG}
+              value={formatRG(familyMemberInfo.RG)}
               disabled={!isEditing}
               onChange={handleInputChange}
               id="RG"

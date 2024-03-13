@@ -1004,7 +1004,7 @@ export const CadastroRenda = ({ member }) => {
     if (name === "financialAssistantCPF") {
       // Se o campo for CPF, aplica a máscara de CPF
       const formattedCPF = formatCPF(value);
-      setDependentInfo({ ...dependentInfo, CPF: formattedCPF });
+      setDependentInfo({ ...dependentInfo, financialAssistantCPF: formattedCPF });
   } else {
       // Para outros campos, apenas atualiza o valor
       setDependentInfo({ ...dependentInfo, [name]: value });
@@ -2079,7 +2079,7 @@ export const CadastroRenda = ({ member }) => {
                       type="text"
                       name={"financialAssistantCPF"}
                       id={"financialAssistantCPF"}
-                      value={formatCPF(dependentInfo)}
+                      value={formatCPF(dependentInfo.financialAssistantCPF)}
                       onChange={handleDependentInputChange}
                       className="survey-control"
                     />
@@ -2169,7 +2169,7 @@ export const CadastroRenda = ({ member }) => {
                       type="text"
                       name={"financialAssistantCPF"}
                       id={"financialAssistantCPF"}
-                      value={formatCPF(dependentInfo)}
+                      value={formatCPF(dependentInfo.financialAssistantCPF)}
                       onChange={handleDependentInputChange}
                       className="survey-control"
                     />

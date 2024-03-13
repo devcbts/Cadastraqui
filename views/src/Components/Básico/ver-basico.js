@@ -7,6 +7,7 @@ import Select from 'react-select'
 import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 import { handleAuthError } from "../../ErrorHandling/handleError";
 import { formatCPF } from "../../utils/format-cpf";
+import { formatRG } from "../../utils/format-rg";
 const GENDER = [
   { value: "MALE", label: "Masculino" },
   { value: "FEMALE", label: "Feminino" },
@@ -334,7 +335,7 @@ export default function VerBasico({ candidate, basic, role }) {
             <input
               type="text"
               name="RG"
-              value={candidateInfo.RG}
+              value={formatRG(candidateInfo.RG)}
               disabled={!isEditing}
               onChange={handleInputChange}
               id="RG"

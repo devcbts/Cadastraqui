@@ -99,3 +99,7 @@
   transform: translateY(-0.5rem);
   border-radius: 0 0 0.5rem 0.5rem;
 }
+
+.text-cadastrados{
+    text-align: center;
+}

@@ -358,7 +358,7 @@ export default function CandidatosCadastrados() {
         <div className="solicitacoes">
 
 
-          <h2>Selecione a ordem de prioridade</h2>
+          <h2 className="text-cadastrados">Selecione a ordem de prioridade</h2>
           <div className="select-fields" style={{ justifyContent: 'center' }}>
 
 
@@ -384,10 +384,10 @@ export default function CandidatosCadastrados() {
               )
               .map((level) => (
                 <div key={level.id} className="education-level">
-                  {isBasicEducation ? <h2>
+                  {isBasicEducation ? <h2 className="text-cadastrados">
                     {translateBasicEducationScholashipType(level.basicEduType)} | {level.grade} | {translateBasicEducationScholashipofferType(level.scholarshipType)} | {level.shift}
                   </h2> :
-                    <h2>{level.availableCourses} | {level.shift} | {translateHigherEducationScholashipType(level.higherEduScholarshipType)}</h2>
+                    <h2 className="text-cadastrados">{level.availableCourses} | {level.shift} | {translateHigherEducationScholashipType(level.higherEduScholarshipType)}</h2>
                   }
                   {/* Renderize os candidatos para este nível de educação */}
                   {rankedList[level.id]?.sort(sortApplications).map((application) => (

@@ -235,7 +235,7 @@
 }
 
 .doc-box h1, h2, h3{
-    text-align: left !important;
+    text-align: left ;
 }
 
 .doc-box .survey-box label{

@@ -360,7 +360,7 @@ export default function VerEditalEntidade() {
           ) : (
             ""
           )}
-
+          <h1>Vagas Cadastradas</h1>
           <div className="education-level-section">
             {educationLevels.map((educationLevel) =>
               renderEducationLevelDetails(educationLevel)
