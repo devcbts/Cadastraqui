@@ -196,7 +196,10 @@ export default function CadastroMoradia() {
           </select>
         </div>
         <div className="survey-box">
-        <label style={{fontSize:'13px'}}>Quantos cômodos estão servindo permanentemente de dormitório aos moradores?</label>
+          <label>
+            Quantos cômodos estão servindo permanentemente de dormitório aos
+            moradores?
+          </label>
 
           <input
             className="survey-control"

@@ -96,11 +96,11 @@ export default function EnviarDocumentos({ id }) {
       });
       console.log(response.data);
       // Trate a resposta conforme necessário
-      handleSuccess(response,"Documento Enviado!");
+      handleSuccess(response, "Documento Enviado!");
     } catch (error) {
       console.error(error.response?.data || error.message);
       // Trate o erro conforme necessário
-      handleAuthError(error, {} , "Erro ao enviar documento!");
+      handleAuthError(error, {}, "Erro ao enviar documento!");
     }
   };
 
@@ -193,7 +193,9 @@ export default function EnviarDocumentos({ id }) {
             </div>
           </div>
         ))}
-        <button type="submit">Enviar Todos os Documentos</button>
+        <button type="submit" className="btn-primary">
+          Enviar Todos os Documentos
+        </button>
       </form>
     </div>
   );

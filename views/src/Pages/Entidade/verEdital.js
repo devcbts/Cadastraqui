@@ -281,73 +281,81 @@ export default function VerEditalEntidade() {
           </button>
           {announcement ? (
             <div className="descricao-edital-entidade descricao-edital">
-              <h1>{announcement?.announcementName}</h1>
-              <h2>Detalhes</h2>
-              <h3>{announcement.description}</h3>
-              <div className="container-info-edital-entidade">
-                <div className="education-level-details">
-                  <h1> Inscritos</h1>
-                  <h2>{applications.length}</h2>
+              <div className="box-edital">
+                <div>
+                  <h2>{announcement?.announcementName}</h2>
+                  <h2>
+                    Total de Bolsas:{" "}
+                    <span>{announcement.verifiedScholarships}</span>
+                  </h2>
+
+                  <h3>{announcement.description}</h3>
+
+                  <h2>
+                    {" "}
+                    Inscritos: <span>{applications.length}</span>
+                  </h2>
                 </div>
-                <div
-                  style={{
-                    marginBottom: "20px",
-                    marginTop: "30px",
-                    overflowX: "clip",
-                  }}
-                  className="education-level-details"
-                >
-                  <h1>Assistentes Atuais</h1>
-                  <AssistantsList assistants={announcement.socialAssistant} />
-                  <button
-                    onClick={() =>
-                      setShowAddAssistantSection(!showAddAssistantSection)
-                    }
+                <div>
+                  <div
                     style={{
-                      width: "fit-content",
-                      marginTop: "15px",
-                      fontSize: "15px",
-                      opacity: "80%",
+                      marginBottom: "20px",
+                      marginTop: "30px",
+                      overflowX: "clip",
                     }}
+                    className="education-level-details"
                   >
-                    {showAddAssistantSection ? "Esconder" : "Mostrar"} Seleção
-                    de Assistentes
-                  </button>
-                  {showAddAssistantSection && (
-                    <div className="add-assistant-section">
-                      <h2>Selecionar Assistentes</h2>
-                      <Select
-                        options={assistants.map((assistant) => ({
-                          value: assistant.id,
-                          label: assistant.name,
-                        }))}
-                        isMulti
-                        onChange={(selectedOptions) =>
-                          setSelectedAssistants(selectedOptions)
-                        }
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                      />
-                      <button
-                        onClick={handleAddAssistantsToAnnouncement}
-                        style={{
-                          width: "fit-content",
-                          marginTop: "15px",
-                          fontSize: "15px",
-                          backgroundColor: "green",
-                          opacity: "80%",
-                        }}
-                      >
-                        Adicionar Assistentes
-                      </button>
-                    </div>
-                  )}
+                    <h2>Assistentes Atuais</h2>
+                    <AssistantsList assistants={announcement.socialAssistant} />
+                    <button
+                      onClick={() =>
+                        setShowAddAssistantSection(!showAddAssistantSection)
+                      }
+                      style={{
+                        width: "fit-content",
+                        marginTop: "15px",
+                        fontSize: "15px",
+                        opacity: "80%",
+                      }}
+                      className="btn-primary"
+                    >
+                      {showAddAssistantSection ? "Esconder" : "Mostrar"} Seleção
+                      de Assistentes
+                    </button>
+                    {showAddAssistantSection && (
+                      <div className="add-assistant-section">
+                        <h2>Selecionar Assistentes</h2>
+                        <Select
+                          options={assistants.map((assistant) => ({
+                            value: assistant.id,
+                            label: assistant.name,
+                          }))}
+                          isMulti
+                          onChange={(selectedOptions) =>
+                            setSelectedAssistants(selectedOptions)
+                          }
+                          className="basic-multi-select"
+                          classNamePrefix="select"
+                        />
+                        <button
+                          onClick={handleAddAssistantsToAnnouncement}
+                          style={{
+                            width: "fit-content",
+                            marginTop: "15px",
+                            fontSize: "15px",
+                            backgroundColor: "green",
+                            opacity: "80%",
+                          }}
+                        >
+                          Adicionar Assistentes
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div className="general-info">
-                <h2>Total de Bolsas: {announcement.verifiedScholarships}</h2>
-              </div>
+              <div className="container-info-edital-entidade"></div>
             </div>
           ) : (
             ""
@@ -369,7 +377,7 @@ const AssistantsList = ({ assistants }) => {
     return <p>Nenhum assistente social adicionado.</p>;
 
   return (
-    <ul>
+    <ul className="current-assistant">
       {assistants.map((assistant) => (
         <li key={assistant.id}>{assistant.name}</li>
       ))}
