@@ -444,23 +444,23 @@ export default function VerParecer({
       </div>
 
       <div style={{ display: isGeneratingPDF ? 'block' : 'block', fontSize: '12px', fontFamily: 'Arial, sans-serif' }}>
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{ marginBottom: '20px', marginTop: '20px' }}>
           <label>Local:</label>
-          <div style={{ borderBottom: '1px solid #000', width: '70%', display: 'inline-block' }}></div>
+          <div style={{ borderBottom: '1px solid #000', width: '50%', display: 'inline-block' }}></div>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px' , flexDirection: 'column'}}>
           <div>
             <label>Nome:</label>
-            <div style={{ borderBottom: '1px solid #000', width: '200px', display: 'inline-block' }}></div>
+            <div style={{ borderBottom: '1px solid #000', width: '400px', display: 'inline-block' }}></div>
           </div>
           <div>
             <label>CPF:</label>
-            <div style={{ borderBottom: '1px solid #000', width: '200px', display: 'inline-block' }}></div>
+            <div style={{ borderBottom: '1px solid #000', width: '400px', display: 'inline-block' }}></div>
           </div>
           <div>
             <label>CRESS/ :</label>
-            <div style={{ borderBottom: '1px solid #000', width: '80px', display: 'inline-block' }}></div>
+            <div style={{ borderBottom: '1px solid #000', width: '400px', display: 'inline-block' }}></div>
           </div>
         </div>
       </div>

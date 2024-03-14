@@ -6,13 +6,25 @@
     height: 50px;
 }
 
-.box-edital{
+.box-cadastro-edital{
     border: 3px;
     border-color: #8080802e;
     border-style: solid;
     padding: 5px;
     margin-top: 20px;
     margin-bottom: 15px;
+    
+}
+.box-cadastro-vagas{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+}
+
+.section-cadastro-vagas{
+    display: flex;
+  flex-direction: initial;
+  gap: 10px;
 }
 
 .checkbox-wrapper {

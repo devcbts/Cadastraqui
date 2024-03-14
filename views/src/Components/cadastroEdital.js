@@ -598,207 +598,43 @@ export default function CadastroEdital() {
                     {isAddingCourse && educationLevel === 'BasicEducation' &&
                         <div>
 
-
-                            {/* Dropdown para offeredCourseType */}
-                            <fieldset>
-                                <label>Matriz ou Filial:</label>
-                                <select
-                                    value={selectedEntityOrSubsidiary}
-                                    onChange={(e) => handleEntityOrSubsidiaryChange(e.target.value)}
-                                >
-                                    <option value={entity.id}>Matriz - {entity.name}</option>
-                                    {subsidiaries.map((subsidiary) => (
-                                        <option key={subsidiary.id} value={subsidiary.id}>
-                                            Filial - {subsidiary.socialReason}
-                                        </option>
-                                    ))}
-                                </select>
-                            </fieldset>
-                            <fieldset>
-
-                                <label className="file-label"
-                                >
-                                    Tipo de Educação Básica:
-
-                                </label>
-                                <select className='select-educational'
-                                    onChange={(e) => handleEducationalChange('basicEduType', e.target.value)}
-                                >
-                                    <option value="">Selecione</option>
-                                    {/* Substitua BasicEducationType pelo seu array de objetos correspondente */}
-                                    {BasicEducationType.map(type => <option value={type.value}>{type.label}</option>)}
-                                </select>
-                            </fieldset>
-                            {/* Dropdown para scholarshipType */}
-
-                            <fieldset>
-
-                                <label>
-                                    Tipo de Bolsa:
-                                </label>
-                                <select className='select-educational'
-                                    onChange={(e) => handleEducationalChange('scholarshipType', e.target.value)}
-                                >
-                                    <option value="">Selecione</option>
-                                    {/* Substitua ScholarshipOfferType pelo seu array de objetos correspondente */}
-                                    {ScholarshipOfferType.map(type => <option value={type.value}>{type.label}</option>)}
-                                </select>
-                            </fieldset>
-                            <fieldset style={{ textAlign: 'left' }}>
-
-                                <label>
-                                    Número total de bolsas:
-                                </label>
-                                <input style={{ width: '30%' }}
-                                    type="number"
-                                    min={1}
-                                    value={currentCourse.verifiedScholarships}
-                                    onChange={(e) => handleEducationalChange('verifiedScholarships', Number(e.target.value))}
-                                />
-                            </fieldset>
-                            <fieldset>
-
-                                <label>
-                                Ciclo/Ano/Série/Curso:
-                                </label>
-                                <input
-                                    type="text"
-                                    value={currentCourse.grade}
-                                    onChange={(e) => handleEducationalChange('grade', e.target.value)}
-                                />
-
-                            </fieldset>
+                            <div className='box-cadastro-edital box-cadastro-vagas'>
 
 
-                            {/* Dropdown para shift */}
-                            <fieldset>
-
-                                <label>
-                                    Turno:
-                                </label>
-                                <select
-                                    value={currentCourse.shift}
-                                    onChange={(e) => handleEducationalChange('shift', e.target.value)}
-                                >
-                                    {/* Substitua SHIFT pelo seu array de objetos correspondente */}
-                                    {SHIFT.map(type => <option value={type.value}>{type.label}</option>)}
-                                </select>
-                            </fieldset>
-
-                            <button onClick={completeCourseRegistration}>Concluir Cadastro</button>
-
-                        </div>
-
-                    }
-
-                    {!isAddingCourse && (
-                        <button onClick={() => setIsAddingCourse(true)}>Cadastrar Vaga</button>
-                    )}
-                    {/* Dropdown para higherEduScholarshipType */}
-                    {isAddingCourse && educationLevel === 'HigherEducation' &&
-                        <div className='box-edital'>
-
-                            {/* Dropdown para offeredCourseType */}
-                            <fieldset>
-                                <label>Matriz ou Filial:</label>
-                                <select
-                                    value={selectedEntityOrSubsidiary}
-                                    onChange={(e) => handleEntityOrSubsidiaryChange(e.target.value)}
-                                >
-                                    <option value={entity.id}>Matriz - {entity.name}</option>
-                                    {subsidiaries.map((subsidiary) => (
-                                        <option key={subsidiary.id} value={subsidiary.id}>
-                                            Filial - {subsidiary.socialReason}
-                                        </option>
-                                    ))}
-                                </select>
-                            </fieldset>
-
-                            <fieldset>
-
-                                <label>
-                                    Tipo de Curso Oferecido:
-                                </label>
-                                <select className='select-educational'
-                                    value={coursetype}
-                                    onChange={(e) => setCourseType(e.target.value)}
-                                >
-                                    <option value="">Selecione</option>
-                                    {OfferedCourseType.map(type => <option value={type.value}>{type.label}</option>)}
-                                </select>
-
-                            </fieldset>
-                            {/* Input para availableCourses */}
-                            <fieldset>
-
-                                <label>
-                                    Cursos Disponíveis:
-                                </label>
-                                <select id="curso-dropdown" value={currentCourse.availableCourses} onChange={handleSelectChange}>
-                                    {coursetype === 'UndergraduateBachelor' &&
-                                        <optgroup label="Cursos Gerais">
-
-                                            {dadosCursos.bacharelado.map((curso, index) => (
-                                                <option key={index} value={curso}>
-                                                    {curso}
-                                                </option>
-                                            ))}
-                                        </optgroup>
-                                    }
-                                    {coursetype === 'UndergraduateLicense' &&
-
-                                        <optgroup label="Cursos de Licenciatura">
-                                            {dadosCursos.licenciatura.map((curso, index) => (
-                                                <option key={`lic-${index}`} value={curso}>
-                                                    {curso}
-                                                </option>
-                                            ))}
-                                        </optgroup>
-                                    }
-                                    {coursetype === 'UndergraduateTechnologist' &&
-                                        <optgroup label="Cursos Tecnólogos">
-                                            {dadosCursos.tecnologos.map((curso, index) => (
-                                                <option key={`tec-${index}`} value={curso}>
-                                                    {curso}
-                                                </option>
-                                            ))}
-                                        </optgroup>
-                                    }
-                                </select>
-                            </fieldset>
-                            <div className='box-edital' >
-                                <h2>{currentCourse.availableCourses}</h2>
-                                <fieldset>
-
-                                    <label>
-                                        Tipo de Bolsa de Ensino Superior:
-                                    </label>
-                                    <select className='select-educational'
-                                        value={currentCourse.higherEduScholarshipType}
-                                        onChange={(e) => handleEducationalChange('higherEduScholarshipType', e.target.value)}
+                                {/* Dropdown para offeredCourseType */}
+                                <fieldset className='section-cadastro-vagas'>
+                                    <label>Matriz ou Filial:</label>
+                                    <select
+                                        value={selectedEntityOrSubsidiary}
+                                        onChange={(e) => handleEntityOrSubsidiaryChange(e.target.value)}
                                     >
-                                        {/* Substitua HigherEducationScholarshipType pelo seu array de objetos correspondente */}
-                                        {HigherEducationScholarshipType.map(type => <option value={type.value}>{type.label}</option>)}
+                                        <option value={entity.id}>Matriz - {entity.name}</option>
+                                        {subsidiaries.map((subsidiary) => (
+                                            <option key={subsidiary.id} value={subsidiary.id}>
+                                                Filial - {subsidiary.socialReason}
+                                            </option>
+                                        ))}
                                     </select>
                                 </fieldset>
-                                {/* Input para offeredVacancies */}
+                                <fieldset className='section-cadastro-vagas'>
 
-                                {/* Input para verifiedScholarships */}
-                                <fieldset style={{ textAlign: 'left' }}>
+                                    <label className="file-label"
+                                    >
+                                        Tipo de Educação Básica:
 
-                                    <label>
-                                        Número total de bolsas:
                                     </label>
-                                    <input style={{ width: '30%' }}
-                                        type="number"
-                                        min={1}
-                                        value={currentCourse.verifiedScholarships}
-                                        onChange={(e) => handleEducationalChange('verifiedScholarships', Number(e.target.value))}
-                                    />
+                                    <select className=''
+                                        onChange={(e) => handleEducationalChange('basicEduType', e.target.value)}
+                                    >
+                                        <option value="">Selecione</option>
+                                        {/* Substitua BasicEducationType pelo seu array de objetos correspondente */}
+                                        {BasicEducationType.map(type => <option value={type.value}>{type.label}</option>)}
+                                    </select>
                                 </fieldset>
+                                {/* Dropdown para scholarshipType */}
 
                                 {/* Dropdown para shift */}
-                                <fieldset>
+                                <fieldset className='section-cadastro-vagas'>
 
                                     <label>
                                         Turno:
@@ -811,9 +647,183 @@ export default function CadastroEdital() {
                                         {SHIFT.map(type => <option value={type.value}>{type.label}</option>)}
                                     </select>
                                 </fieldset>
+                                <fieldset className='section-cadastro-vagas'>
+
+                                    <label>
+                                        Tipo de Bolsa:
+                                    </label>
+                                    <select className=''
+                                        onChange={(e) => handleEducationalChange('scholarshipType', e.target.value)}
+                                    >
+                                        <option value="">Selecione</option>
+                                        {/* Substitua ScholarshipOfferType pelo seu array de objetos correspondente */}
+                                        {ScholarshipOfferType.map(type => <option value={type.value}>{type.label}</option>)}
+                                    </select>
+                                </fieldset>
+                                <fieldset style={{ textAlign: 'left' }} className='section-cadastro-vagas'>
+
+                                    <label>
+                                        Número total de bolsas:
+                                    </label>
+                                    <input style={{ width: '30%' }}
+                                        type="number"
+                                        min={1}
+                                        value={currentCourse.verifiedScholarships}
+                                        onChange={(e) => handleEducationalChange('verifiedScholarships', Number(e.target.value))}
+                                    />
+                                </fieldset>
+                                <fieldset className='section-cadastro-vagas'>
+
+                                    <label>
+                                        Ciclo/Ano/Série/Curso:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={currentCourse.grade}
+                                        onChange={(e) => handleEducationalChange('grade', e.target.value)}
+                                    />
+
+                                </fieldset>
+
+
+
+                            </div>
+                            <button onClick={completeCourseRegistration}>Concluir Cadastro</button>
+
+
+                        </div>
+                    }
+
+                    {!isAddingCourse && (
+                        <button onClick={() => setIsAddingCourse(true)}>Cadastrar Vaga</button>
+                    )}
+                    {/* Dropdown para higherEduScholarshipType */}
+                    {isAddingCourse && educationLevel === 'HigherEducation' &&
+                        <div>
+
+                            <div className='box-cadastro-edital box-cadastro-vagas'>
+                                <fieldset className='section-cadastro-vagas'>
+                                    <label>Matriz ou Filial:</label>
+                                    <select
+                                        value={selectedEntityOrSubsidiary}
+                                        onChange={(e) => handleEntityOrSubsidiaryChange(e.target.value)}
+                                    >
+                                        <option value={entity.id}>Matriz - {entity.name}</option>
+                                        {subsidiaries.map((subsidiary) => (
+                                            <option key={subsidiary.id} value={subsidiary.id}>
+                                                Filial - {subsidiary.socialReason}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </fieldset>
+
+                                {/* Dropdown para offeredCourseType */}
+                                <div></div>
+
+                                <fieldset className='section-cadastro-vagas'>
+
+                                    <label>
+                                        Tipo de Curso Oferecido:
+                                    </label>
+                                    <select className=''
+                                        value={coursetype}
+                                        onChange={(e) => setCourseType(e.target.value)}
+                                    >
+                                        <option value="">Selecione</option>
+                                        {OfferedCourseType.map(type => <option value={type.value}>{type.label}</option>)}
+                                    </select>
+
+                                </fieldset>
+                                {/* Input para availableCourses */}
+                                <fieldset className='section-cadastro-vagas'>
+
+                                    <label>
+                                        Cursos Disponíveis:
+                                    </label>
+                                    <select id="curso-dropdown" style={{ fontSize: '13px', width: '90%', padding: '0.5rem 1rem' }} value={currentCourse.availableCourses} onChange={handleSelectChange}>
+                                        {coursetype === 'UndergraduateBachelor' &&
+                                            <optgroup label="Cursos Gerais">
+                                                <option value="">Selecione</option>
+                                                {dadosCursos.bacharelado.map((curso, index) => (
+                                                    <option key={index} value={curso}>
+                                                        {curso}
+                                                    </option>
+                                                ))}
+                                            </optgroup>
+                                        }
+                                        {coursetype === 'UndergraduateLicense' &&
+
+                                            <optgroup label="Cursos de Licenciatura">
+                                                <option value="">Selecione</option>
+
+                                                {dadosCursos.licenciatura.map((curso, index) => (
+                                                    <option key={`lic-${index}`} value={curso}>
+                                                        {curso}
+                                                    </option>
+                                                ))}
+                                            </optgroup>
+                                        }
+                                        {coursetype === 'UndergraduateTechnologist' &&
+                                            <optgroup label="Cursos Tecnólogos">
+                                                <option value="">Selecione</option>
+
+                                                {dadosCursos.tecnologos.map((curso, index) => (
+                                                    <option key={`tec-${index}`} value={curso}>
+                                                        {curso}
+                                                    </option>
+                                                ))}
+                                            </optgroup>
+                                        }
+                                    </select>
+                                </fieldset>
+                                <fieldset className='section-cadastro-vagas'>
+
+                                    <label>
+                                        Tipo de Bolsa de Ensino Superior:
+                                    </label>
+                                    <select className=''
+                                        value={currentCourse.higherEduScholarshipType}
+                                        onChange={(e) => handleEducationalChange('higherEduScholarshipType', e.target.value)}
+                                    >
+                                        <option value="">Selecione</option>
+
+                                        {/* Substitua HigherEducationScholarshipType pelo seu array de objetos correspondente */}
+                                        {HigherEducationScholarshipType.map(type => <option value={type.value}>{type.label}</option>)}
+                                    </select>
+                                </fieldset>
+                                {/* Dropdown para shift */}
+                                <fieldset className='section-cadastro-vagas'>
+
+                                    <label>
+                                        Turno:
+                                    </label>
+                                    <select
+                                        value={currentCourse.shift}
+                                        onChange={(e) => handleEducationalChange('shift', e.target.value)}
+                                    >
+                                        {/* Substitua SHIFT pelo seu array de objetos correspondente */}
+                                        {SHIFT.map(type => <option value={type.value}>{type.label}</option>)}
+                                    </select>
+                                </fieldset>
+                                {/* Input para offeredVacancies */}
+
+                                {/* Input para verifiedScholarships */}
+                                <fieldset style={{ textAlign: 'left' }} className='section-cadastro-vagas'>
+
+                                    <label>
+                                        Número total de bolsas:
+                                    </label>
+                                    <input style={{ width: '30%' }}
+                                        type="number"
+                                        min={1}
+                                        value={currentCourse.verifiedScholarships}
+                                        onChange={(e) => handleEducationalChange('verifiedScholarships', Number(e.target.value))}
+                                    />
+                                </fieldset>
+
 
                                 {/* Input para semester */}
-                                <fieldset style={{ textAlign: 'left' }}>
+                                <fieldset style={{ textAlign: 'left' }} className='section-cadastro-vagas'>
 
                                     <label>
                                         Semestre:
@@ -835,7 +845,7 @@ export default function CadastroEdital() {
 
                     <h1>Quadro Resumo</h1>
                     <EducationalLevelsTable educationalLevels={educationalLevels} />
-                    <div className='box-edital'>
+                    <div className='box-cadastro-edital'>
 
                         <h2>Das ações de apoio ao aluno</h2>
                         <fieldset>
@@ -871,7 +881,7 @@ export default function CadastroEdital() {
                         )}
                     </div>
 
-                    <div className='box-edital'>
+                    <div className='box-cadastro-edital'>
 
                         <h2>Das ações e serviços destinados ao aluno e seu grupo familiar</h2>
                         <fieldset>
