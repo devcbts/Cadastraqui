@@ -267,7 +267,7 @@ export async function registerMonthlyIncomeInfo(
     })
     if (quantity === 3) {
       if (grossAmount1) {
-        const liquidAmount =
+        let liquidAmount =
           grossAmount1 -
           foodAllowanceValue1 -
           transportAllowanceValue1 -
@@ -275,7 +275,9 @@ export async function registerMonthlyIncomeInfo(
           advancePaymentValue1 -
           reversalValue1 -
           judicialPensionValue1
-
+          if (proLabore1 && dividends1) {
+            liquidAmount = proLabore1 + dividends1
+          }
         // Armazena informações acerca da renda mensal no banco de dados
         await prisma.monthlyIncome.create({
           data: {
@@ -326,7 +328,7 @@ export async function registerMonthlyIncomeInfo(
         })
       }
       if (grossAmount2) {
-        const liquidAmount =
+        let liquidAmount =
           grossAmount2 -
           foodAllowanceValue2 -
           transportAllowanceValue2 -
@@ -334,7 +336,9 @@ export async function registerMonthlyIncomeInfo(
           advancePaymentValue2 -
           reversalValue2 -
           judicialPensionValue2
-
+          if (proLabore2 && dividends2) {
+            liquidAmount = proLabore2 + dividends2
+          }
         // Armazena informações acerca da renda mensal no banco de dados
         await prisma.monthlyIncome.create({
           data: {
@@ -385,7 +389,7 @@ export async function registerMonthlyIncomeInfo(
         })
       }
       if (grossAmount3) {
-        const liquidAmount =
+        let liquidAmount =
           grossAmount3 -
           foodAllowanceValue3 -
           transportAllowanceValue3 -
@@ -393,7 +397,9 @@ export async function registerMonthlyIncomeInfo(
           advancePaymentValue3 -
           reversalValue3 -
           judicialPensionValue3
-
+          if (proLabore3 && dividends3) {
+            liquidAmount = proLabore3 + dividends3
+          }
         // Armazena informações acerca da renda mensal no banco de dados
         await prisma.monthlyIncome.create({
           data: {
@@ -445,7 +451,7 @@ export async function registerMonthlyIncomeInfo(
       }
     } else {
       if (grossAmount1) {
-        const liquidAmount =
+        let liquidAmount =
           grossAmount1 -
           foodAllowanceValue1 -
           transportAllowanceValue1 -
@@ -453,7 +459,9 @@ export async function registerMonthlyIncomeInfo(
           advancePaymentValue1 -
           reversalValue1 -
           judicialPensionValue1
-
+          if (proLabore1 && dividends1) {
+            liquidAmount = proLabore1 + dividends1
+          }
         // Armazena informações acerca da renda mensal no banco de dados
         await prisma.monthlyIncome.create({
           data: {
@@ -504,7 +512,7 @@ export async function registerMonthlyIncomeInfo(
         })
       }
       if (grossAmount2) {
-        const liquidAmount =
+        let liquidAmount =
           grossAmount2 -
           foodAllowanceValue2 -
           transportAllowanceValue2 -
@@ -512,7 +520,9 @@ export async function registerMonthlyIncomeInfo(
           advancePaymentValue2 -
           reversalValue2 -
           judicialPensionValue2
-
+          if (proLabore2 && dividends2) {
+            liquidAmount = proLabore2 + dividends2
+          }
         // Armazena informações acerca da renda mensal no banco de dados
         await prisma.monthlyIncome.create({
           data: {
@@ -563,7 +573,7 @@ export async function registerMonthlyIncomeInfo(
         })
       }
       if (grossAmount3) {
-        const liquidAmount =
+        let liquidAmount =
           grossAmount3 -
           foodAllowanceValue3 -
           transportAllowanceValue3 -
@@ -571,7 +581,9 @@ export async function registerMonthlyIncomeInfo(
           advancePaymentValue3 -
           reversalValue3 -
           judicialPensionValue3
-
+          if (proLabore3 && dividends3) {
+            liquidAmount = proLabore3 + dividends3
+          }
         // Armazena informações acerca da renda mensal no banco de dados
         await prisma.monthlyIncome.create({
           data: {
@@ -622,7 +634,7 @@ export async function registerMonthlyIncomeInfo(
         })
       }
       if (grossAmount4) {
-        const liquidAmount =
+        let liquidAmount =
           grossAmount4 -
           foodAllowanceValue4 -
           transportAllowanceValue4 -
@@ -630,7 +642,9 @@ export async function registerMonthlyIncomeInfo(
           advancePaymentValue4 -
           reversalValue4 -
           judicialPensionValue4
-
+          if (proLabore4 && dividends4) {
+            liquidAmount = proLabore4 + dividends4
+          }
         // Armazena informações acerca da renda mensal no banco de dados
         await prisma.monthlyIncome.create({
           data: {
@@ -681,7 +695,7 @@ export async function registerMonthlyIncomeInfo(
         })
       }
       if (grossAmount5) {
-        const liquidAmount =
+        let liquidAmount =
           grossAmount5 -
           foodAllowanceValue5 -
           transportAllowanceValue5 -
@@ -689,7 +703,9 @@ export async function registerMonthlyIncomeInfo(
           advancePaymentValue5 -
           reversalValue5 -
           judicialPensionValue5
-
+          if (proLabore5 && dividends5) {
+            liquidAmount = proLabore5 + dividends5
+          }
         // Armazena informações acerca da renda mensal no banco de dados
         await prisma.monthlyIncome.create({
           data: {
@@ -740,7 +756,7 @@ export async function registerMonthlyIncomeInfo(
         })
       }
       if (grossAmount6) {
-        const liquidAmount =
+        let liquidAmount =
           grossAmount6 -
           foodAllowanceValue6 -
           transportAllowanceValue6 -
@@ -748,7 +764,9 @@ export async function registerMonthlyIncomeInfo(
           advancePaymentValue6 -
           reversalValue6 -
           judicialPensionValue6
-
+        if (proLabore6 && dividends6) {
+          liquidAmount = proLabore6 + dividends6
+        }
         // Armazena informações acerca da renda mensal no banco de dados
         await prisma.monthlyIncome.create({
           data: {

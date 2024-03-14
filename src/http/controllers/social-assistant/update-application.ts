@@ -24,12 +24,12 @@ export async function updateApplication(
     })
     const statusType = z.enum(["Approved", "Rejected", "Pending", "WaitingList"])
 
-
     const applicationUpdateSchema = z.object({
-        status: statusType
+        status: statusType,
+        report: z.string().nullable()
     })
     const { application_id, announcement_id } = applicationParamsSchema.parse(request.params)
-    const { status } = applicationUpdateSchema.parse(request.body)
+    const { status, report } = applicationUpdateSchema.parse(request.body)
     try {
         const userType = request.user.role
         const userId = request.user.sub
@@ -47,9 +47,30 @@ export async function updateApplication(
         await prisma.application.update({
             where: {id: application_id},
             data:{
-                status: status
+                status: status,
+                
             }
         })
+        if (status === 'Rejected') {
+            
+            await prisma.applicationHistory.create({
+                data:{
+                    application_id,
+                    description:'Inscrição indeferida',
+                    report: report
+                }
+            })
+        }
+        if (status === 'Approved') {
+            
+            await prisma.applicationHistory.create({
+                data:{
+                    application_id,
+                    description:'Inscrição deferida',
+                    report: report
+                }
+            })
+        }
         return reply.status(201).send({ message: "Ação realizada com sucesso" })
 
     } catch (err: any) {
