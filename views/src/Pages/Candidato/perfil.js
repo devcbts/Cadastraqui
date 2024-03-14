@@ -10,6 +10,7 @@ import { api } from "../../services/axios";
 import { useNavigate } from "react-router";
 import { UilHunting } from "@iconscout/react-unicons";
 import { formatCPF } from "../../utils/format-cpf";
+import { formatTelephone } from "../../utils/format-telephone";
 
 export default function PerfilCandidato() {
   const { isShown } = useAppState();
@@ -147,7 +148,7 @@ export default function PerfilCandidato() {
                 </div>
                 <div className="info-item">
                   <h3>Telefone:</h3>
-                  <h3>{userInfo ? userInfo.phone : ""}</h3>
+                  <h3>{userInfo ? formatTelephone(userInfo.phone) : ""}</h3>
                 </div>
                 <div className="info-item">
                   <h3>CPF:</h3>

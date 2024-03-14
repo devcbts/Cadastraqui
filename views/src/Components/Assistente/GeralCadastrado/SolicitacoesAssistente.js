@@ -42,11 +42,7 @@ export default function SolicitacoesAssistente({
           <h2>Comentários</h2>
           <h3>João da Silva</h3>
         </div>
-        <UilTimesSquare
-          size="30"
-          color="#1F4B73"
-          className="btn"
-        ></UilTimesSquare>
+        
       </div>
       <div className="create-comment">
         <h2>Adicionar comentario de seção</h2>

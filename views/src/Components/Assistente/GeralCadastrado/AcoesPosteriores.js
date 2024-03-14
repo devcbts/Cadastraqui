@@ -21,7 +21,7 @@ export default function VerAcoesPosteriores({ announcement, application }) {
 
       <div class="container-form">
         {application.status === 'Approved' ?
-          <div class="row">
+          <div class="row" style={{width:'70%'}}>
             <form id="survey-form-next">
               <div class="form-row">
                 <div class="form-group">

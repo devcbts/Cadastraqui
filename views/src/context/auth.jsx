@@ -2,6 +2,7 @@ import { createContext, useContext } from "react";
 import { api } from "../services/axios";
 import { useState } from "react";
 import Cookies from 'js-cookie'
+import { handleAuthError } from "../ErrorHandling/handleError";
 
 
 export const AuthContext = createContext({})
@@ -32,8 +33,7 @@ function AuthProvider({children}) {
         alert('Erro de conexão.')
       }
       else if(err ) {
-        console.log(err)
-        alert('Não foi possível entrar')
+        handleAuthError(err)
       } else {
         alert('Não foi possível entrar')
       }

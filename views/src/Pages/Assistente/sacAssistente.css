@@ -14,7 +14,9 @@
   color: #1F4B73;
 }
 
-
+.form-sac-assistente{
+  padding: 0;
+}
 
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
 
@@ -38,6 +40,7 @@
   margin-top:30px;
   margin: auto;
   -moz-border-radius: 7px;
+  border-radius: 7px;
   -webkit-border-radius: 7px;
 }
 

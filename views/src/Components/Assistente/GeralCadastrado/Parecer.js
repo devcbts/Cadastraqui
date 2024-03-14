@@ -119,33 +119,43 @@ export default function VerParecer({
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const printDocument = () => {
     const input = document.getElementById('parecer-print');
-    setIsGeneratingPDF(true)
+    setIsGeneratingPDF(true);
     // Ajusta o estilo para garantir que toda a página seja capturada
     const originalStyle = input.style.cssText;
     input.style.maxHeight = 'none';
     input.style.overflow = 'visible';
-  
+
     html2canvas(input, { scrollY: -window.scrollY, scale: 2 }).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-      });
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save('parecer.pdf');
+      var imgData = canvas.toDataURL('image/png');
+      var imgWidth = 210;
+      var pageHeight = 295;
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var heightLeft = imgHeight;
+      var doc = new jsPDF('p', 'mm');
+      var position = 0;
+
+      doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        doc.addPage();
+        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+      doc.save('file.pdf');
       // Restaura o estilo original após a captura
       input.style.cssText = originalStyle;
-      setIsGeneratingPDF(false)
+      setIsGeneratingPDF(false);
     });
   };
-  
-  
+
+
   function updateApplicationStatus(newStatus) {
     api
       .patch(`/assistant/${announcement.id}/${application_id}`, {
         status: newStatus,
+        report: additionalInfo
       })
       .then((response) => {
         // Handle successful response
@@ -217,6 +227,17 @@ export default function VerParecer({
       })
       .filter((label) => label !== ""); // Filtra quaisquer valores não encontrados (strings vazias)
   };
+
+  const [showTextArea, setShowTextArea] = useState(false);
+  const [additionalInfo, setAdditionalInfo] = useState("");
+  const handleCheckboxChange = (event) => {
+    setShowTextArea(event.target.checked);
+  };
+
+  const handleTextAreaChange = (event) => {
+    setAdditionalInfo(event.target.value);
+  };
+
   return (
     <div
       id="parecer-print"
@@ -235,10 +256,10 @@ export default function VerParecer({
         {candidate.addressNumber}, CEP {candidate.CEP}, {candidate.neighborhood}
         , {candidate.city}, {candidate.UF}. Com email {candidate.email}, se
         inscreveu para participar do processo seletivo de que trata o Edital{" "}
-        {announcement.announcementName} e recebeu número de inscrição {application.number.toString().padStart(4,'0')}.
+        {announcement.announcementName} e recebeu número de inscrição {application.number.toString().padStart(4, '0')}.
         <br></br>
       </h1>
-      <h1 id="parecer-text" style={{display: 'block'}}>
+      <h1 id="parecer-text" style={{ display: 'block' }}>
         O candidato possui a idade de {calculateAge(identityInfo.birthDate)}{" "}
         anos e reside com:
         {FamilyMembers.map((familyMember, index) => (
@@ -250,7 +271,7 @@ export default function VerParecer({
           </span>
         ))}
       </h1>
-        .
+      .
       <h1 id="parecer-text">
         <br></br>O grupo familiar objeto da análise reside em imóvel{" "}
         {translatePropetyStatus(Housing.propertyStatus)}{" "}
@@ -372,7 +393,32 @@ export default function VerParecer({
           {/* ... mais linhas conforme necessário */}
         </tbody>
       </table>
-      <h1 style={{marginTop: '18px' ,width: 'fit-content', fontSize: '19px'}}>Diante do acima exposto, conclui-se a análise pelo:</h1>
+      <h1 id='parecer-text'>Toda documentação relacionada a qualificação de todos os membros do grupo familiar, como também referente a moradia, veículos e doenças (quando aplicável), e especialmente relacionada as receitas e despesas foram recebidas e analisadas.</h1>
+      <div>
+        <h1 >
+          Deseja inserir informações adicionais no relatório?
+          <input style={{ marginLeft: '10px' }}
+            type="checkbox"
+            checked={showTextArea}
+            onChange={handleCheckboxChange}
+          />
+          Sim
+        </h1>
+
+        {showTextArea && (
+          <textarea style={{ width: '70%', height: '80px' }}
+            value={additionalInfo}
+            onChange={handleTextAreaChange}
+            placeholder="Digite as informações adicionais aqui..."
+            rows="4"
+            cols="50"
+            maxLength="500"
+          />
+        )}
+      </div>
+
+
+      <h1 style={{ marginTop: '18px', width: 'fit-content', fontSize: '19px' }}>Diante do acima exposto, conclui-se a análise pelo:</h1>
       <div className="buttons-box">
         <div className="decision-buttons">
           <button
@@ -396,7 +442,7 @@ export default function VerParecer({
           Gerar PDF
         </button>
       </div>
-      
+
       <div style={{ display: isGeneratingPDF ? 'block' : 'block', fontSize: '12px', fontFamily: 'Arial, sans-serif' }}>
         <div style={{ marginBottom: '20px' }}>
           <label>Local:</label>

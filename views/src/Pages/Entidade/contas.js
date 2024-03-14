@@ -135,7 +135,7 @@ export default function ContasEntidade() {
             : ''}
         </div>
 
-        <div className="historico">
+        <div className="historico ">
           <h2>Filiais</h2>
           <div className="solicitacoes">
             {subsidiaries ?

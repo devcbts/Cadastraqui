@@ -18,7 +18,7 @@ export default function SacAssistente() {
         <h1>Em que podemos ajudar?</h1>
         <div id="form-main">
           <div id="form-div">
-            <form class="form" id="form1">
+            <form class="form form-sac-assistente" id="form1">
               <p class="name">
                 <input
                   name="name"

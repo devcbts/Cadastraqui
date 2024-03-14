@@ -8,6 +8,7 @@ import { UilLock } from "@iconscout/react-unicons";
 import { api } from "../../services/axios";
 import { useNavigate } from "react-router";
 import "./perfil.css";
+import { formatCNPJ } from "../../utils/format-cnpj";
 
 export default function PerfilAssistente() {
   const { isShown } = useAppState();
@@ -137,11 +138,11 @@ export default function PerfilAssistente() {
 
                 <div className="info-item">
                   <h3>CNPJ:</h3>
-                  <h3 className="info-text">{userInfo ? userInfo.CNPJ : ""}</h3>
+                  <h3 className="info-text">{userInfo ?  formatCNPJ(userInfo.CNPJ) : ""}</h3>
                 </div>
                 <div className="info-item">
                   <h3>CEP:</h3>
-                  <h3 className="info-text">{userInfo ? userInfo.CEP : ""}</h3>
+                  <h3 className="info-text">{userInfo ? (userInfo.CEP) : ""}</h3>
                 </div>
                 <div className="info-item">
                   <h3>Endereço:</h3>

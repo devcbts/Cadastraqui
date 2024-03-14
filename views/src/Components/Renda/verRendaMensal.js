@@ -5,6 +5,7 @@ import { api } from "../../services/axios";
 import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 import { handleAuthError } from "../../ErrorHandling/handleError";
 import { formatCurrency } from "../../utils/format-currency";
+import { formatCPF } from "../../utils/format-cpf";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
