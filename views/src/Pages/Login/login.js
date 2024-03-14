@@ -400,12 +400,7 @@ export default function Login() {
               </div>
               <div>
                 <div className="go-back">
-                  <UilAngleLeft
-                    size="30"
-                    color="#1F4B73"
-                    className="back"
-                    onClick={() => handleBackChange()}
-                  ></UilAngleLeft>
+                  
                 </div>
               </div>
             </form>
