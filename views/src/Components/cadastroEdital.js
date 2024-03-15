@@ -59,7 +59,8 @@ const HigherEducationScholarshipType = [
 const OfferedCourseType = [
     { value: 'UndergraduateBachelor', label: 'Graduação - Bacharelado' },
     { value: 'UndergraduateLicense', label: 'Graduação - Licenciatura' },
-    { value: 'UndergraduateTechnologist', label: 'Graduação - Tecnólogo' }
+    { value: 'UndergraduateTechnologist', label: 'Graduação - Tecnólogo' },
+    { value: 'Postgraduate', label: 'Pós-Graduação Stricto Sensu' }
 ];
 
 const SHIFT = [
@@ -75,6 +76,14 @@ const types1Options = [
     { value: 'HOUSING', label: 'Moradia' },
     { value: 'STUDY_MATERIAL', label: 'Material Didático' },
 ];
+
+const gradeLevels = {
+    Preschool: ['Berçário - (0 a 11 meses)', 'G1 - (1 ano)', 'G2 - (2 anos)', 'G3 - (3 anos)', 'G4 - (4 anos)', 'G5 - (5 anos)'],
+    Elementary: ['1º ano', '2º ano', '3º ano', '4º ano', '5º ano', '6º ano', '7º ano', '8º ano', '9º ano'],
+    HighSchool: ['1ª série', '2ª série', '3ª série'],
+    // Adicione outras opções para Educação Profissional, se necessário
+};
+
 export default function CadastroEdital() {
 
 
@@ -632,7 +641,40 @@ export default function CadastroEdital() {
                                     </select>
                                 </fieldset>
                                 {/* Dropdown para scholarshipType */}
+                                {currentCourse.basicEduType === 'ProfessionalEducation' ? 
+                                  <fieldset className='section-cadastro-vagas'>
 
+                                  <label>
+                                      Ciclo/Ano/Série/Curso:
+                                  </label>
+                                  <input
+                                      type="text"
+                                      value={currentCourse.grade}
+                                      onChange={(e) => handleEducationalChange('grade', e.target.value)}
+                                  />
+
+                              </fieldset>
+
+
+                                : (
+                                    <fieldset className='section-cadastro-vagas'>
+                                        <label>
+                                            Ciclo/Ano/Série/Curso:
+                                        </label>
+                                        <select
+                                            value={currentCourse.grade}
+                                            onChange={(e) => handleEducationalChange('grade', e.target.value)}
+                                        >
+                                            <option value="">Selecione</option>
+                                            {gradeLevels[currentCourse.basicEduType]?.map((grade, index) => (
+                                                <option key={index} value={grade}>
+                                                    {grade}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </fieldset>
+                                )}
+                              
                                 {/* Dropdown para shift */}
                                 <fieldset className='section-cadastro-vagas'>
 
@@ -672,20 +714,7 @@ export default function CadastroEdital() {
                                         onChange={(e) => handleEducationalChange('verifiedScholarships', Number(e.target.value))}
                                     />
                                 </fieldset>
-                                <fieldset className='section-cadastro-vagas'>
-
-                                    <label>
-                                        Ciclo/Ano/Série/Curso:
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={currentCourse.grade}
-                                        onChange={(e) => handleEducationalChange('grade', e.target.value)}
-                                    />
-
-                                </fieldset>
-
-
+                                
 
                             </div>
                             <button onClick={completeCourseRegistration}>Concluir Cadastro</button>
@@ -735,53 +764,62 @@ export default function CadastroEdital() {
 
                                 </fieldset>
                                 {/* Input para availableCourses */}
-                                <fieldset className='section-cadastro-vagas'>
+                                {coursetype === 'Postgraduate' ?
+                                    <fieldset className='section-cadastro-vagas'>
+                                        <label >
+                                            Cursos Disponíveis:
+                                        </label>
+                                        <input type="text" value={currentCourse.availableCourses} onChange={(e) => handleEducationalChange('availableCourses', e.target.value)} />
+                                    </fieldset>
+                                    :
+                                    <fieldset className='section-cadastro-vagas'>
 
-                                    <label>
-                                        Cursos Disponíveis:
-                                    </label>
-                                    <select id="curso-dropdown" style={{ fontSize: '13px', width: '90%', padding: '0.5rem 1rem' }} value={currentCourse.availableCourses} onChange={handleSelectChange}>
-                                        {coursetype === 'UndergraduateBachelor' &&
-                                            <optgroup label="Cursos Gerais">
-                                                <option value="">Selecione</option>
-                                                {dadosCursos.bacharelado.map((curso, index) => (
-                                                    <option key={index} value={curso}>
-                                                        {curso}
-                                                    </option>
-                                                ))}
-                                            </optgroup>
-                                        }
-                                        {coursetype === 'UndergraduateLicense' &&
+                                        <label>
+                                            Cursos Disponíveis:
+                                        </label>
+                                        <select id="curso-dropdown" style={{ fontSize: '13px', width: '90%', padding: '0.5rem 1rem' }} value={currentCourse.availableCourses} onChange={handleSelectChange}>
+                                            {coursetype === 'UndergraduateBachelor' &&
+                                                <optgroup label="Cursos Gerais">
+                                                    <option value="">Selecione</option>
+                                                    {dadosCursos.bacharelado.map((curso, index) => (
+                                                        <option key={index} value={curso}>
+                                                            {curso}
+                                                        </option>
+                                                    ))}
+                                                </optgroup>
+                                            }
+                                            {coursetype === 'UndergraduateLicense' &&
 
-                                            <optgroup label="Cursos de Licenciatura">
-                                                <option value="">Selecione</option>
+                                                <optgroup label="Cursos de Licenciatura">
+                                                    <option value="">Selecione</option>
 
-                                                {dadosCursos.licenciatura.map((curso, index) => (
-                                                    <option key={`lic-${index}`} value={curso}>
-                                                        {curso}
-                                                    </option>
-                                                ))}
-                                            </optgroup>
-                                        }
-                                        {coursetype === 'UndergraduateTechnologist' &&
-                                            <optgroup label="Cursos Tecnólogos">
-                                                <option value="">Selecione</option>
+                                                    {dadosCursos.licenciatura.map((curso, index) => (
+                                                        <option key={`lic-${index}`} value={curso}>
+                                                            {curso}
+                                                        </option>
+                                                    ))}
+                                                </optgroup>
+                                            }
+                                            {coursetype === 'UndergraduateTechnologist' &&
+                                                <optgroup label="Cursos Tecnólogos">
+                                                    <option value="">Selecione</option>
 
-                                                {dadosCursos.tecnologos.map((curso, index) => (
-                                                    <option key={`tec-${index}`} value={curso}>
-                                                        {curso}
-                                                    </option>
-                                                ))}
-                                            </optgroup>
-                                        }
-                                    </select>
-                                </fieldset>
-                                <fieldset className='section-cadastro-vagas'>
+                                                    {dadosCursos.tecnologos.map((curso, index) => (
+                                                        <option key={`tec-${index}`} value={curso}>
+                                                            {curso}
+                                                        </option>
+                                                    ))}
+                                                </optgroup>
+                                            }
+                                        </select>
+                                    </fieldset>
+                                }
+                                <fieldset className='section-cadastro-vagas' >
 
                                     <label>
                                         Tipo de Bolsa de Ensino Superior:
                                     </label>
-                                    <select className=''
+                                    <select style={{ fontSize: '13px', width: '90%', padding: '0.5rem 1rem' }}
                                         value={currentCourse.higherEduScholarshipType}
                                         onChange={(e) => handleEducationalChange('higherEduScholarshipType', e.target.value)}
                                     >
