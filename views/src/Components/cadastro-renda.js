@@ -8,6 +8,7 @@ import { handleAuthError } from "../ErrorHandling/handleError";
 import { formatCurrency } from "../utils/format-currency";
 import { formatCPF } from "../utils/format-cpf";
 import { formatCNPJ } from "../utils/format-cnpj";
+import InputCheckbox from "./Inputs/InputCheckbox";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
@@ -1104,14 +1105,14 @@ export const CadastroRenda = ({ member }) => {
               </div>
               {/*<!-- Renda Fixa ? -->*/}
               <div
-                class="survey-box survey-renda renda-fixa"
-                id="box-renda-fixa"
+                class="survey-box survey-renda renda-fixa survey-check"
+               survey-check  id="box-renda-fixa"
               >
                 <label for="fixIncome" id="fixIncome-label">
                   Renda Fixa ?
                 </label>
 
-                <input
+                <InputCheckbox
                   type="checkbox"
                   name="fixIncome"
                   value={fixIncomeMEI}
@@ -1293,7 +1294,7 @@ export const CadastroRenda = ({ member }) => {
                   Recebe Seguro Desemprego ?
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   name="receivesUnemployment"
                   value={unemployedInfo.receivesUnemployment}
@@ -1367,12 +1368,12 @@ export const CadastroRenda = ({ member }) => {
           ) && (
               <>
                 {/*<!-- Renda Fixa ? -->*/}
-                <div class="survey-box survey-renda" id="box-renda-fixa">
+                <div class="survey-box survey-renda survey-check" id="box-renda-fixa">
                   <label for="fixIncome" id="fixIncome-label">
                     Renda Fixa ?
                   </label>
 
-                  <input
+                  <InputCheckbox
                     type="checkbox"
                     name="fixIncome"
                     value={fixIncomeInformalWorker}
@@ -1545,12 +1546,12 @@ export const CadastroRenda = ({ member }) => {
           ) && (
               <>
                 {/*<!-- Renda Fixa ? -->*/}
-                <div class="survey-box survey-renda" id="box-renda-fixa">
+                <div class="survey-box survey-renda survey-check" id="box-renda-fixa">
                   <label for="fixIncome" id="fixIncome-label">
                     Renda Fixa ?
                   </label>
 
-                  <input
+                  <InputCheckbox
                     type="checkbox"
                     name="fixIncome"
                     value={fixIncomeRentalIncome}
@@ -1728,7 +1729,7 @@ export const CadastroRenda = ({ member }) => {
                     Renda Fixa ?
                   </label>
                   <br />
-                  <input
+                  <InputCheckbox
                     type="checkbox"
                     name="fixIncome"
                     value={fixIncomeLiberalProfessional}
@@ -1878,10 +1879,10 @@ export const CadastroRenda = ({ member }) => {
           {loading ? '' : (member.incomeSource.includes("PrivatePension") && !incomeAlreadyRegistered) && (
             <>
               {/* Renda Fixa ? */}
-              <div class="survey-box survey-renda" id="box-renda-fixa">
+              <div class="survey-box survey-renda survey-check" id="box-renda-fixa">
                 <label for="fixIncome" id="fixIncome-label">Renda Fixa ?</label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   name="fixIncome"
                   value={fixIncomePrivatePension}
@@ -1981,12 +1982,12 @@ export const CadastroRenda = ({ member }) => {
           {loading ? '' : (member.incomeSource.includes("FinancialHelpFromOthers") && !incomeAlreadyRegistered) && (
             <>
               {/*<!-- Renda Fixa ? -->*/}
-              <div class="survey-box survey-renda" id="box-renda-fixa">
+              <div class="survey-box survey-renda survey-check" id="box-renda-fixa">
                 <label for="fixIncome" id="fixIncome-label">
                   Renda Fixa ?
                 </label>
 
-                <input
+                <InputCheckbox
                   type="checkbox"
                   name="fixIncome"
                   value={fixIncomeAutonomous}
@@ -2449,7 +2450,7 @@ export const CadastroRenda = ({ member }) => {
                   Recebe horas extras, premiação ou gratificação ?{" "}
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   name="gratification"
                   value={gratificationAutonomous}
@@ -2532,7 +2533,7 @@ export const CadastroRenda = ({ member }) => {
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
                         <div
-                          class="survey-box survey-renda"
+                          class="survey-box survey-renda survey-check"
                           key={`deductions-${i + 1}`}
                         >
                           <label for="deductions" id="deductions-label">
@@ -2540,12 +2541,12 @@ export const CadastroRenda = ({ member }) => {
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -2912,7 +2913,7 @@ export const CadastroRenda = ({ member }) => {
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
                         <div
-                          class="survey-box survey-renda"
+                          class="survey-box survey-renda survey-check"
                           key={`deductions-${i + 1}`}
                         >
                           <label for="deductions" id="deductions-label">
@@ -2920,12 +2921,12 @@ export const CadastroRenda = ({ member }) => {
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -3294,13 +3295,13 @@ export const CadastroRenda = ({ member }) => {
                 />
               </div>
               {/*<!-- Recebe Gratificação ? -->*/}
-              <div class="survey-box survey-renda">
+              <div class="survey-box survey-renda survey-check">
                 <label for="gratification" id="gratification-label">
                   {" "}
                   Recebe horas extras, premiação ou gratificação ?{" "}
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   name="gratification"
                   value={gratificationAutonomous}
@@ -3383,7 +3384,7 @@ export const CadastroRenda = ({ member }) => {
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
                         <div
-                          class="survey-box survey-renda"
+                          class="survey-box survey-renda survey-check"
                           key={`deductions-${i + 1}`}
                         >
                           <label for="deductions" id="deductions-label">
@@ -3391,12 +3392,12 @@ export const CadastroRenda = ({ member }) => {
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -3763,7 +3764,7 @@ export const CadastroRenda = ({ member }) => {
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
                         <div
-                          class="survey-box survey-renda"
+                          class="survey-box survey-renda survey-check"
                           key={`deductions-${i + 1}`}
                         >
                           <label for="deductions" id="deductions-label">
@@ -3771,12 +3772,12 @@ export const CadastroRenda = ({ member }) => {
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -4145,13 +4146,13 @@ export const CadastroRenda = ({ member }) => {
                 />
               </div>
               {/*<!-- Recebe Gratificação ? -->*/}
-              <div class="survey-box survey-renda">
+              <div class="survey-box survey-renda survey-check">
                 <label for="gratification" id="gratification-label">
                   {" "}
                   Recebe horas extras, premiação ou gratificação ?{" "}
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   name="gratification"
                   value={gratificationAutonomous}
@@ -4234,7 +4235,7 @@ export const CadastroRenda = ({ member }) => {
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
                         <div
-                          class="survey-box survey-renda"
+                          class="survey-box survey-renda survey-check"
                           key={`deductions-${i + 1}`}
                         >
                           <label for="deductions" id="deductions-label">
@@ -4242,12 +4243,12 @@ export const CadastroRenda = ({ member }) => {
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -4610,7 +4611,7 @@ export const CadastroRenda = ({ member }) => {
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
                         <div
-                          class="survey-box survey-renda"
+                          class="survey-box survey-renda survey-check"
                           key={`deductions-${i + 1}`}
                         >
                           <label for="deductions" id="deductions-label">
@@ -4618,12 +4619,12 @@ export const CadastroRenda = ({ member }) => {
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -4990,13 +4991,13 @@ export const CadastroRenda = ({ member }) => {
                 />
               </div>
               {/*<!-- Recebe Gratificação ? -->*/}
-              <div class="survey-box survey-renda">
+              <div class="survey-box survey-renda survey-check">
                 <label for="gratification" id="gratification-label">
                   {" "}
                   Recebe horas extras, premiação ou gratificação ?{" "}
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   name="gratification"
                   value={gratificationAutonomous}
@@ -5079,7 +5080,7 @@ export const CadastroRenda = ({ member }) => {
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
                         <div
-                          class="survey-box survey-renda"
+                          class="survey-box survey-renda survey-check"
                           key={`deductions-${i + 1}`}
                         >
                           <label for="deductions" id="deductions-label">
@@ -5087,12 +5088,12 @@ export const CadastroRenda = ({ member }) => {
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -5459,7 +5460,7 @@ export const CadastroRenda = ({ member }) => {
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
                         <div
-                          class="survey-box survey-renda"
+                          class="survey-box survey-renda survey-check"
                           key={`deductions-${i + 1}`}
                         >
                           <label for="deductions" id="deductions-label">
@@ -5467,12 +5468,12 @@ export const CadastroRenda = ({ member }) => {
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -5843,13 +5844,13 @@ export const CadastroRenda = ({ member }) => {
                 />
               </div>
               {/*<!-- Recebe Gratificação ? -->*/}
-              <div class="survey-box survey-renda">
+              <div class="survey-box survey-renda survey-check">
                 <label for="gratification" id="gratification-label">
                   {" "}
                   Recebe horas extras, premiação ou gratificação ?{" "}
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   name="gratification"
                   value={gratificationAutonomous}
@@ -5932,7 +5933,7 @@ export const CadastroRenda = ({ member }) => {
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
                         <div
-                          class="survey-box survey-renda"
+                          class="survey-box survey-renda survey-check"
                           key={`deductions-${i + 1}`}
                         >
                           <label for="deductions" id="deductions-label">
@@ -5940,12 +5941,12 @@ export const CadastroRenda = ({ member }) => {
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -6308,7 +6309,7 @@ export const CadastroRenda = ({ member }) => {
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
                         <div
-                          class="survey-box survey-renda"
+                          class="survey-box survey-renda survey-check"
                           key={`deductions-${i + 1}`}
                         >
                           <label for="deductions" id="deductions-label">
@@ -6316,12 +6317,12 @@ export const CadastroRenda = ({ member }) => {
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -6545,10 +6546,10 @@ export const CadastroRenda = ({ member }) => {
                   <input type="text" name="payingSourcePhone" value={CLTInfo.payingSourcePhone} onChange={handleCLTInputChange} id="payingSourcePhone" class="survey-control" />
                 </div>
                 {/*<!-- Recebe Gratificação ? -->*/}
-                <div class="survey-box">
+                <div class="survey-box survey-check">
                   <label for="gratification" id="gratification-label"> Recebe horas extras, premiação ou gratificação ? </label>
                   <br />
-                  <input type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
+               <InputCheckbox type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
                 </div>
 
                 <div>
@@ -6599,10 +6600,10 @@ export const CadastroRenda = ({ member }) => {
                             />
                           </div>
                           {/*<!-- Teve deduções ? -->*/}
-                          <div class="survey-box" key={`deductions-${i + 1}`}>
+                          <div class="survey-box survey-check" key={`deductions-${i + 1}`}>
                             <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
                             <br />
-                            <input type="checkbox" name="deductions" value={deductionsCLT[i + 1]} onChange={() => handleDeductionsCLT(i + 1)} id="deductions" class="survey-control" />
+                         <InputCheckbox type="checkbox" name="deductions" value={deductionsCLT[i + 1]} onChange={() => handleDeductionsCLT(i + 1)} id={`deductions${[i+1]}`} class="survey-control" />
                           </div>
                           {deductionsCLT[i + 1] ? (<div>
                             <div key={`incomeTax-${i}`} className="survey-box">
@@ -6955,7 +6956,7 @@ export const CadastroRenda = ({ member }) => {
                           </div>
                           {/*<!-- Teve deduções ? -->*/}
                           <div
-                            class="survey-box survey-renda"
+                            class="survey-box survey-renda survey-check"
                             key={`deductions-${i + 1}`}
                           >
                             <label for="deductions" id="deductions-label">
@@ -6963,12 +6964,12 @@ export const CadastroRenda = ({ member }) => {
                               No valor informado, teve deduções ?{" "}
                             </label>
                             <br />
-                            <input
+                            <InputCheckbox
                               type="checkbox"
                               name="deductions"
                               value={deductionsCLT[i + 1]}
                               onChange={() => handleDeductionsCLT(i + 1)}
-                              id="deductions"
+                              id={`deductions${[i+1]}`}
                               class="survey-control"
                             />
                           </div>
@@ -7192,10 +7193,10 @@ export const CadastroRenda = ({ member }) => {
                   <input type="text" name="payingSourcePhone" value={CLTInfo.payingSourcePhone} onChange={handleCLTInputChange} id="payingSourcePhone" class="survey-control" />
                 </div>
                 {/*<!-- Recebe Gratificação ? -->*/}
-                <div class="survey-box">
+                <div class="survey-box survey-check">
                   <label for="gratification" id="gratification-label"> Recebe horas extras, premiação ou gratificação ? </label>
                   <br />
-                  <input type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
+               <InputCheckbox type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
                 </div>
 
                 <div>
@@ -7271,7 +7272,7 @@ export const CadastroRenda = ({ member }) => {
                           </div>
                           {/*<!-- Teve deduções ? -->*/}
                           <div
-                            class="survey-box survey-renda"
+                            class="survey-box survey-renda survey-check"
                             key={`deductions-${i + 1}`}
                           >
                             <label for="deductions" id="deductions-label">
@@ -7279,12 +7280,12 @@ export const CadastroRenda = ({ member }) => {
                               No valor informado, teve deduções ?{" "}
                             </label>
                             <br />
-                            <input
+                            <InputCheckbox
                               type="checkbox"
                               name="deductions"
                               value={deductionsCLT[i + 1]}
                               onChange={() => handleDeductionsCLT(i + 1)}
-                              id="deductions"
+                              id={`deductions${[i+1]}`}
                               class="survey-control"
                             />
                           </div>
@@ -7651,7 +7652,7 @@ export const CadastroRenda = ({ member }) => {
                           </div>
                           {/*<!-- Teve deduções ? -->*/}
                           <div
-                            class="survey-box survey-renda"
+                            class="survey-box survey-renda survey-check"
                             key={`deductions-${i + 1}`}
                           >
                             <label for="deductions" id="deductions-label">
@@ -7659,12 +7660,12 @@ export const CadastroRenda = ({ member }) => {
                               No valor informado, teve deduções ?{" "}
                             </label>
                             <br />
-                            <input
+                            <InputCheckbox
                               type="checkbox"
                               name="deductions"
                               value={deductionsCLT[i + 1]}
                               onChange={() => handleDeductionsCLT(i + 1)}
-                              id="deductions"
+                              id={`deductions${[i+1]}`}
                               class="survey-control"
                             />
                           </div>
@@ -7994,10 +7995,10 @@ export const CadastroRenda = ({ member }) => {
                   <input type="text" name="payingSourcePhone" value={CLTInfo.payingSourcePhone} onChange={handleCLTInputChange} id="payingSourcePhone" class="survey-control" />
                 </div>
                 {/*<!-- Recebe Gratificação ? -->*/}
-                <div class="survey-box">
+                <div class="survey-box survey-check">
                   <label for="gratification" id="gratification-label"> Recebe horas extras, premiação ou gratificação ? </label>
                   <br />
-                  <input type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
+               <input type="checkbox" name="gratification" value={gratificationAutonomous} onChange={handleGratificationAutonomous} id="gratification" class="survey-control" />
                 </div>
 
                 <div>
@@ -8048,10 +8049,11 @@ export const CadastroRenda = ({ member }) => {
                             />
                           </div>
                           {/*<!-- Teve deduções ? -->*/}
-                          <div class="survey-box" key={`deductions-${i + 1}`}>
+                          <div class="survey-box survey-check" key={`deductions-${i + 1}`}>
                             <label for="deductions" id="deductions-label"> No valor informado, teve deduções ? </label>
                             <br />
-                            <input type="checkbox" name="deductions" value={deductionsCLT[i + 1]} onChange={() => handleDeductionsCLT(i + 1)} id="deductions" class="survey-control" />
+                         <InputCheckbox
+                          type="checkbox" name="deductions" value={deductionsCLT[i + 1]} onChange={() => handleDeductionsCLT(i + 1)} id={`deductions${[i+1]}`} class="survey-control" />
                           </div>
                           {deductionsCLT[i + 1] ? (<div>
                             <div key={`incomeTax-${i}`} className="survey-box">
@@ -8404,7 +8406,7 @@ export const CadastroRenda = ({ member }) => {
                           </div>
                           {/*<!-- Teve deduções ? -->*/}
                           <div
-                            class="survey-box survey-renda"
+                            class="survey-box survey-renda "
                             key={`deductions-${i + 1}`}
                           >
                             <label for="deductions" id="deductions-label">
@@ -8412,12 +8414,12 @@ export const CadastroRenda = ({ member }) => {
                               No valor informado, teve deduções ?{" "}
                             </label>
                             <br />
-                            <input
+                            <InputCheckbox
                               type="checkbox"
                               name="deductions"
                               value={deductionsCLT[i + 1]}
                               onChange={() => handleDeductionsCLT(i + 1)}
-                              id="deductions"
+                              id={`deductions${[i+1]}`}
                               class="survey-control"
                             />
                           </div>

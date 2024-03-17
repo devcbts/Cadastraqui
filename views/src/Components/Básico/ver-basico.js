@@ -8,6 +8,7 @@ import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 import { handleAuthError } from "../../ErrorHandling/handleError";
 import { formatCPF } from "../../utils/format-cpf";
 import { formatRG } from "../../utils/format-rg";
+import InputCheckbox from "../Inputs/InputCheckbox";
 const GENDER = [
   { value: "MALE", label: "Masculino" },
   { value: "FEMALE", label: "Feminino" },
@@ -583,7 +584,7 @@ export default function VerBasico({ candidate, basic, role }) {
               Necessidades Especiais:
             </label>
             <br />
-            <input
+            <InputCheckbox
               type="checkbox"
               name="specialNeeds"
               disabled={!isEditing}
@@ -594,7 +595,7 @@ export default function VerBasico({ candidate, basic, role }) {
             />
           </div>
           {candidateInfo.specialNeeds && (
-            <div>
+            <>
               {/*<!-- Descrição das Necessidades Especiais -->*/}
               <div class="survey-box">
                 <label
@@ -621,7 +622,7 @@ export default function VerBasico({ candidate, basic, role }) {
                   Possui relatório médico:
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   name="hasMedicalReport"
                   disabled={!isEditing}
@@ -631,7 +632,7 @@ export default function VerBasico({ candidate, basic, role }) {
                   class="survey-control"
                 />
               </div>
-            </div>
+            </>
           )}
 
           {/*<!-- Telefone Fixo -->*/}
@@ -765,7 +766,7 @@ export default function VerBasico({ candidate, basic, role }) {
               Inscrito em Programa Governamental:
             </label>
             <br />
-            <input
+            <InputCheckbox
               type="checkbox"
               name="enrolledGovernmentProgram"
               value={candidateInfo.enrolledGovernmentProgram}
@@ -820,7 +821,7 @@ export default function VerBasico({ candidate, basic, role }) {
               Mora Sozinho ?
             </label>
             <br />
-            <input
+            <InputCheckbox
               type="checkbox"
               name="livesAlone"
               value={candidateInfo.livesAlone}
@@ -835,13 +836,13 @@ export default function VerBasico({ candidate, basic, role }) {
               Familia registrada no Cadastro Único?
             </label>
             <br />
-            <input
+            <InputCheckbox
               type="checkbox"
               name="CadUnico"
               checked={candidateInfo.CadUnico}
               disabled={!isEditing}
               onChange={handleInputChange}
-              id="livesAlone"
+              id="CadUnico"
               class="survey-control"
             />
           </div>
@@ -854,7 +855,7 @@ export default function VerBasico({ candidate, basic, role }) {
               Deseja obter bolsa Escolar ?
             </label>
             <br />
-            <input
+            <InputCheckbox
               type="checkbox"
               name="intendsToGetScholarship"
               value={candidateInfo.intendsToGetScholarship}
@@ -874,7 +875,7 @@ export default function VerBasico({ candidate, basic, role }) {
               Estudou em Instituição Pública ?
             </label>
             <br />
-            <input
+            <InputCheckbox
               type="checkbox"
               name="attendedPublicHighSchool"
               value={candidateInfo.attendedPublicHighSchool}
@@ -895,7 +896,7 @@ export default function VerBasico({ candidate, basic, role }) {
               Já recebeu bolsa CEBAS para Educação Básica ?
             </label>
             <br />
-            <input
+            <InputCheckbox
               type="checkbox"
               name="benefitedFromCebasScholarship_basic"
               value={candidateInfo.benefitedFromCebasScholarship_basic}
@@ -908,7 +909,7 @@ export default function VerBasico({ candidate, basic, role }) {
           </div>
 
           {candidateInfo.benefitedFromCebasScholarship_basic && (
-            <div>
+            <>
               <div class="survey-box">
                 <label
                   for="yearsBenefitedFromCebas_basic"
@@ -990,7 +991,7 @@ export default function VerBasico({ candidate, basic, role }) {
                   required
                 />
               </div>
-            </div>
+            </>
           )}
 
           {/*<!-- Já recebeu bolsa CEBAS para educação profissional ? -->*/}
@@ -1002,19 +1003,19 @@ export default function VerBasico({ candidate, basic, role }) {
               Já recebeu bolsa CEBAS para Educação Profissional ?
             </label>
             <br />
-            <input
+            <InputCheckbox
               type="checkbox"
               name="benefitedFromCebasScholarship_professional"
               value={candidateInfo.benefitedFromCebasScholarship_professional}
               disabled={!isEditing}
               onChange={handleInputChange}
-              id="benefitedFromCebasScholarship_basic"
+              id="benefitedFromCebasScholarship_professional"
               class="survey-control"
               required
             />
           </div>
           {candidateInfo.benefitedFromCebasScholarship_professional && (
-            <div>
+            <>
               <div class="survey-box">
                 <label
                   for="lastYearBenefitedFromCebas_professional"
@@ -1117,7 +1118,7 @@ export default function VerBasico({ candidate, basic, role }) {
                   required
                 />
               </div>
-            </div>
+            </>
           )}
 
           {role !== 'Assistant' && <div className="survey-box">

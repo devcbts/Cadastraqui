@@ -167,10 +167,10 @@ export default function VerFamiliar({ familyMember }) {
       const formattedCPF = formatCPF(value);
       // Atualiza o valor no estado com o CPF formatado
       setFamilyMemberInfo({ ...familyMemberInfo, CPF: formattedCPF });
-  } else {
+    } else {
       // Para outros campos, apenas atualiza o valor
       setFamilyMemberInfo({ ...familyMemberInfo, [name]: value });
-  }
+    }
   }
 
   function handleInputChangeSelect(selectedOptions) {
@@ -379,8 +379,8 @@ export default function VerFamiliar({ familyMember }) {
             </label>
             <br />
             <input
-            
-           
+
+
               type="text"
               name="CPF"
               value={formatCPF(familyMemberInfo.CPF)}
@@ -643,15 +643,19 @@ export default function VerFamiliar({ familyMember }) {
               Necessidades Especiais:
             </label>
             <br />
-            <input
-              type="checkbox"
-              name="specialNeeds"
-              disabled={!isEditing}
-              onChange={handleInputChange}
-              value={familyMemberInfo.specialNeeds}
-              id="specialNeeds"
-              className="survey-control"
-            />
+            <p className="onoff">
+
+              <input
+                type="checkbox"
+                name="specialNeeds"
+                disabled={!isEditing}
+                onChange={handleInputChange}
+                value={familyMemberInfo.specialNeeds}
+                id="specialNeeds"
+                className="survey-control"
+              />
+              <label htmlFor="specialNeeds" id="yesno"></label>
+            </p>
           </div>
           {familyMemberInfo.specialNeeds && (
             <div>
@@ -681,15 +685,20 @@ export default function VerFamiliar({ familyMember }) {
                   Possui relatório médico:
                 </label>
                 <br />
-                <input
-                  type="checkbox"
-                  name="hasMedicalReport"
-                  disabled={!isEditing}
-                  onChange={handleInputChange}
-                  value={familyMemberInfo.hasMedicalReport}
-                  id="hasMedicalReport"
-                  className="survey-control"
-                />
+                <p className="onoff">
+
+                  <input
+                    type="checkbox"
+                    name="hasMedicalReport"
+                    disabled={!isEditing}
+                    onChange={handleInputChange}
+                    value={familyMemberInfo.hasMedicalReport}
+                    id="hasMedicalReport"
+                    className="survey-control"
+                  />
+                  <label htmlFor="hasMedicalReport" id="yesno"></label>
+
+                </p>
               </div>
             </div>
           )}
@@ -907,7 +916,7 @@ export default function VerFamiliar({ familyMember }) {
               options={IncomeSource}
               className="select-data"
               id="incomeSource"
-              // Se você quiser que o campo seja desabilitado, mantenha a próxima linha
+            // Se você quiser que o campo seja desabilitado, mantenha a próxima linha
             />
           </div>
           {/*<!-- Inscrito em Programa Governamental -->*/}
@@ -919,17 +928,22 @@ export default function VerFamiliar({ familyMember }) {
               Inscrito em Programa Governamental:
             </label>
             <br />
-            <input
-              type="checkbox"
-              name="enrolledGovernmentProgram"
-              value={familyMemberInfo.enrolledGovernmentProgram}
-              disabled={!isEditing}
-              onChange={handleInputChange}
-              id="enrolledGovernmentProgram"
-              className="survey-control"
-            />
+            <p className="onoff">
+
+              <input
+                type="checkbox"
+                name="enrolledGovernmentProgram"
+                value={familyMemberInfo.enrolledGovernmentProgram}
+                disabled={!isEditing}
+                onChange={handleInputChange}
+                id="enrolledGovernmentProgram"
+                className="survey-control"
+              />
+              <label htmlFor="enrolledGovernmentProgram" id="yesno"></label>
+
+            </p>
           </div>
-         
+
           {familyMemberInfo.enrolledGovernmentProgram === true && (
             <div>
               {/*<!-- NIS -->*/}
@@ -950,7 +964,7 @@ export default function VerFamiliar({ familyMember }) {
               </div>
             </div>
           )}
-          
+
 
           <div className="survey-box">
             {!isEditing ? (

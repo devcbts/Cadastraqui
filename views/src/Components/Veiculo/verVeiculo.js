@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./cadastroVeiculo.css";
 import Select from "react-select";
 import { api } from "../../services/axios";
+import InputCheckbox from "../Inputs/InputCheckbox";
 const VehicleType = [
   { value: "SmallCarsAndUtilities", label: "Carros Pequenos e Utilitários" },
   { value: "TrucksAndMinibuses", label: "Caminhões e Vans" },
@@ -280,11 +281,12 @@ export default function VerVeiculo({ initialFormData, candidate }) {
           <label>Possui Seguro?</label>
           <br />
 
-          <input
+          <InputCheckbox
+          id="hasInsurance"
             className="survey-control"
             type="checkbox"
             name="hasInsurance"
-            checked={formData.hasInsurance}
+            value={formData.hasInsurance}
             disabled={!isEditing}
             onChange={handleChange}
           />

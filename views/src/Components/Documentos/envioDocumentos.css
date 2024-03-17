@@ -234,7 +234,7 @@
     text-align: left;
 }
 
-.doc-box h1, h2, h3{
+.doc-box h1, .doc-box h2,.doc-box h3{
     text-align: left ;
 }
 

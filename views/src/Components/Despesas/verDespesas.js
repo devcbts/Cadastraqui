@@ -4,6 +4,7 @@ import './cadastroDespesas.css';
 import { handleAuthError } from '../../ErrorHandling/handleError';
 import { handleSuccess } from '../../ErrorHandling/handleSuceess';
 import { formatCurrency } from '../../utils/format-currency';
+import InputCheckbox from '../Inputs/InputCheckbox';
 
 export default function VerDespesas({ formDataInfo }) {
   
@@ -65,7 +66,7 @@ export default function VerDespesas({ formDataInfo }) {
             setFormData({ ...formData, [name]: numericValue });
         } else if (['optedForInstallmentIPVA', 'optedForInstallmentIPTU', 'optedForInstallmentITR', 'optedForInstallmentIR'].includes(name)) {
             // Para checkboxes, trata o valor booleano
-            setFormData({ ...formData, [name]: e.target.checked });
+            setFormData({ ...formData, [name]: e.target.value });
         } else {
             // Para todos os outros campos, atualiza o estado diretamente
             setFormData({ ...formData, [name]: value });
@@ -383,13 +384,13 @@ export default function VerDespesas({ formDataInfo }) {
                         onChange={handleChange}
                     />
                 </div>
-                <div className='survey-box'>
+                <div className='survey-box survey-check'>
                     <label>Possui parcelamento de IPVA?</label>
-                    <input
+                    <InputCheckbox
                         className='survey-control'
                         type="checkbox"
                         name="optedForInstallmentIPVA"
-                        checked={formData.optedForInstallmentIPVA}
+                        value={formData.optedForInstallmentIPVA}
                         disabled={!isEditing}
                         onChange={handleChange}
                     />
@@ -434,13 +435,13 @@ export default function VerDespesas({ formDataInfo }) {
                 </div>
 
                 {/* Parcelamento do IPTU */}
-                <div className='survey-box'>
+                <div className='survey-box survey-check'>
                     <label>Possui parcelamento de IPTU?</label>
-                    <input
+                    <InputCheckbox
                         className='survey-control'
                         type="checkbox"
                         name="optedForInstallmentIPTU"
-                        checked={formData.optedForInstallmentIPTU}
+                        value={formData.optedForInstallmentIPTU}
                         disabled={!isEditing}
                         onChange={handleChange}
                     />
@@ -487,13 +488,13 @@ export default function VerDespesas({ formDataInfo }) {
                 </div>
 
                 {/* Parcelamento do ITR */}
-                <div className='survey-box'>
+                <div className='survey-box survey-check'>
                     <label>Possui parcelamento de ITR?</label>
-                    <input
+                    <InputCheckbox
                         className='survey-control'
                         type="checkbox"
                         name="optedForInstallmentITR"
-                        checked={formData.optedForInstallmentITR}
+                        value={formData.optedForInstallmentITR}
                         disabled={!isEditing}
                         onChange={handleChange}
                     />
@@ -538,13 +539,13 @@ export default function VerDespesas({ formDataInfo }) {
                     />
                 </div>
                 {/* Parcelamento do IR */}
-                <div className='survey-box'>
+                <div className='survey-box survey-check'>
                     <label>Possui parcelamento de IR?</label>
-                    <input
+                    <InputCheckbox
                         className='survey-control'
                         type="checkbox"
                         name="optedForInstallmentIR"
-                        checked={formData.optedForInstallmentIR}
+                        value={formData.optedForInstallmentIR}
                         disabled={!isEditing}
                         onChange={handleChange}
                     />

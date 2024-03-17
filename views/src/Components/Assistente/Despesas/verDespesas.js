@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './cadastroDespesas.css';
 import { api } from '../../../services/axios';
 import { formatCurrency } from '../../../utils/format-currency';
+import InputCheckbox from '../../Inputs/InputCheckbox';
 
 export default function VerDespesas({ formData, candidate }) {
     console.log('====================================');
@@ -83,10 +84,10 @@ export default function VerDespesas({ formData, candidate }) {
 
     const handleChange = (e) => {
         /*
-        const { name, value, type, checked } = e.target;
+        const { name, value, type, value } = e.target;
         setFormData({
             ...formData,
-            [name]: type === 'checkbox' ? checked : value,
+            [name]: type === 'checkbox' ? value : value,
         });
     */
     };
@@ -391,13 +392,13 @@ export default function VerDespesas({ formData, candidate }) {
                         onChange={handleChange}
                     />
                 </div>
-                <div className='survey-box'>
+                <div className='survey-box survey-check'>
                     <label>Possui parcelamento de IPVA?</label>
-                    <input
+                    <InputCheckbox
                         className='survey-control'
                         type="checkbox"
                         name="optedForInstallmentIPVA"
-                        checked={formData.optedForInstallmentIPVA}
+                        value={formData.optedForInstallmentIPVA}
                         disabled
                         onChange={handleChange}
                     />
@@ -442,13 +443,13 @@ export default function VerDespesas({ formData, candidate }) {
                 </div>
 
                 {/* Parcelamento do IPTU */}
-                <div className='survey-box'>
+                <div className='survey-box survey-check'>
                     <label>Possui parcelamento de IPTU?</label>
-                    <input
+                    <InputCheckbox
                         className='survey-control'
                         type="checkbox"
                         name="optedForInstallmentIPTU"
-                        checked={formData.optedForInstallmentIPTU}
+                        value={formData.optedForInstallmentIPTU}
                         disabled
                         onChange={handleChange}
                     />
@@ -495,13 +496,13 @@ export default function VerDespesas({ formData, candidate }) {
                 </div>
 
                 {/* Parcelamento do ITR */}
-                <div className='survey-box'>
+                <div className='survey-box survey-check'>
                     <label>Possui parcelamento de ITR?</label>
-                    <input
+                    <InputCheckbox
                         className='survey-control'
                         type="checkbox"
                         name="optedForInstallmentITR"
-                        checked={formData.optedForInstallmentITR}
+                        value={formData.optedForInstallmentITR}
                         disabled
                         onChange={handleChange}
                     />
@@ -546,13 +547,13 @@ export default function VerDespesas({ formData, candidate }) {
                     />
                 </div>
                 {/* Parcelamento do IR */}
-                <div className='survey-box'>
+                <div className='survey-box survey-check'>
                     <label>Possui parcelamento de IR?</label>
-                    <input
+                    <InputCheckbox
                         className='survey-control'
                         type="checkbox"
                         name="optedForInstallmentIR"
-                        checked={formData.optedForInstallmentIR}
+                        value={formData.optedForInstallmentIR}
                         disabled
                         onChange={handleChange}
                     />

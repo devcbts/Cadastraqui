@@ -210,10 +210,10 @@ export default function CadastroFamiliar() {
       const formattedCPF = formatCPF(value);
       // Atualiza o valor no estado com o CPF formatado
       setFamilyMember({ ...familyMember, CPF: formattedCPF });
-  } else {
+    } else {
       // Para outros campos, apenas atualiza o valor
       setFamilyMember({ ...familyMember, [name]: value });
-  }
+    }
   }
 
   function handleInputChangeSelect(selectedOptions) {
@@ -273,7 +273,7 @@ export default function CadastroFamiliar() {
           UF: familyMember.UF, // deve ser inicializado com um dos valores do enum COUNTRY
           CEP: familyMember.CEP,
           neighborhood: familyMember.neighborhood,
-          addressNumber:familyMember.addressNumber, // Iniciar com um número inteiro
+          addressNumber: familyMember.addressNumber, // Iniciar com um número inteiro
           profession: familyMember.profession,
           enrolledGovernmentProgram: familyMember.enrolledGovernmentProgram,
           NIS: familyMember.NIS || undefined,
@@ -704,17 +704,20 @@ export default function CadastroFamiliar() {
               Necessidades Especiais:
             </label>
             <br />
-            <input
-              type="checkbox"
-              name="specialNeeds"
-              onChange={handleInputChange}
-              value={familyMember.specialNeeds}
-              id="specialNeeds"
-              class="survey-control"
-            />
+            <p className="onoff">
+
+              <input
+                type="checkbox"
+                name="specialNeeds"
+                onChange={handleInputChange}
+                value={familyMember.specialNeeds}
+                id="checkboxID"
+              />
+              <label htmlFor="checkboxID" id="yesno"></label>
+            </p>
           </div>
           {familyMember.specialNeeds && (
-            <div>
+            <>
               {/*<!-- Descrição das Necessidades Especiais -->*/}
               <div class="survey-box">
                 <label
@@ -740,16 +743,22 @@ export default function CadastroFamiliar() {
                   Possui relatório médico:
                 </label>
                 <br />
-                <input
-                  type="checkbox"
-                  name="hasMedicalReport"
-                  onChange={handleInputChange}
-                  value={familyMember.hasMedicalReport}
-                  id="hasMedicalReport"
-                  class="survey-control"
-                />
+                <p className="onoff">
+
+                  <input
+                    type="checkbox"
+                    name="hasMedicalReport"
+                    onChange={handleInputChange}
+                    value={familyMember.hasMedicalReport}
+                    id="checkboxID2"
+                    class="survey-control"
+                    
+                  />
+                  <label htmlFor="checkboxID2" id="yesno"></label>
+
+                </p>
               </div>
-            </div>
+            </>
           )}
 
           {/*<!-- Telefone Fixo -->*/}
@@ -948,6 +957,8 @@ export default function CadastroFamiliar() {
               Inscrito em Programa Governamental:
             </label>
             <br />
+            <p className="onoff">
+
             <input
               type="checkbox"
               name="enrolledGovernmentProgram"
@@ -955,7 +966,10 @@ export default function CadastroFamiliar() {
               onChange={handleInputChange}
               id="enrolledGovernmentProgram"
               class="survey-control"
-            />
+              />
+             <label htmlFor="enrolledGovernmentProgram" id="yesno"></label>
+
+              </p>
           </div>
 
           {familyMember.enrolledGovernmentProgram === true && (

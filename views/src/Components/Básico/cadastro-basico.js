@@ -6,6 +6,7 @@ import "./cadastro-basico.css";
 import Select from "react-select";
 import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 import { handleAuthError } from "../../ErrorHandling/handleError";
+import InputCheckbox from "../Inputs/InputCheckbox";
 
 const GENDER = [
   { value: "MALE", label: "Masculino" },
@@ -652,7 +653,7 @@ export default function CadastroBasico() {
               Necessidades Especiais:
             </label>
             <br />
-            <input
+            <InputCheckbox
               type="checkbox"
               name="specialNeeds"
               onChange={handleInputChange}
@@ -688,7 +689,7 @@ export default function CadastroBasico() {
                   Possui relatório médico:
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   name="hasMedicalReport"
                   onChange={handleInputChange}
@@ -774,7 +775,7 @@ export default function CadastroBasico() {
               Inscrito em Programa Governamental:
             </label>
             <br />
-            <input
+            <InputCheckbox
               type="checkbox"
               name="enrolledGovernmentProgram"
               value={candidate.enrolledGovernmentProgram}
@@ -828,7 +829,7 @@ export default function CadastroBasico() {
               Mora Sozinho ?
             </label>
             <br />
-            <input
+            <InputCheckbox
               type="checkbox"
               name="livesAlone"
               value={candidate.livesAlone}
@@ -843,12 +844,12 @@ export default function CadastroBasico() {
               Familia registrada no Cadastro Único?
             </label>
             <br />
-            <input
+            <InputCheckbox
               type="checkbox"
               name="CadUnico"
               checked={candidate.CadUnico}
               onChange={handleInputChange}
-              id="livesAlone"
+              id="CadUnico"
               class="survey-control"
             />
           </div>
@@ -861,7 +862,7 @@ export default function CadastroBasico() {
               Deseja obter bolsa Escolar ?
             </label>
             <br />
-            <input
+            <InputCheckbox
               type="checkbox"
               name="intendsToGetScholarship"
               value={candidate.intendsToGetScholarship}
@@ -880,7 +881,7 @@ export default function CadastroBasico() {
               Estudou em Instituição Pública ?
             </label>
             <br />
-            <input
+            <InputCheckbox
               type="checkbox"
               name="attendedPublicHighSchool"
               value={candidate.attendedPublicHighSchool}
@@ -900,7 +901,7 @@ export default function CadastroBasico() {
               Já recebeu bolsa CEBAS para Educação Básica ?
             </label>
             <br />
-            <input
+            <InputCheckbox
               type="checkbox"
               name="benefitedFromCebasScholarship_basic"
               value={candidate.benefitedFromCebasScholarship_basic}
@@ -1002,12 +1003,12 @@ export default function CadastroBasico() {
               Já recebeu bolsa CEBAS para Educação Profissional ?
             </label>
             <br />
-            <input
+            <InputCheckbox
               type="checkbox"
               name="benefitedFromCebasScholarship_professional"
               value={candidate.benefitedFromCebasScholarship_professional}
               onChange={handleInputChange}
-              id="benefitedFromCebasScholarship_basic"
+              id="benefitedFromCebasScholarship_professional"
               class="survey-control"
               required
             />

@@ -6,6 +6,7 @@ import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 import { handleAuthError } from "../../ErrorHandling/handleError";
 import { formatCurrency } from "../../utils/format-currency";
 import { formatCPF } from "../../utils/format-cpf";
+import InputCheckbox from "../Inputs/InputCheckbox";
 
 const Relationship = [
   { value: "Wife", label: "Esposa" },
@@ -848,7 +849,7 @@ export const VerRendaMensal = ({
           {incomeSource.includes("Unemployed") && (
             <>
               {/*<!-- Recebe Seguro Desemprego ? -->*/}
-              <div class="survey-box">
+              <div class="survey-box survey-check" style={{flexDirection: 'row'}}>
                 <label
                   for="receivesUnemployment"
                   id="receivesUnemployment-label"
@@ -856,7 +857,7 @@ export const VerRendaMensal = ({
                   Recebe Seguro Desemprego ?
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   disabled={!isEditing}
                   name="receivesUnemployment"
@@ -924,12 +925,12 @@ export const VerRendaMensal = ({
           {incomeSource.includes("SelfEmployed") && (
             <>
               {/*<!-- Renda Fixa ? -->*/}
-              <div class="survey-box">
+              <div class="survey-box survey-check" style={{flexDirection: 'row'}}>
                 <label for="fixIncome" id="fixIncome-label">
                   Renda Fixa ?
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   disabled={!isEditing}
                   name="fixIncome"
@@ -1075,12 +1076,12 @@ export const VerRendaMensal = ({
           {incomeSource.includes("InformalWorker") && (
             <>
               {/*<!-- Renda Fixa ? -->*/}
-              <div class="survey-box">
+              <div class="survey-box survey-check" style={{flexDirection: 'row'}}>
                 <label for="fixIncome" id="fixIncome-label">
                   Renda Fixa ?
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   disabled={!isEditing}
                   name="fixIncome"
@@ -1226,12 +1227,12 @@ export const VerRendaMensal = ({
           {incomeSource.includes("RentalIncome") && (
             <>
               {/*<!-- Renda Fixa ? -->*/}
-              <div class="survey-box">
+              <div class="survey-box survey-check" style={{flexDirection: 'row'}}>
                 <label for="fixIncome" id="fixIncome-label">
                   Renda Fixa ?
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   disabled={!isEditing}
                   name="fixIncome"
@@ -1377,12 +1378,12 @@ export const VerRendaMensal = ({
           {incomeSource.includes("LiberalProfessional") && (
             <>
               {/*<!-- Renda Fixa ? -->*/}
-              <div class="survey-box">
+              <div class="survey-box survey-check" style={{flexDirection: 'row'}}>
                 <label for="fixIncome" id="fixIncome-label">
                   Renda Fixa ?
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   disabled={!isEditing}
                   name="fixIncome"
@@ -1528,12 +1529,12 @@ export const VerRendaMensal = ({
           {incomeSource.includes("PrivatePension") && (
             <>
               {/*<!-- Renda Fixa ? -->*/}
-              <div class="survey-box">
+              <div class="survey-box survey-check" style={{flexDirection: 'row'}}>
                 <label for="fixIncome" id="fixIncome-label">
                   Renda Fixa ?
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   disabled={!isEditing}
                   name="fixIncome"
@@ -1679,12 +1680,12 @@ export const VerRendaMensal = ({
           {incomeSource.includes("FinancialHelpFromOthers") && (
             <>
               {/*<!-- Renda Fixa ? -->*/}
-              <div class="survey-box">
+              <div class="survey-box survey-check" style={{flexDirection: 'row'}}>
                 <label for="fixIncome" id="fixIncome-label">
                   Renda Fixa ?
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   disabled={!isEditing}
                   name="fixIncome"
@@ -1986,13 +1987,13 @@ export const VerRendaMensal = ({
           {incomeSource.includes("PrivateEmployee") && (
             <>
               {/*<!-- Recebe Gratificação ? -->*/}
-              <div class="survey-box">
+              <div class="survey-box survey-check" style={{flexDirection: 'row'}}>
                 <label for="gratification" id="gratification-label">
                   {" "}
                   Recebe horas extras, premiação ou gratificação ?{" "}
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   disabled={!isEditing}
                   name="gratification"
@@ -2066,19 +2067,19 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
-                        <div class="survey-box" key={`deductions-${i + 1}`}>
+                        <div class="survey-box survey-check" style={{flexDirection: 'row'}} key={`deductions-${i + 1}`}>
                           <label for="deductions" id="deductions-label">
                             {" "}
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             disabled={!isEditing}
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -2439,19 +2440,19 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
-                        <div class="survey-box" key={`deductions-${i + 1}`}>
+                        <div class="survey-box survey-check" style={{flexDirection: 'row'}} key={`deductions-${i + 1}`}>
                           <label for="deductions" id="deductions-label">
                             {" "}
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             disabled={!isEditing}
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -2752,13 +2753,13 @@ export const VerRendaMensal = ({
           {incomeSource.includes("PublicEmployee") && (
             <>
               {/*<!-- Recebe Gratificação ? -->*/}
-              <div class="survey-box">
+              <div class="survey-box survey-check" style={{flexDirection: 'row'}}>
                 <label for="gratification" id="gratification-label">
                   {" "}
                   Recebe horas extras, premiação ou gratificação ?{" "}
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   disabled={!isEditing}
                   name="gratification"
@@ -2832,19 +2833,19 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
-                        <div class="survey-box" key={`deductions-${i + 1}`}>
+                        <div class="survey-box survey-check" style={{flexDirection: 'row'}} key={`deductions-${i + 1}`}>
                           <label for="deductions" id="deductions-label">
                             {" "}
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             disabled={!isEditing}
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -3205,19 +3206,19 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
-                        <div class="survey-box" key={`deductions-${i + 1}`}>
+                        <div class="survey-box survey-check" style={{flexDirection: 'row'}} key={`deductions-${i + 1}`}>
                           <label for="deductions" id="deductions-label">
                             {" "}
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             disabled={!isEditing}
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -3518,13 +3519,13 @@ export const VerRendaMensal = ({
           {incomeSource.includes("DomesticEmployee") && (
             <>
               {/*<!-- Recebe Gratificação ? -->*/}
-              <div class="survey-box">
+              <div class="survey-box survey-check" style={{flexDirection: 'row'}}>
                 <label for="gratification" id="gratification-label">
                   {" "}
                   Recebe horas extras, premiação ou gratificação ?{" "}
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   disabled={!isEditing}
                   name="gratification"
@@ -3598,19 +3599,19 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
-                        <div class="survey-box" key={`deductions-${i + 1}`}>
+                        <div class="survey-box survey-check" style={{flexDirection: 'row'}} key={`deductions-${i + 1}`}>
                           <label for="deductions" id="deductions-label">
                             {" "}
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             disabled={!isEditing}
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -3971,19 +3972,19 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
-                        <div class="survey-box" key={`deductions-${i + 1}`}>
+                        <div class="survey-box survey-check" style={{flexDirection: 'row'}} key={`deductions-${i + 1}`}>
                           <label for="deductions" id="deductions-label">
                             {" "}
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             disabled={!isEditing}
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -4284,13 +4285,13 @@ export const VerRendaMensal = ({
           {incomeSource.includes("TemporaryRuralEmployee") && (
             <>
               {/*<!-- Recebe Gratificação ? -->*/}
-              <div class="survey-box">
+              <div class="survey-box survey-check" style={{flexDirection: 'row'}}>
                 <label for="gratification" id="gratification-label">
                   {" "}
                   Recebe horas extras, premiação ou gratificação ?{" "}
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   disabled={!isEditing}
                   name="gratification"
@@ -4364,19 +4365,19 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
-                        <div class="survey-box" key={`deductions-${i + 1}`}>
+                        <div class="survey-box survey-check" style={{flexDirection: 'row'}} key={`deductions-${i + 1}`}>
                           <label for="deductions" id="deductions-label">
                             {" "}
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             disabled={!isEditing}
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -4737,19 +4738,19 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
-                        <div class="survey-box" key={`deductions-${i + 1}`}>
+                        <div class="survey-box survey-check" style={{flexDirection: 'row'}} key={`deductions-${i + 1}`}>
                           <label for="deductions" id="deductions-label">
                             {" "}
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             disabled={!isEditing}
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -5050,13 +5051,13 @@ export const VerRendaMensal = ({
           {incomeSource.includes("Retired") && (
             <>
               {/*<!-- Recebe Gratificação ? -->*/}
-              <div class="survey-box">
+              <div class="survey-box survey-check" style={{flexDirection: 'row'}}>
                 <label for="gratification" id="gratification-label">
                   {" "}
                   Recebe horas extras, premiação ou gratificação ?{" "}
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   disabled={!isEditing}
                   name="gratification"
@@ -5130,19 +5131,19 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
-                        <div class="survey-box" key={`deductions-${i + 1}`}>
+                        <div class="survey-box survey-check" style={{flexDirection: 'row'}} key={`deductions-${i + 1}`}>
                           <label for="deductions" id="deductions-label">
                             {" "}
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             disabled={!isEditing}
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -5503,19 +5504,19 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
-                        <div class="survey-box" key={`deductions-${i + 1}`}>
+                        <div class="survey-box survey-check" style={{flexDirection: 'row'}} key={`deductions-${i + 1}`}>
                           <label for="deductions" id="deductions-label">
                             {" "}
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             disabled={!isEditing}
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -5815,13 +5816,13 @@ export const VerRendaMensal = ({
           {incomeSource.includes("Pensioner") && (
             <>
               {/*<!-- Recebe Gratificação ? -->*/}
-              <div class="survey-box">
+              <div class="survey-box survey-check" style={{flexDirection: 'row'}}>
                 <label for="gratification" id="gratification-label">
                   {" "}
                   Recebe horas extras, premiação ou gratificação ?{" "}
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   disabled={!isEditing}
                   name="gratification"
@@ -5895,19 +5896,19 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
-                        <div class="survey-box" key={`deductions-${i + 1}`}>
+                        <div class="survey-box survey-check" style={{flexDirection: 'row'}} key={`deductions-${i + 1}`}>
                           <label for="deductions" id="deductions-label">
                             {" "}
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             disabled={!isEditing}
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -6268,19 +6269,19 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
-                        <div class="survey-box" key={`deductions-${i + 1}`}>
+                        <div class="survey-box survey-check" style={{flexDirection: 'row'}} key={`deductions-${i + 1}`}>
                           <label for="deductions" id="deductions-label">
                             {" "}
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             disabled={!isEditing}
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -6580,13 +6581,13 @@ export const VerRendaMensal = ({
           {incomeSource.includes("TemporaryDisabilityBenefit") && (
             <>
               {/*<!-- Recebe Gratificação ? -->*/}
-              <div class="survey-box">
+              <div class="survey-box survey-check" style={{flexDirection: 'row'}}>
                 <label for="gratification" id="gratification-label">
                   {" "}
                   Recebe horas extras, premiação ou gratificação ?{" "}
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   disabled={!isEditing}
                   name="gratification"
@@ -6660,19 +6661,19 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
-                        <div class="survey-box" key={`deductions-${i + 1}`}>
+                        <div class="survey-box survey-check" style={{flexDirection: 'row'}} key={`deductions-${i + 1}`}>
                           <label for="deductions" id="deductions-label">
                             {" "}
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             disabled={!isEditing}
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -7033,19 +7034,19 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
-                        <div class="survey-box" key={`deductions-${i + 1}`}>
+                        <div class="survey-box survey-check" style={{flexDirection: 'row'}} key={`deductions-${i + 1}`}>
                           <label for="deductions" id="deductions-label">
                             {" "}
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             disabled={!isEditing}
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -7346,13 +7347,13 @@ export const VerRendaMensal = ({
           {incomeSource.includes("Apprentice") && (
             <>
               {/*<!-- Recebe Gratificação ? -->*/}
-              <div class="survey-box">
+              <div class="survey-box survey-check" style={{flexDirection: 'row'}}>
                 <label for="gratification" id="gratification-label">
                   {" "}
                   Recebe horas extras, premiação ou gratificação ?{" "}
                 </label>
                 <br />
-                <input
+                <InputCheckbox
                   type="checkbox"
                   disabled={!isEditing}
                   name="gratification"
@@ -7426,19 +7427,19 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
-                        <div class="survey-box" key={`deductions-${i + 1}`}>
+                        <div class="survey-box survey-check" style={{flexDirection: 'row'}} key={`deductions-${i + 1}`}>
                           <label for="deductions" id="deductions-label">
                             {" "}
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             disabled={!isEditing}
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>
@@ -7799,19 +7800,19 @@ export const VerRendaMensal = ({
                           />
                         </div>
                         {/*<!-- Teve deduções ? -->*/}
-                        <div class="survey-box" key={`deductions-${i + 1}`}>
+                        <div class="survey-box survey-check" style={{flexDirection: 'row'}} key={`deductions-${i + 1}`}>
                           <label for="deductions" id="deductions-label">
                             {" "}
                             No valor informado, teve deduções ?{" "}
                           </label>
                           <br />
-                          <input
+                          <InputCheckbox
                             type="checkbox"
                             disabled={!isEditing}
                             name="deductions"
                             value={deductionsCLT[i + 1]}
                             onChange={() => handleDeductionsCLT(i + 1)}
-                            id="deductions"
+                            id={`deductions${[i+1]}`}
                             class="survey-control"
                           />
                         </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './cadastroVeiculo.css'
 import Select from 'react-select'
 import { api } from '../../services/axios';
+import InputCheckbox from '../Inputs/InputCheckbox';
 const VehicleType = [
     { value: 'SmallCarsAndUtilities', label: 'Carros Pequenos e Utilitários' },
     { value: 'TrucksAndMinibuses', label: 'Caminhões e Vans' },
@@ -156,7 +157,7 @@ export default function CadastroVeiculo({ candidate }) {
                 <div className='survey-box'>
                     <label >Tipo de Veículo:</label>
                     <br />
-                    <select name="vehicleType" value={formData.vehicleType} onChange={handleChange} required>
+                    <select             class="select-data"  name="vehicleType" value={formData.vehicleType} onChange={handleChange} required>
                         <option value="">Selecione</option>
                         {VehicleType.map((type) => (
                             <option key={type.value} value={type.value}>{type.label}</option>))}
@@ -181,7 +182,7 @@ export default function CadastroVeiculo({ candidate }) {
                     <label >Situação do Veículo:</label>
                     <br />
 
-                    <select name="situation" value={formData.situation} onChange={handleChange} required>
+                    <select class="select-data" name="situation" value={formData.situation} onChange={handleChange} required>
                         {VehicleSituation.map((type) => (
                             <option key={type.value} value={type.value}>{type.label}</option>))}
                     </select>
@@ -205,11 +206,11 @@ export default function CadastroVeiculo({ candidate }) {
                     </>
                 )}
 
-                <div className='survey-box'>
+                <div className='survey-box survey-check'>
                     <label >Possui Seguro?</label>
                     <br />
 
-                    <input className='survey-control' type="checkbox" name="hasInsurance" checked={formData.hasInsurance} onChange={handleChange} />
+                    <InputCheckbox id='hasInsurance' className='survey-control' type="checkbox" name="hasInsurance" checked={formData.hasInsurance} onChange={handleChange} />
                 </div>
 
                 {/* Renderiza condicionalmente o campo de valor do seguro se o seguro estiver marcado */}
@@ -226,14 +227,14 @@ export default function CadastroVeiculo({ candidate }) {
                     <label >Uso do Veículo:</label>
                     <br />
 
-                    <select name="usage" value={formData.usage} onChange={handleChange} required>
+                    <select class="select-data" name="usage" value={formData.usage} onChange={handleChange} required>
                         {VehicleUsage.map((type) => (
                             <option key={type.value} value={type.value}>{type.label}</option>))}
                     </select>
                 </div>
 
 
-                <button type="submit">Cadastrar Veículo</button>
+                <button type="button" className='over-button'>Cadastrar Veículo</button>
             </form>
         </div>
     );
