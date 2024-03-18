@@ -187,7 +187,7 @@ export default function CadastroEdital() {
         higherEduScholarshipType: 'PROUNIFull',
         offeredCourseType: '',
         shift: 'Matutino',
-        entity_subsidiary_id: subsidiaries ? subsidiaries[0].id : null
+        entity_subsidiary_id: ''
     });
 
     const [educationalLevels, setEducationalLevels] = useState([]);
