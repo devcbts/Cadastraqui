@@ -211,7 +211,7 @@ export default function CadastroEdital() {
                 higherEduScholarshipType: '',
                 offeredCourseType: '',
                 shift: 'Matutino',
-                entity_subsidiary_id: subsidiaries ? subsidiaries[0].id : null
+                entity_subsidiary_id: ''
             })
         }
         else {
@@ -227,7 +227,7 @@ export default function CadastroEdital() {
                 higherEduScholarshipType: 'PROUNIFull',
                 offeredCourseType: '',
                 shift: 'Matutino',
-                entity_subsidiary_id: subsidiaries ? subsidiaries[0].id : null
+                entity_subsidiary_id: ''
             })
         }
         setIsAddingCourse(false)
@@ -617,6 +617,7 @@ export default function CadastroEdital() {
                                         value={selectedEntityOrSubsidiary}
                                         onChange={(e) => handleEntityOrSubsidiaryChange(e.target.value)}
                                     >
+                                    <option value="">Selecione</option>
                                         <option value={entity.id}>Matriz - {entity.name}</option>
                                         {subsidiaries.map((subsidiary) => (
                                             <option key={subsidiary.id} value={subsidiary.id}>
@@ -737,6 +738,7 @@ export default function CadastroEdital() {
                                         value={selectedEntityOrSubsidiary}
                                         onChange={(e) => handleEntityOrSubsidiaryChange(e.target.value)}
                                     >
+                                        <option value="">Selecione</option>
                                         <option value={entity.id}>Matriz - {entity.name}</option>
                                         {subsidiaries.map((subsidiary) => (
                                             <option key={subsidiary.id} value={subsidiary.id}>
