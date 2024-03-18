@@ -24,6 +24,33 @@ import Cookies from "js-cookie";
 export default function NavBar(props) {
   const { isShown, handleClick, setIsShown } = useAppState();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [profilePhoto, setProfilePhoto] = useState(null);
+
+  useEffect(() => {
+    async function getProfilePhotoEntity() {
+      const token = localStorage.getItem("token");
+  
+      try {
+        const profilePhoto = await api.get("/entities/profilePicture", {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(profilePhoto);
+        setProfilePhoto(profilePhoto.data.url);
+        localStorage.setItem(
+          "profilePhoto",
+          JSON.stringify(profilePhoto.data.url)
+        );
+      } catch (err) {
+        if (err.response.status === 401) {
+          navigate("/login");
+        }
+      }
+    }
+    getProfilePhotoEntity()
+    console.log(profilePhoto)
+  }, [props])
 
   const navigate = useNavigate();
 
@@ -88,13 +115,12 @@ export default function NavBar(props) {
 
   // BackEnd functions
   const entity = props.entity
-  console.log(props)
   return (
     <div className="outer-sidebar">
       {windowWidth < 1030 && (
         <div className="mobile-menu">
           <div className="mobile-user">
-            <img src={photoProfile} className="user-sidebar"></img>
+            <img src={profilePhoto ? profilePhoto: photoProfile} className="user-sidebar"></img>
           </div>
           <div class="search">
             <input type="text" class="search__input" placeholder="Buscar" />
@@ -126,7 +152,7 @@ export default function NavBar(props) {
             <img src={whiteLogoText}></img>
           </div>
           <div className="user">
-            <img src={photoProfile} className="user-sidebar"></img>
+            <img src={profilePhoto ? profilePhoto: photoProfile} className="user-sidebar"></img>
             <div className="user-name">
               <h6>{entity ? entity.name : "Entity Name"}</h6>
             </div>
