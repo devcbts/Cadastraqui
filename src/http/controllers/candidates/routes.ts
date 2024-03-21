@@ -51,6 +51,7 @@ import { registerEntepreneursInfo } from './register-entepreneur-info'
 import { getMonthlyIncomeBySource } from './get-monthly-income'
 import { finishRegistration } from './finish-registration'
 import { getApplicationHistory } from './get-application-history'
+import { getAnnouncementDocument } from './get-announcement-pdf'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -60,6 +61,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     uploadSolicitationDocument,
   )
   app.get('/documents/:_id?', { onRequest: [verifyJWT] }, getDocumentsPDF)
+  app.get('/announcement/pdf/:announcement_id', { onRequest: [verifyJWT]}, getAnnouncementDocument)
 
   /** Basic Info */
   app.post('/', registerCandidate)
