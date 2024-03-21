@@ -61,7 +61,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     uploadSolicitationDocument,
   )
   app.get('/documents/:_id?', { onRequest: [verifyJWT] }, getDocumentsPDF)
-  app.get('/announcement/pdf/:announcement_id', { onRequest: [verifyJWT]}, getAnnouncementDocument)
+  app.get('/documents/announcement/:announcement_id', { onRequest: [verifyJWT]}, getAnnouncementDocument)
 
   /** Basic Info */
   app.post('/', registerCandidate)

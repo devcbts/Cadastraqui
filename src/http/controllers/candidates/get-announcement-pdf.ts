@@ -25,7 +25,7 @@ export async function getAnnouncementDocument(
     if (!announcement) {
       throw new ResourceNotFoundError();
     }
-
+    console.log('rota acessada')
     const Folder = `Announcements/${announcement.entity_id}/${announcement_id}`;
     const url = await getSignedUrlsFromUserFolder(Folder); // Assumindo que esta função retorna a URL direta para o documento
 
