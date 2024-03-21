@@ -20,6 +20,11 @@ export default function VerEditalEntidade() {
   // Estados para os editais
   const [announcement, setAnnouncement] = useState(null);
   const announcement_id = useParams();
+
+//PDF
+const [pdfUrl, setPdfUrl] = useState('');
+
+
   // Estado para informações acerca do usuário logado
   const [entityInfo, setEntityInfo] = useState(null);
   const navigate = useNavigate();
@@ -238,6 +243,25 @@ export default function VerEditalEntidade() {
     });
   };
 
+  const fetchPdfUrl = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await api.get(`/candidates/documents/announcement/${announcement.id}`,{
+        headers: {
+          'authorization': `Bearer ${token}`,
+        }
+      });
+      setPdfUrl(response.data.url);
+      console.log(response.data)
+    } catch (error) {
+      console.error('Erro ao buscar o PDF do edital:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPdfUrl();
+  },[announcement])
+
 
   const renderEducationLevelDetails = (educationLevel) => {
     const findEntityOrSubsidiaryName = (level) => {
@@ -306,6 +330,8 @@ export default function VerEditalEntidade() {
           <button onClick={copyEditalLink} className="copy-link-button">
             Copiar link do edital
           </button>
+          <a href={pdfUrl}  target="_blank"
+                    rel="noopener noreferrer"><h3>Visualizar PDF do Edital</h3></a>
           {announcement ? (
             <div className="descricao-edital-entidade descricao-edital">
               <div className="box-edital">

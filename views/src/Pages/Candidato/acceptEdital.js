@@ -264,6 +264,26 @@ export default function AcceptEdital() {
     getUserInfo()
   }, [])
 
+  const [pdfUrl, setPdfUrl] = useState('');
+
+  useEffect(() => {
+    const fetchPdfUrl = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await api.get(`/candidates/documents/announcement/${params.announcement_id}`,{
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }
+        });
+        setPdfUrl(response.data.url);
+        console.log(response.data)
+      } catch (error) {
+        console.error('Erro ao buscar o PDF do edital:', error);
+      }
+    };
+
+    fetchPdfUrl();
+  }, [params.announcement_id]);
 
 
   async function handleSubmitApplication() {
@@ -317,7 +337,8 @@ export default function AcceptEdital() {
         Penal Brasileiro, bem como sobre a condição prevista no caput e § 2º do
         art. 26 da Lei Complementar nº 187, de 16 de dezembro de 2021.
       </h4>
-
+      <a href={pdfUrl}  target="_blank"
+                    rel="noopener noreferrer"><h3>Visualizar PDF do Edital</h3></a>
       <div className="select-candidato">
         <h4>Candidato (a)</h4>
         <select>
