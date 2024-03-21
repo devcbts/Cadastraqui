@@ -92,7 +92,7 @@ export default function EditalInscricaoFake() {
       <div className="info-inscricao">
         <div>
           <h2>Vagas: {announcementInfo ? announcementInfo.educationLevels.map((level) => {
-            return <>{level.availableCourses}/ </>
+            return <>{level.availableCourses || level.grade}/ </>
           }) : ''}</h2>
         </div>
         <h2>Escolaridade: {educationLevelTranslation}</h2>  

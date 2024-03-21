@@ -10,7 +10,7 @@ export default function MembrosFamilia() {
   //Visualização de dados
 
   // Todos os membros da família
-  const [membros, setMembros] = useState([]);
+  const [membros, setMembros] = useState(null);
 
   // Decide se vai realizar cadastro ou ver os dados dos membros da familia
   const [mostrarCadastro, setMostrarCadastro] = useState(false);
@@ -93,9 +93,7 @@ const DropdownMembros = ({ membros, onSelect }) => {
 
   const handleSelect = (selectedOption) => {
     onSelect(selectedOption.membro);
-    console.log("====================================");
-    console.log(selectedOption);
-    console.log("====================================");
+  
   };
 
   // Esse options é só pra passar os dados pra cima, então eu decido o label, value e um objeto com os dados totais para passar como argumento pra cima

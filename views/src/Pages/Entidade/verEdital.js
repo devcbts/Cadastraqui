@@ -1,24 +1,19 @@
 import React from "react";
 import "./editais.css";
 import { useState, useEffect } from "react";
-import { UilBell } from "@iconscout/react-unicons";
 import { useAppState } from "../../AppGlobal";
-import NavBarAdmin from "../../Components/navBarAdmin";
 import NavBar from "../../Components/navBar";
-import Edital from "../../Components/edital";
 import { api } from "../../services/axios";
 import Cookies from "js-cookie";
 import { useNavigate, useParams } from "react-router";
-import EditalEntidade from "../../Components/editalEntidade";
 import "./verEdital.css";
 import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Swal from 'sweetalert2';
 export default function VerEditalEntidade() {
   const { isShown } = useAppState();
   // The empty array ensures this effect only runs once, on mount and unmount
-
   // BackEnd Functions
   const [profilePhoto, setProfilePhoto] = useState(null);
 
@@ -212,6 +207,38 @@ export default function VerEditalEntidade() {
       });
   };
 
+  const deleteAnnouncement = () => {
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: "Você não poderá reverter isso!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Deletar Edital!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const token = localStorage.getItem('token');
+        api.delete(`/entities/announcement/${announcement.id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          }
+        })
+        .then(response => {
+          Swal.fire('Deletado!', 'O Edital foi deletado.', 'success');
+          navigate('/entidade/home')
+          // Aqui, adicione a lógica para atualizar a UI após a exclusão, se necessário
+        })
+        .catch(error => {
+          Swal.fire('Erro!', 'Houve um erro ao deletar o Edital.', 'error');
+          console.error(error);
+        });
+      }
+    });
+  };
+
+
   const renderEducationLevelDetails = (educationLevel) => {
     const findEntityOrSubsidiaryName = (level) => {
       // Se level.entity_subsidiary_id estiver definido, tente encontrar a filial correspondente
@@ -366,7 +393,9 @@ export default function VerEditalEntidade() {
               renderEducationLevelDetails(educationLevel)
             )}
           </div>
+        <button className="button-edital-excluir" style={{width:'20%', fontSize: '20px'}} onClick={() => deleteAnnouncement(announcement.id)}>Excluir</button>
         </div>
+
       </div>
     </div>
   );

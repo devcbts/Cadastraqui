@@ -54,6 +54,7 @@ export default function AcceptEdital() {
       setSelectedShift(firstLevel.shift);
       setSelectedGrade(firstLevel.grade)
       setSelectedBasicScholarshipType(firstLevel.scholarshipType)
+      setSelectedBasicEduType(firstLevel.basicEduType)
       
     } else {
       // Se não houver levels correspondentes à seleção, você pode optar por resetar selectedLevel ou manter o último selecionado
@@ -118,7 +119,6 @@ export default function AcceptEdital() {
             level.grade === selectedGrade &&
             level.shift === selectedShift &&
             (selectedEntityOrSubsidiary === '' || level.entitySubsidiaryId === selectedEntityOrSubsidiary || (!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id)))
-            console.log(matchedLevels)
             if (matchedLevels.length === 0) {
               matchedLevels = announcementInfo.educationLevels.filter(level =>
                 level.basicEduType === selectedBasicEduType &&
@@ -126,6 +126,7 @@ export default function AcceptEdital() {
                 
                 (selectedEntityOrSubsidiary === '' || level.entitySubsidiaryId === selectedEntityOrSubsidiary || (!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id)))
               }
+              console.log(matchedLevels)
         }
       }
 
@@ -133,7 +134,7 @@ export default function AcceptEdital() {
       const levelToSelect = matchedLevels[0] || announcementInfo.educationLevels[0];
       setSelectedLevel(levelToSelect);
       setSelectedShift(levelToSelect?.shift);
-      console.log("aqui")
+      console.log(levelToSelect)
       // Ajuste para configurações específicas de educação básica ou superior
       if (isBasicEducation) {
         setSelectedBasicEduType(levelToSelect?.basicEduType);
@@ -212,17 +213,12 @@ export default function AcceptEdital() {
         setAnnouncementInfo(response.data.announcements)
         setEntity(response.data.announcements.entity)
         setSubsidiaries(response.data.announcements.entity_subsidiary)
-        setSelectedEntityOrSubsidiary(response.data.announcements.entity.id)
-        setSelectedLevel(response.data.announcements.educationLevels[0])
-        setSelectedCourse(response.data.announcements.educationLevels[0].availableCourses)
-        setSelectedShift(response.data.announcements.educationLevels[0].shift)
-        setSelectedBasicEduType(response.data.announcements.educationLevels[0].basicEduType)
-        setSelectedGrade(response.data.announcements.educationLevels[0].grade)
-        setSelectedBasicScholarshipType(response.data.announcements.educationLevels[0].scholarshipType)
+        isEarlyEducation(announcementInfo.educationLevels)
+        handleEntityOrSubsidiaryChange(response.data.announcements.entity.id)
+        
         console.log(announcementInfo.educationLevels)
 
 
-        isEarlyEducation(announcementInfo.educationLevels)
 
       } catch (err) {
         console.log(err)
@@ -395,16 +391,16 @@ export default function AcceptEdital() {
 
               <div>
                 <h4>Série/Ano</h4>
-                <select value={selectedShift} onChange={(e) => setSelectedGrade(e.target.value)}>
+                <select value={selectedLevel?.grade} onChange={(e) => setSelectedGrade(e.target.value)}>
                   {announcementInfo?.educationLevels
                     .filter(level =>
-                      level.basicEduType === selectedBasicEduType &&
+                      level.basicEduType === selectedLevel?.basicEduType &&
                       ((!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id) ||
                         level.entitySubsidiaryId === selectedEntityOrSubsidiary))
                     .map(level => level.grade)
                     .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicatas
                     .map(grade => (
-                      <option value={grade}>{grade}</option>
+                        <option value={grade}>{grade}</option>
                     ))}
                 </select>
               </div>

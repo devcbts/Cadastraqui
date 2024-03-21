@@ -55,7 +55,6 @@ export default function Basico() {
 
         console.log(dadosBasico);
       } catch (err) {
-        handleAuthError(err);
       }
     }
 

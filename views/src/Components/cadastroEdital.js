@@ -405,6 +405,12 @@ export default function CadastroEdital() {
 
 
             handleSuccess(response, 'Edital Criado com sucesso')
+            setAnnouncementBegin('')
+            setAnnouncementDate('')
+            setAnnouncementName('')
+            setAnnouncementType('')
+            setEducationalLevels([])
+            setFile(null)
 
         } catch (err) {
             handleAuthError(err, navigate, 'Erro ao criar o edital')

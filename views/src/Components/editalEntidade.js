@@ -5,7 +5,6 @@ import uspLogo from "../Assets/usp-logo.png";
 import { formatDate } from "../utils/get-date-formatted";
 import { Link } from "react-router-dom";
 import { api } from "../services/axios";
-
 export default function EditalEntidade({announcement}) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -32,6 +31,8 @@ export default function EditalEntidade({announcement}) {
     getProfilePhotoEntity()
   }, [])
 
+
+ 
   const announcementDate = formatDate(announcement.announcementDate)
   return (
     <Link to={`/entidade/edital/${announcement.id}`}>
