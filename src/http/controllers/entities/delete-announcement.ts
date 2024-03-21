@@ -9,10 +9,10 @@ export async function deleteAnnouncement(
   reply: FastifyReply,
 ) {
   const deleteParamsSchema = z.object({
-    _id: z.string().optional(),
+    announcement_id: z.string().optional(),
   })
 
-  const { _id } = deleteParamsSchema.parse(request.params)
+  const { announcement_id } = deleteParamsSchema.parse(request.params)
 
   try {
     const user_id = request.user.sub
@@ -25,7 +25,7 @@ export async function deleteAnnouncement(
     }
 
     const announcement = await prisma.announcement.findUnique({
-      where: { id: _id },
+      where: { id: announcement_id },
     })
 
     if (!announcement) {
@@ -36,7 +36,7 @@ export async function deleteAnnouncement(
         throw new NotAllowedError()
     }
 
-    await prisma.announcement.delete({ where: { id: _id } })
+    await prisma.announcement.delete({ where: { id: announcement_id } })
 
 
     return reply.status(204).send()
