@@ -24,6 +24,7 @@ import { getEntityProfilePicture } from './get-profile-picture'
 import { getSocialAssistants } from './get-social-assistants'
 import { getApplications } from './get-applications'
 import { deleteAssistant } from './delete-assistant'
+import { deleteAnnouncement } from './delete-announcement'
 
 export async function entityRoutes(app: FastifyInstance) {
   /** Admin Routes (Rotas acessadas na página do Admin)
@@ -92,7 +93,7 @@ export async function entityRoutes(app: FastifyInstance) {
   app.post('/announcement/assistant',{ onRequest: [verifyJWT]},  addAssistantAnnouncement)
   app.delete('/assistant/:_id', {onRequest: [verifyJWT]}, deleteAssistant)
 
-
+// Edital
   app.post(
     '/announcement',
     { onRequest: [verifyJWT] },
@@ -114,7 +115,9 @@ export async function entityRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     createEducationalLevel,
   )
+  app.delete('/announcement/:announcement_id', {onRequest: [verifyJWT]}, deleteAnnouncement)
 
+  //Outros
   app.post('/profilePicture', {onRequest: [verifyJWT]}, uploadEntityProfilePicture)
   app.get('/profilePicture/:_id?', {onRequest: [verifyJWT]}, getEntityProfilePicture)
   app.get(
