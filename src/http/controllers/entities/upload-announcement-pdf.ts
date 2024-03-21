@@ -33,7 +33,7 @@ export async function uploadAnnouncementPdf(
         }
         const fileBuffer = await data.toBuffer();
         console.log(fileBuffer.length)
-        const Route = `Announcemenets/${entity.id}/${announcement_id}`
+        const Route = `Announcemenets/${entity.id}/${announcement_id}.pdf`
         const sended = await uploadFile(fileBuffer, Route)
 
         if (!sended) {
