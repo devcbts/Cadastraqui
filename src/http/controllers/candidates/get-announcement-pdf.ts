@@ -1,6 +1,6 @@
 // Importações necessárias
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error';
-import { getSignedUrlsFromUserFolder } from '@/lib/S3'; // Assumindo que esta função está implementada para obter a URL assinada
+import { GetUrl } from '@/http/services/get-file';
 import { prisma } from '@/lib/prisma';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
@@ -25,9 +25,8 @@ export async function getAnnouncementDocument(
     if (!announcement) {
       throw new ResourceNotFoundError();
     }
-    console.log('rota acessada')
-    const Folder = `Announcements/${announcement.entity_id}/${announcement_id}`;
-    const url = await getSignedUrlsFromUserFolder(Folder); // Assumindo que esta função retorna a URL direta para o documento
+    const Folder = `Announcemenets/${announcement.entity_id}/${announcement_id}`;
+    const url = await GetUrl(Folder); // Assumindo que esta função retorna a URL direta para o documento
 
     if (!url) {
       throw new ResourceNotFoundError();
