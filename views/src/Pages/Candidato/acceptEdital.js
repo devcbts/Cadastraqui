@@ -301,7 +301,14 @@ export default function AcceptEdital() {
       });
       handleSuccess(response,"Inscrição realizada com sucesso!");
     } catch (err) {
-      handleAuthError(err,navigate ,'Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.' )
+      if (err.response.status === 409) {
+        handleAuthError(err,navigate ,'Inscrição já existente no edital!' )
+
+      }else
+      {
+
+        handleAuthError(err,navigate ,'Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.' )
+      }
       // Trate o erro conforme necessário, talvez exibindo uma mensagem ao usuário
     }
   }
