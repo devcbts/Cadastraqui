@@ -28,6 +28,7 @@ export default function useForm(defaultValue = {}, validators = []) {
         values,
         handleChange,
         errors,
-        isValidForm
+        isValidForm,
+        setValues
     ]
 }

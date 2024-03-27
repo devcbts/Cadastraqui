@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState, useRef } from "react";
 import "./login.css";
 import logo from "../../Assets/Prancheta 3@300x-8.png";
@@ -16,7 +16,10 @@ import Swal from 'sweetalert2';
 import { isValidCPF } from "../../utils/validate-cpf";
 import { formatCEP } from "../../utils/format-cep";
 import { formatTelephone } from "../../utils/format-telephone";
-
+import useForm from "../../hooks/useForm";
+import RegisterInput from "./RegisterInput";
+import registerInfoValidation from "./validations/register-info-validation";
+import getUserAddress from "../../utils/get-user-address";
 
 
 
@@ -56,7 +59,7 @@ export default function Login() {
         // Additional step to check age when moving away from page 1
         const birthDate = new Date(currentForm.current['birthDate'].value); // Assuming the input's name is 'birthDate'
         const age = calculateAge(birthDate);
-        if (!isValidCPF(CPFCandidate)) {
+        if (!isValidCPF(registerInfo.CPF)) {
           Swal.fire({
             title: 'Erro!',
             text: 'CPF inválido.',
@@ -288,7 +291,34 @@ export default function Login() {
   const toggleLgpdPopup = () => {
     setShowLgpdPopup(!showLgpdPopup);
   };
-  const register = useForm
+
+  const [registerInfo, handleRegisterInfoChange, registerErrors, , setRegisterFields] = useForm({
+    name: '',
+    CPF: '',
+    birthDate: '',
+    phone: '',
+    email: '',
+    password: '',
+    address: '',
+    CEP: '',
+    UF: '',
+    city: '',
+    neighborhood: '',
+    addressNumber: ''
+  }, registerInfoValidation)
+
+  useEffect(() => {
+    const cep = registerInfo.CEP.replace(/\D/g, '')
+    console.log('CEP', cep)
+    const updateAddress = async () => {
+      if (cep.length === 8) {
+        const address = await getUserAddress(cep)
+        setRegisterFields((prevState) => ({ ...prevState, ...address }))
+      }
+
+    }
+    updateAddress()
+  }, [registerInfo.CEP])
   return (
     <div className="login-container">
       <div id="object-one">
@@ -349,52 +379,48 @@ export default function Login() {
             className={`info-user-sign ${currentPage !== 1 && "hidden-page"}`}
           >
             <form ref={formRef2}>
-              <div>
-                <label for="name">
-                  <h2 className="info-cadastrado">Nome civil completo</h2>
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Exemplo: Jean Carlo do Amaral"
-                  required
-                ></input>
-              </div>
-              <div>
-                <label for="CPF">
-                  <h2 className="info-cadastrado">CPF</h2>
-                </label>
-                <input
-                  type="text"
-                  id="CPF"
-                  name="CPF"
-                  placeholder="Exemplo: XXX.XXX.XXX-XX"
-                  value={CPFCandidate}
-                  onChange={(e) => setCPFCandidate(formatCPF(e.target.value))}
-                  required
-                ></input>
-              </div>
-              <div className="info-dependente">
-                <label for="nome">
-                  <h2 className="info-cadastrado">Data de nascimento</h2>
-                </label>
-                <input type="date" name="birthDate" id="nome" placeholder="2003-10-24"></input>
-              </div>
-              <div>
-                <label for="phone">
-                  <h2 className="info-cadastrado">Telefone</h2>
-                </label>
-                <input
-                  value={phoneCandidate}
-                  onChange={(e) => setPhoneCandidate(formatTelephone(e.target.value))}
-                  type="text"
-                  id="phone"
-                  name="phone"
-                  placeholder="Exemplo: +55 (35) 9 8820-7198"
-                  required
-                ></input>
-              </div>
+              <RegisterInput
+                name="name"
+                label="Nome Civil Completo"
+                type="text"
+                placeholder="Exemplo: Jean Carlo do Amaral"
+                onChange={handleRegisterInfoChange}
+                error={registerErrors}
+                required
+              />
+              <RegisterInput
+                name="CPF"
+                label="CPF"
+                type="text"
+                placeholder="Exemplo: XXX.XXX.XXX-XX"
+                onChange={handleRegisterInfoChange}
+                value={formatCPF(registerInfo.CPF)}
+                error={registerErrors}
+                required
+              />
+              <RegisterInput
+                className="info-dependente"
+                name="birthDate"
+                label="Data de Nascimento"
+                type="date"
+                placeholder="2003-10-24"
+                onChange={handleRegisterInfoChange}
+                error={registerErrors}
+                required
+              />
+              <RegisterInput
+                name="phone"
+                label="Telefone"
+                type="text"
+                placeholder="Exemplo: +55 (35) 9 8820-7198"
+                onChange={handleRegisterInfoChange}
+                value={formatTelephone(registerInfo.phone)}
+                error={registerErrors}
+                required
+              />
+
+
+
               <div className="btn-entrar" onClick={() => handlePageChange()}>
                 <a>Próximo</a>
               </div>
@@ -466,61 +492,56 @@ export default function Login() {
                 <h2 className="text-form">
                   Insira seu endereço para prosseguir
                 </h2>
-                <label for="nome">
-                  <h2 className="info-cadastrado">CEP</h2>
-                </label>
-                <input
-                  value={CEPCandidate}
-                  onChange={(e) => setCEPCandidate(formatCEP(e.target.value))}
-                  type="text"
-                  id="nome"
+                <RegisterInput
                   name="CEP"
+                  label="CEP"
+                  onChange={handleRegisterInfoChange}
+                  type="text"
                   placeholder="Exemplo: 12228-402"
-                ></input>
+                  value={formatCEP(registerInfo.CEP)}
+                />
+
                 <label for="nome">
                   <h2 className="info-cadastrado">UF</h2>
                 </label>
-                <select id="uf" name="UF">
+                <select id="uf" name="UF" value={registerInfo.UF}>
                   {COUNTRY.map(({ value, label }) => (
                     <option value={value}>{label}</option>
                   ))}
                 </select>
-                <label for="nome">
-                  <h2 className="info-cadastrado">Cidade</h2>
-                </label>
-                <input
-                  type="text"
-                  id="nome"
-                  name="city"
-                  placeholder="Exemplo: São Paulo"
-                ></input>
-                <label for="nome">
-                  <h2 className="info-cadastrado">Bairro</h2>
-                </label>
-                <input
-                  type="text"
-                  id="nome"
-                  name="neighborhood"
-                  placeholder="Exemplo: Ipiranga"
-                ></input>
-                <label for="nome">
-                  <h2 className="info-cadastrado">Número do Endereço / Complemento</h2>
-                </label>
-                <input
-                  type="text"
-                  id="nome"
-                  name="addressNumber"
 
-                ></input>
-                <label for="nome">
-                  <h2 className="info-cadastrado">Endereço completo</h2>
-                </label>
-                <input
+                <RegisterInput
+                  name="city"
+                  label="Cidade"
+                  onChange={handleRegisterInfoChange}
                   type="text"
-                  id="nome"
+                  value={registerInfo.city}
+                  placeholder="Exemplo: São Paulo"
+                />
+                <RegisterInput
+                  name="neighborhood"
+                  label="Bairro"
+                  onChange={handleRegisterInfoChange}
+                  value={registerInfo.neighborhood}
+                  type="text"
+                  placeholder="Exemplo: Ipiranga"
+                />
+
+                <RegisterInput
+                  name="addressNumber"
+                  label="Número do Endereço"
+                  onChange={handleRegisterInfoChange}
+                  type="text"
+                  placeholder="Exemplo: 101"
+                />
+                <RegisterInput
                   name="address"
-                  required
-                ></input>
+                  label="Endereço Completo"
+                  value={registerInfo.address}
+                  onChange={handleRegisterInfoChange}
+                  type="text"
+                />
+
               </div>
               <button className="login-btn" type="button">
                 <div className="btn-entrar" onClick={() => handlePageChange()}>
