@@ -1,29 +1,29 @@
 require('module-alias/register');
 
-import { env } from './env/index'
-import fastify, { FastifyReply, FastifyRequest } from 'fastify'
-import fastifyJwt from '@fastify/jwt'
-import fastifyCookie from '@fastify/cookie'
-import { ZodError } from 'zod'
-import { candidateRoutes } from './http/controllers/candidates/routes'
-import { legalResponsibleRoutes } from './http/controllers/legal-responsible/routes'
-import { entityRoutes } from './http/controllers/entities/routes'
-import { authenticate } from './http/controllers/users/authenticate'
-import { refresh } from './http/controllers/users/refresh'
-import { forgotPassword } from './http/controllers/users/forgot-password'
-import { resetPassword } from './http/controllers/users/reset-password'
-import morgan from 'morgan'
-import fastifyMulter from 'fastify-multer'
-import { multerConfig } from './lib/multer'
-import { uploadFile } from './http/services/upload-file'
-import { assistantRoutes } from './http/controllers/social-assistant/routes'
-import fastifyCors from 'fastify-cors'
-import { uploadUserProfilePicture } from './http/controllers/users/upload-profile-picture'
-import { verifyJWT } from './http/middlewares/verify-jwt'
-import { getUserProfilePicture } from './http/controllers/users/get-profile-picture'
-import { fastifyMultipart } from '@fastify/multipart'
-import { adminRoutes } from './http/controllers/admin/routes'
-import { logout } from './http/controllers/users/logout'
+import fastifyCookie from '@fastify/cookie';
+import fastifyJwt from '@fastify/jwt';
+import { fastifyMultipart } from '@fastify/multipart';
+import fastify, { FastifyReply, FastifyRequest } from 'fastify';
+import fastifyCors from 'fastify-cors';
+import fastifyMulter from 'fastify-multer';
+import morgan from 'morgan';
+import { ZodError } from 'zod';
+import { env } from './env/index';
+import { adminRoutes } from './http/controllers/admin/routes';
+import { candidateRoutes } from './http/controllers/candidates/routes';
+import { entityRoutes } from './http/controllers/entities/routes';
+import { legalResponsibleRoutes } from './http/controllers/legal-responsible/routes';
+import { assistantRoutes } from './http/controllers/social-assistant/routes';
+import { authenticate } from './http/controllers/users/authenticate';
+import { forgotPassword } from './http/controllers/users/forgot-password';
+import { getUserProfilePicture } from './http/controllers/users/get-profile-picture';
+import { logout } from './http/controllers/users/logout';
+import { refresh } from './http/controllers/users/refresh';
+import { resetPassword } from './http/controllers/users/reset-password';
+import { uploadUserProfilePicture } from './http/controllers/users/upload-profile-picture';
+import { verifyJWT } from './http/middlewares/verify-jwt';
+import getUserAddress from './http/services/get-address';
+import { multerConfig } from './lib/multer';
 export const app = fastify()
 app.register(fastifyMultipart, {
   limits: {
@@ -79,7 +79,7 @@ app.post(
   uploadUserProfilePicture,
 )
 app.get('/profilePicture', { onRequest: [verifyJWT] }, getUserProfilePicture)
-
+app.get('/getUserAddress', {}, getUserAddress)
 app.setErrorHandler((error, _request, reply) => {
   if (error instanceof ZodError) {
     return reply
