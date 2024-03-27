@@ -1,4 +1,3 @@
-import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
 import { AnnouncementNotExists } from '@/errors/announcement-not-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { prisma } from '@/lib/prisma'
@@ -15,25 +14,19 @@ export async function getApplications(
   const applicationBodySchema = z.object({
     candidate_id: z.string().optional(),
   })
-  console.log('====================================');
-  console.log(request.body);
-  console.log('====================================');
+
   const { application_id } = applicationParamsSchema.parse(request.params)
   const { candidate_id } = applicationBodySchema.parse(request.body)
-  console.log('chegamos aqui')
 
   try {
     const userType = request.user.role
     const userId = request.user.sub
-    
+
     const candidate = await prisma.candidate.findUnique({
       where: { user_id: userId },
     })
-    
-    if (candidate) {
-      
-      
 
+    if (candidate) {
       if (application_id) {
         const solicitations = await prisma.applicationHistory.findMany({
           where: {

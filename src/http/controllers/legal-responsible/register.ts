@@ -1,6 +1,5 @@
 import { UserAlreadyExistsError } from '@/errors/users-already-exists-error'
 import { prisma } from '@/lib/prisma'
-import { ROLE } from '@prisma/client'
 import { hash } from 'bcryptjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -68,10 +67,10 @@ export async function registerLegalResponsible(
   } = registerBodySchema.parse(request.body)
 
   try {
+    console.log(await prisma.user.findFirst({ where: { email } }))
     const userWithSameEmail = await prisma.user.findUnique({
       where: { email },
     })
-
     if (userWithSameEmail) {
       throw new UserAlreadyExistsError()
     }
