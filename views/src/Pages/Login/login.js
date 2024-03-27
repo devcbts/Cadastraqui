@@ -288,7 +288,7 @@ export default function Login() {
   const toggleLgpdPopup = () => {
     setShowLgpdPopup(!showLgpdPopup);
   };
-
+  const register = useForm
   return (
     <div className="login-container">
       <div id="object-one">

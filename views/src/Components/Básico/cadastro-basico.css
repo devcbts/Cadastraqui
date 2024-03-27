@@ -28,7 +28,9 @@
     border-radius: 1.5rem !important;
     width: 25vw !important;
 }
-
+.survey-control[data-error="true"]{
+    border-color: red;
+}
 .select-data{
     border-radius: 1.5rem !important;
     height: 3rem !important;
@@ -40,6 +42,7 @@
 
 .survey-control, .select-data{
     background-color: white;
+    background-color: red;
     color: #1b4f8e !important;
     border-color: #1b4f8e !important;
     font-size: 0.9rem;

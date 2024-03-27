@@ -3,6 +3,7 @@ import "./Familia/cadastroFamiliar.css";
 import { useState } from "react";
 import { api } from "../services/axios";
 import "./cadastro-basico.css";
+import useForm from "../hooks/useForm";
 
 const GENDER = [
   { value: "MALE", label: "Masculino" },
@@ -493,7 +494,7 @@ export default function CadastroBasico() {
                   id="documentValidity"
                   class="survey-control"
                 />
-                
+
               </div>
 
               {/*<!-- Número do Registro de Nascimento -->*/}
