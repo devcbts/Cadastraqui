@@ -59,7 +59,7 @@ export default function Login() {
         if (!isValidCPF(CPFCandidate)) {
           Swal.fire({
             title: 'Erro!',
-            text:'CPF inválido.',
+            text: 'CPF inválido.',
             icon: 'warning',
             confirmButtonText: 'Ok'
           });
@@ -68,7 +68,7 @@ export default function Login() {
         if (age < 18) {
           Swal.fire({
             title: 'Erro!',
-            text:'Você deve ter mais de 18 anos para continuar.',
+            text: 'Você deve ter mais de 18 anos para continuar.',
             icon: 'warning',
             confirmButtonText: 'Ok'
           });
@@ -341,7 +341,7 @@ export default function Login() {
                   <a>Cadastrar-se</a>
                 </div>
               </button>
-              
+
             </form>
           </div>
 
@@ -350,7 +350,7 @@ export default function Login() {
           >
             <form ref={formRef2}>
               <div>
-                <label for="nome">
+                <label for="name">
                   <h2 className="info-cadastrado">Nome civil completo</h2>
                 </label>
                 <input
@@ -362,7 +362,7 @@ export default function Login() {
                 ></input>
               </div>
               <div>
-                <label for="nome">
+                <label for="CPF">
                   <h2 className="info-cadastrado">CPF</h2>
                 </label>
                 <input
@@ -382,14 +382,14 @@ export default function Login() {
                 <input type="date" name="birthDate" id="nome" placeholder="2003-10-24"></input>
               </div>
               <div>
-                <label for="nome">
+                <label for="phone">
                   <h2 className="info-cadastrado">Telefone</h2>
                 </label>
                 <input
-                value={phoneCandidate}
-                onChange={(e) => setPhoneCandidate(formatTelephone(e.target.value))}
+                  value={phoneCandidate}
+                  onChange={(e) => setPhoneCandidate(formatTelephone(e.target.value))}
                   type="text"
-                  id="nome"
+                  id="phone"
                   name="phone"
                   placeholder="Exemplo: +55 (35) 9 8820-7198"
                   required
