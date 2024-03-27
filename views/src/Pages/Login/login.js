@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState, useRef } from "react";
 import "./login.css";
 import logo from "../../Assets/Prancheta 3@300x-8.png";
@@ -19,7 +19,7 @@ import { formatTelephone } from "../../utils/format-telephone";
 import useForm from "../../hooks/useForm";
 import RegisterInput from "./RegisterInput";
 import registerInfoValidation from "./validations/register-info-validation";
-import getUserAddress from "../../utils/get-user-address";
+import useCep from "../../hooks/useCep";
 
 
 
@@ -307,18 +307,9 @@ export default function Login() {
     addressNumber: ''
   }, registerInfoValidation)
 
-  useEffect(() => {
-    const cep = registerInfo.CEP.replace(/\D/g, '')
-    console.log('CEP', cep)
-    const updateAddress = async () => {
-      if (cep.length === 8) {
-        const address = await getUserAddress(cep)
-        setRegisterFields((prevState) => ({ ...prevState, ...address }))
-      }
-
-    }
-    updateAddress()
-  }, [registerInfo.CEP])
+  useCep((address) => {
+    setRegisterFields((prevState) => ({ ...prevState, ...address }))
+  }, registerInfo.CEP)
   return (
     <div className="login-container">
       <div id="object-one">
@@ -504,7 +495,7 @@ export default function Login() {
                 <label for="nome">
                   <h2 className="info-cadastrado">UF</h2>
                 </label>
-                <select id="uf" name="UF" value={registerInfo.UF}>
+                <select id="uf" name="UF" value={registerInfo.UF} onChange={handleRegisterInfoChange}>
                   {COUNTRY.map(({ value, label }) => (
                     <option value={value}>{label}</option>
                   ))}

@@ -1,15 +1,22 @@
 import { useEffect } from "react"
-
-export default function useCep(cep) {
+import getUserAddress from "../utils/get-user-address"
+/**
+ * 
+ * @param {*} callback callback function with 1 argument (address)
+ * @param {*} value value to be observed and, when changed, trigger (or not) the callback
+ */
+export default function useCep(callback, value) {
     useEffect(() => {
-        const onlyDigitsCep = cep.replace(/\D/g, '')
+        console.log('valor alterado', value)
+        const onlyDigitsCep = value.replace(/\D/g, '')
         const updateAddress = async () => {
-            if (cep.length === 8) {
+            if (onlyDigitsCep.length === 8) {
                 const address = await getUserAddress(onlyDigitsCep)
-                handleRegisterInfoChange({ target: {} })
+                callback(address)
             }
 
         }
         updateAddress()
-    }, [cep])
+    }, [value])
+
 }
