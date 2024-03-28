@@ -194,7 +194,13 @@ export default function Login() {
         navigate('/admin/cadastro')
       }
     } else {
-      alert("Preencha os campos exigidos!")
+      Swal.fire({
+        title: 'Erro!',
+        text: 'Preencha os campos email e senha.',
+        icon: 'warning',
+        confirmButtonText: 'Ok'
+      });
+      return; // Prevents the transition to the next page
     }
   }
 
