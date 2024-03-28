@@ -21,6 +21,8 @@ import RegisterInput from "./RegisterInput";
 import registerInfoValidation from "./validations/register-info-validation";
 import useCep from "../../hooks/useCep";
 import LoginButton from "./LoginButton";
+import LoginInput from "./LoginInput";
+import loginInfoValidation from "./validations/login-info-validation";
 
 
 
@@ -164,24 +166,16 @@ export default function Login() {
   function handlePageToRegister() {
     setCurrentPage(1)
   }
-
+  const [loginInfo, handleLoginInfo, loginErrors, isLoginValid, submitLogin] = useForm({ email: '', password: '' }, loginInfoValidation)
   // BackEnd Functions 
   const { SignIn } = useAuth()
   const navigate = useNavigate()
 
   async function login() {
-    // Pega o valor do email e password dos inputs 
-    const loginFormElement = loginForm.current
 
-    if (loginFormElement.checkValidity()) {
-      const email = loginFormElement.querySelector('input[id="usermail"]').value
-      const password = loginFormElement.querySelector('input[id="pass"]').value
-
-      const credentials = { email, password }
-
+    if (submitLogin()) {
       // Loga na aplicação
-      const role = await SignIn(credentials)
-
+      const role = await SignIn(loginInfo)
 
       if (role === 'CANDIDATE' || role === 'RESPONSIBLE') {
         navigate('/candidato/home')
@@ -206,58 +200,24 @@ export default function Login() {
   }
 
   async function handleRegister() {
-    // Acesse o elemento do formulário usando a referência
-    const firstFormElement = formRef2.current
-    const credentialsFormElement = formRef3.current
-    const addressFormElement = formRef4.current
-
-    // Acesse os campos do formulário pelo nome
-    const name = firstFormElement.querySelector('input[name="name"]').value
-    const CPF = CPFCandidate;
-    const birthDate = firstFormElement.querySelector('input[name="birthDate"]').value
-    const phone = firstFormElement.querySelector('input[name="phone"]').value
-    const email = credentialsFormElement.querySelector('input[id="usermail"]').value
-    const password = credentialsFormElement.querySelector('input[id="pass"]').value
-
-    const address = addressFormElement.querySelector('input[name="address"]').value
-    const CEP = addressFormElement.querySelector('input[name="CEP"]').value
-    const UF = addressFormElement.querySelector('select[name="UF"]').value;
-    const city = addressFormElement.querySelector('input[name="city"]').value
-    const neighborhood = addressFormElement.querySelector('input[name="neighborhood"]').value
-    const addressNumber = addressFormElement.querySelector('input[name="addressNumber"]').value
-    const registerInfo = {
-      name,
-      CPF,
-      birthDate,
-      phone,
-      email,
-      password,
-      address,
-      CEP,
-      UF,
-      city,
-      neighborhood,
-      addressNumber: (addressNumber)
-    }
-
     if (typeOfUser === 'candidate') {
       api.post('/candidates', registerInfo)
         .then(() => {
-          alert('Cadastro realizado com sucesso !')
+          Swal.fire({ title: "Concluído", text: "Cadastro realizado com sucesso!", icon: "success" })
           setCurrentPage(0)
         })
         .catch((err) => {
-          console.log(err)
-          alert(`${err.response.data.message}`)
+          Swal.fire({ title: "Erro", text: `O cadastro não pôde ser concluído. ${err?.response?.data?.message}`, icon: "error", })
         })
     } else if (typeOfUser === 'responsible') {
       api.post('/responsibles', registerInfo)
         .then(response => {
-          alert('Cadastro realizado com sucesso !')
+          Swal.fire({ title: "Concluído", text: "Cadastro do responsável realizado!", icon: "success" })
           setResponsibleId(response.data.responsible_id)
           handlePageChange()
         })
-        .catch((err) => console.log(err))
+        .catch((err) => Swal.fire({ title: "Erro", text: `O cadastro não pôde ser concluído. ${err?.response?.data?.message}`, icon: "error", })
+        )
     }
   }
 
@@ -298,8 +258,8 @@ export default function Login() {
   const toggleLgpdPopup = () => {
     setShowLgpdPopup(!showLgpdPopup);
   };
-  const handleForgotPassword = () => {
-    api.post('/forgot_password', { email: 'gabriel_campista@hotmail.com' })
+  const handleForgotPassword = ({ email }) => {
+    api.post('/forgot_password', { email })
     Swal.fire({
       icon: 'success',
       title: 'Email de recuperação enviado',
@@ -345,28 +305,25 @@ export default function Login() {
           >
             <h2>Digite seu email e senha </h2>
             <form ref={loginForm}>
-              <div className="user-login mail">
-                <label for="usermail">
-                  <UilUserCircle size="40" color="white" />
-                </label>
-                <input
-                  type="email"
-                  id="usermail"
-                  placeholder="Email"
-                  required
-                ></input>
-              </div>
-              <div className="user-login password">
-                <label for="pass">
-                  <UilLock size="40" color="white" />
-                </label>
-                <input
-                  type="password"
-                  id="pass"
-                  placeholder="Senha"
-                  required
-                ></input>
-              </div>
+              <LoginInput
+                Icon={UilUserCircle}
+                name='email'
+                type="email"
+                placeholder="Email"
+                onChange={handleLoginInfo}
+                error={loginErrors}
+              />
+
+              <LoginInput
+                Icon={UilLock}
+                name='password'
+                type="password"
+                placeholder="Senha"
+                onChange={handleLoginInfo}
+                error={loginErrors}
+              />
+
+
               <LoginButton onClick={login} label='entrar' />
               <LoginButton onClick={handlePageToRegister} label='cadastrar-se' />
               <a style={{ cursor: "pointer" }} onClick={handleForgotPassword}>Esqueci minha senha</a>
@@ -443,9 +400,11 @@ export default function Login() {
                   <UilUserCircle size="40" color="white" />
                 </label>
                 <input
+                  name="email"
                   type="email"
                   id="usermail"
                   placeholder="Email"
+                  onChange={handleRegisterInfoChange}
                   required
                 ></input>
               </div>
@@ -454,9 +413,11 @@ export default function Login() {
                   <UilLock size="40" color="white" />
                 </label>
                 <input
+                  name="password"
                   type="password"
                   id="pass"
                   placeholder="Senha"
+                  onChange={handleRegisterInfoChange}
                   required
                 ></input>
               </div>
@@ -495,7 +456,7 @@ export default function Login() {
                   error={registerErrors}
                 />
 
-                <label for="nome">
+                <label for="UF">
                   <h2 className="info-cadastrado">UF</h2>
                 </label>
                 <select id="uf" name="UF" value={registerInfo.UF} onChange={handleRegisterInfoChange}>
@@ -610,9 +571,8 @@ export default function Login() {
 
                 </div>
               </form>
-              <div className="btn-confirmar" onClick={() => handleRegister()}>
-                <a>Concluir</a>
-              </div>
+              <LoginButton label='concluir' onClick={handleRegister} />
+
               <div>
                 <div className="go-back">
                   <UilAngleLeft
@@ -677,11 +637,8 @@ export default function Login() {
             className={`create-subperfil ${currentPage !== 7 && "hidden-page"}`}
           >
             <CadastroDependentes num={numDependentes} />
-            <button className="login-btn finish" type="button" onClick={handleRegisterDependent}>
-              <div className="btn-entrar">
-                <a>Concluir</a>
-              </div>
-            </button>
+            <LoginButton label="concluir" onClick={handleRegisterDependent} />
+
             <div>
               <div className="go-back">
                 <UilAngleLeft

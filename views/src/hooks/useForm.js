@@ -24,11 +24,23 @@ export default function useForm(defaultValue = {}, validators = []) {
     const isValidForm = useMemo(() => {
         return Object.keys(errors).every((e) => !errors[e])
     }, [errors])
+
+    const submit = (args) => {
+        let errors;
+        if (!args) {
+            errors = Object.keys(values).map((key) => validateField(key, values[key]))
+        } else {
+            const onlyDatatoValidate = Object.keys(values).filter((key) => args.includes(key))
+            onlyDatatoValidate.map((key) => validateField(key, onlyDatatoValidate[key]))
+        }
+        return errors.length === 0;
+
+    }
     return [
         values,
         handleChange,
         errors,
         isValidForm,
-        setValues
+        submit
     ]
 }

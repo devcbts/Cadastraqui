@@ -5,11 +5,12 @@ export default function RegisterInput({ name, label, error, ...props }) {
                 <h2 className="info-cadastrado">{label}</h2>
             </label>
             <input
+                style={{ borderColor: error[name] && '#ef3e36' }}
                 id={name}
                 name={name}
                 {...props}
             ></input>
-            {(error && !!error[name]) && <label>{error[name]}</label>}
+            {(error && !!error[name]) && <label style={{ fontSize: 14, color: 'red', margin: '0px 8px' }}>{error[name]}</label>}
         </div>
     )
 }
