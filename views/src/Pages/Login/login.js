@@ -47,9 +47,9 @@ export default function Login() {
 
   const loginForm = useRef(null);
 
-  function handlePageChange() {
+  function handlePageChange(e) {
     let currentForm;
-
+    e.preventDefault()
     switch (currentPage) {
       case 0:
         currentForm = formRef1;
@@ -57,7 +57,7 @@ export default function Login() {
       case 1:
         currentForm = formRef2;
         // Additional step to check age when moving away from page 1
-        const birthDate = new Date(currentForm.current['birthDate'].value); // Assuming the input's name is 'birthDate'
+        const birthDate = new Date(registerInfo.birthDate); // Assuming the input's name is 'birthDate'
         const age = calculateAge(birthDate);
         if (!isValidCPF(registerInfo.CPF)) {
           Swal.fire({
@@ -308,7 +308,7 @@ export default function Login() {
   }, registerInfoValidation)
 
   useCep((address) => {
-    setRegisterFields((prevState) => ({ ...prevState, ...address }))
+    Object.keys(address).forEach((key) => handleRegisterInfoChange({ target: { name: key, value: address[key] } }))
   }, registerInfo.CEP)
   return (
     <div className="login-container">
@@ -411,10 +411,11 @@ export default function Login() {
               />
 
 
-
-              <div className="btn-entrar" onClick={() => handlePageChange()}>
-                <a>Próximo</a>
-              </div>
+              <button className="login-btn" >
+                <div className="btn-entrar" onClick={handlePageChange}>
+                  <a>Próximo</a>
+                </div>
+              </button>
               <div>
                 <div className="go-back">
                   <UilAngleLeft
@@ -456,7 +457,7 @@ export default function Login() {
                 ></input>
               </div>
               <button className="login-btn" type="button">
-                <div className="btn-entrar" onClick={() => handlePageChange()}>
+                <div className="btn-entrar" onClick={handlePageChange}>
                   <a>Próximo</a>
                 </div>
               </button>
@@ -490,6 +491,7 @@ export default function Login() {
                   type="text"
                   placeholder="Exemplo: 12228-402"
                   value={formatCEP(registerInfo.CEP)}
+                  error={registerErrors}
                 />
 
                 <label for="nome">
@@ -508,6 +510,8 @@ export default function Login() {
                   type="text"
                   value={registerInfo.city}
                   placeholder="Exemplo: São Paulo"
+                  error={registerErrors}
+
                 />
                 <RegisterInput
                   name="neighborhood"
@@ -516,6 +520,8 @@ export default function Login() {
                   value={registerInfo.neighborhood}
                   type="text"
                   placeholder="Exemplo: Ipiranga"
+                  error={registerErrors}
+
                 />
 
                 <RegisterInput
@@ -524,6 +530,8 @@ export default function Login() {
                   onChange={handleRegisterInfoChange}
                   type="text"
                   placeholder="Exemplo: 101"
+                  error={registerErrors}
+
                 />
                 <RegisterInput
                   name="address"
@@ -531,11 +539,13 @@ export default function Login() {
                   value={registerInfo.address}
                   onChange={handleRegisterInfoChange}
                   type="text"
+                  error={registerErrors}
+
                 />
 
               </div>
               <button className="login-btn" type="button">
-                <div className="btn-entrar" onClick={() => handlePageChange()}>
+                <div className="btn-entrar" onClick={handlePageChange}>
                   <a>Próximo</a>
                 </div>
               </button>
