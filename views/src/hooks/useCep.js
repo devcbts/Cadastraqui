@@ -7,7 +7,6 @@ import getUserAddress from "../utils/get-user-address"
  */
 export default function useCep(callback, value) {
     useEffect(() => {
-        console.log('valor alterado', value)
         const onlyDigitsCep = value.replace(/\D/g, '')
         const updateAddress = async () => {
             if (onlyDigitsCep.length === 8) {

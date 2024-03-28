@@ -166,7 +166,7 @@ export default function Login() {
   function handlePageToRegister() {
     setCurrentPage(1)
   }
-  const [loginInfo, handleLoginInfo, loginErrors, isLoginValid, submitLogin] = useForm({ email: '', password: '' }, loginInfoValidation)
+  const [loginInfo, handleLoginInfo, loginErrors, , submitLogin] = useForm({ email: '', password: '' }, loginInfoValidation)
   // BackEnd Functions 
   const { SignIn } = useAuth()
   const navigate = useNavigate()
@@ -258,14 +258,17 @@ export default function Login() {
   const toggleLgpdPopup = () => {
     setShowLgpdPopup(!showLgpdPopup);
   };
-  const handleForgotPassword = ({ email }) => {
-    api.post('/forgot_password', { email })
-    Swal.fire({
-      icon: 'success',
-      title: 'Email de recuperação enviado',
-      text: `Um email foi enviado para ${'email'}, cheque a caixa de entrada ou de spam.`
-
-    })
+  const handleForgotPassword = () => {
+    if (submitLogin("email")) {
+      api.post('/forgot_password', { email: loginInfo.email })
+      Swal.fire({
+        icon: 'success',
+        title: 'Email de recuperação enviado',
+        text: `Um email foi enviado para ${'email'}, cheque a caixa de entrada ou de spam.`
+      })
+    } else {
+      Swal.fire({ title: "Nenhum Email", text: "Preencha o campo Email para prosseguir", icon: "warning" })
+    }
   }
   const [registerInfo, handleRegisterInfoChange, registerErrors, , setRegisterFields] = useForm({
     name: '',

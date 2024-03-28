@@ -26,14 +26,15 @@ export default function useForm(defaultValue = {}, validators = []) {
     }, [errors])
 
     const submit = (args) => {
-        let errors;
+        let submitErrors;
         if (!args) {
-            errors = Object.keys(values).map((key) => validateField(key, values[key]))
+            submitErrors = Object.keys(values).map((key) => validateField(key, values[key]))
         } else {
-            const onlyDatatoValidate = Object.keys(values).filter((key) => args.includes(key))
-            onlyDatatoValidate.map((key) => validateField(key, onlyDatatoValidate[key]))
+            const onlyDataToValidate = Object.entries(values).filter((entry) => args.includes(entry[0]))
+            submitErrors = onlyDataToValidate.map((entry) => validateField(entry[0], entry[1]))
+            console.log(submitErrors)
         }
-        return errors.length === 0;
+        return submitErrors.every((e) => !e);
 
     }
     return [
