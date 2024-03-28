@@ -20,6 +20,7 @@ import useForm from "../../hooks/useForm";
 import RegisterInput from "./RegisterInput";
 import registerInfoValidation from "./validations/register-info-validation";
 import useCep from "../../hooks/useCep";
+import LoginButton from "./LoginButton";
 
 
 
@@ -196,7 +197,7 @@ export default function Login() {
     } else {
       Swal.fire({
         title: 'Erro!',
-        text: 'Preencha os campos email e senha.',
+        text: 'Preencha os campos de email e senha.',
         icon: 'warning',
         confirmButtonText: 'Ok'
       });
@@ -297,7 +298,15 @@ export default function Login() {
   const toggleLgpdPopup = () => {
     setShowLgpdPopup(!showLgpdPopup);
   };
+  const handleForgotPassword = () => {
+    api.post('/forgot_password', { email: 'gabriel_campista@hotmail.com' })
+    Swal.fire({
+      icon: 'success',
+      title: 'Email de recuperação enviado',
+      text: `Um email foi enviado para ${'email'}, cheque a caixa de entrada ou de spam.`
 
+    })
+  }
   const [registerInfo, handleRegisterInfoChange, registerErrors, , setRegisterFields] = useForm({
     name: '',
     CPF: '',
@@ -358,17 +367,9 @@ export default function Login() {
                   required
                 ></input>
               </div>
-              <button className="login-btn" type="button" onClick={login}>
-                <div className="btn-entrar">
-                  <a>Entrar</a>
-                </div>
-              </button>
-              <button className="login-btn" type="button">
-                <div className="btn-entrar" onClick={handlePageToRegister}>
-                  <a>Cadastrar-se</a>
-                </div>
-              </button>
-
+              <LoginButton onClick={login} label='entrar' />
+              <LoginButton onClick={handlePageToRegister} label='cadastrar-se' />
+              <a style={{ cursor: "pointer" }} onClick={handleForgotPassword}>Esqueci minha senha</a>
             </form>
           </div>
 
@@ -416,12 +417,8 @@ export default function Login() {
                 required
               />
 
+              <LoginButton onClick={handlePageChange} label='próximo' />
 
-              <button className="login-btn" >
-                <div className="btn-entrar" onClick={handlePageChange}>
-                  <a>Próximo</a>
-                </div>
-              </button>
               <div>
                 <div className="go-back">
                   <UilAngleLeft
@@ -429,6 +426,7 @@ export default function Login() {
                     color="#1F4B73"
                     className="back"
                     onClick={() => handleBackChange()}
+                    style={{ marginTop: 1 + "rem" }}
                   ></UilAngleLeft>
                 </div>
               </div>
@@ -462,11 +460,8 @@ export default function Login() {
                   required
                 ></input>
               </div>
-              <button className="login-btn" type="button">
-                <div className="btn-entrar" onClick={handlePageChange}>
-                  <a>Próximo</a>
-                </div>
-              </button>
+              <LoginButton onClick={handlePageChange} label='próximo' />
+
 
               <div>
                 <div className="go-back">
@@ -550,11 +545,8 @@ export default function Login() {
                 />
 
               </div>
-              <button className="login-btn" type="button">
-                <div className="btn-entrar" onClick={handlePageChange}>
-                  <a>Próximo</a>
-                </div>
-              </button>
+              <LoginButton onClick={handlePageChange} label='próximo' />
+
               <div>
                 <div className="go-back">
                   <UilAngleLeft
