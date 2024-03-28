@@ -79,7 +79,7 @@ app.post(
   uploadUserProfilePicture,
 )
 app.get('/profilePicture', { onRequest: [verifyJWT] }, getUserProfilePicture)
-app.get('/getUserAddress', {}, getUserAddress)
+app.get('/getUserAddress', getUserAddress)
 app.setErrorHandler((error, _request, reply) => {
   if (error instanceof ZodError) {
     return reply
