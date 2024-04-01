@@ -16,7 +16,6 @@ export async function getResponsibleInfo(
     const dependents = await prisma.candidate.findMany({
       where: { responsible_id: responsible?.id }
     })
-    console.log(dependents, user_id)
     if (!responsible) {
       throw new NotAllowedError()
     }

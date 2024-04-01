@@ -21,11 +21,10 @@ export async function getApplications(
   try {
     const userType = request.user.role
     const userId = request.user.sub
-
     const candidate = await prisma.candidate.findUnique({
       where: { user_id: userId },
     })
-
+    console.log('user', userType)
     if (candidate) {
       if (application_id) {
         const solicitations = await prisma.applicationHistory.findMany({
@@ -48,10 +47,27 @@ export async function getApplications(
             SocialAssistant: true
           }
         })
-
         return reply.status(200).send({ applications })
       }
     } else {
+      if (userType === 'RESPONSIBLE') {
+        console.log(request.user)
+        const responsible = await prisma.legalResponsible.findMany({
+          where: { user_id: userId },
+          include: {
+            Candidate: true
+          }
+        })
+        const applications = await prisma.application.findMany({
+          where: { candidate_id: { in: responsible.map((candidate) => candidate.id) } },
+          include: {
+            announcement: true, // inclui detalhes do anúncio
+            EducationLevel: true,
+            SocialAssistant: true
+          }
+        })
+        return reply.status(200).send({ applications })
+      }
       const candidate = await prisma.candidate.findUnique({
         where: { id: candidate_id },
       })
