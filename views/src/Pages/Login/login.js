@@ -52,7 +52,7 @@ export default function Login() {
 
   function handlePageChange(e) {
     let currentForm;
-    e.preventDefault()
+    e?.preventDefault()
     switch (currentPage) {
       case 0:
         currentForm = formRef1;
@@ -212,6 +212,7 @@ export default function Login() {
     } else if (typeOfUser === 'responsible') {
       api.post('/responsibles', registerInfo)
         .then(response => {
+          console.log(response)
           Swal.fire({ title: "Concluído", text: "Cadastro do responsável realizado!", icon: "success" })
           setResponsibleId(response.data.responsible_id)
           handlePageChange()
@@ -245,10 +246,9 @@ export default function Login() {
       }
 
       await api.post('/responsibles/legal-dependents', data)
-        .then(() => alert('Cadastro Concluído com sucesso !'))
+        .then(() => Swal.fire({ title: "Concluído", text: `Cadastro de ${data.name[i]} realizado!`, icon: "success" }))
         .catch((error) => {
-          console.log(error)
-          alert(`${error.response.data.message}`)
+          Swal.fire({ title: "Erro", text: "Erro ao realizar cadastro", icon: "error" })
         })
     }
     setCurrentPage(0)
@@ -264,7 +264,7 @@ export default function Login() {
       Swal.fire({
         icon: 'success',
         title: 'Email de recuperação enviado',
-        text: `Um email foi enviado para ${'email'}, cheque a caixa de entrada ou de spam.`
+        text: `Um email foi enviado para o email ${loginInfo.email}, cheque a caixa de entrada ou de spam.`
       })
     } else {
       Swal.fire({ title: "Nenhum Email", text: "Preencha o campo Email para prosseguir", icon: "warning" })
@@ -398,32 +398,26 @@ export default function Login() {
           >
             <h2>Cadastre seu email e senha </h2>
             <form ref={formRef3}>
-              <div className="user-login mail">
-                <label for="usermail">
-                  <UilUserCircle size="40" color="white" />
-                </label>
-                <input
-                  name="email"
-                  type="email"
-                  id="usermail"
-                  placeholder="Email"
-                  onChange={handleRegisterInfoChange}
-                  required
-                ></input>
-              </div>
-              <div className="user-login password">
-                <label for="pass">
-                  <UilLock size="40" color="white" />
-                </label>
-                <input
-                  name="password"
-                  type="password"
-                  id="pass"
-                  placeholder="Senha"
-                  onChange={handleRegisterInfoChange}
-                  required
-                ></input>
-              </div>
+              <LoginInput
+                Icon={UilUserCircle}
+                name="email"
+                type="email"
+                placeholder="Email"
+                onChange={handleRegisterInfoChange}
+                error={registerErrors}
+                required
+              />
+              <LoginInput
+                Icon={UilLock}
+                name="password"
+                type="password"
+                placeholder="Password"
+                onChange={handleRegisterInfoChange}
+                error={registerErrors}
+                showErrorHint
+                required
+              />
+
               <LoginButton onClick={handlePageChange} label='próximo' />
 
 
@@ -457,12 +451,13 @@ export default function Login() {
                   placeholder="Exemplo: 12228-402"
                   value={formatCEP(registerInfo.CEP)}
                   error={registerErrors}
+                  required
                 />
 
                 <label for="UF">
                   <h2 className="info-cadastrado">UF</h2>
                 </label>
-                <select id="uf" name="UF" value={registerInfo.UF} onChange={handleRegisterInfoChange}>
+                <select id="uf" name="UF" value={registerInfo.UF} onChange={handleRegisterInfoChange} required>
                   {COUNTRY.map(({ value, label }) => (
                     <option value={value}>{label}</option>
                   ))}
@@ -476,7 +471,7 @@ export default function Login() {
                   value={registerInfo.city}
                   placeholder="Exemplo: São Paulo"
                   error={registerErrors}
-
+                  required
                 />
                 <RegisterInput
                   name="neighborhood"
@@ -486,7 +481,7 @@ export default function Login() {
                   type="text"
                   placeholder="Exemplo: Ipiranga"
                   error={registerErrors}
-
+                  required
                 />
 
                 <RegisterInput
@@ -496,7 +491,7 @@ export default function Login() {
                   type="text"
                   placeholder="Exemplo: 101"
                   error={registerErrors}
-
+                  required
                 />
                 <RegisterInput
                   name="address"
@@ -505,7 +500,7 @@ export default function Login() {
                   onChange={handleRegisterInfoChange}
                   type="text"
                   error={registerErrors}
-
+                  required
                 />
 
               </div>

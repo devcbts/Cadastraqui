@@ -93,7 +93,7 @@ const DropdownMembros = ({ membros, onSelect }) => {
 
   const handleSelect = (selectedOption) => {
     onSelect(selectedOption.membro);
-  
+
   };
 
   // Esse options é só pra passar os dados pra cima, então eu decido o label, value e um objeto com os dados totais para passar como argumento pra cima

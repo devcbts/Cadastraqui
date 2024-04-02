@@ -13,6 +13,8 @@ const registerInfoValidation = new ValidationComposite(
         ...ValidationBuilder.create('city').required().build(),
         ...ValidationBuilder.create('addressNumber').required().build(),
         ...ValidationBuilder.create('address').required().build(),
+        ...ValidationBuilder.create('email').required().build(),
+        ...ValidationBuilder.create('password').required().min(6).build()
     ]
 )
 

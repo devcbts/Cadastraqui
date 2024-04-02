@@ -346,8 +346,7 @@ export default function CadastroBasico() {
             label='Cidade Natal'
             type='text'
             required
-
-            value={candidateInfo?.birthDate?.split("T")[0]}
+            value={candidateInfo?.natural_city}
             onChange={handleCandidateInfo}
             error={candidateInfoErrors}
           />
