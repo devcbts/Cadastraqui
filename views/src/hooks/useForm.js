@@ -3,9 +3,6 @@ import React, { useEffect, useMemo, useState } from "react";
 export default function useForm(defaultValue = {}, validators = []) {
     const [values, setValues] = useState(defaultValue);
     const [errors, setErrors] = useState(Object.keys(defaultValue).reduce((acc, key) => { acc[key] = ''; return acc }, {}))
-    useEffect(() => {
-        console.log('valores', values)
-    }, [values])
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -25,14 +22,13 @@ export default function useForm(defaultValue = {}, validators = []) {
         return Object.keys(errors).every((e) => !errors[e])
     }, [errors])
 
-    const submit = (args) => {
+    const submit = (...args) => {
         let submitErrors;
-        if (!args) {
+        if (!args || !args?.length) {
             submitErrors = Object.keys(values).map((key) => validateField(key, values[key]))
         } else {
             const onlyDataToValidate = Object.entries(values).filter((entry) => args.includes(entry[0]))
             submitErrors = onlyDataToValidate.map((entry) => validateField(entry[0], entry[1]))
-            console.log(submitErrors)
         }
         return submitErrors.every((e) => !e);
 

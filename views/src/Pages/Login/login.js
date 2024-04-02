@@ -23,6 +23,7 @@ import useCep from "../../hooks/useCep";
 import LoginButton from "./LoginButton";
 import LoginInput from "./LoginInput";
 import loginInfoValidation from "./validations/login-info-validation";
+import validateEmail from "../../utils/validate-email";
 
 
 
@@ -51,14 +52,14 @@ export default function Login() {
   const loginForm = useRef(null);
 
   function handlePageChange(e) {
-    let currentForm;
+    let formValidation;
     e?.preventDefault()
     switch (currentPage) {
       case 0:
-        currentForm = formRef1;
+        formValidation = submitLogin();
         break;
       case 1:
-        currentForm = formRef2;
+        formValidation = submitRegister("name", "CPF", "birthDate", "phone");
         // Additional step to check age when moving away from page 1
         const birthDate = new Date(registerInfo.birthDate); // Assuming the input's name is 'birthDate'
         const age = calculateAge(birthDate);
@@ -82,25 +83,25 @@ export default function Login() {
         }
         break;
       case 2:
-        currentForm = formRef3;
+        formValidation = submitRegister("email", "password");
         break;
       case 3:
-        currentForm = formRef4;
+        formValidation = submitRegister("CEP", "address", "addressNumber", "UF", "city", "neighborhood");
         break;
       case 4:
-        currentForm = formRef5;
+        formValidation = formRef5.current.checkValidity();
         break;
       case 5:
-        currentForm = formRef6;
+        formValidation = formRef6.current.checkValidity();
         break;
       case 6:
-        currentForm = formRef7;
+        formValidation = formRef7.current.checkValidity();
         break;
       default:
-        currentForm = formRef1;
+        formValidation = formRef1.current.checkValidity();
     }
 
-    if (currentForm.current.checkValidity()) {
+    if (formValidation) {
       setCurrentPage((prevPage) => {
         if (prevPage === 0) return 1;
         if (prevPage === 1) return 2;
@@ -259,7 +260,7 @@ export default function Login() {
     setShowLgpdPopup(!showLgpdPopup);
   };
   const handleForgotPassword = () => {
-    if (submitLogin("email")) {
+    if (submitLogin("email") && validateEmail(loginInfo.email)) {
       api.post('/forgot_password', { email: loginInfo.email })
       Swal.fire({
         icon: 'success',
@@ -270,7 +271,7 @@ export default function Login() {
       Swal.fire({ title: "Nenhum Email", text: "Preencha o campo Email para prosseguir", icon: "warning" })
     }
   }
-  const [registerInfo, handleRegisterInfoChange, registerErrors, , setRegisterFields] = useForm({
+  const [registerInfo, handleRegisterInfoChange, registerErrors, , submitRegister] = useForm({
     name: '',
     CPF: '',
     birthDate: '',
@@ -329,7 +330,7 @@ export default function Login() {
 
               <LoginButton onClick={login} label='entrar' />
               <LoginButton onClick={handlePageToRegister} label='cadastrar-se' />
-              <a style={{ cursor: "pointer" }} onClick={handleForgotPassword}>Esqueci minha senha</a>
+              <label style={{ cursor: "pointer", fontSize: 18 }} onClick={handleForgotPassword}>Esqueci minha senha</label>
             </form>
           </div>
 
@@ -352,6 +353,7 @@ export default function Login() {
                 type="text"
                 placeholder="Exemplo: XXX.XXX.XXX-XX"
                 onChange={handleRegisterInfoChange}
+                maxLength={14}
                 value={formatCPF(registerInfo.CPF)}
                 error={registerErrors}
                 required
@@ -405,6 +407,7 @@ export default function Login() {
                 placeholder="Email"
                 onChange={handleRegisterInfoChange}
                 error={registerErrors}
+                showErrorHint
                 required
               />
               <LoginInput
