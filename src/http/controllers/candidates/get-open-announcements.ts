@@ -22,10 +22,11 @@ export async function getOpenAnnouncements(
           entity_subsidiary: true
         }
       })
+      console.log(announcements)
     } else {
       announcements = await prisma.announcement.findUnique({
         where: { id: announcement_id, announcementDate: { gte: new Date() } },
-        include:{
+        include: {
           educationLevels: {
             include: {
               entitySubsidiary: true

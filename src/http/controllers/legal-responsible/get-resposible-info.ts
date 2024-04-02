@@ -13,11 +13,14 @@ export async function getResponsibleInfo(
     const responsible = await prisma.legalResponsible.findUnique({
       where: { user_id },
     })
+    const dependents = await prisma.candidate.findMany({
+      where: { responsible_id: responsible?.id }
+    })
     if (!responsible) {
       throw new NotAllowedError()
     }
 
-    return reply.status(200).send({ responsible })
+    return reply.status(200).send({ responsible, dependents })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })

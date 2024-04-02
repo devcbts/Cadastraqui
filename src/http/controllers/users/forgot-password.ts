@@ -10,6 +10,7 @@ export async function forgotPassword(req: FastifyRequest, reply: FastifyReply) {
   })
 
   const { email } = forgotPasswordBodySchema.parse(req.body)
+
   try {
     const user = await prisma.user.findUnique({ where: { email } })
     if (!user) {

@@ -3,17 +3,17 @@ import nodemailer from 'nodemailer'
 export async function sendMail(token: string) {
   const transport = nodemailer.createTransport({
     host: 'sandbox.smtp.mailtrap.io',
-    port: 2525,
+    port: 587,
     auth: {
-      user: 'be748dd7c7d790',
-      pass: '69d282cae9f3f6',
+      user: '7d1b9fcda7973e',
+      pass: '3f67c151353e8e',
     },
   })
 
   // Envia o Email de redefinição de senha
   const info = await transport.sendMail({
-    from: 'kauanaragao50@gmail.com',
-    to: 'kauanaragao50@gmail.com',
+    from: 'gabrielcampista307@gmail.com',
+    to: 'gabrielcampista307@gmail.com',
     subject: 'Reset Password',
     text: 'Token to Reset your Password',
     html: `<body>
