@@ -4,7 +4,7 @@ import ValidationBuilder from "../../../validation/builders/validation-builder";
 const registerInfoValidation = new ValidationComposite(
     [
         ...ValidationBuilder.create('name').required().build(),
-        ...ValidationBuilder.create('CPF').required().build(),
+        ...ValidationBuilder.create('CPF').required().cpf().build(),
         ...ValidationBuilder.create('birthDate').required().build(),
         ...ValidationBuilder.create('phone').required().build(),
         ...ValidationBuilder.create('CEP').required().build(),
@@ -13,7 +13,7 @@ const registerInfoValidation = new ValidationComposite(
         ...ValidationBuilder.create('city').required().build(),
         ...ValidationBuilder.create('addressNumber').required().build(),
         ...ValidationBuilder.create('address').required().build(),
-        ...ValidationBuilder.create('email').required().build(),
+        ...ValidationBuilder.create('email').required().email().build(),
         ...ValidationBuilder.create('password').required().min(6).build()
     ]
 )
