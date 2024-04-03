@@ -3,7 +3,7 @@ import ValidationBuilder from "../../../validation/builders/validation-builder";
 
 const loginInfoValidation = new ValidationComposite(
     [
-        ...ValidationBuilder.create('email').required().build(),
+        ...ValidationBuilder.create('email').required().email().build(),
         ...ValidationBuilder.create('password').required().build(),
     ]
 )
