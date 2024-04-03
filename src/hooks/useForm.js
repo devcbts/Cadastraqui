@@ -34,7 +34,7 @@ export default function useForm(defaultValue = {}, validators = []) {
 
     }
     return [
-        values,
+        [values, setValues],
         handleChange,
         errors,
         isValidForm,

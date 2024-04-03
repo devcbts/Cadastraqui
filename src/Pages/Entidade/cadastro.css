@@ -31,7 +31,7 @@
     color: white;
 }
 
-#contact input[type="text"], #contact input[type="date"], #contact input[type="email"], #contact input[type="number"], #contact input[type="tel"], #contact input[type="url"], #contact textarea, #contact button[type="submit"] { font:400 13px/16px "Open Sans", Helvetica, Arial, sans-serif; }
+#contact input[type="text"], #contact input[type="password"],#contact input[type="date"], #contact input[type="email"], #contact input[type="number"], #contact input[type="tel"], #contact input[type="url"], #contact textarea, #contact button[type="submit"] { font:400 13px/16px "Open Sans", Helvetica, Arial, sans-serif; }
 
 #contact {
   padding:25px;
@@ -61,7 +61,7 @@ fieldset {
   margin-top: 2.5rem;
 }
 
-#contact input[type="text"],#contact input[type="date"], #contact input[type="email"], #contact input[type="tel"], #contact input[type="url"], #contact input[type="number"], #contact textarea {
+#contact input[type="text"],#contact input[type="password"],#contact input[type="date"], #contact input[type="email"], #contact input[type="tel"], #contact input[type="url"], #contact input[type="number"], #contact textarea {
   width:100%;
   border:1px solid #CCC;
   background:#FFF;
@@ -69,7 +69,7 @@ fieldset {
   padding:10px;
 }
 
-#contact input[type="text"]:hover,#contact input[type="date"]:hover, #contact input[type="email"]:hover, #contact input[type="tel"]:hover, #contact input[type="number"]:hover, #contact input[type="url"]:hover, #contact textarea:hover {
+#contact input[type="text"]:hover,#contact input[type="password"]:hover,#contact input[type="date"]:hover, #contact input[type="email"]:hover, #contact input[type="tel"]:hover, #contact input[type="number"]:hover, #contact input[type="url"]:hover, #contact textarea:hover {
   -webkit-transition:border-color 0.3s ease-in-out;
   -moz-transition:border-color 0.3s ease-in-out;
   transition:border-color 0.3s ease-in-out;

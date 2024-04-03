@@ -163,7 +163,7 @@ export default function Login() {
   function handlePageToRegister() {
     setCurrentPage(1)
   }
-  const [loginInfo, handleLoginInfo, loginErrors, , submitLogin] = useForm({ email: '', password: '' }, loginInfoValidation)
+  const [[loginInfo], handleLoginInfo, loginErrors, , submitLogin] = useForm({ email: '', password: '' }, loginInfoValidation)
   // BackEnd Functions 
   const { SignIn } = useAuth()
   const navigate = useNavigate()
@@ -273,7 +273,7 @@ export default function Login() {
       Swal.fire({ title: "Nenhum Email", text: "Preencha o campo Email para prosseguir", icon: "warning" })
     }
   }
-  const [registerInfo, handleRegisterInfoChange, registerErrors, , submitRegister] = useForm({
+  const [[registerInfo], handleRegisterInfoChange, registerErrors, , submitRegister] = useForm({
     name: '',
     CPF: '',
     birthDate: '',

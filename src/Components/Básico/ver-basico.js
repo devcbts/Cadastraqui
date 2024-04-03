@@ -142,7 +142,7 @@ const IncomeSource = [
 ];
 
 export default function VerBasico({ candidate, basic, role }) {
-  const [candidateInfo, handleCandidateInfo, candidateInfoErrors, isFormValid] = useForm(candidate, candidateInfoValidations);
+  const [[candidateInfo], handleCandidateInfo, candidateInfoErrors, isFormValid] = useForm(candidate);
   // Estado para controlar o modo de edição
   const [isEditing, setIsEditing] = useState(false);
 

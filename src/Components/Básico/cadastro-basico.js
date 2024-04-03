@@ -140,7 +140,7 @@ const IncomeSource = [
 ];
 
 export default function CadastroBasico() {
-  const [candidateInfo, handleCandidateInfo, candidateInfoErrors, isFormValid] = useForm({
+  const [[candidateInfo], handleCandidateInfo, candidateInfoErrors, isFormValid] = useForm({
     fullName: "",
     socialName: "",
     birthDate: "",
@@ -183,7 +183,7 @@ export default function CadastroBasico() {
     institutionCNPJ_professional: "",
     nameOfScholarshipCourse_professional: null,
     CadUnico: false,
-  }, candidateInfoValidations);
+  });
 
 
 
