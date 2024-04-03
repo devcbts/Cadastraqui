@@ -38,9 +38,7 @@ export default function Login() {
   const [typeOfUser, setTypeOfUser] = useState()
 
   // CPF dinamico
-  const [CPFCandidate, setCPFCandidate] = useState('')
-  const [CEPCandidate, setCEPCandidate] = useState('')
-  const [phoneCandidate, setPhoneCandidate] = useState('')
+
   const formRef1 = useRef(null);
   const formRef2 = useRef(null);
   const formRef3 = useRef(null);
@@ -48,8 +46,6 @@ export default function Login() {
   const formRef5 = useRef(null);
   const formRef6 = useRef(null);
   const formRef7 = useRef(null);
-
-  const loginForm = useRef(null);
 
   function handlePageChange(e) {
     let formValidation;
@@ -63,15 +59,15 @@ export default function Login() {
         // Additional step to check age when moving away from page 1
         const birthDate = new Date(registerInfo.birthDate); // Assuming the input's name is 'birthDate'
         const age = calculateAge(birthDate);
-        if (!isValidCPF(registerInfo.CPF)) {
-          Swal.fire({
-            title: 'Erro!',
-            text: 'CPF inválido.',
-            icon: 'warning',
-            confirmButtonText: 'Ok'
-          });
-          return; // Prevents the transition to the next page
-        }
+        /*  if (!isValidCPF(registerInfo.CPF)) {
+           Swal.fire({
+             title: 'Erro!',
+             text: 'CPF inválido.',
+             icon: 'warning',
+             confirmButtonText: 'Ok'
+           });
+           return; // Prevents the transition to the next page
+         } */
         if (age < 18) {
           Swal.fire({
             title: 'Erro!',
@@ -236,7 +232,10 @@ export default function Login() {
       CPFs.push(CPF)
       birthDates.push(birthDate)
     }
-
+    if (names.some(e => !e) || CPFs.some(e => !e) || birthDates.some(e => !e)) {
+      Swal.fire({ title: "Erro", text: "Todos os campos de dependentes são obrigatórios", icon: "warning" })
+      return
+    }
 
     for (let i = 0; i < numDependentes; i++) {
       const data = {
@@ -247,12 +246,15 @@ export default function Login() {
       }
 
       await api.post('/responsibles/legal-dependents', data)
-        .then(() => Swal.fire({ title: "Concluído", text: `Cadastro de ${data.name[i]} realizado!`, icon: "success" }))
+        .then(() => {
+          Swal.fire({ title: "Concluído", text: `Cadastro de ${data.name[i]} realizado!`, icon: "success" })
+          setCurrentPage(0)
+        }
+        )
         .catch((error) => {
           Swal.fire({ title: "Erro", text: "Erro ao realizar cadastro", icon: "error" })
         })
     }
-    setCurrentPage(0)
 
 
   }
@@ -308,7 +310,7 @@ export default function Login() {
             className={`cadastro-second ${currentPage !== 0 && "hidden-page"}`}
           >
             <h2>Digite seu email e senha </h2>
-            <form ref={loginForm}>
+            <form>
               <LoginInput
                 Icon={UilUserCircle}
                 name='email'
