@@ -70,10 +70,14 @@ export async function registerLegalResponsible(
     const userWithSameEmail = await prisma.user.findUnique({
       where: { email },
     })
+    if (userWithSameEmail) {
+      throw new UserAlreadyExistsError()
+    }
+
     const userWithSameCPF = await prisma.legalResponsible.findUnique({
       where: { CPF }
     })
-    if (userWithSameEmail || userWithSameCPF) {
+    if (userWithSameCPF) {
       throw new UserAlreadyExistsError()
     }
 
