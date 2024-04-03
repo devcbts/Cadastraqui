@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx cross-env NODE_ENV=dev tsx watch src/server.ts",
-    "prod": "npx cross-env NODE_ENV=production npm run start",
+    "dev": "dotenv -e .env.dev tsx watch src/server.ts",
+    "prod": "dotenv -e .env.production npm run start",
     "start": "node app/server.js",
     "build": "tsc"
   },
