@@ -67,11 +67,13 @@ export async function registerLegalResponsible(
   } = registerBodySchema.parse(request.body)
 
   try {
-    console.log(await prisma.user.findFirst({ where: { email } }))
     const userWithSameEmail = await prisma.user.findUnique({
       where: { email },
     })
-    if (userWithSameEmail) {
+    const userWithSameCPF = await prisma.legalResponsible.findUnique({
+      where: { CPF }
+    })
+    if (userWithSameEmail || userWithSameCPF) {
       throw new UserAlreadyExistsError()
     }
 

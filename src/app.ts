@@ -23,6 +23,7 @@ import { resetPassword } from './http/controllers/users/reset-password';
 import { uploadUserProfilePicture } from './http/controllers/users/upload-profile-picture';
 import { verifyJWT } from './http/middlewares/verify-jwt';
 import getUserAddress from './http/services/get-address';
+import getCnpj from './http/services/get-cnpj';
 import { multerConfig } from './lib/multer';
 export const app = fastify()
 app.register(fastifyMultipart, {
@@ -80,6 +81,7 @@ app.post(
 )
 app.get('/profilePicture', { onRequest: [verifyJWT] }, getUserProfilePicture)
 app.get('/getUserAddress', getUserAddress)
+app.get('/getCompanyCnpj/:cnpj', getCnpj)
 app.setErrorHandler((error, _request, reply) => {
   if (error instanceof ZodError) {
     return reply

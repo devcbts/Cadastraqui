@@ -9,8 +9,8 @@ export default async function getUserAddress(
     const numberRegexp = /\d/g
 
     try {
-        cep.replace(/\D/, '')
-        if (numberRegexp.test(cep)) {
+        cep = cep.replace(/\D/, '')
+        if (numberRegexp.test(cep) && cep.length === 8) {
             const userAddress = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
             const { logradouro, bairro, uf, localidade } = userAddress.data as { logradouro: string, bairro: string, uf: string, localidade: string }
             return reply.status(200).send({
