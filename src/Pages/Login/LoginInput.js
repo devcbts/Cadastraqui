@@ -14,7 +14,9 @@ export default function LoginInput({ Icon, name, placeholder, onChange, error, s
                     required
                 ></input>
             </div >
-            {showErrorHint && <label style={{ color: '#ef3e36', fontSize: 14, textAlign: "start" }}>{error[name]}</label>}
+            <div style={{ height: 14, width: "70%", display: "flex", justifyContent: "left" }}>
+                {showErrorHint && <label style={{ color: '#ef3e36', fontSize: 14, textAlign: "start", fontWeight: "bold" }}>{error[name]}</label>}
+            </div>
         </>
     )
 }
