@@ -74,6 +74,7 @@ export async function registerCandidate(
     const candidateWithSameCPF = await prisma.candidate.findUnique({
       where: { CPF },
     })
+    console.log(request.body)
 
     if (userWithSameEmail || candidateWithSameCPF) {
       throw new UserAlreadyExistsError()
