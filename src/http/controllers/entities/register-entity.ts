@@ -1,6 +1,7 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { UserAlreadyExistsError } from '@/errors/users-already-exists-error'
 import { prisma } from '@/lib/prisma'
+import validateCnpj from '@/utils/validate-cnpj'
 import { ROLE } from '@prisma/client'
 import { hash } from 'bcryptjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -42,6 +43,9 @@ export async function registerEntity(
   } = registerBodySchema.parse(request.body)
 
   try {
+    if (!validateCnpj(CNPJ)) {
+      return reply.status(400).send({ message: "CNPJ Inválido" })
+    }
     // Verifica se já existe algum usuário com o email fornecido
     const userWithSameEmail = await prisma.user.findUnique({
       where: { email },
