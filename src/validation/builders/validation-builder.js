@@ -3,6 +3,7 @@ import RequiredFieldValidation from "../validators/required-field-validator";
 import CPFValidator from "../validators/cpf-validator";
 import EmailValidator from "../validators/email-validator";
 import CnpjValidator from "../validators/cnpj-validator";
+import PhoneValidator from "../validators/phone-validator";
 
 export default class ValidationBuilder {
     constructor(field = '', validators = []) {
@@ -38,6 +39,10 @@ export default class ValidationBuilder {
         return this;
     }
 
+    phone() {
+        this.validators.push(new PhoneValidator(this.field))
+        return this;
+    }
     build() {
         return this.validators
     }
