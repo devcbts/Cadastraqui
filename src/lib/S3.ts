@@ -93,12 +93,22 @@ export async function getSignedUrlsFromUserFolder(
 
 export async function getSignedUrlForFile(fileKey: string): Promise<string> {
   try {
-    const signedUrl = s3.getSignedUrl('getObject', {
+    let signedUrl;
+    // Search object first, if does not exist, do not return an URL
+    const fileExists = await s3.headObject({
+      Bucket: process.env.AWS_BUCKET_NAME!,
+      Key: fileKey,
+    }).promise()
+    if (fileExists.$response.error) {
+      signedUrl = null;
+    }
+    signedUrl = s3.getSignedUrl('getObject', {
       Bucket: process.env.AWS_BUCKET_NAME!,
       Key: fileKey,
       Expires: 100000, // O URL será válido por 1 hora
     })
-
+    console.log('cheguei aqi')
+    console.log(signedUrl)
     return signedUrl
   } catch (error: any) {
     console.error('Error fetching signed URL:', error)

@@ -19,7 +19,7 @@ export async function getAnnouncementDocument(
     // Verifica se o edital existe
     const announcement = await prisma.announcement.findUnique({
       where: { id: announcement_id },
-     
+
     });
 
     if (!announcement) {
