@@ -6,7 +6,7 @@ const entityInfoValidation = new ValidationComposite([
     ...ValidationBuilder.create("email").required().email().build(),
     ...ValidationBuilder.create("password").required().min(6).build(),
     ...ValidationBuilder.create("role").required().build(),
-    ...ValidationBuilder.create("CNPJ").required().build(),
+    ...ValidationBuilder.create("CNPJ").required().cnpj().build(),
     ...ValidationBuilder.create("logo").required().build(),
     ...ValidationBuilder.create("socialReason").required().build(),
     ...ValidationBuilder.create("CEP").required().build(),

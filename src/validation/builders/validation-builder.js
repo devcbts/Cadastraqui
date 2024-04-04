@@ -2,6 +2,7 @@ import MinLengthValidator from "../validators/min-length-validator";
 import RequiredFieldValidation from "../validators/required-field-validator";
 import CPFValidator from "../validators/cpf-validator";
 import EmailValidator from "../validators/email-validator";
+import CnpjValidator from "../validators/cnpj-validator";
 
 export default class ValidationBuilder {
     constructor(field = '', validators = []) {
@@ -29,6 +30,11 @@ export default class ValidationBuilder {
     }
     email() {
         this.validators.push(new EmailValidator(this.field))
+        return this;
+    }
+
+    cnpj() {
+        this.validators.push(new CnpjValidator(this.field))
         return this;
     }
 
