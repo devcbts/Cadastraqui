@@ -623,7 +623,7 @@ export default function CadastroEdital() {
                                         value={selectedEntityOrSubsidiary}
                                         onChange={(e) => handleEntityOrSubsidiaryChange(e.target.value)}
                                     >
-                                    <option value="">Selecione</option>
+                                        <option value="">Selecione</option>
                                         <option value={entity.id}>Matriz - {entity.name}</option>
                                         {subsidiaries.map((subsidiary) => (
                                             <option key={subsidiary.id} value={subsidiary.id}>
@@ -648,40 +648,40 @@ export default function CadastroEdital() {
                                     </select>
                                 </fieldset>
                                 {/* Dropdown para scholarshipType */}
-                                {currentCourse.basicEduType === 'ProfessionalEducation' ? 
-                                  <fieldset className='section-cadastro-vagas'>
-
-                                  <label>
-                                      Ciclo/Ano/Série/Curso:
-                                  </label>
-                                  <input
-                                      type="text"
-                                      value={currentCourse.grade}
-                                      onChange={(e) => handleEducationalChange('grade', e.target.value)}
-                                  />
-
-                              </fieldset>
-
-
-                                : (
+                                {currentCourse.basicEduType === 'ProfessionalEducation' ?
                                     <fieldset className='section-cadastro-vagas'>
+
                                         <label>
                                             Ciclo/Ano/Série/Curso:
                                         </label>
-                                        <select
+                                        <input
+                                            type="text"
                                             value={currentCourse.grade}
                                             onChange={(e) => handleEducationalChange('grade', e.target.value)}
-                                        >
-                                            <option value="">Selecione</option>
-                                            {gradeLevels[currentCourse.basicEduType]?.map((grade, index) => (
-                                                <option key={index} value={grade}>
-                                                    {grade}
-                                                </option>
-                                            ))}
-                                        </select>
+                                        />
+
                                     </fieldset>
-                                )}
-                              
+
+
+                                    : (
+                                        <fieldset className='section-cadastro-vagas'>
+                                            <label>
+                                                Ciclo/Ano/Série/Curso:
+                                            </label>
+                                            <select
+                                                value={currentCourse.grade}
+                                                onChange={(e) => handleEducationalChange('grade', e.target.value)}
+                                            >
+                                                <option value="">Selecione</option>
+                                                {gradeLevels[currentCourse.basicEduType]?.map((grade, index) => (
+                                                    <option key={index} value={grade}>
+                                                        {grade}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </fieldset>
+                                    )}
+
                                 {/* Dropdown para shift */}
                                 <fieldset className='section-cadastro-vagas'>
 
@@ -721,7 +721,7 @@ export default function CadastroEdital() {
                                         onChange={(e) => handleEducationalChange('verifiedScholarships', Number(e.target.value))}
                                     />
                                 </fieldset>
-                                
+
 
                             </div>
                             <button onClick={completeCourseRegistration}>Concluir Cadastro</button>
@@ -982,7 +982,14 @@ export default function CadastroEdital() {
                                 type="file"
                                 id="edital-pdf"
                                 title="Escolher arquivo"
-                                onChange={handleChange}
+                                onChange={(e) => {
+                                    const { files } = e.target
+                                    if (files[0].type !== "application/pdf") {
+                                        e.target.value = null
+                                        return
+                                    }
+                                    handleChange(e)
+                                }}
                             />
                         </div>
                         {filePdf ?
