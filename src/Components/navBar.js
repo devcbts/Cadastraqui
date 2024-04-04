@@ -29,7 +29,7 @@ export default function NavBar(props) {
   useEffect(() => {
     async function getProfilePhotoEntity() {
       const token = localStorage.getItem("token");
-  
+
       try {
         const profilePhoto = await api.get("/entities/profilePicture", {
           headers: {
@@ -59,19 +59,19 @@ export default function NavBar(props) {
     navigate(path);
   }
   async function refreshAccessToken() {
-    try{
+    try {
       const refreshToken = Cookies.get('refreshToken')
 
       const response = await api.patch(`/refresh?refreshToken=${refreshToken}`)
-      
-      const {newToken, newRefreshToken} = response.data
+
+      const { newToken, newRefreshToken } = response.data
       localStorage.setItem('token', newToken)
       Cookies.set('refreshToken', newRefreshToken, {
         expires: 7,
         sameSite: true,
         path: '/',
       })
-    } catch(err) {
+    } catch (err) {
       console.log(err)
       navigate('/login')
     }
@@ -120,7 +120,7 @@ export default function NavBar(props) {
       {windowWidth < 1030 && (
         <div className="mobile-menu">
           <div className="mobile-user">
-            <img src={profilePhoto ? profilePhoto: photoProfile} className="user-sidebar"></img>
+            <img src={profilePhoto ? profilePhoto : photoProfile} className="user-sidebar"></img>
           </div>
           <div class="search">
             <input type="text" class="search__input" placeholder="Buscar" />
@@ -152,9 +152,9 @@ export default function NavBar(props) {
             <img src={whiteLogoText}></img>
           </div>
           <div className="user">
-            <img src={profilePhoto ? profilePhoto: photoProfile} className="user-sidebar"></img>
+            <img src={profilePhoto ? profilePhoto : photoProfile} className="user-sidebar"></img>
             <div className="user-name">
-              <h6>{entity ? entity.name : "Entity Name"}</h6>
+              <h6>{entity ? entity.socialReason : "Entity Name"}</h6>
             </div>
           </div>
           <div className="menu-itens">
@@ -162,16 +162,14 @@ export default function NavBar(props) {
               <li>
                 <a
                   href="#"
-                  className={`${
-                    currentPath == "/entidade/home" ? "active" : "inactive"
-                  }`}
+                  className={`${currentPath == "/entidade/home" ? "active" : "inactive"
+                    }`}
                   onClick={() => urlNavigation("home")}
                 >
                   <UilEstate
                     size="30"
-                    color={`${
-                      currentPath == "/entidade/home" ? "#1F4B73" : "white"
-                    }`}
+                    color={`${currentPath == "/entidade/home" ? "#1F4B73" : "white"
+                      }`}
                   />
                   <span>Home</span>
                 </a>
@@ -179,16 +177,14 @@ export default function NavBar(props) {
               <li>
                 <a
                   href="#"
-                  className={`${
-                    currentPath == "/entidade/editais" ? "active" : "inactive"
-                  }`}
+                  className={`${currentPath == "/entidade/editais" ? "active" : "inactive"
+                    }`}
                   onClick={() => urlNavigation("editais")}
                 >
                   <UilFileAlt
                     size="30"
-                    color={`${
-                      currentPath == "/entidade/editais" ? "#1F4B73" : "white"
-                    }`}
+                    color={`${currentPath == "/entidade/editais" ? "#1F4B73" : "white"
+                      }`}
                   />
                   <span>Editais</span>
                 </a>
@@ -196,16 +192,14 @@ export default function NavBar(props) {
               <li>
                 <a
                   href="#"
-                  className={`${
-                    currentPath == "/entidade/cadastro" ? "active" : "inactive"
-                  }`}
+                  className={`${currentPath == "/entidade/cadastro" ? "active" : "inactive"
+                    }`}
                   onClick={() => urlNavigation("cadastro")}
                 >
                   <UilPlusCircle
                     size="30"
-                    color={`${
-                      currentPath == "/entidade/cadastro" ? "#1F4B73" : "white"
-                    }`}
+                    color={`${currentPath == "/entidade/cadastro" ? "#1F4B73" : "white"
+                      }`}
                   />
                   <span>Cadastro</span>
                 </a>
@@ -213,16 +207,14 @@ export default function NavBar(props) {
               <li>
                 <a
                   href="#"
-                  className={`${
-                    currentPath == "/entidade/sac" ? "active" : "inactive"
-                  }`}
+                  className={`${currentPath == "/entidade/sac" ? "active" : "inactive"
+                    }`}
                   onClick={() => urlNavigation("sac")}
                 >
                   <UilCommentAltNotes
                     size="30"
-                    color={`${
-                      currentPath == "/entidade/sac" ? "#1F4B73" : "white"
-                    }`}
+                    color={`${currentPath == "/entidade/sac" ? "#1F4B73" : "white"
+                      }`}
                   />
                   <span>Sac</span>
                 </a>
@@ -230,16 +222,14 @@ export default function NavBar(props) {
               <li>
                 <a
                   href="#"
-                  className={`${
-                    currentPath == "/entidade/contas" ? "active" : "inactive"
-                  }`}
+                  className={`${currentPath == "/entidade/contas" ? "active" : "inactive"
+                    }`}
                   onClick={() => urlNavigation("contas")}
                 >
                   <UilUsersAlt
                     size="30"
-                    color={`${
-                      currentPath == "/entidade/contas" ? "#1F4B73" : "white"
-                    }`}
+                    color={`${currentPath == "/entidade/contas" ? "#1F4B73" : "white"
+                      }`}
                   />
                   <span>Contas</span>
                 </a>
@@ -247,23 +237,21 @@ export default function NavBar(props) {
               <li>
                 <a
                   href="#"
-                  className={`${
-                    currentPath == "/entidade/perfil" ? "active" : "inactive"
-                  }`}
+                  className={`${currentPath == "/entidade/perfil" ? "active" : "inactive"
+                    }`}
                   onClick={() => urlNavigation("perfil")}
                 >
                   <UilUserCircle
                     size="30"
-                    color={`${
-                      currentPath == "/entidade/perfil" ? "#1F4B73" : "white"
-                    }`}
+                    color={`${currentPath == "/entidade/perfil" ? "#1F4B73" : "white"
+                      }`}
                   />
                   <span>Perfil</span>
                 </a>
               </li>
 
               <li>
-                <Logout/>
+                <Logout />
               </li>
             </ul>
           </div>
