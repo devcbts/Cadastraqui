@@ -14,7 +14,7 @@ export async function createDirector(
     name: z.string(),
     email: z.string().email(),
     password: z.string().min(6),
-    phone: z.string(),
+    phone: z.string().regex(/\d{10}\d?/, 'Invalid phone'),
     CPF: z.string(),
   })
 
@@ -107,7 +107,6 @@ export async function createDirector(
     }
   } catch (err: any) {
     if (err instanceof UserAlreadyExistsError) {
-      console.log(err.message)
       return reply.status(409).send({ message: err.message })
     }
     if (err instanceof ResourceNotFoundError) {
