@@ -14,6 +14,10 @@ import { handleAuthError } from "../../ErrorHandling/handleError";
 import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 import { formatCPF } from "../../utils/format-cpf";
 import { formatCNPJ } from "../../utils/format-cnpj";
+import EntityFormInput from "../Admin/EntityFormInput";
+import useForm from "../../hooks/useForm";
+import directorInfoValidation from "./validations/director-info-validation";
+import { formatTelephone } from "../../utils/format-telephone";
 
 
 export default function CadastroEntidade() {
@@ -41,12 +45,12 @@ export default function CadastroEntidade() {
   const [CPFAssistant, setCPFAssistant] = useState('')
   const [CNPJSubsidiary, setCNPJSubsidiary] = useState('')
   // Object with info for entity registration
- 
+
   const handleCPFAssistantChange = (e) => {
     const formattedCPF = formatCPF(e.target.value);
     setCPFAssistant(formattedCPF); // Atualiza o estado com o CPF formatado
   };
- 
+
   const handleCPFDirectorChange = (e) => {
     const formattedCPF = formatCPF(e.target.value);
     setCPFDirector(formattedCPF); // Atualiza o estado com o CPF formatado
@@ -55,7 +59,7 @@ export default function CadastroEntidade() {
     const formattedCNPJ = formatCNPJ(e.target.value);
     setCNPJSubsidiary(formattedCNPJ); // Atualiza o estado com o CPF formatado
   };
- 
+
 
   function handleSelectChange(event) {
     setSelectedOption(event.target.value);
@@ -71,52 +75,34 @@ export default function CadastroEntidade() {
     }
   }
 
-  
 
-  // BackEnd Functions
-  
+
+  // Functions to handle responsible register
+  const [[directorInfo], handleDirectorInfo, directorErrors, , submitDirector] = useForm({
+    name: "",
+    email: "",
+    phone: "",
+    CPF: "",
+    password: ""
+  }, directorInfoValidation)
 
   async function handleCreateDirector() {
-    const directorForm = firstForm.current;
-
-    if (directorForm.checkValidity()) {
-      const name = directorForm.querySelector(
-        'input[name="director-name"]'
-      ).value;
-      const phone = directorForm.querySelector(
-        'input[name="director-phone"]'
-      ).value;
-      const CPF =CPFDirector;
-      const email = directorForm.querySelector(
-        'input[name="director-email"]'
-      ).value;
-      const password = directorForm.querySelector(
-        'input[name="director-password"]'
-      ).value;
-
-      const createInfo = {
-        name,
-        phone,
-        email,
-        password,
-        CPF,
-      };
-
-      const token = localStorage.getItem("token");
-      try {
-       const response = await api.post("/entities/director/", createInfo, {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        });
-        handleSuccess(response,"Diretor cadastrado com sucesso.");
-      } catch (err) {
-        handleAuthError(err)
-        console.log(err);
-      }
-    } else {
-      alert("Preencha os campos exigidos.");
+    if (!submitDirector()) {
+      return
     }
+    const token = localStorage.getItem("token");
+    try {
+      const response = await api.post("/entities/director/", directorInfo, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      handleSuccess(response, "Diretor cadastrado com sucesso.");
+    } catch (err) {
+      handleAuthError(err)
+      console.log(err);
+    }
+
   }
 
   async function handleCreateAssistant() {
@@ -208,7 +194,7 @@ export default function CadastroEntidade() {
 
       const token = localStorage.getItem("token");
       try {
-       const response = await api.post("/entities/subsidiary", createInfo, {
+        const response = await api.post("/entities/subsidiary", createInfo, {
           headers: {
             authorization: `Bearer ${token}`,
           },
@@ -216,7 +202,7 @@ export default function CadastroEntidade() {
         handleSuccess(response, "Filial cadastrada com sucesso.");
       } catch (err) {
         console.log(err);
-        handleAuthError(err,navigate)
+        handleAuthError(err, navigate)
 
       }
     } else {
@@ -228,7 +214,7 @@ export default function CadastroEntidade() {
   const [entityInfo, setEntityInfo] = useState();
 
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     async function refreshAccessToken() {
       try {
@@ -246,7 +232,7 @@ export default function CadastroEntidade() {
           path: "/",
         });
       } catch (err) {
-       handleAuthError(err,navigate)
+        handleAuthError(err, navigate)
       }
     }
     const intervalId = setInterval(refreshAccessToken, 480000); // Chama a função refresh token a cada
@@ -295,9 +281,8 @@ export default function CadastroEntidade() {
           <div className="container-cadastros">
             <div
               id="first-register-entity"
-              className={`novo-cadastro page-one ${
-                currentPage !== 1 && "hidden-page"
-              }`}
+              className={`novo-cadastro page-one ${currentPage !== 1 && "hidden-page"
+                }`}
             >
               <form id="contact" ref={thirdForm}>
                 <h3>Informações cadastrais</h3>
@@ -400,7 +385,7 @@ export default function CadastroEntidade() {
                   <input type="checkbox" onClick={() => myFunction()} />
                   Mostrar senha
                 </fieldset>
-               
+
 
 
                 {/*<fieldset className="file-div">
@@ -435,77 +420,58 @@ export default function CadastroEntidade() {
           <div className="container-cadastros">
             <div
               id="first-register-entity"
-              className={`novo-cadastro page-one ${
-                currentPage !== 1 && "hidden-page"
-              }`}
+              className={`novo-cadastro page-one ${currentPage !== 1 && "hidden-page"
+                }`}
             >
-              <form id="contact" ref={firstForm}>
+              <form id="contact" >
                 <h3>Informações cadastrais</h3>
                 <h4>Preencha as informações abaixo para realizar o cadastro</h4>
-                <fieldset>
-                  <label for="nome-edital">Nome</label>
-                  <input
-                    placeholder="Exemplo: Unicamp"
-                    type="text"
-                    tabindex="1"
-                    ref={nameForm}
-                    className="nome-entidade"
-                    name="director-name"
-                    required
-                    autofocus
-                  />
-                </fieldset>
-                <fieldset>
-                  <label for="email-diretor">Email</label>
-                  <input
-                    placeholder="Exemplo: universidade@email.com"
-                    type="email"
-                    tabindex="2"
-                    ref={mailForm}
-                    id="email-diretor"
-                    name="director-email"
-                    required
-                  />
-                </fieldset>
-
-                <fieldset>
-                  <label for="nome-edital">Celular / Telefone Comercial</label>
-                  <input
-                    placeholder="Exemplo: (XX) XXXX-XXXX"
-                    ref={socialReasonForm}
-                    type="text"
-                    tabindex="4"
-                    name="director-phone"
-                    required
-                  />
-                </fieldset>
-
-                <fieldset>
-                  <label for="nome-edital">CPF</label>
-                  <input
-                    placeholder="Exemplo: XXX.XXX.XXX-XX"
-                    ref={socialReasonForm}
-                    name="director-CPF"
-                    type="text"
-                    tabindex="4"
-                    required
-                    value={CPFDirector}
-                    onChange={handleCPFDirectorChange}
-                  />
-                </fieldset>
-
-                <fieldset id="senha-entidade">
-                  <label>Senha</label>
-                  <input
-                    type="password"
-                    id="myInput"
-                    ref={passwordForm}
-                    name="director-password"
-                    placeholder="Digite a senha..."
-                  ></input>
-                  <input type="checkbox" onClick={() => myFunction()} />
-                  Mostrar senha
-                </fieldset>
+                <EntityFormInput
+                  name="name"
+                  label="Nome"
+                  placeholder="Exemplo: João Carlos"
+                  type="text"
+                  onChange={handleDirectorInfo}
+                  value={directorInfo.name}
+                  error={directorErrors}
+                  autofocus
+                />
+                <EntityFormInput
+                  name="email"
+                  label="Email"
+                  placeholder="Exemplo: responsável@email.com"
+                  type="text"
+                  onChange={handleDirectorInfo}
+                  value={directorInfo.email}
+                  error={directorErrors}
+                />
+                <EntityFormInput
+                  name="phone"
+                  label="Celular/Telefone comercial"
+                  placeholder="(XX) XXXXX-XXXX"
+                  type="tel"
+                  onChange={handleDirectorInfo}
+                  value={formatTelephone(directorInfo.phone)}
+                  error={directorErrors}
+                />
+                <EntityFormInput
+                  name="CPF"
+                  label="CPF"
+                  placeholder="Exemplo: XXX.XXX.XXX-XX"
+                  type="text"
+                  onChange={handleDirectorInfo}
+                  value={formatCPF(directorInfo.CPF)}
+                  error={directorErrors}
+                />
+                <EntityFormInput
+                  name="password"
+                  placeholder="Digite sua senha"
+                  label="Senha"
+                  type="password"
+                  onChange={handleDirectorInfo}
+                  value={directorInfo.password}
+                  error={directorErrors}
+                />
 
                 <fieldset className="btn-field">
                   <button name="submit" type="button" id="contact-submit" onClick={handleCreateDirector}>
@@ -521,9 +487,8 @@ export default function CadastroEntidade() {
           <div className="container-cadastros">
             <div
               id="first-register-entity"
-              className={`novo-cadastro page-one ${
-                currentPage !== 1 && "hidden-page"
-              }`}
+              className={`novo-cadastro page-one ${currentPage !== 1 && "hidden-page"
+                }`}
             >
               <form id="contact" ref={secondForm}>
                 <h3>Informações cadastrais</h3>
