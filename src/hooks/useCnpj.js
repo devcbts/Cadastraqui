@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import getCompanyCNPJ from "../utils/get-company-cnpj"
+import validateCnpj from "../utils/validate-cnpj"
 /**
  * 
  * @param {*} callback callback function with 1 argument (companyData)
@@ -9,7 +10,7 @@ export default function useCnpj(callback, value) {
     useEffect(() => {
         const onlyDigitsCnpj = value.replace(/\D/g, '')
         const updateCompanyData = async () => {
-            if (onlyDigitsCnpj.length === 14) {
+            if (validateCnpj(onlyDigitsCnpj)) {
                 const company = await getCompanyCNPJ(onlyDigitsCnpj)
                 if (company) callback(company)
             }
