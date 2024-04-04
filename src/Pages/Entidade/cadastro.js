@@ -18,7 +18,7 @@ import EntityFormInput from "../Admin/EntityFormInput";
 import useForm from "../../hooks/useForm";
 import directorInfoValidation from "./validations/director-info-validation";
 import { formatTelephone } from "../../utils/format-telephone";
-
+import Swal from 'sweetalert2'
 
 export default function CadastroEntidade() {
   const { isShown } = useAppState();
@@ -99,8 +99,13 @@ export default function CadastroEntidade() {
       });
       handleSuccess(response, "Diretor cadastrado com sucesso.");
     } catch (err) {
-      handleAuthError(err)
-      console.log(err);
+      Swal.fire({
+        title: 'Erro',
+        text: err.response.data.message,
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+
     }
 
   }
