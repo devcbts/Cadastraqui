@@ -3,7 +3,7 @@ export default function EntityFormInput({ name, label, error, ...props }) {
         <fieldset>
             <label htmlFor={name}>{label}</label>
             <input
-                style={{ borderColor: !!error[name] && '#ef3e36' }}
+                style={{ borderColor: !!error?.[name] && '#ef3e36' }}
                 id={name}
                 autofocus
                 name={name} // Ajuste para corresponder à chave do estado
