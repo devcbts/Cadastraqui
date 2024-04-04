@@ -20,6 +20,9 @@ export async function registerEntity(
     socialReason: z.string(),
     CEP: z.string(),
     address: z.string(),
+    neighborhood: z.string(),
+    addressNumber: z.number(),
+    city: z.string(),
     educationalInstitutionCode: z.string().optional(),
   })
 
@@ -32,9 +35,12 @@ export async function registerEntity(
     socialReason,
     CEP,
     address,
+    addressNumber,
+    city,
+    neighborhood,
     educationalInstitutionCode,
   } = registerBodySchema.parse(request.body)
- 
+
   try {
     // Verifica se já existe algum usuário com o email fornecido
     const userWithSameEmail = await prisma.user.findUnique({
@@ -73,6 +79,9 @@ export async function registerEntity(
         socialReason,
         address,
         CEP,
+        addressNumber,
+        city,
+        neighborhood,
         educationalInstitutionCode,
       },
     })

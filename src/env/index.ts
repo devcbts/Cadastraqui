@@ -1,6 +1,5 @@
 import 'dotenv/config'
 import { z } from 'zod'
-
 const envSchema = z.object({
   NODE_ENV: z.enum(['dev', 'production', 'test']).default('dev'),
   PORT: z.coerce.number().default(3333),
@@ -10,10 +9,8 @@ const envSchema = z.object({
   AWS_ACCESS_KEY_ID: z.string(),
   AWS_SECRET_KEY_ID: z.string(),
 })
-
 // Validação das variáveis de ambiente
 const _env = envSchema.safeParse(process.env)
-
 if (_env.success === false) {
   console.error('❌ Invalid environment variables', _env.error.format())
 

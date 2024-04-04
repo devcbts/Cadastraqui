@@ -4,4 +4,8 @@ node_modules
 docker-compose.yml
 /app
 .vercel
+<<<<<<< HEAD
+=======
+.env.*
+>>>>>>> dev/backend
 .vscode

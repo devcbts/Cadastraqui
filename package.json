@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "local": "dotenv -e .env.local tsx watch src/server.ts",
+    "dev": "dotenv -e .env.dev tsx watch src/server.ts",
+    "prod": "dotenv -e .env.production npm run start",
     "start": "node app/server.js",
     "build": "tsc"
   },
@@ -43,6 +45,7 @@
     "@types/morgan": "1.9.6",
     "@types/node": "20.8.0",
     "@types/nodemailer": "6.4.11",
+    "cross-env": "7.0.3",
     "eslint": "8.50.0",
     "prisma": "5.3.1",
     "tsx": "3.13.0",
