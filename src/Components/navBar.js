@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./navBar.css";
 import photoProfile from "../Assets/profile-padrao.jpg";
@@ -21,12 +21,11 @@ import Cookies from "js-cookie";
 
 // ReactDOM.render(element, document.body);
 
-export default function NavBar(props) {
+export default function NavBar({ entity }) {
   const { isShown, handleClick, setIsShown } = useAppState();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [profilePhoto, setProfilePhoto] = useState(null);
-
-  useEffect(() => {
+  useMemo(() => {
     async function getProfilePhotoEntity() {
       const token = localStorage.getItem("token");
 
@@ -50,7 +49,32 @@ export default function NavBar(props) {
     }
     getProfilePhotoEntity()
     console.log(profilePhoto)
-  }, [props])
+  }, [entity])
+  /* useEffect(() => {
+    async function getProfilePhotoEntity() {
+      const token = localStorage.getItem("token");
+
+      try {
+        const profilePhoto = await api.get("/entities/profilePicture", {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(profilePhoto);
+        setProfilePhoto(profilePhoto.data.url);
+        localStorage.setItem(
+          "profilePhoto",
+          JSON.stringify(profilePhoto.data.url)
+        );
+      } catch (err) {
+        if (err.response.status === 401) {
+          navigate("/login");
+        }
+      }
+    }
+    getProfilePhotoEntity()
+    console.log(profilePhoto)
+  }, [shouldUpdateProps]) */
 
   const navigate = useNavigate();
 
@@ -114,7 +138,6 @@ export default function NavBar(props) {
   var currentPath = location.pathname;
 
   // BackEnd functions
-  const entity = props.entity
   return (
     <div className="outer-sidebar">
       {windowWidth < 1030 && (
