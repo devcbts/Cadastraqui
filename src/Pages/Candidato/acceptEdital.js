@@ -55,7 +55,7 @@ export default function AcceptEdital() {
       setSelectedGrade(firstLevel.grade)
       setSelectedBasicScholarshipType(firstLevel.scholarshipType)
       setSelectedBasicEduType(firstLevel.basicEduType)
-      
+
     } else {
       // Se não houver levels correspondentes à seleção, você pode optar por resetar selectedLevel ou manter o último selecionado
       // Exemplo de reset (ajuste conforme necessário):
@@ -88,7 +88,7 @@ export default function AcceptEdital() {
             level.entitySubsidiaryId === selectedEntityOrSubsidiary ||
             (!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id);
 
-          return  matchesShift && matchesEntityOrSubsidiary && matchesBasicEduType && matchesGrade && matchesBasicScholarshipType;
+          return matchesShift && matchesEntityOrSubsidiary && matchesBasicEduType && matchesGrade && matchesBasicScholarshipType;
         });
       } else {
         // Filtragem para outros tipos de educação
@@ -119,14 +119,14 @@ export default function AcceptEdital() {
             level.grade === selectedGrade &&
             level.shift === selectedShift &&
             (selectedEntityOrSubsidiary === '' || level.entitySubsidiaryId === selectedEntityOrSubsidiary || (!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id)))
-            if (matchedLevels.length === 0) {
-              matchedLevels = announcementInfo.educationLevels.filter(level =>
-                level.basicEduType === selectedBasicEduType &&
-                level.grade === selectedGrade &&
-                
-                (selectedEntityOrSubsidiary === '' || level.entitySubsidiaryId === selectedEntityOrSubsidiary || (!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id)))
-              }
-              console.log(matchedLevels)
+          if (matchedLevels.length === 0) {
+            matchedLevels = announcementInfo.educationLevels.filter(level =>
+              level.basicEduType === selectedBasicEduType &&
+              level.grade === selectedGrade &&
+
+              (selectedEntityOrSubsidiary === '' || level.entitySubsidiaryId === selectedEntityOrSubsidiary || (!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id)))
+          }
+          console.log(matchedLevels)
         }
       }
 
@@ -191,7 +191,7 @@ export default function AcceptEdital() {
       const selectedLevel = sortedLevels[0];
       setSelectedLevel(selectedLevel); // Atualiza o estado com o level selecionado
       setSelectedGrade(selectedLevel.grade); // Atualiza o tipo de bolsa
-     
+
     }
   }
 
@@ -215,7 +215,7 @@ export default function AcceptEdital() {
         setSubsidiaries(response.data.announcements.entity_subsidiary)
         isEarlyEducation(announcementInfo.educationLevels)
         handleEntityOrSubsidiaryChange(response.data.announcements.entity.id)
-        
+
         console.log(announcementInfo.educationLevels)
 
 
@@ -258,7 +258,7 @@ export default function AcceptEdital() {
             'authorization': `Bearer ${token}`,
           }
         })
-        setUserInfo(user_info.data.responsible)
+        setUserInfo({ ...user_info.data.responsible, ...user_info.data.dependents })
       }
     }
     getUserInfo()
@@ -270,7 +270,7 @@ export default function AcceptEdital() {
     const fetchPdfUrl = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await api.get(`/candidates/documents/announcement/${params.announcement_id}`,{
+        const response = await api.get(`/candidates/documents/announcement/${params.announcement_id}`, {
           headers: {
             'authorization': `Bearer ${token}`,
           }
@@ -294,25 +294,23 @@ export default function AcceptEdital() {
     }
 
     try {
-      const response =await api.post(`/candidates/application/${announcementInfo.id}/${selectedLevelId}`, {}, {
+      const response = await api.post(`/candidates/application/${announcementInfo.id}/${selectedLevelId}`, {}, {
         headers: {
           'authorization': `Bearer ${token}`,
         }
       });
-      handleSuccess(response,"Inscrição realizada com sucesso!");
+      handleSuccess(response, "Inscrição realizada com sucesso!");
     } catch (err) {
       if (err.response.status === 409) {
-        handleAuthError(err,navigate ,'Inscrição já existente no edital!' )
+        handleAuthError(err, navigate, 'Inscrição já existente no edital!')
 
-      }else
-      {
+      } else {
 
-        handleAuthError(err,navigate ,'Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.' )
+        handleAuthError(err, navigate, 'Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.')
       }
       // Trate o erro conforme necessário, talvez exibindo uma mensagem ao usuário
     }
   }
-
 
   return (
     <div className="section-fill-edital">
@@ -344,8 +342,8 @@ export default function AcceptEdital() {
         Penal Brasileiro, bem como sobre a condição prevista no caput e § 2º do
         art. 26 da Lei Complementar nº 187, de 16 de dezembro de 2021.
       </h4>
-      <a href={pdfUrl}  target="_blank"
-                    rel="noopener noreferrer"><h3>Visualizar PDF do Edital</h3></a>
+      <a href={pdfUrl} target="_blank"
+        rel="noopener noreferrer"><h3>Visualizar PDF do Edital</h3></a>
       <div className="select-candidato">
         <h4>Candidato (a)</h4>
         <select>
@@ -404,7 +402,7 @@ export default function AcceptEdital() {
 
               <div>
                 <h4>Tipo de Educação Básica</h4>
-                <select  onChange={(e) => handleBasicEduSelection(e)}>
+                <select onChange={(e) => handleBasicEduSelection(e)}>
                   {announcementInfo?.educationLevels
                     .filter(level => level.basicEduType !== null &&
                       ((!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id) ||
@@ -428,7 +426,7 @@ export default function AcceptEdital() {
                     .map(level => level.grade)
                     .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicatas
                     .map(grade => (
-                        <option value={grade}>{grade}</option>
+                      <option value={grade}>{grade}</option>
                     ))}
                 </select>
               </div>
@@ -571,11 +569,11 @@ const HigherEducationScholarshipType = [
 ];
 
 function translateBasicEducationScholashipType(BasicEducationScholarship) {
-  const  BasicEducation = BasicEducationType.find(
+  const BasicEducation = BasicEducationType.find(
 
-      (r) => r.value === BasicEducationScholarship
-      )
-      return BasicEducation ? BasicEducation.label : "Não especificado";
+    (r) => r.value === BasicEducationScholarship
+  )
+  return BasicEducation ? BasicEducation.label : "Não especificado";
 }
 
 const BasicEducationType = [
@@ -586,11 +584,11 @@ const BasicEducationType = [
 ];
 
 function translateBasicEducationScholashipofferType(BasicEducationScholarship) {
-  const  BasicEducation = ScholarshipOfferType.find(
+  const BasicEducation = ScholarshipOfferType.find(
 
-      (r) => r.value === BasicEducationScholarship
-      )
-      return BasicEducation ? BasicEducation.label : "Não especificado";
+    (r) => r.value === BasicEducationScholarship
+  )
+  return BasicEducation ? BasicEducation.label : "Não especificado";
 }
 
 const ScholarshipOfferType = [

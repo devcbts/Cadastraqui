@@ -7,6 +7,10 @@ import Select from "react-select";
 import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 import { handleAuthError } from "../../ErrorHandling/handleError";
 import InputCheckbox from "../Inputs/InputCheckbox";
+import useForm from "../../hooks/useForm";
+import { formatRG } from "../../utils/format-rg";
+import candidateInfoValidations from "./validations/candidate-info-validation";
+import Input from "../Inputs/FormInput";
 
 const GENDER = [
   { value: "MALE", label: "Masculino" },
@@ -136,7 +140,7 @@ const IncomeSource = [
 ];
 
 export default function CadastroBasico() {
-  const [candidate, setCandidate] = useState({
+  const [[candidateInfo], handleCandidateInfo, candidateInfoErrors, isFormValid] = useForm({
     fullName: "",
     socialName: "",
     birthDate: "",
@@ -181,82 +185,59 @@ export default function CadastroBasico() {
     CadUnico: false,
   });
 
-  function handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
 
-    if (event.target.multiple) {
-      const selectedOptions = Array.from(
-        event.target.selectedOptions,
-        (option) => option.value
-      );
-      setCandidate((prevState) => ({
-        ...prevState,
-        [name]: selectedOptions,
-      }));
-    } else {
-      setCandidate((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }));
-    }
-    //console.log('====================================');
-    //console.log(candidate);
-    //console.log('====================================');
-  }
 
   async function RegisterCandidateBasicInfo(e) {
     e.preventDefault();
     const token = localStorage.getItem("token");
     const data = {
-      fullName: candidate.fullName,
-      socialName: candidate.socialName,
-      birthDate: candidate.birthDate,
-      gender: candidate.gender,
-      nationality: candidate.nationality,
-      natural_city: candidate.natural_city,
-      natural_UF: candidate.natural_UF,
-      RG: candidate.RG,
-      rgIssuingAuthority: candidate.rgIssuingAuthority,
-      rgIssuingState: candidate.rgIssuingState,
-      documentType: candidate.documentType || undefined,
-      documentNumber: candidate.documentNumber || undefined,
-      documentValidity: candidate.documentValidity || undefined,
-      maritalStatus: candidate.maritalStatus,
-      skinColor: candidate.skinColor,
-      religion: candidate.religion,
-      educationLevel: candidate.educationLevel,
-      specialNeeds: candidate.specialNeeds,
-      specialNeedsDescription: candidate.specialNeedsDescription,
-      hasMedicalReport: candidate.hasMedicalReport,
-      landlinePhone: candidate.landlinePhone,
-      workPhone: candidate.workPhone,
-      contactNameForMessage: candidate.contactNameForMessage,
-      profession: candidate.profession,
-      enrolledGovernmentProgram: candidate.enrolledGovernmentProgram,
-      NIS: candidate.NIS,
-      incomeSource: candidate.incomeSource,
-      livesAlone: candidate.livesAlone,
-      intendsToGetScholarship: candidate.intendsToGetScholarship,
-      attendedPublicHighSchool: candidate.attendedPublicHighSchool,
+      fullName: candidateInfo.fullName,
+      socialName: candidateInfo.socialName,
+      birthDate: candidateInfo.birthDate,
+      gender: candidateInfo.gender,
+      nationality: candidateInfo.nationality,
+      natural_city: candidateInfo.natural_city,
+      natural_UF: candidateInfo.natural_UF,
+      RG: candidateInfo.RG,
+      rgIssuingAuthority: candidateInfo.rgIssuingAuthority,
+      rgIssuingState: candidateInfo.rgIssuingState,
+      documentType: candidateInfo.documentType || undefined,
+      documentNumber: candidateInfo.documentNumber || undefined,
+      documentValidity: candidateInfo.documentValidity || undefined,
+      maritalStatus: candidateInfo.maritalStatus,
+      skinColor: candidateInfo.skinColor,
+      religion: candidateInfo.religion,
+      educationLevel: candidateInfo.educationLevel,
+      specialNeeds: candidateInfo.specialNeeds,
+      specialNeedsDescription: candidateInfo.specialNeedsDescription,
+      hasMedicalReport: candidateInfo.hasMedicalReport,
+      landlinePhone: candidateInfo.landlinePhone,
+      workPhone: candidateInfo.workPhone,
+      contactNameForMessage: candidateInfo.contactNameForMessage,
+      profession: candidateInfo.profession,
+      enrolledGovernmentProgram: candidateInfo.enrolledGovernmentProgram,
+      NIS: candidateInfo.NIS,
+      incomeSource: candidateInfo.incomeSource,
+      livesAlone: candidateInfo.livesAlone,
+      intendsToGetScholarship: candidateInfo.intendsToGetScholarship,
+      attendedPublicHighSchool: candidateInfo.attendedPublicHighSchool,
       benefitedFromCebasScholarship_basic:
-        candidate.benefitedFromCebasScholarship_basic,
-      yearsBenefitedFromCebas_basic: candidate.yearsBenefitedFromCebas_basic,
-      scholarshipType_basic: candidate.scholarshipType_basic || undefined,
-      institutionName_basic: candidate.institutionName_basic,
-      institutionCNPJ_basic: candidate.institutionCNPJ_basic,
+        candidateInfo.benefitedFromCebasScholarship_basic,
+      yearsBenefitedFromCebas_basic: candidateInfo.yearsBenefitedFromCebas_basic,
+      scholarshipType_basic: candidateInfo.scholarshipType_basic || undefined,
+      institutionName_basic: candidateInfo.institutionName_basic,
+      institutionCNPJ_basic: candidateInfo.institutionCNPJ_basic,
       benefitedFromCebasScholarship_professional:
-        candidate.benefitedFromCebasScholarship_professional,
+        candidateInfo.benefitedFromCebasScholarship_professional,
       lastYearBenefitedFromCebas_professional:
-        candidate.lastYearBenefitedFromCebas_professional,
+        candidateInfo.lastYearBenefitedFromCebas_professional,
       scholarshipType_professional:
-        candidate.scholarshipType_professional || undefined,
-      institutionName_professional: candidate.institutionName_professional,
-      institutionCNPJ_professional: candidate.institutionCNPJ_professional,
+        candidateInfo.scholarshipType_professional || undefined,
+      institutionName_professional: candidateInfo.institutionName_professional,
+      institutionCNPJ_professional: candidateInfo.institutionCNPJ_professional,
       nameOfScholarshipCourse_professional:
-        candidate.nameOfScholarshipCourse_professional || undefined,
-      CadUnico: candidate.CadUnico,
+        candidateInfo.nameOfScholarshipCourse_professional || undefined,
+      CadUnico: candidateInfo.CadUnico,
     };
 
     console.log(data);
@@ -275,69 +256,58 @@ export default function CadastroBasico() {
       handleAuthError(error);
     }
   }
+  function handleCheckboxChange(event) {
+    const { name, checked } = event.target;
+    handleCandidateInfo({ target: { name, value: checked } })
+  }
 
   function handleInputChangeSelect(selectedOptions) {
     // Com react-select, selectedOptions é um array de objetos { value, label } ou null
-    const values = selectedOptions
-      ? selectedOptions.map((option) => option.value)
-      : [];
-    setCandidate((prevState) => ({
-      ...prevState,
-      incomeSource: values,
-    }));
+    const values = selectedOptions ? selectedOptions.map(option => option.value) : [];
+    handleCandidateInfo({ target: { name: 'incomeSource', value: values } });
+
   }
+
   return (
     <div>
       <div className="fill-box">
         <form id="survey-form">
           {/* Nome Completo */}
-          <div class="survey-box">
-            <label for="fullName" id="fullName-label">
-              Nome Civil Completo:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="fullName"
-              value={candidate.fullName}
-              onChange={handleInputChange}
-              id="fullName"
-              class="survey-control"
-              required
-            />
-          </div>
+          <Input
+            fieldName='fullName'
+            label='Nome Completo'
+            type='text'
+            required
+
+            value={candidateInfo.fullName}
+            onChange={handleCandidateInfo}
+            error={candidateInfoErrors}
+          />
           {/* Nome Social */}
-          <div class="survey-box">
-            <label for="socialName" id="socialName-label">
-              Nome Social:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="socialName"
-              value={candidate.socialName}
-              onChange={handleInputChange}
-              id="socialName"
-              class="survey-control"
-            />
-          </div>
+          <Input
+            fieldName='socialName'
+            label='Nome Social'
+            type='text'
+
+            value={candidateInfo.socialName}
+            onChange={handleCandidateInfo}
+            error={candidateInfoErrors}
+          />
+
           {/* Data de Nascimento */}
-          <div class="survey-box">
-            <label for="birthDate" id="birthDate-label">
-              Data de Nascimento:
-            </label>
-            <br />
-            <input
-              type="date"
-              name="birthDate"
-              value={candidate.birthDate}
-              onChange={handleInputChange}
-              id="birthDate"
-              class="survey-control"
-              required
-            />
-          </div>
+          <Input
+            fieldName='birthDate'
+            label='Data de Nascimento'
+            type='date'
+            required
+
+            value={candidateInfo?.birthDate?.split("T")[0]}
+            onChange={handleCandidateInfo}
+            error={candidateInfoErrors}
+          />
+
           {/* Sexo */}
+
           <div class="survey-box">
             <label for="gender" id="gender-label">
               Sexo:
@@ -346,8 +316,9 @@ export default function CadastroBasico() {
             <select
               name="gender"
               id="gender"
-              value={candidate.gender}
-              onChange={handleInputChange}
+              value={candidateInfo.gender}
+
+              onChange={handleCandidateInfo}
               class="select-data"
               required
             >
@@ -358,38 +329,30 @@ export default function CadastroBasico() {
             </select>
           </div>
           {/* Nacionalidade */}
-          <div class="survey-box">
-            <label for="nationality" id="nationality-label">
-              Nacionalidade:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="nationality"
-              onChange={handleInputChange}
-              value={candidate.nationality}
-              id="nationality"
-              class="survey-control"
-              required
-            />
-          </div>
+          <Input
+            fieldName='nationality'
+            label='Nacionalidade'
+            type='text'
+            required
+
+            value={candidateInfo?.nationality}
+            onChange={handleCandidateInfo}
+            error={candidateInfoErrors}
+          />
+
           {/* Cidade de Nascimento */}
-          <div class="survey-box">
-            <label for="natural_city" id="natural_city-label">
-              Cidade Natal:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="natural_city"
-              value={candidate.natural_city}
-              onChange={handleInputChange}
-              id="natural_city"
-              class="survey-control"
-              required
-            />
-          </div>
+          <Input
+            fieldName='natural_city'
+            label='Cidade Natal'
+            type='text'
+            required
+            value={candidateInfo?.natural_city}
+            onChange={handleCandidateInfo}
+            error={candidateInfoErrors}
+          />
+
           {/* Estado de nascimento */}
+
           <div class="survey-box">
             <label for="natural_UF" id="natural_UF-label">
               Unidade Federativa:
@@ -397,8 +360,9 @@ export default function CadastroBasico() {
             <br />
             <select
               name="natural_UF"
-              onChange={handleInputChange}
-              value={candidate.natural_UF}
+
+              onChange={handleCandidateInfo}
+              value={candidateInfo.natural_UF}
               id="natural_UF"
               class="select-data"
             >
@@ -409,38 +373,30 @@ export default function CadastroBasico() {
             </select>
           </div>
 
+
+
           {/* RG */}
-          <div class="survey-box">
-            <label for="RG" id="RG-label">
-              RG:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="RG"
-              value={candidate.RG}
-              onChange={handleInputChange}
-              id="RG"
-              class="survey-control"
-              required
-            />
-          </div>
+          <Input
+            fieldName='RG'
+            label='RG'
+            type='text'
+            required
+            value={formatRG(candidateInfo.RG)}
+            onChange={handleCandidateInfo}
+            error={candidateInfoErrors}
+          />
+
           {/* Orgão Emissor do RG */}
-          <div class="survey-box">
-            <label for="rgIssuingAuthority" id="rgIssuingAuthority-label">
-              Órgão Emissor do RG:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="rgIssuingAuthority"
-              value={candidate.rgIssuingAuthority}
-              onChange={handleInputChange}
-              id="rgIssuingAuthority"
-              class="survey-control"
-              required
-            />
-          </div>
+          <Input
+            fieldName='rgIssuingAuthority'
+            label='Órgão Emissor do RG'
+            type='text'
+            required
+            value={candidateInfo.rgIssuingAuthority}
+            onChange={handleCandidateInfo}
+            error={candidateInfoErrors}
+          />
+
           {/* Estado do RG emitido */}
           <div class="survey-box">
             <label for="rgIssuingState" id="rgIssuingState-label">
@@ -449,8 +405,9 @@ export default function CadastroBasico() {
             <br />
             <select
               name="rgIssuingState"
-              value={candidate.rgIssuingState}
-              onChange={handleInputChange}
+              value={candidateInfo.rgIssuingState}
+
+              onChange={handleCandidateInfo}
               id="rgIssuingState"
               class="select-data"
             >
@@ -461,7 +418,7 @@ export default function CadastroBasico() {
             </select>
           </div>
           {/* Documento Adicional */}
-          {!candidate.RG && (
+          {!candidateInfo.RG && (
             <div>
               {/* Tipo do documento adicional */}
               <div class="survey-box">
@@ -471,8 +428,9 @@ export default function CadastroBasico() {
                 <br />
                 <select
                   name="documentType"
-                  onChange={handleInputChange}
-                  value={candidate.documentType}
+
+                  onChange={handleCandidateInfo}
+                  value={candidateInfo.documentType}
                   id="documentType"
                   class="select-data"
                 >
@@ -482,92 +440,71 @@ export default function CadastroBasico() {
                 </select>
               </div>
               {/* Número do documento adicional */}
-              <div class="survey-box">
-                <label for="documentNumber" id="documentNumber-label">
-                  Número do Documento:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="documentNumber"
-                  value={candidate.documentNumber}
-                  onChange={handleInputChange}
-                  id="documentNumber"
-                  class="survey-control"
-                />
-              </div>
+              <Input
+                fieldName='documentNumber'
+                label='Número do Documento'
+                type='text'
+
+                value={candidateInfo.documentNumber}
+                onChange={handleCandidateInfo}
+                error={candidateInfoErrors}
+              />
+
               {/* Validade do documento adicional */}
-              <div class="survey-box">
-                <label for="documentValidity" id="documentValidity-label">
-                  Data de Validade:
-                </label>
-                <br />
-                <input
-                  type="date"
-                  name="documentValidity"
-                  value={candidate.documentValidity}
-                  onChange={handleInputChange}
-                  id="documentValidity"
-                  class="survey-control"
-                />
-              </div>
+              <Input
+                fieldName='documentValidity'
+                label='Data de Validade'
+                type='date'
+                required
+
+                value={candidateInfo.documentValidity}
+                onChange={handleCandidateInfo}
+                error={candidateInfoErrors}
+              />
+
 
               {/*<!-- Número do Registro de Nascimento -->*/}
-              <div class="survey-box">
-                <label
-                  for="numberOfBirthRegister"
-                  id="numberOfBirthRegister-label"
-                >
-                  Nº do Registro de Nascimento:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="numberOfBirthRegister"
-                  onChange={handleInputChange}
-                  value={candidate.numberOfBirthRegister}
-                  id="numberOfBirthRegister"
-                  class="survey-control"
-                  required
-                />
-              </div>
+              <Input
+                fieldName='numberOfBirthRegister'
+                label='Nº do Registro de Nascimento'
+                type='text'
+                required
+
+                value={candidateInfo.numberOfBirthRegister}
+                onChange={handleCandidateInfo}
+                error={candidateInfoErrors}
+              />
+
 
               {/*<!-- Livro do Registro de Nascimento -->*/}
-              <div class="survey-box">
-                <label for="bookOfBirthRegister" id="bookOfBirthRegister-label">
-                  Livro do Registro de Nascimento:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="bookOfBirthRegister"
-                  onChange={handleInputChange}
-                  value={candidate.bookOfBirthRegister}
-                  id="bookOfBirthRegister"
-                  class="survey-control"
-                  required
-                />
-              </div>
+              <Input
+                fieldName='bookOfBirthRegister'
+                label='Livro do Registro de Nascimento'
+                type='text'
+                required
+
+                value={candidateInfo.bookOfBirthRegister}
+                onChange={handleCandidateInfo}
+                error={candidateInfoErrors}
+              />
+
 
               {/*<!-- Página do Registro de Nascimento -->*/}
-              <div class="survey-box">
-                <label for="pageOfBirthRegister" id="pageOfBirthRegister-label">
-                  Página do Registro de Nascimento:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="pageOfBirthRegister"
-                  onChange={handleInputChange}
-                  value={candidate.pageOfBirthRegister}
-                  id="pageOfBirthRegister"
-                  class="survey-control"
-                  required
-                />
-              </div>
+              <Input
+                fieldName='pageOfBirthRegister'
+                label='Página do Registro de Nascimento'
+                type='text'
+                required
+
+                value={candidateInfo.pageOfBirthRegister}
+                onChange={handleCandidateInfo}
+                error={candidateInfoErrors}
+              />
+
             </div>
           )}
           {/*<!-- Estado Civil -->*/}
+
           <div class="survey-box">
             <label for="maritalStatus" id="maritalStatus-label">
               Estado Civil:
@@ -575,8 +512,9 @@ export default function CadastroBasico() {
             <br />
             <select
               name="maritalStatus"
-              value={candidate.maritalStatus}
-              onChange={handleInputChange}
+              value={candidateInfo.maritalStatus}
+
+              onChange={handleCandidateInfo}
               id="maritalStatus"
               class="select-data"
             >
@@ -595,8 +533,9 @@ export default function CadastroBasico() {
             <br />
             <select
               name="skinColor"
-              onChange={handleInputChange}
-              value={candidate.skinColor}
+
+              onChange={handleCandidateInfo}
+              value={candidateInfo.skinColor}
               id="skinColor"
               class="select-data"
             >
@@ -615,8 +554,9 @@ export default function CadastroBasico() {
             <br />
             <select
               name="religion"
-              value={candidate.religion}
-              onChange={handleInputChange}
+              value={candidateInfo.religion}
+
+              onChange={handleCandidateInfo}
               id="religion"
               class="select-data"
             >
@@ -635,8 +575,9 @@ export default function CadastroBasico() {
             <br />
             <select
               name="educationLevel"
-              onChange={handleInputChange}
-              value={candidate.educationLevel}
+
+              onChange={handleCandidateInfo}
+              value={candidateInfo.educationLevel}
               id="educationLevel"
               class="select-data"
             >
@@ -648,7 +589,7 @@ export default function CadastroBasico() {
           </div>
 
           {/*<!-- Necessidades Especiais -->*/}
-          <div class="survey-box">
+          <div class="survey-box survey-check">
             <label for="specialNeeds" id="specialNeeds-label">
               Necessidades Especiais:
             </label>
@@ -656,34 +597,29 @@ export default function CadastroBasico() {
             <InputCheckbox
               type="checkbox"
               name="specialNeeds"
-              onChange={handleInputChange}
-              value={candidate.specialNeeds}
+
+              onChange={handleCheckboxChange}
+              value={candidateInfo.specialNeeds}
               id="specialNeeds"
               class="survey-control"
             />
           </div>
-          {candidate.specialNeeds && (
-            <div>
+          {candidateInfo.specialNeeds && (
+            <>
               {/*<!-- Descrição das Necessidades Especiais -->*/}
-              <div class="survey-box">
-                <label
-                  for="specialNeedsDescription"
-                  id="specialNeedsDescription-label"
-                >
-                  Descrição das Necessidades Especiais:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="specialNeedsDescription"
-                  onChange={handleInputChange}
-                  value={candidate.specialNeedsDescription}
-                  id="specialNeedsDescription"
-                  class="survey-control"
-                />
-              </div>
+              <Input
+                fieldName='specialNeedsDescription'
+                label='Descrição das Necessidades Especiais'
+                type='text'
+
+                value={candidateInfo.specialNeedsDescription}
+                onChange={handleCandidateInfo}
+                error={candidateInfoErrors}
+              />
+
 
               {/*<!-- Tem relatório médico -->*/}
+
               <div class="survey-box">
                 <label for="hasMedicalReport" id="hasMedicalReport-label">
                   Possui relatório médico:
@@ -692,79 +628,63 @@ export default function CadastroBasico() {
                 <InputCheckbox
                   type="checkbox"
                   name="hasMedicalReport"
-                  onChange={handleInputChange}
-                  value={candidate.hasMedicalReport}
+
+                  onChange={handleCheckboxChange}
+                  value={candidateInfo.hasMedicalReport}
                   id="hasMedicalReport"
                   class="survey-control"
                 />
               </div>
-            </div>
+            </>
           )}
 
           {/*<!-- Telefone Fixo -->*/}
-          <div class="survey-box">
-            <label for="landlinePhone" id="landlinePhone-label">
-              Telefone Fixo:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="landlinePhone"
-              onChange={handleInputChange}
-              value={candidate.landlinePhone}
-              id="landlinePhone"
-              class="survey-control"
-            />
-          </div>
+          <Input
+            fieldName='landlinePhone'
+            label='Telefone Fixo'
+            type='text'
+
+            value={candidateInfo.landlinePhone}
+            onChange={handleCandidateInfo}
+            error={candidateInfoErrors}
+          />
+
 
           {/*<!-- Telefone de Trabalho -->*/}
-          <div class="survey-box">
-            <label for="workPhone" id="workPhone-label">
-              Telefone de trabalho/recado:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="workPhone"
-              onChange={handleInputChange}
-              value={candidate.workPhone}
-              id="workPhone"
-              class="survey-control"
-            />
-          </div>
+          <Input
+            fieldName='workPhone'
+            label='Telefone de trabalho/recado'
+            type='text'
+
+            value={candidateInfo.workPhone}
+            onChange={handleCandidateInfo}
+            error={candidateInfoErrors}
+          />
+
 
           {/*<!-- Nome para Contato -->*/}
-          <div class="survey-box">
-            <label for="contactNameForMessage" id="contactNameForMessage-label">
-              Nome para Contato:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="contactNameForMessage"
-              onChange={handleInputChange}
-              value={candidate.contactNameForMessage}
-              id="contactNameForMessage"
-              class="survey-control"
-            />
-          </div>
+          <Input
+            fieldName='contactNameForMessage'
+            label='Nome para contato'
+            type='text'
+
+            value={candidateInfo.contactNameForMessage}
+            onChange={handleCandidateInfo}
+            error={candidateInfoErrors}
+          />
 
           {/*<!-- Profissão -->*/}
-          <div class="survey-box">
-            <label for="profession" id="profession-label">
-              Profissão:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="profession"
-              value={candidate.profession}
-              onChange={handleInputChange}
-              id="profession"
-              class="survey-control"
-              required
-            />
-          </div>
+          <Input
+            fieldName='profession'
+            label='Profissão'
+            type='text'
+            required
+
+            value={candidateInfo.profession}
+            onChange={handleCandidateInfo}
+            error={candidateInfoErrors}
+          />
+
 
           {/*<!-- Inscrito em Programa Governamental -->*/}
           <div class="survey-box survey-check">
@@ -778,30 +698,27 @@ export default function CadastroBasico() {
             <InputCheckbox
               type="checkbox"
               name="enrolledGovernmentProgram"
-              value={candidate.enrolledGovernmentProgram}
-              onChange={handleInputChange}
+              value={candidateInfo.enrolledGovernmentProgram}
+
+              onChange={handleCheckboxChange}
               id="enrolledGovernmentProgram"
               class="survey-control"
             />
           </div>
 
-          {candidate.enrolledGovernmentProgram === true && (
+          {candidateInfo.enrolledGovernmentProgram === true && (
             <div>
               {/*<!-- NIS -->*/}
-              <div class="survey-box">
-                <label for="NIS" id="NIS-label">
-                  NIS:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="NIS"
-                  value={candidate.NIS}
-                  onChange={handleInputChange}
-                  id="NIS"
-                  class="survey-control"
-                />
-              </div>
+              <Input
+                fieldName='NIS'
+                label='NIS'
+                type='text'
+
+                value={candidateInfo.NIS}
+                onChange={handleCandidateInfo}
+                error={candidateInfoErrors}
+              />
+
             </div>
           )}
           {/* Fonte de Renda  */}
@@ -813,18 +730,17 @@ export default function CadastroBasico() {
             <Select
               name="incomeSource"
               isMulti
+              is
               onChange={handleInputChangeSelect}
               options={IncomeSource}
-              value={IncomeSource.filter((obj) =>
-                candidate.incomeSource.includes(obj.value)
-              )}
+              value={IncomeSource.filter(obj => candidateInfo.incomeSource.includes(obj.value))}
               id="incomeSource"
               class="select-data"
             />
           </div>
 
           {/*<!-- Mora Sozinho ? -->*/}
-          <div class="survey-box">
+          <div class="survey-box  survey-check">
             <label for="livesAlone" id="livesAlone-label">
               Mora Sozinho ?
             </label>
@@ -832,13 +748,13 @@ export default function CadastroBasico() {
             <InputCheckbox
               type="checkbox"
               name="livesAlone"
-              value={candidate.livesAlone}
-              onChange={handleInputChange}
+              value={candidateInfo.livesAlone}
+
+              onChange={handleCheckboxChange}
               id="livesAlone"
               class="survey-control"
             />
           </div>
-
           <div class="survey-box survey-check">
             <label for="livesAlone" id="livesAlone-label">
               Familia registrada no Cadastro Único?
@@ -847,8 +763,9 @@ export default function CadastroBasico() {
             <InputCheckbox
               type="checkbox"
               name="CadUnico"
-              checked={candidate.CadUnico}
-              onChange={handleInputChange}
+              checked={candidateInfo.CadUnico}
+
+              onChange={handleCheckboxChange}
               id="CadUnico"
               class="survey-control"
             />
@@ -865,8 +782,9 @@ export default function CadastroBasico() {
             <InputCheckbox
               type="checkbox"
               name="intendsToGetScholarship"
-              value={candidate.intendsToGetScholarship}
-              onChange={handleInputChange}
+              value={candidateInfo.intendsToGetScholarship}
+
+              onChange={handleCheckboxChange}
               id="intendsToGetScholarship"
               class="survey-control"
             />
@@ -884,8 +802,9 @@ export default function CadastroBasico() {
             <InputCheckbox
               type="checkbox"
               name="attendedPublicHighSchool"
-              value={candidate.attendedPublicHighSchool}
-              onChange={handleInputChange}
+              value={candidateInfo.attendedPublicHighSchool}
+
+              onChange={handleCheckboxChange}
               id="attendedPublicHighSchool"
               class="survey-control"
               required
@@ -904,34 +823,29 @@ export default function CadastroBasico() {
             <InputCheckbox
               type="checkbox"
               name="benefitedFromCebasScholarship_basic"
-              value={candidate.benefitedFromCebasScholarship_basic}
-              onChange={handleInputChange}
+              value={candidateInfo.benefitedFromCebasScholarship_basic}
+
+              onChange={handleCheckboxChange}
               id="benefitedFromCebasScholarship_basic"
               class="survey-control"
               required
             />
           </div>
 
-          {candidate.benefitedFromCebasScholarship_basic && (
-            <div>
-              <div class="survey-box">
-                <label
-                  for="yearsBenefitedFromCebas_basic"
-                  id="yearsBenefitedFromCebas_basic-label"
-                >
-                  Anos em que recebeu bolsa CEBAS:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="yearsBenefitedFromCebas_basic"
-                  value={candidate.yearsBenefitedFromCebas_basic}
-                  onChange={handleInputChange}
-                  id="yearsBenefitedFromCebas_basic"
-                  class="survey-control"
-                />
-              </div>
+          {candidateInfo.benefitedFromCebasScholarship_basic && (
+            <>
+              <Input
+                fieldName='yearsBenefitedFromCebas_basic'
+                label='Anos em que recebeu bolsa CEBAS'
+                type='text'
+
+                value={candidateInfo.yearsBenefitedFromCebas_basic}
+                onChange={handleCandidateInfo}
+                error={candidateInfoErrors}
+              />
+
               {/*<!-- Tipo de Escolaridade (Básica) -->*/}
+
               <div class="survey-box">
                 <label
                   for="scholarshipType_basic"
@@ -942,8 +856,9 @@ export default function CadastroBasico() {
                 <br />
                 <select
                   name="scholarshipType_basic"
-                  onChange={handleInputChange}
-                  value={candidate.scholarshipType_basic}
+
+                  onChange={handleCandidateInfo}
+                  value={candidateInfo.scholarshipType_basic}
                   id="scholarshipType_basic"
                   class="select-data"
                 >
@@ -953,45 +868,31 @@ export default function CadastroBasico() {
                 </select>
               </div>
               {/*<!-- Nome da Instituição (Básica): -->*/}
-              <div class="survey-box">
-                <label
-                  for="institutionName_basic"
-                  id="institutionName_basic-label"
-                >
-                  Nome da Instituição:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="institutionName_basic"
-                  value={candidate.institutionName_basic}
-                  onChange={handleInputChange}
-                  id="institutionName_basic"
-                  class="survey-control"
-                  required
-                />
-              </div>
+              <Input
+                fieldName='institutionName_basic'
+                label='Nome da Instituição'
+                type='text'
+                required
+
+                value={candidateInfo.institutionName_basic}
+                onChange={handleCandidateInfo}
+                error={candidateInfoErrors}
+              />
+
 
               {/*<!-- CNPJ da Instituição (Básica):-->*/}
-              <div class="survey-box">
-                <label
-                  for="institutionCNPJ_basic"
-                  id="institutionCNPJ_basic-label"
-                >
-                  CNPJ da Instituição:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="institutionCNPJ_basic"
-                  value={candidate.institutionCNPJ_basic}
-                  onChange={handleInputChange}
-                  id="institutionCNPJ_basic"
-                  class="survey-control"
-                  required
-                />
-              </div>
-            </div>
+              <Input
+                fieldName='institutionCNPJ_basic'
+                label='CNPJ da Instituição'
+                type='number'
+                required
+
+                value={candidateInfo.institutionCNPJ_basic}
+                onChange={handleCandidateInfo}
+                error={candidateInfoErrors}
+              />
+
+            </>
           )}
 
           {/*<!-- Já recebeu bolsa CEBAS para educação profissional ? -->*/}
@@ -1006,34 +907,30 @@ export default function CadastroBasico() {
             <InputCheckbox
               type="checkbox"
               name="benefitedFromCebasScholarship_professional"
-              value={candidate.benefitedFromCebasScholarship_professional}
-              onChange={handleInputChange}
+              value={candidateInfo.benefitedFromCebasScholarship_professional}
+
+              onChange={handleCheckboxChange}
               id="benefitedFromCebasScholarship_professional"
               class="survey-control"
               required
             />
           </div>
-          {candidate.benefitedFromCebasScholarship_professional && (
-            <div>
-              <div class="survey-box">
-                <label
-                  for="lastYearBenefitedFromCebas_professional"
-                  id="lastYearBenefitedFromCebas_professional-label"
-                >
-                  Último ano que recebu bolsa CEBAS:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="lastYearBenefitedFromCebas_professional"
-                  value={candidate.lastYearBenefitedFromCebas_professional}
-                  onChange={handleInputChange}
-                  id="lastYearBenefitedFromCebas_professional"
-                  class="survey-control"
-                />
-              </div>
+          {candidateInfo.benefitedFromCebasScholarship_professional && (
+            <>
+
+              <Input
+                fieldName='lastYearBenefitedFromCebas_professional'
+                label='Último ano que recebeu bolsa CEBAS'
+                type='text'
+
+                value={candidateInfo.lastYearBenefitedFromCebas_professional}
+                onChange={handleCandidateInfo}
+                error={candidateInfoErrors}
+              />
+
 
               {/*<!-- Tipo de Escolaridade (Profissional) -->*/}
+
               <div class="survey-box">
                 <label
                   for="scholarshipType_professional"
@@ -1044,8 +941,9 @@ export default function CadastroBasico() {
                 <br />
                 <select
                   name="scholarshipType_professional"
-                  onChange={handleInputChange}
-                  value={candidate.scholarshipType_professional}
+
+                  onChange={handleCandidateInfo}
+                  value={candidateInfo.scholarshipType_professional}
                   id="scholarshipType_basic"
                   class="select-data"
                 >
@@ -1055,64 +953,43 @@ export default function CadastroBasico() {
                 </select>
               </div>
               {/*<!-- Nome da Instituição (Profissional): -->*/}
-              <div class="survey-box">
-                <label
-                  for="institutionName_professional"
-                  id="institutionName_professional-label"
-                >
-                  Nome da Instituição:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="institutionName_professional"
-                  value={candidate.institutionName_professional}
-                  onChange={handleInputChange}
-                  id="institutionName_professional"
-                  class="survey-control"
-                  required
-                />
-              </div>
+              <Input
+                fieldName='institutionName_professional'
+                label='E-mail'
+                type='text'
+                required
+
+                value={candidateInfo.institutionName_professional}
+                onChange={handleCandidateInfo}
+                error={candidateInfoErrors}
+              />
+
 
               {/*<!-- CNPJ da Instituição (Profissional):-->*/}
-              <div class="survey-box">
-                <label
-                  for="institutionCNPJ_professional"
-                  id="institutionCNPJ_professional-label"
-                >
-                  CNPJ da Instituição:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="institutionCNPJ_professional"
-                  value={candidate.institutionCNPJ_professional}
-                  onChange={handleInputChange}
-                  id="institutionCNPJ_professional"
-                  class="survey-control"
-                  required
-                />
-              </div>
+              <Input
+                fieldName='institutionCNPJ_professional'
+                label='CNPJ da Instituição'
+                type='number'
+                required
+
+                value={candidateInfo.institutionCNPJ_professional}
+                onChange={handleCandidateInfo}
+                error={candidateInfoErrors}
+              />
+
               {/*<!-- Nome do Curso (Profissional):-->*/}
-              <div class="survey-box">
-                <label
-                  for="nameOfScholarshipCourse_professional"
-                  id="nameOfScholarshipCourse_professional-label"
-                >
-                  Nome do Curso:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="nameOfScholarshipCourse_professional"
-                  value={candidate.nameOfScholarshipCourse_professional}
-                  onChange={handleInputChange}
-                  id="nameOfScholarshipCourse_professional"
-                  class="survey-control"
-                  required
-                />
-              </div>
-            </div>
+              <Input
+                fieldName='nameOfScholarshipCourse_professional'
+                label='Nome do Curso'
+                type='text'
+                required
+
+                value={candidateInfo.nameOfScholarshipCourse_professional}
+                onChange={handleCandidateInfo}
+                error={candidateInfoErrors}
+              />
+
+            </>
           )}
 
           <div class="survey-box">
@@ -1121,6 +998,7 @@ export default function CadastroBasico() {
               onClick={RegisterCandidateBasicInfo}
               id="submit-button"
               className="button-one"
+              disabled={!isFormValid}
             >
               Salvar Informações
             </button>
@@ -1128,5 +1006,7 @@ export default function CadastroBasico() {
         </form>
       </div>
     </div>
-  );
+  )
 }
+
+

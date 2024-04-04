@@ -16,7 +16,14 @@ import Swal from 'sweetalert2';
 import { isValidCPF } from "../../utils/validate-cpf";
 import { formatCEP } from "../../utils/format-cep";
 import { formatTelephone } from "../../utils/format-telephone";
-
+import useForm from "../../hooks/useForm";
+import RegisterInput from "./RegisterInput";
+import registerInfoValidation from "./validations/register-info-validation";
+import useCep from "../../hooks/useCep";
+import LoginButton from "./LoginButton";
+import LoginInput from "./LoginInput";
+import loginInfoValidation from "./validations/login-info-validation";
+import validateEmail from "../../utils/validate-email";
 
 
 
@@ -31,9 +38,7 @@ export default function Login() {
   const [typeOfUser, setTypeOfUser] = useState()
 
   // CPF dinamico
-  const [CPFCandidate, setCPFCandidate] = useState('')
-  const [CEPCandidate, setCEPCandidate] = useState('')
-  const [phoneCandidate, setPhoneCandidate] = useState('')
+
   const formRef1 = useRef(null);
   const formRef2 = useRef(null);
   const formRef3 = useRef(null);
@@ -42,33 +47,31 @@ export default function Login() {
   const formRef6 = useRef(null);
   const formRef7 = useRef(null);
 
-  const loginForm = useRef(null);
-
-  function handlePageChange() {
-    let currentForm;
-
+  function handlePageChange(e) {
+    let formValidation;
+    e?.preventDefault()
     switch (currentPage) {
       case 0:
-        currentForm = formRef1;
+        formValidation = submitLogin();
         break;
       case 1:
-        currentForm = formRef2;
+        formValidation = submitRegister("name", "CPF", "birthDate", "phone");
         // Additional step to check age when moving away from page 1
-        const birthDate = new Date(currentForm.current['birthDate'].value); // Assuming the input's name is 'birthDate'
+        const birthDate = new Date(registerInfo.birthDate); // Assuming the input's name is 'birthDate'
         const age = calculateAge(birthDate);
-        if (!isValidCPF(CPFCandidate)) {
-          Swal.fire({
-            title: 'Erro!',
-            text:'CPF inválido.',
-            icon: 'warning',
-            confirmButtonText: 'Ok'
-          });
-          return; // Prevents the transition to the next page
-        }
+        /*  if (!isValidCPF(registerInfo.CPF)) {
+           Swal.fire({
+             title: 'Erro!',
+             text: 'CPF inválido.',
+             icon: 'warning',
+             confirmButtonText: 'Ok'
+           });
+           return; // Prevents the transition to the next page
+         } */
         if (age < 18) {
           Swal.fire({
             title: 'Erro!',
-            text:'Você deve ter mais de 18 anos para continuar.',
+            text: 'Você deve ter mais de 18 anos para continuar.',
             icon: 'warning',
             confirmButtonText: 'Ok'
           });
@@ -76,25 +79,25 @@ export default function Login() {
         }
         break;
       case 2:
-        currentForm = formRef3;
+        formValidation = submitRegister("email", "password");
         break;
       case 3:
-        currentForm = formRef4;
+        formValidation = submitRegister("CEP", "address", "addressNumber", "UF", "city", "neighborhood");
         break;
       case 4:
-        currentForm = formRef5;
+        formValidation = formRef5.current.checkValidity();
         break;
       case 5:
-        currentForm = formRef6;
+        formValidation = formRef6.current.checkValidity();
         break;
       case 6:
-        currentForm = formRef7;
+        formValidation = formRef7.current.checkValidity();
         break;
       default:
-        currentForm = formRef1;
+        formValidation = formRef1.current.checkValidity();
     }
 
-    if (currentForm.current.checkValidity()) {
+    if (formValidation) {
       setCurrentPage((prevPage) => {
         if (prevPage === 0) return 1;
         if (prevPage === 1) return 2;
@@ -160,24 +163,16 @@ export default function Login() {
   function handlePageToRegister() {
     setCurrentPage(1)
   }
-
+  const [[loginInfo], handleLoginInfo, loginErrors, , submitLogin] = useForm({ email: '', password: '' }, loginInfoValidation)
   // BackEnd Functions 
   const { SignIn } = useAuth()
   const navigate = useNavigate()
 
   async function login() {
-    // Pega o valor do email e password dos inputs 
-    const loginFormElement = loginForm.current
 
-    if (loginFormElement.checkValidity()) {
-      const email = loginFormElement.querySelector('input[id="usermail"]').value
-      const password = loginFormElement.querySelector('input[id="pass"]').value
-
-      const credentials = { email, password }
-
+    if (submitLogin()) {
       // Loga na aplicação
-      const role = await SignIn(credentials)
-
+      const role = await SignIn(loginInfo)
 
       if (role === 'CANDIDATE' || role === 'RESPONSIBLE') {
         navigate('/candidato/home')
@@ -191,63 +186,36 @@ export default function Login() {
         navigate('/admin/cadastro')
       }
     } else {
-      alert("Preencha os campos exigidos!")
+      Swal.fire({
+        title: 'Erro!',
+        text: 'Preencha os campos de email e senha.',
+        icon: 'warning',
+        confirmButtonText: 'Ok'
+      });
+      return; // Prevents the transition to the next page
     }
   }
 
   async function handleRegister() {
-    // Acesse o elemento do formulário usando a referência
-    const firstFormElement = formRef2.current
-    const credentialsFormElement = formRef3.current
-    const addressFormElement = formRef4.current
-
-    // Acesse os campos do formulário pelo nome
-    const name = firstFormElement.querySelector('input[name="name"]').value
-    const CPF = CPFCandidate;
-    const birthDate = firstFormElement.querySelector('input[name="birthDate"]').value
-    const phone = firstFormElement.querySelector('input[name="phone"]').value
-    const email = credentialsFormElement.querySelector('input[id="usermail"]').value
-    const password = credentialsFormElement.querySelector('input[id="pass"]').value
-
-    const address = addressFormElement.querySelector('input[name="address"]').value
-    const CEP = addressFormElement.querySelector('input[name="CEP"]').value
-    const UF = addressFormElement.querySelector('select[name="UF"]').value;
-    const city = addressFormElement.querySelector('input[name="city"]').value
-    const neighborhood = addressFormElement.querySelector('input[name="neighborhood"]').value
-    const addressNumber = addressFormElement.querySelector('input[name="addressNumber"]').value
-    const registerInfo = {
-      name,
-      CPF,
-      birthDate,
-      phone,
-      email,
-      password,
-      address,
-      CEP,
-      UF,
-      city,
-      neighborhood,
-      addressNumber: (addressNumber)
-    }
-
     if (typeOfUser === 'candidate') {
       api.post('/candidates', registerInfo)
         .then(() => {
-          alert('Cadastro realizado com sucesso !')
+          Swal.fire({ title: "Concluído", text: "Cadastro realizado com sucesso!", icon: "success" })
           setCurrentPage(0)
         })
         .catch((err) => {
-          console.log(err)
-          alert(`${err.response.data.message}`)
+          Swal.fire({ title: "Erro", text: `O cadastro não pôde ser concluído. ${err?.response?.data?.message}`, icon: "error", })
         })
     } else if (typeOfUser === 'responsible') {
       api.post('/responsibles', registerInfo)
         .then(response => {
-          alert('Cadastro realizado com sucesso !')
+          console.log(response)
+          Swal.fire({ title: "Concluído", text: "Cadastro do responsável realizado!", icon: "success" })
           setResponsibleId(response.data.responsible_id)
           handlePageChange()
         })
-        .catch((err) => console.log(err))
+        .catch((err) => Swal.fire({ title: "Erro", text: `O cadastro não pôde ser concluído. ${err?.response?.data?.message}`, icon: "error", })
+        )
     }
   }
 
@@ -264,7 +232,10 @@ export default function Login() {
       CPFs.push(CPF)
       birthDates.push(birthDate)
     }
-
+    if (names.some(e => !e) || CPFs.some(e => !e) || birthDates.some(e => !e)) {
+      Swal.fire({ title: "Erro", text: "Todos os campos de dependentes são obrigatórios", icon: "warning" })
+      return
+    }
 
     for (let i = 0; i < numDependentes; i++) {
       const data = {
@@ -275,20 +246,51 @@ export default function Login() {
       }
 
       await api.post('/responsibles/legal-dependents', data)
-        .then(() => alert('Cadastro Concluído com sucesso !'))
+        .then(() => {
+          Swal.fire({ title: "Concluído", text: `Cadastro de ${data.name[i]} realizado!`, icon: "success" })
+          setCurrentPage(0)
+        }
+        )
         .catch((error) => {
-          console.log(error)
-          alert(`${error.response.data.message}`)
+          Swal.fire({ title: "Erro", text: "Erro ao realizar cadastro", icon: "error" })
         })
     }
-    setCurrentPage(0)
 
 
   }
   const toggleLgpdPopup = () => {
     setShowLgpdPopup(!showLgpdPopup);
   };
+  const handleForgotPassword = () => {
+    if (submitLogin("email") && validateEmail(loginInfo.email)) {
+      api.post('/forgot_password', { email: loginInfo.email })
+      Swal.fire({
+        icon: 'success',
+        title: 'Email de recuperação enviado',
+        text: `Um email foi enviado para o email ${loginInfo.email}, cheque a caixa de entrada ou de spam.`
+      })
+    } else {
+      Swal.fire({ title: "Nenhum Email", text: "Preencha o campo Email para prosseguir", icon: "warning" })
+    }
+  }
+  const [[registerInfo], handleRegisterInfoChange, registerErrors, , submitRegister] = useForm({
+    name: '',
+    CPF: '',
+    birthDate: '',
+    phone: '',
+    email: '',
+    password: '',
+    address: '',
+    CEP: '',
+    UF: '',
+    city: '',
+    neighborhood: '',
+    addressNumber: ''
+  }, registerInfoValidation)
 
+  useCep((address) => {
+    Object.keys(address).forEach((key) => handleRegisterInfoChange({ target: { name: key, value: address[key] } }))
+  }, registerInfo.CEP)
   return (
     <div className="login-container">
       <div id="object-one">
@@ -308,40 +310,29 @@ export default function Login() {
             className={`cadastro-second ${currentPage !== 0 && "hidden-page"}`}
           >
             <h2>Digite seu email e senha </h2>
-            <form ref={loginForm}>
-              <div className="user-login mail">
-                <label for="usermail">
-                  <UilUserCircle size="40" color="white" />
-                </label>
-                <input
-                  type="email"
-                  id="usermail"
-                  placeholder="Email"
-                  required
-                ></input>
-              </div>
-              <div className="user-login password">
-                <label for="pass">
-                  <UilLock size="40" color="white" />
-                </label>
-                <input
-                  type="password"
-                  id="pass"
-                  placeholder="Senha"
-                  required
-                ></input>
-              </div>
-              <button className="login-btn" type="button" onClick={login}>
-                <div className="btn-entrar">
-                  <a>Entrar</a>
-                </div>
-              </button>
-              <button className="login-btn" type="button">
-                <div className="btn-entrar" onClick={handlePageToRegister}>
-                  <a>Cadastrar-se</a>
-                </div>
-              </button>
-              
+            <form>
+              <LoginInput
+                Icon={UilUserCircle}
+                name='email'
+                type="email"
+                placeholder="Email"
+                onChange={handleLoginInfo}
+                error={loginErrors}
+              />
+
+              <LoginInput
+                Icon={UilLock}
+                name='password'
+                type="password"
+                placeholder="Senha"
+                onChange={handleLoginInfo}
+                error={loginErrors}
+              />
+
+
+              <LoginButton onClick={login} label='entrar' />
+              <LoginButton onClick={handlePageToRegister} label='cadastrar-se' />
+              {/* <label style={{ cursor: "pointer", fontSize: 18 }} onClick={handleForgotPassword}>Esqueci minha senha</label> */}
             </form>
           </div>
 
@@ -349,55 +340,49 @@ export default function Login() {
             className={`info-user-sign ${currentPage !== 1 && "hidden-page"}`}
           >
             <form ref={formRef2}>
-              <div>
-                <label for="nome">
-                  <h2 className="info-cadastrado">Nome civil completo</h2>
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Exemplo: Jean Carlo do Amaral"
-                  required
-                ></input>
-              </div>
-              <div>
-                <label for="nome">
-                  <h2 className="info-cadastrado">CPF</h2>
-                </label>
-                <input
-                  type="text"
-                  id="CPF"
-                  name="CPF"
-                  placeholder="Exemplo: XXX.XXX.XXX-XX"
-                  value={CPFCandidate}
-                  onChange={(e) => setCPFCandidate(formatCPF(e.target.value))}
-                  required
-                ></input>
-              </div>
-              <div className="info-dependente">
-                <label for="nome">
-                  <h2 className="info-cadastrado">Data de nascimento</h2>
-                </label>
-                <input type="date" name="birthDate" id="nome" placeholder="2003-10-24"></input>
-              </div>
-              <div>
-                <label for="nome">
-                  <h2 className="info-cadastrado">Telefone</h2>
-                </label>
-                <input
-                value={phoneCandidate}
-                onChange={(e) => setPhoneCandidate(formatTelephone(e.target.value))}
-                  type="text"
-                  id="nome"
-                  name="phone"
-                  placeholder="Exemplo: +55 (35) 9 8820-7198"
-                  required
-                ></input>
-              </div>
-              <div className="btn-entrar" onClick={() => handlePageChange()}>
-                <a>Próximo</a>
-              </div>
+              <RegisterInput
+                name="name"
+                label="Nome Civil Completo"
+                type="text"
+                placeholder="Exemplo: Jean Carlo do Amaral"
+                onChange={handleRegisterInfoChange}
+                error={registerErrors}
+                required
+              />
+              <RegisterInput
+                name="CPF"
+                label="CPF"
+                type="text"
+                placeholder="Exemplo: XXX.XXX.XXX-XX"
+                onChange={handleRegisterInfoChange}
+                maxLength={14}
+                value={formatCPF(registerInfo.CPF)}
+                error={registerErrors}
+                required
+              />
+              <RegisterInput
+                className="info-dependente"
+                name="birthDate"
+                label="Data de Nascimento"
+                type="date"
+                placeholder="2003-10-24"
+                onChange={handleRegisterInfoChange}
+                error={registerErrors}
+                required
+              />
+              <RegisterInput
+                name="phone"
+                label="Telefone"
+                type="text"
+                placeholder="Exemplo: +55 (35) 9 8820-7198"
+                onChange={handleRegisterInfoChange}
+                value={formatTelephone(registerInfo.phone)}
+                error={registerErrors}
+                required
+              />
+
+              <LoginButton onClick={handlePageChange} label='próximo' />
+
               <div>
                 <div className="go-back">
                   <UilAngleLeft
@@ -405,6 +390,7 @@ export default function Login() {
                     color="#1F4B73"
                     className="back"
                     onClick={() => handleBackChange()}
+                    style={{ marginTop: 1 + "rem" }}
                   ></UilAngleLeft>
                 </div>
               </div>
@@ -416,33 +402,29 @@ export default function Login() {
           >
             <h2>Cadastre seu email e senha </h2>
             <form ref={formRef3}>
-              <div className="user-login mail">
-                <label for="usermail">
-                  <UilUserCircle size="40" color="white" />
-                </label>
-                <input
-                  type="email"
-                  id="usermail"
-                  placeholder="Email"
-                  required
-                ></input>
-              </div>
-              <div className="user-login password">
-                <label for="pass">
-                  <UilLock size="40" color="white" />
-                </label>
-                <input
-                  type="password"
-                  id="pass"
-                  placeholder="Senha"
-                  required
-                ></input>
-              </div>
-              <button className="login-btn" type="button">
-                <div className="btn-entrar" onClick={() => handlePageChange()}>
-                  <a>Próximo</a>
-                </div>
-              </button>
+              <LoginInput
+                Icon={UilUserCircle}
+                name="email"
+                type="email"
+                placeholder="Email"
+                onChange={handleRegisterInfoChange}
+                error={registerErrors}
+                showErrorHint
+                required
+              />
+              <LoginInput
+                Icon={UilLock}
+                name="password"
+                type="password"
+                placeholder="Password"
+                onChange={handleRegisterInfoChange}
+                error={registerErrors}
+                showErrorHint
+                required
+              />
+
+              <LoginButton onClick={handlePageChange} label='próximo' />
+
 
               <div>
                 <div className="go-back">
@@ -466,67 +448,69 @@ export default function Login() {
                 <h2 className="text-form">
                   Insira seu endereço para prosseguir
                 </h2>
-                <label for="nome">
-                  <h2 className="info-cadastrado">CEP</h2>
-                </label>
-                <input
-                  value={CEPCandidate}
-                  onChange={(e) => setCEPCandidate(formatCEP(e.target.value))}
-                  type="text"
-                  id="nome"
+                <RegisterInput
                   name="CEP"
+                  label="CEP"
+                  onChange={handleRegisterInfoChange}
+                  type="text"
                   placeholder="Exemplo: 12228-402"
-                ></input>
-                <label for="nome">
+                  value={formatCEP(registerInfo.CEP)}
+                  error={registerErrors}
+                  required
+                />
+
+                <label for="UF">
                   <h2 className="info-cadastrado">UF</h2>
                 </label>
-                <select id="uf" name="UF">
+                <select id="uf" name="UF" value={registerInfo.UF} onChange={handleRegisterInfoChange} required>
                   {COUNTRY.map(({ value, label }) => (
                     <option value={value}>{label}</option>
                   ))}
                 </select>
-                <label for="nome">
-                  <h2 className="info-cadastrado">Cidade</h2>
-                </label>
-                <input
-                  type="text"
-                  id="nome"
-                  name="city"
-                  placeholder="Exemplo: São Paulo"
-                ></input>
-                <label for="nome">
-                  <h2 className="info-cadastrado">Bairro</h2>
-                </label>
-                <input
-                  type="text"
-                  id="nome"
-                  name="neighborhood"
-                  placeholder="Exemplo: Ipiranga"
-                ></input>
-                <label for="nome">
-                  <h2 className="info-cadastrado">Número do Endereço / Complemento</h2>
-                </label>
-                <input
-                  type="text"
-                  id="nome"
-                  name="addressNumber"
 
-                ></input>
-                <label for="nome">
-                  <h2 className="info-cadastrado">Endereço completo</h2>
-                </label>
-                <input
+                <RegisterInput
+                  name="city"
+                  label="Cidade"
+                  onChange={handleRegisterInfoChange}
                   type="text"
-                  id="nome"
-                  name="address"
+                  value={registerInfo.city}
+                  placeholder="Exemplo: São Paulo"
+                  error={registerErrors}
                   required
-                ></input>
+                />
+                <RegisterInput
+                  name="neighborhood"
+                  label="Bairro"
+                  onChange={handleRegisterInfoChange}
+                  value={registerInfo.neighborhood}
+                  type="text"
+                  placeholder="Exemplo: Ipiranga"
+                  error={registerErrors}
+                  required
+                />
+
+                <RegisterInput
+                  name="addressNumber"
+                  label="Número do Endereço"
+                  onChange={handleRegisterInfoChange}
+                  type="text"
+                  placeholder="Exemplo: 101"
+                  error={registerErrors}
+                  required
+                />
+                <RegisterInput
+                  name="address"
+                  label="Endereço Completo"
+                  value={registerInfo.address}
+                  onChange={handleRegisterInfoChange}
+                  type="text"
+                  error={registerErrors}
+                  required
+                />
+
               </div>
-              <button className="login-btn" type="button">
-                <div className="btn-entrar" onClick={() => handlePageChange()}>
-                  <a>Próximo</a>
-                </div>
-              </button>
+              <LoginButton onClick={handlePageChange} label='próximo' />
+
               <div>
                 <div className="go-back">
                   <UilAngleLeft
@@ -590,9 +574,8 @@ export default function Login() {
 
                 </div>
               </form>
-              <div className="btn-confirmar" onClick={() => handleRegister()}>
-                <a>Concluir</a>
-              </div>
+              <LoginButton label='concluir' onClick={handleRegister} />
+
               <div>
                 <div className="go-back">
                   <UilAngleLeft
@@ -657,11 +640,8 @@ export default function Login() {
             className={`create-subperfil ${currentPage !== 7 && "hidden-page"}`}
           >
             <CadastroDependentes num={numDependentes} />
-            <button className="login-btn finish" type="button" onClick={handleRegisterDependent}>
-              <div className="btn-entrar">
-                <a>Concluir</a>
-              </div>
-            </button>
+            <LoginButton label="concluir" onClick={handleRegisterDependent} />
+
             <div>
               <div className="go-back">
                 <UilAngleLeft

@@ -28,6 +28,7 @@
   
   .survey-control{
     width:25vw;
+    background-color: red;
     height: 2rem;
     display: block;
     padding: 0.3rem 0.55rem;
@@ -37,6 +38,9 @@
     border:1px solid rgb(0, 0, 0);
     outline: 0;
   }
+  .survey-control[data-error="true"]{
+    border-color: red;
+}
   .industries-checkbox,.skill-radio{
     display: inline-box;
     margin-right: 1.2rem;
