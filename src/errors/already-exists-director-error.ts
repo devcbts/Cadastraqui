@@ -1,5 +1,5 @@
 export class DirectorAlreadyExistsError extends Error {
   constructor() {
-    super('Director already exists with this CPF.')
+    super('Já existe um responsável com esse CPF.')
   }
 }

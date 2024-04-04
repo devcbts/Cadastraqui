@@ -107,6 +107,7 @@ export async function createDirector(
     }
   } catch (err: any) {
     if (err instanceof UserAlreadyExistsError) {
+      console.log(err.message)
       return reply.status(409).send({ message: err.message })
     }
     if (err instanceof ResourceNotFoundError) {
