@@ -342,8 +342,8 @@ export default function AcceptEdital() {
         Penal Brasileiro, bem como sobre a condição prevista no caput e § 2º do
         art. 26 da Lei Complementar nº 187, de 16 de dezembro de 2021.
       </h4>
-      <a href={pdfUrl} target="_blank"
-        rel="noopener noreferrer"><h3>Visualizar PDF do Edital</h3></a>
+      {pdfUrl && <a href={pdfUrl} target="_blank"
+        rel="noopener noreferrer"><h3>Visualizar PDF do Edital</h3></a>}
       <div className="select-candidato">
         <h4>Candidato (a)</h4>
         <select>

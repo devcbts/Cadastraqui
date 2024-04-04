@@ -21,8 +21,8 @@ export default function VerEditalEntidade() {
   const [announcement, setAnnouncement] = useState(null);
   const announcement_id = useParams();
 
-//PDF
-const [pdfUrl, setPdfUrl] = useState('');
+  //PDF
+  const [pdfUrl, setPdfUrl] = useState('');
 
 
   // Estado para informações acerca do usuário logado
@@ -230,15 +230,15 @@ const [pdfUrl, setPdfUrl] = useState('');
             'Authorization': `Bearer ${token}`,
           }
         })
-        .then(response => {
-          Swal.fire('Deletado!', 'O Edital foi deletado.', 'success');
-          navigate('/entidade/home')
-          // Aqui, adicione a lógica para atualizar a UI após a exclusão, se necessário
-        })
-        .catch(error => {
-          Swal.fire('Erro!', 'Houve um erro ao deletar o Edital.', 'error');
-          console.error(error);
-        });
+          .then(response => {
+            Swal.fire('Deletado!', 'O Edital foi deletado.', 'success');
+            navigate('/entidade/home')
+            // Aqui, adicione a lógica para atualizar a UI após a exclusão, se necessário
+          })
+          .catch(error => {
+            Swal.fire('Erro!', 'Houve um erro ao deletar o Edital.', 'error');
+            console.error(error);
+          });
       }
     });
   };
@@ -246,11 +246,12 @@ const [pdfUrl, setPdfUrl] = useState('');
   const fetchPdfUrl = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await api.get(`/candidates/documents/announcement/${announcement.id}`,{
+      const response = await api.get(`/candidates/documents/announcement/${announcement.id}`, {
         headers: {
           'authorization': `Bearer ${token}`,
         }
       });
+      console.log('é aqui que eu to')
       setPdfUrl(response.data.url);
       console.log(response.data)
     } catch (error) {
@@ -260,7 +261,7 @@ const [pdfUrl, setPdfUrl] = useState('');
 
   useEffect(() => {
     fetchPdfUrl();
-  },[announcement])
+  }, [announcement])
 
 
   const renderEducationLevelDetails = (educationLevel) => {
@@ -330,8 +331,8 @@ const [pdfUrl, setPdfUrl] = useState('');
           <button onClick={copyEditalLink} className="copy-link-button">
             Copiar link do edital
           </button>
-          <a href={pdfUrl}  target="_blank"
-                    rel="noopener noreferrer"><h3>Visualizar PDF do Edital</h3></a>
+          {pdfUrl && <a href={pdfUrl} target="_blank"
+            rel="noopener noreferrer"><h3>Visualizar PDF do Edital</h3></a>}
           {announcement ? (
             <div className="descricao-edital-entidade descricao-edital">
               <div className="box-edital">
@@ -419,7 +420,7 @@ const [pdfUrl, setPdfUrl] = useState('');
               renderEducationLevelDetails(educationLevel)
             )}
           </div>
-        <button className="button-edital-excluir" style={{width:'20%', fontSize: '20px'}} onClick={() => deleteAnnouncement(announcement.id)}>Excluir</button>
+          <button className="button-edital-excluir" style={{ width: '20%', fontSize: '20px' }} onClick={() => deleteAnnouncement(announcement.id)}>Excluir</button>
         </div>
 
       </div>

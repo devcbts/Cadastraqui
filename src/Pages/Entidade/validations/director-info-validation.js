@@ -6,7 +6,7 @@ const directorInfoValidation = new ValidationComposite([
     ...ValidationBuilder.create("email").required().email().build(),
     ...ValidationBuilder.create("password").required().min(6).build(),
     ...ValidationBuilder.create("CPF").required().cpf().build(),
-    ...ValidationBuilder.create("phone").required().phone().build(),
+    ...ValidationBuilder.create("phone").required().build(),
 ])
 
 export default directorInfoValidation
