@@ -22,11 +22,10 @@ export async function registerEntity(
     CEP: z.string(),
     address: z.string(),
     neighborhood: z.string(),
-    addressNumber: z.number(),
+    addressNumber: z.string().transform((value) => parseInt(value)),
     city: z.string(),
     educationalInstitutionCode: z.string().optional(),
   })
-
   const {
     name,
     email,
