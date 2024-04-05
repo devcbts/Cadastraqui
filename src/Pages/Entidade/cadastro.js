@@ -21,46 +21,21 @@ import { formatTelephone } from "../../utils/format-telephone";
 import Swal from 'sweetalert2'
 import assistantInfoValidation from "./validations/assistant-info-validation";
 import { formatRG } from "../../utils/format-rg";
+import { formatCEP } from "../../utils/format-cep";
+import subsidiaryInfoValidation from "./validations/subsidiary-info-validation";
+import useCep from "../../hooks/useCep";
 
 export default function CadastroEntidade() {
   const { isShown } = useAppState();
   const [file, setFile] = useState();
   const [uploadProgress, setUploadProgress] = useState(0);
   const [selectedOption, setSelectedOption] = useState("");
-  const [value, setValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
   const firstForm = useRef(null);
   const secondForm = useRef(null);
   const thirdForm = useRef(null);
 
-  // Properties for the object entity subsidiary
-  const nameForm = useRef(null);
-  const mailForm = useRef(null);
-  const passwordForm = useRef(null);
-  const cnpjForm = useRef(null);
-  const socialReasonForm = useRef(null);
-  const adressForm = useRef(null);
-  const cepForm = useRef(null);
-  const institucionalCodeForm = useRef(null);
-  const [CPFDirector, setCPFDirector] = useState('')
-  const [CPFAssistant, setCPFAssistant] = useState('')
-  const [CNPJSubsidiary, setCNPJSubsidiary] = useState('')
-  // Object with info for entity registration
-
-  const handleCPFAssistantChange = (e) => {
-    const formattedCPF = formatCPF(e.target.value);
-    setCPFAssistant(formattedCPF); // Atualiza o estado com o CPF formatado
-  };
-
-  const handleCPFDirectorChange = (e) => {
-    const formattedCPF = formatCPF(e.target.value);
-    setCPFDirector(formattedCPF); // Atualiza o estado com o CPF formatado
-  };
-  const handleCNPJChange = (e) => {
-    const formattedCNPJ = formatCNPJ(e.target.value);
-    setCNPJSubsidiary(formattedCNPJ); // Atualiza o estado com o CPF formatado
-  };
 
 
   function handleSelectChange(event) {
@@ -147,59 +122,43 @@ export default function CadastroEntidade() {
       })
     }
   }
-
-
+  const [[subsidiaryInfo, setSubsidiaryInfo], handleSubsidiaryInfo, subsidiaryErrors, , submitSubsidiary] = useForm({
+    name: "",
+    email: "",
+    password: "",
+    CEP: "",
+    CNPJ: "",
+    educationalInstitutionCode: "",
+    socialReason: "",
+    address: "",
+    addressNumber: "",
+    city: "",
+    neighborhood: "",
+  }, subsidiaryInfoValidation)
+  useCep((address) => {
+    setSubsidiaryInfo((prevState) => ({
+      ...prevState,
+      ...address
+    }))
+  }, subsidiaryInfo.CEP)
   async function handleCreateSubsidiary() {
-    const subsidiaryForm = thirdForm.current;
-
-    if (subsidiaryForm.checkValidity()) {
-      const name = 'Exemplo'
-      const address = subsidiaryForm.querySelector(
-        'input[name="subsidiary-address"]'
-      ).value;
-      const CNPJ = CNPJSubsidiary;
-      const email = subsidiaryForm.querySelector(
-        'input[name="subsidiary-email"]'
-      ).value;
-      const password = subsidiaryForm.querySelector(
-        'input[name="subsidiary-password"]'
-      ).value;
-      const educationalInstitutionCode = subsidiaryForm.querySelector(
-        'input[name="subsidiary-code"]'
-      ).value;
-      const socialReason = subsidiaryForm.querySelector(
-        'input[name="subsidiary-socialReason"]'
-      ).value;
-      const CEP = subsidiaryForm.querySelector(
-        'input[name="subsidiary-CEP"]'
-      ).value;
-
-      const createInfo = {
-        name,
-        email,
-        password,
-        CEP,
-        CNPJ,
-        educationalInstitutionCode,
-        socialReason,
-        address,
-      };
-
-      const token = localStorage.getItem("token");
-      try {
-        const response = await api.post("/entities/subsidiary", createInfo, {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        });
-        handleSuccess(response, "Filial cadastrada com sucesso.");
-      } catch (err) {
-        console.log(err);
-        handleAuthError(err, navigate)
-
-      }
-    } else {
-      alert("Preencha os campos exigidos.");
+    if (!submitSubsidiary()) {
+      return
+    }
+    const token = localStorage.getItem("token");
+    try {
+      const response = await api.post("/entities/subsidiary", subsidiaryInfo, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      handleSuccess(response, "Filial cadastrada com sucesso.");
+    } catch (err) {
+      Swal.fire({
+        title: 'Erro',
+        text: err.response.data.message,
+        icon: 'error',
+      })
     }
   }
 
@@ -280,124 +239,89 @@ export default function CadastroEntidade() {
               <form id="contact" ref={thirdForm}>
                 <h3>Informações cadastrais</h3>
                 <h4>Preencha as informações abaixo para realizar o cadastro</h4>
-                <fieldset>
-                  <label for="nome-edital">Razão social</label>
-                  <input
-                    placeholder=""
-                    ref={socialReasonForm}
-                    type="text"
-                    tabindex="4"
-                    name="subsidiary-socialReason"
-                    required
-                  />
-                </fieldset>
-                {/*<fieldset>
-                  <label for="nome-edital" style={{display:'none'}}>Instituição</label>
-                  <input
-                    placeholder="Exemplo: Unicamp"
-                    type="text"
-                    tabindex="1"
-                    ref={nameForm}
-                    className="nome-entidade"
-                    name="subsidiary-name"
-                    required
-                    autofocus
-                    style={{display: 'none'}}
-                  />
-            </fieldset>*/}
-                <fieldset>
-                  <label for="nome-edital">CNPJ</label>
-                  <input
-                    placeholder="Exemplo: XX. XXX. XXX/0001-XX"
-                    ref={cnpjForm}
-                    type="text"
-                    name="subsidiary-CNPJ"
-                    tabindex="3"
-                    required
-                    value={CNPJSubsidiary}
-                    onChange={handleCNPJChange}
-                  />
-                </fieldset>
-                <fieldset>
-                  <label for="email-institucional">CEP</label>
-                  <input
-                    placeholder="Exemplo: universidade@email.com"
-                    type="text"
-                    tabindex="2"
-                    ref={cepForm}
-                    id="email-institucional"
-                    name="subsidiary-CEP"
-                    required
-                  />
-                </fieldset>
-                <fieldset>
-                  <label for="email-institucional">Endereço</label>
-                  <input
-                    placeholder="Exemplo: universidade@email.com"
-                    type="text"
-                    tabindex="2"
-                    ref={adressForm}
-                    id="email-institucional"
-                    name="subsidiary-address"
-                    required
-                  />
-                </fieldset>
-                <fieldset>
-                  <label for="email-institucional">Código no Educacenso/e-MEC</label>
-                  <input
-                    placeholder="Exemplo: universidade@email.com"
-                    type="text"
-                    tabindex="2"
-                    ref={mailForm}
-                    id="email-institucional"
-                    name="subsidiary-code"
-                    required
-                  />
-                </fieldset>
-                <fieldset>
-                  <label for="email-institucional">E-mail institucional</label>
-                  <input
-                    placeholder="Exemplo: universidade@email.com"
-                    type="email"
-                    tabindex="2"
-                    ref={institucionalCodeForm}
-                    id="email-institucional"
-                    name="subsidiary-email"
-                    required
-                  />
-                </fieldset>
-                <fieldset id="senha-entidade">
-                  <label>Senha</label>
-                  <input
-                    type="password"
-                    id="myInput"
-                    ref={passwordForm}
-                    placeholder="Digite a senha..."
-                    name="subsidiary-password"
-                  ></input>
-                  <input type="checkbox" onClick={() => myFunction()} />
-                  Mostrar senha
-                </fieldset>
-
-
-
-                {/*<fieldset className="file-div">
-                  <label
-                    for="edital-pdf"
-                    className="file-label"
-                    id="label-file"
-                  >
-                    Fazer upload da logo
-                  </label>
-                  <div className="upload">
-                    <input
-                      type="file"
-                      id="edital-pdf"
-                      title="Escolher arquivo"
-                      onChange={handleChange}
-                    />
-                  </div>
-            </fieldset>*/}
+                <EntityFormInput
+                  name="CNPJ"
+                  label="CNPJ"
+                  type="text"
+                  placeholder="Exemplo: XX. XXX. XXX/0001-XX"
+                  onChange={handleSubsidiaryInfo}
+                  value={formatCNPJ(subsidiaryInfo.CNPJ)}
+                  error={subsidiaryErrors}
+                  autofocus
+                />
+                <EntityFormInput
+                  name="socialReason"
+                  label="Razão Social"
+                  type="text"
+                  onChange={handleSubsidiaryInfo}
+                  value={subsidiaryInfo.socialReason}
+                  error={subsidiaryErrors}
+                />
+                <EntityFormInput
+                  name="CEP"
+                  label="CEP"
+                  type="text"
+                  maxLength={9}
+                  onChange={handleSubsidiaryInfo}
+                  value={formatCEP(subsidiaryInfo.CEP)}
+                  error={subsidiaryErrors}
+                />
+                <EntityFormInput
+                  name="address"
+                  label="Endereço"
+                  type="text"
+                  onChange={handleSubsidiaryInfo}
+                  value={subsidiaryInfo.address}
+                  error={subsidiaryErrors}
+                />
+                <EntityFormInput
+                  name="neighborhood"
+                  label="Bairro"
+                  type="text"
+                  onChange={handleSubsidiaryInfo}
+                  value={subsidiaryInfo.neighborhood}
+                  error={subsidiaryErrors}
+                />
+                <EntityFormInput
+                  name="city"
+                  label="Cidade"
+                  type="text"
+                  onChange={handleSubsidiaryInfo}
+                  value={subsidiaryInfo.city}
+                  error={subsidiaryErrors}
+                />
+                <EntityFormInput
+                  name="addressNumber"
+                  label="Número"
+                  type="text"
+                  onChange={handleSubsidiaryInfo}
+                  value={subsidiaryInfo.addressNumber}
+                  error={subsidiaryErrors}
+                />
+                <EntityFormInput
+                  name="educationalInstitutionCode"
+                  label="Código no Educacenso/e-MEC"
+                  type="text"
+                  onChange={handleSubsidiaryInfo}
+                  value={subsidiaryInfo.educationalInstitutionCode}
+                  error={subsidiaryErrors}
+                />
+                <EntityFormInput
+                  name="email"
+                  label="Email Institucional"
+                  type="text"
+                  onChange={handleSubsidiaryInfo}
+                  value={subsidiaryInfo.email}
+                  error={subsidiaryErrors}
+                />
+                <EntityFormInput
+                  name="password"
+                  label="Senha"
+                  type="password"
+                  onChange={handleSubsidiaryInfo}
+                  value={subsidiaryInfo.password}
+                  error={subsidiaryErrors}
+                />
 
                 <fieldset className="btn-field">
                   <button name="submit" id="contact-submit" type="button" onClick={handleCreateSubsidiary}>
