@@ -15,12 +15,12 @@ export async function authenticate(
 
   const { email, password } = authenticateBodySchema.parse(request.body)
   try {
-    console.log(process.env)
     const user = await prisma.user.findUnique({
       where: {
         email,
       },
     })
+
     if (!user) {
       throw new InvalidCredentialsError()
     }

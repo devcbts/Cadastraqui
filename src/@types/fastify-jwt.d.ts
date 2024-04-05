@@ -7,4 +7,10 @@ declare module '@fastify/jwt' {
       role: 'ADMIN' | 'CANDIDATE' | 'RESPONSIBLE' | 'ASSISTANT' | 'ENTITY'
     }
   }
+  export interface JwtPayload {
+    sub: string,
+    role: string,
+    iat: number,
+    exp: number
+  }
 }
