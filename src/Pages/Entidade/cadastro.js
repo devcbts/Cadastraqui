@@ -19,6 +19,8 @@ import useForm from "../../hooks/useForm";
 import directorInfoValidation from "./validations/director-info-validation";
 import { formatTelephone } from "../../utils/format-telephone";
 import Swal from 'sweetalert2'
+import assistantInfoValidation from "./validations/assistant-info-validation";
+import { formatRG } from "../../utils/format-rg";
 
 export default function CadastroEntidade() {
   const { isShown } = useAppState();
@@ -86,6 +88,17 @@ export default function CadastroEntidade() {
     password: ""
   }, directorInfoValidation)
 
+  // Functions to handle social assistant register
+  const [[assistantInfo], handleAssistantInfo, assistantErrors, , submitAssistant] = useForm({
+    name: "",
+    phone: "",
+    email: "",
+    password: "",
+    CPF: "",
+    RG: "",
+    CRESS: "",
+  }, assistantInfoValidation)
+
   async function handleCreateDirector() {
     if (!submitDirector()) {
       return
@@ -111,55 +124,30 @@ export default function CadastroEntidade() {
   }
 
   async function handleCreateAssistant() {
-    const assistantForm = secondForm.current;
-
-    if (assistantForm.checkValidity()) {
-      const name = assistantForm.querySelector(
-        'input[name="assistant-name"]'
-      ).value;
-      const phone = assistantForm.querySelector(
-        'input[name="assistant-phone"]'
-      ).value;
-      const CPF = CPFAssistant
-      const email = assistantForm.querySelector(
-        'input[name="assistant-email"]'
-      ).value;
-      const password = assistantForm.querySelector(
-        'input[name="assistant-password"]'
-      ).value;
-      const RG = assistantForm.querySelector(
-        'input[name="assistant-RG"]'
-      ).value;
-      const CRESS = assistantForm.querySelector(
-        'input[name="assistant-CRESS"]'
-      ).value;
-
-      const createInfo = {
-        name,
-        phone,
-        email,
-        password,
-        CPF,
-        RG,
-        CRESS,
-      };
-
-      const token = localStorage.getItem("token");
-      try {
-        await api.post("/assistant/", createInfo, {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        });
-        alert("Assistente cadastrado com sucesso.");
-      } catch (err) {
-        alert(`${err.response.data.message}`);
-        console.log(err);
-      }
-    } else {
-      alert("Preencha os campos exigidos.");
+    if (!submitAssistant()) {
+      return
+    }
+    const token = localStorage.getItem("token");
+    try {
+      await api.post("/assistant/", assistantInfo, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      Swal.fire({
+        title: "Sucesso",
+        text: "Assistente cadastrado com sucesso",
+        icon: "success"
+      })
+    } catch (err) {
+      Swal.fire({
+        title: "Erro",
+        text: err.response.data.message,
+        icon: "error"
+      })
     }
   }
+
 
   async function handleCreateSubsidiary() {
     const subsidiaryForm = thirdForm.current;
@@ -498,93 +486,68 @@ export default function CadastroEntidade() {
               <form id="contact" ref={secondForm}>
                 <h3>Informações cadastrais</h3>
                 <h4>Preencha as informações abaixo para realizar o cadastro</h4>
-                <fieldset>
-                  <label for="nome-edital">Nome</label>
-                  <input
-                    placeholder="Exemplo: Unicamp"
-                    type="text"
-                    tabindex="1"
-                    ref={nameForm}
-                    className="nome-entidade"
-                    name="assistant-name"
-                    required
-                    autofocus
-                  />
-                </fieldset>
-                <fieldset>
-                  <label for="email-diretor">Email</label>
-                  <input
-                    placeholder="Exemplo: universidade@email.com"
-                    type="email"
-                    tabindex="2"
-                    ref={mailForm}
-                    id="email-diretor"
-                    name="assistant-email"
-                    required
-                  />
-                </fieldset>
-
-                <fieldset>
-                  <label for="nome-edital">Celular / Telefone Comercial</label>
-                  <input
-                    placeholder="Exemplo: (XX) XXXX-XXXX"
-                    ref={socialReasonForm}
-                    type="text"
-                    name="assistant-phone"
-                    tabindex="4"
-                    required
-                  />
-                </fieldset>
-
-                <fieldset>
-                  <label for="nome-edital">CPF</label>
-                  <input
-                    placeholder="Exemplo: (XX) XXXX-XXXX"
-                    ref={socialReasonForm}
-                    type="text"
-                    name="assistant-CPF"
-                    tabindex="4"
-                    required
-                    value={CPFAssistant}
-                    onChange={handleCPFAssistantChange}
-                  />
-                </fieldset>
-                <fieldset>
-                  <label for="nome-edital">RG</label>
-                  <input
-                    placeholder="Exemplo: (XX) XXXX-XXXX"
-                    ref={socialReasonForm}
-                    type="text"
-                    name="assistant-RG"
-                    tabindex="4"
-                    required
-                  />
-                </fieldset>
-                <fieldset>
-                  <label for="nome-edital">CRESS</label>
-                  <input
-                    placeholder="Exemplo: (XX) XXXX-XXXX"
-                    ref={socialReasonForm}
-                    type="text"
-                    name="assistant-CRESS"
-                    tabindex="4"
-                    required
-                  />
-                </fieldset>
-
-                <fieldset id="senha-entidade">
-                  <label>Senha</label>
-                  <input
-                    type="password"
-                    id="myInput"
-                    ref={passwordForm}
-                    name="assistant-password"
-                    placeholder="Digite a senha..."
-                  ></input>
-                  <input type="checkbox" onClick={() => myFunction()} />
-                  Mostrar senha
-                </fieldset>
-
+                <EntityFormInput
+                  label="Nome"
+                  name="name"
+                  type="text"
+                  placeholder="Exemplo: João Carlos"
+                  onChange={handleAssistantInfo}
+                  value={assistantInfo.name}
+                  error={assistantErrors}
+                  autofocus
+                />
+                <EntityFormInput
+                  label="Email"
+                  name="email"
+                  type="email"
+                  placeholder="Exemplo: assistente@email.com"
+                  onChange={handleAssistantInfo}
+                  value={assistantInfo.email}
+                  error={assistantErrors}
+                />
+                <EntityFormInput
+                  label="Celular"
+                  name="phone"
+                  type="text"
+                  placeholder="Exemplo: (XX) XXXXX-XXXX"
+                  onChange={handleAssistantInfo}
+                  value={formatTelephone(assistantInfo.phone)}
+                  error={assistantErrors}
+                />
+                <EntityFormInput
+                  label="CPF"
+                  name="CPF"
+                  type="text"
+                  placeholder="Exemplo:XXX.XXX.XXX-XX"
+                  onChange={handleAssistantInfo}
+                  value={formatCPF(assistantInfo.CPF)}
+                  error={assistantErrors}
+                />
+                <EntityFormInput
+                  label="RG"
+                  name="RG"
+                  type="text"
+                  placeholder="Exemplo: AB-XX.XXX.XXX"
+                  onChange={handleAssistantInfo}
+                  value={formatRG(assistantInfo.RG)}
+                  error={assistantErrors}
+                />
+                <EntityFormInput
+                  label="CRESS"
+                  name="CRESS"
+                  type="text"
+                  onChange={handleAssistantInfo}
+                  value={assistantInfo.CRESS}
+                  error={assistantErrors}
+                />
+                <EntityFormInput
+                  label="Senha"
+                  name="password"
+                  type="password"
+                  onChange={handleAssistantInfo}
+                  value={assistantInfo.password}
+                  error={assistantErrors}
+                />
                 <fieldset className="btn-field">
                   <button onClick={handleCreateAssistant} name="submit" type="button" id="contact-submit">
                     Cadastrar
