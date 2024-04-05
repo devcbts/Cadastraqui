@@ -3,6 +3,7 @@ import { EntitySubsidiaryAlreadyExistsError } from '@/errors/entity-subsidiary-a
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { UserAlreadyExistsError } from '@/errors/users-already-exists-error'
 import { prisma } from '@/lib/prisma'
+import STATES from '@/utils/enums/zod/state'
 import { hash } from 'bcryptjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -22,6 +23,7 @@ export async function createSubsidiary(
     address: z.string(),
     addressNumber: z.string().transform((value) => parseInt(value)),
     city: z.string(),
+    UF: STATES,
     neighborhood: z.string(),
   })
 

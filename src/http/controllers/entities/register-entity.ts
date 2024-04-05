@@ -1,6 +1,7 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { UserAlreadyExistsError } from '@/errors/users-already-exists-error'
 import { prisma } from '@/lib/prisma'
+import STATES from '@/utils/enums/zod/state'
 import validateCnpj from '@/utils/validate-cnpj'
 import { ROLE } from '@prisma/client'
 import { hash } from 'bcryptjs'
@@ -24,6 +25,7 @@ export async function registerEntity(
     neighborhood: z.string(),
     addressNumber: z.string().transform((value) => parseInt(value)),
     city: z.string(),
+    UF: STATES,
     educationalInstitutionCode: z.string().optional(),
   })
   const {
