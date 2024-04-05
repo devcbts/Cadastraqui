@@ -136,10 +136,7 @@ export default function CadastroEntidade() {
     neighborhood: "",
   }, subsidiaryInfoValidation)
   useCep((address) => {
-    setSubsidiaryInfo((prevState) => ({
-      ...prevState,
-      ...address
-    }))
+    setSubsidiaryInfo(address)
   }, subsidiaryInfo.CEP)
   async function handleCreateSubsidiary() {
     if (!submitSubsidiary()) {

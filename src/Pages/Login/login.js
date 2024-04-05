@@ -273,7 +273,7 @@ export default function Login() {
       Swal.fire({ title: "Nenhum Email", text: "Preencha o campo Email para prosseguir", icon: "warning" })
     }
   }
-  const [[registerInfo], handleRegisterInfoChange, registerErrors, , submitRegister] = useForm({
+  const [[registerInfo, setRegisterInfo], handleRegisterInfoChange, registerErrors, , submitRegister] = useForm({
     name: '',
     CPF: '',
     birthDate: '',
@@ -289,7 +289,7 @@ export default function Login() {
   }, registerInfoValidation)
 
   useCep((address) => {
-    Object.keys(address).forEach((key) => handleRegisterInfoChange({ target: { name: key, value: address[key] } }))
+    setRegisterInfo(address)
   }, registerInfo.CEP)
   return (
     <div className="login-container">

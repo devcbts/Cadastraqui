@@ -135,18 +135,16 @@ export default function NewEntidade() {
   }
   useCnpj((companyData) => {
     const { emails } = companyData
-    setEntityInfo((prevState) => {
-      return (
-        {
-          ...prevState,
-          ...companyData,
-          email: emails?.[0] ?? ""
-        })
-    })
+    setEntityInfo(
+      {
+        ...companyData,
+        email: emails?.[0] ?? ""
+      }
+    )
   }, entityInfo.CNPJ)
 
   useCep((address) => {
-    setEntityInfo((prevState) => ({ ...prevState, ...address }))
+    setEntityInfo(address)
   }, entityInfo.CEP)
   return (
     <div className="container">

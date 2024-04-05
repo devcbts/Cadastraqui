@@ -33,8 +33,14 @@ export default function useForm(defaultValue = {}, validators = []) {
         return submitErrors.every((e) => !e);
 
     }
+
+    const setMultipleValues = (obj) => {
+        const currentKeys = Object.keys(values)
+        Object.keys(obj).forEach((key) => !(key in currentKeys) && handleChange({ target: { name: key, value: obj[key] } }))
+
+    }
     return [
-        [values, setValues],
+        [values, setMultipleValues],
         handleChange,
         errors,
         isValidForm,

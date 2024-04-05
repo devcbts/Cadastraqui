@@ -1,5 +1,4 @@
 export default function EntityFormInput({ name, label, error, ...props }) {
-    console.log(error)
     return (
         <fieldset>
             <label htmlFor={name}>{label}</label>
