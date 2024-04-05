@@ -24,11 +24,20 @@ export default async function getCnpj(
             phones,
             emails,
         } = data
+        const { zip, district, number, street, city } = address
         if (!data) {
             return response.status(400).send()
         }
+        console.log(data)
         return response.status(200).send({
-            name, phones, emails, address,
+            name,
+            CEP: zip ?? "",
+            neighborhood: district ?? "",
+            addressNumber: number ?? "",
+            address: street ?? "",
+            city: city ?? "",
+            phones: phones.map((phone: { area: string, number: string }) => `${phone.area}${phone.number}`),
+            emails: emails.map((email: { address: string }) => email.address),
             active: status.id === 2,
         })
     } catch (err: any) {
