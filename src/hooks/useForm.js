@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 
 export default function useForm(defaultValue = {}, validators = []) {
     const [values, setValues] = useState(defaultValue);
-    const [errors, setErrors] = useState(Object.keys(defaultValue).reduce((acc, key) => { acc[key] = ''; return acc }, {}))
+    const [errors, setErrors] = useState(Object.keys(defaultValue).reduce((acc, key) => { acc[key] = null; return acc }, {}))
 
     const handleChange = (e) => {
         const { name, value } = e.target
