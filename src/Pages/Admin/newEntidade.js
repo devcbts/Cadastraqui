@@ -15,7 +15,8 @@ import { formatCEP } from "../../utils/format-cep";
 import { formatCNPJ } from "../../utils/format-cnpj";
 import useCnpj from "../../hooks/useCnpj";
 import entityInfoValidation from "./validations/entity-info-validation";
-
+import useCep from "../../hooks/useCep";
+import Swal from 'sweetalert2'
 export default function NewEntidade() {
   const { isShown } = useAppState();
   const [file, setFile] = useState();
@@ -82,12 +83,12 @@ export default function NewEntidade() {
   }
   async function handleSubmit(event) {
     event.preventDefault();
-
+    if (!submitEntity()) {
+      return
+    }
     // Recuperando o token armazenado
     const token = localStorage.getItem("token");
-
     // Endereço da API para enviar os dados do registro da entidade
-
 
     // Preparando os dados para envio
     const formData = new FormData();
@@ -124,27 +125,29 @@ export default function NewEntidade() {
           // Tratamento adicional de erro
         }
       } else {
-        // Tratamento de outros erros de rede ou do servidor
-        console.error("Erro ao enviar dados: ", error);
+        Swal.fire({
+          title: 'Erro!',
+          text: error.response.data.message,
+          icon: 'error',
+        })
       }
     }
   }
   useCnpj((companyData) => {
-    const { street, number, district, city, zip } = companyData.address
+    const { emails } = companyData
     setEntityInfo((prevState) => {
       return (
         {
           ...prevState,
-          address: street,
-          addressNumber: number,
-          neighborhood: district,
-          city,
-          CEP: zip,
-          name: companyData.name,
-          email: companyData.emails[0].address ?? ""
+          ...companyData,
+          email: emails?.[0] ?? ""
         })
     })
   }, entityInfo.CNPJ)
+
+  useCep((address) => {
+    setEntityInfo((prevState) => ({ ...prevState, ...address }))
+  }, entityInfo.CEP)
   return (
     <div className="container">
       <div className="section-nav">

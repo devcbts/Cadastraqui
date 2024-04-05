@@ -16,7 +16,6 @@ function AuthProvider({children}) {
       const { token, user_role, refreshToken } = response.data
 
       setData({user_role})
-
       api.defaults.headers.authorization = `Bearer ${token}`
       localStorage.setItem('token', token);
       localStorage.setItem('role', user_role);
