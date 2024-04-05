@@ -24,6 +24,8 @@ import { formatRG } from "../../utils/format-rg";
 import { formatCEP } from "../../utils/format-cep";
 import subsidiaryInfoValidation from "./validations/subsidiary-info-validation";
 import useCep from "../../hooks/useCep";
+import Select from "../../Components/Select/Select";
+import STATES from "../../utils/enums/states";
 
 export default function CadastroEntidade() {
   const { isShown } = useAppState();
@@ -133,6 +135,7 @@ export default function CadastroEntidade() {
     address: "",
     addressNumber: "",
     city: "",
+    UF: "",
     neighborhood: "",
   }, subsidiaryInfoValidation)
   useCep((address) => {
@@ -285,6 +288,14 @@ export default function CadastroEntidade() {
                   type="text"
                   onChange={handleSubsidiaryInfo}
                   value={subsidiaryInfo.city}
+                  error={subsidiaryErrors}
+                />
+                <Select
+                  name="UF"
+                  label="Estado"
+                  options={STATES}
+                  onChange={handleSubsidiaryInfo}
+                  value={subsidiaryInfo.UF}
                   error={subsidiaryErrors}
                 />
                 <EntityFormInput

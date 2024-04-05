@@ -21,7 +21,7 @@ export default function NewEntidade() {
   const { isShown } = useAppState();
   const [file, setFile] = useState();
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(2);
   const firstForm = useRef(null);
 
 
@@ -58,6 +58,9 @@ export default function NewEntidade() {
       return 1; // Default to page 1 for all other cases
     });
 
+  }
+  const handleBack = () => {
+    setCurrentPage((prevPage) => prevPage - 1)
   }
   function handleChange(event) {
     setFile(event.target.files[0]);
@@ -274,6 +277,13 @@ export default function NewEntidade() {
                     </div>
                     <h3>Quase lá...</h3>
                     <h4>Somente mais alguns dados para concluirmos</h4>
+                    <fieldset className="btn-field">
+                      <button
+                        onClick={handleBack}
+                      >
+                        Voltar
+                      </button>
+                    </fieldset>
                     <EntityFormInput
                       label="CEP"
                       name="CEP"
@@ -329,7 +339,6 @@ export default function NewEntidade() {
                       onChange={handleEntityInfo}
                       type="number"
                       error={entityErrors}
-
                     />
                     <EntityFormInput
                       label="Código Institucional"
@@ -342,6 +351,7 @@ export default function NewEntidade() {
                       error={entityErrors}
 
                     />
+
 
 
 
