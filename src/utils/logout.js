@@ -18,7 +18,9 @@ export default function Logout() {
           },
         }
       );
-
+      localStorage.removeItem("token")
+      localStorage.removeItem("role")
+      localStorage.removeItem("profilePhoto")
       // Após o logout, redirecionar para a página de login
       navigate("/login");
     } catch (error) {

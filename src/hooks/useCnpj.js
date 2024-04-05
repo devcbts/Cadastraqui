@@ -1,9 +1,11 @@
 import { useEffect } from "react"
 import getCompanyCNPJ from "../utils/get-company-cnpj"
 import validateCnpj from "../utils/validate-cnpj"
+
+
 /**
  * 
- * @param {*} callback callback function with 1 argument (companyData)
+ * @param {*} callback callback function with 1 argument (companyData) 
  * @param {*} value value to be observed and, when changed, trigger (or not) the callback
  */
 export default function useCnpj(callback, value) {
@@ -12,7 +14,9 @@ export default function useCnpj(callback, value) {
         const updateCompanyData = async () => {
             if (validateCnpj(onlyDigitsCnpj)) {
                 const company = await getCompanyCNPJ(onlyDigitsCnpj)
-                if (company) callback(company)
+                if (company) {
+                    callback(company)
+                }
             }
 
         }
