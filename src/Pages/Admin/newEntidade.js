@@ -17,6 +17,8 @@ import useCnpj from "../../hooks/useCnpj";
 import entityInfoValidation from "./validations/entity-info-validation";
 import useCep from "../../hooks/useCep";
 import Swal from 'sweetalert2'
+import Select from "../../Components/Select/Select";
+import STATES from "../../utils/enums/states";
 export default function NewEntidade() {
   const { isShown } = useAppState();
   const [file, setFile] = useState();
@@ -38,6 +40,7 @@ export default function NewEntidade() {
     addressNumber: "",
     neighborhood: "",
     city: "",
+    UF: "",
     educationalInstitutionCode: "",
   }, entityInfoValidation);
 
@@ -319,6 +322,14 @@ export default function NewEntidade() {
                       type="text"
                       error={entityErrors}
 
+                    />
+                    <Select
+                      label="Estado"
+                      name="UF"
+                      options={STATES}
+                      value={entityInfo.UF}
+                      onChange={handleEntityInfo}
+                      error={entityErrors}
                     />
                     <EntityFormInput
                       label="Número"
