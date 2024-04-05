@@ -40,6 +40,7 @@ export async function registerEntity(
     addressNumber,
     city,
     neighborhood,
+    UF,
     educationalInstitutionCode,
   } = registerBodySchema.parse(request.body)
 
@@ -86,6 +87,7 @@ export async function registerEntity(
         CEP,
         addressNumber,
         city,
+        UF,
         neighborhood,
         educationalInstitutionCode,
       },

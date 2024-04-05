@@ -37,6 +37,7 @@ export async function createSubsidiary(
     socialReason,
     neighborhood,
     city,
+    UF,
     addressNumber,
     educationalInstitutionCode,
   } = registerBodySchema.parse(request.body)
@@ -98,6 +99,7 @@ export async function createSubsidiary(
         city,
         neighborhood,
         socialReason,
+        UF,
         entity_id: entity.id,
         user_id: user.id,
       },
