@@ -9,6 +9,7 @@ const subsidiaryInfoValidation = new ValidationComposite([
     ...ValidationBuilder.create("addressNumber").required().build(),
     ...ValidationBuilder.create("city").required().build(),
     ...ValidationBuilder.create("neighborhood").required().build(),
+    ...ValidationBuilder.create("UF").required().build(),
     ...ValidationBuilder.create("CEP").required().build(),
     ...ValidationBuilder.create("educationalInstitutionCode").required().build(),
     ...ValidationBuilder.create("socialReason").required().build(),
