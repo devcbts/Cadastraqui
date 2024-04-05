@@ -151,6 +151,9 @@ model EntitySubsidiary {
   socialReason               String
   CEP                        String
   address                    String
+  addressNumber              Int?
+  city                       String?           @default("")
+  neighborhood               String?           @default("")
   educationalInstitutionCode String?
   entity_id                  String
   user_id                    String            @unique
