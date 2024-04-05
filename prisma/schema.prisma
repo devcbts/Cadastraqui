@@ -153,7 +153,7 @@ model EntitySubsidiary {
   address                    String
   addressNumber              Int?
   city                       String?           @default("")
-  neighoborhood              String?           @default("")
+  neighborhood               String?           @default("")
   educationalInstitutionCode String?
   entity_id                  String
   user_id                    String            @unique

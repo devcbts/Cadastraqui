@@ -20,6 +20,9 @@ export async function createSubsidiary(
     socialReason: z.string(),
     CNPJ: z.string(),
     address: z.string(),
+    addressNumber: z.string().transform((value) => parseInt(value)),
+    city: z.string(),
+    neighborhood: z.string(),
   })
 
   const {
@@ -30,6 +33,9 @@ export async function createSubsidiary(
     password,
     name,
     socialReason,
+    neighborhood,
+    city,
+    addressNumber,
     educationalInstitutionCode,
   } = registerBodySchema.parse(request.body)
 
@@ -86,6 +92,9 @@ export async function createSubsidiary(
         educationalInstitutionCode,
         name,
         address,
+        addressNumber,
+        city,
+        neighborhood,
         socialReason,
         entity_id: entity.id,
         user_id: user.id,
