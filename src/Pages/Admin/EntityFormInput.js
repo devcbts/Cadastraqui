@@ -5,7 +5,6 @@ export default function EntityFormInput({ name, label, error, ...props }) {
             <input
                 style={{ borderColor: (!!error?.[name] && '#ef3e36') || error?.[name] === "" && "#499468" }}
                 id={name}
-                autofocus
                 name={name} // Ajuste para corresponder à chave do estado
                 {...props}
             />

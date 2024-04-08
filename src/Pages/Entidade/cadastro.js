@@ -57,7 +57,7 @@ export default function CadastroEntidade() {
 
 
   // Functions to handle responsible register
-  const [[directorInfo], handleDirectorInfo, directorErrors, , submitDirector] = useForm({
+  const [[directorInfo], handleDirectorInfo, directorErrors, , submitDirector, resetDirector] = useForm({
     name: "",
     email: "",
     phone: "",
@@ -66,7 +66,7 @@ export default function CadastroEntidade() {
   }, directorInfoValidation)
 
   // Functions to handle social assistant register
-  const [[assistantInfo], handleAssistantInfo, assistantErrors, , submitAssistant] = useForm({
+  const [[assistantInfo], handleAssistantInfo, assistantErrors, , submitAssistant, resetAssistant] = useForm({
     name: "",
     phone: "",
     email: "",
@@ -88,6 +88,7 @@ export default function CadastroEntidade() {
         },
       });
       handleSuccess(response, "Diretor cadastrado com sucesso.");
+      resetDirector()
     } catch (err) {
       Swal.fire({
         title: 'Erro',
@@ -116,6 +117,7 @@ export default function CadastroEntidade() {
         text: "Assistente cadastrado com sucesso",
         icon: "success"
       })
+      resetAssistant()
     } catch (err) {
       Swal.fire({
         title: "Erro",
@@ -124,7 +126,7 @@ export default function CadastroEntidade() {
       })
     }
   }
-  const [[subsidiaryInfo, setSubsidiaryInfo], handleSubsidiaryInfo, subsidiaryErrors, , submitSubsidiary] = useForm({
+  const [[subsidiaryInfo, setSubsidiaryInfo], handleSubsidiaryInfo, subsidiaryErrors, , submitSubsidiary, resetSubsidiary] = useForm({
     name: "",
     email: "",
     password: "",
@@ -153,6 +155,7 @@ export default function CadastroEntidade() {
         },
       });
       handleSuccess(response, "Filial cadastrada com sucesso.");
+      resetSubsidiary()
     } catch (err) {
       Swal.fire({
         title: 'Erro',
