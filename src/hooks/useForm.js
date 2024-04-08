@@ -18,10 +18,10 @@ export default function useForm(defaultValue = {}, validators = []) {
         }
         return error
     }
-    const isValidForm = useMemo(() => {
-        return Object.keys(errors).every((e) => !errors[e])
-    }, [errors])
-
+    /*  const isValidForm = useMemo(() => {
+         return Object.keys(errors).every((e) => !errors[e])
+     }, [errors])
+  */
     const submit = (...args) => {
         let submitErrors;
         if (!args || !args?.length) {
@@ -47,7 +47,6 @@ export default function useForm(defaultValue = {}, validators = []) {
         [values, setMultipleValues],
         handleChange,
         errors,
-        isValidForm,
         submit,
         reset
     ]

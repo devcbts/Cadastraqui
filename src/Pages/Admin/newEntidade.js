@@ -29,7 +29,7 @@ export default function NewEntidade() {
   const firstForm = useRef(null);
 
 
-  const [[entityInfo, setEntityInfo], handleEntityInfo, entityErrors, , submitEntity,] = useForm({
+  const [[entityInfo, setEntityInfo], handleEntityInfo, entityErrors, submitEntity,] = useForm({
     name: "",
     email: "",
     password: "",
