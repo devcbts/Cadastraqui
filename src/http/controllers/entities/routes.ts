@@ -1,37 +1,38 @@
-import { FastifyInstance } from 'fastify'
-import { registerEntity } from './register-entity'
-import { createSubsidiary } from './create-subsidiary'
-import { getEntityInfo } from './get-entity-info'
-import { fetchSubsidiarys } from './fetch-subsidiarys'
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
-import { createDirector } from './create-director'
-import { fetchDirectors } from './fetch-directors'
-import { deleteEntity } from './delete-entity'
 import { verifyRole } from '@/http/middlewares/verify-role'
-import { updateEntity } from './update-entity'
-import { deleteSubsidiary } from './delete-subsidiary'
-import { updateSubsidiary } from './update-subsidiary'
-import { deleteDirector } from './delete-director'
-import { updateDirector } from './update-director'
-import { CreateAnnoucment } from './create-announcement'
-import { updateAnnouncement } from './update-announcement'
-import { createEducationalLevel } from './create-educcation-level'
+import { FastifyInstance } from 'fastify'
 import { addAssistantAnnouncement } from './add-social-assistant-to-announcement'
+import { CreateAnnoucment } from './create-announcement'
+import { createDirector } from './create-director'
+import { createEducationalLevel } from './create-educcation-level'
+import { createSubsidiary } from './create-subsidiary'
+import { deleteAnnouncement } from './delete-announcement'
+import { deleteAssistant } from './delete-assistant'
+import { deleteDirector } from './delete-director'
+import { deleteEntity } from './delete-entity'
+import { deleteSubsidiary } from './delete-subsidiary'
 import { fetchAnnouncements } from './fetch-announcements'
-import { uploadAnnouncementPdf } from './upload-announcement-pdf'
-import { uploadEntityProfilePicture } from './upload-profile-picture'
+import { fetchDirectors } from './fetch-directors'
+import { fetchSubsidiarys } from './fetch-subsidiarys'
+import { getApplications } from './get-applications'
+import { getEntityInfo } from './get-entity-info'
 import { getEntityProfilePicture } from './get-profile-picture'
 import { getSocialAssistants } from './get-social-assistants'
-import { getApplications } from './get-applications'
-import { deleteAssistant } from './delete-assistant'
-import { deleteAnnouncement } from './delete-announcement'
+import { registerEntity } from './register-entity'
+import removeAssistantFromAnnouncement from './remove-assistant-from-announcement'
+import { updateAnnouncement } from './update-announcement'
+import { updateDirector } from './update-director'
+import { updateEntity } from './update-entity'
+import { updateSubsidiary } from './update-subsidiary'
+import { uploadAnnouncementPdf } from './upload-announcement-pdf'
+import { uploadEntityProfilePicture } from './upload-profile-picture'
 
 export async function entityRoutes(app: FastifyInstance) {
   /** Admin Routes (Rotas acessadas na página do Admin)
    *  Concluídas: post, get, delete, update, Verificação de ROLE -> ADMIN
    *   Faltam:
    */
-  app.post('/',{ onRequest: [verifyJWT, verifyRole('ADMIN')] }, registerEntity) // Adicionar middlewares
+  app.post('/', { onRequest: [verifyJWT, verifyRole('ADMIN')] }, registerEntity) // Adicionar middlewares
   app.get('/', { onRequest: [verifyJWT] }, getEntityInfo)
   app.delete(
     '/:_id?',
@@ -88,18 +89,18 @@ export async function entityRoutes(app: FastifyInstance) {
     deleteDirector,
   )
   // Assistente
-  app.get('/announcement/assistant', { onRequest: [verifyJWT]}, getSocialAssistants)
+  app.get('/announcement/assistant', { onRequest: [verifyJWT] }, getSocialAssistants)
 
-  app.post('/announcement/assistant',{ onRequest: [verifyJWT]},  addAssistantAnnouncement)
-  app.delete('/assistant/:_id', {onRequest: [verifyJWT]}, deleteAssistant)
-
-// Edital
+  app.post('/announcement/assistant', { onRequest: [verifyJWT] }, addAssistantAnnouncement)
+  app.put('/announcement/assistant', { onRequest: [verifyJWT] }, removeAssistantFromAnnouncement)
+  app.delete('/assistant/:_id', { onRequest: [verifyJWT] }, deleteAssistant)
+  // Edital
   app.post(
     '/announcement',
     { onRequest: [verifyJWT] },
     CreateAnnoucment,
   )
-  app.post('/upload/:announcement_id' , { onRequest: [verifyJWT]}, uploadAnnouncementPdf)
+  app.post('/upload/:announcement_id', { onRequest: [verifyJWT] }, uploadAnnouncementPdf)
   app.get(
     '/announcement/:announcement_id?',
     { onRequest: [verifyJWT] },
@@ -115,11 +116,11 @@ export async function entityRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     createEducationalLevel,
   )
-  app.delete('/announcement/:announcement_id', {onRequest: [verifyJWT]}, deleteAnnouncement)
+  app.delete('/announcement/:announcement_id', { onRequest: [verifyJWT] }, deleteAnnouncement)
 
   //Outros
-  app.post('/profilePicture', {onRequest: [verifyJWT]}, uploadEntityProfilePicture)
-  app.get('/profilePicture/:_id?', {onRequest: [verifyJWT]}, getEntityProfilePicture)
+  app.post('/profilePicture', { onRequest: [verifyJWT] }, uploadEntityProfilePicture)
+  app.get('/profilePicture/:_id?', { onRequest: [verifyJWT] }, getEntityProfilePicture)
   app.get(
     '/applications/:announcement_id',
     { onRequest: [verifyJWT] },
