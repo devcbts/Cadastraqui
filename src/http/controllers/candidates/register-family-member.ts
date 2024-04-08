@@ -157,12 +157,12 @@ export async function registerFamilyMemberInfo(
     workPhone: z.string().optional(),
     contactNameForMessage: z.string().optional(),
     email: z.string().email().optional(),
-    address: z.string(),
+    /* address: z.string(),
     city: z.string(),
     UF: COUNTRY,
     CEP: z.string(),
     neighborhood: z.string(),
-    addressNumber: z.string(),
+    addressNumber: z.string(), */
     profession: z.string(),
     enrolledGovernmentProgram: z.boolean().optional(),
     NIS: z.string().optional(),
@@ -180,15 +180,10 @@ export async function registerFamilyMemberInfo(
   console.log(request.body)
   console.log('====================================')
   const {
-    CEP,
     CPF,
     RG,
-    UF,
-    address,
-    addressNumber,
     birthDate,
     bookOfBirthRegister,
-    city,
     educationLevel,
     email,
     fullName,
@@ -197,7 +192,6 @@ export async function registerFamilyMemberInfo(
     nationality,
     natural_UF,
     natural_city,
-    neighborhood,
     numberOfBirthRegister,
     pageOfBirthRegister,
     profession,
@@ -233,11 +227,13 @@ export async function registerFamilyMemberInfo(
   try {
     const user_id = request.user.sub
     const role = request.user.role
-  
+
     const responsible = await prisma.legalResponsible.findUnique(
-      {where:{
-        user_id
-      }}
+      {
+        where: {
+          user_id
+        }
+      }
     )
     // Verifica se existe um candidato associado ao user_id
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
@@ -249,9 +245,9 @@ export async function registerFamilyMemberInfo(
     if (
       await prisma.familyMember.findFirst({
         where: { CPF, candidate_id: candidate?.id },
-      })  || await prisma.familyMember.findFirst({
+      }) || await prisma.familyMember.findFirst({
         where: { CPF, candidate_id: responsible?.id },
-      }) 
+      })
     ) {
       throw new ResourceNotFoundError()
     }
@@ -260,7 +256,7 @@ export async function registerFamilyMemberInfo(
         where: { RG, candidate_id: candidate?.id },
       }) || await prisma.familyMember.findFirst({
         where: { RG, candidate_id: responsible?.id },
-      }) 
+      })
     ) {
       throw new NotAllowedError()
     }
@@ -282,12 +278,6 @@ export async function registerFamilyMemberInfo(
       religion,
       educationLevel,
       email,
-      address,
-      city,
-      UF,
-      CEP,
-      neighborhood,
-      addressNumber,
       profession,
       candidate_id: candidate?.id,
       legalResponsibleId: responsible?.id,

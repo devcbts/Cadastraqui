@@ -263,12 +263,6 @@ model FamilyMember {
   workPhone                 String?
   contactNameForMessage     String?
   email                     String?
-  address                   String
-  city                      String
-  UF                        COUNTRY
-  CEP                       String
-  neighborhood              String
-  addressNumber             String
   profession                String
   enrolledGovernmentProgram Boolean?
   NIS                       String?
