@@ -43,6 +43,7 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
       .status(200)
       .send({
         newToken,
+        role,
         newRefreshToken,
       })
   } catch (err: any) {
