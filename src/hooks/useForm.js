@@ -48,6 +48,6 @@ export default function useForm(defaultValue = {}, validators = []) {
         errors,
         isValidForm,
         submit,
-        reset
+        reset,
     ]
 }
