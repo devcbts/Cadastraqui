@@ -12,7 +12,6 @@ export async function addAssistantAnnouncement(
     announcement_id: z.string(),
     assistant_id: z.string(),
   })
-
   const { announcement_id, assistant_id } = AddAssistantBodySchema.parse(
     request.body,
   )
@@ -20,11 +19,18 @@ export async function addAssistantAnnouncement(
   try {
     const announcement = await prisma.announcement.findUnique({
       where: { id: announcement_id },
+      include: {
+        socialAssistant: true
+      }
     })
     const assistant = await prisma.socialAssistant.findUnique({
       where: { id: assistant_id },
     })
-
+    const isAlreadyLinkedToAnnouncement = announcement?.socialAssistant.find(e => e.id === assistant?.id)
+    console.log(isAlreadyLinkedToAnnouncement)
+    if (isAlreadyLinkedToAnnouncement) {
+      return reply.status(400).send({ message: `Assistente ${assistant?.name} já está vinculado(a) ao edital` })
+    }
     if (!assistant || !announcement) {
       throw new ResourceNotFoundError()
     }
