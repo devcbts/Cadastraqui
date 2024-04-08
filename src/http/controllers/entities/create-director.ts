@@ -14,7 +14,12 @@ export async function createDirector(
     name: z.string(),
     email: z.string().email(),
     password: z.string().min(6),
-    phone: z.string().regex(/\d{10}\d?/, 'Invalid phone'),
+    phone: z.string().refine((value) => {
+
+      const digits = value.replace(/\D/g, "")
+      const validPhone = /\d{10}\d?/
+      return validPhone.test(digits)
+    }, 'Invalid phone'),
     CPF: z.string(),
   })
 
@@ -25,6 +30,7 @@ export async function createDirector(
   const { name, email, password, CPF, phone } = registerBodySchema.parse(
     request.body,
   )
+  console.log(phone)
 
   const { _id } = registerParamsSchema.parse(request.params)
   try {
