@@ -7,7 +7,8 @@ import { handleAuthError } from "../../ErrorHandling/handleError";
 import "./cadastroFamiliar.css";
 import { api } from "../../services/axios";
 import { formatCPF } from "../../utils/format-cpf";
-
+import { formatTelephone } from "../../utils/format-telephone";
+import { formatRG } from "../../utils/format-rg";
 const Relationship = [
   { value: "Wife", label: "Esposa" },
   { value: "Husband", label: "Marido" },
@@ -181,12 +182,12 @@ export default function CadastroFamiliar() {
     workPhone: "",
     contactNameForMessage: "",
     email: "",
-    address: "",
+    /* address: "",
     city: "",
     UF: "AC", // deve ser inicializado com um dos valores do enum COUNTRY
     CEP: "",
     neighborhood: "",
-    addressNumber: "", // Iniciar com um número inteiro
+    addressNumber: "", // Iniciar com um número inteiro */
     profession: "",
     enrolledGovernmentProgram: false,
     NIS: "",
@@ -268,12 +269,12 @@ export default function CadastroFamiliar() {
           contactNameForMessage:
             familyMember.contactNameForMessage || undefined,
           email: familyMember.email || undefined,
-          address: familyMember.address,
+          /* address: familyMember.address,
           city: familyMember.city,
           UF: familyMember.UF, // deve ser inicializado com um dos valores do enum COUNTRY
           CEP: familyMember.CEP,
           neighborhood: familyMember.neighborhood,
-          addressNumber: familyMember.addressNumber, // Iniciar com um número inteiro
+          addressNumber: familyMember.addressNumber, // Iniciar com um número inteiro */
           profession: familyMember.profession,
           enrolledGovernmentProgram: familyMember.enrolledGovernmentProgram,
           NIS: familyMember.NIS || undefined,
@@ -455,7 +456,6 @@ export default function CadastroFamiliar() {
             </label>
             <br />
             <input
-
               type="text"
               name="CPF"
               value={formatCPF(familyMember.CPF)}
@@ -474,7 +474,7 @@ export default function CadastroFamiliar() {
             <input
               type="text"
               name="RG"
-              value={familyMember.RG}
+              value={formatRG(familyMember.RG)}
               onChange={handleInputChange}
               id="RG"
               class="survey-control"
@@ -752,7 +752,7 @@ export default function CadastroFamiliar() {
                     value={familyMember.hasMedicalReport}
                     id="checkboxID2"
                     class="survey-control"
-                    
+
                   />
                   <label htmlFor="checkboxID2" id="yesno"></label>
 
@@ -771,7 +771,7 @@ export default function CadastroFamiliar() {
               type="text"
               name="landlinePhone"
               onChange={handleInputChange}
-              value={familyMember.landlinePhone}
+              value={formatTelephone(familyMember.landlinePhone)}
               id="landlinePhone"
               class="survey-control"
             />
@@ -788,7 +788,7 @@ export default function CadastroFamiliar() {
               type="text"
               name="workPhone"
               onChange={handleInputChange}
-              value={familyMember.workPhone}
+              value={formatTelephone(familyMember.workPhone)}
               id="workPhone"
               class="survey-control"
             />
@@ -827,109 +827,6 @@ export default function CadastroFamiliar() {
             />
           </div>
 
-          {/*<!-- Endereço -->*/}
-          <div class="survey-box">
-            <label for="address" id="address-label">
-              Endereço:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="address"
-              value={familyMember.address}
-              onChange={handleInputChange}
-              id="address"
-              class="survey-control"
-              required
-            />
-          </div>
-
-          {/*<!-- Cidade -->*/}
-          <div class="survey-box">
-            <label for="city" id="city-label">
-              Cidade:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="city"
-              value={familyMember.city}
-              onChange={handleInputChange}
-              id="city"
-              class="survey-control"
-              required
-            />
-          </div>
-
-          {/*<!-- Unidade Federativa -->*/}
-          <div class="survey-box">
-            <label for="UF" id="UF-label">
-              Unidade Federativa:
-            </label>
-            <br />
-            <select
-              name="UF"
-              id="UF"
-              value={familyMember.UF}
-              onChange={handleInputChange}
-              class="select-data"
-            >
-              {COUNTRY.map((type) => (
-                <option value={type.value}>{type.label}</option>
-              ))}
-            </select>
-          </div>
-
-          {/*<!-- CEP -->*/}
-          <div class="survey-box">
-            <label for="CEP" id="CEP-label">
-              CEP:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="CEP"
-              value={familyMember.CEP}
-              onChange={handleInputChange}
-              id="CEP"
-              class="survey-control"
-              required
-            />
-          </div>
-
-          {/*<!-- Bairro -->*/}
-          <div class="survey-box">
-            <label for="neighborhood" id="neighborhood-label">
-              Bairro:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="neighborhood"
-              value={familyMember.neighborhood}
-              onChange={handleInputChange}
-              id="neighborhood"
-              class="survey-control"
-              required
-            />
-          </div>
-
-          {/*<!-- Número de Endereço -->*/}
-          <div class="survey-box">
-            <label for="addressNumber" id="addressNumber-label">
-              Número de Endereço / Complemento:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="addressNumber"
-              value={familyMember.addressNumber}
-              onChange={handleInputChange}
-              id="addressNumber"
-              class="survey-control"
-              required
-            />
-          </div>
 
           {/*<!-- Profissão -->*/}
           <div class="survey-box">
@@ -959,17 +856,17 @@ export default function CadastroFamiliar() {
             <br />
             <p className="onoff">
 
-            <input
-              type="checkbox"
-              name="enrolledGovernmentProgram"
-              value={familyMember.enrolledGovernmentProgram}
-              onChange={handleInputChange}
-              id="enrolledGovernmentProgram"
-              class="survey-control"
+              <input
+                type="checkbox"
+                name="enrolledGovernmentProgram"
+                value={familyMember.enrolledGovernmentProgram}
+                onChange={handleInputChange}
+                id="enrolledGovernmentProgram"
+                class="survey-control"
               />
-             <label htmlFor="enrolledGovernmentProgram" id="yesno"></label>
+              <label htmlFor="enrolledGovernmentProgram" id="yesno"></label>
 
-              </p>
+            </p>
           </div>
 
           {familyMember.enrolledGovernmentProgram === true && (
