@@ -11,6 +11,7 @@ import { useNavigate } from "react-router";
 import { UilHunting } from "@iconscout/react-unicons";
 import { formatCPF } from "../../utils/format-cpf";
 import { formatTelephone } from "../../utils/format-telephone";
+import ChangePassword from "../../Components/ChangePassword/ChangePassword";
 
 export default function PerfilCandidato() {
   const { isShown } = useAppState();
@@ -141,7 +142,12 @@ export default function PerfilCandidato() {
           {userInfo ? (
             <div className="solicitacoes personal-info">
               <div className="upper-info">
-                <h2>Informações pessoais</h2>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+                  <h2>Informações pessoais</h2>
+                  <a href="#">
+                    <UilPen size="20" color="#1F4B73"></UilPen>
+                  </a>
+                </div>
                 <div className="info-item">
                   <h3>Nome:</h3>
                   <h3>{userInfo ? userInfo.name : "User Name"}</h3>
@@ -167,9 +173,7 @@ export default function PerfilCandidato() {
                   <h3>********</h3>
                 </div>
               </div>
-              <a href="#">
-                <UilPen size="20" color="#1F4B73"></UilPen>
-              </a>
+
             </div>
           ) : (
             <div className="solicitacoes personal-info">
@@ -206,10 +210,7 @@ export default function PerfilCandidato() {
               </a>
             </div>
           )}
-          <a href="#" className="btn-alterar">
-            <UilLock size="20" color="white"></UilLock>
-            Alterar senha
-          </a>
+          <ChangePassword />
         </div>
       </div>
     </div>

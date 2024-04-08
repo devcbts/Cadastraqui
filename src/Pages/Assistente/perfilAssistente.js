@@ -10,6 +10,7 @@ import { api } from "../../services/axios";
 import { useNavigate } from "react-router";
 import { formatCPF } from "../../utils/format-cpf";
 import { formatTelephone } from "../../utils/format-telephone";
+import ChangePassword from "../../Components/ChangePassword/ChangePassword";
 
 export default function PerfilAssistente() {
   const { isShown } = useAppState();
@@ -125,7 +126,7 @@ export default function PerfilAssistente() {
           </div>
         </div>
         <div className="novos-colaboradores profile-candidate">
-        {userInfo ?
+          {userInfo ?
             <div className="solicitacoes personal-info">
               <div className="upper-info">
                 <h2>Informações pessoais</h2>
@@ -193,10 +194,7 @@ export default function PerfilAssistente() {
               </a>
             </div>
           }
-          <a href="#" className="btn-alterar">
-            <UilLock size="20" color="white"></UilLock>
-            Alterar senha
-          </a>
+          <ChangePassword />
         </div>
       </div>
     </div>

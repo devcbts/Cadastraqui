@@ -9,6 +9,7 @@ import { api } from "../../services/axios";
 import { useNavigate } from "react-router";
 import "./perfil.css";
 import { formatCNPJ } from "../../utils/format-cnpj";
+import ChangePassword from "../../Components/ChangePassword/ChangePassword";
 
 export default function PerfilAssistente() {
   const { isShown } = useAppState();
@@ -138,7 +139,7 @@ export default function PerfilAssistente() {
 
                 <div className="info-item">
                   <h3>CNPJ:</h3>
-                  <h3 className="info-text">{userInfo ?  formatCNPJ(userInfo.CNPJ) : ""}</h3>
+                  <h3 className="info-text">{userInfo ? formatCNPJ(userInfo.CNPJ) : ""}</h3>
                 </div>
                 <div className="info-item">
                   <h3>CEP:</h3>
@@ -199,10 +200,8 @@ export default function PerfilAssistente() {
               </a>
             </div>
           )}
-          <a href="#" className="btn-alterar">
-            <UilLock size="20" color="white"></UilLock>
-            Alterar senha
-          </a>
+
+          <ChangePassword />
         </div>
       </div>
     </div>
