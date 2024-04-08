@@ -23,7 +23,7 @@ export default function NewEntidade() {
   const { isShown } = useAppState();
   const [file, setFile] = useState();
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [currentPage, setCurrentPage] = useState(2);
+  const [currentPage, setCurrentPage] = useState(1);
   const firstForm = useRef(null);
 
 
