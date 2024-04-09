@@ -48,9 +48,12 @@ export async function updateBasicInfo(
         ])
         .optional(),
       CEP: z.string().optional(),
+      CPF: z.string().optional(),
+      email: z.string().optional(),
       neighborhood: z.string().optional(),
-      addressNumber: z.number().optional(),
+      addressNumber: z.string().optional(),
     })
+
 
     if (userType !== 'CANDIDATE') {
       throw new NotAllowedError()
@@ -58,6 +61,18 @@ export async function updateBasicInfo(
 
     const updateData = updateBodySchema.parse(request.body)
 
+    const checkUserEmail = await prisma.user.findFirst({
+      where: { AND: [{ email: { equals: updateData.email } }, { id: { not: userId } }] }
+    })
+    if (checkUserEmail) {
+      return reply.status(400).send({ message: "Email já cadastrado" })
+    }
+    const checkResponsibleCPF = await prisma.candidate.findFirst({
+      where: { AND: [{ CPF: updateData.CPF }, { user_id: { not: userId } }] }
+    })
+    if (checkResponsibleCPF) {
+      return reply.status(400).send({ message: "CPF já cadastrado" })
+    }
     const user = await prisma.candidate.findUnique({
       where: { user_id: userId },
     })
