@@ -23,6 +23,7 @@ import removeAssistantFromAnnouncement from './remove-assistant-from-announcemen
 import { updateAnnouncement } from './update-announcement'
 import { updateDirector } from './update-director'
 import { updateEntity } from './update-entity'
+import updateEntityProfile from './update-entity-profile'
 import { updateSubsidiary } from './update-subsidiary'
 import { uploadAnnouncementPdf } from './upload-announcement-pdf'
 import { uploadEntityProfilePicture } from './upload-profile-picture'
@@ -43,6 +44,11 @@ export async function entityRoutes(app: FastifyInstance) {
     '/:_id',
     { onRequest: [verifyJWT, verifyRole('ADMIN')] },
     updateEntity,
+  )
+  app.patch(
+    '/update-profile',
+    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    updateEntityProfile,
   )
 
   /** Entity Routes (Rotas acessadas na página da Entidade)
