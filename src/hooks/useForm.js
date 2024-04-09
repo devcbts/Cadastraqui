@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-export default function useForm(defaultValue = {}, validators = []) {
+export default function useForm(defaultValue = {}, validator = []) {
     const initializeAllNull = Object.keys(defaultValue).reduce((acc, key) => { acc[key] = null; return acc }, {})
     const [values, setValues] = useState(defaultValue);
     const [errors, setErrors] = useState(initializeAllNull)
+    const validators = typeof validator === "function" ? validator(defaultValue) : validator
     const handleChange = (e) => {
         const { name, value } = e.target
         setValues((prevState) => ({ ...prevState, [name]: value }))
