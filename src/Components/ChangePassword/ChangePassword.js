@@ -3,9 +3,9 @@ import UserService from "../../services/user/userService";
 import Modal from "../Modal";
 import { useState } from "react";
 import useForm from "../../hooks/useForm";
-import LoginInput from "../../Pages/Login/LoginInput";
 import { UilLock } from "@iconscout/react-unicons";
 import changePasswordValidation from "./validations/change-password-validation";
+import Input from "../Input";
 export default function ChangePassword() {
     const [openModal, setOpenModal] = useState(false)
     const [[password], handlePassChange, passErrors, submit, reset] = useForm({
@@ -39,6 +39,7 @@ export default function ChangePassword() {
     }
     const handleOpenModal = () => {
         setOpenModal(true)
+        reset()
     }
     return (
         <>
@@ -52,24 +53,24 @@ export default function ChangePassword() {
                 onConfirm={handleConfirm}
                 onCancel={handleCloseModal}
             >
-                <LoginInput
+                <Input
                     name="oldPass"
-                    Icon={UilLock}
+                    label="Senha atual"
                     error={passErrors}
                     type="password"
                     onChange={handlePassChange}
                     placeholder="Senha atual"
                     showErrorHint
-                ></LoginInput>
-                <LoginInput
+                ></Input>
+                <Input
                     name="newPass"
-                    Icon={UilLock}
+                    label="Nova senha"
                     error={passErrors}
                     type="password"
                     onChange={handlePassChange}
                     placeholder="Nova senha"
                     showErrorHint
-                ></LoginInput>
+                ></Input>
             </Modal>
         </>
     )

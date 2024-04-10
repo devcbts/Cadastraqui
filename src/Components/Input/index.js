@@ -16,7 +16,6 @@ export default function Input({ name, label, error, ...props }) {
                 <input
                     className={styles.input}
                     data-error={error?.[name] === null ? "null" : !!error?.[name]}
-                    style={{ borderColor: error?.[name] && '#ef3e36' }}
                     id={name}
                     name={name}
                     {...props}

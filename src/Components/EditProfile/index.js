@@ -94,16 +94,15 @@ export default function EditProfile({ data, onEdit, onClose, customFields = [], 
                     value={info.addressNumber}
                     error={infoErrors}
                 ></Input>
-                <div className="info-item">
-                    <h3>UF:</h3>
-                    <Select
-                        name="UF"
-                        onChange={handleChangeInfo}
-                        value={info.UF}
-                        error={infoErrors}
-                        options={STATES}
-                    ></Select>
-                </div>
+
+                <Select
+                    name="UF"
+                    label="UF"
+                    onChange={handleChangeInfo}
+                    value={info.UF}
+                    error={infoErrors}
+                    options={STATES}
+                ></Select>
 
 
             </div>
