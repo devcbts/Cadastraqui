@@ -15,11 +15,12 @@ export async function getEntityInfo(
     const entity = await prisma.entity.findUnique({
       where: { user_id: entityId },
       include: {
-        EntitySubsidiary: true
+        EntitySubsidiary: true,
+        user: true
       }
     })
 
-    return reply.status(200).send({ entity })
+    return reply.status(200).send({ entity: { ...entity, ...entity?.user } })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })

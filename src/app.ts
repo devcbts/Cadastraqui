@@ -15,6 +15,7 @@ import { entityRoutes } from './http/controllers/entities/routes';
 import { legalResponsibleRoutes } from './http/controllers/legal-responsible/routes';
 import { assistantRoutes } from './http/controllers/social-assistant/routes';
 import { authenticate } from './http/controllers/users/authenticate';
+import changePassword from './http/controllers/users/change_password';
 import { forgotPassword } from './http/controllers/users/forgot-password';
 import { getUserProfilePicture } from './http/controllers/users/get-profile-picture';
 import { logout } from './http/controllers/users/logout';
@@ -74,6 +75,7 @@ app.post('/forgot_password', forgotPassword)
 app.post('/reset_password', resetPassword)
 app.post('/logout', logout)
 app.patch('/refresh', refresh)
+app.put('/change_password', { onRequest: [verifyJWT] }, changePassword)
 app.post(
   '/profilePicture',
   { onRequest: [verifyJWT] },

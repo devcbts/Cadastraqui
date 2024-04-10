@@ -12,6 +12,7 @@ export async function getResponsibleInfo(
     // Verifica se existe um candidato associado ao user_id
     const responsible = await prisma.legalResponsible.findUnique({
       where: { user_id },
+      include: { user: true }
     })
     const dependents = await prisma.candidate.findMany({
       where: { responsible_id: responsible?.id }
@@ -20,7 +21,7 @@ export async function getResponsibleInfo(
       throw new NotAllowedError()
     }
 
-    return reply.status(200).send({ responsible, dependents })
+    return reply.status(200).send({ responsible: { ...responsible, ...responsible.user }, dependents })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
