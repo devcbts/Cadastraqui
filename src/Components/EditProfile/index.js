@@ -11,10 +11,8 @@ export default function EditProfile({ data, onEdit, onClose, customFields = [], 
         onEdit(info)
     }
     useCep((address) => {
-
         setInfo(address)
-
-    }, info.CEP)
+    }, info.CEP ?? "")
     return (
         <div className="solicitacoes personal-info">
 
@@ -55,54 +53,58 @@ export default function EditProfile({ data, onEdit, onClose, customFields = [], 
                 ))}
 
 
-                <Input
-                    name="CEP"
-                    label="CEP"
-                    onChange={handleChangeInfo}
-                    value={formatCEP(info.CEP)}
-                    error={infoErrors}
-                ></Input>
+                {info.hasOwnProperty("CEP") &&
+                    <>
+                        <Input
+                            name="CEP"
+                            label="CEP"
+                            onChange={handleChangeInfo}
+                            value={formatCEP(info.CEP)}
+                            error={infoErrors}
+                        ></Input>
 
-                <Input
-                    name="address"
-                    label="Endereço"
-                    onChange={handleChangeInfo}
-                    value={info.address}
-                    error={infoErrors}
-                ></Input>
+                        <Input
+                            name="address"
+                            label="Endereço"
+                            onChange={handleChangeInfo}
+                            value={info.address}
+                            error={infoErrors}
+                        ></Input>
 
-                <Input
-                    name="city"
-                    label="Cidade"
-                    onChange={handleChangeInfo}
-                    value={info.city}
-                    error={infoErrors}
-                ></Input>
+                        <Input
+                            name="city"
+                            label="Cidade"
+                            onChange={handleChangeInfo}
+                            value={info.city}
+                            error={infoErrors}
+                        ></Input>
 
-                <Input
-                    name="neighborhood"
-                    label="Bairro"
-                    onChange={handleChangeInfo}
-                    value={info.neighborhood}
-                    error={infoErrors}
-                ></Input>
+                        <Input
+                            name="neighborhood"
+                            label="Bairro"
+                            onChange={handleChangeInfo}
+                            value={info.neighborhood}
+                            error={infoErrors}
+                        ></Input>
 
-                <Input
-                    name="addressNumber"
-                    label="Número"
-                    onChange={handleChangeInfo}
-                    value={info.addressNumber}
-                    error={infoErrors}
-                ></Input>
+                        <Input
+                            name="addressNumber"
+                            label="Número"
+                            onChange={handleChangeInfo}
+                            value={info.addressNumber}
+                            error={infoErrors}
+                        ></Input>
 
-                <Select
-                    name="UF"
-                    label="UF"
-                    onChange={handleChangeInfo}
-                    value={info.UF}
-                    error={infoErrors}
-                    options={STATES}
-                ></Select>
+                        <Select
+                            name="UF"
+                            label="UF"
+                            onChange={handleChangeInfo}
+                            value={info.UF}
+                            error={infoErrors}
+                            options={STATES}
+                        ></Select>
+                    </>
+                }
 
 
             </div>

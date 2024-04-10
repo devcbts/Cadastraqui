@@ -11,6 +11,10 @@ import { useNavigate } from "react-router";
 import { formatCPF } from "../../utils/format-cpf";
 import { formatTelephone } from "../../utils/format-telephone";
 import ChangePassword from "../../Components/ChangePassword/ChangePassword";
+import socialAssistantService from "../../services/socialAssistant/socialAssistantService";
+import EditProfile from "../../Components/EditProfile";
+import assistantProfileValidation from "./Profile/validations/assistant-profile-validation";
+import Swal from "sweetalert2";
 
 export default function PerfilAssistente() {
   const { isShown } = useAppState();
@@ -94,7 +98,26 @@ export default function PerfilAssistente() {
     getProfilePhoto();
     getUserInfo();
   }, []);
+  const [isEditing, setIsEditing] = useState(false)
+  const handleEditProfile = async (updatedInfo) => {
+    try {
 
+      await socialAssistantService.updateProfile(updatedInfo)
+      Swal.fire({
+        title: "Informações atualizadas",
+        icon: "success",
+        text: "Informações atualizadas com sucesso"
+      })
+      setUserInfo(updatedInfo)
+      setIsEditing(false)
+    } catch (err) {
+      Swal.fire({
+        title: "Erro",
+        icon: "error",
+        text: err.response.data.message
+      })
+    }
+  }
   return (
     <div className="container">
       <div className="section-nav">
@@ -126,10 +149,15 @@ export default function PerfilAssistente() {
           </div>
         </div>
         <div className="novos-colaboradores profile-candidate">
-          {userInfo ?
+          {(!isEditing && userInfo) ?
             <div className="solicitacoes personal-info">
               <div className="upper-info">
-                <h2>Informações pessoais</h2>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+                  <h2>Informações pessoais</h2>
+                  <a href="#" onClick={() => setIsEditing(true)}>
+                    <UilPen size="20" color="#1F4B73"></UilPen>
+                  </a>
+                </div>
                 <div className="info-item">
                   <h3>Nome:</h3>
                   <h3>{userInfo ? userInfo.name : "User Name"}</h3>
@@ -152,13 +180,21 @@ export default function PerfilAssistente() {
                 </div>
 
               </div>
-              <a href="#">
-                <UilPen size="20" color="#1F4B73"></UilPen>
-              </a>
-            </div>
-            :
 
-            <div className="solicitacoes personal-info">
+            </div>
+            : isEditing && <EditProfile
+              data={userInfo}
+              onClose={() => setIsEditing(false)}
+              onEdit={handleEditProfile}
+              validation={assistantProfileValidation}
+              customFields={[
+                { label: "CRESS", name: "CRESS" },
+                { label: "CPF", name: "CPF", mask: formatCPF },
+                { label: "Telefone", name: "phone", mask: formatTelephone }
+              ]}
+            />
+
+            /* <div className="solicitacoes personal-info">
               <div className="upper-info">
                 <h2>Informações pessoais</h2>
                 <div className="info-item">
@@ -189,11 +225,9 @@ export default function PerfilAssistente() {
                 </div>
 
               </div>
-              <a href="#">
-                <UilPen size="20" color="#1F4B73"></UilPen>
-              </a>
-            </div>
-          }
+
+            </div> */}
+
           <ChangePassword />
         </div>
       </div>

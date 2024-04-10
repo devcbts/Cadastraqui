@@ -176,7 +176,7 @@ export default function PerfilEntidade() {
                 <div className="info-item">
                   <h3>Endereço:</h3>
                   <h3 className="info-text">
-                    {userInfo ? userInfo.address : ""}
+                    {userInfo ? `${userInfo.address}, Bairro ${userInfo.neighborhood}, Nº ${userInfo.addressNumber}. ${userInfo.city} - ${userInfo.UF} ` : ""}
                   </h3>
                 </div>
                 <div className="info-item">

@@ -196,7 +196,7 @@ export default function PerfilCandidato() {
                 </div>
                 <div className="info-item">
                   <h3>Endereço:</h3>
-                  <h3>{userInfo ? userInfo.address : ""}</h3>
+                  <h3>{userInfo ? `${userInfo.address}, Bairro ${userInfo.neighborhood}, Nº ${userInfo.addressNumber}. ${userInfo.city} - ${userInfo.UF} ` : ""}</h3>
                 </div>
                 <div className="info-item">
                   <h3>Email:</h3>

@@ -25,7 +25,6 @@ export default function ChangePassword() {
                 text: "Senha alterada com sucesso"
             })
             handleCloseModal()
-            reset()
         } catch (err) {
             Swal.fire({
                 title: "Erro",
