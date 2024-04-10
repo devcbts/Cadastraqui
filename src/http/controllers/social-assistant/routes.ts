@@ -1,24 +1,26 @@
-import { FastifyInstance } from 'fastify'
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
-import { registerAssistant } from './register'
-import { getApplications } from './get-applications'
+import { FastifyInstance } from 'fastify'
 import { addHistory } from './add-history'
-import { getDocumentsPDF } from './get-pdf-documents'
+import { calculateExpenses } from './calculate-expenses'
+import { closeApplication } from './close-application'
+import { createSolicitation } from './create-solicitation'
 import { enrollApplication } from './enrol-application'
+import { getAnnouncements } from './get-announcements'
+import { getApplications } from './get-applications'
+import { getCandidateIncome } from './get-candidate-income'
+import { getDocumentsPDF } from './get-pdf-documents'
+import { getBasicAssistantInfo } from './get-social-assistant-information'
 import { getSolicitationDocumentsPDF } from './get-solicitation-response'
 import { getSolicitations } from './get_solicitations'
-import { createSolicitation } from './create-solicitation'
-import { closeApplication } from './close-application'
-import { getBasicAssistantInfo } from './get-social-assistant-information'
-import { getAnnouncements } from './get-announcements'
-import { updateApplication } from './update-application'
 import { rankCandidatesIncome } from './rank-candidates-income'
-import { calculateExpenses } from './calculate-expenses'
-import { getCandidateIncome } from './get-candidate-income'
+import { registerAssistant } from './register'
+import { updateApplication } from './update-application'
+import updateAssistantProfile from './update-assistant-profile'
 import { updateSolicitationWithReport } from './update-solicitation-report'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
+  app.patch('/update-profile', { onRequest: [verifyJWT] }, updateAssistantProfile)
 
   // Pegar inscrições e escolher uma inscrição
   app.get(
