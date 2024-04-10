@@ -12,6 +12,7 @@ const entityProfileValidation = new ValidationComposite([
     ...ValidationBuilder.create("city").required().build(),
     ...ValidationBuilder.create("UF").required().build(),
     ...ValidationBuilder.create("CNPJ").cnpj().required().build(),
+    ...ValidationBuilder.create("socialReason").required().build(),
 
 ])
 
