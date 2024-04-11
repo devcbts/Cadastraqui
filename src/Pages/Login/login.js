@@ -163,7 +163,7 @@ export default function Login() {
   function handlePageToRegister() {
     setCurrentPage(1)
   }
-  const [[loginInfo], handleLoginInfo, loginErrors, submitLogin] = useForm({ email: '', password: '' }, loginInfoValidation)
+  const [[loginInfo], handleLoginInfo, loginErrors, submitLogin, resetLogin] = useForm({ email: '', password: '' }, loginInfoValidation)
   // BackEnd Functions 
   const { SignIn } = useAuth()
   const navigate = useNavigate()
@@ -263,12 +263,26 @@ export default function Login() {
   };
   const handleForgotPassword = () => {
     if (submitLogin("email") && validateEmail(loginInfo.email)) {
+
       api.post('/forgot_password', { email: loginInfo.email })
-      Swal.fire({
-        icon: 'success',
-        title: 'Email de recuperação enviado',
-        text: `Um email foi enviado para o email ${loginInfo.email}, cheque a caixa de entrada ou de spam.`
-      })
+        .then(() => {
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Email de recuperação enviado',
+            text: `Um email foi enviado para o email ${loginInfo.email}, cheque a caixa de entrada ou de spam.`
+          })
+          resetLogin()
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: err.response.data.message
+          })
+
+        })
+
     } else {
       Swal.fire({ title: "Nenhum Email", text: "Preencha o campo Email para prosseguir", icon: "warning" })
     }
@@ -317,6 +331,7 @@ export default function Login() {
                 type="email"
                 placeholder="Email"
                 onChange={handleLoginInfo}
+                value={loginInfo.email}
                 error={loginErrors}
               />
 
@@ -325,6 +340,7 @@ export default function Login() {
                 name='password'
                 type="password"
                 placeholder="Senha"
+                value={loginInfo.password}
                 onChange={handleLoginInfo}
                 error={loginErrors}
               />
@@ -332,7 +348,7 @@ export default function Login() {
 
               <LoginButton onClick={login} label='entrar' />
               <LoginButton onClick={handlePageToRegister} label='cadastrar-se' />
-              {/* <label style={{ cursor: "pointer", fontSize: 18 }} onClick={handleForgotPassword}>Esqueci minha senha</label> */}
+              <label style={{ cursor: "pointer", fontSize: 18 }} onClick={handleForgotPassword}>Esqueci minha senha</label>
             </form>
           </div>
 
