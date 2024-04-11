@@ -2,7 +2,7 @@
     width: fit-content;
     height: fit-content;
     display: flex;
-    background-image: url("../../Assets/camera-placeholder.jpg");
+    background-image: url("../../../Assets/camera-placeholder.jpg");
     background-size: contain;
     border-radius: 50%;
 }

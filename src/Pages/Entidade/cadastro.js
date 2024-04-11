@@ -57,7 +57,7 @@ export default function CadastroEntidade() {
 
 
   // Functions to handle responsible register
-  const [[directorInfo], handleDirectorInfo, directorErrors, , submitDirector, resetDirector] = useForm({
+  const [[directorInfo], handleDirectorInfo, directorErrors, submitDirector, resetDirector] = useForm({
     name: "",
     email: "",
     phone: "",
@@ -66,7 +66,7 @@ export default function CadastroEntidade() {
   }, directorInfoValidation)
 
   // Functions to handle social assistant register
-  const [[assistantInfo], handleAssistantInfo, assistantErrors, , submitAssistant, resetAssistant] = useForm({
+  const [[assistantInfo], handleAssistantInfo, assistantErrors, submitAssistant, resetAssistant] = useForm({
     name: "",
     phone: "",
     email: "",
@@ -126,7 +126,7 @@ export default function CadastroEntidade() {
       })
     }
   }
-  const [[subsidiaryInfo, setSubsidiaryInfo], handleSubsidiaryInfo, subsidiaryErrors, , submitSubsidiary, resetSubsidiary] = useForm({
+  const [[subsidiaryInfo, setSubsidiaryInfo], handleSubsidiaryInfo, subsidiaryErrors, submitSubsidiary, resetSubsidiary] = useForm({
     name: "",
     email: "",
     password: "",

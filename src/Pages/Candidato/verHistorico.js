@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./perfil.css";
+import "./Profile/perfil.css";
 import NavBarCandidato from "../../Components/navBarCandidato";
 import { UilLock } from "@iconscout/react-unicons";
 import "./verHistorico.css";
@@ -96,12 +96,12 @@ export default function VerHistorico() {
               return (
                 <div className="history-timeline">
 
-                <div className="history">
-                  <h1>{history.description}</h1>
-                  <h1>
-                    <span>{formatDate(history.date)}</span>
-                  </h1>
-                </div>
+                  <div className="history">
+                    <h1>{history.description}</h1>
+                    <h1>
+                      <span>{formatDate(history.date)}</span>
+                    </h1>
+                  </div>
                   <hr></hr>
                 </div>
               )

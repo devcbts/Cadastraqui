@@ -8,9 +8,7 @@ import { AppProvider } from "./AppGlobal";
 import CadastroEntidade from "./Pages/Entidade/cadastro";
 import SacEntidade from "./Pages/Entidade/sac";
 import ContasEntidade from "./Pages/Entidade/contas";
-import PerfilEntidade from "./Pages/Entidade/perfil";
 import HomeCandidato from "./Pages/Candidato/home";
-import PerfilCandidato from "./Pages/Candidato/perfil";
 import HistoricoCandidato from "./Pages/Candidato/historico";
 import HomeAssistente from "./Pages/Assistente/home";
 import EditaisAssistente from "./Pages/Assistente/editais";
@@ -37,6 +35,8 @@ import HomePage from "./Pages/Home/homePage";
 import Entidades from "./Pages/Admin/entidades";
 import VerEntidade from "./Pages/Admin/verEntidade";
 import VerHistorico from "./Pages/Candidato/verHistorico";
+import PerfilCandidato from "./Pages/Candidato/Profile/perfil";
+import PerfilEntidade from "./Pages/Entidade/Profile/perfil";
 
 function App() {
   return (

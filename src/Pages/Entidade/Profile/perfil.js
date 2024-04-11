@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
-import NavBar from "../../Components/navBar";
-import { useAppState } from "../../AppGlobal";
-import NavBarAssistente from "../../Components/navBarAssistente";
-import photoProfile from "../../Assets/profile-padrao.jpg";
+import NavBar from "../../../Components/navBar";
+import { useAppState } from "../../../AppGlobal";
+import NavBarAssistente from "../../../Components/navBarAssistente";
+import photoProfile from '../../../Assets/profile-padrao.jpg';
 import { UilPen } from "@iconscout/react-unicons";
 import { UilLock } from "@iconscout/react-unicons";
-import { api } from "../../services/axios";
+import { api } from "../../../services/axios";
 import { useNavigate } from "react-router";
 import "./perfil.css";
-import { formatCNPJ } from "../../utils/format-cnpj";
+import { formatCNPJ } from "../../../utils/format-cnpj";
+import ChangePassword from "../../../Components/ChangePassword/ChangePassword";
+import EditProfile from "../../../Components/EditProfile";
+import Swal from "sweetalert2";
+import entityProfileValidation from "./validations/entity-profile-validation";
+import entityService from "../../../services/entity/entityService";
 
-export default function PerfilAssistente() {
+export default function PerfilEntidade() {
   const { isShown } = useAppState();
   const [profilePhoto, setProfilePhoto] = useState(null);
   const navigate = useNavigate();
@@ -88,7 +93,26 @@ export default function PerfilAssistente() {
     getProfilePhotoEntity();
     getUserInfo();
   }, []);
+  const [isEditing, setIsEditing] = useState(false)
+  const handleEditProfile = async (updatedInfo) => {
+    try {
 
+      await entityService.updateProfile(updatedInfo)
+      Swal.fire({
+        title: "Informações atualizadas",
+        icon: "success",
+        text: "Informações atualizadas com sucesso"
+      })
+      setUserInfo(updatedInfo)
+      setIsEditing(false)
+    } catch (err) {
+      Swal.fire({
+        title: "Erro",
+        icon: "error",
+        text: err.response.data.message
+      })
+    }
+  }
   return (
     <div className="container">
       <div className="section-nav">
@@ -119,10 +143,15 @@ export default function PerfilAssistente() {
           </div>
         </div>
         <div className="novos-colaboradores profile-candidate">
-          {userInfo ? (
+          {(!isEditing && userInfo) ? (
             <div className="solicitacoes personal-info">
               <div className="upper-info">
-                <h2>Informações cadastrais</h2>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+                  <h2>Informações cadastrais</h2>
+                  <a href="#" onClick={() => setIsEditing(true)}>
+                    <UilPen size="20" color="#1F4B73"></UilPen>
+                  </a>
+                </div>
                 <div className="info-item">
                   <h3>Razão Social:</h3>
                   <h3 className="info-text">
@@ -138,7 +167,7 @@ export default function PerfilAssistente() {
 
                 <div className="info-item">
                   <h3>CNPJ:</h3>
-                  <h3 className="info-text">{userInfo ?  formatCNPJ(userInfo.CNPJ) : ""}</h3>
+                  <h3 className="info-text">{userInfo ? formatCNPJ(userInfo.CNPJ) : ""}</h3>
                 </div>
                 <div className="info-item">
                   <h3>CEP:</h3>
@@ -147,7 +176,7 @@ export default function PerfilAssistente() {
                 <div className="info-item">
                   <h3>Endereço:</h3>
                   <h3 className="info-text">
-                    {userInfo ? userInfo.address : ""}
+                    {userInfo ? `${userInfo.address}, Bairro ${userInfo.neighborhood}, Nº ${userInfo.addressNumber}. ${userInfo.city} - ${userInfo.UF} ` : ""}
                   </h3>
                 </div>
                 <div className="info-item">
@@ -155,54 +184,18 @@ export default function PerfilAssistente() {
                   <h3 className="info-text">********</h3>
                 </div>
               </div>
-              <a href="#">
-                <UilPen size="20" color="#1F4B73"></UilPen>
-              </a>
+
             </div>
-          ) : (
-            <div className="solicitacoes personal-info">
-              <div className="upper-info">
-                <h2>Informações cadastrais</h2>
-                <div className="info-item">
-                  <h3>Razão Social:</h3>
+          ) : isEditing &&
+          <EditProfile data={userInfo} onEdit={handleEditProfile} onClose={() => setIsEditing(false)}
+            validation={entityProfileValidation}
+            customFields={[
+              { label: "CNPJ", name: "CNPJ", mask: formatCNPJ },
+              { label: "Razão Social", name: "socialReason" },
+            ]}
+          />}
 
-                  <div className="skeleton-text skeleton-loading"></div>
-                </div>
-                <div className="info-item">
-                  <h3>Nome Fantasia:</h3>
-                  <div className="skeleton-text skeleton-loading"></div>
-                </div>
-                <div className="info-item">
-                  <h3>CNPJ:</h3>
-
-                  <div className="skeleton-text skeleton-loading"></div>
-                </div>
-                <div className="info-item">
-                  <h3>CEP:</h3>
-
-                  <div className="skeleton-text skeleton-loading"></div>
-                </div>
-                <div className="info-item">
-                  <h3>Endereço:</h3>
-
-                  <div className="skeleton-text skeleton-loading"></div>
-                </div>
-                <div className="info-item">
-                  <h3>Senha:</h3>
-
-                  <div className="skeleton-text skeleton-loading"></div>
-                </div>
-                <div className="info-item"></div>
-              </div>
-              <a href="#">
-                <UilPen size="20" color="#1F4B73"></UilPen>
-              </a>
-            </div>
-          )}
-          <a href="#" className="btn-alterar">
-            <UilLock size="20" color="white"></UilLock>
-            Alterar senha
-          </a>
+          <ChangePassword />
         </div>
       </div>
     </div>

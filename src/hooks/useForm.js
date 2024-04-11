@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-export default function useForm(defaultValue = {}, validators = []) {
+export default function useForm(defaultValue = {}, validator = []) {
+    const initializeAllNull = Object.keys(defaultValue).reduce((acc, key) => { acc[key] = null; return acc }, {})
     const [values, setValues] = useState(defaultValue);
-    const [errors, setErrors] = useState(Object.keys(defaultValue).reduce((acc, key) => { acc[key] = null; return acc }, {}))
+    const [errors, setErrors] = useState(initializeAllNull)
+    const validators = typeof validator === "function" ? validator(defaultValue) : validator
     const handleChange = (e) => {
         const { name, value } = e.target
         setValues((prevState) => ({ ...prevState, [name]: value }))
@@ -17,10 +19,10 @@ export default function useForm(defaultValue = {}, validators = []) {
         }
         return error
     }
-    const isValidForm = useMemo(() => {
-        return Object.keys(errors).every((e) => !errors[e])
-    }, [errors])
-
+    /*  const isValidForm = useMemo(() => {
+         return Object.keys(errors).every((e) => !errors[e])
+     }, [errors])
+  */
     const submit = (...args) => {
         let submitErrors;
         if (!args || !args?.length) {
@@ -40,13 +42,12 @@ export default function useForm(defaultValue = {}, validators = []) {
     }
     const reset = () => {
         setValues(defaultValue)
-        setErrors(Object.keys(defaultValue).reduce((acc, key) => { acc[key] = null; return acc }, {}))
+        setErrors(initializeAllNull)
     }
     return [
         [values, setMultipleValues],
         handleChange,
         errors,
-        isValidForm,
         submit,
         reset
     ]

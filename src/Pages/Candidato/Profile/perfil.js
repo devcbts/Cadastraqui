@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
 import "./perfil.css";
-import NavBar from "../../Components/navBar";
-import { useAppState } from "../../AppGlobal";
-import NavBarCandidato from "../../Components/navBarCandidato";
-import photoProfile from "../../Assets/profile-padrao.jpg";
+import NavBar from "../../../Components/navBar";
+import { useAppState } from "../../../AppGlobal";
+import NavBarCandidato from "../../../Components/navBarCandidato";
+import photoProfile from "../../../Assets/profile-padrao.jpg";
 import { UilPen } from "@iconscout/react-unicons";
 import { UilLock } from "@iconscout/react-unicons";
-import { api } from "../../services/axios";
+import { api } from "../../../services/axios";
 import { useNavigate } from "react-router";
 import { UilHunting } from "@iconscout/react-unicons";
-import { formatCPF } from "../../utils/format-cpf";
-import { formatTelephone } from "../../utils/format-telephone";
+import { formatCPF } from "../../../utils/format-cpf";
+import { formatTelephone } from "../../../utils/format-telephone";
+import ChangePassword from "../../../Components/ChangePassword/ChangePassword";
+import EditProfile from "../../../Components/EditProfile";
+import UserService from "../../../services/user/userService";
+import Swal from "sweetalert2";
+import candidateProfileValidation from "./validations/candidate-profile-validation";
+import candidateService from "../../../services/candidate/candidateService";
+import legalResponsibleService from "../../../services/legalResponsible/legalResponsibleService";
 
 export default function PerfilCandidato() {
   const { isShown } = useAppState();
@@ -23,7 +30,9 @@ export default function PerfilCandidato() {
   };
 
   const [userInfo, setUserInfo] = useState(null);
-
+  const handleEdit = () => {
+    setIsEditing((prevState) => !prevState)
+  }
   async function getProfilePhoto() {
     const token = localStorage.getItem("token");
 
@@ -100,6 +109,32 @@ export default function PerfilCandidato() {
     }
   }
 
+  const [isEditing, setIsEditing] = useState(false)
+  const handleEditProfile = async (updatedInfo) => {
+    try {
+      const role = localStorage.getItem("role")
+      console.log(role)
+      if (role === "CANDIDATE") {
+        await candidateService.updateProfile(updatedInfo)
+      }
+      if (role === "RESPONSIBLE") {
+        await legalResponsibleService.updateProfile(updatedInfo)
+      }
+      Swal.fire({
+        title: "Informações atualizadas",
+        icon: "success",
+        text: "Informações atualizadas com sucesso"
+      })
+      setUserInfo(updatedInfo)
+      setIsEditing(false)
+    } catch (err) {
+      Swal.fire({
+        title: "Erro",
+        icon: "error",
+        text: err.response.data.message
+      })
+    }
+  }
   return (
     <div className="container">
       <div className="section-nav">
@@ -138,10 +173,15 @@ export default function PerfilCandidato() {
         {showLgpdPopup && <LgpdPopup onClose={() => setShowLgpdPopup(false)} />}
 
         <div className="novos-colaboradores profile-candidate">
-          {userInfo ? (
+          {(userInfo && !isEditing) ? (
             <div className="solicitacoes personal-info">
               <div className="upper-info">
-                <h2>Informações pessoais</h2>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+                  <h2>Informações pessoais</h2>
+                  <a href="#" onClick={() => setIsEditing(true)}>
+                    <UilPen size="20" color="#1F4B73"></UilPen>
+                  </a>
+                </div>
                 <div className="info-item">
                   <h3>Nome:</h3>
                   <h3>{userInfo ? userInfo.name : "User Name"}</h3>
@@ -156,7 +196,7 @@ export default function PerfilCandidato() {
                 </div>
                 <div className="info-item">
                   <h3>Endereço:</h3>
-                  <h3>{userInfo ? userInfo.address : ""}</h3>
+                  <h3>{userInfo ? `${userInfo.address}, Bairro ${userInfo.neighborhood}, Nº ${userInfo.addressNumber}. ${userInfo.city} - ${userInfo.UF} ` : ""}</h3>
                 </div>
                 <div className="info-item">
                   <h3>Email:</h3>
@@ -167,49 +207,17 @@ export default function PerfilCandidato() {
                   <h3>********</h3>
                 </div>
               </div>
-              <a href="#">
-                <UilPen size="20" color="#1F4B73"></UilPen>
-              </a>
+
             </div>
-          ) : (
-            <div className="solicitacoes personal-info">
-              <div className="upper-info">
-                <h2>Informações pessoais</h2>
-                <div className="info-item">
-                  <h3>Nome:</h3>
-                  <div className="skeleton-text skeleton-loading"></div>
-                </div>
-                <div className="info-item">
-                  <h3>Telefone:</h3>
-
-                  <div className="skeleton-text skeleton-loading"></div>
-                </div>
-                <div className="info-item">
-                  <h3>CPF:</h3>
-
-                  <div className="skeleton-text skeleton-loading"></div>
-                </div>
-                <div className="info-item">
-                  <h3>Endereço:</h3>
-
-                  <div className="skeleton-text skeleton-loading"></div>
-                </div>
-                <div className="info-item">
-                  <h3>Email:</h3>
-
-                  <div className="skeleton-text skeleton-loading"></div>
-                </div>
-                <div className="info-item"></div>
-              </div>
-              <a href="#">
-                <UilPen size="20" color="#1F4B73"></UilPen>
-              </a>
-            </div>
-          )}
-          <a href="#" className="btn-alterar">
-            <UilLock size="20" color="white"></UilLock>
-            Alterar senha
-          </a>
+          ) : isEditing &&
+          <EditProfile data={userInfo} onEdit={handleEditProfile} onClose={handleEdit}
+            validation={candidateProfileValidation}
+            customFields={[
+              { label: "Telefone", name: "phone", mask: formatTelephone },
+              { label: "CPF", name: "CPF", mask: formatCPF },
+            ]}
+          />}
+          <ChangePassword />
         </div>
       </div>
     </div>
