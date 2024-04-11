@@ -8,7 +8,6 @@ export default function Select({ name, label, options, error, ...props }) {
                 data-error={error?.[name] === null ? "null" : !!error?.[name]}
                 id={name}
                 name={name}
-                defaultValue={null}
                 {...props}
             >
                 {

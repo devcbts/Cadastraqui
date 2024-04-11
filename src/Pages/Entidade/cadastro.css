@@ -154,7 +154,7 @@ fieldset {
 
 form select{
   padding: 0.5rem 2rem;
-  background-color: #1F4B73;
-  color: white;
+  /* background-color: #1F4B73;
+  color: white; */
   font-size: 1rem;
 }

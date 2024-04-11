@@ -339,14 +339,6 @@ export default function NewEntidade() {
                       error={entityErrors}
 
                     />
-                    <Select
-                      label="Estado"
-                      name="UF"
-                      options={STATES}
-                      value={entityInfo.UF}
-                      onChange={handleEntityInfo}
-                      error={entityErrors}
-                    />
                     <EntityFormInput
                       label="Número"
                       name="addressNumber"
@@ -355,6 +347,14 @@ export default function NewEntidade() {
                       value={entityInfo.addressNumber}
                       onChange={handleEntityInfo}
                       type="number"
+                      error={entityErrors}
+                    />
+                    <Select
+                      label="Estado"
+                      name="UF"
+                      options={STATES}
+                      value={entityInfo.UF}
+                      onChange={handleEntityInfo}
                       error={entityErrors}
                     />
                     <EntityFormInput
