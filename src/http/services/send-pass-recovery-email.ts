@@ -1,21 +1,21 @@
 import nodemailer from 'nodemailer'
 
-export async function sendMail(token: string) {
+export async function sendPasswordRecoveryMail({ token, email }: { token: string, email: string }) {
   const transport = nodemailer.createTransport({
-    host: 'sandbox.smtp.mailtrap.io',
-    port: 587,
+    host: "smtp.gmail.com",
+    port: 465,
     auth: {
-      user: '7d1b9fcda7973e',
-      pass: '3f67c151353e8e',
+      user: 'gabrielcampista307@gmail.com',
+      pass: 'wyteigetafodkybv',
     },
+    secure: true
   })
 
   // Envia o Email de redefinição de senha
   const info = await transport.sendMail({
-    from: 'gabrielcampista307@gmail.com',
-    to: 'gabrielcampista307@gmail.com',
-    subject: 'Reset Password',
-    text: 'Token to Reset your Password',
+    to: email,
+    subject: 'Recuperação de senha CADASTRAQUI',
+    text: 'Token de recuperação de senha cadastraqui',
     html: `<body>
     <h1>Recuperação de senha</h1>
     <p>Prezado(a), esse e-mail é automatico então, não responda.</p>
