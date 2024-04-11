@@ -15,18 +15,18 @@ export default function Entidades() {
     const [entities, setEntities] = useState([])
 
     useEffect(() => {
-        async function getEntities(){
+        async function getEntities() {
             const token = localStorage.getItem('token');
             const response = await api.get('/admin/entidades', {
                 headers: {
-                  'authorization': `Bearer ${token}`,
+                    'authorization': `Bearer ${token}`,
                 },
-              })
+            })
             console.log(response.data)
             setEntities(response.data.entities)
         }
         getEntities();
-    },[1])
+    }, [1])
 
     return (
         <div className="container">
@@ -37,7 +37,7 @@ export default function Entidades() {
                 <div className="upper">
                     <h1>Visualizar Entidades</h1>
                 </div>
-                <div className="container-cadastros">
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
                     {entities.map(entidade => {
                         return <CardEntidade entity={entidade} />
                     })}

@@ -142,7 +142,7 @@ const IncomeSource = [
 ];
 
 export default function VerBasico({ candidate, basic, role }) {
-  const [[candidateInfo], handleCandidateInfo, candidateInfoErrors, isFormValid] = useForm(candidate);
+  const [[candidateInfo], handleCandidateInfo, candidateInfoErrors,] = useForm(candidate);
   // Estado para controlar o modo de edição
   const [isEditing, setIsEditing] = useState(false);
 
@@ -1023,7 +1023,6 @@ export default function VerBasico({ candidate, basic, role }) {
                   className="over-button"
                   type="button"
                   onClick={saveCandidateInfoData}
-                  disabled={!isFormValid}
                 >
                   Salvar Dados
                 </button>

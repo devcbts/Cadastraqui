@@ -5,7 +5,7 @@ export default function RegisterInput({ name, label, error, ...props }) {
                 <h2 className="info-cadastrado">{label}</h2>
             </label>
             <input
-                style={{ borderColor: error[name] && '#ef3e36' }}
+                style={{ borderColor: error?.[name] && '#ef3e36' }}
                 id={name}
                 name={name}
                 {...props}

@@ -1,5 +1,5 @@
 const STATES = [
-    { value: null, label: "Selecione o estado" },
+    { value: "", label: "Selecione o estado" },
     { value: "AC", label: "Acre" },
     { value: "AL", label: "Alagoas" },
     { value: "AM", label: "Amazonas" },

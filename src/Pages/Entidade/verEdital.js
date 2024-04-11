@@ -37,6 +37,55 @@ export default function VerEditalEntidade() {
   const [applications, setApplications] = useState([]);
   const [educationLevels, setEducationLevels] = useState([]);
 
+  const handleRemoveAssistant = async (assistant) => {
+    const token = localStorage.getItem("token");
+    console.log(assistant)
+    try {
+      await api.put(
+        "/entities/announcement/assistant",
+        {
+          announcement_id: announcement_id.announcement_id,
+          assistant_id: assistant.id,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      Swal.fire({
+        title: 'Sucesso',
+        text: `Assistente ${assistant.name} removido do edital`,
+        icon: 'success',
+      })
+      setAnnouncement((prevState) => ({ ...prevState, socialAssistant: prevState.socialAssistant.filter((el) => el.id !== assistant.id) }))
+    } catch (err) {
+      console.log(err)
+      Swal.fire({
+        title: 'Erro',
+        text: err.response.data.message,
+        icon: 'error',
+      })
+    }
+  }
+
+  const AssistantsList = ({ assistants }) => {
+    if (!assistants || assistants.length === 0)
+      return <p>Nenhum assistente social adicionado.</p>;
+
+    return (
+      <ul className="current-assistant">
+        {assistants.map((assistant) => (
+          <div style={{ height: "fit-content", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+            <li key={assistant.id}>{assistant.name}</li>
+            <button style={{ fontSize: 10, backgroundColor: "#ef3e36" }} onClick={() => handleRemoveAssistant(assistant)}>Excluir</button>
+          </div>
+        ))}
+      </ul>
+    );
+  };
+
+
   async function handleAddAssistantsToAnnouncement() {
     const token = localStorage.getItem("token");
     for (const assistant of selectedAssistants) {
@@ -53,8 +102,19 @@ export default function VerEditalEntidade() {
             },
           }
         );
+        Swal.fire({
+          title: 'Sucesso',
+          text: `Assistente ${assistant.name} cadastrado`,
+          icon: 'success',
+        })
+        setAnnouncement((prevState) => ({ ...prevState, socialAssistant: [...prevState.socialAssistant, { name: assistant.label, id: assistant.value }] }))
+        setSelectedAssistants([])
       } catch (err) {
-        console.log(err);
+        Swal.fire({
+          title: 'Erro',
+          text: err.response.data.message,
+          icon: 'error',
+        })
       }
     }
   }
@@ -67,6 +127,7 @@ export default function VerEditalEntidade() {
         },
       });
       setAssistants(response.data.socialAssistants);
+      setAnnouncement((prevState) => ({ ...prevState, socialAssistant: response.data.socialAssistants }))
     } catch (err) {
       console.log(err);
     }
@@ -380,14 +441,17 @@ export default function VerEditalEntidade() {
                       <div className="add-assistant-section">
                         <h2>Selecionar Assistentes</h2>
                         <Select
-                          options={assistants.map((assistant) => ({
-                            value: assistant.id,
-                            label: assistant.name,
-                          }))}
+                          options={assistants
+                            .filter((assistant) => !announcement.socialAssistant.find((el) => el.id === assistant.id))
+                            .map((assistant) => ({
+                              value: assistant.id,
+                              label: assistant.name,
+                            }))}
                           isMulti
                           onChange={(selectedOptions) =>
                             setSelectedAssistants(selectedOptions)
                           }
+                          value={selectedAssistants}
                           className="basic-multi-select"
                           classNamePrefix="select"
                         />
@@ -427,19 +491,6 @@ export default function VerEditalEntidade() {
     </div>
   );
 }
-
-const AssistantsList = ({ assistants }) => {
-  if (!assistants || assistants.length === 0)
-    return <p>Nenhum assistente social adicionado.</p>;
-
-  return (
-    <ul className="current-assistant">
-      {assistants.map((assistant) => (
-        <li key={assistant.id}>{assistant.name}</li>
-      ))}
-    </ul>
-  );
-};
 
 const BasicEducationType = [
   { value: "Preschool", label: "Pré-Escola" },

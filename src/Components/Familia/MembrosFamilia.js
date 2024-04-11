@@ -52,7 +52,11 @@ export default function MembrosFamilia() {
         console.log(response.data);
         console.log("====================================");
         const membrosdaFamilia = response.data.familyMembers;
+        console.log('MEMBROS', membrosdaFamilia)
         setMembros(membrosdaFamilia);
+        if (membrosdaFamilia?.length === 0) {
+          setMostrarCadastro(true)
+        }
         setMembroSelecionado(membrosdaFamilia[0]);
         setLen(membrosdaFamilia.length);
       } catch (err) {
@@ -76,7 +80,7 @@ export default function MembrosFamilia() {
 
       {!mostrarCadastro && membroSelecionado ? (
         <VerFamiliar familyMember={membroSelecionado} />
-      ) : (
+      ) : !membros && (
         <div>{len == 0 && <LoadingCadastroCandidato />}</div>
       )}
 

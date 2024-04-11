@@ -17,6 +17,10 @@ import useCnpj from "../../hooks/useCnpj";
 import entityInfoValidation from "./validations/entity-info-validation";
 import useCep from "../../hooks/useCep";
 import Swal from 'sweetalert2'
+import Select from "../../Components/Select/Select";
+import STATES from "../../utils/enums/states";
+import FormSummary from "../../Components/FormSummary/FormSummary";
+import EntityFormSummary from "./components/EntityFormSummary";
 export default function NewEntidade() {
   const { isShown } = useAppState();
   const [file, setFile] = useState();
@@ -25,7 +29,7 @@ export default function NewEntidade() {
   const firstForm = useRef(null);
 
 
-  const [[entityInfo, setEntityInfo], handleEntityInfo, entityErrors, , submitEntity] = useForm({
+  const [[entityInfo, setEntityInfo], handleEntityInfo, entityErrors, submitEntity,] = useForm({
     name: "",
     email: "",
     password: "",
@@ -38,6 +42,7 @@ export default function NewEntidade() {
     addressNumber: "",
     neighborhood: "",
     city: "",
+    UF: "",
     educationalInstitutionCode: "",
   }, entityInfoValidation);
 
@@ -54,7 +59,12 @@ export default function NewEntidade() {
         if (submitEntity("address", "addressNumber", "city", "neighborhood", "CEP", "educationalInstitutionCode")) {
           return 3;
         }
+
       };
+      if (prevPage === 3) {
+        return 4
+      }
+
       return 1; // Default to page 1 for all other cases
     });
 
@@ -114,7 +124,7 @@ export default function NewEntidade() {
         }
       });
 
-      setCurrentPage(3)
+      setCurrentPage(4)
       // Processamento adicional aqui, como redirecionamento ou atualização de estado
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -145,7 +155,6 @@ export default function NewEntidade() {
       }
     )
   }, entityInfo.CNPJ)
-
   useCep((address) => {
     setEntityInfo(address)
   }, entityInfo.CEP)
@@ -158,8 +167,8 @@ export default function NewEntidade() {
         <div className="upper">
           <h1>Cadastrar Entidade</h1>
         </div>
-        <div className="container-cadastros" style={{ width: currentPage !== 3 ? '70%' : '0' }}>
-          {currentPage !== 3 &&
+        <div className="container-cadastros" style={{ width: ![3, 4].includes(currentPage) ? '70%' : '0' }}>
+          {currentPage !== 4 &&
 
             < div id="first-register-entity" className={`novo-cadastro page-one `}>
               <form form
@@ -330,6 +339,14 @@ export default function NewEntidade() {
                       error={entityErrors}
 
                     />
+                    <Select
+                      label="Estado"
+                      name="UF"
+                      options={STATES}
+                      value={entityInfo.UF}
+                      onChange={handleEntityInfo}
+                      error={entityErrors}
+                    />
                     <EntityFormInput
                       label="Número"
                       name="addressNumber"
@@ -362,7 +379,7 @@ export default function NewEntidade() {
                         type="submit"
                         id="contact-submit"
                         data-submit="...Sending"
-                        onClick={(e) => handleSubmit(e)}
+                        onClick={handlePageChange}
                       >
                         Cadastrar
                       </button>
@@ -370,18 +387,22 @@ export default function NewEntidade() {
                   </div>
 
                 }
+                {
+                  currentPage === 3 && <EntityFormSummary data={entityInfo} onCancel={handleBack} onSubmit={handleSubmit} />
+                }
               </form>
               <div />
+
             </div>
           }
 
 
-          <div id="contact" style={{ width: currentPage === 3 ? '70%' : '0', height: '600px', padding: '10px' }}>
+          <div id="contact" style={{ width: currentPage === 4 ? '70%' : '0', height: '600px', padding: '10px' }}>
 
 
             <div
               id="first-register-entity"
-              className={`novo-cadastro  page-one ${currentPage !== 3 && "hidden-page"
+              className={`novo-cadastro  page-one ${currentPage !== 4 && "hidden-page"
                 } }`} style={{ flexDirection: 'column', padding: '10px' }}
             >
               <div className="page">
@@ -426,6 +447,7 @@ export default function NewEntidade() {
               </fieldset>
             </div>
           </div>
+
         </div>
       </div>
     </div >

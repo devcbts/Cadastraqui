@@ -140,7 +140,7 @@ const IncomeSource = [
 ];
 
 export default function CadastroBasico() {
-  const [[candidateInfo], handleCandidateInfo, candidateInfoErrors, isFormValid] = useForm({
+  const [[candidateInfo], handleCandidateInfo, candidateInfoErrors,] = useForm({
     fullName: "",
     socialName: "",
     birthDate: "",
@@ -998,7 +998,6 @@ export default function CadastroBasico() {
               onClick={RegisterCandidateBasicInfo}
               id="submit-button"
               className="button-one"
-              disabled={!isFormValid}
             >
               Salvar Informações
             </button>
