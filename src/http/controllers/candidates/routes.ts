@@ -1,6 +1,7 @@
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { FastifyInstance } from 'fastify'
 import { subscribeAnnouncement } from './create-application'
+import deleteFamilyMember from './delete-family-member'
 import { finishRegistration } from './finish-registration'
 import { getAnnouncementDocument } from './get-announcement-pdf'
 import { getApplicationHistory } from './get-application-history'
@@ -96,6 +97,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     updateFamilyMemberInfo,
   )
+  app.delete('/family-member', { onRequest: [verifyJWT] }, deleteFamilyMember)
   // Income Info
   app.post(
     '/family-member/MEI/:_id',
