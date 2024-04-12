@@ -1,24 +1,31 @@
-import React, { useEffect, useMemo, useState } from "react";
-
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useFetcher } from "react-router-dom";
 export default function useForm(defaultValue = {}, validator = []) {
     const initializeAllNull = Object.keys(defaultValue).reduce((acc, key) => { acc[key] = null; return acc }, {})
     const [values, setValues] = useState(defaultValue);
     const [errors, setErrors] = useState(initializeAllNull)
-    const validators = typeof validator === "function" ? validator(defaultValue) : validator
+    const validators =
+        useMemo(() =>
+            typeof validator === "function" ? validator(values) : validator, [values])
+
     const handleChange = (e) => {
-        const { name, value } = e.target
+        let { name, value, type, checked } = e.target
+        if (type === "checkbox") {
+            value = checked
+        }
         setValues((prevState) => ({ ...prevState, [name]: value }))
         validateField(name, value)
     }
-    const validateField = (field, value) => {
+    const validateField = useCallback((field, value) => {
         let error;
         if (validators.length !== 0) {
             error = validators.validate(field, value)
             if (error) setErrors((prevState) => ({ ...prevState, [field]: error }))
             else setErrors((prevState) => ({ ...prevState, [field]: '' }))
         }
+        console.log(field, error)
         return error
-    }
+    }, [validators])
     /*  const isValidForm = useMemo(() => {
          return Object.keys(errors).every((e) => !errors[e])
      }, [errors])
