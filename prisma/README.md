@@ -485,7 +485,6 @@ As entidades (tabelas) contidas no banco de dados são:
 - `specificMedicationPublicly`: String, pode ser nulo
 - `familyMember_id`: String, pode ser nulo
 - `candidate_id`: String, pode ser nulo
-Aqui estão todos os atributos dos modelos que você forneceu, juntamente com seus tipos e se são nulos ou não:
 
 ### **Announcement:**
 - `id`: String, não nulo
@@ -495,8 +494,8 @@ Aqui estão todos os atributos dos modelos que você forneceu, juntamente com se
 - `announcementNumber`: String, pode ser nulo
 - `announcementDate`: DateTime, pode ser nulo
 - `announcementBegin`: DateTime, pode ser nulo
-- `offeredVacancies`: Int, pode ser nulo
-- `verifiedScholarships`: Int, pode ser nulo
+- `offeredVacancies`: Int, pode ser nulo. Número de vagas totais (pode ser ignorado).
+- `verifiedScholarships`: Int, pode ser nulo. Número total de bolsas ofertadas.
 - `description`: String, pode ser nulo
 - `entity_id`: String, não nulo
 - `announcementName`: String, pode ser nulo
@@ -508,7 +507,7 @@ Aqui estão todos os atributos dos modelos que você forneceu, juntamente com se
 - `Application`: Array de Application, não nulo
 - `educationLevels`: Array de EducationLevel, não nulo
 - `ScholarshipGranted`: Array de ScholarshipGranted, não nulo
-- `timelines`: Array de Timeline, não nulo
+- `timelines`: Array de Timeline, não nulo. Linha do tempo do edital (caso desejado)
 - `socialAssistant`: Array de SocialAssistant, pode ser nulo
 
 ### **Timeline:**
@@ -522,16 +521,16 @@ Aqui estão todos os atributos dos modelos que você forneceu, juntamente com se
 ### **EducationLevel:**
 - `id`: String, não nulo
 - `level`: LevelType, não nulo
-- `basicEduType`: BasicEducationType, pode ser nulo
+- `basicEduType`: BasicEducationType, pode ser nulo. Ciclo da educação básica (caso seja edital de educação básica)
 - `scholarshipType`: ScholarshipOfferType, pode ser nulo
-- `higherEduScholarshipType`: HigherEducationScholarshipType, pode ser nulo
+- `higherEduScholarshipType`: HigherEducationScholarshipType, pode ser nulo. Apenas para educação superior
 - `offeredCourseType`: OfferedCourseType, pode ser nulo
-- `availableCourses`: String, pode ser nulo
-- `offeredVacancies`: Int, pode ser nulo
-- `verifiedScholarships`: Int, pode ser nulo
-- `shift`: SHIFT, pode ser nulo
-- `semester`: Int, pode ser nulo
-- `grade`: String, pode ser nulo
+- `availableCourses`: String, pode ser nulo. Qual o curso (caso seja ensino superior ou tecnico) que as vagas estão sendo ofertadas.
+- `offeredVacancies`: Int, pode ser nulo. **Pode ser ignorado**
+- `verifiedScholarships`: Int, pode ser nulo. Número de bolsas ofertadas para uma determinada vaga.
+- `shift`: SHIFT, pode ser nulo. Turno da vaga
+- `semester`: Int, pode ser nulo. Semestre da vaga (ensino superior ou tecnico)
+- `grade`: String, pode ser nulo. Ciclo/Série/Ano/Grau (ensino básico)
 - `announcementId`: String, não nulo
 - `Application`: Array de Application, não nulo
 - `announcement`: Announcement, não nulo
@@ -547,7 +546,7 @@ Aqui estão todos os atributos dos modelos que você forneceu, juntamente com se
 - `educationLevel_id`: String, não nulo
 - `candidateName`: String, pode ser nulo
 - `SocialAssistantName`: String, pode ser nulo
-- `number`: Int, não nulo
+- `number`: Int, não nulo. Número da inscrição
 - `announcement`: Announcement, não nulo
 - `candidate`: Candidate, não nulo
 - `EducationLevel`: EducationLevel, não nulo
@@ -560,9 +559,9 @@ Aqui estão todos os atributos dos modelos que você forneceu, juntamente com se
 ### **ApplicationHistory:**
 - `id`: String, não nulo
 - `application_id`: String, não nulo
-- `description`: String, não nulo
+- `description`: String, não nulo. Descrição da solicitação, feita no ato de criação.
 - `solicitation`: SolicitationType, pode ser nulo
-- `report`: String, pode ser nulo
+- `report`: String, pode ser nulo. Relatório acerca da soliticação
 - `answered`: Boolean, pode ser nulo
 - `deadLine`: DateTime, pode ser nulo
 - `date`: DateTime, não nulo
@@ -570,7 +569,7 @@ Aqui estão todos os atributos dos modelos que você forneceu, juntamente com se
 
 ### **ScholarshipGranted:**
 - `id`: String, não nulo
-- `gaveUp`: Boolean, não nulo
+- `gaveUp`: Boolean, não nulo. Indica se o candidato desistiu da vaga.
 - `ScholarshipCode`: String, pode ser nulo
 - `types`: Array de scholarshipGrantedType, não nulo
 - `application_id`: String, não nulo
@@ -825,6 +824,68 @@ Aqui estão todos os atributos dos modelos que você forneceu, juntamente com se
 - House_Apartment_Land
 - Other 
 
+### AnnouncementType
+- ScholarshipGrant
+- PeriodicVerification
+
+### LevelType
+- BasicEducation
+- HigherEducation
+
+### BasicEducationType
+- Preschool
+- Elementary
+- HighSchool
+- ProfessionalEducation
+
+### ScholarshipOfferType
+- Law187ScholarshipPartial
+- Law187Scholarship
+- StudentWithDisabilityPartial
+- StudentWithDisability
+- FullTimePartial
+- FullTime
+- EntityWorkersPartial
+- EntityWorkers
+
+### HigherEducationScholarshipType
+- PROUNIFull
+- PROUNIPartial
+- StateGovernment
+- StateGovernmentPartial
+- CityGovernment
+- CityGovernmentPartial
+- ExternalEntities
+- ExternalEntitiesPartial
+- HigherEduInstitutionFull
+- HigherEduInstitutionPartial
+- HigherEduInstitutionWorkers
+- HigherEduInstitutionWorkersPartial
+- PostgraduateStrictoSensu
+- PostgraduateStrictoSensuPartial
+
+### OfferedCourseType
+- UndergraduateBachelor
+- UndergraduateLicense
+- UndergraduateTechnologist
+
+### ApplicationStatus
+- Approved
+- Rejected
+- Pending
+- WaitingList
+
+### SolicitationType
+- Document
+- Interview
+- Visit
+
+### ScholarshipGrantedType
+- UNIFORM
+- TRANSPORT
+- FOOD
+- HOUSING
+- STUDY_MATERIAL
 ## Relações entre as tabelas:
 
 ### User:
@@ -881,7 +942,7 @@ Aqui estão todos os atributos dos modelos que você forneceu, juntamente com se
   - `FamilyMember`: Relação um para um, opcional.
   - `Candidate`: Relação um para um, opcional.
   
-  ### Expense
+### Expense
   - `Candidate`: Relação um para um, opcional.
   - `LegalResponsible`: Relação um para um, opcional.
 

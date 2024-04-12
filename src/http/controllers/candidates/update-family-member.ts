@@ -1,4 +1,3 @@
-import { FamilyMemberAlreadyExistsError } from '@/errors/family-member-already-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
@@ -158,12 +157,6 @@ export async function updateFamilyMemberInfo(
     workPhone: z.string().optional().nullable(),
     contactNameForMessage: z.string().optional().nullable(),
     email: z.string().email().optional().nullable(),
-    address: z.string(),
-    city: z.string(),
-    UF: COUNTRY,
-    CEP: z.string(),
-    neighborhood: z.string(),
-    addressNumber: z.string(),
     profession: z.string(),
     enrolledGovernmentProgram: z.boolean().optional().nullable(),
     NIS: z.string().optional().nullable(),
@@ -179,15 +172,11 @@ export async function updateFamilyMemberInfo(
   })
 
   const {
-    CEP,
     CPF,
     RG,
-    UF,
-    address,
-    addressNumber,
+
     birthDate,
     bookOfBirthRegister,
-    city,
     educationLevel,
     email,
     fullName,
@@ -196,7 +185,6 @@ export async function updateFamilyMemberInfo(
     nationality,
     natural_UF,
     natural_city,
-    neighborhood,
     numberOfBirthRegister,
     pageOfBirthRegister,
     profession,
@@ -235,7 +223,7 @@ export async function updateFamilyMemberInfo(
     const fetchFamilyMemberParamsSchema = z.object({
       _id: z.string(),
     })
-  
+
     const { _id } = fetchFamilyMemberParamsSchema.parse(request.params)
 
     if (!user_id) {
@@ -252,7 +240,7 @@ export async function updateFamilyMemberInfo(
     if (!await prisma.familyMember.findUnique({ where: { id: _id } })) {
       throw new ResourceNotFoundError()
     }
-   
+
 
     const dataToUpdate = {
       relationship,
@@ -271,12 +259,6 @@ export async function updateFamilyMemberInfo(
       religion,
       educationLevel,
       email,
-      address,
-      city,
-      UF,
-      CEP,
-      neighborhood,
-      addressNumber,
       profession,
       candidate_id: candidate.id,
       // Campos opcionais são adicionados condicionalmente
@@ -313,7 +295,7 @@ export async function updateFamilyMemberInfo(
       where: { id: _id }
     });
 
-  
+
     return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
