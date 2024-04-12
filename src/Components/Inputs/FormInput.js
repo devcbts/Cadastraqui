@@ -1,20 +1,20 @@
 import React from "react";
-export default function Input({ fieldName, label, error, ...props }) {
+export default function Input({ fieldName, name, label, error, ...props }) {
     return (
         <div class="survey-box" >
-            <label for={fieldName} id={`${fieldName}-label`}>
+            <label htmlFor={fieldName ?? name} id={`${fieldName ?? name}-label`}>
                 {label}
             </label>
             <br />
             <input
-                data-error={error && !!error[fieldName]}
+                data-error={error && !!error[fieldName ?? name]}
                 className="survey-control"
-                name={fieldName}
-                id={fieldName}
+                name={fieldName ?? name}
+                id={fieldName ?? name}
                 {...props}
             />
-            {(error && !!error[fieldName]) &&
-                <label style={{ fontSize: 12 }}>{error[fieldName]}</label>}
+            {(error && !!error[fieldName ?? name]) &&
+                <label style={{ fontSize: 12, color: "#ef3e36" }}>{error[fieldName ?? name]}</label>}
         </div>
     )
 }
