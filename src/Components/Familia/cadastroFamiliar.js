@@ -9,6 +9,11 @@ import { api } from "../../services/axios";
 import { formatCPF } from "../../utils/format-cpf";
 import { formatTelephone } from "../../utils/format-telephone";
 import { formatRG } from "../../utils/format-rg";
+import Input from "../Inputs/FormInput";
+import useForm from "../../hooks/useForm";
+import FormCheckbox from "../Inputs/FormCheckbox";
+import familyMemberInfoValidation from "./validators/family-member-info-validation";
+import FormSelect from "../Inputs/FormSelect";
 const Relationship = [
   { value: "Wife", label: "Esposa" },
   { value: "Husband", label: "Marido" },
@@ -151,7 +156,9 @@ const IncomeSource = [
   { value: "PrivatePension", label: "Previdência Privada" },
 ];
 export default function CadastroFamiliar() {
-  const [familyMember, setFamilyMember] = useState({
+
+
+  const [[familyMemberInfo], handleFamilyMemberInfo, familyMemberInfoErrors, submitFamilyMember] = useForm({
     relationship: "Wife", // deve ser inicializado com um dos valores do enum Relationship
     otherRelationship: "",
     fullName: "",
@@ -182,12 +189,6 @@ export default function CadastroFamiliar() {
     workPhone: "",
     contactNameForMessage: "",
     email: "",
-    /* address: "",
-    city: "",
-    UF: "AC", // deve ser inicializado com um dos valores do enum COUNTRY
-    CEP: "",
-    neighborhood: "",
-    addressNumber: "", // Iniciar com um número inteiro */
     profession: "",
     enrolledGovernmentProgram: false,
     NIS: "",
@@ -200,85 +201,74 @@ export default function CadastroFamiliar() {
     percentageOfScholarship: "300",
     monthlyAmount: "500",
     incomeSource: [],
-  });
+  }, familyMemberInfoValidation)
 
-  function handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
 
-    if (name === "CPF") {
-      const formattedCPF = formatCPF(value);
-      // Atualiza o valor no estado com o CPF formatado
-      setFamilyMember({ ...familyMember, CPF: formattedCPF });
-    } else {
-      // Para outros campos, apenas atualiza o valor
-      setFamilyMember({ ...familyMember, [name]: value });
-    }
-  }
 
   function handleInputChangeSelect(selectedOptions) {
     // Com react-select, selectedOptions é um array de objetos { value, label } ou null
     const values = selectedOptions
       ? selectedOptions.map((option) => option.value)
       : [];
-    setFamilyMember((prevState) => ({
+    /* setFamilyMember((prevState) => ({
       ...prevState,
       incomeSource: values,
-    }));
-    console.log(familyMember);
+    })); */
   }
 
   async function RegisterFamilyMember(e) {
     e.preventDefault();
+    if (!submitFamilyMember()) {
+      return
+    }
     const token = localStorage.getItem("token");
     try {
       const response = await api.post(
         "/candidates/family-member",
         {
-          relationship: familyMember.relationship, // deve ser inicializado com um dos valores do enum Relationship
-          otherRelationship: familyMember.otherRelationship || undefined,
-          fullName: familyMember.fullName,
-          socialName: familyMember.socialName || undefined,
-          birthDate: familyMember.birthDate,
-          gender: familyMember.gender, // deve ser inicializado com um dos valores do enum GENDER
-          nationality: familyMember.nationality,
-          natural_city: familyMember.natural_city,
-          natural_UF: familyMember.natural_UF, // deve ser inicializado com um dos valores do enum COUNTRY
-          CPF: familyMember.CPF, // deve ser inicializado com um,
-          RG: familyMember.RG, // deve ser inicializ,
-          rgIssuingAuthority: familyMember.rgIssuingAuthority,
-          rgIssuingState: familyMember.rgIssuingState, // deve ser inicializado com um dos valores do enum COUNTRY
-          documentType: familyMember.documentType || undefined, // deve ser inicializado com um dos valores do enum DOCUMENT_TYPE ou null
-          documentNumber: familyMember.documentNumber || undefined,
-          documentValidity: familyMember.documentValidity || undefined, // deve ser in
+          relationship: familyMemberInfo.relationship, // deve ser inicializado com um dos valores do enum Relationship
+          otherRelationship: familyMemberInfo.otherRelationship || undefined,
+          fullName: familyMemberInfo.fullName,
+          socialName: familyMemberInfo.socialName || undefined,
+          birthDate: familyMemberInfo.birthDate,
+          gender: familyMemberInfo.gender, // deve ser inicializado com um dos valores do enum GENDER
+          nationality: familyMemberInfo.nationality,
+          natural_city: familyMemberInfo.natural_city,
+          natural_UF: familyMemberInfo.natural_UF, // deve ser inicializado com um dos valores do enum COUNTRY
+          CPF: familyMemberInfo.CPF, // deve ser inicializado com um,
+          RG: familyMemberInfo.RG, // deve ser inicializ,
+          rgIssuingAuthority: familyMemberInfo.rgIssuingAuthority,
+          rgIssuingState: familyMemberInfo.rgIssuingState, // deve ser inicializado com um dos valores do enum COUNTRY
+          documentType: familyMemberInfo.documentType || undefined, // deve ser inicializado com um dos valores do enum DOCUMENT_TYPE ou null
+          documentNumber: familyMemberInfo.documentNumber || undefined,
+          documentValidity: familyMemberInfo.documentValidity || undefined, // deve ser in
           numberOfBirthRegister:
-            familyMember.numberOfBirthRegister || undefined,
-          bookOfBirthRegister: familyMember.bookOfBirthRegister || undefined,
-          pageOfBirthRegister: familyMember.pageOfBirthRegister || undefined,
-          maritalStatus: familyMember.maritalStatus, // deve ser inicializado com um dos valores do enum MARITAL_STATUS
-          skinColor: familyMember.skinColor, // deve ser inicializado com um dos valores do enum SkinColor
-          religion: familyMember.religion, // deve ser inicializado com um dos valores do enum RELIGION
-          educationLevel: familyMember.educationLevel, // deve ser inicializado com um dos valores do enum SCHOLARSHIP
-          specialNeeds: familyMember.specialNeeds,
+            familyMemberInfo.numberOfBirthRegister || undefined,
+          bookOfBirthRegister: familyMemberInfo.bookOfBirthRegister || undefined,
+          pageOfBirthRegister: familyMemberInfo.pageOfBirthRegister || undefined,
+          maritalStatus: familyMemberInfo.maritalStatus, // deve ser inicializado com um dos valores do enum MARITAL_STATUS
+          skinColor: familyMemberInfo.skinColor, // deve ser inicializado com um dos valores do enum SkinColor
+          religion: familyMemberInfo.religion, // deve ser inicializado com um dos valores do enum RELIGION
+          educationLevel: familyMemberInfo.educationLevel, // deve ser inicializado com um dos valores do enum SCHOLARSHIP
+          specialNeeds: familyMemberInfo.specialNeeds,
           specialNeedsDescription:
-            familyMember.specialNeedsDescription || undefined,
-          hasMedicalReport: familyMember.hasMedicalReport,
-          landlinePhone: familyMember.landlinePhone || undefined,
-          workPhone: familyMember.workPhone || undefined,
+            familyMemberInfo.specialNeedsDescription || undefined,
+          hasMedicalReport: familyMemberInfo.hasMedicalReport,
+          landlinePhone: familyMemberInfo.landlinePhone || undefined,
+          workPhone: familyMemberInfo.workPhone || undefined,
           contactNameForMessage:
-            familyMember.contactNameForMessage || undefined,
-          email: familyMember.email || undefined,
-          /* address: familyMember.address,
-          city: familyMember.city,
-          UF: familyMember.UF, // deve ser inicializado com um dos valores do enum COUNTRY
-          CEP: familyMember.CEP,
-          neighborhood: familyMember.neighborhood,
-          addressNumber: familyMember.addressNumber, // Iniciar com um número inteiro */
-          profession: familyMember.profession,
-          enrolledGovernmentProgram: familyMember.enrolledGovernmentProgram,
-          NIS: familyMember.NIS || undefined,
-          incomeSource: familyMember.incomeSource,
+            familyMemberInfo.contactNameForMessage || undefined,
+          email: familyMemberInfo.email || undefined,
+          /* address: familyMemberInfo.address,
+          city: familyMemberInfo.city,
+          UF: familyMemberInfo.UF, // deve ser inicializado com um dos valores do enum COUNTRY
+          CEP: familyMemberInfo.CEP,
+          neighborhood: familyMemberInfo.neighborhood,
+          addressNumber: familyMemberInfo.addressNumber, // Iniciar com um número inteiro */
+          profession: familyMemberInfo.profession,
+          enrolledGovernmentProgram: familyMemberInfo.enrolledGovernmentProgram,
+          NIS: familyMemberInfo.NIS || undefined,
+          incomeSource: familyMemberInfo.incomeSource,
         },
         {
           headers: {
@@ -300,593 +290,321 @@ export default function CadastroFamiliar() {
     <div>
       <div className="fill-box">
         <form id="survey-form">
-          <div class="survey-box">
-            <label for="relationship" id="relationship-label">
-              Relação:
-            </label>
-            <br />
-            <select
-              name="relationship"
-              value={familyMember.relationship}
-              onChange={handleInputChange}
-              id="relationship"
-              class="select-data"
-            >
-              {Relationship.map((type) => (
-                <option value={type.value}>{type.label}</option>
-              ))}
-            </select>
-          </div>
-          {familyMember.relationship === "Other" && (
-            <div class="survey-box">
-              <label for="otherRelationship" id="otherRelationship-label">
-                Tipo de Relação:
-              </label>
-              <br />
-              <input
-                type="text"
-                name="otherRelationship"
-                value={familyMember.otherRelationship}
-                onChange={handleInputChange}
-                id="otherRelationship"
-                class="survey-control"
-                required
-              />
-            </div>
+          <FormSelect
+            label="Relação"
+            name="relationship"
+            options={Relationship}
+            value={familyMemberInfo.relationship}
+            onChange={handleFamilyMemberInfo}
+            error={familyMemberInfoErrors}
+          />
+
+          {familyMemberInfo.relationship === "Other" && (
+            <Input
+              name="otherRelationship"
+              label="Tipo de Relação"
+              value={familyMemberInfo.otherRelationship}
+              onChange={handleFamilyMemberInfo}
+              error={familyMemberInfoErrors}
+            />
           )}
-          <div class="survey-box">
-            <label for="fullName" id="fullName-label">
-              Nome Civil Completo:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="fullName"
-              value={familyMember.fullName}
-              onChange={handleInputChange}
-              id="fullName"
-              class="survey-control"
-              required
-            />
-          </div>
 
-          <div class="survey-box">
-            <label for="socialName" id="socialName-label">
-              Nome Social, quando aplicável:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="socialName"
-              value={familyMember.socialName}
-              onChange={handleInputChange}
-              id="socialName"
-              class="survey-control"
-            />
-          </div>
+          <Input
+            name="fullName"
+            label="Nome Civil Completo"
+            value={familyMemberInfo.fullName}
+            onChange={handleFamilyMemberInfo}
+            error={familyMemberInfoErrors}
+          />
+          <Input
+            name="socialName"
+            label="Nome Social (quando aplicável)"
+            value={familyMemberInfo.socialName}
+            onChange={handleFamilyMemberInfo}
+            error={familyMemberInfoErrors}
+          />
+          <Input
+            name="birthDate"
+            label="Data de Nascimento"
+            value={familyMemberInfo.birthDate}
+            onChange={handleFamilyMemberInfo}
+            error={familyMemberInfoErrors}
+            type="date"
+          />
+          <FormSelect
+            label="Sexo"
+            name="gender"
+            value={familyMemberInfo.gender}
+            onChange={handleFamilyMemberInfo}
+            options={GENDER}
+            error={familyMemberInfoErrors}
+          />
 
-          <div class="survey-box">
-            <label for="birthDate" id="birthDate-label">
-              Data de Nascimento:
-            </label>
-            <br />
-            <input
-              type="date"
-              name="birthDate"
-              value={familyMember.birthDate}
-              onChange={handleInputChange}
-              id="birthDate"
-              class="survey-control"
-              required
-            />
-          </div>
+          <Input
+            name="nationality"
+            label="Nacionalidade"
+            value={familyMemberInfo.nationality}
+            onChange={handleFamilyMemberInfo}
+            error={familyMemberInfoErrors}
+          />
+          <Input
+            name="natural_city"
+            label="Cidade Natal"
+            value={familyMemberInfo.natural_city}
+            onChange={handleFamilyMemberInfo}
+            error={familyMemberInfoErrors}
+          />
+          <FormSelect
+            label="Unidade Federativa"
+            name="natural_UF"
+            value={familyMemberInfo.natural_UF}
+            onChange={handleFamilyMemberInfo}
+            options={COUNTRY}
+            error={familyMemberInfoErrors}
+          />
 
-          <div class="survey-box">
-            <label for="gender" id="gender-label">
-              Sexo:
-            </label>
-            <br />
-            <select
-              name="gender"
-              id="gender"
-              value={familyMember.gender}
-              onChange={handleInputChange}
-              class="select-data"
-              required
-            >
-              {GENDER.map((type) => (
-                <option value={type.value}>{type.label}</option>
-              ))}
-            </select>
-          </div>
+          <Input
+            name="CPF"
+            label="CPF"
+            value={formatCPF(familyMemberInfo.CPF)}
+            onChange={handleFamilyMemberInfo}
+            error={familyMemberInfoErrors}
+          />
+          <Input
+            name="RG"
+            label="Nº de RG"
+            value={formatRG(familyMemberInfo.RG)}
+            onChange={handleFamilyMemberInfo}
+            error={familyMemberInfoErrors}
+          />
+          <Input
+            name="rgIssuingAuthority"
+            label="Órgão Emissor do RG"
+            value={familyMemberInfo.rgIssuingAuthority}
+            onChange={handleFamilyMemberInfo}
+            error={familyMemberInfoErrors}
+          />
+          <FormSelect
+            label="Estado do Órgão Emissor do RG"
+            name="rgIssuingState"
+            value={familyMemberInfo.rgIssuingState}
+            onChange={handleFamilyMemberInfo}
+            options={COUNTRY}
+            error={familyMemberInfoErrors}
+          />
 
-          <div class="survey-box">
-            <label for="nationality" id="nationality-label">
-              Nacionalidade:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="nationality"
-              onChange={handleInputChange}
-              value={familyMember.nationality}
-              id="nationality"
-              class="survey-control"
-              required
-            />
-          </div>
-
-          <div class="survey-box">
-            <label for="natural_city" id="natural_city-label">
-              Cidade Natal:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="natural_city"
-              value={familyMember.natural_city}
-              onChange={handleInputChange}
-              id="natural_city"
-              class="survey-control"
-              required
-            />
-          </div>
-
-          <div class="survey-box">
-            <label for="natural_UF" id="natural_UF-label">
-              Unidade Federativa:
-            </label>
-            <br />
-            <select
-              name="natural_UF"
-              onChange={handleInputChange}
-              value={familyMember.natural_UF}
-              id="natural_UF"
-              class="select-data"
-            >
-              {COUNTRY.map((type) => (
-                <option value={type.value}>{type.label}</option>
-              ))}
-            </select>
-          </div>
-
-          <div class="survey-box">
-            <label for="CPF" id="CPF-label">
-              CPF:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="CPF"
-              value={formatCPF(familyMember.CPF)}
-              onChange={handleInputChange}
-              id="CPF"
-              class="survey-control"
-              required
-            />
-          </div>
-
-          <div class="survey-box">
-            <label for="RG" id="RG-label">
-              Nº de RG:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="RG"
-              value={formatRG(familyMember.RG)}
-              onChange={handleInputChange}
-              id="RG"
-              class="survey-control"
-              required
-            />
-          </div>
-
-          <div class="survey-box">
-            <label for="rgIssuingAuthority" id="rgIssuingAuthority-label">
-              Órgão Emissor do RG:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="rgIssuingAuthority"
-              value={familyMember.rgIssuingAuthority}
-              onChange={handleInputChange}
-              id="rgIssuingAuthority"
-              class="survey-control"
-              required
-            />
-          </div>
-
-          <div class="survey-box">
-            <label for="rgIssuingState" id="rgIssuingState-label">
-              Estado do Órgão Emissor do RG:
-            </label>
-            <br />
-            <select
-              name="rgIssuingState"
-              value={familyMember.rgIssuingState}
-              onChange={handleInputChange}
-              id="rgIssuingState"
-              class="select-data"
-            >
-              {COUNTRY.map((type) => (
-                <option value={type.value}>{type.label}</option>
-              ))}
-            </select>
-          </div>
-          {!familyMember.RG && (
+          {!familyMemberInfo.RG && (
             <div>
-              <div class="survey-box">
-                <label for="documentType" id="documentType-label">
-                  Tipo de Documento Adicional:
-                </label>
-                <br />
-                <select
-                  name="documentType"
-                  onChange={handleInputChange}
-                  value={familyMember.documentType}
-                  id="documentType"
-                  class="select-data"
-                >
-                  {DOCUMENT_TYPE.map((type) => (
-                    <option value={type.value}>{type.label}</option>
-                  ))}
-                </select>
-              </div>
+              <FormSelect
+                label="Tipo de Documento Adicional"
+                name="documentType"
+                value={familyMemberInfo.documentType}
+                onChange={handleFamilyMemberInfo}
+                options={DOCUMENT_TYPE}
+                error={familyMemberInfoErrors}
+              />
 
-              <div class="survey-box">
-                <label for="documentNumber" id="documentNumber-label">
-                  Número do Documento:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="documentNumber"
-                  value={familyMember.documentNumber}
-                  onChange={handleInputChange}
-                  id="documentNumber"
-                  class="survey-control"
-                />
-              </div>
 
-              <div class="survey-box">
-                <label for="documentValidity" id="documentValidity-label">
-                  Data de Validade:
-                </label>
-                <br />
-                <input
-                  type="date"
-                  name="documentValidity"
-                  value={familyMember.documentValidity}
-                  onChange={handleInputChange}
-                  id="documentValidity"
-                  class="survey-control"
-                />
-              </div>
+              <Input
+                name="documentNumber"
+                label="Número do Documento"
+                value={familyMemberInfo.documentNumber}
+                onChange={handleFamilyMemberInfo}
+                error={familyMemberInfoErrors}
+              />
+              <Input
+                name="documentValidity"
+                label="Data de Validade"
+                value={familyMemberInfo.documentValidity}
+                onChange={handleFamilyMemberInfo}
+                error={familyMemberInfoErrors}
+                type="date"
+              />
+
+
+
 
               {/*<!-- Número do Registro de Nascimento -->*/}
-              <div class="survey-box">
-                <label
-                  for="numberOfBirthRegister"
-                  id="numberOfBirthRegister-label"
-                >
-                  Nº do Registro de Nascimento:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="numberOfBirthRegister"
-                  onChange={handleInputChange}
-                  value={familyMember.numberOfBirthRegister}
-                  id="numberOfBirthRegister"
-                  class="survey-control"
-                  required
-                />
-              </div>
+              <Input
+                name="numberOfBirthRegister"
+                label="Nº do Registro de Nascimento"
+                value={familyMemberInfo.numberOfBirthRegister}
+                onChange={handleFamilyMemberInfo}
+                error={familyMemberInfoErrors}
+              />
+
 
               {/*<!-- Livro do Registro de Nascimento -->*/}
-              <div class="survey-box">
-                <label for="bookOfBirthRegister" id="bookOfBirthRegister-label">
-                  Livro do Registro de Nascimento:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="bookOfBirthRegister"
-                  onChange={handleInputChange}
-                  value={familyMember.bookOfBirthRegister}
-                  id="bookOfBirthRegister"
-                  class="survey-control"
-                  required
-                />
-              </div>
+              <Input
+                name="bookOfBirthRegister"
+                label="Livro do Registro de Nascimento"
+                value={familyMemberInfo.bookOfBirthRegister}
+                onChange={handleFamilyMemberInfo}
+                error={familyMemberInfoErrors}
+              />
+
 
               {/*<!-- Página do Registro de Nascimento -->*/}
-              <div class="survey-box">
-                <label for="pageOfBirthRegister" id="pageOfBirthRegister-label">
-                  Página do Registro de Nascimento:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="pageOfBirthRegister"
-                  onChange={handleInputChange}
-                  value={familyMember.pageOfBirthRegister}
-                  id="pageOfBirthRegister"
-                  class="survey-control"
-                  required
-                />
-              </div>
+              <Input
+                name="pageOfBirthRegister"
+                label="Página do Registro de Nascimento"
+                value={familyMemberInfo.pageOfBirthRegister}
+                onChange={handleFamilyMemberInfo}
+                error={familyMemberInfoErrors}
+              />
+
             </div>
           )}
           <h2>Dados básicos</h2>
           {/*<!-- Estado Civil -->*/}
-          <div class="survey-box">
-            <label for="maritalStatus" id="maritalStatus-label">
-              Estado Civil:
-            </label>
-            <br />
-            <select
-              name="maritalStatus"
-              value={familyMember.maritalStatus}
-              onChange={handleInputChange}
-              id="maritalStatus"
-              class="select-data"
-            >
-              {MARITAL_STATUS.map((type) => (
-                <option value={type.value}>{type.label}</option>
-              ))}
-            </select>
-          </div>
+          <FormSelect
+            label="Estado Civil"
+            name="maritalStatus"
+            value={familyMemberInfo.maritalStatus}
+            onChange={handleFamilyMemberInfo}
+            options={MARITAL_STATUS}
+            error={familyMemberInfoErrors}
+          />
+
+
 
           {/*<!-- Cor da Pele -->*/}
-          <div class="survey-box">
-            <label for="skinColor" id="skinColor-label">
-              Cor ou Raça:
-            </label>
-            <br />
-            <select
-              name="skinColor"
-              onChange={handleInputChange}
-              value={familyMember.skinColor}
-              id="skinColor"
-              class="select-data"
-            >
-              <option value="">Selecione</option>
-              {SkinColor.map((type) => (
-                <option value={type.value}>{type.label}</option>
-              ))}
-            </select>
-          </div>
+          <FormSelect
+            label="Cor ou Raça"
+            name="skinColor"
+            value={familyMemberInfo.skinColor}
+            onChange={handleFamilyMemberInfo}
+            options={SkinColor}
+            error={familyMemberInfoErrors}
+          />
+
 
           {/*<!-- Religião -->*/}
-          <div class="survey-box">
-            <label for="religion" id="religion-label">
-              Religião:
-            </label>
-            <br />
-            <select
-              name="religion"
-              value={familyMember.religion}
-              onChange={handleInputChange}
-              id="religion"
-              class="select-data"
-            >
-              {RELIGION.map((type) => (
-                <option value={type.value}>{type.label}</option>
-              ))}
-            </select>
-          </div>
+          <FormSelect
+            label="Religião"
+            name="religion"
+            value={familyMemberInfo.religion}
+            onChange={handleFamilyMemberInfo}
+            options={RELIGION}
+            error={familyMemberInfoErrors}
+          />
+
 
           {/*<!-- Nível de Educação -->*/}
-          <div class="survey-box">
-            <label for="educationLevel" id="educationLevel-label">
-              Nível de Educação:
-            </label>
-            <br />
-            <select
-              name="educationLevel"
-              onChange={handleInputChange}
-              value={familyMember.educationLevel}
-              id="educationLevel"
-              class="select-data"
-            >
-              {SCHOLARSHIP.map((type) => (
-                <option value={type.value}>{type.label}</option>
-              ))}
-            </select>
-          </div>
+          <FormSelect
+            label="Nível de Educação"
+            name="educationLevel"
+            value={familyMemberInfo.educationLevel}
+            onChange={handleFamilyMemberInfo}
+            options={SCHOLARSHIP}
+            error={familyMemberInfoErrors}
+          />
+
 
           {/*<!-- Necessidades Especiais -->*/}
-          <div class="survey-box survey-check">
-            <label for="specialNeeds" id="specialNeeds-label">
-              Necessidades Especiais:
-            </label>
-            <br />
-            <p className="onoff">
+          <FormCheckbox
+            label="Necessidades Especiais"
+            name="specialNeeds"
+            onChange={handleFamilyMemberInfo}
+            value={familyMemberInfo.specialNeeds}
+          />
 
-              <input
-                type="checkbox"
-                name="specialNeeds"
-                onChange={handleInputChange}
-                value={familyMember.specialNeeds}
-                id="checkboxID"
-              />
-              <label htmlFor="checkboxID" id="yesno"></label>
-            </p>
-          </div>
-          {familyMember.specialNeeds && (
+          {familyMemberInfo.specialNeeds && (
             <>
               {/*<!-- Descrição das Necessidades Especiais -->*/}
-              <div class="survey-box">
-                <label
-                  for="specialNeedsDescription"
-                  id="specialNeedsDescription-label"
-                >
-                  Descrição das Necessidades Especiais:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="specialNeedsDescription"
-                  onChange={handleInputChange}
-                  value={familyMember.specialNeedsDescription}
-                  id="specialNeedsDescription"
-                  class="survey-control"
-                />
-              </div>
+              <Input
+                name="specialNeedsDescription"
+                label="Descrição das Necessidades Especiais"
+                value={familyMemberInfo.specialNeedsDescription}
+                onChange={handleFamilyMemberInfo}
+                error={familyMemberInfoErrors}
+              />
+
 
               {/*<!-- Tem relatório médico -->*/}
-              <div class="survey-box">
-                <label for="hasMedicalReport" id="hasMedicalReport-label">
-                  Possui relatório médico:
-                </label>
-                <br />
-                <p className="onoff">
+              <FormCheckbox
+                label="Possui relatório médico"
+                name="hasMedicalReport"
+                onChange={handleFamilyMemberInfo}
+                value={familyMemberInfo.hasMedicalReport}
+              />
 
-                  <input
-                    type="checkbox"
-                    name="hasMedicalReport"
-                    onChange={handleInputChange}
-                    value={familyMember.hasMedicalReport}
-                    id="checkboxID2"
-                    class="survey-control"
-
-                  />
-                  <label htmlFor="checkboxID2" id="yesno"></label>
-
-                </p>
-              </div>
             </>
           )}
 
           {/*<!-- Telefone Fixo -->*/}
-          <div class="survey-box">
-            <label for="landlinePhone" id="landlinePhone-label">
-              Telefone Fixo:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="landlinePhone"
-              onChange={handleInputChange}
-              value={formatTelephone(familyMember.landlinePhone)}
-              id="landlinePhone"
-              class="survey-control"
-            />
-          </div>
+          <Input
+            name="landlinePhone"
+            label="Telefone Fixo"
+            value={formatTelephone(familyMemberInfo.landlinePhone)}
+            onChange={handleFamilyMemberInfo}
+            error={familyMemberInfoErrors}
+          />
+
 
           {/*<!-- Telefone de Trabalho -->*/}
-          <div class="survey-box">
-            <label for="workPhone" id="workPhone-label">
-              {" "}
-              Telefone de trabalho/recado:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="workPhone"
-              onChange={handleInputChange}
-              value={formatTelephone(familyMember.workPhone)}
-              id="workPhone"
-              class="survey-control"
-            />
-          </div>
+          <Input
+            name="workPhone"
+            label="Telefone de trabalho/recado"
+            value={formatTelephone(familyMemberInfo.workPhone)}
+            onChange={handleFamilyMemberInfo}
+            error={familyMemberInfoErrors}
+          />
+
 
           {/*<!-- Nome para Contato -->*/}
-          <div class="survey-box">
-            <label for="contactNameForMessage" id="contactNameForMessage-label">
-              Nome para Contato:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="contactNameForMessage"
-              onChange={handleInputChange}
-              value={familyMember.contactNameForMessage}
-              id="contactNameForMessage"
-              class="survey-control"
-            />
-          </div>
+          <Input
+            name="contactNameForMessage"
+            label="Nome para Contato"
+            value={familyMemberInfo.contactNameForMessage}
+            onChange={handleFamilyMemberInfo}
+            error={familyMemberInfoErrors}
+          />
+
 
           {/*<!-- Email -->*/}
-          <div class="survey-box">
-            <label for="email" id="email-label">
-              Email:
-            </label>
-            <br />
-            <input
-              type="email"
-              name="email"
-              value={familyMember.email}
-              onChange={handleInputChange}
-              id="email"
-              class="survey-control"
-              required
-            />
-          </div>
+          <Input
+            name="email"
+            label="Email"
+            value={familyMemberInfo.email}
+            onChange={handleFamilyMemberInfo}
+            error={familyMemberInfoErrors}
+            type="email"
+          />
+
 
 
           {/*<!-- Profissão -->*/}
-          <div class="survey-box">
-            <label for="profession" id="profession-label">
-              Profissão:
-            </label>
-            <br />
-            <input
-              type="text"
-              name="profession"
-              value={familyMember.profession}
-              onChange={handleInputChange}
-              id="profession"
-              class="survey-control"
-              required
-            />
-          </div>
+          <Input
+            name="profession"
+            label="Profissão"
+            value={familyMemberInfo.profession}
+            onChange={handleFamilyMemberInfo}
+            error={familyMemberInfoErrors}
+          />
+
 
           {/*<!-- Inscrito em Programa Governamental -->*/}
-          <div class="survey-box">
-            <label
-              for="enrolledGovernmentProgram"
-              id="enrolledGovernmentProgram-label"
-            >
-              Inscrito em Programa Governamental:
-            </label>
-            <br />
-            <p className="onoff">
+          <FormCheckbox
+            label="Inscrito em Programa Governamental"
+            name="enrolledGovernmentProgram"
+            onChange={handleFamilyMemberInfo}
+            value={familyMemberInfo.enrolledGovernmentProgram}
+          />
 
-              <input
-                type="checkbox"
-                name="enrolledGovernmentProgram"
-                value={familyMember.enrolledGovernmentProgram}
-                onChange={handleInputChange}
-                id="enrolledGovernmentProgram"
-                class="survey-control"
-              />
-              <label htmlFor="enrolledGovernmentProgram" id="yesno"></label>
 
-            </p>
-          </div>
-
-          {familyMember.enrolledGovernmentProgram === true && (
-            <div>
+          {familyMemberInfo.enrolledGovernmentProgram === true && (
+            <>
               {/*<!-- NIS -->*/}
-              <div class="survey-box">
-                <label for="NIS" id="NIS-label">
-                  NIS:
-                </label>
-                <br />
-                <input
-                  type="text"
-                  name="NIS"
-                  value={familyMember.NIS}
-                  onChange={handleInputChange}
-                  id="NIS"
-                  class="survey-control"
-                />
-              </div>
-            </div>
+              <Input
+                name="NIS"
+                label="NIS"
+                value={familyMemberInfo.NIS}
+                onChange={handleFamilyMemberInfo}
+                error={familyMemberInfoErrors}
+              />
+
+            </>
           )}
           <div class="survey-box">
             <label for="incomeSource" id="incomeSource-label">
@@ -897,16 +615,15 @@ export default function CadastroFamiliar() {
             <Select
               name="incomeSource"
               isMulti
-              onChange={handleInputChangeSelect}
+              onChange={(values) => handleFamilyMemberInfo({ target: { name: "incomeSource", value: values.map(e => e.value) } })}
               value={IncomeSource.filter((obj) =>
-                familyMember.incomeSource.includes(obj.value)
+                familyMemberInfo.incomeSource.includes(obj.value)
               )}
               options={IncomeSource}
               className="select-data"
               id="incomeSource"
-              // Se você quiser que o campo seja desabilitado, mantenha a próxima linha
-              isDisabled={false} // Se for verdadeiro, o campo estará desabilitado
             />
+            {familyMemberInfoErrors["incomeSource"] && <label>{familyMemberInfoErrors["incomeSource"]}</label>}
           </div>
 
           <div class="survey-box">
