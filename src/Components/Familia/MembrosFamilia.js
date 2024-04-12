@@ -5,6 +5,7 @@ import VerFamiliar from "./verFamiliar.js";
 import Select from "react-select";
 import LoadingCadastroCandidato from "../Loading/LoadingCadastroCandidato.js";
 import "./MembrosFamilia.css";
+import Swal from "sweetalert2";
 
 export default function MembrosFamilia() {
   //Visualização de dados
@@ -66,6 +67,33 @@ export default function MembrosFamilia() {
     pegarMembros();
   }, []);
 
+  const handleDeleteMember = async (memberId) => {
+    const result = await Swal.fire({
+      title: 'Tem certeza?',
+      text: "Você não poderá reverter isso!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Excluir',
+      cancelButtonText: 'Cancelar'
+    })
+    try {
+
+      const isDeleting = result.isConfirmed;
+      if (isDeleting) {
+        await api.delete('/candidates/family-member', { params: { id: memberId } })
+      }
+      setMembros((prevState) => [...prevState].filter((e) => e.id !== memberId))
+      setMembroSelecionado(null)
+    } catch (err) {
+      Swal.fire({
+        title: 'Erro',
+        text: err.response.data.message,
+        icon: 'error'
+      })
+    }
+  }
   return (
     <div className="family-add">
       {mostrarCadastro && (
@@ -79,7 +107,7 @@ export default function MembrosFamilia() {
       )}
 
       {!mostrarCadastro && membroSelecionado ? (
-        <VerFamiliar familyMember={membroSelecionado} />
+        <VerFamiliar familyMember={membroSelecionado} onDelete={handleDeleteMember} />
       ) : !membros && (
         <div>{len == 0 && <LoadingCadastroCandidato />}</div>
       )}
