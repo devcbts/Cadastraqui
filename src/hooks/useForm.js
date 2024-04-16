@@ -23,7 +23,6 @@ export default function useForm(defaultValue = {}, validator = []) {
             if (error) setErrors((prevState) => ({ ...prevState, [field]: error }))
             else setErrors((prevState) => ({ ...prevState, [field]: '' }))
         }
-        console.log(field, error)
         return error
     }, [validators])
     /*  const isValidForm = useMemo(() => {
