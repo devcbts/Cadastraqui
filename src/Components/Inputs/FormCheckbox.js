@@ -1,7 +1,9 @@
-export default function FormCheckbox({ name, label, ...props }) {
+import { forwardRef } from "react"
+
+const FormCheckbox = forwardRef(({ name, label, ...props }, ref) => {
     return (
         <div class="survey-box">
-            <label htmlFor={name} id={`${name}-label`}>
+            <label id={`${name}-label`}>
                 {label}
             </label>
             <br />
@@ -10,14 +12,16 @@ export default function FormCheckbox({ name, label, ...props }) {
                 <input
                     type="checkbox"
                     name={name}
-                    id={`${name}-checkbox`}
+                    id={name}
                     class="survey-control"
+                    ref={ref}
                     {...props}
 
                 />
-                <label htmlFor={`${name}-checkbox`} id="yesno"></label>
+                <label htmlFor={name} id="yesno"></label>
 
             </p>
         </div>
     )
-}
+})
+export default FormCheckbox
