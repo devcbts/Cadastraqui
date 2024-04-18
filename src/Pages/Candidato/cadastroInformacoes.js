@@ -195,10 +195,10 @@ export default function CadastroInfo() {
       </div>
       <div className="container-info">
         <MultiStep
-        
+
           activeStep={0}
           className="multi-step"
-          
+
           stepCustomStyle={{
             fontSize: 0.8 + "rem",
             margin: "auto",
@@ -222,7 +222,7 @@ export default function CadastroInfo() {
           <HousingInfoDiv title="Moradia"></HousingInfoDiv>
           <VehicleInfoDiv title="Veículo"></VehicleInfoDiv>
           <EarningInfoDiv title="Renda"></EarningInfoDiv>
-          <BudgetInfoDiv title="Despesas"></BudgetInfoDiv>
+          <BudgetInfoDiv title="Gastos"></BudgetInfoDiv>
           <HealthInfoDiv title="Saúde"></HealthInfoDiv>
           <DocumentsInfoDiv title="Documentos"></DocumentsInfoDiv>
           <DeclarationsInfoDiv title="Declarações"></DeclarationsInfoDiv>
