@@ -249,6 +249,8 @@ export async function registerFamilyMemberInfo(
         where: { CPF, candidate_id: responsible?.id },
       })
     ) {
+      console.log('foi aqui')
+
       throw new ResourceNotFoundError()
     }
     if (

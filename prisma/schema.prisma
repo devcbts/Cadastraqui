@@ -346,6 +346,7 @@ model FamilyMemberIncome {
   firstParcelDate       DateTime?
   parcelValue           Float?
   familyMember_id       String?
+  quantity              Int            @default(3)
   familyMember          FamilyMember?  @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
   candidate             Candidate?     @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id          String?
@@ -353,8 +354,7 @@ model FamilyMemberIncome {
 
 model MonthlyIncome {
   id                        String        @id @default(uuid())
-  month                     String
-  year                      String
+  date                      DateTime      @default(now())
   grossAmount               Float?
   liquidAmount              Float?
   proLabore                 Float?

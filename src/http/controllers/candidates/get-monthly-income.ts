@@ -45,11 +45,18 @@ export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: F
     const monthlyIncomes = await prisma.monthlyIncome.findMany({
       where: idField,
     });
-
+    if (monthlyIncomes.length === 0) {
+      const isUnemployed = await prisma.familyMemberIncome.findFirst({
+        where: idField
+      })
+      if (isUnemployed) {
+        return reply.status(200).send({ incomeBySource: { [isUnemployed.employmentType]: [] } })
+      }
+    }
     type IncomeBySourceAccumulator = Record<string, typeof monthlyIncomes>;
 
     const incomeBySource = monthlyIncomes.reduce<IncomeBySourceAccumulator>((acc, income) => {
-      const source =  income.incomeSource ? income.incomeSource : 'Unknown';
+      const source = income.incomeSource ? income.incomeSource : 'Unknown';
       acc[source] = acc[source] || [];
       acc[source].push(income);
       return acc;

@@ -37,6 +37,7 @@ import { registerLoanInfo } from './register-loan-info'
 import { registerMedicationInfo } from './register-medication-info'
 import { registerMEIInfo } from './register-MEI-info'
 import { registerMonthlyIncomeInfo } from './register-monthly-income-info'
+import { registerUnemployedInfo } from './register-unemployed-info'
 import { registerVehicleInfo } from './register-vehicle-info'
 import { updateBasicInfo } from './update-basic-info'
 import { updateCreditCardInfo } from './update-credit-card-info'
@@ -91,6 +92,11 @@ export async function candidateRoutes(app: FastifyInstance) {
     '/family-member/income/:_id',
     { onRequest: [verifyJWT] },
     registerMonthlyIncomeInfo,
+  )
+  app.post(
+    '/family-member/unemployed/:_id',
+    { onRequest: [verifyJWT] },
+    registerUnemployedInfo,
   )
   app.patch(
     '/family-info/:_id',

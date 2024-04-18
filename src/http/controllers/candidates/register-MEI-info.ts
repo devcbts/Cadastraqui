@@ -9,6 +9,7 @@ export async function registerMEIInfo(
   reply: FastifyReply,
 ) {
   const MEIDataSchema = z.object({
+    quantity: z.number(),
     startDate: z.string(),
     CNPJ: z.string(),
   })
@@ -20,7 +21,7 @@ export async function registerMEIInfo(
   // _id === family_member_id
   const { _id } = MEIParamsSchema.parse(request.params)
 
-  const { CNPJ, startDate } = MEIDataSchema.parse(request.body)
+  const { CNPJ, startDate, quantity } = MEIDataSchema.parse(request.body)
 
   try {
     const user_id = request.user.sub
@@ -28,7 +29,7 @@ export async function registerMEIInfo(
     // Verifica se existe um candidato associado ao user_id
     // Verifica se existe um candidato associado ao user_id
     const responsible = await prisma.legalResponsible.findUnique({
-      where: {user_id}
+      where: { user_id }
     })
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
     if (!candidate && !responsible) {
@@ -37,9 +38,9 @@ export async function registerMEIInfo(
 
     // Verifica se o cadastro é para o candidato
     const isCandidate = await prisma.candidate.findUnique({
-      where: {id: _id}
+      where: { id: _id }
     })
-    
+
     const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
 
     const monthlyIncomes = await prisma.monthlyIncome.findMany({
@@ -55,11 +56,12 @@ export async function registerMEIInfo(
     // Calcula a média apenas com os incomes válidos
     const avgIncome = validIncomes.length > 0 ? totalAmount / validIncomes.length : 0;
     await prisma.familyMemberIncome.deleteMany({
-      where: {...idField, employmentType: 'IndividualEntrepreneur'}
+      where: { ...idField, employmentType: 'IndividualEntrepreneur' }
     })
     // Armazena informações acerca do MEI no banco de dados
     await prisma.familyMemberIncome.create({
       data: {
+        quantity,
         employmentType: 'IndividualEntrepreneur',
         CNPJ,
         averageIncome: avgIncome.toString(),

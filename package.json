@@ -19,6 +19,7 @@
     "@fastify/multipart": "8.0.0",
     "@prisma/client": "5.3.1",
     "@types/multer": "1.4.8",
+    "@types/node-schedule": "2.1.7",
     "@vercel/node": "3.0.11",
     "aws-sdk": "2.1474.0",
     "axios": "1.5.1",
@@ -32,6 +33,7 @@
     "module-alias": "2.2.3",
     "morgan": "1.10.0",
     "multer": "1.4.5-lts.1",
+    "node-schedule": "2.1.1",
     "nodemailer": "6.9.6",
     "sass": "1.69.5",
     "zod": "3.22.2"
