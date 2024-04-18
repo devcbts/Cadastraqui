@@ -1,13 +1,19 @@
-const monthsArr = ({ length, initialMonth, initialYear }) => Array.from({ length }).map((_, index) => {
-    // get current date and subtract the amount of months needed
-    const initialDate = initialMonth ? new Date(`${initialMonth}/01/${initialYear}`) : Date.now()
-    const currentDate = new Date(initialDate)
-    currentDate.setMonth(currentDate.getMonth() - (index + 1))
-    return {
-        month: (currentDate.getMonth() + 1).toString(),
-        year: currentDate.getFullYear().toString(),
-        formatDate: currentDate.toLocaleString("pt-br", { month: "long", year: "numeric" })
-    }
-})
+const monthsArr = ({ length, initialDates = [] }) => {
+    // aux array to store old dates
+    const storeOldDates = initialDates;
+    console.log('inicio', initialDates, length)
+
+    return Array.from({ length }).map((_, index) => {
+        const currentDate = new Date();
+        currentDate.setMonth(currentDate.getMonth() - (index + 1));
+
+        return {
+            date: currentDate.toLocaleDateString('en-us'),
+            formatDate: currentDate.toLocaleString("pt-br", { month: "long", year: "numeric" })
+        }
+    })
+
+}
 
 export default monthsArr
+

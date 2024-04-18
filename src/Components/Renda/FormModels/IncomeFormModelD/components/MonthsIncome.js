@@ -4,14 +4,14 @@ import Input from "../../../../Inputs/FormInput"
 import RequiredFieldValidation from "../../../../../validation/validators/required-field-validator"
 import { formatCurrency } from "../../../../../utils/format-currency"
 
-const MonthsIncomeModelD = forwardRef(({ monthCount }, ref) => {
+const MonthsIncomeModelD = forwardRef(({ monthCount, initialData }, ref) => {
     const {
         form: { control, formState: { errors, isValid }, getValues, register, resetField },
         handleCurrency,
         formattedMonths,
         getMonthTotalIncome,
         fieldErrors
-    } = useMonthIncome({ inputObj: { month: '', year: '', proLabore: 0, dividends: 0 }, monthCount })
+    } = useMonthIncome({ inputObj: { month: '', year: '', proLabore: 0, dividends: 0 }, monthCount, initialData })
     useImperativeHandle(ref, () => ({
         isValid: isValid,
         getValues: getValues
@@ -39,7 +39,7 @@ const MonthsIncomeModelD = forwardRef(({ monthCount }, ref) => {
                         })}
                         error={fieldErrors?.[i]}
                     />
-                    <label>Total em {formattedMonths[i].formatDate} R$ {formatCurrency(getMonthTotalIncome(i))}</label>
+                    <label>Total em {formattedMonths[i].formatDate} {getMonthTotalIncome(i)}</label>
                 </>
             ))}
         </>

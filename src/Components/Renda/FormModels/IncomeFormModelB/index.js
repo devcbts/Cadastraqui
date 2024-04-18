@@ -7,12 +7,13 @@ import MonthsIncomeModelB from "./components/MonthsIncome"
 import { api } from "../../../../services/axios"
 import toPersistence from "../utils/model-to-persistence"
 
-export default function IncomeFormModelB({ incomeSource, onSubmit, member }) {
-    const [[meiInfo], handleMeiChange, meiErrors, submit] = useForm({
+export default function IncomeFormModelB({ incomeSource, onSubmit, member, edit: { isEditing, initialData } = { isEditing: true, initialData: null } }) {
+    const [[meiInfo], handleMeiChange, meiErrors, submit] = useForm(initialData ? { ...initialData.info, fixIncome: initialData.info.quantity === 3 } : {
         startDate: "",
         CNPJ: "",
         fixIncome: false,
-        financialAssistantCPF: ""
+        financialAssistantCPF: "",
+        quantity: 3,
     })
     const monthIncomeRef = useRef()
     const handleRegisterIncome = async (e) => {
@@ -32,11 +33,14 @@ export default function IncomeFormModelB({ incomeSource, onSubmit, member }) {
                 data = {
                     startDate: meiInfo.startDate,
                     CNPJ: meiInfo.CNPJ,
+                    quantity: meiInfo.fixIncome ? 3 : 6,
                 }
             } else {
                 urlApi = "dependent-autonomous"
                 data = {
                     employmentType: incomeSource,
+                    quantity: meiInfo.fixIncome ? 3 : 6,
+
                 }
             }
 
@@ -57,6 +61,8 @@ export default function IncomeFormModelB({ incomeSource, onSubmit, member }) {
                 value={meiInfo.startDate}
                 onChange={handleMeiChange}
                 error={meiErrors}
+                readOnly={!!initialData?.info}
+
             />
 
 
@@ -68,17 +74,20 @@ export default function IncomeFormModelB({ incomeSource, onSubmit, member }) {
                 value={formatCNPJ(meiInfo.CNPJ)}
                 onChange={handleMeiChange}
                 error={meiErrors}
+                readOnly={!!initialData?.info}
+
             />
 
             {/*<!-- Renda Fixa ? -->*/}
             <FormCheckbox
                 label="Renda fixa?"
                 name="fixIncome"
-                value={meiInfo.fixIncome}
+                checked={meiInfo.fixIncome}
                 onChange={handleMeiChange}
+                disabled={!!initialData?.info}
             />
             <div>
-                <MonthsIncomeModelB monthCount={meiInfo.fixIncome ? 3 : 6} ref={monthIncomeRef} />
+                <MonthsIncomeModelB monthCount={meiInfo.fixIncome ? 3 : 6} ref={monthIncomeRef} initialData={initialData?.incomes} />
             </div>
             {incomeSource === "FinancialHelpFromOthers" && <Input
                 label="CPF de quem presta ajuda"
@@ -88,7 +97,7 @@ export default function IncomeFormModelB({ incomeSource, onSubmit, member }) {
                 onChange={handleMeiChange}
                 error={meiErrors}
             />}
-            <div class="survey-box survey-renda">
+            {isEditing && <div class="survey-box survey-renda">
                 <button
                     type="submit"
                     onClick={handleRegisterIncome
@@ -97,7 +106,7 @@ export default function IncomeFormModelB({ incomeSource, onSubmit, member }) {
                 >
                     Salvar Informações
                 </button>
-            </div>
+            </div>}
         </>
     )
 }

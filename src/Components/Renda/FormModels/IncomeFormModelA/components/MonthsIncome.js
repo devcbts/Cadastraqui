@@ -9,12 +9,11 @@ import { toFloat } from "../../../../../utils/currency-to-float";
 import monthsArr from "../../utils/months-array";
 import useMonthIncome from "../../hooks/useMonthIncome";
 
-const MonthsIncome = forwardRef(({ monthCount }, ref) => {
+const MonthsIncome = forwardRef(({ monthCount, initialData }, ref) => {
 
 
     const objectKeys = {
-        month: "",
-        year: "",
+        date: new Date(),
         grossAmount: 0,
         proLabore: 0,
         dividends: 0,
@@ -50,7 +49,7 @@ const MonthsIncome = forwardRef(({ monthCount }, ref) => {
         getAverageIncome,
         getMonthTotalIncome,
         fields
-    } = useMonthIncome({ inputObj: objectKeys, checksObj: checkboxesValues, monthCount })
+    } = useMonthIncome({ inputObj: objectKeys, checksObj: checkboxesValues, monthCount, initialData })
 
     const createConditionalCheckboxes = (i, label, field) => {
         return <CheckboxTextInput
@@ -62,7 +61,7 @@ const MonthsIncome = forwardRef(({ monthCount }, ref) => {
             checkregister={{
                 ...registerCheckbox(`checks.${i}.${field}`, {
                     onChange: (e) => {
-                        resetField(`incomeInfo.${i}.${field}`)
+                        setValue(`incomeInfo.${i}.${field}`, objectKeys[field])
                     },
                 })
             }}
@@ -92,7 +91,6 @@ const MonthsIncome = forwardRef(({ monthCount }, ref) => {
                             {...register(`incomeInfo.${i}.grossAmount`, {
                                 validate: new RequiredFieldValidation(`incomeInfo.${i}.grossAmount`).validate,
                                 onChange: handleCurrency,
-                                value: 'teste'
                             })}
                             error={fieldErrors?.[i]}
                         />

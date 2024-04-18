@@ -4,14 +4,14 @@ import Input from "../../../../Inputs/FormInput"
 import RequiredFieldValidation from "../../../../../validation/validators/required-field-validator"
 import { formatCurrency } from "../../../../../utils/format-currency"
 
-const MonthsIncomeModelB = forwardRef(({ monthCount }, ref) => {
+const MonthsIncomeModelB = forwardRef(({ monthCount, initialData }, ref) => {
     const {
         form: { control, formState: { errors, isValid }, getValues, register, resetField },
         handleCurrency,
         formattedMonths,
         getAverageIncome,
         fieldErrors
-    } = useMonthIncome({ inputObj: { month: '', year: '', grossAmount: 0 }, monthCount })
+    } = useMonthIncome({ inputObj: { month: '', year: '', grossAmount: 0, proLabore: 0, dividents: 0 }, monthCount, initialData })
     useImperativeHandle(ref, () => ({
         isValid: isValid,
         getValues: getValues

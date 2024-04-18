@@ -16,7 +16,6 @@ const FormCheckbox = forwardRef(({ name, label, ...props }, ref) => {
                     class="survey-control"
                     ref={ref}
                     {...props}
-
                 />
                 <label htmlFor={name} id="yesno"></label>
 

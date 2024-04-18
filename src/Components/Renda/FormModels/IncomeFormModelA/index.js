@@ -10,15 +10,15 @@ import { api } from "../../../../services/axios"
 import { toFloat } from "../../../../utils/currency-to-float"
 import toPersistence from "../utils/model-to-persistence"
 
-export default function IncomeFormModelA({ member, incomeSource, onSubmit }) {
-    const [[modelAInfo], handlemodelAInfoChange, modelAErrors, submitModelA] = useForm({
+export default function IncomeFormModelA({ member, incomeSource, onSubmit, edit: { isEditing, initialData } = { isEditing: true, initialData: null } }) {
+    const [[modelAInfo], handlemodelAInfoChange, modelAErrors, submitModelA] = useForm(initialData ? { ...initialData.info, gratificationAutonomous: initialData.info.quantity === 6 } : {
         admissionDate: "",
         position: "",
         payingSource: "",
         payingSourcePhone: "",
         gratificationAutonomous: false,
+        quantity: 3,
     }, modelAInfoValidation)
-
     const handleRegisterIncome = async (e) => {
         e.preventDefault()
         const token = localStorage.getItem("token");
@@ -28,8 +28,9 @@ export default function IncomeFormModelA({ member, incomeSource, onSubmit }) {
             return
         }
         try {
-
-            await onSubmit(toPersistence(incomeSource, getValues().incomeInfo))
+            const parseAll = toPersistence(incomeSource, getValues().incomeInfo)
+            console.log('parsed', parseAll)
+            await onSubmit(parseAll)
 
             const data = {
                 employmentType: incomeSource,
@@ -37,6 +38,7 @@ export default function IncomeFormModelA({ member, incomeSource, onSubmit }) {
                 payingSource: modelAInfo.payingSource,
                 payingSourcePhone: modelAInfo.payingSourcePhone,
                 position: modelAInfo.position,
+                quantity: modelAInfo.gratificationAutonomous ? 6 : 3
             };
             await api.post(`/candidates/family-member/CLT/${member.id}`, data, {
                 headers: {
@@ -53,9 +55,10 @@ export default function IncomeFormModelA({ member, incomeSource, onSubmit }) {
                 label="Data de Admissão"
                 type="date"
                 name="admissionDate"
-                value={modelAInfo.admissionDate}
+                value={modelAInfo.admissionDate?.split('T')[0]}
                 onChange={handlemodelAInfoChange}
                 error={modelAErrors}
+                readOnly={!!initialData?.info}
             />
 
             {/*<!-- Cargo -->*/}
@@ -66,6 +69,7 @@ export default function IncomeFormModelA({ member, incomeSource, onSubmit }) {
                 value={modelAInfo.position}
                 onChange={handlemodelAInfoChange}
                 error={modelAErrors}
+                readOnly={!!initialData?.info}
             />
 
             {/*<!-- Fonte Pagadora( Empresa/Governo/ Pessoa Física) -->*/}
@@ -76,6 +80,8 @@ export default function IncomeFormModelA({ member, incomeSource, onSubmit }) {
                 value={modelAInfo.payingSource}
                 onChange={handlemodelAInfoChange}
                 error={modelAErrors}
+                readOnly={!!initialData?.info}
+
             />
 
             {/*<!-- Telefone da Fonte Pagadora -->*/}
@@ -86,30 +92,35 @@ export default function IncomeFormModelA({ member, incomeSource, onSubmit }) {
                 value={formatTelephone(modelAInfo.payingSourcePhone)}
                 onChange={handlemodelAInfoChange}
                 error={modelAErrors}
+                readOnly={!!initialData?.info}
+
             />
 
             {/*<!-- Recebe Gratificação ? -->*/}
             <FormCheckbox
                 label="Recebe horas extras, premiação ou gratificação?"
                 name="gratificationAutonomous"
-                value={modelAInfo.gratificationAutonomous}
+                checked={modelAInfo.gratificationAutonomous}
                 onChange={handlemodelAInfoChange}
+                disabled={!!initialData?.info}
+                defaultValue={true}
+
             />
 
 
             <div>
-                <MonthsIncome monthCount={modelAInfo.gratificationAutonomous ? 6 : 3} ref={monthIncomeRef} />
+                <MonthsIncome monthCount={modelAInfo.quantity} ref={monthIncomeRef} initialData={initialData?.incomes} />
             </div>
 
-            <div class="survey-box survey-renda">
+            {isEditing && <div class="survey-box survey-renda">
                 <button
                     type="submit"
-                    onClick={(e) => handleRegisterIncome(e, "PrivateEmployee")}
+                    onClick={handleRegisterIncome}
                     id="submit-button"
                 >
                     Salvar Informações
                 </button>
-            </div>
+            </div>}
         </>
 
     )

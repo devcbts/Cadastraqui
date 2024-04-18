@@ -2,24 +2,33 @@ import { useFieldArray, useForm } from "react-hook-form"
 import monthsArr from "../utils/months-array"
 import { formatCurrency } from "../../../../utils/format-currency"
 import { toFloat } from "../../../../utils/currency-to-float"
+import { useEffect } from "react"
 
-export default function useMonthIncome({ inputObj, checksObj, monthCount }) {
 
-    const formattedMonths = monthsArr({ length: monthCount })
-    const { register, formState: { errors, isValid }, control, resetField, setValue, getValues, watch } = useForm({
+export default function useMonthIncome({ inputObj, checksObj, monthCount, initialData }) {
+    let initialDates = !!initialData && initialData?.length !== 0 ? initialData?.sort((a, b) => {
+        const dateA = new Date(a.date), dateB = new Date(b.date)
+        return dateA < dateB
+    }).map(e => e.date) : undefined
+    const formattedMonths = monthsArr({ length: monthCount, initialDates })
+    console.log(formattedMonths)
+    const { register, formState: { errors, isValid }, control, resetField, setValue, getValues, watch, reset } = useForm({
         mode: "onChange",
         values: {
-            incomeInfo: Array.from({ length: monthCount }).fill(inputObj).map((e, i) => ({
-                ...e,
-                month: formattedMonths[i].month,
-                year: formattedMonths[i].year
-            })),
+            incomeInfo: Array.from({ length: monthCount }).fill(inputObj).map((e, i) => {
+                return ({
+                    ...e,
+                    date: formattedMonths[i].date
+
+                })
+            }),
 
         }
     })
+
     const watchIncome = watch("incomeInfo")
     const { fields } = useFieldArray({ name: "incomeInfo", control })
-    const { register: registerCheckbox, control: controlCheckbox, watch: watchCheck, } = useForm({
+    const { register: registerCheckbox, control: controlCheckbox, watch: watchCheck, reset: resetChecks } = useForm({
         values: { checks: Array.from({ length: monthCount }).fill(checksObj) },
         mode: "onChange"
     })
@@ -29,6 +38,24 @@ export default function useMonthIncome({ inputObj, checksObj, monthCount }) {
     const handleCurrency = (e) => {
         setValue(e.target.name, formatCurrency(e.target.value))
     }
+    useEffect(() => {
+        if (!!initialData && initialData.length !== 0) {
+
+            const appendOn = monthCount - initialData.length
+            const emptyArray = Array.from({ length: monthCount }).fill(inputObj).map((e, i) => {
+                if (i >= appendOn) { return initialData[i - appendOn] }
+                return { ...e, date: formattedMonths[i].date }
+            })
+            console.log(emptyArray)
+            reset({
+                incomeInfo:
+                    emptyArray
+            })
+            resetChecks({
+                checks: initialData.map(e => ({ ...Object.keys(e).reduce((acc, key) => ({ ...acc, [key]: isNaN(parseFloat(e[key])) ? e[key] : !!parseFloat(e[key]) }), {}) }))
+            })
+        }
+    }, [])
     const getMonthTotalIncome = (index) => {
         const { grossAmount, foodAllowanceValue,
             transportAllowanceValue,
@@ -38,9 +65,9 @@ export default function useMonthIncome({ inputObj, checksObj, monthCount }) {
             compensationValue,
             judicialPensionValue, proLabore, dividends } = watchIncome[index]
         if (proLabore && dividends) {
-            return Number((toFloat(proLabore) + toFloat(dividends)).toFixed(2))
+            return Intl.NumberFormat("pt-br", { style: "currency", currency: "brl" }).format((toFloat(proLabore) + toFloat(dividends)).toFixed(2))
         }
-        return Number((toFloat(grossAmount) -
+        return Intl.NumberFormat("pt-br", { style: "currency", currency: "brl" }).format((toFloat(grossAmount) -
             (
                 toFloat(foodAllowanceValue) +
                 toFloat(transportAllowanceValue) +
@@ -54,8 +81,8 @@ export default function useMonthIncome({ inputObj, checksObj, monthCount }) {
     const getAverageIncome = () => {
         let sum = 0;
         for (let i = 0; i < monthCount; i++) {
-            sum += Number(getMonthTotalIncome(i).toFixed(2))
-            console.log(Number(sum.toFixed(2)))
+            sum += toFloat(getMonthTotalIncome(i))
+            console.log('soma', sum)
         }
         return (sum / monthCount).toFixed(2);
     }

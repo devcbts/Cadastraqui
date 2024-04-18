@@ -7,18 +7,19 @@ import MonthsIncomeModelD from "./components/MonthsIncome"
 import { api } from "../../../../services/axios"
 import toPersistence from "../utils/model-to-persistence"
 
-export default function IncomeFormModelD({ incomeSource, onSubmit, member }) {
-    const [[modelDInfo], handleModelDChange, modelDErrors, submit] = useForm({
+export default function IncomeFormModelD({ incomeSource, onSubmit, member, edit: { isEditing, initialData } = { isEditing: true, initialData: null } }) {
+    const [[modelDInfo], handleModelDChange, modelDErrors, submit] = useForm(initialData ? initialData.info : {
         startDate: "",
         socialReason: "",
         fantasyName: "",
         CNPJ: "",
+        quantity: 6,
     })
+
     const monthIncomeRef = useRef()
     const handleRegisterIncome = async (e) => {
         e.preventDefault()
         const { getValues, isValid } = monthIncomeRef.current
-        console.log(isValid)
         if (!submit() || !isValid) {
             return
         }
@@ -31,6 +32,8 @@ export default function IncomeFormModelD({ incomeSource, onSubmit, member }) {
                 socialReason: modelDInfo.socialReason,
                 fantasyName: modelDInfo.fantasyName,
                 CNPJ: modelDInfo.CNPJ,
+                quantity: 6,
+
             };
             await api.post(
                 `/candidates/family-member/entepreneur/${member.id}`,
@@ -43,7 +46,9 @@ export default function IncomeFormModelD({ incomeSource, onSubmit, member }) {
             );
 
 
-        } catch (err) { }
+        } catch (err) {
+            console.log('err', err)
+        }
     }
     return (
         <>
@@ -52,9 +57,11 @@ export default function IncomeFormModelD({ incomeSource, onSubmit, member }) {
                 label="Data de Início"
                 name="startDate"
                 type="date"
-                value={modelDInfo.startDate}
+                value={modelDInfo.startDate?.split('T')[0]}
                 onChange={handleModelDChange}
                 error={modelDErrors}
+                readOnly={!!initialData?.info}
+
             />
 
 
@@ -66,22 +73,34 @@ export default function IncomeFormModelD({ incomeSource, onSubmit, member }) {
                 value={modelDInfo.socialReason}
                 onChange={handleModelDChange}
                 error={modelDErrors}
+                readOnly={!!initialData?.info}
+
             />
 
             {/*<!-- Renda Fixa ? -->*/}
             <Input
                 label="Nome Fantasia (se houver)"
                 name="fantasyName"
-                value={modelDInfo.fixIncome}
+                value={modelDInfo.fantasyName}
                 onChange={handleModelDChange}
                 error={modelDErrors}
+                readOnly={!!initialData?.info}
+
+            />
+            <Input
+                label="CNPJ"
+                name="CNPJ"
+                value={modelDInfo.CNPJ}
+                onChange={handleModelDChange}
+                error={modelDErrors}
+                readOnly={!!initialData?.info}
 
             />
             <div>
-                <MonthsIncomeModelD monthCount={modelDInfo.fixIncome ? 3 : 6} ref={monthIncomeRef} />
+                <MonthsIncomeModelD monthCount={6} ref={monthIncomeRef} initialData={initialData?.incomes} />
             </div>
 
-            <div class="survey-box survey-renda">
+            {isEditing && <div class="survey-box survey-renda">
                 <button
                     type="submit"
                     onClick={handleRegisterIncome}
@@ -89,7 +108,7 @@ export default function IncomeFormModelD({ incomeSource, onSubmit, member }) {
                 >
                     Salvar Informações
                 </button>
-            </div>
+            </div>}
         </>
     )
 }

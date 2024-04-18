@@ -3,8 +3,8 @@ import FormCheckbox from "../../../Inputs/FormCheckbox"
 import Input from "../../../Inputs/FormInput"
 import { api } from "../../../../services/axios"
 
-export default function IncomeFormModelC({ incomeSource, onSubmit, member }) {
-    const [[modelCInfo], handleModelCChange, modelCErrors, submit] = useForm({
+export default function IncomeFormModelC({ incomeSource, onSubmit, member, edit: { isEditing, initialData } = { isEditing: true, initialData: null } }) {
+    const [[modelCInfo], handleModelCChange, modelCErrors, submit] = useForm(initialData ? initialData.info : {
         parcelValue: "",
         parcels: "",
         firstParcelDate: "",
@@ -16,7 +16,11 @@ export default function IncomeFormModelC({ incomeSource, onSubmit, member }) {
             return
         }
         try {
-            await api.post(`/candidates/family-member/unemployed/${member.id}`, modelCInfo)
+            await api.post(`/candidates/family-member/unemployed/${member.id}`, {
+                ...modelCInfo,
+                parcels: parseFloat(modelCInfo.parcels),
+                parcelValue: parseFloat(modelCInfo.parcelValue),
+            })
 
         } catch (err) { }
     }
@@ -26,7 +30,7 @@ export default function IncomeFormModelC({ incomeSource, onSubmit, member }) {
             <FormCheckbox
                 label="Recebe Seguro Desemprego ?"
                 name="receivesUnemployment"
-                value={modelCInfo.receivesUnemployment}
+                checked={modelCInfo.receivesUnemployment}
                 onChange={handleModelCChange}
             />
 
@@ -47,7 +51,7 @@ export default function IncomeFormModelC({ incomeSource, onSubmit, member }) {
                         label="Data da primeira Parcela"
                         name="firstParcelDate"
                         type="date"
-                        value={modelCInfo.firstParcelDate}
+                        value={modelCInfo.firstParcelDate?.split('T')[0]}
                         onChange={handleModelCChange}
                         error={modelCErrors}
                     />
@@ -61,7 +65,7 @@ export default function IncomeFormModelC({ incomeSource, onSubmit, member }) {
                         error={modelCErrors}
                     />
 
-                    <div class="survey-box survey-renda">
+                    {isEditing && <div class="survey-box survey-renda">
                         <button
                             type="submit"
                             onClick={(e) => handleRegisterIncome(e, "Unemployed")}
@@ -69,7 +73,7 @@ export default function IncomeFormModelC({ incomeSource, onSubmit, member }) {
                         >
                             Salvar Informações
                         </button>
-                    </div>
+                    </div>}
                 </>
             )}
         </>

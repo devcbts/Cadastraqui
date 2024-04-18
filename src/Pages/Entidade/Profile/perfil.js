@@ -9,11 +9,11 @@ import { api } from "../../../services/axios";
 import { useNavigate } from "react-router";
 import "./perfil.css";
 import { formatCNPJ } from "../../../utils/format-cnpj";
-import ChangePassword from "../../../Components/ChangePassword/ChangePassword";
 import EditProfile from "../../../Components/EditProfile";
 import Swal from "sweetalert2";
 import entityProfileValidation from "./validations/entity-profile-validation";
 import entityService from "../../../services/entity/entityService";
+import ChangePassword from "../../../Components/ChangePassword/ChangePassword";
 
 export default function PerfilEntidade() {
   const { isShown } = useAppState();

@@ -221,7 +221,13 @@ export const CadastroRenda = ({ member }) => {
         text: `Renda para ${foundIncome} cadastrada`,
         icon: 'success'
       })
-    } catch (err) { }
+    } catch (err) {
+      Swal.fire({
+        title: 'Erro',
+        text: 'Erro ao cadastrar renda',
+        icon: 'error'
+      })
+    }
   }
 
 
