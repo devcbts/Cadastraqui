@@ -110,7 +110,6 @@ export async function registerEmploymenType(
             data: {
                 employmentType,
                 averageIncome: avgIncome.toString(),
-                
                 startDate: startDate ? new Date(startDate) : undefined,
                 fantasyName,
                 CNPJ,

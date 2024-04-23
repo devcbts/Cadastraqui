@@ -85,10 +85,6 @@ export async function registerEntity(
         socialReason,
         address,
         CEP,
-        addressNumber,
-        city,
-        UF,
-        neighborhood,
         educationalInstitutionCode,
       },
     })

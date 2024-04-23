@@ -78,7 +78,7 @@ export async function updateFamilyMemberInfo(
     'DriversLicense',
     'FunctionalCard',
     'MilitaryID',
-    'ForeignerRegistration',
+    'Foreignerapplication',
     'Passport',
     'WorkCard',
   ])

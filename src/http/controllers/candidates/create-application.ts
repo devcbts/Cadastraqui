@@ -32,7 +32,7 @@ export async function subscribeAnnouncement(
     if (!candidate) {
       throw new ResourceNotFoundError()
     }
-    if (!candidate.finishedRegistration) {
+    if (!candidate.finishedapplication) {
       throw new Error('Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.')
     }
 

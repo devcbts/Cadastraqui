@@ -92,7 +92,6 @@ export async function registerCLTInfo(
     // Armazena informações acerca do Empresário no banco de dados
     await prisma.familyMemberIncome.create({
       data: {
-        quantity,
         employmentType,
         averageIncome: avgIncome.toString(),
         admissionDate: new Date(admissionDate),
