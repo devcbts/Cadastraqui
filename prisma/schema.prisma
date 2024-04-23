@@ -8,40 +8,40 @@ datasource db {
 }
 
 model Candidate {
-  id                   String                @id @default(uuid())
-  name                 String
-  CPF                  String                @unique
-  birthDate            DateTime
-  phone                String
-  address              String
-  city                 String
-  UF                   COUNTRY
-  CEP                  String
-  neighborhood         String
-  addressNumber        String
-  role                 ROLE                  @default(CANDIDATE)
-  createdAt            DateTime              @default(now())
-  user_id              String?               @unique
-  responsible_id       String?
-  profilePicture       String?
-  email                String?
-  finishedRegistration Boolean               @default(false)
-  Application          Application[]
-  CreditCard           CreditCard[]
-  Expense              Expense[]
-  Financing            Financing[]
-  IdentityDetails      IdentityDetails?
-  FamilyMemberIncome   FamilyMemberIncome[]
-  Loan                 Loan[]
-  OtherExpense         OtherExpense[]
-  Vehicle              Vehicle[]
-  responsible          LegalResponsible?     @relation(fields: [responsible_id], references: [id])
-  user                 User?                 @relation(fields: [user_id], references: [id])
-  FamillyMember        FamilyMember[]
-  Housing              Housing?
-  MonthlyIncome        MonthlyIncome[]
-  FamilyMemberDisease  FamilyMemberDisease[]
-  Medication           Medication[]
+  id                  String                @id @default(uuid())
+  name                String
+  CPF                 String                @unique
+  birthDate           DateTime
+  phone               String
+  address             String
+  city                String
+  UF                  COUNTRY
+  CEP                 String
+  neighborhood        String
+  addressNumber       String
+  role                ROLE                  @default(CANDIDATE)
+  createdAt           DateTime              @default(now())
+  user_id             String?               @unique
+  responsible_id      String?
+  profilePicture      String?
+  email               String?
+  finishedapplication Boolean               @default(false)
+  Application         Application[]
+  CreditCard          CreditCard[]
+  Expense             Expense[]
+  Financing           Financing[]
+  IdentityDetails     IdentityDetails?
+  FamilyMemberIncome  FamilyMemberIncome[]
+  Loan                Loan[]
+  OtherExpense        OtherExpense[]
+  Vehicle             Vehicle[]
+  responsible         LegalResponsible?     @relation(fields: [responsible_id], references: [id])
+  user                User?                 @relation(fields: [user_id], references: [id])
+  FamillyMember       FamilyMember[]
+  Housing             Housing?
+  MonthlyIncome       MonthlyIncome[]
+  FamilyMemberDisease FamilyMemberDisease[]
+  Medication          Medication[]
 
   @@map("candidates")
 }
@@ -129,11 +129,7 @@ model Entity {
   logo                       String?
   CNPJ                       String             @unique
   CEP                        String
-  address                    String             @default("")
-  addressNumber              Int?
-  neighborhood               String             @default("")
-  UF                         COUNTRY?
-  city                       String             @default("")
+  address                    String
   educationalInstitutionCode String?
   user_id                    String             @unique
   Announcement               Announcement[]
@@ -152,10 +148,6 @@ model EntitySubsidiary {
   socialReason               String
   CEP                        String
   address                    String
-  addressNumber              Int?
-  city                       String?           @default("")
-  neighborhood               String?           @default("")
-  UF                         COUNTRY?
   educationalInstitutionCode String?
   entity_id                  String
   user_id                    String            @unique
@@ -263,6 +255,12 @@ model FamilyMember {
   workPhone                 String?
   contactNameForMessage     String?
   email                     String?
+  address                   String
+  city                      String
+  UF                        COUNTRY
+  CEP                       String
+  neighborhood              String
+  addressNumber             String
   profession                String
   enrolledGovernmentProgram Boolean?
   NIS                       String?
@@ -346,7 +344,6 @@ model FamilyMemberIncome {
   firstParcelDate       DateTime?
   parcelValue           Float?
   familyMember_id       String?
-  quantity              Int            @default(3)
   familyMember          FamilyMember?  @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
   candidate             Candidate?     @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id          String?
@@ -354,7 +351,9 @@ model FamilyMemberIncome {
 
 model MonthlyIncome {
   id                        String        @id @default(uuid())
-  date                      DateTime      @default(now())
+  month                     String?
+  year                      String?
+  date                      DateTime?
   grossAmount               Float?
   liquidAmount              Float?
   proLabore                 Float?
@@ -517,28 +516,45 @@ model Medication {
 }
 
 model Announcement {
-  id                   String                   @id @default(uuid())
-  entityChanged        Boolean?
-  branchChanged        Boolean?
-  announcementType     AnnouncementType
-  announcementNumber   String?
-  announcementDate     DateTime?
-  announcementBegin    DateTime?                @default(now())
-  offeredVacancies     Int?
-  verifiedScholarships Int?
-  description          String?
-  entity_id            String
-  announcementName     String?
-  announcementLogo     String?
-  type2                String?
-  types1               scholarshipGrantedType[]
-  entity               Entity                   @relation(fields: [entity_id], references: [id])
-  entity_subsidiary    EntitySubsidiary[]
-  Application          Application[]
-  educationLevels      EducationLevel[]
-  ScholarshipGranted   ScholarshipGranted[]
-  timelines            Timeline[]
-  socialAssistant      SocialAssistant[]        @relation("AnnouncementToSocialAssistant")
+  id                       String                   @id @default(uuid())
+  entityChanged            Boolean?
+  branchChanged            Boolean?
+  announcementType         AnnouncementType
+  announcementNumber       String?
+  announcementDate         DateTime?
+  announcementBegin        DateTime?                @default(now())
+  offeredVacancies         Int?
+  verifiedScholarships     Int?
+  description              String?
+  entity_id                String
+  announcementName         String?
+  announcementLogo         String?
+  type2                    String?
+  types1                   scholarshipGrantedType[]
+  entity                   Entity                   @relation(fields: [entity_id], references: [id])
+  entity_subsidiary        EntitySubsidiary[]
+  Application              Application[]
+  educationLevels          EducationLevel[]
+  ScholarshipGranted       ScholarshipGranted[]
+  timelines                Timeline[]
+  socialAssistant          SocialAssistant[]        @relation("AnnouncementToSocialAssistant")
+  tiebreakerCriteria       Criterias[]
+  waitingList              Boolean?
+  interviewPeriodStartDate DateTime?
+  interviewDuration        Int?
+  interviewInterval        Int?
+  interviewStartTime       String?
+  interviewEndTime         String?
+  interviewEndDate         DateTime?
+  applicationOpeningDate   DateTime?
+  applicationClosingDate   DateTime?
+}
+
+enum Criterias {
+  CADASTRO_UNICO
+  MENOR_RENDA_FAMILIAR_BRUTA_MENSAL
+  DOENCA_GRAVE
+  SORTEIO
 }
 
 model Timeline {
@@ -674,7 +690,7 @@ enum DOCUMENT_TYPE {
   DriversLicense
   FunctionalCard
   MilitaryID
-  ForeignerRegistration
+  Foreignerapplication
   Passport
   WorkCard
 }

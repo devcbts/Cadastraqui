@@ -236,7 +236,6 @@ export async function registerIdentityInfo(
           benefitedFromCebasScholarship_professional,
           contactNameForMessage,
           documentNumber,
-          documentType,
           documentValidity: documentValidity
             ? new Date(documentValidity)
             : undefined,
@@ -304,7 +303,7 @@ export async function registerIdentityInfo(
         benefitedFromCebasScholarship_professional,
         contactNameForMessage,
         documentNumber,
-        documentType,
+        
         documentValidity: documentValidity
           ? new Date(documentValidity)
           : undefined,
