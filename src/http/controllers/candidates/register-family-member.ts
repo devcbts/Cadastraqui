@@ -54,7 +54,7 @@ export async function registerFamilyMemberInfo(
     'DriversLicense',
     'FunctionalCard',
     'MilitaryID',
-    'ForeignerRegistration',
+    'Foreignerapplication',
     'Passport',
     'WorkCard',
   ])

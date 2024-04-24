@@ -15,40 +15,40 @@ enum TiebreakerCriterias {
 }
 
 model Candidate {
-  id                   String                @id @default(uuid())
-  name                 String
-  CPF                  String                @unique
-  birthDate            DateTime
-  phone                String
-  address              String
-  city                 String
-  UF                   COUNTRY
-  CEP                  String
-  neighborhood         String
-  addressNumber        String
-  role                 ROLE                  @default(CANDIDATE)
-  createdAt            DateTime              @default(now())
-  user_id              String?               @unique
-  responsible_id       String?
-  profilePicture       String?
-  email                String?
-  finishedRegistration Boolean               @default(false)
-  Application          Application[]
-  CreditCard           CreditCard[]
-  Expense              Expense[]
-  Financing            Financing[]
-  IdentityDetails      IdentityDetails?
-  FamilyMemberIncome   FamilyMemberIncome[]
-  Loan                 Loan[]
-  OtherExpense         OtherExpense[]
-  Vehicle              Vehicle[]
-  responsible          LegalResponsible?     @relation(fields: [responsible_id], references: [id])
-  user                 User?                 @relation(fields: [user_id], references: [id])
-  FamillyMember        FamilyMember[]
-  Housing              Housing?
-  MonthlyIncome        MonthlyIncome[]
-  FamilyMemberDisease  FamilyMemberDisease[]
-  Medication           Medication[]
+  id                  String                @id @default(uuid())
+  name                String
+  CPF                 String                @unique
+  birthDate           DateTime
+  phone               String
+  address             String
+  city                String
+  UF                  COUNTRY
+  CEP                 String
+  neighborhood        String
+  addressNumber       String
+  role                ROLE                  @default(CANDIDATE)
+  createdAt           DateTime              @default(now())
+  user_id             String?               @unique
+  responsible_id      String?
+  profilePicture      String?
+  email               String?
+  finishedapplication Boolean               @default(false)
+  Application         Application[]
+  CreditCard          CreditCard[]
+  Expense             Expense[]
+  Financing           Financing[]
+  IdentityDetails     IdentityDetails?
+  FamilyMemberIncome  FamilyMemberIncome[]
+  Loan                Loan[]
+  OtherExpense        OtherExpense[]
+  Vehicle             Vehicle[]
+  responsible         LegalResponsible?     @relation(fields: [responsible_id], references: [id])
+  user                User?                 @relation(fields: [user_id], references: [id])
+  FamillyMember       FamilyMember[]
+  Housing             Housing?
+  MonthlyIncome       MonthlyIncome[]
+  FamilyMemberDisease FamilyMemberDisease[]
+  Medication          Medication[]
 
   @@map("candidates")
 }
@@ -604,6 +604,7 @@ model Application {
   SocialAssistantName  String?
   CadUnico             Boolean?
   hasSevereDesease     Boolean?
+  averageIncome        Float?
   position             Int?
   number               Int                  @default(1)
   announcement         Announcement         @relation(fields: [announcement_id], references: [id], onDelete: Cascade)

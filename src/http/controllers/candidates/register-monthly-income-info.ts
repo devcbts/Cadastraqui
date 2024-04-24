@@ -166,6 +166,43 @@ export async function registerMonthlyIncomeInfo(
     }, 0);
     const avgIncome = validIncomes.length > 0 ? totalAmount / validIncomes.length : 0;
 
+    // Atualiza o array de IncomeSource do candidato
+    if (candidate) {
+      await prisma.identityDetails.update({
+        where: {
+          candidate_id: candidate.id,
+          NOT: {
+            incomeSource: {
+              has: monthlyIncome.incomeSource
+            }
+          }
+        },
+        data: {
+          incomeSource: {
+            set: [monthlyIncome.incomeSource],
+
+          }
+        }
+      })
+    }
+    if (responsible) {
+      await prisma.identityDetails.update({
+        where: {
+          responsible_id: responsible.id,
+          NOT: {
+            incomeSource: {
+              has: monthlyIncome.incomeSource
+            }
+          }
+        },
+        data: {
+          incomeSource: {
+            set: [monthlyIncome.incomeSource],
+
+          }
+        }
+      })
+    }
 
     return reply.status(201).send()
   } catch (err: any) {
