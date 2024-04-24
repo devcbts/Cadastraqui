@@ -16,12 +16,11 @@ async function removeOutdatedIncome() {
             },
             distinct: ['familyMember_id', 'candidate_id', 'incomeSource']
         })
-        console.log('RUNNING TASK', incomes)
-        // await prisma.monthlyIncome.deleteMany({
-        //     where: {
-        //         id: { in: incomes.map(e => e.id) }
-        //     }
-        // })
+        await prisma.monthlyIncome.deleteMany({
+            where: {
+                id: { in: incomes.map(e => e.id) }
+            }
+        })
     } catch (err) {
 
     }

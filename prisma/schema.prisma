@@ -7,6 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum TiebreakerCriterias {
+  CadUnico
+  LeastFamilyIncome
+  SeriousIllness
+  Draw
+}
+
 model Candidate {
   id                   String                @id @default(uuid())
   name                 String
@@ -516,6 +523,17 @@ model Medication {
   @@map("medications")
 }
 
+model AnnouncementInterview {
+  startDate       DateTime     @db.Date
+  endDate         DateTime     @db.Date
+  beginHour       DateTime     @db.Time(0)
+  interval        Int          @default(5)
+  endHour         DateTime     @db.Time(0)
+  duration        Int          @default(20)
+  announcement    Announcement @relation(fields: [announcement_id], references: [id])
+  announcement_id String       @unique
+}
+
 model Announcement {
   id                   String                   @id @default(uuid())
   entityChanged        Boolean?
@@ -524,6 +542,9 @@ model Announcement {
   announcementNumber   String?
   announcementDate     DateTime?
   announcementBegin    DateTime?                @default(now())
+  openDate             DateTime?
+  closeDate            DateTime?
+  waitingList          Boolean                  @default(false)
   offeredVacancies     Int?
   verifiedScholarships Int?
   description          String?
@@ -531,6 +552,8 @@ model Announcement {
   announcementName     String?
   announcementLogo     String?
   type2                String?
+  interview            AnnouncementInterview?
+  criteria             TiebreakerCriterias[]    @default([CadUnico, LeastFamilyIncome, SeriousIllness, Draw])
   types1               scholarshipGrantedType[]
   entity               Entity                   @relation(fields: [entity_id], references: [id])
   entity_subsidiary    EntitySubsidiary[]
@@ -579,6 +602,9 @@ model Application {
   educationLevel_id    String
   candidateName        String?
   SocialAssistantName  String?
+  CadUnico             Boolean?
+  hasSevereDesease     Boolean?
+  position             Int?
   number               Int                  @default(1)
   announcement         Announcement         @relation(fields: [announcement_id], references: [id], onDelete: Cascade)
   candidate            Candidate            @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
