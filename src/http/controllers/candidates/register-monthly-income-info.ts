@@ -1,6 +1,7 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -79,12 +80,10 @@ export async function registerMonthlyIncomeInfo(
       throw new ResourceNotFoundError()
     }
 
-    const isCandidate = await prisma.candidate.findUnique({
-      where: { id: _id }
-    })
+    const isCandidateOrResponsible = await ChooseCandidateResponsible(_id)
     // Verifica se existe um familiar cadastrado com o owner_id
 
-    const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
+    const idField = isCandidateOrResponsible ? (isCandidateOrResponsible.responsible ? { responsible_id: _id } : { candidate_id: _id }) : { familyMember_id: _id };
     await prisma.monthlyIncome.deleteMany({
       where: { ...idField, incomeSource: monthlyIncome.incomeSource }
     })
@@ -155,54 +154,37 @@ export async function registerMonthlyIncomeInfo(
     })
 
 
-    const monthlyIncomes = await prisma.monthlyIncome.findMany({
-      where: { ...idField, incomeSource: monthlyIncome.incomeSource },
-    })
 
-    const validIncomes = monthlyIncomes.filter(income => income.liquidAmount !== null && income.liquidAmount > 0);
-    // Calcula o totalAmount usando o array filtrado
-    const totalAmount = validIncomes.reduce((acc, current) => {
-      return acc + (current.liquidAmount || 0);
-    }, 0);
-    const avgIncome = validIncomes.length > 0 ? totalAmount / validIncomes.length : 0;
+    // Atualiza o array de IncomeSource do candidato ou responsável
+    if (isCandidateOrResponsible) {
 
-    // Atualiza o array de IncomeSource do candidato
-    if (candidate) {
-
-      await prisma.identityDetails.update({
-        where: { candidate_id: candidate.id,
-          NOT: {
-            incomeSource: {
-              has: monthlyIncome.incomeSource
-            }
-          }
-         },
+      await prisma.identityDetails.updateMany({
+        where: idField,
         data: {
           incomeSource: {
             set: [monthlyIncome.incomeSource],
-           
+
+          }
+        }
+      })
+
+    } else {
+    // Atualiza o array de IncomeSource do membro da familia
+
+      await prisma.familyMember.update({
+        where: {
+          id: _id,
+          
+        },
+        data: {
+          incomeSource: {
+            set: [monthlyIncome.incomeSource],
+
           }
         }
       })
     }
-    if (responsible) {
-      await prisma.identityDetails.update({
-        where: { responsible_id: responsible.id,
-          NOT: {
-            incomeSource: {
-              has: monthlyIncome.incomeSource
-            }
-          }
-         },
-        data: {
-          incomeSource: {
-            set: [monthlyIncome.incomeSource],
-           
-          }
-        }
-      })
-    }
-    
+
     return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {

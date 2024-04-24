@@ -42,6 +42,7 @@ model Candidate {
   MonthlyIncome       MonthlyIncome[]
   FamilyMemberDisease FamilyMemberDisease[]
   Medication          Medication[]
+  @@unique([id, responsible_id])
 
   @@map("candidates")
 }

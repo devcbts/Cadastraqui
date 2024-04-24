@@ -35,25 +35,25 @@ export async function getIdentityInfo(
       return reply.status(200).send({ identityInfo })
     }
     // Verifica se existe um candidato associado ao user_id
-    let candidate
+    let candidateOrResponsible
 
     if (_id) {
-      candidate = await prisma.candidate.findUnique({
+      candidateOrResponsible = await prisma.candidate.findUnique({
         where: { id: _id },
       })
     } else {
       // Verifica se existe um candidato associado ao user_id
-      candidate = await prisma.candidate.findUnique({
+      candidateOrResponsible = await prisma.candidate.findUnique({
         where: { user_id },
       })
     }
 
-    if (!candidate) {
+    if (!candidateOrResponsible) {
       throw new ResourceNotFoundError()
     }
     // Pega as informações de identificação associadas ao candidato logado
     const identityInfo = await prisma.identityDetails.findUnique({
-      where: { candidate_id: candidate.id },
+      where: { candidate_id: candidateOrResponsible.id },
     })
 
     return reply.status(200).send({ identityInfo })
