@@ -283,9 +283,316 @@ export const VerRenda = ({ member }) => {
 
   const [loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //   async function getIncomeInfo() {
+  //     try {
+  //       const token = localStorage.getItem("token");
+  //       const response = await api.get(
+  //         `/candidates/family-member/income/${member.id}`,
+  //         {
+  //           headers: {
+  //             authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
+  //       console.log(response);
+  //       if (member.incomeSource.includes("IndividualEntrepreneur")) {
+  //         const MEIIncomeInfo = response.data.familyMemberIncomeInfo.filter(
+  //           (data) => data.employmentType === "IndividualEntrepreneur"
+  //         );
+  //         const startDate = MEIIncomeInfo[0].startDate;
+  //         const CNPJ = MEIIncomeInfo[0].CNPJ;
+  //         const averageIncome = calculateAverageIncome(MEIIncomeInfo);
+
+  //         setMEIInfo({
+  //           startDate,
+  //           CNPJ,
+  //           averageIncome,
+  //         });
+
+  //         console.log(MEIInfo);
+  //       }
+
+  //       if (member.incomeSource.includes("SelfEmployed")) {
+  //         const AutonomousInfo = response.data.familyMemberIncomeInfo.filter(
+  //           (data) => data.employmentType === "SelfEmployed"
+  //         );
+  //         const averageIncome = calculateAverageIncome(AutonomousInfo);
+  //         setAutonomousInfo({ averageIncome });
+  //         console.log(autonomousInfo);
+  //       }
+
+  //       if (member.incomeSource.includes("Unemployed")) {
+  //         const UnemployedInfo = response.data.familyMemberIncomeInfo.filter(
+  //           (data) => data.employmentType === "Unemployed"
+  //         );
+  //         const firstParcelDate = UnemployedInfo[0].firstParcelDate;
+  //         const parcelValue = UnemployedInfo[0].parcelValue;
+  //         const parcels = UnemployedInfo[0].parcels;
+  //         const receivesUnemployment = UnemployedInfo[0].receivesUnemployment;
+
+  //         setUnemployedInfo({
+  //           receivesUnemployment,
+  //           parcels,
+  //           firstParcelDate,
+  //           parcelValue,
+  //         });
+
+  //         console.log(unemployedInfo);
+  //       }
+  //       if (member.incomeSource.includes("InformalWorker")) {
+  //         const InformalWorkerInfo =
+  //           response.data.familyMemberIncomeInfo.filter(
+  //             (data) => data.employmentType === "InformalWorker"
+  //           );
+  //         const averageIncome = calculateAverageIncome(InformalWorkerInfo);
+  //         setInformalWorkerInfo({ averageIncome });
+  //         console.log(informalWorkerInfo);
+  //       }
+  //       if (member.incomeSource.includes("RentalIncome")) {
+  //         const RentalIncomeInfo = response.data.familyMemberIncomeInfo.filter(
+  //           (data) => data.employmentType === "RentalIncome"
+  //         );
+  //         const averageIncome = calculateAverageIncome(RentalIncomeInfo);
+  //         setRentalIncomeInfo({ averageIncome });
+  //         console.log(rentalIncomeInfo);
+  //       }
+  //       if (member.incomeSource.includes("LiberalProfessional")) {
+  //         const LiberalProfessionalInfo =
+  //           response.data.familyMemberIncomeInfo.filter(
+  //             (data) => data.employmentType === "LiberalProfessional"
+  //           );
+  //         const averageIncome = calculateAverageIncome(LiberalProfessionalInfo);
+  //         setLiberalProfessionalInfo({ averageIncome });
+  //         console.log(liberalProfessionalInfo);
+  //       }
+  //       if (member.incomeSource.includes("PrivatePension")) {
+  //         const PrivatePensionInfo =
+  //           response.data.familyMemberIncomeInfo.filter(
+  //             (data) => data.employmentType === "PrivatePension"
+  //           );
+  //         const averageIncome = calculateAverageIncome(PrivatePensionInfo);
+  //         setPrivatePensionInfo({ averageIncome });
+  //         console.log(privatePensionInfo);
+  //       }
+  //       if (member.incomeSource.includes("FinancialHelpFromOthers")) {
+  //         const FinancialHelpFromOthersInfo =
+  //           response.data.familyMemberIncomeInfo.filter(
+  //             (data) => data.employmentType === "FinancialHelpFromOthers"
+  //           );
+  //         const averageIncome = calculateAverageIncome(
+  //           FinancialHelpFromOthersInfo
+  //         );
+  //         const financialAssistantCPF =
+  //           FinancialHelpFromOthersInfo[0].financialAssistantCPF;
+
+  //         setFinancialHelpFromOthersInfo({
+  //           averageIncome,
+  //           financialAssistantCPF,
+  //         });
+
+  //         console.log(financialHelpFromOthersInfo);
+  //       }
+  //       if (
+  //         member.incomeSource.includes("BusinessOwner") ||
+  //         member.incomeSource.includes("BusinessOwnerSimplifiedTax")
+  //       ) {
+  //         const EntepreneurInfo = response.data.familyMemberIncomeInfo.filter(
+  //           (data) =>
+  //             data.employmentType === "BusinessOwner" ||
+  //             data.employmentType === "BusinessOwnerSimplifiedTax"
+  //         );
+  //         const averageIncome = calculateAverageIncome(EntepreneurInfo);
+  //         const CNPJ = EntepreneurInfo[0].CNPJ;
+  //         const fantasyName = EntepreneurInfo[0].fantasyName;
+  //         const startDate = EntepreneurInfo[0].startDate;
+  //         const socialReason = EntepreneurInfo[0].socialReason;
+
+  //         setEntepreneurInfo({
+  //           startDate,
+  //           socialReason,
+  //           fantasyName,
+  //           CNPJ,
+  //           averageIncome,
+  //         });
+  //         console.log(entepreneurInfo);
+  //       }
+  //       if (member.incomeSource.includes("PrivateEmployee")) {
+  //         const PrivateEmployeeInfo =
+  //           response.data.familyMemberIncomeInfo.filter(
+  //             (data) => data.employmentType === "PrivateEmployee"
+  //           );
+  //         const averageIncome = calculateAverageIncome(PrivateEmployeeInfo);
+  //         const admissionDate = PrivateEmployeeInfo[0].admissionDate;
+  //         const payingSource = PrivateEmployeeInfo[0].payingSource;
+  //         const payingSourcePhone = PrivateEmployeeInfo[0].payingSourcePhone;
+  //         const position = PrivateEmployeeInfo[0].position;
+
+  //         setprivateEmployeeInfo({
+  //           admissionDate,
+  //           position,
+  //           payingSource,
+  //           payingSourcePhone,
+  //           averageIncome,
+  //         });
+  //         console.log(privateEmployeeInfo);
+  //       }
+  //       if (member.incomeSource.includes("PublicEmployee")) {
+  //         const PublicEmployeeInfo =
+  //           response.data.familyMemberIncomeInfo.filter(
+  //             (data) => data.employmentType === "PublicEmployee"
+  //           );
+  //         const averageIncome = calculateAverageIncome(PublicEmployeeInfo);
+  //         const admissionDate = PublicEmployeeInfo[0].admissionDate;
+  //         const payingSource = PublicEmployeeInfo[0].payingSource;
+  //         const payingSourcePhone = PublicEmployeeInfo[0].payingSourcePhone;
+  //         const position = PublicEmployeeInfo[0].position;
+
+  //         setPublicEmployeeInfo({
+  //           admissionDate,
+  //           position,
+  //           payingSource,
+  //           payingSourcePhone,
+  //           averageIncome,
+  //         });
+  //         console.log(publicEmployeeInfo);
+  //       }
+  //       if (member.incomeSource.includes("DomesticEmployee")) {
+  //         const DomesticEmployeeInfo =
+  //           response.data.familyMemberIncomeInfo.filter(
+  //             (data) => data.employmentType === "DomesticEmployee"
+  //           );
+  //         const averageIncome = calculateAverageIncome(DomesticEmployeeInfo);
+  //         const admissionDate = DomesticEmployeeInfo[0].admissionDate;
+  //         const payingSource = DomesticEmployeeInfo[0].payingSource;
+  //         const payingSourcePhone = DomesticEmployeeInfo[0].payingSourcePhone;
+  //         const position = DomesticEmployeeInfo[0].position;
+
+  //         setDomesticEmployeeInfo({
+  //           admissionDate,
+  //           position,
+  //           payingSource,
+  //           payingSourcePhone,
+  //           averageIncome,
+  //         });
+  //         console.log(domesticEmployeeInfo);
+  //       }
+  //       if (member.incomeSource.includes("TemporaryRuralEmployee")) {
+  //         const TemporaryRuralEmployeeInfo =
+  //           response.data.familyMemberIncomeInfo.filter(
+  //             (data) => data.employmentType === "TemporaryRuralEmployee"
+  //           );
+  //         const averageIncome = calculateAverageIncome(
+  //           TemporaryRuralEmployeeInfo
+  //         );
+  //         const admissionDate = TemporaryRuralEmployeeInfo[0].admissionDate;
+  //         const payingSource = TemporaryRuralEmployeeInfo[0].payingSource;
+  //         const payingSourcePhone =
+  //           TemporaryRuralEmployeeInfo[0].payingSourcePhone;
+  //         const position = TemporaryRuralEmployeeInfo[0].position;
+
+  //         setTemporaryRuralEmployeeInfo({
+  //           admissionDate,
+  //           position,
+  //           payingSource,
+  //           payingSourcePhone,
+  //           averageIncome,
+  //         });
+  //         console.log(temporaryRuralEmployeeInfo);
+  //       }
+  //       if (member.incomeSource.includes("Retired")) {
+  //         const RetiredInfo = response.data.familyMemberIncomeInfo.filter(
+  //           (data) => data.employmentType === "Retired"
+  //         );
+  //         const averageIncome = calculateAverageIncome(RetiredInfo);
+  //         const admissionDate = RetiredInfo[0].admissionDate;
+  //         const payingSource = RetiredInfo[0].payingSource;
+  //         const payingSourcePhone = RetiredInfo[0].payingSourcePhone;
+  //         const position = RetiredInfo[0].position;
+
+  //         setRetiredInfo({
+  //           admissionDate,
+  //           position,
+  //           payingSource,
+  //           payingSourcePhone,
+  //           averageIncome,
+  //         });
+  //         console.log(retiredInfo);
+  //       }
+  //       if (member.incomeSource.includes("Pensioner")) {
+  //         const PensionerInfo = response.data.familyMemberIncomeInfo.filter(
+  //           (data) => data.employmentType === "Pensioner"
+  //         );
+  //         const averageIncome = calculateAverageIncome(PensionerInfo);
+  //         const admissionDate = PensionerInfo[0].admissionDate;
+  //         const payingSource = PensionerInfo[0].payingSource;
+  //         const payingSourcePhone = PensionerInfo[0].payingSourcePhone;
+  //         const position = PensionerInfo[0].position;
+
+  //         setPensionerInfo({
+  //           admissionDate,
+  //           position,
+  //           payingSource,
+  //           payingSourcePhone,
+  //           averageIncome,
+  //         });
+  //         console.log(pensionerInfo);
+  //       }
+  //       if (member.incomeSource.includes("TemporaryDisabilityBenefit")) {
+  //         const TemporaryDisabilityBenefitInfo =
+  //           response.data.familyMemberIncomeInfo.filter(
+  //             (data) => data.employmentType === "TemporaryDisabilityBenefit"
+  //           );
+  //         const averageIncome = calculateAverageIncome(
+  //           TemporaryDisabilityBenefitInfo
+  //         );
+  //         const admissionDate = TemporaryDisabilityBenefitInfo[0].admissionDate;
+  //         const payingSource = TemporaryDisabilityBenefitInfo[0].payingSource;
+  //         const payingSourcePhone =
+  //           TemporaryDisabilityBenefitInfo[0].payingSourcePhone;
+  //         const position = TemporaryDisabilityBenefitInfo[0].position;
+
+  //         setTemporaryDisabilityBenefitInfo({
+  //           admissionDate,
+  //           position,
+  //           payingSource,
+  //           payingSourcePhone,
+  //           averageIncome,
+  //         });
+  //         console.log(temporaryDisabilityBenefitInfo);
+  //       }
+  //       if (member.incomeSource.includes("Apprentice")) {
+  //         const ApprenticeInfo = response.data.familyMemberIncomeInfo.filter(
+  //           (data) => data.employmentType === "Apprentice"
+  //         );
+  //         const averageIncome = calculateAverageIncome(ApprenticeInfo);
+  //         const admissionDate = ApprenticeInfo[0].admissionDate;
+  //         const payingSource = ApprenticeInfo[0].payingSource;
+  //         const payingSourcePhone = ApprenticeInfo[0].payingSourcePhone;
+  //         const position = ApprenticeInfo[0].position;
+
+  //         setApprenticeInfo({
+  //           admissionDate,
+  //           position,
+  //           payingSource,
+  //           payingSourcePhone,
+  //           averageIncome,
+  //         });
+  //         console.log(apprenticeInfo);
+  //       }
+
+  //       setLoading(false);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  //   getIncomeInfo();
+  // }, []);
+  const [info, setInfo] = useState()
   useEffect(() => {
-    async function getIncomeInfo() {
+    const getInfo = async () => {
       try {
+
         const token = localStorage.getItem("token");
         const response = await api.get(
           `/candidates/family-member/income/${member.id}`,
@@ -294,301 +601,15 @@ export const VerRenda = ({ member }) => {
               authorization: `Bearer ${token}`,
             },
           }
-        );
-        console.log(response);
-        if (member.incomeSource.includes("IndividualEntrepreneur")) {
-          const MEIIncomeInfo = response.data.familyMemberIncomeInfo.filter(
-            (data) => data.employmentType === "IndividualEntrepreneur"
-          );
-          const startDate = MEIIncomeInfo[0].startDate;
-          const CNPJ = MEIIncomeInfo[0].CNPJ;
-          const averageIncome = calculateAverageIncome(MEIIncomeInfo);
+        )
+        setInfo(response.data.familyMemberIncomeInfo)
 
-          setMEIInfo({
-            startDate,
-            CNPJ,
-            averageIncome,
-          });
-
-          console.log(MEIInfo);
-        }
-
-        if (member.incomeSource.includes("SelfEmployed")) {
-          const AutonomousInfo = response.data.familyMemberIncomeInfo.filter(
-            (data) => data.employmentType === "SelfEmployed"
-          );
-          const averageIncome = calculateAverageIncome(AutonomousInfo);
-          setAutonomousInfo({ averageIncome });
-          console.log(autonomousInfo);
-        }
-
-        if (member.incomeSource.includes("Unemployed")) {
-          const UnemployedInfo = response.data.familyMemberIncomeInfo.filter(
-            (data) => data.employmentType === "Unemployed"
-          );
-          const firstParcelDate = UnemployedInfo[0].firstParcelDate;
-          const parcelValue = UnemployedInfo[0].parcelValue;
-          const parcels = UnemployedInfo[0].parcels;
-          const receivesUnemployment = UnemployedInfo[0].receivesUnemployment;
-
-          setUnemployedInfo({
-            receivesUnemployment,
-            parcels,
-            firstParcelDate,
-            parcelValue,
-          });
-
-          console.log(unemployedInfo);
-        }
-        if (member.incomeSource.includes("InformalWorker")) {
-          const InformalWorkerInfo =
-            response.data.familyMemberIncomeInfo.filter(
-              (data) => data.employmentType === "InformalWorker"
-            );
-          const averageIncome = calculateAverageIncome(InformalWorkerInfo);
-          setInformalWorkerInfo({ averageIncome });
-          console.log(informalWorkerInfo);
-        }
-        if (member.incomeSource.includes("RentalIncome")) {
-          const RentalIncomeInfo = response.data.familyMemberIncomeInfo.filter(
-            (data) => data.employmentType === "RentalIncome"
-          );
-          const averageIncome = calculateAverageIncome(RentalIncomeInfo);
-          setRentalIncomeInfo({ averageIncome });
-          console.log(rentalIncomeInfo);
-        }
-        if (member.incomeSource.includes("LiberalProfessional")) {
-          const LiberalProfessionalInfo =
-            response.data.familyMemberIncomeInfo.filter(
-              (data) => data.employmentType === "LiberalProfessional"
-            );
-          const averageIncome = calculateAverageIncome(LiberalProfessionalInfo);
-          setLiberalProfessionalInfo({ averageIncome });
-          console.log(liberalProfessionalInfo);
-        }
-        if (member.incomeSource.includes("PrivatePension")) {
-          const PrivatePensionInfo =
-            response.data.familyMemberIncomeInfo.filter(
-              (data) => data.employmentType === "PrivatePension"
-            );
-          const averageIncome = calculateAverageIncome(PrivatePensionInfo);
-          setPrivatePensionInfo({ averageIncome });
-          console.log(privatePensionInfo);
-        }
-        if (member.incomeSource.includes("FinancialHelpFromOthers")) {
-          const FinancialHelpFromOthersInfo =
-            response.data.familyMemberIncomeInfo.filter(
-              (data) => data.employmentType === "FinancialHelpFromOthers"
-            );
-          const averageIncome = calculateAverageIncome(
-            FinancialHelpFromOthersInfo
-          );
-          const financialAssistantCPF =
-            FinancialHelpFromOthersInfo[0].financialAssistantCPF;
-
-          setFinancialHelpFromOthersInfo({
-            averageIncome,
-            financialAssistantCPF,
-          });
-
-          console.log(financialHelpFromOthersInfo);
-        }
-        if (
-          member.incomeSource.includes("BusinessOwner") ||
-          member.incomeSource.includes("BusinessOwnerSimplifiedTax")
-        ) {
-          const EntepreneurInfo = response.data.familyMemberIncomeInfo.filter(
-            (data) =>
-              data.employmentType === "BusinessOwner" ||
-              data.employmentType === "BusinessOwnerSimplifiedTax"
-          );
-          const averageIncome = calculateAverageIncome(EntepreneurInfo);
-          const CNPJ = EntepreneurInfo[0].CNPJ;
-          const fantasyName = EntepreneurInfo[0].fantasyName;
-          const startDate = EntepreneurInfo[0].startDate;
-          const socialReason = EntepreneurInfo[0].socialReason;
-
-          setEntepreneurInfo({
-            startDate,
-            socialReason,
-            fantasyName,
-            CNPJ,
-            averageIncome,
-          });
-          console.log(entepreneurInfo);
-        }
-        if (member.incomeSource.includes("PrivateEmployee")) {
-          const PrivateEmployeeInfo =
-            response.data.familyMemberIncomeInfo.filter(
-              (data) => data.employmentType === "PrivateEmployee"
-            );
-          const averageIncome = calculateAverageIncome(PrivateEmployeeInfo);
-          const admissionDate = PrivateEmployeeInfo[0].admissionDate;
-          const payingSource = PrivateEmployeeInfo[0].payingSource;
-          const payingSourcePhone = PrivateEmployeeInfo[0].payingSourcePhone;
-          const position = PrivateEmployeeInfo[0].position;
-
-          setprivateEmployeeInfo({
-            admissionDate,
-            position,
-            payingSource,
-            payingSourcePhone,
-            averageIncome,
-          });
-          console.log(privateEmployeeInfo);
-        }
-        if (member.incomeSource.includes("PublicEmployee")) {
-          const PublicEmployeeInfo =
-            response.data.familyMemberIncomeInfo.filter(
-              (data) => data.employmentType === "PublicEmployee"
-            );
-          const averageIncome = calculateAverageIncome(PublicEmployeeInfo);
-          const admissionDate = PublicEmployeeInfo[0].admissionDate;
-          const payingSource = PublicEmployeeInfo[0].payingSource;
-          const payingSourcePhone = PublicEmployeeInfo[0].payingSourcePhone;
-          const position = PublicEmployeeInfo[0].position;
-
-          setPublicEmployeeInfo({
-            admissionDate,
-            position,
-            payingSource,
-            payingSourcePhone,
-            averageIncome,
-          });
-          console.log(publicEmployeeInfo);
-        }
-        if (member.incomeSource.includes("DomesticEmployee")) {
-          const DomesticEmployeeInfo =
-            response.data.familyMemberIncomeInfo.filter(
-              (data) => data.employmentType === "DomesticEmployee"
-            );
-          const averageIncome = calculateAverageIncome(DomesticEmployeeInfo);
-          const admissionDate = DomesticEmployeeInfo[0].admissionDate;
-          const payingSource = DomesticEmployeeInfo[0].payingSource;
-          const payingSourcePhone = DomesticEmployeeInfo[0].payingSourcePhone;
-          const position = DomesticEmployeeInfo[0].position;
-
-          setDomesticEmployeeInfo({
-            admissionDate,
-            position,
-            payingSource,
-            payingSourcePhone,
-            averageIncome,
-          });
-          console.log(domesticEmployeeInfo);
-        }
-        if (member.incomeSource.includes("TemporaryRuralEmployee")) {
-          const TemporaryRuralEmployeeInfo =
-            response.data.familyMemberIncomeInfo.filter(
-              (data) => data.employmentType === "TemporaryRuralEmployee"
-            );
-          const averageIncome = calculateAverageIncome(
-            TemporaryRuralEmployeeInfo
-          );
-          const admissionDate = TemporaryRuralEmployeeInfo[0].admissionDate;
-          const payingSource = TemporaryRuralEmployeeInfo[0].payingSource;
-          const payingSourcePhone =
-            TemporaryRuralEmployeeInfo[0].payingSourcePhone;
-          const position = TemporaryRuralEmployeeInfo[0].position;
-
-          setTemporaryRuralEmployeeInfo({
-            admissionDate,
-            position,
-            payingSource,
-            payingSourcePhone,
-            averageIncome,
-          });
-          console.log(temporaryRuralEmployeeInfo);
-        }
-        if (member.incomeSource.includes("Retired")) {
-          const RetiredInfo = response.data.familyMemberIncomeInfo.filter(
-            (data) => data.employmentType === "Retired"
-          );
-          const averageIncome = calculateAverageIncome(RetiredInfo);
-          const admissionDate = RetiredInfo[0].admissionDate;
-          const payingSource = RetiredInfo[0].payingSource;
-          const payingSourcePhone = RetiredInfo[0].payingSourcePhone;
-          const position = RetiredInfo[0].position;
-
-          setRetiredInfo({
-            admissionDate,
-            position,
-            payingSource,
-            payingSourcePhone,
-            averageIncome,
-          });
-          console.log(retiredInfo);
-        }
-        if (member.incomeSource.includes("Pensioner")) {
-          const PensionerInfo = response.data.familyMemberIncomeInfo.filter(
-            (data) => data.employmentType === "Pensioner"
-          );
-          const averageIncome = calculateAverageIncome(PensionerInfo);
-          const admissionDate = PensionerInfo[0].admissionDate;
-          const payingSource = PensionerInfo[0].payingSource;
-          const payingSourcePhone = PensionerInfo[0].payingSourcePhone;
-          const position = PensionerInfo[0].position;
-
-          setPensionerInfo({
-            admissionDate,
-            position,
-            payingSource,
-            payingSourcePhone,
-            averageIncome,
-          });
-          console.log(pensionerInfo);
-        }
-        if (member.incomeSource.includes("TemporaryDisabilityBenefit")) {
-          const TemporaryDisabilityBenefitInfo =
-            response.data.familyMemberIncomeInfo.filter(
-              (data) => data.employmentType === "TemporaryDisabilityBenefit"
-            );
-          const averageIncome = calculateAverageIncome(
-            TemporaryDisabilityBenefitInfo
-          );
-          const admissionDate = TemporaryDisabilityBenefitInfo[0].admissionDate;
-          const payingSource = TemporaryDisabilityBenefitInfo[0].payingSource;
-          const payingSourcePhone =
-            TemporaryDisabilityBenefitInfo[0].payingSourcePhone;
-          const position = TemporaryDisabilityBenefitInfo[0].position;
-
-          setTemporaryDisabilityBenefitInfo({
-            admissionDate,
-            position,
-            payingSource,
-            payingSourcePhone,
-            averageIncome,
-          });
-          console.log(temporaryDisabilityBenefitInfo);
-        }
-        if (member.incomeSource.includes("Apprentice")) {
-          const ApprenticeInfo = response.data.familyMemberIncomeInfo.filter(
-            (data) => data.employmentType === "Apprentice"
-          );
-          const averageIncome = calculateAverageIncome(ApprenticeInfo);
-          const admissionDate = ApprenticeInfo[0].admissionDate;
-          const payingSource = ApprenticeInfo[0].payingSource;
-          const payingSourcePhone = ApprenticeInfo[0].payingSourcePhone;
-          const position = ApprenticeInfo[0].position;
-
-          setApprenticeInfo({
-            admissionDate,
-            position,
-            payingSource,
-            payingSourcePhone,
-            averageIncome,
-          });
-          console.log(apprenticeInfo);
-        }
-
-        setLoading(false);
       } catch (err) {
-        console.log(err);
+
       }
     }
-    getIncomeInfo();
-  }, []);
-
+    getInfo()
+  }, [])
   useEffect(() => {
     async function getMonthlyIncome() {
       try {
@@ -602,17 +623,16 @@ export const VerRenda = ({ member }) => {
           }
         );
         setMonthlyIncomes(response.data.incomeBySource);
-        console.log(response.data.incomeBySource);
+        console.log(response.data);
       } catch (error) {
         console.log(error);
       }
     }
     getMonthlyIncome();
   }, [IncomeSource]);
-
   return (
     <div>
-      <div className="fill-box">
+      {false && <div className="fill-box">
         <form id="survey-form">
           <h4>
             Renda do {member.fullName} (
@@ -789,9 +809,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : 
-                          formatCurrency(informalWorkerInfo.averageIncome)
-                        
+                      :
+                      formatCurrency(informalWorkerInfo.averageIncome)
+
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -817,9 +837,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : 
-                          formatCurrency(rentalIncomeInfo.averageIncome)
-                        
+                      :
+                      formatCurrency(rentalIncomeInfo.averageIncome)
+
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -845,9 +865,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : 
-                          formatCurrency(liberalProfessionalInfo.averageIncome)
-                        
+                      :
+                      formatCurrency(liberalProfessionalInfo.averageIncome)
+
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -873,9 +893,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : 
-                          formatCurrency(privatePensionInfo.averageIncome)
-                        
+                      :
+                      formatCurrency(privatePensionInfo.averageIncome)
+
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -923,9 +943,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : 
-                          formatCurrency(financialHelpFromOthersInfo.averageIncome)
-                        
+                      :
+                      formatCurrency(financialHelpFromOthersInfo.averageIncome)
+
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -935,8 +955,8 @@ export const VerRenda = ({ member }) => {
           )}
 
           {/* Empresário */}
-          {(member.incomeSource.includes("BusinessOwner") || member.incomeSource.includes("BusinessOwnerSimplifiedTax") )
-          && (
+          {(member.incomeSource.includes("BusinessOwner") || member.incomeSource.includes("BusinessOwnerSimplifiedTax"))
+            && (
               <>
                 <h4>Fonte de renda: Empresário</h4>
                 {/*<!-- Data de Início -->*/}
@@ -1014,9 +1034,9 @@ export const VerRenda = ({ member }) => {
                     value={
                       loading
                         ? ""
-                        : 
-                            formatCurrency(entepreneurInfo.averageIncome)
-                          
+                        :
+                        formatCurrency(entepreneurInfo.averageIncome)
+
                     }
                     id="averageIncome"
                     class="survey-control"
@@ -1106,9 +1126,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : 
-                          formatCurrency(privateEmployeeInfo.averageIncome)
-                        
+                      :
+                      formatCurrency(privateEmployeeInfo.averageIncome)
+
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -1198,9 +1218,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : 
-                          formatCurrency(publicEmployeeInfo.averageIncome)
-                        
+                      :
+                      formatCurrency(publicEmployeeInfo.averageIncome)
+
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -1290,9 +1310,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : 
-                          formatCurrency(domesticEmployeeInfo.averageIncome)
-                        
+                      :
+                      formatCurrency(domesticEmployeeInfo.averageIncome)
+
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -1384,9 +1404,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : 
-                          formatCurrency(temporaryRuralEmployeeInfo.averageIncome)
-                        
+                      :
+                      formatCurrency(temporaryRuralEmployeeInfo.averageIncome)
+
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -1588,8 +1608,8 @@ export const VerRenda = ({ member }) => {
                     loading
                       ? ""
                       : temporaryDisabilityBenefitInfo.admissionDate.split(
-                          "T"
-                        )[0]
+                        "T"
+                      )[0]
                   }
                   id="admissionDate"
                   class="survey-control"
@@ -1659,9 +1679,9 @@ export const VerRenda = ({ member }) => {
                   value={
                     loading
                       ? ""
-                      : 
-                          formatCurrency(temporaryDisabilityBenefitInfo.averageIncome)
-                        
+                      :
+                      formatCurrency(temporaryDisabilityBenefitInfo.averageIncome)
+
                   }
                   id="averageIncome"
                   class="survey-control"
@@ -1758,18 +1778,19 @@ export const VerRenda = ({ member }) => {
             </>
           )}
         </form>
-      </div>
+      </div>}
       <div>
-        {monthlyIncomes &&
+        {monthlyIncomes && info &&
           Object.entries(monthlyIncomes).map(
             ([incomeSource, monthlyIncomesGrouped]) => (
               <div>
-                {console.log(monthlyIncomesGrouped)}
                 <VerRendaMensal
                   key={incomeSource} // A chave deve ser única para cada item na lista
                   incomeSource={incomeSource} // A string representando a fonte de renda
                   monthlyIncomesByType={monthlyIncomesGrouped} // Passando diretamente o array
                   id={member.id} // O ID do membro, assumido estar disponível no escopo
+                  member={member}
+                  data={info}
                 />
               </div>
             )

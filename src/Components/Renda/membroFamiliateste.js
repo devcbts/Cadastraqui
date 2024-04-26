@@ -43,7 +43,7 @@ const Relationship = [
   { value: "Other", label: "Outro" },
 ];
 
-export default function MembrosFamiliaRendaTeste({candidate, identityInfo}) {
+export default function MembrosFamiliaRendaTeste({ candidate, identityInfo }) {
   const [familyMembers, setFamilyMembers] = useState(null);
   const [memberSelected, setMemberSelected] = useState(null);
   const [memberSelectedToSeeIncome, setMemberSelectedToSeeIncome] =
@@ -64,19 +64,17 @@ export default function MembrosFamiliaRendaTeste({candidate, identityInfo}) {
         const membrosdaFamilia = response.data.familyMembers;
         const candidateWithIncomeInfo = {
           ...candidate,
-          incomeSource: identityInfo.incomeSource || [], // Adiciona ou sobrescreve o campo incomeSource com o valor de identityInfo.IncomeSource
+          incomeSource: identityInfo?.incomeSource || [], // Adiciona ou sobrescreve o campo incomeSource com o valor de identityInfo.IncomeSource
         };
-        console.log(candidate)
+        console.log('income', candidateWithIncomeInfo)
         // Inclui o candidato atualizado no início do array de membros da família
         setFamilyMembers([candidateWithIncomeInfo, ...membrosdaFamilia]);
-            } catch (err) {
-        
+      } catch (err) {
+        console.log(err)
       }
     }
-    if (identityInfo) {
-      
-      fetchFamilyMembers();
-    }
+    fetchFamilyMembers();
+
   }, [identityInfo]);
 
   function handleShowRegisterIncome(familyMemberId) {
@@ -103,11 +101,11 @@ export default function MembrosFamiliaRendaTeste({candidate, identityInfo}) {
   }
   function translateIncomeSource(incomeArray) {
     const translatedIncome = incomeArray?.map(incomeValue => {
-        const foundIncome = IncomeSource.find(item => item.value === incomeValue);
-        return foundIncome ? foundIncome.label : "Não especificado";
+      const foundIncome = IncomeSource.find(item => item.value === incomeValue);
+      return foundIncome ? foundIncome.label : "Não especificado";
     });
     return translatedIncome?.join(', ');
-}
+  }
   return (
     <>
       {!memberSelected &&
