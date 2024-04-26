@@ -84,9 +84,11 @@ export default function MembrosFamilia() {
       const isDeleting = result.isConfirmed;
       if (isDeleting) {
         await api.delete('/candidates/family-member', { params: { id: memberId } })
+
+
+        setMembros((prevState) => [...prevState].filter((e) => e.id !== memberId))
+        setMembroSelecionado(null)
       }
-      setMembros((prevState) => [...prevState].filter((e) => e.id !== memberId))
-      setMembroSelecionado(null)
     } catch (err) {
       Swal.fire({
         title: 'Erro',

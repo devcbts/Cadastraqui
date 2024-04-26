@@ -309,7 +309,6 @@ export default function VerBasico({ candidate, basic, role }) {
             error={candidateInfoErrors}
           />
 
-
           {/* RG */}
           <Input
             fieldName='RG'
@@ -616,7 +615,8 @@ export default function VerBasico({ candidate, basic, role }) {
             label='E-mail'
             type='text'
             required
-            disabled
+            disabled={!isEditing}
+
             value={candidateInfo.email}
             onChange={handleCandidateInfo}
           />
@@ -627,7 +627,7 @@ export default function VerBasico({ candidate, basic, role }) {
             label='Endereço'
             type='text'
             required
-            disabled
+            disabled={!isEditing}
             value={candidateInfo.address}
             onChange={handleCandidateInfo}
           />
@@ -639,7 +639,7 @@ export default function VerBasico({ candidate, basic, role }) {
             label='Cidade'
             type='text'
             required
-            disabled
+            disabled={!isEditing}
             value={candidateInfo.city}
             onChange={handleCandidateInfo}
           />
@@ -650,7 +650,8 @@ export default function VerBasico({ candidate, basic, role }) {
           <div class="survey-box">
             <label for="UF" id="UF-label">Unidade Federativa:</label>
             <br />
-            <select name="UF" id="UF" value={candidateInfo.UF} disabled onChange={handleCandidateInfo} class="select-data">
+            <select name="UF" id="UF" value={candidateInfo.UF} disabled={!isEditing}
+              onChange={handleCandidateInfo} class="select-data">
               {COUNTRY.map((type) => <option value={type.value}>{type.label}</option>)}
 
 
@@ -663,7 +664,8 @@ export default function VerBasico({ candidate, basic, role }) {
             label='CEP'
             type='text'
             required
-            disabled
+            disabled={!isEditing}
+
             value={candidateInfo.CEP}
             onChange={handleCandidateInfo}
           />
@@ -674,7 +676,8 @@ export default function VerBasico({ candidate, basic, role }) {
             label='Bairro'
             type='text'
             required
-            disabled
+            disabled={!isEditing}
+
             value={candidateInfo.neighborhood}
             onChange={handleCandidateInfo}
           />
@@ -686,7 +689,8 @@ export default function VerBasico({ candidate, basic, role }) {
             label='Número do Endereço'
             type='number'
             required
-            disabled
+            disabled={!isEditing}
+
             value={candidateInfo.addressNumber}
             onChange={handleCandidateInfo}
           />
