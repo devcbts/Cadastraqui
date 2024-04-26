@@ -325,8 +325,8 @@ export default function CadastroEdital() {
 
     const [educationalLevels, setEducationalLevels] = useState([]);
     const handleEducationalChange = (field, value) => {
+        console.log('campo alterado', field, value, currentCourse)
         setCurrentCourse({ ...currentCourse, [field]: value });
-        console.log(currentCourse)
     };
 
 
@@ -471,7 +471,7 @@ export default function CadastroEdital() {
 
             educationalLevels.map(async (education) => {
                 const data = {
-                    level: educationLevel,
+                    level: watchEducationLevel,
                     basicEduType: education.basicEduType || '',
                     scholarshipType: education.scholarshipType,
                     higherEduScholarshipType: education.higherEduScholarshipType,
@@ -490,7 +490,7 @@ export default function CadastroEdital() {
                 try {
                     await api.post(`/entities/education/${announcement.id}`,
                         {
-                            level: educationLevel,
+                            level: watchEducationLevel,
                             basicEduType: education.basicEduType || '',
                             scholarshipType: education.scholarshipType,
                             higherEduScholarshipType: education.higherEduScholarshipType,
@@ -511,13 +511,7 @@ export default function CadastroEdital() {
                     })
 
 
-                    const formData = new FormData();
-                    formData.append("file", getValues().file);
-                    await api.post(`/entities/upload/${announcement.id}`, formData, {
-                        headers: {
-                            authorization: `Bearer ${token}`,
-                        },
-                    });
+
 
 
                 } catch (error) {
@@ -525,7 +519,14 @@ export default function CadastroEdital() {
                 }
 
             })
-
+            const formData = new FormData();
+            console.log('ARQUIVO QUE SERÁ ENVIADO', getValues().file)
+            formData.append("file", getValues().file[0]);
+            await api.post(`/entities/upload/${announcement.id}`, formData, {
+                headers: {
+                    authorization: `Bearer ${token}`,
+                },
+            });
 
             handleSuccess(response, 'Edital Criado com sucesso')
             setAnnouncementBegin('')
