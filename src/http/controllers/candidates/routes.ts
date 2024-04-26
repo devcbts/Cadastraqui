@@ -26,6 +26,7 @@ import { registerCandidate } from './register'
 import { registerAutonomousInfo } from './register-autonomous-info'
 import { registerCLTInfo } from './register-clt-income-info'
 import { registerCreditCardInfo } from './register-credit-card-info'
+import { registerEmploymenType } from './register-employment-type'
 import { registerEntepreneursInfo } from './register-entepreneur-info'
 import { registerExpensesInfo } from './register-expenses-info'
 import { registerFamilyMemberInfo } from './register-family-member'
@@ -46,12 +47,12 @@ import { updateFamilyMemberInfo } from './update-family-member'
 import { updateFinancingInfo } from './update-financing-info'
 import { updateHousingInfo } from './update-housing-info'
 import { updateIdentityInfo } from './update-identity-info'
+import updateIncomeSource from './update-income-source'
 import { updateLoanInfo } from './update-loan-info'
 import { updateVehicleInfo } from './update-vehicle-info'
 import { uploadDocument } from './upload-documents'
 import { uploadCandidateProfilePicture } from './upload-profile-picture'
 import { uploadSolicitationDocument } from './upload-solicitation-documents'
-import { registerEmploymenType } from './register-employment-type'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -94,6 +95,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     registerMonthlyIncomeInfo,
   )
+  app.post('/update-income-source', { onRequest: [verifyJWT] }, updateIncomeSource)
   app.post(
     '/family-member/unemployed/:_id',
     { onRequest: [verifyJWT] },
@@ -106,7 +108,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   )
   app.delete('/family-member', { onRequest: [verifyJWT] }, deleteFamilyMember)
   // Income Info
-  app.post('/family-member/employmentType/:_id' , {onRequest: [verifyJWT]}, registerEmploymenType)
+  app.post('/family-member/employmentType/:_id', { onRequest: [verifyJWT] }, registerEmploymenType)
   app.post(
     '/family-member/MEI/:_id',
     { onRequest: [verifyJWT] },
