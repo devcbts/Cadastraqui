@@ -183,7 +183,7 @@ export default function CadastroBasico() {
     institutionCNPJ_professional: "",
     nameOfScholarshipCourse_professional: null,
     CadUnico: false,
-  });
+  }, candidateInfoValidations);
 
 
 
@@ -249,7 +249,7 @@ export default function CadastroBasico() {
         },
       });
       console.log("====================================");
-      console.log(response.status);
+      console.log(response.data);
       console.log("====================================");
       handleSuccess(response, "Dados cadastrados com sucesso!");
     } catch (error) {
