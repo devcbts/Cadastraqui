@@ -212,7 +212,7 @@ export default function CadastroEdital() {
             message: 'Data deve ser maior do que a data de abertura do edital'
         })
 
-    const { register, formState: { errors, touchedFields }, clearErrors, watch, handleSubmit, getValues } = useForm({
+    const { register, formState: { errors, touchedFields }, clearErrors, watch, handleSubmit, getValues, reset } = useForm({
         resolver: zodResolver(announcementSchema), mode: "all", reValidateMode: "onSubmit"
     })
     const watchEducationLevel = watch("educationLevel")
@@ -535,6 +535,7 @@ export default function CadastroEdital() {
             setAnnouncementType('')
             setEducationalLevels([])
             setFile(null)
+            reset()
 
         } catch (err) {
             handleAuthError(err, navigate, 'Erro ao criar o edital')
