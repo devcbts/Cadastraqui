@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
-export async function ChooseCandidateResponsible(id: string): Promise<{ responsible: boolean, data: any } | null> {
+export async function ChooseCandidateResponsible(id: string): Promise<{ IsResponsible: boolean, UserData: any } | null> {
 
     const candidate = await prisma.candidate.findUnique({
         where: {id},
@@ -15,8 +15,8 @@ export async function ChooseCandidateResponsible(id: string): Promise<{ responsi
 
     const responsible = candidate.responsible;
     if (responsible) {
-        return { responsible: true, data: responsible };
+        return { IsResponsible: true, UserData: responsible };
     } else {
-        return { responsible: false, data: candidate};
+        return { IsResponsible: false, UserData: candidate};
     }
 }
