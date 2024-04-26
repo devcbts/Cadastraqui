@@ -32,7 +32,7 @@ const EmploymentType = z.enum([
 
 const EmploymentTypeSchema = z.object({
     employmentType: EmploymentType,
-    quantity: z.number().optional(),
+    quantity: z.number().default(3),
     startDate: z.string().optional(),
     fantasyName: z.string().optional(),
     CNPJ: z.string().optional(),
@@ -79,7 +79,7 @@ export async function registerEmploymenType(
     try {
         const user_id = request.user.sub
 
-        const candidate = await prisma.candidate.findUnique({ where: { user_id } })
+        const candidate = await prisma.candidate.findUnique({ where: { user_id }, include: { FamillyMember: true } })
         if (!candidate) {
             throw new ResourceNotFoundError()
         }
@@ -102,8 +102,8 @@ export async function registerEmploymenType(
             return acc + (current.liquidAmount || 0);
         }, 0);
 
-        const avgIncome = validIncomes.length > 0 ? totalAmount / validIncomes.length : 0;
-
+        const avgIncome = validIncomes.length > 0 ? totalAmount / quantity : 0;
+        console.log(avgIncome)
         await prisma.familyMemberIncome.deleteMany({
             where: { ...idField, employmentType: employmentType }
         })
@@ -128,7 +128,25 @@ export async function registerEmploymenType(
                 ...idField
             },
         })
+        const applications = await prisma.application.findMany({
+            where: { candidate_id: candidate.id },
+            include: {
+                announcement: true
+            },
+        })
+        if (applications.length !== 0) {
+            applications.forEach(async (application) => {
+                if (application.announcement.closeDate! <= new Date()) {
 
+                    await prisma.application.update({
+                        where: { id: application.id },
+                        data: {
+
+                        }
+                    })
+                }
+            })
+        }
         return reply.status(201).send()
     } catch (err: any) {
         if (err instanceof ResourceNotFoundError) {

@@ -209,9 +209,9 @@ export async function updateIdentityInfo(
     }
 
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-   
+
     const responsible = await prisma.legalResponsible.findUnique({
-      where: {user_id}
+      where: { user_id }
     })
 
     if (!candidate && !responsible) {
@@ -263,7 +263,7 @@ export async function updateIdentityInfo(
     }
 
     if (candidate) {
-      
+
       const candidateIdentifyInfo = await prisma.identityDetails.findUnique({
         where: { candidate_id: candidate.id },
       })
@@ -284,7 +284,7 @@ export async function updateIdentityInfo(
 
     // Atualiza informações acerca da identificação no banco de dados
     if (candidate) {
-      
+
       await prisma.identityDetails.update({
         data: dataToUpdate,
         where: { candidate_id: candidate.id },
@@ -299,6 +299,7 @@ export async function updateIdentityInfo(
 
     return reply.status(201).send()
   } catch (err: any) {
+    console.log(err)
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
     }

@@ -47,7 +47,8 @@ export async function CreateAnnoucment(
     description: z.string().optional(),
     types1: z.array(scholarshipGrantedType).optional(),
     type2: z.string().optional(),
-    criteria: z.array(z.enum(["CadUnico", "LeastFamilyIncome", "SeriousIllness", "Draw"]))
+    criteria: z.array(z.enum(["CadUnico", "LeastFamilyIncome", "SeriousIllness", "Draw"])),
+    waitingList: z.boolean()
   })
 
   const {
@@ -58,6 +59,7 @@ export async function CreateAnnoucment(
     verifiedScholarships,
     entity_id,
     hasInterview,
+    waitingList,
     openDate,
     closeDate,
     announcementInterview,
@@ -117,6 +119,7 @@ export async function CreateAnnoucment(
             closeDate,
             offeredVacancies,
             verifiedScholarships,
+            waitingList,
             criteria,
             entity_id: entityMatrix!.id,
             announcementNumber: `${countAnnouncement + 1}/${openDate.getFullYear()}`,
@@ -141,6 +144,7 @@ export async function CreateAnnoucment(
           announcementType,
           offeredVacancies,
           verifiedScholarships,
+          waitingList,
           entity_id: entityMatrix!.id,
           entity_subsidiary: {
             connect: entity_subsidiary_id?.map(id => ({ id })),

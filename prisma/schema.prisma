@@ -50,6 +50,7 @@ model Candidate {
   FamilyMemberDisease FamilyMemberDisease[]
   Medication          Medication[]
 
+  @@unique([id, responsible_id])
   @@map("candidates")
 }
 
@@ -605,6 +606,7 @@ model Application {
   CadUnico             Boolean?
   hasSevereDesease     Boolean?
   averageIncome        Float?
+  perCapita            Float?
   position             Int?
   number               Int                  @default(1)
   announcement         Announcement         @relation(fields: [announcement_id], references: [id], onDelete: Cascade)

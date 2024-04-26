@@ -1,4 +1,4 @@
-import { TiebreakerCriterias } from "@prisma/client"
+import { Application, Prisma, TiebreakerCriterias } from "@prisma/client"
 import { prisma } from "../lib/prisma"
 // Change to promises to work in background
 const selectValidCandidates = async () => {
@@ -12,62 +12,41 @@ const selectValidCandidates = async () => {
         announcementsToValidate.forEach(async (announcement) => {
             const currentCriteria = announcement.criteria
             const mapToFields = [
-                { field: 'CadUnico', value: TiebreakerCriterias.CadUnico, order: 'asc' },
-                { field: 'AverageIncome', value: TiebreakerCriterias.LeastFamilyIncome, order: 'desc' },
-                { field: 'hasSevereDesease', value: TiebreakerCriterias.SeriousIllness, order: 'desc' },
-                // { field: 'Draw', value: TiebreakerCriterias.Draw, order: 'asc' },
+                { field: 'CadUnico', value: TiebreakerCriterias.CadUnico, order: 'DESC' },
+                { field: 'averageIncome', value: TiebreakerCriterias.LeastFamilyIncome, order: 'ASC' },
+                { field: 'hasSevereDesease', value: TiebreakerCriterias.SeriousIllness, order: 'ASC' },
+                { field: 'RANDOM()', value: TiebreakerCriterias.Draw, order: '' },
             ]
-            const fields = currentCriteria.map((e) => mapToFields.find((v) => v.value === e))
-            const candidates = await prisma.identityDetails.findMany({
-                orderBy: [
-                    { [fields[0]!.field]: fields[0]!.order },
-                    { [fields[1]!.field]: fields[1]!.order },
-                    { [fields[2]!.field]: fields[2]!.order },
-                    // { [fields[3]!.field]: fields[3]!.order },
-                ],
-
+            let fields = currentCriteria.map((e) => {
+                const currField = mapToFields.find((v) => v.value === e)
+                if (currField?.field === "RANDOM()") {
+                    return `${currField?.field}`
+                }
+                return `"${currField?.field}" ${currField?.order}`.trim()
             })
-            candidates.forEach(async (candidate) => {
+            //Find where DRAW is
+            const drawIndex = fields.findIndex(e => e.includes('RANDOM()'))
+            if (drawIndex !== -1) {
+                // Remove any other priority after 'draw'
+                fields.splice(drawIndex + 1, fields.length - 1)
+            }
+            const orderByExp = fields.join(', ')
 
-                // Get family members associated with current candidate
-                const members = await prisma.familyMember.findMany({
-                    where: { candidate_id: candidate.id }
-                })
-                // TODO: THIS MAY BE MOVED TO A NEW FILE (where actually register the income)
-                // Get current income from the member
+            const applications = await prisma.$queryRaw`
+                SELECT * FROM "Application" 
+                WHERE "announcement_id" = ${announcement.id} AND "position" IS NULL
+                ORDER BY ${Prisma.raw(orderByExp)};
+        ` as Application[]
 
-                const incomes = await prisma.familyMemberIncome.findMany({
-                    where: {
-                        OR: [
-                            { candidate_id: { in: members.map(e => e.id) } },
-                            { familyMember_id: { in: members.map(e => e.id) } }
-                        ]
-                    }
-                })
-                // Calculate averageIncome based on all members income
-                const averageIncome = incomes.reduce((acc, curr) => acc + parseFloat(curr.averageIncome), 0)
-                // Save average income to the identity details
-                await prisma.identityDetails.update({
-                    where: { candidate_id: candidate.id },
-                    data: {
-                        // averageIncome
-                    }
-                })
-                const application = await prisma.application.findFirst({
-                    where: {
-                        AND: [
-                            { candidate_id: candidate.id },
-                            { announcement_id: announcement.id }
-                        ]
-                    }
-                })
+            applications.forEach(async (application, index) => {
+
                 // Loop over 'candidates' to update its position on Application table
                 await prisma.application.update({
                     where: {
-                        id: application!.id,
+                        id: application!.id
                     },
                     data: {
-                        // Update user position
+                        position: index + 1
                     }
                 })
             })
@@ -78,4 +57,4 @@ const selectValidCandidates = async () => {
     }
 }
 
-selectValidCandidates()
+export default selectValidCandidates()
