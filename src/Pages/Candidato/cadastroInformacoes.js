@@ -201,8 +201,7 @@ export default function CadastroInfo() {
           
           stepCustomStyle={{
             fontSize: 0.8 + "rem",
-            margin: "auto",
-            alignItems: 'center'
+            
           }}
           prevButton={{
             title: "<",

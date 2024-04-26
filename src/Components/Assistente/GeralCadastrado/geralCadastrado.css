@@ -167,9 +167,7 @@ strong {
   .mandate {
     color: red;
   }
-  button {
-    text-transform: uppercase;
-  }
+  
   #titleSpan::after {
     content: '';
     height:50px;

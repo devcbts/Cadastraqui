@@ -54,18 +54,17 @@
     padding: 1rem;
   }
 
-  .info-item{
+  /* .info-item{
     display: flex;
     flex-direction: column;
-    height: 10vh;
     width: fit-content;
     justify-content: center;
-  }
+  } */
 
   .info-item h3{
     display: flex;
     flex-direction: row;
-    width: max-content !important;
+    
   }
 
   .info-item .info-text{

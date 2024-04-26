@@ -181,7 +181,11 @@ export default function NavBarAssistente() {
                   href="#"
                   className={`${currentPath == "/assistente/editais" || currentPath.includes("/assistente/cadastrados") ? "active" : "inactive"
                     }`}
-                  onClick={() => urlNavigation("editais")}
+                    onClick={(e) => {
+                      urlNavigation("editais");
+                      e.preventDefault(); // Prevenir o comportamento padrão do link
+                      handleClick(); // Fecha o menu lateral
+                    }}
                 >
                   <UilFileAlt
                     size="30"
@@ -197,7 +201,11 @@ export default function NavBarAssistente() {
                   href="#"
                   className={`${currentPath == "/assistente/sac" ? "active" : "inactive"
                     }`}
-                  onClick={() => urlNavigation("sac")}
+                    onClick={(e) => {
+                      urlNavigation("sac");
+                      e.preventDefault(); // Prevenir o comportamento padrão do link
+                      handleClick(); // Fecha o menu lateral
+                    }}
                 >
                   <UilCommentAltNotes
                     size="30"
@@ -213,7 +221,11 @@ export default function NavBarAssistente() {
                   href="#"
                   className={`${currentPath == "/assistente/perfil" ? "active" : "inactive"
                     }`}
-                  onClick={() => urlNavigation("perfil")}
+                    onClick={(e) => {
+                      urlNavigation("perfil");
+                      e.preventDefault(); // Prevenir o comportamento padrão do link
+                      handleClick(); // Fecha o menu lateral
+                    }}
                 >
                   <UilUserCircle
                     size="30"
