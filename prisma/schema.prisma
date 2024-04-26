@@ -362,7 +362,7 @@ model FamilyMemberIncome {
 
 model MonthlyIncome {
   id                        String        @id @default(uuid())
-  date                      DateTime      @default(now())
+  date                      DateTime?     @default(now())
   grossAmount               Float?
   liquidAmount              Float?
   proLabore                 Float?
@@ -545,7 +545,7 @@ model Announcement {
   announcementBegin    DateTime?                @default(now())
   openDate             DateTime?
   closeDate            DateTime?
-  waitingList          Boolean                  @default(false)
+  waitingList          Boolean?                 @default(false)
   offeredVacancies     Int?
   verifiedScholarships Int?
   description          String?
@@ -703,7 +703,7 @@ enum DOCUMENT_TYPE {
   DriversLicense
   FunctionalCard
   MilitaryID
-  ForeignerRegistration
+  Foreignerapplication
   Passport
   WorkCard
 }
