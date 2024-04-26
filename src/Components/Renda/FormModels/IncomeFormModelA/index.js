@@ -9,6 +9,7 @@ import modelAInfoValidation from "./validations/model-a-info-validation"
 import { api } from "../../../../services/axios"
 import { toFloat } from "../../../../utils/currency-to-float"
 import toPersistence from "../utils/model-to-persistence"
+import incomeService from "../../../../services/income/incomeService"
 
 export default function IncomeFormModelA({ member, incomeSource, onSubmit, edit: { isEditing, initialData } = { isEditing: true, initialData: null } }) {
     const [[modelAInfo], handlemodelAInfoChange, modelAErrors, submitModelA] = useForm(initialData ? { ...initialData.info, gratificationAutonomous: initialData.info.quantity === 6 } : {
@@ -29,7 +30,6 @@ export default function IncomeFormModelA({ member, incomeSource, onSubmit, edit:
         }
         try {
             const parseAll = toPersistence(incomeSource, getValues().incomeInfo)
-            console.log('parsed', parseAll)
             await onSubmit(parseAll)
 
             const data = {
@@ -40,11 +40,7 @@ export default function IncomeFormModelA({ member, incomeSource, onSubmit, edit:
                 position: modelAInfo.position,
                 quantity: modelAInfo.gratificationAutonomous ? 6 : 3
             };
-            await api.post(`/candidates/family-member/CLT/${member.id}`, data, {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                },
-            })
+            await incomeService.registerIncome(member.id, data)
         } catch (err) { }
     }
     const monthIncomeRef = useRef()

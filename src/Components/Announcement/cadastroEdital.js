@@ -212,7 +212,7 @@ export default function CadastroEdital() {
             message: 'Data deve ser maior do que a data de abertura do edital'
         })
 
-    const { register, formState: { errors, touchedFields }, clearErrors, watch, handleSubmit } = useForm({
+    const { register, formState: { errors, touchedFields }, clearErrors, watch, handleSubmit, getValues } = useForm({
         resolver: zodResolver(announcementSchema), mode: "all", reValidateMode: "onSubmit"
     })
     const watchEducationLevel = watch("educationLevel")
@@ -442,7 +442,6 @@ export default function CadastroEdital() {
             description: description,
             types1: selectedTypes1.map(option => option.value), // Envia apenas os valores
             type2: type2,
-            criteria: priorityOrder.map(option => option.value),
         }
         console.log('====================================');
         console.log(data);
@@ -459,7 +458,7 @@ export default function CadastroEdital() {
                 types1: selectedTypes1.map(option => option.value), // Envia apenas os valores
                 type2: type2,
                 entity_subsidiary_id: selectedSubsidiaries.map(subsidiary => subsidiary.id), // Adiciona os IDs das filiais
-
+                criteria: priorityOrder.map(option => option.value),
             },
                 {
                     headers: {
@@ -513,7 +512,7 @@ export default function CadastroEdital() {
 
 
                     const formData = new FormData();
-                    formData.append("file", file);
+                    formData.append("file", getValues().file);
                     await api.post(`/entities/upload/${announcement.id}`, formData, {
                         headers: {
                             authorization: `Bearer ${token}`,
