@@ -369,7 +369,7 @@ export default function CadastroDespesas() {
                         onChange={handleChange}
                     />
                 </div>
-                <div className='survey-box survey-check'>
+                <div className='survey-box'>
                     <label>Possui parcelamento de IPVA?</label>
                     <InputCheckbox
                         className='survey-control'
@@ -416,7 +416,7 @@ export default function CadastroDespesas() {
                 </div>
 
                 {/* Parcelamento do IPTU */}
-                <div className='survey-box survey-check'>
+                <div className='survey-box'>
                     <label>Possui parcelamento de IPTU?</label>
                     <InputCheckbox
                         className='survey-control'
@@ -465,7 +465,7 @@ export default function CadastroDespesas() {
                 </div>
 
                 {/* Parcelamento do ITR */}
-                <div className='survey-box survey-check'>
+                <div className='survey-box'>
                     <label>Possui parcelamento de ITR?</label>
                     <InputCheckbox
                         className='survey-control'
@@ -512,7 +512,7 @@ export default function CadastroDespesas() {
                     />
                 </div>
                 {/* Parcelamento do IR */}
-                <div className='survey-box survey-check'>
+                <div className='survey-box'>
                     <label>Possui parcelamento de IR?</label>
                     <InputCheckbox
                         className='survey-control'

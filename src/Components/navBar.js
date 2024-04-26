@@ -202,7 +202,11 @@ export default function NavBar({ entity }) {
                   href="#"
                   className={`${currentPath == "/entidade/editais" ? "active" : "inactive"
                     }`}
-                  onClick={() => urlNavigation("editais")}
+                    onClick={(e) => {
+                      urlNavigation("editais");
+                      e.preventDefault(); // Prevenir o comportamento padrão do link
+                      handleClick(); // Fecha o menu lateral
+                    }}
                 >
                   <UilFileAlt
                     size="30"
@@ -217,7 +221,11 @@ export default function NavBar({ entity }) {
                   href="#"
                   className={`${currentPath == "/entidade/cadastro" ? "active" : "inactive"
                     }`}
-                  onClick={() => urlNavigation("cadastro")}
+                    onClick={(e) => {
+                      urlNavigation("cadastro");
+                      e.preventDefault(); // Prevenir o comportamento padrão do link
+                      handleClick(); // Fecha o menu lateral
+                    }}
                 >
                   <UilPlusCircle
                     size="30"
@@ -232,7 +240,11 @@ export default function NavBar({ entity }) {
                   href="#"
                   className={`${currentPath == "/entidade/sac" ? "active" : "inactive"
                     }`}
-                  onClick={() => urlNavigation("sac")}
+                    onClick={(e) => {
+                      urlNavigation("sac");
+                      e.preventDefault(); // Prevenir o comportamento padrão do link
+                      handleClick(); // Fecha o menu lateral
+                    }}
                 >
                   <UilCommentAltNotes
                     size="30"
@@ -247,7 +259,11 @@ export default function NavBar({ entity }) {
                   href="#"
                   className={`${currentPath == "/entidade/contas" ? "active" : "inactive"
                     }`}
-                  onClick={() => urlNavigation("contas")}
+                    onClick={(e) => {
+                      urlNavigation("contas");
+                      e.preventDefault(); // Prevenir o comportamento padrão do link
+                      handleClick(); // Fecha o menu lateral
+                    }}
                 >
                   <UilUsersAlt
                     size="30"
@@ -262,7 +278,11 @@ export default function NavBar({ entity }) {
                   href="#"
                   className={`${currentPath == "/entidade/perfil" ? "active" : "inactive"
                     }`}
-                  onClick={() => urlNavigation("perfil")}
+                    onClick={(e) => {
+                      urlNavigation("perfil");
+                      e.preventDefault(); // Prevenir o comportamento padrão do link
+                      handleClick(); // Fecha o menu lateral
+                    }}
                 >
                   <UilUserCircle
                     size="30"

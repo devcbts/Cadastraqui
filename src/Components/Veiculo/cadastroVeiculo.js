@@ -206,7 +206,7 @@ export default function CadastroVeiculo({ candidate }) {
                     </>
                 )}
 
-                <div className='survey-box survey-check'>
+                <div className='survey-box'>
                     <label >Possui Seguro?</label>
                     <br />
 

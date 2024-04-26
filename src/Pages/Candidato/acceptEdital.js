@@ -352,21 +352,21 @@ export default function AcceptEdital() {
       </div>
 
       <div className="select-course">
-        <h4>Inscrição no curso pretendido</h4>
+        <h3>Inscrição no curso pretendido</h3>
         <div className="select-fields">
-          <div>
+          <div className="fields">
             <h4>Cidade</h4>
             <select>
               <option>São Paulo</option>
             </select>
           </div>
-          <div>
+          <div className="fields">
             <h4>Instituição</h4>
             <select>
               <option>{announcementInfo ? announcementInfo.entity.name : ''}</option>
             </select>
           </div>
-          <div>
+          <div className="fields">
             <h4>Edital</h4>
             <select>
               <option>{announcementInfo ? announcementInfo.announcementName : ''}</option>
@@ -376,9 +376,9 @@ export default function AcceptEdital() {
       </div>
 
       <div className="select-course">
-        <h4>Ensino superior</h4>
+        <h3>Ensino superior</h3>
         <div className="select-fields">
-          <div>
+          <div className="fields">
             <h4>Matriz ou Filial</h4>
             {announcementInfo ?
               <select
@@ -398,9 +398,9 @@ export default function AcceptEdital() {
         <div className="select-fields">
 
           {isBasicEducation ?
-            <div>
+            <div className="fields">
 
-              <div>
+              <div className="fields">
                 <h4>Tipo de Educação Básica</h4>
                 <select onChange={(e) => handleBasicEduSelection(e)}>
                   {announcementInfo?.educationLevels
@@ -415,7 +415,7 @@ export default function AcceptEdital() {
                 </select>
               </div>
 
-              <div>
+              <div className="fields">
                 <h4>Série/Ano</h4>
                 <select value={selectedLevel?.grade} onChange={(e) => setSelectedGrade(e.target.value)}>
                   {announcementInfo?.educationLevels
@@ -430,7 +430,7 @@ export default function AcceptEdital() {
                     ))}
                 </select>
               </div>
-              <div>
+              <div className="fields">
                 <h4>Periodo: </h4>
                 <select value={selectedLevel?.shift} onChange={(e) => setSelectedShift(e.target.value)}>
                   {announcementInfo?.educationLevels
@@ -446,7 +446,7 @@ export default function AcceptEdital() {
                     ))}
                 </select>
               </div>
-              <div>
+              <div className="fields">
                 <h4>Bolsa para Educação Básica</h4>
                 <select onChange={(e) => setSelectedBasicScholarshipType(e.target.value)}>
                   {announcementInfo?.educationLevels

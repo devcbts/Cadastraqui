@@ -484,7 +484,7 @@ export default function VerEditalEntidade() {
               renderEducationLevelDetails(educationLevel)
             )}
           </div>
-          <button className="button-edital-excluir" style={{ width: '20%', fontSize: '20px' }} onClick={() => deleteAnnouncement(announcement.id)}>Excluir</button>
+          <button className="button-edital-excluir" style={{ fontSize: '20px' }} onClick={() => deleteAnnouncement(announcement.id)}>Excluir</button>
         </div>
 
       </div>
