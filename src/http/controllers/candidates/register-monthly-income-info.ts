@@ -83,7 +83,7 @@ export async function registerMonthlyIncomeInfo(
     const isCandidateOrResponsible = await ChooseCandidateResponsible(_id)
     // Verifica se existe um familiar cadastrado com o owner_id
 
-    const idField = isCandidateOrResponsible ? (isCandidateOrResponsible.responsible ? { responsible_id: _id } : { candidate_id: _id }) : { familyMember_id: _id };
+    const idField = isCandidateOrResponsible ? (isCandidateOrResponsible.IsResponsible ? { responsible_id: _id } : { candidate_id: _id }) : { familyMember_id: _id };
     await prisma.monthlyIncome.deleteMany({
       where: { ...idField, incomeSource: monthlyIncome.incomeSource }
     })

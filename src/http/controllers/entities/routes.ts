@@ -27,6 +27,8 @@ import updateEntityProfile from './update-entity-profile'
 import { updateSubsidiary } from './update-subsidiary'
 import { uploadAnnouncementPdf } from './upload-announcement-pdf'
 import { uploadEntityProfilePicture } from './upload-profile-picture'
+import { fetchOpenAnnouncements } from './fetch-open-announcement'
+import { fetchClosedAnnouncements } from './fetch-closed-announcements'
 
 export async function entityRoutes(app: FastifyInstance) {
   /** Admin Routes (Rotas acessadas na página do Admin)
@@ -107,11 +109,17 @@ export async function entityRoutes(app: FastifyInstance) {
     CreateAnnoucment,
   )
   app.post('/upload/:announcement_id', { onRequest: [verifyJWT] }, uploadAnnouncementPdf)
+
+  // fetch announcements
   app.get(
     '/announcement/:announcement_id?',
     { onRequest: [verifyJWT] },
     fetchAnnouncements,
   )
+
+  app.get('/announcement/open/:page_number?', { onRequest: [verifyJWT] }, fetchOpenAnnouncements)
+  app.get('/announcement/close/:page_number?', { onRequest: [verifyJWT] }, fetchClosedAnnouncements)
+
   app.patch(
     '/announcement/:announcement_id',
     { onRequest: [verifyJWT] },
