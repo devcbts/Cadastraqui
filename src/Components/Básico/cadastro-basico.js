@@ -167,7 +167,7 @@ export default function CadastroBasico() {
     profession: "",
     enrolledGovernmentProgram: false,
     NIS: "",
-    incomeSource: [],
+    // incomeSource: [],
     livesAlone: false,
     intendsToGetScholarship: false,
     attendedPublicHighSchool: false,
@@ -217,7 +217,7 @@ export default function CadastroBasico() {
       profession: candidateInfo.profession,
       enrolledGovernmentProgram: candidateInfo.enrolledGovernmentProgram,
       NIS: candidateInfo.NIS,
-      incomeSource: candidateInfo.incomeSource,
+      // incomeSource: candidateInfo.incomeSource,
       livesAlone: candidateInfo.livesAlone,
       intendsToGetScholarship: candidateInfo.intendsToGetScholarship,
       attendedPublicHighSchool: candidateInfo.attendedPublicHighSchool,
@@ -721,7 +721,7 @@ export default function CadastroBasico() {
             </div>
           )}
           {/* Fonte de Renda  */}
-          <div class="survey-box">
+          {/* <div class="survey-box">
             <label for="incomeSource" id="incomeSource-label">
               Fonte(s) de renda:
             </label>
@@ -736,7 +736,7 @@ export default function CadastroBasico() {
               id="incomeSource"
               class="select-data"
             />
-          </div>
+          </div> */}
 
           {/*<!-- Mora Sozinho ? -->*/}
           <div class="survey-check">

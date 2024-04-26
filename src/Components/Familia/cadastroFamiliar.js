@@ -200,7 +200,7 @@ export default function CadastroFamiliar() {
     hasScholarship: false,
     percentageOfScholarship: "300",
     monthlyAmount: "500",
-    incomeSource: [],
+    // incomeSource: [],
   }, familyMemberInfoValidation)
 
 
@@ -268,7 +268,7 @@ export default function CadastroFamiliar() {
           profession: familyMemberInfo.profession,
           enrolledGovernmentProgram: familyMemberInfo.enrolledGovernmentProgram,
           NIS: familyMemberInfo.NIS || undefined,
-          incomeSource: familyMemberInfo.incomeSource,
+          // incomeSource: familyMemberInfo.incomeSource,
         },
         {
           headers: {
@@ -606,7 +606,7 @@ export default function CadastroFamiliar() {
 
             </>
           )}
-          <div class="survey-box">
+          {/* <div class="survey-box">
             <label for="incomeSource" id="incomeSource-label">
               Fonte(s) de renda:
             </label>
@@ -624,7 +624,7 @@ export default function CadastroFamiliar() {
               id="incomeSource"
             />
             {familyMemberInfoErrors["incomeSource"] && <label>{familyMemberInfoErrors["incomeSource"]}</label>}
-          </div>
+          </div> */}
 
           <div class="survey-box">
             <button

@@ -738,7 +738,7 @@ export default function VerBasico({ candidate, basic, role }) {
             </div>
           )}
           {/* Fonte de Renda  */}
-          <div class="survey-box">
+          {/* <div class="survey-box">
             <label for="incomeSource" id="incomeSource-label">
               Fonte(s) de renda:
             </label>
@@ -753,7 +753,7 @@ export default function VerBasico({ candidate, basic, role }) {
               id="incomeSource"
               class="select-data"
             />
-          </div>
+          </div> */}
 
           {/*<!-- Mora Sozinho ? -->*/}
           <div class="survey-box  survey-check">

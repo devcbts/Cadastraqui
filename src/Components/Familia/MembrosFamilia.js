@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CadastroFamiliar from "./cadastroFamiliar.js";
 import { api } from "../../services/axios.js";
 import VerFamiliar from "./verFamiliar.js";
@@ -33,6 +33,7 @@ export default function MembrosFamilia() {
   // Setar o membro selecionado
   const selecionarMembro = (membro) => {
     setMembroSelecionado(membro);
+    verFamiliarRef.current.setInfo(membro)
     console.log("====================================");
     console.log(membro);
     console.log("====================================");
@@ -94,6 +95,8 @@ export default function MembrosFamilia() {
       })
     }
   }
+  const verFamiliarRef = useRef(null)
+
   return (
     <div className="family-add">
       {mostrarCadastro && (
@@ -105,9 +108,8 @@ export default function MembrosFamilia() {
       ) : (
         ""
       )}
-
-      {!mostrarCadastro && membroSelecionado ? (
-        <VerFamiliar familyMember={membroSelecionado} onDelete={handleDeleteMember} />
+      {!mostrarCadastro && !!membroSelecionado ? (
+        <VerFamiliar familyMember={membroSelecionado} onDelete={handleDeleteMember} ref={verFamiliarRef} />
       ) : !membros && (
         <div>{len == 0 && <LoadingCadastroCandidato />}</div>
       )}
@@ -120,7 +122,7 @@ export default function MembrosFamilia() {
 }
 
 // Função de ser um dropdown para selecionar os dados dos membros familiares
-const DropdownMembros = ({ membros, onSelect }) => {
+export const DropdownMembros = ({ membros, onSelect }) => {
   if (membros.length === 0) return null;
 
   const handleSelect = (selectedOption) => {
@@ -137,6 +139,7 @@ const DropdownMembros = ({ membros, onSelect }) => {
   //Select do react select
   return (
     <Select
+      styles={{ container: styles => ({ ...styles, width: '80%', margin: 'auto' }) }}
       options={options}
       onChange={handleSelect}
       getOptionValue={(option) => option.value}
