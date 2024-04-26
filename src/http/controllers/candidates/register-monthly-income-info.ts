@@ -159,10 +159,17 @@ export async function registerMonthlyIncomeInfo(
     if (isCandidateOrResponsible) {
 
       await prisma.identityDetails.updateMany({
-        where: idField,
+        where: {...idField,
+          NOT:{
+            incomeSource: {
+              has: monthlyIncome.incomeSource
+            }
+          }
+        },
+        
         data: {
           incomeSource: {
-            set: [monthlyIncome.incomeSource],
+            push: monthlyIncome.incomeSource,
 
           }
         }
@@ -174,11 +181,14 @@ export async function registerMonthlyIncomeInfo(
       await prisma.familyMember.update({
         where: {
           id: _id,
-          
-        },
+          NOT:{
+            incomeSource: {
+              has: monthlyIncome.incomeSource
+          }
+        }},
         data: {
           incomeSource: {
-            set: [monthlyIncome.incomeSource],
+            push: monthlyIncome.incomeSource,
 
           }
         }
