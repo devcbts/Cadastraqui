@@ -164,6 +164,7 @@ export async function CreateAnnoucment(
       }
       return reply.status(201).send({ announcement })
     }
+    return reply.status(400).send()
   } catch (err: any) {
     if (err instanceof announcementAlreadyExists) {
       return reply.status(409).send({ message: err.message })

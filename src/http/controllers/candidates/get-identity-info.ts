@@ -19,14 +19,14 @@ export async function getIdentityInfo(
     console.log(role)
     if (role === 'RESPONSIBLE') {
       const responsible = await prisma.legalResponsible.findUnique({
-        where: {user_id: user_id}
+        where: { user_id: user_id }
       })
       if (!responsible) {
         throw new NotAllowedError()
       }
       const identityInfo = await prisma.identityDetails.findUnique({
 
-        where: {responsible_id: responsible.id}
+        where: { responsible_id: responsible.id }
       }
       )
       if (!identityInfo) {
@@ -54,9 +54,9 @@ export async function getIdentityInfo(
     // Pega as informações de identificação associadas ao candidato logado
     const identityInfo = await prisma.identityDetails.findUnique({
       where: { candidate_id: candidateOrResponsible.id },
+      include: { candidate: true, responsible: true }
     })
-
-    return reply.status(200).send({ identityInfo })
+    return reply.status(200).send({ identityInfo: { ...identityInfo, ...(identityInfo?.candidate || identityInfo?.responsible) } })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
