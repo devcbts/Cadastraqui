@@ -1066,8 +1066,12 @@ export default function CadastroEdital() {
                                     </label>
                                     <input style={{ width: '30%' }}
                                         type="number"
+                                        max={2}
                                         value={currentCourse.semester}
-                                        onChange={(e) => handleEducationalChange('semester', Number(e.target.value))}
+                                        onChange={(e) => {
+                                            if (e.target.value > 2) return
+                                            handleEducationalChange('semester', Number(e.target.value))
+                                        }}
                                     />
                                 </fieldset>
 

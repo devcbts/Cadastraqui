@@ -76,9 +76,9 @@ export default function VerEditalEntidade() {
     return (
       <ul className="current-assistant">
         {assistants.map((assistant) => (
-          <div style={{ height: "fit-content", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+          <div style={{ height: "fit-content", display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
             <li key={assistant.id}>{assistant.name}</li>
-            <button style={{ fontSize: 10, backgroundColor: "#ef3e36" }} onClick={() => handleRemoveAssistant(assistant)}>Excluir</button>
+            <button style={{ fontSize: 10, backgroundColor: "#ef3e36", width: "100px" }} onClick={() => handleRemoveAssistant(assistant)}>Excluir</button>
           </div>
         ))}
       </ul>
@@ -102,9 +102,10 @@ export default function VerEditalEntidade() {
             },
           }
         );
+        console.log('NOME', assistant)
         Swal.fire({
           title: 'Sucesso',
-          text: `Assistente ${assistant.name} cadastrado`,
+          text: `Assistente ${assistant.label} cadastrado`,
           icon: 'success',
         })
         setAnnouncement((prevState) => ({ ...prevState, socialAssistant: [...prevState.socialAssistant, { name: assistant.label, id: assistant.value }] }))
@@ -417,10 +418,11 @@ export default function VerEditalEntidade() {
                       marginBottom: "20px",
                       marginTop: "30px",
                       overflowX: "clip",
+
                     }}
                     className="education-level-details"
                   >
-                    <h2>Assistentes Atuais</h2>
+                    <h2 >Assistentes Atuais</h2>
                     <AssistantsList assistants={announcement.socialAssistant} />
                     <button
                       onClick={() =>
