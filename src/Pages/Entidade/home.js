@@ -38,22 +38,37 @@ export default function HomeEntidade() {
   const [entity, setEntity] = useState(null)
   // Estado para informações acerca do usuário logado
   const [entityInfo, setEntityInfo] = useState()
-
+  const [closedAnnouncements, setClosedAnnouncements] = useState()
   const navigate = useNavigate()
 
   useEffect(() => {
     async function fetchAnnouncements() {
       const token = localStorage.getItem("token")
       try {
-        const response = await api.get('/entities/announcement', {
+        const response = await api.get('/entities/announcement/open', {
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }
+        })
+        // Pega todos os editais e armazena em um estado
+        setAnnouncements(response.data.announcements)
+        setEntity(response.data.entity)
+
+      } catch (err) {
+        handleAuthError(err, navigate)
+      }
+    }
+    async function fetchClosedAnnouncements() {
+      const token = localStorage.getItem("token")
+      try {
+        const response = await api.get('/entities/announcement/close', {
           headers: {
             'authorization': `Bearer ${token}`,
           }
         })
         console.log(response.data)
         // Pega todos os editais e armazena em um estado
-        setAnnouncements(response.data.announcements)
-        setEntity(response.data.entity)
+        setClosedAnnouncements(response.data.announcements)
 
       } catch (err) {
         handleAuthError(err, navigate)
@@ -93,9 +108,11 @@ export default function HomeEntidade() {
         console.log(err)
       }
     }
-
-    getEntityInfo()
-    fetchAnnouncements()
+    Promise.all([
+      getEntityInfo(),
+      fetchAnnouncements(),
+      fetchClosedAnnouncements()
+    ])
 
     return () => {
       // Limpar o intervalo
@@ -110,7 +127,7 @@ export default function HomeEntidade() {
       <div className={`editais ${isShown ? "hidden-menu" : ""}`}>
         <div className="upper">
           <h1>Editais Vigentes</h1>
-          <div className="search-ring">
+          {/* <div className="search-ring">
             <div style={{ minHeight: "0vh" }}></div>
             <div class="right search">
               {windowWidth > 1000 && (
@@ -119,10 +136,33 @@ export default function HomeEntidade() {
                 </form>
               )}
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="container-editais">
           {announcements && announcements.length > 0 ? announcements.map((announcement) => {
+            return <EditalEntidade announcement={announcement} key={announcement.id} />
+          }) : <div className="container-editais" ><LoadingEdital />
+            <LoadingEdital />
+            <LoadingEdital />
+            <LoadingEdital /> </div>}
+        </div>
+      </div>
+      <div className={`editais ${isShown ? "hidden-menu" : ""}`}>
+        <div className="upper">
+          <h1>Editais Anteriores</h1>
+          {/* <div className="search-ring">
+            <div style={{ minHeight: "0vh" }}></div>
+            <div class="right search">
+              {windowWidth > 1000 && (
+                <form>
+                  <input type="search" placeholder="Search..." />
+                </form>
+              )}
+            </div>
+          </div> */}
+        </div>
+        <div className="container-editais">
+          {closedAnnouncements && closedAnnouncements.length > 0 ? closedAnnouncements.map((announcement) => {
             return <EditalEntidade announcement={announcement} key={announcement.id} />
           }) : <div className="container-editais" ><LoadingEdital />
             <LoadingEdital />
