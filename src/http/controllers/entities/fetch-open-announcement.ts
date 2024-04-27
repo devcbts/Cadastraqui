@@ -13,7 +13,7 @@ export async function fetchOpenAnnouncements(
     page_number: z.number().optional()
   })
 
-  const {page_number } = fetchParamsSchema.parse(request.params)
+  const { page_number } = fetchParamsSchema.parse(request.params)
   try {
     const userId = request.user.sub
     if (!userId) {
@@ -28,17 +28,19 @@ export async function fetchOpenAnnouncements(
       throw new ResourceNotFoundError()
     }
 
-    
+
 
     const currentDate = new Date()
-    const pageSize = 6; // number of records per page
+    const pageSize = 10; // number of records per page
     const pageNumber = page_number || 1; // page number
-
+    console.log(currentDate)
     const announcements = await prisma.announcement.findMany({
       where: {
         entity_id: entity.id,
-        announcementBegin: { lte: currentDate },
-        announcementDate: { gte: currentDate }
+        AND: [
+          { announcementBegin: { lte: currentDate } },
+          { announcementDate: { gte: currentDate } }
+        ]
       },
       include: {
         entity: true,

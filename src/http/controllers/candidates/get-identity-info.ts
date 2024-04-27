@@ -56,7 +56,7 @@ export async function getIdentityInfo(
       where: { candidate_id: candidateOrResponsible.id },
       include: { candidate: true, responsible: true }
     })
-    return reply.status(200).send({ identityInfo: { ...identityInfo, ...(identityInfo?.candidate || identityInfo?.responsible) } })
+    return reply.status(200).send({ identityInfo: { ...(identityInfo?.candidate || identityInfo?.responsible), ...identityInfo } })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

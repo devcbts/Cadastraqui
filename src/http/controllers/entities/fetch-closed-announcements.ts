@@ -13,7 +13,7 @@ export async function fetchClosedAnnouncements(
     page_number: z.number().optional()
   })
 
-  const {page_number } = fetchParamsSchema.parse(request.params)
+  const { page_number } = fetchParamsSchema.parse(request.params)
   try {
     const userId = request.user.sub
     if (!userId) {
@@ -28,7 +28,7 @@ export async function fetchClosedAnnouncements(
       throw new ResourceNotFoundError()
     }
 
-    
+
 
     const currentDate = new Date()
     const pageSize = 6; // number of records per page
@@ -37,7 +37,7 @@ export async function fetchClosedAnnouncements(
     const announcements = await prisma.announcement.findMany({
       where: {
         entity_id: entity.id,
-        announcementDate: { lte: currentDate }
+        announcementDate: { lt: currentDate }
       },
       include: {
         entity: true,
