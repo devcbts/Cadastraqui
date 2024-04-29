@@ -92,7 +92,7 @@ export async function registerCandidate(
     })
 
     // Cria candidato
-    await prisma.candidate.create({
+    const candidate = await prisma.candidate.create({
       data: {
         address,
         CEP,
@@ -108,6 +108,7 @@ export async function registerCandidate(
         email
       },
     })
+
 
     return reply.status(201).send()
   } catch (err: any) {
