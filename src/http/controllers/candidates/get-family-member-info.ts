@@ -1,6 +1,8 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -30,24 +32,29 @@ export async function getFamilyMemberInfo(
       })
       return reply.status(200).send({ familyMembers })
     }
-    let candidate
-
+    let CandidateOrResponsible
+    let IdField
     if (_id) {
-      candidate = await prisma.candidate.findUnique({
-        where: { id: _id },
-      })
+       CandidateOrResponsible = await ChooseCandidateResponsible(_id)
+      if (!CandidateOrResponsible) {
+        throw new ResourceNotFoundError()
+      }
+       IdField = CandidateOrResponsible.IsResponsible ? { legalResponsibleId: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id }
+
+
+
     } else {
       // Verifica se existe um candidato associado ao user_id
-      candidate = await prisma.candidate.findUnique({
+      CandidateOrResponsible = await prisma.candidate.findUnique({
         where: { user_id },
       })
     }
-    if (!candidate) {
+    if (!CandidateOrResponsible) {
       throw new ResourceNotFoundError()
     }
 
     const familyMembers = await prisma.familyMember.findMany({
-      where: { candidate_id: candidate.id },
+      where: IdField,
     })
     return reply.status(200).send({ familyMembers })
   } catch (err: any) {

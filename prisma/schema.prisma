@@ -108,7 +108,7 @@ model LegalResponsible {
   user                            User                  @relation(fields: [user_id], references: [id])
   FamilyMemberDisease             FamilyMemberDisease[]
   Medication                      Medication[]
-
+  @@unique([id, user_id])
   @@map("responsibles")
 }
 
