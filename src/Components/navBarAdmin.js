@@ -119,7 +119,11 @@ export default function NavBarAdmin() {
                   className={`${
                     currentPath == "/admin/cadastro" ? "active" : "inactive"
                   }`}
-                  onClick={() => urlNavigation("cadastro")}
+                  onClick={(e) => {
+                    urlNavigation("cadastro");
+                    e.preventDefault(); // Prevenir o comportamento padrão do link
+                    handleClick(); // Fecha o menu lateral
+                  }}
                 >
                   <UilCreateDashboard
                     size="30"
@@ -137,7 +141,11 @@ export default function NavBarAdmin() {
                   className={`${
                     currentPath == "/admin/entidades" ? "active" : "inactive"
                   }`}
-                  onClick={() => urlNavigation("entidades")}
+                  onClick={(e) => {
+                    urlNavigation("entidades");
+                    e.preventDefault(); // Prevenir o comportamento padrão do link
+                    handleClick(); // Fecha o menu lateral
+                  }}
                 >
                   <UilFileAlt
                     size="30"

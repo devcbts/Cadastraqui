@@ -1,11 +1,19 @@
 .novo-cadastro{
     display: flex;
-    width: 80%;
+    min-width:  80vw;
     height: fit-content;
     background-color: white;
-    margin: 5vh 0 10vh 0;
     border-radius: 4vh;
     justify-content: center;
+    margin-left: 4vw;
+  
+}
+
+@media screen and (max-width: 1000px){
+  .novo-cadastro{
+    margin-left: 28vw;
+    min-width: 80vw;
+  }
 }
 
 .container-cadastros{
