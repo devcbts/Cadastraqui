@@ -599,6 +599,8 @@ export default function CadastroFamiliar() {
               <Input
                 name="NIS"
                 label="NIS"
+                type="text"
+                maxLength={11}
                 value={familyMemberInfo.NIS}
                 onChange={handleFamilyMemberInfo}
                 error={familyMemberInfoErrors}

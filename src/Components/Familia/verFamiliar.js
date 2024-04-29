@@ -273,7 +273,7 @@ const VerFamiliar = forwardRef(({ familyMember, onDelete }, ref) => {
           <Input
             name="birthDate"
             label="Data de Nascimento"
-            value={familyMemberInfo.birthDate}
+            value={familyMemberInfo.birthDate?.split('T')[0]}
             onChange={handleFamilyMemberInfo}
             error={familyMemberInfoErrors}
             type="date"
@@ -600,6 +600,7 @@ const VerFamiliar = forwardRef(({ familyMember, onDelete }, ref) => {
               <Input
                 name="NIS"
                 label="NIS"
+                maxLength={11}
                 value={familyMemberInfo.NIS}
                 onChange={handleFamilyMemberInfo}
                 error={familyMemberInfoErrors}
