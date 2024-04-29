@@ -1,6 +1,8 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FamilyMember } from '@prisma/client'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -22,37 +24,26 @@ export async function getHealthInfo(
 
   try {
     const user_id = request.user.sub
-    let candidate;
-    const responsible = await prisma.legalResponsible.findUnique({
-      where: { user_id}
-    })
+    let candidateOrResponsible
+    let idField
     if (_id) {
-      candidate = await prisma.candidate.findUnique({
-        where: { id: _id },
-      })
+      candidateOrResponsible = await ChooseCandidateResponsible(_id)
+      if (!candidateOrResponsible) {
+        throw new ResourceNotFoundError()
+      }
+      idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
     } else {
-
       // Verifica se existe um candidato associado ao user_id
-      candidate = await prisma.candidate.findUnique({
-        where: { user_id },
-      })
+      candidateOrResponsible = await SelectCandidateResponsible(user_id)
+      if (!candidateOrResponsible) {
+        throw new ResourceNotFoundError()
+      }
+      idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
     }
-  
-    let familyMembers
-    // Verifica se existe um membro da família associado ao familyMember_id e se ele está associado ao candidato
-    if (candidate) {
-      
-      familyMembers = await prisma.familyMember.findMany({
-        where: { candidate_id: candidate.id },
-      })
-    }else if(responsible){
-      familyMembers = await prisma.familyMember.findMany({
-        where: { legalResponsibleId: responsible.id },
-      })
-    }else{
-      throw new ResourceNotFoundError()
 
-    }
+    const familyMembers = await prisma.familyMember.findMany({
+      where: idField,
+    })
 
     async function fetchData(familyMembers: FamilyMember[]) {
       const healthInfoResults = []
@@ -64,7 +55,7 @@ export async function getHealthInfo(
           const familyMemberMedicationInfo = await prisma.medication.findFirst({
             where: { familyMember_id: familyMember.id },
           })
-      
+
           const healthInfo = {
             ...familyMemberIncomeInfo,
             ...familyMemberMedicationInfo,
@@ -78,26 +69,23 @@ export async function getHealthInfo(
       return healthInfoResults
     }
     const candidateDisease = await prisma.familyMemberDisease.findMany({
-      where: candidate ? { candidate_id: candidate.id} : { legalResponsibleId: responsible?.id}
+      where: idField
     })
     const candidateMedication = await prisma.medication.findFirst({
-      where: candidate ? { candidate_id: candidate.id} : { legalResponsibleId: responsible?.id}
+      where: idField
     })
     const healthInfo = {
       ...candidateDisease,
       ...candidateMedication,
     }
 
-    
-    
+
+
     let healthInfoResults = await fetchData(familyMembers)
-    if (candidate) {
-      
-      healthInfoResults.push({ name: candidate.name, healthInfo })
-    }else if (responsible) {
-      
-      healthInfoResults.push({ name: responsible.name, healthInfo })
-    }
+
+
+    healthInfoResults.push({ name: candidateOrResponsible.UserData.name, healthInfo })
+
 
     return reply.status(200).send({ healthInfoResults })
   } catch (err: any) {
