@@ -4,6 +4,8 @@ import CPFValidator from "../validators/cpf-validator";
 import EmailValidator from "../validators/email-validator";
 import CnpjValidator from "../validators/cnpj-validator";
 import PhoneValidator from "../validators/phone-validator";
+import NumberValidator from "../validators/number-validator";
+import TextValidator from "../validators/text-validator";
 
 export default class ValidationBuilder {
     constructor(field = '', validators = []) {
@@ -42,6 +44,14 @@ export default class ValidationBuilder {
     phone() {
         this.validators.push(new PhoneValidator(this.field))
         return this;
+    }
+    number() {
+        this.validators.push(new NumberValidator(this.field))
+        return this;
+    }
+    text() {
+        this.validators.push(new TextValidator(this.field))
+        return this
     }
     build() {
         return this.validators

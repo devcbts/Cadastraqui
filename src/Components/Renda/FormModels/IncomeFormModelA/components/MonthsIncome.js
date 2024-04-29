@@ -97,7 +97,7 @@ const MonthsIncome = forwardRef(({ monthCount, initialData }, ref) => {
 
 
                         {/*<!-- Teve deduções ? -->*/}
-                        <FormCheckbox
+                        {/* <FormCheckbox
                             label="No valor informado, teve deduções?"
                             name={`checks.${i}.deduction`}
                             {...registerCheckbox(`checks.${i}.deduction`, {
@@ -144,7 +144,7 @@ const MonthsIncome = forwardRef(({ monthCount, initialData }, ref) => {
                             </>
                         ) : (
                             ''
-                        )}
+                        )} */}
                         <>
                             {Array.from(
                                 [
@@ -160,11 +160,11 @@ const MonthsIncome = forwardRef(({ monthCount, initialData }, ref) => {
                                 createConditionalCheckboxes(i, e.label, e.field))
                             }
                         </>
-                        <label>Renda obtida após deduções legais para fins deste processo seletivo R$ {formatCurrency(getMonthTotalIncome(i))}</label>
+                        <label>Renda obtida após deduções legais para fins deste processo seletivo {formatCurrency(getMonthTotalIncome(i))}</label>
                     </div>
                 </>
             ))}
-            <label>Renda média obtida após deduções legais para fins deste processo seletivo R$ {formatCurrency(getAverageIncome())}</label>
+            <label>Renda média obtida após deduções legais para fins deste processo seletivo {formatCurrency(getAverageIncome())}</label>
         </div>
     )
 })

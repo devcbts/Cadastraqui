@@ -149,7 +149,7 @@ export default function NavBarAdmin() {
                 </a>
               </li>
 
-              <li>
+              {/* <li>
                 <a
                   href="#"
                   className={`${
@@ -165,7 +165,7 @@ export default function NavBarAdmin() {
                   />
                   <span>Geral</span>
                 </a>
-              </li>
+              </li> */}
 
               <li>
                 <Logout/>

@@ -35,71 +35,90 @@ export default function HomeEntidade() {
 
   // Estados para os editais
   const [announcements, setAnnouncements] = useState()
-  const [entity ,setEntity] = useState(null)
+  const [entity, setEntity] = useState(null)
   // Estado para informações acerca do usuário logado
   const [entityInfo, setEntityInfo] = useState()
-
+  const [closedAnnouncements, setClosedAnnouncements] = useState()
   const navigate = useNavigate()
 
   useEffect(() => {
     async function fetchAnnouncements() {
       const token = localStorage.getItem("token")
-      try{
-        const response = await api.get('/entities/announcement', {
+      try {
+        const response = await api.get('/entities/announcement/open', {
           headers: {
             'authorization': `Bearer ${token}`,
-          }})
-          console.log(response.data)
+          }
+        })
         // Pega todos os editais e armazena em um estado
-        setAnnouncements(response.data.announcements) 
-        setEntity(response.data.entity)  
- 
-      } catch(err) {
-        handleAuthError(err,navigate)
-      } 
+        setAnnouncements(response.data.announcements)
+        setEntity(response.data.entity)
+
+      } catch (err) {
+        handleAuthError(err, navigate)
+      }
+    }
+    async function fetchClosedAnnouncements() {
+      const token = localStorage.getItem("token")
+      try {
+        const response = await api.get('/entities/announcement/close', {
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }
+        })
+        console.log(response.data)
+        // Pega todos os editais e armazena em um estado
+        setClosedAnnouncements(response.data.announcements)
+
+      } catch (err) {
+        handleAuthError(err, navigate)
+      }
     }
 
     async function refreshAccessToken() {
-      try{
+      try {
         const refreshToken = Cookies.get('refreshToken')
-  
+
         const response = await api.patch(`/refresh?refreshToken=${refreshToken}`)
-        
-        const {newToken, newRefreshToken} = response.data
+
+        const { newToken, newRefreshToken } = response.data
         localStorage.setItem('token', newToken)
         Cookies.set('refreshToken', newRefreshToken, {
           expires: 7,
           sameSite: true,
           path: '/',
         })
-      } catch(err) {
+      } catch (err) {
         console.log(err)
       }
     }
     const intervalId = setInterval(refreshAccessToken, 480000) // Chama a função refresh token a cada 
-  
+
     async function getEntityInfo() {
       const token = localStorage.getItem("token")
 
-      try{
+      try {
         const entity_info = await api.get('/entities/', {
           headers: {
             'authorization': `Bearer ${token}`,
-          }})
-          setEntityInfo(entity_info.data.entity)
-        } catch(err) {
-            console.log(err)
-        }
+          }
+        })
+        setEntityInfo(entity_info.data.entity)
+      } catch (err) {
+        console.log(err)
+      }
     }
-        
-    getEntityInfo()
-    fetchAnnouncements()
+    Promise.all([
+      getEntityInfo(),
+      fetchAnnouncements(),
+      fetchClosedAnnouncements()
+    ])
 
     return () => {
       // Limpar o intervalo
       clearInterval(intervalId);
     };
-  },[])
+  }, [])
   return (
     <div className="container">
       <div className="section-nav">
@@ -108,7 +127,7 @@ export default function HomeEntidade() {
       <div className={`editais ${isShown ? "hidden-menu" : ""}`}>
         <div className="upper">
           <h1>Editais Vigentes</h1>
-          <div className="search-ring">
+          {/* <div className="search-ring">
             <div style={{ minHeight: "0vh" }}></div>
             <div class="right search">
               {windowWidth > 1000 && (
@@ -117,15 +136,38 @@ export default function HomeEntidade() {
                 </form>
               )}
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="container-editais">
-          {announcements  && announcements.length > 0 ? announcements.map((announcement) => {
-            return <EditalEntidade announcement={announcement} key={announcement.id}/>
-          }) :<div className="container-editais" ><LoadingEdital/>
-          <LoadingEdital/>
-          <LoadingEdital/>
-          <LoadingEdital/> </div>}
+          {announcements && announcements.length > 0 ? announcements.map((announcement) => {
+            return <EditalEntidade announcement={announcement} key={announcement.id} />
+          }) : <div className="container-editais" ><LoadingEdital />
+            <LoadingEdital />
+            <LoadingEdital />
+            <LoadingEdital /> </div>}
+        </div>
+      </div>
+      <div className={`editais ${isShown ? "hidden-menu" : ""}`}>
+        <div className="upper">
+          <h1>Editais Anteriores</h1>
+          {/* <div className="search-ring">
+            <div style={{ minHeight: "0vh" }}></div>
+            <div class="right search">
+              {windowWidth > 1000 && (
+                <form>
+                  <input type="search" placeholder="Search..." />
+                </form>
+              )}
+            </div>
+          </div> */}
+        </div>
+        <div className="container-editais">
+          {closedAnnouncements && closedAnnouncements.length > 0 ? closedAnnouncements.map((announcement) => {
+            return <EditalEntidade announcement={announcement} key={announcement.id} />
+          }) : <div className="container-editais" ><LoadingEdital />
+            <LoadingEdital />
+            <LoadingEdital />
+            <LoadingEdital /> </div>}
         </div>
       </div>
     </div>

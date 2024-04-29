@@ -9,10 +9,10 @@
   }
   
   form{
-    margin:auto;
+    /* margin:auto; */
     width: 100%;
     
-    padding: 2.5rem 0.625rem;
+    /* padding: 2.5rem 0.625rem; */
     border-radius: 0.5rem;
   }
   @media(min-width: 480px)
@@ -22,7 +22,7 @@
     }
   }
   .survey-box{
-    margin: 0 auto 1.3rem auto;
+    /* margin: 0 auto 1.3rem auto; */
     padding: 0.25rem;
   }
   
@@ -221,7 +221,21 @@
 
 .survey-box select{
     width: 25vw;
+    border-radius: 10px;
 }
 
+@media screen and (max-width: 768px){
+    .survey-box select{
+        width: 50vw;
+        padding: 0;
+        border-radius: 10px;
+        font-size: 12px;
+        padding-left:1rem;
+        padding-right: 1rem;
+        text-overflow: ellipsis;
+        
+    }
+    
+  }
 
 

@@ -2,6 +2,7 @@ import useForm from "../../../../hooks/useForm"
 import FormCheckbox from "../../../Inputs/FormCheckbox"
 import Input from "../../../Inputs/FormInput"
 import { api } from "../../../../services/axios"
+import incomeService from "../../../../services/income/incomeService"
 
 export default function IncomeFormModelC({ incomeSource, onSubmit, member, edit: { isEditing, initialData } = { isEditing: true, initialData: null } }) {
     const [[modelCInfo], handleModelCChange, modelCErrors, submit] = useForm(initialData ? initialData.info : {
@@ -16,11 +17,12 @@ export default function IncomeFormModelC({ incomeSource, onSubmit, member, edit:
             return
         }
         try {
-            await api.post(`/candidates/family-member/unemployed/${member.id}`, {
+            await incomeService.registerIncome(member.id, {
                 ...modelCInfo,
                 parcels: parseFloat(modelCInfo.parcels),
-                parcelValue: parseFloat(modelCInfo.parcelValue),
+                parcelValue: parseFloat(modelCInfo.parcelValue)
             })
+
 
         } catch (err) { }
     }

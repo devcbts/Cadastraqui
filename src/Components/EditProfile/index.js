@@ -17,7 +17,7 @@ export default function EditProfile({ data, onEdit, onClose, customFields = [], 
         <div className="solicitacoes personal-info">
 
             <div className="upper-info">
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", flexDirection: "column" }}>
                     <h2>Informações pessoais</h2>
                     <div style={{ display: "flex", gap: "16px" }}>
                         <button onClick={onClose}>Cancelar</button>

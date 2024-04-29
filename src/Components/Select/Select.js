@@ -1,17 +1,21 @@
+import { forwardRef } from 'react'
 import styles from './styles.module.css'
-export default function Select({ name, label, options, error, ...props }) {
+const Select = forwardRef(({ name, label, options, error, ...props }, ref) => {
+    const useReactHookForm = error?.[name]?.hasOwnProperty("message") ? error?.[name]?.message : error?.[name]
+    const style = error === null ? "null" : !!useReactHookForm
     return (
         <fieldset className={styles.container}>
             <label className={styles.label} htmlFor={name}>{label}</label>
             <select
                 className={styles.select}
-                data-error={error?.[name] === null ? "null" : !!error?.[name]}
+                data-error={style}
                 id={name}
                 name={name}
                 {...props}
+                ref={ref}
             >
                 {
-                    options.map((option) => (
+                    options?.map((option) => (
                         <option
                             value={option.value}
                         >
@@ -21,9 +25,10 @@ export default function Select({ name, label, options, error, ...props }) {
                 }
 
             </select>
-            <div className={styles.errorWrapper}>
+            {/* <div className={styles.errorWrapper}>
                 {(error && !!error[name]) && <label className={styles.error}>{error[name]}</label>}
-            </div>
+            </div> */}
         </fieldset>
     )
-}
+})
+export default Select

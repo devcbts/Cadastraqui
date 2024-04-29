@@ -39,7 +39,7 @@ const MonthsIncomeModelD = forwardRef(({ monthCount, initialData }, ref) => {
                         })}
                         error={fieldErrors?.[i]}
                     />
-                    <label>Total em {formattedMonths[i].formatDate} {getMonthTotalIncome(i)}</label>
+                    <label>Total em {formattedMonths[i].formatDate} {formatCurrency(getMonthTotalIncome(i))}</label>
                 </>
             ))}
         </>

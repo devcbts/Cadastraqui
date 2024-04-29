@@ -6,6 +6,7 @@ import Input from "../../../Inputs/FormInput"
 import MonthsIncomeModelB from "./components/MonthsIncome"
 import { api } from "../../../../services/axios"
 import toPersistence from "../utils/model-to-persistence"
+import incomeService from "../../../../services/income/incomeService"
 
 export default function IncomeFormModelB({ incomeSource, onSubmit, member, edit: { isEditing, initialData } = { isEditing: true, initialData: null } }) {
     const [[meiInfo], handleMeiChange, meiErrors, submit] = useForm(initialData ? { ...initialData.info, fixIncome: initialData.info.quantity === 3 } : {
@@ -29,14 +30,13 @@ export default function IncomeFormModelB({ incomeSource, onSubmit, member, edit:
             let urlApi = "";
             let data = {};
             if (incomeSource === "IndividualEntrepreneur") {
-                urlApi = "MEI";
                 data = {
+                    employmentType: incomeSource,
                     startDate: meiInfo.startDate,
                     CNPJ: meiInfo.CNPJ,
                     quantity: meiInfo.fixIncome ? 3 : 6,
                 }
             } else {
-                urlApi = "dependent-autonomous"
                 data = {
                     employmentType: incomeSource,
                     quantity: meiInfo.fixIncome ? 3 : 6,
@@ -44,11 +44,8 @@ export default function IncomeFormModelB({ incomeSource, onSubmit, member, edit:
                 }
             }
 
-            await api.post(`/candidates/family-member/${urlApi}/${member.id}`, data, {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                },
-            });
+            await incomeService.registerIncome(member.id, data)
+
         } catch (err) { }
     }
     return (

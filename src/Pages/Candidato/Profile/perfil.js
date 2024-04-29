@@ -176,7 +176,7 @@ export default function PerfilCandidato() {
           {(userInfo && !isEditing) ? (
             <div className="solicitacoes personal-info">
               <div className="upper-info">
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", flexDirection: "column" }}>
                   <h2>Informações pessoais</h2>
                   <a href="#" onClick={() => setIsEditing(true)}>
                     <UilPen size="20" color="#1F4B73"></UilPen>

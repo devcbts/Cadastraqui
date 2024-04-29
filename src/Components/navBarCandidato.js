@@ -208,7 +208,11 @@ export default function NavBarCandidato(props) {
                   href="#"
                   className={`${currentPath == "/candidato/home" ? "active" : "inactive"
                     }`}
-                  onClick={() => urlNavigation("home")}
+                    onClick={(e) => {
+                      e.preventDefault(); // Prevenir o comportamento padrão do link
+                      urlNavigation("home");
+                      handleClick(); // Fecha o menu lateral
+                    }}
                 >
                   <UilEstate
                     size="30"
@@ -226,7 +230,11 @@ export default function NavBarCandidato(props) {
                     ? "active"
                     : "inactive"
                     }`}
-                  onClick={() => urlNavigation("historico")}
+                    onClick={(e) => {
+                      urlNavigation("historico");
+                      e.preventDefault(); // Prevenir o comportamento padrão do link
+                      handleClick(); // Fecha o menu lateral
+                    }}
                 >
                   <UilHistory
                     size="30"
@@ -245,7 +253,11 @@ export default function NavBarCandidato(props) {
                     ? "active"
                     : "inactive"
                     }`}
-                  onClick={() => urlNavigation("solicitacoes")}
+                    onClick={(e) => {
+                      e.preventDefault(); // Prevenir o comportamento padrão do link
+                      urlNavigation("solicitacoes");
+                      handleClick(); // Fecha o menu lateral
+                    }}
                 >
                   <UilArchive
                     size="30"
@@ -262,7 +274,11 @@ export default function NavBarCandidato(props) {
                   href="#"
                   className={`${currentPath == "/candidato/info" ? "active" : "inactive"
                     }`}
-                  onClick={() => urlNavigation("info")}
+                    onClick={(e) => {
+                      e.preventDefault(); // Prevenir o comportamento padrão do link
+                      urlNavigation("info");
+                      handleClick(); // Fecha o menu lateral
+                    }}
                 >
                   <UilPlusCircle
                     size="30"
@@ -277,7 +293,11 @@ export default function NavBarCandidato(props) {
                   href="#"
                   className={`${currentPath == "/candidato/perfil" ? "active" : "inactive"
                     }`}
-                  onClick={() => urlNavigation("perfil")}
+                    onClick={(e) => {
+                      e.preventDefault(); // Prevenir o comportamento padrão do link
+                      urlNavigation("perfil");
+                      handleClick(); // Fecha o menu lateral
+                    }}
                 >
                   <UilUserCircle
                     size="30"

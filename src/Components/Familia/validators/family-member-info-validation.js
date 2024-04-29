@@ -9,8 +9,8 @@ const familyMemberInfoValidation = (currentData) => new ValidationComposite([
     ...ValidationBuilder.create("fullName").required().build(),
     ...ValidationBuilder.create("birthDate").required().build(),
     ...ValidationBuilder.create("gender").required().build(),
-    ...ValidationBuilder.create("nationality").required().build(),
-    ...ValidationBuilder.create("natural_city").required().build(),
+    ...ValidationBuilder.create("nationality").required().text().build(),
+    ...ValidationBuilder.create("natural_city").required().text().build(),
     ...ValidationBuilder.create("natural_UF").required().build(),
     ...ValidationBuilder.create("CPF").required().cpf().build(),
     ...ValidateIf(currentData.RG, ValidationBuilder.create("RG").required().build()),
@@ -34,7 +34,7 @@ const familyMemberInfoValidation = (currentData) => new ValidationComposite([
     ...ValidationBuilder.create("contactNameForMessage").required().build(),
     ...ValidationBuilder.create("email").required().email().build(),
     ...ValidationBuilder.create("profession").required().build(),
-    ...ValidateIf(currentData.enrolledGovernmentProgram, ValidationBuilder.create("NIS").required().build()),
+    ...ValidateIf(currentData.enrolledGovernmentProgram, ValidationBuilder.create("NIS").required().number().build()),
     ...ArrayValidationBuilder.create("incomeSource").required().build()
 ])
 

@@ -6,6 +6,7 @@ import Input from "../../../Inputs/FormInput"
 import MonthsIncomeModelD from "./components/MonthsIncome"
 import { api } from "../../../../services/axios"
 import toPersistence from "../utils/model-to-persistence"
+import incomeService from "../../../../services/income/incomeService"
 
 export default function IncomeFormModelD({ incomeSource, onSubmit, member, edit: { isEditing, initialData } = { isEditing: true, initialData: null } }) {
     const [[modelDInfo], handleModelDChange, modelDErrors, submit] = useForm(initialData ? initialData.info : {
@@ -35,16 +36,7 @@ export default function IncomeFormModelD({ incomeSource, onSubmit, member, edit:
                 quantity: 6,
 
             };
-            await api.post(
-                `/candidates/family-member/entepreneur/${member.id}`,
-                data,
-                {
-                    headers: {
-                        authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-
+            await incomeService.registerIncome(member.id, data)
 
         } catch (err) {
             console.log('err', err)
