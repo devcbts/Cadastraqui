@@ -1,6 +1,8 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -16,70 +18,33 @@ export async function getVehicleInfo(
 
   try {
     const user_id = request.user.sub;
-    const role = request.user.role;
-    if (role === 'RESPONSIBLE') {
-      const responsible = await prisma.legalResponsible.findUnique({
-        where: { user_id}
-      })
-      if (!responsible) {
-        throw new NotAllowedError()
-      }
-
-      // Obtém todos os veículos associados ao candidato
-    const vehicles = await prisma.vehicle.findMany({
-      where: {
-        FamilyMemberToVehicle: {
-          some: {
-            familyMembers: {
-              legalResponsibleId: responsible.id,
-            },
-          },
-        },
-      },
-      include: {
-        FamilyMemberToVehicle: {
-          include: {
-            familyMembers: true,
-          },
-        },
-      },
-    });
-
-    // Prepara os resultados, acumulando os nomes dos proprietários
-    const vehicleInfoResults = vehicles.map(vehicle => {
-      const ownerNames = vehicle.FamilyMemberToVehicle.map(fmv => fmv.familyMembers.fullName);
-      return {
-        ...vehicle,
-        ownerNames, // Array com os nomes de todos os proprietários
-      }});
-      return reply.status(200).send({ vehicleInfoResults })
-    }
-    let candidate;
-
+   
+    let candidateOrResponsible 
+    let idField
     // Verifica se um ID foi fornecido e busca o candidato apropriado
     if (_id) {
-      candidate = await prisma.candidate.findUnique({
-        where: { id: _id },
-      })
+      candidateOrResponsible = await ChooseCandidateResponsible(_id)
+      if (!candidateOrResponsible) {
+        throw new ResourceNotFoundError()
+      }
+      idField = candidateOrResponsible.IsResponsible ? {legalResponsibleId: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
+       
     } else {
-      // Busca o candidato associado ao user_id
-      candidate = await prisma.candidate.findUnique({
-        where: { user_id },
-      })
-    }
 
-    if (!candidate) {
-      throw new ResourceNotFoundError()
+      // Verifica se existe um candidato associado ao user_id
+      candidateOrResponsible = await SelectCandidateResponsible(user_id);
+      if (!candidateOrResponsible) {
+        throw new ResourceNotFoundError()
+      }
+      idField = candidateOrResponsible.IsResponsible ? {legalResponsibleId: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
     }
-
+   
     // Obtém todos os veículos associados ao candidato
     const vehicles = await prisma.vehicle.findMany({
       where: {
         FamilyMemberToVehicle: {
           some: {
-            familyMembers: {
-              candidate_id: candidate.id,
-            },
+            familyMembers: idField,
           },
         },
       },

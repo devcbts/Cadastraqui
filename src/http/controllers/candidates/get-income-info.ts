@@ -1,5 +1,6 @@
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -14,12 +15,11 @@ export async function getIncomeInfo(
   const { _id } = queryParamsSchema.parse(request.params)
   try {
 
-    const candidate = await prisma.candidate.findUnique({
-      where: { id: _id }
-    })
-    if (candidate) {
+    const CandidateOrResponsible = await SelectCandidateResponsible(_id)
+    if (CandidateOrResponsible) {
+      const idField = CandidateOrResponsible.IsResponsible? {responsible_id: CandidateOrResponsible.UserData.id} : {candidate_id: CandidateOrResponsible.UserData.id}
       const familyMemberIncomeInfo = await prisma.familyMemberIncome.findMany({
-        where: { candidate_id: candidate.id }
+        where: idField
       })
 
       return reply.status(200).send({ familyMemberIncomeInfo })
