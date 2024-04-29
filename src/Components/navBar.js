@@ -187,7 +187,11 @@ export default function NavBar({ entity }) {
                   href="#"
                   className={`${currentPath == "/entidade/home" ? "active" : "inactive"
                     }`}
-                  onClick={() => urlNavigation("home")}
+                    onClick={(e) => {
+                      urlNavigation("home");
+                      e.preventDefault(); // Prevenir o comportamento padrão do link
+                      handleClick(); // Fecha o menu lateral
+                    }}
                 >
                   <UilEstate
                     size="30"

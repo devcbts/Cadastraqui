@@ -26,8 +26,8 @@
 
 .survey-control, .select-data, .survey-check {
     height: 3rem;
-    border-radius: 1.5rem !important;
-    width: 100%; /* Ajuste para ocupar a largura total em dispositivos menores */
+    border-radius: 0.5rem !important;
+    width: 100vw; /* Ajuste para ocupar a largura total em dispositivos menores */
     display: flex;
     justify-content: center;
     background-color: white;
