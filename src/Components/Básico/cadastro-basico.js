@@ -11,6 +11,7 @@ import useForm from "../../hooks/useForm";
 import { formatRG } from "../../utils/format-rg";
 import candidateInfoValidations from "./validations/candidate-info-validation";
 import Input from "../Inputs/FormInput";
+import { formatTelephone } from "../../utils/format-telephone";
 
 const GENDER = [
   { value: "MALE", label: "Masculino" },
@@ -643,7 +644,7 @@ export default function CadastroBasico() {
             label='Telefone Fixo'
             type='text'
 
-            value={candidateInfo.landlinePhone}
+            value={formatTelephone(candidateInfo.landlinePhone)}
             onChange={handleCandidateInfo}
             error={candidateInfoErrors}
           />
@@ -655,7 +656,7 @@ export default function CadastroBasico() {
             label='Telefone de trabalho/recado'
             type='text'
 
-            value={candidateInfo.workPhone}
+            value={formatTelephone(candidateInfo.workPhone)}
             onChange={handleCandidateInfo}
             error={candidateInfoErrors}
           />
