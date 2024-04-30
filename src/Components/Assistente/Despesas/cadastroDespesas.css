@@ -9,10 +9,10 @@
   }
   
   form{
-    margin:auto;
+    /* margin:auto; */
     width: 100%;
     
-    padding: 2.5rem 0.625rem;
+    /* padding: 2.5rem 0.625rem; */
     border-radius: 0.5rem;
   }
   @media(min-width: 480px)
@@ -22,12 +22,12 @@
     }
   }
   .survey-box{
-    margin: 0 auto 1.3rem auto;
+    /* margin: 0 auto 1.3rem auto; */
     padding: 0.25rem;
   }
   
   .survey-control{
-    width:25vw;
+    width:30vw;
     height: 2rem;
     display: block;
     padding: 0.3rem 0.55rem;

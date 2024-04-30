@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./cadastroMoradia.css";
 import { api } from "../../services/axios";
+import Swal from "sweetalert2";
 const PropertyStatus = [
   { value: "OwnPaidOff", label: "Própria e quitada" },
   { value: "OwnFinanced", label: "Própria e financiada" },
@@ -85,10 +86,12 @@ export default function CadastroMoradia() {
         }
       );
       console.log(response.data);
-      alert("Dados cadastrados com sucesso!");
+      Swal.fire({ title: "Sucesso", text: "Dados cadastrados com sucesso!", icon: "success" });
 
       // Tratar a resposta conforme necessário
     } catch (error) {
+      Swal.fire({ title: "Erro", text: "Erro ao cadastrar", icon: "error" });
+
       console.error(error.response.data);
       // Tratar o erro conforme necessário
     }
@@ -117,21 +120,21 @@ export default function CadastroMoradia() {
           "ProvidedByFamily",
           "ProvidedOtherWay",
         ].includes(formData.propertyStatus) && (
-          <div className="survey-box">
-            <label>Nome do cedente:</label>
+            <div className="survey-box">
+              <label>Nome do cedente:</label>
 
-            <br />
+              <br />
 
-            <input
-              className="survey-control"
-              type="text"
-              name="grantorName"
-              value={formData.grantorName}
-              onChange={handleChange}
-              required
-            />
-          </div>
-        )}
+              <input
+                className="survey-control"
+                type="text"
+                name="grantorName"
+                value={formData.grantorName}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          )}
 
         {formData.propertyStatus === "Rented" && (
           <div className="survey-box">

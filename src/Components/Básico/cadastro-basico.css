@@ -1,88 +1,122 @@
-#submit-button{
+#submit-button {
     background-color: #1b4f73 !important;
     border: 2px solid white;
     box-shadow: 0 0 10px rgb(107, 107, 107);
     transition: all 0.6s;
-    padding: 0.5rem 2rem;
+    /* padding: 0.5rem 2rem; */
+    font-size: 0.7rem;
 }
 
-#submit-button:hover{
+#submit-button:hover {
     opacity: 0.7;
 }
 
-.check-box-input{
+.check-box-input {
     display: flex !important;
     justify-content: center !important;
     border: 1px solid #d0e5ff;
-    width: 25vw;
+    width: 100%; /* Usando 100% em vez de vw para melhor responsividade */
     align-items: center;
-    
 }
 
-.check-box-input label{
-    width: 60vw !important;
+.check-box-input label {
+    width: 100%; /* Usando 100% para melhor fluidez */
     text-align: left;
 }
 
-.survey-control{
+.survey-control, .select-data, .survey-check {
     height: 3rem;
-    border-radius: 1.5rem !important;
-    width: 25vw !important;
-}
-.survey-control[data-error="true"]{
-    border-color: red;
-}
-.select-data{
-    border-radius: 1.5rem !important;
-    height: 3rem !important;
-    width: 26vw !important;
+    border-radius: 0.5rem !important;
+    width: 100%; /* Ajuste para ocupar a largura total em dispositivos menores */
     display: flex;
     justify-content: center;
-    opacity: 1;
-}
-
-.survey-control, .select-data{
     background-color: white;
-    background-color: red;
     color: #1b4f8e !important;
     border-color: #1b4f8e !important;
     font-size: 0.9rem;
 }
 
-.survey-check{
-    padding: 0;
-    height: 2rem;
-    border-radius: 1.5rem !important;
-    width: 25vw !important;
-    background-color: white;
-    color: #1b4f8e !important;
-    border: 1px solid #1b4f8e;
-    font-size: 0.9rem;
-    display: flex;
-    justify-content: space-between !important;
-    align-items: center;
-    transform: translateY(0.8rem);
+.survey-control[data-error="true"] {
+    border-color: red;
 }
 
-.survey-check input{
+.survey-check input {
     width: 1.5rem !important;
     height: 1.5rem !important;
     margin: 0 1.5rem 0 0;
 }
 
-.survey-check label{
+.survey-check label {
     width: fit-content !important;
-    max-width: 15rem !important;
+    max-width: 100%; /* Garante que não ultrapasse a largura do pai */
     text-align: left;
     margin-left: 1.5rem;
-    margin-right: 0 !important ;
 }
 
-.over-button{
-    margin-top: 1rem;
+.over-button {
+    margin-top: 3rem;
+    max-height: 750px;
+}
+
+.survey-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    text-align: center;
+    align-content: center;
+}
+
+.survey-box{
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.fill-box{
+    width: 50%;
+    max-height: 50vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    display: flex;
+
 }
 
 
 
+/* Exemplo de uma media query para telas menores */
+@media (max-width: 768px) {
+    .check-box-input, .survey-control, .select-data, .survey-check {
+        width: 90%; /* Diminuir a largura para melhor visualização em dispositivos menores */
+    }
 
+    #submit-button {
+        /* padding: 0.5rem 1.5rem;  */
+        width: 38vw;
+        height: 6vh;
+    }
 
+    .survey-check label {
+        margin-left: 0.1rem; 
+        display: flex;
+        align-items: center;
+    }
+
+    .survey-check {
+        display: flex;
+        align-items: center;
+        
+    }
+
+    .onoff{
+        width: 20vw;
+    }
+
+    .over-button {
+        width: 40vw;
+    }
+}

@@ -75,4 +75,13 @@
     font-size: 0.8rem !important;
 }
 
+.sidebar {
+    transition: transform 0.3s ease; /* Adiciona transição suave para transformar propriedade */
+  }
+  
+  .hidden {
+    transform: translateX(-100%); /* Assume que você está movendo a sidebar para fora da tela para a esquerda */
+  }
+  
+
 /* ---------------------------------------- */

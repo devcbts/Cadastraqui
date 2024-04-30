@@ -1,8 +1,10 @@
-export function formatCurrency(value) {
-    const numericValue = Number(value);
-    if (isNaN(numericValue)) return '';
-    return numericValue.toLocaleString('pt-BR', {
+import { toFloat } from "./currency-to-float";
+
+export function formatCurrency(value = "") {
+    const floatValue = toFloat(value) ?? 0;
+    return Number(floatValue).toLocaleString('pt-BR', {
         style: 'currency',
         currency: 'BRL',
     });
+
 }

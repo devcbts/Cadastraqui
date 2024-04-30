@@ -189,20 +189,19 @@ export default function CadastroInfo() {
             CADASTRO<br></br> PREENCHA SEUS DADOS
           </h1>
           <button onClick={handleFinishClick} className="btn-primary">
-            Finalizar inscrição
+            Finalizar cadastro
           </button>{" "}
         </div>
       </div>
       <div className="container-info">
         <MultiStep
-        
+
           activeStep={0}
           className="multi-step"
-          
+
           stepCustomStyle={{
             fontSize: 0.8 + "rem",
-            margin: "auto",
-            alignItems: 'center'
+
           }}
           prevButton={{
             title: "<",
@@ -222,7 +221,7 @@ export default function CadastroInfo() {
           <HousingInfoDiv title="Moradia"></HousingInfoDiv>
           <VehicleInfoDiv title="Veículo"></VehicleInfoDiv>
           <EarningInfoDiv title="Renda"></EarningInfoDiv>
-          <BudgetInfoDiv title="Despesas"></BudgetInfoDiv>
+          <BudgetInfoDiv title="Gastos"></BudgetInfoDiv>
           <HealthInfoDiv title="Saúde"></HealthInfoDiv>
           <DocumentsInfoDiv title="Documentos"></DocumentsInfoDiv>
           <DeclarationsInfoDiv title="Declarações"></DeclarationsInfoDiv>

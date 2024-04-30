@@ -75,7 +75,7 @@ export default function Colaboracao(props) {
         const updatedInfo = { name };
         // Chamar função de atualização aqui
         const token = localStorage.getItem('token');
-        api.patch(`entities/responsible/${props.id}`,  updatedInfo , {
+        api.patch(`entities/director/${props.id}`,  updatedInfo , {
           headers: {
             'authorization': `Bearer ${token}`,
           }

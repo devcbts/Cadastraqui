@@ -19,3 +19,11 @@
     margin: auto;
     height: 2.4rem;
 }
+
+@media screen and (max-width: 800px){
+    .box-select{
+        width: 46vw;
+        margin-bottom: auto;
+    }
+    
+}

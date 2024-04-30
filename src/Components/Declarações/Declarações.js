@@ -125,7 +125,7 @@ export default function EnviarDeclaracoes({ id }) {
               <div
                 key={categoryKey}
                 className="survey-box"
-                style={{ width: "75%" }}
+                
               >
                 <h2>{categoryLabel}</h2>
 

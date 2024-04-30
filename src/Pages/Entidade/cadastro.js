@@ -6,7 +6,7 @@ import { useAppState } from "../../AppGlobal";
 import { useState } from "react";
 import { useRef } from "react";
 import axios from "axios";
-import CadastroEdital from "../../Components/cadastroEdital"
+import CadastroEdital from "../../Components/Announcement/cadastroEdital"
 import { api } from "../../services/axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router";

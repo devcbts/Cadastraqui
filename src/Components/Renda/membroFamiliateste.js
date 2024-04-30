@@ -3,6 +3,9 @@ import { api } from "../../services/axios";
 import "./membroFamilia.css";
 import { CadastroRenda } from "../cadastro-renda";
 import { VerRenda } from "./verRenda";
+import { DropdownMembros } from "../Familia/MembrosFamilia";
+import ReactSelect from "react-select";
+import Swal from "sweetalert2";
 
 const IncomeSource = [
   { value: "PrivateEmployee", label: "Empregado Privado" },
@@ -43,12 +46,18 @@ const Relationship = [
   { value: "Other", label: "Outro" },
 ];
 
-export default function MembrosFamiliaRendaTeste({candidate, identityInfo}) {
+export default function MembrosFamiliaRendaTeste({ candidate, identityInfo }) {
   const [familyMembers, setFamilyMembers] = useState(null);
   const [memberSelected, setMemberSelected] = useState(null);
   const [memberSelectedToSeeIncome, setMemberSelectedToSeeIncome] =
     useState(null);
-
+  const [members, setMembers] = useState(null)
+  const [currentMember, setCurrentMember] = useState()
+  const [isAddingIncome, setIsAddingIncome] = useState(false)
+  const candidateWithIncomeInfo = {
+    ...candidate,
+    incomeSource: identityInfo?.incomeSource || [], // Adiciona ou sobrescreve o campo incomeSource com o valor de identityInfo.IncomeSource
+  };
   useEffect(() => {
     async function fetchFamilyMembers() {
       const token = localStorage.getItem("token");
@@ -62,29 +71,26 @@ export default function MembrosFamiliaRendaTeste({candidate, identityInfo}) {
         console.log(response.data);
         console.log("====================================");
         const membrosdaFamilia = response.data.familyMembers;
-        const candidateWithIncomeInfo = {
-          ...candidate,
-          incomeSource: identityInfo.incomeSource || [], // Adiciona ou sobrescreve o campo incomeSource com o valor de identityInfo.IncomeSource
-        };
-        console.log(candidate)
+
+        console.log('income', candidateWithIncomeInfo)
         // Inclui o candidato atualizado no início do array de membros da família
         setFamilyMembers([candidateWithIncomeInfo, ...membrosdaFamilia]);
-            } catch (err) {
-        
+      } catch (err) {
+        console.log(err)
       }
     }
-    if (identityInfo) {
-      
-      fetchFamilyMembers();
-    }
+    fetchFamilyMembers();
+
   }, [identityInfo]);
 
   function handleShowRegisterIncome(familyMemberId) {
+    setIsAddingIncome(false)
     const member = familyMembers.find((member) => member.id === familyMemberId);
-    setMemberSelected(member);
+    setMemberSelected(currentMember);
   }
 
   function handleShowIncome(familyMemberId) {
+    setIsAddingIncome(false)
     const member = familyMembers.find((member) => member.id === familyMemberId);
     setMemberSelectedToSeeIncome(member);
   }
@@ -103,17 +109,111 @@ export default function MembrosFamiliaRendaTeste({candidate, identityInfo}) {
   }
   function translateIncomeSource(incomeArray) {
     const translatedIncome = incomeArray?.map(incomeValue => {
-        const foundIncome = IncomeSource.find(item => item.value === incomeValue);
-        return foundIncome ? foundIncome.label : "Não especificado";
+      const foundIncome = IncomeSource.find(item => item.value === incomeValue);
+      return foundIncome ? foundIncome.label : "Não especificado";
     });
     return translatedIncome?.join(', ');
-}
+  }
+  useEffect(() => {
+    async function pegarMembros() {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await api.get("/candidates/family-member", {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("====================================");
+        console.log(response.data);
+        console.log("====================================");
+        const membrosdaFamilia = response.data.familyMembers;
+        console.log('MEMBROS', membrosdaFamilia)
+        setMembers([{ ...candidateWithIncomeInfo, fullName: candidate.name }, ...membrosdaFamilia,]);
+        console.log(candidate)
+
+      } catch (err) {
+        alert(err);
+      }
+    }
+    pegarMembros();
+  }, []);
+  const handleSelectIncome = (e) => {
+    setCurrentMember((prevState) => ({ ...prevState, incomeSource: e.map(v => v.value) }))
+  }
+  const handleOpenSelection = () => {
+    if (isAddingIncome) {
+      setCurrentMember(null)
+    }
+    setIsAddingIncome(!isAddingIncome)
+  }
+  const handleRegisterNewIncomeSources = async () => {
+    try {
+
+      await api.post('/candidates/update-income-source', {
+        id: currentMember.id,
+        incomeSource: currentMember.incomeSource
+      })
+      handleOpenSelection()
+      setFamilyMembers((prevState) => prevState.map(member => {
+        return member.id === currentMember.id ? { ...member, incomeSource: currentMember.incomeSource } : member
+      }))
+      if (currentMember.incomeSource.length !== 0) handleShowRegisterIncome(currentMember.id)
+
+    } catch (err) {
+      Swal.fire({
+        title: 'Erro',
+        icon: "error",
+        text: err.response.data.message
+      })
+    }
+
+  }
   return (
     <>
+      {(!!members && isAddingIncome) &&
+        <>
+
+          <DropdownMembros membros={members} onSelect={setCurrentMember} />
+          {currentMember &&
+            <>
+              <div class="survey-box">
+                <label for="incomeSource" id="incomeSource-label">
+                  Fonte(s) de renda:
+                </label>
+                <br />
+                <ReactSelect
+                  styles={{ container: (v) => ({ ...v, width: "80%" }) }}
+                  name="incomeSource"
+                  isMulti
+                  is
+                  onChange={handleSelectIncome}
+                  options={IncomeSource}
+                  value={IncomeSource.filter(obj => currentMember?.incomeSource?.includes(obj.value))}
+                  id="incomeSource"
+                />
+              </div>
+              <button
+                type="button"
+                className="renda-btn"
+                onClick={handleRegisterNewIncomeSources}
+              >
+                Cadastrar
+              </button>
+            </>
+          }
+        </>
+      }
+      {(!memberSelected && !memberSelectedToSeeIncome) && <button
+        type="button"
+        className="renda-btn"
+        onClick={handleOpenSelection}
+      >
+        {isAddingIncome ? 'Fechar' : 'Cadastrar fontes de renda'}
+      </button>}
       {!memberSelected &&
         !memberSelectedToSeeIncome && familyMembers &&
         familyMembers.map((familyMember) => {
-          return (
+          return familyMember.incomeSource.length !== 0 ? (
             <div id={familyMember.id} className="container-teste">
               <div className="member-info">
                 <h4 className="family-name">{familyMember.fullName || familyMember.name}</h4>
@@ -128,16 +228,16 @@ export default function MembrosFamiliaRendaTeste({candidate, identityInfo}) {
                 >
                   Ver Renda
                 </button>
-                <button
+                {/* <button
                   type="button"
                   className="renda-btn"
                   onClick={() => handleShowRegisterIncome(familyMember.id)}
                 >
                   Cadastrar Renda
-                </button>
+                </button> */}
               </div>
             </div>
-          );
+          ) : null;
         })}
 
       {memberSelectedToSeeIncome && (

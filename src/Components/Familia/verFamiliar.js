@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle } from "react";
 import "./verFamiliar.css";
 import { useState } from "react";
 import { api } from "../../services/axios";
@@ -156,13 +156,16 @@ const IncomeSource = [
   { value: "Alimony", label: "Pensão Alimentícia" },
   { value: "PrivatePension", label: "Previdência Privada" },
 ];
-export default function VerFamiliar({ familyMember, onDelete }) {
+const VerFamiliar = forwardRef(({ familyMember, onDelete }, ref) => {
   const [[familyMemberInfo, setFamilyMember], handleFamilyMemberInfo, familyMemberInfoErrors, submitFamilyMember, resetForm] = useForm(familyMember, familyMemberInfoValidation);
   const [isEditing, setIsEditing] = useState(false);
   function toggleEdit() {
     resetForm()
     setIsEditing(!isEditing); // Alterna o estado de edição
   }
+  useImperativeHandle(ref, () => {
+    return { setInfo: setFamilyMember }
+  })
   const handleSpecialNeedsChange = (e) => {
     const { checked } = e.target
     if (!checked) {
@@ -270,7 +273,7 @@ export default function VerFamiliar({ familyMember, onDelete }) {
           <Input
             name="birthDate"
             label="Data de Nascimento"
-            value={familyMemberInfo.birthDate}
+            value={familyMemberInfo.birthDate?.split('T')[0]}
             onChange={handleFamilyMemberInfo}
             error={familyMemberInfoErrors}
             type="date"
@@ -597,6 +600,7 @@ export default function VerFamiliar({ familyMember, onDelete }) {
               <Input
                 name="NIS"
                 label="NIS"
+                maxLength={11}
                 value={familyMemberInfo.NIS}
                 onChange={handleFamilyMemberInfo}
                 error={familyMemberInfoErrors}
@@ -606,7 +610,7 @@ export default function VerFamiliar({ familyMember, onDelete }) {
 
             </>
           )}
-          <div class="survey-box">
+          {/* <div class="survey-box">
             <label for="incomeSource" id="incomeSource-label">
               Fonte(s) de renda:
             </label>
@@ -626,7 +630,7 @@ export default function VerFamiliar({ familyMember, onDelete }) {
 
             />
             {familyMemberInfoErrors["incomeSource"] && <label>{familyMemberInfoErrors["incomeSource"]}</label>}
-          </div>
+          </div> */}
 
           <div className="survey-box">
             {!isEditing ? (
@@ -667,4 +671,5 @@ export default function VerFamiliar({ familyMember, onDelete }) {
       </div>
     </div>
   );
-}
+})
+export default VerFamiliar

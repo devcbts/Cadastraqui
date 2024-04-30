@@ -1,11 +1,19 @@
 .novo-cadastro{
     display: flex;
-    width: 80%;
+    min-width:  80vw;
     height: fit-content;
     background-color: white;
-    margin: 5vh 0 10vh 0;
     border-radius: 4vh;
     justify-content: center;
+    margin-left: 4vw;
+  
+}
+
+@media screen and (max-width: 1000px){
+  .novo-cadastro{
+    margin-left: 28vw;
+    min-width: 80vw;
+  }
 }
 
 .container-cadastros{
@@ -61,7 +69,7 @@ fieldset {
   margin-top: 2.5rem;
 }
 
-#contact input[type="text"],#contact input[type="password"],#contact input[type="date"], #contact input[type="email"], #contact input[type="tel"], #contact input[type="url"], #contact input[type="number"], #contact textarea {
+#contact input[type="text"],#contact input[type="datetime-local"],#contact input[type="password"],#contact input[type="date"], #contact input[type="email"], #contact input[type="tel"], #contact input[type="url"], #contact input[type="number"], #contact textarea {
   width:100%;
   border:1px solid #CCC;
   background:#FFF;
@@ -69,7 +77,7 @@ fieldset {
   padding:10px;
 }
 
-#contact input[type="text"]:hover,#contact input[type="password"]:hover,#contact input[type="date"]:hover, #contact input[type="email"]:hover, #contact input[type="tel"]:hover, #contact input[type="number"]:hover, #contact input[type="url"]:hover, #contact textarea:hover {
+#contact input[type="text"]:hover,#contact input[type="datetime-local"]:hover,#contact input[type="password"]:hover,#contact input[type="date"]:hover, #contact input[type="email"]:hover, #contact input[type="tel"]:hover, #contact input[type="number"]:hover, #contact input[type="url"]:hover, #contact textarea:hover {
   -webkit-transition:border-color 0.3s ease-in-out;
   -moz-transition:border-color 0.3s ease-in-out;
   transition:border-color 0.3s ease-in-out;
@@ -154,7 +162,7 @@ fieldset {
 
 form select{
   padding: 0.5rem 2rem;
-  background-color: #1F4B73;
-  color: white;
+  /* background-color: #1F4B73;
+  color: white; */
   font-size: 1rem;
 }

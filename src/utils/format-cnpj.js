@@ -1,5 +1,6 @@
 export function formatCNPJ(cnpj) {
-    return cnpj
+    console.log(typeof cnpj)
+    return cnpj?.toString()
         // Remove caracteres não numéricos
         .replace(/\D/g, '')
         // Insere ponto após o segundo e quinto dígito

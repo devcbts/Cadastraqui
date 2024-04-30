@@ -51,7 +51,7 @@
 
 .novos-colaboradores .solicitacoes{
     background-color: white;
-    width: 90%;
+    max-width: 80vw;
     min-height: 10vh;
     border-radius: 3vh;
 }
@@ -85,6 +85,18 @@
 
     .novos-colaboradores h2, .historico h2{
         font-size: 2.8vw;
+    }
+
+    .historico {
+        margin: 0;
+        margin-right: 10rem;
+        align-items: center;
+        max-width: 80%;
+    }
+
+    h2 {
+        font-size: medium;
+        
     }
 }
 

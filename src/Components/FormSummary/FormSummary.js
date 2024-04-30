@@ -5,7 +5,7 @@
 export default function FormSummary({ title, form, onConfirm, onCancel }) {
     console.log(form)
     return (
-        <div className="novo-cadastro" style={{ display: "flex", flexDirection: "column", padding: "16px", width: "70vw" }}>
+        <div className="novo-cadastro" style={{ display: "flex", flexDirection: "column", padding: "16px", width: "70vw", marginLeft: "26vw" }}>
             <h2>{title ?? "Confirme os dados"}</h2>
             <div style={{ display: "flex", flexDirection: "column" }}>
                 {

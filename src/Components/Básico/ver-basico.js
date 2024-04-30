@@ -14,6 +14,7 @@ import ValidationComposite from "../../validation/composites/validation-composit
 import ValidationBuilder from "../../validation/builders/validation-builder";
 import Input from "../Inputs/FormInput";
 import candidateInfoValidations from "./validations/candidate-info-validation";
+import { formatTelephone } from "../../utils/format-telephone";
 const GENDER = [
   { value: "MALE", label: "Masculino" },
   { value: "FEMALE", label: "Feminino" },
@@ -142,7 +143,7 @@ const IncomeSource = [
 ];
 
 export default function VerBasico({ candidate, basic, role }) {
-  const [[candidateInfo], handleCandidateInfo, candidateInfoErrors,] = useForm(candidate);
+  const [[candidateInfo], handleCandidateInfo, candidateInfoErrors, submit] = useForm(candidate, candidateInfoValidations);
   // Estado para controlar o modo de edição
   const [isEditing, setIsEditing] = useState(false);
 
@@ -158,6 +159,9 @@ export default function VerBasico({ candidate, basic, role }) {
   async function saveCandidateInfoData() {
     // Aqui você implementaria o código para enviar os dados para o backend
     // Exemplo:
+    if (!submit()) {
+      return
+    }
     const token = localStorage.getItem("token");
     try {
       const response = await api.patch(
@@ -267,7 +271,7 @@ export default function VerBasico({ candidate, basic, role }) {
             type='text'
             required
             disabled={!isEditing}
-            value={candidateInfo?.birthDate?.split("T")[0]}
+            value={candidateInfo?.natural_city}
             onChange={handleCandidateInfo}
             error={candidateInfoErrors}
           />
@@ -299,12 +303,11 @@ export default function VerBasico({ candidate, basic, role }) {
             label='CPF'
             type='text'
             required
-            disabled
-            value={formatCPF(basic.CPF)}
+            disabled={!isEditing}
+            value={formatCPF(candidateInfo?.CPF)}
             onChange={handleCandidateInfo}
             error={candidateInfoErrors}
           />
-
 
           {/* RG */}
           <Input
@@ -577,7 +580,7 @@ export default function VerBasico({ candidate, basic, role }) {
             label='Telefone Fixo'
             type='text'
             disabled={!isEditing}
-            value={candidateInfo.landlinePhone}
+            value={formatTelephone(candidateInfo?.landlinePhone)}
             onChange={handleCandidateInfo}
             error={candidateInfoErrors}
           />
@@ -589,7 +592,7 @@ export default function VerBasico({ candidate, basic, role }) {
             label='Telefone de trabalho/recado'
             type='text'
             disabled={!isEditing}
-            value={candidateInfo.workPhone}
+            value={formatTelephone(candidateInfo?.workPhone)}
             onChange={handleCandidateInfo}
             error={candidateInfoErrors}
           />
@@ -612,8 +615,9 @@ export default function VerBasico({ candidate, basic, role }) {
             label='E-mail'
             type='text'
             required
-            disabled
-            value={basic.email}
+            disabled={!isEditing}
+
+            value={candidateInfo.email}
             onChange={handleCandidateInfo}
           />
 
@@ -623,8 +627,8 @@ export default function VerBasico({ candidate, basic, role }) {
             label='Endereço'
             type='text'
             required
-            disabled
-            value={basic.address}
+            disabled={!isEditing}
+            value={candidateInfo.address}
             onChange={handleCandidateInfo}
           />
 
@@ -635,8 +639,8 @@ export default function VerBasico({ candidate, basic, role }) {
             label='Cidade'
             type='text'
             required
-            disabled
-            value={basic.city}
+            disabled={!isEditing}
+            value={candidateInfo.city}
             onChange={handleCandidateInfo}
           />
 
@@ -646,7 +650,8 @@ export default function VerBasico({ candidate, basic, role }) {
           <div class="survey-box">
             <label for="UF" id="UF-label">Unidade Federativa:</label>
             <br />
-            <select name="UF" id="UF" value={basic.UF} disabled onChange={handleCandidateInfo} class="select-data">
+            <select name="UF" id="UF" value={candidateInfo.UF} disabled={!isEditing}
+              onChange={handleCandidateInfo} class="select-data">
               {COUNTRY.map((type) => <option value={type.value}>{type.label}</option>)}
 
 
@@ -659,8 +664,9 @@ export default function VerBasico({ candidate, basic, role }) {
             label='CEP'
             type='text'
             required
-            disabled
-            value={basic.CEP}
+            disabled={!isEditing}
+
+            value={candidateInfo.CEP}
             onChange={handleCandidateInfo}
           />
 
@@ -670,8 +676,9 @@ export default function VerBasico({ candidate, basic, role }) {
             label='Bairro'
             type='text'
             required
-            disabled
-            value={basic.neighborhood}
+            disabled={!isEditing}
+
+            value={candidateInfo.neighborhood}
             onChange={handleCandidateInfo}
           />
 
@@ -682,8 +689,9 @@ export default function VerBasico({ candidate, basic, role }) {
             label='Número do Endereço'
             type='number'
             required
-            disabled
-            value={basic.addressNumber}
+            disabled={!isEditing}
+
+            value={candidateInfo.addressNumber}
             onChange={handleCandidateInfo}
           />
 
@@ -729,16 +737,16 @@ export default function VerBasico({ candidate, basic, role }) {
                 fieldName='NIS'
                 label='NIS'
                 type='text'
+                maxLength={11}
                 disabled={!isEditing}
                 value={candidateInfo.NIS}
                 onChange={handleCandidateInfo}
                 error={candidateInfoErrors}
               />
-
             </div>
           )}
           {/* Fonte de Renda  */}
-          <div class="survey-box">
+          {/* <div class="survey-box">
             <label for="incomeSource" id="incomeSource-label">
               Fonte(s) de renda:
             </label>
@@ -753,7 +761,7 @@ export default function VerBasico({ candidate, basic, role }) {
               id="incomeSource"
               class="select-data"
             />
-          </div>
+          </div> */}
 
           {/*<!-- Mora Sozinho ? -->*/}
           <div class="survey-box  survey-check">
@@ -911,102 +919,7 @@ export default function VerBasico({ candidate, basic, role }) {
             </>
           )}
 
-          {/*<!-- Já recebeu bolsa CEBAS para educação profissional ? -->*/}
-          <div class="survey-box survey-check">
-            <label
-              for="benefitedFromCebasScholarship_professional"
-              id="benefitedFromCebasScholarship_professional-label"
-            >
-              Já recebeu bolsa CEBAS para Educação Profissional ?
-            </label>
-            <br />
-            <InputCheckbox
-              type="checkbox"
-              name="benefitedFromCebasScholarship_professional"
-              value={candidateInfo.benefitedFromCebasScholarship_professional}
-              disabled={!isEditing}
-              onChange={handleCheckboxChange}
-              id="benefitedFromCebasScholarship_professional"
-              class="survey-control"
-              required
-            />
-          </div>
-          {candidateInfo.benefitedFromCebasScholarship_professional && (
-            <>
 
-              <Input
-                fieldName='lastYearBenefitedFromCebas_professional'
-                label='Último ano que recebeu bolsa CEBAS'
-                type='text'
-                disabled={!isEditing}
-                value={candidateInfo.lastYearBenefitedFromCebas_professional}
-                onChange={handleCandidateInfo}
-                error={candidateInfoErrors}
-              />
-
-
-              {/*<!-- Tipo de Escolaridade (Profissional) -->*/}
-
-              <div class="survey-box">
-                <label
-                  for="scholarshipType_professional"
-                  id="scholarshipType_professional-label"
-                >
-                  Tipo de Educação Profissional:
-                </label>
-                <br />
-                <select
-                  name="scholarshipType_professional"
-                  disabled={!isEditing}
-                  onChange={handleCandidateInfo}
-                  value={candidateInfo.scholarshipType_professional}
-                  id="scholarshipType_basic"
-                  class="select-data"
-                >
-                  {ScholarshipType.map((type) => (
-                    <option value={type.value}>{type.label}</option>
-                  ))}
-                </select>
-              </div>
-              {/*<!-- Nome da Instituição (Profissional): -->*/}
-              <Input
-                fieldName='institutionName_professional'
-                label='E-mail'
-                type='text'
-                required
-                disabled={!isEditing}
-                value={candidateInfo.institutionName_professional}
-                onChange={handleCandidateInfo}
-                error={candidateInfoErrors}
-              />
-
-
-              {/*<!-- CNPJ da Instituição (Profissional):-->*/}
-              <Input
-                fieldName='institutionCNPJ_professional'
-                label='CNPJ da Instituição'
-                type='number'
-                required
-                disabled={!isEditing}
-                value={candidateInfo.institutionCNPJ_professional}
-                onChange={handleCandidateInfo}
-                error={candidateInfoErrors}
-              />
-
-              {/*<!-- Nome do Curso (Profissional):-->*/}
-              <Input
-                fieldName='nameOfScholarshipCourse_professional'
-                label='Nome do Curso'
-                type='text'
-                required
-                disabled={!isEditing}
-                value={candidateInfo.nameOfScholarshipCourse_professional}
-                onChange={handleCandidateInfo}
-                error={candidateInfoErrors}
-              />
-
-            </>
-          )}
 
           {role !== 'Assistant' && <div className="survey-box">
             {!isEditing ? (

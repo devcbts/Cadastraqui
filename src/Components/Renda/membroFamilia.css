@@ -1,5 +1,5 @@
 .container-teste {
-  width: 100%;
+  
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,6 +19,14 @@
   border: 2px solid white;
   box-shadow: 0 0 10px rgb(181, 181, 181);
   transition: all 0.6s;
+}
+
+@media screen and (max-width: 768px){
+  .container-teste{
+    flex-direction: column;
+    width: 80vw;
+  }
+  
 }
 
 .renda-btn:hover{

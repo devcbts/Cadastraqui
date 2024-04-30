@@ -11,6 +11,7 @@ import useForm from "../../hooks/useForm";
 import { formatRG } from "../../utils/format-rg";
 import candidateInfoValidations from "./validations/candidate-info-validation";
 import Input from "../Inputs/FormInput";
+import { formatTelephone } from "../../utils/format-telephone";
 
 const GENDER = [
   { value: "MALE", label: "Masculino" },
@@ -167,7 +168,7 @@ export default function CadastroBasico() {
     profession: "",
     enrolledGovernmentProgram: false,
     NIS: "",
-    incomeSource: [],
+    // incomeSource: [],
     livesAlone: false,
     intendsToGetScholarship: false,
     attendedPublicHighSchool: false,
@@ -183,7 +184,7 @@ export default function CadastroBasico() {
     institutionCNPJ_professional: "",
     nameOfScholarshipCourse_professional: null,
     CadUnico: false,
-  });
+  }, candidateInfoValidations);
 
 
 
@@ -217,7 +218,7 @@ export default function CadastroBasico() {
       profession: candidateInfo.profession,
       enrolledGovernmentProgram: candidateInfo.enrolledGovernmentProgram,
       NIS: candidateInfo.NIS,
-      incomeSource: candidateInfo.incomeSource,
+      // incomeSource: candidateInfo.incomeSource,
       livesAlone: candidateInfo.livesAlone,
       intendsToGetScholarship: candidateInfo.intendsToGetScholarship,
       attendedPublicHighSchool: candidateInfo.attendedPublicHighSchool,
@@ -249,7 +250,7 @@ export default function CadastroBasico() {
         },
       });
       console.log("====================================");
-      console.log(response.status);
+      console.log(response.data);
       console.log("====================================");
       handleSuccess(response, "Dados cadastrados com sucesso!");
     } catch (error) {
@@ -278,7 +279,6 @@ export default function CadastroBasico() {
             label='Nome Completo'
             type='text'
             required
-
             value={candidateInfo.fullName}
             onChange={handleCandidateInfo}
             error={candidateInfoErrors}
@@ -589,7 +589,7 @@ export default function CadastroBasico() {
           </div>
 
           {/*<!-- Necessidades Especiais -->*/}
-          <div class="survey-box survey-check">
+          <div class="survey-check">
             <label for="specialNeeds" id="specialNeeds-label">
               Necessidades Especiais:
             </label>
@@ -644,7 +644,7 @@ export default function CadastroBasico() {
             label='Telefone Fixo'
             type='text'
 
-            value={candidateInfo.landlinePhone}
+            value={formatTelephone(candidateInfo.landlinePhone)}
             onChange={handleCandidateInfo}
             error={candidateInfoErrors}
           />
@@ -656,7 +656,7 @@ export default function CadastroBasico() {
             label='Telefone de trabalho/recado'
             type='text'
 
-            value={candidateInfo.workPhone}
+            value={formatTelephone(candidateInfo.workPhone)}
             onChange={handleCandidateInfo}
             error={candidateInfoErrors}
           />
@@ -687,7 +687,7 @@ export default function CadastroBasico() {
 
 
           {/*<!-- Inscrito em Programa Governamental -->*/}
-          <div class="survey-box survey-check">
+          <div class=" survey-check">
             <label
               for="enrolledGovernmentProgram"
               id="enrolledGovernmentProgram-label"
@@ -722,7 +722,7 @@ export default function CadastroBasico() {
             </div>
           )}
           {/* Fonte de Renda  */}
-          <div class="survey-box">
+          {/* <div class="survey-box">
             <label for="incomeSource" id="incomeSource-label">
               Fonte(s) de renda:
             </label>
@@ -737,10 +737,10 @@ export default function CadastroBasico() {
               id="incomeSource"
               class="select-data"
             />
-          </div>
+          </div> */}
 
           {/*<!-- Mora Sozinho ? -->*/}
-          <div class="survey-box  survey-check">
+          <div class="survey-check">
             <label for="livesAlone" id="livesAlone-label">
               Mora Sozinho ?
             </label>
@@ -755,7 +755,7 @@ export default function CadastroBasico() {
               class="survey-control"
             />
           </div>
-          <div class="survey-box survey-check">
+          <div class="survey-check">
             <label for="livesAlone" id="livesAlone-label">
               Familia registrada no Cadastro Único?
             </label>
@@ -771,7 +771,7 @@ export default function CadastroBasico() {
             />
           </div>
           {/*<!-- Deseja Obter Bolsa Escolar ? -->*/}
-          <div class="survey-box survey-check">
+          <div class="survey-check">
             <label
               for="intendsToGetScholarship"
               id="intendsToGetScholarship-label"
@@ -791,7 +791,7 @@ export default function CadastroBasico() {
           </div>
 
           {/*<!-- Estudou em Instituição Pública ? -->*/}
-          <div class="survey-box survey-check">
+          <div class="survey-check">
             <label
               for="attendedPublicHighSchool"
               id="attendedPublicHighSchool-label"
@@ -812,7 +812,7 @@ export default function CadastroBasico() {
           </div>
 
           {/*<!-- Já recebeu bolsa CEBAS para educação Básica ? -->*/}
-          <div class="survey-box survey-check">
+          <div class="survey-check">
             <label
               for="benefitedFromCebasScholarship_basic"
               id="benefitedFromCebasScholarship_basic-label"
@@ -896,7 +896,7 @@ export default function CadastroBasico() {
           )}
 
           {/*<!-- Já recebeu bolsa CEBAS para educação profissional ? -->*/}
-          <div class="survey-box survey-check">
+          <div class="survey-check">
             <label
               for="benefitedFromCebasScholarship_professional"
               id="benefitedFromCebasScholarship_professional-label"
