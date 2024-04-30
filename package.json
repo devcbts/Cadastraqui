@@ -6,7 +6,7 @@
   "scripts": {
     "local": "dotenv -e .env.local tsx watch src/server.ts",
     "dev": "dotenv -e .env.dev tsx watch src/server.ts",
-    "prod": "dotenv -e .env.production npm run start",
+    "prod": "dotenv -e .env.production tsx watch src/server.ts",
     "start": "node app/server.js",
     "build": "tsc"
   },
