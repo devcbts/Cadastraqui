@@ -19,9 +19,9 @@ export async function finishRegistration(
         if (!candidate) {
             throw new ResourceNotFoundError()
         }
-        await prisma.candidate.update(
+       const updatedCandidate = await prisma.candidate.update(
             {
-                where: { id: candidate.id },
+                where: { user_id: userId},
                 data: {
 
                     finishedapplication: true,
@@ -29,7 +29,7 @@ export async function finishRegistration(
             },
 
         )
-
+        console.log(updatedCandidate)
         return reply.status(201).send()
     } catch (err: any) {
         if (err instanceof ResourceNotFoundError) {

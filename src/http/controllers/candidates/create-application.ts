@@ -2,6 +2,7 @@ import { ApplicationAlreadyExistsError } from '@/errors/already-exists-applicati
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -27,31 +28,25 @@ export async function subscribeAnnouncement(
   try {
     const userId = request.user.sub
 
-    let candidate = await prisma.candidate.findUnique({
-      where: { user_id: userId },
-    })
-    const responsible = await prisma.legalResponsible.findUnique({
-      where: { user_id: userId },
-    })
-    if (!candidate && !responsible) {
-      throw new ResourceNotFoundError()
+    const CandidateOrResponsible = await SelectCandidateResponsible(userId)
+    if (!CandidateOrResponsible) {
+      throw new NotAllowedError()
     }
 
-    if (responsible) {
-      candidate = await prisma.candidate.findUnique({
-        where: {id: candidate_id},
+    let candidate = CandidateOrResponsible.UserData
+
+    // check if the candidate is the legal dependent of the responsible
+    if (CandidateOrResponsible.IsResponsible) { 
+      const legalDependent = await prisma.candidate.findUnique({
+        where: { id: candidate_id, responsible_id: CandidateOrResponsible.UserData.id },
       })
-      
-    }
-      if (!candidate) {
-        throw new ResourceNotFoundError()
-      }
-
-      if (candidate.responsible_id !== responsible?.id) {
+      if (!legalDependent) {
         throw new NotAllowedError()
       }
-
-    if (!candidate.finishedapplication) {
+      candidate = legalDependent
+    }
+    
+    if (!CandidateOrResponsible.UserData.finishedapplication) {
       throw new Error('Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.')
     }
 
@@ -97,6 +92,10 @@ export async function subscribeAnnouncement(
     }
     if (err instanceof ApplicationAlreadyExistsError) {
       return reply.status(409).send({ err })
+    }
+    if (err instanceof NotAllowedError) {
+      return reply.status(401).send({ message: err.message })
+      
     }
     if (err instanceof Error) {
       return reply.status(405).send({ err })
