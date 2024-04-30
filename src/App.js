@@ -159,7 +159,7 @@ function App() {
                 element={<VerHistorico></VerHistorico>}
               ></Route>
               <Route
-                path="/reset_password/:id"
+                path="/reset_password"
                 element={<PasswordRecovery />}
               ></Route>
             </Routes>

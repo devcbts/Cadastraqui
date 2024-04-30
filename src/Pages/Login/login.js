@@ -348,8 +348,8 @@ export default function Login() {
 
               <LoginButton onClick={login} label='entrar' />
               <LoginButton onClick={handlePageToRegister} label='cadastrar-se' />
-              <label style={{ cursor: "pointer", fontSize: 18 }} onClick={handleForgotPassword}>Esqueci minha senha</label>
             </form>
+            <label style={{ cursor: "pointer", fontSize: 18 }} onClick={handleForgotPassword}>Esqueci minha senha</label>
           </div>
 
           <div

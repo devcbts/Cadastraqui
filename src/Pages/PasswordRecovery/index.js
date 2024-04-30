@@ -8,34 +8,50 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
 import { api } from "../../services/axios";
+import { useSearchParams } from "react-router-dom";
+import passwordRecoveryValidation from "./validations/pass-recovery-validation";
 export default function PasswordRecovery() {
-    const [[password], handlePassword] = useForm({
+    const [[password], handlePassword, errors] = useForm({
         password: '',
         passwordConfirmation: ''
-    })
-    const { id } = useParams()
+    }, passwordRecoveryValidation)
+    const [query] = useSearchParams()
+    const token = query.get("token")
     const navigate = useNavigate()
     useEffect(() => {
         const handleToken = async () => {
             try {
-                await api.get('/verify-password-token', { params: { token: id } })
-                Swal.fire({
-                    title: 'Senha alterada',
-                    text: 'Senha alterada com sucesso',
-                    icon: "success"
-                }).then()
+                await api.get('/verify-password-token', { params: { token } })
             } catch (err) {
                 Swal.fire({
                     title: 'Erro',
-                    text: err.response.data.message,
+                    text: 'Token inválido ou expirado',
                     icon: "error"
-                }).then(() => navigate('/login'))
+                }).then(() =>
+                    navigate('/login')
+                )
             }
         }
         handleToken()
-    }, [id])
+    }, [query])
     const handleResetPassword = async () => {
 
+        try {
+            await api.post(`/reset_password?token=${token}`, password)
+            Swal.fire({
+                title: "Alteração concluída",
+                text: "Senha alterada com sucesso",
+                icon: "success"
+            }).then(() =>
+                navigate('/login')
+            )
+        } catch (err) {
+            Swal.fire({
+                title: "Erro",
+                text: "Erro ao alterar senha",
+                icon: "error"
+            })
+        }
     }
     return (
         <div className="login-container">
@@ -66,11 +82,12 @@ export default function PasswordRecovery() {
                                 placeholder="Nova senha"
                                 value={password.password}
                                 onChange={handlePassword}
-                                error={true}
+                                error={errors}
+                                showErrorHint
                             />
 
 
-                            <LoginButton label='Salvar nova senha' />
+                            <LoginButton label='Salvar nova senha' onClick={handleResetPassword} />
                         </form>
                     </div>
                 </div>
