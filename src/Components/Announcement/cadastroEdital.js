@@ -105,6 +105,10 @@ const gradeLevels = {
 };
 
 export default function CadastroEdital() {
+    function getCurrentDateWithoutTime() {
+        const now = new Date();
+        return new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+    }
     const baseAnnouncementSchemaNoInterview = z.object({
         announcementType: z.string().min(1),
         educationLevel: z.string().min(1),
@@ -118,22 +122,22 @@ export default function CadastroEdital() {
             errorMap: (issue, { defaultError }) => ({
                 message: issue.code === "invalid_date" ? "Data inválida" : defaultError,
             }),
-        }).min(new Date(), "Data não pode ser menor que o dia atual"),
+        }).min(getCurrentDateWithoutTime(), "Data não pode ser menor que o dia atual"),
         closeDate: z.date({
             errorMap: (issue, { defaultError }) => ({
                 message: issue.code === "invalid_date" ? "Data inválida" : defaultError,
             }),
-        }).min(new Date(), "Data não pode ser menor que o dia atual"),
+        }).min(getCurrentDateWithoutTime(), "Data não pode ser menor que o dia atual"),
         announcementDate: z.date({
             errorMap: (issue, { defaultError }) => ({
                 message: issue.code === "invalid_date" ? "Data inválida" : defaultError,
             }),
-        }).min(new Date(), "Data não pode ser menor que o dia atual"),
+        }).min(getCurrentDateWithoutTime(), "Data não pode ser menor que o dia atual"),
         announcementBegin: z.date({
             errorMap: (issue, { defaultError }) => ({
                 message: issue.code === "invalid_date" ? "Data inválida" : defaultError,
             }),
-        }).min(new Date(), "Data não pode ser menor que o dia atual"),
+        }).min(getCurrentDateWithoutTime(), "Data não pode ser menor que o dia atual"),
         description: z.string().optional(),
         waitingList: z.boolean().default(false),
         hasInterview: z.literal(false),
@@ -529,11 +533,13 @@ export default function CadastroEdital() {
             });
 
             handleSuccess(response, 'Edital Criado com sucesso')
+            setSubsidiaries([])
             setAnnouncementBegin('')
             setAnnouncementDate('')
             setAnnouncementName('')
             setAnnouncementType('')
             setEducationalLevels([])
+            setDescription("")
             setFile(null)
             reset()
 
@@ -714,7 +720,8 @@ export default function CadastroEdital() {
                         label="Data de abertura do edital"
                         name="openDate"
                         type="date"
-                        {...register("openDate", { valueAsDate: true })}
+
+                        {...register("openDate", { valueAsDate: true, onChange: (e) => { console.log(new Date(e.target.value), getCurrentDateWithoutTime().toISOString()) } })}
                         error={touchedFields["openDate"] ? errors : null}
                     />
 

@@ -182,6 +182,7 @@ export default function MembrosFamiliaRendaTeste({ candidate, identityInfo }) {
                 </label>
                 <br />
                 <ReactSelect
+                  styles={{ container: (v) => ({ ...v, width: "80%" }) }}
                   name="incomeSource"
                   isMulti
                   is
@@ -189,7 +190,6 @@ export default function MembrosFamiliaRendaTeste({ candidate, identityInfo }) {
                   options={IncomeSource}
                   value={IncomeSource.filter(obj => currentMember?.incomeSource?.includes(obj.value))}
                   id="incomeSource"
-                  class="select-data"
                 />
               </div>
               <button

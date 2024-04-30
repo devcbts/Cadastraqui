@@ -11,7 +11,6 @@ const Select = forwardRef(({ name, label, options, error, ...props }, ref) => {
                 data-error={style}
                 id={name}
                 name={name}
-                defaultValue={null}
                 {...props}
                 ref={ref}
             >

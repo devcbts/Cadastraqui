@@ -5,7 +5,7 @@ export default class TextValidator {
     }
 
     validate(value) {
-        const onlyNumberRegExp = /^[a-zA-Z]*$/g
+        const onlyNumberRegExp = /^[a-zA-Z ]+$/g
         return onlyNumberRegExp.test(value) ? null : "Apenas texto"
     }
 }

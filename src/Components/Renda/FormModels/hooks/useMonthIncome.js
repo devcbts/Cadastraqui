@@ -36,7 +36,8 @@ export default function useMonthIncome({ inputObj, checksObj, monthCount, initia
     const fieldErrors = errors.incomeInfo?.map((e, i) => ({ ...Object.keys(e).reduce((acc, inner) => ({ ...acc, [`incomeInfo.${i}.${inner}`]: e[inner].message }), {}) }))
     const watchCheckValues = watchCheck("checks")
     const handleCurrency = (e) => {
-        setValue(e.target.name, formatCurrency(e.target.value))
+        let { name, value } = e.target
+        setValue(name, formatCurrency(value))
     }
     useEffect(() => {
         if (!!initialData && initialData.length !== 0) {

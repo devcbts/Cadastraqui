@@ -37,6 +37,7 @@ import VerEntidade from "./Pages/Admin/verEntidade";
 import VerHistorico from "./Pages/Candidato/verHistorico";
 import PerfilCandidato from "./Pages/Candidato/Profile/perfil";
 import PerfilEntidade from "./Pages/Entidade/Profile/perfil";
+import PasswordRecovery from "./Pages/PasswordRecovery";
 
 function App() {
   return (
@@ -156,6 +157,10 @@ function App() {
               <Route
                 path="/candidato/historico/:application_id"
                 element={<VerHistorico></VerHistorico>}
+              ></Route>
+              <Route
+                path="/reset_password"
+                element={<PasswordRecovery />}
               ></Route>
             </Routes>
           </AuthProvider>

@@ -160,11 +160,17 @@ const MonthsIncome = forwardRef(({ monthCount, initialData }, ref) => {
                                 createConditionalCheckboxes(i, e.label, e.field))
                             }
                         </>
-                        <label>Renda obtida após deduções legais para fins deste processo seletivo {formatCurrency(getMonthTotalIncome(i))}</label>
+                        <div style={{ border: '1px solid #1b4f73', borderRadius: '8px', padding: '12px 8px', margin: '8px 0px' }}>
+                            <label>Renda obtida após deduções legais para fins deste processo seletivo {formatCurrency(getMonthTotalIncome(i))}</label>
+                        </div>
                     </div>
                 </>
             ))}
-            <label>Renda média obtida após deduções legais para fins deste processo seletivo {formatCurrency(getAverageIncome())}</label>
+            <div style={{ border: '1px solid #1b4f73', borderRadius: '8px', padding: '12px 8px', margin: '8px 0px' }}>
+
+                <label>Renda média obtida após deduções legais para fins deste processo seletivo {formatCurrency(getAverageIncome())}</label>
+            </div>
+
         </div>
     )
 })

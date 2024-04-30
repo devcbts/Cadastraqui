@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import EditalEntidade from "../../Components/editalEntidade";
 import LoadingEdital from "../../Components/Loading/LoadingEdital";
 import { handleAuthError } from "../../ErrorHandling/handleError";
+import debounce from "lodash.debounce";
 
 export default function HomeEntidade() {
   const { isShown } = useAppState();
@@ -119,6 +120,24 @@ export default function HomeEntidade() {
       clearInterval(intervalId);
     };
   }, [])
+  const searchAnnouncements = debounce(async (e) => {
+    const { value } = e.target
+    const response = await api.post('/entities/announcement/find', {
+      id: entity.id,
+      filter: value,
+      open: true
+    })
+    setAnnouncements(response.data.announcements)
+  }, 600)
+  const searchClosedAnnouncements = debounce(async (e) => {
+    const { value } = e.target
+    const response = await api.post('/entities/announcement/find', {
+      id: entity.id,
+      filter: value,
+      open: false
+    })
+    setClosedAnnouncements(response.data.announcements)
+  }, 600)
   return (
     <div className="container">
       <div className="section-nav">
@@ -127,16 +146,16 @@ export default function HomeEntidade() {
       <div className={`editais ${isShown ? "hidden-menu" : ""}`}>
         <div className="upper">
           <h1>Editais Vigentes</h1>
-          {/* <div className="search-ring">
+          <div className="search-ring">
             <div style={{ minHeight: "0vh" }}></div>
             <div class="right search">
               {windowWidth > 1000 && (
                 <form>
-                  <input type="search" placeholder="Search..." />
+                  <input type="search" placeholder="Search..." onChange={searchAnnouncements} />
                 </form>
               )}
             </div>
-          </div> */}
+          </div>
         </div>
         <div className="container-editais">
           {announcements && announcements.length > 0 ? announcements.map((announcement) => {
@@ -150,16 +169,16 @@ export default function HomeEntidade() {
       <div className={`editais ${isShown ? "hidden-menu" : ""}`}>
         <div className="upper">
           <h1>Editais Anteriores</h1>
-          {/* <div className="search-ring">
+          <div className="search-ring">
             <div style={{ minHeight: "0vh" }}></div>
             <div class="right search">
               {windowWidth > 1000 && (
                 <form>
-                  <input type="search" placeholder="Search..." />
+                  <input type="search" placeholder="Search..." onChange={searchClosedAnnouncements} />
                 </form>
               )}
             </div>
-          </div> */}
+          </div>
         </div>
         <div className="container-editais">
           {closedAnnouncements && closedAnnouncements.length > 0 ? closedAnnouncements.map((announcement) => {
