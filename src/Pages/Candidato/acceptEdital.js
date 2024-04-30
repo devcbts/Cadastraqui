@@ -213,7 +213,7 @@ export default function AcceptEdital() {
         setAnnouncementInfo(response.data.announcements)
         setEntity(response.data.announcements.entity)
         setSubsidiaries(response.data.announcements.entity_subsidiary)
-        isEarlyEducation(announcementInfo.educationLevels)
+        isEarlyEducation(response.data.announcements.educationLevels)
         handleEntityOrSubsidiaryChange(response.data.announcements.entity.id)
 
         console.log(announcementInfo.educationLevels)
