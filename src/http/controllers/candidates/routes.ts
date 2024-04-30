@@ -26,6 +26,7 @@ import { registerCandidate } from './register'
 import { registerAutonomousInfo } from './register-autonomous-info'
 import { registerCLTInfo } from './register-clt-income-info'
 import { registerCreditCardInfo } from './register-credit-card-info'
+import { registerEmploymenType } from './register-employment-type'
 import { registerEntepreneursInfo } from './register-entepreneur-info'
 import { registerExpensesInfo } from './register-expenses-info'
 import { registerFamilyMemberInfo } from './register-family-member'
@@ -37,6 +38,7 @@ import { registerLoanInfo } from './register-loan-info'
 import { registerMedicationInfo } from './register-medication-info'
 import { registerMEIInfo } from './register-MEI-info'
 import { registerMonthlyIncomeInfo } from './register-monthly-income-info'
+import { registerUnemployedInfo } from './register-unemployed-info'
 import { registerVehicleInfo } from './register-vehicle-info'
 import { updateBasicInfo } from './update-basic-info'
 import { updateCreditCardInfo } from './update-credit-card-info'
@@ -45,6 +47,7 @@ import { updateFamilyMemberInfo } from './update-family-member'
 import { updateFinancingInfo } from './update-financing-info'
 import { updateHousingInfo } from './update-housing-info'
 import { updateIdentityInfo } from './update-identity-info'
+import updateIncomeSource from './update-income-source'
 import { updateLoanInfo } from './update-loan-info'
 import { updateVehicleInfo } from './update-vehicle-info'
 import { uploadDocument } from './upload-documents'
@@ -92,6 +95,12 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     registerMonthlyIncomeInfo,
   )
+  app.post('/update-income-source', { onRequest: [verifyJWT] }, updateIncomeSource)
+  app.post(
+    '/family-member/unemployed/:_id',
+    { onRequest: [verifyJWT] },
+    registerUnemployedInfo,
+  )
   app.patch(
     '/family-info/:_id',
     { onRequest: [verifyJWT] },
@@ -99,6 +108,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   )
   app.delete('/family-member', { onRequest: [verifyJWT] }, deleteFamilyMember)
   // Income Info
+  app.post('/family-member/employmentType/:_id', { onRequest: [verifyJWT] }, registerEmploymenType)
   app.post(
     '/family-member/MEI/:_id',
     { onRequest: [verifyJWT] },
@@ -149,7 +159,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.post('/vehicle-info', { onRequest: [verifyJWT] }, registerVehicleInfo)
   app.patch('/vehicle-info', { onRequest: [verifyJWT] }, updateVehicleInfo)
   app.post(
-    '/application/:announcement_id/:educationLevel_id',
+    '/application/:announcement_id/:educationLevel_id/:candidate_id?',
     { onRequest: [verifyJWT] },
     subscribeAnnouncement,
   )

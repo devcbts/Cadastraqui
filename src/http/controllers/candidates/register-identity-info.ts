@@ -136,7 +136,7 @@ export async function registerIdentityInfo(
     profession: z.string(),
     enrolledGovernmentProgram: z.union([z.boolean(), z.undefined()]),
     NIS: z.union([z.string(), z.undefined()]),
-    incomeSource: z.array(IncomeSource),
+    incomeSource: z.array(IncomeSource).optional(),
     livesAlone: z.boolean(),
     intendsToGetScholarship: z.boolean(),
     attendedPublicHighSchool: z.union([z.boolean(), z.undefined()]),
@@ -236,7 +236,6 @@ export async function registerIdentityInfo(
           benefitedFromCebasScholarship_professional,
           contactNameForMessage,
           documentNumber,
-          documentType,
           documentValidity: documentValidity
             ? new Date(documentValidity)
             : undefined,
@@ -261,7 +260,7 @@ export async function registerIdentityInfo(
           CadUnico
         },
       })
-  
+
       return reply.status(201).send()
     }
     // Verifica se existe um candidato associado ao user_id
@@ -304,7 +303,7 @@ export async function registerIdentityInfo(
         benefitedFromCebasScholarship_professional,
         contactNameForMessage,
         documentNumber,
-        documentType,
+
         documentValidity: documentValidity
           ? new Date(documentValidity)
           : undefined,

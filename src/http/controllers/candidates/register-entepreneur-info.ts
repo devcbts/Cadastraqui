@@ -32,6 +32,7 @@ export async function registerEntepreneursInfo(
     'PrivatePension',
   ])
   const EntepreneurDataSchema = z.object({
+    quantity: z.number(),
     startDate: z.string(),
     fantasyName: z.string(),
     CNPJ: z.string(),
@@ -46,7 +47,7 @@ export async function registerEntepreneursInfo(
   // _id === family_member_id
   const { _id } = EntepreneurParamsSchema.parse(request.params)
 
-  const { CNPJ, fantasyName, socialReason, employmentType, startDate } = EntepreneurDataSchema.parse(
+  const { CNPJ, fantasyName, socialReason, employmentType, startDate, quantity } = EntepreneurDataSchema.parse(
     request.body,
   )
 
@@ -60,11 +61,11 @@ export async function registerEntepreneursInfo(
     }
 
     // Verifica se existe um familiar cadastrado com o owner_id
-     // Verifica se o cadastro é para o candidato
-     const isCandidate = await prisma.candidate.findUnique({
-      where: {id: _id}
+    // Verifica se o cadastro é para o candidato
+    const isCandidate = await prisma.candidate.findUnique({
+      where: { id: _id }
     })
-    
+
     const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
 
     const monthlyIncomes = await prisma.monthlyIncome.findMany({
@@ -82,7 +83,7 @@ export async function registerEntepreneursInfo(
 
     // Deleta todas as antigas instancias daquele tipo de renda
     await prisma.familyMemberIncome.deleteMany({
-      where: {...idField, employmentType: employmentType}
+      where: { ...idField, employmentType: employmentType }
     })
     // Armazena informações acerca do Empresário no banco de dados
     await prisma.familyMemberIncome.create({

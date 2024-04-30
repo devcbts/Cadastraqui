@@ -1,4 +1,5 @@
 import { app } from './app'
+import job from './cron/remove-outdated-incomes'
 import { env } from './env/index'
 
 app
@@ -7,5 +8,6 @@ app
     port: env.PORT,
   })
   .then(() => {
+    job
     console.log(`HTTP Server Running on port ${env.PORT}!`)
   })

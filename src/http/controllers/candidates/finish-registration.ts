@@ -24,7 +24,7 @@ export async function finishRegistration(
                 where: { id: candidate.id },
                 data: {
 
-                    finishedRegistration: true,
+                    finishedapplication: true,
                 }
             },
 

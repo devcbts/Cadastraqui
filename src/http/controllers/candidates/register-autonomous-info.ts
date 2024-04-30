@@ -33,6 +33,7 @@ export async function registerAutonomousInfo(
   reply: FastifyReply,
 ) {
   const AutonomousDataSchema = z.object({
+    quantity: z.number(),
     financialAssistantCPF: z.string().optional(),
     employmentType: EmploymentType,
   })
@@ -44,7 +45,7 @@ export async function registerAutonomousInfo(
   // _id === family_member_id
   const { _id } = AutonomousParamsSchema.parse(request.params)
 
-  const { financialAssistantCPF, employmentType } = AutonomousDataSchema.parse(
+  const { financialAssistantCPF, employmentType, quantity } = AutonomousDataSchema.parse(
     request.body,
   )
 
@@ -54,20 +55,20 @@ export async function registerAutonomousInfo(
     // Verifica se existe um candidato associado ao user_id
     // Verifica se existe um candidato associado ao user_id
     const responsible = await prisma.legalResponsible.findUnique({
-      where: {user_id}
+      where: { user_id }
     })
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
     if (!candidate && !responsible) {
       throw new ResourceNotFoundError()
     }
 
-      // Verifica se o cadastro é para o candidato
-      const isCandidate = await prisma.candidate.findUnique({
-        where: {id: _id}
-      })
-      
-      const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
-  
+    // Verifica se o cadastro é para o candidato
+    const isCandidate = await prisma.candidate.findUnique({
+      where: { id: _id }
+    })
+
+    const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
+
 
     const monthlyIncomes = await prisma.monthlyIncome.findMany({
       where: idField,
@@ -82,7 +83,7 @@ export async function registerAutonomousInfo(
     // Calcula a média apenas com os incomes válidos
     const avgIncome = validIncomes.length > 0 ? totalAmount / validIncomes.length : 0;
     await prisma.familyMemberIncome.deleteMany({
-      where: {...idField, employmentType: employmentType}
+      where: { ...idField, employmentType: employmentType }
     })
     // Armazena informações acerca do Empresário no banco de dados
     await prisma.familyMemberIncome.create({

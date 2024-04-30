@@ -33,8 +33,9 @@ export async function registerCLTInfo(
   reply: FastifyReply,
 ) {
   const CLTDataSchema = z.object({
+    quantity: z.number(),
     admissionDate: z.string(),
-    position:z.string(),
+    position: z.string(),
     payingSource: z.string(),
     payingSourcePhone: z.string(),
     employmentType: EmploymentType,
@@ -47,7 +48,7 @@ export async function registerCLTInfo(
   // _id === family_member_id
   const { _id } = CLTParamsSchema.parse(request.params)
 
-  const { admissionDate,payingSource,payingSourcePhone,position, employmentType } = CLTDataSchema.parse(
+  const { admissionDate, payingSource, payingSourcePhone, position, employmentType, quantity } = CLTDataSchema.parse(
     request.body,
   )
 
@@ -57,20 +58,20 @@ export async function registerCLTInfo(
     // Verifica se existe um candidato associado ao user_id
     // Verifica se existe um candidato associado ao user_id
     const responsible = await prisma.legalResponsible.findUnique({
-      where: {user_id}
+      where: { user_id }
     })
     const candidate = await prisma.candidate.findUnique({ where: { user_id } })
     if (!candidate && !responsible) {
       throw new ResourceNotFoundError()
     }
 
-      // Verifica se o cadastro é para o candidato
-      const isCandidate = await prisma.candidate.findUnique({
-        where: {id: _id}
-      })
-      
-      const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
-  
+    // Verifica se o cadastro é para o candidato
+    const isCandidate = await prisma.candidate.findUnique({
+      where: { id: _id }
+    })
+
+    const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
+
 
     const monthlyIncomes = await prisma.monthlyIncome.findMany({
       where: idField,
@@ -86,7 +87,7 @@ export async function registerCLTInfo(
     const avgIncome = validIncomes.length > 0 ? totalAmount / validIncomes.length : 0;
 
     await prisma.familyMemberIncome.deleteMany({
-      where: {...idField, employmentType: employmentType}
+      where: { ...idField, employmentType: employmentType }
     })
     // Armazena informações acerca do Empresário no banco de dados
     await prisma.familyMemberIncome.create({
@@ -94,7 +95,7 @@ export async function registerCLTInfo(
         employmentType,
         averageIncome: avgIncome.toString(),
         admissionDate: new Date(admissionDate),
-        payingSource,payingSourcePhone,position,
+        payingSource, payingSourcePhone, position,
         ...idField
       },
     })

@@ -54,7 +54,7 @@ export async function registerFamilyMemberInfo(
     'DriversLicense',
     'FunctionalCard',
     'MilitaryID',
-    'ForeignerRegistration',
+    'Foreignerapplication',
     'Passport',
     'WorkCard',
   ])
@@ -249,6 +249,8 @@ export async function registerFamilyMemberInfo(
         where: { CPF, candidate_id: responsible?.id },
       })
     ) {
+      console.log('foi aqui')
+
       throw new ResourceNotFoundError()
     }
     if (

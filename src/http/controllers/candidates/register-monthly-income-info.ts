@@ -1,6 +1,7 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -33,105 +34,27 @@ export async function registerMonthlyIncomeInfo(
     "PrivatePension"
   ])
 
-  const MontlhyIncomeDataSchema = z.object({
-    month1: z.string(),
-    year1: z.string(),
-    grossAmount1: z.number().default(0),
-    proLabore1: z.number().default(0),
-    dividends1: z.number().default(0),
-    deductionValue1: z.number().default(0),
-    publicPension1: z.number().default(0),
-    incomeTax1: z.number().default(0),
-    otherDeductions1: z.number().default(0),
-    foodAllowanceValue1: z.number().default(0),
-    transportAllowanceValue1: z.number().default(0),
-    expenseReimbursementValue1: z.number().default(0),
-    advancePaymentValue1: z.number().default(0),
-    reversalValue1: z.number().default(0),
-    compensationValue1: z.number().default(0),
-    judicialPensionValue1: z.number().default(0),
-    month2: z.string(),
-    year2: z.string(),
-    grossAmount2: z.number().default(0),
-    proLabore2: z.number().default(0),
-    dividends2: z.number().default(0),
-    deductionValue2: z.number().default(0),
-    publicPension2: z.number().default(0),
-    incomeTax2: z.number().default(0),
-    otherDeductions2: z.number().default(0),
-    foodAllowanceValue2: z.number().default(0),
-    transportAllowanceValue2: z.number().default(0),
-    expenseReimbursementValue2: z.number().default(0),
-    advancePaymentValue2: z.number().default(0),
-    reversalValue2: z.number().default(0),
-    compensationValue2: z.number().default(0),
-    judicialPensionValue2: z.number().default(0),
-    month3: z.string(),
-    year3: z.string(),
-    grossAmount3: z.number().default(0),
-    proLabore3: z.number().default(0),
-    dividends3: z.number().default(0),
-    deductionValue3: z.number().default(0),
-    publicPension3: z.number().default(0),
-    incomeTax3: z.number().default(0),
-    otherDeductions3: z.number().default(0),
-    foodAllowanceValue3: z.number().default(0),
-    transportAllowanceValue3: z.number().default(0),
-    expenseReimbursementValue3: z.number().default(0),
-    advancePaymentValue3: z.number().default(0),
-    reversalValue3: z.number().default(0),
-    compensationValue3: z.number().default(0),
-    judicialPensionValue3: z.number().default(0),
-    month4: z.string().optional(),
-    year4: z.string().optional(),
-    grossAmount4: z.number().optional(),
-    proLabore4: z.number().default(0),
-    dividends4: z.number().default(0),
-    deductionValue4: z.number().default(0),
-    publicPension4: z.number().default(0),
-    incomeTax4: z.number().default(0),
-    otherDeductions4: z.number().default(0),
-    foodAllowanceValue4: z.number().default(0),
-    transportAllowanceValue4: z.number().default(0),
-    expenseReimbursementValue4: z.number().default(0),
-    advancePaymentValue4: z.number().default(0),
-    reversalValue4: z.number().default(0),
-    compensationValue4: z.number().default(0),
-    judicialPensionValue4: z.number().default(0),
-    month5: z.string().optional().optional(),
-    year5: z.string().optional().optional(),
-    grossAmount5: z.number().optional(),
-    proLabore5: z.number().default(0),
-    dividends5: z.number().default(0),
-    deductionValue5: z.number().default(0),
-    publicPension5: z.number().default(0),
-    incomeTax5: z.number().default(0),
-    otherDeductions5: z.number().default(0),
-    foodAllowanceValue5: z.number().default(0),
-    transportAllowanceValue5: z.number().default(0),
-    expenseReimbursementValue5: z.number().default(0),
-    advancePaymentValue5: z.number().default(0),
-    reversalValue5: z.number().default(0),
-    compensationValue5: z.number().default(0),
-    judicialPensionValue5: z.number().default(0),
-    month6: z.string().optional(),
-    year6: z.string().optional(),
-    grossAmount6: z.number().optional(),
-    proLabore6: z.number().default(0),
-    dividends6: z.number().default(0),
-    deductionValue6: z.number().default(0),
-    publicPension6: z.number().default(0),
-    incomeTax6: z.number().default(0),
-    otherDeductions6: z.number().default(0),
-    foodAllowanceValue6: z.number().default(0),
-    transportAllowanceValue6: z.number().default(0),
-    expenseReimbursementValue6: z.number().default(0),
-    advancePaymentValue6: z.number().default(0),
-    reversalValue6: z.number().default(0),
-    compensationValue6: z.number().default(0),
-    judicialPensionValue6: z.number().default(0),
+  const MontlhyIncomeDataSchemaTest = z.object({
     quantity: z.number(),
-    incomeSource: IncomeSource
+    incomeSource: IncomeSource,
+
+    incomes: z.array(z.object({
+      date: z.date().or(z.string().transform(v => new Date(v))).default(new Date()),
+      grossAmount: z.number().default(0),
+      proLabore: z.number().default(0),
+      dividends: z.number().default(0),
+      deductionValue: z.number().default(0),
+      publicPension: z.number().default(0),
+      incomeTax: z.number().default(0),
+      otherDeductions: z.number().default(0),
+      foodAllowanceValue: z.number().default(0),
+      transportAllowanceValue: z.number().default(0),
+      expenseReimbursementValue: z.number().default(0),
+      advancePaymentValue: z.number().default(0),
+      reversalValue: z.number().default(0),
+      compensationValue: z.number().default(0),
+      judicialPensionValue: z.number().default(0),
+    }))
   })
 
   const incomeParamsSchema = z.object({
@@ -141,108 +64,9 @@ export async function registerMonthlyIncomeInfo(
   // _id === family_member_id
   const { _id } = incomeParamsSchema.parse(request.params)
 
-  const {
-    quantity,
-    month1,
-    month2,
-    month3,
-    year1,
-    year2,
-    year3,
-    advancePaymentValue1,
-    advancePaymentValue2,
-    advancePaymentValue3,
-    advancePaymentValue4,
-    advancePaymentValue5,
-    advancePaymentValue6,
-    compensationValue1,
-    compensationValue2,
-    compensationValue3,
-    compensationValue4,
-    compensationValue5,
-    compensationValue6,
-    deductionValue1,
-    deductionValue2,
-    deductionValue3,
-    deductionValue4,
-    deductionValue5,
-    deductionValue6,
-    dividends1,
-    dividends2,
-    dividends3,
-    dividends4,
-    dividends5,
-    dividends6,
-    expenseReimbursementValue1,
-    expenseReimbursementValue2,
-    expenseReimbursementValue3,
-    expenseReimbursementValue4,
-    expenseReimbursementValue5,
-    expenseReimbursementValue6,
-    foodAllowanceValue1,
-    foodAllowanceValue2,
-    foodAllowanceValue3,
-    foodAllowanceValue4,
-    foodAllowanceValue5,
-    foodAllowanceValue6,
-    grossAmount1,
-    grossAmount2,
-    grossAmount3,
-    grossAmount4,
-    grossAmount5,
-    grossAmount6,
-    incomeTax1,
-    incomeTax2,
-    incomeTax3,
-    incomeTax4,
-    incomeTax5,
-    incomeTax6,
-    judicialPensionValue1,
-    judicialPensionValue2,
-    judicialPensionValue3,
-    judicialPensionValue4,
-    judicialPensionValue5,
-    judicialPensionValue6,
-    month4,
-    month5,
-    month6,
-    otherDeductions1,
-    otherDeductions2,
-    otherDeductions3,
-    otherDeductions4,
-    otherDeductions5,
-    otherDeductions6,
-    proLabore1,
-    proLabore2,
-    proLabore3,
-    proLabore4,
-    proLabore5,
-    proLabore6,
-    publicPension1,
-    publicPension2,
-    publicPension3,
-    publicPension4,
-    publicPension5,
-    publicPension6,
-    reversalValue1,
-    reversalValue2,
-    reversalValue3,
-    reversalValue4,
-    reversalValue5,
-    reversalValue6,
-    transportAllowanceValue1,
-    transportAllowanceValue2,
-    transportAllowanceValue3,
-    transportAllowanceValue4,
-    transportAllowanceValue5,
-    transportAllowanceValue6,
-    year4,
-    year5,
-    year6,
-    incomeSource
-  } = MontlhyIncomeDataSchema.parse(request.body)
 
-  console.log(request.body)
+  const monthlyIncome = MontlhyIncomeDataSchemaTest.parse(request.body)
+
 
   try {
     const user_id = request.user.sub
@@ -256,578 +80,127 @@ export async function registerMonthlyIncomeInfo(
       throw new ResourceNotFoundError()
     }
 
-    const isCandidate = await prisma.candidate.findUnique({
-      where: { id: _id }
-    })
+    const isCandidateOrResponsible = await ChooseCandidateResponsible(_id)
     // Verifica se existe um familiar cadastrado com o owner_id
 
-    const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
+    const idField = isCandidateOrResponsible ? (isCandidateOrResponsible.IsResponsible ? { responsible_id: _id } : { candidate_id: _id }) : { familyMember_id: _id };
     await prisma.monthlyIncome.deleteMany({
-      where: { ...idField, incomeSource }
+      where: { ...idField, incomeSource: monthlyIncome.incomeSource }
     })
-    if (quantity === 3) {
-      if (grossAmount1) {
+    // iterate over the month array to get all total income
+    monthlyIncome.incomes.forEach(async (income) => {
+      if (income.grossAmount) {
         let liquidAmount =
-          grossAmount1 -
-          foodAllowanceValue1 -
-          transportAllowanceValue1 -
-          expenseReimbursementValue1 -
-          advancePaymentValue1 -
-          reversalValue1 -
-          judicialPensionValue1
-          if (proLabore1 && dividends1) {
-            liquidAmount = proLabore1 + dividends1
-          }
-        // Armazena informações acerca da renda mensal no banco de dados
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: grossAmount1,
-            liquidAmount,
-            month: month1,
-            year: year1,
-            advancePaymentValue: advancePaymentValue1,
-            compensationValue: compensationValue1,
-            deductionValue: deductionValue1,
-            expenseReimbursementValue: expenseReimbursementValue1,
-            incomeTax: incomeTax1,
-            judicialPensionValue: judicialPensionValue1,
-            otherDeductions: otherDeductions1,
-            publicPension: publicPension1,
-            reversalValue: reversalValue1,
-            foodAllowanceValue: foodAllowanceValue1,
-            transportAllowanceValue: transportAllowanceValue1,
-            ...idField,
-            dividends: dividends1,
-            proLabore: proLabore1,
-            incomeSource
-          }
-        })
-      } else {
-        const total = (dividends1 || 0) + (proLabore1 || 0)
-        // Armazena informações acerca da renda mensal no banco de dados (Empresário)
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: grossAmount1,
-            month: month1,
-            year: year1,
-            advancePaymentValue: advancePaymentValue1,
-            compensationValue: compensationValue1,
-            deductionValue: deductionValue1,
-            expenseReimbursementValue: expenseReimbursementValue1,
-            incomeTax: incomeTax1,
-            judicialPensionValue: judicialPensionValue1,
-            otherDeductions: otherDeductions1,
-            publicPension: publicPension1,
-            reversalValue: reversalValue1,
-            foodAllowanceValue: foodAllowanceValue1,
-            transportAllowanceValue: transportAllowanceValue1,
-            total,
-            ...idField,
-            incomeSource
-          },
-        })
-      }
-      if (grossAmount2) {
-        let liquidAmount =
-          grossAmount2 -
-          foodAllowanceValue2 -
-          transportAllowanceValue2 -
-          expenseReimbursementValue2 -
-          advancePaymentValue2 -
-          reversalValue2 -
-          judicialPensionValue2
-          if (proLabore2 && dividends2) {
-            liquidAmount = proLabore2 + dividends2
-          }
-        // Armazena informações acerca da renda mensal no banco de dados
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: grossAmount2,
-            liquidAmount,
-            month: month2,
-            year: year2,
-            advancePaymentValue: advancePaymentValue2,
-            compensationValue: compensationValue2,
-            deductionValue: deductionValue2,
-            expenseReimbursementValue: expenseReimbursementValue2,
-            incomeTax: incomeTax2,
-            judicialPensionValue: judicialPensionValue2,
-            otherDeductions: otherDeductions2,
-            publicPension: publicPension2,
-            reversalValue: reversalValue2,
-            foodAllowanceValue: foodAllowanceValue2,
-            dividends: dividends2,
-            proLabore: proLabore2,
-            transportAllowanceValue: transportAllowanceValue2,
-            ...idField,
-            incomeSource
-          },
-        })
-      } else {
-        const total = (dividends2 || 0) + (proLabore2 || 0)
-        // Armazena informações acerca da renda mensal no banco de dados (Empresário)
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: grossAmount2,
-            month: month2,
-            year: year2,
-            advancePaymentValue: advancePaymentValue2,
-            compensationValue: compensationValue2,
-            deductionValue: deductionValue2,
-            expenseReimbursementValue: expenseReimbursementValue2,
-            incomeTax: incomeTax2,
-            judicialPensionValue: judicialPensionValue2,
-            otherDeductions: otherDeductions2,
-            publicPension: publicPension2,
-            reversalValue: reversalValue2,
-            foodAllowanceValue: foodAllowanceValue2,
-            transportAllowanceValue: transportAllowanceValue2,
-            total,
-            ...idField,
-            incomeSource
-          },
-        })
-      }
-      if (grossAmount3) {
-        let liquidAmount =
-          grossAmount3 -
-          foodAllowanceValue3 -
-          transportAllowanceValue3 -
-          expenseReimbursementValue3 -
-          advancePaymentValue3 -
-          reversalValue3 -
-          judicialPensionValue3
-          if (proLabore3 && dividends3) {
-            liquidAmount = proLabore3 + dividends3
-          }
-        // Armazena informações acerca da renda mensal no banco de dados
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: grossAmount3,
-            liquidAmount,
-            month: month3,
-            year: year3,
-            advancePaymentValue: advancePaymentValue3,
-            compensationValue: compensationValue3,
-            deductionValue: deductionValue3,
-            expenseReimbursementValue: expenseReimbursementValue3,
-            incomeTax: incomeTax3,
-            judicialPensionValue: judicialPensionValue3,
-            otherDeductions: otherDeductions3,
-            publicPension: publicPension3,
-            reversalValue: reversalValue3,
-            foodAllowanceValue: foodAllowanceValue3,
-            transportAllowanceValue: transportAllowanceValue3,
-            ...idField,
-            dividends: dividends3,
-            proLabore: proLabore3,
-            incomeSource
-          },
-        })
-      } else {
-        const total = (dividends3 || 0) + (proLabore3 || 0)
-        // Armazena informações acerca da renda mensal no banco de dados (Empresário)
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: grossAmount3,
-            month: month3,
-            year: year3,
-            advancePaymentValue: advancePaymentValue3,
-            compensationValue: compensationValue3,
-            deductionValue: deductionValue3,
-            expenseReimbursementValue: expenseReimbursementValue3,
-            incomeTax: incomeTax3,
-            judicialPensionValue: judicialPensionValue3,
-            otherDeductions: otherDeductions3,
-            publicPension: publicPension3,
-            reversalValue: reversalValue3,
-            foodAllowanceValue: foodAllowanceValue3,
-            transportAllowanceValue: transportAllowanceValue3,
-            total,
-            ...idField,
-            incomeSource
-          },
-        })
-      }
-    } else {
-      if (grossAmount1) {
-        let liquidAmount =
-          grossAmount1 -
-          foodAllowanceValue1 -
-          transportAllowanceValue1 -
-          expenseReimbursementValue1 -
-          advancePaymentValue1 -
-          reversalValue1 -
-          judicialPensionValue1
-          if (proLabore1 && dividends1) {
-            liquidAmount = proLabore1 + dividends1
-          }
-        // Armazena informações acerca da renda mensal no banco de dados
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: grossAmount1,
-            liquidAmount,
-            month: month1,
-            year: year1,
-            advancePaymentValue: advancePaymentValue1,
-            compensationValue: compensationValue1,
-            deductionValue: deductionValue1,
-            expenseReimbursementValue: expenseReimbursementValue1,
-            incomeTax: incomeTax1,
-            judicialPensionValue: judicialPensionValue1,
-            otherDeductions: otherDeductions1,
-            publicPension: publicPension1,
-            reversalValue: reversalValue1,
-            foodAllowanceValue: foodAllowanceValue1,
-            transportAllowanceValue: transportAllowanceValue1,
-            ...idField,
-            dividends: dividends1,
-            proLabore: proLabore1,
-            incomeSource
-          },
-        })
-      } else {
-        const total = (dividends1 || 0) + (proLabore1 || 0)
-        // Armazena informações acerca da renda mensal no banco de dados (Empresário)
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: grossAmount1,
-            month: month1,
-            year: year1,
-            advancePaymentValue: advancePaymentValue1,
-            compensationValue: compensationValue1,
-            deductionValue: deductionValue1,
-            expenseReimbursementValue: expenseReimbursementValue1,
-            incomeTax: incomeTax1,
-            judicialPensionValue: judicialPensionValue1,
-            otherDeductions: otherDeductions1,
-            publicPension: publicPension1,
-            reversalValue: reversalValue1,
-            foodAllowanceValue: foodAllowanceValue1,
-            transportAllowanceValue: transportAllowanceValue1,
-            total,
-            ...idField,
-            incomeSource
-          },
-        })
-      }
-      if (grossAmount2) {
-        let liquidAmount =
-          grossAmount2 -
-          foodAllowanceValue2 -
-          transportAllowanceValue2 -
-          expenseReimbursementValue2 -
-          advancePaymentValue2 -
-          reversalValue2 -
-          judicialPensionValue2
-          if (proLabore2 && dividends2) {
-            liquidAmount = proLabore2 + dividends2
-          }
-        // Armazena informações acerca da renda mensal no banco de dados
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: grossAmount2,
-            liquidAmount,
-            month: month2,
-            year: year2,
-            advancePaymentValue: advancePaymentValue2,
-            compensationValue: compensationValue2,
-            deductionValue: deductionValue2,
-            expenseReimbursementValue: expenseReimbursementValue2,
-            incomeTax: incomeTax2,
-            judicialPensionValue: judicialPensionValue2,
-            otherDeductions: otherDeductions2,
-            publicPension: publicPension2,
-            reversalValue: reversalValue2,
-            foodAllowanceValue: foodAllowanceValue2,
-            dividends: dividends2,
-            proLabore: proLabore2,
-            transportAllowanceValue: transportAllowanceValue2,
-            ...idField,
-            incomeSource
-          },
-        })
-      } else {
-        const total = (dividends2 || 0) + (proLabore2 || 0)
-        // Armazena informações acerca da renda mensal no banco de dados (Empresário)
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: grossAmount2,
-            month: month2,
-            year: year2,
-            advancePaymentValue: advancePaymentValue2,
-            compensationValue: compensationValue2,
-            deductionValue: deductionValue2,
-            expenseReimbursementValue: expenseReimbursementValue2,
-            incomeTax: incomeTax2,
-            judicialPensionValue: judicialPensionValue2,
-            otherDeductions: otherDeductions2,
-            publicPension: publicPension2,
-            reversalValue: reversalValue2,
-            foodAllowanceValue: foodAllowanceValue2,
-            transportAllowanceValue: transportAllowanceValue2,
-            total,
-            ...idField,
-            incomeSource
-          },
-        })
-      }
-      if (grossAmount3) {
-        let liquidAmount =
-          grossAmount3 -
-          foodAllowanceValue3 -
-          transportAllowanceValue3 -
-          expenseReimbursementValue3 -
-          advancePaymentValue3 -
-          reversalValue3 -
-          judicialPensionValue3
-          if (proLabore3 && dividends3) {
-            liquidAmount = proLabore3 + dividends3
-          }
-        // Armazena informações acerca da renda mensal no banco de dados
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: grossAmount3,
-            liquidAmount,
-            month: month3,
-            year: year3,
-            advancePaymentValue: advancePaymentValue3,
-            compensationValue: compensationValue3,
-            deductionValue: deductionValue3,
-            expenseReimbursementValue: expenseReimbursementValue3,
-            incomeTax: incomeTax3,
-            judicialPensionValue: judicialPensionValue3,
-            otherDeductions: otherDeductions3,
-            publicPension: publicPension3,
-            reversalValue: reversalValue3,
-            foodAllowanceValue: foodAllowanceValue3,
-            transportAllowanceValue: transportAllowanceValue3,
-            ...idField,
-            dividends: dividends3,
-            proLabore: proLabore3,
-            incomeSource
-          },
-        })
-      } else {
-        const total = (dividends3 || 0) + (proLabore3 || 0)
-        // Armazena informações acerca da renda mensal no banco de dados (Empresário)
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: grossAmount3,
-            month: month3,
-            year: year3,
-            advancePaymentValue: advancePaymentValue3,
-            compensationValue: compensationValue3,
-            deductionValue: deductionValue3,
-            expenseReimbursementValue: expenseReimbursementValue3,
-            incomeTax: incomeTax3,
-            judicialPensionValue: judicialPensionValue3,
-            otherDeductions: otherDeductions3,
-            publicPension: publicPension3,
-            reversalValue: reversalValue3,
-            foodAllowanceValue: foodAllowanceValue3,
-            transportAllowanceValue: transportAllowanceValue3,
-            total,
-            ...idField,
-            incomeSource
-          },
-        })
-      }
-      if (grossAmount4) {
-        let liquidAmount =
-          grossAmount4 -
-          foodAllowanceValue4 -
-          transportAllowanceValue4 -
-          expenseReimbursementValue4 -
-          advancePaymentValue4 -
-          reversalValue4 -
-          judicialPensionValue4
-          if (proLabore4 && dividends4) {
-            liquidAmount = proLabore4 + dividends4
-          }
-        // Armazena informações acerca da renda mensal no banco de dados
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: grossAmount4,
-            liquidAmount,
-            month: month4!,
-            year: year4!,
-            advancePaymentValue: advancePaymentValue4,
-            compensationValue: compensationValue4,
-            deductionValue: deductionValue4,
-            expenseReimbursementValue: expenseReimbursementValue4,
-            incomeTax: incomeTax4,
-            judicialPensionValue: judicialPensionValue4,
-            otherDeductions: otherDeductions4,
-            publicPension: publicPension4,
-            reversalValue: reversalValue4,
-            foodAllowanceValue: foodAllowanceValue4,
-            transportAllowanceValue: transportAllowanceValue4,
-            ...idField,
-            dividends: dividends4,
-            proLabore: proLabore4,
-            incomeSource
-          },
-        })
-      } else {
-        const total = (dividends4 || 0) + (proLabore4 || 0)
-        // Armazena informações acerca da renda mensal no banco de dados (Empresário)
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: grossAmount4,
-            month: month4!,
-            year: year4!,
-            advancePaymentValue: advancePaymentValue4,
-            compensationValue: compensationValue4,
-            deductionValue: deductionValue4,
-            expenseReimbursementValue: expenseReimbursementValue4,
-            incomeTax: incomeTax4,
-            judicialPensionValue: judicialPensionValue4,
-            otherDeductions: otherDeductions4,
-            publicPension: publicPension4,
-            reversalValue: reversalValue4,
-            foodAllowanceValue: foodAllowanceValue4,
-            transportAllowanceValue: transportAllowanceValue4,
-            total,
-            ...idField,
-            incomeSource
-          },
-        })
-      }
-      if (grossAmount5) {
-        let liquidAmount =
-          grossAmount5 -
-          foodAllowanceValue5 -
-          transportAllowanceValue5 -
-          expenseReimbursementValue5 -
-          advancePaymentValue5 -
-          reversalValue5 -
-          judicialPensionValue5
-          if (proLabore5 && dividends5) {
-            liquidAmount = proLabore5 + dividends5
-          }
-        // Armazena informações acerca da renda mensal no banco de dados
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: grossAmount5,
-            liquidAmount,
-            month: month5!,
-            year: year5!,
-            advancePaymentValue: advancePaymentValue5,
-            compensationValue: compensationValue5,
-            deductionValue: deductionValue5,
-            expenseReimbursementValue: expenseReimbursementValue5,
-            incomeTax: incomeTax5,
-            judicialPensionValue: judicialPensionValue5,
-            otherDeductions: otherDeductions5,
-            publicPension: publicPension5,
-            reversalValue: reversalValue5,
-            foodAllowanceValue: foodAllowanceValue5,
-            transportAllowanceValue: transportAllowanceValue5,
-            ...idField,
-            dividends: dividends5,
-            proLabore: proLabore5,
-            incomeSource
-          },
-        })
-      } else {
-        const total = (dividends5 || 0) + (proLabore5 || 0)
-        // Armazena informações acerca da renda mensal no banco de dados (Empresário)
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: grossAmount5,
-            month: month5!,
-            year: year5!,
-            advancePaymentValue: advancePaymentValue5,
-            compensationValue: compensationValue5,
-            deductionValue: deductionValue5,
-            expenseReimbursementValue: expenseReimbursementValue5,
-            incomeTax: incomeTax5,
-            judicialPensionValue: judicialPensionValue5,
-            otherDeductions: otherDeductions5,
-            publicPension: publicPension5,
-            reversalValue: reversalValue5,
-            foodAllowanceValue: foodAllowanceValue5,
-            transportAllowanceValue: transportAllowanceValue5,
-            total,
-            ...idField,
-            incomeSource
-          },
-        })
-      }
-      if (grossAmount6) {
-        let liquidAmount =
-          grossAmount6 -
-          foodAllowanceValue6 -
-          transportAllowanceValue6 -
-          expenseReimbursementValue6 -
-          advancePaymentValue6 -
-          reversalValue6 -
-          judicialPensionValue6
-        if (proLabore6 && dividends6) {
-          liquidAmount = proLabore6 + dividends6
+          income.grossAmount -
+          income.foodAllowanceValue -
+          income.transportAllowanceValue -
+          income.compensationValue -
+          income.expenseReimbursementValue -
+          income.advancePaymentValue -
+          income.reversalValue -
+          income.judicialPensionValue
+        if (income.proLabore && income.dividends) {
+          liquidAmount = income.proLabore + income.dividends
         }
         // Armazena informações acerca da renda mensal no banco de dados
         await prisma.monthlyIncome.create({
           data: {
-            grossAmount: grossAmount6,
+            grossAmount: income.grossAmount,
             liquidAmount,
-            month: month6!,
-            year: year6!,
-            advancePaymentValue: advancePaymentValue6,
-            compensationValue: compensationValue6,
-            deductionValue: deductionValue6,
-            expenseReimbursementValue: expenseReimbursementValue6,
-            incomeTax: incomeTax6,
-            judicialPensionValue: judicialPensionValue6,
-            otherDeductions: otherDeductions6,
-            publicPension: publicPension6,
-            reversalValue: reversalValue6,
-            foodAllowanceValue: foodAllowanceValue6,
-            transportAllowanceValue: transportAllowanceValue6,
+            date: income.date,
+            advancePaymentValue: income.advancePaymentValue,
+            compensationValue: income.compensationValue,
+            deductionValue: income.deductionValue,
+            expenseReimbursementValue: income.expenseReimbursementValue,
+            incomeTax: income.incomeTax,
+            judicialPensionValue: income.judicialPensionValue,
+            otherDeductions: income.otherDeductions,
+            publicPension: income.publicPension,
+            reversalValue: income.reversalValue,
+            foodAllowanceValue: income.foodAllowanceValue,
+            transportAllowanceValue: income.transportAllowanceValue,
             ...idField,
-            dividends: dividends6,
-            proLabore: proLabore6,
-            incomeSource
-          },
+            dividends: income.dividends,
+            proLabore: income.proLabore,
+            incomeSource: monthlyIncome.incomeSource
+          }
         })
       } else {
-        const total = (dividends6 || 0) + (proLabore6 || 0)
+        const total = (income.dividends || 0) + (income.proLabore || 0)
         // Armazena informações acerca da renda mensal no banco de dados (Empresário)
         await prisma.monthlyIncome.create({
           data: {
-            grossAmount: grossAmount6,
-            month: month6!,
-            year: year6!,
-            advancePaymentValue: advancePaymentValue6,
-            compensationValue: compensationValue6,
-            deductionValue: deductionValue6,
-            expenseReimbursementValue: expenseReimbursementValue6,
-            incomeTax: incomeTax6,
-            judicialPensionValue: judicialPensionValue6,
-            otherDeductions: otherDeductions6,
-            publicPension: publicPension6,
-            reversalValue: reversalValue6,
-            foodAllowanceValue: foodAllowanceValue6,
-            transportAllowanceValue: transportAllowanceValue6,
+            grossAmount: income.grossAmount,
+            date: income.date,
+            advancePaymentValue: income.advancePaymentValue,
+            compensationValue: income.compensationValue,
+            deductionValue: income.deductionValue,
+            expenseReimbursementValue: income.expenseReimbursementValue,
+            incomeTax: income.incomeTax,
+            judicialPensionValue: income.judicialPensionValue,
+            otherDeductions: income.otherDeductions,
+            publicPension: income.publicPension,
+            proLabore: income.proLabore,
+            dividends: income.dividends,
+            reversalValue: income.reversalValue,
+            foodAllowanceValue: income.foodAllowanceValue,
+            transportAllowanceValue: income.transportAllowanceValue,
             total,
             ...idField,
-            incomeSource
+            incomeSource: monthlyIncome.incomeSource
           },
         })
       }
-    }
-    const monthlyIncomes = await prisma.monthlyIncome.findMany({
-      where: { ...idField, incomeSource },
     })
 
-    const validIncomes = monthlyIncomes.filter(income => income.liquidAmount !== null && income.liquidAmount > 0);
-    // Calcula o totalAmount usando o array filtrado
-    const totalAmount = validIncomes.reduce((acc, current) => {
-      return acc + (current.liquidAmount || 0);
-    }, 0);
-    const avgIncome = validIncomes.length > 0 ? totalAmount / validIncomes.length : 0;
 
+
+    // Atualiza o array de IncomeSource do candidato ou responsável
+    // if (isCandidateOrResponsible) {
+
+    //   await prisma.identityDetails.updateMany({
+    //     where: {
+    //       ...idField,
+    //       NOT: {
+    //         incomeSource: {
+    //           has: monthlyIncome.incomeSource
+    //         }
+    //       }
+    //     },
+
+    //     data: {
+    //       incomeSource: {
+
+    //         push: monthlyIncome.incomeSource,
+
+    //       }
+    //     }
+    //   })
+
+    // } else {
+    //   // Atualiza o array de IncomeSource do membro da familia
+    //   console.log(await prisma.familyMember.findFirst({
+    //     where: {
+    //       id: _id
+    //     }
+    //   }))
+    //   await prisma.familyMember.update({
+    //     where: {
+    //       id: _id,
+    //       // NOT: {
+    //       //   incomeSource: {
+    //       //     has: monthlyIncome.incomeSource
+    //       //   }
+    //       // }
+    //     },
+    //     // data: {
+    //     //   incomeSource: {
+    //     //     push: monthlyIncome.incomeSource,
+
+    //     //   }
+    //     // }
+    //   })
+    // }
 
     return reply.status(201).send()
   } catch (err: any) {

@@ -6,7 +6,7 @@
   "scripts": {
     "local": "dotenv -e .env.local tsx watch src/server.ts",
     "dev": "dotenv -e .env.dev tsx watch src/server.ts",
-    "prod": "dotenv -e .env.production npm run start",
+    "prod": "dotenv -e .env.production tsx watch src/server.ts",
     "start": "node app/server.js",
     "build": "tsc"
   },
@@ -19,11 +19,12 @@
     "@fastify/multipart": "8.0.0",
     "@prisma/client": "5.3.1",
     "@types/multer": "1.4.8",
+    "@types/node-schedule": "2.1.7",
     "@vercel/node": "3.0.11",
     "aws-sdk": "2.1474.0",
     "axios": "1.5.1",
     "bcryptjs": "2.4.3",
-    "dotenv": "16.3.1",
+    "dotenv-cli": "7.4.1",
     "fastify": "4.24.3",
     "fastify-busboy": "1.1.0",
     "fastify-cors": "3.0.3",
@@ -32,6 +33,7 @@
     "module-alias": "2.2.3",
     "morgan": "1.10.0",
     "multer": "1.4.5-lts.1",
+    "node-schedule": "2.1.1",
     "nodemailer": "6.9.6",
     "sass": "1.69.5",
     "zod": "3.22.2"
@@ -46,6 +48,7 @@
     "@types/node": "20.8.0",
     "@types/nodemailer": "6.4.11",
     "cross-env": "7.0.3",
+    "dotenv": "16.4.5",
     "eslint": "8.50.0",
     "prisma": "5.3.1",
     "tsx": "3.13.0",

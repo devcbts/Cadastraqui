@@ -1,6 +1,8 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -17,52 +19,29 @@ export async function getLoanInfo(
 
   try {
     const user_id = request.user.sub
-
-    // Verifica se existe um candidato associado ao user_id
-    // Verifica se existe um candidato associado ao user_id
-    const role = request.user.role
-    if (role === 'RESPONSIBLE') {
-      
-        const responsible = await prisma.legalResponsible.findUnique({
-          where: { user_id}
-        })
-        if (!responsible) {
-          throw new NotAllowedError()
-        }
-        const loans = await prisma.loan.findMany({
-          where: {
-            familyMember: {
-              legalResponsibleId: responsible.id,
-            },
-          },
-        })
-    
-        return reply.status(200).send({ loans })
-    }
-    let candidate
-
+    let candidateOrResponsible 
+    let idField
     if (_id) {
-      candidate = await prisma.candidate.findUnique({
-        where: { id: _id },
-      })
+      candidateOrResponsible = await ChooseCandidateResponsible(_id)
+      if (!candidateOrResponsible) {
+        throw new ResourceNotFoundError()
+      }
+      idField = candidateOrResponsible.IsResponsible ? {legalResponsibleId: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
     } else {
       // Verifica se existe um candidato associado ao user_id
-      candidate = await prisma.candidate.findUnique({
-        where: { user_id },
-      })
+      candidateOrResponsible = await SelectCandidateResponsible(user_id)
+      if (!candidateOrResponsible) {
+        throw new ResourceNotFoundError()
+      }
+      idField = candidateOrResponsible.IsResponsible ? {legalResponsibleId: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
     }
-    if (!candidate) {
-      throw new ResourceNotFoundError()
-    }
+   
 
-    // Constrói a condição de pesquisa baseada na presença do _id
 
     // Busca as informações de Loan no banco de dados
     const loans = await prisma.loan.findMany({
       where: {
-        familyMember: {
-          candidate_id: candidate.id,
-        },
+        familyMember: idField,
       },
     })
 

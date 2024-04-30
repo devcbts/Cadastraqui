@@ -12,7 +12,9 @@ import { deleteDirector } from './delete-director'
 import { deleteEntity } from './delete-entity'
 import { deleteSubsidiary } from './delete-subsidiary'
 import { fetchAnnouncements } from './fetch-announcements'
+import { fetchClosedAnnouncements } from './fetch-closed-announcements'
 import { fetchDirectors } from './fetch-directors'
+import { fetchOpenAnnouncements } from './fetch-open-announcement'
 import { fetchSubsidiarys } from './fetch-subsidiarys'
 import { getApplications } from './get-applications'
 import { getEntityInfo } from './get-entity-info'
@@ -20,6 +22,7 @@ import { getEntityProfilePicture } from './get-profile-picture'
 import { getSocialAssistants } from './get-social-assistants'
 import { registerEntity } from './register-entity'
 import removeAssistantFromAnnouncement from './remove-assistant-from-announcement'
+import searchAnnouncements from './search-announcements'
 import { updateAnnouncement } from './update-announcement'
 import { updateDirector } from './update-director'
 import { updateEntity } from './update-entity'
@@ -107,15 +110,25 @@ export async function entityRoutes(app: FastifyInstance) {
     CreateAnnoucment,
   )
   app.post('/upload/:announcement_id', { onRequest: [verifyJWT] }, uploadAnnouncementPdf)
+
+  // fetch announcements
   app.get(
     '/announcement/:announcement_id?',
     { onRequest: [verifyJWT] },
     fetchAnnouncements,
   )
+
+  app.get('/announcement/open/:page_number?', { onRequest: [verifyJWT] }, fetchOpenAnnouncements)
+  app.get('/announcement/close/:page_number?', { onRequest: [verifyJWT] }, fetchClosedAnnouncements)
+
   app.patch(
     '/announcement/:announcement_id',
     { onRequest: [verifyJWT] },
     updateAnnouncement,
+  )
+  app.post(
+    '/announcement/find',
+    searchAnnouncements,
   )
   app.post(
     '/education/:announcement_id',

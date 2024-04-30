@@ -1,4 +1,5 @@
 import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
+import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -18,21 +19,39 @@ export async function subscribeAnnouncement(
   const createParamsSchema = z.object({
     announcement_id: z.string(),
     educationLevel_id: z.string(),
+    candidate_id: z.string().optional()
   })
-  const { announcement_id, educationLevel_id } = createParamsSchema.parse(
+  const { announcement_id, educationLevel_id, candidate_id } = createParamsSchema.parse(
     request.params,
   )
   try {
     const userId = request.user.sub
 
-    const candidate = await prisma.candidate.findUnique({
+    let candidate = await prisma.candidate.findUnique({
       where: { user_id: userId },
     })
-
-    if (!candidate) {
+    const responsible = await prisma.legalResponsible.findUnique({
+      where: { user_id: userId },
+    })
+    if (!candidate && !responsible) {
       throw new ResourceNotFoundError()
     }
-    if (!candidate.finishedRegistration) {
+
+    if (responsible) {
+      candidate = await prisma.candidate.findUnique({
+        where: {id: candidate_id},
+      })
+      
+    }
+      if (!candidate) {
+        throw new ResourceNotFoundError()
+      }
+
+      if (candidate.responsible_id !== responsible?.id) {
+        throw new NotAllowedError()
+      }
+
+    if (!candidate.finishedapplication) {
       throw new Error('Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.')
     }
 
@@ -43,13 +62,14 @@ export async function subscribeAnnouncement(
       throw new ApplicationAlreadyExistsError()
     }
 
+
+
     const numberOfApplications = await prisma.application.count({
       where: { announcement_id },
     });
-    
+
     // O número da inscrição será o total de inscrições existentes + 1
     const applicationNumber = numberOfApplications + 1;
-
     // Criar inscrição
     const application = await prisma.application.create({
       data: {

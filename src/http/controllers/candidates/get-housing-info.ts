@@ -1,6 +1,8 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 export async function getHousingInfo(
@@ -12,42 +14,34 @@ export async function getHousingInfo(
     _id: z.string().optional(),
   })
 
-  // _id === familyMember_id
+  
   const { _id } = AssistantParamsSchema.parse(request.params)
 
   try {
     const user_id = request.user.sub;
-    const role = request.user.role;
-    if (role === 'RESPONSIBLE') {
-      const responsible = await prisma.legalResponsible.findUnique({
-        where: {user_id}
-      })
-      if (!responsible) {
-        throw new NotAllowedError()
-      }
-      const housingInfo = await prisma.housing.findUnique({
-        where: { responsible_id: responsible.id },
-      })
-      return reply.status(200).send({ housingInfo })
-    }
-    let candidate;
-    
+  
+    let candidateOrResponsible 
+    let idField
     if (_id) {
-      candidate = await prisma.candidate.findUnique({
-        where: { id: _id },
-      })
+      candidateOrResponsible = await ChooseCandidateResponsible(_id)
+      if (!candidateOrResponsible) {
+        throw new ResourceNotFoundError()
+      }
+      idField = candidateOrResponsible.IsResponsible ? {responsible_id: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
+       
     } else {
 
       // Verifica se existe um candidato associado ao user_id
-      candidate = await prisma.candidate.findUnique({
-        where: { user_id },
-      })
+      candidateOrResponsible = await SelectCandidateResponsible(user_id) 
+      
+      if (!candidateOrResponsible) {
+        throw new ResourceNotFoundError()
+      }
+      idField = candidateOrResponsible.IsResponsible ? {responsible_id: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
     }
-    if (!candidate) {
-      throw new NotAllowedError()
-    }
+   
     const housingInfo = await prisma.housing.findUnique({
-      where: { candidate_id: candidate.id },
+      where: idField,
     })
 
     return reply.status(200).send({ housingInfo })
