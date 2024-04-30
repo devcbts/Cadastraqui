@@ -156,46 +156,51 @@ export async function registerMonthlyIncomeInfo(
 
 
     // Atualiza o array de IncomeSource do candidato ou responsável
-    if (isCandidateOrResponsible) {
+    // if (isCandidateOrResponsible) {
 
-      await prisma.identityDetails.updateMany({
-        where: {
-          ...idField,
-          NOT: {
-            incomeSource: {
-              has: monthlyIncome.incomeSource
-            }
-          }
-        },
+    //   await prisma.identityDetails.updateMany({
+    //     where: {
+    //       ...idField,
+    //       NOT: {
+    //         incomeSource: {
+    //           has: monthlyIncome.incomeSource
+    //         }
+    //       }
+    //     },
 
-        data: {
-          incomeSource: {
-            push: monthlyIncome.incomeSource,
+    //     data: {
+    //       incomeSource: {
 
-          }
-        }
-      })
+    //         push: monthlyIncome.incomeSource,
 
-    } else {
-      // Atualiza o array de IncomeSource do membro da familia
+    //       }
+    //     }
+    //   })
 
-      await prisma.familyMember.update({
-        where: {
-          id: _id,
-          NOT: {
-            incomeSource: {
-              has: monthlyIncome.incomeSource
-            }
-          }
-        },
-        data: {
-          incomeSource: {
-            push: monthlyIncome.incomeSource,
+    // } else {
+    //   // Atualiza o array de IncomeSource do membro da familia
+    //   console.log(await prisma.familyMember.findFirst({
+    //     where: {
+    //       id: _id
+    //     }
+    //   }))
+    //   await prisma.familyMember.update({
+    //     where: {
+    //       id: _id,
+    //       // NOT: {
+    //       //   incomeSource: {
+    //       //     has: monthlyIncome.incomeSource
+    //       //   }
+    //       // }
+    //     },
+    //     // data: {
+    //     //   incomeSource: {
+    //     //     push: monthlyIncome.incomeSource,
 
-          }
-        }
-      })
-    }
+    //     //   }
+    //     // }
+    //   })
+    // }
 
     return reply.status(201).send()
   } catch (err: any) {
