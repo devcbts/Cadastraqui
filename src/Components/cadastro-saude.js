@@ -112,6 +112,7 @@ export const CadastroSaude = ({ member }) => {
   }
 
   async function handleRegisterMedication(e) {
+
     e.preventDefault()
     const data = {
       medicationName: medicationInfo.medicationName,
@@ -119,6 +120,7 @@ export const CadastroSaude = ({ member }) => {
       specificMedicationPublicly: medicationInfo.specificMedicationPublicly
     }
     try {
+      await handleRegisterHealth()
       const token = localStorage.getItem("token")
       const response = await api.post(`/candidates/medication-info/${member.id}`, data, {
         headers: {
@@ -158,9 +160,9 @@ export const CadastroSaude = ({ member }) => {
           <input type="checkbox" name="hasMedicalReport" value={healthInfo.hasMedicalReport} onChange={handleHealthChange} id="hasMedicalReport" class="survey-control" />
         </div>
 
-        <div class="survey-box">
+        {/* <div class="survey-box">
           <button type="submit" onClick={handleRegisterHealth} id="submit-button">Salvar Informações</button>
-        </div>
+        </div> */}
 
         <div class="survey-box">
           <label for="ControlledMedication" id="ControlledMedication-label">Toma Remédio Controlado?</label>

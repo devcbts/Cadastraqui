@@ -32,7 +32,10 @@ const MonthsIncomeModelB = forwardRef(({ monthCount, initialData }, ref) => {
                     />
                 </>
             ))}
-            <label>Renda média obtida para fins deste processo seletivo {formatCurrency(getAverageIncome())}</label>
+            <div style={{ border: '1px solid #1b4f73', borderRadius: '8px', padding: '12px 8px', margin: '8px 0px' }}>
+
+                <label>Renda média obtida para fins deste processo seletivo {formatCurrency(getAverageIncome())}</label>
+            </div>
         </>
     )
 })

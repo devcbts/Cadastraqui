@@ -5,6 +5,7 @@ import { handleSuccess } from '../../ErrorHandling/handleSuceess';
 import { handleAuthError } from '../../ErrorHandling/handleError';
 import { formatCurrency } from '../../utils/format-currency';
 import InputCheckbox from '../Inputs/InputCheckbox';
+import { toFloat } from '../../utils/currency-to-float';
 
 export default function CadastroDespesas() {
     const getCurrentDate = () => {
@@ -91,13 +92,13 @@ export default function CadastroDespesas() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
-        if (['waterSewage', 'electricity', 'landlinePhone', 'mobilePhone', 'food', 'rent', 'garageRent', 'condominium', 'cableTV', 'streamingServices', 
-        'fuel', 'annualIPVA', 'annualIPTU', 'annualITR', 'annualIR', 'INSS', 'publicTransport', 'schoolTransport', 'internet', 'courses', 'healthPlan', 
-        'dentalPlan', 'medicationExpenses', 'otherExpensesValue', "installmentValueIPVA","installmentValueIPTU", "installmentValueIR", "installmentValueITR" ].includes(name)) {
+
+        if (['waterSewage', 'electricity', 'landlinePhone', 'mobilePhone', 'food', 'rent', 'garageRent', 'condominium', 'cableTV', 'streamingServices',
+            'fuel', 'annualIPVA', 'annualIPTU', 'annualITR', 'annualIR', 'INSS', 'publicTransport', 'schoolTransport', 'internet', 'courses', 'healthPlan',
+            'dentalPlan', 'medicationExpenses', 'otherExpensesValue', "installmentValueIPVA", "installmentValueIPTU", "installmentValueIR", "installmentValueITR"].includes(name)) {
             // Para campos monetários, formata o valor antes de atualizar o estado
-            const numericValue = parseFloat(value.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1.$2')) || '';
-            setFormData({ ...formData, [name]: numericValue });
+            //const numericValue = toFloat(value);
+            setFormData({ ...formData, [name]: value });
         } else if (['optedForInstallmentIPVA', 'optedForInstallmentIPTU', 'optedForInstallmentITR', 'optedForInstallmentIR'].includes(name)) {
             // Para checkboxes, trata o valor booleano
             setFormData({ ...formData, [name]: e.target.value });
@@ -115,44 +116,44 @@ export default function CadastroDespesas() {
         try {
             const response = await api.post("/candidates/expenses", {
                 month: formData.month,
-                waterSewage: Number(formData.waterSewage) || undefined,
-                electricity: Number(formData.electricity) || undefined,
-                landlinePhone: Number(formData.landlinePhone) || undefined,
-                mobilePhone: Number(formData.mobilePhone) || undefined,
-                food: Number(formData.food) || undefined,
-                rent: Number(formData.rent) || undefined,
-                garageRent: Number(formData.garageRent) || undefined,
-                condominium: Number(formData.condominium) || undefined,
-                cableTV: Number(formData.cableTV) || undefined,
-                streamingServices: Number(formData.streamingServices) || undefined,
-                fuel: Number(formData.fuel) || undefined,
-                annualIPVA: Number(formData.annualIPVA) || undefined,
+                waterSewage: toFloat(formData.waterSewage) || undefined,
+                electricity: toFloat(formData.electricity) || undefined,
+                landlinePhone: toFloat(formData.landlinePhone) || undefined,
+                mobilePhone: toFloat(formData.mobilePhone) || undefined,
+                food: toFloat(formData.food) || undefined,
+                rent: toFloat(formData.rent) || undefined,
+                garageRent: toFloat(formData.garageRent) || undefined,
+                condominium: toFloat(formData.condominium) || undefined,
+                cableTV: toFloat(formData.cableTV) || undefined,
+                streamingServices: toFloat(formData.streamingServices) || undefined,
+                fuel: toFloat(formData.fuel) || undefined,
+                annualIPVA: toFloat(formData.annualIPVA) || undefined,
                 optedForInstallmentIPVA: formData.optedForInstallmentIPVA,
-                installmentCountIPVA: Number(formData.installmentCountIPVA) || undefined,
-                installmentValueIPVA: Number(formData.installmentValueIPVA) || undefined,
+                installmentCountIPVA: toFloat(formData.installmentCountIPVA) || undefined,
+                installmentValueIPVA: toFloat(formData.installmentValueIPVA) || undefined,
                 optedForInstallmentIPTU: formData.optedForInstallmentIPTU,
-                installmentCountIPTU: Number(formData.installmentCountIPTU),
-                installmentValueIPTU: Number(formData.installmentValueIPTU) || undefined,
+                installmentCountIPTU: toFloat(formData.installmentCountIPTU),
+                installmentValueIPTU: toFloat(formData.installmentValueIPTU) || undefined,
                 optedForInstallmentITR: formData.optedForInstallmentITR,
-                installmentCountITR: Number(formData.installmentCountITR) || undefined,
-                installmentValueITR: Number(formData.installmentValueITR) || undefined,
+                installmentCountITR: toFloat(formData.installmentCountITR) || undefined,
+                installmentValueITR: toFloat(formData.installmentValueITR) || undefined,
                 optedForInstallmentIR: formData.optedForInstallmentIR,
-                installmentCountIR: Number(formData.installmentCountIR) || undefined,
-                installmentValueIR: Number(formData.installmentValueIR) || undefined,
+                installmentCountIR: toFloat(formData.installmentCountIR) || undefined,
+                installmentValueIR: toFloat(formData.installmentValueIR) || undefined,
                 otherExpensesDescription: formData.otherExpensesDescription || undefined,
                 otherExpensesValue: formData.otherExpensesValue || undefined,
-                annualIPTU: Number(formData.annualIPTU) || undefined,
-                annualITR: Number(formData.annualIPVA) || undefined,
-                annualIR: Number(formData.annualIR) || undefined,
-                INSS: Number(formData.INSS) || undefined,
-                publicTransport: Number(formData.publicTransport) || undefined,
-                schoolTransport: Number(formData.schoolTransport) || undefined,
-                internet: Number(formData.internet) || undefined,
-                courses: Number(formData.courses) || undefined,
-                healthPlan: Number(formData.healthPlan) || undefined,
-                dentalPlan: Number(formData.dentalPlan) || undefined,
-                medicationExpenses: Number(formData.medicationExpenses) || undefined,
-                totalExpense: Number(formData.totalExpense) || undefined,
+                annualIPTU: toFloat(formData.annualIPTU) || undefined,
+                annualITR: toFloat(formData.annualIPVA) || undefined,
+                annualIR: toFloat(formData.annualIR) || undefined,
+                INSS: toFloat(formData.INSS) || undefined,
+                publicTransport: toFloat(formData.publicTransport) || undefined,
+                schoolTransport: toFloat(formData.schoolTransport) || undefined,
+                internet: toFloat(formData.internet) || undefined,
+                courses: toFloat(formData.courses) || undefined,
+                healthPlan: toFloat(formData.healthPlan) || undefined,
+                dentalPlan: toFloat(formData.dentalPlan) || undefined,
+                medicationExpenses: toFloat(formData.medicationExpenses) || undefined,
+                totalExpense: toFloat(formData.totalExpense) || undefined,
             }, {
                 headers: {
                     'authorization': `Bearer ${token}`,
@@ -192,21 +193,26 @@ export default function CadastroDespesas() {
             formData.dentalPlan,
             formData.medicationExpenses,
             ...formData.otherExpensesValue
-        ].reduce((acc, value) => acc + (parseFloat(value) || 0), 0);
+        ].reduce((acc, value) => acc + (toFloat(value) || 0), 0);
 
-        setFormData({ ...formData, totalExpense: total });
+        setFormData({
+            ...formData, totalExpense: total.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+            })
+        });
     };
 
     function getFormattedValue(name) {
         const value = formData[name];
         if (value || value === 0) {
-          return value.toLocaleString('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-          });
+            return value.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+            });
         }
         return '';
-      }
+    }
 
     return (
         <div className='fill-box'>

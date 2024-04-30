@@ -533,11 +533,13 @@ export default function CadastroEdital() {
             });
 
             handleSuccess(response, 'Edital Criado com sucesso')
+            setSubsidiaries([])
             setAnnouncementBegin('')
             setAnnouncementDate('')
             setAnnouncementName('')
             setAnnouncementType('')
             setEducationalLevels([])
+            setDescription("")
             setFile(null)
             reset()
 

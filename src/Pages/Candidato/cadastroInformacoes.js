@@ -189,7 +189,7 @@ export default function CadastroInfo() {
             CADASTRO<br></br> PREENCHA SEUS DADOS
           </h1>
           <button onClick={handleFinishClick} className="btn-primary">
-            Finalizar inscrição
+            Finalizar cadastro
           </button>{" "}
         </div>
       </div>
@@ -201,7 +201,7 @@ export default function CadastroInfo() {
 
           stepCustomStyle={{
             fontSize: 0.8 + "rem",
-            
+
           }}
           prevButton={{
             title: "<",

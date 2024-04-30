@@ -3,6 +3,7 @@ import './cadastroVeiculo.css'
 import Select from 'react-select'
 import { api } from '../../services/axios';
 import InputCheckbox from '../Inputs/InputCheckbox';
+import Swal from 'sweetalert2';
 const VehicleType = [
     { value: 'SmallCarsAndUtilities', label: 'Carros Pequenos e Utilitários' },
     { value: 'TrucksAndMinibuses', label: 'Caminhões e Vans' },
@@ -64,7 +65,7 @@ export default function CadastroVeiculo({ candidate }) {
                 responsible_id: candidate || '',
             });
         }
-        else{
+        else {
 
             setFormData({
                 ...formData,
@@ -105,10 +106,10 @@ export default function CadastroVeiculo({ candidate }) {
             console.log('====================================');
             console.log(response.data);
             console.log('====================================');
-            alert("Dados cadastrados com sucesso!")
+            Swal.fire({ title: "Sucesso", text: "Dados cadastrados com sucesso!", icon: "success" });
         }
         catch (err) {
-            alert(err)
+            Swal.fire({ title: "Erro", text: "Erro ao cadastrar", icon: "error" });
         }
     };
 
@@ -157,7 +158,7 @@ export default function CadastroVeiculo({ candidate }) {
                 <div className='survey-box'>
                     <label >Tipo de Veículo:</label>
                     <br />
-                    <select             class="select-data"  name="vehicleType" value={formData.vehicleType} onChange={handleChange} required>
+                    <select class="select-data" name="vehicleType" value={formData.vehicleType} onChange={handleChange} required>
                         <option value="">Selecione</option>
                         {VehicleType.map((type) => (
                             <option key={type.value} value={type.value}>{type.label}</option>))}
@@ -234,7 +235,7 @@ export default function CadastroVeiculo({ candidate }) {
                 </div>
 
 
-                <button type="button" className='over-button'>Cadastrar Veículo</button>
+                <button type="submit" className='over-button'>Cadastrar Veículo</button>
             </form>
         </div>
     );
