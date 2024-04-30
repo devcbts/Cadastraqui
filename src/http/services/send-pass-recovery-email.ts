@@ -1,18 +1,18 @@
-import nodemailer from 'nodemailer'
+import nodemailer from 'nodemailer';
 
 export async function sendPasswordRecoveryMail({ token, email }: { token: string, email: string }) {
   const transport = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
+    service: "outlook",
+
     auth: {
-      user: 'gabrielcampista307@gmail.com',
-      pass: 'wyteigetafodkybv',
+      user: process.env.SMTP_EMAIL,
+      pass: process.env.SMTP_PASS,
     },
-    secure: true
   })
 
   // Envia o Email de redefinição de senha
   const info = await transport.sendMail({
+    from: process.env.SMTP_EMAIL,
     to: email,
     subject: 'Recuperação de senha CADASTRAQUI',
     text: 'Token de recuperação de senha cadastraqui',
@@ -24,7 +24,7 @@ export async function sendPasswordRecoveryMail({ token, email }: { token: string
     <h2>Sobre o Token</h2>
     <p> - O token tem um prazo de <b>1 hora</b> para ser utilizado. Sendo ultrapassado, será necessário fazer uma nova solicitação.</p>
     <p> - Para alterar a senha insira o token recebido no campo código no formulário.</p>
-    <div>Clique no link para ser redirecionado para a página de mudança de senha: <a href="http://localhost:3000/reset_password?token=${token}">Resetar Senha</a> </div>
+    <div>Clique no link para ser redirecionado para a página de mudança de senha: <a href="${process.env.SITE_URL}/reset_password?token=${token}">Resetar Senha</a> </div>
   </body>`,
   })
 
