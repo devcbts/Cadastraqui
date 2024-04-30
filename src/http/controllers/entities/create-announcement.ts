@@ -79,24 +79,25 @@ export async function CreateAnnoucment(
     const entityMatrix = await prisma.entity.findUnique({
       where: { user_id: user_id },
     })
-    let subsidiaries
-    if (entity_subsidiary_id && entity_subsidiary_id.length > 0) {
+
+    let subsidiaries = 0
+    if (entity_subsidiary_id) {
+      
       // Supondo que você queira verificar a existência de cada subsidiária
-      subsidiaries = await prisma.entitySubsidiary.findMany({
+      subsidiaries = await prisma.entitySubsidiary.count({
         where: {
           id: { in: entity_subsidiary_id },
         },
       });
-
       // Se a quantidade de subsidiárias encontradas não corresponder à quantidade de IDs fornecidos
-      if (subsidiaries.length !== entity_subsidiary_id.length) {
+      if (subsidiaries !== entity_subsidiary_id.length) {
         throw new Error("Uma ou mais subsidiárias fornecidas não existem.");
       }
+    }
 
       if (!entityMatrix) {
         throw new EntityNotExistsError()
       }
-      console.log('aqui agora')
       // get current announcement linked to an entity at some year
       const currentYear = openDate.getFullYear()
       const countAnnouncement = await prisma.announcement.count({
@@ -121,7 +122,7 @@ export async function CreateAnnoucment(
             verifiedScholarships,
             waitingList,
             criteria,
-            entity_id: entityMatrix!.id,
+            entity_id: entityMatrix.id,
             announcementNumber: `${countAnnouncement + 1}/${openDate.getFullYear()}`,
             announcementDate: new Date(announcementDate),
             announcementBegin: new Date(announcementBegin),
@@ -145,7 +146,7 @@ export async function CreateAnnoucment(
           offeredVacancies,
           verifiedScholarships,
           waitingList,
-          entity_id: entityMatrix!.id,
+          entity_id: entityMatrix.id,
           entity_subsidiary: {
             connect: entity_subsidiary_id?.map(id => ({ id })),
           },
@@ -163,8 +164,7 @@ export async function CreateAnnoucment(
         await prisma.announcementInterview.create({ data: { ...announcementInterview, announcement_id: announcement.id } })
       }
       return reply.status(201).send({ announcement })
-    }
-    return reply.status(400).send()
+    
   } catch (err: any) {
     if (err instanceof announcementAlreadyExists) {
       return reply.status(409).send({ message: err.message })
