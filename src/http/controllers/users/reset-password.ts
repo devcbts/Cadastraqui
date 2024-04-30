@@ -1,19 +1,20 @@
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { hash } from 'bcryptjs'
-import { FastifyRequest, FastifyReply } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import { z } from 'zod'
 
 export async function resetPassword(req: FastifyRequest, reply: FastifyReply) {
   const resetPasswordBodySchema = z.object({
-    new_password: z.string(),
+    password: z.string(),
   })
 
   const resetPasswordQuerySchema = z.object({
     token: z.string(),
   })
 
-  const { new_password } = resetPasswordBodySchema.parse(req.body)
+  const { password } = resetPasswordBodySchema.parse(req.body)
   const { token } = resetPasswordQuerySchema.parse(req.query)
 
   try {
@@ -21,20 +22,20 @@ export async function resetPassword(req: FastifyRequest, reply: FastifyReply) {
       throw new ResourceNotFoundError()
     }
 
-    await req.jwtVerify()
 
-    const userId = req.user.sub
 
-    const user = await prisma.user.findUnique({ where: { id: userId } })
+    const decodedToken = jwt.decode(token) as JwtPayload
+
+    const user = await prisma.user.findUnique({ where: { id: decodedToken?.token } })
 
     if (!user) {
       throw new ResourceNotFoundError()
     }
 
-    const new_password_hash = await hash(new_password, 6)
+    const new_password_hash = await hash(password, 6)
 
     await prisma.user.update({
-      where: { id: userId },
+      where: { id: decodedToken?.token },
       data: { password: new_password_hash },
     })
     console.log(new_password_hash, user.password)

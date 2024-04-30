@@ -22,6 +22,7 @@ import { logout } from './http/controllers/users/logout';
 import { refresh } from './http/controllers/users/refresh';
 import { resetPassword } from './http/controllers/users/reset-password';
 import { uploadUserProfilePicture } from './http/controllers/users/upload-profile-picture';
+import verifyPasswordRecoveryToken from './http/controllers/users/verify-password-recovery-token';
 import { verifyJWT } from './http/middlewares/verify-jwt';
 import getUserAddress from './http/services/get-address';
 import getCnpj from './http/services/get-cnpj';
@@ -80,6 +81,10 @@ app.post(
   '/profilePicture',
   { onRequest: [verifyJWT] },
   uploadUserProfilePicture,
+)
+app.get(
+  '/verify-password-token',
+  verifyPasswordRecoveryToken,
 )
 app.get('/profilePicture', { onRequest: [verifyJWT] }, getUserProfilePicture)
 app.get('/getUserAddress', getUserAddress)
