@@ -35,7 +35,6 @@ const familyMemberInfoValidation = (currentData) => new ValidationComposite([
     ...ValidationBuilder.create("email").required().email().build(),
     ...ValidationBuilder.create("profession").required().build(),
     ...ValidateIf(currentData.enrolledGovernmentProgram, ValidationBuilder.create("NIS").required().number().build()),
-    ...ArrayValidationBuilder.create("incomeSource").required().build()
 ])
 
 export default familyMemberInfoValidation
