@@ -176,7 +176,7 @@ export default function CadastroInfo() {
   }
 
   return (
-    <div className="container-cadastro-candidato">
+    <div className="container-cadastro-candidato" style={{ height: "100vh" }}>
       <div className="upper-cadastro-candidato candidato-info-assistente">
         <a className="btn-cadastro go-back">
           <Link className="btn-cadastro" to={`/candidato/home`}>

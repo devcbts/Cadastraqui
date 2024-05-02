@@ -141,7 +141,7 @@ export const DropdownMembros = ({ membros, onSelect }) => {
   //Select do react select
   return (
     <Select
-      styles={{ container: styles => ({ ...styles, width: '80%', margin: 'auto' }) }}
+      styles={{ container: styles => ({ ...styles, width: '80%', margin: 'auto' }), menuList: (v) => ({ ...v, maxHeight: '30vh' }) }}
       options={options}
       onChange={handleSelect}
       getOptionValue={(option) => option.value}
