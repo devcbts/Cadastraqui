@@ -62,6 +62,7 @@ const DOCUMENT_TYPE = [
 ];
 
 const MARITAL_STATUS = [
+
   { value: "Single", label: "Solteiro(a)" },
   { value: "Married", label: "Casado(a)" },
   { value: "Separated", label: "Separado(a)" },

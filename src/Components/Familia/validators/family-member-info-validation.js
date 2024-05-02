@@ -29,10 +29,10 @@ const familyMemberInfoValidation = (currentData) => new ValidationComposite([
     ...ValidationBuilder.create("religion").required().build(),
     ...ValidationBuilder.create("educationLevel").required().build(),
     ...ValidateIf(currentData.specialNeeds, ValidationBuilder.create("specialNeedsDescription").required().build()),
-    ...ValidationBuilder.create("landlinePhone").required().phone().build(),
+    ...ValidationBuilder.create("landlinePhone").phone().build(),
     ...ValidationBuilder.create("workPhone").phone().build(),
     ...ValidationBuilder.create("contactNameForMessage").text().build(),
-    ...ValidationBuilder.create("email").required().email().build(),
+    ...ValidationBuilder.create("email").email().build(),
     ...ValidationBuilder.create("profession").required().build(),
     ...ValidateIf(currentData.enrolledGovernmentProgram, ValidationBuilder.create("NIS").required().number().build()),
 ])

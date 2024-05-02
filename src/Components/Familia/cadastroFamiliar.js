@@ -15,6 +15,8 @@ import FormCheckbox from "../Inputs/FormCheckbox";
 import familyMemberInfoValidation from "./validators/family-member-info-validation";
 import FormSelect from "../Inputs/FormSelect";
 const Relationship = [
+  { value: '', label: 'Selecione' },
+
   { value: "Wife", label: "Esposa" },
   { value: "Husband", label: "Marido" },
   { value: "Father", label: "Pai" },
@@ -28,6 +30,8 @@ const Relationship = [
 ];
 
 const GENDER = [
+  { value: '', label: 'Selecione' },
+
   { value: "MALE", label: "Masculino" },
   { value: "FEMALE", label: "Feminino" },
 ];
@@ -72,6 +76,7 @@ const DOCUMENT_TYPE = [
 ];
 
 const MARITAL_STATUS = [
+  { value: '', label: 'Selecione' },
   { value: "Single", label: "Solteiro(a)" },
   { value: "Married", label: "Casado(a)" },
   { value: "Separated", label: "Separado(a)" },
@@ -81,6 +86,8 @@ const MARITAL_STATUS = [
 ];
 
 const SkinColor = [
+  { value: '', label: 'Selecione' },
+
   { value: "Yellow", label: "Amarela" },
   { value: "White", label: "Branca" },
   { value: "Indigenous", label: "Indígena" },
@@ -90,6 +97,8 @@ const SkinColor = [
 ];
 
 const RELIGION = [
+  { value: '', label: 'Selecione' },
+
   { value: "Catholic", label: "Católica" },
   { value: "Evangelical", label: "Evangélica" },
   { value: "Spiritist", label: "Espírita" },
@@ -99,6 +108,8 @@ const RELIGION = [
 ];
 
 const SCHOLARSHIP = [
+  { value: '', label: 'Selecione' },
+
   { value: "Illiterate", label: "Analfabeto" },
   { value: "ElementarySchool", label: "Ensino Fundamental" },
   { value: "HighSchool", label: "Ensino Médio" },
@@ -159,12 +170,12 @@ export default function CadastroFamiliar() {
 
 
   const [[familyMemberInfo], handleFamilyMemberInfo, familyMemberInfoErrors, submitFamilyMember] = useForm({
-    relationship: "Wife", // deve ser inicializado com um dos valores do enum Relationship
+    relationship: "", // deve ser inicializado com um dos valores do enum Relationship
     otherRelationship: "",
     fullName: "",
     socialName: "",
     birthDate: "",
-    gender: "MALE", // deve ser inicializado com um dos valores do enum GENDER
+    gender: "", // deve ser inicializado com um dos valores do enum GENDER
     nationality: "",
     natural_city: "",
     natural_UF: "AC", // deve ser inicializado com um dos valores do enum COUNTRY
@@ -178,10 +189,10 @@ export default function CadastroFamiliar() {
     numberOfBirthRegister: "",
     bookOfBirthRegister: "",
     pageOfBirthRegister: "",
-    maritalStatus: "Single", // deve ser inicializado com um dos valores do enum MARITAL_STATUS
-    skinColor: "Yellow", // deve ser inicializado com um dos valores do enum SkinColor
-    religion: "Catholic", // deve ser inicializado com um dos valores do enum RELIGION
-    educationLevel: "Illiterate", // deve ser inicializado com um dos valores do enum SCHOLARSHIP
+    maritalStatus: "", // deve ser inicializado com um dos valores do enum MARITAL_STATUS
+    skinColor: "", // deve ser inicializado com um dos valores do enum SkinColor
+    religion: "", // deve ser inicializado com um dos valores do enum RELIGION
+    educationLevel: "", // deve ser inicializado com um dos valores do enum SCHOLARSHIP
     specialNeeds: false,
     specialNeedsDescription: "",
     hasMedicalReport: false,

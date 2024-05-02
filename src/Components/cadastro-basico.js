@@ -49,6 +49,7 @@ const DOCUMENT_TYPE = [
 ];
 
 const MARITAL_STATUS = [
+  { value: '', label: 'Selecione' },
   { value: "Single", label: "Solteiro(a)" },
   { value: "Married", label: "Casado(a)" },
   { value: "Separated", label: "Separado(a)" },
@@ -688,7 +689,7 @@ export default function CadastroBasico() {
           {/*<!-- Telefone Fixo -->*/}
           <div class="survey-box">
             <label for="landlinePhone" id="landlinePhone-label">
-              Telefone Fixo:
+              Telefone Fixo/Celular:
             </label>
             <br />
             <input
