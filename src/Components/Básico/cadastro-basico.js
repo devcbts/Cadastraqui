@@ -641,7 +641,7 @@ export default function CadastroBasico() {
           {/*<!-- Telefone Fixo -->*/}
           <Input
             fieldName='landlinePhone'
-            label='Telefone Fixo'
+            label='Telefone Fixo/Celular'
             type='text'
 
             value={formatTelephone(candidateInfo.landlinePhone)}

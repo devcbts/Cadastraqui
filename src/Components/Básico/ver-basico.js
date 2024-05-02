@@ -577,7 +577,7 @@ export default function VerBasico({ candidate, basic, role }) {
           {/*<!-- Telefone Fixo -->*/}
           <Input
             fieldName='landlinePhone'
-            label='Telefone Fixo'
+            label='Telefone Fixo/Celular'
             type='text'
             disabled={!isEditing}
             value={formatTelephone(candidateInfo?.landlinePhone)}

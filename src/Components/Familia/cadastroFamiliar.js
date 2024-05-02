@@ -535,7 +535,7 @@ export default function CadastroFamiliar() {
           {/*<!-- Telefone Fixo -->*/}
           <Input
             name="landlinePhone"
-            label="Telefone Fixo"
+            label="Telefone Fixo/Celular"
             value={formatTelephone(familyMemberInfo.landlinePhone)}
             onChange={handleFamilyMemberInfo}
             error={familyMemberInfoErrors}

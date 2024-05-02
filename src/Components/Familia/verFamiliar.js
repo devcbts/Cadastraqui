@@ -524,7 +524,7 @@ const VerFamiliar = forwardRef(({ familyMember, onDelete }, ref) => {
           {/*<!-- Telefone Fixo -->*/}
           <Input
             name="landlinePhone"
-            label="Telefone Fixo"
+            label="Telefone Fixo/Celular"
             value={formatTelephone(familyMemberInfo.landlinePhone)}
             onChange={handleFamilyMemberInfo}
             error={familyMemberInfoErrors}
