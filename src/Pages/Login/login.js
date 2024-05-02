@@ -134,7 +134,7 @@ export default function Login() {
           type="text"
           id={`cpf-${i}`}
           name={`CPF-${i}`}
-          placeholder="Exemplo: Jean Carlo do Amaral"
+          placeholder="Exemplo: XXX.XXX.XXX-XX"
         />
       </div>
     );
@@ -247,7 +247,7 @@ export default function Login() {
 
       await api.post('/responsibles/legal-dependents', data)
         .then(() => {
-          Swal.fire({ title: "Concluído", text: `Cadastro de ${data.name[i]} realizado!`, icon: "success" })
+          Swal.fire({ title: "Concluído", text: `Cadastro realizado!`, icon: "success" })
           setCurrentPage(0)
         }
         )
