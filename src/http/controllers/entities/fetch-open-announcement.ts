@@ -38,8 +38,8 @@ export async function fetchOpenAnnouncements(
       where: {
         entity_id: entity.id,
         AND: [
-          { announcementBegin: { lte: currentDate } },
-          { announcementDate: { gte: currentDate } }
+          // { openDate: { lte: currentDate } },
+          { closeDate: { gt: currentDate } }
         ]
       },
       include: {

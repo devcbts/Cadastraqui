@@ -37,7 +37,7 @@ export async function fetchClosedAnnouncements(
     const announcements = await prisma.announcement.findMany({
       where: {
         entity_id: entity.id,
-        announcementDate: { lt: currentDate }
+        closeDate: { lte: currentDate }
       },
       include: {
         entity: true,
