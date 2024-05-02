@@ -163,7 +163,7 @@ export default function NewEntidade() {
       <div className="section-nav">
         <NavBarAdmin></NavBarAdmin>
       </div>
-      <div className={`editais ${isShown ? "hidden-menu" : ""}`}>
+      <div className={`editais ${isShown ? "hidden-menu" : ""}`} style={{ marginLeft: '28vw' }}>
         <div className="upper">
           <h1>Cadastrar Entidade</h1>
         </div>
