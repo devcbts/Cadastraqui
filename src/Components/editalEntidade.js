@@ -32,8 +32,8 @@ export default function EditalEntidade({ announcement }) {
   }, [])
 
   const getAnnouncementDeadlineIndicator = () => {
-    const { announcementDate } = announcement
-    const deadlineDate = new Date(announcementDate)
+    const { closeDate } = announcement
+    const deadlineDate = new Date(closeDate)
     // get current time (ms) diff
     const absTimeDiff = deadlineDate.getTime() - new Date().getTime()
     // transform into days diff
