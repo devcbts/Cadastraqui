@@ -129,7 +129,6 @@ export default function CadastroEntidade() {
   const [[subsidiaryInfo, setSubsidiaryInfo], handleSubsidiaryInfo, subsidiaryErrors, submitSubsidiary, resetSubsidiary] = useForm({
     name: "",
     email: "",
-    password: "",
     CEP: "",
     CNPJ: "",
     educationalInstitutionCode: "",
@@ -325,14 +324,14 @@ export default function CadastroEntidade() {
                   value={subsidiaryInfo.email}
                   error={subsidiaryErrors}
                 />
-                <EntityFormInput
+                {/* <EntityFormInput
                   name="password"
                   label="Senha"
                   type="password"
                   onChange={handleSubsidiaryInfo}
                   value={subsidiaryInfo.password}
                   error={subsidiaryErrors}
-                />
+                /> */}
 
                 <fieldset className="btn-field">
                   <button name="submit" id="contact-submit" type="button" onClick={handleCreateSubsidiary}>

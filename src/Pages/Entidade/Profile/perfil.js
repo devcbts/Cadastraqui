@@ -159,7 +159,7 @@ export default function PerfilEntidade() {
                   </h3>
                 </div>
                 <div className="info-item">
-                  <h3>Nome:</h3>
+                  <h3>Nome Fantasia (quando houver):</h3>
                   <h3 className="info-text">
                     {userInfo ? userInfo.name : "User Name"}
                   </h3>

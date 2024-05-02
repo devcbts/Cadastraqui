@@ -50,7 +50,7 @@ export default function EditalEntidade({ announcement }) {
     }
     return Math.round(diff)
   }
-  const announcementDate = formatDate(announcement.announcementDate)
+  const announcementDate = formatDate(announcement.closeDate)
   return (
     <Link to={`/entidade/edital/${announcement.id}`}>
       <div className="edital-card">
