@@ -29,11 +29,11 @@ export default function CardEdital({ announcement, entity }) {
         }
         getProfilePhotoEntity()
     }, [])
-    const announcementDate = formatDate(announcement.announcementDate)
+    const announcementDate = formatDate(announcement.closeDate)
 
     return (
 
-            <div className="edital-card" style={{borderColor: 'gray', borderStyle:"solid", borderWidth: '2px'}}>
+        <div className="edital-card" style={{ borderColor: 'gray', borderStyle: "solid", borderWidth: '2px' }}>
             <h3>Prazo: {announcementDate}</h3>
             {profilePhoto ?
                 <img src={profilePhoto}></img>

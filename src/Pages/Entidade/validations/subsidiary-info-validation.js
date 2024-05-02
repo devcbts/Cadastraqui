@@ -4,7 +4,7 @@ import ValidationComposite from "../../../validation/composites/validation-compo
 const subsidiaryInfoValidation = new ValidationComposite([
     ...ValidationBuilder.create("CNPJ").required().cnpj().build(),
     ...ValidationBuilder.create("email").required().email().build(),
-    ...ValidationBuilder.create("password").required().min(6).build(),
+    // ...ValidationBuilder.create("password").required().min(6).build(),
     ...ValidationBuilder.create("address").required().build(),
     ...ValidationBuilder.create("addressNumber").required().build(),
     ...ValidationBuilder.create("city").required().build(),

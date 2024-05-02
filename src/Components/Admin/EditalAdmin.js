@@ -6,7 +6,7 @@ import { formatDate } from "../utils/get-date-formatted";
 import { Link } from "react-router-dom";
 import { api } from "../services/axios";
 
-export default function EditalEntidade({announcement}) {
+export default function EditalEntidade({ announcement }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -32,14 +32,14 @@ export default function EditalEntidade({announcement}) {
     getProfilePhotoEntity()
   }, [])
 
-  const announcementDate = formatDate(announcement.announcementDate)
+  const announcementDate = formatDate(announcement.closeDate)
   return (
     <Link to={`/admin/edital/${announcement.id}`}>
       <div className="edital-card">
         <h3>Prazo: {announcementDate}</h3>
-        {profilePhoto ? 
-        <img src={profilePhoto}></img>
-        :'' }
+        {profilePhoto ?
+          <img src={profilePhoto}></img>
+          : ''}
         <h2>{announcement.announcementName}</h2>
       </div>
     </Link>
