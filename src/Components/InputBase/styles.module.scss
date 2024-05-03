@@ -1,0 +1,49 @@
+@import "../../Assets/theme/global.module.scss";
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputwrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4px;
+    .label{
+        font-weight: 600;
+        font-size: 16px;
+        color: $grey;
+        margin-bottom: 4px;
+        text-transform: capitalize;
+    }
+    .input{
+        outline: none;
+        padding: 6px 8px;
+        border: 2px solid $lightgrey;
+        border-radius: 8px;
+        font-weight: 600;
+        color: $grey;
+        font-size: 16px;
+        &.error{
+         border-color: $error !important;
+        }
+        &.pass{
+         border-color: $success !important;
+        }
+    }
+    .icon{
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 30px;
+        height: 30px;
+        padding-right: 8px;
+        transform: translateY(85%);
+    }
+
+}
+
+.error {
+    color: $error;
+    font-size: 14px;
+    font-weight: 800;
+}
