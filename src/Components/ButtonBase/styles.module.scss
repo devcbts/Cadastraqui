@@ -1,0 +1,14 @@
+@import "../../Assets/theme/global.module.scss";
+.button{
+    font-size: 24px;
+    background-color: white;
+    text-transform: capitalize;
+    color: $primary;
+    border: 2px solid $primary;
+    border-radius: 5px;
+    transition: background-color .2s ease-in;
+    &:hover{
+        color: white;
+        background-color: $primary;
+    }
+}
