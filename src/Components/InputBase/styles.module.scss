@@ -2,12 +2,15 @@
 .container {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    &.container{
+        margin-top: 20px;
+    }
 }
 
 .inputwrapper {
     display: flex;
     flex-direction: column;
-    margin-bottom: 4px;
     .label{
         font-weight: 600;
         font-size: 16px;
@@ -15,35 +18,46 @@
         margin-bottom: 4px;
         text-transform: capitalize;
     }
-    .input{
-        outline: none;
-        padding: 6px 8px;
-        border: 2px solid $lightgrey;
-        border-radius: 8px;
-        font-weight: 600;
-        color: $grey;
-        font-size: 16px;
-        &.error{
-         border-color: $error !important;
+    .inputbox{
+        position: relative;
+        .input{
+            outline: none;
+            padding: 6px 38px 6px 8px;
+            border: 2px solid $lightgrey;
+            border-radius: 8px;
+            font-weight: 600;
+            color: $grey;
+            font-size: 16px;
+            width: 100%;
+            &.error{
+             border-color: $error !important;
+            }
+            &.pass{
+             border-color: $success !important;
+            }
         }
-        &.pass{
-         border-color: $success !important;
+        
+        .icon{
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            padding-right: 8px;
+            transform: translateX(140%) translateY(5px);
         }
     }
-    .icon{
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 30px;
-        height: 30px;
-        padding-right: 8px;
-        transform: translateY(85%);
-    }
+    
 
 }
 
-.error {
-    color: $error;
-    font-size: 14px;
-    font-weight: 800;
+.errorwrapper{
+    min-height: 14px;
+    display: flex;
+    margin-top: 4px;
+    .error {
+        color: $error;
+        font-size: 14px;
+        font-weight: 800;
+    }
 }
