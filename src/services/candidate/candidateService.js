@@ -1,13 +1,14 @@
 import { api } from "../axios"
 
-class EntityService {
-
-    async updateProfile({ name, email, CEP, CPF, phone, socialReason, address, addressNumber, neighborhood, city, UF, }) {
+class CandidateService {
+    getIdentityInfo() {
         const token = localStorage.getItem("token")
-        await api.patch('/candidates/basic-info', {
-            name, email, CEP, address, addressNumber, neighborhood, city, UF, CPF, phone
-        }, { headers: { Authorization: `Bearer ${token}` } })
+        return api.get(`/candidates/identity-info`, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        });
     }
 }
 
-export default new EntityService()
+export default new CandidateService()

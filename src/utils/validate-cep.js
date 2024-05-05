@@ -1,4 +1,5 @@
-export default function validateCEP(cep) {
-    const onlyDigitsCep = cep.replace(/\D/g, '')
+export default function validateCEP(cep = '') {
+    console.log('erro aqui')
+    const onlyDigitsCep = cep?.replace(/\D/g, '')
     return onlyDigitsCep.length === 8;
 }
