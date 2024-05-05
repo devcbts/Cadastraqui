@@ -1,0 +1,8 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    &.vertical{
+        flex-direction: row;
+        align-items: center;
+    }
+}

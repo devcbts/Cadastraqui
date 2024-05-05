@@ -6,7 +6,6 @@ export function StepView({ index, children }) {
         <StepContext.Consumer>
             {({ activeStep }) => {
                 return activeStep !== index ? null : children
-
             }}
         </StepContext.Consumer>
     )
