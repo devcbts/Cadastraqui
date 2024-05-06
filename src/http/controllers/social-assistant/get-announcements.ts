@@ -23,7 +23,6 @@ export async function getAnnouncements(
     if (!assistant) {
       throw new ResourceNotFoundError()
     }
-
     // Verifica se existe o processo seletivo
     let announcement
     if (!announcement_id) {
@@ -41,6 +40,7 @@ export async function getAnnouncements(
           socialAssistant: true
         }
       })
+
     } else {
       announcement = await prisma.announcement.findUnique({
         where: { id: announcement_id }, include: {
