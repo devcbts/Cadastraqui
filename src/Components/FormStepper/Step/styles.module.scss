@@ -42,6 +42,7 @@
                 }
             }
             &:has(svg){
+                background-color: transparent !important;
                 svg{
                     background-color: white;
                     color: $lightgrey;
@@ -67,7 +68,6 @@
             }
         }
         &.vertical{
-                margin-bottom: 50px;
                 .container::after{
                     display: none;
             }
