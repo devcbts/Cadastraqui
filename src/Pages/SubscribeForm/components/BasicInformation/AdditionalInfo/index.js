@@ -3,8 +3,9 @@ import commonStyles from '../styles.module.scss'
 import { additionalInfoSchema } from './schemas/additional-info'
 import { zodResolver } from '@hookform/resolvers/zod'
 import InputForm from '../../../../../Components/InputForm'
-export default function AdditionalInfo() {
-    const { control, getValues } = useForm({
+import { forwardRef, useImperativeHandle } from 'react'
+const AdditionalInfo = forwardRef((_, ref) => {
+    const { control, trigger, formState: { isValid } } = useForm({
         mode: "all",
         defaultValues: {
             socialName: '',
@@ -15,6 +16,12 @@ export default function AdditionalInfo() {
         },
         resolver: zodResolver(additionalInfoSchema)
     })
+    useImperativeHandle(ref, () => ({
+        validate: () => {
+            trigger();
+            return isValid
+        }
+    }))
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Informações Adicionais</h1>
@@ -28,4 +35,5 @@ export default function AdditionalInfo() {
         </div>
 
     )
-}
+})
+export default AdditionalInfo
