@@ -1,6 +1,7 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -24,10 +25,6 @@ export async function registerLoanInfo(
   // _id === family_member_id
   const { _id } = LoanParamsSchema.parse(request.params)
 
-  console.log('====================================');
-  console.log(request.body);
-  console.log('====================================');
-
   const {
     bankName,
     familyMemberName,
@@ -38,67 +35,19 @@ export async function registerLoanInfo(
 
   try {
     const user_id = request.user.sub
-    const role = request.user.role
-    if (role === 'RESPONSIBLE') {
-      
-        const responsible = await prisma.legalResponsible.findUnique({
-          where: { user_id}
-        })
-        if (!responsible) {
-          throw new NotAllowedError()
-        }
-        const familyMember = await prisma.familyMember.findUnique({
-          where: { id: _id },
-        })
-        if (!familyMember) {
-          throw new NotAllowedError()
-        }
-    
-        // Armazena informações acerca do Loan no banco de dados
-        await prisma.loan.create({
-          data: {
-            bankName,
-            familyMemberName,
-            installmentValue,
-            paidInstallments,
-            totalInstallments,
-            familyMember_id: _id,
-            legalResponsibleId: responsible.id
-          },
-        })
-    
-        return reply.status(201).send()
-      
-    }
+    let IsUser = await SelectCandidateResponsible(user_id)
     // Verifica se existe um candidato associado ao user_id
-    const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-    if (!candidate) {
-      throw new ResourceNotFoundError()
-    }
-
-    if (_id === candidate.id) {
-      await prisma.loan.create({
-        data: {
-          bankName,
-          familyMemberName,
-          installmentValue,
-          paidInstallments,
-          totalInstallments,
-          candidate_id: candidate.id
-        },
-      })
-  
-      return reply.status(201).send()
-    }
-    // Verifica se existe um familiar cadastrado com o owner_id
-    const familyMember = await prisma.familyMember.findUnique({
-      where: { id: _id },
-    })
-    if (!familyMember) {
+    if (!IsUser) {
       throw new NotAllowedError()
     }
+    const CandidateOrResponsible = await SelectCandidateResponsible(_id)
 
-    // Armazena informações acerca do Loan no banco de dados
+    const familyMember = await prisma.familyMember.findUnique({
+      where: {id: _id}
+    })
+    
+
+    const idField = CandidateOrResponsible ? (CandidateOrResponsible?.IsResponsible ? {legalresponsible_id: _id} : {candidate_id: _id}) : {familyMember_id: _id} 
     await prisma.loan.create({
       data: {
         bankName,
@@ -106,11 +55,15 @@ export async function registerLoanInfo(
         installmentValue,
         paidInstallments,
         totalInstallments,
-        familyMember_id: _id,
-        candidate_id: candidate.id
+        ...idField
       },
     })
+  
+     
+    // Verifica se existe um familiar cadastrado com o owner_id
+   
 
+    
     return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {

@@ -1,6 +1,7 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -71,46 +72,11 @@ export async function registerHousingInfo(
 
   try {
     const user_id = request.user.sub
-    const role = request.user.role
-    if (role === 'RESPONSIBLE') {
-      const responsible = await prisma.legalResponsible.findUnique({
-        where: {user_id}
-      })
-      if (!responsible) {
-        throw new NotAllowedError()
-      }
-      const dataToCreate = {
-        domicileType,
-        
-        numberOfBedrooms,
-        numberOfRooms,
-        propertyStatus,
-        timeLivingInProperty,
-        responsible_id: responsible.id,
-        ...(contractType && {contractType}),
-        ...(grantorName && {grantorName})
-      }
-      await prisma.housing.create({
-        data: dataToCreate
-        
-      })
-  
-      return reply.status(201).send()
-    }
-    // Verifica se existe um candidato associado ao user_id
-    const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-    if (!candidate) {
-      throw new ResourceNotFoundError()
-    }
-
-    // Analisa se o candidato já possui cadastro de moradia
-    const candidateHousingInfo = await prisma.housing.findUnique({
-      where: { candidate_id: candidate.id },
-    })
-    if (candidateHousingInfo) {
+    const CandidateOrResponsible = await SelectCandidateResponsible(user_id)
+    if (!CandidateOrResponsible) {
       throw new NotAllowedError()
     }
-
+    const idField = CandidateOrResponsible.IsResponsible ? {legalresponsible_id : CandidateOrResponsible.UserData.id} : {candidate_id : CandidateOrResponsible.UserData.id}
     const dataToCreate = {
       domicileType,
       
@@ -118,7 +84,7 @@ export async function registerHousingInfo(
       numberOfRooms,
       propertyStatus,
       timeLivingInProperty,
-      candidate_id: candidate.id,
+      ...idField,
       ...(contractType && {contractType}),
       ...(grantorName && {grantorName})
     }

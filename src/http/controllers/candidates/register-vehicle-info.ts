@@ -1,6 +1,7 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -27,13 +28,9 @@ export async function registerVehicleInfo(
     insuranceValue: z.number().optional(),
     usage: VehicleUsage,
     owners_id: z.array(z.string()),
-    candidate_id: z.string().optional(),
-    responsible_id: z.string().optional(),
   })
 
-  console.log('====================================');
-  console.log(request.body);
-  console.log('====================================');
+
   const {
     hasInsurance,
     manufacturingYear,
@@ -45,38 +42,25 @@ export async function registerVehicleInfo(
     insuranceValue,
     monthsToPayOff,
     owners_id,
-    candidate_id,
-    responsible_id
+
   } = vehicleDataSchema.parse(request.body)
 
   try {
     const user_id = request.user.sub
-    const role = request.user.role
 
     let connectField = {};
 
     // Verifica se existe um candidato associado ao user_id
-    const candidate = await prisma.candidate.findUnique({ where: { user_id } });
-    if (!candidate && role !== 'RESPONSIBLE') {
-      throw new ResourceNotFoundError();
-    }
-
-    // Se o usuário for um responsável legal, tenta encontrar o responsável legal associado
-    if (role === 'RESPONSIBLE') {
-      const legalResponsible = await prisma.legalResponsible.findUnique({
-        where: { user_id },
-      });
-      if (!legalResponsible) {
-        throw new ResourceNotFoundError();
-      }
-      if (responsible_id) {
+    const candidateResponsible = await SelectCandidateResponsible(user_id)
         
-        connectField = { legalResponsible: { connect: { id: legalResponsible.id } } };
-      }
-    } else if (candidate && candidate_id) {
-
-      connectField = { candidate: { connect: { id: candidate.id } } };
+    if (!candidateResponsible) {
+      throw new NotAllowedError()
     }
+    connectField = candidateResponsible.IsResponsible ?    { legalResponsible: { connect: { id: candidateResponsible.UserData.id } } } : { candidate: { connect: { id: candidateResponsible.UserData.id } } };;
+      
+   
+
+    
 
     const familyMembersExist = await Promise.all(
       owners_id.map(owner_id =>

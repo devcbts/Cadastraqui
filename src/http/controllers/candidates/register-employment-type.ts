@@ -3,35 +3,13 @@ import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import IncomeSource from './enums/IncomeSource'
 
 
 
-const EmploymentType = z.enum([
-    'PrivateEmployee',
-    'PublicEmployee',
-    'DomesticEmployee',
-    'TemporaryRuralEmployee',
-    'BusinessOwnerSimplifiedTax',
-    'BusinessOwner',
-    'IndividualEntrepreneur',
-    'SelfEmployed',
-    'Retired',
-    'Pensioner',
-    'Apprentice',
-    'Volunteer',
-    'RentalIncome',
-    'Student',
-    'InformalWorker',
-    'Unemployed',
-    'TemporaryDisabilityBenefit',
-    'LiberalProfessional',
-    'FinancialHelpFromOthers',
-    'Alimony',
-    'PrivatePension',
-])
 
 const EmploymentTypeSchema = z.object({
-    employmentType: EmploymentType,
+    employmentType: IncomeSource, // IncomeSource and EmploymentType are the same enum
     quantity: z.number().default(3),
     startDate: z.string().optional(),
     fantasyName: z.string().optional(),

@@ -1,6 +1,7 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -26,72 +27,32 @@ export async function registerMedicationInfo(
 
   try {
     const user_id = request.user.sub
-    const role = request.user.role
-    if (role === 'RESPONSIBLE') {
-      
-        const responsible = await prisma.legalResponsible.findUnique({
-          where: { user_id}
-        })
-        if (!responsible) {
-          throw new NotAllowedError()
-        }
-        const familyMember = await prisma.familyMember.findUnique({
-          where: { id: _id },
-        })
-        if (!familyMember) {
-          throw new NotAllowedError()
-        }
-    
-        // Armazena informações acerca do veículo no banco de dados
-        await prisma.medication.create({
-          data: {
-            medicationName,
-            obtainedPublicly,
-            familyMember_id: _id,
-            specificMedicationPublicly,
-          },
-        })
-        return reply.status(201).send()
-      
+    const IsUser = await SelectCandidateResponsible(user_id)
+    if (!IsUser) {
+      throw new NotAllowedError()
     }
-    // Verifica se existe um candidato associado ao user_id
-    const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-    if (!candidate) {
-      throw new ResourceNotFoundError()
+    const CandidateOrResponsible = await SelectCandidateResponsible(_id)
+    if (!CandidateOrResponsible) {
+      const familyMember = await prisma.familyMember.findUnique({
+        where: { id: _id },
+      })
+      if (!familyMember) {
+        throw new ResourceNotFoundError()
+      }
     }
 
-    if (_id === candidate.id) {
+    const idField = CandidateOrResponsible ?  (CandidateOrResponsible.IsResponsible ? {legalResponsible_id: _id} : {candidate_id: _id}) : {familyMember_id : _id}
+
       await prisma.medication.create({
         data: {
           medicationName,
           obtainedPublicly,
-          candidate_id: _id,
+          ...idField,
           specificMedicationPublicly,
         },
       })
   
-      return reply.status(201).send()
-    }
-
-    // Verifica se existe um familiar cadastrado com o familyMember_id
-
-    const familyMember = await prisma.familyMember.findFirst({
-      where: { candidate_id: candidate.id, id: _id },
-    })
-    if (!familyMember) {
-      throw new ResourceNotFoundError()
-    }
-
-    // Armazena informações acerca do veículo no banco de dados
-    await prisma.medication.create({
-      data: {
-        medicationName,
-        obtainedPublicly,
-        familyMember_id: _id,
-        specificMedicationPublicly,
-      },
-    })
-
+    
     return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {

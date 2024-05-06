@@ -3,128 +3,32 @@ import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-
+import IncomeSource from './enums/IncomeSource'
+import { Relationship } from './enums/Relationship'
+import { UF } from './enums/UF';
+import { GENDER } from './enums/Gender';
+import { DOCUMENT_TYPE } from './enums/Document_Type';
+import { SkinColor } from './enums/SkinColor'
+import { RELIGION } from './enums/Religion'
+import { SCHOLARSHIP } from './enums/Scholarship'
+import { Institution_Type } from './enums/Intitution_Type'
+import { Education_Type } from './enums/Education_Type'
+import { SHIFT } from './enums/Shift'
+import { MARITAL_STATUS } from './enums/Marital_Status';
 export async function updateFamilyMemberInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
 
-  const IncomeSource = z.enum([
-    'PrivateEmployee',
-    'PublicEmployee',
-    'DomesticEmployee',
-    'TemporaryRuralEmployee',
-    'BusinessOwnerSimplifiedTax',
-    'BusinessOwner',
-    'IndividualEntrepreneur',
-    'SelfEmployed',
-    'Retired',
-    'Pensioner',
-    'Apprentice',
-    'Volunteer',
-    'RentalIncome',
-    'Student',
-    'InformalWorker',
-    'Unemployed',
-    'TemporaryDisabilityBenefit',
-    'LiberalProfessional',
-    'FinancialHelpFromOthers',
-    'Alimony',
-    'PrivatePension',
-  ])
-  const Relationship = z.enum([
-    'Wife',
-    'Husband',
-    'Father',
-    'Mother',
-    'Stepfather',
-    'Stepmother',
-    'Sibling',
-    'Grandparent',
-    'Child',
-    'Other',
-  ])
-  const GENDER = z.enum(['MALE', 'FEMALE'])
-  const COUNTRY = z.enum([
-    'AC',
-    'AL',
-    'AM',
-    'AP',
-    'BA',
-    'CE',
-    'DF',
-    'ES',
-    'GO',
-    'MA',
-    'MG',
-    'MS',
-    'MT',
-    'PA',
-    'PB',
-    'PE',
-    'PI',
-    'PR',
-    'RJ',
-    'RN',
-    'RO',
-    'RR',
-    'RS',
-    'SC',
-    'SE',
-    'SP',
-    'TO',
-  ])
-  const DOCUMENT_TYPE = z.enum([
-    'DriversLicense',
-    'FunctionalCard',
-    'MilitaryID',
-    'Foreignerapplication',
-    'Passport',
-    'WorkCard',
-  ])
-  const MARITAL_STATUS = z.enum([
-    'Single',
-    'Married',
-    'Separated',
-    'Divorced',
-    'Widowed',
-    'StableUnion',
-  ])
-  const SkinColor = z.enum([
-    'Yellow',
-    'White',
-    'Indigenous',
-    'Brown',
-    'Black',
-    'NotDeclared',
-  ])
-  const RELIGION = z.enum([
-    'Catholic',
-    'Evangelical',
-    'Spiritist',
-    'Atheist',
-    'Other',
-    'NotDeclared',
-  ])
-  const SCHOLARSHIP = z.enum([
-    'Illiterate',
-    'ElementarySchool',
-    'HighSchool',
-    'CollegeGraduate',
-    'CollegeUndergraduate',
-    'Postgraduate',
-    'Masters',
-    'Doctorate',
-    'PostDoctorate',
-  ])
-  const Institution_Type = z.enum(['Public', 'Private'])
-  const Education_Type = z.enum([
-    'Alfabetizacao',
-    'Ensino_Medio',
-    'Ensino_Tecnico',
-    'Ensino_Superior',
-  ])
-  const SHIFT = z.enum(['Matutino', 'Vespertino', 'Noturno', 'Integral'])
+  
+  
+  
+ 
+  
+  
+ 
+  
+  
 
   const familyMemberDataSchema = z.object({
     relationship: Relationship,
@@ -135,7 +39,7 @@ export async function updateFamilyMemberInfo(
     gender: GENDER,
     nationality: z.string(),
     natural_city: z.string(),
-    natural_UF: COUNTRY,
+    natural_UF: UF,
     CPF: z.string(),
     RG: z.string(),
     rgIssuingAuthority: z.string(),
