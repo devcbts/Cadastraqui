@@ -6,10 +6,17 @@
     align-items: center;
     padding: 8px;
     margin-right: 50px;
+    &.clickable{
+        cursor: pointer;
+        &:hover{
+            opacity: .8;
+        }
+    }
     .contentwrapper{
         display: flex;
         flex-direction: column;
         align-items: center;
+        user-select: none;
         .container{
             position: relative;
             height: 50px;
@@ -23,11 +30,22 @@
             font-weight: 800;
             color: white;
             &.active{
-                background-color: $primary;
-              
+                background-color: $primary ;
+                svg{
+                    color: $primary ;
+                }
             }
             &.completed{
                 background-color: $success;
+                svg{
+                    color: $success;
+                }
+            }
+            &:has(svg){
+                svg{
+                    background-color: white;
+                    color: $lightgrey;
+                }
             }
             
             &::after{
@@ -43,6 +61,10 @@
             text-align: center !important;
             font-size: 16px;
             font-weight: 600;
+            color: $lightgrey;
+            &.active{
+                color: $primary;
+            }
         }
         &.vertical{
                 margin-bottom: 50px;
