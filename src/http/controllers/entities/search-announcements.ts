@@ -27,11 +27,11 @@ export default async function searchAnnouncements(
                 AND: [
                     open ? {
                         AND: [
-                            { announcementBegin: { lte: currentDate } },
-                            { announcementDate: { gte: currentDate } }
+                            // { openDate: { lte: currentDate } },
+                            { closeDate: { gt: currentDate } }
                         ]
                     } : {
-                        announcementDate: { lt: currentDate }
+                        closeDate: { lte: currentDate }
                     },
                     {
                         OR: [

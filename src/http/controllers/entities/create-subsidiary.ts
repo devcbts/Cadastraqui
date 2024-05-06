@@ -15,7 +15,7 @@ export async function createSubsidiary(
   const registerBodySchema = z.object({
     name: z.string(),
     email: z.string().email(),
-    password: z.string().min(6),
+    password: z.string().optional().default("not_required_password"),
     CEP: z.string(),
     educationalInstitutionCode: z.string().optional(),
     socialReason: z.string(),
@@ -60,6 +60,15 @@ export async function createSubsidiary(
       throw new EntityNotExistsError()
     }
 
+    const compareCnpjFields = (entitycnpj: string, subcnpj: string) => {
+      const nondigits = /\D/g
+      const entitycnpjdigits = entitycnpj.replace(nondigits, '')
+      const subcnpjdigits = subcnpj.replace(nondigits, '')
+      return entitycnpjdigits.substring(0, 8) === subcnpjdigits.substring(0, 8)
+    }
+    if (!compareCnpjFields(entity.CNPJ, CNPJ)) {
+      return reply.status(400).send({ message: 'CNPJ para filial inválido' })
+    }
     // Verifica se já existe um usuário com o email fornecido
     const userWithSameEmail = await prisma.user.findUnique({ where: { email } })
 
