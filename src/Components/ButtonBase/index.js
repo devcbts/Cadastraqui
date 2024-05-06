@@ -2,6 +2,7 @@ import styles from './styles.module.scss'
 export default function ButtonBase({
     label,
     onClick,
+    children,
     ...props
 }) {
     return (
@@ -10,7 +11,7 @@ export default function ButtonBase({
             onClick={onClick}
             {...props}
         >
-            {label}
+            {children ?? label}
         </button>
     )
 }
