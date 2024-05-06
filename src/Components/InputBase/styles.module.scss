@@ -35,6 +35,10 @@
             &.pass{
              border-color: $success !important;
             }
+            &[type="file"]{
+                background: url("../../Assets/icons/upload.svg") no-repeat;
+                background-position: calc(100% - 48px);
+            }
         }
         
         .icon{
