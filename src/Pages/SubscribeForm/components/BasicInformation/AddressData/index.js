@@ -38,7 +38,6 @@ const AddressData = forwardRef((_, ref) => {
             return isValid
         }
     }))
-    console.log(STATES.find(e => e.value === watchState))
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Endereço</h1>
