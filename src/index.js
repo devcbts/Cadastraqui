@@ -5,10 +5,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import SubscribeForm from './Pages/SubscribeForm';
 import BasicInformation from './Pages/SubscribeForm/components/Form_BasicInformation';
+import Loader from 'Components/Loader';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <SubscribeForm />
+  <>
+    <Loader text="Aguarde" />
+    <SubscribeForm />
+
+  </>
   // <React.StrictMode>
   //   <App />
   // </React.StrictMode>

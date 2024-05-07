@@ -14,7 +14,7 @@ import candidateService from "services/candidate/candidateService";
 import AdditionalDocuments from "../AdditionalDocuments";
 export default function FormBasicInformation() {
     const MAX_STEPS = 8;
-    const [activeStep, setActiveStep] = useState(8)
+    const [activeStep, setActiveStep] = useState(1)
     const [data, setData] = useState(null)
     const [enableEditing, setEnableEditing] = useState(false)
     const { current: stepsRef } = useRef(Array.from({ length: MAX_STEPS }).fill(createRef()))

@@ -7,6 +7,8 @@ import InputForm from "Components/InputForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import commonStyles from '../Form_BasicInformation/styles.module.scss'
 import FormFilePicker from "Components/FormFilePicker";
+import FormSelect from "Components/FormSelect";
+import STATES from "utils/enums/states";
 
 const Document = forwardRef(({ data }, ref) => {
     const { control, watch, setValue, trigger, formState: { isValid }, getValues } = useForm({
@@ -25,6 +27,7 @@ const Document = forwardRef(({ data }, ref) => {
         },
         resolver: zodResolver(documentSchema)
     })
+    const watchIssuingState = watch("rgIssuingState")
     useImperativeHandle(ref, () => ({
         validate: () => {
             trigger();
@@ -37,7 +40,7 @@ const Document = forwardRef(({ data }, ref) => {
             <h1 className={commonStyles.title}>Documento de Identificação</h1>
             <div className={styles.container}>
                 <InputForm name={"RG"} control={control} label={"RG"} transform={(e) => formatRG(e.target.value)} />
-                <InputForm name={"rgIssuingState"} control={control} label={"estado emissor do RG"} />
+                <FormSelect name={"rgIssuingState"} control={control} label={"estado emissor do RG"} options={STATES} value={STATES.find(e => e.value === watchIssuingState)} />
                 <InputForm name={"rgIssuingAuthority"} control={control} label={"órgão emissor do RG"} />
                 <FormFilePicker name={"document"} control={control} label={"documento de identificação"} />
 
