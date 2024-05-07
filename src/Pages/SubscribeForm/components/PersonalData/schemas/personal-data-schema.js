@@ -1,5 +1,5 @@
 import z from 'zod'
-import { isValidCPF } from '../../../../../../utils/validate-cpf'
+import { isValidCPF } from 'utils/validate-cpf'
 const personalDataFormSchema = z.object({
     fullName: z.string().min(1, 'Nome obrigatório'),
     CPF: z.string().min(1, 'CPF obrigatório').refine(isValidCPF, 'CPF inválido'),

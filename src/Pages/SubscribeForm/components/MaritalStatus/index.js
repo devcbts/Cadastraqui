@@ -1,17 +1,18 @@
-import { forwardRef, useImperativeHandle } from "react";
-import InputForm from "../../../../../Components/InputForm";
+import { forwardRef, useEffect, useImperativeHandle } from "react";
+import InputForm from "Components/InputForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import commonStyles from '../styles.module.scss'
+import commonStyles from '../Form_BasicInformation/styles.module.scss'
 import { useForm } from "react-hook-form";
 import maritalStatusSchema from "./schemas/marital-status-schema";
-import MARITAL_STATUS from "../../../../../utils/enums/marital-status";
-import FormSelect from "../../../../../Components/FormSelect";
+import MARITAL_STATUS from "utils/enums/marital-status";
+import FormSelect from "Components/FormSelect";
+import FormFilePicker from "Components/FormFilePicker";
 const MaritalStatus = forwardRef(({ data }, ref) => {
-    const { control, formState: { isValid }, trigger, watch, getValues } = useForm({
+    const { control, formState: { isValid }, trigger, watch, getValues, resetField } = useForm({
         mode: "all",
         defaultValues: {
             maritalStatus: '',
-            weddingCertificate: ''
+            weddingCertificate: null
         },
         values: data && {
             maritalStatus: data.maritalStatus,
@@ -20,6 +21,11 @@ const MaritalStatus = forwardRef(({ data }, ref) => {
         resolver: zodResolver(maritalStatusSchema)
     })
     const watchStatus = watch("maritalStatus")
+    useEffect(() => {
+        if (watchStatus !== "Married") {
+            resetField("weddingCertificate", { defaultValue: null })
+        }
+    }, [watchStatus])
     useImperativeHandle(ref, () => ({
         validate: () => {
             trigger();
@@ -34,7 +40,7 @@ const MaritalStatus = forwardRef(({ data }, ref) => {
                 <FormSelect name="maritalStatus" label="Estado civil" control={control} options={MARITAL_STATUS} value={MARITAL_STATUS.find(e => e.value === watchStatus)} />
                 {
                     watchStatus === "Married" &&
-                    <InputForm name="weddingCertificate" label="Certidão" control={control} type="file" />
+                    <FormFilePicker name="weddingCertificate" label="Certidão" control={control} />
                 }
             </div>
         </div>

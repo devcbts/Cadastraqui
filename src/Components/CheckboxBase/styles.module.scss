@@ -1,0 +1,49 @@
+@import '../../Assets/theme/global.module.scss';
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    label{
+        font-weight: 600;
+        font-size: 16px;
+        color: $grey;
+        margin-bottom: 4px;
+        text-transform: capitalize;
+    }
+    .row{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 0px 10px;
+    .wrapper {
+        position: relative;
+        border-radius: 25px;
+        background-color: $lightgrey;
+        width: 50px;
+        height: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.checked{
+            background-color: $success;
+            .toggle{
+                left: 25px;
+            }
+        }
+        .toggle{
+            position: absolute;
+            left: 5px;
+            height: 20px;
+            width: 20px;
+            border-radius: 100%;
+            background-color: $primary;
+            transition: all .3s ease-in;
+        }
+        .checkbox{
+           display: none;
+        }
+    }
+}
+}

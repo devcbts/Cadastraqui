@@ -1,15 +1,15 @@
 import { useForm } from 'react-hook-form'
-import InputForm from '../../../../../Components/InputForm'
+import InputForm from 'Components/InputForm'
 import styles from './styles.module.scss'
-import commonStyles from '../styles.module.scss'
-import useCep from '../../../../../hooks/useCep'
+import commonStyles from '../Form_BasicInformation/styles.module.scss'
+import useCep from 'hooks/useCep'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { addressDataSchema } from './schemas/address-schema'
-import SelectBase from '../../../../../Components/SelectBase'
-import { formatCEP } from '../../../../../utils/format-cep'
+import SelectBase from 'Components/SelectBase'
+import { formatCEP } from 'utils/format-cep'
 import { forwardRef, useImperativeHandle } from 'react'
-import FormSelect from '../../../../../Components/FormSelect'
-import STATES from '../../../../../utils/enums/states'
+import FormSelect from 'Components/FormSelect'
+import STATES from 'utils/enums/states'
 const AddressData = forwardRef(({ data }, ref) => {
 
     const { control, watch, setValue, trigger, formState: { isValid }, getValues } = useForm({

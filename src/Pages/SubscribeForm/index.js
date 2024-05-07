@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import BasicInformation from "./components/BasicInformation";
+import FormBasicInformation from "./components/Form_BasicInformation";
 import candidateService from "../../services/candidate/candidateService";
 import FormStepper from "../../Components/FormStepper";
 import { ReactComponent as User } from '../../Assets/icons/user.svg';
@@ -25,14 +25,14 @@ export default function SubscribeForm() {
     }
     const steps = [
         { label: "Cadastrante", component: User },
-        { label: "Cadastrante", component: Family },
-        { label: "Cadastrante", component: House },
-        { label: "Cadastrante", component: Car },
-        { label: "Cadastrante", component: Currency },
-        { label: "Cadastrante", component: Money },
-        { label: "Cadastrante", component: Doctor },
-        { label: "Cadastrante", component: List },
-        { label: "Cadastrante", component: Edit },
+        { label: "Grupo Familiar", component: Family },
+        { label: "Moradia", component: House },
+        { label: "Veículo", component: Car },
+        { label: "Renda", component: Currency },
+        { label: "Gastos", component: Money },
+        { label: "Saúde", component: Doctor },
+        { label: "_", component: List },
+        { label: "_", component: Edit },
     ]
     return (
         <FormStepper.Root vertical activeStep={activeStep}>
@@ -40,13 +40,13 @@ export default function SubscribeForm() {
                 {steps.map((e, i) => {
                     const Component = e.component
                     return (
-                        <FormStepper.Step index={i + 1} label="Cadastrante" onClick={() => handleChangeCategory(i + 1)}>
+                        <FormStepper.Step index={i + 1} label={e.label} onClick={() => handleChangeCategory(i + 1)}>
                             <Component />
                         </FormStepper.Step>
                     )
                 })}
             </FormStepper.Stepper>
-            <FormStepper.View index={1}><BasicInformation /></FormStepper.View>
+            <FormStepper.View index={1}><FormBasicInformation /></FormStepper.View>
         </FormStepper.Root>
     )
 }

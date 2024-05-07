@@ -7,7 +7,6 @@ import { forwardRef } from "react";
 
 const SelectBase = forwardRef(({ label, error, ...props }, ref) => {
     const borderStyle = error === null ? '#CFCFCF' : (error ? "#EF3E36" : "#499468")
-    console.log(props.value)
     return (
         <div className={inputBaseStyles.container}>
             <div className={inputBaseStyles.inputwrapper}>

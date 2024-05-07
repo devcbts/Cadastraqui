@@ -1,11 +1,12 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { useForm } from "react-hook-form";
-import InputForm from "../../../../../Components/InputForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import commonStyles from '../styles.module.scss'
+import commonStyles from '../Form_BasicInformation/styles.module.scss'
 import additionalDocumentSchema from "./schemas/additional-document-schema";
-import FormSelect from "../../../../../Components/FormSelect";
-import DOCUMENT_TYPE from "../../../../../utils/enums/document-type";
+import FormSelect from "Components/FormSelect";
+import DOCUMENT_TYPE from "utils/enums/document-type";
+import InputForm from "Components/InputForm";
+import FormCheckbox from "Components/FormCheckbox";
 
 const AdditionalDocuments = forwardRef(({ data }, ref) => {
     const { control, watch, setValue, trigger, formState: { isValid }, getValues } = useForm({
@@ -38,7 +39,7 @@ const AdditionalDocuments = forwardRef(({ data }, ref) => {
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Documento Adicional</h1>
             <div >
-                <InputForm name={"newDocument"} control={control} label={"deseja adicionar outro documento?"} />
+                <FormCheckbox name={"newDocument"} control={control} label={"deseja adicionar outro documento?"} />
                 {watchNewDocument &&
                     <>
                         <FormSelect name={"documentType"} control={control} label={"tipo de documento"} options={DOCUMENT_TYPE} value={DOCUMENT_TYPE.find(e => e.value === watchDocumentType)} />

@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import SubscribeForm from './Components/SubscribeForm';
+import SubscribeForm from './Pages/SubscribeForm';
+import BasicInformation from './Pages/SubscribeForm/components/Form_BasicInformation';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

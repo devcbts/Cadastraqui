@@ -6,7 +6,6 @@ const InputBase = forwardRef(({
     label,
     error,
     ...props
-
 }, ref) => {
     const borderStyle = error === null ? '' : (error ? styles.error : styles.pass)
     return (

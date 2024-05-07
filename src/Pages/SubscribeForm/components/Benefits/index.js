@@ -1,8 +1,8 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { useForm } from "react-hook-form";
-import InputForm from "../../../../../Components/InputForm";
+import InputForm from "Components/InputForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import commonStyles from '../styles.module.scss'
+import commonStyles from '../Form_BasicInformation/styles.module.scss'
 import benefitsSchema from "./schemas/benefits-schema";
 
 const Benefits = forwardRef(({ data }, ref) => {

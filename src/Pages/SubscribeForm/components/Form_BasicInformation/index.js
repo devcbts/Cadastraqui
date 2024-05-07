@@ -1,24 +1,24 @@
 import { createRef, useEffect, useRef, useState } from "react";
-import FormStepper from "../../../../Components/FormStepper";
-import PersonalData from "./PersonalData";
+import FormStepper from "Components/FormStepper";
+import PersonalData from "../PersonalData";
 import styles from './styles.module.scss';
-import ButtonBase from "../../../../Components/ButtonBase";
-import AddressData from "./AddressData";
-import AdditionalInfo from "./AdditionalInfo";
-import { ReactComponent as Arrow } from '../../../../Assets/icons/arrow.svg'
-import MaritalStatus from "./MaritalStatus";
-import PersonalInformation from "./PersonalInformation";
-import Document from "./Document";
-import AdditionalDocuments from "./AdditionalDocuments";
-import Benefits from "./Benefits";
-import candidateService from "../../../../services/candidate/candidateService";
-export default function BasicInformation() {
+import ButtonBase from "Components/ButtonBase";
+import AddressData from "../AddressData";
+import AdditionalInfo from "../AdditionalInfo";
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
+import MaritalStatus from "../MaritalStatus";
+import PersonalInformation from "../PersonalInformation";
+import Document from "../Document";
+import Benefits from "../Benefits";
+import candidateService from "services/candidate/candidateService";
+import AdditionalDocuments from "../AdditionalDocuments";
+export default function FormBasicInformation() {
     const [activeStep, setActiveStep] = useState(1)
     const [data, setData] = useState(null)
     const handleNext = () => {
         const { current: currentStep } = stepsRef[activeStep - 1]
+        console.log(currentStep.values())
         if (currentStep.validate()) {
-            console.log('validou', currentStep.values())
             setData((prevData) => ({ ...prevData, ...currentStep.values() }))
             switch (activeStep) {
                 case 8:
