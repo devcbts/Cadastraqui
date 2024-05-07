@@ -6,12 +6,16 @@ import { useForm } from "react-hook-form";
 import maritalStatusSchema from "./schemas/marital-status-schema";
 import MARITAL_STATUS from "../../../../../utils/enums/marital-status";
 import FormSelect from "../../../../../Components/FormSelect";
-const MaritalStatus = forwardRef((_, ref) => {
-    const { control, formState: { isValid }, trigger, watch } = useForm({
+const MaritalStatus = forwardRef(({ data }, ref) => {
+    const { control, formState: { isValid }, trigger, watch, getValues } = useForm({
         mode: "all",
         defaultValues: {
             maritalStatus: '',
             weddingCertificate: ''
+        },
+        values: data && {
+            maritalStatus: data.maritalStatus,
+            weddingCertificate: data.weddingCertificate
         },
         resolver: zodResolver(maritalStatusSchema)
     })
@@ -20,7 +24,8 @@ const MaritalStatus = forwardRef((_, ref) => {
         validate: () => {
             trigger();
             return isValid
-        }
+        },
+        values: getValues
     }))
     return (
         <div className={commonStyles.formcontainer}>

@@ -6,9 +6,10 @@ import InputForm from "../../../../../Components/InputForm"
 import styles from '../styles.module.scss'
 import { formatCPF } from "../../../../../utils/format-cpf"
 import { formatTelephone } from "../../../../../utils/format-telephone"
-import { forwardRef, useImperativeHandle } from "react"
-const PersonalData = forwardRef((_, ref) => {
-    const { control, formState: { isValid }, trigger } = useForm({
+import { forwardRef, useEffect, useImperativeHandle } from "react"
+const PersonalData = forwardRef(({ data }, ref) => {
+    console.log('DADOS', data)
+    const { control, formState: { isValid }, trigger, getValues, reset } = useForm({
         mode: "all",
         defaultValues: {
             fullName: '',
@@ -17,14 +18,25 @@ const PersonalData = forwardRef((_, ref) => {
             phone: '',
             email: '',
         },
+        values: data && {
+            fullName: data.fullName,
+            CPF: data.CPF,
+            birthDate: data.birthDate,
+            phone: data.phone,
+            email: data.email,
+        },
         resolver: zodResolver(personalDataFormSchema)
     })
     useImperativeHandle(ref, () => ({
         validate: () => {
             trigger();
             return isValid
-        }
+        },
+        values: getValues
     }))
+    // useEffect(() => {
+    //     reset(data)
+    // }, [data])
     return (
         <div className={styles.formcontainer}>
             <h1 className={styles.title}>Dados Pessoais</h1>

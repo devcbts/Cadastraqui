@@ -10,9 +10,9 @@ import { formatCEP } from '../../../../../utils/format-cep'
 import { forwardRef, useImperativeHandle } from 'react'
 import FormSelect from '../../../../../Components/FormSelect'
 import STATES from '../../../../../utils/enums/states'
-const AddressData = forwardRef((_, ref) => {
+const AddressData = forwardRef(({ data }, ref) => {
 
-    const { control, watch, setValue, trigger, formState: { isValid } } = useForm({
+    const { control, watch, setValue, trigger, formState: { isValid }, getValues } = useForm({
         mode: "all",
         defaultValues: {
             CEP: "",
@@ -21,6 +21,14 @@ const AddressData = forwardRef((_, ref) => {
             neighborhood: "",
             city: "",
             UF: "",
+        },
+        values: data && {
+            CEP: data.CEP,
+            address: data.address,
+            addressNumber: data.addressNumber,
+            neighborhood: data.neighborhood,
+            city: data.city,
+            UF: data.UF,
         },
         resolver: zodResolver(addressDataSchema)
     })
@@ -36,7 +44,8 @@ const AddressData = forwardRef((_, ref) => {
         validate: () => {
             trigger();
             return isValid
-        }
+        },
+        values: getValues
     }))
     return (
         <div className={commonStyles.formcontainer}>

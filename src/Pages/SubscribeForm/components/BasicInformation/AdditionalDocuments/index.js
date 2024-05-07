@@ -7,14 +7,20 @@ import additionalDocumentSchema from "./schemas/additional-document-schema";
 import FormSelect from "../../../../../Components/FormSelect";
 import DOCUMENT_TYPE from "../../../../../utils/enums/document-type";
 
-const AdditionalDocuments = forwardRef((_, ref) => {
-    const { control, watch, setValue, trigger, formState: { isValid } } = useForm({
+const AdditionalDocuments = forwardRef(({ data }, ref) => {
+    const { control, watch, setValue, trigger, formState: { isValid }, getValues } = useForm({
         mode: "all",
         defaultValues: {
             newDocument: false,
             documentType: "",
             documentNumber: "",
             documentValidity: ""
+        },
+        values: data && {
+            newDocument: false,
+            documentType: data.documentType,
+            documentNumber: data.documentNumber,
+            documentValidity: data.documentValidity
         },
         resolver: zodResolver(additionalDocumentSchema)
     })
@@ -24,7 +30,8 @@ const AdditionalDocuments = forwardRef((_, ref) => {
         validate: () => {
             trigger();
             return isValid
-        }
+        },
+        values: getValues
     }))
 
     return (

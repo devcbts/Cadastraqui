@@ -4,8 +4,8 @@ import { additionalInfoSchema } from './schemas/additional-info'
 import { zodResolver } from '@hookform/resolvers/zod'
 import InputForm from '../../../../../Components/InputForm'
 import { forwardRef, useImperativeHandle } from 'react'
-const AdditionalInfo = forwardRef((_, ref) => {
-    const { control, trigger, formState: { isValid } } = useForm({
+const AdditionalInfo = forwardRef(({ data }, ref) => {
+    const { control, trigger, formState: { isValid }, getValues } = useForm({
         mode: "all",
         defaultValues: {
             socialName: '',
@@ -14,13 +14,21 @@ const AdditionalInfo = forwardRef((_, ref) => {
             naturality: '',
             nacionality: '',
         },
+        values: data && {
+            socialName: data.socialName,
+            gender: data.gender,
+            profession: data.profession,
+            naturality: data.naturality,
+            nacionality: data.nacionality,
+        },
         resolver: zodResolver(additionalInfoSchema)
     })
     useImperativeHandle(ref, () => ({
         validate: () => {
             trigger();
             return isValid
-        }
+        },
+        values: getValues
     }))
     return (
         <div className={commonStyles.formcontainer}>

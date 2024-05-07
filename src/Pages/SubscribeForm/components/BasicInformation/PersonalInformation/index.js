@@ -8,14 +8,18 @@ import FormSelect from "../../../../../Components/FormSelect";
 import SCHOLARSHIP from "../../../../../utils/enums/scholarship";
 import SKINCOLOR from "../../../../../utils/enums/skin-color";
 import styles from './styles.module.scss'
-const PersonalInformation = forwardRef((_, ref) => {
-    const { control, formState: { isValid }, trigger, watch } = useForm({
+const PersonalInformation = forwardRef(({ data }, ref) => {
+    const { control, formState: { isValid }, trigger, watch, getValues } = useForm({
         mode: "all",
         defaultValues: {
             skinColor: '',
             educationLevel: '',
             specialNeeds: false
-
+        },
+        values: data && {
+            skinColor: data.skinColor,
+            educationLevel: data.educationLevel,
+            specialNeeds: data.specialNeeds
         },
         resolver: zodResolver(personalInformationSchema)
     })
@@ -25,7 +29,8 @@ const PersonalInformation = forwardRef((_, ref) => {
         validate: () => {
             trigger();
             return isValid
-        }
+        },
+        values: getValues
     }))
     return (
         <div className={commonStyles.formcontainer}>

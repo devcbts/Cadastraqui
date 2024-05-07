@@ -10,12 +10,10 @@ export default function useCep(callback, value) {
     // Ignore when cep already starts completed (example: Editing screens)
     const [ignoreWhenEqual, setIgnoreWhenEqual] = useState(value)
     const isMounted = useRef(null)
-    useEffect(() => console.log('primeiro render', validateCEP(ignoreWhenEqual)), [])
     useEffect(() => {
         if (!isMounted.current && validateCEP(ignoreWhenEqual)) {
             setIgnoreWhenEqual("")
             isMounted.current = true
-            console.log('passei aqui antes')
             return
         }
         const updateAddress = async () => {

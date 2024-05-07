@@ -7,15 +7,20 @@ import InputForm from "../../../../../Components/InputForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import commonStyles from '../styles.module.scss'
 
-const Document = forwardRef((_, ref) => {
-    const { control, watch, setValue, trigger, formState: { isValid } } = useForm({
+const Document = forwardRef(({ data }, ref) => {
+    const { control, watch, setValue, trigger, formState: { isValid }, getValues } = useForm({
         mode: "all",
         defaultValues: {
             RG: "",
             rgIssuingState: "",
             rgIssuingAuthority: "",
             document: "",
-
+        },
+        values: data && {
+            RG: data.RG,
+            rgIssuingState: data.rgIssuingState,
+            rgIssuingAuthority: data.rgIssuingAuthority,
+            document: data.document,
         },
         resolver: zodResolver(documentSchema)
     })
@@ -23,7 +28,8 @@ const Document = forwardRef((_, ref) => {
         validate: () => {
             trigger();
             return isValid
-        }
+        },
+        values: getValues
     }))
     return (
         <div className={commonStyles.formcontainer}>
