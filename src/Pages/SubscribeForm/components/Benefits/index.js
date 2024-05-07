@@ -1,19 +1,20 @@
-import { forwardRef, useImperativeHandle } from "react";
+import { forwardRef, useEffect, useImperativeHandle } from "react";
 import { useForm } from "react-hook-form";
 import InputForm from "Components/InputForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import commonStyles from '../Form_BasicInformation/styles.module.scss'
 import benefitsSchema from "./schemas/benefits-schema";
-
+import FormCheckbox from "Components/FormCheckbox";
+import styles from './styles.module.scss'
 const Benefits = forwardRef(({ data }, ref) => {
-    const { control, watch, setValue, trigger, formState: { isValid }, getValues } = useForm({
+    const { control, watch, setValue, trigger, formState: { isValid }, getValues, resetField } = useForm({
         mode: "all",
         defaultValues: {
             enrolledGovernmentProgram: false,
             NIS: "",
-            attendedPublicHighSchool: "",
-            benefitedFromCebasScholarship_basic: "",
-            benefitedFromCebasScholarship_professional: ""
+            attendedPublicHighSchool: false,
+            benefitedFromCebasScholarship_basic: false,
+            benefitedFromCebasScholarship_professional: false
         },
         values: data && {
             enrolledGovernmentProgram: data.enrolledGovernmentProgram,
@@ -32,20 +33,26 @@ const Benefits = forwardRef(({ data }, ref) => {
         },
         values: getValues
     }))
-
+    useEffect(() => {
+        if (!watchEnrolledGovProgram) {
+            resetField("NIS", { defaultValue: '', keepDirty: false, keepError: false })
+        }
+    }, [watchEnrolledGovProgram])
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Benefícios e Programas</h1>
-            <div >
-                <div>
-                    <InputForm name={"enrolledGovernmentProgram"} control={control} label={"inscrito em programa governamental?"} />
+            <div className={styles.container}>
+                <div className={watchEnrolledGovProgram && styles.grid}>
+                    <FormCheckbox name={"enrolledGovernmentProgram"} control={control} label={"inscrito em programa governamental?"} />
                     {watchEnrolledGovProgram &&
                         <InputForm name={"NIS"} control={control} label={"NIS"} />
                     }
                 </div>
-                <InputForm name={"attendedPublicHighSchool"} control={control} label={"estudou em escola pública?"} />
-                <InputForm name={"benefitedFromCebasScholarship_basic"} control={control} label={"já recebeu bolsa CEBAS para educação básica?"} />
-                <InputForm name={"benefitedFromCebasScholarship_professional"} control={control} label={"já recebeu bolsa CEBAS para educação profissional?"} />
+                <div className={styles.grid}>
+                    <FormCheckbox name={"attendedPublicHighSchool"} control={control} label={"estudou em escola pública?"} />
+                    <FormCheckbox name={"benefitedFromCebasScholarship_basic"} control={control} label={"já recebeu bolsa CEBAS para educação básica?"} />
+                    <FormCheckbox name={"benefitedFromCebasScholarship_professional"} control={control} label={"já recebeu bolsa CEBAS para educação profissional?"} />
+                </div>
             </div>
         </div>
     )

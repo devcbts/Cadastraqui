@@ -18,7 +18,7 @@ const AdditionalDocuments = forwardRef(({ data }, ref) => {
             documentValidity: ""
         },
         values: data && {
-            newDocument: false,
+            newDocument: data.newDocument,
             documentType: data.documentType,
             documentNumber: data.documentNumber,
             documentValidity: data.documentValidity

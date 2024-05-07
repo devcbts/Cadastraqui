@@ -13,15 +13,21 @@ import Benefits from "../Benefits";
 import candidateService from "services/candidate/candidateService";
 import AdditionalDocuments from "../AdditionalDocuments";
 export default function FormBasicInformation() {
-    const [activeStep, setActiveStep] = useState(1)
+    const MAX_STEPS = 8;
+    const [activeStep, setActiveStep] = useState(8)
     const [data, setData] = useState(null)
+    const [enableEditing, setEnableEditing] = useState(false)
+    const { current: stepsRef } = useRef(Array.from({ length: MAX_STEPS }).fill(createRef()))
+    const handleEdit = () => {
+
+    }
     const handleNext = () => {
         const { current: currentStep } = stepsRef[activeStep - 1]
         console.log(currentStep.values())
         if (currentStep.validate()) {
             setData((prevData) => ({ ...prevData, ...currentStep.values() }))
             switch (activeStep) {
-                case 8:
+                case MAX_STEPS:
                     break;
                 default:
                     setActiveStep((prevState) => prevState + 1)
@@ -32,12 +38,13 @@ export default function FormBasicInformation() {
     const handlePrevious = () => {
         setActiveStep((prevState) => prevState - 1)
     }
-    const { current: stepsRef } = useRef(Array.from({ length: 8 }).fill(createRef()))
     useEffect(() => {
         const fetchData = async () => {
             const response = await candidateService.getIdentityInfo()
-            console.log(response.data)
-            setData(response.data.identityInfo)
+            if (response.data.identityInfo) {
+                setEnableEditing(true)
+                setData(response.data.identityInfo)
+            }
         }
         fetchData()
     }, [])
@@ -45,7 +52,7 @@ export default function FormBasicInformation() {
         <div className={styles.container}>
             <FormStepper.Root activeStep={activeStep}>
                 <FormStepper.Stepper >
-                    {Array.from({ length: 8 }).map((_, i) => (
+                    {Array.from({ length: MAX_STEPS }).map((_, i) => (
                         <FormStepper.Step key={i} index={i + 1}>{i + 1}</FormStepper.Step>
                     ))}
                 </FormStepper.Stepper>
@@ -58,14 +65,17 @@ export default function FormBasicInformation() {
                 <FormStepper.View index={7}><AdditionalDocuments data={data} ref={stepsRef[6]} /></FormStepper.View>
                 <FormStepper.View index={8}><Benefits data={data} ref={stepsRef[7]} /></FormStepper.View>
             </FormStepper.Root>
-            <div className={styles.actions}>
+            <div className={[styles.actions]}>
                 {activeStep !== 1 &&
                     <ButtonBase onClick={handlePrevious}>
                         <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
                     </ButtonBase>
                 }
+                {enableEditing &&
+                    <ButtonBase onClick={handleEdit} label={"editar"} />
+                }
                 <ButtonBase onClick={handleNext}>
-                    <Arrow width="40px" />
+                    {activeStep === MAX_STEPS ? 'Salvar' : <Arrow width="40px" />}
                 </ButtonBase>
             </div>
 
