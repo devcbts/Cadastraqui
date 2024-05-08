@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { forwardRef, useImperativeHandle } from "react";
 import { useForm } from "react-hook-form";
-import commonStyles from '../Form_BasicInformation/styles.module.scss'
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import InputForm from "Components/InputForm";
 import personalInformationSchema from "./schemas/personal-information-schema";
 import FormSelect from "Components/FormSelect";

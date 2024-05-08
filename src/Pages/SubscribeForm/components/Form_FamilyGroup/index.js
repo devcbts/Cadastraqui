@@ -14,7 +14,7 @@ import candidateService from "services/candidate/candidateService";
 import AdditionalDocuments from "../AdditionalDocuments";
 import Loader from "Components/Loader";
 import { NotificationService } from "services/notification";
-export default function FormBasicInformation() {
+export default function FormFamilyGroup() {
     const MAX_STEPS = 8;
     const [activeStep, setActiveStep] = useState(1)
     const [data, setData] = useState(null)

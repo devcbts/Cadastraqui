@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import InputForm from 'Components/InputForm'
 import styles from './styles.module.scss'
-import commonStyles from '../Form_BasicInformation/styles.module.scss'
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import useCep from 'hooks/useCep'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { addressDataSchema } from './schemas/address-schema'

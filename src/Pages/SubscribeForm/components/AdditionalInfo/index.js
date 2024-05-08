@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form'
-import commonStyles from '../Form_BasicInformation/styles.module.scss'
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import { additionalInfoSchema } from './schemas/additional-info'
 import { zodResolver } from '@hookform/resolvers/zod'
 import InputForm from 'Components/InputForm'

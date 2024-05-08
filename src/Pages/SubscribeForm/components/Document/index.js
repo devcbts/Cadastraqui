@@ -5,7 +5,7 @@ import { formatRG } from "utils/format-rg";
 import documentSchema from "./schemas/document-schema";
 import InputForm from "Components/InputForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import commonStyles from '../Form_BasicInformation/styles.module.scss'
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import FormFilePicker from "Components/FormFilePicker";
 import FormSelect from "Components/FormSelect";
 import STATES from "utils/enums/states";

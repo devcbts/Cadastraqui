@@ -2,7 +2,7 @@ import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import personalDataFormSchema from "./schemas/personal-data-schema"
 import InputForm from "Components/InputForm"
-import commonStyles from '../Form_BasicInformation/styles.module.scss'
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import { formatCPF } from "utils/format-cpf"
 import { formatTelephone } from "utils/format-telephone"
 import { forwardRef, useEffect, useImperativeHandle } from "react"

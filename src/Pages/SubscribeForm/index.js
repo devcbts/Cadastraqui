@@ -11,6 +11,7 @@ import { ReactComponent as Money } from 'Assets/icons/money.svg';
 import { ReactComponent as Doctor } from 'Assets/icons/doctor.svg';
 import { ReactComponent as List } from 'Assets/icons/list.svg';
 import { ReactComponent as Edit } from 'Assets/icons/edit.svg';
+import FormFamilyGroup from "./components/Form_FamilyGroup";
 export default function SubscribeForm() {
     const [activeStep, setActiveStep] = useState(1)
 
@@ -41,6 +42,7 @@ export default function SubscribeForm() {
                 })}
             </FormStepper.Stepper>
             <FormStepper.View index={1}><FormBasicInformation /></FormStepper.View>
+            <FormStepper.View index={2}><FormFamilyGroup /></FormStepper.View>
         </FormStepper.Root>
     )
 }

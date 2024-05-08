@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle } from "react";
 import InputForm from "Components/InputForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import commonStyles from '../Form_BasicInformation/styles.module.scss'
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import { useForm } from "react-hook-form";
 import maritalStatusSchema from "./schemas/marital-status-schema";
 import MARITAL_STATUS from "utils/enums/marital-status";
