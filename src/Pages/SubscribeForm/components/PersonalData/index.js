@@ -7,7 +7,6 @@ import { formatCPF } from "utils/format-cpf"
 import { formatTelephone } from "utils/format-telephone"
 import { forwardRef, useEffect, useImperativeHandle } from "react"
 const PersonalData = forwardRef(({ data }, ref) => {
-    console.log('DADOS', data)
     const { control, formState: { isValid }, trigger, getValues, reset } = useForm({
         mode: "all",
         defaultValues: {

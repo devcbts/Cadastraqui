@@ -29,7 +29,7 @@ export default function FormSelect({ name, label, control, options, value }) {
                     error={showErrorBorder(error, isDirty)}
                     options={options}
                     {...field}
-                    value={value}
+                    value={options.find(e => e.value === value)}
                     onChange={(e) => {
                         field.onChange(e.value)
                     }}

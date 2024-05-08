@@ -37,7 +37,7 @@ const MaritalStatus = forwardRef(({ data }, ref) => {
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Estado Civil</h1>
             <div>
-                <FormSelect name="maritalStatus" label="Estado civil" control={control} options={MARITAL_STATUS} value={MARITAL_STATUS.find(e => e.value === watchStatus)} />
+                <FormSelect name="maritalStatus" label="Estado civil" control={control} options={MARITAL_STATUS} value={watchStatus} />
                 {
                     watchStatus === "Married" &&
                     <FormFilePicker name="weddingCertificate" label="Certidão" control={control} />

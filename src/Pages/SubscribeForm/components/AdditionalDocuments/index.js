@@ -42,7 +42,7 @@ const AdditionalDocuments = forwardRef(({ data }, ref) => {
                 <FormCheckbox name={"newDocument"} control={control} label={"deseja adicionar outro documento?"} />
                 {watchNewDocument &&
                     <>
-                        <FormSelect name={"documentType"} control={control} label={"tipo de documento"} options={DOCUMENT_TYPE} value={DOCUMENT_TYPE.find(e => e.value === watchDocumentType)} />
+                        <FormSelect name={"documentType"} control={control} label={"tipo de documento"} options={DOCUMENT_TYPE} value={watchDocumentType} />
                         <InputForm name={"documentNumber"} control={control} label={"número do documento"} />
                         <InputForm name={"documentValidity"} control={control} label={"data de validade do documento"} type="date" />
                     </>

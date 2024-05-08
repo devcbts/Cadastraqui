@@ -56,7 +56,7 @@ const AddressData = forwardRef(({ data }, ref) => {
                 <InputForm name={"addressNumber"} control={control} label={"número"} />
                 <InputForm name={"neighborhood"} control={control} label={"bairro"} />
                 <InputForm name={"city"} control={control} label={"cidade"} />
-                <FormSelect name={"UF"} control={control} label={"unidade federativa"} options={STATES} value={STATES.find(e => e.value === watchState)} />
+                <FormSelect name={"UF"} control={control} label={"unidade federativa"} options={STATES} value={watchState} />
             </div>
         </div>
     )

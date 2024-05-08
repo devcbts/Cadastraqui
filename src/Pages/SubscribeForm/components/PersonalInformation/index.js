@@ -41,9 +41,9 @@ const PersonalInformation = forwardRef(({ data }, ref) => {
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Informações Pessoais</h1>
             <div className={styles.grid}>
-                <FormSelect name="skinColor" label="cor de pele" control={control} options={SKINCOLOR} value={SKINCOLOR.find(e => e.value === watchSkinColor)} />
-                <FormSelect name="educationLevel" label="escolaridade" control={control} options={SCHOLARSHIP} value={SCHOLARSHIP.find(e => e.value === watchScholarship)} />
-                <FormSelect name="religion" label="religião" control={control} options={RELIGION} value={RELIGION.find(e => e.value === watchReligion)} />
+                <FormSelect name="skinColor" label="cor de pele" control={control} options={SKINCOLOR} value={watchSkinColor} />
+                <FormSelect name="educationLevel" label="escolaridade" control={control} options={SCHOLARSHIP} value={watchScholarship} />
+                <FormSelect name="religion" label="religião" control={control} options={RELIGION} value={watchReligion} />
             </div>
             <FormCheckbox name="specialNeeds" label="necessidades especiais" control={control} />
         </div>
