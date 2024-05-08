@@ -14,6 +14,7 @@ const SelectBase = forwardRef(({ label, error, ...props }, ref) => {
                 <div className={inputBaseStyles.inputbox}>
                     <ReactSelect
                         ref={ref}
+                        placeholder="Selecione"
                         styles={{
                             container: (style) => ({ ...style, outline: "none", width: "calc(100% + 48px)", paddingRight: "-2px" }),
                             control: (style) => ({ ...style, border: `2px solid ${borderStyle}`, outline: "none", borderRadius: "8px", paddingRight: "28px" }),

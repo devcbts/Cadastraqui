@@ -15,8 +15,20 @@ import AdditionalDocuments from "../AdditionalDocuments";
 import Loader from "Components/Loader";
 import { NotificationService } from "services/notification";
 import FamilyRelation from "./components/FamilyRelation";
+import MembersList from "./components/MembersList";
 export default function FormFamilyGroup() {
-    const MAX_STEPS = 8;
+    const itemsToRender = [
+        FamilyRelation,
+        PersonalData,
+        AddressData,
+        AdditionalInfo,
+        MaritalStatus,
+        PersonalInformation,
+        Document,
+        AdditionalDocuments,
+        Benefits
+    ]
+    const MAX_STEPS = itemsToRender.length;
     const [activeStep, setActiveStep] = useState(1)
     const [data, setData] = useState(null)
     const [enableEditing, setEnableEditing] = useState(false)
@@ -82,20 +94,12 @@ export default function FormFamilyGroup() {
         }
         fetchData()
     }, [])
-    const itemsToRender = [
-        FamilyRelation,
-        PersonalData,
-        AddressData,
-        AdditionalInfo,
-        MaritalStatus,
-        PersonalInformation,
-        Document,
-        AdditionalDocuments,
-        Benefits
-    ]
+
     return (
+
         <div className={commonStyles.container}>
             <Loader loading={isLoading} text={"Aguarde um momento"} />
+            <MembersList />
             <FormStepper.Root activeStep={activeStep}>
                 <FormStepper.Stepper >
                     {Array.from({ length: MAX_STEPS }).map((_, i) => (

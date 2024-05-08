@@ -15,7 +15,17 @@ import AdditionalDocuments from "../AdditionalDocuments";
 import Loader from "Components/Loader";
 import { NotificationService } from "services/notification";
 export default function FormBasicInformation() {
-    const MAX_STEPS = 8;
+    const itemsToRender = [
+        PersonalData,
+        AddressData,
+        AdditionalInfo,
+        MaritalStatus,
+        PersonalInformation,
+        Document,
+        AdditionalDocuments,
+        Benefits
+    ]
+    const MAX_STEPS = itemsToRender.length;
     const [activeStep, setActiveStep] = useState(1)
     const [data, setData] = useState(null)
     const [enableEditing, setEnableEditing] = useState(false)
@@ -81,16 +91,7 @@ export default function FormBasicInformation() {
         }
         fetchData()
     }, [])
-    const itemsToRender = [
-        PersonalData,
-        AddressData,
-        AdditionalInfo,
-        MaritalStatus,
-        PersonalInformation,
-        Document,
-        AdditionalDocuments,
-        Benefits
-    ]
+
     return (
         <div className={commonStyles.container}>
             <Loader loading={isLoading} text={"Aguarde um momento"} />

@@ -1,5 +1,4 @@
 const MARITAL_STATUS = [
-    { value: '', label: 'Selecione' },
     { value: "Single", label: "Solteiro(a)" },
     { value: "Married", label: "Casado(a)" },
     { value: "Separated", label: "Separado(a)" },

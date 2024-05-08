@@ -41,7 +41,7 @@ const PersonalData = forwardRef(({ data }, ref) => {
             <div>
                 <InputForm name="fullName" label="nome completo" control={control} />
                 <InputForm name="CPF" label="CPF" control={control} transform={(e) => formatCPF(e.target.value)} />
-                <InputForm name="birthDate" label="data de nascimento" type="date" control={control} transform={(e) => console.log(e.target.value)} />
+                <InputForm name="birthDate" label="data de nascimento" type="date" control={control} />
                 <InputForm name="phone" label="telefone" control={control} transform={(e) => formatTelephone(e.target.value)} />
                 <InputForm name="email" label="email" control={control} />
             </div>
