@@ -81,6 +81,16 @@ export default function FormBasicInformation() {
         }
         fetchData()
     }, [])
+    const itemsToRender = [
+        PersonalData,
+        AddressData,
+        AdditionalInfo,
+        MaritalStatus,
+        PersonalInformation,
+        Document,
+        AdditionalDocuments,
+        Benefits
+    ]
     return (
         <div className={commonStyles.container}>
             <Loader loading={isLoading} text={"Aguarde um momento"} />
@@ -90,14 +100,15 @@ export default function FormBasicInformation() {
                         <FormStepper.Step key={i} index={i + 1}>{i + 1}</FormStepper.Step>
                     ))}
                 </FormStepper.Stepper>
-                <FormStepper.View index={1}><PersonalData data={data} ref={stepsRef[0]} /></FormStepper.View>
-                <FormStepper.View index={2}><AddressData data={data} ref={stepsRef[1]} /></FormStepper.View>
-                <FormStepper.View index={3}><AdditionalInfo data={data} ref={stepsRef[2]} /></FormStepper.View>
-                <FormStepper.View index={4}><MaritalStatus data={data} ref={stepsRef[3]} /></FormStepper.View>
-                <FormStepper.View index={5}><PersonalInformation data={data} ref={stepsRef[4]} /></FormStepper.View>
-                <FormStepper.View index={6}><Document data={data} ref={stepsRef[5]} /></FormStepper.View>
-                <FormStepper.View index={7}><AdditionalDocuments data={data} ref={stepsRef[6]} /></FormStepper.View>
-                <FormStepper.View index={8}><Benefits data={data} ref={stepsRef[7]} /></FormStepper.View>
+                {itemsToRender.map((e, index) => {
+                    const Component = e
+                    return (
+                        <FormStepper.View index={index + 1}>
+                            <Component data={data} ref={stepsRef[index]} />
+                        </FormStepper.View>
+                    )
+                })}
+
             </FormStepper.Root>
             <div className={commonStyles.actions}>
                 {activeStep !== 1 &&
