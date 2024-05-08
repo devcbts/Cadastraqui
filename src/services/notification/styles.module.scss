@@ -1,0 +1,29 @@
+@import '../../Assets/theme/global.module.scss';
+.button{
+    box-shadow: none !important;
+    border: 2px solid transparent !important;
+    &:focus{
+        border: 2px solid $lightgrey !important;
+    }
+}
+
+.confirm{
+    background-color: $primary !important;
+    @extend .button
+}
+.cancel{
+    background-color: $error !important;
+    @extend .button
+
+}
+.text{
+    font-size: large !important;
+    color: $lightgrey;
+}
+.title{
+    font-size: 32px !important;
+}
+.popup{
+    border-radius: 8px !important;
+}
+
