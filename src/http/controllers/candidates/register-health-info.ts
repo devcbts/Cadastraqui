@@ -1,6 +1,7 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -49,82 +50,36 @@ export async function registerHealthInfo(
 
   try {
     const user_id = request.user.sub
-    const role = request.user.role
-    if (role === 'RESPONSIBLE') {
-      
-        const responsible = await prisma.legalResponsible.findUnique({
-          where: { user_id}
-        })
-        if (!responsible) {
-          throw new NotAllowedError()
-        }
-        const familyMember = await prisma.familyMember.findUnique({
-          where: { id: _id },
-        })
-        if (!familyMember) {
-          throw new NotAllowedError()
-        }
-    
-        // Armazena informações acerca do veículo no banco de dados
-        await prisma.familyMemberDisease.create({
-          data: {
-            hasMedicalReport,
-            familyMember_id: familyMember.id,
-            diseases,
-            specificDisease : specificDisease? specificDisease : undefined,
-          },
-        })
-        await prisma.identityDetails.update({
-          where: { responsible_id: responsible.id },
-          data: {hasSevereDesease: true}
-        })
-        return reply.status(201).send()
-      
-    }
-    // Verifica se existe um candidato associado ao user_id
-    const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-    if (!candidate) {
-      throw new ResourceNotFoundError()
-    }
-
-    if (_id === candidate.id) {
-      await prisma.familyMemberDisease.create({
-        data: {
-          hasMedicalReport,
-          diseases,
-          specificDisease : specificDisease? specificDisease : undefined,
-          candidate_id: _id
-        },
-      })
-      await prisma.identityDetails.update({
-        where: { candidate_id: candidate.id },
-        data: {hasSevereDesease: true}
-      })
-      return reply.status(201).send()
-    }
-
-    // Verifica se existe um familiar cadastrado com o family_member_id
-    const familyMember = await prisma.familyMember.findUnique({
-      where: { id: _id },
-    })
-    if (!familyMember) {
+    const IsUser = await SelectCandidateResponsible(user_id)
+    if (!IsUser) {
       throw new NotAllowedError()
     }
+    const CandidateOrResponsible = await SelectCandidateResponsible(_id)
+    if (!CandidateOrResponsible) {
+      const familyMember = await prisma.familyMember.findUnique({
+        where: { id: _id },
+      })
+      if (!familyMember) {
+        throw new ResourceNotFoundError()
+      }
+    }
 
-    // Armazena informações acerca do veículo no banco de dados
+    const idField = CandidateOrResponsible ?  (CandidateOrResponsible.IsResponsible ? {legalResponsible_id: _id} : {candidate_id: _id}) : {familyMember_id : _id}
+
     await prisma.familyMemberDisease.create({
       data: {
         hasMedicalReport,
-        familyMember_id: familyMember.id,
         diseases,
-        specificDisease : specificDisease? specificDisease : undefined,
+        specificDisease: specificDisease ? specificDisease : undefined,
+        ...idField
       },
     })
     await prisma.identityDetails.update({
-      where: { candidate_id: candidate.id },
-      data: {hasSevereDesease: true}
+      where: (IsUser.IsResponsible ? {responsible_id: IsUser.UserData.id} : {candidate_id: IsUser.UserData.id}),
+      data: { hasSevereDesease: true }
     })
     return reply.status(201).send()
+
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

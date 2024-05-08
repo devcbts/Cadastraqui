@@ -3,6 +3,7 @@ import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { ScholarshipType } from './enums/Scholaship_Type'
 
 export async function updateIdentityInfo(
   request: FastifyRequest,
@@ -81,7 +82,6 @@ export async function updateIdentityInfo(
     'Doctorate',
     'PostDoctorate',
   ])
-  const ScholarshipType = z.enum(['integralScholarchip', 'halfScholarchip'])
   const IncomeSource = z.enum([
     'PrivateEmployee',
     'PublicEmployee',

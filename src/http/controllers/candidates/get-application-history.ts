@@ -13,11 +13,8 @@ export async function getApplicationHistory(
     application_id: z.string().optional(),
   })
   
-  console.log('====================================');
-  console.log(request.body);
-  console.log('====================================');
+
   const { application_id } = applicationParamsSchema.parse(request.params)
-  console.log('chegamos aqui')
 
   try {
     const userType = request.user.role

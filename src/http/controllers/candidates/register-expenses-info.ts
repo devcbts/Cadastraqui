@@ -51,9 +51,7 @@ export async function registerExpensesInfo(
   })
 
 
-  console.log('====================================');
-  console.log(request.body);
-  console.log('====================================');
+  
   const {
     month,
     INSS,

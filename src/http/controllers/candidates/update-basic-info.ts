@@ -2,6 +2,7 @@ import { NotAllowedError } from '@/errors/not-allowed-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { UF } from './enums/UF'
 
 export async function updateBasicInfo(
   request: FastifyRequest,
@@ -16,37 +17,7 @@ export async function updateBasicInfo(
       phone: z.string().optional(),
       address: z.string().optional(),
       city: z.string().optional(),
-      UF: z
-        .enum([
-          'AC',
-          'AL',
-          'AM',
-          'AP',
-          'BA',
-          'CE',
-          'DF',
-          'ES',
-          'GO',
-          'MA',
-          'MG',
-          'MS',
-          'MT',
-          'PA',
-          'PB',
-          'PE',
-          'PI',
-          'PR',
-          'RJ',
-          'RN',
-          'RO',
-          'RR',
-          'RS',
-          'SC',
-          'SE',
-          'SP',
-          'TO',
-        ])
-        .optional(),
+      UF: UF.optional(),
       CEP: z.string().optional(),
       CPF: z.string().optional(),
       email: z.string().optional(),

@@ -2,34 +2,13 @@ import { prisma } from "@/lib/prisma";
 import { ChooseCandidateResponsible } from "@/utils/choose-candidate-responsible";
 import { FastifyReply, FastifyRequest } from "fastify";
 import z from 'zod';
+import IncomeSource from "./enums/IncomeSource";
 
 export default async function updateIncomeSource(
     request: FastifyRequest,
     response: FastifyReply
 ) {
-    const IncomeSource = z.enum([
-        'PrivateEmployee',
-        "PublicEmployee",
-        "DomesticEmployee",
-        "TemporaryRuralEmployee",
-        "BusinessOwnerSimplifiedTax",
-        "BusinessOwner",
-        "IndividualEntrepreneur",
-        "SelfEmployed",
-        "Retired",
-        "Pensioner",
-        "Apprentice",
-        "Volunteer",
-        "RentalIncome",
-        "Student",
-        "InformalWorker",
-        "Unemployed",
-        "TemporaryDisabilityBenefit",
-        "LiberalProfessional",
-        "FinancialHelpFromOthers",
-        "Alimony",
-        "PrivatePension"
-    ])
+   
     const updateIncomeSourceSchema = z.object({
         id: z.string(),
         incomeSource: z.array(IncomeSource)

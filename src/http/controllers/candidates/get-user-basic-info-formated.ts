@@ -6,7 +6,7 @@ import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod';
 
-export async function getBasicInfo(
+export async function getBasicInfoFormated(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
@@ -28,7 +28,14 @@ export async function getBasicInfo(
     }
 
     const basic_info = candidateOrResponsible.UserData
-    return reply.status(200).send({ basic_info })
+    const formated_data = {
+        fullName: basic_info.name,
+        workPhone: basic_info.phone,
+        CPF: basic_info.CPF,
+        birthDate: basic_info.birthDate,
+        
+    }
+    return reply.status(200).send({ formated_data })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })

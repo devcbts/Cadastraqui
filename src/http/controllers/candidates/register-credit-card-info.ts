@@ -24,9 +24,7 @@ export async function registerCreditCardInfo(
   // _id === family_member_id
   const { _id } = CreditCardParamsSchema.parse(request.params)
 
-  console.log('====================================');
-  console.log(request.body);
-  console.log('====================================');
+
   const {
     bankName,
     cardFlag,

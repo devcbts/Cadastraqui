@@ -23,11 +23,7 @@ import { getDocumentsPDF } from './get-pdf-documents'
 import { getCandidateProfilePicture } from './get-profile-picture'
 import { getVehicleInfo } from './get-vehicle-info'
 import { registerCandidate } from './register'
-import { registerAutonomousInfo } from './register-autonomous-info'
-import { registerCLTInfo } from './register-clt-income-info'
-import { registerCreditCardInfo } from './register-credit-card-info'
 import { registerEmploymenType } from './register-employment-type'
-import { registerEntepreneursInfo } from './register-entepreneur-info'
 import { registerExpensesInfo } from './register-expenses-info'
 import { registerFamilyMemberInfo } from './register-family-member'
 import { registerFinancingInfo } from './register-financing-info'
@@ -36,9 +32,7 @@ import { registerHousingInfo } from './register-housing-info'
 import { registerIdentityInfo } from './register-identity-info'
 import { registerLoanInfo } from './register-loan-info'
 import { registerMedicationInfo } from './register-medication-info'
-import { registerMEIInfo } from './register-MEI-info'
 import { registerMonthlyIncomeInfo } from './register-monthly-income-info'
-import { registerUnemployedInfo } from './register-unemployed-info'
 import { registerVehicleInfo } from './register-vehicle-info'
 import { updateBasicInfo } from './update-basic-info'
 import { updateCreditCardInfo } from './update-credit-card-info'
@@ -53,6 +47,8 @@ import { updateVehicleInfo } from './update-vehicle-info'
 import { uploadDocument } from './upload-documents'
 import { uploadCandidateProfilePicture } from './upload-profile-picture'
 import { uploadSolicitationDocument } from './upload-solicitation-documents'
+import { registerCreditCardInfo } from './register-credit-card-info'
+import { getBasicInfoFormated } from './get-user-basic-info-formated'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -68,6 +64,8 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.post('/', registerCandidate)
   app.get('/basic-info/:_id?', { onRequest: [verifyJWT] }, getBasicInfo)
   app.patch('/basic-info', { onRequest: [verifyJWT] }, updateBasicInfo)
+
+  app.get('/basic-info/formated', { onRequest: [verifyJWT] }, getBasicInfoFormated)
 
   /** Identity Info */
   app.get('/identity-info/:_id?', { onRequest: [verifyJWT] }, getIdentityInfo)
@@ -96,11 +94,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     registerMonthlyIncomeInfo,
   )
   app.post('/update-income-source', { onRequest: [verifyJWT] }, updateIncomeSource)
-  app.post(
-    '/family-member/unemployed/:_id',
-    { onRequest: [verifyJWT] },
-    registerUnemployedInfo,
-  )
+ 
   app.patch(
     '/family-info/:_id',
     { onRequest: [verifyJWT] },
@@ -109,11 +103,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.delete('/family-member', { onRequest: [verifyJWT] }, deleteFamilyMember)
   // Income Info
   app.post('/family-member/employmentType/:_id', { onRequest: [verifyJWT] }, registerEmploymenType)
-  app.post(
-    '/family-member/MEI/:_id',
-    { onRequest: [verifyJWT] },
-    registerMEIInfo,
-  )
+  
 
   app.get(
     '/family-member/income/:_id',
@@ -125,18 +115,8 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     getMonthlyIncomeBySource,
   )
-  app.post(
-    '/family-member/dependent-autonomous/:_id',
-    { onRequest: [verifyJWT] },
-    registerAutonomousInfo,
-  )
-  app.post(
-    '/family-member/CLT/:_id',
-    { onRequest: [verifyJWT] },
-    registerCLTInfo,
-  )
+  
 
-  app.post('/family-member/entepreneur/:_id', { onRequest: [verifyJWT] }, registerEntepreneursInfo)
   /** Health Info */
   // app.get('/health-info', { onRequest: [verifyJWT] }, getHealthInfo)
   app.get(

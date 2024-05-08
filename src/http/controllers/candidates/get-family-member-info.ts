@@ -19,42 +19,25 @@ export async function getFamilyMemberInfo(
 
   try {
     const user_id = request.user.sub
-    const role = request.user.role
-    if (role === 'RESPONSIBLE') {
-      const responsible = await prisma.legalResponsible.findUnique({
-        where: { user_id}
-      })
-      if (!responsible) {
-        throw new NotAllowedError()
-      }
-      const familyMembers = await prisma.familyMember.findMany({
-        where: { legalResponsibleId: responsible.id },
-      })
-      return reply.status(200).send({ familyMembers })
-    }
-    let CandidateOrResponsible
-    let IdField
+    let candidateOrResponsible 
+    let idField
     if (_id) {
-       CandidateOrResponsible = await ChooseCandidateResponsible(_id)
-      if (!CandidateOrResponsible) {
+      candidateOrResponsible = await ChooseCandidateResponsible(_id)
+      if (!candidateOrResponsible) {
         throw new ResourceNotFoundError()
       }
-       IdField = CandidateOrResponsible.IsResponsible ? { legalResponsibleId: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id }
-
-
-
+      idField = candidateOrResponsible.IsResponsible ? {legalResponsibleId: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
     } else {
       // Verifica se existe um candidato associado ao user_id
-      CandidateOrResponsible = await prisma.candidate.findUnique({
-        where: { user_id },
-      })
-    }
-    if (!CandidateOrResponsible) {
-      throw new ResourceNotFoundError()
+      candidateOrResponsible = await SelectCandidateResponsible(user_id)
+      if (!candidateOrResponsible) {
+        throw new ResourceNotFoundError()
+      }
+      idField = candidateOrResponsible.IsResponsible ? {legalResponsibleId: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
     }
 
     const familyMembers = await prisma.familyMember.findMany({
-      where: IdField,
+      where: idField,
     })
     return reply.status(200).send({ familyMembers })
   } catch (err: any) {

@@ -10,12 +10,7 @@ export async function subscribeAnnouncement(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const ApplicationStatus = z.enum([
-    'Approved',
-    'Rejected',
-    'Pending',
-    // Add other statuses as needed
-  ])
+  
 
   const createParamsSchema = z.object({
     announcement_id: z.string(),
