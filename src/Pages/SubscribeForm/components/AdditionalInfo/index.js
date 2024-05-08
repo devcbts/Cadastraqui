@@ -6,6 +6,7 @@ import InputForm from 'Components/InputForm'
 import { forwardRef, useImperativeHandle } from 'react'
 import FormSelect from 'Components/FormSelect'
 import GENDER from 'utils/enums/gender'
+import STATES from 'utils/enums/states'
 const AdditionalInfo = forwardRef(({ data }, ref) => {
     const { control, trigger, formState: { isValid }, getValues, watch } = useForm({
         mode: "all",
@@ -13,19 +14,22 @@ const AdditionalInfo = forwardRef(({ data }, ref) => {
             socialName: '',
             gender: '',
             profession: '',
-            naturality: '',
-            nacionality: '',
+            natural_city: '',
+            natural_UF: '',
+            nationality: '',
         },
         values: data && {
             socialName: data.socialName,
             gender: data.gender,
             profession: data.profession,
-            naturality: data.naturality,
-            nacionality: data.nacionality,
+            natural_city: data.natural_city,
+            natural_UF: data.natural_UF,
+            nationality: data.nationality,
         },
         resolver: zodResolver(additionalInfoSchema)
     })
     const watchGender = watch("gender")
+    const watchState = watch("natural_UF")
     useImperativeHandle(ref, () => ({
         validate: () => {
             trigger();
@@ -40,8 +44,9 @@ const AdditionalInfo = forwardRef(({ data }, ref) => {
                 <InputForm name="socialName" label="nome social (quando houver)" control={control} />
                 <FormSelect name="gender" label="sexo" control={control} options={GENDER} value={GENDER.find(e => e.value === watchGender)} />
                 <InputForm name="profession" label="profissão" control={control} />
-                <InputForm name="naturality" label="naturalidade" control={control} />
-                <InputForm name="nacionality" label="nacionalidade" control={control} />
+                <InputForm name="nationality" label="nacionalidade" control={control} />
+                <InputForm name="natural_city" label="naturalidade" control={control} />
+                <FormSelect name="natural_UF" label="estado" control={control} options={STATES} value={STATES.find(e => e.value === watchState)} />
             </div>
         </div>
 

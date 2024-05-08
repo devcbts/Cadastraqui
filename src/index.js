@@ -9,11 +9,7 @@ import Loader from 'Components/Loader';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <>
-    <Loader text="Aguarde" />
-    <SubscribeForm />
-
-  </>
+  <SubscribeForm />
   // <React.StrictMode>
   //   <App />
   // </React.StrictMode>

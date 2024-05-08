@@ -2,9 +2,9 @@ import { z } from "zod";
 
 const additionalDocumentSchema = z.object({
     newDocument: z.boolean().default(false),
-    documentType: z.string(),
-    documentNumber: z.string(),
-    documentValidity: z.string().refine(v => new Date(v), 'Data inválida').optional()
+    documentType: z.string().nullish(),
+    documentNumber: z.string().nullish(),
+    documentValidity: z.string().refine(v => new Date(v), 'Data inválida').nullish()
 }).superRefine((data, ctx) => {
 
     if (data.newDocument) {

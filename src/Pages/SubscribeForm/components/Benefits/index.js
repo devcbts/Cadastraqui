@@ -14,14 +14,16 @@ const Benefits = forwardRef(({ data }, ref) => {
             NIS: "",
             attendedPublicHighSchool: false,
             benefitedFromCebasScholarship_basic: false,
-            benefitedFromCebasScholarship_professional: false
+            benefitedFromCebasScholarship_professional: false,
+            CadUnico: false,
         },
         values: data && {
             enrolledGovernmentProgram: data.enrolledGovernmentProgram,
             NIS: data.NIS,
             attendedPublicHighSchool: data.attendedPublicHighSchool,
             benefitedFromCebasScholarship_basic: data.benefitedFromCebasScholarship_basic,
-            benefitedFromCebasScholarship_professional: data.benefitedFromCebasScholarship_professional
+            benefitedFromCebasScholarship_professional: data.benefitedFromCebasScholarship_professional,
+            CadUnico: data.CadUnico
         },
         resolver: zodResolver(benefitsSchema)
     })
@@ -52,6 +54,7 @@ const Benefits = forwardRef(({ data }, ref) => {
                     <FormCheckbox name={"attendedPublicHighSchool"} control={control} label={"estudou em escola pública?"} />
                     <FormCheckbox name={"benefitedFromCebasScholarship_basic"} control={control} label={"já recebeu bolsa CEBAS para educação básica?"} />
                     <FormCheckbox name={"benefitedFromCebasScholarship_professional"} control={control} label={"já recebeu bolsa CEBAS para educação profissional?"} />
+                    <FormCheckbox name={"CadUnico"} control={control} label={"Possui cadastro único?"} />
                 </div>
             </div>
         </div>

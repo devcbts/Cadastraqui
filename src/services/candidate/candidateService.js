@@ -1,4 +1,5 @@
 import { api } from "../axios"
+import identityInfoMapper from "./mappers/identity-info-mapper";
 
 class CandidateService {
     registerIdentityInfo(data) {
@@ -9,14 +10,23 @@ class CandidateService {
             },
         });
     }
-
-    getIdentityInfo() {
+    updateIdentityInfo(data) {
         const token = localStorage.getItem("token")
-        return api.get(`/candidates/identity-info`, {
+        return api.patch("/candidates/identity-info", data, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
         });
+    }
+
+    async getIdentityInfo() {
+        const token = localStorage.getItem("token")
+        const response = await api.get(`/candidates/identity-info`, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        });
+        return identityInfoMapper.fromPersistence(response.data.identityInfo)
     }
 }
 
