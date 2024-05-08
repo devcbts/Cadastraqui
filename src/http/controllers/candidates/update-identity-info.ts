@@ -156,7 +156,8 @@ export async function updateIdentityInfo(
     institutionName_professional: z.union([z.string(), z.null()]),
     institutionCNPJ_professional: z.union([z.string(), z.null()]),
     nameOfScholarshipCourse_professional: z.union([z.string(), z.null()]),
-  })
+    CadUnico: z.boolean()
+  }).partial()
 
   const {
     fullName,
@@ -199,6 +200,7 @@ export async function updateIdentityInfo(
     institutionName_professional,
     institutionCNPJ_professional,
     nameOfScholarshipCourse_professional,
+    CadUnico
   } = userDataSchema.parse(request.body)
 
   try {
@@ -260,6 +262,7 @@ export async function updateIdentityInfo(
       specialNeedsDescription,
       workPhone,
       yearsBenefitedFromCebas_basic,
+      CadUnico
     }
 
     if (candidate) {
@@ -281,7 +284,7 @@ export async function updateIdentityInfo(
         dataToUpdate[key as keyof typeof parsedData] = value
       }
     }
-
+    console.log(dataToUpdate)
     // Atualiza informações acerca da identificação no banco de dados
     if (candidate) {
 
@@ -296,7 +299,7 @@ export async function updateIdentityInfo(
         where: { responsible_id: responsible.id },
       })
     }
-
+    console.log(parsedData)
     return reply.status(201).send()
   } catch (err: any) {
     console.log(err)
