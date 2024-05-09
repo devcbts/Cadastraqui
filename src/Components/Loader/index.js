@@ -2,7 +2,7 @@ import Overlay from "Components/Overlay";
 import Portal from "Components/Portal";
 import styles from './styles.module.scss'
 import { ReactComponent as Loading } from 'Assets/icons/loading.svg'
-export default function Loader({ loading, text }) {
+export default function Loader({ loading, text = "Aguarde um momento" }) {
     if (!loading) return;
     return (
         <Portal id="loader">

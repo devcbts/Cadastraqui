@@ -1,4 +1,5 @@
 import { api } from "../axios"
+import familyMemberMapper from "./mappers/family-member-mapper";
 import identityInfoMapper from "./mappers/identity-info-mapper";
 
 class CandidateService {
@@ -18,7 +19,41 @@ class CandidateService {
             },
         });
     }
-
+    async getFamilyMembers() {
+        const token = localStorage.getItem("token")
+        const response = await api.get('/candidates/family-member', {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
+        return response.data.familyMembers?.map(e => familyMemberMapper.fromPersistence(e))
+    }
+    deleteFamilyMember(id) {
+        const token = localStorage.getItem("token")
+        return api.delete('/candidates/family-member', { params: { id: id } }, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
+    }
+    registerFamilyMember(data) {
+        const mappedData = familyMemberMapper.toPersistence(data)
+        const token = localStorage.getItem("token")
+        return api.post(`/candidates/family-member`, mappedData, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
+    }
+    updateFamilyMember(id, data) {
+        const mappedData = familyMemberMapper.toPersistence(data)
+        const token = localStorage.getItem("token")
+        return api.patch(`/candidates/family-info/${id}`, mappedData, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
+    }
     async getIdentityInfo() {
         const token = localStorage.getItem("token")
         const response = await api.get(`/candidates/identity-info`, {

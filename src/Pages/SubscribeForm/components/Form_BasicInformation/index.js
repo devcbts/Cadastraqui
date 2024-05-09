@@ -94,7 +94,7 @@ export default function FormBasicInformation() {
 
     return (
         <div className={commonStyles.container}>
-            <Loader loading={isLoading} text={"Aguarde um momento"} />
+            <Loader loading={isLoading} />
             <FormStepper.Root activeStep={activeStep}>
                 <FormStepper.Stepper >
                     {Array.from({ length: MAX_STEPS }).map((_, i) => (
