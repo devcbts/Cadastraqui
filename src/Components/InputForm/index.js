@@ -1,19 +1,10 @@
-import { useController } from "react-hook-form";
+import { Controller, useController } from "react-hook-form";
 import InputBase from "../InputBase";
-import { isDirty } from "zod";
-import { useEffect } from "react";
 
 export default function InputForm({ name, label, control, transform = (e) => e, ...props }) {
-    const { field,
-        fieldState: {
-            error,
-            isDirty
-        } } = useController({
-            control,
-            name: name
-        })
 
-    const showErrorBorder = () => {
+
+    const showErrorBorder = (isDirty, error) => {
         // Input wasn't modified but has error OR has been modified and has error (ERROR BORDER)
         if ((!isDirty && error) || (isDirty && error)) {
             return error?.message
@@ -28,12 +19,19 @@ export default function InputForm({ name, label, control, transform = (e) => e, 
         }
     }
     return (
-        <InputBase
-            label={label}
-            error={showErrorBorder()}
-            {...field}
-            onChange={(e) => field.onChange(transform(e))}
-            {...props}
+        <Controller
+            name={name}
+            control={control}
+            render={({ field, fieldState: { isDirty, error } }) => (
+                <InputBase
+                    label={label}
+                    error={showErrorBorder(isDirty, error)}
+                    {...field}
+                    onChange={(e) => field.onChange(transform(e))}
+                    {...props}
+                />
+            )}
         />
+
     )
 } 
