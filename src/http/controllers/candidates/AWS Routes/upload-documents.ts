@@ -1,26 +1,20 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { uploadFile } from '@/http/services/upload-file'
-import { prisma } from '@/lib/prisma'
-import { Multipart } from '@fastify/multipart'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-
+import mime from 'mime';
 export async function uploadDocument(request: FastifyRequest, reply: FastifyReply) {
     try {
         const user_id = request.user.sub;
 
         // Verifica se existe um candidato associado ao user_id
 
-        const responsible = await prisma.legalResponsible.findUnique({
-            where: { user_id: user_id}
-        })
-
-        const candidate = await prisma.candidate.findUnique({ where: { user_id } });
-        if (!candidate && !responsible) {
-            throw new ResourceNotFoundError();
+       const candidateOrResponsible = await SelectCandidateResponsible(user_id);
+        if (!candidateOrResponsible) {
+            throw new NotAllowedError();
         }
-
         const data = await request.file()
         if (!data) {
             throw new ResourceNotFoundError()
@@ -32,19 +26,16 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             throw new ResourceNotFoundError();
         }
 
-        console.log(`Document Type: ${documentType}`);
-        console.log(`File Size: ${fileBuffer.length}`);
-        let route
-        if (candidate) {
-            
-             route = `CandidateDocuments/${candidate.id}/${documentType.value}/${data.filename}`;
-        }
-        else if (responsible) {
-             route = `CandidateDocuments/${responsible.id}/${documentType.value}/${data.filename}`;
+       
+    // Get the file extension from the mimetype
+    const fileExtension = mime.getExtension(data.mimetype);
 
-        } else{
-            throw new ResourceNotFoundError()
-        }
+    // Use the file extension in your code
+    const route = `CandidateDocuments/${candidateOrResponsible.UserData.id}/${documentType.value}/${data.filename}.${fileExtension}`;
+            
+       
+           
+
         const sended = await uploadFile(fileBuffer, route);
 
         if (!sended) {
