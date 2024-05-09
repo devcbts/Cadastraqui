@@ -16,7 +16,7 @@ const PersonalInformation = forwardRef(({ data }, ref) => {
         defaultValues: {
             skinColor: '',
             educationLevel: '',
-            specialNeeds: false,
+            specialNeeds: null,
             religion: ''
         },
         values: data && {
