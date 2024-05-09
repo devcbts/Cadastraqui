@@ -17,9 +17,9 @@ export async function getBasicInfo(
   const { _id } = queryParamsSchema.parse(request.params);
   try {
     const user_id = request.user.sub
-    let candidateOrResponsible = await ChooseCandidateResponsible(user_id)
+    let candidateOrResponsible = await SelectCandidateResponsible(user_id)
     if (_id) {
-      candidateOrResponsible = await SelectCandidateResponsible(_id)
+      candidateOrResponsible = await ChooseCandidateResponsible(_id)
     } 
     
     // Verifica se existe um candidato associado ao user_id
@@ -28,7 +28,7 @@ export async function getBasicInfo(
     }
 
     const basic_info = candidateOrResponsible.UserData
-    return reply.status(200).send({ basic_info })
+    return reply.status(200).send({ candidate: basic_info })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
