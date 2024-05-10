@@ -6,6 +6,14 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import mime from 'mime';
 export async function uploadDocument(request: FastifyRequest, reply: FastifyReply) {
+    
+    const requestParamsSchema = z.object({
+        documentType: z.string(),
+        member_id: z.string()
+    })
+
+    const {documentType
+        , member_id} = requestParamsSchema.parse(request.params)
     try {
         const user_id = request.user.sub;
 
@@ -20,18 +28,14 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             throw new ResourceNotFoundError()
         }
         const fileBuffer = await data.toBuffer();
-        const documentType = data.fields.documentType as any; // Assegura que documentType é do tipo Multipart        // Itera sobre as partes do formulário multipart
         
-        if (!documentType || !fileBuffer) {
-            throw new ResourceNotFoundError();
-        }
 
        
     // Get the file extension from the mimetype
     const fileExtension = mime.getExtension(data.mimetype);
 
     // Use the file extension in your code
-    const route = `CandidateDocuments/${candidateOrResponsible.UserData.id}/${documentType.value}/${data.filename}.${fileExtension}`;
+    const route = `CandidateDocuments/${candidateOrResponsible.UserData.id}/${documentType}/${member_id}/${data.filename}.${fileExtension}`;
             
        
            
