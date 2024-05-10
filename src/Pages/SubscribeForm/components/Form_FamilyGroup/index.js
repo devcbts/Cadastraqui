@@ -15,40 +15,13 @@ import Loader from "Components/Loader";
 import { NotificationService } from "services/notification";
 import FamilyRelation from "./components/FamilyRelation";
 import MembersList from "./components/MembersList";
+import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
 export default function FormFamilyGroup() {
-    const itemsToRender = [
-        FamilyRelation,
-        PersonalData,
-        AdditionalInfo,
-        MaritalStatus,
-        PersonalInformation,
-        Document,
-        AdditionalDocuments,
-        Benefits
-    ]
-    const MAX_STEPS = itemsToRender.length;
-    const [activeStep, setActiveStep] = useState(1)
-    const [data, setData] = useState(null)
     const [isAdding, setIsAdding] = useState(false)
-    const { current: stepsRef } = useRef(Array.from({ length: MAX_STEPS }).fill(createRef()))
     const [isLoading, setIsLoading] = useState(false)
-    const getCurrentRef = () => stepsRef[activeStep - 1].current
-    const isFormValid = () => getCurrentRef().validate()
-    const handleEdit = async () => {
-        if (!isFormValid()) {
-            return
-        }
-        const dataToUpdate = getCurrentRef().values()
+    const handleSaveFamilyMember = async (data) => {
+        setIsLoading(true)
         try {
-            await candidateService.updateFamilyMember(data.id, dataToUpdate);
-            NotificationService.success({ text: 'Informações alteradas' })
-        } catch (err) {
-            NotificationService.error({ text: err.response.data.message })
-        }
-    }
-    const handleSave = async () => {
-        try {
-            setIsLoading(true)
             await candidateService.registerFamilyMember(data)
             setData(null)
             setIsAdding(false)
@@ -59,26 +32,43 @@ export default function FormFamilyGroup() {
         }
         setIsLoading(false)
     }
-    const handleNext = () => {
-        if (isFormValid()) {
-            setData((prevData) => ({ ...prevData, ...getCurrentRef().values() }))
-            switch (activeStep) {
-                case MAX_STEPS:
-                    handleSave()
-                    break;
-                default:
-                    setActiveStep((prevState) => prevState + 1)
-                    break;
-            }
+    const handleEditFamilyMember = async (data) => {
+        try {
+            await candidateService.updateFamilyMember(data.id, data);
+            NotificationService.success({ text: 'Informações alteradas' })
+        } catch (err) {
+            NotificationService.error({ text: err.response.data.message })
         }
     }
+
+    const {
+        Steps,
+        max,
+        actions: { handleEdit },
+        state: { activeStep, setData, setActiveStep, data },
+        pages: { previous, next }
+    } = useStepFormHook({
+        render: [
+            FamilyRelation,
+            PersonalData,
+            AdditionalInfo,
+            MaritalStatus,
+            PersonalInformation,
+            Document,
+            AdditionalDocuments,
+            Benefits
+        ],
+        onEdit: handleEditFamilyMember,
+        onSave: handleSaveFamilyMember,
+    })
+
     const handlePrevious = () => {
         if (activeStep === 1) {
             setIsAdding(false)
             setData(null)
             return
         }
-        setActiveStep((prevState) => prevState - 1)
+        previous()
     }
 
     const handleSelectMember = (member) => {
@@ -98,21 +88,7 @@ export default function FormFamilyGroup() {
             {!hasSelectionOrIsAdding() && <MembersList onSelect={handleSelectMember} onAdd={handleAddMember} />}
             {hasSelectionOrIsAdding() && (
                 <>
-                    <FormStepper.Root activeStep={activeStep}>
-                        <FormStepper.Stepper >
-                            {Array.from({ length: MAX_STEPS }).map((_, i) => (
-                                <FormStepper.Step key={i} index={i + 1}>{i + 1}</FormStepper.Step>
-                            ))}
-                        </FormStepper.Stepper>
-                        {itemsToRender.map((e, index) => {
-                            const Component = e
-                            return (
-                                <FormStepper.View index={index + 1}>
-                                    <Component data={data} ref={stepsRef[index]} />
-                                </FormStepper.View>
-                            )
-                        })}
-                    </FormStepper.Root>
+                    <Steps />
                     <div className={commonStyles.actions}>
                         <ButtonBase onClick={handlePrevious}>
                             <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
@@ -120,14 +96,14 @@ export default function FormFamilyGroup() {
                         {(data && !isAdding) &&
                             <ButtonBase onClick={handleEdit} label={"editar"} />
                         }
-                        {activeStep !== MAX_STEPS &&
-                            <ButtonBase onClick={handleNext}>
+                        {activeStep !== max &&
+                            <ButtonBase onClick={next}>
                                 <Arrow width="40px" />
                             </ButtonBase>
                         }
                         {
-                            (activeStep === MAX_STEPS && isAdding) && (
-                                <ButtonBase onClick={handleNext}>
+                            (activeStep === max && isAdding) && (
+                                <ButtonBase onClick={next}>
                                     Salvar
                                 </ButtonBase>
                             )

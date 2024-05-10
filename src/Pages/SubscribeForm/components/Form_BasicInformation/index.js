@@ -14,41 +14,21 @@ import candidateService from "services/candidate/candidateService";
 import AdditionalDocuments from "../AdditionalDocuments";
 import Loader from "Components/Loader";
 import { NotificationService } from "services/notification";
+import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
 export default function FormBasicInformation() {
-    const itemsToRender = [
-        PersonalData,
-        AddressData,
-        AdditionalInfo,
-        MaritalStatus,
-        PersonalInformation,
-        Document,
-        AdditionalDocuments,
-        Benefits
-    ]
-    const MAX_STEPS = itemsToRender.length;
-    const [activeStep, setActiveStep] = useState(1)
-    const [data, setData] = useState(null)
-    const [enableEditing, setEnableEditing] = useState(false)
-    const { current: stepsRef } = useRef(Array.from({ length: MAX_STEPS }).fill(createRef()))
-    const [isLoading, setIsLoading] = useState(true)
-    const getCurrentRef = () => stepsRef[activeStep - 1].current
-    const isFormValid = () => getCurrentRef().validate()
-    const handleEdit = async () => {
-        if (!isFormValid()) {
-            return
-        }
-        const dataToUpdate = getCurrentRef().values()
+
+    const handleEditInformation = async (data) => {
         try {
-            await candidateService.updateIdentityInfo(dataToUpdate);
+            await candidateService.updateIdentityInfo(data);
             NotificationService.success({ text: 'Informações alteradas' })
         } catch (err) {
             NotificationService.error({ text: err.response.data.message })
 
         }
     }
-    const handleSave = async () => {
+    const handleSaveInformation = async () => {
+        setIsLoading(true)
         try {
-            setIsLoading(true)
             await candidateService.registerIdentityInfo(data)
             NotificationService.success({ text: 'Informações cadastradas' })
             setEnableEditing(true)
@@ -58,23 +38,30 @@ export default function FormBasicInformation() {
         }
         setIsLoading(false)
     }
-    const handleNext = () => {
-        if (isFormValid()) {
-            setData((prevData) => ({ ...prevData, ...getCurrentRef().values() }))
-            switch (activeStep) {
-                case MAX_STEPS:
-                    handleSave()
-                    break;
-                default:
-                    console.log('default case')
-                    setActiveStep((prevState) => prevState + 1)
-                    break;
-            }
-        }
-    }
-    const handlePrevious = () => {
-        setActiveStep((prevState) => prevState - 1)
-    }
+    const {
+        Steps,
+        pages: { previous, next },
+        actions: { handleEdit },
+        max,
+        state: { activeStep, data, setData }
+    } = useStepFormHook({
+        render: [
+            PersonalData,
+            AddressData,
+            AdditionalInfo,
+            MaritalStatus,
+            PersonalInformation,
+            Document,
+            AdditionalDocuments,
+            Benefits
+        ],
+        onEdit: handleEditInformation,
+        onSave: handleSaveInformation
+    })
+
+    const [enableEditing, setEnableEditing] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
+
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
@@ -95,39 +82,24 @@ export default function FormBasicInformation() {
     return (
         <div className={commonStyles.container}>
             <Loader loading={isLoading} />
-            <FormStepper.Root activeStep={activeStep}>
-                <FormStepper.Stepper >
-                    {Array.from({ length: MAX_STEPS }).map((_, i) => (
-                        <FormStepper.Step key={i} index={i + 1}>{i + 1}</FormStepper.Step>
-                    ))}
-                </FormStepper.Stepper>
-                {itemsToRender.map((e, index) => {
-                    const Component = e
-                    return (
-                        <FormStepper.View index={index + 1}>
-                            <Component data={data} ref={stepsRef[index]} />
-                        </FormStepper.View>
-                    )
-                })}
-
-            </FormStepper.Root>
+            <Steps />
             <div className={commonStyles.actions}>
                 {activeStep !== 1 &&
-                    <ButtonBase onClick={handlePrevious}>
+                    <ButtonBase onClick={previous}>
                         <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
                     </ButtonBase>
                 }
                 {enableEditing &&
                     <ButtonBase onClick={handleEdit} label={"editar"} />
                 }
-                {activeStep !== MAX_STEPS &&
-                    <ButtonBase onClick={handleNext}>
+                {activeStep !== max &&
+                    <ButtonBase onClick={next}>
                         <Arrow width="40px" />
                     </ButtonBase>
                 }
                 {
-                    (activeStep === MAX_STEPS && !enableEditing) && (
-                        <ButtonBase onClick={handleNext}>
+                    (activeStep === max && !enableEditing) && (
+                        <ButtonBase onClick={next}>
                             Salvar
                         </ButtonBase>
                     )

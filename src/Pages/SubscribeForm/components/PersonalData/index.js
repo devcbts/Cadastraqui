@@ -1,11 +1,11 @@
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import personalDataFormSchema from "./schemas/personal-data-schema"
 import InputForm from "Components/InputForm"
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import { formatCPF } from "utils/format-cpf"
 import { formatTelephone } from "utils/format-telephone"
-import { forwardRef, useEffect, useImperativeHandle } from "react"
+import { forwardRef, useImperativeHandle } from "react"
 const PersonalData = forwardRef(({ data }, ref) => {
     const { control, formState: { isValid }, trigger, getValues, reset } = useForm({
         mode: "all",
@@ -32,9 +32,7 @@ const PersonalData = forwardRef(({ data }, ref) => {
         },
         values: getValues
     }))
-    // useEffect(() => {
-    //     reset(data)
-    // }, [data])
+
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Dados Pessoais</h1>

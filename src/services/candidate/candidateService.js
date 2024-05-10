@@ -54,6 +54,33 @@ class CandidateService {
             },
         })
     }
+    async getHousingInfo() {
+        const token = localStorage.getItem("token")
+        const response = await api.get("/candidates/housing-info", {
+            headers: {
+                'authorization': `Bearer ${token}`,
+            }
+        })
+        return response.data.housingInfo
+    }
+    registerHousingInfo(data) {
+        const token = localStorage.getItem("token")
+        return api.post('/candidates/housing-info', data, {
+            headers: {
+                'authorization': `Bearer ${token}`,
+            }
+        })
+    }
+
+    updateHousingInfo(data) {
+        const token = localStorage.getItem("token")
+        return api.patch("/candidates/housing-info", data, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
     async getIdentityInfo() {
         const token = localStorage.getItem("token")
         const response = await api.get(`/candidates/identity-info`, {

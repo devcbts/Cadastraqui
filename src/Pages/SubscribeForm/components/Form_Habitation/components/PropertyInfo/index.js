@@ -24,7 +24,7 @@ const PropertyInfo = forwardRef(({ data }, ref) => {
             domicileType: data.domicileType,
             timeLivingInProperty: data.timeLivingInProperty,
             numberOfRooms: data.numberOfRooms,
-            numberOfBedrooms: data.numberOfRooms,
+            numberOfBedrooms: data.numberOfBedrooms,
         },
         resolver: zodResolver(propertyInfoSchema)
     })
