@@ -57,7 +57,7 @@ export async function updateHousingInfo(
     domicileType: DomicileType,
     numberOfRooms: NumberOfRooms,
     numberOfBedrooms: z.number(),
-  })
+  }).partial()
 
   const updateData = housingDataSchema.parse(request.body)
 

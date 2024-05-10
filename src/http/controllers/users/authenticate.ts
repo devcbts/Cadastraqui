@@ -48,7 +48,6 @@ export async function authenticate(
         sign: { sub: user.id, expiresIn: '7d' },
       },
     )
-
     const user_role = user.role
     return reply
       .setCookie('refreshToken', refreshToken, {

@@ -3,24 +3,24 @@ import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { Relationship } from './enums/Relationship'
-import { GENDER } from './enums/Gender'
-import { UF } from './enums/UF'
 import { DOCUMENT_TYPE } from './enums/Document_Type'
+import { Education_Type } from './enums/Education_Type'
+import { GENDER } from './enums/Gender'
+import IncomeSource from './enums/IncomeSource'
+import { Institution_Type } from './enums/Intitution_Type'
 import { MARITAL_STATUS } from './enums/Marital_Status'
-import { SkinColor } from './enums/SkinColor'
+import { Relationship } from './enums/Relationship'
 import { RELIGION } from './enums/Religion'
 import { SCHOLARSHIP } from './enums/Scholarship'
-import { Institution_Type } from './enums/Intitution_Type'
-import { Education_Type } from './enums/Education_Type'
 import { SHIFT } from './enums/Shift'
-import IncomeSource from './enums/IncomeSource'
+import { SkinColor } from './enums/SkinColor'
+import { UF } from './enums/UF'
 
 export async function registerFamilyMemberInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
- 
+
 
   const familyMemberDataSchema = z.object({
     relationship: Relationship,
@@ -145,8 +145,6 @@ export async function registerFamilyMemberInfo(
         where: { CPF, candidate_id: responsible?.id },
       })
     ) {
-      console.log('foi aqui')
-
       throw new ResourceNotFoundError()
     }
     if (
