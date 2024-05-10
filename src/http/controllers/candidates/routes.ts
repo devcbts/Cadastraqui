@@ -49,9 +49,10 @@ import { uploadCandidateProfilePicture } from './AWS Routes/upload-profile-pictu
 import { uploadSolicitationDocument } from './AWS Routes/upload-solicitation-documents'
 import { registerCreditCardInfo } from './register-credit-card-info'
 import { getBasicInfoFormated } from './get-user-basic-info-formated'
+import { deleteDocument } from './AWS Routes/delete-document'
 
 export async function candidateRoutes(app: FastifyInstance) {
-  app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
+  app.post('/upload/:documentType/:member_id', { onRequest: [verifyJWT] }, uploadDocument)
   app.post(
     '/upload/:solicitation_id',
     { onRequest: [verifyJWT] },
@@ -59,7 +60,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   )
   app.get('/documents/:_id?', { onRequest: [verifyJWT] }, getDocumentsPDF)
   app.get('/documents/announcement/:announcement_id', { onRequest: [verifyJWT] }, getAnnouncementDocument)
-
+  app.post('/document/delete', {onRequest: [verifyJWT]}, deleteDocument)
   /** Basic Info */
   app.post('/', registerCandidate)
   app.get('/basic-info/:_id?', { onRequest: [verifyJWT] }, getBasicInfo)
