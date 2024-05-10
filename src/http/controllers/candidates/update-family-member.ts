@@ -3,32 +3,32 @@ import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { DOCUMENT_TYPE } from './enums/Document_Type'
+import { Education_Type } from './enums/Education_Type'
+import { GENDER } from './enums/Gender'
 import IncomeSource from './enums/IncomeSource'
+import { Institution_Type } from './enums/Intitution_Type'
+import { MARITAL_STATUS } from './enums/Marital_Status'
 import { Relationship } from './enums/Relationship'
-import { UF } from './enums/UF';
-import { GENDER } from './enums/Gender';
-import { DOCUMENT_TYPE } from './enums/Document_Type';
-import { SkinColor } from './enums/SkinColor'
 import { RELIGION } from './enums/Religion'
 import { SCHOLARSHIP } from './enums/Scholarship'
-import { Institution_Type } from './enums/Intitution_Type'
-import { Education_Type } from './enums/Education_Type'
 import { SHIFT } from './enums/Shift'
-import { MARITAL_STATUS } from './enums/Marital_Status';
+import { SkinColor } from './enums/SkinColor'
+import { UF } from './enums/UF'
 export async function updateFamilyMemberInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
 
-  
-  
-  
- 
-  
-  
- 
-  
-  
+
+
+
+
+
+
+
+
+
 
   const familyMemberDataSchema = z.object({
     relationship: Relationship,
@@ -73,7 +73,7 @@ export async function updateFamilyMemberInfo(
     percentageOfScholarship: z.string().optional().nullable(),
     monthlyAmount: z.string().optional().nullable(),
     incomeSource: z.array(IncomeSource).optional().nullable(),
-  })
+  }).partial()
 
   const {
     CPF,
@@ -149,7 +149,7 @@ export async function updateFamilyMemberInfo(
     const dataToUpdate = {
       relationship,
       fullName,
-      birthDate: new Date(birthDate),
+      birthDate: new Date(birthDate ?? Date.now()),
       gender,
       nationality,
       natural_city,
