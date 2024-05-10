@@ -4,7 +4,6 @@ import { uploadFile } from '@/http/services/upload-file'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import mime from 'mime';
 export async function uploadDocument(request: FastifyRequest, reply: FastifyReply) {
     
     const requestParamsSchema = z.object({
@@ -32,10 +31,9 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
 
        
     // Get the file extension from the mimetype
-    const fileExtension = mime.getExtension(data.mimetype);
 
     // Use the file extension in your code
-    const route = `CandidateDocuments/${candidateOrResponsible.UserData.id}/${documentType}/${member_id}/${data.filename}.${fileExtension}`;
+    const route = `CandidateDocuments/${candidateOrResponsible.UserData.id}/${documentType}/${member_id}/${data.filename}`;
             
        
            
