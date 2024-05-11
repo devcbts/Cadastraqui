@@ -48,7 +48,7 @@ export default function MembersList({ onSelect, onAdd }) {
             {familyMembers.length > 0 && (
                 <div className={styles.list}>
                     {familyMembers.map(member => (
-                        <MemberCard name={member.fullName} id={member.id} onView={() => handleSelectMember(member.id)} onRemove={() => handleDeleteMember(member.id)} />
+                        <MemberCard name={member.fullName} onView={() => handleSelectMember(member.id)} onRemove={() => handleDeleteMember(member.id)} />
                     ))}
                 </div>
             )}

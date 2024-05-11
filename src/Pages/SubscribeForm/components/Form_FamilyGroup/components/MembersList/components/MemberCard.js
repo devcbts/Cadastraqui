@@ -1,14 +1,15 @@
 import ButtonBase from 'Components/ButtonBase'
-import styles from './styles.module.scss'
-export default function MemberCard({ name, id, onView, onRemove }) {
+import FormListItem from 'Pages/SubscribeForm/components/FormList/FormListItem'
+export default function MemberCard({ name, onView, onRemove }) {
 
     return (
-        <div className={styles.container}>
-            <label className={styles.label}>{name}</label>
-            <div className={styles.actions}>
+
+        <FormListItem.Root text={name}>
+            <FormListItem.Actions>
                 <ButtonBase label={"visualizar"} onClick={onView} />
                 <ButtonBase label={"excluir"} danger onClick={onRemove} />
-            </div>
-        </div>
+            </FormListItem.Actions>
+        </FormListItem.Root>
+
     )
 }

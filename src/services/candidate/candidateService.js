@@ -1,6 +1,7 @@
 import { api } from "../axios"
 import familyMemberMapper from "./mappers/family-member-mapper";
 import identityInfoMapper from "./mappers/identity-info-mapper";
+import vehicleMapper from "./mappers/vehicle-mapper";
 
 class CandidateService {
     registerIdentityInfo(data) {
@@ -80,6 +81,36 @@ class CandidateService {
                 Authorization: `Bearer ${token}`,
             },
         });
+    }
+
+    async getVehicle() {
+        const token = localStorage.getItem("token")
+        const response = await api.get('/candidates/vehicle-info', {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        return vehicleMapper.fromPersistence(response.data.vehicleInfoResults)
+    }
+
+    registerVehicle(data) {
+        const token = localStorage.getItem("token")
+        return api.post('/candidates/vehicle-info', data, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
+    }
+    updateVehicle(data) {
+        const token = localStorage.getItem("token")
+        return api.patch('/candidates/vehicle-info', data, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
     }
     async getIdentityInfo() {
         const token = localStorage.getItem("token")

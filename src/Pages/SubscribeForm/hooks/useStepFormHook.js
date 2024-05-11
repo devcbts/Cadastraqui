@@ -1,5 +1,5 @@
 import FormStepper from "Components/FormStepper"
-import { createRef, useRef, useState } from "react"
+import { createRef, useCallback, useRef, useState } from "react"
 
 export default function useStepFormHook({
     render = [],
@@ -31,11 +31,11 @@ export default function useStepFormHook({
 
     const handleEdit = async () => {
         if (!isFormValid()) return
-        console.log('DADOS', data)
         const dataToUpdate = { ...data, ...getCurrentRef().values() }
+        setData((prevData) => ({ ...prevData, ...getCurrentRef().values() }))
         await onEdit(dataToUpdate)
     }
-    const Steps = () => {
+    const Steps = useCallback(() => {
         return (
             <FormStepper.Root activeStep={activeStep}>
                 <FormStepper.Stepper >
@@ -53,7 +53,7 @@ export default function useStepFormHook({
                 })}
             </FormStepper.Root>
         )
-    }
+    }, [stepsRef, activeStep, data])
 
     return {
         Steps,
