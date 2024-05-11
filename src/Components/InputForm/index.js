@@ -27,7 +27,7 @@ export default function InputForm({ name, label, control, transform = (e) => e, 
                     label={label}
                     error={showErrorBorder(isDirty, error)}
                     {...field}
-                    onChange={(e) => field.onChange(transform(e))}
+                    onChange={(e) => field.onChange(transform(e) ?? '')}
                     {...props}
                 />
             )}

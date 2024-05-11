@@ -1,11 +1,10 @@
 import { Controller } from "react-hook-form";
 import SelectBase from "../SelectBase";
 
-export default function FormSelect({ name, label, control, options, value, multiple = false }) {
+export default function FormSelect({ name, label, control, options = [], value, multiple = false }) {
 
 
     const showErrorBorder = (error, isDirty) => {
-        console.log(error, isDirty)
         // Input wasn't modified but has error OR has been modified and has error (ERROR BORDER)
         if ((!isDirty && error) || (isDirty && error)) {
             return error?.message

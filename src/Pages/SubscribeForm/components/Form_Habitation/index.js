@@ -48,6 +48,7 @@ export default function FormHabitation() {
         onSave: handleSaveHouse
     })
     useEffect(() => {
+        setIsLoading(true)
         const fetchData = async () => {
             try {
                 const information = await candidateService.getHousingInfo()
@@ -58,6 +59,7 @@ export default function FormHabitation() {
             } catch (err) {
 
             }
+            setIsLoading(false)
         }
         fetchData()
     }, [])
