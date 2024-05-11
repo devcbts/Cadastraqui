@@ -1,0 +1,11 @@
+@import '../../../../../Assets/theme/global.module.scss';
+.list{
+    width: 100%;
+}
+.emptytext{
+   font-size: 20px;
+   font-weight: 800;
+   color: $grey; 
+   width: 50%;
+   text-align: center;
+}
