@@ -108,6 +108,7 @@ model LegalResponsible {
   user                            User                  @relation(fields: [user_id], references: [id])
   FamilyMemberDisease             FamilyMemberDisease[]
   Medication                      Medication[]
+
   @@unique([id, user_id])
   @@map("responsibles")
 }
@@ -197,6 +198,7 @@ model IdentityDetails {
   nationality                                String
   natural_city                               String
   natural_UF                                 COUNTRY
+  CPF                                        String?           @unique
   RG                                         String            @unique
   rgIssuingAuthority                         String
   rgIssuingState                             String
@@ -210,8 +212,12 @@ model IdentityDetails {
   religion                                   RELIGION
   educationLevel                             SCHOLARSHIP
   specialNeeds                               Boolean?
+  address                                    String?
+  addressNumber                              String?
+  neighborhood                               String?
   specialNeedsDescription                    String?
   hasMedicalReport                           Boolean?
+  email                                      String?
   landlinePhone                              String?
   workPhone                                  String?
   contactNameForMessage                      String?

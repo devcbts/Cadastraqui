@@ -1,0 +1,1055 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/clientBackup"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("BACKUP_URL")
+}
+
+enum TiebreakerCriterias {
+  CadUnico
+  LeastFamilyIncome
+  SeriousIllness
+  Draw
+}
+
+model IdMapping {
+  id             String @id @default(uuid())
+  mainId         String @default(uuid())
+  newId          String @default(uuid())
+  application_id String @default(uuid())
+
+  @@map("idMapping")
+  @@index([mainId, application_id], name: "oldId_application_id_idx")
+}
+
+model Candidate {
+  id      String  @id @default(uuid())
+  name    String
+  CPF     String
+  main_id String?
+
+  birthDate           DateTime
+  phone               String
+  address             String
+  city                String
+  UF                  COUNTRY
+  CEP                 String
+  neighborhood        String
+  addressNumber       String
+  role                ROLE                  @default(CANDIDATE)
+  createdAt           DateTime              @default(now())
+  user_id             String?
+  responsible_id      String?
+  profilePicture      String?
+  email               String?
+  finishedapplication Boolean               @default(false)
+  Application         Application[]
+  CreditCard          CreditCard[]
+  Expense             Expense[]
+  Financing           Financing[]
+  IdentityDetails     IdentityDetails[]
+  FamilyMemberIncome  FamilyMemberIncome[]
+  Loan                Loan[]
+  OtherExpense        OtherExpense[]
+  Vehicle             Vehicle[]
+  responsible         LegalResponsible?     @relation(fields: [responsible_id], references: [id])
+  FamillyMember       FamilyMember[]
+  Housing             Housing[]
+  MonthlyIncome       MonthlyIncome[]
+  FamilyMemberDisease FamilyMemberDisease[]
+  Medication          Medication[]
+  application_id      String?               @unique
+
+  @@unique([id, responsible_id])
+  @@map("candidates")
+}
+
+model User {
+  id               String            @id @default(uuid())
+  email            String            @unique
+  password         String
+  role             ROLE              @default(CANDIDATE)
+  createdAt        DateTime          @default(now())
+  profilePicture   String?
+  EntityDirector   EntityDirector?
+  EntitySubsidiary EntitySubsidiary?
+  SocialAssistant  SocialAssistant?
+  Entity           Entity?
+
+  @@map("users")
+}
+
+model LegalResponsible {
+  id      String  @id @default(uuid())
+  name    String
+  main_id String?
+
+  CPF                             String
+  birthDate                       DateTime
+  phone                           String
+  address                         String
+  city                            String
+  UF                              COUNTRY
+  CEP                             String
+  neighborhood                    String
+  addressNumber                   String
+  livesAtSameAddress              Boolean?
+  institutionType                 INSTITUTION_TYPE?
+  responsibleEducationLevel       EDUCATION_TYPE?
+  responsibleGradeOrSemester      String?
+  responsibleShift                SHIFT?
+  ResponsibleEducationInstitution String?
+  role                            ROLE                  @default(RESPONSIBLE)
+  createdAt                       DateTime              @default(now())
+  user_id                         String
+  hasScholarship                  Boolean?
+  monthlyAmount                   String?
+  percentageOfScholarship         String?
+  IdentityDetails                 IdentityDetails[]
+  Candidate                       Candidate[]
+  Housing                         Housing[]
+  FamillyMember                   FamilyMember[]
+  CreditCard                      CreditCard[]
+  Expense                         Expense[]
+  Financing                       Financing[]
+  Loan                            Loan[]
+  OtherExpense                    OtherExpense[]
+  Vehicle                         Vehicle[]
+  FamilyMemberDisease             FamilyMemberDisease[]
+  Medication                      Medication[]
+
+  @@unique([id, user_id])
+  @@map("responsibles")
+}
+
+model SocialAssistant {
+  id                String             @id @default(uuid())
+  name              String
+  CPF               String             @unique
+  RG                String             @unique
+  CRESS             String             @unique
+  phone             String
+  user_id           String             @unique
+  entity_id         String
+  Application       Application[]
+  entity            Entity             @relation(fields: [entity_id], references: [id])
+  user              User               @relation(fields: [user_id], references: [id])
+  Announcement      Announcement[]     @relation("AnnouncementToSocialAssistant")
+  entity_subsidiary EntitySubsidiary[] @relation("EntitySubsidiaryToSocialAssistant")
+
+  @@map("assistants")
+}
+
+model Entity {
+  id                         String             @id @default(uuid())
+  name                       String?
+  socialReason               String
+  logo                       String?
+  CNPJ                       String             @unique
+  CEP                        String
+  address                    String             @default("")
+  addressNumber              Int?
+  neighborhood               String             @default("")
+  UF                         COUNTRY?
+  city                       String             @default("")
+  educationalInstitutionCode String?
+  user_id                    String             @unique
+  Announcement               Announcement[]
+  EntityDirector             EntityDirector[]
+  EntitySubsidiary           EntitySubsidiary[]
+  SocialAssistant            SocialAssistant[]
+  user                       User               @relation(fields: [user_id], references: [id])
+
+  @@map("entities")
+}
+
+model EntitySubsidiary {
+  id                         String            @id @default(uuid())
+  CNPJ                       String            @unique
+  name                       String
+  socialReason               String
+  CEP                        String
+  address                    String
+  addressNumber              Int?
+  city                       String?           @default("")
+  neighborhood               String?           @default("")
+  UF                         COUNTRY?
+  educationalInstitutionCode String?
+  entity_id                  String
+  user_id                    String            @unique
+  Announcement               Announcement[]
+  EntityDirector             EntityDirector[]
+  entity                     Entity            @relation(fields: [entity_id], references: [id])
+  user                       User              @relation(fields: [user_id], references: [id])
+  SocialAssistant            SocialAssistant[] @relation("EntitySubsidiaryToSocialAssistant")
+  EducationLevel             EducationLevel[]
+}
+
+model EntityDirector {
+  id                   String            @id @default(uuid())
+  name                 String
+  CPF                  String            @unique
+  phone                String
+  user_id              String            @unique
+  entity_subsidiary_id String?
+  entity_id            String?
+  entity               Entity?           @relation(fields: [entity_id], references: [id])
+  entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
+  user                 User              @relation(fields: [user_id], references: [id])
+}
+
+model IdentityDetails {
+  id         String  @id @default(uuid())
+  fullName   String
+  socialName String
+  main_id    String?
+
+  birthDate                                  DateTime
+  gender                                     GENDER
+  nationality                                String
+  natural_city                               String
+  natural_UF                                 COUNTRY
+  CPF                                        String?
+  RG                                         String
+  rgIssuingAuthority                         String
+  rgIssuingState                             String
+  documentType                               DOCUMENT_TYPE?
+  CadUnico                                   Boolean           @default(false)
+  hasSevereDesease                           Boolean           @default(false)
+  documentNumber                             String?
+  documentValidity                           DateTime?
+  maritalStatus                              MARITAL_STATUS
+  skinColor                                  SkinColor
+  religion                                   RELIGION
+  educationLevel                             SCHOLARSHIP
+  specialNeeds                               Boolean?
+  address                                    String?
+  addressNumber                              String?
+  neighborhood                               String?
+  specialNeedsDescription                    String?
+  hasMedicalReport                           Boolean?
+  email                                      String?
+  landlinePhone                              String?
+  workPhone                                  String?
+  contactNameForMessage                      String?
+  profession                                 String
+  enrolledGovernmentProgram                  Boolean?
+  NIS                                        String?
+  incomeSource                               IncomeSource[]
+  livesAlone                                 Boolean
+  intendsToGetScholarship                    Boolean
+  attendedPublicHighSchool                   Boolean?
+  benefitedFromCebasScholarship_basic        Boolean?
+  yearsBenefitedFromCebas_basic              String[]
+  scholarshipType_basic                      ScholarshipType?
+  institutionName_basic                      String?
+  institutionCNPJ_basic                      String?
+  benefitedFromCebasScholarship_professional Boolean?
+  lastYearBenefitedFromCebas_professional    String?
+  scholarshipType_professional               ScholarshipType?
+  institutionName_professional               String?
+  institutionCNPJ_professional               String?
+  nameOfScholarshipCourse_professional       String?
+  candidate_id                               String?
+  responsible_id                             String?
+  candidate                                  Candidate?        @relation(fields: [candidate_id], references: [id])
+  responsible                                LegalResponsible? @relation(fields: [responsible_id], references: [id])
+  application_id                             String            @unique
+}
+
+model FamilyMember {
+  id                String       @id @default(uuid())
+  relationship      Relationship
+  otherRelationship String?
+  main_id           String?
+
+  fullName                  String
+  socialName                String?
+  birthDate                 DateTime
+  gender                    GENDER
+  nationality               String
+  natural_city              String
+  natural_UF                COUNTRY
+  CPF                       String
+  RG                        String
+  rgIssuingAuthority        String
+  rgIssuingState            String
+  documentType              DOCUMENT_TYPE?
+  documentNumber            String?
+  documentValidity          DateTime?
+  numberOfBirthRegister     String?
+  bookOfBirthRegister       String?
+  pageOfBirthRegister       String?
+  maritalStatus             MARITAL_STATUS
+  skinColor                 SkinColor
+  religion                  RELIGION
+  educationLevel            SCHOLARSHIP
+  specialNeeds              Boolean?
+  specialNeedsDescription   String?
+  hasMedicalReport          Boolean?
+  landlinePhone             String?
+  workPhone                 String?
+  contactNameForMessage     String?
+  email                     String?
+  profession                String
+  enrolledGovernmentProgram Boolean?
+  NIS                       String?
+  educationPlace            INSTITUTION_TYPE?
+  institutionName           String?
+  coursingEducationLevel    EDUCATION_TYPE?
+  cycleOfEducation          String?
+  turnOfEducation           SHIFT?
+  hasScholarship            Boolean?
+  percentageOfScholarship   String?
+  monthlyAmount             String?
+  candidate_id              String?
+  incomeSource              IncomeSource[]
+  CreditCard                CreditCard[]
+  FamilyMemberIncome        FamilyMemberIncome[]
+  Financing                 Financing[]
+  Loan                      Loan[]
+  MonthlyIncome             MonthlyIncome[]
+  OtherExpense              OtherExpense[]
+  FamilyMemberToVehicle     FamilyMemberToVehicle[]
+  FamilyMemberDisease       FamilyMemberDisease[]
+  candidate                 Candidate?              @relation(fields: [candidate_id], references: [id])
+  Medication                Medication[]
+  LegalResponsible          LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId        String?
+  application_id            String
+
+  @@map("familyMembers")
+}
+
+model Housing {
+  id             String         @id @default(uuid())
+  propertyStatus PropertyStatus
+  contractType   ContractType?
+  main_id        String?
+
+  grantorName          String?
+  timeLivingInProperty TimeLivingInProperty
+  domicileType         DomicileType
+  numberOfRooms        NumberOfRooms
+  numberOfBedrooms     Int
+  candidate_id         String?
+  responsible_id       String?
+  candidate            Candidate?           @relation(fields: [candidate_id], references: [id])
+  responsible          LegalResponsible?    @relation(fields: [responsible_id], references: [id])
+  application_id       String               @unique
+
+  @@map("housing")
+}
+
+model Vehicle {
+  id            String      @id @default(uuid())
+  vehicleType   VehicleType
+  modelAndBrand String
+  main_id       String?
+
+  manufacturingYear     Int
+  situation             VehicleSituation
+  financedMonths        Int?
+  monthsToPayOff        Int?
+  hasInsurance          Boolean                 @default(false)
+  insuranceValue        Float?
+  usage                 VehicleUsage
+  candidate_id          String?
+  candidate             Candidate?              @relation(fields: [candidate_id], references: [id])
+  FamilyMemberToVehicle FamilyMemberToVehicle[]
+  LegalResponsible      LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId    String?
+  application_id        String
+}
+
+model FamilyMemberIncome {
+  id             String         @id @default(uuid())
+  employmentType EmploymentType
+  averageIncome  String
+  main_id        String?
+
+  admissionDate         DateTime?
+  position              String?
+  payingSource          String?
+  payingSourcePhone     String?
+  startDate             DateTime?
+  CNPJ                  String?
+  financialAssistantCPF String?
+  socialReason          String?
+  fantasyName           String?
+  CPNJ                  String?
+  receivesUnemployment  Boolean?
+  parcels               Int?
+  firstParcelDate       DateTime?
+  parcelValue           Float?
+  familyMember_id       String?
+  quantity              Int           @default(3)
+  familyMember          FamilyMember? @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  candidate             Candidate?    @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  candidate_id          String?
+  application_id        String
+}
+
+model MonthlyIncome {
+  id                        String        @id @default(uuid())
+  date                      DateTime?     @default(now())
+  main_id                   String?
+  grossAmount               Float?
+  liquidAmount              Float?
+  proLabore                 Float?
+  dividends                 Float?
+  total                     Float?
+  deductionValue            Decimal?
+  publicPension             Decimal?
+  incomeTax                 Decimal?
+  otherDeductions           Decimal?
+  foodAllowanceValue        Decimal?
+  transportAllowanceValue   Decimal?
+  expenseReimbursementValue Decimal?
+  advancePaymentValue       Decimal?
+  reversalValue             Decimal?
+  compensationValue         Decimal?
+  judicialPensionValue      Decimal?
+  familyMember_id           String?
+  familyMember              FamilyMember? @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  candidate                 Candidate?    @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  candidate_id              String?
+  incomeSource              IncomeSource?
+  application_id            String
+}
+
+model Expense {
+  id      String  @id @default(uuid())
+  main_id String?
+
+  month         String
+  waterSewage   Float?
+  electricity   Float?
+  landlinePhone Float?
+  mobilePhone   Float?
+  food          Float?
+
+  rent                     Float?
+  garageRent               Float?
+  condominium              Float?
+  cableTV                  Float?
+  streamingServices        Float?
+  fuel                     Float?
+  annualIPVA               Float?
+  annualIPTU               Float?
+  annualITR                Float?
+  annualIR                 Float?
+  INSS                     Float?
+  publicTransport          Float?
+  schoolTransport          Float?
+  internet                 Float?
+  courses                  Float?
+  healthPlan               Float?
+  dentalPlan               Float?
+  medicationExpenses       Float?
+  totalExpense             Float?
+  candidate_id             String?
+  installmentCountIPTU     Int?
+  installmentCountIPVA     Int?
+  installmentCountIR       Int?
+  installmentCountITR      Int?
+  installmentValueIPTU     Float?
+  installmentValueIPVA     Float?
+  installmentValueIR       Float?
+  installmentValueITR      Float?
+  optedForInstallmentIPTU  Boolean?
+  optedForInstallmentIPVA  Boolean?
+  optedForInstallmentIR    Boolean?
+  optedForInstallmentITR   Boolean?
+  otherExpensesDescription String[]
+  otherExpensesValue       Float[]
+  candidate                Candidate?        @relation(fields: [candidate_id], references: [id])
+  LegalResponsible         LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId       String?
+  application_id           String
+}
+
+model Loan {
+  id      String  @id @default(uuid())
+  main_id String?
+
+  familyMemberName   String
+  installmentValue   Float
+  totalInstallments  Int
+  paidInstallments   Int
+  bankName           String
+  familyMember_id    String?
+  candidate_id       String?
+  candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
+  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
+  LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId String?
+  application_id     String
+}
+
+model Financing {
+  id      String  @id @default(uuid())
+  main_id String?
+
+  familyMemberName   String
+  installmentValue   Float
+  totalInstallments  Int
+  paidInstallments   Int
+  bankName           String
+  familyMember_id    String?
+  candidate_id       String?
+  otherFinancing     String?
+  financingType      FinancingType
+  candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
+  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
+  LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId String?
+  application_id     String
+}
+
+model CreditCard {
+  id      String  @id @default(uuid())
+  main_id String?
+
+  familyMemberName   String
+  usersCount         Int
+  cardType           String
+  bankName           String
+  cardFlag           String
+  invoiceValue       Float
+  familyMember_id    String?
+  candidate_id       String?
+  candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
+  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
+  LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId String?
+  application_id     String            
+}
+
+model OtherExpense {
+  id      String  @id @default(uuid())
+  main_id String?
+
+  description        String
+  value              Float
+  familyMember_id    String?
+  candidate_id       String?
+  candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
+  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
+  LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId String?
+  application_id     String
+}
+
+model FamilyMemberDisease {
+  id      String  @id @default(uuid())
+  main_id String?
+
+  disease            Disease?
+  diseases           Disease[]
+  specificDisease    String?
+  hasMedicalReport   Boolean
+  familyMember_id    String?
+  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  candidate          Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  candidate_id       String?
+  legalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
+  legalResponsibleId String?
+  application_id     String
+
+  @@map("familyMemberDiseases")
+}
+
+model Medication {
+  id      String  @id @default(uuid())
+  main_id String?
+
+  medicationName             String
+  obtainedPublicly           Boolean
+  specificMedicationPublicly String?
+  familyMember_id            String?
+  familyMember               FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  candidate                  Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  candidate_id               String?
+  legalResponsible           LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
+  legalResponsibleId         String?
+  application_id             String
+
+  @@map("medications")
+}
+
+model AnnouncementInterview {
+  startDate       DateTime     @db.Date
+  endDate         DateTime     @db.Date
+  beginHour       DateTime     @db.Time(0)
+  interval        Int          @default(5)
+  endHour         DateTime     @db.Time(0)
+  duration        Int          @default(20)
+  announcement    Announcement @relation(fields: [announcement_id], references: [id])
+  announcement_id String       @unique
+}
+
+model Announcement {
+  id                   String                   @id @default(uuid())
+  entityChanged        Boolean?
+  branchChanged        Boolean?
+  announcementType     AnnouncementType
+  announcementNumber   String?
+  announcementDate     DateTime?
+  announcementBegin    DateTime?                @default(now())
+  openDate             DateTime?
+  closeDate            DateTime?
+  waitingList          Boolean?                 @default(false)
+  offeredVacancies     Int?
+  verifiedScholarships Int?
+  description          String?
+  entity_id            String
+  announcementName     String?
+  announcementLogo     String?
+  type2                String?
+  interview            AnnouncementInterview?
+  criteria             TiebreakerCriterias[]    @default([CadUnico, LeastFamilyIncome, SeriousIllness, Draw])
+  types1               scholarshipGrantedType[]
+  entity               Entity                   @relation(fields: [entity_id], references: [id])
+  entity_subsidiary    EntitySubsidiary[]
+  Application          Application[]
+  educationLevels      EducationLevel[]
+  ScholarshipGranted   ScholarshipGranted[]
+  timelines            Timeline[]
+  socialAssistant      SocialAssistant[]        @relation("AnnouncementToSocialAssistant")
+}
+
+model Timeline {
+  id             String       @id @default(uuid())
+  controlLine    Int
+  stage          String
+  deadline       DateTime
+  announcementId String
+  announcement   Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+}
+
+model EducationLevel {
+  id                       String                          @id @default(uuid())
+  level                    LevelType
+  basicEduType             BasicEducationType?
+  scholarshipType          ScholarshipOfferType?
+  higherEduScholarshipType HigherEducationScholarshipType?
+  offeredCourseType        OfferedCourseType?
+  availableCourses         String?
+  offeredVacancies         Int?
+  verifiedScholarships     Int?
+  shift                    SHIFT?
+  semester                 Int?
+  grade                    String?
+  announcementId           String
+  Application              Application[]
+  announcement             Announcement                    @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+  entitySubsidiary         EntitySubsidiary?               @relation(fields: [entitySubsidiaryId], references: [id])
+  entitySubsidiaryId       String?
+}
+
+model Application {
+  id                   String               @id @default(uuid())
+  candidate_id         String
+  announcement_id      String
+  status               ApplicationStatus
+  socialAssistant_id   String?
+  educationLevel_id    String
+  candidateName        String?
+  SocialAssistantName  String?
+  CadUnico             Boolean?
+  hasSevereDesease     Boolean?
+  averageIncome        Float?
+  perCapita            Float?
+  position             Int?
+  number               Int                  @default(1)
+  announcement         Announcement         @relation(fields: [announcement_id], references: [id], onDelete: Cascade)
+  candidate            Candidate            @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  EducationLevel       EducationLevel       @relation(fields: [educationLevel_id], references: [id])
+  SocialAssistant      SocialAssistant?     @relation(fields: [socialAssistant_id], references: [id])
+  applicationHistories ApplicationHistory[]
+  ScholarshipGranted   ScholarshipGranted?
+
+  @@unique([candidate_id, announcement_id])
+}
+
+model ApplicationHistory {
+  id             String            @id @default(uuid())
+  application_id String
+  description    String
+  solicitation   SolicitationType?
+  report         String?
+  answered       Boolean?          @default(false)
+  deadLine       DateTime?
+  date           DateTime          @default(now())
+  application    Application       @relation(fields: [application_id], references: [id], onDelete: Cascade)
+}
+
+model ScholarshipGranted {
+  id              String                   @id @default(uuid())
+  gaveUp          Boolean
+  ScholarshipCode String?
+  types           scholarshipGrantedType[]
+  application_id  String                   @unique
+  announcement_id String
+  announmentent   Announcement             @relation(fields: [announcement_id], references: [id])
+  application     Application              @relation(fields: [application_id], references: [id])
+}
+
+model FamilyMemberToVehicle {
+  A              String
+  B              String
+  familyMembers  FamilyMember @relation(fields: [A], references: [id], onDelete: Cascade)
+  Vehicle        Vehicle      @relation(fields: [B], references: [id], onDelete: Cascade)
+  application_id String       @unique
+  main_id        String?
+
+  @@unique([A, B], map: "_FamilyMemberToVehicle_AB_unique")
+  @@index([B], map: "_FamilyMemberToVehicle_B_index")
+  @@map("_FamilyMemberToVehicle")
+}
+
+enum ROLE {
+  ADMIN
+  CANDIDATE
+  RESPONSIBLE
+  ENTITY
+  ASSISTANT
+  ENTITY_SUB
+  ENTITY_DIRECTOR
+  SELECTION_RESPONSIBLE
+}
+
+enum COUNTRY {
+  AC
+  AL
+  AM
+  AP
+  BA
+  CE
+  DF
+  ES
+  GO
+  MA
+  MG
+  MS
+  MT
+  PA
+  PB
+  PE
+  PI
+  PR
+  RJ
+  RN
+  RO
+  RR
+  RS
+  SC
+  SE
+  SP
+  TO
+}
+
+enum GENDER {
+  MALE
+  FEMALE
+}
+
+enum DOCUMENT_TYPE {
+  DriversLicense
+  FunctionalCard
+  MilitaryID
+  Foreignerapplication
+  Passport
+  WorkCard
+}
+
+enum MARITAL_STATUS {
+  Single
+  Married
+  Separated
+  Divorced
+  Widowed
+  StableUnion
+}
+
+enum SkinColor {
+  Yellow
+  White
+  Indigenous
+  Brown
+  Black
+  NotDeclared
+}
+
+enum RELIGION {
+  Catholic
+  Evangelical
+  Spiritist
+  Atheist
+  Other
+  NotDeclared
+}
+
+enum SCHOLARSHIP {
+  Illiterate
+  ElementarySchool
+  HighSchool
+  CollegeGraduate
+  CollegeUndergraduate
+  Postgraduate
+  Masters
+  Doctorate
+  PostDoctorate
+}
+
+enum EDUCATION_TYPE {
+  Alfabetizacao
+  Ensino_Medio
+  Ensino_Tecnico
+  Ensino_Superior
+}
+
+enum SHIFT {
+  Matutino
+  Vespertino
+  Noturno
+  Integral
+}
+
+enum INSTITUTION_TYPE {
+  Public
+  Private
+}
+
+enum IncomeSource {
+  PrivateEmployee
+  PublicEmployee
+  DomesticEmployee
+  TemporaryRuralEmployee
+  BusinessOwnerSimplifiedTax
+  BusinessOwner
+  IndividualEntrepreneur
+  SelfEmployed
+  Retired
+  Pensioner
+  Apprentice
+  Volunteer
+  RentalIncome
+  Student
+  InformalWorker
+  Unemployed
+  TemporaryDisabilityBenefit
+  LiberalProfessional
+  FinancialHelpFromOthers
+  Alimony
+  PrivatePension
+}
+
+enum Relationship {
+  Wife
+  Husband
+  Father
+  Mother
+  Stepfather
+  Stepmother
+  Sibling
+  Grandparent
+  Child
+  Other
+}
+
+enum VehicleType {
+  SmallCarsAndUtilities
+  TrucksAndMinibuses
+  Motorcycles
+}
+
+enum VehicleSituation {
+  PaidOff
+  Financed
+}
+
+enum VehicleUsage {
+  WorkInstrument
+  NecessaryDisplacement
+}
+
+enum PropertyStatus {
+  OwnPaidOff
+  OwnFinanced
+  Rented
+  ProvidedByEmployer
+  ProvidedByFamily
+  ProvidedOtherWay
+  Irregular
+}
+
+enum ContractType {
+  Verbal
+  ThroughRealEstateAgency
+  DirectWithOwner
+}
+
+enum TimeLivingInProperty {
+  UpTo11Months
+  From1To10Years
+  From10To20Years
+  Over20Years
+}
+
+enum DomicileType {
+  House
+  CondominiumHouse
+  Apartment
+  RoomingHouse
+}
+
+enum NumberOfRooms {
+  One
+  Two
+  Three
+  Four
+  Five
+  Six
+  Seven
+  Eight
+  Nine
+  Ten
+  Eleven
+  Twelve
+}
+
+enum Disease {
+  ALIENATION_MENTAL
+  CARDIOPATHY_SEVERE
+  BLINDNESS
+  RADIATION_CONTAMINATION
+  PARKINSONS_DISEASE
+  ANKYLOSING_SPONDYLITIS
+  PAGETS_DISEASE
+  HANSENS_DISEASE
+  SEVERE_HEPATOPATHY
+  SEVERE_NEPHROPATHY
+  PARALYSIS
+  ACTIVE_TUBERCULOSIS
+  HIV_AIDS
+  MALIGNANT_NEOPLASM
+  TERMINAL_STAGE
+  MICROCEPHALY
+  AUTISM_SPECTRUM_DISORDER
+  RARE_DISEASE
+  OTHER_HIGH_COST_DISEASE
+}
+
+enum ScholarshipType {
+  integralScholarchip
+  halfScholarchip
+}
+
+enum EmploymentType {
+  PrivateEmployee
+  PublicEmployee
+  DomesticEmployee
+  TemporaryRuralEmployee
+  BusinessOwnerSimplifiedTax
+  BusinessOwner
+  IndividualEntrepreneur
+  SelfEmployed
+  Retired
+  Pensioner
+  Apprentice
+  Volunteer
+  RentalIncome
+  Student
+  InformalWorker
+  Unemployed
+  TemporaryDisabilityBenefit
+  LiberalProfessional
+  FinancialHelpFromOthers
+  Alimony
+  PrivatePension
+}
+
+enum FinancingType {
+  Car
+  Motorcycle
+  Truck
+  House_Apartment_Land
+  Other
+}
+
+enum AnnouncementType {
+  ScholarshipGrant
+  PeriodicVerification
+}
+
+enum LevelType {
+  BasicEducation
+  HigherEducation
+}
+
+enum BasicEducationType {
+  Preschool
+  Elementary
+  HighSchool
+  ProfessionalEducation
+}
+
+enum ScholarshipOfferType {
+  Law187ScholarshipPartial
+  Law187Scholarship
+  StudentWithDisabilityPartial
+  StudentWithDisability
+  FullTimePartial
+  FullTime
+  EntityWorkersPartial
+  EntityWorkers
+}
+
+enum HigherEducationScholarshipType {
+  PROUNIFull
+  PROUNIPartial
+  StateGovernment
+  StateGovernmentPartial
+  CityGovernment
+  CityGovernmentPartial
+  ExternalEntities
+  ExternalEntitiesPartial
+  HigherEduInstitutionFull
+  HigherEduInstitutionPartial
+  HigherEduInstitutionWorkers
+  HigherEduInstitutionWorkersPartial
+  PostgraduateStrictoSensu
+  PostgraduateStrictoSensuPartial
+}
+
+enum OfferedCourseType {
+  UndergraduateBachelor
+  UndergraduateLicense
+  UndergraduateTechnologist
+}
+
+enum ApplicationStatus {
+  Approved
+  Rejected
+  Pending
+  WaitingList
+}
+
+enum SolicitationType {
+  Document
+  Interview
+  Visit
+}
+
+enum scholarshipGrantedType {
+  UNIFORM
+  TRANSPORT
+  FOOD
+  HOUSING
+  STUDY_MATERIAL
+}
