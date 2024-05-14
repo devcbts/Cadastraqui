@@ -1,6 +1,7 @@
 import { api } from "../axios"
 import familyMemberMapper from "./mappers/family-member-mapper";
 import identityInfoMapper from "./mappers/identity-info-mapper";
+import incomeMapper from "./mappers/income-mapper";
 import vehicleMapper from "./mappers/vehicle-mapper";
 
 class CandidateService {
@@ -120,6 +121,24 @@ class CandidateService {
             },
         });
         return identityInfoMapper.fromPersistence(response.data.identityInfo)
+    }
+    async getMonthlyIncome(id) {
+        const token = localStorage.getItem("token")
+        const response = await api.get(`/candidates/family-member/monthly-income/${id}`, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
+        return incomeMapper.fromPersistence(response.data.incomeBySource)
+    }
+
+    updateIncomeSource(data) {
+        const token = localStorage.getItem("token")
+        return api.post(`/candidates/update-income-source`, data, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
     }
 }
 

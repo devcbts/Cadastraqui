@@ -1,12 +1,12 @@
 import FormStepper from "Components/FormStepper"
-import { createRef, useCallback, useRef, useState } from "react"
+import { createRef, useCallback, useMemo, useRef, useState } from "react"
 
 export default function useStepFormHook({
     render = [],
     onSave,
     onEdit,
 }) {
-    const MAX_STEPS = render.length
+    const MAX_STEPS = useMemo(() => render.length, [render])
     const [activeStep, setActiveStep] = useState(1)
     const { current: stepsRef } = useRef(Array.from({ length: MAX_STEPS }).fill(createRef()))
     const getCurrentRef = () => stepsRef[activeStep - 1].current
@@ -53,7 +53,7 @@ export default function useStepFormHook({
                 })}
             </FormStepper.Root>
         )
-    }, [stepsRef, activeStep, data])
+    }, [stepsRef, activeStep, data, render, MAX_STEPS])
 
     return {
         Steps,
