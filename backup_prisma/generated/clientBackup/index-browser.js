@@ -170,7 +170,8 @@ exports.Prisma.LegalResponsibleScalarFieldEnum = {
   user_id: 'user_id',
   hasScholarship: 'hasScholarship',
   monthlyAmount: 'monthlyAmount',
-  percentageOfScholarship: 'percentageOfScholarship'
+  percentageOfScholarship: 'percentageOfScholarship',
+  application_id: 'application_id'
 };
 
 exports.Prisma.SocialAssistantScalarFieldEnum = {
@@ -386,7 +387,8 @@ exports.Prisma.FamilyMemberIncomeScalarFieldEnum = {
   familyMember_id: 'familyMember_id',
   quantity: 'quantity',
   candidate_id: 'candidate_id',
-  application_id: 'application_id'
+  application_id: 'application_id',
+  legalResponsibleId: 'legalResponsibleId'
 };
 
 exports.Prisma.MonthlyIncomeScalarFieldEnum = {
@@ -412,7 +414,8 @@ exports.Prisma.MonthlyIncomeScalarFieldEnum = {
   familyMember_id: 'familyMember_id',
   candidate_id: 'candidate_id',
   incomeSource: 'incomeSource',
-  application_id: 'application_id'
+  application_id: 'application_id',
+  legalResponsibleId: 'legalResponsibleId'
 };
 
 exports.Prisma.ExpenseScalarFieldEnum = {
@@ -614,7 +617,8 @@ exports.Prisma.ApplicationScalarFieldEnum = {
   averageIncome: 'averageIncome',
   perCapita: 'perCapita',
   position: 'position',
-  number: 'number'
+  number: 'number',
+  reponsible_id: 'reponsible_id'
 };
 
 exports.Prisma.ApplicationHistoryScalarFieldEnum = {

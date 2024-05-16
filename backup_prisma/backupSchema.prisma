@@ -21,8 +21,8 @@ model IdMapping {
   newId          String @default(uuid())
   application_id String @default(uuid())
 
-  @@map("idMapping")
   @@index([mainId, application_id], name: "oldId_application_id_idx")
+  @@map("idMapping")
 }
 
 model Candidate {
@@ -120,6 +120,10 @@ model LegalResponsible {
   Vehicle                         Vehicle[]
   FamilyMemberDisease             FamilyMemberDisease[]
   Medication                      Medication[]
+  Application                     Application[]
+  FamilyMemberIncome              FamilyMemberIncome[]
+  MonthlyIncome                   MonthlyIncome[]
+  application_id                  String?               @unique
 
   @@unique([id, user_id])
   @@map("responsibles")
@@ -321,6 +325,7 @@ model FamilyMember {
   legalResponsibleId        String?
   application_id            String
 
+  @@unique([application_id, main_id])
   @@map("familyMembers")
 }
 
@@ -341,6 +346,7 @@ model Housing {
   responsible          LegalResponsible?    @relation(fields: [responsible_id], references: [id])
   application_id       String               @unique
 
+  @@unique([application_id, main_id])
   @@map("housing")
 }
 
@@ -363,6 +369,8 @@ model Vehicle {
   LegalResponsible      LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId    String?
   application_id        String
+
+  @@unique([application_id, main_id])
 }
 
 model FamilyMemberIncome {
@@ -386,16 +394,20 @@ model FamilyMemberIncome {
   firstParcelDate       DateTime?
   parcelValue           Float?
   familyMember_id       String?
-  quantity              Int           @default(3)
-  familyMember          FamilyMember? @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
-  candidate             Candidate?    @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  quantity              Int               @default(3)
+  familyMember          FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  candidate             Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id          String?
   application_id        String
+  LegalResponsible      LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId    String?
+
+  @@unique([application_id, main_id])
 }
 
 model MonthlyIncome {
-  id                        String        @id @default(uuid())
-  date                      DateTime?     @default(now())
+  id                        String            @id @default(uuid())
+  date                      DateTime?         @default(now())
   main_id                   String?
   grossAmount               Float?
   liquidAmount              Float?
@@ -414,11 +426,15 @@ model MonthlyIncome {
   compensationValue         Decimal?
   judicialPensionValue      Decimal?
   familyMember_id           String?
-  familyMember              FamilyMember? @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
-  candidate                 Candidate?    @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  familyMember              FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  candidate                 Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id              String?
   incomeSource              IncomeSource?
   application_id            String
+  LegalResponsible          LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId        String?
+
+  @@unique([application_id, main_id])
 }
 
 model Expense {
@@ -470,6 +486,8 @@ model Expense {
   LegalResponsible         LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId       String?
   application_id           String
+
+  @@unique([application_id, main_id])
 }
 
 model Loan {
@@ -488,6 +506,8 @@ model Loan {
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?
   application_id     String
+
+  @@unique([application_id, main_id])
 }
 
 model Financing {
@@ -508,6 +528,8 @@ model Financing {
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?
   application_id     String
+
+  @@unique([application_id, main_id])
 }
 
 model CreditCard {
@@ -526,7 +548,9 @@ model CreditCard {
   familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?
-  application_id     String            
+  application_id     String
+
+  @@unique([application_id, main_id])
 }
 
 model OtherExpense {
@@ -542,6 +566,8 @@ model OtherExpense {
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?
   application_id     String
+
+  @@unique([application_id, main_id])
 }
 
 model FamilyMemberDisease {
@@ -560,6 +586,7 @@ model FamilyMemberDisease {
   legalResponsibleId String?
   application_id     String
 
+  @@unique([application_id, main_id])
   @@map("familyMemberDiseases")
 }
 
@@ -578,6 +605,7 @@ model Medication {
   legalResponsibleId         String?
   application_id             String
 
+  @@unique([application_id, main_id])
   @@map("medications")
 }
 
@@ -672,6 +700,8 @@ model Application {
   SocialAssistant      SocialAssistant?     @relation(fields: [socialAssistant_id], references: [id])
   applicationHistories ApplicationHistory[]
   ScholarshipGranted   ScholarshipGranted?
+  reponsible_id        String?
+  responsible          LegalResponsible?    @relation(fields: [reponsible_id], references: [id])
 
   @@unique([candidate_id, announcement_id])
 }
