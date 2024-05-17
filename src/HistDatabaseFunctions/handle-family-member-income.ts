@@ -1,0 +1,48 @@
+import { historyDatabase, prisma } from "@/lib/prisma";
+import getOpenApplications from "./find-open-applications";
+
+export async function createFamilyMemberIncomeHDB (id: string, candidate_id: string | null, legalResponsibleId : string | null, application_id: string){
+    const familyMemberIncome = await prisma.familyMemberIncome.findUnique({
+        where: {id}
+    })
+    if (!familyMemberIncome) {
+        return null;
+    }
+    const { id: oldId, familyMember_id: oldFamilyMemberId,candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId, ...familyMemberIncomeData } = familyMemberIncome;
+    const familyMemberMapping = await historyDatabase.idMapping.findFirst({
+        where: { mainId: (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, application_id }
+    });
+    const newFamilyMemberId = familyMemberMapping?.newId;
+    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (candidate_id ? { candidate_id: newFamilyMemberId } : { responsible_id: newFamilyMemberId });
+
+    const createFamilyMemberIncome = await historyDatabase.familyMemberIncome.create({
+            data: {main_id:id, ...familyMemberIncomeData, ...idField, application_id }
+    });
+}
+
+export async function updateFamilyMemberIncomeHDB(id: string) {
+    const familyMemberIncome = await prisma.familyMemberIncome.findUnique({
+        where: { id },
+        include:{ familyMember: true}
+
+    });
+    if (!familyMemberIncome) {
+        return null;
+    }
+    const { id: oldId, familyMember_id: oldFamilyMemberId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId,  ...familyMemberIncomeData } = familyMemberIncome;
+    let candidateOrResponsible = familyMemberIncome.candidate_id || familyMemberIncome.familyMember?.candidate_id || familyMemberIncome.legalResponsibleId || familyMemberIncome.familyMember?.legalResponsibleId
+    if (!candidateOrResponsible) {
+        return null;
+    }
+    const openApplications = await getOpenApplications(candidateOrResponsible);
+    if (!openApplications) {
+        return null;
+    }
+    for(const application of openApplications){
+
+        const updateFamilyMemberIncome = await historyDatabase.familyMemberIncome.updateMany({
+            where: { main_id: id, application_id: application.id },
+            data: { ...familyMemberIncomeData }
+        });
+    }
+}
