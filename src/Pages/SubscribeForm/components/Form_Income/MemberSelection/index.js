@@ -4,27 +4,19 @@ import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import Loader from "Components/Loader";
 import FormSelect from "Components/FormSelect";
 import candidateService from "services/candidate/candidateService";
+import useControlForm from "hooks/useControlForm";
 const MemberSelection = forwardRef(({ data }, ref) => {
-    const { control, watch, setValue, trigger, formState: { isValid }, getValues, resetField } = useForm({
-        mode: "all",
+    const { control, watch } = useControlForm({
         defaultValues: {
             members: [],
             id: ''
         },
-        values: data && {
-            members: data.members,
-            id: data.id
-        },
-    })
+        initialData: data
+    }, ref)
+
     const watchMembers = watch("members")
     const watchId = watch("id")
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues
-    }))
+
     const needFetching = data?.members ? data.members.length === 0 : true
     const [isLoading, setIsLoading] = useState(needFetching)
     useEffect(() => {

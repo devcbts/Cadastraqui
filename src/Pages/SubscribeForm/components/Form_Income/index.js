@@ -2,15 +2,23 @@ import { useEffect, useState } from "react";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
-
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
 import IncomeList from "./IncomeList";
-import MemberSelection from "./MemberSelection";
 import IncomeSelection from "./IncomeSelection";
+import MonthSelection from "./MonthSelection";
+import { useRecoilState, useRecoilValue } from "recoil";
+import incomeAtom from "./atoms/income-atom";
+import UnemployedModel from "./Unemployed";
+import IncomeFormModelA from "./ModelA";
+import UnemployementInsurance from "./Unemployed/components/UnemployementInsurance";
+import InformationModelA from "./ModelA/components/InformationModelA";
+import InformationModelB from "./ModelB/components/InformationModelB";
+import IncomeFormModelB from "./ModelB";
 export default function FormIncome() {
-
+    // Keep track of incomes created/updated by user
+    const hasIncomeSelected = useRecoilValue(incomeAtom)
     const handleEditInformation = async (data) => {
         try {
             await candidateService.updateIdentityInfo(data);
@@ -21,39 +29,50 @@ export default function FormIncome() {
         }
     }
     const handleSaveInformation = async (data) => {
-        const { id, incomeSource } = data
+        const { member, incomeSource } = data
+        console.log(data)
+        // If we're selecting income source, move to the next page instead of execute onSave on first page
+        if (activeStep === 1) {
+            setActiveStep(2)
+            return
+        }
         try {
             // first update income source list from user
-            await candidateService.updateIncomeSource({ id, incomeSource: [incomeSource] })
+            await candidateService.updateIncomeSource({ id: member.id, incomeSource: [incomeSource] })
+            await candidateService.registerEmploymentType(member.id, data)
+            await candidateService.registerMonthlyIncome(member.id, data)
+            // then execute the rest of operation
             NotificationService.success({ text: 'Informações cadastradas' })
         } catch (err) {
             NotificationService.error({ text: err.response.data.message })
 
         }
     }
-    // Keep track if member is selected to render first screen (member selection)
-    // const [memberHasIncome, setMemberHasIncome] = useState(false)
-    // const [renderItems, setRenderItems] = useState([IncomeSelection])
-    // useEffect(() => {
-    //     console.log(!!memberHasIncome)
-    //     if (!!memberHasIncome) {
-    //         setRenderItems([IncomeSelection])
-    //     } else {
-    //         setRenderItems([MemberSelection, IncomeSelection])
-    //     }
-    // }, [memberHasIncome])
+
+    const [renderItems, setRenderItems] = useState()
     const {
         Steps,
         pages: { previous, next },
         actions: { handleEdit },
         max,
-        state: { activeStep, data, setData }
+        state: { activeStep, data, setData, setActiveStep }
     } = useStepFormHook({
-        render: [IncomeSelection],
+        render: renderItems,
         onEdit: handleEditInformation,
         onSave: handleSaveInformation
     })
-
+    useEffect(() => {
+        const currentIncomeSource = data?.incomeSource
+        if (currentIncomeSource === "Unemployed") {
+            setRenderItems([IncomeSelection, UnemployementInsurance])
+        } else if (['SelfEmployed', 'InformalWorker', 'RentalIncome', 'FinancialHelpFromOthers', 'LiberalProfessional', 'TemporaryRuralEmployee'].includes(currentIncomeSource)) {
+            setRenderItems([IncomeSelection, InformationModelA, IncomeFormModelA])
+        } else if (['PrivateEmployee', 'PublicEmployee', 'DomesticEmployee', 'Retired', 'Pensioner', 'Apprentice', 'TemporaryDisabilityBenefit'].includes(currentIncomeSource)) {
+            setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelB])
+        } else {
+            setRenderItems([IncomeSelection])
+        }
+    }, [data?.incomeSource])
 
     const [isAdding, setIsAdding] = useState(false)
 
@@ -69,22 +88,17 @@ export default function FormIncome() {
         previous()
     }
 
-    const handleSpecificSelection = ({ member, income }) => {
-        const { id } = member
+    const handleSpecificSelection = ({ member, income, info }) => {
+        console.log(info)
         const { income: { value }, list } = income
         setIsAdding(true)
-        setData({ member, incomeSource: value, })
+        setData({ member, incomeSource: value, incomes: list })
     }
 
     const handleAdd = ({ member = null }) => {
-        // Here we're checking if user is updating or creating a new income 
         setIsAdding(true)
         setData({ member })
-        // if (!member?.id) {
-        //     setData(null)
-        // } else {
-        //     setData({ member: member })
-        // }
+
 
     }
     return (
@@ -92,28 +106,28 @@ export default function FormIncome() {
             {!hasSelectionOrIsAdding() && <IncomeList onSelect={handleSpecificSelection} onAdd={handleAdd} />}
             {hasSelectionOrIsAdding() && <>
                 <Steps />
-                <div className={commonStyles.actions}>
+                {!hasIncomeSelected && <div className={commonStyles.actions}>
                     <ButtonBase onClick={handlePrevious}>
                         <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
                     </ButtonBase>
 
 
-                    <ButtonBase onClick={handleEdit} label={"editar"} />
+                    {/* <ButtonBase onClick={handleEdit} label={"editar"} /> */}
 
-                    {activeStep !== max &&
+                    {(activeStep !== max || activeStep === 1) &&
                         <ButtonBase onClick={next}>
                             <Arrow width="40px" />
                         </ButtonBase>
                     }
                     {
-                        (activeStep === max && isAdding) && (
+                        (activeStep === max && activeStep !== 1) && (
                             <ButtonBase onClick={next}>
                                 Salvar
                             </ButtonBase>
                         )
                     }
 
-                </div>
+                </div>}
             </>}
 
 

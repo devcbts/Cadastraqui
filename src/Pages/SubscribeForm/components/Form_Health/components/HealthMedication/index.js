@@ -5,32 +5,22 @@ import InputForm from "Components/InputForm";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import FormCheckbox from "Components/FormCheckbox";
 import healthMedicationSchema from "./schemas/health-medication-schema";
+import useControlForm from "hooks/useControlForm";
 const HealthMedication = forwardRef(({ data }, ref) => {
-    const { control, formState: { isValid }, trigger, getValues, watch } = useForm({
-        mode: "all",
+    const { control, watch } = useControlForm({
+        schema: healthMedicationSchema,
         defaultValues: {
             controlledMedication: null,
             medicationName: '',
             obtainedPublicly: null,
             specificMedicationPublicly: ''
         },
-        values: data && {
-            controlledMedication: data.controlledMedication,
-            medicationName: data.medicationName,
-            obtainedPublicly: data.obtainedPublicly,
-            specificMedicationPublicly: data.specificMedicationPublicly,
-        },
-        resolver: zodResolver(healthMedicationSchema)
-    })
+        initialData: data
+    }, ref)
+
     const watchMedication = watch("controlledMedication")
     const watchObtained = watch("obtainedPublicly")
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues
-    }))
+
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Medicação</h1>

@@ -5,6 +5,7 @@ export default function InputForm({ name, label, control, transform = (e) => e, 
 
 
     const showErrorBorder = (isDirty, error) => {
+        console.log('erro e isdIRTY', isDirty, error)
         // Input wasn't modified but has error OR has been modified and has error (ERROR BORDER)
         if ((!isDirty && error) || (isDirty && error)) {
             return error?.message

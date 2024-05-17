@@ -7,32 +7,24 @@ import maritalStatusSchema from "./schemas/marital-status-schema";
 import MARITAL_STATUS from "utils/enums/marital-status";
 import FormSelect from "Components/FormSelect";
 import FormFilePicker from "Components/FormFilePicker";
+import useControlForm from "hooks/useControlForm";
 const MaritalStatus = forwardRef(({ data }, ref) => {
-    const { control, formState: { isValid }, trigger, watch, getValues, resetField } = useForm({
-        mode: "all",
+    const { control, watch, resetField } = useControlForm({
+        schema: maritalStatusSchema,
         defaultValues: {
             maritalStatus: '',
             weddingCertificate: null
         },
-        values: data && {
-            maritalStatus: data.maritalStatus,
-            weddingCertificate: data.weddingCertificate
-        },
-        resolver: zodResolver(maritalStatusSchema)
-    })
+        initialData: data
+    }, ref)
+
     const watchStatus = watch("maritalStatus")
     useEffect(() => {
         if (watchStatus !== "Married") {
             resetField("weddingCertificate", { defaultValue: null })
         }
     }, [watchStatus])
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues
-    }))
+
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Estado Civil</h1>

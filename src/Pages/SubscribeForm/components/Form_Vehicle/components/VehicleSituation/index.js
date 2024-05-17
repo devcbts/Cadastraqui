@@ -6,34 +6,24 @@ import InputForm from "Components/InputForm";
 import vehicleSituationSchema from "./schemas/vehicle-situation-schema";
 import VEHICLE_SITUATION from "utils/enums/vehicle-situation-type";
 import styles from './styles.module.scss'
+import useControlForm from "hooks/useControlForm";
 const { forwardRef, useImperativeHandle, useEffect, useState } = require("react");
 
 const VehicleSituation = forwardRef(({ data }, ref) => {
-    const { control, watch, trigger, formState: { isValid }, getValues, resetField } = useForm({
-        mode: "all",
+    const { control, watch, resetField } = useControlForm({
+        schema: vehicleSituationSchema,
         defaultValues: {
             situation: '',
             financedMonths: '',
             monthsToPayOff: '',
         },
-        values: data && {
-            situation: data.situation,
-            financedMonths: data.financedMonths,
-            monthsToPayOff: data.monthsToPayOff,
-        },
-        resolver: zodResolver(vehicleSituationSchema)
-    })
+        initialData: data
+    }, ref)
+
     const watchVehicleSituation = watch("situation")
     const isFinanced = watchVehicleSituation === "Financed"
 
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues,
-        needsUpdate: true
-    }))
+
 
     useEffect(() => {
         if (!isFinanced) {

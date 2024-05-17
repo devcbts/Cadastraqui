@@ -8,12 +8,13 @@ import VEHICLE_USAGE from "utils/enums/vehicle-usage";
 import Loader from "Components/Loader";
 import candidateService from "services/candidate/candidateService";
 import vehicleDataSchema from "./schemas/vehicle-data-schema";
+import useControlForm from "hooks/useControlForm";
 
 const { forwardRef, useImperativeHandle, useEffect, useState } = require("react");
 
 const VehicleData = forwardRef(({ data }, ref) => {
-    const { control, watch, trigger, formState: { isValid, defaultValues }, getValues, setValue } = useForm({
-        mode: "all",
+    const { control, watch, setValue } = useControlForm({
+        schema: vehicleDataSchema,
         defaultValues: {
             vehicleType: '',
             modelAndBrand: '',
@@ -23,28 +24,15 @@ const VehicleData = forwardRef(({ data }, ref) => {
             // Variable to avoid unnecessary fetch of family members (NOT TO BE USED ON FORM)
             members: []
         },
-        values: data && {
-            vehicleType: data.vehicleType,
-            modelAndBrand: data.modelAndBrand,
-            manufacturingYear: data.manufacturingYear,
-            usage: data.usage,
-            owners_id: data.owners_id,
-            members: data.members
-        },
-        resolver: zodResolver(vehicleDataSchema)
-    })
+        initialData: data
+    }, ref)
+
     const watchVehicleType = watch("vehicleType")
     const watchUsage = watch("usage")
     const watchOwners = watch("owners_id")
     const watchMembers = watch("members")
 
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues,
-    }))
+
     const needFetching = data?.members ? data.members.length === 0 : true
     const [isLoading, setIsLoading] = useState(needFetching)
     useEffect(() => {

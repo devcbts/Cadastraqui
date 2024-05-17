@@ -10,33 +10,23 @@ import SKINCOLOR from "utils/enums/skin-color";
 import styles from './styles.module.scss'
 import FormCheckbox from "Components/FormCheckbox";
 import RELIGION from "utils/enums/religion";
+import useControlForm from "hooks/useControlForm";
 const PersonalInformation = forwardRef(({ data }, ref) => {
-    const { control, formState: { isValid }, trigger, watch, getValues } = useForm({
-        mode: "all",
+    const { control, watch } = useControlForm({
+        schame: personalInformationSchema,
         defaultValues: {
             skinColor: '',
             educationLevel: '',
             specialNeeds: null,
             religion: ''
         },
-        values: data && {
-            skinColor: data.skinColor,
-            educationLevel: data.educationLevel,
-            specialNeeds: data.specialNeeds,
-            religion: data.religion
-        },
-        resolver: zodResolver(personalInformationSchema)
-    })
+        initialData: data
+    }, ref)
+
     const watchSkinColor = watch("skinColor")
     const watchScholarship = watch("educationLevel")
     const watchReligion = watch("religion")
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues
-    }))
+
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Informações Pessoais</h1>

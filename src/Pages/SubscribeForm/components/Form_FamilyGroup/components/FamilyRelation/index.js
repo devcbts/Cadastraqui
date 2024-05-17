@@ -6,27 +6,19 @@ import familyRelationSchema from "./schemas/family-relation-schema";
 import FAMILY_RELATIONSHIP from "utils/enums/family-relationship";
 import InputForm from "Components/InputForm";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
+import useControlForm from "hooks/useControlForm";
 const FamilyRelation = forwardRef(({ data }, ref) => {
-    const { control, formState: { isValid }, trigger, getValues, watch } = useForm({
-        mode: "all",
+    const { control, watch } = useControlForm({
+        schema: familyRelationSchema,
         defaultValues: {
             relationship: '',
             otherRelationship: '',
         },
-        values: data && {
-            relationship: data.relationship,
-            otherRelationship: data.otherRelationship,
-        },
-        resolver: zodResolver(familyRelationSchema)
-    })
+        initialData: data
+    }, ref)
+
     const watchRelationship = watch("relationship")
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues
-    }))
+
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Parentesco</h1>

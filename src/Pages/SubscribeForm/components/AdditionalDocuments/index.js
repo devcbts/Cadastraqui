@@ -7,33 +7,23 @@ import FormSelect from "Components/FormSelect";
 import DOCUMENT_TYPE from "utils/enums/document-type";
 import InputForm from "Components/InputForm";
 import FormCheckbox from "Components/FormCheckbox";
+import useControlForm from "hooks/useControlForm";
 
 const AdditionalDocuments = forwardRef(({ data }, ref) => {
-    const { control, watch, setValue, trigger, formState: { isValid }, getValues } = useForm({
-        mode: "all",
+    const { control, watch } = useControlForm({
+        schema: additionalDocumentSchema,
         defaultValues: {
             newDocument: false,
             documentType: "",
             documentNumber: "",
             documentValidity: ""
         },
-        values: data && {
-            newDocument: data.newDocument,
-            documentType: data.documentType,
-            documentNumber: data.documentNumber,
-            documentValidity: data.documentValidity
-        },
-        resolver: zodResolver(additionalDocumentSchema)
-    })
+        initialData: data
+    }, ref)
+
     const watchNewDocument = watch("newDocument")
     const watchDocumentType = watch("documentType")
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues
-    }))
+
 
     return (
         <div className={commonStyles.formcontainer}>

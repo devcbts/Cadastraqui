@@ -1,0 +1,12 @@
+@import '../../../../../Assets/theme/global.module.scss';
+.text{
+    color: $grey;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    span{
+        font-size: 16px;
+        font-weight: 700;
+        color: $error;
+    }
+}

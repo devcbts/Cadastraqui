@@ -9,32 +9,22 @@ import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import FormFilePicker from "Components/FormFilePicker";
 import FormSelect from "Components/FormSelect";
 import STATES from "utils/enums/states";
+import useControlForm from "hooks/useControlForm";
 
 const Document = forwardRef(({ data }, ref) => {
-    const { control, watch, setValue, trigger, formState: { isValid }, getValues } = useForm({
-        mode: "all",
+    const { control, watch } = useControlForm({
+        schema: documentSchema,
         defaultValues: {
             RG: "",
             rgIssuingState: "",
             rgIssuingAuthority: "",
             document: "",
         },
-        values: data && {
-            RG: data.RG,
-            rgIssuingState: data.rgIssuingState,
-            rgIssuingAuthority: data.rgIssuingAuthority,
-            document: data.document,
-        },
-        resolver: zodResolver(documentSchema)
-    })
+        initialData: data
+    }, ref)
+
     const watchIssuingState = watch("rgIssuingState")
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues
-    }))
+
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Documento de Identificação</h1>

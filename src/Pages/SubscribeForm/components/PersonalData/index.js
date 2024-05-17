@@ -6,9 +6,10 @@ import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import { formatCPF } from "utils/format-cpf"
 import { formatTelephone } from "utils/format-telephone"
 import { forwardRef, useImperativeHandle } from "react"
+import useControlForm from "hooks/useControlForm"
 const PersonalData = forwardRef(({ data }, ref) => {
-    const { control, formState: { isValid }, trigger, getValues, reset } = useForm({
-        mode: "all",
+    const { control } = useControlForm({
+        schema: personalDataFormSchema,
         defaultValues: {
             fullName: '',
             CPF: '',
@@ -16,22 +17,9 @@ const PersonalData = forwardRef(({ data }, ref) => {
             phone: '',
             email: '',
         },
-        values: data && {
-            fullName: data.fullName,
-            CPF: data.CPF,
-            birthDate: data.birthDate,
-            phone: data.phone,
-            email: data.email,
-        },
-        resolver: zodResolver(personalDataFormSchema)
-    })
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues
-    }))
+        initialData: data
+    }, ref)
+
 
     return (
         <div className={commonStyles.formcontainer}>

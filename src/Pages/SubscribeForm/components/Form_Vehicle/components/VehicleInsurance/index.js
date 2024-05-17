@@ -4,30 +4,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import InputForm from "Components/InputForm";
 import FormCheckbox from "Components/FormCheckbox";
 import vehicleInsuranceSchema from "./schemas/vehicle-insurance-schema";
+import useControlForm from "hooks/useControlForm";
 const { forwardRef, useImperativeHandle, useEffect, useState } = require("react");
 
 const VehicleInsurance = forwardRef(({ data }, ref) => {
-    const { control, watch, trigger, formState: { isValid }, getValues, resetField } = useForm({
-        mode: "all",
+    const { control, watch, resetField } = useControlForm({
+        schema: vehicleInsuranceSchema,
         defaultValues: {
             hasInsurance: null,
             insuranceValue: null
         },
-        values: data && {
-            hasInsurance: data.hasInsurance,
-            insuranceValue: data.insuranceValue,
-        },
-        resolver: zodResolver(vehicleInsuranceSchema)
-    })
+        initialData: data
+    }, ref)
+
     const watchInsurance = watch("hasInsurance")
 
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues,
-    }))
 
     useEffect(() => {
         if (!watchInsurance) {

@@ -1,0 +1,45 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import FormCheckbox from "Components/FormCheckbox";
+import MoneyFormInput from "Components/MoneyFormInput";
+import { forwardRef, useEffect, useImperativeHandle } from "react";
+import { useForm } from "react-hook-form";
+import pensionSchema from "./schemas/pension-schema";
+import styles from './styles.module.scss'
+import useControlForm from "hooks/useControlForm";
+
+
+const Pension = forwardRef(({ data }, ref) => {
+    const { control, watch, resetField } = useControlForm({
+        schema: pensionSchema,
+        defaultValues: {
+            checkPension: null,
+            judicialPensionValue: '',
+        },
+        initialData: data
+    }, ref)
+
+    const watchPension = watch("checkPension")
+
+    useEffect(() => {
+        if (!watchPension) {
+            resetField("judicialPensionValue", { defaultValue: null })
+        }
+    }, [watchPension])
+    return (
+        <>
+            <p className={styles.text}>
+                Você <span>pagou pensão alimentícia</span>, exclusivamente no caso
+                de decisão judicial, acordo homologado judicialmente ou
+                por meio de escritura pública que assim o determine?
+            </p>
+            <FormCheckbox control={control} name="checkPension" />
+            {
+                watchPension && (
+                    <MoneyFormInput control={control} name={"judicialPensionValue"} label={"valor da pensão"} />
+                )
+            }
+        </>
+    )
+})
+
+export default Pension

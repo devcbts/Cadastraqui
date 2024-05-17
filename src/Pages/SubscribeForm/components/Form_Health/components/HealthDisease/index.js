@@ -7,29 +7,20 @@ import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import DISEASES from "utils/enums/diseases";
 import FormCheckbox from "Components/FormCheckbox";
 import healthDiseaseSchema from "./schemas/health-disease-schema";
+import useControlForm from "hooks/useControlForm";
 const HealthDisease = forwardRef(({ data }, ref) => {
-    const { control, formState: { isValid }, trigger, getValues, watch } = useForm({
-        mode: "all",
+    const { control, watch } = useControlForm({
+        schema: healthDiseaseSchema,
         defaultValues: {
             disease: '',
             specificDisease: '',
             hasMedicalReport: '',
         },
-        values: data && {
-            disease: data.disease,
-            specificDisease: data.specificDisease,
-            hasMedicalReport: data.hasMedicalReport,
-        },
-        resolver: zodResolver(healthDiseaseSchema)
-    })
+        initialData: data
+    }, ref)
+
     const watchDisease = watch("disease")
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues
-    }))
+
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Doença</h1>

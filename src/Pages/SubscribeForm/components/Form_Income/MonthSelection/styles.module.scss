@@ -1,0 +1,18 @@
+@import '../../../../../Assets/theme/global.module.scss';
+.month{
+    color: $primary;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    text-transform: capitalize;
+}
+.text{
+    color: $grey;
+    font-size: 18px;
+    font-weight: 700;
+}
+.error{
+    color: $error;
+    font-size: 16px;
+    font-weight: 600;
+}

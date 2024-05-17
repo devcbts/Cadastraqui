@@ -6,24 +6,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import PROPERTY_STATUS from "utils/enums/property-status";
 import InputForm from "Components/InputForm";
 import CONTRACT_TYPE from "utils/enums/contract-type";
+import useControlForm from "hooks/useControlForm";
 
 const { forwardRef, useImperativeHandle, useEffect } = require("react");
 
 const PropertyStatus = forwardRef(({ data }, ref) => {
-    const { control, watch, setValue, trigger, formState: { isValid }, getValues, resetField } = useForm({
-        mode: "all",
+    const { control, watch, resetField } = useControlForm({
+        schema: propertyStatusSchema,
         defaultValues: {
             propertyStatus: '',
             grantorName: null,
             contractType: null,
         },
-        values: data && {
-            propertyStatus: data.propertyStatus,
-            grantorName: data.grantorName,
-            contractType: data.contractType
-        },
-        resolver: zodResolver(propertyStatusSchema)
-    })
+        initialData: data
+    }, ref)
+
     const watchPropertyStatus = watch("propertyStatus")
     const watchContractType = watch("contractType")
     const hasGrantorName = ["ProvidedByEmployer", "ProvidedByFamily", "ProvidedOtherWay"].includes(watchPropertyStatus)
@@ -36,13 +33,7 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
             resetField("contractType", { defaultValue: null })
         }
     }, [watchPropertyStatus])
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues
-    }))
+
 
     return (
         <div className={commonStyles.formcontainer}>

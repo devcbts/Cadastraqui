@@ -9,28 +9,19 @@ import InputForm from "Components/InputForm";
 import InputBase from "Components/InputBase";
 import { zodResolver } from "@hookform/resolvers/zod";
 import incomeSelectionSchema from "./schemas/income-selection-schema";
+import useControlForm from "hooks/useControlForm";
 const IncomeSelection = forwardRef(({ data }, ref) => {
-    const { control, watch, setValue, trigger, formState: { isValid }, getValues, resetField } = useForm({
-        mode: "all",
+    const { control, watch } = useControlForm({
+        schema: incomeSelectionSchema,
         defaultValues: {
             member: null,
             incomeSource: '',
         },
-        values: data && {
-            member: data.member,
-            incomeSource: data.incomeSource,
-        },
-        resolver: zodResolver(incomeSelectionSchema)
-    })
+        initialData: data
+    }, ref)
+
     const watchIncome = watch("incomeSource")
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues
-    }))
-    console.log(data.incomeSource)
+
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Fonte de Renda</h1>

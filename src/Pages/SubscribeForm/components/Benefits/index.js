@@ -6,35 +6,24 @@ import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import benefitsSchema from "./schemas/benefits-schema";
 import FormCheckbox from "Components/FormCheckbox";
 import styles from './styles.module.scss'
+import useControlForm from "hooks/useControlForm";
 const Benefits = forwardRef(({ data }, ref) => {
-    const { control, watch, setValue, trigger, formState: { isValid }, getValues, resetField } = useForm({
-        mode: "all",
+    const { control, watch, resetField } = useControlForm({
+        schema: benefitsSchema,
         defaultValues: {
-            enrolledGovernmentProgram: false,
+            enrolledGovernmentProgram: null,
             NIS: "",
-            attendedPublicHighSchool: false,
-            benefitedFromCebasScholarship_basic: false,
-            benefitedFromCebasScholarship_professional: false,
-            CadUnico: false,
+            attendedPublicHighSchool: null,
+            benefitedFromCebasScholarship_basic: null,
+            benefitedFromCebasScholarship_professional: null,
+            CadUnico: null,
         },
-        values: data && {
-            enrolledGovernmentProgram: data.enrolledGovernmentProgram,
-            NIS: data.NIS,
-            attendedPublicHighSchool: data.attendedPublicHighSchool,
-            benefitedFromCebasScholarship_basic: data.benefitedFromCebasScholarship_basic,
-            benefitedFromCebasScholarship_professional: data.benefitedFromCebasScholarship_professional,
-            CadUnico: data.CadUnico
-        },
-        resolver: zodResolver(benefitsSchema)
-    })
+        initialData: data
+    }, ref)
+
+
     const watchEnrolledGovProgram = watch("enrolledGovernmentProgram")
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues
-    }))
+
     useEffect(() => {
         if (!watchEnrolledGovProgram) {
             resetField("NIS", { defaultValue: '', keepDirty: false, keepError: false })

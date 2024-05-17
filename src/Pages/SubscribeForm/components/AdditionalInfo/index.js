@@ -7,9 +7,10 @@ import { forwardRef, useImperativeHandle } from 'react'
 import FormSelect from 'Components/FormSelect'
 import GENDER from 'utils/enums/gender'
 import STATES from 'utils/enums/states'
+import useControlForm from 'hooks/useControlForm'
 const AdditionalInfo = forwardRef(({ data }, ref) => {
-    const { control, trigger, formState: { isValid }, getValues, watch } = useForm({
-        mode: "all",
+    const { control, watch } = useControlForm({
+        schema: additionalInfoSchema,
         defaultValues: {
             socialName: '',
             gender: '',
@@ -18,25 +19,12 @@ const AdditionalInfo = forwardRef(({ data }, ref) => {
             natural_UF: '',
             nationality: '',
         },
-        values: data && {
-            socialName: data.socialName,
-            gender: data.gender,
-            profession: data.profession,
-            natural_city: data.natural_city,
-            natural_UF: data.natural_UF,
-            nationality: data.nationality,
-        },
-        resolver: zodResolver(additionalInfoSchema)
-    })
+        initialData: data
+    }, ref)
+
     const watchGender = watch("gender")
     const watchState = watch("natural_UF")
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues
-    }))
+
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Informações Adicionais</h1>

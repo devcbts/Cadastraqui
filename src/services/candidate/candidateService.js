@@ -1,4 +1,5 @@
 import { api } from "../axios"
+import employementTypeMapper from "./mappers/employement-type-mapper";
 import familyMemberMapper from "./mappers/family-member-mapper";
 import identityInfoMapper from "./mappers/identity-info-mapper";
 import incomeMapper from "./mappers/income-mapper";
@@ -139,6 +140,37 @@ class CandidateService {
                 authorization: `Bearer ${token}`,
             },
         })
+    }
+
+    registerMonthlyIncome(id, data) {
+        const token = localStorage.getItem("token")
+        return api.post(`/candidates/family-member/income/${id}`, data, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
+    }
+    registerEmploymentType(id, data) {
+        const token = localStorage.getItem("token")
+        const mappedData = employementTypeMapper.toPersistence(data)
+        return api.post(`/candidates/family-member/employmentType/${id}`, mappedData, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
+    }
+
+    async getMemberIncomeInfo(id) {
+        const token = localStorage.getItem("token")
+        const monthlyIncome = await this.getMonthlyIncome(id)
+        const memberIncome = await api.get(`/candidates/family-member/income/${id}`, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
+        console.log('monthly', monthlyIncome)
+        return { monthlyIncome, info: memberIncome.data.familyMemberIncomeInfo }
+
     }
 }
 
