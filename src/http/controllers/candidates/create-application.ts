@@ -29,7 +29,6 @@ export async function subscribeAnnouncement(
     }
 
     let candidate = CandidateOrResponsible.UserData
-
     // check if the candidate is the legal dependent of the responsible
     if (CandidateOrResponsible.IsResponsible) { 
       const legalDependent = await prisma.candidate.findUnique({
@@ -61,6 +60,7 @@ export async function subscribeAnnouncement(
     // O número da inscrição será o total de inscrições existentes + 1
     const applicationNumber = numberOfApplications + 1;
     // Criar inscrição
+    const idField = CandidateOrResponsible.IsResponsible ? { responsible_id: CandidateOrResponsible.UserData.id } : ''
     const application = await prisma.application.create({
       data: {
         candidate_id: candidate.id,
@@ -68,7 +68,8 @@ export async function subscribeAnnouncement(
         status: 'Pending',
         educationLevel_id,
         candidateName: candidate.name,
-        number: applicationNumber
+        number: applicationNumber,
+        ...idField
       },
     })
 

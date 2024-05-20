@@ -50,6 +50,8 @@ import { uploadSolicitationDocument } from './AWS Routes/upload-solicitation-doc
 import { registerCreditCardInfo } from './register-credit-card-info'
 import { getBasicInfoFormated } from './get-user-basic-info-formated'
 import { deleteDocument } from './AWS Routes/delete-document'
+import { deleteMedicationInfo } from './delete-medication'
+import { deleteHealthInfo } from './delete-health-info'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id', { onRequest: [verifyJWT] }, uploadDocument)
@@ -129,12 +131,13 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.get('/health-info/:_id', { onRequest: [verifyJWT] }, getHealthInfo)
 
   app.post('/health-info/:_id', { onRequest: [verifyJWT] }, registerHealthInfo)
+  app.delete('/health-info/:_id', { onRequest: [verifyJWT] }, deleteHealthInfo)
   app.post(
     '/medication-info/:_id',
     { onRequest: [verifyJWT] },
     registerMedicationInfo,
   )
-
+  app.delete('/medication-info/:_id', { onRequest: [verifyJWT] }, deleteMedicationInfo)
   /** Vehicle Info */
   app.get('/vehicle-info/:_id?', { onRequest: [verifyJWT] }, getVehicleInfo)
   app.post('/vehicle-info', { onRequest: [verifyJWT] }, registerVehicleInfo)

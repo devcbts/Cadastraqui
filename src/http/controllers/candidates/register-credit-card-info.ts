@@ -1,6 +1,7 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -36,78 +37,17 @@ export async function registerCreditCardInfo(
 
   try {
     const user_id = request.user.sub
-    const role = request.user.role
-    if (role === 'RESPONSIBLE') {
-
-      const responsible = await prisma.legalResponsible.findUnique({
-        where: { user_id }
-      })
-      if (!responsible) {
-        throw new NotAllowedError()
-      }
-      // Verifica se existe um familiar cadastrado com o owner_id
-      if (_id === responsible.id) {
-        await prisma.creditCard.create({
-          data: {
-            bankName,
-            familyMemberName,
-            cardFlag,
-            cardType,
-            invoiceValue,
-            usersCount,
-            legalResponsibleId: responsible.id
-          },
-        })
-  
-        return reply.status(201).send()
-  
-      }
-      // Armazena informações acerca do Loan no banco de dados
-      await prisma.creditCard.create({
-        data: {
-          bankName,
-          familyMemberName,
-          cardFlag,
-          cardType,
-          invoiceValue,
-          usersCount,
-          familyMember_id: _id,
-          legalResponsibleId: responsible.id
-        },
-      })
-
-      return reply.status(201).send()
-
-
+    const candidateOrResponsible = await SelectCandidateResponsible(user_id)
+    if (!candidateOrResponsible) {
+      throw new NotAllowedError
     }
-    // Verifica se existe um candidato associado ao user_id
-    const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-    if (!candidate) {
-      throw new ResourceNotFoundError()
-    }
-    if (_id === candidate.id) {
-      await prisma.creditCard.create({
-        data: {
-          bankName,
-          familyMemberName,
-          cardFlag,
-          cardType,
-          invoiceValue,
-          usersCount,
-          candidate_id: candidate.id
-        },
-      })
 
-      return reply.status(201).send()
-
-    }
     // Verifica se existe um familiar cadastrado com o owner_id
     const familyMember = await prisma.familyMember.findUnique({
       where: { id: _id },
     })
-    if (!familyMember) {
-      throw new NotAllowedError()
-    }
+    const idField = familyMember? {familyMember_id: _id} :(candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id })
+
 
     // Armazena informações acerca do Loan no banco de dados
     await prisma.creditCard.create({
@@ -118,8 +58,8 @@ export async function registerCreditCardInfo(
         cardType,
         invoiceValue,
         usersCount,
-        familyMember_id: _id,
-        candidate_id: candidate.id
+        ...idField
+       
       },
     })
 

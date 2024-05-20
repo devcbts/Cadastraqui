@@ -8,13 +8,13 @@ export async function createFamilyMemberIncomeHDB (id: string, candidate_id: str
     if (!familyMemberIncome) {
         return null;
     }
-    const { id: oldId, familyMember_id: oldFamilyMemberId,candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId, ...familyMemberIncomeData } = familyMemberIncome;
+    const { id: oldId, familyMember_id: oldFamilyMemberId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId, ...familyMemberIncomeData } = familyMemberIncome;
     const familyMemberMapping = await historyDatabase.idMapping.findFirst({
         where: { mainId: (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, application_id }
     });
     const newFamilyMemberId = familyMemberMapping?.newId;
-    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (candidate_id ? { candidate_id: newFamilyMemberId } : { responsible_id: newFamilyMemberId });
-
+    console.log(familyMemberMapping)
+    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (familyMemberIncome.candidate_id ? { candidate_id: newFamilyMemberId } : { responsible_id: newFamilyMemberId });
     const createFamilyMemberIncome = await historyDatabase.familyMemberIncome.create({
             data: {main_id:id, ...familyMemberIncomeData, ...idField, application_id }
     });

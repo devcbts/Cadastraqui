@@ -1,5 +1,6 @@
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -18,24 +19,24 @@ export async function getFamilyMemberHealthInfo(
     })
 
 
-    const isCandidate = await prisma.candidate.findUnique({
-      where: { id: _id },
-    })
-
-    const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
+    const isCandidateOrResponsible = await SelectCandidateResponsible(_id)
+    if (!familyMember && !isCandidateOrResponsible) {
+      throw new ResourceNotFoundError()
+    }
+    const idField = isCandidateOrResponsible ? (isCandidateOrResponsible.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : { familyMember_id: _id };
     const familyMemberIncomeInfo = await prisma.familyMemberDisease.findMany({
       where: idField,
     })
-    const familyMemberMedicationInfo = await prisma.medication.findFirst({
-      where:idField,
+    const familyMemberMedicationInfo = await prisma.medication.findMany({
+      where: idField,
     })
 
     const healthInfo = {
       ...familyMemberIncomeInfo,
       ...familyMemberMedicationInfo,
     }
-
-    return reply.status(200).send({ healthInfo })
+    let info = isCandidateOrResponsible ? isCandidateOrResponsible.UserData : familyMember
+    return reply.status(200).send({ name: (info.fullName || info.name), id: info.id, healthInfo })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

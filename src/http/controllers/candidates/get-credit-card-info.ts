@@ -19,26 +19,32 @@ export async function getCreditCardInfo(
 
   try {
     const user_id = request.user.sub
-    let candidateOrResponsible 
     let idField
-    if (_id) {
-      candidateOrResponsible = await ChooseCandidateResponsible(_id)
-      if (!candidateOrResponsible) {
-        throw new ResourceNotFoundError()
-      }
-      idField = candidateOrResponsible.IsResponsible ? {legalResponsibleId: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
-    } else {
-      // Verifica se existe um candidato associado ao user_id
-      candidateOrResponsible = await SelectCandidateResponsible(user_id)
-      if (!candidateOrResponsible) {
-        throw new ResourceNotFoundError()
-      }
-      idField = candidateOrResponsible.IsResponsible ? {legalResponsibleId: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
+
+    // Verifica se existe um candidato associado ao user_id
+    const candidateOrResponsible = await SelectCandidateResponsible(user_id)
+    if (!candidateOrResponsible) {
+      throw new NotAllowedError()
     }
-    // Busca as informações de cartões de crédito no banco de dados
+    idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
+
+    const familyMembers = await prisma.familyMember.findMany({
+      where: { ...idField },
+      select: { id: true },
+    })
+
+    const familyMemberIds = familyMembers.map(member => member.id)
+
+    // Busca as informações de Loan no banco de dados
     const creditCards = await prisma.creditCard.findMany({
-      where: idField
-    });
+      where: {
+      OR: [
+        { familyMember: { id: { in: familyMemberIds } } },
+        { candidate_id: idField.candidate_id }
+      ]
+      },
+    })
+
 
     return reply.status(200).send({creditCards});
   } catch (err: any) {
