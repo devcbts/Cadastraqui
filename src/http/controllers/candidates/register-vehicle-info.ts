@@ -22,10 +22,10 @@ export async function registerVehicleInfo(
     modelAndBrand: z.string(),
     manufacturingYear: z.number(),
     situation: VehicleSituation,
-    financedMonths: z.number().optional(),
-    monthsToPayOff: z.number().optional(),
+    financedMonths: z.number().nullish(),
+    monthsToPayOff: z.number().nullish(),
     hasInsurance: z.boolean().default(false),
-    insuranceValue: z.number().optional(),
+    insuranceValue: z.number().nullish(),
     usage: VehicleUsage,
     owners_id: z.array(z.string()),
   })
@@ -52,32 +52,32 @@ export async function registerVehicleInfo(
 
     // Verifica se existe um candidato associado ao user_id
     const candidateResponsible = await SelectCandidateResponsible(user_id)
-        
+
     if (!candidateResponsible) {
       throw new NotAllowedError()
     }
-    connectField = candidateResponsible.IsResponsible ?    { legalResponsible: { connect: { id: candidateResponsible.UserData.id } } } : { candidate: { connect: { id: candidateResponsible.UserData.id } } };;
-      
-   
+    connectField = candidateResponsible.IsResponsible ? { legalResponsible: { connect: { id: candidateResponsible.UserData.id } } } : { candidate: { connect: { id: candidateResponsible.UserData.id } } };;
 
-    
+
+
+
 
     const familyMembersExist = await Promise.all(
       owners_id.map(async (owner_id) => {
-      if (owner_id === candidateResponsible.UserData.id) {
-        return candidateResponsible.UserData;
-      }
-      return prisma.familyMember.findUnique({
-        where: { id: owner_id },
-        select: { id: true } // Seleciona apenas o ID para verificação
-      });
+        if (owner_id === candidateResponsible.UserData.id) {
+          return candidateResponsible.UserData;
+        }
+        return prisma.familyMember.findUnique({
+          where: { id: owner_id },
+          select: { id: true } // Seleciona apenas o ID para verificação
+        });
       })
     );
-  
+
     if (familyMembersExist.some(member => member === null)) {
       throw new NotAllowedError();
     }
-  
+
     // Armazena informações acerca do veículo no banco de dados com a adaptação para incluir o responsável legal, se aplicável
     const vehicle = await prisma.vehicle.create({
       data: {
@@ -94,10 +94,10 @@ export async function registerVehicleInfo(
         // Não adiciona os proprietários aqui, pois será feito no próximo passo
       },
     });
-  
+
     // Associa os membros da família ao veículo
     await Promise.all(
-      owners_id.map(owner_id => 
+      owners_id.map(owner_id =>
         prisma.familyMemberToVehicle.create({
           data: {
             A: owner_id,
