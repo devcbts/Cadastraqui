@@ -8,7 +8,7 @@ export default async function updateIncomeSource(
     request: FastifyRequest,
     response: FastifyReply
 ) {
-   
+
     const updateIncomeSourceSchema = z.object({
         id: z.string(),
         incomeSource: z.array(IncomeSource)
@@ -17,8 +17,8 @@ export default async function updateIncomeSource(
     try {
         const { id, incomeSource } = updateIncomeSourceSchema.parse(request.body)
         const isCandidateOrResponsible = await ChooseCandidateResponsible(id)
-
         const idField = isCandidateOrResponsible ? (isCandidateOrResponsible.IsResponsible ? { responsible_id: id } : { candidate_id: id }) : { familyMember_id: id };
+        console.log(id, incomeSource, idField)
         if (isCandidateOrResponsible) {
 
             await prisma.identityDetails.updateMany({

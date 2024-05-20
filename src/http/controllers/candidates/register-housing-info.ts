@@ -51,9 +51,9 @@ export async function registerHousingInfo(
   ])
 
   const housingDataSchema = z.object({
-    grantorName: z.string().optional(),
+    grantorName: z.string().nullish(),
     propertyStatus: PropertyStatus,
-    contractType: ContractType.optional(),
+    contractType: ContractType.nullish(),
     timeLivingInProperty: TimeLivingInProperty,
     domicileType: DomicileType,
     numberOfRooms: NumberOfRooms,
@@ -76,23 +76,23 @@ export async function registerHousingInfo(
     if (!CandidateOrResponsible) {
       throw new NotAllowedError()
     }
-    const idField = CandidateOrResponsible.IsResponsible ? {legalresponsible_id : CandidateOrResponsible.UserData.id} : {candidate_id : CandidateOrResponsible.UserData.id}
+    const idField = CandidateOrResponsible.IsResponsible ? { legalresponsible_id: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id }
     const dataToCreate = {
       domicileType,
-      
+
       numberOfBedrooms,
       numberOfRooms,
       propertyStatus,
       timeLivingInProperty,
       ...idField,
-      ...(contractType && {contractType}),
-      ...(grantorName && {grantorName})
+      ...(contractType && { contractType }),
+      ...(grantorName && { grantorName })
     }
 
     // Armazena informações acerca da moradia no banco de dados
     await prisma.housing.create({
       data: dataToCreate
-      
+
     })
 
     return reply.status(201).send()

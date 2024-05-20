@@ -1,4 +1,3 @@
-import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
@@ -60,8 +59,7 @@ export async function getHealthInfo(
             ...familyMemberIncomeInfo,
             ...familyMemberMedicationInfo,
           }
-
-          healthInfoResults.push({ name: familyMember.fullName, healthInfo })
+          healthInfoResults.push({ name: familyMember.fullName, id: familyMember.id, healthInfo })
         } catch (error) {
           throw new ResourceNotFoundError()
         }
@@ -80,11 +78,9 @@ export async function getHealthInfo(
     }
 
 
-
     let healthInfoResults = await fetchData(familyMembers)
 
-
-    healthInfoResults.push({ name: candidateOrResponsible.UserData.name, healthInfo })
+    healthInfoResults.push({ name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, healthInfo })
 
 
     return reply.status(200).send({ healthInfoResults })

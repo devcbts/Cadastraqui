@@ -35,7 +35,7 @@ export async function registerMonthlyIncomeInfo(
   ])
 
   const MontlhyIncomeDataSchemaTest = z.object({
-    quantity: z.number(),
+    quantity: z.number().default(0),
     incomeSource: IncomeSource,
 
     incomes: z.array(z.object({
@@ -54,7 +54,7 @@ export async function registerMonthlyIncomeInfo(
       reversalValue: z.number().default(0),
       compensationValue: z.number().default(0),
       judicialPensionValue: z.number().default(0),
-    }))
+    })).default([])
   })
 
   const incomeParamsSchema = z.object({

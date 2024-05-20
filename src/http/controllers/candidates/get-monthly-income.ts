@@ -39,7 +39,7 @@ export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: F
   try {
     const CandidateOrResponsible = await SelectCandidateResponsible(_id);
 
-    const idField = CandidateOrResponsible ? CandidateOrResponsible.IsResponsible? {responsible_id: CandidateOrResponsible.UserData.id} : {candidate_id: CandidateOrResponsible.UserData.id} : { familyMember_id: _id };
+    const idField = CandidateOrResponsible ? CandidateOrResponsible.IsResponsible ? { responsible_id: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id } : { familyMember_id: _id };
 
     const monthlyIncomes = await prisma.monthlyIncome.findMany({
       where: idField,
@@ -48,6 +48,7 @@ export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: F
       const isUnemployed = await prisma.familyMemberIncome.findFirst({
         where: idField
       })
+      console.log(isUnemployed)
       if (isUnemployed) {
         return reply.status(200).send({ incomeBySource: { [isUnemployed.employmentType]: [] } })
       }

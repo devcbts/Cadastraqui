@@ -21,8 +21,10 @@ import { getMonthlyIncomeBySource } from './get-monthly-income'
 import { getOpenAnnouncements } from './get-open-announcements'
 import { getDocumentsPDF } from './get-pdf-documents'
 import { getCandidateProfilePicture } from './get-profile-picture'
+import { getBasicInfoFormated } from './get-user-basic-info-formated'
 import { getVehicleInfo } from './get-vehicle-info'
 import { registerCandidate } from './register'
+import { registerCreditCardInfo } from './register-credit-card-info'
 import { registerEmploymenType } from './register-employment-type'
 import { registerExpensesInfo } from './register-expenses-info'
 import { registerFamilyMemberInfo } from './register-family-member'
@@ -47,8 +49,6 @@ import { updateVehicleInfo } from './update-vehicle-info'
 import { uploadDocument } from './upload-documents'
 import { uploadCandidateProfilePicture } from './upload-profile-picture'
 import { uploadSolicitationDocument } from './upload-solicitation-documents'
-import { registerCreditCardInfo } from './register-credit-card-info'
-import { getBasicInfoFormated } from './get-user-basic-info-formated'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
@@ -94,7 +94,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     registerMonthlyIncomeInfo,
   )
   app.post('/update-income-source', { onRequest: [verifyJWT] }, updateIncomeSource)
- 
+
   app.patch(
     '/family-info/:_id',
     { onRequest: [verifyJWT] },
@@ -103,7 +103,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.delete('/family-member', { onRequest: [verifyJWT] }, deleteFamilyMember)
   // Income Info
   app.post('/family-member/employmentType/:_id', { onRequest: [verifyJWT] }, registerEmploymenType)
-  
+
 
   app.get(
     '/family-member/income/:_id',
@@ -115,7 +115,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     getMonthlyIncomeBySource,
   )
-  
+
 
   /** Health Info */
   // app.get('/health-info', { onRequest: [verifyJWT] }, getHealthInfo)
@@ -125,7 +125,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     getFamilyMemberHealthInfo,
   )
 
-  app.get('/health-info/:_id', { onRequest: [verifyJWT] }, getHealthInfo)
+  app.get('/health-info/:_id?', { onRequest: [verifyJWT] }, getHealthInfo)
 
   app.post('/health-info/:_id', { onRequest: [verifyJWT] }, registerHealthInfo)
   app.post(

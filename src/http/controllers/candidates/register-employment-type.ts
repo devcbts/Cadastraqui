@@ -11,19 +11,19 @@ import IncomeSource from './enums/IncomeSource'
 const EmploymentTypeSchema = z.object({
     employmentType: IncomeSource, // IncomeSource and EmploymentType are the same enum
     quantity: z.number().default(3),
-    startDate: z.string().optional(),
-    fantasyName: z.string().optional(),
-    CNPJ: z.string().optional(),
-    socialReason: z.string().optional(),
-    financialAssistantCPF: z.string().optional(),
-    admissionDate: z.string().optional(),
-    position: z.string().optional(),
-    payingSource: z.string().optional(),
-    payingSourcePhone: z.string().optional(),
-    receivesUnemployment: z.boolean().optional(),
-    parcels: z.number().optional(),
-    firstParcelDate: z.string().optional(),
-    parcelValue: z.number().optional(),
+    startDate: z.string().nullish(),
+    fantasyName: z.string().nullish(),
+    CNPJ: z.string().nullish(),
+    socialReason: z.string().nullish(),
+    financialAssistantCPF: z.string().nullish(),
+    admissionDate: z.string().nullish(),
+    position: z.string().nullish(),
+    payingSource: z.string().nullish(),
+    payingSourcePhone: z.string().nullish(),
+    receivesUnemployment: z.boolean().nullish(),
+    parcels: z.number().nullish(),
+    firstParcelDate: z.string().nullish(),
+    parcelValue: z.number().nullish(),
 });
 
 export async function registerEmploymenType(
