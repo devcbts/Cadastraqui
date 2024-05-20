@@ -1,7 +1,15 @@
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { FastifyInstance } from 'fastify'
+import { deleteDocument } from './AWS Routes/delete-document'
+import { getDocumentsPDF } from './AWS Routes/get-pdf-documents'
+import { getCandidateProfilePicture } from './AWS Routes/get-profile-picture'
+import { uploadDocument } from './AWS Routes/upload-documents'
+import { uploadCandidateProfilePicture } from './AWS Routes/upload-profile-picture'
+import { uploadSolicitationDocument } from './AWS Routes/upload-solicitation-documents'
 import { subscribeAnnouncement } from './create-application'
 import deleteFamilyMember from './delete-family-member'
+import { deleteHealthInfo } from './delete-health-info'
+import { deleteMedicationInfo } from './delete-medication'
 import { finishRegistration } from './finish-registration'
 import { getAnnouncementDocument } from './get-announcement-pdf'
 import { getApplicationHistory } from './get-application-history'
@@ -19,8 +27,6 @@ import { getIncomeInfo } from './get-income-info'
 import { getLoanInfo } from './get-loan-info'
 import { getMonthlyIncomeBySource } from './get-monthly-income'
 import { getOpenAnnouncements } from './get-open-announcements'
-import { getDocumentsPDF } from './get-pdf-documents'
-import { getCandidateProfilePicture } from './get-profile-picture'
 import { getBasicInfoFormated } from './get-user-basic-info-formated'
 import { getVehicleInfo } from './get-vehicle-info'
 import { registerCandidate } from './register'
@@ -46,12 +52,9 @@ import { updateIdentityInfo } from './update-identity-info'
 import updateIncomeSource from './update-income-source'
 import { updateLoanInfo } from './update-loan-info'
 import { updateVehicleInfo } from './update-vehicle-info'
-import { uploadDocument } from './upload-documents'
-import { uploadCandidateProfilePicture } from './upload-profile-picture'
-import { uploadSolicitationDocument } from './upload-solicitation-documents'
 
 export async function candidateRoutes(app: FastifyInstance) {
-  app.post('/upload', { onRequest: [verifyJWT] }, uploadDocument)
+  app.post('/upload/:documentType/:member_id', { onRequest: [verifyJWT] }, uploadDocument)
   app.post(
     '/upload/:solicitation_id',
     { onRequest: [verifyJWT] },
@@ -59,7 +62,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   )
   app.get('/documents/:_id?', { onRequest: [verifyJWT] }, getDocumentsPDF)
   app.get('/documents/announcement/:announcement_id', { onRequest: [verifyJWT] }, getAnnouncementDocument)
-
+  app.post('/document/delete', { onRequest: [verifyJWT] }, deleteDocument)
   /** Basic Info */
   app.post('/', registerCandidate)
   app.get('/basic-info/:_id?', { onRequest: [verifyJWT] }, getBasicInfo)
@@ -128,12 +131,13 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.get('/health-info/:_id?', { onRequest: [verifyJWT] }, getHealthInfo)
 
   app.post('/health-info/:_id', { onRequest: [verifyJWT] }, registerHealthInfo)
+  app.delete('/health-info/:_id', { onRequest: [verifyJWT] }, deleteHealthInfo)
   app.post(
     '/medication-info/:_id',
     { onRequest: [verifyJWT] },
     registerMedicationInfo,
   )
-
+  app.delete('/medication-info/:_id', { onRequest: [verifyJWT] }, deleteMedicationInfo)
   /** Vehicle Info */
   app.get('/vehicle-info/:_id?', { onRequest: [verifyJWT] }, getVehicleInfo)
   app.post('/vehicle-info', { onRequest: [verifyJWT] }, registerVehicleInfo)

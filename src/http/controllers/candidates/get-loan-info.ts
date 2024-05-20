@@ -19,29 +19,29 @@ export async function getLoanInfo(
 
   try {
     const user_id = request.user.sub
-    let candidateOrResponsible 
     let idField
-    if (_id) {
-      candidateOrResponsible = await ChooseCandidateResponsible(_id)
-      if (!candidateOrResponsible) {
-        throw new ResourceNotFoundError()
-      }
-      idField = candidateOrResponsible.IsResponsible ? {legalResponsibleId: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
-    } else {
-      // Verifica se existe um candidato associado ao user_id
-      candidateOrResponsible = await SelectCandidateResponsible(user_id)
-      if (!candidateOrResponsible) {
-        throw new ResourceNotFoundError()
-      }
-      idField = candidateOrResponsible.IsResponsible ? {legalResponsibleId: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
-    }
-   
 
+    // Verifica se existe um candidato associado ao user_id
+    const candidateOrResponsible = await SelectCandidateResponsible(user_id)
+    if (!candidateOrResponsible) {
+      throw new NotAllowedError()
+    }
+    idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
+
+    const familyMembers = await prisma.familyMember.findMany({
+      where: { ...idField },
+      select: { id: true },
+    })
+
+    const familyMemberIds = familyMembers.map(member => member.id)
 
     // Busca as informações de Loan no banco de dados
     const loans = await prisma.loan.findMany({
       where: {
-        familyMember: idField,
+      OR: [
+        { familyMember: { id: { in: familyMemberIds } } },
+        { candidate_id: idField.candidate_id }
+      ]
       },
     })
 

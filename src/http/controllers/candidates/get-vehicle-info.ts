@@ -41,13 +41,8 @@ export async function getVehicleInfo(
    
     // Obtém todos os veículos associados ao candidato
     const vehicles = await prisma.vehicle.findMany({
-      where: {
-        FamilyMemberToVehicle: {
-          some: {
-            familyMembers: idField,
-          },
-        },
-      },
+      where: idField,
+       
       include: {
         FamilyMemberToVehicle: {
           include: {

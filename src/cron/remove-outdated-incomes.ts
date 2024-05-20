@@ -28,7 +28,5 @@ async function removeOutdatedIncome() {
 
 // Run this job every day 1 of the month
 const job: nodeSchedule.Job = nodeSchedule.scheduleJob("* * * 1 * * *", async () => await removeOutdatedIncome())
-console.log('executing')
-removeOutdatedIncome()
-console.log('finish')
+
 export default job

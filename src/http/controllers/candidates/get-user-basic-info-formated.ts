@@ -17,9 +17,9 @@ export async function getBasicInfoFormated(
   const { _id } = queryParamsSchema.parse(request.params);
   try {
     const user_id = request.user.sub
-    let candidateOrResponsible = await ChooseCandidateResponsible(user_id)
+    let candidateOrResponsible = await SelectCandidateResponsible(user_id)
     if (_id) {
-      candidateOrResponsible = await SelectCandidateResponsible(_id)
+      candidateOrResponsible = await ChooseCandidateResponsible(_id)
     } 
     
     // Verifica se existe um candidato associado ao user_id

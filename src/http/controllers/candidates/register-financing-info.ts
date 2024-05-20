@@ -76,8 +76,8 @@ export async function registerFinancingInfo(
         paidInstallments,
         totalInstallments,
         otherFinancing,
-        ...idField,
-        ...(IsUser.IsResponsible ? {legalResponsible_id: _id} : {candidate_id: _id}) 
+        
+        ...(IsUser? (IsUser.IsResponsible ? {legalResponsible_id: _id} : {candidate_id: _id}) : idField) 
       },
     })
 

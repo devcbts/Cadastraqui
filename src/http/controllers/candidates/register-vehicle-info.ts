@@ -63,12 +63,15 @@ export async function registerVehicleInfo(
     
 
     const familyMembersExist = await Promise.all(
-      owners_id.map(owner_id =>
-        prisma.familyMember.findUnique({
-          where: { id: owner_id },
-          select: { id: true } // Seleciona apenas o ID para verificação
-        })
-      )
+      owners_id.map(async (owner_id) => {
+      if (owner_id === candidateResponsible.UserData.id) {
+        return candidateResponsible.UserData;
+      }
+      return prisma.familyMember.findUnique({
+        where: { id: owner_id },
+        select: { id: true } // Seleciona apenas o ID para verificação
+      });
+      })
     );
   
     if (familyMembersExist.some(member => member === null)) {
