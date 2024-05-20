@@ -128,7 +128,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     getFamilyMemberHealthInfo,
   )
 
-  app.get('/health-info/:_id', { onRequest: [verifyJWT] }, getHealthInfo)
+  app.get('/health-info', { onRequest: [verifyJWT] }, getHealthInfo)
 
   app.post('/health-info/:_id', { onRequest: [verifyJWT] }, registerHealthInfo)
   app.delete('/health-info/:_id', { onRequest: [verifyJWT] }, deleteHealthInfo)
