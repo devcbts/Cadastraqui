@@ -34,7 +34,6 @@ const MonthSelection = forwardRef(({ data, render = [] }, ref) => {
         })
     }
     useEffect(() => {
-        console.log('aqui meu deusss', getValues("incomes"))
         // Get the current value (if API returns any) and prepend on the array
         const incomes = getValues("incomes") ?? []
         const quantity = data?.quantity
@@ -64,7 +63,7 @@ const MonthSelection = forwardRef(({ data, render = [] }, ref) => {
 
     const [monthSelected, setMonthSelected] = useRecoilState(incomeAtom)
 
-    const handleSave = (data) => {
+    const handleSave = (_, data) => {
         // Find the current month to be updated at "incomes" array, then update the entire array
         const monthsToUpdate = watchIncomes.map(e => {
             if (e.date === monthSelected.date) {
@@ -108,7 +107,6 @@ const MonthSelection = forwardRef(({ data, render = [] }, ref) => {
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Cadastrar Renda</h1>
             <p>{data?.member?.fullName} - {INCOME_SOURCE.find(e => data?.incomeSource === e.value)?.label}</p>
-
             {!monthSelected &&
                 <>
                     <p className={styles.text}>Agora realize o cadastro de renda para cada um dos meses abaixo, inserindo as informações correspondentes.</p>

@@ -16,7 +16,7 @@ const InformationModelA = forwardRef(({ data }, ref) => {
         initialData: data,
     }, ref)
 
-
+    console.log(data)
     return (
         <div className={commonStyles.formcontainer}>
             <InputForm name={"startDate"} control={control} label={"date de início/admissão"} type="date" />

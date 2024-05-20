@@ -16,6 +16,7 @@ import UnemployementInsurance from "./Unemployed/components/UnemployementInsuran
 import InformationModelA from "./ModelA/components/InformationModelA";
 import InformationModelB from "./ModelB/components/InformationModelB";
 import IncomeFormModelB from "./ModelB";
+import IncomeFormModelC from "./ModelC";
 export default function FormIncome() {
     // Keep track of incomes created/updated by user
     const hasIncomeSelected = useRecoilValue(incomeAtom)
@@ -44,6 +45,7 @@ export default function FormIncome() {
             // then execute the rest of operation
             NotificationService.success({ text: 'Informações cadastradas' })
         } catch (err) {
+            console.log(err)
             NotificationService.error({ text: err.response.data.message })
 
         }
@@ -69,6 +71,8 @@ export default function FormIncome() {
             setRenderItems([IncomeSelection, InformationModelA, IncomeFormModelA])
         } else if (['PrivateEmployee', 'PublicEmployee', 'DomesticEmployee', 'Retired', 'Pensioner', 'Apprentice', 'TemporaryDisabilityBenefit'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelB])
+        } else if (['BusinessOwnerSimplifiedTax', 'BusinessOwner'].includes(currentIncomeSource)) {
+            setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelC])
         } else {
             setRenderItems([IncomeSelection])
         }
@@ -89,10 +93,10 @@ export default function FormIncome() {
     }
 
     const handleSpecificSelection = ({ member, income, info }) => {
-        console.log(info)
+        console.log('quando seleciono', info)
         const { income: { value }, list } = income
         setIsAdding(true)
-        setData({ member, incomeSource: value, incomes: list })
+        setData({ member, incomeSource: value, incomes: list, ...info })
     }
 
     const handleAdd = ({ member = null }) => {

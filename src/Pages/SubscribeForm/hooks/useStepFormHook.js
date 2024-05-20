@@ -14,19 +14,22 @@ export default function useStepFormHook({
     const getCurrentRef = () => stepsRef[activeStep - 1].current
     const [data, setData] = useState(null)
     const isFormValid = () => getCurrentRef().validate()
+    const [parsedData, setParsedData] = useState(null)
     useEffect(() => {
         setStepsRefs(Array.from({ length: MAX_STEPS }).fill(createRef()))
     }, [MAX_STEPS])
 
     const next = async () => {
         const values = getCurrentRef().values()
-        const parsedValues = await getCurrentRef().beforeSubmit()
-        console.log(values)
+        const parsedValues = await getCurrentRef().beforeSubmit?.()
         if (isFormValid()) {
+            setParsedData((prev) => ({ ...prev, ...parsedValues }))
             setData((prevData) => ({ ...prevData, ...values }))
             switch (activeStep) {
                 case MAX_STEPS:
-                    await onSave({ ...data, ...parsedValues })
+                    // pass data and overwrite properties with parsedData (in case data contains fields needed)
+                    // second argument is the unparsed data
+                    await onSave({ ...data, ...parsedData, ...parsedValues }, { ...data, ...values })
                     break;
                 default:
                     setActiveStep((prevState) => prevState + 1)

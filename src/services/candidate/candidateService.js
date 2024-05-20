@@ -1,6 +1,7 @@
 import { api } from "../axios"
 import employementTypeMapper from "./mappers/employement-type-mapper";
 import familyMemberMapper from "./mappers/family-member-mapper";
+import healthInfoMapper from "./mappers/health-info-mapper";
 import identityInfoMapper from "./mappers/identity-info-mapper";
 import incomeMapper from "./mappers/income-mapper";
 import vehicleMapper from "./mappers/vehicle-mapper";
@@ -168,9 +169,36 @@ class CandidateService {
                 authorization: `Bearer ${token}`,
             },
         })
-        console.log('monthly', monthlyIncome)
-        return { monthlyIncome, info: memberIncome.data.familyMemberIncomeInfo }
+        console.log('informação,', employementTypeMapper.fromPersistence(memberIncome.data.familyMemberIncomeInfo))
+        return { monthlyIncome, info: employementTypeMapper.fromPersistence(memberIncome.data.familyMemberIncomeInfo) }
+    }
 
+    async getHealthInfo() {
+        const token = localStorage.getItem("token")
+        const response = await api.get(`/candidates/health-info`, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
+        return healthInfoMapper.fromPersistence(response.data.healthInfoResults)
+    }
+
+    registerHealthInfo(id, data) {
+        const token = localStorage.getItem("token")
+        const mappedData = healthInfoMapper.toPersistence(data)
+        return api.post(`/candidates/health-info/${id}`, mappedData, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
+    }
+    registerMedicationInfo(id, data) {
+        const token = localStorage.getItem("token")
+        return api.post(`/candidates/medication-info/${id}`, data, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
     }
 }
 

@@ -1,18 +1,8 @@
-import { createRef, useEffect, useMemo, useRef, useState } from "react";
-import FormStepper from "Components/FormStepper";
-import PersonalData from "../PersonalData";
+import { useState } from "react";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
 import ButtonBase from "Components/ButtonBase";
-import AddressData from "../AddressData";
-import AdditionalInfo from "../AdditionalInfo";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
-import MaritalStatus from "../MaritalStatus";
-import PersonalInformation from "../PersonalInformation";
-import Document from "../Document";
-import Benefits from "../Benefits";
 import candidateService from "services/candidate/candidateService";
-import AdditionalDocuments from "../AdditionalDocuments";
-import Loader from "Components/Loader";
 import { NotificationService } from "services/notification";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
 import HealthList from "./components/HealthList";
@@ -29,9 +19,12 @@ export default function FormHealth() {
 
         }
     }
-    const handleSaveInformation = async () => {
+    const handleSaveInformation = async (data) => {
         try {
-            await candidateService.registerIdentityInfo(data)
+            console.log(data)
+            const { memberId, ...rest } = data
+            await candidateService.registerHealthInfo(memberId, rest)
+            await candidateService.registerMedicationInfo(memberId, rest)
             NotificationService.success({ text: 'Informações cadastradas' })
             setEnableEditing(true)
         } catch (err) {
@@ -57,12 +50,14 @@ export default function FormHealth() {
     const [enableEditing, setEnableEditing] = useState(false)
     const [isAdding, setIsAdding] = useState(false)
 
-    const selectMember = (member) => {
-        setData(member)
+    const selectMember = (item) => {
+        //TODO: when user selects (health info exists) redirect to another page to list all diseases
+        setData({ memberId: item.id, ...item.healthInfo })
     }
-    const addHealthInfo = () => {
+    const addHealthInfo = (item) => {
+        const { id } = item
         setIsAdding(true)
-        setData(null)
+        setData({ memberId: id })
     }
     const hasSelectionOrIsAdding = () => {
         return data || isAdding
@@ -102,6 +97,7 @@ export default function FormHealth() {
                                 </ButtonBase>
                             )
                         }
+
 
                     </div>
                 </>

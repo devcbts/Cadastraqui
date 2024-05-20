@@ -1,22 +1,24 @@
+import stringToFloat from "utils/string-to-float";
+
 const { z } = require("zod");
 
 const monthSelectionSchema = (quantity) => z.object({
     incomes: z.array(z.object({
         date: z.date().or(z.string().transform(v => new Date(v))).default(new Date()),
-        grossAmount: z.number().default(0),
-        proLabore: z.number().default(0),
-        dividends: z.number().default(0),
-        deductionValue: z.number().default(0),
-        publicPension: z.number().default(0),
-        incomeTax: z.number().default(0),
-        otherDeductions: z.number().default(0),
-        foodAllowanceValue: z.number().default(0),
-        transportAllowanceValue: z.number().default(0),
-        expenseReimbursementValue: z.number().default(0),
-        advancePaymentValue: z.number().default(0),
-        reversalValue: z.number().default(0),
-        compensationValue: z.number().default(0),
-        judicialPensionValue: z.number().default(0),
+        grossAmount: z.string().nullish().transform(stringToFloat),
+        proLabore: z.string().nullish().transform(stringToFloat),
+        dividends: z.string().nullish().transform(stringToFloat),
+        deductionValue: z.string().nullish().transform(stringToFloat),
+        publicPension: z.string().nullish().transform(stringToFloat),
+        incomeTax: z.string().nullish().transform(stringToFloat),
+        otherDeductions: z.string().nullish().transform(stringToFloat),
+        foodAllowanceValue: z.string().nullish().transform(stringToFloat),
+        transportAllowanceValue: z.string().nullish().transform(stringToFloat),
+        expenseReimbursementValue: z.string().nullish().transform(stringToFloat),
+        advancePaymentValue: z.string().nullish().transform(stringToFloat),
+        reversalValue: z.string().nullish().transform(stringToFloat),
+        compensationValue: z.string().nullish().transform(stringToFloat),
+        judicialPensionValue: z.string().nullish().transform(stringToFloat),
         isUpdated: z.boolean().default(false).refine((v) => v, { message: 'Mês não preenchido' })
     })).min(quantity).max(quantity)
 })

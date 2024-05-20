@@ -29,7 +29,7 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
         if (!hasGrantorName) {
             resetField("grantorName", { defaultValue: null })
         }
-        if (hasContractType) {
+        if (!hasContractType) {
             resetField("contractType", { defaultValue: null })
         }
     }, [watchPropertyStatus])

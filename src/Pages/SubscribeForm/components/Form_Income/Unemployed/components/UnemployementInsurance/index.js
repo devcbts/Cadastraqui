@@ -24,9 +24,9 @@ const UnemployementInsurance = forwardRef(({ data }, ref) => {
 
     useEffect(() => {
         if (!watchInsurance) {
-            resetField("parcels")
-            resetField("firstParcelDate")
-            resetField("parcelValue")
+            resetField("parcels", { defaultValue: null })
+            resetField("firstParcelDate", { defaultValue: null })
+            resetField("parcelValue", { defaultValue: null })
         }
     }, [watchInsurance])
     return (

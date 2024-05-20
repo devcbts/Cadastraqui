@@ -23,8 +23,6 @@ const InformationModelB = forwardRef(({ data }, ref) => {
 
     return (
         <div className={commonStyles.formcontainer}>
-            <h1 className={commonStyles.title}>Cadastrar Renda</h1>
-            <p>{data.member.fullName} - {INCOME_SOURCE.find(e => data.incomeSource === e.value).label}</p>
             <InputForm name={"CNPJ"} control={control} label={"CNPJ"} transform={(e) => formatCNPJ(e.target.value)} />
             <InputForm name={"admissionDate"} control={control} label={"date de início/admissão"} type="date" />
             <InputForm name={"position"} control={control} label={"atividade exercida"} />
