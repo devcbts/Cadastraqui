@@ -1,5 +1,5 @@
 require('module-alias/register');
-
+import './lib/pg-listener';
 import fastifyCookie from '@fastify/cookie';
 import fastifyJwt from '@fastify/jwt';
 import { fastifyMultipart } from '@fastify/multipart';
