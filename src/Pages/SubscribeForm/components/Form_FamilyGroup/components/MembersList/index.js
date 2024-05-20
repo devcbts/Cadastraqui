@@ -41,8 +41,8 @@ export default function MembersList({ onSelect, onAdd }) {
     return (
         <>
             <Loader loading={isLoading} />
-            <div>
-                <h1 className={commonStyles.title}>Parentes Cadastrados</h1>
+            <div className={commonStyles.title}>
+                <h1>Integrantes do Grupo Familiar Cadastrados</h1>
                 <p>Selecione um parente ou cadastre um novo</p>
             </div>
             {familyMembers.length > 0 && (
@@ -56,7 +56,7 @@ export default function MembersList({ onSelect, onAdd }) {
                 <p className={styles.emptytext}> Você ainda não registrou nenhum membro para o grupo familiar, clique no botão abaixo para realizar o primeiro cadastro</p>
             )}
             <ButtonBase
-                label="novo parentesco"
+                label="adicionar"
                 onClick={onAdd}
             />
 

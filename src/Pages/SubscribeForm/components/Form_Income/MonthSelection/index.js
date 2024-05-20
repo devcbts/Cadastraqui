@@ -104,18 +104,18 @@ const MonthSelection = forwardRef(({ data, render = [] }, ref) => {
     // setMonth is responsible for keep tracking of which month is selected, it's using recoil so the component isn't remounted each data change,
     // not triggering useEffect many times (it'd result on every month having 'isUpdated:true')
     return (
-        <div className={commonStyles.formcontainer}>
+        <div className={[commonStyles.formcontainer, styles.container].join(' ')}>
             <h1 className={commonStyles.title}>Cadastrar Renda</h1>
-            <p>{data?.member?.fullName} - {INCOME_SOURCE.find(e => data?.incomeSource === e.value)?.label}</p>
+            <p className={styles.user}>{data?.member?.fullName} - {INCOME_SOURCE.find(e => data?.incomeSource === e.value)?.label}</p>
             {!monthSelected &&
                 <>
                     <p className={styles.text}>Agora realize o cadastro de renda para cada um dos meses abaixo, inserindo as informações correspondentes.</p>
                     {
                         Array.from({ length: data.quantity }).map((_, index) => (
-                            <>
+                            <div className={styles.wrapper}>
                                 <ButtonBase label={watchIncomes?.[index]?.dateString} onClick={() => handleSelectMonth(watchIncomes?.[index])} />
                                 {errors?.incomes?.[index]?.isUpdated?.message && <p className={styles.error}>{watchIncomes?.[index]?.dateString} desatualizado</p>}
-                            </>
+                            </div>
 
                         ))
                     }
