@@ -190,6 +190,9 @@ export async function registerIdentityInfo(
         addressNumber: candidateOrResponsible.UserData.addressNumber,
         neighborhood: candidateOrResponsible.UserData.neighborhood,
         CPF: candidateOrResponsible.UserData.CPF,
+        city: candidateOrResponsible.UserData.city,
+        UF: candidateOrResponsible.UserData.UF,
+        CEP : candidateOrResponsible.UserData.CEP,
       },
     })
 
