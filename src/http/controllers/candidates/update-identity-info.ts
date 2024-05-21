@@ -156,7 +156,14 @@ export async function updateIdentityInfo(
     institutionName_professional: z.union([z.string(), z.null()]),
     institutionCNPJ_professional: z.union([z.string(), z.null()]),
     nameOfScholarshipCourse_professional: z.union([z.string(), z.null()]),
-    CadUnico: z.boolean()
+    CadUnico: z.boolean(),
+    CPF: z.string(),
+    address: z.string().nullish(),
+    addressNumber: z.string().nullish(),
+    neighborhood: z.string().nullish(),
+    city: z.string().nullish(),
+    UF: z.string().nullish(),
+    email: z.string().email()
   }).partial()
 
   const {
@@ -200,7 +207,14 @@ export async function updateIdentityInfo(
     institutionName_professional,
     institutionCNPJ_professional,
     nameOfScholarshipCourse_professional,
-    CadUnico
+    CadUnico,
+    CPF,
+    address,
+    addressNumber,
+    neighborhood,
+    city,
+    UF,
+    email
   } = userDataSchema.parse(request.body)
 
   try {
@@ -262,7 +276,12 @@ export async function updateIdentityInfo(
       specialNeedsDescription,
       workPhone,
       yearsBenefitedFromCebas_basic,
-      CadUnico
+      CadUnico,
+      CPF,
+      address,
+      addressNumber,
+      neighborhood,
+      email
     }
 
     if (candidate) {

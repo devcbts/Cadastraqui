@@ -49,6 +49,7 @@ export async function getIdentityInfo(
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
     }
+    console.log(err)
     return reply.status(500).send({ message: err.message })
   }
 }
