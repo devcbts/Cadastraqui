@@ -20,9 +20,10 @@ export async function registerMedicationInfo(
     medicationName: z.string(),
     obtainedPublicly: z.boolean(),
     specificMedicationPublicly: z.string().optional(),
+    familyMemberDiseaseId: z.string(),
   })
 
-  const { medicationName, obtainedPublicly, specificMedicationPublicly } =
+  const { medicationName, obtainedPublicly, specificMedicationPublicly, familyMemberDiseaseId } =
     medicationDataSchema.parse(request.body)
 
   try {
@@ -49,6 +50,7 @@ export async function registerMedicationInfo(
           obtainedPublicly,
           ...idField,
           specificMedicationPublicly,
+          familyMemberDiseaseId
         },
       })
   

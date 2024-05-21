@@ -84,9 +84,7 @@ export async function registerMonthlyIncomeInfo(
     // Verifica se existe um familiar cadastrado com o owner_id
 
     const idField = isCandidateOrResponsible ? (isCandidateOrResponsible.IsResponsible ? { responsible_id: _id } : { candidate_id: _id }) : { familyMember_id: _id };
-    await prisma.monthlyIncome.deleteMany({
-      where: { ...idField, incomeSource: monthlyIncome.incomeSource }
-    })
+
     // iterate over the month array to get all total income
     monthlyIncome.incomes.forEach(async (income) => {
       if (income.grossAmount) {
@@ -155,52 +153,7 @@ export async function registerMonthlyIncomeInfo(
 
 
 
-    // Atualiza o array de IncomeSource do candidato ou responsável
-    // if (isCandidateOrResponsible) {
 
-    //   await prisma.identityDetails.updateMany({
-    //     where: {
-    //       ...idField,
-    //       NOT: {
-    //         incomeSource: {
-    //           has: monthlyIncome.incomeSource
-    //         }
-    //       }
-    //     },
-
-    //     data: {
-    //       incomeSource: {
-
-    //         push: monthlyIncome.incomeSource,
-
-    //       }
-    //     }
-    //   })
-
-    // } else {
-    //   // Atualiza o array de IncomeSource do membro da familia
-    //   console.log(await prisma.familyMember.findFirst({
-    //     where: {
-    //       id: _id
-    //     }
-    //   }))
-    //   await prisma.familyMember.update({
-    //     where: {
-    //       id: _id,
-    //       // NOT: {
-    //       //   incomeSource: {
-    //       //     has: monthlyIncome.incomeSource
-    //       //   }
-    //       // }
-    //     },
-    //     // data: {
-    //     //   incomeSource: {
-    //     //     push: monthlyIncome.incomeSource,
-
-    //     //   }
-    //     // }
-    //   })
-    // }
 
     return reply.status(201).send()
   } catch (err: any) {
