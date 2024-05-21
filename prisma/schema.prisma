@@ -219,6 +219,9 @@ model IdentityDetails {
   address                                    String?
   addressNumber                              String?
   neighborhood                               String?
+  city                                       String?
+  UF                                         COUNTRY?
+  CEP                                        String?
   specialNeedsDescription                    String?
   hasMedicalReport                           Boolean?
   email                                      String?
