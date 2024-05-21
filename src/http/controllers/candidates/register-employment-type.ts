@@ -81,10 +81,7 @@ export async function registerEmploymenType(
         }, 0);
 
         const avgIncome = validIncomes.length > 0 ? totalAmount / quantity : 0;
-        console.log(avgIncome)
-        await prisma.familyMemberIncome.deleteMany({
-            where: { ...idField, employmentType: employmentType }
-        })
+       
         await prisma.familyMemberIncome.create({
             data: {
                 employmentType,

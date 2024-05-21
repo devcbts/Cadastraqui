@@ -35,25 +35,26 @@ export async function registerMonthlyIncomeInfo(
   ])
 
   const MontlhyIncomeDataSchemaTest = z.object({
+    quantity: z.number(),
     incomeSource: IncomeSource,
 
-
-    date: z.date().or(z.string().transform(v => new Date(v))).default(new Date()),
-    grossAmount: z.number().default(0),
-    proLabore: z.number().default(0),
-    dividends: z.number().default(0),
-    deductionValue: z.number().default(0),
-    publicPension: z.number().default(0),
-    incomeTax: z.number().default(0),
-    otherDeductions: z.number().default(0),
-    foodAllowanceValue: z.number().default(0),
-    transportAllowanceValue: z.number().default(0),
-    expenseReimbursementValue: z.number().default(0),
-    advancePaymentValue: z.number().default(0),
-    reversalValue: z.number().default(0),
-    compensationValue: z.number().default(0),
-    judicialPensionValue: z.number().default(0),
-
+    incomes: z.array(z.object({
+      date: z.date().or(z.string().transform(v => new Date(v))).default(new Date()),
+      grossAmount: z.number().default(0),
+      proLabore: z.number().default(0),
+      dividends: z.number().default(0),
+      deductionValue: z.number().default(0),
+      publicPension: z.number().default(0),
+      incomeTax: z.number().default(0),
+      otherDeductions: z.number().default(0),
+      foodAllowanceValue: z.number().default(0),
+      transportAllowanceValue: z.number().default(0),
+      expenseReimbursementValue: z.number().default(0),
+      advancePaymentValue: z.number().default(0),
+      reversalValue: z.number().default(0),
+      compensationValue: z.number().default(0),
+      judicialPensionValue: z.number().default(0),
+    }))
   })
 
   const incomeParamsSchema = z.object({
@@ -83,73 +84,121 @@ export async function registerMonthlyIncomeInfo(
     // Verifica se existe um familiar cadastrado com o owner_id
 
     const idField = isCandidateOrResponsible ? (isCandidateOrResponsible.IsResponsible ? { responsible_id: _id } : { candidate_id: _id }) : { familyMember_id: _id };
-
+    
     // iterate over the month array to get all total income
-      if (monthlyIncome.grossAmount) {
+    monthlyIncome.incomes.forEach(async (income) => {
+      if (income.grossAmount) {
         let liquidAmount =
-          monthlyIncome.grossAmount -
-          monthlyIncome.foodAllowanceValue -
-          monthlyIncome.transportAllowanceValue -
-          monthlyIncome.compensationValue -
-          monthlyIncome.expenseReimbursementValue -
-          monthlyIncome.advancePaymentValue -
-          monthlyIncome.reversalValue -
-          monthlyIncome.judicialPensionValue
-        if (monthlyIncome.proLabore && monthlyIncome.dividends) {
-          liquidAmount = monthlyIncome.proLabore + monthlyIncome.dividends
+          income.grossAmount -
+          income.foodAllowanceValue -
+          income.transportAllowanceValue -
+          income.compensationValue -
+          income.expenseReimbursementValue -
+          income.advancePaymentValue -
+          income.reversalValue -
+          income.judicialPensionValue
+        if (income.proLabore && income.dividends) {
+          liquidAmount = income.proLabore + income.dividends
         }
         // Armazena informações acerca da renda mensal no banco de dados
         await prisma.monthlyIncome.create({
           data: {
-            grossAmount: monthlyIncome.grossAmount,
+            grossAmount: income.grossAmount,
             liquidAmount,
-            date: monthlyIncome.date,
-            advancePaymentValue: monthlyIncome.advancePaymentValue,
-            compensationValue: monthlyIncome.compensationValue,
-            deductionValue: monthlyIncome.deductionValue,
-            expenseReimbursementValue: monthlyIncome.expenseReimbursementValue,
-            incomeTax: monthlyIncome.incomeTax,
-            judicialPensionValue: monthlyIncome.judicialPensionValue,
-            otherDeductions: monthlyIncome.otherDeductions,
-            publicPension: monthlyIncome.publicPension,
-            reversalValue: monthlyIncome.reversalValue,
-            foodAllowanceValue: monthlyIncome.foodAllowanceValue,
-            transportAllowanceValue: monthlyIncome.transportAllowanceValue,
+            date: income.date,
+            advancePaymentValue: income.advancePaymentValue,
+            compensationValue: income.compensationValue,
+            deductionValue: income.deductionValue,
+            expenseReimbursementValue: income.expenseReimbursementValue,
+            incomeTax: income.incomeTax,
+            judicialPensionValue: income.judicialPensionValue,
+            otherDeductions: income.otherDeductions,
+            publicPension: income.publicPension,
+            reversalValue: income.reversalValue,
+            foodAllowanceValue: income.foodAllowanceValue,
+            transportAllowanceValue: income.transportAllowanceValue,
             ...idField,
-            dividends: monthlyIncome.dividends,
-            proLabore: monthlyIncome.proLabore,
+            dividends: income.dividends,
+            proLabore: income.proLabore,
             incomeSource: monthlyIncome.incomeSource
           }
         })
       } else {
-        const total = (monthlyIncome.dividends || 0) + (monthlyIncome.proLabore || 0)
+        const total = (income.dividends || 0) + (income.proLabore || 0)
         // Armazena informações acerca da renda mensal no banco de dados (Empresário)
         await prisma.monthlyIncome.create({
           data: {
-            grossAmount: monthlyIncome.grossAmount,
-            date: monthlyIncome.date,
-            advancePaymentValue: monthlyIncome.advancePaymentValue,
-            compensationValue: monthlyIncome.compensationValue,
-            deductionValue: monthlyIncome.deductionValue,
-            expenseReimbursementValue: monthlyIncome.expenseReimbursementValue,
-            incomeTax: monthlyIncome.incomeTax,
-            judicialPensionValue: monthlyIncome.judicialPensionValue,
-            otherDeductions: monthlyIncome.otherDeductions,
-            publicPension: monthlyIncome.publicPension,
-            proLabore: monthlyIncome.proLabore,
-            dividends: monthlyIncome.dividends,
-            reversalValue: monthlyIncome.reversalValue,
-            foodAllowanceValue: monthlyIncome.foodAllowanceValue,
-            transportAllowanceValue: monthlyIncome.transportAllowanceValue,
+            grossAmount: income.grossAmount,
+            date: income.date,
+            advancePaymentValue: income.advancePaymentValue,
+            compensationValue: income.compensationValue,
+            deductionValue: income.deductionValue,
+            expenseReimbursementValue: income.expenseReimbursementValue,
+            incomeTax: income.incomeTax,
+            judicialPensionValue: income.judicialPensionValue,
+            otherDeductions: income.otherDeductions,
+            publicPension: income.publicPension,
+            proLabore: income.proLabore,
+            dividends: income.dividends,
+            reversalValue: income.reversalValue,
+            foodAllowanceValue: income.foodAllowanceValue,
+            transportAllowanceValue: income.transportAllowanceValue,
             total,
             ...idField,
             incomeSource: monthlyIncome.incomeSource
           },
         })
       }
-    
+    })
 
 
+
+    // Atualiza o array de IncomeSource do candidato ou responsável
+    // if (isCandidateOrResponsible) {
+
+    //   await prisma.identityDetails.updateMany({
+    //     where: {
+    //       ...idField,
+    //       NOT: {
+    //         incomeSource: {
+    //           has: monthlyIncome.incomeSource
+    //         }
+    //       }
+    //     },
+
+    //     data: {
+    //       incomeSource: {
+
+    //         push: monthlyIncome.incomeSource,
+
+    //       }
+    //     }
+    //   })
+
+    // } else {
+    //   // Atualiza o array de IncomeSource do membro da familia
+    //   console.log(await prisma.familyMember.findFirst({
+    //     where: {
+    //       id: _id
+    //     }
+    //   }))
+    //   await prisma.familyMember.update({
+    //     where: {
+    //       id: _id,
+    //       // NOT: {
+    //       //   incomeSource: {
+    //       //     has: monthlyIncome.incomeSource
+    //       //   }
+    //       // }
+    //     },
+    //     // data: {
+    //     //   incomeSource: {
+    //     //     push: monthlyIncome.incomeSource,
+
+    //     //   }
+    //     // }
+    //   })
+    // }
 
     return reply.status(201).send()
   } catch (err: any) {
