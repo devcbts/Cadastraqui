@@ -1,0 +1,26 @@
+@import '../../../../Assets/theme/global.module.scss';
+.container{
+    background-color: $primary;
+    height: 80px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    align-items: center;
+    padding: 0px 40px;
+    margin: 0;
+    border-bottom: 2px solid white;
+    .logo{
+        -webkit-user-drag: none;
+        margin: auto;
+        width: 400px;
+        height: 100%;
+    }
+    .hamburger{
+        color: white;
+        cursor: pointer;
+        -webkit-user-drag: none;
+        width: 50px;
+        height: 50%;
+    }
+}

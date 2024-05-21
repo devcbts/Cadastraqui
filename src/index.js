@@ -6,10 +6,18 @@ import reportWebVitals from './reportWebVitals';
 import SubscribeForm from './Pages/SubscribeForm';
 import BasicInformation from './Pages/SubscribeForm/components/Form_BasicInformation';
 import Loader from 'Components/Loader';
-
+import Header from 'Components/Header';
+import Sidebar from 'Components/Sidebar';
+import { ReactComponent as Arrow } from './Assets/icons/arrow.svg'
+import UserHeader from 'Components/Header/variants/UserHeader';
+import HamburgHeader from 'Components/Header/variants/HamburgHeader';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <SubscribeForm />
+  <>
+    <HamburgHeader />
+    <SubscribeForm />
+  </>
+
   // <React.StrictMode>
   //   <App />
   // </React.StrictMode>
