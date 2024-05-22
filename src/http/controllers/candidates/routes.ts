@@ -52,6 +52,8 @@ import { getBasicInfoFormated } from './get-user-basic-info-formated'
 import { deleteDocument } from './AWS Routes/delete-document'
 import { deleteMedicationInfo } from './delete-medication'
 import { deleteHealthInfo } from './delete-health-info'
+import { updateHealthInfo } from './update-health-info'
+import { updateMedicationInfo } from './update-medication-info'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id', { onRequest: [verifyJWT] }, uploadDocument)
@@ -131,13 +133,21 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.get('/health-info', { onRequest: [verifyJWT] }, getHealthInfo)
 
   app.post('/health-info/:_id', { onRequest: [verifyJWT] }, registerHealthInfo)
+  app.patch('/health-info/:_id', { onRequest: [verifyJWT] }, updateHealthInfo)
   app.delete('/health-info/:_id', { onRequest: [verifyJWT] }, deleteHealthInfo)
+
   app.post(
     '/medication-info/:_id',
     { onRequest: [verifyJWT] },
     registerMedicationInfo,
   )
+  app.patch('/medication-info/:_id', { onRequest: [verifyJWT] }, updateMedicationInfo)
   app.delete('/medication-info/:_id', { onRequest: [verifyJWT] }, deleteMedicationInfo)
+
+
+
+
+
   /** Vehicle Info */
   app.get('/vehicle-info/:_id?', { onRequest: [verifyJWT] }, getVehicleInfo)
   app.post('/vehicle-info', { onRequest: [verifyJWT] }, registerVehicleInfo)
