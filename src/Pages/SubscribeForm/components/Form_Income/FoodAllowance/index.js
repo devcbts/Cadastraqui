@@ -11,13 +11,13 @@ const FoodAllowance = forwardRef(({ data }, ref) => {
     const { control, watch, resetField } = useControlForm({
         schema: foodAllowanceSchema,
         defaultValues: {
-            hasFoodAllowance: null,
+            hasfoodAllowanceValue: null,
             foodAllowanceValue: '',
         },
         initialData: data
     }, ref)
 
-    const watchFoodAllowance = watch("hasFoodAllowance")
+    const watchFoodAllowance = watch("hasfoodAllowanceValue")
 
     useEffect(() => {
         if (!watchFoodAllowance) {
@@ -26,7 +26,7 @@ const FoodAllowance = forwardRef(({ data }, ref) => {
     }, [watchFoodAllowance])
     return (
         <>
-            <FormCheckbox control={control} name={"hasFoodAllowance"} label={"você recebeu auxílio alimentação?"} />
+            <FormCheckbox control={control} name={"hasfoodAllowanceValue"} label={"você recebeu auxílio alimentação?"} />
             {
                 watchFoodAllowance &&
                 <MoneyFormInput control={control} name="foodAllowanceValue" label={"valor recebido"} />

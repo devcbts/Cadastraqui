@@ -11,13 +11,13 @@ const TransportAllowance = forwardRef(({ data }, ref) => {
     const { control, watch, resetField } = useControlForm({
         schema: transportAllowanceSchema,
         defaultValues: {
-            hasTransportAllowance: null,
+            hastransportAllowanceValue: null,
             transportAllowanceValue: '',
         },
         initialData: data
     }, ref)
 
-    const watchTransportAllowance = watch("hasTransportAllowance")
+    const watchTransportAllowance = watch("hastransportAllowanceValue")
 
     useEffect(() => {
         if (!watchTransportAllowance) {
@@ -26,7 +26,7 @@ const TransportAllowance = forwardRef(({ data }, ref) => {
     }, [watchTransportAllowance])
     return (
         <>
-            <FormCheckbox control={control} name={"hasTransportAllowance"} label={"você recebeu auxílio transporte?"} />
+            <FormCheckbox control={control} name={"hastransportAllowanceValue"} label={"você recebeu auxílio transporte?"} />
             {
                 watchTransportAllowance &&
                 <MoneyFormInput control={control} name="transportAllowanceValue" label={"valor recebido"} />

@@ -8,13 +8,17 @@ class EmployementTypeMapper {
         }
     }
     fromPersistence(data) {
-
         const mappedData = data?.map((e) => ({
             ...e,
-            CNPJ: formatCNPJ(e.CNPJ),
-            parcelValue: Number(e.parcelValue).toLocaleString('pt-br', { style: "currency", currency: "brl" }),
-            firstParcelDate: e.firstParcelDate?.split('T')[0]
+            incomes: e.incomes.map((i) => ({
+                ...i,
+                CNPJ: formatCNPJ(i.CNPJ),
+                parcelValue: i.parcelValue ? Number(i.parcelValue).toLocaleString('pt-br', { style: "currency", currency: "brl" }) : null,
+                firstParcelDate: i.firstParcelDate?.split('T')[0],
+                admissionDate: i.admissionDate?.split('T')[0],
+            }))
         }))
+        console.log(mappedData)
         return mappedData
     }
 }

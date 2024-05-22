@@ -25,7 +25,6 @@ export default function FormCheckbox({ name, control, label }) {
                     <CheckboxBase
                         label={label}
                         {...field}
-
                         error={showErrorBorder(isDirty, error)}
                         onChange={(e) => {
                             field.onChange(e.target.value === "true")

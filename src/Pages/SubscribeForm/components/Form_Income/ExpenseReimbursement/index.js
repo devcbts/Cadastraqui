@@ -11,13 +11,13 @@ const ExpenseReimbursement = forwardRef(({ data }, ref) => {
     const { control, watch, resetField } = useControlForm({
         schema: expenseReimbursementSchema,
         defaultValues: {
-            hasExpense: null,
+            hasexpenseReimbursementValue: null,
             expenseReimbursementValue: '',
         },
         initialData: data
     }, ref)
 
-    const watchExpense = watch("hasExpense")
+    const watchExpense = watch("hasexpenseReimbursementValue")
 
     useEffect(() => {
         if (!watchExpense) {
@@ -26,7 +26,7 @@ const ExpenseReimbursement = forwardRef(({ data }, ref) => {
     }, [watchExpense])
     return (
         <>
-            <FormCheckbox control={control} name={"hasExpense"} label={"você recebeu diárias e reembolsos de despesas?"} />
+            <FormCheckbox control={control} name={"hasexpenseReimbursementValue"} label={"você recebeu diárias e reembolsos de despesas?"} />
             {
                 watchExpense &&
                 <MoneyFormInput control={control} name="expenseReimbursementValue" label={"valor recebido"} />

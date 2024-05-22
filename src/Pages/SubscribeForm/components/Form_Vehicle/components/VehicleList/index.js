@@ -25,7 +25,7 @@ export default function VehicleList({ onSelect, onAdd }) {
 
     return (
         <>
-            <FormList.Root isLoading={isLoading} title={"Veículos Cadastrados"} >
+            <FormList.Root isLoading={isLoading} title={"Veículos"} >
                 <FormList.List
                     list={vehicles}
                     render={(item) => (

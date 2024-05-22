@@ -34,10 +34,10 @@ class CandidateService {
     }
     deleteFamilyMember(id) {
         const token = localStorage.getItem("token")
-        return api.delete('/candidates/family-member', { params: { id: id } }, {
-            headers: {
+        return api.delete('/candidates/family-member', {
+            params: { id }, headers: {
                 authorization: `Bearer ${token}`,
-            },
+            }
         })
     }
     registerFamilyMember(data) {
@@ -160,17 +160,21 @@ class CandidateService {
             },
         })
     }
-
-    async getMemberIncomeInfo(id) {
+    async getAllIncomes(id) {
         const token = localStorage.getItem("token")
-        const monthlyIncome = await this.getMonthlyIncome(id)
-        const memberIncome = await api.get(`/candidates/family-member/income/${id}`, {
+        const response = await api.get(`/candidates/family-member/income/${id}`, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
         })
-        console.log('informação,', employementTypeMapper.fromPersistence(memberIncome.data.familyMemberIncomeInfo))
-        return { monthlyIncome, info: employementTypeMapper.fromPersistence(memberIncome.data.familyMemberIncomeInfo) }
+        return employementTypeMapper.fromPersistence(response.data.incomeInfoResults)
+    }
+
+    async getMemberIncomeInfo(id) {
+        const token = localStorage.getItem("token")
+        const monthlyIncome = await this.getMonthlyIncome(id)
+        const memberIncome = await this.getAllIncomes(id)
+        return { monthlyIncome, info: memberIncome.find(e => e.id === id).incomes }
     }
 
     async getHealthInfo() {

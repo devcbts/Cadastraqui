@@ -11,14 +11,14 @@ const Compensation = forwardRef(({ data }, ref) => {
     const { control, watch, resetField } = useControlForm({
         schema: compensationSchema,
         defaultValues: {
-            hasCompensation: null,
+            hascompensationValue: null,
             compensationValue: '',
         },
         initialData: data
     }, ref)
 
 
-    const watchCompensation = watch("hasCompensation")
+    const watchCompensation = watch("hascompensationValue")
 
     useEffect(() => {
         if (!watchCompensation) {
@@ -27,7 +27,7 @@ const Compensation = forwardRef(({ data }, ref) => {
     }, [watchCompensation])
     return (
         <>
-            <FormCheckbox control={control} name={"hasCompensation"} label={"você recebeu estornos ou compensações?"} />
+            <FormCheckbox control={control} name={"hascompensationValue"} label={"você recebeu estornos ou compensações?"} />
             {
                 watchCompensation &&
                 <MoneyFormInput control={control} name="compensationValue" label={"valor recebido"} />

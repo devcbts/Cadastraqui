@@ -7,7 +7,7 @@ class HealthInfoMapper {
     fromPersistence(data) {
         const mappedData = data?.map(e => {
             if (Object.keys(e.healthInfo ?? {}).length === 0) {
-                return { ...e, healthInfo: null }
+                return { ...e, healthInfo: [] }
             }
             return e
         })

@@ -14,7 +14,7 @@ export default function IncomeList({ onSelect, onAdd }) {
         const fetchData = async () => {
             setIsLoading(true)
             try {
-                const members = await candidateService.getFamilyMembers()
+                const members = await candidateService.getAllIncomes()
                 if (members) {
                     setMembers(members)
                 }
@@ -30,10 +30,10 @@ export default function IncomeList({ onSelect, onAdd }) {
             {!selectedMember && <FormList.Root title={"Renda Familiar"} isLoading={isLoading} >
                 <InputBase label="renda média familiar cadastrada" value="R$ 1.250,00" disabled error={null} />
                 <FormList.List list={members} render={(item) => (
-                    <FormListItem.Root text={item.fullName}>
+                    <FormListItem.Root text={item.name}>
                         <FormListItem.Actions>
-                            <ButtonBase label={"visualizar"} onClick={() => setSelectedMember(item)} />
-                            <ButtonBase label={"cadastrar"} onClick={() => onAdd({ member: item })} />
+                            <ButtonBase label={"visualizar"} onClick={() => setSelectedMember({ fullName: item.name, id: item.id })} />
+                            <ButtonBase label={"cadastrar"} onClick={() => onAdd({ member: { fullName: item.name, id: item.id } })} />
                         </FormListItem.Actions>
                     </FormListItem.Root>
                 )}>
