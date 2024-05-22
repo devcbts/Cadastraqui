@@ -81,7 +81,7 @@ export async function registerEmploymenType(
         }, 0);
 
         const avgIncome = validIncomes.length > 0 ? totalAmount / quantity : 0;
-       
+
         await prisma.familyMemberIncome.create({
             data: {
                 employmentType,
@@ -103,25 +103,7 @@ export async function registerEmploymenType(
                 ...idField
             },
         })
-        const applications = await prisma.application.findMany({
-            where: { candidate_id: candidate.id },
-            include: {
-                announcement: true
-            },
-        })
-        if (applications.length !== 0) {
-            applications.forEach(async (application) => {
-                if (application.announcement.closeDate! <= new Date()) {
 
-                    await prisma.application.update({
-                        where: { id: application.id },
-                        data: {
-
-                        }
-                    })
-                }
-            })
-        }
         return reply.status(201).send()
     } catch (err: any) {
         if (err instanceof ResourceNotFoundError) {

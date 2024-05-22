@@ -20,7 +20,7 @@ export async function registerMedicationInfo(
     medicationName: z.string(),
     obtainedPublicly: z.boolean(),
     specificMedicationPublicly: z.string().optional(),
-    familyMemberDiseaseId: z.string(),
+    familyMemberDiseaseId: z.string().nullish(),
   })
 
   const { medicationName, obtainedPublicly, specificMedicationPublicly, familyMemberDiseaseId } =
@@ -42,19 +42,19 @@ export async function registerMedicationInfo(
       }
     }
 
-    const idField = CandidateOrResponsible ?  (CandidateOrResponsible.IsResponsible ? {legalResponsible_id: _id} : {candidate_id: _id}) : {familyMember_id : _id}
+    const idField = CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsible_id: _id } : { candidate_id: _id }) : { familyMember_id: _id }
 
-      await prisma.medication.create({
-        data: {
-          medicationName,
-          obtainedPublicly,
-          ...idField,
-          specificMedicationPublicly,
-          familyMemberDiseaseId
-        },
-      })
-  
-    
+    await prisma.medication.create({
+      data: {
+        medicationName,
+        obtainedPublicly,
+        ...idField,
+        specificMedicationPublicly,
+        familyMemberDiseaseId
+      },
+    })
+
+
     return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
