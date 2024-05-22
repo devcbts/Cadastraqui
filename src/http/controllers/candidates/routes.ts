@@ -47,10 +47,12 @@ import { updateCreditCardInfo } from './update-credit-card-info'
 import { updateExpensesInfo } from './update-expenses-info'
 import { updateFamilyMemberInfo } from './update-family-member'
 import { updateFinancingInfo } from './update-financing-info'
+import { updateHealthInfo } from './update-health-info'
 import { updateHousingInfo } from './update-housing-info'
 import { updateIdentityInfo } from './update-identity-info'
 import updateIncomeSource from './update-income-source'
 import { updateLoanInfo } from './update-loan-info'
+import { updateMedicationInfo } from './update-medication-info'
 import { updateVehicleInfo } from './update-vehicle-info'
 
 export async function candidateRoutes(app: FastifyInstance) {
@@ -131,13 +133,21 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.get('/health-info', { onRequest: [verifyJWT] }, getHealthInfo)
 
   app.post('/health-info/:_id', { onRequest: [verifyJWT] }, registerHealthInfo)
+  app.patch('/health-info/:_id', { onRequest: [verifyJWT] }, updateHealthInfo)
   app.delete('/health-info/:_id', { onRequest: [verifyJWT] }, deleteHealthInfo)
+
   app.post(
     '/medication-info/:_id',
     { onRequest: [verifyJWT] },
     registerMedicationInfo,
   )
+  app.patch('/medication-info/:_id', { onRequest: [verifyJWT] }, updateMedicationInfo)
   app.delete('/medication-info/:_id', { onRequest: [verifyJWT] }, deleteMedicationInfo)
+
+
+
+
+
   /** Vehicle Info */
   app.get('/vehicle-info/:_id?', { onRequest: [verifyJWT] }, getVehicleInfo)
   app.post('/vehicle-info', { onRequest: [verifyJWT] }, registerVehicleInfo)

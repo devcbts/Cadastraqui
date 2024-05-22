@@ -1,3 +1,4 @@
+import { ForbiddenError } from '@/errors/forbidden-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
@@ -5,7 +6,7 @@ import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function registerMedicationInfo(
+export async function updateMedicationInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
@@ -13,17 +14,15 @@ export async function registerMedicationInfo(
     _id: z.string(),
   })
 
-  // _id === familyMemberId
   const { _id } = medicationParamsSchema.parse(request.params)
 
   const medicationDataSchema = z.object({
     medicationName: z.string(),
     obtainedPublicly: z.boolean(),
-    specificMedicationPublicly: z.string().nullish(),
-    familyMemberDiseaseId: z.string().nullish(),
+    specificMedicationPublicly: z.string().optional(),
   })
 
-  const { medicationName, obtainedPublicly, specificMedicationPublicly, familyMemberDiseaseId } =
+  const { medicationName, obtainedPublicly, specificMedicationPublicly } =
     medicationDataSchema.parse(request.body)
 
   try {
@@ -32,33 +31,40 @@ export async function registerMedicationInfo(
     if (!IsUser) {
       throw new NotAllowedError()
     }
-    const CandidateOrResponsible = await SelectCandidateResponsible(_id)
-    if (!CandidateOrResponsible) {
-      const familyMember = await prisma.familyMember.findUnique({
-        where: { id: _id },
-      })
-      if (!familyMember) {
-        throw new ResourceNotFoundError()
-      }
+    const medication = await prisma.medication.findUnique({
+      where: { id: _id },
+      select: {familyMember: true, candidate_id: true, legalResponsibleId: true}
+    })
+    if (!medication) {
+      throw new ResourceNotFoundError()
     }
+    
+      const userOwner = medication.candidate_id || medication.legalResponsibleId || medication.familyMember?.candidate_id || medication.familyMember?.legalResponsibleId
+      if (IsUser.UserData.id != userOwner) {
+        throw new ForbiddenError()
+      }
 
-    const idField = CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsible_id: _id } : { candidate_id: _id }) : { familyMember_id: _id }
-
-    await prisma.medication.create({
+    await prisma.medication.update({
+      where: { id: _id },
       data: {
         medicationName,
         obtainedPublicly,
-        ...idField,
         specificMedicationPublicly,
-        familyMemberDiseaseId
       },
     })
 
+    return reply.status(200).send()
 
-    return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
+    }
+    if (err instanceof NotAllowedError) {
+      return reply.status(401).send({ message: err.message })
+    }
+    if (err instanceof ForbiddenError) {
+      return reply.status(403).send({ message: err.message })
+        
     }
 
     return reply.status(500).send({ message: err.message })

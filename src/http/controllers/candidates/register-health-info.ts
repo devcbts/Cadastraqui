@@ -66,7 +66,7 @@ export async function registerHealthInfo(
 
     const idField = CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsible_id: _id } : { candidate_id: _id }) : { familyMember_id: _id }
 
-    const diseaseId = await prisma.familyMemberDisease.create({
+    const { id } = await prisma.familyMemberDisease.create({
       data: {
         hasMedicalReport,
         diseases,
@@ -78,7 +78,7 @@ export async function registerHealthInfo(
       where: (IsUser.IsResponsible ? { responsible_id: IsUser.UserData.id } : { candidate_id: IsUser.UserData.id }),
       data: { hasSevereDesease: true }
     })
-    return reply.status(201).send({ diseaseId })
+    return reply.status(201).send({ id })
 
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
