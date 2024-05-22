@@ -30,7 +30,7 @@ const clientBackup = new Client({
     user: env.POSTGRES_USER,
     host: env.PGHOST,
     database: env.POSTGRES_DB,
-    password: env.PGPASSWORD,
+    password: "pLsXyXxwlRiXEvociCeMBURnbVeXbmDa",
     port: Number(env.PGPORT),
 });
 
