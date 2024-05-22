@@ -20,7 +20,7 @@ export async function registerMedicationInfo(
     medicationName: z.string(),
     obtainedPublicly: z.boolean(),
     specificMedicationPublicly: z.string().optional(),
-    familyMemberDiseaseId: z.string(),
+    familyMemberDiseaseId: z.string().optional(),
   })
 
   const { medicationName, obtainedPublicly, specificMedicationPublicly, familyMemberDiseaseId } =
