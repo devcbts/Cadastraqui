@@ -27,10 +27,13 @@ import { verifyJWT } from './http/middlewares/verify-jwt';
 import getUserAddress from './http/services/get-address';
 import getCnpj from './http/services/get-cnpj';
 import { multerConfig } from './lib/multer';
+import { handleUpload } from './http/test';
 export const app = fastify()
 app.register(fastifyMultipart, {
   limits: {
     fileSize: 15000000,
+    files: 10,
+    
   },
 })
 // Registre o plugin fastify-cors
@@ -48,9 +51,7 @@ app.addHook('onRequest', (request, reply, done) => {
 app.post(
   '/upload',
   { preHandler: upload.single('file') },
-  async (request: FastifyRequest, reply: FastifyReply) => {
-    return reply.status(200).send()
-  },
+  handleUpload
 )
 
 app.register(fastifyJwt, {
