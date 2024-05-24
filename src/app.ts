@@ -27,7 +27,6 @@ import { verifyJWT } from './http/middlewares/verify-jwt';
 import getUserAddress from './http/services/get-address';
 import getCnpj from './http/services/get-cnpj';
 import { multerConfig } from './lib/multer';
-import { handleUpload } from './http/test';
 export const app = fastify()
 app.register(fastifyMultipart, {
   limits: {
@@ -48,11 +47,7 @@ app.addHook('onRequest', (request, reply, done) => {
   morgan('dev')(request.raw, reply.raw, done)
 })
 
-app.post(
-  '/upload',
-  { preHandler: upload.single('file') },
-  handleUpload
-)
+
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,

@@ -54,6 +54,9 @@ import { deleteMedicationInfo } from './delete-medication'
 import { deleteHealthInfo } from './delete-health-info'
 import { updateHealthInfo } from './update-health-info'
 import { updateMedicationInfo } from './update-medication-info'
+import { getBankingInfo } from './get-banking-info'
+import { registerBankingInfo } from './register-banking-info'
+import { updateBankingInfo } from './update-banking-info'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id', { onRequest: [verifyJWT] }, uploadDocument)
@@ -120,7 +123,10 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     getMonthlyIncomeBySource,
   )
-  
+  // bank-info 
+  app.get('/bank-info/:_id?', { onRequest: [verifyJWT] }, getBankingInfo)
+  app.post('/bank-info', { onRequest: [verifyJWT] }, registerBankingInfo)
+  app.patch('/bank-info/:id', { onRequest: [verifyJWT] }, updateBankingInfo)
 
   /** Health Info */
   // app.get('/health-info', { onRequest: [verifyJWT] }, getHealthInfo)

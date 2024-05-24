@@ -10,10 +10,11 @@ import fs from 'fs';
 export async function uploadDocument(request: FastifyRequest, reply: FastifyReply) {
     const requestParamsSchema = z.object({
         documentType: z.string(),
-        member_id: z.string()
+        member_id: z.string(),
+        table_id: z.string().optional()
     })
 
-    const { documentType, member_id } = requestParamsSchema.parse(request.params)
+    const { documentType, member_id, table_id } = requestParamsSchema.parse(request.params)
     try {
         const user_id = request.user.sub;
         // Verifica se existe um candidato associado ao user_id
@@ -25,13 +26,13 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
         const parts = request.files()
         for await (const part of parts) {
             pump(part.file, fs.createWriteStream(part.filename))
-        
+
             const fileBuffer = await part.toBuffer();
-            const route = `CandidateDocuments/${candidateOrResponsible.UserData.id}/${documentType}/${member_id}/${part.fieldname}.${part.mimetype.split('/')[1]}`;
+            const route = `CandidateDocuments/${candidateOrResponsible.UserData.id}/${documentType}/${member_id}/${table_id ? table_id + '/' : ''}${part.fieldname}.${part.mimetype.split('/')[1]}`;
             const sended = await uploadFile(fileBuffer, route);
             if (!sended) {
                 throw new NotAllowedError();
-             }
+            }
         }
 
 
