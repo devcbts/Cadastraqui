@@ -2,25 +2,24 @@ import { AlreadyExistsError } from '@/errors/already-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { GENDER } from './enums/Gender'
-import { UF } from './enums/UF'
 import { DOCUMENT_TYPE } from './enums/Document_Type'
+import { GENDER } from './enums/Gender'
+import IncomeSource from './enums/IncomeSource'
 import { MARITAL_STATUS } from './enums/Marital_Status'
-import { SkinColor } from './enums/SkinColor'
 import { RELIGION } from './enums/Religion'
 import { SCHOLARSHIP } from './enums/Scholarship'
-import IncomeSource from './enums/IncomeSource'
-import { Institution_Type } from './enums/Intitution_Type'
 import { ScholarshipType } from './enums/Scholaship_Type'
-import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
+import { SkinColor } from './enums/SkinColor'
+import { UF } from './enums/UF'
 
 export async function registerIdentityInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  
+
   const userDataSchema = z.object({
     fullName: z.string(),
     socialName: z.string(),
@@ -120,8 +119,8 @@ export async function registerIdentityInfo(
 
   try {
     const user_id = request.user.sub
-  
-    
+
+
     // Verifica se existe um candidato associado ao user_id
     const candidateOrResponsible = await SelectCandidateResponsible(user_id)
 
@@ -129,7 +128,7 @@ export async function registerIdentityInfo(
       throw new ResourceNotFoundError()
     }
 
-    const idField = candidateOrResponsible.IsResponsible?  {responsible_id: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
+    const idField = candidateOrResponsible.IsResponsible ? { responsible_id: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
     // Analisa se o candidato já possui cadastro de identificação
     const candidateIdentifyInfo = await prisma.identityDetails.findUnique({
       where: idField,
@@ -192,7 +191,7 @@ export async function registerIdentityInfo(
         CPF: candidateOrResponsible.UserData.CPF,
         city: candidateOrResponsible.UserData.city,
         UF: candidateOrResponsible.UserData.UF,
-        CEP : candidateOrResponsible.UserData.CEP,
+        CEP: candidateOrResponsible.UserData.CEP,
       },
     })
 

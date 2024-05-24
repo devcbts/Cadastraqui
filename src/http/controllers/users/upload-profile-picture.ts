@@ -1,7 +1,6 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { uploadFile } from '@/http/services/upload-file'
-import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function uploadUserProfilePicture(
@@ -11,20 +10,20 @@ export async function uploadUserProfilePicture(
   try {
     const user_id = request.user.sub
     // Verifica se existe um candidato associado ao user_id
-        const data = await request.file();
-        if (!data) {
-            throw new ResourceNotFoundError()
-        }
-        const fileBuffer = await data.toBuffer();
-        
-        const Route = `ProfilePictures/${user_id}`
-        const sended =  await uploadFile(fileBuffer, Route)
-        
-        if (!sended){
-           
-            throw new NotAllowedError()
-        }
-        
+    const data = await request.file();
+    if (!data) {
+      throw new ResourceNotFoundError()
+    }
+    const fileBuffer = await data.toBuffer();
+
+    const Route = `ProfilePictures/${user_id}`
+    const sended = await uploadFile(fileBuffer, Route)
+
+    if (!sended) {
+
+      throw new NotAllowedError()
+    }
+
 
 
 

@@ -1,5 +1,4 @@
 require('module-alias/register');
-import './lib/pg-listener';
 import fastifyCookie from '@fastify/cookie';
 import fastifyJwt from '@fastify/jwt';
 import { fastifyMultipart } from '@fastify/multipart';
@@ -27,6 +26,7 @@ import { verifyJWT } from './http/middlewares/verify-jwt';
 import getUserAddress from './http/services/get-address';
 import getCnpj from './http/services/get-cnpj';
 import { multerConfig } from './lib/multer';
+import './lib/pg-listener';
 export const app = fastify()
 app.register(fastifyMultipart, {
   limits: {
