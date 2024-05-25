@@ -18,7 +18,8 @@ export async function getSectionDocumentsPDF(
     const Folder = `CandidateDocuments/${candidateOrResponsible_id}/${section}`
 
     const urls = await getSignedUrlsGroupedByFolder(Folder)
-
+    
+   
 
     return urls
 
