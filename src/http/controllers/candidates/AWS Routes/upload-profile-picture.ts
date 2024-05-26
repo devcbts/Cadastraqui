@@ -16,19 +16,19 @@ export async function uploadCandidateProfilePicture(
       throw new ResourceNotFoundError()
     }
 
-        const data = await request.file();
-        if (!data) {
-            throw new ResourceNotFoundError()
-        }
-        const fileBuffer = await data.toBuffer();
-        console.log(fileBuffer.length)
-        const Route = `ProfilePictures/${candidate.id}`
-        const sended =  await uploadFile(fileBuffer, Route)
-      
-        if (!sended){
-           
-            throw new NotAllowedError()
-        }
+    const data = await request.file();
+    if (!data) {
+      throw new ResourceNotFoundError()
+    }
+    const fileBuffer = await data.toBuffer();
+    console.log(fileBuffer.length)
+    const Route = `ProfilePictures/${user_id}`
+    const sended = await uploadFile(fileBuffer, Route)
+
+    if (!sended) {
+
+      throw new NotAllowedError()
+    }
 
 
 
