@@ -114,7 +114,7 @@ export async function getSignedUrlForFile(fileKey: string): Promise<string> {
 }
 export async function getSignedUrlsGroupedByFolder(
   candidateFolder: string,
-): Promise<{ [folder: string]: string[] }> {
+): Promise<{ [folder: string]: { [fileName: string]: string } }> {
   const params = {
     Bucket: bucketName!,
     Prefix: candidateFolder + `/`, // Ajustado para a pasta do candidato
@@ -122,11 +122,13 @@ export async function getSignedUrlsGroupedByFolder(
 
   try {
     const objects = await s3.listObjectsV2(params).promise()
-    const urlsByFolder: { [folder: string]: string[] } = {}
+    const urlsByFolder: { [folder: string]: { [fileName: string]: string } } = {}
 
     for (const obj of objects.Contents || []) {
       if (!obj.Key!.endsWith('/')) { // Ignora 'pastas'
-        const folderPath = obj.Key!.split('/').slice(0, -1).join('/') // Remove o nome do arquivo para obter o caminho da pasta
+        const splitKey = obj.Key!.split('/');
+        const folderPath = splitKey.slice(0, -1).join('/') // Remove o nome do arquivo para obter o caminho da pasta
+        const fileName = splitKey[splitKey.length - 1]; // Get the file name
         const url = s3.getSignedUrl('getObject', {
           Bucket: process.env.AWS_BUCKET_NAME!,
           Key: obj.Key!,
@@ -134,9 +136,9 @@ export async function getSignedUrlsGroupedByFolder(
         })
 
         if (!urlsByFolder[folderPath]) {
-          urlsByFolder[folderPath] = []
+          urlsByFolder[folderPath] = {}
         }
-        urlsByFolder[folderPath].push(url)
+        urlsByFolder[folderPath][fileName] = url
       }
     }
 
@@ -146,7 +148,6 @@ export async function getSignedUrlsGroupedByFolder(
     throw error
   }
 }
-
 export async function deleteFromS3(fileKey: string) {
   const params = {
     Bucket: bucketName!,
