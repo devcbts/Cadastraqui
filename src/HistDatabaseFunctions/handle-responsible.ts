@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/prisma'
 import { historyDatabase } from '@/lib/prisma'
-import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible';
 import getOpenApplications from './find-open-applications';
 
 /// HDB == HistoryDataBase

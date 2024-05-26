@@ -138,7 +138,7 @@ export async function registerIdentityInfo(
     }
 
     // Armazena informações acerca da identificação no banco de dados
-    await prisma.identityDetails.create({
+    const { id } = await prisma.identityDetails.create({
       data: {
         birthDate: candidateOrResponsible.UserData.birthDate,
         educationLevel,
@@ -195,7 +195,7 @@ export async function registerIdentityInfo(
       },
     })
 
-    return reply.status(201).send()
+    return reply.status(201).send({ id })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })

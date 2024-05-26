@@ -50,6 +50,7 @@ model Candidate {
   MonthlyIncome       MonthlyIncome[]
   FamilyMemberDisease FamilyMemberDisease[]
   Medication          Medication[]
+  BankAccount         BankAccount[]
 
   @@unique([id, responsible_id])
   @@map("candidates")
@@ -112,6 +113,7 @@ model LegalResponsible {
   Application                     Application[]
   FamilyMemberIncome              FamilyMemberIncome[]
   MonthlyIncome                   MonthlyIncome[]
+  BankAccount                     BankAccount[]
 
   @@unique([id, user_id])
   @@map("responsibles")
@@ -309,6 +311,7 @@ model FamilyMember {
   Medication                Medication[]
   LegalResponsible          LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId        String?
+  BankAccount               BankAccount[]
 
   @@map("familyMembers")
 }
@@ -401,6 +404,20 @@ model MonthlyIncome {
   incomeSource              IncomeSource?
   LegalResponsible          LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId        String?
+}
+
+model BankAccount {
+  id                 String            @id @default(uuid())
+  bankName           String
+  agencyNumber       String
+  accountNumber      String
+  accountType        AccountType
+  familyMember_id    String?
+  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
+  candidate_id       String?
+  candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
+  LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId String?
 }
 
 model Expense {
@@ -1015,4 +1032,16 @@ enum scholarshipGrantedType {
   FOOD
   HOUSING
   STUDY_MATERIAL
+}
+
+enum AccountType {
+  CHECKING_ACCOUNT
+  SAVINGS_ACCOUNT
+  PAYMENT_ACCOUNT
+  SALARY_ACCOUNT
+  STUDENT_ACCOUNT
+  DIGITAL_ACCOUNT
+  MINORS_ACCOUNT
+  BUSINESS_ACCOUNT
+  JOINT_ACCOUNT
 }

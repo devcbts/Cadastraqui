@@ -31,6 +31,8 @@ export const app = fastify()
 app.register(fastifyMultipart, {
   limits: {
     fileSize: 15000000,
+    files: 10,
+    
   },
 })
 // Registre o plugin fastify-cors
@@ -45,13 +47,7 @@ app.addHook('onRequest', (request, reply, done) => {
   morgan('dev')(request.raw, reply.raw, done)
 })
 
-app.post(
-  '/upload',
-  { preHandler: upload.single('file') },
-  async (request: FastifyRequest, reply: FastifyReply) => {
-    return reply.status(200).send()
-  },
-)
+
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,

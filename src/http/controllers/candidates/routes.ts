@@ -14,6 +14,7 @@ import { finishRegistration } from './finish-registration'
 import { getAnnouncementDocument } from './get-announcement-pdf'
 import { getApplicationHistory } from './get-application-history'
 import { getApplications } from './get-applications'
+import { getBankingInfo } from './get-banking-info'
 import { getBasicInfo } from './get-basic-info'
 import { getCreditCardInfo } from './get-credit-card-info'
 import { getExpensesInfo } from './get-expenses'
@@ -30,6 +31,7 @@ import { getOpenAnnouncements } from './get-open-announcements'
 import { getBasicInfoFormated } from './get-user-basic-info-formated'
 import { getVehicleInfo } from './get-vehicle-info'
 import { registerCandidate } from './register'
+import { registerBankingInfo } from './register-banking-info'
 import { registerCreditCardInfo } from './register-credit-card-info'
 import { registerEmploymenType } from './register-employment-type'
 import { registerExpensesInfo } from './register-expenses-info'
@@ -42,6 +44,7 @@ import { registerLoanInfo } from './register-loan-info'
 import { registerMedicationInfo } from './register-medication-info'
 import { registerMonthlyIncomeInfo } from './register-monthly-income-info'
 import { registerVehicleInfo } from './register-vehicle-info'
+import { updateBankingInfo } from './update-banking-info'
 import { updateBasicInfo } from './update-basic-info'
 import { updateCreditCardInfo } from './update-credit-card-info'
 import { updateExpensesInfo } from './update-expenses-info'
@@ -120,7 +123,10 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     getMonthlyIncomeBySource,
   )
-
+  // bank-info 
+  app.get('/bank-info/:_id?', { onRequest: [verifyJWT] }, getBankingInfo)
+  app.post('/bank-info', { onRequest: [verifyJWT] }, registerBankingInfo)
+  app.patch('/bank-info/:id', { onRequest: [verifyJWT] }, updateBankingInfo)
 
   /** Health Info */
   // app.get('/health-info', { onRequest: [verifyJWT] }, getHealthInfo)

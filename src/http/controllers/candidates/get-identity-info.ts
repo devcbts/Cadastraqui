@@ -5,6 +5,7 @@ import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { getSectionDocumentsPDF } from './AWS Routes/get-pdf-documents-by-section'
 console.log('aqui')
 
 export async function getIdentityInfo(
@@ -41,7 +42,8 @@ export async function getIdentityInfo(
       where: idField,
       include: { candidate: true, responsible: true }
     })
-    return reply.status(200).send({ identityInfo: !!identityInfo ? { ...(identityInfo?.candidate || identityInfo?.responsible), ...identityInfo } : null })
+    const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'identity-info')
+    return reply.status(200).send({ identityInfo: !!identityInfo ? { ...(identityInfo?.candidate || identityInfo?.responsible), ...identityInfo } : null, urls })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
