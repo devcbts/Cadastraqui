@@ -157,7 +157,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   /** Vehicle Info */
   app.get('/vehicle-info/:_id?', { onRequest: [verifyJWT] }, getVehicleInfo)
   app.post('/vehicle-info', { onRequest: [verifyJWT] }, registerVehicleInfo)
-  app.patch('/vehicle-info', { onRequest: [verifyJWT] }, updateVehicleInfo)
+  app.patch('/vehicle-info/:_id', { onRequest: [verifyJWT] }, updateVehicleInfo)
   app.post(
     '/application/:announcement_id/:educationLevel_id/:candidate_id?',
     { onRequest: [verifyJWT] },
