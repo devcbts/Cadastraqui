@@ -90,24 +90,15 @@ export async function registerVehicleInfo(
         hasInsurance,
         insuranceValue,
         monthsToPayOff,
-        ...connectField,
+        owners_id,
+        ...connectField
         // Não adiciona os proprietários aqui, pois será feito no próximo passo
       },
     });
 
     // Associa os membros da família ao veículo
-    await Promise.all(
-      owners_id.map(owner_id =>
-        prisma.familyMemberToVehicle.create({
-          data: {
-            A: owner_id,
-            B: vehicle.id
-          }
-        })
-      )
-    );
 
-    return reply.status(201).send()
+    return reply.status(201).send({ vehicle })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
