@@ -1,8 +1,16 @@
 @import '../../../Assets/theme/global.module.scss';
 .container{
     background-color: $primary;
-    height: 100vh;
+    height: 100%;
     width: 300px;
     border-top-right-radius: 8px;
     padding: 100px 40px 40px 40px;
+    box-shadow: 2px 2px 5px $grey;
+}
+
+.hide{
+    position: absolute;
+    top:80px;
+    height: calc(100% - 80px);
+    z-index: 3;
 }

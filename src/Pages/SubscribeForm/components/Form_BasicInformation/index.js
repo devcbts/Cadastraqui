@@ -15,22 +15,37 @@ import AdditionalDocuments from "../AdditionalDocuments";
 import Loader from "Components/Loader";
 import { NotificationService } from "services/notification";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
+import uploadService from "services/upload/uploadService";
 export default function FormBasicInformation() {
+    const uploadDocuments = async (rowId, data) => {
+        const formData = new FormData()
+        const files = Object.entries(data).filter(([key, _]) => {
+            return key.startsWith('file_')
+        })
+        files.forEach(([key, value]) => formData.append(key, value))
+        try {
+            await uploadService.uploadBySectionAndId({ section: 'identity-info', id: rowId }, formData)
+        } catch (err) {
+            await NotificationService.error({ text: 'Erro ao enviar arquivos' })
+        }
+    }
 
     const handleEditInformation = async (data) => {
         try {
             await candidateService.updateIdentityInfo(data);
+            await uploadDocuments(data.id, data)
             NotificationService.success({ text: 'Informações alteradas' })
         } catch (err) {
             NotificationService.error({ text: err.response.data.message })
 
         }
     }
-    const handleSaveInformation = async () => {
+    const handleSaveInformation = async (_, data) => {
         setIsLoading(true)
         try {
-            await candidateService.registerIdentityInfo(data)
+            const id = await candidateService.registerIdentityInfo(data)
             NotificationService.success({ text: 'Informações cadastradas' })
+            await uploadDocuments(id, data)
             setEnableEditing(true)
         } catch (err) {
             NotificationService.error({ text: err.response.data.message })

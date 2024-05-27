@@ -19,7 +19,6 @@ const HealthDisease = forwardRef(({ data }, ref) => {
         },
         initialData: data
     }, ref)
-
     const watchDisease = watch("disease")
     const watchHasDisease = watch("hasDisease")
 

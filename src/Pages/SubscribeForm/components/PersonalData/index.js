@@ -5,7 +5,7 @@ import InputForm from "Components/InputForm"
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import { formatCPF } from "utils/format-cpf"
 import { formatTelephone } from "utils/format-telephone"
-import { forwardRef, useImperativeHandle } from "react"
+import { forwardRef } from "react"
 import useControlForm from "hooks/useControlForm"
 const PersonalData = forwardRef(({ data }, ref) => {
     const { control } = useControlForm({

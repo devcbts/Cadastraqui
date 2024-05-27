@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle } from "react";
+import { forwardRef, useEffect, useImperativeHandle } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
@@ -10,11 +10,11 @@ import FormCheckbox from "Components/FormCheckbox";
 import useControlForm from "hooks/useControlForm";
 
 const AdditionalDocuments = forwardRef(({ data }, ref) => {
-    const { control, watch } = useControlForm({
+    const { control, watch, resetField } = useControlForm({
         schema: additionalDocumentSchema,
         defaultValues: {
-            newDocument: false,
-            documentType: "",
+            newDocument: !!data?.documentType,
+            documentType: null,
             documentNumber: "",
             documentValidity: ""
         },
@@ -23,7 +23,13 @@ const AdditionalDocuments = forwardRef(({ data }, ref) => {
 
     const watchNewDocument = watch("newDocument")
     const watchDocumentType = watch("documentType")
-
+    useEffect(() => {
+        if (!watchNewDocument) {
+            resetField('documentType', { defaultValue: null })
+            resetField('documentNumber')
+            resetField('documentValidity')
+        }
+    }, [watchNewDocument])
 
     return (
         <div className={commonStyles.formcontainer}>

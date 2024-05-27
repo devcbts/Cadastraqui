@@ -13,7 +13,7 @@ import RELIGION from "utils/enums/religion";
 import useControlForm from "hooks/useControlForm";
 const PersonalInformation = forwardRef(({ data }, ref) => {
     const { control, watch } = useControlForm({
-        schame: personalInformationSchema,
+        schema: personalInformationSchema,
         defaultValues: {
             skinColor: '',
             educationLevel: '',

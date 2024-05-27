@@ -1,10 +1,14 @@
+import { useLocation, useNavigate } from 'react-router'
 import styles from './styles.module.scss'
-export default function SidebarItem({ icon: Icon, text, onClick, active }) {
-    const isActive = active ? styles.active : ''
+export default function SidebarItem({ icon: Icon, text, path }) {
+    const { pathname } = useLocation()
+    const navigate = useNavigate()
+    const isActive = pathname === path ? styles.active : ''
+
     return (
-        <div className={[styles.container, isActive].join(' ')} onClick={onClick} role="button">
+        <button className={[styles.container, isActive].join(' ')} onClick={() => navigate(path)}>
             <Icon width={30} height={30} />
             <span className={styles.text}>{text}</span>
-        </div>
+        </button>
     )
 }

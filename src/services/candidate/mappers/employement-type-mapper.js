@@ -18,7 +18,6 @@ class EmployementTypeMapper {
                 admissionDate: i.admissionDate?.split('T')[0],
             }))
         }))
-        console.log(mappedData)
         return mappedData
     }
 }
