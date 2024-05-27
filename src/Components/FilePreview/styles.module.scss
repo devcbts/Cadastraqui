@@ -1,0 +1,9 @@
+@import '../../Assets/theme/global.module.scss';
+.container{
+    a{
+        color: $primary;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+}

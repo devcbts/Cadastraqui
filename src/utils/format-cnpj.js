@@ -1,5 +1,4 @@
 export function formatCNPJ(cnpj) {
-    console.log(typeof cnpj)
     return cnpj?.toString()
         // Remove caracteres não numéricos
         .replace(/\D/g, '')

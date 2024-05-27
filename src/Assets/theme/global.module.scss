@@ -8,9 +8,14 @@ $primaryblack: #1D1D1B;
 $grey: #52525C;
 $lightgrey: #CFCFCF;
 
+body,html {
+    margin: 0;
+    padding: 0;
+}
 
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+

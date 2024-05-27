@@ -1,3 +1,4 @@
+@import '../../../../Assets/theme/global.module.scss';
 .container{
     background-color: white;
     height: 80px;
@@ -12,5 +13,15 @@
         -webkit-user-drag: none;
         width: 200px;
         height: 100%;
+    }
+    .profilepicture{
+        clip-path: circle();
+        height: 100%;
+        width: 60px;
+    }
+    .placeholder{
+        color:$primary;
+        height: 50px;
+        width: 50px;
     }
 }

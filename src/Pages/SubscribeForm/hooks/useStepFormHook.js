@@ -27,7 +27,7 @@ export default function useStepFormHook({
             setData((prevData) => ({ ...prevData, ...values }))
             switch (activeStep) {
                 case MAX_STEPS:
-                    // pass data and overwrite properties with parsedData (in case data contains fields needed)
+                    // pass data and overwrite properties with parsedData (in case data contains needed fields)
                     // second argument is the unparsed data
                     await onSave({ ...data, ...parsedData, ...parsedValues }, { ...data, ...values })
                     break;

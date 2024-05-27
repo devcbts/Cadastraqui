@@ -4,6 +4,7 @@ const headerAtom = atom({
     key: 'header',
     default: {
         sidebar: true,
-        color: 'secondary'
     }
 })
+
+export default headerAtom

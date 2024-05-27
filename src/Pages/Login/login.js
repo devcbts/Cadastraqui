@@ -209,7 +209,6 @@ export default function Login() {
     } else if (typeOfUser === 'responsible') {
       api.post('/responsibles', registerInfo)
         .then(response => {
-          console.log(response)
           Swal.fire({ title: "Concluído", text: "Cadastro do responsável realizado!", icon: "success" })
           setResponsibleId(response.data.responsible_id)
           handlePageChange()

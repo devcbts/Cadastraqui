@@ -1,7 +1,7 @@
 import { Controller } from "react-hook-form";
 import FilePickerBase from "../FilePickerBase";
 
-export default function FormFilePicker({ name, label, control, }) {
+export default function FormFilePicker({ name, label, control, accept }) {
     const showErrorBorder = (isDirty, error) => {
         // Input wasn't modified but has error OR has been modified and has error (ERROR BORDER)
         if ((!isDirty && error) || (isDirty && error)) {
@@ -27,6 +27,7 @@ export default function FormFilePicker({ name, label, control, }) {
                         label={label}
                         error={showErrorBorder(isDirty, error)}
                         {...rest}
+                        accept={accept}
                         onChange={(e) => {
                             field.onChange(e.target.files[0])
                         }}

@@ -27,7 +27,9 @@ export default function FormHealth() {
                 const response = await candidateService.registerHealthInfo(memberId, rest)
                 diseaseId = response.data.id
             }
-            await candidateService.registerMedicationInfo(memberId, { ...rest, familyMemberDiseaseId: diseaseId })
+            if (data.controlledMedication) {
+                await candidateService.registerMedicationInfo(memberId, { ...rest, familyMemberDiseaseId: diseaseId })
+            }
             NotificationService.success({ text: 'Informações cadastradas' })
             setEnableEditing(true)
         } catch (err) {

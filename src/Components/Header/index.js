@@ -1,11 +1,46 @@
+import { useRecoilValue } from 'recoil'
 import Logo from '../../Assets/images/logo_primary.png'
-export default function Header() {
+import headerAtom from './atoms/header-atom'
+import HamburgHeader from './variants/HamburgHeader'
+import UserHeader from './variants/UserHeader'
+import useAuth from 'hooks/useAuth'
+import { Fragment } from 'react'
+import useLocalStorage from 'hooks/useLocalStorage'
+import CandidateSidebar from 'Components/Candidate/Sidebar'
+import styles from './styles.module.scss'
+export default function HeaderWrapper({ children }) {
+    const { sidebar } = useRecoilValue(headerAtom)
+    const { auth, login } = useAuth()
+    const { set } = useLocalStorage()
+    const Sidebar = auth?.role?.toLowerCase() === 'candidate' ? CandidateSidebar : Fragment
     return (
-        <header >
-            <img alt="Cadastraqui" src={Logo} draggable={false} />
-            <div>
-                User info
-            </div>
-        </header>
+        <div style={{ height: '100vh', minHeight: '100vh', maxHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+            <span>{JSON.stringify(auth)}</span>
+            <button onClick={async () => await login({ email: 'gab@teste.com', password: '123456' })} />
+            <button onClick={async () => set('profilepic', null)} />
+
+            {sidebar ? (
+                <>
+                    <UserHeader />
+                    <div className={styles.inlinecontent}>
+                        <Sidebar />
+                        <div className={styles.content}>
+                            {children}
+                        </div>
+                    </div>
+                </>
+            )
+                :
+                (
+                    <>
+                        <HamburgHeader >
+                            <Sidebar />
+                        </HamburgHeader>
+                        {children}
+                    </>
+                )
+            }
+        </div>
+
     )
 }

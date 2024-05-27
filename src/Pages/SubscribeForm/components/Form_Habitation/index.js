@@ -19,7 +19,6 @@ export default function FormHabitation() {
             await candidateService.updateHousingInfo(data)
             NotificationService.success({ text: 'Informações editadas' })
         } catch (err) {
-            console.log(err)
             NotificationService.error({ text: err.response.data.message })
         }
         setIsLoading(false)

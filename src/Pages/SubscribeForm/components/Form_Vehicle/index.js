@@ -24,7 +24,7 @@ export default function FormVehicle() {
     const handleEditVehicle = async (data) => {
         setIsLoading(true)
         try {
-            await candidateService.updateVehicle(data);
+            await candidateService.updateVehicle(data.id, data);
             NotificationService.success({ text: 'Veículo alterado' })
         } catch (err) {
             NotificationService.error({ text: err.response.data.message })

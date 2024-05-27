@@ -7,7 +7,6 @@ export default function useControlForm({
     initialData = null,
     schema,
 }, ref) {
-    console.log('aquiiii meu amigo', initialData)
     // default values is the 'schema' for the form data
     // iterate over it and, if initialData.field exists, put it on values instead of default,
     // else, use the initialData instead

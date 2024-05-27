@@ -17,6 +17,7 @@
         background-color: $primary;
     }
     &.danger{
+        border-color: $error;
         background-color: $error;
         color: white;
         &:hover{
