@@ -28,7 +28,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             pump(part.file, fs.createWriteStream(part.filename))
 
             const fileBuffer = await part.toBuffer();
-            const route = `CandidateDocuments/${candidateOrResponsible.UserData.id}/${documentType}/${member_id}/${table_id ? table_id + '/' : ''}${part.fieldname}.${part.mimetype.split('/')[1]}`;
+            const route = `CandidateDocuments/${candidateOrResponsible.UserData.id}/${documentType}/${member_id}/${table_id ? table_id + '/' : ''}${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;
             const sended = await uploadFile(fileBuffer, route);
             if (!sended) {
                 throw new NotAllowedError();
