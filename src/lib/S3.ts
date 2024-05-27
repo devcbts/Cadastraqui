@@ -128,7 +128,7 @@ export async function getSignedUrlsGroupedByFolder(
       if (!obj.Key!.endsWith('/')) { // Ignora 'pastas'
         const splitKey = obj.Key!.split('/');
         const folderPath = splitKey.slice(0, -1).join('/') // Remove o nome do arquivo para obter o caminho da pasta
-        const fileName = splitKey[splitKey.length - 1]; // Get the file name
+        const fileName = "url_" + splitKey[splitKey.length - 1]; // Get the file name
         const url = s3.getSignedUrl('getObject', {
           Bucket: process.env.AWS_BUCKET_NAME!,
           Key: obj.Key!,
