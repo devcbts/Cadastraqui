@@ -18,7 +18,7 @@ export async function registerMedicationInfo(
 
   const medicationDataSchema = z.object({
     medicationName: z.string(),
-    obtainedPublicly: z.boolean(),
+    obtainedPublicly: z.boolean().nullish(),
     specificMedicationPublicly: z.string().nullish(),
     familyMemberDiseaseId: z.string().nullish(),
   })
@@ -47,7 +47,7 @@ export async function registerMedicationInfo(
     await prisma.medication.create({
       data: {
         medicationName,
-        obtainedPublicly,
+        obtainedPublicly: obtainedPublicly ?? false,
         ...idField,
         specificMedicationPublicly,
         familyMemberDiseaseId

@@ -18,7 +18,7 @@ export async function updateMedicationInfo(
 
   const medicationDataSchema = z.object({
     medicationName: z.string(),
-    obtainedPublicly: z.boolean(),
+    obtainedPublicly: z.boolean().nullish(),
     specificMedicationPublicly: z.string().optional(),
   })
 
@@ -33,22 +33,22 @@ export async function updateMedicationInfo(
     }
     const medication = await prisma.medication.findUnique({
       where: { id: _id },
-      select: {familyMember: true, candidate_id: true, legalResponsibleId: true}
+      select: { familyMember: true, candidate_id: true, legalResponsibleId: true }
     })
     if (!medication) {
       throw new ResourceNotFoundError()
     }
-    
-      const userOwner = medication.candidate_id || medication.legalResponsibleId || medication.familyMember?.candidate_id || medication.familyMember?.legalResponsibleId
-      if (IsUser.UserData.id != userOwner) {
-        throw new ForbiddenError()
-      }
+
+    const userOwner = medication.candidate_id || medication.legalResponsibleId || medication.familyMember?.candidate_id || medication.familyMember?.legalResponsibleId
+    if (IsUser.UserData.id != userOwner) {
+      throw new ForbiddenError()
+    }
 
     await prisma.medication.update({
       where: { id: _id },
       data: {
         medicationName,
-        obtainedPublicly,
+        obtainedPublicly: obtainedPublicly ?? false,
         specificMedicationPublicly,
       },
     })
@@ -64,7 +64,7 @@ export async function updateMedicationInfo(
     }
     if (err instanceof ForbiddenError) {
       return reply.status(403).send({ message: err.message })
-        
+
     }
 
     return reply.status(500).send({ message: err.message })

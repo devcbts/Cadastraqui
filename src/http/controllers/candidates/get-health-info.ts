@@ -41,10 +41,16 @@ export async function getHealthInfo(
             include: { medications: true }
           })
 
-          const healthInfo = familyMemberHealthInfo.map(disease => ({
+          const healthInfo: { disease?: any, medication: any[] }[] = familyMemberHealthInfo.map(disease => ({
             disease: disease,
             medication: disease.medications.map(medication => medication.medicationName)
           }))
+          const familyMedicationInfo = await prisma.medication.findMany({
+            where: { familyMember_id: familyMember.id }
+          })
+          familyMedicationInfo.forEach((med) => {
+            healthInfo.push({ disease: null, medication: [med] })
+          })
           healthInfoResults.push({ name: familyMember.fullName, id: familyMember.id, healthInfo })
         } catch (error) {
           throw new ResourceNotFoundError()
@@ -56,12 +62,18 @@ export async function getHealthInfo(
       where: idField,
       include: { medications: true }
     })
-    const healthInfo = candidateDisease.map(disease => ({
+    const candidateMedications = await prisma.medication.findMany({
+      where: idField
+    })
+    const healthInfo: { disease?: any, medication: any[] }[] = candidateDisease.map(disease => ({
       disease: disease,
       medication: disease.medications.map(medication => medication.medicationName)
     }))
 
-
+    // Need to get MEDICATIONS that DO NOT HAVE any disease registered :)
+    candidateMedications.forEach((med) => {
+      healthInfo.push({ disease: null, medication: [med] })
+    })
 
     let healthInfoResults = await fetchData(familyMembers)
 
