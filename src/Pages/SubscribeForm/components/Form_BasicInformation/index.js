@@ -16,15 +16,12 @@ import Loader from "Components/Loader";
 import { NotificationService } from "services/notification";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
 import uploadService from "services/upload/uploadService";
+import createFileForm from "utils/create-file-form";
 export default function FormBasicInformation() {
     const uploadDocuments = async (rowId, data) => {
-        const formData = new FormData()
-        const files = Object.entries(data).filter(([key, _]) => {
-            return key.startsWith('file_')
-        })
-        files.forEach(([key, value]) => formData.append(key, value))
+        const formData = createFileForm(data)
         try {
-            await uploadService.uploadBySectionAndId({ section: 'identity-info', id: rowId }, formData)
+            await uploadService.uploadBySectionAndId({ section: 'identity', id: rowId }, formData)
         } catch (err) {
             await NotificationService.error({ text: 'Erro ao enviar arquivos' })
         }

@@ -86,13 +86,14 @@ class CandidateService {
         })
         return response.data.housingInfo
     }
-    registerHousingInfo(data) {
+    async registerHousingInfo(data) {
         const token = localStorage.getItem("token")
-        return api.post('/candidates/housing-info', data, {
+        const response = await api.post('/candidates/housing-info', data, {
             headers: {
                 'authorization': `Bearer ${token}`,
             }
         })
+        return response.data.id
     }
 
     updateHousingInfo(data) {
