@@ -42,8 +42,9 @@ export async function getIdentityInfo(
       where: idField,
       include: { candidate: true, responsible: true }
     })
+    const uid = identityInfo?.candidate ? identityInfo?.candidate_id : identityInfo?.responsible_id
     const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'identity-info')
-    return reply.status(200).send({ identityInfo: !!identityInfo ? { ...(identityInfo?.candidate || identityInfo?.responsible), ...identityInfo } : null, urls })
+    return reply.status(200).send({ identityInfo: !!identityInfo ? { ...(identityInfo?.candidate || identityInfo?.responsible), ...identityInfo, uid } : null, urls })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

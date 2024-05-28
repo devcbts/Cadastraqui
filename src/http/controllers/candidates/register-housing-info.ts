@@ -90,12 +90,12 @@ export async function registerHousingInfo(
     }
 
     // Armazena informações acerca da moradia no banco de dados
-    await prisma.housing.create({
+    const { id } = await prisma.housing.create({
       data: dataToCreate
 
     })
 
-    return reply.status(201).send()
+    return reply.status(201).send({ id })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
