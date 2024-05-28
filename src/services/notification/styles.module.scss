@@ -1,6 +1,7 @@
 @import '../../Assets/theme/global.module.scss';
 .button{
     box-shadow: none !important;
+    width: fit-content !important;
     border: 2px solid transparent !important;
     &:focus{
         border: 2px solid $lightgrey !important;
@@ -25,5 +26,11 @@
 }
 .popup{
     border-radius: 8px !important;
+}
+
+.actions{
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap;
 }
 

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Loader from "Components/Loader";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
+import FormList from "Pages/SubscribeForm/components/FormList";
 export default function MembersList({ onSelect, onAdd }) {
     const [familyMembers, setFamilyMembers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
@@ -34,29 +35,27 @@ export default function MembersList({ onSelect, onAdd }) {
         }
         setIsLoading(false)
     }
+
+    const handleConfirmDelete = async (id) => {
+        await NotificationService.confirm({
+            title: "Tem certeza?",
+            text: "Esta ação não poderá ser desfeita",
+            onConfirm: async () => await handleDeleteMember(id),
+        })
+    }
     const handleSelectMember = (id) => {
         const member = familyMembers.find(m => m.id === id)
         onSelect(member)
     }
     return (
         <>
-            <Loader loading={isLoading} />
-            <div>
-                <h1 className={commonStyles.title}>Parentes Cadastrados</h1>
-                <p>Selecione um parente ou cadastre um novo</p>
-            </div>
-            {familyMembers.length > 0 && (
-                <div className={styles.list}>
-                    {familyMembers.map(member => (
-                        <MemberCard name={member.fullName} onView={() => handleSelectMember(member.id)} onRemove={() => handleDeleteMember(member.id)} />
-                    ))}
-                </div>
-            )}
-            {familyMembers.length === 0 && (
-                <p className={styles.emptytext}> Você ainda não registrou nenhum membro para o grupo familiar, clique no botão abaixo para realizar o primeiro cadastro</p>
-            )}
+            <FormList.Root isLoading={isLoading} text={'Selecione um parente ou cadastre um novo'} title={'Integrantes do Grupo Familiar'}>
+                <FormList.List list={familyMembers} text='Você ainda não registrou nenhum membro para o grupo familiar, clique no botão abaixo para realizar o primeiro cadastro' render={(item) => (
+                    <MemberCard name={item.fullName} onView={() => handleSelectMember(item.id)} onRemove={() => handleConfirmDelete(item.id)} />
+                )} />
+            </FormList.Root>
             <ButtonBase
-                label="novo parentesco"
+                label="adicionar"
                 onClick={onAdd}
             />
 

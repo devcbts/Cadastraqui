@@ -21,10 +21,15 @@ export default function FormHealth() {
     }
     const handleSaveInformation = async (data) => {
         try {
-            console.log(data)
             const { memberId, ...rest } = data
-            await candidateService.registerHealthInfo(memberId, rest)
-            await candidateService.registerMedicationInfo(memberId, rest)
+            let diseaseId = null
+            if (data.hasDisease) {
+                const response = await candidateService.registerHealthInfo(memberId, rest)
+                diseaseId = response.data.id
+            }
+            if (data.controlledMedication) {
+                await candidateService.registerMedicationInfo(memberId, { ...rest, familyMemberDiseaseId: diseaseId })
+            }
             NotificationService.success({ text: 'Informações cadastradas' })
             setEnableEditing(true)
         } catch (err) {
@@ -50,9 +55,9 @@ export default function FormHealth() {
     const [enableEditing, setEnableEditing] = useState(false)
     const [isAdding, setIsAdding] = useState(false)
 
-    const selectMember = (item) => {
+    const selectDisease = (item) => {
         //TODO: when user selects (health info exists) redirect to another page to list all diseases
-        setData({ memberId: item.id, ...item.healthInfo })
+        setData({ memberId: item.id, ...item })
     }
     const addHealthInfo = (item) => {
         const { id } = item
@@ -72,7 +77,7 @@ export default function FormHealth() {
     }
     return (
         <div className={commonStyles.container}>
-            {!hasSelectionOrIsAdding() && <HealthList onSelect={selectMember} onAdd={addHealthInfo} />}
+            {!hasSelectionOrIsAdding() && <HealthList onSelect={selectDisease} onAdd={addHealthInfo} />}
             {hasSelectionOrIsAdding() &&
                 <>
                     <Steps />

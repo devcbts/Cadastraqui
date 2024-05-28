@@ -10,10 +10,10 @@ import { formatCEP } from 'utils/format-cep'
 import { forwardRef, useImperativeHandle } from 'react'
 import FormSelect from 'Components/FormSelect'
 import STATES from 'utils/enums/states'
+import useControlForm from 'hooks/useControlForm'
 const AddressData = forwardRef(({ data }, ref) => {
-
-    const { control, watch, setValue, trigger, formState: { isValid }, getValues } = useForm({
-        mode: "all",
+    const { control, watch, setValue } = useControlForm({
+        schema: addressDataSchema,
         defaultValues: {
             CEP: "",
             address: "",
@@ -22,16 +22,9 @@ const AddressData = forwardRef(({ data }, ref) => {
             city: "",
             UF: "",
         },
-        values: data && {
-            CEP: data.CEP,
-            address: data.address,
-            addressNumber: data.addressNumber,
-            neighborhood: data.neighborhood,
-            city: data.city,
-            UF: data.UF,
-        },
-        resolver: zodResolver(addressDataSchema)
-    })
+        initialData: data
+    }, ref)
+
     const watchCep = watch("CEP")
     const watchState = watch("UF")
     useCep((address) => {
@@ -40,13 +33,7 @@ const AddressData = forwardRef(({ data }, ref) => {
         setValue("city", address.city)
         setValue("neighborhood", address.neighborhood)
     }, watchCep)
-    useImperativeHandle(ref, () => ({
-        validate: () => {
-            trigger();
-            return isValid
-        },
-        values: getValues
-    }))
+
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Endereço</h1>

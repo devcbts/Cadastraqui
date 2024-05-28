@@ -1,5 +1,5 @@
 // Model A will group all the income sources listed below:
-//SelfEmployed,InformalWorker,RentalIncome,FinancialHelpFromOthers,LiberalProfessional,TemporaryRuralEmployee
+// SelfEmployed, InformalWorker, RentalIncome, FinancialHelpFromOthers, PrivatePension, LiberalProfessional,TemporaryRuralEmployee
 
 import { forwardRef } from "react";
 import MonthSelection from "../MonthSelection";

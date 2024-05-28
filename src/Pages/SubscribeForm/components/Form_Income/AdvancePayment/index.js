@@ -9,13 +9,13 @@ const AdvancePayment = forwardRef(({ data }, ref) => {
     const { control, watch, resetField } = useControlForm({
         schema: advancePaymentSchema,
         defaultValues: {
-            hasPayment: null,
+            hasadvancePaymentValue: null,
             advancePaymentValue: '',
         },
         initialData: data
     }, ref)
 
-    const watchPayment = watch("hasPayment")
+    const watchPayment = watch("hasadvancePaymentValue")
 
     useEffect(() => {
         if (!watchPayment) {
@@ -24,7 +24,7 @@ const AdvancePayment = forwardRef(({ data }, ref) => {
     }, [watchPayment])
     return (
         <>
-            <FormCheckbox control={control} name={"hasPayment"} label={"você recebeu adiantamentos ou antecipações?"} />
+            <FormCheckbox control={control} name={"hasadvancePaymentValue"} label={"você recebeu adiantamentos ou antecipações?"} />
             {
                 watchPayment &&
                 <MoneyFormInput control={control} name="advancePaymentValue" label={"valor recebido"} />

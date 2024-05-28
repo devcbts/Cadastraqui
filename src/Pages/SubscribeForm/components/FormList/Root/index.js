@@ -1,6 +1,6 @@
 import Loader from "Components/Loader";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
-
+import styles from './styles.module.scss'
 export default function Root({
     isLoading,
     title,
@@ -8,13 +8,13 @@ export default function Root({
     children
 }) {
     return (
-        <>
+        <div className={styles.container}>
             <Loader loading={isLoading} />
-            <div>
-                <h1 className={commonStyles.title}>{title}</h1>
+            <div className={commonStyles.title}>
+                <h1>{title}</h1>
                 <p>{text}</p>
             </div>
             {children}
-        </>
+        </div>
     )
 }

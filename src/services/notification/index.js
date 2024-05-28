@@ -8,7 +8,8 @@ class NotificationService {
             popup: styles.popup,
             icon: styles.icon,
             cancelButton: styles.cancel,
-            title: styles.title
+            title: styles.title,
+            actions: styles.actions
         }
     }
 
@@ -33,6 +34,23 @@ class NotificationService {
         })
     }
 
+    async confirm({ title, text, cancel = "Cancelar", confirm = "Confirmar", onConfirm, onCancel = () => { } }) {
+        const { isConfirmed, isDenied } = await Swal.fire({
+            title,
+            text,
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonText: confirm,
+            cancelButtonText: cancel,
+            customClass: this.styles
+        })
+        if (isConfirmed) {
+            onConfirm()
+        }
+        if (isDenied) {
+            onCancel()
+        }
+    }
 }
 
 const service = new NotificationService()

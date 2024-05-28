@@ -7,13 +7,32 @@ import incomeMapper from "./mappers/income-mapper";
 import vehicleMapper from "./mappers/vehicle-mapper";
 
 class CandidateService {
-    registerIdentityInfo(data) {
+    async getBasicInfo() {
         const token = localStorage.getItem("token")
-        return api.post("/candidates/identity-info", data, {
+        const response = await api.get('/candidates/basic-info', {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
+        return response.data.candidate
+    }
+
+    uploadProfilePicture(img) {
+        const token = localStorage.getItem("token")
+        return api.post("/candidates/profilePicture", img, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
+    }
+    async registerIdentityInfo(data) {
+        const token = localStorage.getItem("token")
+        const response = await api.post("/candidates/identity-info", data, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
         });
+        return response.data.id
     }
     updateIdentityInfo(data) {
         const token = localStorage.getItem("token")
@@ -34,10 +53,10 @@ class CandidateService {
     }
     deleteFamilyMember(id) {
         const token = localStorage.getItem("token")
-        return api.delete('/candidates/family-member', { params: { id: id } }, {
-            headers: {
+        return api.delete('/candidates/family-member', {
+            params: { id }, headers: {
                 authorization: `Bearer ${token}`,
-            },
+            }
         })
     }
     registerFamilyMember(data) {
@@ -106,9 +125,9 @@ class CandidateService {
             },
         })
     }
-    updateVehicle(data) {
+    updateVehicle(id, data) {
         const token = localStorage.getItem("token")
-        return api.patch('/candidates/vehicle-info', data, {
+        return api.patch(`/candidates/vehicle-info/${id}`, data, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
@@ -122,7 +141,7 @@ class CandidateService {
                 authorization: `Bearer ${token}`,
             },
         });
-        return identityInfoMapper.fromPersistence(response.data.identityInfo)
+        return identityInfoMapper.fromPersistence({ ...response.data.identityInfo, urls: response.data.urls })
     }
     async getMonthlyIncome(id) {
         const token = localStorage.getItem("token")
@@ -160,17 +179,21 @@ class CandidateService {
             },
         })
     }
-
-    async getMemberIncomeInfo(id) {
+    async getAllIncomes(id) {
         const token = localStorage.getItem("token")
-        const monthlyIncome = await this.getMonthlyIncome(id)
-        const memberIncome = await api.get(`/candidates/family-member/income/${id}`, {
+        const response = await api.get(`/candidates/family-member/income/${id}`, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
         })
-        console.log('informação,', employementTypeMapper.fromPersistence(memberIncome.data.familyMemberIncomeInfo))
-        return { monthlyIncome, info: employementTypeMapper.fromPersistence(memberIncome.data.familyMemberIncomeInfo) }
+        return employementTypeMapper.fromPersistence(response.data.incomeInfoResults)
+    }
+
+    async getMemberIncomeInfo(id) {
+        const token = localStorage.getItem("token")
+        const monthlyIncome = await this.getMonthlyIncome(id)
+        const memberIncome = await this.getAllIncomes(id)
+        return { monthlyIncome, info: memberIncome.find(e => e.id === id).incomes }
     }
 
     async getHealthInfo() {
@@ -195,6 +218,31 @@ class CandidateService {
     registerMedicationInfo(id, data) {
         const token = localStorage.getItem("token")
         return api.post(`/candidates/medication-info/${id}`, data, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
+    }
+    async getBankingAccountById(id) {
+        const token = localStorage.getItem("token")
+        const response = await api.get(`/candidates/bank-info/${id}`, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
+        return response.data.bankAccounts
+    }
+    registerBankingAccount(id = '', data) {
+        const token = localStorage.getItem("token")
+        return api.post(`/candidates/bank-info/${id}`, data, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
+    }
+    updateBankingAccount(id, data) {
+        const token = localStorage.getItem("token")
+        return api.patch(`/candidates/bank-info/${id}`, data, {
             headers: {
                 authorization: `Bearer ${token}`,
             },

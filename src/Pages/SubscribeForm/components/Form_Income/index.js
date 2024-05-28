@@ -17,6 +17,8 @@ import InformationModelA from "./ModelA/components/InformationModelA";
 import InformationModelB from "./ModelB/components/InformationModelB";
 import IncomeFormModelB from "./ModelB";
 import IncomeFormModelC from "./ModelC";
+import InformationModelD from "./ModelD/components/InformationModelC";
+import IncomeFormModelD from "./ModelD";
 export default function FormIncome() {
     // Keep track of incomes created/updated by user
     const hasIncomeSelected = useRecoilValue(incomeAtom)
@@ -31,7 +33,6 @@ export default function FormIncome() {
     }
     const handleSaveInformation = async (data) => {
         const { member, incomeSource } = data
-        console.log(data)
         // If we're selecting income source, move to the next page instead of execute onSave on first page
         if (activeStep === 1) {
             setActiveStep(2)
@@ -45,7 +46,6 @@ export default function FormIncome() {
             // then execute the rest of operation
             NotificationService.success({ text: 'Informações cadastradas' })
         } catch (err) {
-            console.log(err)
             NotificationService.error({ text: err.response.data.message })
 
         }
@@ -67,12 +67,16 @@ export default function FormIncome() {
         const currentIncomeSource = data?.incomeSource
         if (currentIncomeSource === "Unemployed") {
             setRenderItems([IncomeSelection, UnemployementInsurance])
-        } else if (['SelfEmployed', 'InformalWorker', 'RentalIncome', 'FinancialHelpFromOthers', 'LiberalProfessional', 'TemporaryRuralEmployee'].includes(currentIncomeSource)) {
+        } else if (['SelfEmployed', 'InformalWorker', 'RentalIncome', 'PrivatePension', 'LiberalProfessional', 'TemporaryRuralEmployee'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelA, IncomeFormModelA])
+        } else if (['IndividualEntrepreneur'].includes(currentIncomeSource)) {
+            setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelA])
         } else if (['PrivateEmployee', 'PublicEmployee', 'DomesticEmployee', 'Retired', 'Pensioner', 'Apprentice', 'TemporaryDisabilityBenefit'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelB])
         } else if (['BusinessOwnerSimplifiedTax', 'BusinessOwner'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelC])
+        } else if (['Alimony', 'FinancialHelpFromOthers'].includes(currentIncomeSource)) {
+            setRenderItems([IncomeSelection, InformationModelD, IncomeFormModelD])
         } else {
             setRenderItems([IncomeSelection])
         }
@@ -93,7 +97,6 @@ export default function FormIncome() {
     }
 
     const handleSpecificSelection = ({ member, income, info }) => {
-        console.log('quando seleciono', info)
         const { income: { value }, list } = income
         setIsAdding(true)
         setData({ member, incomeSource: value, incomes: list, ...info })
@@ -102,8 +105,6 @@ export default function FormIncome() {
     const handleAdd = ({ member = null }) => {
         setIsAdding(true)
         setData({ member })
-
-
     }
     return (
         <div className={commonStyles.container}>

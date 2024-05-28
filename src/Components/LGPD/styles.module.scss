@@ -1,0 +1,32 @@
+@import '../../Assets/theme/global.module.scss';
+.badge{
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        clip-path: circle();
+        width:100px;
+        height: 100px;
+        background-color: $primary;
+        position: absolute;
+        right: 0;
+        top: 0;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+}
+
+.modal {
+    background-color: white;
+    border-radius: 8px;
+    padding: 16px 24px;
+    overflow-y: scroll;
+    width: 60%;
+    height: 80%;
+    .actions{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+}

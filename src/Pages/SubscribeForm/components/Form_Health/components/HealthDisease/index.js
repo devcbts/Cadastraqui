@@ -12,42 +12,45 @@ const HealthDisease = forwardRef(({ data }, ref) => {
     const { control, watch } = useControlForm({
         schema: healthDiseaseSchema,
         defaultValues: {
+            hasDisease: null,
             disease: '',
             specificDisease: '',
-            hasMedicalReport: '',
+            hasMedicalReport: null,
         },
         initialData: data
     }, ref)
-
     const watchDisease = watch("disease")
+    const watchHasDisease = watch("hasDisease")
 
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Doença</h1>
-            <div>
-                <FormSelect
-                    name="disease"
-                    control={control}
-                    label={"doença"}
-                    options={DISEASES}
-                    value={watchDisease}
-                />
-                {
-                    watchDisease === "specificDisease" && (
-                        <InputForm
-                            name="specificDisease"
-                            control={control}
-                            label="doença específica"
-                        />
-                    )
-                }
-                <FormCheckbox
-                    name="hasMedicalReport"
-                    control={control}
-                    label="possui relatório médico?"
-                />
+            <FormCheckbox control={control} name={"hasDisease"} label={"possui alguma doença?"} />
+            {watchHasDisease &&
+                <>
+                    <FormSelect
+                        name="disease"
+                        control={control}
+                        label={"doença"}
+                        options={DISEASES}
+                        value={watchDisease}
+                    />
+                    {
+                        watchDisease === "specificDisease" && (
+                            <InputForm
+                                name="specificDisease"
+                                control={control}
+                                label="doença específica"
+                            />
+                        )
+                    }
+                    <FormCheckbox
+                        name="hasMedicalReport"
+                        control={control}
+                        label="possui relatório médico?"
+                    />
 
-            </div>
+                </>}
 
         </div>
 

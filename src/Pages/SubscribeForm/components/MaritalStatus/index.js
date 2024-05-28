@@ -8,17 +8,21 @@ import MARITAL_STATUS from "utils/enums/marital-status";
 import FormSelect from "Components/FormSelect";
 import FormFilePicker from "Components/FormFilePicker";
 import useControlForm from "hooks/useControlForm";
+import FilePreview from "Components/FilePreview";
 const MaritalStatus = forwardRef(({ data }, ref) => {
     const { control, watch, resetField } = useControlForm({
         schema: maritalStatusSchema,
         defaultValues: {
             maritalStatus: '',
-            weddingCertificate: null
+            file_weddingCertificate: null,
+            url_weddingCertificate: null,
+            weddingCertificate_url: null,
         },
         initialData: data
     }, ref)
-
+    console.log(data)
     const watchStatus = watch("maritalStatus")
+    const watchFile = watch("file_weddingCertificate")
     useEffect(() => {
         if (watchStatus !== "Married") {
             resetField("weddingCertificate", { defaultValue: null })
@@ -29,11 +33,15 @@ const MaritalStatus = forwardRef(({ data }, ref) => {
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Estado Civil</h1>
             <div>
-                <FormSelect name="maritalStatus" label="Estado civil" control={control} options={MARITAL_STATUS} value={watchStatus} />
+                <FormSelect name="maritalStatus" label="estado civil" control={control} options={MARITAL_STATUS} value={watchStatus} />
                 {
                     watchStatus === "Married" &&
-                    <FormFilePicker name="weddingCertificate" label="Certidão" control={control} />
+                    <>
+                        <FormFilePicker name="file_weddingCertificate" label="certidão de casamento" control={control} accept={'application/pdf'} />
+                        <FilePreview file={watchFile} url={data.url_weddingCertificate} text={'visualizar certidão'} />
+                    </>
                 }
+
             </div>
         </div>
     )

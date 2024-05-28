@@ -12,13 +12,13 @@ const Pension = forwardRef(({ data }, ref) => {
     const { control, watch, resetField } = useControlForm({
         schema: pensionSchema,
         defaultValues: {
-            checkPension: null,
+            hasjudicialPensionValue: null,
             judicialPensionValue: '',
         },
         initialData: data
     }, ref)
 
-    const watchPension = watch("checkPension")
+    const watchPension = watch("hasjudicialPensionValue")
 
     useEffect(() => {
         if (!watchPension) {
@@ -32,7 +32,7 @@ const Pension = forwardRef(({ data }, ref) => {
                 de decisão judicial, acordo homologado judicialmente ou
                 por meio de escritura pública que assim o determine?
             </p>
-            <FormCheckbox control={control} name="checkPension" />
+            <FormCheckbox control={control} name="hasjudicialPensionValue" />
             {
                 watchPension && (
                     <MoneyFormInput control={control} name={"judicialPensionValue"} label={"valor da pensão"} />

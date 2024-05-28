@@ -14,8 +14,8 @@ const VehicleSituation = forwardRef(({ data }, ref) => {
         schema: vehicleSituationSchema,
         defaultValues: {
             situation: '',
-            financedMonths: '',
-            monthsToPayOff: '',
+            financedMonths: null,
+            monthsToPayOff: null,
         },
         initialData: data
     }, ref)

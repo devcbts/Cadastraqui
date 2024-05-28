@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import FormBasicInformation from "./components/Form_BasicInformation";
-import candidateService from "services/candidate/candidateService";
 import FormStepper from "Components/FormStepper";
 import { ReactComponent as User } from 'Assets/icons/user.svg';
 import { ReactComponent as Family } from 'Assets/icons/family.svg';
@@ -16,8 +15,9 @@ import FormHabitation from "./components/Form_Habitation";
 import FormVehicle from "./components/Form_Vehicle";
 import FormHealth from "./components/Form_Health";
 import FormIncome from "./components/Form_Income";
-import { RecoilRoot } from "recoil";
+import { RecoilRoot, useSetRecoilState } from "recoil";
 import FormDeclarations from "./components/Form_Declarations";
+import headerAtom from "Components/Header/atoms/header-atom";
 export default function SubscribeForm() {
     const [activeStep, setActiveStep] = useState(1)
 
@@ -35,13 +35,20 @@ export default function SubscribeForm() {
         { label: "Declarações", component: List },
         { label: "_", component: Edit },
     ]
+    const setHeader = useSetRecoilState(headerAtom)
+    useEffect(() => {
+        setHeader({ sidebar: false })
+        return () => {
+            setHeader({ sidebar: true })
+        }
+    }, [])
     return (
         <FormStepper.Root vertical activeStep={activeStep}>
             <FormStepper.Stepper>
                 {steps.map((e, i) => {
                     const Component = e.component
                     return (
-                        <FormStepper.Step index={i + 1} label={e.label} onClick={() => handleChangeCategory(i + 1)}>
+                        <FormStepper.Step key={i} index={i + 1} label={e.label} onClick={() => handleChangeCategory(i + 1)}>
                             <Component />
                         </FormStepper.Step>
                     )
