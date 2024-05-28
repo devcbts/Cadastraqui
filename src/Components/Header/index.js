@@ -42,7 +42,7 @@ export default function HeaderWrapper({ children }) {
                     </>
                 )
             }
-        </div>
+        </div >
 
     )
 }

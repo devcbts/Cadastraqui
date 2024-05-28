@@ -58,7 +58,8 @@ export default function SubscribeForm() {
             <FormStepper.View index={3}><FormHabitation /></FormStepper.View>
             <FormStepper.View index={4}><FormVehicle /></FormStepper.View>
             <FormStepper.View index={5}><FormHealth /></FormStepper.View>
-            <FormStepper.View index={6}>
+            <FormStepper.View index={8}><FormDeclarations /></FormStepper.View>
+            <FormStepper.View index={7}>
                 <RecoilRoot>
                     <FormIncome />
                 </RecoilRoot>

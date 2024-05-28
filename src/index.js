@@ -16,7 +16,10 @@ import AuthProvider from 'context/AuthProvider';
 import { RecoilRoot } from 'recoil';
 import AppRoutes from 'Components/Routes';
 import { BrowserRouter } from 'react-router-dom';
+<<<<<<< HEAD
 import HabitationDeclarationPDF from 'Pages/SubscribeForm/components/Form_Habitation/components/HabitationDeclarationPDF';
+=======
+>>>>>>> eca15a3eac8c5f8e753fd9f7d06115136491c934
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
