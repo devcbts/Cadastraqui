@@ -14,37 +14,37 @@ export async function getHousingInfo(
     _id: z.string().optional(),
   })
 
-  
+
   const { _id } = AssistantParamsSchema.parse(request.params)
 
   try {
     const user_id = request.user.sub;
-  
-    let candidateOrResponsible 
+
+    let candidateOrResponsible
     let idField
     if (_id) {
       candidateOrResponsible = await ChooseCandidateResponsible(_id)
       if (!candidateOrResponsible) {
         throw new ResourceNotFoundError()
       }
-      idField = candidateOrResponsible.IsResponsible ? {responsible_id: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
-       
+      idField = candidateOrResponsible.IsResponsible ? { responsible_id: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
+
     } else {
 
       // Verifica se existe um candidato associado ao user_id
-      candidateOrResponsible = await SelectCandidateResponsible(user_id) 
-      
+      candidateOrResponsible = await SelectCandidateResponsible(user_id)
+
       if (!candidateOrResponsible) {
         throw new ResourceNotFoundError()
       }
-      idField = candidateOrResponsible.IsResponsible ? {responsible_id: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
+      idField = candidateOrResponsible.IsResponsible ? { responsible_id: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
     }
-   
+
     const housingInfo = await prisma.housing.findUnique({
       where: idField,
     })
-
-    return reply.status(200).send({ housingInfo })
+    const uid = candidateOrResponsible.UserData.id
+    return reply.status(200).send({ housingInfo: { ...housingInfo, uid } })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
