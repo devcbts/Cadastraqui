@@ -208,11 +208,11 @@ export async function registerFamilyMemberInfo(
     console.log('====================================')
     console.log(dataToCreate)
     console.log('====================================')
-    await prisma.familyMember.create({
+    const { id } = await prisma.familyMember.create({
       data: dataToCreate,
     })
 
-    return reply.status(201).send()
+    return reply.status(201).send({ id })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })

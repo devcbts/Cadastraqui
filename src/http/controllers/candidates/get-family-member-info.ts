@@ -1,4 +1,3 @@
-import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
@@ -20,21 +19,21 @@ export async function getFamilyMemberInfo(
 
   try {
     const user_id = request.user.sub
-    let candidateOrResponsible 
+    let candidateOrResponsible
     let idField
     if (_id) {
       candidateOrResponsible = await ChooseCandidateResponsible(_id)
       if (!candidateOrResponsible) {
         throw new ResourceNotFoundError()
       }
-      idField = candidateOrResponsible.IsResponsible ? {legalResponsibleId: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
+      idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
     } else {
       // Verifica se existe um candidato associado ao user_id
       candidateOrResponsible = await SelectCandidateResponsible(user_id)
       if (!candidateOrResponsible) {
         throw new ResourceNotFoundError()
       }
-      idField = candidateOrResponsible.IsResponsible ? {legalResponsibleId: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
+      idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
     }
 
     const familyMembers = await prisma.familyMember.findMany({
@@ -42,12 +41,11 @@ export async function getFamilyMemberInfo(
     })
 
     const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'family-member')
-
     const familyMembersWithUrls = familyMembers.map((familyMember) => {
-      const documents = Object.keys(urls).filter((url) => url.split("/")[3] === familyMember.id)
+      const documents = Object.entries(urls).filter(([url]) => url.split("/")[3] === familyMember.id)
       return {
-      ...familyMember,
-      urls: documents,
+        ...familyMember,
+        urls: Object.fromEntries(documents),
       }
     })
 
