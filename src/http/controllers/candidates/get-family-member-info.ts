@@ -5,6 +5,7 @@ import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { getSectionDocumentsPDF } from './AWS Routes/get-pdf-documents-by-section'
 
 export async function getFamilyMemberInfo(
   request: FastifyRequest,
@@ -39,7 +40,19 @@ export async function getFamilyMemberInfo(
     const familyMembers = await prisma.familyMember.findMany({
       where: idField,
     })
-    return reply.status(200).send({ familyMembers })
+
+    const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'family-member')
+
+    const familyMembersWithUrls = familyMembers.map((familyMember) => {
+      const documents = Object.keys(urls).filter((url) => url.split("/")[3] === familyMember.id)
+      return {
+      ...familyMember,
+      urls: documents,
+      }
+    })
+
+    return reply.status(200).send({ familyMembers: familyMembersWithUrls })
+
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

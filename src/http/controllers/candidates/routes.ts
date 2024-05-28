@@ -102,7 +102,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     registerMonthlyIncomeInfo,
   )
   app.post('/update-income-source', { onRequest: [verifyJWT] }, updateIncomeSource)
- 
+  
   app.patch(
     '/family-info/:_id',
     { onRequest: [verifyJWT] },
