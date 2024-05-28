@@ -59,14 +59,15 @@ class CandidateService {
             }
         })
     }
-    registerFamilyMember(data) {
+    async registerFamilyMember(data) {
         const mappedData = familyMemberMapper.toPersistence(data)
         const token = localStorage.getItem("token")
-        return api.post(`/candidates/family-member`, mappedData, {
+        const response = await api.post(`/candidates/family-member`, mappedData, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
         })
+        return response.data.id
     }
     updateFamilyMember(id, data) {
         const mappedData = familyMemberMapper.toPersistence(data)

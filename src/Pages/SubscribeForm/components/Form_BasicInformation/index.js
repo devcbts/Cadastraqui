@@ -17,11 +17,13 @@ import { NotificationService } from "services/notification";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
 import uploadService from "services/upload/uploadService";
 import createFileForm from "utils/create-file-form";
+import useAuth from "hooks/useAuth";
 export default function FormBasicInformation() {
-    const uploadDocuments = async (rowId, data) => {
+    const { auth } = useAuth()
+    const uploadDocuments = async (userId, data) => {
         const formData = createFileForm(data)
         try {
-            await uploadService.uploadBySectionAndId({ section: 'identity', id: rowId }, formData)
+            await uploadService.uploadBySectionAndId({ section: 'identity', id: userId }, formData)
         } catch (err) {
             await NotificationService.error({ text: 'Erro ao enviar arquivos' })
         }
@@ -30,7 +32,7 @@ export default function FormBasicInformation() {
     const handleEditInformation = async (data) => {
         try {
             await candidateService.updateIdentityInfo(data);
-            await uploadDocuments(data.id, data)
+            await uploadDocuments(data.uid, data)
             NotificationService.success({ text: 'Informações alteradas' })
         } catch (err) {
             NotificationService.error({ text: err.response.data.message })
@@ -40,9 +42,9 @@ export default function FormBasicInformation() {
     const handleSaveInformation = async (_, data) => {
         setIsLoading(true)
         try {
-            const id = await candidateService.registerIdentityInfo(data)
+            await candidateService.registerIdentityInfo(data)
             NotificationService.success({ text: 'Informações cadastradas' })
-            await uploadDocuments(id, data)
+            await uploadDocuments(auth?.uid, data)
             setEnableEditing(true)
         } catch (err) {
             NotificationService.error({ text: err.response.data.message })
