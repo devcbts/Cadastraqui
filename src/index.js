@@ -16,7 +16,6 @@ import AuthProvider from 'context/AuthProvider';
 import { RecoilRoot } from 'recoil';
 import AppRoutes from 'Components/Routes';
 import { BrowserRouter } from 'react-router-dom';
-import HabitationDeclarationPDF from 'Pages/SubscribeForm/components/Form_Habitation/components/HabitationDeclarationPDF';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
