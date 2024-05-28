@@ -17,6 +17,7 @@ import FormVehicle from "./components/Form_Vehicle";
 import FormHealth from "./components/Form_Health";
 import FormIncome from "./components/Form_Income";
 import { RecoilRoot } from "recoil";
+import FormDeclarations from "./components/Form_Declarations";
 export default function SubscribeForm() {
     const [activeStep, setActiveStep] = useState(1)
 
@@ -31,7 +32,7 @@ export default function SubscribeForm() {
         { label: "Renda", component: Currency },
         { label: "Gastos", component: Money },
         { label: "Saúde", component: Doctor },
-        { label: "_", component: List },
+        { label: "Declarações", component: List },
         { label: "_", component: Edit },
     ]
     return (
@@ -51,7 +52,8 @@ export default function SubscribeForm() {
             <FormStepper.View index={3}><FormHabitation /></FormStepper.View>
             <FormStepper.View index={4}><FormVehicle /></FormStepper.View>
             <FormStepper.View index={5}><FormHealth /></FormStepper.View>
-            <FormStepper.View index={6}>
+            <FormStepper.View index={8}><FormDeclarations /></FormStepper.View>
+            <FormStepper.View index={7}>
                 <RecoilRoot>
                     <FormIncome />
                 </RecoilRoot>
