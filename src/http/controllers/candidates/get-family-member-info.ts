@@ -45,9 +45,10 @@ export async function getFamilyMemberInfo(
 
     const familyMembersWithUrls = familyMembers.map((familyMember) => {
       const documents = Object.keys(urls).filter((url) => url.split("/")[3] === familyMember.id)
+      const urlsPair = documents.map((document) => ({ [document]: urls[document] }));
       return {
       ...familyMember,
-      urls: documents,
+      urls: urlsPair,
       }
     })
 

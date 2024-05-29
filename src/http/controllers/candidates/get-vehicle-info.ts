@@ -5,6 +5,7 @@ import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { getSectionDocumentsPDF } from './AWS Routes/get-pdf-documents-by-section'
 
 export async function getVehicleInfo(
   request: FastifyRequest,
@@ -57,7 +58,8 @@ export async function getVehicleInfo(
     }, {} as { [id: string]: string });
     familyMemberNames[candidateOrResponsible.UserData.id] = candidateOrResponsible.UserData.name;
 
-    
+    const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'vehicle')
+
     // Prepare the results, pairing the owner's id with the family member's name
     const vehicleInfoResults = vehicles.map(vehicle => {
       const ownerNames = vehicle.owners_id.map(id => familyMemberNames[id]);
@@ -68,9 +70,21 @@ export async function getVehicleInfo(
     });
 
 
+    const vehicleInfoResultsWithUrls = vehicleInfoResults.map((vehicleInfo) => {
+
+      const documents = Object.keys(urls).filter((url) => url.split("/")[4] === vehicleInfo.id)
+      const urlsPair = documents.map((document) => ({ [document]: urls[document] }));
+      return {
+        ...vehicleInfo,
+        urls: urlsPair,
+      }
+
+    });
+    console.log(vehicleInfoResultsWithUrls[0].urls)
+    return reply.status(200).send({ vehicleInfoResults: vehicleInfoResultsWithUrls });
 
 
-    return reply.status(200).send({ vehicleInfoResults });
+
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message });

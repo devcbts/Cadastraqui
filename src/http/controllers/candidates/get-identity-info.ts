@@ -12,28 +12,18 @@ export async function getIdentityInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const queryParamsSchema = z.object({
-    _id: z.string().optional(),
-  })
-  const { _id } = queryParamsSchema.parse(request.params)
+
   try {
     const user_id = request.user.sub
     let candidateOrResponsible
     let idField
-    if (_id) {
-      candidateOrResponsible = await ChooseCandidateResponsible(_id)
-      if (!candidateOrResponsible) {
-        throw new ResourceNotFoundError()
-      }
-      idField = candidateOrResponsible.IsResponsible ? { responsible_id: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
-    } else {
-
+    
       candidateOrResponsible = await SelectCandidateResponsible(user_id);
       if (!candidateOrResponsible) {
         throw new ResourceNotFoundError()
       }
       idField = candidateOrResponsible.IsResponsible ? { responsible_id: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
-    }
+    
 
 
 
@@ -42,7 +32,7 @@ export async function getIdentityInfo(
       where: idField,
       include: { candidate: true, responsible: true }
     })
-    const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'identity-info')
+    const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'identity')
     return reply.status(200).send({ identityInfo: !!identityInfo ? { ...(identityInfo?.candidate || identityInfo?.responsible), ...identityInfo } : null, urls })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {

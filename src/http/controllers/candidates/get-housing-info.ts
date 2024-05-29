@@ -5,46 +5,35 @@ import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { getSectionDocumentsPDF } from './AWS Routes/get-pdf-documents-by-section'
 export async function getHousingInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
 
-  const AssistantParamsSchema = z.object({
-    _id: z.string().optional(),
-  })
-
-  
-  const { _id } = AssistantParamsSchema.parse(request.params)
 
   try {
     const user_id = request.user.sub;
-  
-    let candidateOrResponsible 
-    let idField
-    if (_id) {
-      candidateOrResponsible = await ChooseCandidateResponsible(_id)
-      if (!candidateOrResponsible) {
-        throw new ResourceNotFoundError()
-      }
-      idField = candidateOrResponsible.IsResponsible ? {responsible_id: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
-       
-    } else {
 
-      // Verifica se existe um candidato associado ao user_id
-      candidateOrResponsible = await SelectCandidateResponsible(user_id) 
-      
-      if (!candidateOrResponsible) {
-        throw new ResourceNotFoundError()
-      }
-      idField = candidateOrResponsible.IsResponsible ? {responsible_id: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
+    let candidateOrResponsible
+    let idField
+
+
+    // Verifica se existe um candidato associado ao user_id
+    candidateOrResponsible = await SelectCandidateResponsible(user_id)
+
+    if (!candidateOrResponsible) {
+      throw new ResourceNotFoundError()
     }
-   
+    idField = candidateOrResponsible.IsResponsible ? { responsible_id: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
+
+
     const housingInfo = await prisma.housing.findUnique({
       where: idField,
     })
+    const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'housing')
 
-    return reply.status(200).send({ housingInfo })
+    return reply.status(200).send({ housingInfo, urls })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
