@@ -51,6 +51,7 @@ model Candidate {
   FamilyMemberDisease FamilyMemberDisease[]
   Medication          Medication[]
   BankAccount         BankAccount[]
+  Declarations        Declarations[]
 
   @@unique([id, responsible_id])
   @@map("candidates")
@@ -114,6 +115,7 @@ model LegalResponsible {
   FamilyMemberIncome              FamilyMemberIncome[]
   MonthlyIncome                   MonthlyIncome[]
   BankAccount                     BankAccount[]
+  Declarations                    Declarations[]
 
   @@unique([id, user_id])
   @@map("responsibles")
@@ -312,6 +314,7 @@ model FamilyMember {
   LegalResponsible          LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId        String?
   BankAccount               BankAccount[]
+  Declarations              Declarations[]
 
   @@map("familyMembers")
 }
@@ -560,6 +563,18 @@ model Medication {
   familyMemberDiseaseId      String?
 
   @@map("medications")
+}
+
+model Declarations {
+  id                 String            @id @default(uuid())
+  declarationType    Declaration_Type
+  text               String
+  familyMember_id    String?
+  candidate_id       String?
+  candidate          Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
+  legalResponsibleId String?
 }
 
 model AnnouncementInterview {
@@ -1045,4 +1060,31 @@ enum AccountType {
   MINORS_ACCOUNT
   BUSINESS_ACCOUNT
   JOINT_ACCOUNT
+}
+
+enum Declaration_Type {
+  Activity
+  AddressProof
+  Autonomo
+  Card
+  ChildPension
+  ChildSupport
+  ContributionStatement
+  Data
+  Empresario
+  InactiveCompany
+  IncomeTaxExemption
+  MEI
+  NoAddressProof
+  Penseion
+  Pension
+  Rent
+  RentDetails
+  RentIncome
+  RentedHouse
+  RuralWorker
+  SingleStatus
+  StableUnion
+  Status
+  WorkCard
 }
