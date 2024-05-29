@@ -1,0 +1,27 @@
+@import '../../Assets/theme/global.module.scss';
+.container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    svg{
+        cursor: help;
+        color: $primary;
+    }
+    .tooltipwrapper{
+        position: relative;
+        .tooltip{
+            background-color: $lightgrey;
+            padding: 4px;
+            border-radius: 8px;
+            text-align: center;
+            color: $grey;
+            position: absolute;
+            transform: translateX(-50%);
+            bottom: calc(100% + 24px);
+            width: 200px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    }
+}
