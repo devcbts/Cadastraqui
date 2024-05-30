@@ -4,11 +4,17 @@ import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 import BankAccount from "./components/BankAccount";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
+import BankMonthSelection from "./components/BankMonthSelection";
+import StatementSelection from "./components/Statement";
+import incomeAtom from "../Form_Income/atoms/income-atom";
+import { useRecoilValue } from "recoil";
 
 export default function FormBankAccount({ id }) {
+    const hasMonthSelected = useRecoilValue(incomeAtom)
+
     const handleEditAccount = async (data) => {
         try {
             await candidateService.updateBankingAccount(data.id, data)
@@ -27,6 +33,13 @@ export default function FormBankAccount({ id }) {
             NotificationService.error({ text: err.response?.data?.message })
         }
     }
+    const [renderList, setRenderList] = useState([])
+    useEffect(() => {
+        setRenderList([
+            BankAccount,
+            BankMonthSelection
+        ])
+    }, [])
     const {
         Steps,
         state: { data, activeStep, setData },
@@ -35,9 +48,7 @@ export default function FormBankAccount({ id }) {
         actions: { handleEdit }
 
     } = useStepFormHook({
-        render: [
-            BankAccount
-        ],
+        render: renderList,
         onEdit: handleEditAccount,
         onSave: handleSave
     })
@@ -66,8 +77,9 @@ export default function FormBankAccount({ id }) {
         <>
             {!isFormAvailable() && <MemberBankAccountView id={id} onSelect={handleSelectAccount} onAdd={handleAddNewAccount} />}
             {isFormAvailable() && <>
+                {console.log('changeeed')}
                 <Steps />
-                {<div className={commonStyles.actions}>
+                {!hasMonthSelected && <div className={commonStyles.actions}>
                     <ButtonBase onClick={handlePrevious}>
                         <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
                     </ButtonBase>

@@ -35,20 +35,13 @@ export default function PropertyOwner({ show, onClose }) {
     const watchState = watch('ufIssuing')
     const watchNaturality = watch('UF')
     const watchMaritalStatus = watch("maritalStatus")
-
-    const handlePDF = async () => {
-        // if (!ownerRef.current.validate() && !addressRef.current.validate()) return
-        console.log('execute')
+    const handlePDF = async (url) => {
+        if (!ownerRef.current.validate() && !addressRef.current.validate()) return
         try {
-            const blob = await ReactPDF.pdf(<HabitationDeclarationPDF owner={{ ...ownerRef.current.values(), ...addressRef.current.values() }} />).toBlob()
-            if (blob) {
-                const url = URL.createObjectURL(blob)
-                window.open(url, '_blank')
-            }
+            window.open(url, '_blank')
+
         } catch (err) {
-            console.log('pdf', err)
         }
-        console.log('finish')
     }
     if (!show) return null
     return (
@@ -69,11 +62,18 @@ export default function PropertyOwner({ show, onClose }) {
                             <InputForm control={control} name={"profession"} label={'profissão'} />
                         </div>
                         <InputForm control={control} name={"email"} label={'email'} />
-                        <AddressData data={null} ref={addressRef} />
+                        <AddressData ref={addressRef} />
                     </div>
                     <div className={commonStyles.actions}>
                         <ButtonBase label={'fechar'} onClick={onClose} />
-                        <ButtonBase label={'gerar pdf'} onClick={handlePDF} />
+                        <BlobProvider document={<HabitationDeclarationPDF owner={{ ...ownerRef.current?.values(), ...addressRef.current?.values() }} />}>
+                            {
+                                ({ url, loading }) => {
+                                    return loading ? 'teste' : <ButtonBase label={'gerar pdf'} onClick={() => handlePDF(url)} />
+                                }
+                            }
+                        </BlobProvider>
+
                     </div>
                 </div>
             </Overlay>

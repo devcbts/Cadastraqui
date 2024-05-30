@@ -99,7 +99,7 @@ export default function FormIncome() {
     const handleSpecificSelection = ({ member, income, info }) => {
         const { income: { value }, list } = income
         setIsAdding(true)
-        setData({ member, incomeSource: value, incomes: list, ...info })
+        setData({ member, incomeSource: value, months: list, ...info })
     }
 
     const handleAdd = ({ member = null }) => {

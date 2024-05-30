@@ -2,15 +2,15 @@
 // SelfEmployed, InformalWorker, RentalIncome, FinancialHelpFromOthers, PrivatePension, LiberalProfessional,TemporaryRuralEmployee
 
 import { forwardRef } from "react";
-import MonthSelection from "../MonthSelection";
 import GrossValue from "../GrossValue";
 import InformationModelA from "./components/InformationModelA";
 import TotalValue from "../TotalValue";
 import Pension from "../Pension";
+import IncomeMonthSelection from "../MonthSelection";
 
 const IncomeFormModelA = forwardRef(({ data }, ref) => {
     return (
-        <MonthSelection
+        <IncomeMonthSelection
             ref={ref}
             data={{ ...data, quantity: 6 }}
             render={[

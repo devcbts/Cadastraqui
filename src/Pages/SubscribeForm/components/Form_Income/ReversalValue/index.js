@@ -11,13 +11,13 @@ const ReversalValue = forwardRef(({ data }, ref) => {
     const { control, watch, resetField } = useControlForm({
         schema: reversalValueSchema,
         defaultValues: {
-            reversalValue: null,
+            hasreversalValue: null,
             reversalValue: '',
         },
         initialData: data
     }, ref)
 
-    const watchReversal = watch("reversalValue")
+    const watchReversal = watch("hasreversalValue")
 
     useEffect(() => {
         if (!watchReversal) {
@@ -26,7 +26,7 @@ const ReversalValue = forwardRef(({ data }, ref) => {
     }, [watchReversal])
     return (
         <>
-            <FormCheckbox control={control} name={"reversalValue"} label={"você recebeu indenizações?"} />
+            <FormCheckbox control={control} name={"hasreversalValue"} label={"você recebeu indenizações?"} />
             {
                 watchReversal &&
                 <MoneyFormInput control={control} name="reversalValue" label={"valor recebido"} />

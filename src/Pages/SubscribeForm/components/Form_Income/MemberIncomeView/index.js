@@ -42,7 +42,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd }) {
                             <FormListItem.Root text={item.income.label}>
                                 <FormListItem.Actions>
                                     <ButtonBase label={"visualizar"} onClick={() => onSelect({ member: member, income: item, info: incomeInfo?.info.find(e => e.employmentType === item.income.value) })} />
-                                    {/* <ButtonBase label={"excluir"} danger /> */}
+                                    {/* <ButtonBase label={"excluir"} onClick={() => console.log(item)} danger /> */}
                                 </FormListItem.Actions>
                             </FormListItem.Root>
                         )

@@ -26,7 +26,6 @@ export default function FormHabitation() {
         }
     }
     const handleEditHouse = async (data) => {
-
         setIsLoading(true)
         try {
             await candidateService.updateHousingInfo(data)

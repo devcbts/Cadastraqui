@@ -11,7 +11,7 @@ import FilePreview from "Components/FilePreview";
 import FormFilePicker from "Components/FormFilePicker";
 import HabitationDeclarationPDF from "../HabitationDeclarationPDF";
 import RowTextAction from "Components/RowTextAction";
-import PropertyOwner from "../PeopertyOwner";
+import PropertyOwner from "../PropertyOwner";
 
 const { forwardRef, useEffect, useState } = require("react");
 
