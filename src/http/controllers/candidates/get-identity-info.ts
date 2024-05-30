@@ -34,6 +34,7 @@ export async function getIdentityInfo(
     const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'identity')
     return reply.status(200).send({ identityInfo: !!identityInfo ? { ...(identityInfo?.candidate || identityInfo?.responsible), ...identityInfo, uid } : null, urls })
   } catch (err: any) {
+    console.log(err)
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
     }

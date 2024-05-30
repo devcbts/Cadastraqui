@@ -9,6 +9,7 @@ declare module '@fastify/jwt' {
   }
   export interface JwtPayload {
     sub: string,
+    uid: string,
     role: string,
     iat: number,
     exp: number

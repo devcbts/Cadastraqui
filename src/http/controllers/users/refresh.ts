@@ -14,8 +14,9 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
     const decoded = jwt.verify(refreshToken, env.JWT_SECRET) as JwtPayload
     const user_id = decoded.sub?.toString()
     const role = decoded.role;
+    const uid = decoded.uid;
     const newToken = await reply.jwtSign(
-      { role },
+      { role, uid },
       {
         sign: {
           sub: user_id,
@@ -24,7 +25,7 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
     )
 
     const newRefreshToken = await reply.jwtSign(
-      { role },
+      { role, uid },
       {
         sign: {
           sub: user_id,

@@ -2,7 +2,7 @@ require('module-alias/register');
 import fastifyCookie from '@fastify/cookie';
 import fastifyJwt from '@fastify/jwt';
 import { fastifyMultipart } from '@fastify/multipart';
-import fastify, { FastifyReply, FastifyRequest } from 'fastify';
+import fastify from 'fastify';
 import fastifyCors from 'fastify-cors';
 import fastifyMulter from 'fastify-multer';
 import morgan from 'morgan';
@@ -32,7 +32,7 @@ app.register(fastifyMultipart, {
   limits: {
     fileSize: 15000000,
     files: 10,
-    
+
   },
 })
 // Registre o plugin fastify-cors

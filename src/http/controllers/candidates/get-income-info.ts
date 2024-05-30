@@ -1,11 +1,8 @@
-import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
-import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FamilyMember } from '@prisma/client'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
 
 export async function getIncomeInfo(
   request: FastifyRequest,
@@ -34,7 +31,7 @@ export async function getIncomeInfo(
             where: { familyMember_id: familyMember.id },
           })
 
-          
+
           incomeInfoResults.push({ name: familyMember.fullName, id: familyMember.id, incomes: familyMemberIncome })
         } catch (error) {
           throw new ResourceNotFoundError()
@@ -46,10 +43,9 @@ export async function getIncomeInfo(
     const candidateIncome = await prisma.familyMemberIncome.findMany({
       where: idField,
     })
- 
+
 
     let incomeInfoResults = await fetchData(familyMembers)
-
     incomeInfoResults.push({ name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, incomes: candidateIncome })
 
     return reply.status(200).send({ incomeInfoResults })
