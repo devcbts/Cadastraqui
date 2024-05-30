@@ -59,7 +59,7 @@ import { updateMedicationInfo } from './update-medication-info'
 import { updateVehicleInfo } from './update-vehicle-info'
 
 export async function candidateRoutes(app: FastifyInstance) {
-  app.post('/upload/:documentType/:member_id', { onRequest: [verifyJWT] }, uploadDocument)
+  app.post('/upload/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT] }, uploadDocument)
   app.post(
     '/upload/:solicitation_id',
     { onRequest: [verifyJWT] },
@@ -125,8 +125,8 @@ export async function candidateRoutes(app: FastifyInstance) {
   )
   // bank-info 
   app.get('/bank-info/:_id?', { onRequest: [verifyJWT] }, getBankingInfo)
-  app.post('/bank-info/:_id?', { onRequest: [verifyJWT] }, registerBankingInfo)
-  app.patch('/bank-info/:_id', { onRequest: [verifyJWT] }, updateBankingInfo)
+  app.post('/bank-info/:_id', { onRequest: [verifyJWT] }, registerBankingInfo)
+  app.patch('/bank-info/:id', { onRequest: [verifyJWT] }, updateBankingInfo)
 
   /** Health Info */
   // app.get('/health-info', { onRequest: [verifyJWT] }, getHealthInfo)

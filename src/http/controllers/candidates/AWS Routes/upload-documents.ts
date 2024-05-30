@@ -7,9 +7,27 @@ import pump from 'pump'
 import { z } from 'zod'
 import fs from 'fs';
 
+
+
+const section = z.enum(["identity",
+    "housing",
+    "family-member",
+    "monthly-income",
+    "income",
+    "bank",
+    "registrato",
+    "statement",
+    "health",
+    "medication",
+    "vehicle",
+    "expenses",
+    "loan",
+    "financing",
+    "credit-card"])
+
 export async function uploadDocument(request: FastifyRequest, reply: FastifyReply) {
     const requestParamsSchema = z.object({
-        documentType: z.string(),
+        documentType: section,
         member_id: z.string(),
         table_id: z.string().optional()
     })
@@ -33,6 +51,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             if (!sended) {
                 throw new NotAllowedError();
             }
+            fs.unlinkSync(part.filename)
         }
 
 

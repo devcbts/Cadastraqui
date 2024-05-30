@@ -1,10 +1,8 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
-import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
 import { getSectionDocumentsPDF } from './AWS Routes/get-pdf-documents-by-section'
 console.log('aqui')
 
@@ -12,28 +10,18 @@ export async function getIdentityInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const queryParamsSchema = z.object({
-    _id: z.string().optional(),
-  })
-  const { _id } = queryParamsSchema.parse(request.params)
+
   try {
     const user_id = request.user.sub
     let candidateOrResponsible
     let idField
-    if (_id) {
-      candidateOrResponsible = await ChooseCandidateResponsible(_id)
-      if (!candidateOrResponsible) {
-        throw new ResourceNotFoundError()
-      }
-      idField = candidateOrResponsible.IsResponsible ? { responsible_id: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
-    } else {
 
-      candidateOrResponsible = await SelectCandidateResponsible(user_id);
-      if (!candidateOrResponsible) {
-        throw new ResourceNotFoundError()
-      }
-      idField = candidateOrResponsible.IsResponsible ? { responsible_id: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
+    candidateOrResponsible = await SelectCandidateResponsible(user_id);
+    if (!candidateOrResponsible) {
+      throw new ResourceNotFoundError()
     }
+    idField = candidateOrResponsible.IsResponsible ? { responsible_id: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
+
 
 
 
