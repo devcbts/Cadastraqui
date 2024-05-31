@@ -1,0 +1,20 @@
+@import '../../../Assets/theme/global.module.scss';
+.container{    
+    background: none !important;
+    border: none;
+    text-align: center;
+    color: $primary;
+    font-size: 14px;
+    font-weight: 500;
+    .content{
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+        align-items: center;
+        justify-content: center;
+        button{
+            font-size: 12px;
+        }
+            
+    }
+}

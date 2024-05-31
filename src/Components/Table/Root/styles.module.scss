@@ -1,0 +1,16 @@
+@import '../../../Assets/theme/global.module.scss';
+.container {
+    border-collapse: collapse;
+    border: none !important;
+   .header{
+    background: none;
+    border: none;
+    box-shadow: none;
+    text-shadow: none;
+    color: $primary;
+    font-size: 14px;
+    text-transform: capitalize;
+    text-align: center;
+    font-weight: 700;
+   }
+}

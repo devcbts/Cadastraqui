@@ -1,9 +1,7 @@
 @import '../../../Assets/theme/global.module.scss';
 .root{
     position: relative;
-    max-width: 230px;
-    min-width: 230px;
-    max-height: 90px;
+    // max-height: 90px;
     height: fit-content;
     .container{
         padding: 8px 16px;

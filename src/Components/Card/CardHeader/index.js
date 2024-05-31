@@ -1,7 +1,7 @@
 import styles from './styles.module.scss'
 export default function CardHeader({ children }) {
     return (
-        <div>
+        <div className={styles.container}>
             {children}
         </div>
     )
