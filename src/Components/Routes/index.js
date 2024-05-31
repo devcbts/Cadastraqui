@@ -1,3 +1,4 @@
+import CandidateHome from "Pages/Candidate/Home";
 import ProfileCandidate from "Pages/Candidate/Profile";
 import Profile from "Pages/Profile";
 import SubscribeForm from "Pages/SubscribeForm";
@@ -8,6 +9,7 @@ export default function AppRoutes() {
         <Routes>
             <Route path="/formulario_inscricao" element={<SubscribeForm />}></Route>
             <Route path="/profile" element={<ProfileCandidate />}></Route>
+            <Route path="/home" element={<CandidateHome />}></Route>
         </Routes>
     )
 }

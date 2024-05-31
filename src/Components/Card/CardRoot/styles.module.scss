@@ -1,0 +1,20 @@
+@import '../../../Assets/theme/global.module.scss';
+.root{
+    position: relative;
+    max-width: 230px;
+    min-width: 230px;
+    max-height: 90px;
+    height: fit-content;
+    .container{
+        padding: 8px 16px;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0px 0px 3px $lightgrey; 
+        border-bottom: 3px solid $primary;
+    }
+
+}
+
+

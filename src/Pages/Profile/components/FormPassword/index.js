@@ -31,8 +31,10 @@ export default function FormPassword({ onCancel }) {
     }
     return (
         <>
-            <InputForm control={control} type="password" name="oldPassword" label={'senha atual'} />
-            <InputForm control={control} type="password" name="newPassword" label={'nova senha'} />
+            <div>
+                <InputForm control={control} type="password" name="oldPassword" label={'senha atual'} />
+                <InputForm control={control} type="password" name="newPassword" label={'nova senha'} />
+            </div>
             <div className={commonStyles.actions}>
                 <ButtonBase label={'cancelar'} onClick={onCancel} />
                 <ButtonBase label={'salvar'} onClick={handleUpdatePassword} />
