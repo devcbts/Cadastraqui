@@ -7,6 +7,7 @@ import { uploadDocument } from './AWS Routes/upload-documents'
 import { uploadCandidateProfilePicture } from './AWS Routes/upload-profile-picture'
 import { uploadSolicitationDocument } from './AWS Routes/upload-solicitation-documents'
 import { subscribeAnnouncement } from './create-application'
+import { deleteBankingInfo } from './delete-banking-info'
 import deleteFamilyMember from './delete-family-member'
 import { deleteHealthInfo } from './delete-health-info'
 import { deleteMedicationInfo } from './delete-medication'
@@ -127,6 +128,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.get('/bank-info/:_id?', { onRequest: [verifyJWT] }, getBankingInfo)
   app.post('/bank-info/:_id', { onRequest: [verifyJWT] }, registerBankingInfo)
   app.patch('/bank-info/:id', { onRequest: [verifyJWT] }, updateBankingInfo)
+  app.delete('/bank-info/:id', { onRequest: [verifyJWT] }, deleteBankingInfo)
 
   /** Health Info */
   // app.get('/health-info', { onRequest: [verifyJWT] }, getHealthInfo)
