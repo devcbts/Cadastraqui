@@ -1,3 +1,4 @@
+import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -24,18 +25,31 @@ export async function getOpenAnnouncements(
       })
       console.log(announcements)
     } else {
-      announcements = await prisma.announcement.findUnique({
+      const announcement = await prisma.announcement.findUnique({
         where: { id: announcement_id, announcementDate: { gte: new Date() } },
         include: {
-          educationLevels: {
-            include: {
-              entitySubsidiary: true
-            }
-          },
+          educationLevels: true,
           entity: true,
           entity_subsidiary: true,
         }
       })
+
+      if (!announcement) {
+        throw new ResourceNotFoundError()
+      }
+      const educationLevels = announcement.educationLevels
+      const entityAndSubsidiaries = [announcement.entity, ...announcement.entity_subsidiary]
+      const educationLevelsFiltered = entityAndSubsidiaries.map((entity) => {
+        const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === entity.id)
+        if (entity.id == announcement.entity_id) {
+          const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === null)
+
+          return {...entity, matchedEducationLevels}
+        }
+        return {...entity, matchedEducationLevels}
+      })
+      return reply.status(200).send({ educationLevels: educationLevelsFiltered })
+
     }
     return reply.status(200).send({ announcements })
   } catch (err: any) {
