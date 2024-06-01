@@ -172,7 +172,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   )
   /** Rota para pegar todos os editais abertos  */
   app.get(
-    '/anouncements/:announcement_id?',
+    '/announcements/:announcement_id?',
     { onRequest: [verifyJWT] },
     getOpenAnnouncements,
   )

@@ -72,11 +72,10 @@ export async function getVehicleInfo(
 
     const vehicleInfoResultsWithUrls = vehicleInfoResults.map((vehicleInfo) => {
 
-      const documents = Object.keys(urls).filter((url) => url.split("/")[4] === vehicleInfo.id)
-      const urlsPair = documents.map((document) => ({ [document]: urls[document] }));
+      const documents = Object.entries(urls).filter(([url]) => url.split("/")[4] === vehicleInfo.id)
       return {
         ...vehicleInfo,
-        urls: urlsPair,
+        urls: Object.fromEntries(documents),
       }
 
     });

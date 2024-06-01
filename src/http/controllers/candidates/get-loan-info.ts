@@ -4,7 +4,9 @@ import { prisma } from '@/lib/prisma'
 import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { get } from 'http'
 import { z } from 'zod'
+import { getSectionDocumentsPDF } from './AWS Routes/get-pdf-documents-by-section'
 
 export async function getLoanInfo(
   request: FastifyRequest,
@@ -45,7 +47,15 @@ export async function getLoanInfo(
       },
     })
 
-    return reply.status(200).send({ loans })
+    const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'loan')
+    const loansWithUrls = loans.map((loan) => {
+      const loanDocuments = Object.entries(urls).filter(([url]) => url.split("/")[4] === loan.id)
+      return {
+        ...loan,
+        urls: Object.fromEntries(loanDocuments),
+      }
+    });
+    return reply.status(200).send({ loans: loansWithUrls})
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
