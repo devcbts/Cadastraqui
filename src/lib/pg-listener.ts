@@ -24,6 +24,7 @@ import { createOtherExpenseHDB, updateOtherExpenseHDB } from "@/HistDatabaseFunc
 import { createResponsibleHDB, updateResponsibleHDB } from "@/HistDatabaseFunctions/handle-responsible";
 import { Client } from 'pg';
 import { prisma } from './prisma';
+import { CalculateMemberAverageIncome } from "@/utils/Trigger-Functions/calculate-member-income";
 
 // Substitua por suas informações de conexão do PostgreSQL
 const clientBackup = new Client(env.BACKUP_URL);
@@ -205,6 +206,7 @@ clientBackup.on('notification', async (msg) => {
     }
     if (msg.channel == 'channel_monthlyIncome') {
         const monthlyIncome = JSON.parse(msg.payload!);
+        CalculateMemberAverageIncome(monthlyIncome.data.candidate_id || monthlyIncome.data.familyMember_id || monthlyIncome.data.legalResponsible_id, monthlyIncome.data.incomeSource)
         if (monthlyIncome.operation == 'Update') {
             updateOtherExpenseHDB(monthlyIncome.data.id)
         }

@@ -7,6 +7,7 @@ import { FamilyMember } from '@prisma/client'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { object, z } from 'zod'
 import { getSectionDocumentsPDF } from './AWS Routes/get-pdf-documents-by-section'
+import { CalculateIncomePerCapita } from '@/utils/Trigger-Functions/calculate-income-per-capita'
 
 export async function getIncomeInfo(
   request: FastifyRequest,
@@ -66,8 +67,16 @@ export async function getIncomeInfo(
         incomes: incomesWithUrls,
       }
     })
+    const averageIncome = await CalculateIncomePerCapita(candidateOrResponsible.UserData.id)
 
-    return reply.status(200).send({ incomeInfoResults: incomeInfoResultsWithUrls })
+    const incomeInfoResultsWithAverageIncome = incomeInfoResultsWithUrls.map((memberIncome) =>{
+      const averageMemberIncome = Object.keys(averageIncome.incomesPerMember).find((key) => key === memberIncome.id)
+      return {
+        ...memberIncome,
+        averageIncome: averageMemberIncome ? averageIncome.incomesPerMember[averageMemberIncome] : 0
+      }
+    })
+    return reply.status(200).send({ incomeInfoResults: incomeInfoResultsWithAverageIncome, averageIncome: averageIncome.incomePerCapita })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
