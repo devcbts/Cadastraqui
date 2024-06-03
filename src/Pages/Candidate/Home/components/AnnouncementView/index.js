@@ -7,6 +7,7 @@ import Table from 'Components/Table'
 import ButtonBase from 'Components/ButtonBase'
 export default function AnnouncementView() {
     const navigate = useNavigate()
+    const actualYear = new Date().getFullYear();
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -20,7 +21,7 @@ export default function AnnouncementView() {
                         <h1>Atenção</h1>
                     </Card.Header>
                     <Card.Content>
-                        A bolsa de estudos terá validade para o ano letivo de {2024},
+                        A bolsa de estudos terá validade para o ano letivo de {actualYear},
                         com a renovação anual através de seleção. A concessão
                         de bolsa de estudo estará sujeita à disponibilidade de vagas
                         na unidade escolar solicitada e ao perfil socioeconômico
