@@ -1,6 +1,6 @@
 import styles from './styles.module.scss'
 export default function List({
-    list,
+    list = [],
     text,
     render,
 }) {

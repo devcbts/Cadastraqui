@@ -28,8 +28,8 @@ export default function IncomeList({ onSelect, onAdd }) {
     return (
         <>
             {!selectedMember && <FormList.Root title={"Renda Familiar"} isLoading={isLoading} >
-                <InputBase label="renda média familiar cadastrada" value="R$ 1.250,00" disabled error={null} />
-                <FormList.List list={members} text={'Cadastre um membro em seu grupo familiar para cadastrar um tipo de renda'} render={(item) => (
+                <InputBase label="renda média familiar cadastrada" value={members?.avgFamilyIncome} disabled error={null} />
+                <FormList.List list={members?.incomes} text={'Cadastre um membro em seu grupo familiar para cadastrar um tipo de renda'} render={(item) => (
                     <FormListItem.Root text={item.name}>
                         <FormListItem.Actions>
                             <ButtonBase label={"visualizar"} onClick={() => setSelectedMember({ fullName: item.name, id: item.id })} />

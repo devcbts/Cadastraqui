@@ -8,7 +8,9 @@ class EmployementTypeMapper {
         }
     }
     fromPersistence(data) {
-        const mappedData = data?.map((e) => ({
+        const { incomeInfoResults, averageIncome } = data
+        console.log(incomeInfoResults)
+        const mappedData = incomeInfoResults?.map((e) => ({
             ...e,
             months: e.incomes.map((i) => ({
                 ...i,
@@ -18,7 +20,9 @@ class EmployementTypeMapper {
                 admissionDate: i.admissionDate?.split('T')[0],
             }))
         }))
-        return mappedData
+        const mappedIncome = new Number(averageIncome).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
+        console.log({ mappedData, avgFamilyIncome: mappedIncome })
+        return { incomes: mappedData, avgFamilyIncome: mappedIncome }
     }
 }
 

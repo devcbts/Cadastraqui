@@ -1,0 +1,31 @@
+.content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    .contentwrapper{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap:16px;
+        width: 100%;
+        img{
+            width: 100px;
+            height: 100px;
+            clip-path: circle();
+        }
+        .info{
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .cards{
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+    }
+}

@@ -1,19 +1,23 @@
 import HomeCandidate from "Pages/Candidate/Home";
-import AnnouncementView from "Pages/Candidate/Home/components/AnnouncementView";
 import ProfileCandidate from "Pages/Candidate/Profile";
-import Profile from "Pages/Profile";
 import SubscribeForm from "Pages/SubscribeForm";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes } from "react-router-dom";
+import AnnouncementCandidate from "Pages/Candidate/Announcement";
+import AnnouncementView from "Pages/Candidate/Announcement/components/AnnouncementView";
 
 export default function AppRoutes() {
-    const role = 'a'
     return (
         <Routes>
             <Route path="/formulario_inscricao" element={<SubscribeForm />}></Route>
             <Route path="/profile" element={<ProfileCandidate />}></Route>
             <Route path="/home" element={<Outlet />}>
                 <Route path="" element={<HomeCandidate />}></Route>
-                <Route path="candidate-announcements" element={<AnnouncementView />}></Route>
+                <Route path="editais" element={<Outlet />}>
+                    <Route path="" element={<AnnouncementCandidate />}></Route>
+                    <Route path=":entityId" element={<AnnouncementView />}></Route>
+                </Route>
+                <Route path="edital/:announcementId" element={<AnnouncementView />}></Route>
+
             </Route>
         </Routes>
     )

@@ -1,19 +1,17 @@
 import styles from './styles.module.scss'
-import { ReactComponent as Arrow } from '../../../../../Assets/icons/arrow.svg'
-import { useNavigate } from 'react-router'
-import { ReactComponent as Siren } from '../../../../../Assets/icons/siren.svg'
+import { ReactComponent as Siren } from '../../../Assets/icons/siren.svg'
 import Card from 'Components/Card'
 import Table from 'Components/Table'
 import ButtonBase from 'Components/ButtonBase'
-export default function AnnouncementView() {
+import BackPageTitle from 'Components/BackPageTitle'
+import { useNavigate } from 'react-router'
+export default function AnnouncementCandidate() {
     const navigate = useNavigate()
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <div className={styles.title}>
-                    <Arrow height={15} style={{ transform: "rotateZ(180deg)" }} onClick={() => navigate('/home')} />
-                    <h1>Editais do candidato</h1>
-                </div>
+                <BackPageTitle title={"Editais do candidato"} path={"/home"} />
+
                 <Card.Root width={'30%'}>
                     <Card.Header>
                         <Siren />
@@ -32,12 +30,12 @@ export default function AnnouncementView() {
                 <span>Editais em andamento</span>
                 <Table.Root headers={["#", "entidade", "edital", "vagas", "ações"]}>
                     <Table.Row>
-                        <Table.Cell>Teste</Table.Cell>
+                        <Table.Cell divider>Teste</Table.Cell>
                         <Table.Cell>Teste</Table.Cell>
                         <Table.Cell>Teste</Table.Cell>
                         <Table.Cell>Teste</Table.Cell>
                         <Table.Cell>
-                            <ButtonBase label={'teste'}></ButtonBase>
+                            <ButtonBase label={'teste'} onClick={() => navigate('123123')}></ButtonBase>
                         </Table.Cell>
                     </Table.Row>
                 </Table.Root>

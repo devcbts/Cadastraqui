@@ -19,7 +19,6 @@ class IncomeMapper {
                 const obj = Object.entries(e).reduce((acc, [objKey, objValue]) => {
                     if (monetaryFields.includes(objKey)) {
                         acc[objKey] = Number(objValue).toLocaleString('pt-br', { style: "currency", currency: "brl" })
-                        console.log(objKey, objValue, !!objValue)
                         acc[`has${objKey}`] = !!Number(objValue)
                     } else {
                         acc[objKey] = objValue
@@ -29,7 +28,6 @@ class IncomeMapper {
                 return obj
             })
         }))
-        console.log('monthly info', mappedData)
         return mappedData
     }
 }

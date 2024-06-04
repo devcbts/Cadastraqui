@@ -2,11 +2,13 @@ import styles from './styles.module.scss'
 export default function TableRoot({ headers = [], children }) {
     return (
         <table className={styles.container}>
-            {
-                headers.map((header) => (
-                    <th className={styles.header}>{header}</th>
-                ))
-            }
+            <thead>
+                {
+                    headers.map((header) => (
+                        <th key={header} className={styles.header}>{header}</th>
+                    ))
+                }
+            </thead>
             <tbody>
                 {children}
             </tbody>

@@ -1,11 +1,17 @@
 @import '../../../Assets/theme/global.module.scss';
 .container{    
+    border-collapse: collapse;
     background: none !important;
     border: none;
     text-align: center;
     color: $primary;
     font-size: 14px;
     font-weight: 500;
+    width: auto;
+    white-space: nowrap;
+    &.divider{
+        border-right: 1px solid $lightgrey;
+    }
     .content{
         display: flex;
         flex-direction: row;

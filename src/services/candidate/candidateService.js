@@ -178,22 +178,21 @@ class CandidateService {
             },
         })
     }
-    async getAllIncomes(id) {
+    async getAllIncomes() {
         const token = localStorage.getItem("token")
-        const response = await api.get(`/candidates/family-member/income/${id}`, {
+        const response = await api.get(`/candidates/family-member/income`, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
         })
-        return employementTypeMapper.fromPersistence(response.data.incomeInfoResults)
+        return employementTypeMapper.fromPersistence(response.data)
     }
 
     async getMemberIncomeInfo(id) {
         const token = localStorage.getItem("token")
         const monthlyIncome = await this.getMonthlyIncome(id)
-        const memberIncome = await this.getAllIncomes(id)
-        console.log(memberIncome.find(e => e.id === id).months)
-        return { monthlyIncome, info: memberIncome.find(e => e.id === id).months }
+        const memberIncome = await this.getAllIncomes()
+        return { monthlyIncome, info: memberIncome.incomes?.find(e => e.id === id).months }
     }
 
     async getHealthInfo() {
@@ -241,6 +240,11 @@ class CandidateService {
     removeBankingAccount(id) {
         const _id = id
         return api.delete(`/candidates/bank-info/${_id}`)
+    }
+    async getAnnouncementById(id) {
+        const response = await api.get(`/candidates/announcements/${id}`)
+        const { announcement, ...rest } = response.data
+        return { ...announcement, rest }
     }
 }
 

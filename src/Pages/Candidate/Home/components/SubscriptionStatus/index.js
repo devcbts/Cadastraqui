@@ -57,10 +57,10 @@ export default function SubscriptionStatus() {
                 </div>
             </div>
             <div className={styles.sections}>
-                {icons.map((icon) => {
+                {icons.map((icon, index) => {
                     const Component = icon
                     return (
-                        <Component height={50} width={50} color='#1F4B73' />
+                        <Component key={index} height={50} width={50} color='#1F4B73' />
                     )
                 })}
 

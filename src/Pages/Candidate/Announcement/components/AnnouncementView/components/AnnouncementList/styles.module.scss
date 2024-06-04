@@ -1,0 +1,16 @@
+.content{
+    display: flex;
+    flex-direction: column;
+    .contentheader{
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        justify-content: center;
+        align-items: center;
+        img{
+            width: 100px;
+            height: 100px;
+            clip-path: circle();
+        }
+    }
+}
