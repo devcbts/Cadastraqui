@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "./generated/clientBackup"
+  provider      = "prisma-client-js"
+  output        = "./generated/clientBackup"
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
@@ -63,6 +63,8 @@ model Candidate {
   FamilyMemberDisease FamilyMemberDisease[]
   Medication          Medication[]
   application_id      String?               @unique
+  BankAccount         BankAccount[]
+  Declarations        Declarations[]
 
   @@unique([id, responsible_id])
   @@map("candidates")
@@ -125,6 +127,8 @@ model LegalResponsible {
   FamilyMemberIncome              FamilyMemberIncome[]
   MonthlyIncome                   MonthlyIncome[]
   application_id                  String?               @unique
+  BankAccount                     BankAccount[]
+  Declarations                    Declarations[]
 
   @@unique([id, user_id])
   @@map("responsibles")
@@ -207,11 +211,10 @@ model EntityDirector {
 }
 
 model IdentityDetails {
-  id         String  @id @default(uuid())
-  fullName   String
-  socialName String
-  main_id    String?
-
+  id                                         String            @id @default(uuid())
+  fullName                                   String
+  socialName                                 String
+  main_id                                    String?
   birthDate                                  DateTime
   gender                                     GENDER
   nationality                                String
@@ -234,6 +237,9 @@ model IdentityDetails {
   address                                    String?
   addressNumber                              String?
   neighborhood                               String?
+  city                                       String?
+  UF                                         COUNTRY?
+  CEP                                        String?
   specialNeedsDescription                    String?
   hasMedicalReport                           Boolean?
   email                                      String?
@@ -325,6 +331,8 @@ model FamilyMember {
   LegalResponsible          LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId        String?
   application_id            String
+  BankAccount               BankAccount[]
+  Declarations              Declarations[]
 
   @@unique([application_id, main_id])
   @@map("familyMembers")
@@ -357,14 +365,16 @@ model Vehicle {
   modelAndBrand String
   main_id       String?
 
-  manufacturingYear     Int
-  situation             VehicleSituation
-  financedMonths        Int?
-  monthsToPayOff        Int?
-  hasInsurance          Boolean                 @default(false)
-  insuranceValue        Float?
-  usage                 VehicleUsage
-  candidate_id          String?
+  manufacturingYear Int
+  situation         VehicleSituation
+  financedMonths    Int?
+  monthsToPayOff    Int?
+  hasInsurance      Boolean          @default(false)
+  insuranceValue    Float?
+  usage             VehicleUsage
+  candidate_id      String?
+  owners_id         String[]
+
   candidate             Candidate?              @relation(fields: [candidate_id], references: [id])
   FamilyMemberToVehicle FamilyMemberToVehicle[]
   LegalResponsible      LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
@@ -436,6 +446,22 @@ model MonthlyIncome {
   legalResponsibleId        String?
 
   @@unique([application_id, main_id])
+}
+
+model BankAccount {
+  id                 String            @id @default(uuid())
+  main_id            String
+  bankName           String
+  agencyNumber       String
+  accountNumber      String
+  accountType        AccountType
+  familyMember_id    String?
+  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
+  candidate_id       String?
+  candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
+  LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId String?
+  application_id     String
 }
 
 model Expense {
@@ -586,6 +612,7 @@ model FamilyMemberDisease {
   legalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
   legalResponsibleId String?
   application_id     String
+  Medication         Medication[]
 
   @@unique([application_id, main_id])
   @@map("familyMemberDiseases")
@@ -599,15 +626,30 @@ model Medication {
   obtainedPublicly           Boolean
   specificMedicationPublicly String?
   familyMember_id            String?
-  familyMember               FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
-  candidate                  Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  familyMember               FamilyMember?        @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  candidate                  Candidate?           @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id               String?
-  legalResponsible           LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
+  legalResponsible           LegalResponsible?    @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
   legalResponsibleId         String?
   application_id             String
+  FamilyMemberDisease        FamilyMemberDisease? @relation(fields: [familyMemberDiseaseId], references: [id], onDelete: Cascade)
+  familyMemberDiseaseId      String?
 
   @@unique([application_id, main_id])
   @@map("medications")
+}
+
+model Declarations {
+  id                 String            @id @default(uuid())
+  declarationType    Declaration_Type
+  text               String
+  familyMember_id    String?
+  candidate_id       String?
+  candidate          Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
+  legalResponsibleId String?
+  application_id     String
 }
 
 model AnnouncementInterview {
@@ -1083,4 +1125,44 @@ enum scholarshipGrantedType {
   FOOD
   HOUSING
   STUDY_MATERIAL
+}
+
+enum AccountType {
+  CHECKING_ACCOUNT
+  SAVINGS_ACCOUNT
+  PAYMENT_ACCOUNT
+  SALARY_ACCOUNT
+  STUDENT_ACCOUNT
+  DIGITAL_ACCOUNT
+  MINORS_ACCOUNT
+  BUSINESS_ACCOUNT
+  JOINT_ACCOUNT
+}
+
+enum Declaration_Type {
+  Form
+  Activity
+  AddressProof
+  Autonomo
+  Card
+  ChildPension
+  ChildSupport
+  ContributionStatement
+  Data
+  Empresario
+  InactiveCompany
+  IncomeTaxExemption
+  MEI
+  NoAddressProof
+  Penseion
+  Pension
+  Rent
+  RentDetails
+  RentIncome
+  RentedHouse
+  RuralWorker
+  SingleStatus
+  StableUnion
+  Status
+  WorkCard
 }

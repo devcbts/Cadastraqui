@@ -1063,6 +1063,7 @@ enum AccountType {
 }
 
 enum Declaration_Type {
+  Form
   Activity
   AddressProof
   Autonomo
