@@ -6,6 +6,8 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import pump from 'pump'
 import { z } from 'zod'
 import fs from 'fs';
+import getOpenApplications from '@/HistDatabaseFunctions/find-open-applications'
+import { findAWSRouteHDB } from '@/HistDatabaseFunctions/Handle Application/find-AWS-Route'
 
 
 
@@ -29,7 +31,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
     const requestParamsSchema = z.object({
         documentType: section,
         member_id: z.string(),
-        table_id: z.string().optional()
+        table_id: z.string().nullable()
     })
 
     const { documentType, member_id, table_id } = requestParamsSchema.parse(request.params)
@@ -50,6 +52,15 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             const sended = await uploadFile(fileBuffer, route);
             if (!sended) {
                 throw new NotAllowedError();
+            }
+
+            const findOpenApplications = await getOpenApplications(candidateOrResponsible.UserData.id);
+            for (const application of findOpenApplications) {
+                const routeHDB = await findAWSRouteHDB(candidateOrResponsible.UserData.id, documentType, member_id, table_id, application.id);
+                const sended = await uploadFile(fileBuffer, routeHDB);
+                if (!sended) {
+                    throw new NotAllowedError();
+                }
             }
             fs.unlinkSync(part.filename)
         }
