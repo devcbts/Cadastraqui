@@ -58,6 +58,11 @@ import updateIncomeSource from './update-income-source'
 import { updateLoanInfo } from './update-loan-info'
 import { updateMedicationInfo } from './update-medication-info'
 import { updateVehicleInfo } from './update-vehicle-info'
+import getDeclarationForm from './Declaration Get Routes/get-declaration-form'
+import verifyFamilyGroup from '@/http/middlewares/verify-family-group'
+import { registerDeclaration } from './register-declaration'
+import { getDeclaration } from './get-declaration'
+import getAddressProof from './Declaration Get Routes/get-address-proof'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT] }, uploadDocument)
@@ -225,6 +230,18 @@ export async function candidateRoutes(app: FastifyInstance) {
   //Terminar o cadastro
   app.post('/finish', { onRequest: [verifyJWT] }, finishRegistration)
 
+
+
+
+  // Declaration Get Routes ( to create a declaration)
+  app.get('/declaration/Form/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getDeclarationForm)
+  app.get('/declaration/AddressProof/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getAddressProof)
+
+  // Declaration post route
+  app.post('/declaration/:type/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, registerDeclaration)
+
+  // Get individual declaration
+  app.get('/declaration/:type/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getDeclaration)
 }
 
 
