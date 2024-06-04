@@ -28,7 +28,7 @@ import { CalculateMemberAverageIncome } from "@/utils/Trigger-Functions/calculat
 const clientBackup = new Client(env.DATABASE_URL); 
 clientBackup.connect();
 
-clientBackup.query('LISTEN channel_application');
+//clientBackup.query('LISTEN channel_application');
 clientBackup.query('LISTEN channel_housing');
 clientBackup.query('LISTEN channel_candidate');
 clientBackup.query('LISTEN channel_creditCard');
