@@ -14,9 +14,9 @@ export default function AppRoutes() {
                 <Route path="" element={<HomeCandidate />}></Route>
                 <Route path="editais" element={<Outlet />}>
                     <Route path="" element={<AnnouncementCandidate />}></Route>
-                    <Route path=":entityId" element={<AnnouncementView />}></Route>
+                    <Route path=":announcementId" element={<AnnouncementView />}></Route>
                 </Route>
-                <Route path="edital/:announcementId" element={<AnnouncementView />}></Route>
+                {/* <Route path="edital/:announcementId" element={<AnnouncementView />}></Route> */}
 
             </Route>
         </Routes>

@@ -1,0 +1,17 @@
+.content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    flex-grow: 1;
+    .form{
+        display: flex;
+        flex-direction: column;
+        max-width: 60%;
+        .formcolumns{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+    }
+}

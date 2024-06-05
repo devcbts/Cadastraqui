@@ -1,4 +1,6 @@
 import { api } from "../axios"
+import announcementMapper from "./mappers/announcement-mapper";
+import applicantsMapper from "./mappers/applicants-mapper";
 import employementTypeMapper from "./mappers/employement-type-mapper";
 import familyMemberMapper from "./mappers/family-member-mapper";
 import habitationMapper from "./mappers/habitation-mapper";
@@ -243,8 +245,18 @@ class CandidateService {
     }
     async getAnnouncementById(id) {
         const response = await api.get(`/candidates/announcements/${id}`)
-        const { announcement, ...rest } = response.data
-        return { ...announcement, rest }
+        return announcementMapper.fromPersistence(response.data)
+    }
+    async getAvailableApplicants() {
+        const response = await api.get(`/candidates/applicants`)
+        return applicantsMapper.fromPersistence(response.data)
+    }
+    applyAnnouncement({ announcementId, courseId, candidateId = undefined }) {
+        return api.post(`/candidates/application`, {
+            announcement_id: announcementId,
+            educationLevel_id: courseId,
+            candidate_id: candidateId
+        })
     }
 }
 

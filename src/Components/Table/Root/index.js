@@ -3,11 +3,13 @@ export default function TableRoot({ headers = [], children }) {
     return (
         <table className={styles.container}>
             <thead>
-                {
-                    headers.map((header) => (
-                        <th key={header} className={styles.header}>{header}</th>
-                    ))
-                }
+                <tr>
+                    {
+                        headers.map((header) => (
+                            <th key={header} className={styles.header}>{header}</th>
+                        ))
+                    }
+                </tr>
             </thead>
             <tbody>
                 {children}

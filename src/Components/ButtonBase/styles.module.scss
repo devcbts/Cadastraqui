@@ -25,4 +25,9 @@
             background-color: white;
         }
     }
+    &:disabled{
+        color:$grey;
+        background-color: $lightgrey;
+        border-color: $grey;
+    }
 }

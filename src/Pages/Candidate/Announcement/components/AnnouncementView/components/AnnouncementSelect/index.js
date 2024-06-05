@@ -11,88 +11,102 @@ import { useSearchParams } from "react-router-dom";
 import SHIFT from "utils/enums/shift-types";
 import EDUCATION_TYPE from "utils/enums/education-type";
 import Subscription from "../Subscription";
-export default function AnnouncementSelect() {
+import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
+import Loader from "Components/Loader";
+export default function AnnouncementSelect({ announcement }) {
     const { announcementId } = useParams()
-    const { clear, step, move } = useContext(AnnouncementContext)
-    const [announcement, setAnnouncement] = useState(null)
+    const { clear, step, move, setCourse, getCourse } = useContext(AnnouncementContext)
+    const [announcementInfo, setAnnouncement] = useState(announcement ?? null)
     const [query, _] = useSearchParams()
+    const [isLoading, setIsLoading] = useState(false)
     useEffect(() => {
-        const fetchAnnouncement = async () => {
-            try {
-                const information = await candidateService.getAnnouncementById(announcementId)
-                setAnnouncement(information)
-            } catch (err) {
+        // if user came from an external link, can get the information directly by the course selected
+        if (!announcementInfo) {
+            const fetchAnnouncement = async () => {
+                setIsLoading(true)
+                try {
+                    const information = await candidateService.getAnnouncementById(announcementId)
+                    setAnnouncement(information)
+                    if (information) {
+                        const { apply } = information
+                        const currentCourseEntity = apply?.find((e) => e?.courses?.find((course) => course.id === query.get('curso')))
+                        setCourse({ ...currentCourseEntity, course: currentCourseEntity.courses.find((e) => e.id === query.get('curso')) })
+                    }
+                } catch (err) {
 
+                }
+                setIsLoading(false)
             }
+            fetchAnnouncement()
         }
-        fetchAnnouncement()
     }, [])
-    const getEntityInformation = () => {
-        if (announcement) {
-            const { name, address, addressNumber, city, neighborhood, UF } = announcement.entity
+    const announcementCourse = useMemo(() => {
+        if (announcementInfo) {
+            const { name, address, addressNumber, city, neighborhood, UF, course } = getCourse
             return {
                 name,
-                address: `${address}, Nº ${addressNumber}. ${city} - ${UF}`
+                address: `${address}, Nº ${addressNumber}. ${city} - ${UF}`,
+                ...course
             }
         }
-    }
-    const courseInformation = useMemo(() => announcement?.educationLevels?.find((e) => e.id === query.get('curso')), [announcement])
+    }, [announcementInfo, getCourse])
     return (
         <>
             {step === 'INITIAL'
                 ? (
-                    <>
+                    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                        <Loader text="Carregando informações" loading={isLoading} />
                         <BackPageTitle title={'curso selecionado'} onClick={clear} />
                         <div className={styles.content}>
                             <div className={styles.contentwrapper}>
                                 <img src={Logo}></img>
                                 <div className={styles.info}>
-                                    <span>Instituição: {getEntityInformation()?.name}</span>
-                                    <span>Endereço: {getEntityInformation()?.address} </span>
+                                    <span>Instituição: {announcementCourse?.name}</span>
+                                    <span>Endereço: {announcementCourse?.address} </span>
                                     <span>Email: unifei@unifei.com</span>
                                 </div>
                                 <Card.Root width="230px">
                                     <Card.Title text={'curso pretendido'} />
                                     <Card.Content>
-                                        <span>{courseInformation?.availableCourses}</span>
+                                        <span>{announcementCourse?.availableCourses}</span>
                                     </Card.Content>
                                 </Card.Root>
                                 <div className={styles.cards}>
                                     <Card.Root width="230px">
                                         <Card.Title text={'vagas'} />
                                         <Card.Content>
-                                            <span>{courseInformation?.verifiedScholarships}</span>
+                                            <span>{announcementCourse?.verifiedScholarships}</span>
                                         </Card.Content>
                                     </Card.Root>
                                     <Card.Root width="230px">
                                         <Card.Title text={'semestre'} />
                                         <Card.Content>
-                                            <span>{courseInformation?.semester}</span>
+                                            <span>{announcementCourse?.semester}</span>
                                         </Card.Content>
                                     </Card.Root>
                                     <Card.Root width="230px">
                                         <Card.Title text={'turno'} />
                                         <Card.Content>
-                                            <span>{courseInformation?.shift}</span>
+                                            <span>{announcementCourse?.shift}</span>
                                         </Card.Content>
                                     </Card.Root>
                                     <Card.Root width="230px">
                                         <Card.Title text={'tipo de educação'} />
                                         <Card.Content>
-                                            <span>{EDUCATION_TYPE.find(e => e.value === courseInformation?.level)?.label}</span>
+                                            <span>{EDUCATION_TYPE.find(e => e.value === announcementCourse?.level)?.label}</span>
                                         </Card.Content>
                                     </Card.Root>
                                     <Card.Root width="230px">
                                         <Card.Title text={'bolsa'} />
                                         <Card.Content>
-                                            <span>{EDUCATION_TYPE.find(e => e.value === courseInformation?.level)?.label}</span>
+                                            <span>{SCHOLARSHIP_TYPE.find(e => e.value === announcementCourse?.higherEduScholarshipType)?.label}</span>
                                         </Card.Content>
                                     </Card.Root>
                                 </div>
                             </div>
                             <ButtonBase label={'inscrição'} onClick={() => move('START_SUB')} />
                         </div>
-                    </>
+                    </div>
                 )
                 : <Subscription />
             }

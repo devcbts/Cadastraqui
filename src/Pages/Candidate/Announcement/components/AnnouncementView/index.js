@@ -1,40 +1,67 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import AnnouncementList from "./components/AnnouncementList";
 import AnnouncementSelect from "./components/AnnouncementSelect";
 import AnnouncementContext from "./context/announcementContext";
 import { useSearchParams } from "react-router-dom";
+import candidateService from "services/candidate/candidateService";
+import Loader from "Components/Loader";
+import { NotificationService } from "services/notification";
 export default function AnnouncementView() {
-    const { entityId, announcementId } = useParams()
+    const { announcementId } = useParams()
     const [query, setQuery] = useSearchParams()
-    const [currentAnnouncementId, setCurrentAnnouncementId] = useState(announcementId ?? null)
+    const [currentAnnouncementId, _] = useState(announcementId ?? null)
+    const [selectedCourse, setSelectedCourse] = useState(null)
     const [currentStep, setCurrentStep] = useState('INITIAL')
     const navigate = useNavigate()
+    const [announcement, setAnnouncement] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
-        // TODO: fetch announcement data based on ID provided on URL
-    }, [])
+        const fetchAnnouncement = async () => {
+            setIsLoading(true)
+            try {
+                const information = await candidateService.getAnnouncementById(currentAnnouncementId)
+                setAnnouncement(information)
+            } catch (err) {
+                NotificationService.error({ text: 'Erro ao carregar edital. Tente novamente' })
+                navigate(-1)
+            }
+            setIsLoading(false)
+        }
+        fetchAnnouncement()
+    }, [currentAnnouncementId])
 
-    const isViewingEntity = entityId && !announcementId
-
-    const handleAnnouncementSelection = (id = null) => {
-        if (isViewingEntity) {
-            if (!id) {
+    const handleCourseSelection = (item = null) => {
+        if (announcementId) {
+            if (!item) {
                 query.delete('curso')
                 setQuery(query)
             } else {
-                setQuery('curso', id)
+                const course = item.course
+                query.set('curso', course.id)
+                setQuery(query)
+                setSelectedCourse(item)
             }
-            setCurrentAnnouncementId(id)
         } else {
             navigate('/home')
         }
 
     }
-
     return (
-        <AnnouncementContext.Provider value={{ id: currentAnnouncementId, clear: handleAnnouncementSelection, step: currentStep, move: setCurrentStep }}>
-            {isViewingEntity && (!query.get('curso') ? <AnnouncementList onSelect={handleAnnouncementSelection} /> : <AnnouncementSelect />)}
-            {(!isViewingEntity && query.get('curso')) && <AnnouncementSelect />}
+        <AnnouncementContext.Provider value={{
+            id: currentAnnouncementId,
+            getCourse: selectedCourse,
+            setCourse: setSelectedCourse,
+            clear: handleCourseSelection,
+            step: currentStep,
+            move: setCurrentStep
+        }}>
+            <Loader text="Carregando informações do edital" loading={isLoading} />
+            {
+                !query.get('curso')
+                    ? <AnnouncementList announcement={announcement} onSelect={handleCourseSelection} />
+                    : <AnnouncementSelect announcement={announcement} />
+            }
         </AnnouncementContext.Provider>
     )
 }
