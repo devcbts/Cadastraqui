@@ -63,6 +63,12 @@ import verifyFamilyGroup from '@/http/middlewares/verify-family-group'
 import { registerDeclaration } from './register-declaration'
 import { getDeclaration } from './get-declaration'
 import getAddressProof from './Declaration Get Routes/get-address-proof'
+import getMEIDeclaration from './Declaration Get Routes/get-MEI'
+import getIncomeTaxExemption from './Declaration Get Routes/get-IncomeTaxExemption'
+import getEmpresario from './Declaration Get Routes/get-empresario'
+import getRentIncome from './Declaration Get Routes/get-rent-income'
+import getActivity from './Declaration Get Routes/get-activity'
+import getRuralWorker from './Declaration Get Routes/get-rural-worker'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT] }, uploadDocument)
@@ -236,7 +242,12 @@ export async function candidateRoutes(app: FastifyInstance) {
   // Declaration Get Routes ( to create a declaration)
   app.get('/declaration/Form/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getDeclarationForm)
   app.get('/declaration/AddressProof/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getAddressProof)
-
+  app.get('/declaration/MEI/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getMEIDeclaration)
+  app.get('/declaration/IncomeTaxExemption/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getIncomeTaxExemption)
+  app.get('/declaration/Empresario/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getEmpresario)
+  app.get('/declaration/RentIncome/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getRentIncome)
+  app.get('/declaration/Activity/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getActivity)
+  app.get('/declaration/RuralWorker/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getRuralWorker)
   // Declaration post route
   app.post('/declaration/:type/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, registerDeclaration)
 
