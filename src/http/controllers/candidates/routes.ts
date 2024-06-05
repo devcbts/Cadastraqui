@@ -69,6 +69,7 @@ import getEmpresario from './Declaration Get Routes/get-empresario'
 import getRentIncome from './Declaration Get Routes/get-rent-income'
 import getActivity from './Declaration Get Routes/get-activity'
 import getRuralWorker from './Declaration Get Routes/get-rural-worker'
+import { saveAnnouncement } from './save-announcement'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT] }, uploadDocument)
@@ -171,24 +172,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.get('/vehicle-info/:_id?', { onRequest: [verifyJWT] }, getVehicleInfo)
   app.post('/vehicle-info', { onRequest: [verifyJWT] }, registerVehicleInfo)
   app.patch('/vehicle-info/:_id', { onRequest: [verifyJWT] }, updateVehicleInfo)
-  app.post(
-    '/application/:announcement_id/:educationLevel_id/:candidate_id?',
-    { onRequest: [verifyJWT] },
-    subscribeAnnouncement,
-  )
-  app.post(
-    '/application/see/:application_id?',
-    { onRequest: [verifyJWT] },
-    getApplications,
-  )
-  /** Rota para pegar todos os editais abertos  */
-  app.get(
-    '/announcements/:announcement_id?',
-    { onRequest: [verifyJWT] },
-    getOpenAnnouncements,
-  )
-  // Historico
-  app.get('/application/history/:application_id', { onRequest: [verifyJWT] }, getApplicationHistory)
+
   // Despesas
   app.post('/expenses', { onRequest: [verifyJWT] }, registerExpensesInfo)
   app.get('/expenses/:_id?', { onRequest: [verifyJWT] }, getExpensesInfo)
@@ -253,6 +237,27 @@ export async function candidateRoutes(app: FastifyInstance) {
 
   // Get individual declaration
   app.get('/declaration/:type/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getDeclaration)
+
+// Announcement Routes
+ app.post('/announcement/save/:announcement_id', { onRequest: [verifyJWT] }, saveAnnouncement)
+  app.post(
+    '/application/:announcement_id/:educationLevel_id/:candidate_id?',
+    { onRequest: [verifyJWT] },
+    subscribeAnnouncement,
+  )
+  app.post(
+    '/application/see/:application_id?',
+    { onRequest: [verifyJWT] },
+    getApplications,
+  )
+  /** Rota para pegar todos os editais abertos  */
+  app.get(
+    '/announcements/:announcement_id?',
+    { onRequest: [verifyJWT] },
+    getOpenAnnouncements,
+  )
+  // Historico
+  app.get('/application/history/:application_id', { onRequest: [verifyJWT] }, getApplicationHistory)
 }
 
 

@@ -1,5 +1,7 @@
+import { ForbiddenError } from '@/errors/forbidden-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -14,45 +16,66 @@ export async function getOpenAnnouncements(
   const { announcement_id } = announcementParamsSchema.parse(request.params)
   try {
     // Pega os editais que ainda estão abertos
+    const user_id = request.user.sub
+    const isUser = await SelectCandidateResponsible(user_id)
+    if (!isUser) {
+      throw new ForbiddenError()
+    }
     let announcements
     if (!announcement_id) {
-      announcements = await prisma.announcement.findMany({
-        where: { announcementDate: { gte: new Date() } },
-        include: {
-          entity: true,
-          entity_subsidiary: true
+      const announcementsSeen = await prisma.announcementsSeen.findMany({
+        where: { OR: [{ candidate_id: isUser.UserData.id }, { responsible_id: isUser.UserData.id }] },
+        select: {
+          announcement: {
+            include: {
+              entity: true,
+              entity_subsidiary: true,
+            },
+          },
         }
       })
-      console.log(announcements)
-    } else {
-      const announcement = await prisma.announcement.findUnique({
-        where: { id: announcement_id, announcementDate: { gte: new Date() } },
-        include: {
-          educationLevels: true,
-          entity: true,
-          entity_subsidiary: true,
+      
+      const announcementsFiltered = announcementsSeen.map((announcementSee) => {
+        if (announcementSee.announcement.announcementBegin! <= new Date() && announcementSee.announcement.closeDate! >= new Date()) {
+          return announcementSee.announcement
+          
         }
       })
-
-      if (!announcement) {
-        throw new ResourceNotFoundError()
+      return reply.status(200).send({ announcements: announcementsFiltered })
+  } 
+  else {
+    const announcement = await prisma.announcement.findUnique({
+      where: { id: announcement_id, announcementDate: { gte: new Date() } },
+      include: {
+        educationLevels: true,
+        entity: true,
+        entity_subsidiary: true,
       }
-      const educationLevels = announcement.educationLevels
-      const entityAndSubsidiaries = [announcement.entity, ...announcement.entity_subsidiary]
-      const educationLevelsFiltered = entityAndSubsidiaries.map((entity) => {
-        const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === entity.id)
-        if (entity.id == announcement.entity_id) {
-          const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === null)
+    })
 
-          return {...entity, matchedEducationLevels}
-        }
-        return {...entity, matchedEducationLevels}
-      })
-      return reply.status(200).send({ educationLevels: educationLevelsFiltered })
-
+    if (!announcement) {
+      throw new ResourceNotFoundError()
     }
-    return reply.status(200).send({ announcements })
-  } catch (err: any) {
-    return reply.status(500).send({ message: err.message })
+    const educationLevels = announcement.educationLevels
+    const entityAndSubsidiaries = [announcement.entity, ...announcement.entity_subsidiary]
+    const educationLevelsFiltered = entityAndSubsidiaries.map((entity) => {
+      const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === entity.id)
+      if (entity.id == announcement.entity_id) {
+        const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === null)
+
+        return { ...entity, matchedEducationLevels }
+      }
+      return { ...entity, matchedEducationLevels }
+    })
+    return reply.status(200).send({ educationLevels: educationLevelsFiltered })
+
   }
+  
+} catch (err: any) {
+  if (err instanceof ForbiddenError) {
+    return reply.status(403).send({ message: err.message })
+
+  }
+  return reply.status(500).send({ message: err.message })
+}
 }
