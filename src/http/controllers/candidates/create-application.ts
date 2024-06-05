@@ -10,7 +10,7 @@ export async function subscribeAnnouncement(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  
+
 
   const createParamsSchema = z.object({
     announcement_id: z.string(),
@@ -18,7 +18,7 @@ export async function subscribeAnnouncement(
     candidate_id: z.string().optional()
   })
   const { announcement_id, educationLevel_id, candidate_id } = createParamsSchema.parse(
-    request.params,
+    request.body,
   )
   try {
     const userId = request.user.sub
@@ -30,7 +30,7 @@ export async function subscribeAnnouncement(
 
     let candidate = CandidateOrResponsible.UserData
     // check if the candidate is the legal dependent of the responsible
-    if (CandidateOrResponsible.IsResponsible) { 
+    if (CandidateOrResponsible.IsResponsible) {
       const legalDependent = await prisma.candidate.findUnique({
         where: { id: candidate_id, responsible_id: CandidateOrResponsible.UserData.id },
       })
@@ -39,7 +39,7 @@ export async function subscribeAnnouncement(
       }
       candidate = legalDependent
     }
-    
+
     if (!CandidateOrResponsible.UserData.finishedapplication) {
       throw new Error('Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.')
     }
@@ -83,6 +83,7 @@ export async function subscribeAnnouncement(
 
     return reply.status(201).send()
   } catch (err: any) {
+    console.log(err)
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ err })
     }
@@ -91,10 +92,10 @@ export async function subscribeAnnouncement(
     }
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
-      
+
     }
     if (err instanceof Error) {
-      return reply.status(405).send({ err })
+      return reply.status(400).send({ message: err.message })
     }
     return reply.status(500).send({ message: err.message })
   }

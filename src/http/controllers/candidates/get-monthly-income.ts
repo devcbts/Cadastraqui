@@ -1,10 +1,9 @@
+import { ForbiddenError } from '@/errors/forbidden-error';
 import { prisma } from '@/lib/prisma';
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 import { getSectionDocumentsPDF } from './AWS Routes/get-pdf-documents-by-section';
-import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible';
-import { ForbiddenError } from '@/errors/forbidden-error';
 
 export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: FastifyReply) {
   const IncomeSource = z.enum([
@@ -41,7 +40,8 @@ export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: F
 
   try {
     const user_id = request.user.sub;
-    const IsUser = await ChooseCandidateResponsible(user_id);
+    const IsUser = await SelectCandidateResponsible(user_id);
+
     if (!IsUser) {
       throw new ForbiddenError()
     }
@@ -69,13 +69,13 @@ export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: F
     const incomeBySource = monthlyIncomes.reduce<IncomeBySourceAccumulator>((acc, income) => {
       const source = income.incomeSource ? income.incomeSource : 'Unknown';
       acc[source] = acc[source] || [];
-      
+
       const incomeDocuments = Object.entries(urls).filter(([url]) => url.split("/")[4] === income.id)
       const incomeWithUrls = {
         ...income,
         urls: Object.fromEntries(incomeDocuments),
       }
-    
+
       acc[source].push(incomeWithUrls);
       return acc;
     }, {});

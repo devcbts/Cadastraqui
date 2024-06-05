@@ -15,6 +15,7 @@ import { finishRegistration } from './finish-registration'
 import { getAnnouncementDocument } from './get-announcement-pdf'
 import { getApplicationHistory } from './get-application-history'
 import { getApplications } from './get-applications'
+import { getAvailableApplicants } from './get-available-applicants'
 import { getBankingInfo } from './get-banking-info'
 import { getBasicInfo } from './get-basic-info'
 import { getCreditCardInfo } from './get-credit-card-info'
@@ -161,7 +162,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.post('/vehicle-info', { onRequest: [verifyJWT] }, registerVehicleInfo)
   app.patch('/vehicle-info/:_id', { onRequest: [verifyJWT] }, updateVehicleInfo)
   app.post(
-    '/application/:announcement_id/:educationLevel_id/:candidate_id?',
+    '/application',
     { onRequest: [verifyJWT] },
     subscribeAnnouncement,
   )
@@ -221,6 +222,9 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     uploadCandidateProfilePicture,
   )
+
+  //get all available applicants based on user role 
+  app.get('/applicants', { onRequest: [verifyJWT] }, getAvailableApplicants)
 
   //Terminar o cadastro
   app.post('/finish', { onRequest: [verifyJWT] }, finishRegistration)

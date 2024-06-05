@@ -20,7 +20,8 @@ export async function getOpenAnnouncements(
         where: { announcementDate: { gte: new Date() } },
         include: {
           entity: true,
-          entity_subsidiary: true
+          entity_subsidiary: true,
+          educationLevels: true,
         }
       })
       console.log(announcements)
@@ -33,7 +34,7 @@ export async function getOpenAnnouncements(
           entity_subsidiary: true,
         }
       })
-
+      console.log(announcement)
       if (!announcement) {
         throw new ResourceNotFoundError()
       }
@@ -44,15 +45,18 @@ export async function getOpenAnnouncements(
         if (entity.id == announcement.entity_id) {
           const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === null)
 
-          return {...entity, matchedEducationLevels}
+          return { ...entity, matchedEducationLevels }
         }
-        return {...entity, matchedEducationLevels}
+        return { ...entity, matchedEducationLevels }
       })
-      return reply.status(200).send({ educationLevels: educationLevelsFiltered })
+      return reply.status(200).send({ announcement, educationLevels: educationLevelsFiltered })
 
     }
     return reply.status(200).send({ announcements })
   } catch (err: any) {
+    if (err instanceof ResourceNotFoundError) {
+      return reply.status(404).send({ message: err.message })
+    }
     return reply.status(500).send({ message: err.message })
   }
 }
