@@ -3,7 +3,6 @@ import commonStyles from '../../styles.module.scss'; // Certifique-se de que o c
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import DeclarationOverview from './components/Declaration_Status'; // Ajuste o caminho conforme necessário
-import Declaration_Form from './components/Declaration_FormConfirmation'; // Componente existente
 import Declaration_Pension from './components/Declaration_Pension'; // Componente existente
 import Declaration_ChildPension from './components/Declaration_ChildPension'; // Componente existente
 import Declaration_ChildSupport from './components/Declaration_ChildSupport'; // Componente existente
@@ -38,6 +37,7 @@ import Declaration_RentIncome from './components/Declaration_RentIncome'; // Nov
 import Declaration_RentIncomeDetails from './components/Declaration_RentIncomeDetails'; // Nova tela
 import useAuth from 'hooks/useAuth';
 import { api } from 'services/axios';
+import Declaration_Form from './components/Declaration_FormConfirmation';
 
 const SCREENS = {
     OVERVIEW: 'overview',
