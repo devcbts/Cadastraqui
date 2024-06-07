@@ -16,8 +16,8 @@ export default function HeaderWrapper({ children }) {
     return (
         <div style={{ height: '100vh', minHeight: '100vh', maxHeight: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <span>{JSON.stringify(auth)}</span>
-            <button onClick={async () => await login({ email: 'gab@teste.com', password: '123456' })} />
-            <button onClick={logout} />
+            <button onClick={async () => await login({ email: 'schmidt.gui@hotmail.com', password: '123456' })} />
+            <button onClick={async () => set('profilepic', null)} />
 
             {sidebar ? (
                 <>
