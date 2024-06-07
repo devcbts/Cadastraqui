@@ -16,13 +16,25 @@ import { NotificationService } from "services/notification";
 import FamilyRelation from "./components/FamilyRelation";
 import MembersList from "./components/MembersList";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
+import uploadService from "services/upload/uploadService";
+import createFileForm from "utils/create-file-form";
 export default function FormFamilyGroup() {
     const [isAdding, setIsAdding] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const uploadMemberDocument = async (data, memberId) => {
+        try {
+            const formData = createFileForm(data)
+            await uploadService.uploadBySectionAndId({ section: 'family-member', id: memberId }, formData)
+
+        } catch (err) {
+
+        }
+    }
     const handleSaveFamilyMember = async (data) => {
         setIsLoading(true)
         try {
-            await candidateService.registerFamilyMember(data)
+            const id = await candidateService.registerFamilyMember(data)
+            await uploadMemberDocument(data, id)
             setData(null)
             setIsAdding(false)
             setActiveStep(1)
@@ -35,6 +47,7 @@ export default function FormFamilyGroup() {
     const handleEditFamilyMember = async (data) => {
         try {
             await candidateService.updateFamilyMember(data.id, data);
+            await uploadMemberDocument(data, data.id)
             NotificationService.success({ text: 'Informações alteradas' })
         } catch (err) {
             NotificationService.error({ text: err.response.data.message })

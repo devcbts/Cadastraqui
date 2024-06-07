@@ -10,11 +10,11 @@ import CandidateSidebar from 'Components/Candidate/Sidebar'
 import styles from './styles.module.scss'
 export default function HeaderWrapper({ children }) {
     const { sidebar } = useRecoilValue(headerAtom)
-    const { auth, login } = useAuth()
+    const { auth, login, logout } = useAuth()
     const { set } = useLocalStorage()
     const Sidebar = auth?.role?.toLowerCase() === 'candidate' ? CandidateSidebar : Fragment
     return (
-        <div style={{ height: '100vh', minHeight: '100vh', maxHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ height: '100vh', minHeight: '100vh', maxHeight: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <span>{JSON.stringify(auth)}</span>
             <button onClick={async () => await login({ email: 'schmidt.gui@hotmail.com', password: '123456' })} />
             <button onClick={async () => set('profilepic', null)} />
@@ -36,11 +36,13 @@ export default function HeaderWrapper({ children }) {
                         <HamburgHeader >
                             <Sidebar />
                         </HamburgHeader>
-                        {children}
+                        <div className={styles.content}>
+                            {children}
+                        </div>
                     </>
                 )
             }
-        </div>
+        </div >
 
     )
 }

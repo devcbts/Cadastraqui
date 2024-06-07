@@ -9,14 +9,27 @@ import PropertyInfo from './components/PropertyInfo';
 import candidateService from 'services/candidate/candidateService';
 import { NotificationService } from 'services/notification';
 import useStepFormHook from 'Pages/SubscribeForm/hooks/useStepFormHook';
+import createFileForm from 'utils/create-file-form';
+import uploadService from 'services/upload/uploadService';
+import useAuth from 'hooks/useAuth';
 
 export default function FormHabitation() {
     const [isLoading, setIsLoading] = useState(false)
     const [enableEditing, setEnableEditing] = useState(false)
+    const { auth } = useAuth()
+    const uploadHabitationDocuments = async (data, rowId) => {
+        const formData = createFileForm(data)
+        try {
+            await uploadService.uploadBySectionAndId({ section: 'housing', id: rowId }, formData)
+        } catch (err) {
+
+        }
+    }
     const handleEditHouse = async (data) => {
         setIsLoading(true)
         try {
             await candidateService.updateHousingInfo(data)
+            await uploadHabitationDocuments(data, data.uid)
             NotificationService.success({ text: 'Informações editadas' })
         } catch (err) {
             NotificationService.error({ text: err.response.data.message })
@@ -27,6 +40,7 @@ export default function FormHabitation() {
     const handleSaveHouse = async (data) => {
         try {
             await candidateService.registerHousingInfo(data)
+            await uploadHabitationDocuments(data, auth?.uid)
             NotificationService.success({ text: 'Dados de moradia cadastrados' })
         } catch (err) {
             NotificationService.error({ text: err.response.data.message })

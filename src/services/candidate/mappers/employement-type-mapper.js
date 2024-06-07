@@ -10,7 +10,7 @@ class EmployementTypeMapper {
     fromPersistence(data) {
         const mappedData = data?.map((e) => ({
             ...e,
-            incomes: e.incomes.map((i) => ({
+            months: e.incomes.map((i) => ({
                 ...i,
                 CNPJ: formatCNPJ(i.CNPJ),
                 parcelValue: i.parcelValue ? Number(i.parcelValue).toLocaleString('pt-br', { style: "currency", currency: "brl" }) : null,

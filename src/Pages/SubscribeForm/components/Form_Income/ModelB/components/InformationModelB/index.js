@@ -20,7 +20,7 @@ const InformationModelB = forwardRef(({ data }, ref) => {
         },
         initialData: data
     }, ref)
-
+    console.log('dataaa', data)
     return (
         <div className={commonStyles.formcontainer}>
             <InputForm name={"CNPJ"} control={control} label={"CNPJ"} transform={(e) => formatCNPJ(e.target.value)} />

@@ -1,0 +1,20 @@
+.container{
+    width: 60%;
+    height: 80%;
+    background-color: white;
+    border-radius: 8px;
+    padding: 24px 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    .form{
+        width: 80%;
+    }
+    .grid{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+    }
+
+}

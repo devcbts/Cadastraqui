@@ -28,7 +28,7 @@ export default function AuthProvider({ children }) {
     }
     const logout = async () => {
         try {
-            remove('token')
+            remove()
             setAuth(null)
         } catch (err) { }
     }

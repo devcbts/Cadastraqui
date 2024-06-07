@@ -1,6 +1,7 @@
 import { api } from "../axios"
 import employementTypeMapper from "./mappers/employement-type-mapper";
 import familyMemberMapper from "./mappers/family-member-mapper";
+import habitationMapper from "./mappers/habitation-mapper";
 import healthInfoMapper from "./mappers/health-info-mapper";
 import identityInfoMapper from "./mappers/identity-info-mapper";
 import incomeMapper from "./mappers/income-mapper";
@@ -59,14 +60,15 @@ class CandidateService {
             }
         })
     }
-    registerFamilyMember(data) {
+    async registerFamilyMember(data) {
         const mappedData = familyMemberMapper.toPersistence(data)
         const token = localStorage.getItem("token")
-        return api.post(`/candidates/family-member`, mappedData, {
+        const response = await api.post(`/candidates/family-member`, mappedData, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
         })
+        return response.data.id
     }
     updateFamilyMember(id, data) {
         const mappedData = familyMemberMapper.toPersistence(data)
@@ -84,15 +86,17 @@ class CandidateService {
                 'authorization': `Bearer ${token}`,
             }
         })
-        return response.data.housingInfo
+
+        return habitationMapper.fromPersistence(response.data)
     }
-    registerHousingInfo(data) {
+    async registerHousingInfo(data) {
         const token = localStorage.getItem("token")
-        return api.post('/candidates/housing-info', data, {
+        const response = await api.post('/candidates/housing-info', data, {
             headers: {
                 'authorization': `Bearer ${token}`,
             }
         })
+        return response.data.id
     }
 
     updateHousingInfo(data) {
@@ -135,12 +139,7 @@ class CandidateService {
         })
     }
     async getIdentityInfo() {
-        const token = localStorage.getItem("token")
-        const response = await api.get(`/candidates/identity-info`, {
-            headers: {
-                authorization: `Bearer ${token}`,
-            },
-        });
+        const response = await api.get(`/candidates/identity-info`);
         return identityInfoMapper.fromPersistence({ ...response.data.identityInfo, urls: response.data.urls })
     }
     async getMonthlyIncome(id) {
@@ -193,7 +192,8 @@ class CandidateService {
         const token = localStorage.getItem("token")
         const monthlyIncome = await this.getMonthlyIncome(id)
         const memberIncome = await this.getAllIncomes(id)
-        return { monthlyIncome, info: memberIncome.find(e => e.id === id).incomes }
+        console.log(memberIncome.find(e => e.id === id).months)
+        return { monthlyIncome, info: memberIncome.find(e => e.id === id).months }
     }
 
     async getHealthInfo() {
@@ -233,20 +233,14 @@ class CandidateService {
         return response.data.bankAccounts
     }
     registerBankingAccount(id = '', data) {
-        const token = localStorage.getItem("token")
-        return api.post(`/candidates/bank-info/${id}`, data, {
-            headers: {
-                authorization: `Bearer ${token}`,
-            },
-        })
+        return api.post(`/candidates/bank-info/${id}`, data)
     }
     updateBankingAccount(id, data) {
-        const token = localStorage.getItem("token")
-        return api.patch(`/candidates/bank-info/${id}`, data, {
-            headers: {
-                authorization: `Bearer ${token}`,
-            },
-        })
+        return api.patch(`/candidates/bank-info/${id}`, data)
+    }
+    removeBankingAccount(id) {
+        const _id = id
+        return api.delete(`/candidates/bank-info/${_id}`)
     }
 }
 

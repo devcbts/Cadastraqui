@@ -11,6 +11,7 @@
         color: $grey;
         margin: 4px 0px;
     }
+
     .wrapper{
         display: flex;
         flex-direction: column;
@@ -23,6 +24,7 @@
             font-weight: 600;
         }
     }
+    
 }
 .month{
     color: $primary;

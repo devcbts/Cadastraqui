@@ -3,7 +3,7 @@ import styles from './styles.module.scss'
 export default function SidebarItem({ icon: Icon, text, path }) {
     const { pathname } = useLocation()
     const navigate = useNavigate()
-    const isActive = pathname === path ? styles.active : ''
+    const isActive = pathname.includes(path) ? styles.active : ''
 
     return (
         <button className={[styles.container, isActive].join(' ')} onClick={() => navigate(path)}>

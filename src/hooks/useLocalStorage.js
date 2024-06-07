@@ -6,7 +6,11 @@ export default function useLocalStorage() {
     const set = (key, value) => {
         localStorage.setItem(key, value)
     }
-    const remove = (key) => {
+    const remove = (key = null) => {
+        if (key === null) {
+            localStorage.clear()
+            return
+        }
         localStorage.removeItem(key)
     }
     return {

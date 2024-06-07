@@ -1,4 +1,5 @@
 export default function removeObjectFileExtension(obj = {}) {
+    if (!Object.keys(obj).length) return {}
     const getFiles = Object.keys(obj)?.[0]
     const newEntries = Object.keys(obj[getFiles])
     const newObj = newEntries.reduce((acc, key) => {

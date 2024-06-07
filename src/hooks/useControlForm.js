@@ -11,7 +11,7 @@ export default function useControlForm({
     // iterate over it and, if initialData.field exists, put it on values instead of default,
     // else, use the initialData instead
     const populateValues = () => {
-        if (!initialData) return {}
+        if (!initialData) return defaultValues
         const initialFields = Object.entries(initialData ?? {})
         const fields = Object.entries(defaultValues)
         // copy all keys to the new obj,set if the initialData value is truthy

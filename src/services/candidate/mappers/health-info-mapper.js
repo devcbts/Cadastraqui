@@ -9,7 +9,6 @@ class HealthInfoMapper {
             if (Object.keys(e.healthInfo ?? {}).length === 0) {
                 return { ...e, healthInfo: [] }
             }
-            console.log({ ...e, healthInfo: e.healthInfo.map((i) => ({ ...i, hasDisease: !!i.disease, controlledMedication: !!i.medication.length })) })
             return {
                 ...e,
                 healthInfo: e.healthInfo.map((i) => ({

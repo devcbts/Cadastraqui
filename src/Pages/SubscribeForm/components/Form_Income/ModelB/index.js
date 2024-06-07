@@ -11,10 +11,11 @@ import GrossValue from "../GrossValue";
 import ReversalValue from "../ReversalValue";
 import Compensation from "../Compensation";
 import Pension from "../Pension";
+import IncomeMonthSelection from "../MonthSelection";
 
 const IncomeFormModelB = forwardRef(({ data }, ref) => {
     return (
-        <MonthSelection
+        <IncomeMonthSelection
             ref={ref}
             data={{ ...data, quantity: 3 }}
             render={[

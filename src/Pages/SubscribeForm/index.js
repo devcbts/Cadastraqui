@@ -16,8 +16,8 @@ import FormVehicle from "./components/Form_Vehicle";
 import FormHealth from "./components/Form_Health";
 import FormIncome from "./components/Form_Income";
 import { RecoilRoot, useSetRecoilState } from "recoil";
-import FormDeclarations from "./components/Form_Declarations";
 import headerAtom from "Components/Header/atoms/header-atom";
+import FormDeclarations from "./components/Form_Declarations";
 export default function SubscribeForm() {
     const [activeStep, setActiveStep] = useState(1)
 

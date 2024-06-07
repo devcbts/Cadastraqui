@@ -1,0 +1,29 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .title{
+        text-align: start;
+        margin-bottom: 24px;
+    }
+    .informative{
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
+        flex-grow: 1;
+    }
+}
+
+.column{
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+}

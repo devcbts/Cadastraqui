@@ -12,7 +12,7 @@ export default function Root({
             <Loader loading={isLoading} />
             <div className={commonStyles.title}>
                 <h1>{title}</h1>
-                <p>{text}</p>
+                {text && <p>{text}</p>}
             </div>
             {children}
         </div>

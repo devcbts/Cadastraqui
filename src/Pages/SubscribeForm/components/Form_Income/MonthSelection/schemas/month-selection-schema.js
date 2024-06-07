@@ -3,7 +3,7 @@ import stringToFloat from "utils/string-to-float";
 const { z } = require("zod");
 
 const monthSelectionSchema = (quantity) => z.object({
-    incomes: z.array(z.object({
+    months: z.array(z.object({
         date: z.date().or(z.string().transform(v => new Date(v))).default(new Date()),
         grossAmount: z.string().nullish().transform(stringToFloat),
         proLabore: z.string().nullish().transform(stringToFloat),
@@ -21,6 +21,8 @@ const monthSelectionSchema = (quantity) => z.object({
         judicialPensionValue: z.string().nullish().transform(stringToFloat),
         isUpdated: z.boolean().default(false).refine((v) => v, { message: 'Mês não preenchido' })
     })).min(quantity).max(quantity)
+}).transform((data) => {
+    return { incomes: data.months }
 })
 
 export default monthSelectionSchema

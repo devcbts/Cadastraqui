@@ -8,6 +8,9 @@
      align-items: center;
     padding: 4px 16px;
     border-radius: 8px;
+    svg{
+        color: white;
+    }
     .text{
         margin-left: 24px;
         text-transform: capitalize;
@@ -16,6 +19,9 @@
     &.active, &:hover {
         color: $primary;
         background-color: white;
+        svg{
+            color: $primary;
+        }
     }
     transition: all .2s ease-out;
 
