@@ -55,8 +55,8 @@
     "zod": "^3.23.5"
   },
   "scripts": {
-    "local": "dotenv -e .env.local react-scripts start",
-    "start": "dotenv -e .env.dev react-scripts start",
+    "local": "react-scripts start --env-file .env.local",
+    "start": "react-scripts start --env-file .env.dev",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
