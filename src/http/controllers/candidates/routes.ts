@@ -227,19 +227,19 @@ export async function candidateRoutes(app: FastifyInstance) {
 
 
   // Declaration Get Routes ( to create a declaration)
-  app.get('/declaration/Form/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getDeclarationForm)
-  app.get('/declaration/AddressProof/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getAddressProof)
-  app.get('/declaration/MEI/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getMEIDeclaration)
-  app.get('/declaration/IncomeTaxExemption/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getIncomeTaxExemption)
-  app.get('/declaration/Empresario/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getEmpresario)
-  app.get('/declaration/RentIncome/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getRentIncome)
-  app.get('/declaration/Activity/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getActivity)
-  app.get('/declaration/RuralWorker/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getRuralWorker)
+  app.get('/declaration/Form/:_id', { onRequest: [verifyJWT] }, getDeclarationForm)
+  app.get('/declaration/AddressProof/:_id', { onRequest: [verifyJWT] }, getAddressProof)
+  app.get('/declaration/MEI/:_id', { onRequest: [verifyJWT ] }, getMEIDeclaration)
+  app.get('/declaration/IncomeTaxExemption/:_id', { onRequest: [verifyJWT] }, getIncomeTaxExemption)
+  app.get('/declaration/Empresario/:_id', { onRequest: [verifyJWT] }, getEmpresario)
+  app.get('/declaration/RentIncome/:_id', { onRequest: [verifyJWT] }, getRentIncome)
+  app.get('/declaration/Activity/:_id', { onRequest: [verifyJWT] }, getActivity)
+  app.get('/declaration/RuralWorker/:_id', { onRequest: [verifyJWT] }, getRuralWorker)
   // Declaration post route
-  app.post('/declaration/:type/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, registerDeclaration)
+  app.post('/declaration/:type/:_id', { onRequest: [verifyJWT] }, registerDeclaration)
 
   // Get individual declaration
-  app.get('/declaration/:type/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getDeclaration)
+  app.get('/declaration/:type/:_id', { onRequest: [verifyJWT] }, getDeclaration)
 
   // Announcement Routes
   app.post('/announcement/save/:announcement_id', { onRequest: [verifyJWT] }, saveAnnouncement)
