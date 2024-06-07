@@ -44,6 +44,8 @@ export async function updateExpensesInfo(request: FastifyRequest, reply: Fastify
         healthPlan: z.optional(z.number()).nullable(),
         dentalPlan: z.optional(z.number()).nullable(),
         medicationExpenses: z.optional(z.number()).nullable(),
+        financing: z.optional(z.number()).nullable(),
+        creditCard: z.optional(z.number()).nullable(),
         otherExpensesValue: z.optional(z.array(z.number())),
         otherExpensesDescription: z.optional(z.array(z.string())),
         totalExpense: z.optional(z.number()).nullable(),

@@ -254,6 +254,9 @@ exports.Prisma.IdentityDetailsScalarFieldEnum = {
   address: 'address',
   addressNumber: 'addressNumber',
   neighborhood: 'neighborhood',
+  city: 'city',
+  UF: 'UF',
+  CEP: 'CEP',
   specialNeedsDescription: 'specialNeedsDescription',
   hasMedicalReport: 'hasMedicalReport',
   email: 'email',
@@ -361,6 +364,7 @@ exports.Prisma.VehicleScalarFieldEnum = {
   insuranceValue: 'insuranceValue',
   usage: 'usage',
   candidate_id: 'candidate_id',
+  owners_id: 'owners_id',
   legalResponsibleId: 'legalResponsibleId',
   application_id: 'application_id'
 };
@@ -416,6 +420,19 @@ exports.Prisma.MonthlyIncomeScalarFieldEnum = {
   incomeSource: 'incomeSource',
   application_id: 'application_id',
   legalResponsibleId: 'legalResponsibleId'
+};
+
+exports.Prisma.BankAccountScalarFieldEnum = {
+  id: 'id',
+  main_id: 'main_id',
+  bankName: 'bankName',
+  agencyNumber: 'agencyNumber',
+  accountNumber: 'accountNumber',
+  accountType: 'accountType',
+  familyMember_id: 'familyMember_id',
+  candidate_id: 'candidate_id',
+  legalResponsibleId: 'legalResponsibleId',
+  application_id: 'application_id'
 };
 
 exports.Prisma.ExpenseScalarFieldEnum = {
@@ -540,6 +557,17 @@ exports.Prisma.MedicationScalarFieldEnum = {
   medicationName: 'medicationName',
   obtainedPublicly: 'obtainedPublicly',
   specificMedicationPublicly: 'specificMedicationPublicly',
+  familyMember_id: 'familyMember_id',
+  candidate_id: 'candidate_id',
+  legalResponsibleId: 'legalResponsibleId',
+  application_id: 'application_id',
+  familyMemberDiseaseId: 'familyMemberDiseaseId'
+};
+
+exports.Prisma.DeclarationsScalarFieldEnum = {
+  id: 'id',
+  declarationType: 'declarationType',
+  text: 'text',
   familyMember_id: 'familyMember_id',
   candidate_id: 'candidate_id',
   legalResponsibleId: 'legalResponsibleId',
@@ -902,6 +930,18 @@ exports.EmploymentType = exports.$Enums.EmploymentType = {
   PrivatePension: 'PrivatePension'
 };
 
+exports.AccountType = exports.$Enums.AccountType = {
+  CHECKING_ACCOUNT: 'CHECKING_ACCOUNT',
+  SAVINGS_ACCOUNT: 'SAVINGS_ACCOUNT',
+  PAYMENT_ACCOUNT: 'PAYMENT_ACCOUNT',
+  SALARY_ACCOUNT: 'SALARY_ACCOUNT',
+  STUDENT_ACCOUNT: 'STUDENT_ACCOUNT',
+  DIGITAL_ACCOUNT: 'DIGITAL_ACCOUNT',
+  MINORS_ACCOUNT: 'MINORS_ACCOUNT',
+  BUSINESS_ACCOUNT: 'BUSINESS_ACCOUNT',
+  JOINT_ACCOUNT: 'JOINT_ACCOUNT'
+};
+
 exports.FinancingType = exports.$Enums.FinancingType = {
   Car: 'Car',
   Motorcycle: 'Motorcycle',
@@ -930,6 +970,34 @@ exports.Disease = exports.$Enums.Disease = {
   AUTISM_SPECTRUM_DISORDER: 'AUTISM_SPECTRUM_DISORDER',
   RARE_DISEASE: 'RARE_DISEASE',
   OTHER_HIGH_COST_DISEASE: 'OTHER_HIGH_COST_DISEASE'
+};
+
+exports.Declaration_Type = exports.$Enums.Declaration_Type = {
+  Form: 'Form',
+  Activity: 'Activity',
+  AddressProof: 'AddressProof',
+  Autonomo: 'Autonomo',
+  Card: 'Card',
+  ChildPension: 'ChildPension',
+  ChildSupport: 'ChildSupport',
+  ContributionStatement: 'ContributionStatement',
+  Data: 'Data',
+  Empresario: 'Empresario',
+  InactiveCompany: 'InactiveCompany',
+  IncomeTaxExemption: 'IncomeTaxExemption',
+  MEI: 'MEI',
+  NoAddressProof: 'NoAddressProof',
+  Penseion: 'Penseion',
+  Pension: 'Pension',
+  Rent: 'Rent',
+  RentDetails: 'RentDetails',
+  RentIncome: 'RentIncome',
+  RentedHouse: 'RentedHouse',
+  RuralWorker: 'RuralWorker',
+  SingleStatus: 'SingleStatus',
+  StableUnion: 'StableUnion',
+  Status: 'Status',
+  WorkCard: 'WorkCard'
 };
 
 exports.AnnouncementType = exports.$Enums.AnnouncementType = {
@@ -1026,6 +1094,7 @@ exports.Prisma.ModelName = {
   Vehicle: 'Vehicle',
   FamilyMemberIncome: 'FamilyMemberIncome',
   MonthlyIncome: 'MonthlyIncome',
+  BankAccount: 'BankAccount',
   Expense: 'Expense',
   Loan: 'Loan',
   Financing: 'Financing',
@@ -1033,6 +1102,7 @@ exports.Prisma.ModelName = {
   OtherExpense: 'OtherExpense',
   FamilyMemberDisease: 'FamilyMemberDisease',
   Medication: 'Medication',
+  Declarations: 'Declarations',
   AnnouncementInterview: 'AnnouncementInterview',
   Announcement: 'Announcement',
   Timeline: 'Timeline',

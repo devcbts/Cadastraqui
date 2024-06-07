@@ -1,3 +1,4 @@
+import verifyFamilyGroup from '@/http/middlewares/verify-family-group'
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { FastifyInstance } from 'fastify'
 import { deleteDocument } from './AWS Routes/delete-document'
@@ -7,6 +8,14 @@ import { uploadDocument } from './AWS Routes/upload-documents'
 import { uploadCandidateProfilePicture } from './AWS Routes/upload-profile-picture'
 import { uploadSolicitationDocument } from './AWS Routes/upload-solicitation-documents'
 import { subscribeAnnouncement } from './create-application'
+import getActivity from './Declaration Get Routes/get-activity'
+import getAddressProof from './Declaration Get Routes/get-address-proof'
+import getDeclarationForm from './Declaration Get Routes/get-declaration-form'
+import getEmpresario from './Declaration Get Routes/get-empresario'
+import getIncomeTaxExemption from './Declaration Get Routes/get-IncomeTaxExemption'
+import getMEIDeclaration from './Declaration Get Routes/get-MEI'
+import getRentIncome from './Declaration Get Routes/get-rent-income'
+import getRuralWorker from './Declaration Get Routes/get-rural-worker'
 import { deleteBankingInfo } from './delete-banking-info'
 import deleteFamilyMember from './delete-family-member'
 import { deleteHealthInfo } from './delete-health-info'
@@ -19,6 +28,7 @@ import { getAvailableApplicants } from './get-available-applicants'
 import { getBankingInfo } from './get-banking-info'
 import { getBasicInfo } from './get-basic-info'
 import { getCreditCardInfo } from './get-credit-card-info'
+import { getDeclaration } from './get-declaration'
 import { getExpensesInfo } from './get-expenses'
 import { getFamilyMemberHealthInfo } from './get-family-member-health-info'
 import { getFamilyMemberInfo } from './get-family-member-info'
@@ -35,6 +45,7 @@ import { getVehicleInfo } from './get-vehicle-info'
 import { registerCandidate } from './register'
 import { registerBankingInfo } from './register-banking-info'
 import { registerCreditCardInfo } from './register-credit-card-info'
+import { registerDeclaration } from './register-declaration'
 import { registerEmploymenType } from './register-employment-type'
 import { registerExpensesInfo } from './register-expenses-info'
 import { registerFamilyMemberInfo } from './register-family-member'
@@ -46,6 +57,7 @@ import { registerLoanInfo } from './register-loan-info'
 import { registerMedicationInfo } from './register-medication-info'
 import { registerMonthlyIncomeInfo } from './register-monthly-income-info'
 import { registerVehicleInfo } from './register-vehicle-info'
+import { saveAnnouncement } from './save-announcement'
 import { updateBankingInfo } from './update-banking-info'
 import { updateBasicInfo } from './update-basic-info'
 import { updateCreditCardInfo } from './update-credit-card-info'
@@ -161,24 +173,6 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.get('/vehicle-info/:_id?', { onRequest: [verifyJWT] }, getVehicleInfo)
   app.post('/vehicle-info', { onRequest: [verifyJWT] }, registerVehicleInfo)
   app.patch('/vehicle-info/:_id', { onRequest: [verifyJWT] }, updateVehicleInfo)
-  app.post(
-    '/application',
-    { onRequest: [verifyJWT] },
-    subscribeAnnouncement,
-  )
-  app.post(
-    '/application/see/:application_id?',
-    { onRequest: [verifyJWT] },
-    getApplications,
-  )
-  /** Rota para pegar todos os editais abertos  */
-  app.get(
-    '/announcements/:announcement_id?',
-    { onRequest: [verifyJWT] },
-    getOpenAnnouncements,
-  )
-  // Historico
-  app.get('/application/history/:application_id', { onRequest: [verifyJWT] }, getApplicationHistory)
   // Despesas
   app.post('/expenses', { onRequest: [verifyJWT] }, registerExpensesInfo)
   app.get('/expenses/:_id?', { onRequest: [verifyJWT] }, getExpensesInfo)
@@ -229,6 +223,44 @@ export async function candidateRoutes(app: FastifyInstance) {
   //Terminar o cadastro
   app.post('/finish', { onRequest: [verifyJWT] }, finishRegistration)
 
+
+
+
+  // Declaration Get Routes ( to create a declaration)
+  app.get('/declaration/Form/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getDeclarationForm)
+  app.get('/declaration/AddressProof/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getAddressProof)
+  app.get('/declaration/MEI/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getMEIDeclaration)
+  app.get('/declaration/IncomeTaxExemption/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getIncomeTaxExemption)
+  app.get('/declaration/Empresario/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getEmpresario)
+  app.get('/declaration/RentIncome/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getRentIncome)
+  app.get('/declaration/Activity/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getActivity)
+  app.get('/declaration/RuralWorker/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getRuralWorker)
+  // Declaration post route
+  app.post('/declaration/:type/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, registerDeclaration)
+
+  // Get individual declaration
+  app.get('/declaration/:type/:_id', { onRequest: [verifyJWT, verifyFamilyGroup] }, getDeclaration)
+
+  // Announcement Routes
+  app.post('/announcement/save/:announcement_id', { onRequest: [verifyJWT] }, saveAnnouncement)
+  app.post(
+    '/application/:announcement_id/:educationLevel_id/:candidate_id?',
+    { onRequest: [verifyJWT] },
+    subscribeAnnouncement,
+  )
+  app.post(
+    '/application/see/:application_id?',
+    { onRequest: [verifyJWT] },
+    getApplications,
+  )
+  /** Rota para pegar todos os editais abertos  */
+  app.get(
+    '/announcements/:announcement_id?',
+    { onRequest: [verifyJWT] },
+    getOpenAnnouncements,
+  )
+  // Historico
+  app.get('/application/history/:application_id', { onRequest: [verifyJWT] }, getApplicationHistory)
 }
 
 

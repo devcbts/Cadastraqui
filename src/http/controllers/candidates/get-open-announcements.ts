@@ -1,5 +1,7 @@
+import { ForbiddenError } from '@/errors/forbidden-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -14,18 +16,33 @@ export async function getOpenAnnouncements(
   const { announcement_id } = announcementParamsSchema.parse(request.params)
   try {
     // Pega os editais que ainda estão abertos
+    const user_id = request.user.sub
+    const isUser = await SelectCandidateResponsible(user_id)
+    if (!isUser) {
+      throw new ForbiddenError()
+    }
     let announcements
     if (!announcement_id) {
-      announcements = await prisma.announcement.findMany({
-        where: { announcementDate: { gte: new Date() } },
-        include: {
-          entity: true,
-          entity_subsidiary: true,
-          educationLevels: true,
+      const announcementsSeen = await prisma.announcementsSeen.findMany({
+        where: { OR: [{ candidate_id: isUser.UserData.id }, { responsible_id: isUser.UserData.id }] },
+        select: {
+          announcement: {
+            include: {
+              entity: true,
+              entity_subsidiary: true,
+            },
+          },
         }
       })
-      console.log(announcements)
-    } else {
+      console.log('vistos', announcementsSeen)
+      const announcementsFiltered = announcementsSeen.filter((announcementSee) => {
+        if (announcementSee.announcement.announcementBegin! <= new Date() && announcementSee.announcement.closeDate! >= new Date()) {
+          return announcementSee.announcement
+        }
+      })
+      return reply.status(200).send({ announcements: announcementsFiltered })
+    }
+    else {
       const announcement = await prisma.announcement.findUnique({
         where: { id: announcement_id, announcementDate: { gte: new Date() } },
         include: {
@@ -34,7 +51,7 @@ export async function getOpenAnnouncements(
           entity_subsidiary: true,
         }
       })
-      console.log(announcement)
+
       if (!announcement) {
         throw new ResourceNotFoundError()
       }
@@ -52,10 +69,11 @@ export async function getOpenAnnouncements(
       return reply.status(200).send({ announcement, educationLevels: educationLevelsFiltered })
 
     }
-    return reply.status(200).send({ announcements })
+
   } catch (err: any) {
-    if (err instanceof ResourceNotFoundError) {
-      return reply.status(404).send({ message: err.message })
+    if (err instanceof ForbiddenError) {
+      return reply.status(403).send({ message: err.message })
+
     }
     return reply.status(500).send({ message: err.message })
   }

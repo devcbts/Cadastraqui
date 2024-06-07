@@ -162,3 +162,27 @@ export async function deleteFromS3(fileKey: string) {
     throw error;
   }
 }
+
+export async function copyFilesToAnotherFolder(sourceFolder: string, destinationFolder: string) {
+  try {
+    const { Contents } = await s3.listObjectsV2({ Bucket: bucketName!, Prefix: sourceFolder }).promise();
+    
+    for (const content of Contents || []) {
+      if (content.Key) {
+        const copySource = `${bucketName}/${content.Key}`;
+        const destinationKey = content.Key.replace(sourceFolder, destinationFolder);
+
+        await s3.copyObject({
+          CopySource: copySource,
+          Bucket: bucketName!,
+          Key: destinationKey
+        }).promise();
+      }
+    }
+
+    console.log('All files copied successfully');
+  } catch (error: any) {
+    console.error('Error copying files:', error);
+    throw error;
+  }
+}

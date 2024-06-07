@@ -84,6 +84,11 @@ export type FamilyMemberIncome = $Result.DefaultSelection<Prisma.$FamilyMemberIn
  */
 export type MonthlyIncome = $Result.DefaultSelection<Prisma.$MonthlyIncomePayload>
 /**
+ * Model BankAccount
+ * 
+ */
+export type BankAccount = $Result.DefaultSelection<Prisma.$BankAccountPayload>
+/**
  * Model Expense
  * 
  */
@@ -118,6 +123,11 @@ export type FamilyMemberDisease = $Result.DefaultSelection<Prisma.$FamilyMemberD
  * 
  */
 export type Medication = $Result.DefaultSelection<Prisma.$MedicationPayload>
+/**
+ * Model Declarations
+ * 
+ */
+export type Declarations = $Result.DefaultSelection<Prisma.$DeclarationsPayload>
 /**
  * Model AnnouncementInterview
  * 
@@ -472,6 +482,21 @@ export const EmploymentType: {
 export type EmploymentType = (typeof EmploymentType)[keyof typeof EmploymentType]
 
 
+export const AccountType: {
+  CHECKING_ACCOUNT: 'CHECKING_ACCOUNT',
+  SAVINGS_ACCOUNT: 'SAVINGS_ACCOUNT',
+  PAYMENT_ACCOUNT: 'PAYMENT_ACCOUNT',
+  SALARY_ACCOUNT: 'SALARY_ACCOUNT',
+  STUDENT_ACCOUNT: 'STUDENT_ACCOUNT',
+  DIGITAL_ACCOUNT: 'DIGITAL_ACCOUNT',
+  MINORS_ACCOUNT: 'MINORS_ACCOUNT',
+  BUSINESS_ACCOUNT: 'BUSINESS_ACCOUNT',
+  JOINT_ACCOUNT: 'JOINT_ACCOUNT'
+};
+
+export type AccountType = (typeof AccountType)[keyof typeof AccountType]
+
+
 export const FinancingType: {
   Car: 'Car',
   Motorcycle: 'Motorcycle',
@@ -506,6 +531,37 @@ export const Disease: {
 };
 
 export type Disease = (typeof Disease)[keyof typeof Disease]
+
+
+export const Declaration_Type: {
+  Form: 'Form',
+  Activity: 'Activity',
+  AddressProof: 'AddressProof',
+  Autonomo: 'Autonomo',
+  Card: 'Card',
+  ChildPension: 'ChildPension',
+  ChildSupport: 'ChildSupport',
+  ContributionStatement: 'ContributionStatement',
+  Data: 'Data',
+  Empresario: 'Empresario',
+  InactiveCompany: 'InactiveCompany',
+  IncomeTaxExemption: 'IncomeTaxExemption',
+  MEI: 'MEI',
+  NoAddressProof: 'NoAddressProof',
+  Penseion: 'Penseion',
+  Pension: 'Pension',
+  Rent: 'Rent',
+  RentDetails: 'RentDetails',
+  RentIncome: 'RentIncome',
+  RentedHouse: 'RentedHouse',
+  RuralWorker: 'RuralWorker',
+  SingleStatus: 'SingleStatus',
+  StableUnion: 'StableUnion',
+  Status: 'Status',
+  WorkCard: 'WorkCard'
+};
+
+export type Declaration_Type = (typeof Declaration_Type)[keyof typeof Declaration_Type]
 
 
 export const AnnouncementType: {
@@ -710,6 +766,10 @@ export type EmploymentType = $Enums.EmploymentType
 
 export const EmploymentType: typeof $Enums.EmploymentType
 
+export type AccountType = $Enums.AccountType
+
+export const AccountType: typeof $Enums.AccountType
+
 export type FinancingType = $Enums.FinancingType
 
 export const FinancingType: typeof $Enums.FinancingType
@@ -717,6 +777,10 @@ export const FinancingType: typeof $Enums.FinancingType
 export type Disease = $Enums.Disease
 
 export const Disease: typeof $Enums.Disease
+
+export type Declaration_Type = $Enums.Declaration_Type
+
+export const Declaration_Type: typeof $Enums.Declaration_Type
 
 export type AnnouncementType = $Enums.AnnouncementType
 
@@ -1021,6 +1085,16 @@ export class PrismaClient<
   get monthlyIncome(): Prisma.MonthlyIncomeDelegate<ExtArgs>;
 
   /**
+   * `prisma.bankAccount`: Exposes CRUD operations for the **BankAccount** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BankAccounts
+    * const bankAccounts = await prisma.bankAccount.findMany()
+    * ```
+    */
+  get bankAccount(): Prisma.BankAccountDelegate<ExtArgs>;
+
+  /**
    * `prisma.expense`: Exposes CRUD operations for the **Expense** model.
     * Example usage:
     * ```ts
@@ -1089,6 +1163,16 @@ export class PrismaClient<
     * ```
     */
   get medication(): Prisma.MedicationDelegate<ExtArgs>;
+
+  /**
+   * `prisma.declarations`: Exposes CRUD operations for the **Declarations** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Declarations
+    * const declarations = await prisma.declarations.findMany()
+    * ```
+    */
+  get declarations(): Prisma.DeclarationsDelegate<ExtArgs>;
 
   /**
    * `prisma.announcementInterview`: Exposes CRUD operations for the **AnnouncementInterview** model.
@@ -1653,6 +1737,7 @@ export namespace Prisma {
     Vehicle: 'Vehicle',
     FamilyMemberIncome: 'FamilyMemberIncome',
     MonthlyIncome: 'MonthlyIncome',
+    BankAccount: 'BankAccount',
     Expense: 'Expense',
     Loan: 'Loan',
     Financing: 'Financing',
@@ -1660,6 +1745,7 @@ export namespace Prisma {
     OtherExpense: 'OtherExpense',
     FamilyMemberDisease: 'FamilyMemberDisease',
     Medication: 'Medication',
+    Declarations: 'Declarations',
     AnnouncementInterview: 'AnnouncementInterview',
     Announcement: 'Announcement',
     Timeline: 'Timeline',
@@ -1684,7 +1770,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'idMapping' | 'candidate' | 'user' | 'legalResponsible' | 'socialAssistant' | 'entity' | 'entitySubsidiary' | 'entityDirector' | 'identityDetails' | 'familyMember' | 'housing' | 'vehicle' | 'familyMemberIncome' | 'monthlyIncome' | 'expense' | 'loan' | 'financing' | 'creditCard' | 'otherExpense' | 'familyMemberDisease' | 'medication' | 'announcementInterview' | 'announcement' | 'timeline' | 'educationLevel' | 'application' | 'applicationHistory' | 'scholarshipGranted' | 'familyMemberToVehicle'
+      modelProps: 'idMapping' | 'candidate' | 'user' | 'legalResponsible' | 'socialAssistant' | 'entity' | 'entitySubsidiary' | 'entityDirector' | 'identityDetails' | 'familyMember' | 'housing' | 'vehicle' | 'familyMemberIncome' | 'monthlyIncome' | 'bankAccount' | 'expense' | 'loan' | 'financing' | 'creditCard' | 'otherExpense' | 'familyMemberDisease' | 'medication' | 'declarations' | 'announcementInterview' | 'announcement' | 'timeline' | 'educationLevel' | 'application' | 'applicationHistory' | 'scholarshipGranted' | 'familyMemberToVehicle'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -2612,6 +2698,72 @@ export namespace Prisma {
           }
         }
       }
+      BankAccount: {
+        payload: Prisma.$BankAccountPayload<ExtArgs>
+        fields: Prisma.BankAccountFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BankAccountFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$BankAccountPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BankAccountFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$BankAccountPayload>
+          }
+          findFirst: {
+            args: Prisma.BankAccountFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$BankAccountPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BankAccountFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$BankAccountPayload>
+          }
+          findMany: {
+            args: Prisma.BankAccountFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$BankAccountPayload>[]
+          }
+          create: {
+            args: Prisma.BankAccountCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$BankAccountPayload>
+          }
+          createMany: {
+            args: Prisma.BankAccountCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.BankAccountDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$BankAccountPayload>
+          }
+          update: {
+            args: Prisma.BankAccountUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$BankAccountPayload>
+          }
+          deleteMany: {
+            args: Prisma.BankAccountDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BankAccountUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.BankAccountUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$BankAccountPayload>
+          }
+          aggregate: {
+            args: Prisma.BankAccountAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateBankAccount>
+          }
+          groupBy: {
+            args: Prisma.BankAccountGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<BankAccountGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BankAccountCountArgs<ExtArgs>,
+            result: $Utils.Optional<BankAccountCountAggregateOutputType> | number
+          }
+        }
+      }
       Expense: {
         payload: Prisma.$ExpensePayload<ExtArgs>
         fields: Prisma.ExpenseFieldRefs
@@ -3071,6 +3223,72 @@ export namespace Prisma {
           count: {
             args: Prisma.MedicationCountArgs<ExtArgs>,
             result: $Utils.Optional<MedicationCountAggregateOutputType> | number
+          }
+        }
+      }
+      Declarations: {
+        payload: Prisma.$DeclarationsPayload<ExtArgs>
+        fields: Prisma.DeclarationsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DeclarationsFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DeclarationsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DeclarationsFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DeclarationsPayload>
+          }
+          findFirst: {
+            args: Prisma.DeclarationsFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DeclarationsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DeclarationsFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DeclarationsPayload>
+          }
+          findMany: {
+            args: Prisma.DeclarationsFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DeclarationsPayload>[]
+          }
+          create: {
+            args: Prisma.DeclarationsCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DeclarationsPayload>
+          }
+          createMany: {
+            args: Prisma.DeclarationsCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.DeclarationsDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DeclarationsPayload>
+          }
+          update: {
+            args: Prisma.DeclarationsUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DeclarationsPayload>
+          }
+          deleteMany: {
+            args: Prisma.DeclarationsDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DeclarationsUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.DeclarationsUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$DeclarationsPayload>
+          }
+          aggregate: {
+            args: Prisma.DeclarationsAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateDeclarations>
+          }
+          groupBy: {
+            args: Prisma.DeclarationsGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<DeclarationsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DeclarationsCountArgs<ExtArgs>,
+            result: $Utils.Optional<DeclarationsCountAggregateOutputType> | number
           }
         }
       }
@@ -3769,6 +3987,8 @@ export namespace Prisma {
     MonthlyIncome: number
     FamilyMemberDisease: number
     Medication: number
+    BankAccount: number
+    Declarations: number
   }
 
   export type CandidateCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -3786,6 +4006,8 @@ export namespace Prisma {
     MonthlyIncome?: boolean | CandidateCountOutputTypeCountMonthlyIncomeArgs
     FamilyMemberDisease?: boolean | CandidateCountOutputTypeCountFamilyMemberDiseaseArgs
     Medication?: boolean | CandidateCountOutputTypeCountMedicationArgs
+    BankAccount?: boolean | CandidateCountOutputTypeCountBankAccountArgs
+    Declarations?: boolean | CandidateCountOutputTypeCountDeclarationsArgs
   }
 
   // Custom InputTypes
@@ -3913,6 +4135,22 @@ export namespace Prisma {
   }
 
 
+  /**
+   * CandidateCountOutputType without action
+   */
+  export type CandidateCountOutputTypeCountBankAccountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: BankAccountWhereInput
+  }
+
+
+  /**
+   * CandidateCountOutputType without action
+   */
+  export type CandidateCountOutputTypeCountDeclarationsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: DeclarationsWhereInput
+  }
+
+
 
   /**
    * Count Type LegalResponsibleCountOutputType
@@ -3934,6 +4172,8 @@ export namespace Prisma {
     Application: number
     FamilyMemberIncome: number
     MonthlyIncome: number
+    BankAccount: number
+    Declarations: number
   }
 
   export type LegalResponsibleCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -3952,6 +4192,8 @@ export namespace Prisma {
     Application?: boolean | LegalResponsibleCountOutputTypeCountApplicationArgs
     FamilyMemberIncome?: boolean | LegalResponsibleCountOutputTypeCountFamilyMemberIncomeArgs
     MonthlyIncome?: boolean | LegalResponsibleCountOutputTypeCountMonthlyIncomeArgs
+    BankAccount?: boolean | LegalResponsibleCountOutputTypeCountBankAccountArgs
+    Declarations?: boolean | LegalResponsibleCountOutputTypeCountDeclarationsArgs
   }
 
   // Custom InputTypes
@@ -4084,6 +4326,22 @@ export namespace Prisma {
    */
   export type LegalResponsibleCountOutputTypeCountMonthlyIncomeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: MonthlyIncomeWhereInput
+  }
+
+
+  /**
+   * LegalResponsibleCountOutputType without action
+   */
+  export type LegalResponsibleCountOutputTypeCountBankAccountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: BankAccountWhereInput
+  }
+
+
+  /**
+   * LegalResponsibleCountOutputType without action
+   */
+  export type LegalResponsibleCountOutputTypeCountDeclarationsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: DeclarationsWhereInput
   }
 
 
@@ -4284,6 +4542,8 @@ export namespace Prisma {
     FamilyMemberToVehicle: number
     FamilyMemberDisease: number
     Medication: number
+    BankAccount: number
+    Declarations: number
   }
 
   export type FamilyMemberCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -4296,6 +4556,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: boolean | FamilyMemberCountOutputTypeCountFamilyMemberToVehicleArgs
     FamilyMemberDisease?: boolean | FamilyMemberCountOutputTypeCountFamilyMemberDiseaseArgs
     Medication?: boolean | FamilyMemberCountOutputTypeCountMedicationArgs
+    BankAccount?: boolean | FamilyMemberCountOutputTypeCountBankAccountArgs
+    Declarations?: boolean | FamilyMemberCountOutputTypeCountDeclarationsArgs
   }
 
   // Custom InputTypes
@@ -4383,6 +4645,22 @@ export namespace Prisma {
   }
 
 
+  /**
+   * FamilyMemberCountOutputType without action
+   */
+  export type FamilyMemberCountOutputTypeCountBankAccountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: BankAccountWhereInput
+  }
+
+
+  /**
+   * FamilyMemberCountOutputType without action
+   */
+  export type FamilyMemberCountOutputTypeCountDeclarationsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: DeclarationsWhereInput
+  }
+
+
 
   /**
    * Count Type VehicleCountOutputType
@@ -4414,6 +4692,40 @@ export namespace Prisma {
    */
   export type VehicleCountOutputTypeCountFamilyMemberToVehicleArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: FamilyMemberToVehicleWhereInput
+  }
+
+
+
+  /**
+   * Count Type FamilyMemberDiseaseCountOutputType
+   */
+
+  export type FamilyMemberDiseaseCountOutputType = {
+    Medication: number
+  }
+
+  export type FamilyMemberDiseaseCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    Medication?: boolean | FamilyMemberDiseaseCountOutputTypeCountMedicationArgs
+  }
+
+  // Custom InputTypes
+
+  /**
+   * FamilyMemberDiseaseCountOutputType without action
+   */
+  export type FamilyMemberDiseaseCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FamilyMemberDiseaseCountOutputType
+     */
+    select?: FamilyMemberDiseaseCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * FamilyMemberDiseaseCountOutputType without action
+   */
+  export type FamilyMemberDiseaseCountOutputTypeCountMedicationArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: MedicationWhereInput
   }
 
 
@@ -5732,6 +6044,8 @@ export namespace Prisma {
     MonthlyIncome?: boolean | Candidate$MonthlyIncomeArgs<ExtArgs>
     FamilyMemberDisease?: boolean | Candidate$FamilyMemberDiseaseArgs<ExtArgs>
     Medication?: boolean | Candidate$MedicationArgs<ExtArgs>
+    BankAccount?: boolean | Candidate$BankAccountArgs<ExtArgs>
+    Declarations?: boolean | Candidate$DeclarationsArgs<ExtArgs>
     _count?: boolean | CandidateCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["candidate"]>
 
@@ -5774,6 +6088,8 @@ export namespace Prisma {
     MonthlyIncome?: boolean | Candidate$MonthlyIncomeArgs<ExtArgs>
     FamilyMemberDisease?: boolean | Candidate$FamilyMemberDiseaseArgs<ExtArgs>
     Medication?: boolean | Candidate$MedicationArgs<ExtArgs>
+    BankAccount?: boolean | Candidate$BankAccountArgs<ExtArgs>
+    Declarations?: boolean | Candidate$DeclarationsArgs<ExtArgs>
     _count?: boolean | CandidateCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -5796,6 +6112,8 @@ export namespace Prisma {
       MonthlyIncome: Prisma.$MonthlyIncomePayload<ExtArgs>[]
       FamilyMemberDisease: Prisma.$FamilyMemberDiseasePayload<ExtArgs>[]
       Medication: Prisma.$MedicationPayload<ExtArgs>[]
+      BankAccount: Prisma.$BankAccountPayload<ExtArgs>[]
+      Declarations: Prisma.$DeclarationsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetResult<{
       id: string
@@ -6212,6 +6530,10 @@ export namespace Prisma {
     FamilyMemberDisease<T extends Candidate$FamilyMemberDiseaseArgs<ExtArgs> = {}>(args?: Subset<T, Candidate$FamilyMemberDiseaseArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FamilyMemberDiseasePayload<ExtArgs>, T, 'findMany'> | Null>;
 
     Medication<T extends Candidate$MedicationArgs<ExtArgs> = {}>(args?: Subset<T, Candidate$MedicationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MedicationPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    BankAccount<T extends Candidate$BankAccountArgs<ExtArgs> = {}>(args?: Subset<T, Candidate$BankAccountArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    Declarations<T extends Candidate$DeclarationsArgs<ExtArgs> = {}>(args?: Subset<T, Candidate$DeclarationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeclarationsPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6879,6 +7201,48 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MedicationScalarFieldEnum | MedicationScalarFieldEnum[]
+  }
+
+
+  /**
+   * Candidate.BankAccount
+   */
+  export type Candidate$BankAccountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BankAccountInclude<ExtArgs> | null
+    where?: BankAccountWhereInput
+    orderBy?: BankAccountOrderByWithRelationInput | BankAccountOrderByWithRelationInput[]
+    cursor?: BankAccountWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BankAccountScalarFieldEnum | BankAccountScalarFieldEnum[]
+  }
+
+
+  /**
+   * Candidate.Declarations
+   */
+  export type Candidate$DeclarationsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declarations
+     */
+    select?: DeclarationsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DeclarationsInclude<ExtArgs> | null
+    where?: DeclarationsWhereInput
+    orderBy?: DeclarationsOrderByWithRelationInput | DeclarationsOrderByWithRelationInput[]
+    cursor?: DeclarationsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DeclarationsScalarFieldEnum | DeclarationsScalarFieldEnum[]
   }
 
 
@@ -8245,6 +8609,8 @@ export namespace Prisma {
     Application?: boolean | LegalResponsible$ApplicationArgs<ExtArgs>
     FamilyMemberIncome?: boolean | LegalResponsible$FamilyMemberIncomeArgs<ExtArgs>
     MonthlyIncome?: boolean | LegalResponsible$MonthlyIncomeArgs<ExtArgs>
+    BankAccount?: boolean | LegalResponsible$BankAccountArgs<ExtArgs>
+    Declarations?: boolean | LegalResponsible$DeclarationsArgs<ExtArgs>
     _count?: boolean | LegalResponsibleCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["legalResponsible"]>
 
@@ -8292,6 +8658,8 @@ export namespace Prisma {
     Application?: boolean | LegalResponsible$ApplicationArgs<ExtArgs>
     FamilyMemberIncome?: boolean | LegalResponsible$FamilyMemberIncomeArgs<ExtArgs>
     MonthlyIncome?: boolean | LegalResponsible$MonthlyIncomeArgs<ExtArgs>
+    BankAccount?: boolean | LegalResponsible$BankAccountArgs<ExtArgs>
+    Declarations?: boolean | LegalResponsible$DeclarationsArgs<ExtArgs>
     _count?: boolean | LegalResponsibleCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -8314,6 +8682,8 @@ export namespace Prisma {
       Application: Prisma.$ApplicationPayload<ExtArgs>[]
       FamilyMemberIncome: Prisma.$FamilyMemberIncomePayload<ExtArgs>[]
       MonthlyIncome: Prisma.$MonthlyIncomePayload<ExtArgs>[]
+      BankAccount: Prisma.$BankAccountPayload<ExtArgs>[]
+      Declarations: Prisma.$DeclarationsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetResult<{
       id: string
@@ -8735,6 +9105,10 @@ export namespace Prisma {
     FamilyMemberIncome<T extends LegalResponsible$FamilyMemberIncomeArgs<ExtArgs> = {}>(args?: Subset<T, LegalResponsible$FamilyMemberIncomeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FamilyMemberIncomePayload<ExtArgs>, T, 'findMany'> | Null>;
 
     MonthlyIncome<T extends LegalResponsible$MonthlyIncomeArgs<ExtArgs> = {}>(args?: Subset<T, LegalResponsible$MonthlyIncomeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MonthlyIncomePayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    BankAccount<T extends LegalResponsible$BankAccountArgs<ExtArgs> = {}>(args?: Subset<T, LegalResponsible$BankAccountArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    Declarations<T extends LegalResponsible$DeclarationsArgs<ExtArgs> = {}>(args?: Subset<T, LegalResponsible$DeclarationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeclarationsPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -9412,6 +9786,48 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MonthlyIncomeScalarFieldEnum | MonthlyIncomeScalarFieldEnum[]
+  }
+
+
+  /**
+   * LegalResponsible.BankAccount
+   */
+  export type LegalResponsible$BankAccountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BankAccountInclude<ExtArgs> | null
+    where?: BankAccountWhereInput
+    orderBy?: BankAccountOrderByWithRelationInput | BankAccountOrderByWithRelationInput[]
+    cursor?: BankAccountWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BankAccountScalarFieldEnum | BankAccountScalarFieldEnum[]
+  }
+
+
+  /**
+   * LegalResponsible.Declarations
+   */
+  export type LegalResponsible$DeclarationsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declarations
+     */
+    select?: DeclarationsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DeclarationsInclude<ExtArgs> | null
+    where?: DeclarationsWhereInput
+    orderBy?: DeclarationsOrderByWithRelationInput | DeclarationsOrderByWithRelationInput[]
+    cursor?: DeclarationsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DeclarationsScalarFieldEnum | DeclarationsScalarFieldEnum[]
   }
 
 
@@ -13783,6 +14199,9 @@ export namespace Prisma {
     address: string | null
     addressNumber: string | null
     neighborhood: string | null
+    city: string | null
+    UF: $Enums.COUNTRY | null
+    CEP: string | null
     specialNeedsDescription: string | null
     hasMedicalReport: boolean | null
     email: string | null
@@ -13837,6 +14256,9 @@ export namespace Prisma {
     address: string | null
     addressNumber: string | null
     neighborhood: string | null
+    city: string | null
+    UF: $Enums.COUNTRY | null
+    CEP: string | null
     specialNeedsDescription: string | null
     hasMedicalReport: boolean | null
     email: string | null
@@ -13891,6 +14313,9 @@ export namespace Prisma {
     address: number
     addressNumber: number
     neighborhood: number
+    city: number
+    UF: number
+    CEP: number
     specialNeedsDescription: number
     hasMedicalReport: number
     email: number
@@ -13949,6 +14374,9 @@ export namespace Prisma {
     address?: true
     addressNumber?: true
     neighborhood?: true
+    city?: true
+    UF?: true
+    CEP?: true
     specialNeedsDescription?: true
     hasMedicalReport?: true
     email?: true
@@ -14003,6 +14431,9 @@ export namespace Prisma {
     address?: true
     addressNumber?: true
     neighborhood?: true
+    city?: true
+    UF?: true
+    CEP?: true
     specialNeedsDescription?: true
     hasMedicalReport?: true
     email?: true
@@ -14057,6 +14488,9 @@ export namespace Prisma {
     address?: true
     addressNumber?: true
     neighborhood?: true
+    city?: true
+    UF?: true
+    CEP?: true
     specialNeedsDescription?: true
     hasMedicalReport?: true
     email?: true
@@ -14186,6 +14620,9 @@ export namespace Prisma {
     address: string | null
     addressNumber: string | null
     neighborhood: string | null
+    city: string | null
+    UF: $Enums.COUNTRY | null
+    CEP: string | null
     specialNeedsDescription: string | null
     hasMedicalReport: boolean | null
     email: string | null
@@ -14259,6 +14696,9 @@ export namespace Prisma {
     address?: boolean
     addressNumber?: boolean
     neighborhood?: boolean
+    city?: boolean
+    UF?: boolean
+    CEP?: boolean
     specialNeedsDescription?: boolean
     hasMedicalReport?: boolean
     email?: boolean
@@ -14317,6 +14757,9 @@ export namespace Prisma {
     address?: boolean
     addressNumber?: boolean
     neighborhood?: boolean
+    city?: boolean
+    UF?: boolean
+    CEP?: boolean
     specialNeedsDescription?: boolean
     hasMedicalReport?: boolean
     email?: boolean
@@ -14385,6 +14828,9 @@ export namespace Prisma {
       address: string | null
       addressNumber: string | null
       neighborhood: string | null
+      city: string | null
+      UF: $Enums.COUNTRY | null
+      CEP: string | null
       specialNeedsDescription: string | null
       hasMedicalReport: boolean | null
       email: string | null
@@ -14835,6 +15281,9 @@ export namespace Prisma {
     readonly address: FieldRef<"IdentityDetails", 'String'>
     readonly addressNumber: FieldRef<"IdentityDetails", 'String'>
     readonly neighborhood: FieldRef<"IdentityDetails", 'String'>
+    readonly city: FieldRef<"IdentityDetails", 'String'>
+    readonly UF: FieldRef<"IdentityDetails", 'COUNTRY'>
+    readonly CEP: FieldRef<"IdentityDetails", 'String'>
     readonly specialNeedsDescription: FieldRef<"IdentityDetails", 'String'>
     readonly hasMedicalReport: FieldRef<"IdentityDetails", 'Boolean'>
     readonly email: FieldRef<"IdentityDetails", 'String'>
@@ -15728,6 +16177,8 @@ export namespace Prisma {
     candidate?: boolean | FamilyMember$candidateArgs<ExtArgs>
     Medication?: boolean | FamilyMember$MedicationArgs<ExtArgs>
     LegalResponsible?: boolean | FamilyMember$LegalResponsibleArgs<ExtArgs>
+    BankAccount?: boolean | FamilyMember$BankAccountArgs<ExtArgs>
+    Declarations?: boolean | FamilyMember$DeclarationsArgs<ExtArgs>
     _count?: boolean | FamilyMemberCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["familyMember"]>
 
@@ -15793,6 +16244,8 @@ export namespace Prisma {
     candidate?: boolean | FamilyMember$candidateArgs<ExtArgs>
     Medication?: boolean | FamilyMember$MedicationArgs<ExtArgs>
     LegalResponsible?: boolean | FamilyMember$LegalResponsibleArgs<ExtArgs>
+    BankAccount?: boolean | FamilyMember$BankAccountArgs<ExtArgs>
+    Declarations?: boolean | FamilyMember$DeclarationsArgs<ExtArgs>
     _count?: boolean | FamilyMemberCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -15811,6 +16264,8 @@ export namespace Prisma {
       candidate: Prisma.$CandidatePayload<ExtArgs> | null
       Medication: Prisma.$MedicationPayload<ExtArgs>[]
       LegalResponsible: Prisma.$LegalResponsiblePayload<ExtArgs> | null
+      BankAccount: Prisma.$BankAccountPayload<ExtArgs>[]
+      Declarations: Prisma.$DeclarationsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetResult<{
       id: string
@@ -16246,6 +16701,10 @@ export namespace Prisma {
     Medication<T extends FamilyMember$MedicationArgs<ExtArgs> = {}>(args?: Subset<T, FamilyMember$MedicationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MedicationPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     LegalResponsible<T extends FamilyMember$LegalResponsibleArgs<ExtArgs> = {}>(args?: Subset<T, FamilyMember$LegalResponsibleArgs<ExtArgs>>): Prisma__LegalResponsibleClient<$Result.GetResult<Prisma.$LegalResponsiblePayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
+    BankAccount<T extends FamilyMember$BankAccountArgs<ExtArgs> = {}>(args?: Subset<T, FamilyMember$BankAccountArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    Declarations<T extends FamilyMember$DeclarationsArgs<ExtArgs> = {}>(args?: Subset<T, FamilyMember$DeclarationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeclarationsPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -16851,6 +17310,48 @@ export namespace Prisma {
      */
     include?: LegalResponsibleInclude<ExtArgs> | null
     where?: LegalResponsibleWhereInput
+  }
+
+
+  /**
+   * FamilyMember.BankAccount
+   */
+  export type FamilyMember$BankAccountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BankAccountInclude<ExtArgs> | null
+    where?: BankAccountWhereInput
+    orderBy?: BankAccountOrderByWithRelationInput | BankAccountOrderByWithRelationInput[]
+    cursor?: BankAccountWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BankAccountScalarFieldEnum | BankAccountScalarFieldEnum[]
+  }
+
+
+  /**
+   * FamilyMember.Declarations
+   */
+  export type FamilyMember$DeclarationsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declarations
+     */
+    select?: DeclarationsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DeclarationsInclude<ExtArgs> | null
+    where?: DeclarationsWhereInput
+    orderBy?: DeclarationsOrderByWithRelationInput | DeclarationsOrderByWithRelationInput[]
+    cursor?: DeclarationsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DeclarationsScalarFieldEnum | DeclarationsScalarFieldEnum[]
   }
 
 
@@ -18009,6 +18510,7 @@ export namespace Prisma {
     insuranceValue: number
     usage: number
     candidate_id: number
+    owners_id: number
     legalResponsibleId: number
     application_id: number
     _all: number
@@ -18076,6 +18578,7 @@ export namespace Prisma {
     insuranceValue?: true
     usage?: true
     candidate_id?: true
+    owners_id?: true
     legalResponsibleId?: true
     application_id?: true
     _all?: true
@@ -18180,6 +18683,7 @@ export namespace Prisma {
     insuranceValue: number | null
     usage: $Enums.VehicleUsage
     candidate_id: string | null
+    owners_id: string[]
     legalResponsibleId: string | null
     application_id: string
     _count: VehicleCountAggregateOutputType | null
@@ -18216,6 +18720,7 @@ export namespace Prisma {
     insuranceValue?: boolean
     usage?: boolean
     candidate_id?: boolean
+    owners_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
     candidate?: boolean | Vehicle$candidateArgs<ExtArgs>
@@ -18237,6 +18742,7 @@ export namespace Prisma {
     insuranceValue?: boolean
     usage?: boolean
     candidate_id?: boolean
+    owners_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
   }
@@ -18269,6 +18775,7 @@ export namespace Prisma {
       insuranceValue: number | null
       usage: $Enums.VehicleUsage
       candidate_id: string | null
+      owners_id: string[]
       legalResponsibleId: string | null
       application_id: string
     }, ExtArgs["result"]["vehicle"]>
@@ -18682,6 +19189,7 @@ export namespace Prisma {
     readonly insuranceValue: FieldRef<"Vehicle", 'Float'>
     readonly usage: FieldRef<"Vehicle", 'VehicleUsage'>
     readonly candidate_id: FieldRef<"Vehicle", 'String'>
+    readonly owners_id: FieldRef<"Vehicle", 'String[]'>
     readonly legalResponsibleId: FieldRef<"Vehicle", 'String'>
     readonly application_id: FieldRef<"Vehicle", 'String'>
   }
@@ -21555,6 +22063,1037 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well.
      */
     include?: MonthlyIncomeInclude<ExtArgs> | null
+  }
+
+
+
+  /**
+   * Model BankAccount
+   */
+
+  export type AggregateBankAccount = {
+    _count: BankAccountCountAggregateOutputType | null
+    _min: BankAccountMinAggregateOutputType | null
+    _max: BankAccountMaxAggregateOutputType | null
+  }
+
+  export type BankAccountMinAggregateOutputType = {
+    id: string | null
+    main_id: string | null
+    bankName: string | null
+    agencyNumber: string | null
+    accountNumber: string | null
+    accountType: $Enums.AccountType | null
+    familyMember_id: string | null
+    candidate_id: string | null
+    legalResponsibleId: string | null
+    application_id: string | null
+  }
+
+  export type BankAccountMaxAggregateOutputType = {
+    id: string | null
+    main_id: string | null
+    bankName: string | null
+    agencyNumber: string | null
+    accountNumber: string | null
+    accountType: $Enums.AccountType | null
+    familyMember_id: string | null
+    candidate_id: string | null
+    legalResponsibleId: string | null
+    application_id: string | null
+  }
+
+  export type BankAccountCountAggregateOutputType = {
+    id: number
+    main_id: number
+    bankName: number
+    agencyNumber: number
+    accountNumber: number
+    accountType: number
+    familyMember_id: number
+    candidate_id: number
+    legalResponsibleId: number
+    application_id: number
+    _all: number
+  }
+
+
+  export type BankAccountMinAggregateInputType = {
+    id?: true
+    main_id?: true
+    bankName?: true
+    agencyNumber?: true
+    accountNumber?: true
+    accountType?: true
+    familyMember_id?: true
+    candidate_id?: true
+    legalResponsibleId?: true
+    application_id?: true
+  }
+
+  export type BankAccountMaxAggregateInputType = {
+    id?: true
+    main_id?: true
+    bankName?: true
+    agencyNumber?: true
+    accountNumber?: true
+    accountType?: true
+    familyMember_id?: true
+    candidate_id?: true
+    legalResponsibleId?: true
+    application_id?: true
+  }
+
+  export type BankAccountCountAggregateInputType = {
+    id?: true
+    main_id?: true
+    bankName?: true
+    agencyNumber?: true
+    accountNumber?: true
+    accountType?: true
+    familyMember_id?: true
+    candidate_id?: true
+    legalResponsibleId?: true
+    application_id?: true
+    _all?: true
+  }
+
+  export type BankAccountAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BankAccount to aggregate.
+     */
+    where?: BankAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BankAccounts to fetch.
+     */
+    orderBy?: BankAccountOrderByWithRelationInput | BankAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BankAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BankAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BankAccounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BankAccounts
+    **/
+    _count?: true | BankAccountCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BankAccountMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BankAccountMaxAggregateInputType
+  }
+
+  export type GetBankAccountAggregateType<T extends BankAccountAggregateArgs> = {
+        [P in keyof T & keyof AggregateBankAccount]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBankAccount[P]>
+      : GetScalarType<T[P], AggregateBankAccount[P]>
+  }
+
+
+
+
+  export type BankAccountGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: BankAccountWhereInput
+    orderBy?: BankAccountOrderByWithAggregationInput | BankAccountOrderByWithAggregationInput[]
+    by: BankAccountScalarFieldEnum[] | BankAccountScalarFieldEnum
+    having?: BankAccountScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BankAccountCountAggregateInputType | true
+    _min?: BankAccountMinAggregateInputType
+    _max?: BankAccountMaxAggregateInputType
+  }
+
+  export type BankAccountGroupByOutputType = {
+    id: string
+    main_id: string
+    bankName: string
+    agencyNumber: string
+    accountNumber: string
+    accountType: $Enums.AccountType
+    familyMember_id: string | null
+    candidate_id: string | null
+    legalResponsibleId: string | null
+    application_id: string
+    _count: BankAccountCountAggregateOutputType | null
+    _min: BankAccountMinAggregateOutputType | null
+    _max: BankAccountMaxAggregateOutputType | null
+  }
+
+  type GetBankAccountGroupByPayload<T extends BankAccountGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BankAccountGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BankAccountGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BankAccountGroupByOutputType[P]>
+            : GetScalarType<T[P], BankAccountGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BankAccountSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    main_id?: boolean
+    bankName?: boolean
+    agencyNumber?: boolean
+    accountNumber?: boolean
+    accountType?: boolean
+    familyMember_id?: boolean
+    candidate_id?: boolean
+    legalResponsibleId?: boolean
+    application_id?: boolean
+    familyMember?: boolean | BankAccount$familyMemberArgs<ExtArgs>
+    candidate?: boolean | BankAccount$candidateArgs<ExtArgs>
+    LegalResponsible?: boolean | BankAccount$LegalResponsibleArgs<ExtArgs>
+  }, ExtArgs["result"]["bankAccount"]>
+
+  export type BankAccountSelectScalar = {
+    id?: boolean
+    main_id?: boolean
+    bankName?: boolean
+    agencyNumber?: boolean
+    accountNumber?: boolean
+    accountType?: boolean
+    familyMember_id?: boolean
+    candidate_id?: boolean
+    legalResponsibleId?: boolean
+    application_id?: boolean
+  }
+
+  export type BankAccountInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    familyMember?: boolean | BankAccount$familyMemberArgs<ExtArgs>
+    candidate?: boolean | BankAccount$candidateArgs<ExtArgs>
+    LegalResponsible?: boolean | BankAccount$LegalResponsibleArgs<ExtArgs>
+  }
+
+
+  export type $BankAccountPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    name: "BankAccount"
+    objects: {
+      familyMember: Prisma.$FamilyMemberPayload<ExtArgs> | null
+      candidate: Prisma.$CandidatePayload<ExtArgs> | null
+      LegalResponsible: Prisma.$LegalResponsiblePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetResult<{
+      id: string
+      main_id: string
+      bankName: string
+      agencyNumber: string
+      accountNumber: string
+      accountType: $Enums.AccountType
+      familyMember_id: string | null
+      candidate_id: string | null
+      legalResponsibleId: string | null
+      application_id: string
+    }, ExtArgs["result"]["bankAccount"]>
+    composites: {}
+  }
+
+
+  type BankAccountGetPayload<S extends boolean | null | undefined | BankAccountDefaultArgs> = $Result.GetResult<Prisma.$BankAccountPayload, S>
+
+  type BankAccountCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
+    Omit<BankAccountFindManyArgs, 'select' | 'include'> & {
+      select?: BankAccountCountAggregateInputType | true
+    }
+
+  export interface BankAccountDelegate<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BankAccount'], meta: { name: 'BankAccount' } }
+    /**
+     * Find zero or one BankAccount that matches the filter.
+     * @param {BankAccountFindUniqueArgs} args - Arguments to find a BankAccount
+     * @example
+     * // Get one BankAccount
+     * const bankAccount = await prisma.bankAccount.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends BankAccountFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, BankAccountFindUniqueArgs<ExtArgs>>
+    ): Prisma__BankAccountClient<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one BankAccount that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {BankAccountFindUniqueOrThrowArgs} args - Arguments to find a BankAccount
+     * @example
+     * // Get one BankAccount
+     * const bankAccount = await prisma.bankAccount.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends BankAccountFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, BankAccountFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__BankAccountClient<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first BankAccount that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankAccountFindFirstArgs} args - Arguments to find a BankAccount
+     * @example
+     * // Get one BankAccount
+     * const bankAccount = await prisma.bankAccount.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends BankAccountFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, BankAccountFindFirstArgs<ExtArgs>>
+    ): Prisma__BankAccountClient<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first BankAccount that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankAccountFindFirstOrThrowArgs} args - Arguments to find a BankAccount
+     * @example
+     * // Get one BankAccount
+     * const bankAccount = await prisma.bankAccount.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends BankAccountFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, BankAccountFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__BankAccountClient<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more BankAccounts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankAccountFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BankAccounts
+     * const bankAccounts = await prisma.bankAccount.findMany()
+     * 
+     * // Get first 10 BankAccounts
+     * const bankAccounts = await prisma.bankAccount.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bankAccountWithIdOnly = await prisma.bankAccount.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends BankAccountFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, BankAccountFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a BankAccount.
+     * @param {BankAccountCreateArgs} args - Arguments to create a BankAccount.
+     * @example
+     * // Create one BankAccount
+     * const BankAccount = await prisma.bankAccount.create({
+     *   data: {
+     *     // ... data to create a BankAccount
+     *   }
+     * })
+     * 
+    **/
+    create<T extends BankAccountCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, BankAccountCreateArgs<ExtArgs>>
+    ): Prisma__BankAccountClient<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many BankAccounts.
+     *     @param {BankAccountCreateManyArgs} args - Arguments to create many BankAccounts.
+     *     @example
+     *     // Create many BankAccounts
+     *     const bankAccount = await prisma.bankAccount.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends BankAccountCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, BankAccountCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a BankAccount.
+     * @param {BankAccountDeleteArgs} args - Arguments to delete one BankAccount.
+     * @example
+     * // Delete one BankAccount
+     * const BankAccount = await prisma.bankAccount.delete({
+     *   where: {
+     *     // ... filter to delete one BankAccount
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends BankAccountDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, BankAccountDeleteArgs<ExtArgs>>
+    ): Prisma__BankAccountClient<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one BankAccount.
+     * @param {BankAccountUpdateArgs} args - Arguments to update one BankAccount.
+     * @example
+     * // Update one BankAccount
+     * const bankAccount = await prisma.bankAccount.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends BankAccountUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, BankAccountUpdateArgs<ExtArgs>>
+    ): Prisma__BankAccountClient<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more BankAccounts.
+     * @param {BankAccountDeleteManyArgs} args - Arguments to filter BankAccounts to delete.
+     * @example
+     * // Delete a few BankAccounts
+     * const { count } = await prisma.bankAccount.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends BankAccountDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, BankAccountDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BankAccounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankAccountUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BankAccounts
+     * const bankAccount = await prisma.bankAccount.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends BankAccountUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, BankAccountUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one BankAccount.
+     * @param {BankAccountUpsertArgs} args - Arguments to update or create a BankAccount.
+     * @example
+     * // Update or create a BankAccount
+     * const bankAccount = await prisma.bankAccount.upsert({
+     *   create: {
+     *     // ... data to create a BankAccount
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BankAccount we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends BankAccountUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, BankAccountUpsertArgs<ExtArgs>>
+    ): Prisma__BankAccountClient<$Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of BankAccounts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankAccountCountArgs} args - Arguments to filter BankAccounts to count.
+     * @example
+     * // Count the number of BankAccounts
+     * const count = await prisma.bankAccount.count({
+     *   where: {
+     *     // ... the filter for the BankAccounts we want to count
+     *   }
+     * })
+    **/
+    count<T extends BankAccountCountArgs>(
+      args?: Subset<T, BankAccountCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BankAccountCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BankAccount.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankAccountAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BankAccountAggregateArgs>(args: Subset<T, BankAccountAggregateArgs>): Prisma.PrismaPromise<GetBankAccountAggregateType<T>>
+
+    /**
+     * Group by BankAccount.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BankAccountGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BankAccountGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BankAccountGroupByArgs['orderBy'] }
+        : { orderBy?: BankAccountGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BankAccountGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBankAccountGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BankAccount model
+   */
+  readonly fields: BankAccountFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BankAccount.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BankAccountClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    familyMember<T extends BankAccount$familyMemberArgs<ExtArgs> = {}>(args?: Subset<T, BankAccount$familyMemberArgs<ExtArgs>>): Prisma__FamilyMemberClient<$Result.GetResult<Prisma.$FamilyMemberPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
+    candidate<T extends BankAccount$candidateArgs<ExtArgs> = {}>(args?: Subset<T, BankAccount$candidateArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
+    LegalResponsible<T extends BankAccount$LegalResponsibleArgs<ExtArgs> = {}>(args?: Subset<T, BankAccount$LegalResponsibleArgs<ExtArgs>>): Prisma__LegalResponsibleClient<$Result.GetResult<Prisma.$LegalResponsiblePayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the BankAccount model
+   */ 
+  interface BankAccountFieldRefs {
+    readonly id: FieldRef<"BankAccount", 'String'>
+    readonly main_id: FieldRef<"BankAccount", 'String'>
+    readonly bankName: FieldRef<"BankAccount", 'String'>
+    readonly agencyNumber: FieldRef<"BankAccount", 'String'>
+    readonly accountNumber: FieldRef<"BankAccount", 'String'>
+    readonly accountType: FieldRef<"BankAccount", 'AccountType'>
+    readonly familyMember_id: FieldRef<"BankAccount", 'String'>
+    readonly candidate_id: FieldRef<"BankAccount", 'String'>
+    readonly legalResponsibleId: FieldRef<"BankAccount", 'String'>
+    readonly application_id: FieldRef<"BankAccount", 'String'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * BankAccount findUnique
+   */
+  export type BankAccountFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BankAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which BankAccount to fetch.
+     */
+    where: BankAccountWhereUniqueInput
+  }
+
+
+  /**
+   * BankAccount findUniqueOrThrow
+   */
+  export type BankAccountFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BankAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which BankAccount to fetch.
+     */
+    where: BankAccountWhereUniqueInput
+  }
+
+
+  /**
+   * BankAccount findFirst
+   */
+  export type BankAccountFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BankAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which BankAccount to fetch.
+     */
+    where?: BankAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BankAccounts to fetch.
+     */
+    orderBy?: BankAccountOrderByWithRelationInput | BankAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BankAccounts.
+     */
+    cursor?: BankAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BankAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BankAccounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BankAccounts.
+     */
+    distinct?: BankAccountScalarFieldEnum | BankAccountScalarFieldEnum[]
+  }
+
+
+  /**
+   * BankAccount findFirstOrThrow
+   */
+  export type BankAccountFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BankAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which BankAccount to fetch.
+     */
+    where?: BankAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BankAccounts to fetch.
+     */
+    orderBy?: BankAccountOrderByWithRelationInput | BankAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BankAccounts.
+     */
+    cursor?: BankAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BankAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BankAccounts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BankAccounts.
+     */
+    distinct?: BankAccountScalarFieldEnum | BankAccountScalarFieldEnum[]
+  }
+
+
+  /**
+   * BankAccount findMany
+   */
+  export type BankAccountFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BankAccountInclude<ExtArgs> | null
+    /**
+     * Filter, which BankAccounts to fetch.
+     */
+    where?: BankAccountWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BankAccounts to fetch.
+     */
+    orderBy?: BankAccountOrderByWithRelationInput | BankAccountOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BankAccounts.
+     */
+    cursor?: BankAccountWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BankAccounts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BankAccounts.
+     */
+    skip?: number
+    distinct?: BankAccountScalarFieldEnum | BankAccountScalarFieldEnum[]
+  }
+
+
+  /**
+   * BankAccount create
+   */
+  export type BankAccountCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BankAccountInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BankAccount.
+     */
+    data: XOR<BankAccountCreateInput, BankAccountUncheckedCreateInput>
+  }
+
+
+  /**
+   * BankAccount createMany
+   */
+  export type BankAccountCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BankAccounts.
+     */
+    data: BankAccountCreateManyInput | BankAccountCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * BankAccount update
+   */
+  export type BankAccountUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BankAccountInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BankAccount.
+     */
+    data: XOR<BankAccountUpdateInput, BankAccountUncheckedUpdateInput>
+    /**
+     * Choose, which BankAccount to update.
+     */
+    where: BankAccountWhereUniqueInput
+  }
+
+
+  /**
+   * BankAccount updateMany
+   */
+  export type BankAccountUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BankAccounts.
+     */
+    data: XOR<BankAccountUpdateManyMutationInput, BankAccountUncheckedUpdateManyInput>
+    /**
+     * Filter which BankAccounts to update
+     */
+    where?: BankAccountWhereInput
+  }
+
+
+  /**
+   * BankAccount upsert
+   */
+  export type BankAccountUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BankAccountInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BankAccount to update in case it exists.
+     */
+    where: BankAccountWhereUniqueInput
+    /**
+     * In case the BankAccount found by the `where` argument doesn't exist, create a new BankAccount with this data.
+     */
+    create: XOR<BankAccountCreateInput, BankAccountUncheckedCreateInput>
+    /**
+     * In case the BankAccount was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BankAccountUpdateInput, BankAccountUncheckedUpdateInput>
+  }
+
+
+  /**
+   * BankAccount delete
+   */
+  export type BankAccountDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BankAccountInclude<ExtArgs> | null
+    /**
+     * Filter which BankAccount to delete.
+     */
+    where: BankAccountWhereUniqueInput
+  }
+
+
+  /**
+   * BankAccount deleteMany
+   */
+  export type BankAccountDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BankAccounts to delete
+     */
+    where?: BankAccountWhereInput
+  }
+
+
+  /**
+   * BankAccount.familyMember
+   */
+  export type BankAccount$familyMemberArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FamilyMember
+     */
+    select?: FamilyMemberSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: FamilyMemberInclude<ExtArgs> | null
+    where?: FamilyMemberWhereInput
+  }
+
+
+  /**
+   * BankAccount.candidate
+   */
+  export type BankAccount$candidateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    where?: CandidateWhereInput
+  }
+
+
+  /**
+   * BankAccount.LegalResponsible
+   */
+  export type BankAccount$LegalResponsibleArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LegalResponsible
+     */
+    select?: LegalResponsibleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: LegalResponsibleInclude<ExtArgs> | null
+    where?: LegalResponsibleWhereInput
+  }
+
+
+  /**
+   * BankAccount without action
+   */
+  export type BankAccountDefaultArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BankAccount
+     */
+    select?: BankAccountSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: BankAccountInclude<ExtArgs> | null
   }
 
 
@@ -27624,6 +29163,8 @@ export namespace Prisma {
     familyMember?: boolean | FamilyMemberDisease$familyMemberArgs<ExtArgs>
     candidate?: boolean | FamilyMemberDisease$candidateArgs<ExtArgs>
     legalResponsible?: boolean | FamilyMemberDisease$legalResponsibleArgs<ExtArgs>
+    Medication?: boolean | FamilyMemberDisease$MedicationArgs<ExtArgs>
+    _count?: boolean | FamilyMemberDiseaseCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["familyMemberDisease"]>
 
   export type FamilyMemberDiseaseSelectScalar = {
@@ -27643,6 +29184,8 @@ export namespace Prisma {
     familyMember?: boolean | FamilyMemberDisease$familyMemberArgs<ExtArgs>
     candidate?: boolean | FamilyMemberDisease$candidateArgs<ExtArgs>
     legalResponsible?: boolean | FamilyMemberDisease$legalResponsibleArgs<ExtArgs>
+    Medication?: boolean | FamilyMemberDisease$MedicationArgs<ExtArgs>
+    _count?: boolean | FamilyMemberDiseaseCountOutputTypeDefaultArgs<ExtArgs>
   }
 
 
@@ -27652,6 +29195,7 @@ export namespace Prisma {
       familyMember: Prisma.$FamilyMemberPayload<ExtArgs> | null
       candidate: Prisma.$CandidatePayload<ExtArgs> | null
       legalResponsible: Prisma.$LegalResponsiblePayload<ExtArgs> | null
+      Medication: Prisma.$MedicationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetResult<{
       id: string
@@ -28034,6 +29578,8 @@ export namespace Prisma {
     candidate<T extends FamilyMemberDisease$candidateArgs<ExtArgs> = {}>(args?: Subset<T, FamilyMemberDisease$candidateArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
     legalResponsible<T extends FamilyMemberDisease$legalResponsibleArgs<ExtArgs> = {}>(args?: Subset<T, FamilyMemberDisease$legalResponsibleArgs<ExtArgs>>): Prisma__LegalResponsibleClient<$Result.GetResult<Prisma.$LegalResponsiblePayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
+    Medication<T extends FamilyMemberDisease$MedicationArgs<ExtArgs> = {}>(args?: Subset<T, FamilyMemberDisease$MedicationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MedicationPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -28433,6 +29979,27 @@ export namespace Prisma {
 
 
   /**
+   * FamilyMemberDisease.Medication
+   */
+  export type FamilyMemberDisease$MedicationArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Medication
+     */
+    select?: MedicationSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MedicationInclude<ExtArgs> | null
+    where?: MedicationWhereInput
+    orderBy?: MedicationOrderByWithRelationInput | MedicationOrderByWithRelationInput[]
+    cursor?: MedicationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MedicationScalarFieldEnum | MedicationScalarFieldEnum[]
+  }
+
+
+  /**
    * FamilyMemberDisease without action
    */
   export type FamilyMemberDiseaseDefaultArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -28468,6 +30035,7 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    familyMemberDiseaseId: string | null
   }
 
   export type MedicationMaxAggregateOutputType = {
@@ -28480,6 +30048,7 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    familyMemberDiseaseId: string | null
   }
 
   export type MedicationCountAggregateOutputType = {
@@ -28492,6 +30061,7 @@ export namespace Prisma {
     candidate_id: number
     legalResponsibleId: number
     application_id: number
+    familyMemberDiseaseId: number
     _all: number
   }
 
@@ -28506,6 +30076,7 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    familyMemberDiseaseId?: true
   }
 
   export type MedicationMaxAggregateInputType = {
@@ -28518,6 +30089,7 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    familyMemberDiseaseId?: true
   }
 
   export type MedicationCountAggregateInputType = {
@@ -28530,6 +30102,7 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    familyMemberDiseaseId?: true
     _all?: true
   }
 
@@ -28615,6 +30188,7 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string
+    familyMemberDiseaseId: string | null
     _count: MedicationCountAggregateOutputType | null
     _min: MedicationMinAggregateOutputType | null
     _max: MedicationMaxAggregateOutputType | null
@@ -28644,9 +30218,11 @@ export namespace Prisma {
     candidate_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    familyMemberDiseaseId?: boolean
     familyMember?: boolean | Medication$familyMemberArgs<ExtArgs>
     candidate?: boolean | Medication$candidateArgs<ExtArgs>
     legalResponsible?: boolean | Medication$legalResponsibleArgs<ExtArgs>
+    FamilyMemberDisease?: boolean | Medication$FamilyMemberDiseaseArgs<ExtArgs>
   }, ExtArgs["result"]["medication"]>
 
   export type MedicationSelectScalar = {
@@ -28659,12 +30235,14 @@ export namespace Prisma {
     candidate_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    familyMemberDiseaseId?: boolean
   }
 
   export type MedicationInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     familyMember?: boolean | Medication$familyMemberArgs<ExtArgs>
     candidate?: boolean | Medication$candidateArgs<ExtArgs>
     legalResponsible?: boolean | Medication$legalResponsibleArgs<ExtArgs>
+    FamilyMemberDisease?: boolean | Medication$FamilyMemberDiseaseArgs<ExtArgs>
   }
 
 
@@ -28674,6 +30252,7 @@ export namespace Prisma {
       familyMember: Prisma.$FamilyMemberPayload<ExtArgs> | null
       candidate: Prisma.$CandidatePayload<ExtArgs> | null
       legalResponsible: Prisma.$LegalResponsiblePayload<ExtArgs> | null
+      FamilyMemberDisease: Prisma.$FamilyMemberDiseasePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetResult<{
       id: string
@@ -28685,6 +30264,7 @@ export namespace Prisma {
       candidate_id: string | null
       legalResponsibleId: string | null
       application_id: string
+      familyMemberDiseaseId: string | null
     }, ExtArgs["result"]["medication"]>
     composites: {}
   }
@@ -29056,6 +30636,8 @@ export namespace Prisma {
 
     legalResponsible<T extends Medication$legalResponsibleArgs<ExtArgs> = {}>(args?: Subset<T, Medication$legalResponsibleArgs<ExtArgs>>): Prisma__LegalResponsibleClient<$Result.GetResult<Prisma.$LegalResponsiblePayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
+    FamilyMemberDisease<T extends Medication$FamilyMemberDiseaseArgs<ExtArgs> = {}>(args?: Subset<T, Medication$FamilyMemberDiseaseArgs<ExtArgs>>): Prisma__FamilyMemberDiseaseClient<$Result.GetResult<Prisma.$FamilyMemberDiseasePayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -29093,6 +30675,7 @@ export namespace Prisma {
     readonly candidate_id: FieldRef<"Medication", 'String'>
     readonly legalResponsibleId: FieldRef<"Medication", 'String'>
     readonly application_id: FieldRef<"Medication", 'String'>
+    readonly familyMemberDiseaseId: FieldRef<"Medication", 'String'>
   }
     
 
@@ -29453,6 +31036,22 @@ export namespace Prisma {
 
 
   /**
+   * Medication.FamilyMemberDisease
+   */
+  export type Medication$FamilyMemberDiseaseArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FamilyMemberDisease
+     */
+    select?: FamilyMemberDiseaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: FamilyMemberDiseaseInclude<ExtArgs> | null
+    where?: FamilyMemberDiseaseWhereInput
+  }
+
+
+  /**
    * Medication without action
    */
   export type MedicationDefaultArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -29464,6 +31063,1004 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well.
      */
     include?: MedicationInclude<ExtArgs> | null
+  }
+
+
+
+  /**
+   * Model Declarations
+   */
+
+  export type AggregateDeclarations = {
+    _count: DeclarationsCountAggregateOutputType | null
+    _min: DeclarationsMinAggregateOutputType | null
+    _max: DeclarationsMaxAggregateOutputType | null
+  }
+
+  export type DeclarationsMinAggregateOutputType = {
+    id: string | null
+    declarationType: $Enums.Declaration_Type | null
+    text: string | null
+    familyMember_id: string | null
+    candidate_id: string | null
+    legalResponsibleId: string | null
+    application_id: string | null
+  }
+
+  export type DeclarationsMaxAggregateOutputType = {
+    id: string | null
+    declarationType: $Enums.Declaration_Type | null
+    text: string | null
+    familyMember_id: string | null
+    candidate_id: string | null
+    legalResponsibleId: string | null
+    application_id: string | null
+  }
+
+  export type DeclarationsCountAggregateOutputType = {
+    id: number
+    declarationType: number
+    text: number
+    familyMember_id: number
+    candidate_id: number
+    legalResponsibleId: number
+    application_id: number
+    _all: number
+  }
+
+
+  export type DeclarationsMinAggregateInputType = {
+    id?: true
+    declarationType?: true
+    text?: true
+    familyMember_id?: true
+    candidate_id?: true
+    legalResponsibleId?: true
+    application_id?: true
+  }
+
+  export type DeclarationsMaxAggregateInputType = {
+    id?: true
+    declarationType?: true
+    text?: true
+    familyMember_id?: true
+    candidate_id?: true
+    legalResponsibleId?: true
+    application_id?: true
+  }
+
+  export type DeclarationsCountAggregateInputType = {
+    id?: true
+    declarationType?: true
+    text?: true
+    familyMember_id?: true
+    candidate_id?: true
+    legalResponsibleId?: true
+    application_id?: true
+    _all?: true
+  }
+
+  export type DeclarationsAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Declarations to aggregate.
+     */
+    where?: DeclarationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Declarations to fetch.
+     */
+    orderBy?: DeclarationsOrderByWithRelationInput | DeclarationsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DeclarationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Declarations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Declarations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Declarations
+    **/
+    _count?: true | DeclarationsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DeclarationsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DeclarationsMaxAggregateInputType
+  }
+
+  export type GetDeclarationsAggregateType<T extends DeclarationsAggregateArgs> = {
+        [P in keyof T & keyof AggregateDeclarations]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDeclarations[P]>
+      : GetScalarType<T[P], AggregateDeclarations[P]>
+  }
+
+
+
+
+  export type DeclarationsGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: DeclarationsWhereInput
+    orderBy?: DeclarationsOrderByWithAggregationInput | DeclarationsOrderByWithAggregationInput[]
+    by: DeclarationsScalarFieldEnum[] | DeclarationsScalarFieldEnum
+    having?: DeclarationsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DeclarationsCountAggregateInputType | true
+    _min?: DeclarationsMinAggregateInputType
+    _max?: DeclarationsMaxAggregateInputType
+  }
+
+  export type DeclarationsGroupByOutputType = {
+    id: string
+    declarationType: $Enums.Declaration_Type
+    text: string
+    familyMember_id: string | null
+    candidate_id: string | null
+    legalResponsibleId: string | null
+    application_id: string
+    _count: DeclarationsCountAggregateOutputType | null
+    _min: DeclarationsMinAggregateOutputType | null
+    _max: DeclarationsMaxAggregateOutputType | null
+  }
+
+  type GetDeclarationsGroupByPayload<T extends DeclarationsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DeclarationsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DeclarationsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DeclarationsGroupByOutputType[P]>
+            : GetScalarType<T[P], DeclarationsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DeclarationsSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    declarationType?: boolean
+    text?: boolean
+    familyMember_id?: boolean
+    candidate_id?: boolean
+    legalResponsibleId?: boolean
+    application_id?: boolean
+    candidate?: boolean | Declarations$candidateArgs<ExtArgs>
+    familyMember?: boolean | Declarations$familyMemberArgs<ExtArgs>
+    LegalResponsible?: boolean | Declarations$LegalResponsibleArgs<ExtArgs>
+  }, ExtArgs["result"]["declarations"]>
+
+  export type DeclarationsSelectScalar = {
+    id?: boolean
+    declarationType?: boolean
+    text?: boolean
+    familyMember_id?: boolean
+    candidate_id?: boolean
+    legalResponsibleId?: boolean
+    application_id?: boolean
+  }
+
+  export type DeclarationsInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    candidate?: boolean | Declarations$candidateArgs<ExtArgs>
+    familyMember?: boolean | Declarations$familyMemberArgs<ExtArgs>
+    LegalResponsible?: boolean | Declarations$LegalResponsibleArgs<ExtArgs>
+  }
+
+
+  export type $DeclarationsPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    name: "Declarations"
+    objects: {
+      candidate: Prisma.$CandidatePayload<ExtArgs> | null
+      familyMember: Prisma.$FamilyMemberPayload<ExtArgs> | null
+      LegalResponsible: Prisma.$LegalResponsiblePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetResult<{
+      id: string
+      declarationType: $Enums.Declaration_Type
+      text: string
+      familyMember_id: string | null
+      candidate_id: string | null
+      legalResponsibleId: string | null
+      application_id: string
+    }, ExtArgs["result"]["declarations"]>
+    composites: {}
+  }
+
+
+  type DeclarationsGetPayload<S extends boolean | null | undefined | DeclarationsDefaultArgs> = $Result.GetResult<Prisma.$DeclarationsPayload, S>
+
+  type DeclarationsCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
+    Omit<DeclarationsFindManyArgs, 'select' | 'include'> & {
+      select?: DeclarationsCountAggregateInputType | true
+    }
+
+  export interface DeclarationsDelegate<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Declarations'], meta: { name: 'Declarations' } }
+    /**
+     * Find zero or one Declarations that matches the filter.
+     * @param {DeclarationsFindUniqueArgs} args - Arguments to find a Declarations
+     * @example
+     * // Get one Declarations
+     * const declarations = await prisma.declarations.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends DeclarationsFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, DeclarationsFindUniqueArgs<ExtArgs>>
+    ): Prisma__DeclarationsClient<$Result.GetResult<Prisma.$DeclarationsPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one Declarations that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {DeclarationsFindUniqueOrThrowArgs} args - Arguments to find a Declarations
+     * @example
+     * // Get one Declarations
+     * const declarations = await prisma.declarations.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends DeclarationsFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, DeclarationsFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__DeclarationsClient<$Result.GetResult<Prisma.$DeclarationsPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first Declarations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeclarationsFindFirstArgs} args - Arguments to find a Declarations
+     * @example
+     * // Get one Declarations
+     * const declarations = await prisma.declarations.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends DeclarationsFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, DeclarationsFindFirstArgs<ExtArgs>>
+    ): Prisma__DeclarationsClient<$Result.GetResult<Prisma.$DeclarationsPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first Declarations that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeclarationsFindFirstOrThrowArgs} args - Arguments to find a Declarations
+     * @example
+     * // Get one Declarations
+     * const declarations = await prisma.declarations.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends DeclarationsFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, DeclarationsFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__DeclarationsClient<$Result.GetResult<Prisma.$DeclarationsPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more Declarations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeclarationsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Declarations
+     * const declarations = await prisma.declarations.findMany()
+     * 
+     * // Get first 10 Declarations
+     * const declarations = await prisma.declarations.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const declarationsWithIdOnly = await prisma.declarations.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends DeclarationsFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, DeclarationsFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeclarationsPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a Declarations.
+     * @param {DeclarationsCreateArgs} args - Arguments to create a Declarations.
+     * @example
+     * // Create one Declarations
+     * const Declarations = await prisma.declarations.create({
+     *   data: {
+     *     // ... data to create a Declarations
+     *   }
+     * })
+     * 
+    **/
+    create<T extends DeclarationsCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, DeclarationsCreateArgs<ExtArgs>>
+    ): Prisma__DeclarationsClient<$Result.GetResult<Prisma.$DeclarationsPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many Declarations.
+     *     @param {DeclarationsCreateManyArgs} args - Arguments to create many Declarations.
+     *     @example
+     *     // Create many Declarations
+     *     const declarations = await prisma.declarations.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends DeclarationsCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, DeclarationsCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Declarations.
+     * @param {DeclarationsDeleteArgs} args - Arguments to delete one Declarations.
+     * @example
+     * // Delete one Declarations
+     * const Declarations = await prisma.declarations.delete({
+     *   where: {
+     *     // ... filter to delete one Declarations
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends DeclarationsDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, DeclarationsDeleteArgs<ExtArgs>>
+    ): Prisma__DeclarationsClient<$Result.GetResult<Prisma.$DeclarationsPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one Declarations.
+     * @param {DeclarationsUpdateArgs} args - Arguments to update one Declarations.
+     * @example
+     * // Update one Declarations
+     * const declarations = await prisma.declarations.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends DeclarationsUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, DeclarationsUpdateArgs<ExtArgs>>
+    ): Prisma__DeclarationsClient<$Result.GetResult<Prisma.$DeclarationsPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more Declarations.
+     * @param {DeclarationsDeleteManyArgs} args - Arguments to filter Declarations to delete.
+     * @example
+     * // Delete a few Declarations
+     * const { count } = await prisma.declarations.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends DeclarationsDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, DeclarationsDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Declarations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeclarationsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Declarations
+     * const declarations = await prisma.declarations.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends DeclarationsUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, DeclarationsUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Declarations.
+     * @param {DeclarationsUpsertArgs} args - Arguments to update or create a Declarations.
+     * @example
+     * // Update or create a Declarations
+     * const declarations = await prisma.declarations.upsert({
+     *   create: {
+     *     // ... data to create a Declarations
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Declarations we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends DeclarationsUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, DeclarationsUpsertArgs<ExtArgs>>
+    ): Prisma__DeclarationsClient<$Result.GetResult<Prisma.$DeclarationsPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of Declarations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeclarationsCountArgs} args - Arguments to filter Declarations to count.
+     * @example
+     * // Count the number of Declarations
+     * const count = await prisma.declarations.count({
+     *   where: {
+     *     // ... the filter for the Declarations we want to count
+     *   }
+     * })
+    **/
+    count<T extends DeclarationsCountArgs>(
+      args?: Subset<T, DeclarationsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DeclarationsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Declarations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeclarationsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DeclarationsAggregateArgs>(args: Subset<T, DeclarationsAggregateArgs>): Prisma.PrismaPromise<GetDeclarationsAggregateType<T>>
+
+    /**
+     * Group by Declarations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeclarationsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DeclarationsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DeclarationsGroupByArgs['orderBy'] }
+        : { orderBy?: DeclarationsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DeclarationsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDeclarationsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Declarations model
+   */
+  readonly fields: DeclarationsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Declarations.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DeclarationsClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    candidate<T extends Declarations$candidateArgs<ExtArgs> = {}>(args?: Subset<T, Declarations$candidateArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
+    familyMember<T extends Declarations$familyMemberArgs<ExtArgs> = {}>(args?: Subset<T, Declarations$familyMemberArgs<ExtArgs>>): Prisma__FamilyMemberClient<$Result.GetResult<Prisma.$FamilyMemberPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
+    LegalResponsible<T extends Declarations$LegalResponsibleArgs<ExtArgs> = {}>(args?: Subset<T, Declarations$LegalResponsibleArgs<ExtArgs>>): Prisma__LegalResponsibleClient<$Result.GetResult<Prisma.$LegalResponsiblePayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the Declarations model
+   */ 
+  interface DeclarationsFieldRefs {
+    readonly id: FieldRef<"Declarations", 'String'>
+    readonly declarationType: FieldRef<"Declarations", 'Declaration_Type'>
+    readonly text: FieldRef<"Declarations", 'String'>
+    readonly familyMember_id: FieldRef<"Declarations", 'String'>
+    readonly candidate_id: FieldRef<"Declarations", 'String'>
+    readonly legalResponsibleId: FieldRef<"Declarations", 'String'>
+    readonly application_id: FieldRef<"Declarations", 'String'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * Declarations findUnique
+   */
+  export type DeclarationsFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declarations
+     */
+    select?: DeclarationsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DeclarationsInclude<ExtArgs> | null
+    /**
+     * Filter, which Declarations to fetch.
+     */
+    where: DeclarationsWhereUniqueInput
+  }
+
+
+  /**
+   * Declarations findUniqueOrThrow
+   */
+  export type DeclarationsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declarations
+     */
+    select?: DeclarationsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DeclarationsInclude<ExtArgs> | null
+    /**
+     * Filter, which Declarations to fetch.
+     */
+    where: DeclarationsWhereUniqueInput
+  }
+
+
+  /**
+   * Declarations findFirst
+   */
+  export type DeclarationsFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declarations
+     */
+    select?: DeclarationsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DeclarationsInclude<ExtArgs> | null
+    /**
+     * Filter, which Declarations to fetch.
+     */
+    where?: DeclarationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Declarations to fetch.
+     */
+    orderBy?: DeclarationsOrderByWithRelationInput | DeclarationsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Declarations.
+     */
+    cursor?: DeclarationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Declarations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Declarations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Declarations.
+     */
+    distinct?: DeclarationsScalarFieldEnum | DeclarationsScalarFieldEnum[]
+  }
+
+
+  /**
+   * Declarations findFirstOrThrow
+   */
+  export type DeclarationsFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declarations
+     */
+    select?: DeclarationsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DeclarationsInclude<ExtArgs> | null
+    /**
+     * Filter, which Declarations to fetch.
+     */
+    where?: DeclarationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Declarations to fetch.
+     */
+    orderBy?: DeclarationsOrderByWithRelationInput | DeclarationsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Declarations.
+     */
+    cursor?: DeclarationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Declarations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Declarations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Declarations.
+     */
+    distinct?: DeclarationsScalarFieldEnum | DeclarationsScalarFieldEnum[]
+  }
+
+
+  /**
+   * Declarations findMany
+   */
+  export type DeclarationsFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declarations
+     */
+    select?: DeclarationsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DeclarationsInclude<ExtArgs> | null
+    /**
+     * Filter, which Declarations to fetch.
+     */
+    where?: DeclarationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Declarations to fetch.
+     */
+    orderBy?: DeclarationsOrderByWithRelationInput | DeclarationsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Declarations.
+     */
+    cursor?: DeclarationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Declarations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Declarations.
+     */
+    skip?: number
+    distinct?: DeclarationsScalarFieldEnum | DeclarationsScalarFieldEnum[]
+  }
+
+
+  /**
+   * Declarations create
+   */
+  export type DeclarationsCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declarations
+     */
+    select?: DeclarationsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DeclarationsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Declarations.
+     */
+    data: XOR<DeclarationsCreateInput, DeclarationsUncheckedCreateInput>
+  }
+
+
+  /**
+   * Declarations createMany
+   */
+  export type DeclarationsCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Declarations.
+     */
+    data: DeclarationsCreateManyInput | DeclarationsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Declarations update
+   */
+  export type DeclarationsUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declarations
+     */
+    select?: DeclarationsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DeclarationsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Declarations.
+     */
+    data: XOR<DeclarationsUpdateInput, DeclarationsUncheckedUpdateInput>
+    /**
+     * Choose, which Declarations to update.
+     */
+    where: DeclarationsWhereUniqueInput
+  }
+
+
+  /**
+   * Declarations updateMany
+   */
+  export type DeclarationsUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Declarations.
+     */
+    data: XOR<DeclarationsUpdateManyMutationInput, DeclarationsUncheckedUpdateManyInput>
+    /**
+     * Filter which Declarations to update
+     */
+    where?: DeclarationsWhereInput
+  }
+
+
+  /**
+   * Declarations upsert
+   */
+  export type DeclarationsUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declarations
+     */
+    select?: DeclarationsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DeclarationsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Declarations to update in case it exists.
+     */
+    where: DeclarationsWhereUniqueInput
+    /**
+     * In case the Declarations found by the `where` argument doesn't exist, create a new Declarations with this data.
+     */
+    create: XOR<DeclarationsCreateInput, DeclarationsUncheckedCreateInput>
+    /**
+     * In case the Declarations was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DeclarationsUpdateInput, DeclarationsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Declarations delete
+   */
+  export type DeclarationsDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declarations
+     */
+    select?: DeclarationsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DeclarationsInclude<ExtArgs> | null
+    /**
+     * Filter which Declarations to delete.
+     */
+    where: DeclarationsWhereUniqueInput
+  }
+
+
+  /**
+   * Declarations deleteMany
+   */
+  export type DeclarationsDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Declarations to delete
+     */
+    where?: DeclarationsWhereInput
+  }
+
+
+  /**
+   * Declarations.candidate
+   */
+  export type Declarations$candidateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    where?: CandidateWhereInput
+  }
+
+
+  /**
+   * Declarations.familyMember
+   */
+  export type Declarations$familyMemberArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FamilyMember
+     */
+    select?: FamilyMemberSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: FamilyMemberInclude<ExtArgs> | null
+    where?: FamilyMemberWhereInput
+  }
+
+
+  /**
+   * Declarations.LegalResponsible
+   */
+  export type Declarations$LegalResponsibleArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LegalResponsible
+     */
+    select?: LegalResponsibleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: LegalResponsibleInclude<ExtArgs> | null
+    where?: LegalResponsibleWhereInput
+  }
+
+
+  /**
+   * Declarations without action
+   */
+  export type DeclarationsDefaultArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declarations
+     */
+    select?: DeclarationsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: DeclarationsInclude<ExtArgs> | null
   }
 
 
@@ -37940,6 +40537,9 @@ export namespace Prisma {
     address: 'address',
     addressNumber: 'addressNumber',
     neighborhood: 'neighborhood',
+    city: 'city',
+    UF: 'UF',
+    CEP: 'CEP',
     specialNeedsDescription: 'specialNeedsDescription',
     hasMedicalReport: 'hasMedicalReport',
     email: 'email',
@@ -38056,6 +40656,7 @@ export namespace Prisma {
     insuranceValue: 'insuranceValue',
     usage: 'usage',
     candidate_id: 'candidate_id',
+    owners_id: 'owners_id',
     legalResponsibleId: 'legalResponsibleId',
     application_id: 'application_id'
   };
@@ -38120,6 +40721,22 @@ export namespace Prisma {
   };
 
   export type MonthlyIncomeScalarFieldEnum = (typeof MonthlyIncomeScalarFieldEnum)[keyof typeof MonthlyIncomeScalarFieldEnum]
+
+
+  export const BankAccountScalarFieldEnum: {
+    id: 'id',
+    main_id: 'main_id',
+    bankName: 'bankName',
+    agencyNumber: 'agencyNumber',
+    accountNumber: 'accountNumber',
+    accountType: 'accountType',
+    familyMember_id: 'familyMember_id',
+    candidate_id: 'candidate_id',
+    legalResponsibleId: 'legalResponsibleId',
+    application_id: 'application_id'
+  };
+
+  export type BankAccountScalarFieldEnum = (typeof BankAccountScalarFieldEnum)[keyof typeof BankAccountScalarFieldEnum]
 
 
   export const ExpenseScalarFieldEnum: {
@@ -38265,10 +40882,24 @@ export namespace Prisma {
     familyMember_id: 'familyMember_id',
     candidate_id: 'candidate_id',
     legalResponsibleId: 'legalResponsibleId',
-    application_id: 'application_id'
+    application_id: 'application_id',
+    familyMemberDiseaseId: 'familyMemberDiseaseId'
   };
 
   export type MedicationScalarFieldEnum = (typeof MedicationScalarFieldEnum)[keyof typeof MedicationScalarFieldEnum]
+
+
+  export const DeclarationsScalarFieldEnum: {
+    id: 'id',
+    declarationType: 'declarationType',
+    text: 'text',
+    familyMember_id: 'familyMember_id',
+    candidate_id: 'candidate_id',
+    legalResponsibleId: 'legalResponsibleId',
+    application_id: 'application_id'
+  };
+
+  export type DeclarationsScalarFieldEnum = (typeof DeclarationsScalarFieldEnum)[keyof typeof DeclarationsScalarFieldEnum]
 
 
   export const AnnouncementInterviewScalarFieldEnum: {
@@ -38826,6 +41457,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'AccountType'
+   */
+  export type EnumAccountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccountType'>
+    
+
+
+  /**
+   * Reference to a field of type 'AccountType[]'
+   */
+  export type ListEnumAccountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccountType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'FinancingType'
    */
   export type EnumFinancingTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FinancingType'>
@@ -38850,6 +41495,20 @@ export namespace Prisma {
    * Reference to a field of type 'Disease[]'
    */
   export type ListEnumDiseaseFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Disease[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Declaration_Type'
+   */
+  export type EnumDeclaration_TypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Declaration_Type'>
+    
+
+
+  /**
+   * Reference to a field of type 'Declaration_Type[]'
+   */
+  export type ListEnumDeclaration_TypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Declaration_Type[]'>
     
 
 
@@ -39082,6 +41741,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeListRelationFilter
     FamilyMemberDisease?: FamilyMemberDiseaseListRelationFilter
     Medication?: MedicationListRelationFilter
+    BankAccount?: BankAccountListRelationFilter
+    Declarations?: DeclarationsListRelationFilter
   }
 
   export type CandidateOrderByWithRelationInput = {
@@ -39120,6 +41781,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeOrderByRelationAggregateInput
     FamilyMemberDisease?: FamilyMemberDiseaseOrderByRelationAggregateInput
     Medication?: MedicationOrderByRelationAggregateInput
+    BankAccount?: BankAccountOrderByRelationAggregateInput
+    Declarations?: DeclarationsOrderByRelationAggregateInput
   }
 
   export type CandidateWhereUniqueInput = Prisma.AtLeast<{
@@ -39162,6 +41825,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeListRelationFilter
     FamilyMemberDisease?: FamilyMemberDiseaseListRelationFilter
     Medication?: MedicationListRelationFilter
+    BankAccount?: BankAccountListRelationFilter
+    Declarations?: DeclarationsListRelationFilter
   }, "id" | "application_id" | "id_responsible_id">
 
   export type CandidateOrderByWithAggregationInput = {
@@ -39329,6 +41994,8 @@ export namespace Prisma {
     Application?: ApplicationListRelationFilter
     FamilyMemberIncome?: FamilyMemberIncomeListRelationFilter
     MonthlyIncome?: MonthlyIncomeListRelationFilter
+    BankAccount?: BankAccountListRelationFilter
+    Declarations?: DeclarationsListRelationFilter
   }
 
   export type LegalResponsibleOrderByWithRelationInput = {
@@ -39372,6 +42039,8 @@ export namespace Prisma {
     Application?: ApplicationOrderByRelationAggregateInput
     FamilyMemberIncome?: FamilyMemberIncomeOrderByRelationAggregateInput
     MonthlyIncome?: MonthlyIncomeOrderByRelationAggregateInput
+    BankAccount?: BankAccountOrderByRelationAggregateInput
+    Declarations?: DeclarationsOrderByRelationAggregateInput
   }
 
   export type LegalResponsibleWhereUniqueInput = Prisma.AtLeast<{
@@ -39419,6 +42088,8 @@ export namespace Prisma {
     Application?: ApplicationListRelationFilter
     FamilyMemberIncome?: FamilyMemberIncomeListRelationFilter
     MonthlyIncome?: MonthlyIncomeListRelationFilter
+    BankAccount?: BankAccountListRelationFilter
+    Declarations?: DeclarationsListRelationFilter
   }, "id" | "application_id" | "id_user_id">
 
   export type LegalResponsibleOrderByWithAggregationInput = {
@@ -39887,6 +42558,9 @@ export namespace Prisma {
     address?: StringNullableFilter<"IdentityDetails"> | string | null
     addressNumber?: StringNullableFilter<"IdentityDetails"> | string | null
     neighborhood?: StringNullableFilter<"IdentityDetails"> | string | null
+    city?: StringNullableFilter<"IdentityDetails"> | string | null
+    UF?: EnumCOUNTRYNullableFilter<"IdentityDetails"> | $Enums.COUNTRY | null
+    CEP?: StringNullableFilter<"IdentityDetails"> | string | null
     specialNeedsDescription?: StringNullableFilter<"IdentityDetails"> | string | null
     hasMedicalReport?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     email?: StringNullableFilter<"IdentityDetails"> | string | null
@@ -39945,6 +42619,9 @@ export namespace Prisma {
     address?: SortOrderInput | SortOrder
     addressNumber?: SortOrderInput | SortOrder
     neighborhood?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    UF?: SortOrderInput | SortOrder
+    CEP?: SortOrderInput | SortOrder
     specialNeedsDescription?: SortOrderInput | SortOrder
     hasMedicalReport?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
@@ -40007,6 +42684,9 @@ export namespace Prisma {
     address?: StringNullableFilter<"IdentityDetails"> | string | null
     addressNumber?: StringNullableFilter<"IdentityDetails"> | string | null
     neighborhood?: StringNullableFilter<"IdentityDetails"> | string | null
+    city?: StringNullableFilter<"IdentityDetails"> | string | null
+    UF?: EnumCOUNTRYNullableFilter<"IdentityDetails"> | $Enums.COUNTRY | null
+    CEP?: StringNullableFilter<"IdentityDetails"> | string | null
     specialNeedsDescription?: StringNullableFilter<"IdentityDetails"> | string | null
     hasMedicalReport?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     email?: StringNullableFilter<"IdentityDetails"> | string | null
@@ -40064,6 +42744,9 @@ export namespace Prisma {
     address?: SortOrderInput | SortOrder
     addressNumber?: SortOrderInput | SortOrder
     neighborhood?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    UF?: SortOrderInput | SortOrder
+    CEP?: SortOrderInput | SortOrder
     specialNeedsDescription?: SortOrderInput | SortOrder
     hasMedicalReport?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
@@ -40126,6 +42809,9 @@ export namespace Prisma {
     address?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     addressNumber?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     neighborhood?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
+    city?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
+    UF?: EnumCOUNTRYNullableWithAggregatesFilter<"IdentityDetails"> | $Enums.COUNTRY | null
+    CEP?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     specialNeedsDescription?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     hasMedicalReport?: BoolNullableWithAggregatesFilter<"IdentityDetails"> | boolean | null
     email?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
@@ -40217,6 +42903,8 @@ export namespace Prisma {
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     Medication?: MedicationListRelationFilter
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
+    BankAccount?: BankAccountListRelationFilter
+    Declarations?: DeclarationsListRelationFilter
   }
 
   export type FamilyMemberOrderByWithRelationInput = {
@@ -40278,6 +42966,8 @@ export namespace Prisma {
     candidate?: CandidateOrderByWithRelationInput
     Medication?: MedicationOrderByRelationAggregateInput
     LegalResponsible?: LegalResponsibleOrderByWithRelationInput
+    BankAccount?: BankAccountOrderByRelationAggregateInput
+    Declarations?: DeclarationsOrderByRelationAggregateInput
   }
 
   export type FamilyMemberWhereUniqueInput = Prisma.AtLeast<{
@@ -40343,6 +43033,8 @@ export namespace Prisma {
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     Medication?: MedicationListRelationFilter
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
+    BankAccount?: BankAccountListRelationFilter
+    Declarations?: DeclarationsListRelationFilter
   }, "id" | "application_id_main_id">
 
   export type FamilyMemberOrderByWithAggregationInput = {
@@ -40563,6 +43255,7 @@ export namespace Prisma {
     insuranceValue?: FloatNullableFilter<"Vehicle"> | number | null
     usage?: EnumVehicleUsageFilter<"Vehicle"> | $Enums.VehicleUsage
     candidate_id?: StringNullableFilter<"Vehicle"> | string | null
+    owners_id?: StringNullableListFilter<"Vehicle">
     legalResponsibleId?: StringNullableFilter<"Vehicle"> | string | null
     application_id?: StringFilter<"Vehicle"> | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
@@ -40583,6 +43276,7 @@ export namespace Prisma {
     insuranceValue?: SortOrderInput | SortOrder
     usage?: SortOrder
     candidate_id?: SortOrderInput | SortOrder
+    owners_id?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
     candidate?: CandidateOrderByWithRelationInput
@@ -40607,6 +43301,7 @@ export namespace Prisma {
     insuranceValue?: FloatNullableFilter<"Vehicle"> | number | null
     usage?: EnumVehicleUsageFilter<"Vehicle"> | $Enums.VehicleUsage
     candidate_id?: StringNullableFilter<"Vehicle"> | string | null
+    owners_id?: StringNullableListFilter<"Vehicle">
     legalResponsibleId?: StringNullableFilter<"Vehicle"> | string | null
     application_id?: StringFilter<"Vehicle"> | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
@@ -40627,6 +43322,7 @@ export namespace Prisma {
     insuranceValue?: SortOrderInput | SortOrder
     usage?: SortOrder
     candidate_id?: SortOrderInput | SortOrder
+    owners_id?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
     _count?: VehicleCountOrderByAggregateInput
@@ -40652,6 +43348,7 @@ export namespace Prisma {
     insuranceValue?: FloatNullableWithAggregatesFilter<"Vehicle"> | number | null
     usage?: EnumVehicleUsageWithAggregatesFilter<"Vehicle"> | $Enums.VehicleUsage
     candidate_id?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
+    owners_id?: StringNullableListFilter<"Vehicle">
     legalResponsibleId?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
     application_id?: StringWithAggregatesFilter<"Vehicle"> | string
   }
@@ -40967,6 +43664,92 @@ export namespace Prisma {
     incomeSource?: EnumIncomeSourceNullableWithAggregatesFilter<"MonthlyIncome"> | $Enums.IncomeSource | null
     application_id?: StringWithAggregatesFilter<"MonthlyIncome"> | string
     legalResponsibleId?: StringNullableWithAggregatesFilter<"MonthlyIncome"> | string | null
+  }
+
+  export type BankAccountWhereInput = {
+    AND?: BankAccountWhereInput | BankAccountWhereInput[]
+    OR?: BankAccountWhereInput[]
+    NOT?: BankAccountWhereInput | BankAccountWhereInput[]
+    id?: StringFilter<"BankAccount"> | string
+    main_id?: StringFilter<"BankAccount"> | string
+    bankName?: StringFilter<"BankAccount"> | string
+    agencyNumber?: StringFilter<"BankAccount"> | string
+    accountNumber?: StringFilter<"BankAccount"> | string
+    accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
+    familyMember_id?: StringNullableFilter<"BankAccount"> | string | null
+    candidate_id?: StringNullableFilter<"BankAccount"> | string | null
+    legalResponsibleId?: StringNullableFilter<"BankAccount"> | string | null
+    application_id?: StringFilter<"BankAccount"> | string
+    familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
+    candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
+    LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
+  }
+
+  export type BankAccountOrderByWithRelationInput = {
+    id?: SortOrder
+    main_id?: SortOrder
+    bankName?: SortOrder
+    agencyNumber?: SortOrder
+    accountNumber?: SortOrder
+    accountType?: SortOrder
+    familyMember_id?: SortOrderInput | SortOrder
+    candidate_id?: SortOrderInput | SortOrder
+    legalResponsibleId?: SortOrderInput | SortOrder
+    application_id?: SortOrder
+    familyMember?: FamilyMemberOrderByWithRelationInput
+    candidate?: CandidateOrderByWithRelationInput
+    LegalResponsible?: LegalResponsibleOrderByWithRelationInput
+  }
+
+  export type BankAccountWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BankAccountWhereInput | BankAccountWhereInput[]
+    OR?: BankAccountWhereInput[]
+    NOT?: BankAccountWhereInput | BankAccountWhereInput[]
+    main_id?: StringFilter<"BankAccount"> | string
+    bankName?: StringFilter<"BankAccount"> | string
+    agencyNumber?: StringFilter<"BankAccount"> | string
+    accountNumber?: StringFilter<"BankAccount"> | string
+    accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
+    familyMember_id?: StringNullableFilter<"BankAccount"> | string | null
+    candidate_id?: StringNullableFilter<"BankAccount"> | string | null
+    legalResponsibleId?: StringNullableFilter<"BankAccount"> | string | null
+    application_id?: StringFilter<"BankAccount"> | string
+    familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
+    candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
+    LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
+  }, "id">
+
+  export type BankAccountOrderByWithAggregationInput = {
+    id?: SortOrder
+    main_id?: SortOrder
+    bankName?: SortOrder
+    agencyNumber?: SortOrder
+    accountNumber?: SortOrder
+    accountType?: SortOrder
+    familyMember_id?: SortOrderInput | SortOrder
+    candidate_id?: SortOrderInput | SortOrder
+    legalResponsibleId?: SortOrderInput | SortOrder
+    application_id?: SortOrder
+    _count?: BankAccountCountOrderByAggregateInput
+    _max?: BankAccountMaxOrderByAggregateInput
+    _min?: BankAccountMinOrderByAggregateInput
+  }
+
+  export type BankAccountScalarWhereWithAggregatesInput = {
+    AND?: BankAccountScalarWhereWithAggregatesInput | BankAccountScalarWhereWithAggregatesInput[]
+    OR?: BankAccountScalarWhereWithAggregatesInput[]
+    NOT?: BankAccountScalarWhereWithAggregatesInput | BankAccountScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BankAccount"> | string
+    main_id?: StringWithAggregatesFilter<"BankAccount"> | string
+    bankName?: StringWithAggregatesFilter<"BankAccount"> | string
+    agencyNumber?: StringWithAggregatesFilter<"BankAccount"> | string
+    accountNumber?: StringWithAggregatesFilter<"BankAccount"> | string
+    accountType?: EnumAccountTypeWithAggregatesFilter<"BankAccount"> | $Enums.AccountType
+    familyMember_id?: StringNullableWithAggregatesFilter<"BankAccount"> | string | null
+    candidate_id?: StringNullableWithAggregatesFilter<"BankAccount"> | string | null
+    legalResponsibleId?: StringNullableWithAggregatesFilter<"BankAccount"> | string | null
+    application_id?: StringWithAggregatesFilter<"BankAccount"> | string
   }
 
   export type ExpenseWhereInput = {
@@ -41618,6 +44401,7 @@ export namespace Prisma {
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     legalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
+    Medication?: MedicationListRelationFilter
   }
 
   export type FamilyMemberDiseaseOrderByWithRelationInput = {
@@ -41634,6 +44418,7 @@ export namespace Prisma {
     familyMember?: FamilyMemberOrderByWithRelationInput
     candidate?: CandidateOrderByWithRelationInput
     legalResponsible?: LegalResponsibleOrderByWithRelationInput
+    Medication?: MedicationOrderByRelationAggregateInput
   }
 
   export type FamilyMemberDiseaseWhereUniqueInput = Prisma.AtLeast<{
@@ -41654,6 +44439,7 @@ export namespace Prisma {
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     legalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
+    Medication?: MedicationListRelationFilter
   }, "id" | "application_id_main_id">
 
   export type FamilyMemberDiseaseOrderByWithAggregationInput = {
@@ -41701,9 +44487,11 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"Medication"> | string | null
     legalResponsibleId?: StringNullableFilter<"Medication"> | string | null
     application_id?: StringFilter<"Medication"> | string
+    familyMemberDiseaseId?: StringNullableFilter<"Medication"> | string | null
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     legalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
+    FamilyMemberDisease?: XOR<FamilyMemberDiseaseNullableRelationFilter, FamilyMemberDiseaseWhereInput> | null
   }
 
   export type MedicationOrderByWithRelationInput = {
@@ -41716,9 +44504,11 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    familyMemberDiseaseId?: SortOrderInput | SortOrder
     familyMember?: FamilyMemberOrderByWithRelationInput
     candidate?: CandidateOrderByWithRelationInput
     legalResponsible?: LegalResponsibleOrderByWithRelationInput
+    FamilyMemberDisease?: FamilyMemberDiseaseOrderByWithRelationInput
   }
 
   export type MedicationWhereUniqueInput = Prisma.AtLeast<{
@@ -41735,9 +44525,11 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"Medication"> | string | null
     legalResponsibleId?: StringNullableFilter<"Medication"> | string | null
     application_id?: StringFilter<"Medication"> | string
+    familyMemberDiseaseId?: StringNullableFilter<"Medication"> | string | null
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     legalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
+    FamilyMemberDisease?: XOR<FamilyMemberDiseaseNullableRelationFilter, FamilyMemberDiseaseWhereInput> | null
   }, "id" | "application_id_main_id">
 
   export type MedicationOrderByWithAggregationInput = {
@@ -41750,6 +44542,7 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    familyMemberDiseaseId?: SortOrderInput | SortOrder
     _count?: MedicationCountOrderByAggregateInput
     _max?: MedicationMaxOrderByAggregateInput
     _min?: MedicationMinOrderByAggregateInput
@@ -41768,6 +44561,78 @@ export namespace Prisma {
     candidate_id?: StringNullableWithAggregatesFilter<"Medication"> | string | null
     legalResponsibleId?: StringNullableWithAggregatesFilter<"Medication"> | string | null
     application_id?: StringWithAggregatesFilter<"Medication"> | string
+    familyMemberDiseaseId?: StringNullableWithAggregatesFilter<"Medication"> | string | null
+  }
+
+  export type DeclarationsWhereInput = {
+    AND?: DeclarationsWhereInput | DeclarationsWhereInput[]
+    OR?: DeclarationsWhereInput[]
+    NOT?: DeclarationsWhereInput | DeclarationsWhereInput[]
+    id?: StringFilter<"Declarations"> | string
+    declarationType?: EnumDeclaration_TypeFilter<"Declarations"> | $Enums.Declaration_Type
+    text?: StringFilter<"Declarations"> | string
+    familyMember_id?: StringNullableFilter<"Declarations"> | string | null
+    candidate_id?: StringNullableFilter<"Declarations"> | string | null
+    legalResponsibleId?: StringNullableFilter<"Declarations"> | string | null
+    application_id?: StringFilter<"Declarations"> | string
+    candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
+    familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
+    LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
+  }
+
+  export type DeclarationsOrderByWithRelationInput = {
+    id?: SortOrder
+    declarationType?: SortOrder
+    text?: SortOrder
+    familyMember_id?: SortOrderInput | SortOrder
+    candidate_id?: SortOrderInput | SortOrder
+    legalResponsibleId?: SortOrderInput | SortOrder
+    application_id?: SortOrder
+    candidate?: CandidateOrderByWithRelationInput
+    familyMember?: FamilyMemberOrderByWithRelationInput
+    LegalResponsible?: LegalResponsibleOrderByWithRelationInput
+  }
+
+  export type DeclarationsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DeclarationsWhereInput | DeclarationsWhereInput[]
+    OR?: DeclarationsWhereInput[]
+    NOT?: DeclarationsWhereInput | DeclarationsWhereInput[]
+    declarationType?: EnumDeclaration_TypeFilter<"Declarations"> | $Enums.Declaration_Type
+    text?: StringFilter<"Declarations"> | string
+    familyMember_id?: StringNullableFilter<"Declarations"> | string | null
+    candidate_id?: StringNullableFilter<"Declarations"> | string | null
+    legalResponsibleId?: StringNullableFilter<"Declarations"> | string | null
+    application_id?: StringFilter<"Declarations"> | string
+    candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
+    familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
+    LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
+  }, "id">
+
+  export type DeclarationsOrderByWithAggregationInput = {
+    id?: SortOrder
+    declarationType?: SortOrder
+    text?: SortOrder
+    familyMember_id?: SortOrderInput | SortOrder
+    candidate_id?: SortOrderInput | SortOrder
+    legalResponsibleId?: SortOrderInput | SortOrder
+    application_id?: SortOrder
+    _count?: DeclarationsCountOrderByAggregateInput
+    _max?: DeclarationsMaxOrderByAggregateInput
+    _min?: DeclarationsMinOrderByAggregateInput
+  }
+
+  export type DeclarationsScalarWhereWithAggregatesInput = {
+    AND?: DeclarationsScalarWhereWithAggregatesInput | DeclarationsScalarWhereWithAggregatesInput[]
+    OR?: DeclarationsScalarWhereWithAggregatesInput[]
+    NOT?: DeclarationsScalarWhereWithAggregatesInput | DeclarationsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Declarations"> | string
+    declarationType?: EnumDeclaration_TypeWithAggregatesFilter<"Declarations"> | $Enums.Declaration_Type
+    text?: StringWithAggregatesFilter<"Declarations"> | string
+    familyMember_id?: StringNullableWithAggregatesFilter<"Declarations"> | string | null
+    candidate_id?: StringNullableWithAggregatesFilter<"Declarations"> | string | null
+    legalResponsibleId?: StringNullableWithAggregatesFilter<"Declarations"> | string | null
+    application_id?: StringWithAggregatesFilter<"Declarations"> | string
   }
 
   export type AnnouncementInterviewWhereInput = {
@@ -42547,6 +45412,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateInput = {
@@ -42584,6 +45451,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUpdateInput = {
@@ -42621,6 +45490,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateInput = {
@@ -42658,6 +45529,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateCreateManyInput = {
@@ -42848,6 +45721,8 @@ export namespace Prisma {
     Application?: ApplicationCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUncheckedCreateInput = {
@@ -42891,6 +45766,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUpdateInput = {
@@ -42934,6 +45811,8 @@ export namespace Prisma {
     Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleUncheckedUpdateInput = {
@@ -42977,6 +45856,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleCreateManyInput = {
@@ -43497,6 +46378,9 @@ export namespace Prisma {
     address?: string | null
     addressNumber?: string | null
     neighborhood?: string | null
+    city?: string | null
+    UF?: $Enums.COUNTRY | null
+    CEP?: string | null
     specialNeedsDescription?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
@@ -43553,6 +46437,9 @@ export namespace Prisma {
     address?: string | null
     addressNumber?: string | null
     neighborhood?: string | null
+    city?: string | null
+    UF?: $Enums.COUNTRY | null
+    CEP?: string | null
     specialNeedsDescription?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
@@ -43609,6 +46496,9 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     addressNumber?: NullableStringFieldUpdateOperationsInput | string | null
     neighborhood?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
+    CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43665,6 +46555,9 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     addressNumber?: NullableStringFieldUpdateOperationsInput | string | null
     neighborhood?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
+    CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43721,6 +46614,9 @@ export namespace Prisma {
     address?: string | null
     addressNumber?: string | null
     neighborhood?: string | null
+    city?: string | null
+    UF?: $Enums.COUNTRY | null
+    CEP?: string | null
     specialNeedsDescription?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
@@ -43777,6 +46673,9 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     addressNumber?: NullableStringFieldUpdateOperationsInput | string | null
     neighborhood?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
+    CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43831,6 +46730,9 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     addressNumber?: NullableStringFieldUpdateOperationsInput | string | null
     neighborhood?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
+    CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43917,6 +46819,8 @@ export namespace Prisma {
     candidate?: CandidateCreateNestedOneWithoutFamillyMemberInput
     Medication?: MedicationCreateNestedManyWithoutFamilyMemberInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamillyMemberInput
+    BankAccount?: BankAccountCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberUncheckedCreateInput = {
@@ -43976,6 +46880,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutFamilyMembersInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutFamilyMemberInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberUpdateInput = {
@@ -44035,6 +46941,8 @@ export namespace Prisma {
     candidate?: CandidateUpdateOneWithoutFamillyMemberNestedInput
     Medication?: MedicationUpdateManyWithoutFamilyMemberNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFamillyMemberNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type FamilyMemberUncheckedUpdateInput = {
@@ -44094,6 +47002,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutFamilyMembersNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type FamilyMemberCreateManyInput = {
@@ -44359,6 +47269,7 @@ export namespace Prisma {
     hasInsurance?: boolean
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
+    owners_id?: VehicleCreateowners_idInput | string[]
     application_id: string
     candidate?: CandidateCreateNestedOneWithoutVehicleInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleCreateNestedManyWithoutVehicleInput
@@ -44378,6 +47289,7 @@ export namespace Prisma {
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
     candidate_id?: string | null
+    owners_id?: VehicleCreateowners_idInput | string[]
     legalResponsibleId?: string | null
     application_id: string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutVehicleInput
@@ -44395,6 +47307,7 @@ export namespace Prisma {
     hasInsurance?: BoolFieldUpdateOperationsInput | boolean
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
+    owners_id?: VehicleUpdateowners_idInput | string[]
     application_id?: StringFieldUpdateOperationsInput | string
     candidate?: CandidateUpdateOneWithoutVehicleNestedInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleUpdateManyWithoutVehicleNestedInput
@@ -44414,6 +47327,7 @@ export namespace Prisma {
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    owners_id?: VehicleUpdateowners_idInput | string[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutVehicleNestedInput
@@ -44432,6 +47346,7 @@ export namespace Prisma {
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
     candidate_id?: string | null
+    owners_id?: VehicleCreateowners_idInput | string[]
     legalResponsibleId?: string | null
     application_id: string
   }
@@ -44448,6 +47363,7 @@ export namespace Prisma {
     hasInsurance?: BoolFieldUpdateOperationsInput | boolean
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
+    owners_id?: VehicleUpdateowners_idInput | string[]
     application_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -44464,6 +47380,7 @@ export namespace Prisma {
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    owners_id?: VehicleUpdateowners_idInput | string[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
   }
@@ -44831,6 +47748,94 @@ export namespace Prisma {
     incomeSource?: NullableEnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource | null
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BankAccountCreateInput = {
+    id?: string
+    main_id: string
+    bankName: string
+    agencyNumber: string
+    accountNumber: string
+    accountType: $Enums.AccountType
+    application_id: string
+    familyMember?: FamilyMemberCreateNestedOneWithoutBankAccountInput
+    candidate?: CandidateCreateNestedOneWithoutBankAccountInput
+    LegalResponsible?: LegalResponsibleCreateNestedOneWithoutBankAccountInput
+  }
+
+  export type BankAccountUncheckedCreateInput = {
+    id?: string
+    main_id: string
+    bankName: string
+    agencyNumber: string
+    accountNumber: string
+    accountType: $Enums.AccountType
+    familyMember_id?: string | null
+    candidate_id?: string | null
+    legalResponsibleId?: string | null
+    application_id: string
+  }
+
+  export type BankAccountUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    agencyNumber?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    application_id?: StringFieldUpdateOperationsInput | string
+    familyMember?: FamilyMemberUpdateOneWithoutBankAccountNestedInput
+    candidate?: CandidateUpdateOneWithoutBankAccountNestedInput
+    LegalResponsible?: LegalResponsibleUpdateOneWithoutBankAccountNestedInput
+  }
+
+  export type BankAccountUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    agencyNumber?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BankAccountCreateManyInput = {
+    id?: string
+    main_id: string
+    bankName: string
+    agencyNumber: string
+    accountNumber: string
+    accountType: $Enums.AccountType
+    familyMember_id?: string | null
+    candidate_id?: string | null
+    legalResponsibleId?: string | null
+    application_id: string
+  }
+
+  export type BankAccountUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    agencyNumber?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BankAccountUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    agencyNumber?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type ExpenseCreateInput = {
@@ -45551,6 +48556,7 @@ export namespace Prisma {
     familyMember?: FamilyMemberCreateNestedOneWithoutFamilyMemberDiseaseInput
     candidate?: CandidateCreateNestedOneWithoutFamilyMemberDiseaseInput
     legalResponsible?: LegalResponsibleCreateNestedOneWithoutFamilyMemberDiseaseInput
+    Medication?: MedicationCreateNestedManyWithoutFamilyMemberDiseaseInput
   }
 
   export type FamilyMemberDiseaseUncheckedCreateInput = {
@@ -45564,6 +48570,7 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberDiseaseInput
   }
 
   export type FamilyMemberDiseaseUpdateInput = {
@@ -45577,6 +48584,7 @@ export namespace Prisma {
     familyMember?: FamilyMemberUpdateOneWithoutFamilyMemberDiseaseNestedInput
     candidate?: CandidateUpdateOneWithoutFamilyMemberDiseaseNestedInput
     legalResponsible?: LegalResponsibleUpdateOneWithoutFamilyMemberDiseaseNestedInput
+    Medication?: MedicationUpdateManyWithoutFamilyMemberDiseaseNestedInput
   }
 
   export type FamilyMemberDiseaseUncheckedUpdateInput = {
@@ -45590,6 +48598,7 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberDiseaseNestedInput
   }
 
   export type FamilyMemberDiseaseCreateManyInput = {
@@ -45638,6 +48647,7 @@ export namespace Prisma {
     familyMember?: FamilyMemberCreateNestedOneWithoutMedicationInput
     candidate?: CandidateCreateNestedOneWithoutMedicationInput
     legalResponsible?: LegalResponsibleCreateNestedOneWithoutMedicationInput
+    FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedOneWithoutMedicationInput
   }
 
   export type MedicationUncheckedCreateInput = {
@@ -45650,6 +48660,7 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    familyMemberDiseaseId?: string | null
   }
 
   export type MedicationUpdateInput = {
@@ -45662,6 +48673,7 @@ export namespace Prisma {
     familyMember?: FamilyMemberUpdateOneWithoutMedicationNestedInput
     candidate?: CandidateUpdateOneWithoutMedicationNestedInput
     legalResponsible?: LegalResponsibleUpdateOneWithoutMedicationNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUpdateOneWithoutMedicationNestedInput
   }
 
   export type MedicationUncheckedUpdateInput = {
@@ -45674,6 +48686,7 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    familyMemberDiseaseId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MedicationCreateManyInput = {
@@ -45686,6 +48699,7 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    familyMemberDiseaseId?: string | null
   }
 
   export type MedicationUpdateManyMutationInput = {
@@ -45703,6 +48717,74 @@ export namespace Prisma {
     medicationName?: StringFieldUpdateOperationsInput | string
     obtainedPublicly?: BoolFieldUpdateOperationsInput | boolean
     specificMedicationPublicly?: NullableStringFieldUpdateOperationsInput | string | null
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+    familyMemberDiseaseId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DeclarationsCreateInput = {
+    id?: string
+    declarationType: $Enums.Declaration_Type
+    text: string
+    application_id: string
+    candidate?: CandidateCreateNestedOneWithoutDeclarationsInput
+    familyMember?: FamilyMemberCreateNestedOneWithoutDeclarationsInput
+    LegalResponsible?: LegalResponsibleCreateNestedOneWithoutDeclarationsInput
+  }
+
+  export type DeclarationsUncheckedCreateInput = {
+    id?: string
+    declarationType: $Enums.Declaration_Type
+    text: string
+    familyMember_id?: string | null
+    candidate_id?: string | null
+    legalResponsibleId?: string | null
+    application_id: string
+  }
+
+  export type DeclarationsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
+    text?: StringFieldUpdateOperationsInput | string
+    application_id?: StringFieldUpdateOperationsInput | string
+    candidate?: CandidateUpdateOneWithoutDeclarationsNestedInput
+    familyMember?: FamilyMemberUpdateOneWithoutDeclarationsNestedInput
+    LegalResponsible?: LegalResponsibleUpdateOneWithoutDeclarationsNestedInput
+  }
+
+  export type DeclarationsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
+    text?: StringFieldUpdateOperationsInput | string
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DeclarationsCreateManyInput = {
+    id?: string
+    declarationType: $Enums.Declaration_Type
+    text: string
+    familyMember_id?: string | null
+    candidate_id?: string | null
+    legalResponsibleId?: string | null
+    application_id: string
+  }
+
+  export type DeclarationsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
+    text?: StringFieldUpdateOperationsInput | string
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DeclarationsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
+    text?: StringFieldUpdateOperationsInput | string
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -46636,6 +49718,18 @@ export namespace Prisma {
     none?: MedicationWhereInput
   }
 
+  export type BankAccountListRelationFilter = {
+    every?: BankAccountWhereInput
+    some?: BankAccountWhereInput
+    none?: BankAccountWhereInput
+  }
+
+  export type DeclarationsListRelationFilter = {
+    every?: DeclarationsWhereInput
+    some?: DeclarationsWhereInput
+    none?: DeclarationsWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -46694,6 +49788,14 @@ export namespace Prisma {
   }
 
   export type MedicationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BankAccountOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DeclarationsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -47428,6 +50530,9 @@ export namespace Prisma {
     address?: SortOrder
     addressNumber?: SortOrder
     neighborhood?: SortOrder
+    city?: SortOrder
+    UF?: SortOrder
+    CEP?: SortOrder
     specialNeedsDescription?: SortOrder
     hasMedicalReport?: SortOrder
     email?: SortOrder
@@ -47484,6 +50589,9 @@ export namespace Prisma {
     address?: SortOrder
     addressNumber?: SortOrder
     neighborhood?: SortOrder
+    city?: SortOrder
+    UF?: SortOrder
+    CEP?: SortOrder
     specialNeedsDescription?: SortOrder
     hasMedicalReport?: SortOrder
     email?: SortOrder
@@ -47538,6 +50646,9 @@ export namespace Prisma {
     address?: SortOrder
     addressNumber?: SortOrder
     neighborhood?: SortOrder
+    city?: SortOrder
+    UF?: SortOrder
+    CEP?: SortOrder
     specialNeedsDescription?: SortOrder
     hasMedicalReport?: SortOrder
     email?: SortOrder
@@ -48049,6 +51160,7 @@ export namespace Prisma {
     insuranceValue?: SortOrder
     usage?: SortOrder
     candidate_id?: SortOrder
+    owners_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
   }
@@ -48430,6 +51542,62 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumIncomeSourceNullableFilter<$PrismaModel>
     _max?: NestedEnumIncomeSourceNullableFilter<$PrismaModel>
+  }
+
+  export type EnumAccountTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccountType | EnumAccountTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccountTypeFilter<$PrismaModel> | $Enums.AccountType
+  }
+
+  export type BankAccountCountOrderByAggregateInput = {
+    id?: SortOrder
+    main_id?: SortOrder
+    bankName?: SortOrder
+    agencyNumber?: SortOrder
+    accountNumber?: SortOrder
+    accountType?: SortOrder
+    familyMember_id?: SortOrder
+    candidate_id?: SortOrder
+    legalResponsibleId?: SortOrder
+    application_id?: SortOrder
+  }
+
+  export type BankAccountMaxOrderByAggregateInput = {
+    id?: SortOrder
+    main_id?: SortOrder
+    bankName?: SortOrder
+    agencyNumber?: SortOrder
+    accountNumber?: SortOrder
+    accountType?: SortOrder
+    familyMember_id?: SortOrder
+    candidate_id?: SortOrder
+    legalResponsibleId?: SortOrder
+    application_id?: SortOrder
+  }
+
+  export type BankAccountMinOrderByAggregateInput = {
+    id?: SortOrder
+    main_id?: SortOrder
+    bankName?: SortOrder
+    agencyNumber?: SortOrder
+    accountNumber?: SortOrder
+    accountType?: SortOrder
+    familyMember_id?: SortOrder
+    candidate_id?: SortOrder
+    legalResponsibleId?: SortOrder
+    application_id?: SortOrder
+  }
+
+  export type EnumAccountTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccountType | EnumAccountTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccountTypeWithAggregatesFilter<$PrismaModel> | $Enums.AccountType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAccountTypeFilter<$PrismaModel>
+    _max?: NestedEnumAccountTypeFilter<$PrismaModel>
   }
 
   export type FloatNullableListFilter<$PrismaModel = never> = {
@@ -48995,6 +52163,11 @@ export namespace Prisma {
     _max?: NestedEnumDiseaseNullableFilter<$PrismaModel>
   }
 
+  export type FamilyMemberDiseaseNullableRelationFilter = {
+    is?: FamilyMemberDiseaseWhereInput | null
+    isNot?: FamilyMemberDiseaseWhereInput | null
+  }
+
   export type MedicationApplication_idMain_idCompoundUniqueInput = {
     application_id: string
     main_id: string
@@ -49010,6 +52183,7 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    familyMemberDiseaseId?: SortOrder
   }
 
   export type MedicationMaxOrderByAggregateInput = {
@@ -49022,6 +52196,7 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    familyMemberDiseaseId?: SortOrder
   }
 
   export type MedicationMinOrderByAggregateInput = {
@@ -49034,6 +52209,54 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    familyMemberDiseaseId?: SortOrder
+  }
+
+  export type EnumDeclaration_TypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.Declaration_Type | EnumDeclaration_TypeFieldRefInput<$PrismaModel>
+    in?: $Enums.Declaration_Type[] | ListEnumDeclaration_TypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Declaration_Type[] | ListEnumDeclaration_TypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeclaration_TypeFilter<$PrismaModel> | $Enums.Declaration_Type
+  }
+
+  export type DeclarationsCountOrderByAggregateInput = {
+    id?: SortOrder
+    declarationType?: SortOrder
+    text?: SortOrder
+    familyMember_id?: SortOrder
+    candidate_id?: SortOrder
+    legalResponsibleId?: SortOrder
+    application_id?: SortOrder
+  }
+
+  export type DeclarationsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    declarationType?: SortOrder
+    text?: SortOrder
+    familyMember_id?: SortOrder
+    candidate_id?: SortOrder
+    legalResponsibleId?: SortOrder
+    application_id?: SortOrder
+  }
+
+  export type DeclarationsMinOrderByAggregateInput = {
+    id?: SortOrder
+    declarationType?: SortOrder
+    text?: SortOrder
+    familyMember_id?: SortOrder
+    candidate_id?: SortOrder
+    legalResponsibleId?: SortOrder
+    application_id?: SortOrder
+  }
+
+  export type EnumDeclaration_TypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Declaration_Type | EnumDeclaration_TypeFieldRefInput<$PrismaModel>
+    in?: $Enums.Declaration_Type[] | ListEnumDeclaration_TypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Declaration_Type[] | ListEnumDeclaration_TypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeclaration_TypeWithAggregatesFilter<$PrismaModel> | $Enums.Declaration_Type
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDeclaration_TypeFilter<$PrismaModel>
+    _max?: NestedEnumDeclaration_TypeFilter<$PrismaModel>
   }
 
   export type AnnouncementRelationFilter = {
@@ -49730,6 +52953,20 @@ export namespace Prisma {
     connect?: MedicationWhereUniqueInput | MedicationWhereUniqueInput[]
   }
 
+  export type BankAccountCreateNestedManyWithoutCandidateInput = {
+    create?: XOR<BankAccountCreateWithoutCandidateInput, BankAccountUncheckedCreateWithoutCandidateInput> | BankAccountCreateWithoutCandidateInput[] | BankAccountUncheckedCreateWithoutCandidateInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutCandidateInput | BankAccountCreateOrConnectWithoutCandidateInput[]
+    createMany?: BankAccountCreateManyCandidateInputEnvelope
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+  }
+
+  export type DeclarationsCreateNestedManyWithoutCandidateInput = {
+    create?: XOR<DeclarationsCreateWithoutCandidateInput, DeclarationsUncheckedCreateWithoutCandidateInput> | DeclarationsCreateWithoutCandidateInput[] | DeclarationsUncheckedCreateWithoutCandidateInput[]
+    connectOrCreate?: DeclarationsCreateOrConnectWithoutCandidateInput | DeclarationsCreateOrConnectWithoutCandidateInput[]
+    createMany?: DeclarationsCreateManyCandidateInputEnvelope
+    connect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+  }
+
   export type ApplicationUncheckedCreateNestedManyWithoutCandidateInput = {
     create?: XOR<ApplicationCreateWithoutCandidateInput, ApplicationUncheckedCreateWithoutCandidateInput> | ApplicationCreateWithoutCandidateInput[] | ApplicationUncheckedCreateWithoutCandidateInput[]
     connectOrCreate?: ApplicationCreateOrConnectWithoutCandidateInput | ApplicationCreateOrConnectWithoutCandidateInput[]
@@ -49826,6 +53063,20 @@ export namespace Prisma {
     connectOrCreate?: MedicationCreateOrConnectWithoutCandidateInput | MedicationCreateOrConnectWithoutCandidateInput[]
     createMany?: MedicationCreateManyCandidateInputEnvelope
     connect?: MedicationWhereUniqueInput | MedicationWhereUniqueInput[]
+  }
+
+  export type BankAccountUncheckedCreateNestedManyWithoutCandidateInput = {
+    create?: XOR<BankAccountCreateWithoutCandidateInput, BankAccountUncheckedCreateWithoutCandidateInput> | BankAccountCreateWithoutCandidateInput[] | BankAccountUncheckedCreateWithoutCandidateInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutCandidateInput | BankAccountCreateOrConnectWithoutCandidateInput[]
+    createMany?: BankAccountCreateManyCandidateInputEnvelope
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+  }
+
+  export type DeclarationsUncheckedCreateNestedManyWithoutCandidateInput = {
+    create?: XOR<DeclarationsCreateWithoutCandidateInput, DeclarationsUncheckedCreateWithoutCandidateInput> | DeclarationsCreateWithoutCandidateInput[] | DeclarationsUncheckedCreateWithoutCandidateInput[]
+    connectOrCreate?: DeclarationsCreateOrConnectWithoutCandidateInput | DeclarationsCreateOrConnectWithoutCandidateInput[]
+    createMany?: DeclarationsCreateManyCandidateInputEnvelope
+    connect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -50054,6 +53305,34 @@ export namespace Prisma {
     deleteMany?: MedicationScalarWhereInput | MedicationScalarWhereInput[]
   }
 
+  export type BankAccountUpdateManyWithoutCandidateNestedInput = {
+    create?: XOR<BankAccountCreateWithoutCandidateInput, BankAccountUncheckedCreateWithoutCandidateInput> | BankAccountCreateWithoutCandidateInput[] | BankAccountUncheckedCreateWithoutCandidateInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutCandidateInput | BankAccountCreateOrConnectWithoutCandidateInput[]
+    upsert?: BankAccountUpsertWithWhereUniqueWithoutCandidateInput | BankAccountUpsertWithWhereUniqueWithoutCandidateInput[]
+    createMany?: BankAccountCreateManyCandidateInputEnvelope
+    set?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    disconnect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    delete?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    update?: BankAccountUpdateWithWhereUniqueWithoutCandidateInput | BankAccountUpdateWithWhereUniqueWithoutCandidateInput[]
+    updateMany?: BankAccountUpdateManyWithWhereWithoutCandidateInput | BankAccountUpdateManyWithWhereWithoutCandidateInput[]
+    deleteMany?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
+  }
+
+  export type DeclarationsUpdateManyWithoutCandidateNestedInput = {
+    create?: XOR<DeclarationsCreateWithoutCandidateInput, DeclarationsUncheckedCreateWithoutCandidateInput> | DeclarationsCreateWithoutCandidateInput[] | DeclarationsUncheckedCreateWithoutCandidateInput[]
+    connectOrCreate?: DeclarationsCreateOrConnectWithoutCandidateInput | DeclarationsCreateOrConnectWithoutCandidateInput[]
+    upsert?: DeclarationsUpsertWithWhereUniqueWithoutCandidateInput | DeclarationsUpsertWithWhereUniqueWithoutCandidateInput[]
+    createMany?: DeclarationsCreateManyCandidateInputEnvelope
+    set?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    disconnect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    delete?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    connect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    update?: DeclarationsUpdateWithWhereUniqueWithoutCandidateInput | DeclarationsUpdateWithWhereUniqueWithoutCandidateInput[]
+    updateMany?: DeclarationsUpdateManyWithWhereWithoutCandidateInput | DeclarationsUpdateManyWithWhereWithoutCandidateInput[]
+    deleteMany?: DeclarationsScalarWhereInput | DeclarationsScalarWhereInput[]
+  }
+
   export type ApplicationUncheckedUpdateManyWithoutCandidateNestedInput = {
     create?: XOR<ApplicationCreateWithoutCandidateInput, ApplicationUncheckedCreateWithoutCandidateInput> | ApplicationCreateWithoutCandidateInput[] | ApplicationUncheckedCreateWithoutCandidateInput[]
     connectOrCreate?: ApplicationCreateOrConnectWithoutCandidateInput | ApplicationCreateOrConnectWithoutCandidateInput[]
@@ -50248,6 +53527,34 @@ export namespace Prisma {
     update?: MedicationUpdateWithWhereUniqueWithoutCandidateInput | MedicationUpdateWithWhereUniqueWithoutCandidateInput[]
     updateMany?: MedicationUpdateManyWithWhereWithoutCandidateInput | MedicationUpdateManyWithWhereWithoutCandidateInput[]
     deleteMany?: MedicationScalarWhereInput | MedicationScalarWhereInput[]
+  }
+
+  export type BankAccountUncheckedUpdateManyWithoutCandidateNestedInput = {
+    create?: XOR<BankAccountCreateWithoutCandidateInput, BankAccountUncheckedCreateWithoutCandidateInput> | BankAccountCreateWithoutCandidateInput[] | BankAccountUncheckedCreateWithoutCandidateInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutCandidateInput | BankAccountCreateOrConnectWithoutCandidateInput[]
+    upsert?: BankAccountUpsertWithWhereUniqueWithoutCandidateInput | BankAccountUpsertWithWhereUniqueWithoutCandidateInput[]
+    createMany?: BankAccountCreateManyCandidateInputEnvelope
+    set?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    disconnect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    delete?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    update?: BankAccountUpdateWithWhereUniqueWithoutCandidateInput | BankAccountUpdateWithWhereUniqueWithoutCandidateInput[]
+    updateMany?: BankAccountUpdateManyWithWhereWithoutCandidateInput | BankAccountUpdateManyWithWhereWithoutCandidateInput[]
+    deleteMany?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
+  }
+
+  export type DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput = {
+    create?: XOR<DeclarationsCreateWithoutCandidateInput, DeclarationsUncheckedCreateWithoutCandidateInput> | DeclarationsCreateWithoutCandidateInput[] | DeclarationsUncheckedCreateWithoutCandidateInput[]
+    connectOrCreate?: DeclarationsCreateOrConnectWithoutCandidateInput | DeclarationsCreateOrConnectWithoutCandidateInput[]
+    upsert?: DeclarationsUpsertWithWhereUniqueWithoutCandidateInput | DeclarationsUpsertWithWhereUniqueWithoutCandidateInput[]
+    createMany?: DeclarationsCreateManyCandidateInputEnvelope
+    set?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    disconnect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    delete?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    connect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    update?: DeclarationsUpdateWithWhereUniqueWithoutCandidateInput | DeclarationsUpdateWithWhereUniqueWithoutCandidateInput[]
+    updateMany?: DeclarationsUpdateManyWithWhereWithoutCandidateInput | DeclarationsUpdateManyWithWhereWithoutCandidateInput[]
+    deleteMany?: DeclarationsScalarWhereInput | DeclarationsScalarWhereInput[]
   }
 
   export type EntityDirectorCreateNestedOneWithoutUserInput = {
@@ -50483,6 +53790,20 @@ export namespace Prisma {
     connect?: MonthlyIncomeWhereUniqueInput | MonthlyIncomeWhereUniqueInput[]
   }
 
+  export type BankAccountCreateNestedManyWithoutLegalResponsibleInput = {
+    create?: XOR<BankAccountCreateWithoutLegalResponsibleInput, BankAccountUncheckedCreateWithoutLegalResponsibleInput> | BankAccountCreateWithoutLegalResponsibleInput[] | BankAccountUncheckedCreateWithoutLegalResponsibleInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutLegalResponsibleInput | BankAccountCreateOrConnectWithoutLegalResponsibleInput[]
+    createMany?: BankAccountCreateManyLegalResponsibleInputEnvelope
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+  }
+
+  export type DeclarationsCreateNestedManyWithoutLegalResponsibleInput = {
+    create?: XOR<DeclarationsCreateWithoutLegalResponsibleInput, DeclarationsUncheckedCreateWithoutLegalResponsibleInput> | DeclarationsCreateWithoutLegalResponsibleInput[] | DeclarationsUncheckedCreateWithoutLegalResponsibleInput[]
+    connectOrCreate?: DeclarationsCreateOrConnectWithoutLegalResponsibleInput | DeclarationsCreateOrConnectWithoutLegalResponsibleInput[]
+    createMany?: DeclarationsCreateManyLegalResponsibleInputEnvelope
+    connect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+  }
+
   export type IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput = {
     create?: XOR<IdentityDetailsCreateWithoutResponsibleInput, IdentityDetailsUncheckedCreateWithoutResponsibleInput> | IdentityDetailsCreateWithoutResponsibleInput[] | IdentityDetailsUncheckedCreateWithoutResponsibleInput[]
     connectOrCreate?: IdentityDetailsCreateOrConnectWithoutResponsibleInput | IdentityDetailsCreateOrConnectWithoutResponsibleInput[]
@@ -50586,6 +53907,20 @@ export namespace Prisma {
     connectOrCreate?: MonthlyIncomeCreateOrConnectWithoutLegalResponsibleInput | MonthlyIncomeCreateOrConnectWithoutLegalResponsibleInput[]
     createMany?: MonthlyIncomeCreateManyLegalResponsibleInputEnvelope
     connect?: MonthlyIncomeWhereUniqueInput | MonthlyIncomeWhereUniqueInput[]
+  }
+
+  export type BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput = {
+    create?: XOR<BankAccountCreateWithoutLegalResponsibleInput, BankAccountUncheckedCreateWithoutLegalResponsibleInput> | BankAccountCreateWithoutLegalResponsibleInput[] | BankAccountUncheckedCreateWithoutLegalResponsibleInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutLegalResponsibleInput | BankAccountCreateOrConnectWithoutLegalResponsibleInput[]
+    createMany?: BankAccountCreateManyLegalResponsibleInputEnvelope
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+  }
+
+  export type DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput = {
+    create?: XOR<DeclarationsCreateWithoutLegalResponsibleInput, DeclarationsUncheckedCreateWithoutLegalResponsibleInput> | DeclarationsCreateWithoutLegalResponsibleInput[] | DeclarationsUncheckedCreateWithoutLegalResponsibleInput[]
+    connectOrCreate?: DeclarationsCreateOrConnectWithoutLegalResponsibleInput | DeclarationsCreateOrConnectWithoutLegalResponsibleInput[]
+    createMany?: DeclarationsCreateManyLegalResponsibleInputEnvelope
+    connect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
   }
 
   export type NullableBoolFieldUpdateOperationsInput = {
@@ -50814,6 +54149,34 @@ export namespace Prisma {
     deleteMany?: MonthlyIncomeScalarWhereInput | MonthlyIncomeScalarWhereInput[]
   }
 
+  export type BankAccountUpdateManyWithoutLegalResponsibleNestedInput = {
+    create?: XOR<BankAccountCreateWithoutLegalResponsibleInput, BankAccountUncheckedCreateWithoutLegalResponsibleInput> | BankAccountCreateWithoutLegalResponsibleInput[] | BankAccountUncheckedCreateWithoutLegalResponsibleInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutLegalResponsibleInput | BankAccountCreateOrConnectWithoutLegalResponsibleInput[]
+    upsert?: BankAccountUpsertWithWhereUniqueWithoutLegalResponsibleInput | BankAccountUpsertWithWhereUniqueWithoutLegalResponsibleInput[]
+    createMany?: BankAccountCreateManyLegalResponsibleInputEnvelope
+    set?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    disconnect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    delete?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    update?: BankAccountUpdateWithWhereUniqueWithoutLegalResponsibleInput | BankAccountUpdateWithWhereUniqueWithoutLegalResponsibleInput[]
+    updateMany?: BankAccountUpdateManyWithWhereWithoutLegalResponsibleInput | BankAccountUpdateManyWithWhereWithoutLegalResponsibleInput[]
+    deleteMany?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
+  }
+
+  export type DeclarationsUpdateManyWithoutLegalResponsibleNestedInput = {
+    create?: XOR<DeclarationsCreateWithoutLegalResponsibleInput, DeclarationsUncheckedCreateWithoutLegalResponsibleInput> | DeclarationsCreateWithoutLegalResponsibleInput[] | DeclarationsUncheckedCreateWithoutLegalResponsibleInput[]
+    connectOrCreate?: DeclarationsCreateOrConnectWithoutLegalResponsibleInput | DeclarationsCreateOrConnectWithoutLegalResponsibleInput[]
+    upsert?: DeclarationsUpsertWithWhereUniqueWithoutLegalResponsibleInput | DeclarationsUpsertWithWhereUniqueWithoutLegalResponsibleInput[]
+    createMany?: DeclarationsCreateManyLegalResponsibleInputEnvelope
+    set?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    disconnect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    delete?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    connect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    update?: DeclarationsUpdateWithWhereUniqueWithoutLegalResponsibleInput | DeclarationsUpdateWithWhereUniqueWithoutLegalResponsibleInput[]
+    updateMany?: DeclarationsUpdateManyWithWhereWithoutLegalResponsibleInput | DeclarationsUpdateManyWithWhereWithoutLegalResponsibleInput[]
+    deleteMany?: DeclarationsScalarWhereInput | DeclarationsScalarWhereInput[]
+  }
+
   export type IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput = {
     create?: XOR<IdentityDetailsCreateWithoutResponsibleInput, IdentityDetailsUncheckedCreateWithoutResponsibleInput> | IdentityDetailsCreateWithoutResponsibleInput[] | IdentityDetailsUncheckedCreateWithoutResponsibleInput[]
     connectOrCreate?: IdentityDetailsCreateOrConnectWithoutResponsibleInput | IdentityDetailsCreateOrConnectWithoutResponsibleInput[]
@@ -51022,6 +54385,34 @@ export namespace Prisma {
     update?: MonthlyIncomeUpdateWithWhereUniqueWithoutLegalResponsibleInput | MonthlyIncomeUpdateWithWhereUniqueWithoutLegalResponsibleInput[]
     updateMany?: MonthlyIncomeUpdateManyWithWhereWithoutLegalResponsibleInput | MonthlyIncomeUpdateManyWithWhereWithoutLegalResponsibleInput[]
     deleteMany?: MonthlyIncomeScalarWhereInput | MonthlyIncomeScalarWhereInput[]
+  }
+
+  export type BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput = {
+    create?: XOR<BankAccountCreateWithoutLegalResponsibleInput, BankAccountUncheckedCreateWithoutLegalResponsibleInput> | BankAccountCreateWithoutLegalResponsibleInput[] | BankAccountUncheckedCreateWithoutLegalResponsibleInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutLegalResponsibleInput | BankAccountCreateOrConnectWithoutLegalResponsibleInput[]
+    upsert?: BankAccountUpsertWithWhereUniqueWithoutLegalResponsibleInput | BankAccountUpsertWithWhereUniqueWithoutLegalResponsibleInput[]
+    createMany?: BankAccountCreateManyLegalResponsibleInputEnvelope
+    set?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    disconnect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    delete?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    update?: BankAccountUpdateWithWhereUniqueWithoutLegalResponsibleInput | BankAccountUpdateWithWhereUniqueWithoutLegalResponsibleInput[]
+    updateMany?: BankAccountUpdateManyWithWhereWithoutLegalResponsibleInput | BankAccountUpdateManyWithWhereWithoutLegalResponsibleInput[]
+    deleteMany?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
+  }
+
+  export type DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput = {
+    create?: XOR<DeclarationsCreateWithoutLegalResponsibleInput, DeclarationsUncheckedCreateWithoutLegalResponsibleInput> | DeclarationsCreateWithoutLegalResponsibleInput[] | DeclarationsUncheckedCreateWithoutLegalResponsibleInput[]
+    connectOrCreate?: DeclarationsCreateOrConnectWithoutLegalResponsibleInput | DeclarationsCreateOrConnectWithoutLegalResponsibleInput[]
+    upsert?: DeclarationsUpsertWithWhereUniqueWithoutLegalResponsibleInput | DeclarationsUpsertWithWhereUniqueWithoutLegalResponsibleInput[]
+    createMany?: DeclarationsCreateManyLegalResponsibleInputEnvelope
+    set?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    disconnect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    delete?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    connect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    update?: DeclarationsUpdateWithWhereUniqueWithoutLegalResponsibleInput | DeclarationsUpdateWithWhereUniqueWithoutLegalResponsibleInput[]
+    updateMany?: DeclarationsUpdateManyWithWhereWithoutLegalResponsibleInput | DeclarationsUpdateManyWithWhereWithoutLegalResponsibleInput[]
+    deleteMany?: DeclarationsScalarWhereInput | DeclarationsScalarWhereInput[]
   }
 
   export type ApplicationCreateNestedManyWithoutSocialAssistantInput = {
@@ -51759,6 +55150,20 @@ export namespace Prisma {
     connect?: LegalResponsibleWhereUniqueInput
   }
 
+  export type BankAccountCreateNestedManyWithoutFamilyMemberInput = {
+    create?: XOR<BankAccountCreateWithoutFamilyMemberInput, BankAccountUncheckedCreateWithoutFamilyMemberInput> | BankAccountCreateWithoutFamilyMemberInput[] | BankAccountUncheckedCreateWithoutFamilyMemberInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutFamilyMemberInput | BankAccountCreateOrConnectWithoutFamilyMemberInput[]
+    createMany?: BankAccountCreateManyFamilyMemberInputEnvelope
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+  }
+
+  export type DeclarationsCreateNestedManyWithoutFamilyMemberInput = {
+    create?: XOR<DeclarationsCreateWithoutFamilyMemberInput, DeclarationsUncheckedCreateWithoutFamilyMemberInput> | DeclarationsCreateWithoutFamilyMemberInput[] | DeclarationsUncheckedCreateWithoutFamilyMemberInput[]
+    connectOrCreate?: DeclarationsCreateOrConnectWithoutFamilyMemberInput | DeclarationsCreateOrConnectWithoutFamilyMemberInput[]
+    createMany?: DeclarationsCreateManyFamilyMemberInputEnvelope
+    connect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+  }
+
   export type CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput = {
     create?: XOR<CreditCardCreateWithoutFamilyMemberInput, CreditCardUncheckedCreateWithoutFamilyMemberInput> | CreditCardCreateWithoutFamilyMemberInput[] | CreditCardUncheckedCreateWithoutFamilyMemberInput[]
     connectOrCreate?: CreditCardCreateOrConnectWithoutFamilyMemberInput | CreditCardCreateOrConnectWithoutFamilyMemberInput[]
@@ -51820,6 +55225,20 @@ export namespace Prisma {
     connectOrCreate?: MedicationCreateOrConnectWithoutFamilyMemberInput | MedicationCreateOrConnectWithoutFamilyMemberInput[]
     createMany?: MedicationCreateManyFamilyMemberInputEnvelope
     connect?: MedicationWhereUniqueInput | MedicationWhereUniqueInput[]
+  }
+
+  export type BankAccountUncheckedCreateNestedManyWithoutFamilyMemberInput = {
+    create?: XOR<BankAccountCreateWithoutFamilyMemberInput, BankAccountUncheckedCreateWithoutFamilyMemberInput> | BankAccountCreateWithoutFamilyMemberInput[] | BankAccountUncheckedCreateWithoutFamilyMemberInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutFamilyMemberInput | BankAccountCreateOrConnectWithoutFamilyMemberInput[]
+    createMany?: BankAccountCreateManyFamilyMemberInputEnvelope
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+  }
+
+  export type DeclarationsUncheckedCreateNestedManyWithoutFamilyMemberInput = {
+    create?: XOR<DeclarationsCreateWithoutFamilyMemberInput, DeclarationsUncheckedCreateWithoutFamilyMemberInput> | DeclarationsCreateWithoutFamilyMemberInput[] | DeclarationsUncheckedCreateWithoutFamilyMemberInput[]
+    connectOrCreate?: DeclarationsCreateOrConnectWithoutFamilyMemberInput | DeclarationsCreateOrConnectWithoutFamilyMemberInput[]
+    createMany?: DeclarationsCreateManyFamilyMemberInputEnvelope
+    connect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
   }
 
   export type EnumRelationshipFieldUpdateOperationsInput = {
@@ -51977,6 +55396,34 @@ export namespace Prisma {
     update?: XOR<XOR<LegalResponsibleUpdateToOneWithWhereWithoutFamillyMemberInput, LegalResponsibleUpdateWithoutFamillyMemberInput>, LegalResponsibleUncheckedUpdateWithoutFamillyMemberInput>
   }
 
+  export type BankAccountUpdateManyWithoutFamilyMemberNestedInput = {
+    create?: XOR<BankAccountCreateWithoutFamilyMemberInput, BankAccountUncheckedCreateWithoutFamilyMemberInput> | BankAccountCreateWithoutFamilyMemberInput[] | BankAccountUncheckedCreateWithoutFamilyMemberInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutFamilyMemberInput | BankAccountCreateOrConnectWithoutFamilyMemberInput[]
+    upsert?: BankAccountUpsertWithWhereUniqueWithoutFamilyMemberInput | BankAccountUpsertWithWhereUniqueWithoutFamilyMemberInput[]
+    createMany?: BankAccountCreateManyFamilyMemberInputEnvelope
+    set?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    disconnect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    delete?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    update?: BankAccountUpdateWithWhereUniqueWithoutFamilyMemberInput | BankAccountUpdateWithWhereUniqueWithoutFamilyMemberInput[]
+    updateMany?: BankAccountUpdateManyWithWhereWithoutFamilyMemberInput | BankAccountUpdateManyWithWhereWithoutFamilyMemberInput[]
+    deleteMany?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
+  }
+
+  export type DeclarationsUpdateManyWithoutFamilyMemberNestedInput = {
+    create?: XOR<DeclarationsCreateWithoutFamilyMemberInput, DeclarationsUncheckedCreateWithoutFamilyMemberInput> | DeclarationsCreateWithoutFamilyMemberInput[] | DeclarationsUncheckedCreateWithoutFamilyMemberInput[]
+    connectOrCreate?: DeclarationsCreateOrConnectWithoutFamilyMemberInput | DeclarationsCreateOrConnectWithoutFamilyMemberInput[]
+    upsert?: DeclarationsUpsertWithWhereUniqueWithoutFamilyMemberInput | DeclarationsUpsertWithWhereUniqueWithoutFamilyMemberInput[]
+    createMany?: DeclarationsCreateManyFamilyMemberInputEnvelope
+    set?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    disconnect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    delete?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    connect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    update?: DeclarationsUpdateWithWhereUniqueWithoutFamilyMemberInput | DeclarationsUpdateWithWhereUniqueWithoutFamilyMemberInput[]
+    updateMany?: DeclarationsUpdateManyWithWhereWithoutFamilyMemberInput | DeclarationsUpdateManyWithWhereWithoutFamilyMemberInput[]
+    deleteMany?: DeclarationsScalarWhereInput | DeclarationsScalarWhereInput[]
+  }
+
   export type CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput = {
     create?: XOR<CreditCardCreateWithoutFamilyMemberInput, CreditCardUncheckedCreateWithoutFamilyMemberInput> | CreditCardCreateWithoutFamilyMemberInput[] | CreditCardUncheckedCreateWithoutFamilyMemberInput[]
     connectOrCreate?: CreditCardCreateOrConnectWithoutFamilyMemberInput | CreditCardCreateOrConnectWithoutFamilyMemberInput[]
@@ -52103,6 +55550,34 @@ export namespace Prisma {
     deleteMany?: MedicationScalarWhereInput | MedicationScalarWhereInput[]
   }
 
+  export type BankAccountUncheckedUpdateManyWithoutFamilyMemberNestedInput = {
+    create?: XOR<BankAccountCreateWithoutFamilyMemberInput, BankAccountUncheckedCreateWithoutFamilyMemberInput> | BankAccountCreateWithoutFamilyMemberInput[] | BankAccountUncheckedCreateWithoutFamilyMemberInput[]
+    connectOrCreate?: BankAccountCreateOrConnectWithoutFamilyMemberInput | BankAccountCreateOrConnectWithoutFamilyMemberInput[]
+    upsert?: BankAccountUpsertWithWhereUniqueWithoutFamilyMemberInput | BankAccountUpsertWithWhereUniqueWithoutFamilyMemberInput[]
+    createMany?: BankAccountCreateManyFamilyMemberInputEnvelope
+    set?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    disconnect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    delete?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    connect?: BankAccountWhereUniqueInput | BankAccountWhereUniqueInput[]
+    update?: BankAccountUpdateWithWhereUniqueWithoutFamilyMemberInput | BankAccountUpdateWithWhereUniqueWithoutFamilyMemberInput[]
+    updateMany?: BankAccountUpdateManyWithWhereWithoutFamilyMemberInput | BankAccountUpdateManyWithWhereWithoutFamilyMemberInput[]
+    deleteMany?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
+  }
+
+  export type DeclarationsUncheckedUpdateManyWithoutFamilyMemberNestedInput = {
+    create?: XOR<DeclarationsCreateWithoutFamilyMemberInput, DeclarationsUncheckedCreateWithoutFamilyMemberInput> | DeclarationsCreateWithoutFamilyMemberInput[] | DeclarationsUncheckedCreateWithoutFamilyMemberInput[]
+    connectOrCreate?: DeclarationsCreateOrConnectWithoutFamilyMemberInput | DeclarationsCreateOrConnectWithoutFamilyMemberInput[]
+    upsert?: DeclarationsUpsertWithWhereUniqueWithoutFamilyMemberInput | DeclarationsUpsertWithWhereUniqueWithoutFamilyMemberInput[]
+    createMany?: DeclarationsCreateManyFamilyMemberInputEnvelope
+    set?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    disconnect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    delete?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    connect?: DeclarationsWhereUniqueInput | DeclarationsWhereUniqueInput[]
+    update?: DeclarationsUpdateWithWhereUniqueWithoutFamilyMemberInput | DeclarationsUpdateWithWhereUniqueWithoutFamilyMemberInput[]
+    updateMany?: DeclarationsUpdateManyWithWhereWithoutFamilyMemberInput | DeclarationsUpdateManyWithWhereWithoutFamilyMemberInput[]
+    deleteMany?: DeclarationsScalarWhereInput | DeclarationsScalarWhereInput[]
+  }
+
   export type CandidateCreateNestedOneWithoutHousingInput = {
     create?: XOR<CandidateCreateWithoutHousingInput, CandidateUncheckedCreateWithoutHousingInput>
     connectOrCreate?: CandidateCreateOrConnectWithoutHousingInput
@@ -52163,6 +55638,10 @@ export namespace Prisma {
     update?: XOR<XOR<LegalResponsibleUpdateToOneWithWhereWithoutHousingInput, LegalResponsibleUpdateWithoutHousingInput>, LegalResponsibleUncheckedUpdateWithoutHousingInput>
   }
 
+  export type VehicleCreateowners_idInput = {
+    set: string[]
+  }
+
   export type CandidateCreateNestedOneWithoutVehicleInput = {
     create?: XOR<CandidateCreateWithoutVehicleInput, CandidateUncheckedCreateWithoutVehicleInput>
     connectOrCreate?: CandidateCreateOrConnectWithoutVehicleInput
@@ -52207,6 +55686,11 @@ export namespace Prisma {
 
   export type EnumVehicleUsageFieldUpdateOperationsInput = {
     set?: $Enums.VehicleUsage
+  }
+
+  export type VehicleUpdateowners_idInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type CandidateUpdateOneWithoutVehicleNestedInput = {
@@ -52367,6 +55851,58 @@ export namespace Prisma {
     delete?: LegalResponsibleWhereInput | boolean
     connect?: LegalResponsibleWhereUniqueInput
     update?: XOR<XOR<LegalResponsibleUpdateToOneWithWhereWithoutMonthlyIncomeInput, LegalResponsibleUpdateWithoutMonthlyIncomeInput>, LegalResponsibleUncheckedUpdateWithoutMonthlyIncomeInput>
+  }
+
+  export type FamilyMemberCreateNestedOneWithoutBankAccountInput = {
+    create?: XOR<FamilyMemberCreateWithoutBankAccountInput, FamilyMemberUncheckedCreateWithoutBankAccountInput>
+    connectOrCreate?: FamilyMemberCreateOrConnectWithoutBankAccountInput
+    connect?: FamilyMemberWhereUniqueInput
+  }
+
+  export type CandidateCreateNestedOneWithoutBankAccountInput = {
+    create?: XOR<CandidateCreateWithoutBankAccountInput, CandidateUncheckedCreateWithoutBankAccountInput>
+    connectOrCreate?: CandidateCreateOrConnectWithoutBankAccountInput
+    connect?: CandidateWhereUniqueInput
+  }
+
+  export type LegalResponsibleCreateNestedOneWithoutBankAccountInput = {
+    create?: XOR<LegalResponsibleCreateWithoutBankAccountInput, LegalResponsibleUncheckedCreateWithoutBankAccountInput>
+    connectOrCreate?: LegalResponsibleCreateOrConnectWithoutBankAccountInput
+    connect?: LegalResponsibleWhereUniqueInput
+  }
+
+  export type EnumAccountTypeFieldUpdateOperationsInput = {
+    set?: $Enums.AccountType
+  }
+
+  export type FamilyMemberUpdateOneWithoutBankAccountNestedInput = {
+    create?: XOR<FamilyMemberCreateWithoutBankAccountInput, FamilyMemberUncheckedCreateWithoutBankAccountInput>
+    connectOrCreate?: FamilyMemberCreateOrConnectWithoutBankAccountInput
+    upsert?: FamilyMemberUpsertWithoutBankAccountInput
+    disconnect?: FamilyMemberWhereInput | boolean
+    delete?: FamilyMemberWhereInput | boolean
+    connect?: FamilyMemberWhereUniqueInput
+    update?: XOR<XOR<FamilyMemberUpdateToOneWithWhereWithoutBankAccountInput, FamilyMemberUpdateWithoutBankAccountInput>, FamilyMemberUncheckedUpdateWithoutBankAccountInput>
+  }
+
+  export type CandidateUpdateOneWithoutBankAccountNestedInput = {
+    create?: XOR<CandidateCreateWithoutBankAccountInput, CandidateUncheckedCreateWithoutBankAccountInput>
+    connectOrCreate?: CandidateCreateOrConnectWithoutBankAccountInput
+    upsert?: CandidateUpsertWithoutBankAccountInput
+    disconnect?: CandidateWhereInput | boolean
+    delete?: CandidateWhereInput | boolean
+    connect?: CandidateWhereUniqueInput
+    update?: XOR<XOR<CandidateUpdateToOneWithWhereWithoutBankAccountInput, CandidateUpdateWithoutBankAccountInput>, CandidateUncheckedUpdateWithoutBankAccountInput>
+  }
+
+  export type LegalResponsibleUpdateOneWithoutBankAccountNestedInput = {
+    create?: XOR<LegalResponsibleCreateWithoutBankAccountInput, LegalResponsibleUncheckedCreateWithoutBankAccountInput>
+    connectOrCreate?: LegalResponsibleCreateOrConnectWithoutBankAccountInput
+    upsert?: LegalResponsibleUpsertWithoutBankAccountInput
+    disconnect?: LegalResponsibleWhereInput | boolean
+    delete?: LegalResponsibleWhereInput | boolean
+    connect?: LegalResponsibleWhereUniqueInput
+    update?: XOR<XOR<LegalResponsibleUpdateToOneWithWhereWithoutBankAccountInput, LegalResponsibleUpdateWithoutBankAccountInput>, LegalResponsibleUncheckedUpdateWithoutBankAccountInput>
   }
 
   export type ExpenseCreateotherExpensesDescriptionInput = {
@@ -52645,6 +56181,20 @@ export namespace Prisma {
     connect?: LegalResponsibleWhereUniqueInput
   }
 
+  export type MedicationCreateNestedManyWithoutFamilyMemberDiseaseInput = {
+    create?: XOR<MedicationCreateWithoutFamilyMemberDiseaseInput, MedicationUncheckedCreateWithoutFamilyMemberDiseaseInput> | MedicationCreateWithoutFamilyMemberDiseaseInput[] | MedicationUncheckedCreateWithoutFamilyMemberDiseaseInput[]
+    connectOrCreate?: MedicationCreateOrConnectWithoutFamilyMemberDiseaseInput | MedicationCreateOrConnectWithoutFamilyMemberDiseaseInput[]
+    createMany?: MedicationCreateManyFamilyMemberDiseaseInputEnvelope
+    connect?: MedicationWhereUniqueInput | MedicationWhereUniqueInput[]
+  }
+
+  export type MedicationUncheckedCreateNestedManyWithoutFamilyMemberDiseaseInput = {
+    create?: XOR<MedicationCreateWithoutFamilyMemberDiseaseInput, MedicationUncheckedCreateWithoutFamilyMemberDiseaseInput> | MedicationCreateWithoutFamilyMemberDiseaseInput[] | MedicationUncheckedCreateWithoutFamilyMemberDiseaseInput[]
+    connectOrCreate?: MedicationCreateOrConnectWithoutFamilyMemberDiseaseInput | MedicationCreateOrConnectWithoutFamilyMemberDiseaseInput[]
+    createMany?: MedicationCreateManyFamilyMemberDiseaseInputEnvelope
+    connect?: MedicationWhereUniqueInput | MedicationWhereUniqueInput[]
+  }
+
   export type NullableEnumDiseaseFieldUpdateOperationsInput = {
     set?: $Enums.Disease | null
   }
@@ -52684,6 +56234,34 @@ export namespace Prisma {
     update?: XOR<XOR<LegalResponsibleUpdateToOneWithWhereWithoutFamilyMemberDiseaseInput, LegalResponsibleUpdateWithoutFamilyMemberDiseaseInput>, LegalResponsibleUncheckedUpdateWithoutFamilyMemberDiseaseInput>
   }
 
+  export type MedicationUpdateManyWithoutFamilyMemberDiseaseNestedInput = {
+    create?: XOR<MedicationCreateWithoutFamilyMemberDiseaseInput, MedicationUncheckedCreateWithoutFamilyMemberDiseaseInput> | MedicationCreateWithoutFamilyMemberDiseaseInput[] | MedicationUncheckedCreateWithoutFamilyMemberDiseaseInput[]
+    connectOrCreate?: MedicationCreateOrConnectWithoutFamilyMemberDiseaseInput | MedicationCreateOrConnectWithoutFamilyMemberDiseaseInput[]
+    upsert?: MedicationUpsertWithWhereUniqueWithoutFamilyMemberDiseaseInput | MedicationUpsertWithWhereUniqueWithoutFamilyMemberDiseaseInput[]
+    createMany?: MedicationCreateManyFamilyMemberDiseaseInputEnvelope
+    set?: MedicationWhereUniqueInput | MedicationWhereUniqueInput[]
+    disconnect?: MedicationWhereUniqueInput | MedicationWhereUniqueInput[]
+    delete?: MedicationWhereUniqueInput | MedicationWhereUniqueInput[]
+    connect?: MedicationWhereUniqueInput | MedicationWhereUniqueInput[]
+    update?: MedicationUpdateWithWhereUniqueWithoutFamilyMemberDiseaseInput | MedicationUpdateWithWhereUniqueWithoutFamilyMemberDiseaseInput[]
+    updateMany?: MedicationUpdateManyWithWhereWithoutFamilyMemberDiseaseInput | MedicationUpdateManyWithWhereWithoutFamilyMemberDiseaseInput[]
+    deleteMany?: MedicationScalarWhereInput | MedicationScalarWhereInput[]
+  }
+
+  export type MedicationUncheckedUpdateManyWithoutFamilyMemberDiseaseNestedInput = {
+    create?: XOR<MedicationCreateWithoutFamilyMemberDiseaseInput, MedicationUncheckedCreateWithoutFamilyMemberDiseaseInput> | MedicationCreateWithoutFamilyMemberDiseaseInput[] | MedicationUncheckedCreateWithoutFamilyMemberDiseaseInput[]
+    connectOrCreate?: MedicationCreateOrConnectWithoutFamilyMemberDiseaseInput | MedicationCreateOrConnectWithoutFamilyMemberDiseaseInput[]
+    upsert?: MedicationUpsertWithWhereUniqueWithoutFamilyMemberDiseaseInput | MedicationUpsertWithWhereUniqueWithoutFamilyMemberDiseaseInput[]
+    createMany?: MedicationCreateManyFamilyMemberDiseaseInputEnvelope
+    set?: MedicationWhereUniqueInput | MedicationWhereUniqueInput[]
+    disconnect?: MedicationWhereUniqueInput | MedicationWhereUniqueInput[]
+    delete?: MedicationWhereUniqueInput | MedicationWhereUniqueInput[]
+    connect?: MedicationWhereUniqueInput | MedicationWhereUniqueInput[]
+    update?: MedicationUpdateWithWhereUniqueWithoutFamilyMemberDiseaseInput | MedicationUpdateWithWhereUniqueWithoutFamilyMemberDiseaseInput[]
+    updateMany?: MedicationUpdateManyWithWhereWithoutFamilyMemberDiseaseInput | MedicationUpdateManyWithWhereWithoutFamilyMemberDiseaseInput[]
+    deleteMany?: MedicationScalarWhereInput | MedicationScalarWhereInput[]
+  }
+
   export type FamilyMemberCreateNestedOneWithoutMedicationInput = {
     create?: XOR<FamilyMemberCreateWithoutMedicationInput, FamilyMemberUncheckedCreateWithoutMedicationInput>
     connectOrCreate?: FamilyMemberCreateOrConnectWithoutMedicationInput
@@ -52700,6 +56278,12 @@ export namespace Prisma {
     create?: XOR<LegalResponsibleCreateWithoutMedicationInput, LegalResponsibleUncheckedCreateWithoutMedicationInput>
     connectOrCreate?: LegalResponsibleCreateOrConnectWithoutMedicationInput
     connect?: LegalResponsibleWhereUniqueInput
+  }
+
+  export type FamilyMemberDiseaseCreateNestedOneWithoutMedicationInput = {
+    create?: XOR<FamilyMemberDiseaseCreateWithoutMedicationInput, FamilyMemberDiseaseUncheckedCreateWithoutMedicationInput>
+    connectOrCreate?: FamilyMemberDiseaseCreateOrConnectWithoutMedicationInput
+    connect?: FamilyMemberDiseaseWhereUniqueInput
   }
 
   export type FamilyMemberUpdateOneWithoutMedicationNestedInput = {
@@ -52730,6 +56314,68 @@ export namespace Prisma {
     delete?: LegalResponsibleWhereInput | boolean
     connect?: LegalResponsibleWhereUniqueInput
     update?: XOR<XOR<LegalResponsibleUpdateToOneWithWhereWithoutMedicationInput, LegalResponsibleUpdateWithoutMedicationInput>, LegalResponsibleUncheckedUpdateWithoutMedicationInput>
+  }
+
+  export type FamilyMemberDiseaseUpdateOneWithoutMedicationNestedInput = {
+    create?: XOR<FamilyMemberDiseaseCreateWithoutMedicationInput, FamilyMemberDiseaseUncheckedCreateWithoutMedicationInput>
+    connectOrCreate?: FamilyMemberDiseaseCreateOrConnectWithoutMedicationInput
+    upsert?: FamilyMemberDiseaseUpsertWithoutMedicationInput
+    disconnect?: FamilyMemberDiseaseWhereInput | boolean
+    delete?: FamilyMemberDiseaseWhereInput | boolean
+    connect?: FamilyMemberDiseaseWhereUniqueInput
+    update?: XOR<XOR<FamilyMemberDiseaseUpdateToOneWithWhereWithoutMedicationInput, FamilyMemberDiseaseUpdateWithoutMedicationInput>, FamilyMemberDiseaseUncheckedUpdateWithoutMedicationInput>
+  }
+
+  export type CandidateCreateNestedOneWithoutDeclarationsInput = {
+    create?: XOR<CandidateCreateWithoutDeclarationsInput, CandidateUncheckedCreateWithoutDeclarationsInput>
+    connectOrCreate?: CandidateCreateOrConnectWithoutDeclarationsInput
+    connect?: CandidateWhereUniqueInput
+  }
+
+  export type FamilyMemberCreateNestedOneWithoutDeclarationsInput = {
+    create?: XOR<FamilyMemberCreateWithoutDeclarationsInput, FamilyMemberUncheckedCreateWithoutDeclarationsInput>
+    connectOrCreate?: FamilyMemberCreateOrConnectWithoutDeclarationsInput
+    connect?: FamilyMemberWhereUniqueInput
+  }
+
+  export type LegalResponsibleCreateNestedOneWithoutDeclarationsInput = {
+    create?: XOR<LegalResponsibleCreateWithoutDeclarationsInput, LegalResponsibleUncheckedCreateWithoutDeclarationsInput>
+    connectOrCreate?: LegalResponsibleCreateOrConnectWithoutDeclarationsInput
+    connect?: LegalResponsibleWhereUniqueInput
+  }
+
+  export type EnumDeclaration_TypeFieldUpdateOperationsInput = {
+    set?: $Enums.Declaration_Type
+  }
+
+  export type CandidateUpdateOneWithoutDeclarationsNestedInput = {
+    create?: XOR<CandidateCreateWithoutDeclarationsInput, CandidateUncheckedCreateWithoutDeclarationsInput>
+    connectOrCreate?: CandidateCreateOrConnectWithoutDeclarationsInput
+    upsert?: CandidateUpsertWithoutDeclarationsInput
+    disconnect?: CandidateWhereInput | boolean
+    delete?: CandidateWhereInput | boolean
+    connect?: CandidateWhereUniqueInput
+    update?: XOR<XOR<CandidateUpdateToOneWithWhereWithoutDeclarationsInput, CandidateUpdateWithoutDeclarationsInput>, CandidateUncheckedUpdateWithoutDeclarationsInput>
+  }
+
+  export type FamilyMemberUpdateOneWithoutDeclarationsNestedInput = {
+    create?: XOR<FamilyMemberCreateWithoutDeclarationsInput, FamilyMemberUncheckedCreateWithoutDeclarationsInput>
+    connectOrCreate?: FamilyMemberCreateOrConnectWithoutDeclarationsInput
+    upsert?: FamilyMemberUpsertWithoutDeclarationsInput
+    disconnect?: FamilyMemberWhereInput | boolean
+    delete?: FamilyMemberWhereInput | boolean
+    connect?: FamilyMemberWhereUniqueInput
+    update?: XOR<XOR<FamilyMemberUpdateToOneWithWhereWithoutDeclarationsInput, FamilyMemberUpdateWithoutDeclarationsInput>, FamilyMemberUncheckedUpdateWithoutDeclarationsInput>
+  }
+
+  export type LegalResponsibleUpdateOneWithoutDeclarationsNestedInput = {
+    create?: XOR<LegalResponsibleCreateWithoutDeclarationsInput, LegalResponsibleUncheckedCreateWithoutDeclarationsInput>
+    connectOrCreate?: LegalResponsibleCreateOrConnectWithoutDeclarationsInput
+    upsert?: LegalResponsibleUpsertWithoutDeclarationsInput
+    disconnect?: LegalResponsibleWhereInput | boolean
+    delete?: LegalResponsibleWhereInput | boolean
+    connect?: LegalResponsibleWhereUniqueInput
+    update?: XOR<XOR<LegalResponsibleUpdateToOneWithWhereWithoutDeclarationsInput, LegalResponsibleUpdateWithoutDeclarationsInput>, LegalResponsibleUncheckedUpdateWithoutDeclarationsInput>
   }
 
   export type AnnouncementCreateNestedOneWithoutInterviewInput = {
@@ -54064,6 +57710,23 @@ export namespace Prisma {
     _max?: NestedEnumIncomeSourceNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumAccountTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccountType | EnumAccountTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccountTypeFilter<$PrismaModel> | $Enums.AccountType
+  }
+
+  export type NestedEnumAccountTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccountType | EnumAccountTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccountTypeWithAggregatesFilter<$PrismaModel> | $Enums.AccountType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAccountTypeFilter<$PrismaModel>
+    _max?: NestedEnumAccountTypeFilter<$PrismaModel>
+  }
+
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -54112,6 +57775,23 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumDiseaseNullableFilter<$PrismaModel>
     _max?: NestedEnumDiseaseNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumDeclaration_TypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.Declaration_Type | EnumDeclaration_TypeFieldRefInput<$PrismaModel>
+    in?: $Enums.Declaration_Type[] | ListEnumDeclaration_TypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Declaration_Type[] | ListEnumDeclaration_TypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeclaration_TypeFilter<$PrismaModel> | $Enums.Declaration_Type
+  }
+
+  export type NestedEnumDeclaration_TypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Declaration_Type | EnumDeclaration_TypeFieldRefInput<$PrismaModel>
+    in?: $Enums.Declaration_Type[] | ListEnumDeclaration_TypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Declaration_Type[] | ListEnumDeclaration_TypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeclaration_TypeWithAggregatesFilter<$PrismaModel> | $Enums.Declaration_Type
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDeclaration_TypeFilter<$PrismaModel>
+    _max?: NestedEnumDeclaration_TypeFilter<$PrismaModel>
   }
 
   export type NestedEnumAnnouncementTypeFilter<$PrismaModel = never> = {
@@ -54505,6 +58185,9 @@ export namespace Prisma {
     address?: string | null
     addressNumber?: string | null
     neighborhood?: string | null
+    city?: string | null
+    UF?: $Enums.COUNTRY | null
+    CEP?: string | null
     specialNeedsDescription?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
@@ -54560,6 +58243,9 @@ export namespace Prisma {
     address?: string | null
     addressNumber?: string | null
     neighborhood?: string | null
+    city?: string | null
+    UF?: $Enums.COUNTRY | null
+    CEP?: string | null
     specialNeedsDescription?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
@@ -54736,6 +58422,7 @@ export namespace Prisma {
     hasInsurance?: boolean
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
+    owners_id?: VehicleCreateowners_idInput | string[]
     application_id: string
     FamilyMemberToVehicle?: FamilyMemberToVehicleCreateNestedManyWithoutVehicleInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutVehicleInput
@@ -54753,6 +58440,7 @@ export namespace Prisma {
     hasInsurance?: boolean
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
+    owners_id?: VehicleCreateowners_idInput | string[]
     legalResponsibleId?: string | null
     application_id: string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutVehicleInput
@@ -54808,6 +58496,8 @@ export namespace Prisma {
     Application?: ApplicationCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUncheckedCreateWithoutCandidateInput = {
@@ -54850,6 +58540,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleCreateOrConnectWithoutCandidateInput = {
@@ -54913,6 +58605,8 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutFamilyMemberInput
     Medication?: MedicationCreateNestedManyWithoutFamilyMemberInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamillyMemberInput
+    BankAccount?: BankAccountCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberUncheckedCreateWithoutCandidateInput = {
@@ -54971,6 +58665,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutFamilyMembersInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutFamilyMemberInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberCreateOrConnectWithoutCandidateInput = {
@@ -55093,6 +58789,7 @@ export namespace Prisma {
     application_id: string
     familyMember?: FamilyMemberCreateNestedOneWithoutFamilyMemberDiseaseInput
     legalResponsible?: LegalResponsibleCreateNestedOneWithoutFamilyMemberDiseaseInput
+    Medication?: MedicationCreateNestedManyWithoutFamilyMemberDiseaseInput
   }
 
   export type FamilyMemberDiseaseUncheckedCreateWithoutCandidateInput = {
@@ -55105,6 +58802,7 @@ export namespace Prisma {
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberDiseaseInput
   }
 
   export type FamilyMemberDiseaseCreateOrConnectWithoutCandidateInput = {
@@ -55126,6 +58824,7 @@ export namespace Prisma {
     application_id: string
     familyMember?: FamilyMemberCreateNestedOneWithoutMedicationInput
     legalResponsible?: LegalResponsibleCreateNestedOneWithoutMedicationInput
+    FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedOneWithoutMedicationInput
   }
 
   export type MedicationUncheckedCreateWithoutCandidateInput = {
@@ -55137,6 +58836,7 @@ export namespace Prisma {
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    familyMemberDiseaseId?: string | null
   }
 
   export type MedicationCreateOrConnectWithoutCandidateInput = {
@@ -55146,6 +58846,68 @@ export namespace Prisma {
 
   export type MedicationCreateManyCandidateInputEnvelope = {
     data: MedicationCreateManyCandidateInput | MedicationCreateManyCandidateInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BankAccountCreateWithoutCandidateInput = {
+    id?: string
+    main_id: string
+    bankName: string
+    agencyNumber: string
+    accountNumber: string
+    accountType: $Enums.AccountType
+    application_id: string
+    familyMember?: FamilyMemberCreateNestedOneWithoutBankAccountInput
+    LegalResponsible?: LegalResponsibleCreateNestedOneWithoutBankAccountInput
+  }
+
+  export type BankAccountUncheckedCreateWithoutCandidateInput = {
+    id?: string
+    main_id: string
+    bankName: string
+    agencyNumber: string
+    accountNumber: string
+    accountType: $Enums.AccountType
+    familyMember_id?: string | null
+    legalResponsibleId?: string | null
+    application_id: string
+  }
+
+  export type BankAccountCreateOrConnectWithoutCandidateInput = {
+    where: BankAccountWhereUniqueInput
+    create: XOR<BankAccountCreateWithoutCandidateInput, BankAccountUncheckedCreateWithoutCandidateInput>
+  }
+
+  export type BankAccountCreateManyCandidateInputEnvelope = {
+    data: BankAccountCreateManyCandidateInput | BankAccountCreateManyCandidateInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DeclarationsCreateWithoutCandidateInput = {
+    id?: string
+    declarationType: $Enums.Declaration_Type
+    text: string
+    application_id: string
+    familyMember?: FamilyMemberCreateNestedOneWithoutDeclarationsInput
+    LegalResponsible?: LegalResponsibleCreateNestedOneWithoutDeclarationsInput
+  }
+
+  export type DeclarationsUncheckedCreateWithoutCandidateInput = {
+    id?: string
+    declarationType: $Enums.Declaration_Type
+    text: string
+    familyMember_id?: string | null
+    legalResponsibleId?: string | null
+    application_id: string
+  }
+
+  export type DeclarationsCreateOrConnectWithoutCandidateInput = {
+    where: DeclarationsWhereUniqueInput
+    create: XOR<DeclarationsCreateWithoutCandidateInput, DeclarationsUncheckedCreateWithoutCandidateInput>
+  }
+
+  export type DeclarationsCreateManyCandidateInputEnvelope = {
+    data: DeclarationsCreateManyCandidateInput | DeclarationsCreateManyCandidateInput[]
     skipDuplicates?: boolean
   }
 
@@ -55367,6 +59129,9 @@ export namespace Prisma {
     address?: StringNullableFilter<"IdentityDetails"> | string | null
     addressNumber?: StringNullableFilter<"IdentityDetails"> | string | null
     neighborhood?: StringNullableFilter<"IdentityDetails"> | string | null
+    city?: StringNullableFilter<"IdentityDetails"> | string | null
+    UF?: EnumCOUNTRYNullableFilter<"IdentityDetails"> | $Enums.COUNTRY | null
+    CEP?: StringNullableFilter<"IdentityDetails"> | string | null
     specialNeedsDescription?: StringNullableFilter<"IdentityDetails"> | string | null
     hasMedicalReport?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     email?: StringNullableFilter<"IdentityDetails"> | string | null
@@ -55536,6 +59301,7 @@ export namespace Prisma {
     insuranceValue?: FloatNullableFilter<"Vehicle"> | number | null
     usage?: EnumVehicleUsageFilter<"Vehicle"> | $Enums.VehicleUsage
     candidate_id?: StringNullableFilter<"Vehicle"> | string | null
+    owners_id?: StringNullableListFilter<"Vehicle">
     legalResponsibleId?: StringNullableFilter<"Vehicle"> | string | null
     application_id?: StringFilter<"Vehicle"> | string
   }
@@ -55591,6 +59357,8 @@ export namespace Prisma {
     Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleUncheckedUpdateWithoutCandidateInput = {
@@ -55633,6 +59401,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type FamilyMemberUpsertWithWhereUniqueWithoutCandidateInput = {
@@ -55845,6 +59615,68 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"Medication"> | string | null
     legalResponsibleId?: StringNullableFilter<"Medication"> | string | null
     application_id?: StringFilter<"Medication"> | string
+    familyMemberDiseaseId?: StringNullableFilter<"Medication"> | string | null
+  }
+
+  export type BankAccountUpsertWithWhereUniqueWithoutCandidateInput = {
+    where: BankAccountWhereUniqueInput
+    update: XOR<BankAccountUpdateWithoutCandidateInput, BankAccountUncheckedUpdateWithoutCandidateInput>
+    create: XOR<BankAccountCreateWithoutCandidateInput, BankAccountUncheckedCreateWithoutCandidateInput>
+  }
+
+  export type BankAccountUpdateWithWhereUniqueWithoutCandidateInput = {
+    where: BankAccountWhereUniqueInput
+    data: XOR<BankAccountUpdateWithoutCandidateInput, BankAccountUncheckedUpdateWithoutCandidateInput>
+  }
+
+  export type BankAccountUpdateManyWithWhereWithoutCandidateInput = {
+    where: BankAccountScalarWhereInput
+    data: XOR<BankAccountUpdateManyMutationInput, BankAccountUncheckedUpdateManyWithoutCandidateInput>
+  }
+
+  export type BankAccountScalarWhereInput = {
+    AND?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
+    OR?: BankAccountScalarWhereInput[]
+    NOT?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
+    id?: StringFilter<"BankAccount"> | string
+    main_id?: StringFilter<"BankAccount"> | string
+    bankName?: StringFilter<"BankAccount"> | string
+    agencyNumber?: StringFilter<"BankAccount"> | string
+    accountNumber?: StringFilter<"BankAccount"> | string
+    accountType?: EnumAccountTypeFilter<"BankAccount"> | $Enums.AccountType
+    familyMember_id?: StringNullableFilter<"BankAccount"> | string | null
+    candidate_id?: StringNullableFilter<"BankAccount"> | string | null
+    legalResponsibleId?: StringNullableFilter<"BankAccount"> | string | null
+    application_id?: StringFilter<"BankAccount"> | string
+  }
+
+  export type DeclarationsUpsertWithWhereUniqueWithoutCandidateInput = {
+    where: DeclarationsWhereUniqueInput
+    update: XOR<DeclarationsUpdateWithoutCandidateInput, DeclarationsUncheckedUpdateWithoutCandidateInput>
+    create: XOR<DeclarationsCreateWithoutCandidateInput, DeclarationsUncheckedCreateWithoutCandidateInput>
+  }
+
+  export type DeclarationsUpdateWithWhereUniqueWithoutCandidateInput = {
+    where: DeclarationsWhereUniqueInput
+    data: XOR<DeclarationsUpdateWithoutCandidateInput, DeclarationsUncheckedUpdateWithoutCandidateInput>
+  }
+
+  export type DeclarationsUpdateManyWithWhereWithoutCandidateInput = {
+    where: DeclarationsScalarWhereInput
+    data: XOR<DeclarationsUpdateManyMutationInput, DeclarationsUncheckedUpdateManyWithoutCandidateInput>
+  }
+
+  export type DeclarationsScalarWhereInput = {
+    AND?: DeclarationsScalarWhereInput | DeclarationsScalarWhereInput[]
+    OR?: DeclarationsScalarWhereInput[]
+    NOT?: DeclarationsScalarWhereInput | DeclarationsScalarWhereInput[]
+    id?: StringFilter<"Declarations"> | string
+    declarationType?: EnumDeclaration_TypeFilter<"Declarations"> | $Enums.Declaration_Type
+    text?: StringFilter<"Declarations"> | string
+    familyMember_id?: StringNullableFilter<"Declarations"> | string | null
+    candidate_id?: StringNullableFilter<"Declarations"> | string | null
+    legalResponsibleId?: StringNullableFilter<"Declarations"> | string | null
+    application_id?: StringFilter<"Declarations"> | string
   }
 
   export type EntityDirectorCreateWithoutUserInput = {
@@ -56178,6 +60010,9 @@ export namespace Prisma {
     address?: string | null
     addressNumber?: string | null
     neighborhood?: string | null
+    city?: string | null
+    UF?: $Enums.COUNTRY | null
+    CEP?: string | null
     specialNeedsDescription?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
@@ -56233,6 +60068,9 @@ export namespace Prisma {
     address?: string | null
     addressNumber?: string | null
     neighborhood?: string | null
+    city?: string | null
+    UF?: $Enums.COUNTRY | null
+    CEP?: string | null
     specialNeedsDescription?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
@@ -56305,6 +60143,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutResponsibleInput = {
@@ -56341,6 +60181,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutResponsibleInput = {
@@ -56447,6 +60289,8 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutFamilyMemberInput
     candidate?: CandidateCreateNestedOneWithoutFamillyMemberInput
     Medication?: MedicationCreateNestedManyWithoutFamilyMemberInput
+    BankAccount?: BankAccountCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberUncheckedCreateWithoutLegalResponsibleInput = {
@@ -56505,6 +60349,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutFamilyMembersInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutFamilyMemberInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberCreateOrConnectWithoutLegalResponsibleInput = {
@@ -56775,6 +60621,7 @@ export namespace Prisma {
     hasInsurance?: boolean
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
+    owners_id?: VehicleCreateowners_idInput | string[]
     application_id: string
     candidate?: CandidateCreateNestedOneWithoutVehicleInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleCreateNestedManyWithoutVehicleInput
@@ -56793,6 +60640,7 @@ export namespace Prisma {
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
     candidate_id?: string | null
+    owners_id?: VehicleCreateowners_idInput | string[]
     application_id: string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutVehicleInput
   }
@@ -56817,6 +60665,7 @@ export namespace Prisma {
     application_id: string
     familyMember?: FamilyMemberCreateNestedOneWithoutFamilyMemberDiseaseInput
     candidate?: CandidateCreateNestedOneWithoutFamilyMemberDiseaseInput
+    Medication?: MedicationCreateNestedManyWithoutFamilyMemberDiseaseInput
   }
 
   export type FamilyMemberDiseaseUncheckedCreateWithoutLegalResponsibleInput = {
@@ -56829,6 +60678,7 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberDiseaseInput
   }
 
   export type FamilyMemberDiseaseCreateOrConnectWithoutLegalResponsibleInput = {
@@ -56850,6 +60700,7 @@ export namespace Prisma {
     application_id: string
     familyMember?: FamilyMemberCreateNestedOneWithoutMedicationInput
     candidate?: CandidateCreateNestedOneWithoutMedicationInput
+    FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedOneWithoutMedicationInput
   }
 
   export type MedicationUncheckedCreateWithoutLegalResponsibleInput = {
@@ -56861,6 +60712,7 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    familyMemberDiseaseId?: string | null
   }
 
   export type MedicationCreateOrConnectWithoutLegalResponsibleInput = {
@@ -57040,6 +60892,68 @@ export namespace Prisma {
 
   export type MonthlyIncomeCreateManyLegalResponsibleInputEnvelope = {
     data: MonthlyIncomeCreateManyLegalResponsibleInput | MonthlyIncomeCreateManyLegalResponsibleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BankAccountCreateWithoutLegalResponsibleInput = {
+    id?: string
+    main_id: string
+    bankName: string
+    agencyNumber: string
+    accountNumber: string
+    accountType: $Enums.AccountType
+    application_id: string
+    familyMember?: FamilyMemberCreateNestedOneWithoutBankAccountInput
+    candidate?: CandidateCreateNestedOneWithoutBankAccountInput
+  }
+
+  export type BankAccountUncheckedCreateWithoutLegalResponsibleInput = {
+    id?: string
+    main_id: string
+    bankName: string
+    agencyNumber: string
+    accountNumber: string
+    accountType: $Enums.AccountType
+    familyMember_id?: string | null
+    candidate_id?: string | null
+    application_id: string
+  }
+
+  export type BankAccountCreateOrConnectWithoutLegalResponsibleInput = {
+    where: BankAccountWhereUniqueInput
+    create: XOR<BankAccountCreateWithoutLegalResponsibleInput, BankAccountUncheckedCreateWithoutLegalResponsibleInput>
+  }
+
+  export type BankAccountCreateManyLegalResponsibleInputEnvelope = {
+    data: BankAccountCreateManyLegalResponsibleInput | BankAccountCreateManyLegalResponsibleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DeclarationsCreateWithoutLegalResponsibleInput = {
+    id?: string
+    declarationType: $Enums.Declaration_Type
+    text: string
+    application_id: string
+    candidate?: CandidateCreateNestedOneWithoutDeclarationsInput
+    familyMember?: FamilyMemberCreateNestedOneWithoutDeclarationsInput
+  }
+
+  export type DeclarationsUncheckedCreateWithoutLegalResponsibleInput = {
+    id?: string
+    declarationType: $Enums.Declaration_Type
+    text: string
+    familyMember_id?: string | null
+    candidate_id?: string | null
+    application_id: string
+  }
+
+  export type DeclarationsCreateOrConnectWithoutLegalResponsibleInput = {
+    where: DeclarationsWhereUniqueInput
+    create: XOR<DeclarationsCreateWithoutLegalResponsibleInput, DeclarationsUncheckedCreateWithoutLegalResponsibleInput>
+  }
+
+  export type DeclarationsCreateManyLegalResponsibleInputEnvelope = {
+    data: DeclarationsCreateManyLegalResponsibleInput | DeclarationsCreateManyLegalResponsibleInput[]
     skipDuplicates?: boolean
   }
 
@@ -57307,6 +61221,38 @@ export namespace Prisma {
   export type MonthlyIncomeUpdateManyWithWhereWithoutLegalResponsibleInput = {
     where: MonthlyIncomeScalarWhereInput
     data: XOR<MonthlyIncomeUpdateManyMutationInput, MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleInput>
+  }
+
+  export type BankAccountUpsertWithWhereUniqueWithoutLegalResponsibleInput = {
+    where: BankAccountWhereUniqueInput
+    update: XOR<BankAccountUpdateWithoutLegalResponsibleInput, BankAccountUncheckedUpdateWithoutLegalResponsibleInput>
+    create: XOR<BankAccountCreateWithoutLegalResponsibleInput, BankAccountUncheckedCreateWithoutLegalResponsibleInput>
+  }
+
+  export type BankAccountUpdateWithWhereUniqueWithoutLegalResponsibleInput = {
+    where: BankAccountWhereUniqueInput
+    data: XOR<BankAccountUpdateWithoutLegalResponsibleInput, BankAccountUncheckedUpdateWithoutLegalResponsibleInput>
+  }
+
+  export type BankAccountUpdateManyWithWhereWithoutLegalResponsibleInput = {
+    where: BankAccountScalarWhereInput
+    data: XOR<BankAccountUpdateManyMutationInput, BankAccountUncheckedUpdateManyWithoutLegalResponsibleInput>
+  }
+
+  export type DeclarationsUpsertWithWhereUniqueWithoutLegalResponsibleInput = {
+    where: DeclarationsWhereUniqueInput
+    update: XOR<DeclarationsUpdateWithoutLegalResponsibleInput, DeclarationsUncheckedUpdateWithoutLegalResponsibleInput>
+    create: XOR<DeclarationsCreateWithoutLegalResponsibleInput, DeclarationsUncheckedCreateWithoutLegalResponsibleInput>
+  }
+
+  export type DeclarationsUpdateWithWhereUniqueWithoutLegalResponsibleInput = {
+    where: DeclarationsWhereUniqueInput
+    data: XOR<DeclarationsUpdateWithoutLegalResponsibleInput, DeclarationsUncheckedUpdateWithoutLegalResponsibleInput>
+  }
+
+  export type DeclarationsUpdateManyWithWhereWithoutLegalResponsibleInput = {
+    where: DeclarationsScalarWhereInput
+    data: XOR<DeclarationsUpdateManyMutationInput, DeclarationsUncheckedUpdateManyWithoutLegalResponsibleInput>
   }
 
   export type ApplicationCreateWithoutSocialAssistantInput = {
@@ -58728,6 +62674,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutIdentityDetailsInput = {
@@ -58764,6 +62712,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutIdentityDetailsInput = {
@@ -58811,6 +62761,8 @@ export namespace Prisma {
     Application?: ApplicationCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUncheckedCreateWithoutIdentityDetailsInput = {
@@ -58853,6 +62805,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleCreateOrConnectWithoutIdentityDetailsInput = {
@@ -58905,6 +62859,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutIdentityDetailsInput = {
@@ -58941,6 +62897,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutIdentityDetailsInput = {
@@ -58994,6 +62952,8 @@ export namespace Prisma {
     Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleUncheckedUpdateWithoutIdentityDetailsInput = {
@@ -59036,6 +62996,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type CreditCardCreateWithoutFamilyMemberInput = {
@@ -59336,6 +63298,7 @@ export namespace Prisma {
     application_id: string
     candidate?: CandidateCreateNestedOneWithoutFamilyMemberDiseaseInput
     legalResponsible?: LegalResponsibleCreateNestedOneWithoutFamilyMemberDiseaseInput
+    Medication?: MedicationCreateNestedManyWithoutFamilyMemberDiseaseInput
   }
 
   export type FamilyMemberDiseaseUncheckedCreateWithoutFamilyMemberInput = {
@@ -59348,6 +63311,7 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberDiseaseInput
   }
 
   export type FamilyMemberDiseaseCreateOrConnectWithoutFamilyMemberInput = {
@@ -59394,6 +63358,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutFamillyMemberInput = {
@@ -59430,6 +63396,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutFamillyMemberInput = {
@@ -59446,6 +63414,7 @@ export namespace Prisma {
     application_id: string
     candidate?: CandidateCreateNestedOneWithoutMedicationInput
     legalResponsible?: LegalResponsibleCreateNestedOneWithoutMedicationInput
+    FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedOneWithoutMedicationInput
   }
 
   export type MedicationUncheckedCreateWithoutFamilyMemberInput = {
@@ -59457,6 +63426,7 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    familyMemberDiseaseId?: string | null
   }
 
   export type MedicationCreateOrConnectWithoutFamilyMemberInput = {
@@ -59509,6 +63479,8 @@ export namespace Prisma {
     Application?: ApplicationCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUncheckedCreateWithoutFamillyMemberInput = {
@@ -59551,11 +63523,75 @@ export namespace Prisma {
     Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleCreateOrConnectWithoutFamillyMemberInput = {
     where: LegalResponsibleWhereUniqueInput
     create: XOR<LegalResponsibleCreateWithoutFamillyMemberInput, LegalResponsibleUncheckedCreateWithoutFamillyMemberInput>
+  }
+
+  export type BankAccountCreateWithoutFamilyMemberInput = {
+    id?: string
+    main_id: string
+    bankName: string
+    agencyNumber: string
+    accountNumber: string
+    accountType: $Enums.AccountType
+    application_id: string
+    candidate?: CandidateCreateNestedOneWithoutBankAccountInput
+    LegalResponsible?: LegalResponsibleCreateNestedOneWithoutBankAccountInput
+  }
+
+  export type BankAccountUncheckedCreateWithoutFamilyMemberInput = {
+    id?: string
+    main_id: string
+    bankName: string
+    agencyNumber: string
+    accountNumber: string
+    accountType: $Enums.AccountType
+    candidate_id?: string | null
+    legalResponsibleId?: string | null
+    application_id: string
+  }
+
+  export type BankAccountCreateOrConnectWithoutFamilyMemberInput = {
+    where: BankAccountWhereUniqueInput
+    create: XOR<BankAccountCreateWithoutFamilyMemberInput, BankAccountUncheckedCreateWithoutFamilyMemberInput>
+  }
+
+  export type BankAccountCreateManyFamilyMemberInputEnvelope = {
+    data: BankAccountCreateManyFamilyMemberInput | BankAccountCreateManyFamilyMemberInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DeclarationsCreateWithoutFamilyMemberInput = {
+    id?: string
+    declarationType: $Enums.Declaration_Type
+    text: string
+    application_id: string
+    candidate?: CandidateCreateNestedOneWithoutDeclarationsInput
+    LegalResponsible?: LegalResponsibleCreateNestedOneWithoutDeclarationsInput
+  }
+
+  export type DeclarationsUncheckedCreateWithoutFamilyMemberInput = {
+    id?: string
+    declarationType: $Enums.Declaration_Type
+    text: string
+    candidate_id?: string | null
+    legalResponsibleId?: string | null
+    application_id: string
+  }
+
+  export type DeclarationsCreateOrConnectWithoutFamilyMemberInput = {
+    where: DeclarationsWhereUniqueInput
+    create: XOR<DeclarationsCreateWithoutFamilyMemberInput, DeclarationsUncheckedCreateWithoutFamilyMemberInput>
+  }
+
+  export type DeclarationsCreateManyFamilyMemberInputEnvelope = {
+    data: DeclarationsCreateManyFamilyMemberInput | DeclarationsCreateManyFamilyMemberInput[]
+    skipDuplicates?: boolean
   }
 
   export type CreditCardUpsertWithWhereUniqueWithoutFamilyMemberInput = {
@@ -59741,6 +63777,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutFamillyMemberInput = {
@@ -59777,6 +63815,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type MedicationUpsertWithWhereUniqueWithoutFamilyMemberInput = {
@@ -59846,6 +63886,8 @@ export namespace Prisma {
     Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleUncheckedUpdateWithoutFamillyMemberInput = {
@@ -59888,6 +63930,40 @@ export namespace Prisma {
     Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+  }
+
+  export type BankAccountUpsertWithWhereUniqueWithoutFamilyMemberInput = {
+    where: BankAccountWhereUniqueInput
+    update: XOR<BankAccountUpdateWithoutFamilyMemberInput, BankAccountUncheckedUpdateWithoutFamilyMemberInput>
+    create: XOR<BankAccountCreateWithoutFamilyMemberInput, BankAccountUncheckedCreateWithoutFamilyMemberInput>
+  }
+
+  export type BankAccountUpdateWithWhereUniqueWithoutFamilyMemberInput = {
+    where: BankAccountWhereUniqueInput
+    data: XOR<BankAccountUpdateWithoutFamilyMemberInput, BankAccountUncheckedUpdateWithoutFamilyMemberInput>
+  }
+
+  export type BankAccountUpdateManyWithWhereWithoutFamilyMemberInput = {
+    where: BankAccountScalarWhereInput
+    data: XOR<BankAccountUpdateManyMutationInput, BankAccountUncheckedUpdateManyWithoutFamilyMemberInput>
+  }
+
+  export type DeclarationsUpsertWithWhereUniqueWithoutFamilyMemberInput = {
+    where: DeclarationsWhereUniqueInput
+    update: XOR<DeclarationsUpdateWithoutFamilyMemberInput, DeclarationsUncheckedUpdateWithoutFamilyMemberInput>
+    create: XOR<DeclarationsCreateWithoutFamilyMemberInput, DeclarationsUncheckedCreateWithoutFamilyMemberInput>
+  }
+
+  export type DeclarationsUpdateWithWhereUniqueWithoutFamilyMemberInput = {
+    where: DeclarationsWhereUniqueInput
+    data: XOR<DeclarationsUpdateWithoutFamilyMemberInput, DeclarationsUncheckedUpdateWithoutFamilyMemberInput>
+  }
+
+  export type DeclarationsUpdateManyWithWhereWithoutFamilyMemberInput = {
+    where: DeclarationsScalarWhereInput
+    data: XOR<DeclarationsUpdateManyMutationInput, DeclarationsUncheckedUpdateManyWithoutFamilyMemberInput>
   }
 
   export type CandidateCreateWithoutHousingInput = {
@@ -59924,6 +64000,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutHousingInput = {
@@ -59960,6 +64038,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutHousingInput = {
@@ -60007,6 +64087,8 @@ export namespace Prisma {
     Application?: ApplicationCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUncheckedCreateWithoutHousingInput = {
@@ -60049,6 +64131,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleCreateOrConnectWithoutHousingInput = {
@@ -60101,6 +64185,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutHousingInput = {
@@ -60137,6 +64223,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutHousingInput = {
@@ -60190,6 +64278,8 @@ export namespace Prisma {
     Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleUncheckedUpdateWithoutHousingInput = {
@@ -60232,6 +64322,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type CandidateCreateWithoutVehicleInput = {
@@ -60268,6 +64360,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutVehicleInput = {
@@ -60304,6 +64398,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutVehicleInput = {
@@ -60373,6 +64469,8 @@ export namespace Prisma {
     Application?: ApplicationCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUncheckedCreateWithoutVehicleInput = {
@@ -60415,6 +64513,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleCreateOrConnectWithoutVehicleInput = {
@@ -60467,6 +64567,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutVehicleInput = {
@@ -60503,6 +64605,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type FamilyMemberToVehicleUpsertWithWhereUniqueWithoutVehicleInput = {
@@ -60572,6 +64676,8 @@ export namespace Prisma {
     Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleUncheckedUpdateWithoutVehicleInput = {
@@ -60614,6 +64720,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type FamilyMemberCreateWithoutFamilyMemberIncomeInput = {
@@ -60672,6 +64780,8 @@ export namespace Prisma {
     candidate?: CandidateCreateNestedOneWithoutFamillyMemberInput
     Medication?: MedicationCreateNestedManyWithoutFamilyMemberInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamillyMemberInput
+    BankAccount?: BankAccountCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberUncheckedCreateWithoutFamilyMemberIncomeInput = {
@@ -60730,6 +64840,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutFamilyMembersInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutFamilyMemberInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberCreateOrConnectWithoutFamilyMemberIncomeInput = {
@@ -60771,6 +64883,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutFamilyMemberIncomeInput = {
@@ -60807,6 +64921,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutFamilyMemberIncomeInput = {
@@ -60854,6 +64970,8 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutLegalResponsibleInput
     Application?: ApplicationCreateNestedManyWithoutResponsibleInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUncheckedCreateWithoutFamilyMemberIncomeInput = {
@@ -60896,6 +65014,8 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutLegalResponsibleInput
     Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleCreateOrConnectWithoutFamilyMemberIncomeInput = {
@@ -60970,6 +65090,8 @@ export namespace Prisma {
     candidate?: CandidateUpdateOneWithoutFamillyMemberNestedInput
     Medication?: MedicationUpdateManyWithoutFamilyMemberNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFamillyMemberNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type FamilyMemberUncheckedUpdateWithoutFamilyMemberIncomeInput = {
@@ -61028,6 +65150,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutFamilyMembersNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type CandidateUpsertWithoutFamilyMemberIncomeInput = {
@@ -61075,6 +65199,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutFamilyMemberIncomeInput = {
@@ -61111,6 +65237,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutFamilyMemberIncomeInput = {
@@ -61164,6 +65292,8 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutLegalResponsibleNestedInput
     Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleUncheckedUpdateWithoutFamilyMemberIncomeInput = {
@@ -61206,6 +65336,8 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type FamilyMemberCreateWithoutMonthlyIncomeInput = {
@@ -61264,6 +65396,8 @@ export namespace Prisma {
     candidate?: CandidateCreateNestedOneWithoutFamillyMemberInput
     Medication?: MedicationCreateNestedManyWithoutFamilyMemberInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamillyMemberInput
+    BankAccount?: BankAccountCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberUncheckedCreateWithoutMonthlyIncomeInput = {
@@ -61322,6 +65456,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutFamilyMembersInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutFamilyMemberInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberCreateOrConnectWithoutMonthlyIncomeInput = {
@@ -61363,6 +65499,8 @@ export namespace Prisma {
     Housing?: HousingCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutMonthlyIncomeInput = {
@@ -61399,6 +65537,8 @@ export namespace Prisma {
     Housing?: HousingUncheckedCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutMonthlyIncomeInput = {
@@ -61446,6 +65586,8 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutLegalResponsibleInput
     Application?: ApplicationCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUncheckedCreateWithoutMonthlyIncomeInput = {
@@ -61488,6 +65630,8 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutLegalResponsibleInput
     Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleCreateOrConnectWithoutMonthlyIncomeInput = {
@@ -61562,6 +65706,8 @@ export namespace Prisma {
     candidate?: CandidateUpdateOneWithoutFamillyMemberNestedInput
     Medication?: MedicationUpdateManyWithoutFamilyMemberNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFamillyMemberNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type FamilyMemberUncheckedUpdateWithoutMonthlyIncomeInput = {
@@ -61620,6 +65766,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutFamilyMembersNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type CandidateUpsertWithoutMonthlyIncomeInput = {
@@ -61667,6 +65815,8 @@ export namespace Prisma {
     Housing?: HousingUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutMonthlyIncomeInput = {
@@ -61703,6 +65853,8 @@ export namespace Prisma {
     Housing?: HousingUncheckedUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutMonthlyIncomeInput = {
@@ -61756,6 +65908,8 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutLegalResponsibleNestedInput
     Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleUncheckedUpdateWithoutMonthlyIncomeInput = {
@@ -61798,6 +65952,624 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+  }
+
+  export type FamilyMemberCreateWithoutBankAccountInput = {
+    id?: string
+    relationship: $Enums.Relationship
+    otherRelationship?: string | null
+    main_id?: string | null
+    fullName: string
+    socialName?: string | null
+    birthDate: Date | string
+    gender: $Enums.GENDER
+    nationality: string
+    natural_city: string
+    natural_UF: $Enums.COUNTRY
+    CPF: string
+    RG: string
+    rgIssuingAuthority: string
+    rgIssuingState: string
+    documentType?: $Enums.DOCUMENT_TYPE | null
+    documentNumber?: string | null
+    documentValidity?: Date | string | null
+    numberOfBirthRegister?: string | null
+    bookOfBirthRegister?: string | null
+    pageOfBirthRegister?: string | null
+    maritalStatus: $Enums.MARITAL_STATUS
+    skinColor: $Enums.SkinColor
+    religion: $Enums.RELIGION
+    educationLevel: $Enums.SCHOLARSHIP
+    specialNeeds?: boolean | null
+    specialNeedsDescription?: string | null
+    hasMedicalReport?: boolean | null
+    landlinePhone?: string | null
+    workPhone?: string | null
+    contactNameForMessage?: string | null
+    email?: string | null
+    profession: string
+    enrolledGovernmentProgram?: boolean | null
+    NIS?: string | null
+    educationPlace?: $Enums.INSTITUTION_TYPE | null
+    institutionName?: string | null
+    coursingEducationLevel?: $Enums.EDUCATION_TYPE | null
+    cycleOfEducation?: string | null
+    turnOfEducation?: $Enums.SHIFT | null
+    hasScholarship?: boolean | null
+    percentageOfScholarship?: string | null
+    monthlyAmount?: string | null
+    incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
+    application_id: string
+    CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
+    FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutFamilyMemberInput
+    Financing?: FinancingCreateNestedManyWithoutFamilyMemberInput
+    Loan?: LoanCreateNestedManyWithoutFamilyMemberInput
+    MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutFamilyMemberInput
+    OtherExpense?: OtherExpenseCreateNestedManyWithoutFamilyMemberInput
+    FamilyMemberToVehicle?: FamilyMemberToVehicleCreateNestedManyWithoutFamilyMembersInput
+    FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutFamilyMemberInput
+    candidate?: CandidateCreateNestedOneWithoutFamillyMemberInput
+    Medication?: MedicationCreateNestedManyWithoutFamilyMemberInput
+    LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamillyMemberInput
+    Declarations?: DeclarationsCreateNestedManyWithoutFamilyMemberInput
+  }
+
+  export type FamilyMemberUncheckedCreateWithoutBankAccountInput = {
+    id?: string
+    relationship: $Enums.Relationship
+    otherRelationship?: string | null
+    main_id?: string | null
+    fullName: string
+    socialName?: string | null
+    birthDate: Date | string
+    gender: $Enums.GENDER
+    nationality: string
+    natural_city: string
+    natural_UF: $Enums.COUNTRY
+    CPF: string
+    RG: string
+    rgIssuingAuthority: string
+    rgIssuingState: string
+    documentType?: $Enums.DOCUMENT_TYPE | null
+    documentNumber?: string | null
+    documentValidity?: Date | string | null
+    numberOfBirthRegister?: string | null
+    bookOfBirthRegister?: string | null
+    pageOfBirthRegister?: string | null
+    maritalStatus: $Enums.MARITAL_STATUS
+    skinColor: $Enums.SkinColor
+    religion: $Enums.RELIGION
+    educationLevel: $Enums.SCHOLARSHIP
+    specialNeeds?: boolean | null
+    specialNeedsDescription?: string | null
+    hasMedicalReport?: boolean | null
+    landlinePhone?: string | null
+    workPhone?: string | null
+    contactNameForMessage?: string | null
+    email?: string | null
+    profession: string
+    enrolledGovernmentProgram?: boolean | null
+    NIS?: string | null
+    educationPlace?: $Enums.INSTITUTION_TYPE | null
+    institutionName?: string | null
+    coursingEducationLevel?: $Enums.EDUCATION_TYPE | null
+    cycleOfEducation?: string | null
+    turnOfEducation?: $Enums.SHIFT | null
+    hasScholarship?: boolean | null
+    percentageOfScholarship?: string | null
+    monthlyAmount?: string | null
+    candidate_id?: string | null
+    incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
+    legalResponsibleId?: string | null
+    application_id: string
+    CreditCard?: CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput
+    FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Financing?: FinancingUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Loan?: LoanUncheckedCreateNestedManyWithoutFamilyMemberInput
+    MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
+    OtherExpense?: OtherExpenseUncheckedCreateNestedManyWithoutFamilyMemberInput
+    FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutFamilyMembersInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutFamilyMemberInput
+  }
+
+  export type FamilyMemberCreateOrConnectWithoutBankAccountInput = {
+    where: FamilyMemberWhereUniqueInput
+    create: XOR<FamilyMemberCreateWithoutBankAccountInput, FamilyMemberUncheckedCreateWithoutBankAccountInput>
+  }
+
+  export type CandidateCreateWithoutBankAccountInput = {
+    id?: string
+    name: string
+    CPF: string
+    main_id?: string | null
+    birthDate: Date | string
+    phone: string
+    address: string
+    city: string
+    UF: $Enums.COUNTRY
+    CEP: string
+    neighborhood: string
+    addressNumber: string
+    role?: $Enums.ROLE
+    createdAt?: Date | string
+    user_id?: string | null
+    profilePicture?: string | null
+    email?: string | null
+    finishedapplication?: boolean
+    application_id?: string | null
+    Application?: ApplicationCreateNestedManyWithoutCandidateInput
+    CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
+    Expense?: ExpenseCreateNestedManyWithoutCandidateInput
+    Financing?: FinancingCreateNestedManyWithoutCandidateInput
+    IdentityDetails?: IdentityDetailsCreateNestedManyWithoutCandidateInput
+    FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutCandidateInput
+    Loan?: LoanCreateNestedManyWithoutCandidateInput
+    OtherExpense?: OtherExpenseCreateNestedManyWithoutCandidateInput
+    Vehicle?: VehicleCreateNestedManyWithoutCandidateInput
+    responsible?: LegalResponsibleCreateNestedOneWithoutCandidateInput
+    FamillyMember?: FamilyMemberCreateNestedManyWithoutCandidateInput
+    Housing?: HousingCreateNestedManyWithoutCandidateInput
+    MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
+    FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
+    Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
+  }
+
+  export type CandidateUncheckedCreateWithoutBankAccountInput = {
+    id?: string
+    name: string
+    CPF: string
+    main_id?: string | null
+    birthDate: Date | string
+    phone: string
+    address: string
+    city: string
+    UF: $Enums.COUNTRY
+    CEP: string
+    neighborhood: string
+    addressNumber: string
+    role?: $Enums.ROLE
+    createdAt?: Date | string
+    user_id?: string | null
+    responsible_id?: string | null
+    profilePicture?: string | null
+    email?: string | null
+    finishedapplication?: boolean
+    application_id?: string | null
+    Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
+    CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
+    Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
+    Financing?: FinancingUncheckedCreateNestedManyWithoutCandidateInput
+    IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutCandidateInput
+    FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutCandidateInput
+    Loan?: LoanUncheckedCreateNestedManyWithoutCandidateInput
+    OtherExpense?: OtherExpenseUncheckedCreateNestedManyWithoutCandidateInput
+    Vehicle?: VehicleUncheckedCreateNestedManyWithoutCandidateInput
+    FamillyMember?: FamilyMemberUncheckedCreateNestedManyWithoutCandidateInput
+    Housing?: HousingUncheckedCreateNestedManyWithoutCandidateInput
+    MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
+    Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
+  }
+
+  export type CandidateCreateOrConnectWithoutBankAccountInput = {
+    where: CandidateWhereUniqueInput
+    create: XOR<CandidateCreateWithoutBankAccountInput, CandidateUncheckedCreateWithoutBankAccountInput>
+  }
+
+  export type LegalResponsibleCreateWithoutBankAccountInput = {
+    id?: string
+    name: string
+    main_id?: string | null
+    CPF: string
+    birthDate: Date | string
+    phone: string
+    address: string
+    city: string
+    UF: $Enums.COUNTRY
+    CEP: string
+    neighborhood: string
+    addressNumber: string
+    livesAtSameAddress?: boolean | null
+    institutionType?: $Enums.INSTITUTION_TYPE | null
+    responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
+    responsibleGradeOrSemester?: string | null
+    responsibleShift?: $Enums.SHIFT | null
+    ResponsibleEducationInstitution?: string | null
+    role?: $Enums.ROLE
+    createdAt?: Date | string
+    user_id: string
+    hasScholarship?: boolean | null
+    monthlyAmount?: string | null
+    percentageOfScholarship?: string | null
+    application_id?: string | null
+    IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
+    Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
+    Housing?: HousingCreateNestedManyWithoutResponsibleInput
+    FamillyMember?: FamilyMemberCreateNestedManyWithoutLegalResponsibleInput
+    CreditCard?: CreditCardCreateNestedManyWithoutLegalResponsibleInput
+    Expense?: ExpenseCreateNestedManyWithoutLegalResponsibleInput
+    Financing?: FinancingCreateNestedManyWithoutLegalResponsibleInput
+    Loan?: LoanCreateNestedManyWithoutLegalResponsibleInput
+    OtherExpense?: OtherExpenseCreateNestedManyWithoutLegalResponsibleInput
+    Vehicle?: VehicleCreateNestedManyWithoutLegalResponsibleInput
+    FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutLegalResponsibleInput
+    Medication?: MedicationCreateNestedManyWithoutLegalResponsibleInput
+    Application?: ApplicationCreateNestedManyWithoutResponsibleInput
+    FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
+    MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
+  }
+
+  export type LegalResponsibleUncheckedCreateWithoutBankAccountInput = {
+    id?: string
+    name: string
+    main_id?: string | null
+    CPF: string
+    birthDate: Date | string
+    phone: string
+    address: string
+    city: string
+    UF: $Enums.COUNTRY
+    CEP: string
+    neighborhood: string
+    addressNumber: string
+    livesAtSameAddress?: boolean | null
+    institutionType?: $Enums.INSTITUTION_TYPE | null
+    responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
+    responsibleGradeOrSemester?: string | null
+    responsibleShift?: $Enums.SHIFT | null
+    ResponsibleEducationInstitution?: string | null
+    role?: $Enums.ROLE
+    createdAt?: Date | string
+    user_id: string
+    hasScholarship?: boolean | null
+    monthlyAmount?: string | null
+    percentageOfScholarship?: string | null
+    application_id?: string | null
+    IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
+    Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
+    Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
+    FamillyMember?: FamilyMemberUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    CreditCard?: CreditCardUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Expense?: ExpenseUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Financing?: FinancingUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Loan?: LoanUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    OtherExpense?: OtherExpenseUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Vehicle?: VehicleUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Medication?: MedicationUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
+    FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
+  }
+
+  export type LegalResponsibleCreateOrConnectWithoutBankAccountInput = {
+    where: LegalResponsibleWhereUniqueInput
+    create: XOR<LegalResponsibleCreateWithoutBankAccountInput, LegalResponsibleUncheckedCreateWithoutBankAccountInput>
+  }
+
+  export type FamilyMemberUpsertWithoutBankAccountInput = {
+    update: XOR<FamilyMemberUpdateWithoutBankAccountInput, FamilyMemberUncheckedUpdateWithoutBankAccountInput>
+    create: XOR<FamilyMemberCreateWithoutBankAccountInput, FamilyMemberUncheckedCreateWithoutBankAccountInput>
+    where?: FamilyMemberWhereInput
+  }
+
+  export type FamilyMemberUpdateToOneWithWhereWithoutBankAccountInput = {
+    where?: FamilyMemberWhereInput
+    data: XOR<FamilyMemberUpdateWithoutBankAccountInput, FamilyMemberUncheckedUpdateWithoutBankAccountInput>
+  }
+
+  export type FamilyMemberUpdateWithoutBankAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    relationship?: EnumRelationshipFieldUpdateOperationsInput | $Enums.Relationship
+    otherRelationship?: NullableStringFieldUpdateOperationsInput | string | null
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: StringFieldUpdateOperationsInput | string
+    socialName?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
+    nationality?: StringFieldUpdateOperationsInput | string
+    natural_city?: StringFieldUpdateOperationsInput | string
+    natural_UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
+    CPF?: StringFieldUpdateOperationsInput | string
+    RG?: StringFieldUpdateOperationsInput | string
+    rgIssuingAuthority?: StringFieldUpdateOperationsInput | string
+    rgIssuingState?: StringFieldUpdateOperationsInput | string
+    documentType?: NullableEnumDOCUMENT_TYPEFieldUpdateOperationsInput | $Enums.DOCUMENT_TYPE | null
+    documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numberOfBirthRegister?: NullableStringFieldUpdateOperationsInput | string | null
+    bookOfBirthRegister?: NullableStringFieldUpdateOperationsInput | string | null
+    pageOfBirthRegister?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
+    skinColor?: EnumSkinColorFieldUpdateOperationsInput | $Enums.SkinColor
+    religion?: EnumRELIGIONFieldUpdateOperationsInput | $Enums.RELIGION
+    educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
+    specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    workPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    profession?: StringFieldUpdateOperationsInput | string
+    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    NIS?: NullableStringFieldUpdateOperationsInput | string | null
+    educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
+    institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    coursingEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
+    cycleOfEducation?: NullableStringFieldUpdateOperationsInput | string | null
+    turnOfEducation?: NullableEnumSHIFTFieldUpdateOperationsInput | $Enums.SHIFT | null
+    hasScholarship?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
+    monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
+    application_id?: StringFieldUpdateOperationsInput | string
+    CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
+    FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutFamilyMemberNestedInput
+    Financing?: FinancingUpdateManyWithoutFamilyMemberNestedInput
+    Loan?: LoanUpdateManyWithoutFamilyMemberNestedInput
+    MonthlyIncome?: MonthlyIncomeUpdateManyWithoutFamilyMemberNestedInput
+    OtherExpense?: OtherExpenseUpdateManyWithoutFamilyMemberNestedInput
+    FamilyMemberToVehicle?: FamilyMemberToVehicleUpdateManyWithoutFamilyMembersNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutFamilyMemberNestedInput
+    candidate?: CandidateUpdateOneWithoutFamillyMemberNestedInput
+    Medication?: MedicationUpdateManyWithoutFamilyMemberNestedInput
+    LegalResponsible?: LegalResponsibleUpdateOneWithoutFamillyMemberNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutFamilyMemberNestedInput
+  }
+
+  export type FamilyMemberUncheckedUpdateWithoutBankAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    relationship?: EnumRelationshipFieldUpdateOperationsInput | $Enums.Relationship
+    otherRelationship?: NullableStringFieldUpdateOperationsInput | string | null
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: StringFieldUpdateOperationsInput | string
+    socialName?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
+    nationality?: StringFieldUpdateOperationsInput | string
+    natural_city?: StringFieldUpdateOperationsInput | string
+    natural_UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
+    CPF?: StringFieldUpdateOperationsInput | string
+    RG?: StringFieldUpdateOperationsInput | string
+    rgIssuingAuthority?: StringFieldUpdateOperationsInput | string
+    rgIssuingState?: StringFieldUpdateOperationsInput | string
+    documentType?: NullableEnumDOCUMENT_TYPEFieldUpdateOperationsInput | $Enums.DOCUMENT_TYPE | null
+    documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numberOfBirthRegister?: NullableStringFieldUpdateOperationsInput | string | null
+    bookOfBirthRegister?: NullableStringFieldUpdateOperationsInput | string | null
+    pageOfBirthRegister?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
+    skinColor?: EnumSkinColorFieldUpdateOperationsInput | $Enums.SkinColor
+    religion?: EnumRELIGIONFieldUpdateOperationsInput | $Enums.RELIGION
+    educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
+    specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    workPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    profession?: StringFieldUpdateOperationsInput | string
+    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    NIS?: NullableStringFieldUpdateOperationsInput | string | null
+    educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
+    institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    coursingEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
+    cycleOfEducation?: NullableStringFieldUpdateOperationsInput | string | null
+    turnOfEducation?: NullableEnumSHIFTFieldUpdateOperationsInput | $Enums.SHIFT | null
+    hasScholarship?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
+    monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+    CreditCard?: CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Financing?: FinancingUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Loan?: LoanUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    OtherExpense?: OtherExpenseUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutFamilyMembersNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutFamilyMemberNestedInput
+  }
+
+  export type CandidateUpsertWithoutBankAccountInput = {
+    update: XOR<CandidateUpdateWithoutBankAccountInput, CandidateUncheckedUpdateWithoutBankAccountInput>
+    create: XOR<CandidateCreateWithoutBankAccountInput, CandidateUncheckedCreateWithoutBankAccountInput>
+    where?: CandidateWhereInput
+  }
+
+  export type CandidateUpdateToOneWithWhereWithoutBankAccountInput = {
+    where?: CandidateWhereInput
+    data: XOR<CandidateUpdateWithoutBankAccountInput, CandidateUncheckedUpdateWithoutBankAccountInput>
+  }
+
+  export type CandidateUpdateWithoutBankAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    CPF?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
+    CEP?: StringFieldUpdateOperationsInput | string
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    addressNumber?: StringFieldUpdateOperationsInput | string
+    role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    finishedapplication?: BoolFieldUpdateOperationsInput | boolean
+    application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    Application?: ApplicationUpdateManyWithoutCandidateNestedInput
+    CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
+    Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
+    Financing?: FinancingUpdateManyWithoutCandidateNestedInput
+    IdentityDetails?: IdentityDetailsUpdateManyWithoutCandidateNestedInput
+    FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutCandidateNestedInput
+    Loan?: LoanUpdateManyWithoutCandidateNestedInput
+    OtherExpense?: OtherExpenseUpdateManyWithoutCandidateNestedInput
+    Vehicle?: VehicleUpdateManyWithoutCandidateNestedInput
+    responsible?: LegalResponsibleUpdateOneWithoutCandidateNestedInput
+    FamillyMember?: FamilyMemberUpdateManyWithoutCandidateNestedInput
+    Housing?: HousingUpdateManyWithoutCandidateNestedInput
+    MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
+    Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
+  }
+
+  export type CandidateUncheckedUpdateWithoutBankAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    CPF?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
+    CEP?: StringFieldUpdateOperationsInput | string
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    addressNumber?: StringFieldUpdateOperationsInput | string
+    role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    responsible_id?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    finishedapplication?: BoolFieldUpdateOperationsInput | boolean
+    application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
+    CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
+    Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
+    Financing?: FinancingUncheckedUpdateManyWithoutCandidateNestedInput
+    IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutCandidateNestedInput
+    FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutCandidateNestedInput
+    Loan?: LoanUncheckedUpdateManyWithoutCandidateNestedInput
+    OtherExpense?: OtherExpenseUncheckedUpdateManyWithoutCandidateNestedInput
+    Vehicle?: VehicleUncheckedUpdateManyWithoutCandidateNestedInput
+    FamillyMember?: FamilyMemberUncheckedUpdateManyWithoutCandidateNestedInput
+    Housing?: HousingUncheckedUpdateManyWithoutCandidateNestedInput
+    MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
+    Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
+  }
+
+  export type LegalResponsibleUpsertWithoutBankAccountInput = {
+    update: XOR<LegalResponsibleUpdateWithoutBankAccountInput, LegalResponsibleUncheckedUpdateWithoutBankAccountInput>
+    create: XOR<LegalResponsibleCreateWithoutBankAccountInput, LegalResponsibleUncheckedCreateWithoutBankAccountInput>
+    where?: LegalResponsibleWhereInput
+  }
+
+  export type LegalResponsibleUpdateToOneWithWhereWithoutBankAccountInput = {
+    where?: LegalResponsibleWhereInput
+    data: XOR<LegalResponsibleUpdateWithoutBankAccountInput, LegalResponsibleUncheckedUpdateWithoutBankAccountInput>
+  }
+
+  export type LegalResponsibleUpdateWithoutBankAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    CPF?: StringFieldUpdateOperationsInput | string
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
+    CEP?: StringFieldUpdateOperationsInput | string
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    addressNumber?: StringFieldUpdateOperationsInput | string
+    livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
+    responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
+    responsibleGradeOrSemester?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleShift?: NullableEnumSHIFTFieldUpdateOperationsInput | $Enums.SHIFT | null
+    ResponsibleEducationInstitution?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    hasScholarship?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
+    Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
+    Housing?: HousingUpdateManyWithoutResponsibleNestedInput
+    FamillyMember?: FamilyMemberUpdateManyWithoutLegalResponsibleNestedInput
+    CreditCard?: CreditCardUpdateManyWithoutLegalResponsibleNestedInput
+    Expense?: ExpenseUpdateManyWithoutLegalResponsibleNestedInput
+    Financing?: FinancingUpdateManyWithoutLegalResponsibleNestedInput
+    Loan?: LoanUpdateManyWithoutLegalResponsibleNestedInput
+    OtherExpense?: OtherExpenseUpdateManyWithoutLegalResponsibleNestedInput
+    Vehicle?: VehicleUpdateManyWithoutLegalResponsibleNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutLegalResponsibleNestedInput
+    Medication?: MedicationUpdateManyWithoutLegalResponsibleNestedInput
+    Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
+    FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
+  }
+
+  export type LegalResponsibleUncheckedUpdateWithoutBankAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    CPF?: StringFieldUpdateOperationsInput | string
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
+    CEP?: StringFieldUpdateOperationsInput | string
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    addressNumber?: StringFieldUpdateOperationsInput | string
+    livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
+    responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
+    responsibleGradeOrSemester?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleShift?: NullableEnumSHIFTFieldUpdateOperationsInput | $Enums.SHIFT | null
+    ResponsibleEducationInstitution?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    hasScholarship?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
+    Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
+    Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
+    FamillyMember?: FamilyMemberUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    CreditCard?: CreditCardUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Expense?: ExpenseUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Financing?: FinancingUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Loan?: LoanUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    OtherExpense?: OtherExpenseUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Vehicle?: VehicleUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Medication?: MedicationUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
+    FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type CandidateCreateWithoutExpenseInput = {
@@ -61834,6 +66606,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutExpenseInput = {
@@ -61870,6 +66644,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutExpenseInput = {
@@ -61917,6 +66693,8 @@ export namespace Prisma {
     Application?: ApplicationCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUncheckedCreateWithoutExpenseInput = {
@@ -61959,6 +66737,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleCreateOrConnectWithoutExpenseInput = {
@@ -62011,6 +66791,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutExpenseInput = {
@@ -62047,6 +66829,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutExpenseInput = {
@@ -62100,6 +66884,8 @@ export namespace Prisma {
     Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleUncheckedUpdateWithoutExpenseInput = {
@@ -62142,6 +66928,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type CandidateCreateWithoutLoanInput = {
@@ -62178,6 +66966,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutLoanInput = {
@@ -62214,6 +67004,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutLoanInput = {
@@ -62277,6 +67069,8 @@ export namespace Prisma {
     candidate?: CandidateCreateNestedOneWithoutFamillyMemberInput
     Medication?: MedicationCreateNestedManyWithoutFamilyMemberInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamillyMemberInput
+    BankAccount?: BankAccountCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberUncheckedCreateWithoutLoanInput = {
@@ -62335,6 +67129,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutFamilyMembersInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutFamilyMemberInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberCreateOrConnectWithoutLoanInput = {
@@ -62382,6 +67178,8 @@ export namespace Prisma {
     Application?: ApplicationCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUncheckedCreateWithoutLoanInput = {
@@ -62424,6 +67222,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleCreateOrConnectWithoutLoanInput = {
@@ -62476,6 +67276,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutLoanInput = {
@@ -62512,6 +67314,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type FamilyMemberUpsertWithoutLoanInput = {
@@ -62581,6 +67385,8 @@ export namespace Prisma {
     candidate?: CandidateUpdateOneWithoutFamillyMemberNestedInput
     Medication?: MedicationUpdateManyWithoutFamilyMemberNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFamillyMemberNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type FamilyMemberUncheckedUpdateWithoutLoanInput = {
@@ -62639,6 +67445,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutFamilyMembersNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutLoanInput = {
@@ -62692,6 +67500,8 @@ export namespace Prisma {
     Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleUncheckedUpdateWithoutLoanInput = {
@@ -62734,6 +67544,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type CandidateCreateWithoutFinancingInput = {
@@ -62770,6 +67582,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutFinancingInput = {
@@ -62806,6 +67620,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutFinancingInput = {
@@ -62869,6 +67685,8 @@ export namespace Prisma {
     candidate?: CandidateCreateNestedOneWithoutFamillyMemberInput
     Medication?: MedicationCreateNestedManyWithoutFamilyMemberInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamillyMemberInput
+    BankAccount?: BankAccountCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberUncheckedCreateWithoutFinancingInput = {
@@ -62927,6 +67745,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutFamilyMembersInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutFamilyMemberInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberCreateOrConnectWithoutFinancingInput = {
@@ -62974,6 +67794,8 @@ export namespace Prisma {
     Application?: ApplicationCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUncheckedCreateWithoutFinancingInput = {
@@ -63016,6 +67838,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleCreateOrConnectWithoutFinancingInput = {
@@ -63068,6 +67892,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutFinancingInput = {
@@ -63104,6 +67930,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type FamilyMemberUpsertWithoutFinancingInput = {
@@ -63173,6 +68001,8 @@ export namespace Prisma {
     candidate?: CandidateUpdateOneWithoutFamillyMemberNestedInput
     Medication?: MedicationUpdateManyWithoutFamilyMemberNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFamillyMemberNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type FamilyMemberUncheckedUpdateWithoutFinancingInput = {
@@ -63231,6 +68061,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutFamilyMembersNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutFinancingInput = {
@@ -63284,6 +68116,8 @@ export namespace Prisma {
     Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleUncheckedUpdateWithoutFinancingInput = {
@@ -63326,6 +68160,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type CandidateCreateWithoutCreditCardInput = {
@@ -63362,6 +68198,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutCreditCardInput = {
@@ -63398,6 +68236,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutCreditCardInput = {
@@ -63461,6 +68301,8 @@ export namespace Prisma {
     candidate?: CandidateCreateNestedOneWithoutFamillyMemberInput
     Medication?: MedicationCreateNestedManyWithoutFamilyMemberInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamillyMemberInput
+    BankAccount?: BankAccountCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberUncheckedCreateWithoutCreditCardInput = {
@@ -63519,6 +68361,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutFamilyMembersInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutFamilyMemberInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberCreateOrConnectWithoutCreditCardInput = {
@@ -63566,6 +68410,8 @@ export namespace Prisma {
     Application?: ApplicationCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUncheckedCreateWithoutCreditCardInput = {
@@ -63608,6 +68454,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleCreateOrConnectWithoutCreditCardInput = {
@@ -63660,6 +68508,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutCreditCardInput = {
@@ -63696,6 +68546,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type FamilyMemberUpsertWithoutCreditCardInput = {
@@ -63765,6 +68617,8 @@ export namespace Prisma {
     candidate?: CandidateUpdateOneWithoutFamillyMemberNestedInput
     Medication?: MedicationUpdateManyWithoutFamilyMemberNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFamillyMemberNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type FamilyMemberUncheckedUpdateWithoutCreditCardInput = {
@@ -63823,6 +68677,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutFamilyMembersNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutCreditCardInput = {
@@ -63876,6 +68732,8 @@ export namespace Prisma {
     Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleUncheckedUpdateWithoutCreditCardInput = {
@@ -63918,6 +68776,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type CandidateCreateWithoutOtherExpenseInput = {
@@ -63954,6 +68814,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutOtherExpenseInput = {
@@ -63990,6 +68852,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutOtherExpenseInput = {
@@ -64053,6 +68917,8 @@ export namespace Prisma {
     candidate?: CandidateCreateNestedOneWithoutFamillyMemberInput
     Medication?: MedicationCreateNestedManyWithoutFamilyMemberInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamillyMemberInput
+    BankAccount?: BankAccountCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberUncheckedCreateWithoutOtherExpenseInput = {
@@ -64111,6 +68977,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutFamilyMembersInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutFamilyMemberInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberCreateOrConnectWithoutOtherExpenseInput = {
@@ -64158,6 +69026,8 @@ export namespace Prisma {
     Application?: ApplicationCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUncheckedCreateWithoutOtherExpenseInput = {
@@ -64200,6 +69070,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleCreateOrConnectWithoutOtherExpenseInput = {
@@ -64252,6 +69124,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutOtherExpenseInput = {
@@ -64288,6 +69162,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type FamilyMemberUpsertWithoutOtherExpenseInput = {
@@ -64357,6 +69233,8 @@ export namespace Prisma {
     candidate?: CandidateUpdateOneWithoutFamillyMemberNestedInput
     Medication?: MedicationUpdateManyWithoutFamilyMemberNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFamillyMemberNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type FamilyMemberUncheckedUpdateWithoutOtherExpenseInput = {
@@ -64415,6 +69293,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutFamilyMembersNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutOtherExpenseInput = {
@@ -64468,6 +69348,8 @@ export namespace Prisma {
     Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleUncheckedUpdateWithoutOtherExpenseInput = {
@@ -64510,6 +69392,8 @@ export namespace Prisma {
     Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type FamilyMemberCreateWithoutFamilyMemberDiseaseInput = {
@@ -64568,6 +69452,8 @@ export namespace Prisma {
     candidate?: CandidateCreateNestedOneWithoutFamillyMemberInput
     Medication?: MedicationCreateNestedManyWithoutFamilyMemberInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamillyMemberInput
+    BankAccount?: BankAccountCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberUncheckedCreateWithoutFamilyMemberDiseaseInput = {
@@ -64626,6 +69512,8 @@ export namespace Prisma {
     OtherExpense?: OtherExpenseUncheckedCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutFamilyMembersInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberCreateOrConnectWithoutFamilyMemberDiseaseInput = {
@@ -64667,6 +69555,8 @@ export namespace Prisma {
     Housing?: HousingCreateNestedManyWithoutCandidateInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutFamilyMemberDiseaseInput = {
@@ -64703,6 +69593,8 @@ export namespace Prisma {
     Housing?: HousingUncheckedCreateNestedManyWithoutCandidateInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutFamilyMemberDiseaseInput = {
@@ -64750,6 +69642,8 @@ export namespace Prisma {
     Application?: ApplicationCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUncheckedCreateWithoutFamilyMemberDiseaseInput = {
@@ -64792,11 +69686,47 @@ export namespace Prisma {
     Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleCreateOrConnectWithoutFamilyMemberDiseaseInput = {
     where: LegalResponsibleWhereUniqueInput
     create: XOR<LegalResponsibleCreateWithoutFamilyMemberDiseaseInput, LegalResponsibleUncheckedCreateWithoutFamilyMemberDiseaseInput>
+  }
+
+  export type MedicationCreateWithoutFamilyMemberDiseaseInput = {
+    id?: string
+    main_id?: string | null
+    medicationName: string
+    obtainedPublicly: boolean
+    specificMedicationPublicly?: string | null
+    application_id: string
+    familyMember?: FamilyMemberCreateNestedOneWithoutMedicationInput
+    candidate?: CandidateCreateNestedOneWithoutMedicationInput
+    legalResponsible?: LegalResponsibleCreateNestedOneWithoutMedicationInput
+  }
+
+  export type MedicationUncheckedCreateWithoutFamilyMemberDiseaseInput = {
+    id?: string
+    main_id?: string | null
+    medicationName: string
+    obtainedPublicly: boolean
+    specificMedicationPublicly?: string | null
+    familyMember_id?: string | null
+    candidate_id?: string | null
+    legalResponsibleId?: string | null
+    application_id: string
+  }
+
+  export type MedicationCreateOrConnectWithoutFamilyMemberDiseaseInput = {
+    where: MedicationWhereUniqueInput
+    create: XOR<MedicationCreateWithoutFamilyMemberDiseaseInput, MedicationUncheckedCreateWithoutFamilyMemberDiseaseInput>
+  }
+
+  export type MedicationCreateManyFamilyMemberDiseaseInputEnvelope = {
+    data: MedicationCreateManyFamilyMemberDiseaseInput | MedicationCreateManyFamilyMemberDiseaseInput[]
+    skipDuplicates?: boolean
   }
 
   export type FamilyMemberUpsertWithoutFamilyMemberDiseaseInput = {
@@ -64866,6 +69796,8 @@ export namespace Prisma {
     candidate?: CandidateUpdateOneWithoutFamillyMemberNestedInput
     Medication?: MedicationUpdateManyWithoutFamilyMemberNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFamillyMemberNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type FamilyMemberUncheckedUpdateWithoutFamilyMemberDiseaseInput = {
@@ -64924,6 +69856,8 @@ export namespace Prisma {
     OtherExpense?: OtherExpenseUncheckedUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutFamilyMembersNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type CandidateUpsertWithoutFamilyMemberDiseaseInput = {
@@ -64971,6 +69905,8 @@ export namespace Prisma {
     Housing?: HousingUpdateManyWithoutCandidateNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutFamilyMemberDiseaseInput = {
@@ -65007,6 +69943,8 @@ export namespace Prisma {
     Housing?: HousingUncheckedUpdateManyWithoutCandidateNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutFamilyMemberDiseaseInput = {
@@ -65060,6 +69998,8 @@ export namespace Prisma {
     Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleUncheckedUpdateWithoutFamilyMemberDiseaseInput = {
@@ -65102,6 +70042,24 @@ export namespace Prisma {
     Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+  }
+
+  export type MedicationUpsertWithWhereUniqueWithoutFamilyMemberDiseaseInput = {
+    where: MedicationWhereUniqueInput
+    update: XOR<MedicationUpdateWithoutFamilyMemberDiseaseInput, MedicationUncheckedUpdateWithoutFamilyMemberDiseaseInput>
+    create: XOR<MedicationCreateWithoutFamilyMemberDiseaseInput, MedicationUncheckedCreateWithoutFamilyMemberDiseaseInput>
+  }
+
+  export type MedicationUpdateWithWhereUniqueWithoutFamilyMemberDiseaseInput = {
+    where: MedicationWhereUniqueInput
+    data: XOR<MedicationUpdateWithoutFamilyMemberDiseaseInput, MedicationUncheckedUpdateWithoutFamilyMemberDiseaseInput>
+  }
+
+  export type MedicationUpdateManyWithWhereWithoutFamilyMemberDiseaseInput = {
+    where: MedicationScalarWhereInput
+    data: XOR<MedicationUpdateManyMutationInput, MedicationUncheckedUpdateManyWithoutFamilyMemberDiseaseInput>
   }
 
   export type FamilyMemberCreateWithoutMedicationInput = {
@@ -65160,6 +70118,8 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutFamilyMemberInput
     candidate?: CandidateCreateNestedOneWithoutFamillyMemberInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamillyMemberInput
+    BankAccount?: BankAccountCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberUncheckedCreateWithoutMedicationInput = {
@@ -65218,6 +70178,8 @@ export namespace Prisma {
     OtherExpense?: OtherExpenseUncheckedCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutFamilyMembersInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutFamilyMemberInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberCreateOrConnectWithoutMedicationInput = {
@@ -65259,6 +70221,8 @@ export namespace Prisma {
     Housing?: HousingCreateNestedManyWithoutCandidateInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutMedicationInput = {
@@ -65295,6 +70259,8 @@ export namespace Prisma {
     Housing?: HousingUncheckedCreateNestedManyWithoutCandidateInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutMedicationInput = {
@@ -65342,6 +70308,8 @@ export namespace Prisma {
     Application?: ApplicationCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUncheckedCreateWithoutMedicationInput = {
@@ -65384,11 +70352,44 @@ export namespace Prisma {
     Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleCreateOrConnectWithoutMedicationInput = {
     where: LegalResponsibleWhereUniqueInput
     create: XOR<LegalResponsibleCreateWithoutMedicationInput, LegalResponsibleUncheckedCreateWithoutMedicationInput>
+  }
+
+  export type FamilyMemberDiseaseCreateWithoutMedicationInput = {
+    id?: string
+    main_id?: string | null
+    disease?: $Enums.Disease | null
+    diseases?: FamilyMemberDiseaseCreatediseasesInput | $Enums.Disease[]
+    specificDisease?: string | null
+    hasMedicalReport: boolean
+    application_id: string
+    familyMember?: FamilyMemberCreateNestedOneWithoutFamilyMemberDiseaseInput
+    candidate?: CandidateCreateNestedOneWithoutFamilyMemberDiseaseInput
+    legalResponsible?: LegalResponsibleCreateNestedOneWithoutFamilyMemberDiseaseInput
+  }
+
+  export type FamilyMemberDiseaseUncheckedCreateWithoutMedicationInput = {
+    id?: string
+    main_id?: string | null
+    disease?: $Enums.Disease | null
+    diseases?: FamilyMemberDiseaseCreatediseasesInput | $Enums.Disease[]
+    specificDisease?: string | null
+    hasMedicalReport: boolean
+    familyMember_id?: string | null
+    candidate_id?: string | null
+    legalResponsibleId?: string | null
+    application_id: string
+  }
+
+  export type FamilyMemberDiseaseCreateOrConnectWithoutMedicationInput = {
+    where: FamilyMemberDiseaseWhereUniqueInput
+    create: XOR<FamilyMemberDiseaseCreateWithoutMedicationInput, FamilyMemberDiseaseUncheckedCreateWithoutMedicationInput>
   }
 
   export type FamilyMemberUpsertWithoutMedicationInput = {
@@ -65458,6 +70459,8 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutFamilyMemberNestedInput
     candidate?: CandidateUpdateOneWithoutFamillyMemberNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFamillyMemberNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type FamilyMemberUncheckedUpdateWithoutMedicationInput = {
@@ -65516,6 +70519,8 @@ export namespace Prisma {
     OtherExpense?: OtherExpenseUncheckedUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutFamilyMembersNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type CandidateUpsertWithoutMedicationInput = {
@@ -65563,6 +70568,8 @@ export namespace Prisma {
     Housing?: HousingUpdateManyWithoutCandidateNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutMedicationInput = {
@@ -65599,6 +70606,8 @@ export namespace Prisma {
     Housing?: HousingUncheckedUpdateManyWithoutCandidateNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type LegalResponsibleUpsertWithoutMedicationInput = {
@@ -65652,6 +70661,8 @@ export namespace Prisma {
     Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleUncheckedUpdateWithoutMedicationInput = {
@@ -65694,6 +70705,661 @@ export namespace Prisma {
     Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+  }
+
+  export type FamilyMemberDiseaseUpsertWithoutMedicationInput = {
+    update: XOR<FamilyMemberDiseaseUpdateWithoutMedicationInput, FamilyMemberDiseaseUncheckedUpdateWithoutMedicationInput>
+    create: XOR<FamilyMemberDiseaseCreateWithoutMedicationInput, FamilyMemberDiseaseUncheckedCreateWithoutMedicationInput>
+    where?: FamilyMemberDiseaseWhereInput
+  }
+
+  export type FamilyMemberDiseaseUpdateToOneWithWhereWithoutMedicationInput = {
+    where?: FamilyMemberDiseaseWhereInput
+    data: XOR<FamilyMemberDiseaseUpdateWithoutMedicationInput, FamilyMemberDiseaseUncheckedUpdateWithoutMedicationInput>
+  }
+
+  export type FamilyMemberDiseaseUpdateWithoutMedicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    disease?: NullableEnumDiseaseFieldUpdateOperationsInput | $Enums.Disease | null
+    diseases?: FamilyMemberDiseaseUpdatediseasesInput | $Enums.Disease[]
+    specificDisease?: NullableStringFieldUpdateOperationsInput | string | null
+    hasMedicalReport?: BoolFieldUpdateOperationsInput | boolean
+    application_id?: StringFieldUpdateOperationsInput | string
+    familyMember?: FamilyMemberUpdateOneWithoutFamilyMemberDiseaseNestedInput
+    candidate?: CandidateUpdateOneWithoutFamilyMemberDiseaseNestedInput
+    legalResponsible?: LegalResponsibleUpdateOneWithoutFamilyMemberDiseaseNestedInput
+  }
+
+  export type FamilyMemberDiseaseUncheckedUpdateWithoutMedicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    disease?: NullableEnumDiseaseFieldUpdateOperationsInput | $Enums.Disease | null
+    diseases?: FamilyMemberDiseaseUpdatediseasesInput | $Enums.Disease[]
+    specificDisease?: NullableStringFieldUpdateOperationsInput | string | null
+    hasMedicalReport?: BoolFieldUpdateOperationsInput | boolean
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CandidateCreateWithoutDeclarationsInput = {
+    id?: string
+    name: string
+    CPF: string
+    main_id?: string | null
+    birthDate: Date | string
+    phone: string
+    address: string
+    city: string
+    UF: $Enums.COUNTRY
+    CEP: string
+    neighborhood: string
+    addressNumber: string
+    role?: $Enums.ROLE
+    createdAt?: Date | string
+    user_id?: string | null
+    profilePicture?: string | null
+    email?: string | null
+    finishedapplication?: boolean
+    application_id?: string | null
+    Application?: ApplicationCreateNestedManyWithoutCandidateInput
+    CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
+    Expense?: ExpenseCreateNestedManyWithoutCandidateInput
+    Financing?: FinancingCreateNestedManyWithoutCandidateInput
+    IdentityDetails?: IdentityDetailsCreateNestedManyWithoutCandidateInput
+    FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutCandidateInput
+    Loan?: LoanCreateNestedManyWithoutCandidateInput
+    OtherExpense?: OtherExpenseCreateNestedManyWithoutCandidateInput
+    Vehicle?: VehicleCreateNestedManyWithoutCandidateInput
+    responsible?: LegalResponsibleCreateNestedOneWithoutCandidateInput
+    FamillyMember?: FamilyMemberCreateNestedManyWithoutCandidateInput
+    Housing?: HousingCreateNestedManyWithoutCandidateInput
+    MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
+    FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
+    Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+  }
+
+  export type CandidateUncheckedCreateWithoutDeclarationsInput = {
+    id?: string
+    name: string
+    CPF: string
+    main_id?: string | null
+    birthDate: Date | string
+    phone: string
+    address: string
+    city: string
+    UF: $Enums.COUNTRY
+    CEP: string
+    neighborhood: string
+    addressNumber: string
+    role?: $Enums.ROLE
+    createdAt?: Date | string
+    user_id?: string | null
+    responsible_id?: string | null
+    profilePicture?: string | null
+    email?: string | null
+    finishedapplication?: boolean
+    application_id?: string | null
+    Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
+    CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
+    Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
+    Financing?: FinancingUncheckedCreateNestedManyWithoutCandidateInput
+    IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutCandidateInput
+    FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutCandidateInput
+    Loan?: LoanUncheckedCreateNestedManyWithoutCandidateInput
+    OtherExpense?: OtherExpenseUncheckedCreateNestedManyWithoutCandidateInput
+    Vehicle?: VehicleUncheckedCreateNestedManyWithoutCandidateInput
+    FamillyMember?: FamilyMemberUncheckedCreateNestedManyWithoutCandidateInput
+    Housing?: HousingUncheckedCreateNestedManyWithoutCandidateInput
+    MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
+    Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+  }
+
+  export type CandidateCreateOrConnectWithoutDeclarationsInput = {
+    where: CandidateWhereUniqueInput
+    create: XOR<CandidateCreateWithoutDeclarationsInput, CandidateUncheckedCreateWithoutDeclarationsInput>
+  }
+
+  export type FamilyMemberCreateWithoutDeclarationsInput = {
+    id?: string
+    relationship: $Enums.Relationship
+    otherRelationship?: string | null
+    main_id?: string | null
+    fullName: string
+    socialName?: string | null
+    birthDate: Date | string
+    gender: $Enums.GENDER
+    nationality: string
+    natural_city: string
+    natural_UF: $Enums.COUNTRY
+    CPF: string
+    RG: string
+    rgIssuingAuthority: string
+    rgIssuingState: string
+    documentType?: $Enums.DOCUMENT_TYPE | null
+    documentNumber?: string | null
+    documentValidity?: Date | string | null
+    numberOfBirthRegister?: string | null
+    bookOfBirthRegister?: string | null
+    pageOfBirthRegister?: string | null
+    maritalStatus: $Enums.MARITAL_STATUS
+    skinColor: $Enums.SkinColor
+    religion: $Enums.RELIGION
+    educationLevel: $Enums.SCHOLARSHIP
+    specialNeeds?: boolean | null
+    specialNeedsDescription?: string | null
+    hasMedicalReport?: boolean | null
+    landlinePhone?: string | null
+    workPhone?: string | null
+    contactNameForMessage?: string | null
+    email?: string | null
+    profession: string
+    enrolledGovernmentProgram?: boolean | null
+    NIS?: string | null
+    educationPlace?: $Enums.INSTITUTION_TYPE | null
+    institutionName?: string | null
+    coursingEducationLevel?: $Enums.EDUCATION_TYPE | null
+    cycleOfEducation?: string | null
+    turnOfEducation?: $Enums.SHIFT | null
+    hasScholarship?: boolean | null
+    percentageOfScholarship?: string | null
+    monthlyAmount?: string | null
+    incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
+    application_id: string
+    CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
+    FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutFamilyMemberInput
+    Financing?: FinancingCreateNestedManyWithoutFamilyMemberInput
+    Loan?: LoanCreateNestedManyWithoutFamilyMemberInput
+    MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutFamilyMemberInput
+    OtherExpense?: OtherExpenseCreateNestedManyWithoutFamilyMemberInput
+    FamilyMemberToVehicle?: FamilyMemberToVehicleCreateNestedManyWithoutFamilyMembersInput
+    FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutFamilyMemberInput
+    candidate?: CandidateCreateNestedOneWithoutFamillyMemberInput
+    Medication?: MedicationCreateNestedManyWithoutFamilyMemberInput
+    LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamillyMemberInput
+    BankAccount?: BankAccountCreateNestedManyWithoutFamilyMemberInput
+  }
+
+  export type FamilyMemberUncheckedCreateWithoutDeclarationsInput = {
+    id?: string
+    relationship: $Enums.Relationship
+    otherRelationship?: string | null
+    main_id?: string | null
+    fullName: string
+    socialName?: string | null
+    birthDate: Date | string
+    gender: $Enums.GENDER
+    nationality: string
+    natural_city: string
+    natural_UF: $Enums.COUNTRY
+    CPF: string
+    RG: string
+    rgIssuingAuthority: string
+    rgIssuingState: string
+    documentType?: $Enums.DOCUMENT_TYPE | null
+    documentNumber?: string | null
+    documentValidity?: Date | string | null
+    numberOfBirthRegister?: string | null
+    bookOfBirthRegister?: string | null
+    pageOfBirthRegister?: string | null
+    maritalStatus: $Enums.MARITAL_STATUS
+    skinColor: $Enums.SkinColor
+    religion: $Enums.RELIGION
+    educationLevel: $Enums.SCHOLARSHIP
+    specialNeeds?: boolean | null
+    specialNeedsDescription?: string | null
+    hasMedicalReport?: boolean | null
+    landlinePhone?: string | null
+    workPhone?: string | null
+    contactNameForMessage?: string | null
+    email?: string | null
+    profession: string
+    enrolledGovernmentProgram?: boolean | null
+    NIS?: string | null
+    educationPlace?: $Enums.INSTITUTION_TYPE | null
+    institutionName?: string | null
+    coursingEducationLevel?: $Enums.EDUCATION_TYPE | null
+    cycleOfEducation?: string | null
+    turnOfEducation?: $Enums.SHIFT | null
+    hasScholarship?: boolean | null
+    percentageOfScholarship?: string | null
+    monthlyAmount?: string | null
+    candidate_id?: string | null
+    incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
+    legalResponsibleId?: string | null
+    application_id: string
+    CreditCard?: CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput
+    FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Financing?: FinancingUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Loan?: LoanUncheckedCreateNestedManyWithoutFamilyMemberInput
+    MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
+    OtherExpense?: OtherExpenseUncheckedCreateNestedManyWithoutFamilyMemberInput
+    FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutFamilyMembersInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutFamilyMemberInput
+  }
+
+  export type FamilyMemberCreateOrConnectWithoutDeclarationsInput = {
+    where: FamilyMemberWhereUniqueInput
+    create: XOR<FamilyMemberCreateWithoutDeclarationsInput, FamilyMemberUncheckedCreateWithoutDeclarationsInput>
+  }
+
+  export type LegalResponsibleCreateWithoutDeclarationsInput = {
+    id?: string
+    name: string
+    main_id?: string | null
+    CPF: string
+    birthDate: Date | string
+    phone: string
+    address: string
+    city: string
+    UF: $Enums.COUNTRY
+    CEP: string
+    neighborhood: string
+    addressNumber: string
+    livesAtSameAddress?: boolean | null
+    institutionType?: $Enums.INSTITUTION_TYPE | null
+    responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
+    responsibleGradeOrSemester?: string | null
+    responsibleShift?: $Enums.SHIFT | null
+    ResponsibleEducationInstitution?: string | null
+    role?: $Enums.ROLE
+    createdAt?: Date | string
+    user_id: string
+    hasScholarship?: boolean | null
+    monthlyAmount?: string | null
+    percentageOfScholarship?: string | null
+    application_id?: string | null
+    IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
+    Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
+    Housing?: HousingCreateNestedManyWithoutResponsibleInput
+    FamillyMember?: FamilyMemberCreateNestedManyWithoutLegalResponsibleInput
+    CreditCard?: CreditCardCreateNestedManyWithoutLegalResponsibleInput
+    Expense?: ExpenseCreateNestedManyWithoutLegalResponsibleInput
+    Financing?: FinancingCreateNestedManyWithoutLegalResponsibleInput
+    Loan?: LoanCreateNestedManyWithoutLegalResponsibleInput
+    OtherExpense?: OtherExpenseCreateNestedManyWithoutLegalResponsibleInput
+    Vehicle?: VehicleCreateNestedManyWithoutLegalResponsibleInput
+    FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutLegalResponsibleInput
+    Medication?: MedicationCreateNestedManyWithoutLegalResponsibleInput
+    Application?: ApplicationCreateNestedManyWithoutResponsibleInput
+    FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
+    MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+  }
+
+  export type LegalResponsibleUncheckedCreateWithoutDeclarationsInput = {
+    id?: string
+    name: string
+    main_id?: string | null
+    CPF: string
+    birthDate: Date | string
+    phone: string
+    address: string
+    city: string
+    UF: $Enums.COUNTRY
+    CEP: string
+    neighborhood: string
+    addressNumber: string
+    livesAtSameAddress?: boolean | null
+    institutionType?: $Enums.INSTITUTION_TYPE | null
+    responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
+    responsibleGradeOrSemester?: string | null
+    responsibleShift?: $Enums.SHIFT | null
+    ResponsibleEducationInstitution?: string | null
+    role?: $Enums.ROLE
+    createdAt?: Date | string
+    user_id: string
+    hasScholarship?: boolean | null
+    monthlyAmount?: string | null
+    percentageOfScholarship?: string | null
+    application_id?: string | null
+    IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
+    Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
+    Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
+    FamillyMember?: FamilyMemberUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    CreditCard?: CreditCardUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Expense?: ExpenseUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Financing?: FinancingUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Loan?: LoanUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    OtherExpense?: OtherExpenseUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Vehicle?: VehicleUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Medication?: MedicationUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Application?: ApplicationUncheckedCreateNestedManyWithoutResponsibleInput
+    FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+  }
+
+  export type LegalResponsibleCreateOrConnectWithoutDeclarationsInput = {
+    where: LegalResponsibleWhereUniqueInput
+    create: XOR<LegalResponsibleCreateWithoutDeclarationsInput, LegalResponsibleUncheckedCreateWithoutDeclarationsInput>
+  }
+
+  export type CandidateUpsertWithoutDeclarationsInput = {
+    update: XOR<CandidateUpdateWithoutDeclarationsInput, CandidateUncheckedUpdateWithoutDeclarationsInput>
+    create: XOR<CandidateCreateWithoutDeclarationsInput, CandidateUncheckedCreateWithoutDeclarationsInput>
+    where?: CandidateWhereInput
+  }
+
+  export type CandidateUpdateToOneWithWhereWithoutDeclarationsInput = {
+    where?: CandidateWhereInput
+    data: XOR<CandidateUpdateWithoutDeclarationsInput, CandidateUncheckedUpdateWithoutDeclarationsInput>
+  }
+
+  export type CandidateUpdateWithoutDeclarationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    CPF?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
+    CEP?: StringFieldUpdateOperationsInput | string
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    addressNumber?: StringFieldUpdateOperationsInput | string
+    role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    finishedapplication?: BoolFieldUpdateOperationsInput | boolean
+    application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    Application?: ApplicationUpdateManyWithoutCandidateNestedInput
+    CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
+    Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
+    Financing?: FinancingUpdateManyWithoutCandidateNestedInput
+    IdentityDetails?: IdentityDetailsUpdateManyWithoutCandidateNestedInput
+    FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutCandidateNestedInput
+    Loan?: LoanUpdateManyWithoutCandidateNestedInput
+    OtherExpense?: OtherExpenseUpdateManyWithoutCandidateNestedInput
+    Vehicle?: VehicleUpdateManyWithoutCandidateNestedInput
+    responsible?: LegalResponsibleUpdateOneWithoutCandidateNestedInput
+    FamillyMember?: FamilyMemberUpdateManyWithoutCandidateNestedInput
+    Housing?: HousingUpdateManyWithoutCandidateNestedInput
+    MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
+    Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+  }
+
+  export type CandidateUncheckedUpdateWithoutDeclarationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    CPF?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
+    CEP?: StringFieldUpdateOperationsInput | string
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    addressNumber?: StringFieldUpdateOperationsInput | string
+    role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    responsible_id?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    finishedapplication?: BoolFieldUpdateOperationsInput | boolean
+    application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
+    CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
+    Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
+    Financing?: FinancingUncheckedUpdateManyWithoutCandidateNestedInput
+    IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutCandidateNestedInput
+    FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutCandidateNestedInput
+    Loan?: LoanUncheckedUpdateManyWithoutCandidateNestedInput
+    OtherExpense?: OtherExpenseUncheckedUpdateManyWithoutCandidateNestedInput
+    Vehicle?: VehicleUncheckedUpdateManyWithoutCandidateNestedInput
+    FamillyMember?: FamilyMemberUncheckedUpdateManyWithoutCandidateNestedInput
+    Housing?: HousingUncheckedUpdateManyWithoutCandidateNestedInput
+    MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
+    Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+  }
+
+  export type FamilyMemberUpsertWithoutDeclarationsInput = {
+    update: XOR<FamilyMemberUpdateWithoutDeclarationsInput, FamilyMemberUncheckedUpdateWithoutDeclarationsInput>
+    create: XOR<FamilyMemberCreateWithoutDeclarationsInput, FamilyMemberUncheckedCreateWithoutDeclarationsInput>
+    where?: FamilyMemberWhereInput
+  }
+
+  export type FamilyMemberUpdateToOneWithWhereWithoutDeclarationsInput = {
+    where?: FamilyMemberWhereInput
+    data: XOR<FamilyMemberUpdateWithoutDeclarationsInput, FamilyMemberUncheckedUpdateWithoutDeclarationsInput>
+  }
+
+  export type FamilyMemberUpdateWithoutDeclarationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    relationship?: EnumRelationshipFieldUpdateOperationsInput | $Enums.Relationship
+    otherRelationship?: NullableStringFieldUpdateOperationsInput | string | null
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: StringFieldUpdateOperationsInput | string
+    socialName?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
+    nationality?: StringFieldUpdateOperationsInput | string
+    natural_city?: StringFieldUpdateOperationsInput | string
+    natural_UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
+    CPF?: StringFieldUpdateOperationsInput | string
+    RG?: StringFieldUpdateOperationsInput | string
+    rgIssuingAuthority?: StringFieldUpdateOperationsInput | string
+    rgIssuingState?: StringFieldUpdateOperationsInput | string
+    documentType?: NullableEnumDOCUMENT_TYPEFieldUpdateOperationsInput | $Enums.DOCUMENT_TYPE | null
+    documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numberOfBirthRegister?: NullableStringFieldUpdateOperationsInput | string | null
+    bookOfBirthRegister?: NullableStringFieldUpdateOperationsInput | string | null
+    pageOfBirthRegister?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
+    skinColor?: EnumSkinColorFieldUpdateOperationsInput | $Enums.SkinColor
+    religion?: EnumRELIGIONFieldUpdateOperationsInput | $Enums.RELIGION
+    educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
+    specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    workPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    profession?: StringFieldUpdateOperationsInput | string
+    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    NIS?: NullableStringFieldUpdateOperationsInput | string | null
+    educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
+    institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    coursingEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
+    cycleOfEducation?: NullableStringFieldUpdateOperationsInput | string | null
+    turnOfEducation?: NullableEnumSHIFTFieldUpdateOperationsInput | $Enums.SHIFT | null
+    hasScholarship?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
+    monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
+    application_id?: StringFieldUpdateOperationsInput | string
+    CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
+    FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutFamilyMemberNestedInput
+    Financing?: FinancingUpdateManyWithoutFamilyMemberNestedInput
+    Loan?: LoanUpdateManyWithoutFamilyMemberNestedInput
+    MonthlyIncome?: MonthlyIncomeUpdateManyWithoutFamilyMemberNestedInput
+    OtherExpense?: OtherExpenseUpdateManyWithoutFamilyMemberNestedInput
+    FamilyMemberToVehicle?: FamilyMemberToVehicleUpdateManyWithoutFamilyMembersNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutFamilyMemberNestedInput
+    candidate?: CandidateUpdateOneWithoutFamillyMemberNestedInput
+    Medication?: MedicationUpdateManyWithoutFamilyMemberNestedInput
+    LegalResponsible?: LegalResponsibleUpdateOneWithoutFamillyMemberNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutFamilyMemberNestedInput
+  }
+
+  export type FamilyMemberUncheckedUpdateWithoutDeclarationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    relationship?: EnumRelationshipFieldUpdateOperationsInput | $Enums.Relationship
+    otherRelationship?: NullableStringFieldUpdateOperationsInput | string | null
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    fullName?: StringFieldUpdateOperationsInput | string
+    socialName?: NullableStringFieldUpdateOperationsInput | string | null
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
+    nationality?: StringFieldUpdateOperationsInput | string
+    natural_city?: StringFieldUpdateOperationsInput | string
+    natural_UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
+    CPF?: StringFieldUpdateOperationsInput | string
+    RG?: StringFieldUpdateOperationsInput | string
+    rgIssuingAuthority?: StringFieldUpdateOperationsInput | string
+    rgIssuingState?: StringFieldUpdateOperationsInput | string
+    documentType?: NullableEnumDOCUMENT_TYPEFieldUpdateOperationsInput | $Enums.DOCUMENT_TYPE | null
+    documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numberOfBirthRegister?: NullableStringFieldUpdateOperationsInput | string | null
+    bookOfBirthRegister?: NullableStringFieldUpdateOperationsInput | string | null
+    pageOfBirthRegister?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
+    skinColor?: EnumSkinColorFieldUpdateOperationsInput | $Enums.SkinColor
+    religion?: EnumRELIGIONFieldUpdateOperationsInput | $Enums.RELIGION
+    educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
+    specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    workPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    profession?: StringFieldUpdateOperationsInput | string
+    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    NIS?: NullableStringFieldUpdateOperationsInput | string | null
+    educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
+    institutionName?: NullableStringFieldUpdateOperationsInput | string | null
+    coursingEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
+    cycleOfEducation?: NullableStringFieldUpdateOperationsInput | string | null
+    turnOfEducation?: NullableEnumSHIFTFieldUpdateOperationsInput | $Enums.SHIFT | null
+    hasScholarship?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
+    monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+    CreditCard?: CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Financing?: FinancingUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Loan?: LoanUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    OtherExpense?: OtherExpenseUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutFamilyMembersNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutFamilyMemberNestedInput
+  }
+
+  export type LegalResponsibleUpsertWithoutDeclarationsInput = {
+    update: XOR<LegalResponsibleUpdateWithoutDeclarationsInput, LegalResponsibleUncheckedUpdateWithoutDeclarationsInput>
+    create: XOR<LegalResponsibleCreateWithoutDeclarationsInput, LegalResponsibleUncheckedCreateWithoutDeclarationsInput>
+    where?: LegalResponsibleWhereInput
+  }
+
+  export type LegalResponsibleUpdateToOneWithWhereWithoutDeclarationsInput = {
+    where?: LegalResponsibleWhereInput
+    data: XOR<LegalResponsibleUpdateWithoutDeclarationsInput, LegalResponsibleUncheckedUpdateWithoutDeclarationsInput>
+  }
+
+  export type LegalResponsibleUpdateWithoutDeclarationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    CPF?: StringFieldUpdateOperationsInput | string
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
+    CEP?: StringFieldUpdateOperationsInput | string
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    addressNumber?: StringFieldUpdateOperationsInput | string
+    livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
+    responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
+    responsibleGradeOrSemester?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleShift?: NullableEnumSHIFTFieldUpdateOperationsInput | $Enums.SHIFT | null
+    ResponsibleEducationInstitution?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    hasScholarship?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
+    Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
+    Housing?: HousingUpdateManyWithoutResponsibleNestedInput
+    FamillyMember?: FamilyMemberUpdateManyWithoutLegalResponsibleNestedInput
+    CreditCard?: CreditCardUpdateManyWithoutLegalResponsibleNestedInput
+    Expense?: ExpenseUpdateManyWithoutLegalResponsibleNestedInput
+    Financing?: FinancingUpdateManyWithoutLegalResponsibleNestedInput
+    Loan?: LoanUpdateManyWithoutLegalResponsibleNestedInput
+    OtherExpense?: OtherExpenseUpdateManyWithoutLegalResponsibleNestedInput
+    Vehicle?: VehicleUpdateManyWithoutLegalResponsibleNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutLegalResponsibleNestedInput
+    Medication?: MedicationUpdateManyWithoutLegalResponsibleNestedInput
+    Application?: ApplicationUpdateManyWithoutResponsibleNestedInput
+    FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+  }
+
+  export type LegalResponsibleUncheckedUpdateWithoutDeclarationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    CPF?: StringFieldUpdateOperationsInput | string
+    birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    phone?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
+    CEP?: StringFieldUpdateOperationsInput | string
+    neighborhood?: StringFieldUpdateOperationsInput | string
+    addressNumber?: StringFieldUpdateOperationsInput | string
+    livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
+    responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
+    responsibleGradeOrSemester?: NullableStringFieldUpdateOperationsInput | string | null
+    responsibleShift?: NullableEnumSHIFTFieldUpdateOperationsInput | $Enums.SHIFT | null
+    ResponsibleEducationInstitution?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    hasScholarship?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
+    Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
+    Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
+    FamillyMember?: FamilyMemberUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    CreditCard?: CreditCardUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Expense?: ExpenseUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Financing?: FinancingUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Loan?: LoanUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    OtherExpense?: OtherExpenseUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Vehicle?: VehicleUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Medication?: MedicationUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Application?: ApplicationUncheckedUpdateManyWithoutResponsibleNestedInput
+    FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type AnnouncementCreateWithoutInterviewInput = {
@@ -66810,6 +72476,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedManyWithoutCandidateInput
     Medication?: MedicationCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateUncheckedCreateWithoutApplicationInput = {
@@ -66846,6 +72514,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutCandidateInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutCandidateInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutCandidateInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutCandidateInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutCandidateInput
   }
 
   export type CandidateCreateOrConnectWithoutApplicationInput = {
@@ -67014,6 +72684,8 @@ export namespace Prisma {
     Medication?: MedicationCreateNestedManyWithoutLegalResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleUncheckedCreateWithoutApplicationInput = {
@@ -67056,6 +72728,8 @@ export namespace Prisma {
     Medication?: MedicationUncheckedCreateNestedManyWithoutLegalResponsibleInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
     MonthlyIncome?: MonthlyIncomeUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutLegalResponsibleInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutLegalResponsibleInput
   }
 
   export type LegalResponsibleCreateOrConnectWithoutApplicationInput = {
@@ -67175,6 +72849,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutApplicationInput = {
@@ -67211,6 +72887,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type EducationLevelUpsertWithoutApplicationInput = {
@@ -67403,6 +73081,8 @@ export namespace Prisma {
     Medication?: MedicationUpdateManyWithoutLegalResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type LegalResponsibleUncheckedUpdateWithoutApplicationInput = {
@@ -67445,6 +73125,8 @@ export namespace Prisma {
     Medication?: MedicationUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
   }
 
   export type ApplicationCreateWithoutApplicationHistoriesInput = {
@@ -67815,6 +73497,8 @@ export namespace Prisma {
     candidate?: CandidateCreateNestedOneWithoutFamillyMemberInput
     Medication?: MedicationCreateNestedManyWithoutFamilyMemberInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamillyMemberInput
+    BankAccount?: BankAccountCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberUncheckedCreateWithoutFamilyMemberToVehicleInput = {
@@ -67873,6 +73557,8 @@ export namespace Prisma {
     OtherExpense?: OtherExpenseUncheckedCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedCreateNestedManyWithoutFamilyMemberInput
     Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberInput
+    BankAccount?: BankAccountUncheckedCreateNestedManyWithoutFamilyMemberInput
+    Declarations?: DeclarationsUncheckedCreateNestedManyWithoutFamilyMemberInput
   }
 
   export type FamilyMemberCreateOrConnectWithoutFamilyMemberToVehicleInput = {
@@ -67892,6 +73578,7 @@ export namespace Prisma {
     hasInsurance?: boolean
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
+    owners_id?: VehicleCreateowners_idInput | string[]
     application_id: string
     candidate?: CandidateCreateNestedOneWithoutVehicleInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutVehicleInput
@@ -67910,6 +73597,7 @@ export namespace Prisma {
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
     candidate_id?: string | null
+    owners_id?: VehicleCreateowners_idInput | string[]
     legalResponsibleId?: string | null
     application_id: string
   }
@@ -67986,6 +73674,8 @@ export namespace Prisma {
     candidate?: CandidateUpdateOneWithoutFamillyMemberNestedInput
     Medication?: MedicationUpdateManyWithoutFamilyMemberNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFamillyMemberNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type FamilyMemberUncheckedUpdateWithoutFamilyMemberToVehicleInput = {
@@ -68044,6 +73734,8 @@ export namespace Prisma {
     OtherExpense?: OtherExpenseUncheckedUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type VehicleUpsertWithoutFamilyMemberToVehicleInput = {
@@ -68069,6 +73761,7 @@ export namespace Prisma {
     hasInsurance?: BoolFieldUpdateOperationsInput | boolean
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
+    owners_id?: VehicleUpdateowners_idInput | string[]
     application_id?: StringFieldUpdateOperationsInput | string
     candidate?: CandidateUpdateOneWithoutVehicleNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutVehicleNestedInput
@@ -68087,6 +73780,7 @@ export namespace Prisma {
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    owners_id?: VehicleUpdateowners_idInput | string[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
   }
@@ -68210,6 +73904,9 @@ export namespace Prisma {
     address?: string | null
     addressNumber?: string | null
     neighborhood?: string | null
+    city?: string | null
+    UF?: $Enums.COUNTRY | null
+    CEP?: string | null
     specialNeedsDescription?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
@@ -68298,6 +73995,7 @@ export namespace Prisma {
     hasInsurance?: boolean
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
+    owners_id?: VehicleCreateowners_idInput | string[]
     legalResponsibleId?: string | null
     application_id: string
   }
@@ -68409,6 +74107,28 @@ export namespace Prisma {
     medicationName: string
     obtainedPublicly: boolean
     specificMedicationPublicly?: string | null
+    familyMember_id?: string | null
+    legalResponsibleId?: string | null
+    application_id: string
+    familyMemberDiseaseId?: string | null
+  }
+
+  export type BankAccountCreateManyCandidateInput = {
+    id?: string
+    main_id: string
+    bankName: string
+    agencyNumber: string
+    accountNumber: string
+    accountType: $Enums.AccountType
+    familyMember_id?: string | null
+    legalResponsibleId?: string | null
+    application_id: string
+  }
+
+  export type DeclarationsCreateManyCandidateInput = {
+    id?: string
+    declarationType: $Enums.Declaration_Type
+    text: string
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
@@ -68721,6 +74441,9 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     addressNumber?: NullableStringFieldUpdateOperationsInput | string | null
     neighborhood?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
+    CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -68776,6 +74499,9 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     addressNumber?: NullableStringFieldUpdateOperationsInput | string | null
     neighborhood?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
+    CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -68831,6 +74557,9 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     addressNumber?: NullableStringFieldUpdateOperationsInput | string | null
     neighborhood?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
+    CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -69015,6 +74744,7 @@ export namespace Prisma {
     hasInsurance?: BoolFieldUpdateOperationsInput | boolean
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
+    owners_id?: VehicleUpdateowners_idInput | string[]
     application_id?: StringFieldUpdateOperationsInput | string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUpdateManyWithoutVehicleNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutVehicleNestedInput
@@ -69032,6 +74762,7 @@ export namespace Prisma {
     hasInsurance?: BoolFieldUpdateOperationsInput | boolean
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
+    owners_id?: VehicleUpdateowners_idInput | string[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutVehicleNestedInput
@@ -69049,6 +74780,7 @@ export namespace Prisma {
     hasInsurance?: BoolFieldUpdateOperationsInput | boolean
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
+    owners_id?: VehicleUpdateowners_idInput | string[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
   }
@@ -69109,6 +74841,8 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutFamilyMemberNestedInput
     Medication?: MedicationUpdateManyWithoutFamilyMemberNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFamillyMemberNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type FamilyMemberUncheckedUpdateWithoutCandidateInput = {
@@ -69167,6 +74901,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutFamilyMembersNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type FamilyMemberUncheckedUpdateManyWithoutCandidateInput = {
@@ -69348,6 +75084,7 @@ export namespace Prisma {
     application_id?: StringFieldUpdateOperationsInput | string
     familyMember?: FamilyMemberUpdateOneWithoutFamilyMemberDiseaseNestedInput
     legalResponsible?: LegalResponsibleUpdateOneWithoutFamilyMemberDiseaseNestedInput
+    Medication?: MedicationUpdateManyWithoutFamilyMemberDiseaseNestedInput
   }
 
   export type FamilyMemberDiseaseUncheckedUpdateWithoutCandidateInput = {
@@ -69360,6 +75097,7 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberDiseaseNestedInput
   }
 
   export type FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateInput = {
@@ -69383,6 +75121,7 @@ export namespace Prisma {
     application_id?: StringFieldUpdateOperationsInput | string
     familyMember?: FamilyMemberUpdateOneWithoutMedicationNestedInput
     legalResponsible?: LegalResponsibleUpdateOneWithoutMedicationNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUpdateOneWithoutMedicationNestedInput
   }
 
   export type MedicationUncheckedUpdateWithoutCandidateInput = {
@@ -69394,6 +75133,7 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    familyMemberDiseaseId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MedicationUncheckedUpdateManyWithoutCandidateInput = {
@@ -69402,6 +75142,70 @@ export namespace Prisma {
     medicationName?: StringFieldUpdateOperationsInput | string
     obtainedPublicly?: BoolFieldUpdateOperationsInput | boolean
     specificMedicationPublicly?: NullableStringFieldUpdateOperationsInput | string | null
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+    familyMemberDiseaseId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BankAccountUpdateWithoutCandidateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    agencyNumber?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    application_id?: StringFieldUpdateOperationsInput | string
+    familyMember?: FamilyMemberUpdateOneWithoutBankAccountNestedInput
+    LegalResponsible?: LegalResponsibleUpdateOneWithoutBankAccountNestedInput
+  }
+
+  export type BankAccountUncheckedUpdateWithoutCandidateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    agencyNumber?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BankAccountUncheckedUpdateManyWithoutCandidateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    agencyNumber?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DeclarationsUpdateWithoutCandidateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
+    text?: StringFieldUpdateOperationsInput | string
+    application_id?: StringFieldUpdateOperationsInput | string
+    familyMember?: FamilyMemberUpdateOneWithoutDeclarationsNestedInput
+    LegalResponsible?: LegalResponsibleUpdateOneWithoutDeclarationsNestedInput
+  }
+
+  export type DeclarationsUncheckedUpdateWithoutCandidateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
+    text?: StringFieldUpdateOperationsInput | string
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DeclarationsUncheckedUpdateManyWithoutCandidateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
+    text?: StringFieldUpdateOperationsInput | string
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -69434,6 +75238,9 @@ export namespace Prisma {
     address?: string | null
     addressNumber?: string | null
     neighborhood?: string | null
+    city?: string | null
+    UF?: $Enums.COUNTRY | null
+    CEP?: string | null
     specialNeedsDescription?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
@@ -69658,6 +75465,7 @@ export namespace Prisma {
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
     candidate_id?: string | null
+    owners_id?: VehicleCreateowners_idInput | string[]
     application_id: string
   }
 
@@ -69682,6 +75490,7 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    familyMemberDiseaseId?: string | null
   }
 
   export type ApplicationCreateManyResponsibleInput = {
@@ -69752,6 +75561,27 @@ export namespace Prisma {
     application_id: string
   }
 
+  export type BankAccountCreateManyLegalResponsibleInput = {
+    id?: string
+    main_id: string
+    bankName: string
+    agencyNumber: string
+    accountNumber: string
+    accountType: $Enums.AccountType
+    familyMember_id?: string | null
+    candidate_id?: string | null
+    application_id: string
+  }
+
+  export type DeclarationsCreateManyLegalResponsibleInput = {
+    id?: string
+    declarationType: $Enums.Declaration_Type
+    text: string
+    familyMember_id?: string | null
+    candidate_id?: string | null
+    application_id: string
+  }
+
   export type IdentityDetailsUpdateWithoutResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
@@ -69779,6 +75609,9 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     addressNumber?: NullableStringFieldUpdateOperationsInput | string | null
     neighborhood?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
+    CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -69834,6 +75667,9 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     addressNumber?: NullableStringFieldUpdateOperationsInput | string | null
     neighborhood?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
+    CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -69889,6 +75725,9 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     addressNumber?: NullableStringFieldUpdateOperationsInput | string | null
     neighborhood?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
+    CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -69951,6 +75790,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateWithoutResponsibleInput = {
@@ -69987,6 +75828,8 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutCandidateNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutCandidateNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutCandidateNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutCandidateNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type CandidateUncheckedUpdateManyWithoutResponsibleInput = {
@@ -70109,6 +75952,8 @@ export namespace Prisma {
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateManyWithoutFamilyMemberNestedInput
     candidate?: CandidateUpdateOneWithoutFamillyMemberNestedInput
     Medication?: MedicationUpdateManyWithoutFamilyMemberNestedInput
+    BankAccount?: BankAccountUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type FamilyMemberUncheckedUpdateWithoutLegalResponsibleInput = {
@@ -70167,6 +76012,8 @@ export namespace Prisma {
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutFamilyMembersNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    BankAccount?: BankAccountUncheckedUpdateManyWithoutFamilyMemberNestedInput
+    Declarations?: DeclarationsUncheckedUpdateManyWithoutFamilyMemberNestedInput
   }
 
   export type FamilyMemberUncheckedUpdateManyWithoutLegalResponsibleInput = {
@@ -70524,6 +76371,7 @@ export namespace Prisma {
     hasInsurance?: BoolFieldUpdateOperationsInput | boolean
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
+    owners_id?: VehicleUpdateowners_idInput | string[]
     application_id?: StringFieldUpdateOperationsInput | string
     candidate?: CandidateUpdateOneWithoutVehicleNestedInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleUpdateManyWithoutVehicleNestedInput
@@ -70542,6 +76390,7 @@ export namespace Prisma {
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    owners_id?: VehicleUpdateowners_idInput | string[]
     application_id?: StringFieldUpdateOperationsInput | string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutVehicleNestedInput
   }
@@ -70559,6 +76408,7 @@ export namespace Prisma {
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    owners_id?: VehicleUpdateowners_idInput | string[]
     application_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -70572,6 +76422,7 @@ export namespace Prisma {
     application_id?: StringFieldUpdateOperationsInput | string
     familyMember?: FamilyMemberUpdateOneWithoutFamilyMemberDiseaseNestedInput
     candidate?: CandidateUpdateOneWithoutFamilyMemberDiseaseNestedInput
+    Medication?: MedicationUpdateManyWithoutFamilyMemberDiseaseNestedInput
   }
 
   export type FamilyMemberDiseaseUncheckedUpdateWithoutLegalResponsibleInput = {
@@ -70584,6 +76435,7 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberDiseaseNestedInput
   }
 
   export type FamilyMemberDiseaseUncheckedUpdateManyWithoutLegalResponsibleInput = {
@@ -70607,6 +76459,7 @@ export namespace Prisma {
     application_id?: StringFieldUpdateOperationsInput | string
     familyMember?: FamilyMemberUpdateOneWithoutMedicationNestedInput
     candidate?: CandidateUpdateOneWithoutMedicationNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUpdateOneWithoutMedicationNestedInput
   }
 
   export type MedicationUncheckedUpdateWithoutLegalResponsibleInput = {
@@ -70618,6 +76471,7 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    familyMemberDiseaseId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MedicationUncheckedUpdateManyWithoutLegalResponsibleInput = {
@@ -70629,6 +76483,7 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    familyMemberDiseaseId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ApplicationUpdateWithoutResponsibleInput = {
@@ -70836,6 +76691,69 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     incomeSource?: NullableEnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource | null
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BankAccountUpdateWithoutLegalResponsibleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    agencyNumber?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    application_id?: StringFieldUpdateOperationsInput | string
+    familyMember?: FamilyMemberUpdateOneWithoutBankAccountNestedInput
+    candidate?: CandidateUpdateOneWithoutBankAccountNestedInput
+  }
+
+  export type BankAccountUncheckedUpdateWithoutLegalResponsibleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    agencyNumber?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BankAccountUncheckedUpdateManyWithoutLegalResponsibleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    agencyNumber?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DeclarationsUpdateWithoutLegalResponsibleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
+    text?: StringFieldUpdateOperationsInput | string
+    application_id?: StringFieldUpdateOperationsInput | string
+    candidate?: CandidateUpdateOneWithoutDeclarationsNestedInput
+    familyMember?: FamilyMemberUpdateOneWithoutDeclarationsNestedInput
+  }
+
+  export type DeclarationsUncheckedUpdateWithoutLegalResponsibleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
+    text?: StringFieldUpdateOperationsInput | string
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DeclarationsUncheckedUpdateManyWithoutLegalResponsibleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
+    text?: StringFieldUpdateOperationsInput | string
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -71638,6 +77556,28 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    familyMemberDiseaseId?: string | null
+  }
+
+  export type BankAccountCreateManyFamilyMemberInput = {
+    id?: string
+    main_id: string
+    bankName: string
+    agencyNumber: string
+    accountNumber: string
+    accountType: $Enums.AccountType
+    candidate_id?: string | null
+    legalResponsibleId?: string | null
+    application_id: string
+  }
+
+  export type DeclarationsCreateManyFamilyMemberInput = {
+    id?: string
+    declarationType: $Enums.Declaration_Type
+    text: string
+    candidate_id?: string | null
+    legalResponsibleId?: string | null
+    application_id: string
   }
 
   export type CreditCardUpdateWithoutFamilyMemberInput = {
@@ -71977,6 +77917,7 @@ export namespace Prisma {
     application_id?: StringFieldUpdateOperationsInput | string
     candidate?: CandidateUpdateOneWithoutFamilyMemberDiseaseNestedInput
     legalResponsible?: LegalResponsibleUpdateOneWithoutFamilyMemberDiseaseNestedInput
+    Medication?: MedicationUpdateManyWithoutFamilyMemberDiseaseNestedInput
   }
 
   export type FamilyMemberDiseaseUncheckedUpdateWithoutFamilyMemberInput = {
@@ -71989,6 +77930,7 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberDiseaseNestedInput
   }
 
   export type FamilyMemberDiseaseUncheckedUpdateManyWithoutFamilyMemberInput = {
@@ -72012,6 +77954,7 @@ export namespace Prisma {
     application_id?: StringFieldUpdateOperationsInput | string
     candidate?: CandidateUpdateOneWithoutMedicationNestedInput
     legalResponsible?: LegalResponsibleUpdateOneWithoutMedicationNestedInput
+    FamilyMemberDisease?: FamilyMemberDiseaseUpdateOneWithoutMedicationNestedInput
   }
 
   export type MedicationUncheckedUpdateWithoutFamilyMemberInput = {
@@ -72023,6 +77966,7 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    familyMemberDiseaseId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MedicationUncheckedUpdateManyWithoutFamilyMemberInput = {
@@ -72031,6 +77975,70 @@ export namespace Prisma {
     medicationName?: StringFieldUpdateOperationsInput | string
     obtainedPublicly?: BoolFieldUpdateOperationsInput | boolean
     specificMedicationPublicly?: NullableStringFieldUpdateOperationsInput | string | null
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+    familyMemberDiseaseId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BankAccountUpdateWithoutFamilyMemberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    agencyNumber?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    application_id?: StringFieldUpdateOperationsInput | string
+    candidate?: CandidateUpdateOneWithoutBankAccountNestedInput
+    LegalResponsible?: LegalResponsibleUpdateOneWithoutBankAccountNestedInput
+  }
+
+  export type BankAccountUncheckedUpdateWithoutFamilyMemberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    agencyNumber?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BankAccountUncheckedUpdateManyWithoutFamilyMemberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    agencyNumber?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DeclarationsUpdateWithoutFamilyMemberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
+    text?: StringFieldUpdateOperationsInput | string
+    application_id?: StringFieldUpdateOperationsInput | string
+    candidate?: CandidateUpdateOneWithoutDeclarationsNestedInput
+    LegalResponsible?: LegalResponsibleUpdateOneWithoutDeclarationsNestedInput
+  }
+
+  export type DeclarationsUncheckedUpdateWithoutFamilyMemberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
+    text?: StringFieldUpdateOperationsInput | string
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DeclarationsUncheckedUpdateManyWithoutFamilyMemberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
+    text?: StringFieldUpdateOperationsInput | string
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -72058,6 +78066,54 @@ export namespace Prisma {
     A?: StringFieldUpdateOperationsInput | string
     application_id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MedicationCreateManyFamilyMemberDiseaseInput = {
+    id?: string
+    main_id?: string | null
+    medicationName: string
+    obtainedPublicly: boolean
+    specificMedicationPublicly?: string | null
+    familyMember_id?: string | null
+    candidate_id?: string | null
+    legalResponsibleId?: string | null
+    application_id: string
+  }
+
+  export type MedicationUpdateWithoutFamilyMemberDiseaseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    medicationName?: StringFieldUpdateOperationsInput | string
+    obtainedPublicly?: BoolFieldUpdateOperationsInput | boolean
+    specificMedicationPublicly?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+    familyMember?: FamilyMemberUpdateOneWithoutMedicationNestedInput
+    candidate?: CandidateUpdateOneWithoutMedicationNestedInput
+    legalResponsible?: LegalResponsibleUpdateOneWithoutMedicationNestedInput
+  }
+
+  export type MedicationUncheckedUpdateWithoutFamilyMemberDiseaseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    medicationName?: StringFieldUpdateOperationsInput | string
+    obtainedPublicly?: BoolFieldUpdateOperationsInput | boolean
+    specificMedicationPublicly?: NullableStringFieldUpdateOperationsInput | string | null
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type MedicationUncheckedUpdateManyWithoutFamilyMemberDiseaseInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    medicationName?: StringFieldUpdateOperationsInput | string
+    obtainedPublicly?: BoolFieldUpdateOperationsInput | boolean
+    specificMedicationPublicly?: NullableStringFieldUpdateOperationsInput | string | null
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type ApplicationCreateManyAnnouncementInput = {
@@ -72495,6 +78551,10 @@ export namespace Prisma {
      */
     export type VehicleCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = VehicleCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use FamilyMemberDiseaseCountOutputTypeDefaultArgs instead
+     */
+    export type FamilyMemberDiseaseCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = FamilyMemberDiseaseCountOutputTypeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use AnnouncementCountOutputTypeDefaultArgs instead
      */
     export type AnnouncementCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = AnnouncementCountOutputTypeDefaultArgs<ExtArgs>
@@ -72563,6 +78623,10 @@ export namespace Prisma {
      */
     export type MonthlyIncomeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = MonthlyIncomeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use BankAccountDefaultArgs instead
+     */
+    export type BankAccountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = BankAccountDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use ExpenseDefaultArgs instead
      */
     export type ExpenseArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = ExpenseDefaultArgs<ExtArgs>
@@ -72590,6 +78654,10 @@ export namespace Prisma {
      * @deprecated Use MedicationDefaultArgs instead
      */
     export type MedicationArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = MedicationDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use DeclarationsDefaultArgs instead
+     */
+    export type DeclarationsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = DeclarationsDefaultArgs<ExtArgs>
     /**
      * @deprecated Use AnnouncementInterviewDefaultArgs instead
      */

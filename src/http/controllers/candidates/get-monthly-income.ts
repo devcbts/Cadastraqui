@@ -41,7 +41,6 @@ export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: F
   try {
     const user_id = request.user.sub;
     const IsUser = await SelectCandidateResponsible(user_id);
-
     if (!IsUser) {
       throw new ForbiddenError()
     }

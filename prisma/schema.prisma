@@ -52,6 +52,7 @@ model Candidate {
   Medication          Medication[]
   BankAccount         BankAccount[]
   Declarations        Declarations[]
+  AnnouncementsSeen   AnnouncementsSeen[]
 
   @@unique([id, responsible_id])
   @@map("candidates")
@@ -116,6 +117,7 @@ model LegalResponsible {
   MonthlyIncome                   MonthlyIncome[]
   BankAccount                     BankAccount[]
   Declarations                    Declarations[]
+  AnnouncementsSeen               AnnouncementsSeen[]
 
   @@unique([id, user_id])
   @@map("responsibles")
@@ -426,7 +428,7 @@ model BankAccount {
 
 model Expense {
   id                       String            @id @default(uuid())
-  month                    String
+  date                     DateTime
   waterSewage              Float?
   electricity              Float?
   landlinePhone            Float?
@@ -460,6 +462,8 @@ model Expense {
   installmentValueIPVA     Float?
   installmentValueIR       Float?
   installmentValueITR      Float?
+  financing                Float?
+  creditCard               Float?
   optedForInstallmentIPTU  Boolean?
   optedForInstallmentIPVA  Boolean?
   optedForInstallmentIR    Boolean?
@@ -616,6 +620,19 @@ model Announcement {
   ScholarshipGranted   ScholarshipGranted[]
   timelines            Timeline[]
   socialAssistant      SocialAssistant[]        @relation("AnnouncementToSocialAssistant")
+  AnnouncementsSeen    AnnouncementsSeen[]
+}
+
+model AnnouncementsSeen {
+  id              String            @id @default(uuid())
+  announcement    Announcement      @relation(fields: [announcement_id], references: [id])
+  announcement_id String
+  candidate_id    String?
+  candidate       Candidate?        @relation(fields: [candidate_id], references: [id])
+  responsible_id  String?
+  responsible     LegalResponsible? @relation(fields: [responsible_id], references: [id])
+
+  @@map("announcementsSeen")
 }
 
 model Timeline {
@@ -1063,6 +1080,7 @@ enum AccountType {
 }
 
 enum Declaration_Type {
+  Form
   Activity
   AddressProof
   Autonomo

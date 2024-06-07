@@ -15,7 +15,7 @@ export async function getIdentityInfo(
     const user_id = request.user.sub
     let candidateOrResponsible
     let idField
-
+    console.log('user_id', user_id)
     candidateOrResponsible = await SelectCandidateResponsible(user_id);
     if (!candidateOrResponsible) {
       throw new ResourceNotFoundError()
