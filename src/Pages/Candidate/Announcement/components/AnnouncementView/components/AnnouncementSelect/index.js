@@ -13,19 +13,27 @@ import EDUCATION_TYPE from "utils/enums/education-type";
 import Subscription from "../Subscription";
 import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
 import Loader from "Components/Loader";
+import { NotificationService } from "services/notification";
 export default function AnnouncementSelect({ announcement }) {
     const { announcementId } = useParams()
     const { clear, step, move, setCourse, getCourse } = useContext(AnnouncementContext)
     const [announcementInfo, setAnnouncement] = useState(announcement ?? null)
     const [query, _] = useSearchParams()
     const [isLoading, setIsLoading] = useState(false)
+    // track if current announcement is saved by user
+    // if announcement have any value, we know the user came from the past screen (need to have announcement saved)
+    const [isVisited, setIsVisited] = useState(!!announcement)
     useEffect(() => {
+
         // if user came from an external link, can get the information directly by the course selected
         if (!announcementInfo) {
             const fetchAnnouncement = async () => {
                 setIsLoading(true)
                 try {
                     const information = await candidateService.getAnnouncementById(announcementId)
+                    const savedAnnouncements = await candidateService.getCandidateAnnouncements()
+                    console.log('id aqui', information)
+                    setIsVisited(savedAnnouncements?.find((e) => e.announcement.id === information.id))
                     setAnnouncement(information)
                     if (information) {
                         const { apply } = information
@@ -37,6 +45,7 @@ export default function AnnouncementSelect({ announcement }) {
                 }
                 setIsLoading(false)
             }
+
             fetchAnnouncement()
         }
     }, [])
@@ -50,6 +59,14 @@ export default function AnnouncementSelect({ announcement }) {
             }
         }
     }, [announcementInfo, getCourse])
+    const handleSaveAnnouncement = async () => {
+        try {
+            await candidateService.saveAnnouncement(announcementInfo.id)
+            setIsVisited(true)
+        } catch (err) {
+            NotificationService.error({ text: 'Erro ao salvar edital' })
+        }
+    }
     return (
         <>
             {step === 'INITIAL'
@@ -58,6 +75,9 @@ export default function AnnouncementSelect({ announcement }) {
                         <Loader text="Carregando informações" loading={isLoading} />
                         <BackPageTitle title={'curso selecionado'} onClick={clear} />
                         <div className={styles.content}>
+                            {!isVisited && <div className={styles.save}>
+                                <ButtonBase label={'salvar edital'} onClick={handleSaveAnnouncement} />
+                            </div>}
                             <div className={styles.contentwrapper}>
                                 <img src={Logo}></img>
                                 <div className={styles.info}>

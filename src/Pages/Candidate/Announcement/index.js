@@ -5,11 +5,28 @@ import Table from 'Components/Table'
 import ButtonBase from 'Components/ButtonBase'
 import BackPageTitle from 'Components/BackPageTitle'
 import { useNavigate } from 'react-router'
+import { useEffect, useState } from 'react'
+import candidateService from 'services/candidate/candidateService'
+import Loader from 'Components/Loader'
 export default function AnnouncementCandidate() {
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(true)
+    const [announcements, setAnnouncements] = useState([])
+    useEffect(() => {
+        const fetchAnnouncement = async () => {
+            setIsLoading(true)
+            try {
+                const information = await candidateService.getCandidateAnnouncements()
+                setAnnouncements(information)
+            } catch (err) { }
+            setIsLoading(false)
+        }
+        fetchAnnouncement()
+    }, [])
     return (
         <div className={styles.container}>
             <div className={styles.header}>
+                <Loader loading={isLoading} />
                 <BackPageTitle title={"Editais do candidato"} path={"/home"} />
 
                 <Card.Root width={'30%'}>
@@ -28,16 +45,24 @@ export default function AnnouncementCandidate() {
             </div>
             <div>
                 <span>Editais em andamento</span>
-                <Table.Root headers={["#", "entidade", "edital", "vagas", "ações"]}>
-                    <Table.Row>
-                        <Table.Cell divider>Teste</Table.Cell>
-                        <Table.Cell>Teste</Table.Cell>
-                        <Table.Cell>Teste</Table.Cell>
-                        <Table.Cell>Teste</Table.Cell>
-                        <Table.Cell>
-                            <ButtonBase label={'teste'} onClick={() => navigate('123123')}></ButtonBase>
-                        </Table.Cell>
-                    </Table.Row>
+                <Table.Root headers={["entidade", "edital", "vagas", "ações"]}>
+                    {
+                        announcements.map((item) => {
+                            const { announcement } = item
+                            return (
+                                <Table.Row>
+                                    {/* <Table.Cell divider>Teste</Table.Cell> */}
+                                    <Table.Cell>{announcement.entity?.name}</Table.Cell>
+                                    <Table.Cell>{announcement.announcementNumber}</Table.Cell>
+                                    <Table.Cell>{announcement.offeredVacancies}</Table.Cell>
+                                    <Table.Cell>
+                                        <ButtonBase label={'visualizar'} onClick={() => navigate(announcement.id)}></ButtonBase>
+                                    </Table.Cell>
+                                </Table.Row>
+                            )
+                        })
+                    }
+
                 </Table.Root>
             </div>
         </div>

@@ -6,7 +6,7 @@ import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 import styles from './styles.module.scss'
 import useControlForm from "hooks/useControlForm";
-import incomeAtom from "Pages/SubscribeForm/components/Form_Income/atoms/income-atom";
+import monthAtom from "./atoms/month-atom";
 // quantity = months that user needs to fullfill in order to proceed saving information
 const MonthSelection = forwardRef(({ data, render = [], schema }, ref) => {
     const { watch, setValue, getValues, trigger, formState: { errors } } = useControlForm({
@@ -56,7 +56,7 @@ const MonthSelection = forwardRef(({ data, render = [], schema }, ref) => {
     }, [ref])
     const watchMonths = watch("months")
 
-    const [monthSelected, setMonthSelected] = useRecoilState(incomeAtom)
+    const [monthSelected, setMonthSelected] = useRecoilState(monthAtom)
 
     const handleSave = (_, data) => {
         // Find the current month to be updated at "months" array, then update the entire array

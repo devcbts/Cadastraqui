@@ -1,0 +1,11 @@
+@import '../../../../../../../Assets/theme/global.module.scss';
+.container {
+    padding: 2px 4px;
+    border-radius: 8px;
+    outline: none;
+    color: $primary;
+    border: 2px solid $primary;
+    .error{
+        border-color: $error;
+    }
+}

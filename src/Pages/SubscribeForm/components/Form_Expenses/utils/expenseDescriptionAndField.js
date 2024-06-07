@@ -1,0 +1,21 @@
+export default [
+    { description: "Água e esgoto", field: "waterSewage" },
+    { description: "Energia Elétrica", field: "electricity" },
+    { description: "Telefone fixo e celular", field: "landlinePhone" },
+    { description: "Alimentação", field: "food" },
+    { description: "Aluguel, aluguel de garagem", field: "rent" },
+    { description: "Condomínio", field: "condominium" },
+    { description: "TV a cabo", field: "cableTV" },
+    { description: "Serviços de streaming (Disney+, Netflix, Globoplay, etc)", field: "streamingServices" },
+    { description: "Combustível", field: "fuel" },
+    { description: "IPVA", field: "annualIPVA" },
+    { description: "IPTU e/ou ITR", field: "annualIPTU" },
+    { description: "Financiamentos: veículos, imóvel", field: "financing" },
+    { description: "Imposto de Renda", field: "annualIR" },
+    { description: "Transporte coletivo e escolar", field: "schoolTransport" },
+    { description: "Cartão de Crédito", field: "creditCard" },
+    { description: "Internet", field: "internet" },
+    { description: "Cursos", field: "courses" },
+    { description: "Plano de saúde e/ou odontológico", field: "healthPlan" },
+    { description: "Despesa com medicamentos", field: "medicationExpenses" }
+]

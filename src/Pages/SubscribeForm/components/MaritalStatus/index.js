@@ -20,7 +20,6 @@ const MaritalStatus = forwardRef(({ data }, ref) => {
         },
         initialData: data
     }, ref)
-    console.log(data)
     const watchStatus = watch("maritalStatus")
     const watchFile = watch("file_weddingCertificate")
     useEffect(() => {

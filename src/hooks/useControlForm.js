@@ -25,7 +25,7 @@ export default function useControlForm({
 
     const form = useForm({
         mode: "all",
-        defaultValues: defaultValues,
+        defaultValues: populateValues(),
         values: populateValues(),
         resolver: zodResolver(schema)
     })

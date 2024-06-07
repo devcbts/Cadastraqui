@@ -2,6 +2,7 @@ import { api } from "../axios"
 import announcementMapper from "./mappers/announcement-mapper";
 import applicantsMapper from "./mappers/applicants-mapper";
 import employementTypeMapper from "./mappers/employement-type-mapper";
+import expenseMapper from "./mappers/expense-mapper";
 import familyMemberMapper from "./mappers/family-member-mapper";
 import habitationMapper from "./mappers/habitation-mapper";
 import healthInfoMapper from "./mappers/health-info-mapper";
@@ -247,16 +248,32 @@ class CandidateService {
         const response = await api.get(`/candidates/announcements/${id}`)
         return announcementMapper.fromPersistence(response.data)
     }
+    async getCandidateAnnouncements() {
+        const response = await api.get(`/candidates/announcements/`)
+        return response.data.announcements
+    }
+    saveAnnouncement(id) {
+        return api.post(`/candidates/announcement/save/${id}`)
+    }
     async getAvailableApplicants() {
         const response = await api.get(`/candidates/applicants`)
         return applicantsMapper.fromPersistence(response.data)
     }
-    applyAnnouncement({ announcementId, courseId, candidateId = undefined }) {
+    applyAnnouncement({ announcementId, courseId, candidateId = '' }) {
         return api.post(`/candidates/application`, {
             announcement_id: announcementId,
             educationLevel_id: courseId,
             candidate_id: candidateId
         })
+    }
+
+    async getExpenses(id = '') {
+        const response = await api.get(`/candidates/expenses/${id}`)
+        return expenseMapper.fromPersistence(response.data)
+    }
+
+    registerExpenses(data) {
+        return api.post('/candidates/expenses', data)
     }
 }
 

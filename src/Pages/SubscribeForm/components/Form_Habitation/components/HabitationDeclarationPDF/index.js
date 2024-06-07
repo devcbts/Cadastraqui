@@ -96,7 +96,6 @@ export default function HabitationDeclarationPDF({
             try {
                 const info = await candidateService.getBasicInfo()
                 setUser(info)
-                console.log('aaa', info)
             } catch (err) { }
         }
         fetchUser()

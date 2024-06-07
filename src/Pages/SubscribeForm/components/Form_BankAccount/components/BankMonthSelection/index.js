@@ -12,10 +12,7 @@ import MonthSelection from "Components/MonthSelection";
 import Statement from "../Statement";
 // quantity = months that user needs to fullfill in order to proceed saving information
 const BankMonthSelection = forwardRef(({ data }, ref) => {
-    console.log('renderizei bankmonthselection')
-    useEffect(() => {
-        console.log('ref changed')
-    }, [ref])
+
     return (
         <div className={[commonStyles.formcontainer, styles.container].join(' ')}>
             <h1 className={commonStyles.title}>Cadastrar Extrato</h1>

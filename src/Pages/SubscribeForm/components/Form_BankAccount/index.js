@@ -11,9 +11,10 @@ import BankMonthSelection from "./components/BankMonthSelection";
 import StatementSelection from "./components/Statement";
 import incomeAtom from "../Form_Income/atoms/income-atom";
 import { useRecoilValue } from "recoil";
+import monthAtom from "Components/MonthSelection/atoms/month-atom";
 
 export default function FormBankAccount({ id }) {
-    const hasMonthSelected = useRecoilValue(incomeAtom)
+    const hasMonthSelected = useRecoilValue(monthAtom)
 
     const handleEditAccount = async (data) => {
         try {
@@ -77,7 +78,6 @@ export default function FormBankAccount({ id }) {
         <>
             {!isFormAvailable() && <MemberBankAccountView id={id} onSelect={handleSelectAccount} onAdd={handleAddNewAccount} />}
             {isFormAvailable() && <>
-                {console.log('changeeed')}
                 <Steps />
                 {!hasMonthSelected && <div className={commonStyles.actions}>
                     <ButtonBase onClick={handlePrevious}>

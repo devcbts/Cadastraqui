@@ -1,9 +1,14 @@
 .content{
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     height: 100%;
+    .save{
+        position: absolute;
+        right: 0;
+    }
     .contentwrapper{
         display: flex;
         flex-direction: column;

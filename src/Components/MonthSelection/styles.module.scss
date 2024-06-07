@@ -6,6 +6,9 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 16px;
+    button{
+        min-width: 250px;
+    }
     .error{
         color: $error;
         font-size: 16px;
@@ -21,6 +24,7 @@
     text-transform: capitalize;
 }
 .text{
+    text-align: center;
     color: $grey;
     font-size: 18px;
     font-weight: 600;

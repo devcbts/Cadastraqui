@@ -1,0 +1,12 @@
+@import '../../../../../../../Assets/theme/global.module.scss';
+.container {
+    padding: 2px 8px;
+    outline: none;
+    border-radius: 8px;
+    border: 2px solid $primary;
+    color: $primary;
+    font-weight: 600;
+    max-width: 120px;
+    font-size: 12px;
+
+}

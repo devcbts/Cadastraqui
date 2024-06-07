@@ -14,7 +14,6 @@ const TotalValue = forwardRef(({ data }, ref) => {
         let sum = data.grossAmount ?
             stringToFloat(data.grossAmount) :
             (stringToFloat(data.dividends) + stringToFloat(data.proLabore))
-        console.log(sum)
         const condition = (item) => data.grossAmount ? item !== "grossAmount" : (item !== "proLabore" && item !== "dividends")
         dataValues.forEach(e => {
             if (data.hasOwnProperty(e) && condition(e)) {

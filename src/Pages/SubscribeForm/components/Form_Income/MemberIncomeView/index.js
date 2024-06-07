@@ -15,13 +15,11 @@ export default function MemberIncomeView({ member, onSelect, onAdd }) {
     const [incomeInfo, setIncomeInfo] = useState({ monthlyIncome: [], info: [] })
     const [showBankAccount, setShowBankAccount] = useState(false)
     useEffect(() => {
-        console.log(member)
         const fetchData = async () => {
             setIsLoading(true)
             try {
                 const incomes = await candidateService.getMemberIncomeInfo(id)
                 if (incomes) {
-                    console.log('incomes', incomes)
                     setIncomeInfo(incomes)
                 }
             } catch (err) {

@@ -19,9 +19,10 @@ import IncomeFormModelB from "./ModelB";
 import IncomeFormModelC from "./ModelC";
 import InformationModelD from "./ModelD/components/InformationModelC";
 import IncomeFormModelD from "./ModelD";
+import monthAtom from "Components/MonthSelection/atoms/month-atom";
 export default function FormIncome() {
     // Keep track of incomes created/updated by user
-    const hasIncomeSelected = useRecoilValue(incomeAtom)
+    const hasIncomeSelected = useRecoilValue(monthAtom)
     const handleEditInformation = async (data) => {
         try {
             await candidateService.updateIdentityInfo(data);

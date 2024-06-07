@@ -9,7 +9,6 @@ class EmployementTypeMapper {
     }
     fromPersistence(data) {
         const { incomeInfoResults, averageIncome } = data
-        console.log(incomeInfoResults)
         const mappedData = incomeInfoResults?.map((e) => ({
             ...e,
             months: e.incomes.map((i) => ({
@@ -21,7 +20,6 @@ class EmployementTypeMapper {
             }))
         }))
         const mappedIncome = new Number(averageIncome).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
-        console.log({ mappedData, avgFamilyIncome: mappedIncome })
         return { incomes: mappedData, avgFamilyIncome: mappedIncome }
     }
 }

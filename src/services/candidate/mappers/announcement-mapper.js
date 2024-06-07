@@ -9,7 +9,6 @@ class AnnouncementMapper {
         const { announcement, educationLevels } = data
         // apply are all available courses related to the current announcement
         // each one has its own entity linked to it
-        console.log({ ...announcement, criteria: announcement?.criteria?.map(e => CRITERIAS.find(c => c.value === e).label) })
         return (
             {
                 ...{ ...announcement, criteria: announcement?.criteria?.map(e => CRITERIAS.find(c => c.value === e).label) },

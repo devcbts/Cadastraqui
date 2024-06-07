@@ -15,9 +15,10 @@ import FormHabitation from "./components/Form_Habitation";
 import FormVehicle from "./components/Form_Vehicle";
 import FormHealth from "./components/Form_Health";
 import FormIncome from "./components/Form_Income";
-import { RecoilRoot, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import headerAtom from "Components/Header/atoms/header-atom";
 import FormDeclarations from "./components/Form_Declarations";
+import FormExpenses from "./components/Form_Expenses";
 export default function SubscribeForm() {
     const [activeStep, setActiveStep] = useState(1)
 
@@ -25,15 +26,15 @@ export default function SubscribeForm() {
         setActiveStep(index)
     }
     const steps = [
-        { label: "Cadastrante", component: User },
-        { label: "Grupo Familiar", component: Family },
-        { label: "Moradia", component: House },
-        { label: "Veículo", component: Car },
-        { label: "Renda", component: Currency },
-        { label: "Gastos", component: Money },
-        { label: "Saúde", component: Doctor },
-        { label: "Declarações", component: List },
-        { label: "_", component: Edit },
+        { label: "Cadastrante", icon: User, component: FormBasicInformation },
+        { label: "Grupo Familiar", icon: Family, component: FormFamilyGroup },
+        { label: "Moradia", icon: House, component: FormHabitation },
+        { label: "Veículo", icon: Car, component: FormVehicle },
+        { label: "Renda", icon: Currency, component: FormIncome },
+        { label: "Gastos", icon: Money, component: FormExpenses },
+        { label: "Saúde", icon: Doctor, component: FormHealth },
+        { label: "Declarações", icon: List, component: FormDeclarations },
+        // { label: "_", icon: Edit },
     ]
     const setHeader = useSetRecoilState(headerAtom)
     useEffect(() => {
@@ -46,25 +47,25 @@ export default function SubscribeForm() {
         <FormStepper.Root vertical activeStep={activeStep}>
             <FormStepper.Stepper>
                 {steps.map((e, i) => {
-                    const Component = e.component
+                    const Icon = e.icon
                     return (
                         <FormStepper.Step key={i} index={i + 1} label={e.label} onClick={() => handleChangeCategory(i + 1)}>
-                            <Component />
+                            <Icon />
                         </FormStepper.Step>
                     )
                 })}
             </FormStepper.Stepper>
-            <FormStepper.View index={1}><FormBasicInformation /></FormStepper.View>
-            <FormStepper.View index={2}><FormFamilyGroup /></FormStepper.View>
-            <FormStepper.View index={3}><FormHabitation /></FormStepper.View>
-            <FormStepper.View index={4}><FormVehicle /></FormStepper.View>
-            <FormStepper.View index={5}><FormHealth /></FormStepper.View>
-            <FormStepper.View index={8}><FormDeclarations /></FormStepper.View>
-            <FormStepper.View index={7}>
-                <RecoilRoot>
-                    <FormIncome />
-                </RecoilRoot>
-            </FormStepper.View>
+            {
+                steps.map((e, i) => {
+                    const Component = e.component
+                    return (
+                        <FormStepper.View index={i + 1}>
+                            <Component />
+                        </FormStepper.View>
+                    )
+                })
+            }
+
         </FormStepper.Root>
     )
 }

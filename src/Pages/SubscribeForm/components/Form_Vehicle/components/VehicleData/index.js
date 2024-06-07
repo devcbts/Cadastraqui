@@ -36,7 +36,6 @@ const VehicleData = forwardRef(({ data }, ref) => {
     const needFetching = data?.members ? data.members.length === 0 : true
     const [isLoading, setIsLoading] = useState(needFetching)
     useEffect(() => {
-        console.log(needFetching)
         const fetchData = async () => {
             setIsLoading(true)
             try {
