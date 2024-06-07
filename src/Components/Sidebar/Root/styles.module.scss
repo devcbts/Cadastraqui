@@ -10,7 +10,6 @@
 
 .hide{
     position: absolute;
-    top:80px;
     height: calc(100% - 80px);
-    z-index: 3;
+    z-index:999;
 }

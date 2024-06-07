@@ -11,7 +11,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import monthAtom from "Components/MonthSelection/atoms/month-atom";
 
 export default function FormExpenses() {
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const [renderList, _] = useState([ExpenseSelection])
     const handleSaveExpenses = async (data) => {
         try {
@@ -35,11 +35,13 @@ export default function FormExpenses() {
     useEffect(() => {
         const fetchExpenses = async () => {
             try {
+                setIsLoading(true)
                 const information = await candidateService.getExpenses()
                 setData(information)
             } catch (err) {
 
             }
+            setIsLoading(false)
         }
         fetchExpenses()
         return () => {

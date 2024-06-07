@@ -11,12 +11,12 @@ export default function HamburgHeader({ showSidebar, children }) {
     }
     const MenuIcon = showSidebar ? Close : Hamburger
     return (
-        <>
+        <div>
             <header className={styles.container}>
                 <MenuIcon className={styles.hamburger} alt='menu' onClick={handleMenuChange}></MenuIcon>
                 <img className={styles.logo} alt='logo' src={LogoWhite}></img>
             </header>
             {isMenuOpen && children}
-        </>
+        </div>
     )
 } 

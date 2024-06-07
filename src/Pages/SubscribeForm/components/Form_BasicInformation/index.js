@@ -81,9 +81,9 @@ export default function FormBasicInformation() {
             setIsLoading(true)
             try {
                 const information = await candidateService.getIdentityInfo()
-                if (information) {
+                setData(information)
+                if (information.identityInfo) {
                     setEnableEditing(true)
-                    setData(information)
                 }
             } catch (err) {
 
