@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import DeclarationOverview from './components/Declaration_Status'; // Ajuste o caminho conforme necessário
-import Declaration_Form from './components/Declaration_Form'; // Componente existente
+import Declaration_Form from './components/Declaration_FormConfirmation'; // Componente existente
 import Declaration_Pension from './components/Declaration_Pension'; // Componente existente
 import Declaration_ChildPension from './components/Declaration_ChildPension'; // Componente existente
 import Declaration_ChildSupport from './components/Declaration_ChildSupport'; // Componente existente
 import Declaration_ChildSupportDetails from './components/Declaration_ChildSupportDetails'; // Componente existente
-import Declaration_Final from './components/Declaration_Final'; // Nova tela
+import Declaration_Final from './components/Declaration_PensionConfirmation'; // Nova tela
 import Declaration_AddressProof from './components/Declaration_AddressProof'; // Nova tela
 import Declaration_NoAddressProof from './components/Declaration_NoAddressProof'; // Nova tela
 import Declaration_RentedHouse from './components/Declaration_RentedHouse'; // Nova tela
@@ -23,7 +23,7 @@ import Declaration_StableUnionConfirmation from './components/Declaration_Stable
 import Declaration_SingleStatus from './components/Declaration_SingleStatus'; // Nova tela
 import Declaration_IncomeTaxExemption from './components/Declaration_IncomeTaxExemption'; // Nova tela
 import Declaration_IncomeTaxExemptionConfirmation from './components/Declaration_IncomeTaxExemptionConfirmation'; // Nova tela
-import Declaration_Activity from './components/Declaration_Activity'; // Nova tela
+import Declaration_ActivitConfirmation from './components/Declaration_ActivitConfirmation';
 import Declaration_MEI from './components/Declaration_MEI'; // Nova tela
 import Declaration_MEI_Confirmation from './components/Declaration_MEI_Confirmation'; // Nova tela
 import Declaration_RuralWorker from './components/Declaration_RuralWorker'; // Nova tela
@@ -36,6 +36,8 @@ import Declaration_InactiveCompany from './components/Declaration_InactiveCompan
 import Declaration_InactiveCompanyConfirmation from './components/Declaration_InactiveCompanyConfirmation'; // Nova tela
 import Declaration_RentIncome from './components/Declaration_RentIncome'; // Nova tela
 import Declaration_RentIncomeDetails from './components/Declaration_RentIncomeDetails'; // Nova tela
+import useAuth from 'hooks/useAuth';
+import { api } from 'services/axios';
 
 const SCREENS = {
     OVERVIEW: 'overview',
@@ -75,13 +77,36 @@ const SCREENS = {
 };
 
 export default function FormDeclarations() {
+    const { auth } = useAuth();
     const [currentScreen, setCurrentScreen] = useState(SCREENS.OVERVIEW);
+    const [userId, setUserId] = useState(null);
     const [partnerName, setPartnerName] = useState('');
     const [unionStartDate, setUnionStartDate] = useState('');
     const [activity, setActivity] = useState('');
+    const [declarationData, setDeclarationData] = useState(null);
 
-    const navigateToScreen = (screen) => {
-        console.log(`Navigating to ${screen}`);
+    useEffect(() => {
+        if (auth?.sub) {
+            const fetchDeclaration = async () => {
+                try {
+                    const response = await api.get(`/candidates/declaration/Form/${auth.sub}`);
+                    const data = await response.data;
+                    setDeclarationData(data.infoDetails);
+                    console.log('Form Declaration:', data.infoDetails);
+                } catch (error) {
+                    console.error('Erro ao buscar a declaração:', error);
+                }
+            };
+            fetchDeclaration();
+        }
+    }, [auth]);
+
+    const navigateToScreen = (screen, id = null) => {
+        console.log(`Navigating to ${screen} with userId: ${id}`);
+        if (id) {
+            console.log(`Setting userId: ${id}`);
+            setUserId(id);
+        }
         setCurrentScreen(screen);
     };
 
@@ -92,26 +117,23 @@ export default function FormDeclarations() {
                     <h1>Declarações para fins de processo seletivo CEAS</h1>
                     <div className={commonStyles.declarationSection}>
                         <div className={commonStyles.declarationItem}>
-                            <label>João da Silva - Usuário do Cadastro Familiar</label>
-                            <ButtonBase label="Declaração" onClick={() => navigateToScreen(SCREENS.FORM)} />
-                        </div>
-                        <div className={commonStyles.declarationItem}>
-                            <label>Maria de Souza - Integrante do Grupo Familiar</label>
-                            <ButtonBase label="Declaração" />
-                        </div>
-                        <div className={commonStyles.declarationItem}>
-                            <label>Carlos Lima - Integrante do Grupo Familiar</label>
-                            <ButtonBase label="Declaração" />
+                            <label>{auth?.sub || 'Usuário do Cadastro Familiar'}</label>
+                            <ButtonBase label="Declaração" onClick={() => navigateToScreen(SCREENS.FORM, auth?.sub)} />
                         </div>
                     </div>
                     <div className={commonStyles.navigationButtons}>
                         <ButtonBase onClick={() => navigateToScreen(SCREENS.OVERVIEW)}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                        <ButtonBase onClick={() => navigateToScreen(SCREENS.FORM)}><Arrow width="40px" /></ButtonBase>
+                        <ButtonBase onClick={() => navigateToScreen(SCREENS.FORM, userId)}><Arrow width="40px" /></ButtonBase>
                     </div>
                 </>
             )}
-            {currentScreen === SCREENS.FORM && (
-                <Declaration_Form onBack={() => navigateToScreen(SCREENS.OVERVIEW)} onEdit={() => navigateToScreen(SCREENS.PENSION)} />
+            {currentScreen === SCREENS.FORM && userId && (
+                <Declaration_Form
+                    userId={userId}
+                    onBack={() => navigateToScreen(SCREENS.OVERVIEW)}
+                    onEdit={() => navigateToScreen(SCREENS.PENSION)}
+                    declarationData={declarationData}
+                />
             )}
             {currentScreen === SCREENS.PENSION && (
                 <Declaration_Pension onBack={() => navigateToScreen(SCREENS.OVERVIEW)} onNext={() => navigateToScreen(SCREENS.CHILD_PENSION)} />
@@ -196,7 +218,7 @@ export default function FormDeclarations() {
                 />
             )}
             {currentScreen === SCREENS.ACTIVITY && (
-                <Declaration_Activity
+                <Declaration_ActivitConfirmation
                     onBack={() => navigateToScreen(SCREENS.INCOME_TAX_EXEMPTION_CONFIRMATION)}
                     onNext={(activity) => navigateToScreen(activity === 'sim' ? SCREENS.MEI : SCREENS.RURAL_WORKER)}
                 />
