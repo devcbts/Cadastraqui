@@ -1,6 +1,7 @@
 const { z } = require("zod");
 
 const statementSchema = z.object({
+    date: z.date().or(z.string().transform(v => new Date(v))).default(new Date()),
     file_statement: z.instanceof(File).nullish(),
     url_statement: z.string().nullish(),
     isUpdated: z.boolean().default(false),

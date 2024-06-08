@@ -7,7 +7,9 @@ class IdentityInfoMapper {
     }
 
     fromPersistence(data) {
-        return { ...data, CPF: formatCPF(data.CPF), birthDate: data.birthDate?.split('T')?.[0], ...removeObjectFileExtension(data.urls) }
+        const { identityInfo } = data
+        if (!identityInfo) return null
+        return { ...identityInfo, CPF: formatCPF(identityInfo.CPF), birthDate: identityInfo.birthDate?.split('T')?.[0], ...removeObjectFileExtension(data.urls) }
     }
 }
 

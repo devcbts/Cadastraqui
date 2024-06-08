@@ -53,6 +53,9 @@ const MonthSelection = forwardRef(({ data, render = [], schema }, ref) => {
                 return dateA < dateB
             })
         )
+        return () => {
+            setMonthSelected(null)
+        }
     }, [ref])
     const watchMonths = watch("months")
 

@@ -1,6 +1,7 @@
 import { api } from "../axios"
 import announcementMapper from "./mappers/announcement-mapper";
 import applicantsMapper from "./mappers/applicants-mapper";
+import bankAccountMapper from "./mappers/bank-account-mapper";
 import employementTypeMapper from "./mappers/employement-type-mapper";
 import expenseMapper from "./mappers/expense-mapper";
 import familyMemberMapper from "./mappers/family-member-mapper";
@@ -143,7 +144,7 @@ class CandidateService {
     }
     async getIdentityInfo() {
         const response = await api.get(`/candidates/identity-info`);
-        return identityInfoMapper.fromPersistence({ ...response.data.identityInfo, urls: response.data.urls })
+        return identityInfoMapper.fromPersistence({ ...response.data, urls: response.data.urls })
     }
     async getMonthlyIncome(id) {
         const token = localStorage.getItem("token")
@@ -232,10 +233,11 @@ class CandidateService {
                 authorization: `Bearer ${token}`,
             },
         })
-        return response.data.bankAccounts
+        return bankAccountMapper.fromPersistence(response.data)
     }
-    registerBankingAccount(id = '', data) {
-        return api.post(`/candidates/bank-info/${id}`, data)
+    async registerBankingAccount(id = '', data) {
+        const response = await api.post(`/candidates/bank-info/${id}`, data)
+        return response.data.id
     }
     updateBankingAccount(id, data) {
         return api.patch(`/candidates/bank-info/${id}`, data)
