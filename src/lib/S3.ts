@@ -119,11 +119,9 @@ export async function getSignedUrlsGroupedByFolder(
     Bucket: bucketName!,
     Prefix: candidateFolder + `/`, // Ajustado para a pasta do candidato
   }
-
   try {
     const objects = await s3.listObjectsV2(params).promise()
     const urlsByFolder: { [folder: string]: { [fileName: string]: string } } = {}
-
     for (const obj of objects.Contents || []) {
       if (!obj.Key!.endsWith('/')) { // Ignora 'pastas'
         const splitKey = obj.Key!.split('/');
@@ -166,7 +164,7 @@ export async function deleteFromS3(fileKey: string) {
 export async function copyFilesToAnotherFolder(sourceFolder: string, destinationFolder: string) {
   try {
     const { Contents } = await s3.listObjectsV2({ Bucket: bucketName!, Prefix: sourceFolder }).promise();
-    
+
     for (const content of Contents || []) {
       if (content.Key) {
         const copySource = `${bucketName}/${content.Key}`;

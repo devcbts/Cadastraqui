@@ -1,11 +1,11 @@
-import { FastifyReply, FastifyRequest } from "fastify"
-import { AccountType } from "./enums/AcountType"
-import { z } from "zod"
-import { SelectCandidateResponsible } from "@/utils/select-candidate-responsible"
 import { ForbiddenError } from "@/errors/forbidden-error"
-import { prisma } from "@/lib/prisma"
-import { ResourceNotFoundError } from "@/errors/resource-not-found-error"
 import { NotAllowedError } from "@/errors/not-allowed-error"
+import { ResourceNotFoundError } from "@/errors/resource-not-found-error"
+import { prisma } from "@/lib/prisma"
+import { SelectCandidateResponsible } from "@/utils/select-candidate-responsible"
+import { FastifyReply, FastifyRequest } from "fastify"
+import { z } from "zod"
+import { AccountType } from "./enums/AcountType"
 
 export async function updateBankingInfo(
     request: FastifyRequest,
@@ -21,7 +21,7 @@ export async function updateBankingInfo(
     const BankingInfoParamsSchema = z.object({
         _id: z.string(),
     })
-
+    console.log(request.params)
     // _id === bankAccount_id
     const { _id } = BankingInfoParamsSchema.parse(request.params)
 
@@ -49,7 +49,7 @@ export async function updateBankingInfo(
         }
 
         // Atualiza informações acerca do Banking Info no banco de dados
-      const bankInfo =  await prisma.bankAccount.update({
+        const bankInfo = await prisma.bankAccount.update({
             where: { id: _id },
             data: {
                 bankName,
@@ -59,7 +59,7 @@ export async function updateBankingInfo(
             },
         })
 
-        return reply.status(200).send({bankInfo})
+        return reply.status(200).send({ bankInfo })
     } catch (err: any) {
         if (err instanceof ResourceNotFoundError) {
             return reply.status(404).send({ message: err.message })
@@ -69,7 +69,7 @@ export async function updateBankingInfo(
         }
         if (err instanceof ForbiddenError) {
             return reply.status(403).send({ message: err.message })
-            
+
         }
 
         return reply.status(500).send({ message: err.message })

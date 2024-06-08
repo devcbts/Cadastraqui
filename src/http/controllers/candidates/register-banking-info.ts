@@ -47,11 +47,11 @@ export async function registerBankingInfo(
         const idField = familyMember
             ? { familyMember_id: _id }
             : candidateOrResponsible.IsResponsible
-            ? { legalResponsibleId: candidateOrResponsible.UserData.id }
-            : { candidate_id: candidateOrResponsible.UserData.id }
+                ? { legalResponsibleId: candidateOrResponsible.UserData.id }
+                : { candidate_id: candidateOrResponsible.UserData.id }
 
         // Armazena informações acerca do Banking Info no banco de dados
-        await prisma.bankAccount.create({
+        const { id } = await prisma.bankAccount.create({
             data: {
                 bankName,
                 accountNumber,
@@ -61,7 +61,7 @@ export async function registerBankingInfo(
             },
         })
 
-        return reply.status(201).send()
+        return reply.status(201).send({ id })
     } catch (err: any) {
         if (err instanceof ResourceNotFoundError) {
             return reply.status(404).send({ message: err.message })

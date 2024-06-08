@@ -1,4 +1,3 @@
-import verifyFamilyGroup from '@/http/middlewares/verify-family-group'
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { FastifyInstance } from 'fastify'
 import { deleteDocument } from './AWS Routes/delete-document'
@@ -140,7 +139,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   // bank-info 
   app.get('/bank-info/:_id?', { onRequest: [verifyJWT] }, getBankingInfo)
   app.post('/bank-info/:_id', { onRequest: [verifyJWT] }, registerBankingInfo)
-  app.patch('/bank-info/:id', { onRequest: [verifyJWT] }, updateBankingInfo)
+  app.patch('/bank-info/:_id', { onRequest: [verifyJWT] }, updateBankingInfo)
   app.delete('/bank-info/:id', { onRequest: [verifyJWT] }, deleteBankingInfo)
 
   /** Health Info */
@@ -229,7 +228,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   // Declaration Get Routes ( to create a declaration)
   app.get('/declaration/Form/:_id', { onRequest: [verifyJWT] }, getDeclarationForm)
   app.get('/declaration/AddressProof/:_id', { onRequest: [verifyJWT] }, getAddressProof)
-  app.get('/declaration/MEI/:_id', { onRequest: [verifyJWT ] }, getMEIDeclaration)
+  app.get('/declaration/MEI/:_id', { onRequest: [verifyJWT] }, getMEIDeclaration)
   app.get('/declaration/IncomeTaxExemption/:_id', { onRequest: [verifyJWT] }, getIncomeTaxExemption)
   app.get('/declaration/Empresario/:_id', { onRequest: [verifyJWT] }, getEmpresario)
   app.get('/declaration/RentIncome/:_id', { onRequest: [verifyJWT] }, getRentIncome)

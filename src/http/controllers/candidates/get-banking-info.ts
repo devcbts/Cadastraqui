@@ -1,11 +1,11 @@
 import { ForbiddenError } from "@/errors/forbidden-error"
-import { NotAllowedError } from "@/errors/not-allowed-error"
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error"
 import { prisma } from "@/lib/prisma"
 import { SelectCandidateResponsible } from "@/utils/select-candidate-responsible"
 import { FamilyMember } from "@prisma/client"
 import { FastifyReply, FastifyRequest } from "fastify"
 import { z } from "zod"
+import { getSectionDocumentsPDF } from "./AWS Routes/get-pdf-documents-by-section"
 
 export async function getBankingInfo(
     request: FastifyRequest,
@@ -31,6 +31,10 @@ export async function getBankingInfo(
             bankAccounts = await prisma.bankAccount.findMany({
                 where: { OR: [{ familyMember_id: _id }, { candidate_id: _id }, { legalResponsibleId: _id }] },
             })
+            bankAccounts = await Promise.all(bankAccounts.map(async (account) => {
+                const urls = await getSectionDocumentsPDF(_id, `statement/${_id}/${account.id}`)
+                return { ...account, urls }
+            }))
         }
         else {
             const idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
@@ -46,9 +50,12 @@ export async function getBankingInfo(
                         const familyMemberBanks = await prisma.bankAccount.findMany({
                             where: { familyMember_id: familyMember.id },
                         })
+                        const bankWithUrls = familyMemberBanks.map(async (account) => {
+                            const urls = await getSectionDocumentsPDF(familyMember.id, `statement/${familyMember.id}/${account.id}`)
+                            return { ...account, urls }
+                        })
 
-
-                        incomeInfoResults.push({ name: familyMember.fullName, id: familyMember.id, bankInfo: familyMemberBanks })
+                        incomeInfoResults.push({ name: familyMember.fullName, id: familyMember.id, bankInfo: bankWithUrls })
                     } catch (error) {
                         throw new ResourceNotFoundError()
                     }
@@ -59,16 +66,21 @@ export async function getBankingInfo(
             const candidateBanks = await prisma.bankAccount.findMany({
                 where: idField,
             })
-
+            const candidateBankWithUrls = candidateBanks.map(async (account) => {
+                const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, `statement/${candidateOrResponsible.UserData.id}/${account.id}`)
+                console.log('urls', urls)
+                return { ...account, urls }
+            })
 
             bankAccounts = await fetchData(familyMembers)
-            bankAccounts.push({ name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, bankInfo: candidateBanks })
+            bankAccounts.push({ name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, bankInfo: candidateBankWithUrls })
 
         }
 
         if (!bankAccounts) {
             throw new ResourceNotFoundError()
         }
+        console.log('accounts', bankAccounts)
 
         return reply.status(200).send({ bankAccounts })
     } catch (err: any) {
