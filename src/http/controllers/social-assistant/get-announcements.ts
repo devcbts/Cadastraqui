@@ -31,22 +31,22 @@ export async function getAnnouncements(
           socialAssistant: {
             some: {
               id: assistant.id,
-              
+
             },
           },
         },
         include: {
           entity: true,
-          educationLevels:true,
+          educationLevels: true,
         },
-       
+
       })
       if (!announcement) {
         throw new AnnouncementNotExists()
       }
       const response = announcement.map((announc) => {
-       
-        return{
+
+        return {
           id: announc.id,
           name: announc.announcementName,
           entity: announc.entity.socialReason,
@@ -59,14 +59,14 @@ export async function getAnnouncements(
 
     } else {
       const announcement = await prisma.announcement.findUnique({
-        where: { id: announcement_id},
+        where: { id: announcement_id },
         include: {
           educationLevels: true,
           entity: true,
           entity_subsidiary: true,
         }
       })
-  
+
       if (!announcement) {
         throw new ResourceNotFoundError()
       }
@@ -76,10 +76,23 @@ export async function getAnnouncements(
         const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === entity.id)
         if (entity.id == announcement.entity_id) {
           const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === null)
-  
-          return { ...entity, matchedEducationLevels }
+          const returnObj = matchedEducationLevels.map((e) => ({
+            id: e.id,
+            education: e.basicEduType,
+            shift: e.shift,
+            entity: entity.socialReason,
+            grade: e.grade,
+          }))
+          return { ...entity, matchedEducationLevels: returnObj }
         }
-        return { ...entity, matchedEducationLevels }
+        const returnObj = matchedEducationLevels.map((e) => ({
+          id: e.id,
+          education: e.basicEduType,
+          shift: e.shift,
+          entity: entity.socialReason,
+          grade: e.grade,
+        }))
+        return { ...entity, matchedEducationLevels: returnObj }
       })
       return reply.status(200).send({ announcement: announcement, educationLevels: educationLevelsFiltered })
     }
