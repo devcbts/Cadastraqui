@@ -5,13 +5,14 @@ import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { getSectionDocumentsPDF_HDB } from '../AWS-routes/get-documents-by-section-HDB'
 export async function getHousingInfoHDB(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
 
   const AssistantParamsSchema = z.object({
-    application_id: z.string().optional(),
+    application_id: z.string(),
   })
 
   
@@ -31,7 +32,8 @@ export async function getHousingInfoHDB(
     const housingInfo = await historyDatabase.housing.findUnique({
       where: {application_id},
     })
-
+    const urls = await getSectionDocumentsPDF_HDB(application_id, 'housing')
+    return reply.status(200).send({ housingInfo, urls})
     return reply.status(200).send({ housingInfo })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {

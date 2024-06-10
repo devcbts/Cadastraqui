@@ -23,6 +23,7 @@ import { getFamilyMemberInfoHDB } from './detailed-form/get-family-member-info'
 import { getHousingInfoHDB } from './detailed-form/get-housing-info'
 import { getIncomeInfo } from '../candidates/get-income-info'
 import { getIncomeInfoHDB } from './detailed-form/get-income-info'
+import getCandidatesApplications from './get-candidates-applications'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -93,6 +94,7 @@ export async function assistantRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     getAnnouncements,
   )
+  app.get('/applications/:educuationLevel_id', { onRequest: [verifyJWT] }, getCandidatesApplications)
 
   //Despesas Candidato Inscrito
   app.get('/expenses/:candidate_id', { onRequest: [verifyJWT] }, calculateExpenses)

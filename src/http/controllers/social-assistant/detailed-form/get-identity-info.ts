@@ -5,6 +5,7 @@ import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { getSectionDocumentsPDF_HDB } from '../AWS-routes/get-documents-by-section-HDB'
 
 export async function getIdentityInfoHDB(
   request: FastifyRequest,
@@ -30,7 +31,9 @@ export async function getIdentityInfoHDB(
       where: {application_id},
       include: { candidate: true, responsible: true }
     })
-    return reply.status(200).send({ identityInfo: !!identityInfo ? { ...(identityInfo?.candidate || identityInfo?.responsible), ...identityInfo } : null })
+    const uid = identityInfo?.candidate ? identityInfo?.candidate_id : identityInfo?.responsible_id
+    const urls = await getSectionDocumentsPDF_HDB(application_id, 'identity')
+    return reply.status(200).send({ identityInfo: !!identityInfo ? { ...(identityInfo?.candidate || identityInfo?.responsible), ...identityInfo, uid } : null, urls })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

@@ -1,7 +1,9 @@
 import { historyDatabase, prisma } from '@/lib/prisma';
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible';
+import { SelectCandidateResponsibleHDB } from '@/utils/select-candidate-responsibleHDB';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
+import { getSectionDocumentsPDF_HDB } from '../AWS-routes/get-documents-by-section-HDB';
 
 export async function getMonthlyIncomeBySourceHDB(request: FastifyRequest, reply: FastifyReply) {
 
@@ -9,15 +11,16 @@ export async function getMonthlyIncomeBySourceHDB(request: FastifyRequest, reply
   // Convertendo os valores do enum IncomeSource em um array
 
   const queryParamsSchema = z.object({
+    application_id: z.string(),
     _id: z.string(),
   });
 
-  const { _id } = queryParamsSchema.parse(request.params);
+  const {application_id,_id } = queryParamsSchema.parse(request.params);
 
   try {
-    const CandidateOrResponsible = await SelectCandidateResponsible(_id);
+    const CandidateOrResponsible = await SelectCandidateResponsibleHDB(_id);
 
-    const idField = CandidateOrResponsible ? CandidateOrResponsible.IsResponsible? {responsible_id: CandidateOrResponsible.UserData.id} : {candidate_id: CandidateOrResponsible.UserData.id} : { familyMember_id: _id };
+    const idField = CandidateOrResponsible ? CandidateOrResponsible.IsResponsible ? { responsible_id: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id } : { familyMember_id: _id };
 
     const monthlyIncomes = await historyDatabase.monthlyIncome.findMany({
       where: idField,
@@ -26,16 +29,27 @@ export async function getMonthlyIncomeBySourceHDB(request: FastifyRequest, reply
       const isUnemployed = await historyDatabase.familyMemberIncome.findFirst({
         where: idField
       })
+      console.log(isUnemployed)
       if (isUnemployed) {
         return reply.status(200).send({ incomeBySource: { [isUnemployed.employmentType]: [] } })
       }
     }
     type IncomeBySourceAccumulator = Record<string, typeof monthlyIncomes>;
 
+
+    const urls = await getSectionDocumentsPDF_HDB(application_id, 'monthly-income')
+
     const incomeBySource = monthlyIncomes.reduce<IncomeBySourceAccumulator>((acc, income) => {
       const source = income.incomeSource ? income.incomeSource : 'Unknown';
       acc[source] = acc[source] || [];
-      acc[source].push(income);
+      
+      const incomeDocuments = Object.entries(urls).filter(([url]) => url.split("/")[4] === income.id)
+      const incomeWithUrls = {
+        ...income,
+        urls: Object.fromEntries(incomeDocuments),
+      }
+    
+      acc[source].push(incomeWithUrls);
       return acc;
     }, {});
 

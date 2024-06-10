@@ -4,6 +4,7 @@ import { historyDatabase, prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { getSectionDocumentsPDF } from '../../candidates/AWS Routes/get-pdf-documents-by-section'
+import { getSectionDocumentsPDF_HDB } from '../AWS-routes/get-documents-by-section-HDB'
 
 export async function getFamilyMemberInfoHDB(
   request: FastifyRequest,
@@ -28,7 +29,7 @@ export async function getFamilyMemberInfoHDB(
       where: {application_id},
     })
 
-    const urls = await getSectionDocumentsPDF(application_id, 'family-member')
+    const urls = await getSectionDocumentsPDF_HDB(application_id, 'family-member')
     const familyMembersWithUrls = familyMembers.map((familyMember) => {
       const documents = Object.entries(urls).filter(([url]) => url.split("/")[3] === familyMember.id)
       return {
