@@ -1,5 +1,7 @@
 import { historyDatabase, prisma } from "@/lib/prisma";
 import getOpenApplications from "./find-open-applications";
+import { findAWSRouteHDB } from "./Handle Application/find-AWS-Route";
+import { copyFilesToAnotherFolder } from "@/lib/S3";
 
 export async function createExpenseHDB (id: string, candidate_id: string | null, legalResponsibleId : string | null, application_id: string){
     const expense = await prisma.expense.findUnique({
@@ -18,6 +20,10 @@ export async function createExpenseHDB (id: string, candidate_id: string | null,
     const createExpense = await historyDatabase.expense.create({
             data: {main_id:id, ...expenseData, ...idField, application_id }
     });
+    const route = `CandidateDocuments/${candidate_id || legalResponsibleId || ''}/expenses/${candidate_id || legalResponsibleId || ''}/`;
+    const RouteHDB = await findAWSRouteHDB(candidate_id || legalResponsibleId || '' , 'expenses', candidate_id || legalResponsibleId || '' , null, application_id);
+    await copyFilesToAnotherFolder(route, RouteHDB)
+
 }
 
 export async function updateExpenseHDB(id: string) {
