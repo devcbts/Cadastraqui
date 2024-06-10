@@ -1052,6 +1052,7 @@ enum ApplicationStatus {
   Rejected
   Pending
   WaitingList
+  NotAnalysed
 }
 
 enum SolicitationType {

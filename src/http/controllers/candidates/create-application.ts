@@ -65,7 +65,7 @@ export async function subscribeAnnouncement(
       data: {
         candidate_id: candidate.id,
         announcement_id,
-        status: 'Pending',
+        status: 'NotAnalysed',
         educationLevel_id,
         candidateName: candidate.name,
         number: applicationNumber,
