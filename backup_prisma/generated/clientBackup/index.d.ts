@@ -23185,7 +23185,7 @@ export namespace Prisma {
   export type ExpenseMinAggregateOutputType = {
     id: string | null
     main_id: string | null
-    month: string | null
+    date: Date | null
     waterSewage: number | null
     electricity: number | null
     landlinePhone: number | null
@@ -23230,7 +23230,7 @@ export namespace Prisma {
   export type ExpenseMaxAggregateOutputType = {
     id: string | null
     main_id: string | null
-    month: string | null
+    date: Date | null
     waterSewage: number | null
     electricity: number | null
     landlinePhone: number | null
@@ -23275,7 +23275,7 @@ export namespace Prisma {
   export type ExpenseCountAggregateOutputType = {
     id: number
     main_id: number
-    month: number
+    date: number
     waterSewage: number
     electricity: number
     landlinePhone: number
@@ -23396,7 +23396,7 @@ export namespace Prisma {
   export type ExpenseMinAggregateInputType = {
     id?: true
     main_id?: true
-    month?: true
+    date?: true
     waterSewage?: true
     electricity?: true
     landlinePhone?: true
@@ -23441,7 +23441,7 @@ export namespace Prisma {
   export type ExpenseMaxAggregateInputType = {
     id?: true
     main_id?: true
-    month?: true
+    date?: true
     waterSewage?: true
     electricity?: true
     landlinePhone?: true
@@ -23486,7 +23486,7 @@ export namespace Prisma {
   export type ExpenseCountAggregateInputType = {
     id?: true
     main_id?: true
-    month?: true
+    date?: true
     waterSewage?: true
     electricity?: true
     landlinePhone?: true
@@ -23620,7 +23620,7 @@ export namespace Prisma {
   export type ExpenseGroupByOutputType = {
     id: string
     main_id: string | null
-    month: string
+    date: Date
     waterSewage: number | null
     electricity: number | null
     landlinePhone: number | null
@@ -23686,7 +23686,7 @@ export namespace Prisma {
   export type ExpenseSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     main_id?: boolean
-    month?: boolean
+    date?: boolean
     waterSewage?: boolean
     electricity?: boolean
     landlinePhone?: boolean
@@ -23735,7 +23735,7 @@ export namespace Prisma {
   export type ExpenseSelectScalar = {
     id?: boolean
     main_id?: boolean
-    month?: boolean
+    date?: boolean
     waterSewage?: boolean
     electricity?: boolean
     landlinePhone?: boolean
@@ -23794,7 +23794,7 @@ export namespace Prisma {
     scalars: $Extensions.GetResult<{
       id: string
       main_id: string | null
-      month: string
+      date: Date
       waterSewage: number | null
       electricity: number | null
       landlinePhone: number | null
@@ -24235,7 +24235,7 @@ export namespace Prisma {
   interface ExpenseFieldRefs {
     readonly id: FieldRef<"Expense", 'String'>
     readonly main_id: FieldRef<"Expense", 'String'>
-    readonly month: FieldRef<"Expense", 'String'>
+    readonly date: FieldRef<"Expense", 'DateTime'>
     readonly waterSewage: FieldRef<"Expense", 'Float'>
     readonly electricity: FieldRef<"Expense", 'Float'>
     readonly landlinePhone: FieldRef<"Expense", 'Float'>
@@ -40742,7 +40742,7 @@ export namespace Prisma {
   export const ExpenseScalarFieldEnum: {
     id: 'id',
     main_id: 'main_id',
-    month: 'month',
+    date: 'date',
     waterSewage: 'waterSewage',
     electricity: 'electricity',
     landlinePhone: 'landlinePhone',
@@ -43758,7 +43758,7 @@ export namespace Prisma {
     NOT?: ExpenseWhereInput | ExpenseWhereInput[]
     id?: StringFilter<"Expense"> | string
     main_id?: StringNullableFilter<"Expense"> | string | null
-    month?: StringFilter<"Expense"> | string
+    date?: DateTimeFilter<"Expense"> | Date | string
     waterSewage?: FloatNullableFilter<"Expense"> | number | null
     electricity?: FloatNullableFilter<"Expense"> | number | null
     landlinePhone?: FloatNullableFilter<"Expense"> | number | null
@@ -43807,7 +43807,7 @@ export namespace Prisma {
   export type ExpenseOrderByWithRelationInput = {
     id?: SortOrder
     main_id?: SortOrderInput | SortOrder
-    month?: SortOrder
+    date?: SortOrder
     waterSewage?: SortOrderInput | SortOrder
     electricity?: SortOrderInput | SortOrder
     landlinePhone?: SortOrderInput | SortOrder
@@ -43860,7 +43860,7 @@ export namespace Prisma {
     OR?: ExpenseWhereInput[]
     NOT?: ExpenseWhereInput | ExpenseWhereInput[]
     main_id?: StringNullableFilter<"Expense"> | string | null
-    month?: StringFilter<"Expense"> | string
+    date?: DateTimeFilter<"Expense"> | Date | string
     waterSewage?: FloatNullableFilter<"Expense"> | number | null
     electricity?: FloatNullableFilter<"Expense"> | number | null
     landlinePhone?: FloatNullableFilter<"Expense"> | number | null
@@ -43909,7 +43909,7 @@ export namespace Prisma {
   export type ExpenseOrderByWithAggregationInput = {
     id?: SortOrder
     main_id?: SortOrderInput | SortOrder
-    month?: SortOrder
+    date?: SortOrder
     waterSewage?: SortOrderInput | SortOrder
     electricity?: SortOrderInput | SortOrder
     landlinePhone?: SortOrderInput | SortOrder
@@ -43964,7 +43964,7 @@ export namespace Prisma {
     NOT?: ExpenseScalarWhereWithAggregatesInput | ExpenseScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Expense"> | string
     main_id?: StringNullableWithAggregatesFilter<"Expense"> | string | null
-    month?: StringWithAggregatesFilter<"Expense"> | string
+    date?: DateTimeWithAggregatesFilter<"Expense"> | Date | string
     waterSewage?: FloatNullableWithAggregatesFilter<"Expense"> | number | null
     electricity?: FloatNullableWithAggregatesFilter<"Expense"> | number | null
     landlinePhone?: FloatNullableWithAggregatesFilter<"Expense"> | number | null
@@ -47841,7 +47841,7 @@ export namespace Prisma {
   export type ExpenseCreateInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date?: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -47888,7 +47888,7 @@ export namespace Prisma {
   export type ExpenseUncheckedCreateInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date?: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -47935,7 +47935,7 @@ export namespace Prisma {
   export type ExpenseUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -47982,7 +47982,7 @@ export namespace Prisma {
   export type ExpenseUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -48029,7 +48029,7 @@ export namespace Prisma {
   export type ExpenseCreateManyInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date?: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -48076,7 +48076,7 @@ export namespace Prisma {
   export type ExpenseUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -48121,7 +48121,7 @@ export namespace Prisma {
   export type ExpenseUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -51616,7 +51616,7 @@ export namespace Prisma {
   export type ExpenseCountOrderByAggregateInput = {
     id?: SortOrder
     main_id?: SortOrder
-    month?: SortOrder
+    date?: SortOrder
     waterSewage?: SortOrder
     electricity?: SortOrder
     landlinePhone?: SortOrder
@@ -51699,7 +51699,7 @@ export namespace Prisma {
   export type ExpenseMaxOrderByAggregateInput = {
     id?: SortOrder
     main_id?: SortOrder
-    month?: SortOrder
+    date?: SortOrder
     waterSewage?: SortOrder
     electricity?: SortOrder
     landlinePhone?: SortOrder
@@ -51744,7 +51744,7 @@ export namespace Prisma {
   export type ExpenseMinOrderByAggregateInput = {
     id?: SortOrder
     main_id?: SortOrder
-    month?: SortOrder
+    date?: SortOrder
     waterSewage?: SortOrder
     electricity?: SortOrder
     landlinePhone?: SortOrder
@@ -58019,7 +58019,7 @@ export namespace Prisma {
   export type ExpenseCreateWithoutCandidateInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date?: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -58065,7 +58065,7 @@ export namespace Prisma {
   export type ExpenseUncheckedCreateWithoutCandidateInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date?: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -59004,7 +59004,7 @@ export namespace Prisma {
     NOT?: ExpenseScalarWhereInput | ExpenseScalarWhereInput[]
     id?: StringFilter<"Expense"> | string
     main_id?: StringNullableFilter<"Expense"> | string | null
-    month?: StringFilter<"Expense"> | string
+    date?: DateTimeFilter<"Expense"> | Date | string
     waterSewage?: FloatNullableFilter<"Expense"> | number | null
     electricity?: FloatNullableFilter<"Expense"> | number | null
     landlinePhone?: FloatNullableFilter<"Expense"> | number | null
@@ -60404,7 +60404,7 @@ export namespace Prisma {
   export type ExpenseCreateWithoutLegalResponsibleInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date?: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -60450,7 +60450,7 @@ export namespace Prisma {
   export type ExpenseUncheckedCreateWithoutLegalResponsibleInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date?: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -73819,7 +73819,7 @@ export namespace Prisma {
   export type ExpenseCreateManyCandidateInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date?: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -74234,7 +74234,7 @@ export namespace Prisma {
   export type ExpenseUpdateWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -74280,7 +74280,7 @@ export namespace Prisma {
   export type ExpenseUncheckedUpdateWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -74326,7 +74326,7 @@ export namespace Prisma {
   export type ExpenseUncheckedUpdateManyWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -75371,7 +75371,7 @@ export namespace Prisma {
   export type ExpenseCreateManyLegalResponsibleInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date?: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -76110,7 +76110,7 @@ export namespace Prisma {
   export type ExpenseUpdateWithoutLegalResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -76156,7 +76156,7 @@ export namespace Prisma {
   export type ExpenseUncheckedUpdateWithoutLegalResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -76202,7 +76202,7 @@ export namespace Prisma {
   export type ExpenseUncheckedUpdateManyWithoutLegalResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null

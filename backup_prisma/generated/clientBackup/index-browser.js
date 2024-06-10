@@ -438,7 +438,7 @@ exports.Prisma.BankAccountScalarFieldEnum = {
 exports.Prisma.ExpenseScalarFieldEnum = {
   id: 'id',
   main_id: 'main_id',
-  month: 'month',
+  date: 'date',
   waterSewage: 'waterSewage',
   electricity: 'electricity',
   landlinePhone: 'landlinePhone',

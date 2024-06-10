@@ -468,7 +468,7 @@ model Expense {
   id      String  @id @default(uuid())
   main_id String?
 
-  month         String
+  date         DateTime @default(now())
   waterSewage   Float?
   electricity   Float?
   landlinePhone Float?
