@@ -94,7 +94,7 @@ export async function assistantRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     getAnnouncements,
   )
-  app.get('/applications/:educuationLevel_id', { onRequest: [verifyJWT] }, getCandidatesApplications)
+  app.get('/applications/:educationLevel_id', { onRequest: [verifyJWT] }, getCandidatesApplications)
 
   //Despesas Candidato Inscrito
   app.get('/expenses/:candidate_id', { onRequest: [verifyJWT] }, calculateExpenses)
