@@ -604,7 +604,7 @@ model Announcement {
   closeDate            DateTime?
   waitingList          Boolean?                 @default(false)
   offeredVacancies     Int?
-  verifiedScholarships Int?
+  verifiedScholarships Int                     @default(0)
   description          String?
   entity_id            String
   announcementName     String?
@@ -678,6 +678,7 @@ model Application {
   averageIncome        Float?
   perCapita            Float?
   position             Int?
+  distance            Float @default(100)
   number               Int                  @default(1)
   announcement         Announcement         @relation(fields: [announcement_id], references: [id], onDelete: Cascade)
   candidate            Candidate            @relation(fields: [candidate_id], references: [id], onDelete: Cascade)

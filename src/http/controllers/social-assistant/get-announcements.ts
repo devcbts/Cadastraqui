@@ -37,22 +37,53 @@ export async function getAnnouncements(
         },
         include: {
           entity: true,
-          socialAssistant: true
+          educationLevels:true,
+        },
+       
+      })
+      if (!announcement) {
+        throw new AnnouncementNotExists()
+      }
+      const response = announcement.map((announc) => {
+       
+        return{
+          id: announc.id,
+          name: announc.announcementName,
+          entity: announc.entity.socialReason,
+          finished: (announc.announcementDate !== null && announc.announcementDate < new Date()) ? true : false,
+          vacancies: announc.verifiedScholarships
         }
       })
+
+      return reply.status(200).send({ announcements: response })
 
     } else {
-      announcement = await prisma.announcement.findUnique({
-        where: { id: announcement_id }, include: {
-          educationLevels:true,
-          entity_subsidiary: true
-
-          
+      const announcement = await prisma.announcement.findUnique({
+        where: { id: announcement_id},
+        include: {
+          educationLevels: true,
+          entity: true,
+          entity_subsidiary: true,
         }
       })
+  
+      if (!announcement) {
+        throw new ResourceNotFoundError()
+      }
+      const educationLevels = announcement.educationLevels
+      const entityAndSubsidiaries = [announcement.entity, ...announcement.entity_subsidiary]
+      const educationLevelsFiltered = entityAndSubsidiaries.map((entity) => {
+        const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === entity.id)
+        if (entity.id == announcement.entity_id) {
+          const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === null)
+  
+          return { ...entity, matchedEducationLevels }
+        }
+        return { ...entity, matchedEducationLevels }
+      })
+      return reply.status(200).send({ announcement: announcement, educationLevels: educationLevelsFiltered })
     }
 
-    return reply.status(200).send({ announcement })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })

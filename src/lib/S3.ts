@@ -164,11 +164,12 @@ export async function deleteFromS3(fileKey: string) {
 export async function copyFilesToAnotherFolder(sourceFolder: string, destinationFolder: string) {
   try {
     const { Contents } = await s3.listObjectsV2({ Bucket: bucketName!, Prefix: sourceFolder }).promise();
-
+    console.log(`Contents of source folder: ${JSON.stringify(Contents)}`)
     for (const content of Contents || []) {
       if (content.Key) {
         const copySource = `${bucketName}/${content.Key}`;
         const destinationKey = content.Key.replace(sourceFolder, destinationFolder);
+        console.log(`Copying file from ${copySource} to ${destinationKey}`);
 
         await s3.copyObject({
           CopySource: copySource,
