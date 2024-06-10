@@ -3,39 +3,76 @@ import ButtonBase from "Components/ButtonBase";
 import Table from "Components/Table";
 import { ReactComponent as Magnifier } from 'Assets/icons/magnifier.svg'
 import styles from './styles.module.scss'
+import { useNavigate, useParams } from "react-router";
+import { useEffect, useState } from "react";
+import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import CRITERIAS from "utils/enums/criterias";
+import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
+import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer";
+import moneyInputMask from "Components/MoneyFormInput/money-input-mask";
+import SCHOOL_LEVELS from "utils/enums/school-levels";
+import Loader from "Components/Loader";
 export default function SelectedCandidates() {
+    const navigate = useNavigate()
+    const { announcementId, courseId } = useParams()
+    const [isLoading, setIsLoading] = useState(true)
+    const [application, setApplication] = useState({ candidates: [], level: {}, announcement: {}, entity: {} })
+    useEffect(() => {
+        const fetchApplication = async () => {
+            try {
+                setIsLoading(true)
+                const information = await socialAssistantService.getApplication(courseId)
+                setApplication(information)
+            } catch (err) { }
+            setIsLoading(false)
+        }
+        fetchApplication()
+    }, [courseId])
+    const getAddress = () => {
+        if (application.entity) {
+            const { address, addressNumber, city, neighborhood, UF } = application.entity
+            return `${address}, ${addressNumber}. ${neighborhood}, ${city}/${UF}`
+        }
+    }
     return (
         <div>
-            <BackPageTitle title={'processo de seleção'} path={'/home/selecao/1234'} />
-            <h2>Lista de Candidatos Selecionados: Edital XYZ</h2>
+            <Loader loading={isLoading} />
+            <BackPageTitle title={'processo de seleção'} path={`/home/selecao/${announcementId}`} />
+            <h2>Lista de Candidatos Selecionados: Edital {application.announcement.announcementNumber}</h2>
             <div className={styles.informative}>
                 <div className={styles.row}>
-                    <span>Instituição: Unifei</span>
-                    <span>Tipo de Educação: Superior</span>
-                    <span>Vagas: 4</span>
-                    <span>Inscritos: 100</span>
+                    <span>Instituição: {application.entity?.socialReason}</span>
+                    <span>Tipo de Educação: {SCHOOL_LEVELS.find(e => e.value === application.level?.basicEduType)?.label}</span>
+                    <span>Vagas: {application.level?.verifiedScholarships}</span>
+                    <span>Inscritos: {application.candidates.length}</span>
                 </div>
-                <span>Endereço: Rua das Flores, 123. Jardim Florido, São Paulo/SP</span>
+                <span>Endereço: {getAddress()}</span>
                 <div className={styles.row}>
-                    <span>Ciclo/Ano/Série/Semestre/Curso: G1 - (1 ano)</span>
-                    <span>Tipo de Bolsa: Bolsa Lei 187 Integral</span>
+                    <span>Ciclo/Ano/Série/Semestre/Curso: {application.level?.grade}</span>
+                    <span>Tipo de Bolsa: {SCHOLARSHIP_OFFER.find(e => e.value === application.level?.scholarshipType)?.label}</span>
                 </div>
-                <span>Critério do Rank / desempate: Cad. Único, Menor renda, Doença grave</span>
+                <span>Critério do Rank / desempate: {application.announcement?.criteria?.map(e => CRITERIAS.find(c => c.value === e)?.label).join('; ')}</span>
             </div>
             <Table.Root headers={['rank', 'candidato', 'renda bruta média', 'condição', 'pendências', 'ficha', 'ação']}>
-                <Table.Row>
-                    <Table.Cell divider>1</Table.Cell>
-                    <Table.Cell >Gabriel</Table.Cell>
-                    <Table.Cell >R$1230,00</Table.Cell>
-                    <Table.Cell >Titular</Table.Cell>
-                    <Table.Cell >0</Table.Cell>
-                    <Table.Cell >Em análise</Table.Cell>
-                    <Table.Cell >
-                        <ButtonBase >
-                            <Magnifier width={14} height={14} />
-                        </ButtonBase>
-                    </Table.Cell>
-                </Table.Row>
+                {
+                    application.candidates.map((candidate) => {
+                        return (
+                            <Table.Row>
+                                <Table.Cell divider>{candidate.position ?? '-'}</Table.Cell>
+                                <Table.Cell >{candidate.candidateName}</Table.Cell>
+                                <Table.Cell >{moneyInputMask(candidate.averageIncome?.toString())}</Table.Cell>
+                                <Table.Cell >Titular</Table.Cell>
+                                <Table.Cell >0</Table.Cell>
+                                <Table.Cell >Em análise</Table.Cell>
+                                <Table.Cell >
+                                    <ButtonBase onClick={() => navigate('')}>
+                                        <Magnifier width={14} height={14} />
+                                    </ButtonBase>
+                                </Table.Cell>
+                            </Table.Row>
+                        )
+                    })
+                }
             </Table.Root>
         </div>
     )

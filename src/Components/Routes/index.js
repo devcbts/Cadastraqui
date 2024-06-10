@@ -34,10 +34,10 @@ export default function AppRoutes() {
                 <Routes>
                     <Route path="/home" element={<Outlet />} >
                         <Route path="" element={<SelectionProcess />}></Route>
-                        <Route path="selecao/:id" element={<Outlet />} >
+                        <Route path="selecao/:announcementId" element={<Outlet />} >
 
                             <Route path="" element={<SocialAssistantAnnouncement />}></Route>
-                            <Route path="candidatos" element={<SelectedCandidates />}></Route>
+                            <Route path=":courseId" element={<SelectedCandidates />}></Route>
                         </Route>
                     </Route>
                 </Routes>
