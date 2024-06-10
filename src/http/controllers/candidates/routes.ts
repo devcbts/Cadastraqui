@@ -141,7 +141,6 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.post('/bank-info/:_id', { onRequest: [verifyJWT] }, registerBankingInfo)
   app.patch('/bank-info/:_id', { onRequest: [verifyJWT] }, updateBankingInfo)
   app.delete('/bank-info/:id', { onRequest: [verifyJWT] }, deleteBankingInfo)
-
   /** Health Info */
   // app.get('/health-info', { onRequest: [verifyJWT] }, getHealthInfo)
   app.get(

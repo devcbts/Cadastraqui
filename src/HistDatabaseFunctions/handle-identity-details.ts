@@ -1,7 +1,5 @@
 
-import { prisma } from '@/lib/prisma'
-import { historyDatabase } from '@/lib/prisma'
-import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible';
+import { historyDatabase, prisma } from '@/lib/prisma';
 import getOpenApplications from './find-open-applications';
 
 /// HDB == HistoryDataBase
@@ -14,7 +12,7 @@ export async function createIdentityDetailsHDB(id: string, candidate_id: string 
     if (!findIdentityDetails) {
         return null;
     }
-    const { id: identityId, candidate_id: mainCandidateId,responsible_id: responsible_id, ...identityDetails } = findIdentityDetails;
+    const { id: identityId, candidate_id: mainCandidateId, responsible_id: responsible_id, ...identityDetails } = findIdentityDetails;
 
 
     const idField = legalResponsibleId ? { legalResponsibleId: legalResponsibleId } : { candidate_id: candidate_id }

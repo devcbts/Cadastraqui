@@ -11,14 +11,13 @@ export async function subscribeAnnouncement(
   reply: FastifyReply,
 ) {
 
-
   const createParamsSchema = z.object({
     announcement_id: z.string(),
     educationLevel_id: z.string(),
     candidate_id: z.string().optional()
   })
   const { announcement_id, educationLevel_id, candidate_id } = createParamsSchema.parse(
-    request.body,
+    request.params,
   )
   try {
     const userId = request.user.sub
@@ -40,9 +39,9 @@ export async function subscribeAnnouncement(
       candidate = legalDependent
     }
 
-    if (!CandidateOrResponsible.UserData.finishedapplication) {
-      throw new Error('Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.')
-    }
+    // if (!CandidateOrResponsible.UserData.finishedapplication) {
+    //   throw new Error('Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.')
+    // }
 
     const applicationExists = await prisma.application.findFirst({
       where: { candidate_id: candidate.id, announcement_id },

@@ -214,6 +214,7 @@ export async function registerFamilyMemberInfo(
 
     return reply.status(201).send({ id })
   } catch (err: any) {
+    console.log(err)
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
     }

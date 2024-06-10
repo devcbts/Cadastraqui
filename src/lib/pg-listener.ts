@@ -22,13 +22,14 @@ import { createMedicationHDB } from "@/HistDatabaseFunctions/handle-medication";
 import { createMonthlyIncomeHDB } from "@/HistDatabaseFunctions/handle-monthly-income";
 import { createOtherExpenseHDB, updateOtherExpenseHDB } from "@/HistDatabaseFunctions/handle-other-expense";
 import { createResponsibleHDB, updateResponsibleHDB } from "@/HistDatabaseFunctions/handle-responsible";
+import { CalculateMemberAverageIncome } from "@/utils/Trigger-Functions/calculate-member-income";
 import { Client } from 'pg';
 import { prisma } from './prisma';
-import { CalculateMemberAverageIncome } from "@/utils/Trigger-Functions/calculate-member-income";
-const clientBackup = new Client(env.DATABASE_URL); 
+
+const clientBackup = new Client(env.DATABASE_URL);
 clientBackup.connect();
 
-//clientBackup.query('LISTEN channel_application');
+clientBackup.query('LISTEN channel_application');
 clientBackup.query('LISTEN channel_housing');
 clientBackup.query('LISTEN channel_candidate');
 clientBackup.query('LISTEN channel_creditCard');
@@ -231,6 +232,7 @@ clientBackup.on('notification', async (msg) => {
 
 
     if (msg.channel == 'channel_application') {
+        console.log('aquiiii')
         const application = JSON.parse(msg.payload!);
         const application_id = application.id
         const candidate_id = application.candidate_id
