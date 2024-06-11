@@ -428,7 +428,7 @@ model BankAccount {
 
 model Expense {
   id                       String            @id @default(uuid())
-  date                     DateTime
+  date                     DateTime @default( now())
   waterSewage              Float?
   electricity              Float?
   landlinePhone            Float?

@@ -467,14 +467,12 @@ model BankAccount {
 model Expense {
   id      String  @id @default(uuid())
   main_id String?
-
-  date         DateTime @default(now())
-  waterSewage   Float?
-  electricity   Float?
-  landlinePhone Float?
-  mobilePhone   Float?
-  food          Float?
-
+  date DateTime
+waterSewage              Float?
+  electricity              Float?
+  landlinePhone            Float?
+  mobilePhone              Float?
+  food                     Float?
   rent                     Float?
   garageRent               Float?
   condominium              Float?
@@ -503,6 +501,8 @@ model Expense {
   installmentValueIPVA     Float?
   installmentValueIR       Float?
   installmentValueITR      Float?
+  financing                Float?
+  creditCard               Float?
   optedForInstallmentIPTU  Boolean?
   optedForInstallmentIPVA  Boolean?
   optedForInstallmentIR    Boolean?

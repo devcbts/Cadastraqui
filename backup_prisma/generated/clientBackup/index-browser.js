@@ -472,6 +472,8 @@ exports.Prisma.ExpenseScalarFieldEnum = {
   installmentValueIPVA: 'installmentValueIPVA',
   installmentValueIR: 'installmentValueIR',
   installmentValueITR: 'installmentValueITR',
+  financing: 'financing',
+  creditCard: 'creditCard',
   optedForInstallmentIPTU: 'optedForInstallmentIPTU',
   optedForInstallmentIPVA: 'optedForInstallmentIPVA',
   optedForInstallmentIR: 'optedForInstallmentIR',
