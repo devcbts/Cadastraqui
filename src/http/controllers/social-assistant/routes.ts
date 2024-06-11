@@ -24,6 +24,8 @@ import { getHousingInfoHDB } from './detailed-form/get-housing-info'
 import { getIncomeInfo } from '../candidates/get-income-info'
 import { getIncomeInfoHDB } from './detailed-form/get-income-info'
 import getCandidatesApplications from './get-candidates-applications'
+import { getCandidateResume } from './get-candidate-resume'
+import { getCandidateParecer } from './get-candidate-parecer'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -103,7 +105,15 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/basic-info', { onRequest: [verifyJWT] }, getBasicAssistantInfo)
 
 
+
+
+
+
   // Pegar informações do candidato
+  // Extrato (informações resumidas):
+  app.get('/candidateInfo/resume/:application_id', { onRequest: [verifyJWT] }, getCandidateResume) 
+  app.get('/candidateInfo/parecer/:application_id', { onRequest: [verifyJWT] }, getCandidateParecer)
+  // Formulário detalhado
   app.get('/candidateInfo/identity/:application_id', { onRequest: [verifyJWT] }, getIdentityInfoHDB)
   app.get('/candidateInfo/basic/:application_id', { onRequest: [verifyJWT] }, getBasicInfoHDB)
   app.get('/candidateInfo/family/:application_id', { onRequest: [verifyJWT] }, getFamilyMemberInfoHDB)

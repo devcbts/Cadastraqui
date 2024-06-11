@@ -17,9 +17,12 @@ export async function createFamilyMemberHDB(id: string, candidate_id: string | n
     }
     const { id: familyMemberId, candidate_id: mainCandidateId, legalResponsibleId: mainResponsibleId, ...familyMemberDetails } = findFamilyMember;
 
-
-    const idField = legalResponsibleId ? { legalResponsibleId: legalResponsibleId } : { candidate_id: candidate_id }
-
+    const newId = await historyDatabase.idMapping.findFirst({
+        where: { mainId: (mainCandidateId || mainResponsibleId)!, application_id }
+    
+    })
+   const idField = mainCandidateId ? { candidate_id: newId?.newId } : { legalResponsibleId: newId?.newId };
+    
     const createFamilyMember = await historyDatabase.familyMember.create({
         data: { main_id: familyMemberId, ...familyMemberDetails, ...idField, application_id }
     });

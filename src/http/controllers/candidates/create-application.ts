@@ -10,19 +10,18 @@ export async function subscribeAnnouncement(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-
-
+  
   const createParamsSchema = z.object({
     announcement_id: z.string(),
     educationLevel_id: z.string(),
     candidate_id: z.string().optional()
   })
   const { announcement_id, educationLevel_id, candidate_id } = createParamsSchema.parse(
-    request.body,
+    request.params,
   )
   try {
     const userId = request.user.sub
-
+    console.log('3')
     const CandidateOrResponsible = await SelectCandidateResponsible(userId)
     if (!CandidateOrResponsible) {
       throw new NotAllowedError()
@@ -41,6 +40,7 @@ export async function subscribeAnnouncement(
     }
 
     if (!CandidateOrResponsible.UserData.finishedapplication) {
+      console.log('erro aqui')
       throw new Error('Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.')
     }
 
