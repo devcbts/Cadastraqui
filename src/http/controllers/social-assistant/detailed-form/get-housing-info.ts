@@ -15,25 +15,25 @@ export async function getHousingInfoHDB(
     application_id: z.string(),
   })
 
-  
+
   const { application_id } = AssistantParamsSchema.parse(request.params)
 
   try {
     const user_id = request.user.sub;
-  
+
     const isAssistant = await prisma.socialAssistant.findUnique({
-      where: {user_id}
-  })
-  if (!isAssistant) {
+      where: { user_id }
+    })
+    if (!isAssistant) {
       throw new NotAllowedError()
-      
-  }
-   
+
+    }
+
     const housingInfo = await historyDatabase.housing.findUnique({
-      where: {application_id},
+      where: { application_id },
     })
     const urls = await getSectionDocumentsPDF_HDB(application_id, 'housing')
-    return reply.status(200).send({ housingInfo, urls})
+    return reply.status(200).send({ housingInfo, urls })
     return reply.status(200).send({ housingInfo })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {

@@ -19,7 +19,11 @@ export async function createHousingHDB(id: string, candidate_id: string | null, 
     const { id: housingId, candidate_id: mainCandidateId,responsible_id: responsible_id, ...housingDetails } = findHousing;
 
 
-    const idField = legalResponsibleId ? { legalResponsibleId: legalResponsibleId } : { candidate_id: candidate_id }
+    const newId = await historyDatabase.idMapping.findFirst({
+        where: { mainId: (mainCandidateId || responsible_id)!, application_id }
+    
+    })
+   const idField = mainCandidateId ? { candidate_id: newId?.newId } : { legalResponsibleId: newId?.newId };
 
 
     const createHousing = await historyDatabase.housing.create({

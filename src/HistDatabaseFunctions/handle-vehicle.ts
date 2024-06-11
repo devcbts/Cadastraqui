@@ -15,7 +15,11 @@ export async function createVehicleHDB(id: string, candidate_id: string | null, 
     }
     const { id: vehicleId, candidate_id: mainCandidateId, legalResponsibleId: mainResponsibleId, owners_id: oldOwnersIds, ...vehicleDetails } = findVehicle;
 
-    const idField = legalResponsibleId ? { legalResponsibleId: legalResponsibleId } : { candidate_id: candidate_id };
+    const newId = await historyDatabase.idMapping.findFirst({
+        where: { mainId: (mainCandidateId || mainResponsibleId)!, application_id }
+    
+    })
+   const idField = mainCandidateId ? { candidate_id: newId?.newId } : { legalResponsibleId: newId?.newId };
 
     const newOwnersIds = [];
     for (const ownerId of oldOwnersIds) {
