@@ -15,7 +15,7 @@ export async function createMedicationHDB (id: string, candidate_id: string | nu
         where: { mainId: (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, application_id }
     });
     const newFamilyMemberId = familyMemberMapping?.newId;
-    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (candidate_id ? { candidate_id: candidate_id } : { responsible_id: legalResponsibleId });
+    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (candidate_id ? { candidate_id: newFamilyMemberId } : { responsible_id: newFamilyMemberId });
 
     const createMedication = await historyDatabase.medication.create({
             data: {main_id:id, ...medicationData, ...idField, application_id }

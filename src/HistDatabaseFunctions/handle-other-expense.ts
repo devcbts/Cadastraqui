@@ -13,7 +13,7 @@ export async function createOtherExpenseHDB (id: string, candidate_id: string | 
         where: { mainId: (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, application_id }
     });
     const newFamilyMemberId = familyMemberMapping?.newId;
-    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (candidate_id ? { candidate_id: candidate_id } : { responsible_id: legalResponsibleId });
+    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (candidate_id ? { candidate_id: newFamilyMemberId } : { responsible_id: newFamilyMemberId });
 
     const createOtherExpense = await historyDatabase.otherExpense.create({
             data: {main_id:id, ...otherExpenseData, ...idField, application_id }
