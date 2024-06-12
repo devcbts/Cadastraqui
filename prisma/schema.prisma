@@ -16,43 +16,45 @@ enum TiebreakerCriterias {
 }
 
 model Candidate {
-  id                  String                @id @default(uuid())
-  name                String
-  CPF                 String                @unique
-  birthDate           DateTime
-  phone               String
-  address             String
-  city                String
-  UF                  COUNTRY
-  CEP                 String
-  neighborhood        String
-  addressNumber       String
-  role                ROLE                  @default(CANDIDATE)
-  createdAt           DateTime              @default(now())
-  user_id             String?               @unique
-  responsible_id      String?
-  profilePicture      String?
-  email               String?
-  finishedapplication Boolean               @default(false)
-  Application         Application[]
-  CreditCard          CreditCard[]
-  Expense             Expense[]
-  Financing           Financing[]
-  IdentityDetails     IdentityDetails?
-  FamilyMemberIncome  FamilyMemberIncome[]
-  Loan                Loan[]
-  OtherExpense        OtherExpense[]
-  Vehicle             Vehicle[]
-  responsible         LegalResponsible?     @relation(fields: [responsible_id], references: [id])
-  user                User?                 @relation(fields: [user_id], references: [id])
-  FamillyMember       FamilyMember[]
-  Housing             Housing?
-  MonthlyIncome       MonthlyIncome[]
-  FamilyMemberDisease FamilyMemberDisease[]
-  Medication          Medication[]
-  BankAccount         BankAccount[]
-  Declarations        Declarations[]
-  AnnouncementsSeen   AnnouncementsSeen[]
+  id                     String                @id @default(uuid())
+  name                   String
+  CPF                    String                @unique
+  birthDate              DateTime
+  phone                  String
+  address                String
+  city                   String
+  UF                     COUNTRY
+  CEP                    String
+  neighborhood           String
+  addressNumber          String
+  role                   ROLE                  @default(CANDIDATE)
+  createdAt              DateTime              @default(now())
+  user_id                String?               @unique
+  responsible_id         String?
+  profilePicture         String?
+  email                  String?
+  finishedapplication    Boolean               @default(false)
+  Application            Application[]
+  CreditCard             CreditCard[]
+  Expense                Expense[]
+  Financing              Financing[]
+  IdentityDetails        IdentityDetails?
+  FamilyMemberIncome     FamilyMemberIncome[]
+  Loan                   Loan[]
+  OtherExpense           OtherExpense[]
+  Vehicle                Vehicle[]
+  responsible            LegalResponsible?     @relation(fields: [responsible_id], references: [id])
+  user                   User?                 @relation(fields: [user_id], references: [id])
+  FamillyMember          FamilyMember[]
+  Housing                Housing?
+  MonthlyIncome          MonthlyIncome[]
+  FamilyMemberDisease    FamilyMemberDisease[]
+  Medication             Medication[]
+  BankAccount            BankAccount[]
+  Declarations           Declarations[]
+  AnnouncementsSeen      AnnouncementsSeen[]
+  FinishedRegistration   FinishedRegistration?
+  finishedRegistrationId String?
 
   @@unique([id, responsible_id])
   @@map("candidates")
@@ -118,6 +120,8 @@ model LegalResponsible {
   BankAccount                     BankAccount[]
   Declarations                    Declarations[]
   AnnouncementsSeen               AnnouncementsSeen[]
+  FinishedRegistration            FinishedRegistration?
+  finishedRegistrationId          String?
 
   @@unique([id, user_id])
   @@map("responsibles")
@@ -428,7 +432,7 @@ model BankAccount {
 
 model Expense {
   id                       String            @id @default(uuid())
-  date                     DateTime @default( now())
+  date                     DateTime          @default(now())
   waterSewage              Float?
   electricity              Float?
   landlinePhone            Float?
@@ -581,6 +585,25 @@ model Declarations {
   legalResponsibleId String?
 }
 
+model FinishedRegistration {
+  id                 String            @id @default(uuid())
+  cadastrante        Boolean           @default(false)
+  grupoFamiliar      Boolean           @default(false)
+  moradia            Boolean           @default(false)
+  veiculos           Boolean           @default(false)
+  rendaMensal        Boolean           @default(false)
+  despesas           Boolean           @default(false)
+  saude              Boolean           @default(false)
+  declaracoes        Boolean           @default(false)
+  documentos         Boolean           @default(false)
+  candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
+  candidate_id       String?           @unique
+  legalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId String?           @unique
+
+  @@map("registration")
+}
+
 model AnnouncementInterview {
   startDate       DateTime     @db.Date
   endDate         DateTime     @db.Date
@@ -604,7 +627,7 @@ model Announcement {
   closeDate            DateTime?
   waitingList          Boolean?                 @default(false)
   offeredVacancies     Int?
-  verifiedScholarships Int                     @default(0)
+  verifiedScholarships Int                      @default(0)
   description          String?
   entity_id            String
   announcementName     String?
@@ -678,7 +701,7 @@ model Application {
   averageIncome        Float?
   perCapita            Float?
   position             Int?
-  distance            Float @default(100)
+  distance             Float                @default(100)
   number               Int                  @default(1)
   announcement         Announcement         @relation(fields: [announcement_id], references: [id], onDelete: Cascade)
   candidate            Candidate            @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
