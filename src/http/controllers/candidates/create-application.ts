@@ -39,10 +39,10 @@ export async function subscribeAnnouncement(
       candidate = legalDependent
     }
 
-    if (!CandidateOrResponsible.UserData.finishedapplication) {
-      console.log('erro aqui')
-      throw new Error('Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.')
-    }
+    // if (!CandidateOrResponsible.UserData.finishedapplication) {
+    //   console.log('erro aqui')
+    //   throw new Error('Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.')
+    // }
 
     const applicationExists = await prisma.application.findFirst({
       where: { candidate_id: candidate.id, announcement_id },

@@ -30,21 +30,21 @@ import { prisma } from './prisma';
 const clientBackup = new Client(env.DATABASE_URL);
 clientBackup.connect();
 
-clientBackup.query('LISTEN channel_application');
-clientBackup.query('LISTEN channel_housing');
-clientBackup.query('LISTEN channel_candidate');
-clientBackup.query('LISTEN channel_creditCard');
-clientBackup.query('LISTEN channel_expense');
-clientBackup.query('LISTEN channel_familyMember');
-clientBackup.query('LISTEN channel_familyMemberDisease');
-clientBackup.query('LISTEN channel_familyMemberIncome');
-clientBackup.query('LISTEN channel_financing');
-clientBackup.query('LISTEN channel_identityDetails');
-clientBackup.query('LISTEN channel_loan');
-clientBackup.query('LISTEN channel_medication');
-clientBackup.query('LISTEN channel_monthlyIncome');
-clientBackup.query('LISTEN channel_otherExpense');
-clientBackup.query('LISTEN channel_responsible');
+clientBackup.query('LISTEN "channel_application"');
+clientBackup.query('LISTEN "channel_housing"');
+clientBackup.query('LISTEN "channel_candidate"');
+clientBackup.query('LISTEN "channel_creditCard"');
+clientBackup.query('LISTEN "channel_expense"');
+clientBackup.query('LISTEN "channel_familyMember"');
+clientBackup.query('LISTEN "channel_familyMemberDisease"');
+clientBackup.query('LISTEN "channel_familyMemberIncome"');
+clientBackup.query('LISTEN "channel_financing"');
+clientBackup.query('LISTEN "channel_identityDetails"');
+clientBackup.query('LISTEN "channel_loan"');
+clientBackup.query('LISTEN "channel_medication"');
+clientBackup.query('LISTEN "channel_monthlyIncome"');
+clientBackup.query('LISTEN "channel_otherExpense"');
+clientBackup.query('LISTEN "channel_responsible"');
 
 
 clientBackup.on('notification', async (msg) => {
