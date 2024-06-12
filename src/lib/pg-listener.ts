@@ -22,10 +22,11 @@ import { createMedicationHDB } from "@/HistDatabaseFunctions/handle-medication";
 import { createMonthlyIncomeHDB } from "@/HistDatabaseFunctions/handle-monthly-income";
 import { createOtherExpenseHDB, updateOtherExpenseHDB } from "@/HistDatabaseFunctions/handle-other-expense";
 import { createResponsibleHDB, updateResponsibleHDB } from "@/HistDatabaseFunctions/handle-responsible";
+import { createVehicleHDB } from "@/HistDatabaseFunctions/handle-vehicle";
+import { CalculateIncomePerCapita } from "@/utils/Trigger-Functions/calculate-income-per-capita";
 import { CalculateMemberAverageIncome } from "@/utils/Trigger-Functions/calculate-member-income";
 import { Client } from 'pg';
 import { prisma } from './prisma';
-
 const clientBackup = new Client(env.DATABASE_URL);
 clientBackup.connect();
 
@@ -152,6 +153,14 @@ clientBackup.on('notification', async (msg) => {
                 createFamilyMemberIncomeHDB(familyMemberIncome.data.id, familyMemberIncome.data.candidate_id, familyMemberIncome.data.legalResponsibleId, application.id)
             }
         }
+        const incomePerCapita = await CalculateIncomePerCapita(familyMemberIncome.data.candidate_id || familyMemberIncome.data.legalResponsibleId)
+        const openApplications = await getOpenApplications(familyMemberIncome.data.candidate_id || familyMemberIncome.data.legalResponsibleId);
+        for (const application of openApplications) {
+            await prisma.application.update({
+                where: { id: application.id },
+                data: { averageIncome: incomePerCapita.incomePerCapita }
+            })
+        }
     }
 
     if (msg.channel == 'channel_loan') {
@@ -204,7 +213,7 @@ clientBackup.on('notification', async (msg) => {
     }
     if (msg.channel == 'channel_monthlyIncome') {
         const monthlyIncome = JSON.parse(msg.payload!);
-        CalculateMemberAverageIncome(monthlyIncome.data.candidate_id || monthlyIncome.data.familyMember_id || monthlyIncome.data.legalResponsible_id, monthlyIncome.data.incomeSource)
+        await CalculateMemberAverageIncome(monthlyIncome.data.candidate_id || monthlyIncome.data.familyMember_id || monthlyIncome.data.legalResponsible_id, monthlyIncome.data.incomeSource)
         if (monthlyIncome.operation == 'Update') {
             updateOtherExpenseHDB(monthlyIncome.data.id)
         }
@@ -224,6 +233,18 @@ clientBackup.on('notification', async (msg) => {
             const openApplications = await getOpenApplications(financing.data.candidate_id || financing.data.legalResponsibleId);
             for (const application of openApplications) {
                 createMonthlyIncomeHDB(financing.data.id, financing.data.candidate_id, financing.data.legalResponsibleId, application.id)
+            }
+        }
+    }
+    if (msg.channel == 'channel_vehicle') {
+        const vehicle = JSON.parse(msg.payload!);
+        if (vehicle.operation == 'Update') {
+            updateOtherExpenseHDB(vehicle.data.id)
+        }
+        else if (vehicle.operation == 'Insert') {
+            const openApplications = await getOpenApplications(vehicle.data.candidate_id || vehicle.data.legalResponsibleId);
+            for (const application of openApplications) {
+                createVehicleHDB(vehicle.data.id, vehicle.data.candidate_id, vehicle.data.legalResponsibleId, application.id)
             }
         }
     }
@@ -291,6 +312,9 @@ clientBackup.on('notification', async (msg) => {
             await createFamilyMemberIncomeHDB(familyMemberIncome.id, familyMemberIncome.candidate_id, familyMemberIncome.legalResponsibleId, application_id)
         }
 
+        for (const vehicle of findVehicle!) {
+            await createVehicleHDB(vehicle.id, vehicle.candidate_id, vehicle.legalResponsibleId, application_id)
+        }
         for (const monthlyIncome of findMonthlyIncome!) {
             await createMonthlyIncomeHDB(monthlyIncome.id, monthlyIncome.candidate_id, monthlyIncome.candidate_id, application_id)
         }

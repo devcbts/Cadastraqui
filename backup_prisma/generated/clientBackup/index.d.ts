@@ -23143,6 +23143,8 @@ export namespace Prisma {
     installmentValueIPVA: number | null
     installmentValueIR: number | null
     installmentValueITR: number | null
+    financing: number | null
+    creditCard: number | null
     otherExpensesValue: number | null
   }
 
@@ -23179,13 +23181,15 @@ export namespace Prisma {
     installmentValueIPVA: number | null
     installmentValueIR: number | null
     installmentValueITR: number | null
+    financing: number | null
+    creditCard: number | null
     otherExpensesValue: number[]
   }
 
   export type ExpenseMinAggregateOutputType = {
     id: string | null
     main_id: string | null
-    month: string | null
+    date: Date | null
     waterSewage: number | null
     electricity: number | null
     landlinePhone: number | null
@@ -23219,6 +23223,8 @@ export namespace Prisma {
     installmentValueIPVA: number | null
     installmentValueIR: number | null
     installmentValueITR: number | null
+    financing: number | null
+    creditCard: number | null
     optedForInstallmentIPTU: boolean | null
     optedForInstallmentIPVA: boolean | null
     optedForInstallmentIR: boolean | null
@@ -23230,7 +23236,7 @@ export namespace Prisma {
   export type ExpenseMaxAggregateOutputType = {
     id: string | null
     main_id: string | null
-    month: string | null
+    date: Date | null
     waterSewage: number | null
     electricity: number | null
     landlinePhone: number | null
@@ -23264,6 +23270,8 @@ export namespace Prisma {
     installmentValueIPVA: number | null
     installmentValueIR: number | null
     installmentValueITR: number | null
+    financing: number | null
+    creditCard: number | null
     optedForInstallmentIPTU: boolean | null
     optedForInstallmentIPVA: boolean | null
     optedForInstallmentIR: boolean | null
@@ -23275,7 +23283,7 @@ export namespace Prisma {
   export type ExpenseCountAggregateOutputType = {
     id: number
     main_id: number
-    month: number
+    date: number
     waterSewage: number
     electricity: number
     landlinePhone: number
@@ -23309,6 +23317,8 @@ export namespace Prisma {
     installmentValueIPVA: number
     installmentValueIR: number
     installmentValueITR: number
+    financing: number
+    creditCard: number
     optedForInstallmentIPTU: number
     optedForInstallmentIPVA: number
     optedForInstallmentIR: number
@@ -23354,6 +23364,8 @@ export namespace Prisma {
     installmentValueIPVA?: true
     installmentValueIR?: true
     installmentValueITR?: true
+    financing?: true
+    creditCard?: true
     otherExpensesValue?: true
   }
 
@@ -23390,13 +23402,15 @@ export namespace Prisma {
     installmentValueIPVA?: true
     installmentValueIR?: true
     installmentValueITR?: true
+    financing?: true
+    creditCard?: true
     otherExpensesValue?: true
   }
 
   export type ExpenseMinAggregateInputType = {
     id?: true
     main_id?: true
-    month?: true
+    date?: true
     waterSewage?: true
     electricity?: true
     landlinePhone?: true
@@ -23430,6 +23444,8 @@ export namespace Prisma {
     installmentValueIPVA?: true
     installmentValueIR?: true
     installmentValueITR?: true
+    financing?: true
+    creditCard?: true
     optedForInstallmentIPTU?: true
     optedForInstallmentIPVA?: true
     optedForInstallmentIR?: true
@@ -23441,7 +23457,7 @@ export namespace Prisma {
   export type ExpenseMaxAggregateInputType = {
     id?: true
     main_id?: true
-    month?: true
+    date?: true
     waterSewage?: true
     electricity?: true
     landlinePhone?: true
@@ -23475,6 +23491,8 @@ export namespace Prisma {
     installmentValueIPVA?: true
     installmentValueIR?: true
     installmentValueITR?: true
+    financing?: true
+    creditCard?: true
     optedForInstallmentIPTU?: true
     optedForInstallmentIPVA?: true
     optedForInstallmentIR?: true
@@ -23486,7 +23504,7 @@ export namespace Prisma {
   export type ExpenseCountAggregateInputType = {
     id?: true
     main_id?: true
-    month?: true
+    date?: true
     waterSewage?: true
     electricity?: true
     landlinePhone?: true
@@ -23520,6 +23538,8 @@ export namespace Prisma {
     installmentValueIPVA?: true
     installmentValueIR?: true
     installmentValueITR?: true
+    financing?: true
+    creditCard?: true
     optedForInstallmentIPTU?: true
     optedForInstallmentIPVA?: true
     optedForInstallmentIR?: true
@@ -23620,7 +23640,7 @@ export namespace Prisma {
   export type ExpenseGroupByOutputType = {
     id: string
     main_id: string | null
-    month: string
+    date: Date
     waterSewage: number | null
     electricity: number | null
     landlinePhone: number | null
@@ -23654,6 +23674,8 @@ export namespace Prisma {
     installmentValueIPVA: number | null
     installmentValueIR: number | null
     installmentValueITR: number | null
+    financing: number | null
+    creditCard: number | null
     optedForInstallmentIPTU: boolean | null
     optedForInstallmentIPVA: boolean | null
     optedForInstallmentIR: boolean | null
@@ -23686,7 +23708,7 @@ export namespace Prisma {
   export type ExpenseSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     main_id?: boolean
-    month?: boolean
+    date?: boolean
     waterSewage?: boolean
     electricity?: boolean
     landlinePhone?: boolean
@@ -23720,6 +23742,8 @@ export namespace Prisma {
     installmentValueIPVA?: boolean
     installmentValueIR?: boolean
     installmentValueITR?: boolean
+    financing?: boolean
+    creditCard?: boolean
     optedForInstallmentIPTU?: boolean
     optedForInstallmentIPVA?: boolean
     optedForInstallmentIR?: boolean
@@ -23735,7 +23759,7 @@ export namespace Prisma {
   export type ExpenseSelectScalar = {
     id?: boolean
     main_id?: boolean
-    month?: boolean
+    date?: boolean
     waterSewage?: boolean
     electricity?: boolean
     landlinePhone?: boolean
@@ -23769,6 +23793,8 @@ export namespace Prisma {
     installmentValueIPVA?: boolean
     installmentValueIR?: boolean
     installmentValueITR?: boolean
+    financing?: boolean
+    creditCard?: boolean
     optedForInstallmentIPTU?: boolean
     optedForInstallmentIPVA?: boolean
     optedForInstallmentIR?: boolean
@@ -23794,7 +23820,7 @@ export namespace Prisma {
     scalars: $Extensions.GetResult<{
       id: string
       main_id: string | null
-      month: string
+      date: Date
       waterSewage: number | null
       electricity: number | null
       landlinePhone: number | null
@@ -23828,6 +23854,8 @@ export namespace Prisma {
       installmentValueIPVA: number | null
       installmentValueIR: number | null
       installmentValueITR: number | null
+      financing: number | null
+      creditCard: number | null
       optedForInstallmentIPTU: boolean | null
       optedForInstallmentIPVA: boolean | null
       optedForInstallmentIR: boolean | null
@@ -24235,7 +24263,7 @@ export namespace Prisma {
   interface ExpenseFieldRefs {
     readonly id: FieldRef<"Expense", 'String'>
     readonly main_id: FieldRef<"Expense", 'String'>
-    readonly month: FieldRef<"Expense", 'String'>
+    readonly date: FieldRef<"Expense", 'DateTime'>
     readonly waterSewage: FieldRef<"Expense", 'Float'>
     readonly electricity: FieldRef<"Expense", 'Float'>
     readonly landlinePhone: FieldRef<"Expense", 'Float'>
@@ -24269,6 +24297,8 @@ export namespace Prisma {
     readonly installmentValueIPVA: FieldRef<"Expense", 'Float'>
     readonly installmentValueIR: FieldRef<"Expense", 'Float'>
     readonly installmentValueITR: FieldRef<"Expense", 'Float'>
+    readonly financing: FieldRef<"Expense", 'Float'>
+    readonly creditCard: FieldRef<"Expense", 'Float'>
     readonly optedForInstallmentIPTU: FieldRef<"Expense", 'Boolean'>
     readonly optedForInstallmentIPVA: FieldRef<"Expense", 'Boolean'>
     readonly optedForInstallmentIR: FieldRef<"Expense", 'Boolean'>
@@ -40742,7 +40772,7 @@ export namespace Prisma {
   export const ExpenseScalarFieldEnum: {
     id: 'id',
     main_id: 'main_id',
-    month: 'month',
+    date: 'date',
     waterSewage: 'waterSewage',
     electricity: 'electricity',
     landlinePhone: 'landlinePhone',
@@ -40776,6 +40806,8 @@ export namespace Prisma {
     installmentValueIPVA: 'installmentValueIPVA',
     installmentValueIR: 'installmentValueIR',
     installmentValueITR: 'installmentValueITR',
+    financing: 'financing',
+    creditCard: 'creditCard',
     optedForInstallmentIPTU: 'optedForInstallmentIPTU',
     optedForInstallmentIPVA: 'optedForInstallmentIPVA',
     optedForInstallmentIR: 'optedForInstallmentIR',
@@ -43758,7 +43790,7 @@ export namespace Prisma {
     NOT?: ExpenseWhereInput | ExpenseWhereInput[]
     id?: StringFilter<"Expense"> | string
     main_id?: StringNullableFilter<"Expense"> | string | null
-    month?: StringFilter<"Expense"> | string
+    date?: DateTimeFilter<"Expense"> | Date | string
     waterSewage?: FloatNullableFilter<"Expense"> | number | null
     electricity?: FloatNullableFilter<"Expense"> | number | null
     landlinePhone?: FloatNullableFilter<"Expense"> | number | null
@@ -43792,6 +43824,8 @@ export namespace Prisma {
     installmentValueIPVA?: FloatNullableFilter<"Expense"> | number | null
     installmentValueIR?: FloatNullableFilter<"Expense"> | number | null
     installmentValueITR?: FloatNullableFilter<"Expense"> | number | null
+    financing?: FloatNullableFilter<"Expense"> | number | null
+    creditCard?: FloatNullableFilter<"Expense"> | number | null
     optedForInstallmentIPTU?: BoolNullableFilter<"Expense"> | boolean | null
     optedForInstallmentIPVA?: BoolNullableFilter<"Expense"> | boolean | null
     optedForInstallmentIR?: BoolNullableFilter<"Expense"> | boolean | null
@@ -43807,7 +43841,7 @@ export namespace Prisma {
   export type ExpenseOrderByWithRelationInput = {
     id?: SortOrder
     main_id?: SortOrderInput | SortOrder
-    month?: SortOrder
+    date?: SortOrder
     waterSewage?: SortOrderInput | SortOrder
     electricity?: SortOrderInput | SortOrder
     landlinePhone?: SortOrderInput | SortOrder
@@ -43841,6 +43875,8 @@ export namespace Prisma {
     installmentValueIPVA?: SortOrderInput | SortOrder
     installmentValueIR?: SortOrderInput | SortOrder
     installmentValueITR?: SortOrderInput | SortOrder
+    financing?: SortOrderInput | SortOrder
+    creditCard?: SortOrderInput | SortOrder
     optedForInstallmentIPTU?: SortOrderInput | SortOrder
     optedForInstallmentIPVA?: SortOrderInput | SortOrder
     optedForInstallmentIR?: SortOrderInput | SortOrder
@@ -43860,7 +43896,7 @@ export namespace Prisma {
     OR?: ExpenseWhereInput[]
     NOT?: ExpenseWhereInput | ExpenseWhereInput[]
     main_id?: StringNullableFilter<"Expense"> | string | null
-    month?: StringFilter<"Expense"> | string
+    date?: DateTimeFilter<"Expense"> | Date | string
     waterSewage?: FloatNullableFilter<"Expense"> | number | null
     electricity?: FloatNullableFilter<"Expense"> | number | null
     landlinePhone?: FloatNullableFilter<"Expense"> | number | null
@@ -43894,6 +43930,8 @@ export namespace Prisma {
     installmentValueIPVA?: FloatNullableFilter<"Expense"> | number | null
     installmentValueIR?: FloatNullableFilter<"Expense"> | number | null
     installmentValueITR?: FloatNullableFilter<"Expense"> | number | null
+    financing?: FloatNullableFilter<"Expense"> | number | null
+    creditCard?: FloatNullableFilter<"Expense"> | number | null
     optedForInstallmentIPTU?: BoolNullableFilter<"Expense"> | boolean | null
     optedForInstallmentIPVA?: BoolNullableFilter<"Expense"> | boolean | null
     optedForInstallmentIR?: BoolNullableFilter<"Expense"> | boolean | null
@@ -43909,7 +43947,7 @@ export namespace Prisma {
   export type ExpenseOrderByWithAggregationInput = {
     id?: SortOrder
     main_id?: SortOrderInput | SortOrder
-    month?: SortOrder
+    date?: SortOrder
     waterSewage?: SortOrderInput | SortOrder
     electricity?: SortOrderInput | SortOrder
     landlinePhone?: SortOrderInput | SortOrder
@@ -43943,6 +43981,8 @@ export namespace Prisma {
     installmentValueIPVA?: SortOrderInput | SortOrder
     installmentValueIR?: SortOrderInput | SortOrder
     installmentValueITR?: SortOrderInput | SortOrder
+    financing?: SortOrderInput | SortOrder
+    creditCard?: SortOrderInput | SortOrder
     optedForInstallmentIPTU?: SortOrderInput | SortOrder
     optedForInstallmentIPVA?: SortOrderInput | SortOrder
     optedForInstallmentIR?: SortOrderInput | SortOrder
@@ -43964,7 +44004,7 @@ export namespace Prisma {
     NOT?: ExpenseScalarWhereWithAggregatesInput | ExpenseScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Expense"> | string
     main_id?: StringNullableWithAggregatesFilter<"Expense"> | string | null
-    month?: StringWithAggregatesFilter<"Expense"> | string
+    date?: DateTimeWithAggregatesFilter<"Expense"> | Date | string
     waterSewage?: FloatNullableWithAggregatesFilter<"Expense"> | number | null
     electricity?: FloatNullableWithAggregatesFilter<"Expense"> | number | null
     landlinePhone?: FloatNullableWithAggregatesFilter<"Expense"> | number | null
@@ -43998,6 +44038,8 @@ export namespace Prisma {
     installmentValueIPVA?: FloatNullableWithAggregatesFilter<"Expense"> | number | null
     installmentValueIR?: FloatNullableWithAggregatesFilter<"Expense"> | number | null
     installmentValueITR?: FloatNullableWithAggregatesFilter<"Expense"> | number | null
+    financing?: FloatNullableWithAggregatesFilter<"Expense"> | number | null
+    creditCard?: FloatNullableWithAggregatesFilter<"Expense"> | number | null
     optedForInstallmentIPTU?: BoolNullableWithAggregatesFilter<"Expense"> | boolean | null
     optedForInstallmentIPVA?: BoolNullableWithAggregatesFilter<"Expense"> | boolean | null
     optedForInstallmentIR?: BoolNullableWithAggregatesFilter<"Expense"> | boolean | null
@@ -47841,7 +47883,7 @@ export namespace Prisma {
   export type ExpenseCreateInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -47874,6 +47916,8 @@ export namespace Prisma {
     installmentValueIPVA?: number | null
     installmentValueIR?: number | null
     installmentValueITR?: number | null
+    financing?: number | null
+    creditCard?: number | null
     optedForInstallmentIPTU?: boolean | null
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
@@ -47888,7 +47932,7 @@ export namespace Prisma {
   export type ExpenseUncheckedCreateInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -47922,6 +47966,8 @@ export namespace Prisma {
     installmentValueIPVA?: number | null
     installmentValueIR?: number | null
     installmentValueITR?: number | null
+    financing?: number | null
+    creditCard?: number | null
     optedForInstallmentIPTU?: boolean | null
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
@@ -47935,7 +47981,7 @@ export namespace Prisma {
   export type ExpenseUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -47968,6 +48014,8 @@ export namespace Prisma {
     installmentValueIPVA?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueIR?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueITR?: NullableFloatFieldUpdateOperationsInput | number | null
+    financing?: NullableFloatFieldUpdateOperationsInput | number | null
+    creditCard?: NullableFloatFieldUpdateOperationsInput | number | null
     optedForInstallmentIPTU?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -47982,7 +48030,7 @@ export namespace Prisma {
   export type ExpenseUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -48016,6 +48064,8 @@ export namespace Prisma {
     installmentValueIPVA?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueIR?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueITR?: NullableFloatFieldUpdateOperationsInput | number | null
+    financing?: NullableFloatFieldUpdateOperationsInput | number | null
+    creditCard?: NullableFloatFieldUpdateOperationsInput | number | null
     optedForInstallmentIPTU?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -48029,7 +48079,7 @@ export namespace Prisma {
   export type ExpenseCreateManyInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -48063,6 +48113,8 @@ export namespace Prisma {
     installmentValueIPVA?: number | null
     installmentValueIR?: number | null
     installmentValueITR?: number | null
+    financing?: number | null
+    creditCard?: number | null
     optedForInstallmentIPTU?: boolean | null
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
@@ -48076,7 +48128,7 @@ export namespace Prisma {
   export type ExpenseUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -48109,6 +48161,8 @@ export namespace Prisma {
     installmentValueIPVA?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueIR?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueITR?: NullableFloatFieldUpdateOperationsInput | number | null
+    financing?: NullableFloatFieldUpdateOperationsInput | number | null
+    creditCard?: NullableFloatFieldUpdateOperationsInput | number | null
     optedForInstallmentIPTU?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -48121,7 +48175,7 @@ export namespace Prisma {
   export type ExpenseUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -48155,6 +48209,8 @@ export namespace Prisma {
     installmentValueIPVA?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueIR?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueITR?: NullableFloatFieldUpdateOperationsInput | number | null
+    financing?: NullableFloatFieldUpdateOperationsInput | number | null
+    creditCard?: NullableFloatFieldUpdateOperationsInput | number | null
     optedForInstallmentIPTU?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -51616,7 +51672,7 @@ export namespace Prisma {
   export type ExpenseCountOrderByAggregateInput = {
     id?: SortOrder
     main_id?: SortOrder
-    month?: SortOrder
+    date?: SortOrder
     waterSewage?: SortOrder
     electricity?: SortOrder
     landlinePhone?: SortOrder
@@ -51650,6 +51706,8 @@ export namespace Prisma {
     installmentValueIPVA?: SortOrder
     installmentValueIR?: SortOrder
     installmentValueITR?: SortOrder
+    financing?: SortOrder
+    creditCard?: SortOrder
     optedForInstallmentIPTU?: SortOrder
     optedForInstallmentIPVA?: SortOrder
     optedForInstallmentIR?: SortOrder
@@ -51693,13 +51751,15 @@ export namespace Prisma {
     installmentValueIPVA?: SortOrder
     installmentValueIR?: SortOrder
     installmentValueITR?: SortOrder
+    financing?: SortOrder
+    creditCard?: SortOrder
     otherExpensesValue?: SortOrder
   }
 
   export type ExpenseMaxOrderByAggregateInput = {
     id?: SortOrder
     main_id?: SortOrder
-    month?: SortOrder
+    date?: SortOrder
     waterSewage?: SortOrder
     electricity?: SortOrder
     landlinePhone?: SortOrder
@@ -51733,6 +51793,8 @@ export namespace Prisma {
     installmentValueIPVA?: SortOrder
     installmentValueIR?: SortOrder
     installmentValueITR?: SortOrder
+    financing?: SortOrder
+    creditCard?: SortOrder
     optedForInstallmentIPTU?: SortOrder
     optedForInstallmentIPVA?: SortOrder
     optedForInstallmentIR?: SortOrder
@@ -51744,7 +51806,7 @@ export namespace Prisma {
   export type ExpenseMinOrderByAggregateInput = {
     id?: SortOrder
     main_id?: SortOrder
-    month?: SortOrder
+    date?: SortOrder
     waterSewage?: SortOrder
     electricity?: SortOrder
     landlinePhone?: SortOrder
@@ -51778,6 +51840,8 @@ export namespace Prisma {
     installmentValueIPVA?: SortOrder
     installmentValueIR?: SortOrder
     installmentValueITR?: SortOrder
+    financing?: SortOrder
+    creditCard?: SortOrder
     optedForInstallmentIPTU?: SortOrder
     optedForInstallmentIPVA?: SortOrder
     optedForInstallmentIR?: SortOrder
@@ -51819,6 +51883,8 @@ export namespace Prisma {
     installmentValueIPVA?: SortOrder
     installmentValueIR?: SortOrder
     installmentValueITR?: SortOrder
+    financing?: SortOrder
+    creditCard?: SortOrder
     otherExpensesValue?: SortOrder
   }
 
@@ -58019,7 +58085,7 @@ export namespace Prisma {
   export type ExpenseCreateWithoutCandidateInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -58052,6 +58118,8 @@ export namespace Prisma {
     installmentValueIPVA?: number | null
     installmentValueIR?: number | null
     installmentValueITR?: number | null
+    financing?: number | null
+    creditCard?: number | null
     optedForInstallmentIPTU?: boolean | null
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
@@ -58065,7 +58133,7 @@ export namespace Prisma {
   export type ExpenseUncheckedCreateWithoutCandidateInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -58098,6 +58166,8 @@ export namespace Prisma {
     installmentValueIPVA?: number | null
     installmentValueIR?: number | null
     installmentValueITR?: number | null
+    financing?: number | null
+    creditCard?: number | null
     optedForInstallmentIPTU?: boolean | null
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
@@ -59004,7 +59074,7 @@ export namespace Prisma {
     NOT?: ExpenseScalarWhereInput | ExpenseScalarWhereInput[]
     id?: StringFilter<"Expense"> | string
     main_id?: StringNullableFilter<"Expense"> | string | null
-    month?: StringFilter<"Expense"> | string
+    date?: DateTimeFilter<"Expense"> | Date | string
     waterSewage?: FloatNullableFilter<"Expense"> | number | null
     electricity?: FloatNullableFilter<"Expense"> | number | null
     landlinePhone?: FloatNullableFilter<"Expense"> | number | null
@@ -59038,6 +59108,8 @@ export namespace Prisma {
     installmentValueIPVA?: FloatNullableFilter<"Expense"> | number | null
     installmentValueIR?: FloatNullableFilter<"Expense"> | number | null
     installmentValueITR?: FloatNullableFilter<"Expense"> | number | null
+    financing?: FloatNullableFilter<"Expense"> | number | null
+    creditCard?: FloatNullableFilter<"Expense"> | number | null
     optedForInstallmentIPTU?: BoolNullableFilter<"Expense"> | boolean | null
     optedForInstallmentIPVA?: BoolNullableFilter<"Expense"> | boolean | null
     optedForInstallmentIR?: BoolNullableFilter<"Expense"> | boolean | null
@@ -60404,7 +60476,7 @@ export namespace Prisma {
   export type ExpenseCreateWithoutLegalResponsibleInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -60437,6 +60509,8 @@ export namespace Prisma {
     installmentValueIPVA?: number | null
     installmentValueIR?: number | null
     installmentValueITR?: number | null
+    financing?: number | null
+    creditCard?: number | null
     optedForInstallmentIPTU?: boolean | null
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
@@ -60450,7 +60524,7 @@ export namespace Prisma {
   export type ExpenseUncheckedCreateWithoutLegalResponsibleInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -60484,6 +60558,8 @@ export namespace Prisma {
     installmentValueIPVA?: number | null
     installmentValueIR?: number | null
     installmentValueITR?: number | null
+    financing?: number | null
+    creditCard?: number | null
     optedForInstallmentIPTU?: boolean | null
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
@@ -73819,7 +73895,7 @@ export namespace Prisma {
   export type ExpenseCreateManyCandidateInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -73852,6 +73928,8 @@ export namespace Prisma {
     installmentValueIPVA?: number | null
     installmentValueIR?: number | null
     installmentValueITR?: number | null
+    financing?: number | null
+    creditCard?: number | null
     optedForInstallmentIPTU?: boolean | null
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
@@ -74234,7 +74312,7 @@ export namespace Prisma {
   export type ExpenseUpdateWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -74267,6 +74345,8 @@ export namespace Prisma {
     installmentValueIPVA?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueIR?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueITR?: NullableFloatFieldUpdateOperationsInput | number | null
+    financing?: NullableFloatFieldUpdateOperationsInput | number | null
+    creditCard?: NullableFloatFieldUpdateOperationsInput | number | null
     optedForInstallmentIPTU?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -74280,7 +74360,7 @@ export namespace Prisma {
   export type ExpenseUncheckedUpdateWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -74313,6 +74393,8 @@ export namespace Prisma {
     installmentValueIPVA?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueIR?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueITR?: NullableFloatFieldUpdateOperationsInput | number | null
+    financing?: NullableFloatFieldUpdateOperationsInput | number | null
+    creditCard?: NullableFloatFieldUpdateOperationsInput | number | null
     optedForInstallmentIPTU?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -74326,7 +74408,7 @@ export namespace Prisma {
   export type ExpenseUncheckedUpdateManyWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -74359,6 +74441,8 @@ export namespace Prisma {
     installmentValueIPVA?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueIR?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueITR?: NullableFloatFieldUpdateOperationsInput | number | null
+    financing?: NullableFloatFieldUpdateOperationsInput | number | null
+    creditCard?: NullableFloatFieldUpdateOperationsInput | number | null
     optedForInstallmentIPTU?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -75371,7 +75455,7 @@ export namespace Prisma {
   export type ExpenseCreateManyLegalResponsibleInput = {
     id?: string
     main_id?: string | null
-    month: string
+    date: Date | string
     waterSewage?: number | null
     electricity?: number | null
     landlinePhone?: number | null
@@ -75405,6 +75489,8 @@ export namespace Prisma {
     installmentValueIPVA?: number | null
     installmentValueIR?: number | null
     installmentValueITR?: number | null
+    financing?: number | null
+    creditCard?: number | null
     optedForInstallmentIPTU?: boolean | null
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
@@ -76110,7 +76196,7 @@ export namespace Prisma {
   export type ExpenseUpdateWithoutLegalResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -76143,6 +76229,8 @@ export namespace Prisma {
     installmentValueIPVA?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueIR?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueITR?: NullableFloatFieldUpdateOperationsInput | number | null
+    financing?: NullableFloatFieldUpdateOperationsInput | number | null
+    creditCard?: NullableFloatFieldUpdateOperationsInput | number | null
     optedForInstallmentIPTU?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -76156,7 +76244,7 @@ export namespace Prisma {
   export type ExpenseUncheckedUpdateWithoutLegalResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -76190,6 +76278,8 @@ export namespace Prisma {
     installmentValueIPVA?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueIR?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueITR?: NullableFloatFieldUpdateOperationsInput | number | null
+    financing?: NullableFloatFieldUpdateOperationsInput | number | null
+    creditCard?: NullableFloatFieldUpdateOperationsInput | number | null
     optedForInstallmentIPTU?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -76202,7 +76292,7 @@ export namespace Prisma {
   export type ExpenseUncheckedUpdateManyWithoutLegalResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
-    month?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
     waterSewage?: NullableFloatFieldUpdateOperationsInput | number | null
     electricity?: NullableFloatFieldUpdateOperationsInput | number | null
     landlinePhone?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -76236,6 +76326,8 @@ export namespace Prisma {
     installmentValueIPVA?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueIR?: NullableFloatFieldUpdateOperationsInput | number | null
     installmentValueITR?: NullableFloatFieldUpdateOperationsInput | number | null
+    financing?: NullableFloatFieldUpdateOperationsInput | number | null
+    creditCard?: NullableFloatFieldUpdateOperationsInput | number | null
     optedForInstallmentIPTU?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null

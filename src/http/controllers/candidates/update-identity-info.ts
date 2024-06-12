@@ -296,7 +296,7 @@ export async function updateIdentityInfo(
       })
       // Analisa se o candidato não possui cadastro de identificação
       if (!candidateIdentifyInfo) {
-        throw new NotAllowedError()
+        throw new ResourceNotFoundError()
       }
     }
 
@@ -327,9 +327,7 @@ export async function updateIdentityInfo(
     return reply.status(201).send()
   } catch (err: any) {
     console.log(err)
-    if (err instanceof NotAllowedError) {
-      return reply.status(401).send({ message: err.message })
-    }
+
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
     }

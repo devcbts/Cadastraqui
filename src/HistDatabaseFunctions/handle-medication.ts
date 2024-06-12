@@ -1,5 +1,7 @@
 import { historyDatabase, prisma } from "@/lib/prisma";
 import getOpenApplications from "./find-open-applications";
+import { findAWSRouteHDB } from "./Handle Application/find-AWS-Route";
+import { copyFilesToAnotherFolder } from "@/lib/S3";
 
 export async function createMedicationHDB (id: string, candidate_id: string | null, legalResponsibleId : string | null, application_id: string){
     const medication = await prisma.medication.findUnique({
@@ -18,6 +20,9 @@ export async function createMedicationHDB (id: string, candidate_id: string | nu
     const createMedication = await historyDatabase.medication.create({
             data: {main_id:id, ...medicationData, ...idField, application_id }
     });
+    const route = `CandidateDocuments/${candidate_id || legalResponsibleId || ''}/medication/${(oldFamilyMemberId || oldCandidateId || oldResponsibleId || '')}/${medication.id}/`;
+    const RouteHDB = await findAWSRouteHDB(candidate_id || legalResponsibleId || '' , 'medication', (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, medication.id, application_id);
+    await copyFilesToAnotherFolder(route, RouteHDB)
 }
 
 export async function updateMedicationHDB(id: string) {

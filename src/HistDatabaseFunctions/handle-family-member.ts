@@ -2,6 +2,8 @@ import { prisma } from '@/lib/prisma'
 import { historyDatabase } from '@/lib/prisma'
 import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible';
 import getOpenApplications from './find-open-applications';
+import { findAWSRouteHDB } from './Handle Application/find-AWS-Route';
+import { copyFilesToAnotherFolder } from '@/lib/S3';
 
 /// HDB == HistoryDataBase
 export async function createFamilyMemberHDB(id: string, candidate_id: string | null, legalResponsibleId: string | null, application_id: string) {
@@ -15,9 +17,12 @@ export async function createFamilyMemberHDB(id: string, candidate_id: string | n
     }
     const { id: familyMemberId, candidate_id: mainCandidateId, legalResponsibleId: mainResponsibleId, ...familyMemberDetails } = findFamilyMember;
 
-
-    const idField = legalResponsibleId ? { legalResponsibleId: legalResponsibleId } : { candidate_id: candidate_id }
-
+    const newId = await historyDatabase.idMapping.findFirst({
+        where: { mainId: (mainCandidateId || mainResponsibleId)!, application_id }
+    
+    })
+   const idField = mainCandidateId ? { candidate_id: newId?.newId } : { legalResponsibleId: newId?.newId };
+    
     const createFamilyMember = await historyDatabase.familyMember.create({
         data: { main_id: familyMemberId, ...familyMemberDetails, ...idField, application_id }
     });
@@ -27,6 +32,10 @@ export async function createFamilyMemberHDB(id: string, candidate_id: string | n
     await historyDatabase.idMapping.create({
         data: { mainId: id, newId: newFamilyMemberId, application_id }
     });
+    const route = `CandidateDocuments/${candidate_id || legalResponsibleId || ''}/family-member/${id}/`;
+    const RouteHDB = await findAWSRouteHDB(candidate_id || legalResponsibleId || '' , 'family-member', familyMemberId, null, application_id);
+    await copyFilesToAnotherFolder(route, RouteHDB)
+
 }
 export async function updateFamilyMemberHDB(id: string) {
     const findFamilyMember = await prisma.familyMember.findUnique({

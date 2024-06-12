@@ -438,7 +438,7 @@ exports.Prisma.BankAccountScalarFieldEnum = {
 exports.Prisma.ExpenseScalarFieldEnum = {
   id: 'id',
   main_id: 'main_id',
-  month: 'month',
+  date: 'date',
   waterSewage: 'waterSewage',
   electricity: 'electricity',
   landlinePhone: 'landlinePhone',
@@ -472,6 +472,8 @@ exports.Prisma.ExpenseScalarFieldEnum = {
   installmentValueIPVA: 'installmentValueIPVA',
   installmentValueIR: 'installmentValueIR',
   installmentValueITR: 'installmentValueITR',
+  financing: 'financing',
+  creditCard: 'creditCard',
   optedForInstallmentIPTU: 'optedForInstallmentIPTU',
   optedForInstallmentIPVA: 'optedForInstallmentIPVA',
   optedForInstallmentIR: 'optedForInstallmentIR',

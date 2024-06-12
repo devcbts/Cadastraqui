@@ -1,6 +1,8 @@
 
 import { historyDatabase, prisma } from '@/lib/prisma';
 import getOpenApplications from './find-open-applications';
+import { findAWSRouteHDB } from './Handle Application/find-AWS-Route';
+import { copyFilesToAnotherFolder } from '@/lib/S3';
 
 /// HDB == HistoryDataBase
 export async function createIdentityDetailsHDB(id: string, candidate_id: string | null, legalResponsibleId: string | null, application_id: string) {
@@ -15,11 +17,18 @@ export async function createIdentityDetailsHDB(id: string, candidate_id: string 
     const { id: identityId, candidate_id: mainCandidateId, responsible_id: responsible_id, ...identityDetails } = findIdentityDetails;
 
 
-    const idField = legalResponsibleId ? { legalResponsibleId: legalResponsibleId } : { candidate_id: candidate_id }
+    const newId = await historyDatabase.idMapping.findFirst({
+        where: { mainId: (mainCandidateId || responsible_id)!, application_id }
+    
+    })
+   const idField = mainCandidateId ? { candidate_id: newId?.newId } : { legalResponsibleId: newId?.newId };
 
     const createIdentityDetails = await historyDatabase.identityDetails.create({
         data: { main_id: identityId, ...identityDetails, ...idField, application_id }
     });
+    const route = `CandidateDocuments/${candidate_id || legalResponsibleId || ''}/identity/${candidate_id || legalResponsibleId || ''}/`;
+    const RouteHDB = await findAWSRouteHDB(candidate_id || legalResponsibleId || '' , 'identity', candidate_id || legalResponsibleId || '', null, application_id)
+    await copyFilesToAnotherFolder(route, RouteHDB)
 
 }
 export async function updateIdentityDetailsHDB(id: string) {

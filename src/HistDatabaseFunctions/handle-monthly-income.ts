@@ -1,5 +1,7 @@
 import { historyDatabase, prisma } from "@/lib/prisma";
 import getOpenApplications from "./find-open-applications";
+import { findAWSRouteHDB } from "./Handle Application/find-AWS-Route";
+import { copyFilesToAnotherFolder } from "@/lib/S3";
 
 export async function createMonthlyIncomeHDB (id: string, candidate_id: string | null, legalResponsibleId : string | null, application_id: string){
     const monthlyIncome = await prisma.monthlyIncome.findUnique({
@@ -19,6 +21,9 @@ export async function createMonthlyIncomeHDB (id: string, candidate_id: string |
     const createMonthlyIncome = await historyDatabase.monthlyIncome.create({
             data: {main_id:monthlyIncome.id, ...monthlyIncomeData, ...idField, application_id }
     });
+    const route = `CandidateDocuments/${candidate_id || legalResponsibleId || ''}/monthly-income/${(oldFamilyMemberId || oldCandidateId || oldResponsibleId || '')}/${monthlyIncome.id}/`;
+    const RouteHDB = await findAWSRouteHDB(candidate_id || legalResponsibleId || '' , 'monthly-income', (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, monthlyIncome.id, application_id);
+    await copyFilesToAnotherFolder(route, RouteHDB)
 }
 
 export async function updateMonthlyIncomeHDB(id: string) {

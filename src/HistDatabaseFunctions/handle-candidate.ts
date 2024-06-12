@@ -5,6 +5,8 @@ import getOpenApplications from './find-open-applications';
 
 /// HDB == HistoryDataBase
 export async function createCandidateHDB(id: string, candidate_id: string | null, legalResponsibleId: string | null, application_id: string) {
+    
+    console.log('rodando')
     const findCandidate = await prisma.candidate.findUnique({
         where: {
             id,
