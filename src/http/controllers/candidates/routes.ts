@@ -71,6 +71,7 @@ import { updateLoanInfo } from './update-loan-info'
 import { updateMedicationInfo } from './update-medication-info'
 import { updateVehicleInfo } from './update-vehicle-info'
 import { getRegistrato } from './get-registrato'
+import { getRegistrationProgress } from './get-registration-progress'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT] }, uploadDocument)
@@ -88,7 +89,8 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.patch('/basic-info', { onRequest: [verifyJWT] }, updateBasicInfo)
 
   app.get('/basic-info/formated', { onRequest: [verifyJWT] }, getBasicInfoFormated)
-
+  // Registration Progress
+  app.get('/progress', { onRequest: [verifyJWT] }, getRegistrationProgress)
   /** Identity Info */
   app.get('/identity-info/:_id?', { onRequest: [verifyJWT] }, getIdentityInfo)
   app.post('/identity-info', { onRequest: [verifyJWT] }, registerIdentityInfo)
