@@ -12,7 +12,7 @@ export async function createResponsibleHDB(id: string, candidate_id: string | nu
     if (!findResponsible) {
         return null;
     }
-    const { id: responsibleId, ...responsibleDetails } = findResponsible;
+    const { id: responsibleId,finishedRegistrationId: unused, ...responsibleDetails } = findResponsible;
 
 
     
