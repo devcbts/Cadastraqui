@@ -194,7 +194,12 @@ export async function registerIdentityInfo(
         CEP: candidateOrResponsible.UserData.CEP,
       },
     })
-
+    await prisma.finishedRegistration.updateMany({
+      where: idField,
+      data: {
+        cadastrante: true,
+      },
+    })
     return reply.status(201).send({ id })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {

@@ -34,7 +34,6 @@ export async function getHousingInfoHDB(
     })
     const urls = await getSectionDocumentsPDF_HDB(application_id, 'housing')
     return reply.status(200).send({ housingInfo, urls })
-    return reply.status(200).send({ housingInfo })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })

@@ -39,6 +39,8 @@ import { getIncomeInfo } from './get-income-info'
 import { getLoanInfo } from './get-loan-info'
 import { getMonthlyIncomeBySource } from './get-monthly-income'
 import { getOpenAnnouncements } from './get-open-announcements'
+import { getRegistrationProgress } from './get-registration-progress'
+import { getRegistrato } from './get-registrato'
 import { getBasicInfoFormated } from './get-user-basic-info-formated'
 import { getVehicleInfo } from './get-vehicle-info'
 import { registerCandidate } from './register'
@@ -87,7 +89,8 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.patch('/basic-info', { onRequest: [verifyJWT] }, updateBasicInfo)
 
   app.get('/basic-info/formated', { onRequest: [verifyJWT] }, getBasicInfoFormated)
-
+  // Registration Progress
+  app.get('/progress', { onRequest: [verifyJWT] }, getRegistrationProgress)
   /** Identity Info */
   app.get('/identity-info/:_id?', { onRequest: [verifyJWT] }, getIdentityInfo)
   app.post('/identity-info', { onRequest: [verifyJWT] }, registerIdentityInfo)
@@ -141,6 +144,10 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.post('/bank-info/:_id', { onRequest: [verifyJWT] }, registerBankingInfo)
   app.patch('/bank-info/:_id', { onRequest: [verifyJWT] }, updateBankingInfo)
   app.delete('/bank-info/:id', { onRequest: [verifyJWT] }, deleteBankingInfo)
+  // registrato
+  app.get('/registrato/:_id', { onRequest: [verifyJWT] }, getRegistrato)
+
+
   /** Health Info */
   // app.get('/health-info', { onRequest: [verifyJWT] }, getHealthInfo)
   app.get(

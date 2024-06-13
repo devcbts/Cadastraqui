@@ -112,6 +112,7 @@ export async function assistantRoutes(app: FastifyInstance) {
   // Pegar informações do candidato
   // Extrato (informações resumidas):
   app.get('/candidateInfo/resume/:application_id', { onRequest: [verifyJWT] }, getCandidateResume) 
+  //Parecer
   app.get('/candidateInfo/parecer/:application_id', { onRequest: [verifyJWT] }, getCandidateParecer)
   // Formulário detalhado
   app.get('/candidateInfo/identity/:application_id', { onRequest: [verifyJWT] }, getIdentityInfoHDB)
