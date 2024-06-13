@@ -15,7 +15,7 @@ export async function createCandidateHDB(id: string, candidate_id: string | null
     if (!findCandidate) {
         return null;
     }
-    const { id: candidateId, ...candidateDetails } = findCandidate;
+    const { id: candidateId, responsible_id: responsible , ...candidateDetails  } = findCandidate;
 
     let idField 
     if (legalResponsibleId) {
