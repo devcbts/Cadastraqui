@@ -205,13 +205,20 @@ export async function registerFamilyMemberInfo(
       ...(incomeSource && { incomeSource }),
     }
 
-    console.log('====================================')
-    console.log(dataToCreate)
-    console.log('====================================')
     const { id } = await prisma.familyMember.create({
       data: dataToCreate,
     })
 
+
+    await prisma.finishedRegistration.updateMany({
+      where: {
+        OR: [
+          { candidate_id: candidate?.id },
+          { legalResponsibleId: responsible?.id },
+        ],
+      },
+      data: { grupoFamiliar: true },
+    })
     return reply.status(201).send({ id })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {

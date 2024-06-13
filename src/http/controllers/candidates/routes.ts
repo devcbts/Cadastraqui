@@ -70,6 +70,7 @@ import updateIncomeSource from './update-income-source'
 import { updateLoanInfo } from './update-loan-info'
 import { updateMedicationInfo } from './update-medication-info'
 import { updateVehicleInfo } from './update-vehicle-info'
+import { getRegistrato } from './get-registrato'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT] }, uploadDocument)
@@ -141,6 +142,9 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.post('/bank-info/:_id', { onRequest: [verifyJWT] }, registerBankingInfo)
   app.patch('/bank-info/:_id', { onRequest: [verifyJWT] }, updateBankingInfo)
   app.delete('/bank-info/:id', { onRequest: [verifyJWT] }, deleteBankingInfo)
+  // registrato
+  app.get('/registrato/:_id', { onRequest: [verifyJWT] }, getRegistrato)
+
 
   /** Health Info */
   // app.get('/health-info', { onRequest: [verifyJWT] }, getHealthInfo)

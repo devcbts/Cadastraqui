@@ -94,7 +94,11 @@ export async function registerHousingInfo(
       data: dataToCreate
 
     })
-
+    await prisma.finishedRegistration.updateMany({
+      where: { OR: [{ candidate_id: CandidateOrResponsible.UserData.id }, { legalResponsibleId: CandidateOrResponsible.UserData.id }]},
+      data: { moradia: true }
+    
+    })
     return reply.status(201).send({ id })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
