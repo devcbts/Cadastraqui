@@ -23,7 +23,7 @@ export async function createCandidateHDB(id: string, candidate_id: string | null
         const responsibleMapping = await historyDatabase.idMapping.findFirst({
             where: { application_id, mainId: legalResponsibleId }
         })
-        idField = { legalResponsibleId: responsibleMapping?.newId }
+        idField = { responsible_id: responsibleMapping?.newId }
     }
     const createCandidate = await historyDatabase.candidate.create({
         data: { main_id: candidateId, ...candidateDetails, ...idField, application_id }
