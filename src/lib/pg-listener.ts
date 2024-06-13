@@ -31,25 +31,25 @@ const clientBackup = new Client(env.DATABASE_URL);
 clientBackup.connect();
 
 //clientBackup.query('LISTEN channel_application');
-clientBackup.query('LISTEN channel_housing');
-clientBackup.query('LISTEN channel_candidate');
-clientBackup.query('LISTEN channel_creditCard');
-clientBackup.query('LISTEN channel_expense');
-clientBackup.query('LISTEN channel_familyMember');
-clientBackup.query('LISTEN channel_familyMemberDisease');
-clientBackup.query('LISTEN channel_familyMemberIncome');
-clientBackup.query('LISTEN channel_financing');
-clientBackup.query('LISTEN channel_identityDetails');
-clientBackup.query('LISTEN channel_loan');
-clientBackup.query('LISTEN channel_medication');
-clientBackup.query('LISTEN channel_monthlyIncome');
-clientBackup.query('LISTEN channel_otherExpense');
-clientBackup.query('LISTEN channel_responsible');
+clientBackup.query('LISTEN "channel_housing"');
+clientBackup.query('LISTEN "channel_candidate"');
+clientBackup.query('LISTEN "channel_creditCard"');
+clientBackup.query('LISTEN "channel_expense"');
+clientBackup.query('LISTEN "channel_familyMember"');
+clientBackup.query('LISTEN "channel_familyMemberDisease"');
+clientBackup.query('LISTEN "channel_familyMemberIncome"');
+clientBackup.query('LISTEN "channel_financing"');
+clientBackup.query('LISTEN "channel_identityDetails"');
+clientBackup.query('LISTEN "channel_loan"');
+clientBackup.query('LISTEN "channel_medication"');
+clientBackup.query('LISTEN "channel_monthlyIncome"');
+clientBackup.query('LISTEN "channel_otherExpense"');
+clientBackup.query('LISTEN "channel_responsible"');
 
 
 clientBackup.on('notification', async (msg) => {
     console.log('Received notification:', msg.payload);
-
+try{
     if (msg.channel == 'channel_housing') {
         const housing = JSON.parse(msg.payload!);
         if (housing.operation == 'Update') {
@@ -131,30 +131,45 @@ clientBackup.on('notification', async (msg) => {
 
     if (msg.channel == 'channel_familyMemberDisease') {
         const familyMemberDisease = JSON.parse(msg.payload!);
-        if (familyMemberDisease.operation == 'Update') {
-            updateFamilyMemberDiseaseHDB(familyMemberDisease.data.id)
+        const disease = await prisma.familyMemberDisease.findUnique({
+            where: { id: familyMemberDisease.data.id },
+            include: { familyMember: true }
+        })
+        if (!disease) {
+            return null;
         }
-        else if (familyMemberDisease.operation == 'Insert') {
-            const openApplications = await getOpenApplications(familyMemberDisease.data.candidate_id || familyMemberDisease.data.legalResponsibleId);
-            for (const application of openApplications) {
-                createFamilyMemberDiseaseHDB(familyMemberDisease.data.id, familyMemberDisease.data.candidate_id, familyMemberDisease.data.legalResponsibleId, application.id)
+        else {
+
+            if (familyMemberDisease.operation == 'Update') {
+                updateFamilyMemberDiseaseHDB(familyMemberDisease.data.id)
+            }
+            else if (familyMemberDisease.operation == 'Insert') {
+                const openApplications = await getOpenApplications((disease.candidate_id || disease.legalResponsibleId || disease.familyMember?.candidate_id || disease.familyMember?.legalResponsibleId)!);
+                for (const application of openApplications) {
+                    createFamilyMemberDiseaseHDB(familyMemberDisease.data.id, (disease.candidate_id || disease.familyMember?.candidate_id || null), (disease.legalResponsibleId || disease.familyMember?.legalResponsibleId || null), application.id)
+                }
             }
         }
     }
 
     if (msg.channel == 'channel_familyMemberIncome') {
         const familyMemberIncome = JSON.parse(msg.payload!);
+        const income = await prisma.familyMemberIncome.findUnique({
+            where: { id: familyMemberIncome.data.id },
+            include: { familyMember: true }
+        })
+        const candidateOrResponsible = income?.candidate_id || income?.legalResponsibleId || income?.familyMember?.candidate_id || income?.familyMember?.legalResponsibleId
         if (familyMemberIncome.operation == 'Update') {
             updateFamilyMemberIncomeHDB(familyMemberIncome.data.id)
         }
         else if (familyMemberIncome.operation == 'Insert') {
-            const openApplications = await getOpenApplications(familyMemberIncome.data.candidate_id || familyMemberIncome.data.legalResponsibleId);
+            const openApplications = await getOpenApplications(candidateOrResponsible!);
             for (const application of openApplications) {
-                createFamilyMemberIncomeHDB(familyMemberIncome.data.id, familyMemberIncome.data.candidate_id, familyMemberIncome.data.legalResponsibleId, application.id)
+                createFamilyMemberIncomeHDB(familyMemberIncome.data.id, familyMemberIncome.data.candidate_id || income?.familyMember?.candidate_id, familyMemberIncome.data.legalResponsibleId || income?.familyMember?.legalResponsibleId, application.id)
             }
         }
-        const incomePerCapita = await CalculateIncomePerCapita(familyMemberIncome.data.candidate_id || familyMemberIncome.data.legalResponsibleId)
-        const openApplications = await getOpenApplications(familyMemberIncome.data.candidate_id || familyMemberIncome.data.legalResponsibleId);
+        const incomePerCapita = await CalculateIncomePerCapita(candidateOrResponsible!)
+        const openApplications = await getOpenApplications(candidateOrResponsible!);
         for (const application of openApplications) {
             await prisma.application.update({
                 where: { id: application.id },
@@ -201,18 +216,27 @@ clientBackup.on('notification', async (msg) => {
     }
     if (msg.channel == 'channel_medication') {
         const medication = JSON.parse(msg.payload!);
+        const Medication = await prisma.medication.findUnique({
+            where: { id: medication.data.id },
+            include: { familyMember: true }
+        })
         if (medication.operation == 'Update') {
             updateOtherExpenseHDB(medication.data.id)
         }
         else if (medication.operation == 'Insert') {
-            const openApplications = await getOpenApplications(medication.data.candidate_id || medication.data.legalResponsibleId);
+            const openApplications = await getOpenApplications(medication.data.candidate_id || medication.data.legalResponsibleId || Medication?.familyMember?.candidate_id || Medication?.familyMember?.legalResponsibleId);
             for (const application of openApplications) {
-                createMedicationHDB(medication.data.id, medication.data.candidate_id, medication.data.legalResponsibleId, application.id)
+                createMedicationHDB(medication.data.id, medication.data.candidate_id || Medication?.familyMember?.candidate_id, medication.data.legalResponsibleId || Medication?.familyMember?.legalResponsibleId, application.id)
             }
         }
     }
     if (msg.channel == 'channel_monthlyIncome') {
         const monthlyIncome = JSON.parse(msg.payload!);
+        const monthIncome = await prisma.monthlyIncome.findUnique({
+            where: { id: monthlyIncome.data.id },
+            include: { familyMember: true }
+
+        })
         await CalculateMemberAverageIncome(monthlyIncome.data.candidate_id || monthlyIncome.data.familyMember_id || monthlyIncome.data.legalResponsible_id, monthlyIncome.data.incomeSource)
         if (monthlyIncome.operation == 'Update') {
             updateOtherExpenseHDB(monthlyIncome.data.id)
@@ -352,7 +376,9 @@ clientBackup.on('notification', async (msg) => {
 
 
     }
-
+} catch(error){
+    console.log(error)
+}
 });
 
 module.exports = clientBackup;
