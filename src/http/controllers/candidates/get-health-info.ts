@@ -47,7 +47,7 @@ export async function getHealthInfo(
             disease: disease,
             hasMedicalReport: disease.hasMedicalReport,
             specificDisease: disease.specificDisease,
-            medication: disease.medications.map(medication => medication.medicationName)
+            medication: disease.medications
           }))
           const familyMedicationInfo = await prisma.medication.findMany({
             where: { familyMember_id: familyMember.id },
@@ -79,7 +79,7 @@ export async function getHealthInfo(
       disease: disease,
       hasMedicalReport: disease.hasMedicalReport,
       specificDisease: disease.specificDisease,
-      medication: disease.medications.map(medication => medication.medicationName)
+      medication: disease.medications
     }))
 
     // Need to get MEDICATIONS that DO NOT HAVE any disease registered :)
@@ -108,6 +108,7 @@ export async function getHealthInfo(
         }
       })
       return {
+        ...member,
         healthInfoResultsUrls
       }
     })
