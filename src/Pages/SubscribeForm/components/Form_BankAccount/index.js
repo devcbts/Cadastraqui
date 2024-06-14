@@ -12,13 +12,26 @@ import StatementSelection from "./components/Statement";
 import incomeAtom from "../Form_Income/atoms/income-atom";
 import { useRecoilValue } from "recoil";
 import monthAtom from "Components/MonthSelection/atoms/month-atom";
+import uploadService from "services/upload/uploadService";
+import createFileForm from "utils/create-file-form";
+import useAuth from "hooks/useAuth";
 
 export default function FormBankAccount({ id }) {
     const hasMonthSelected = useRecoilValue(monthAtom)
+    const handleUploadStatements = async (data, tableId) => {
+        console.log('files', data)
+        const formData = createFileForm(data)
+        try {
+            await uploadService.uploadBySectionAndId({ section: 'statement', id, tableId }, formData)
+        } catch (err) {
+            NotificationService.error({ text: 'Erro ao enviar os arquivos' })
+        }
+    }
 
-    const handleEditAccount = async (data) => {
+    const handleEditAccount = async (data, parsedData) => {
         try {
             await candidateService.updateBankingAccount(data.id, data)
+            await handleUploadStatements(parsedData, data.id)
             NotificationService.success({ text: 'Dados bancários alterados' })
         } catch (err) {
             NotificationService.error({ text: err.response?.data?.message })
@@ -26,7 +39,8 @@ export default function FormBankAccount({ id }) {
     }
     const handleSave = async (data) => {
         try {
-            await candidateService.registerBankingAccount(id, data)
+            const bankId = await candidateService.registerBankingAccount(id, data)
+            await handleUploadStatements(data, bankId)
             NotificationService.success({ text: 'Dados bancários cadastrados' })
             setData(null)
             setIsAdding(false)

@@ -1,0 +1,12 @@
+.informative{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 32px 0px;
+    padding: 0px 32px;
+    .row{
+        display: flex;
+        flex-direction: row;
+        gap: 20%;
+    }
+}

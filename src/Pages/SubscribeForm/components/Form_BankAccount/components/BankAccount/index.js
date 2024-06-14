@@ -19,6 +19,7 @@ const BankAccount = forwardRef(({ data }, ref) => {
         initialData: data
     }, ref)
     const watchType = watch("accountType")
+    console.log(data)
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Dados Bancários</h1>

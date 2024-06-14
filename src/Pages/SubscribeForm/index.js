@@ -59,7 +59,7 @@ export default function SubscribeForm() {
                 steps.map((e, i) => {
                     const Component = e.component
                     return (
-                        <FormStepper.View index={i + 1}>
+                        <FormStepper.View key={e.label} index={i + 1}>
                             <Component />
                         </FormStepper.View>
                     )

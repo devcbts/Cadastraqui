@@ -22,6 +22,7 @@ export default function useStepFormHook({
     const next = async () => {
         const values = getCurrentRef().values()
         const parsedValues = await getCurrentRef().beforeSubmit?.()
+        console.log('VALIDANDO', isFormValid(), MAX_STEPS)
         if (isFormValid()) {
             setParsedData((prev) => ({ ...prev, ...parsedValues }))
             setData((prevData) => ({ ...prevData, ...values }))
@@ -42,10 +43,11 @@ export default function useStepFormHook({
     }
 
     const handleEdit = async () => {
+        const parsedValues = await getCurrentRef().beforeSubmit?.()
         if (!isFormValid()) return
         const dataToUpdate = { ...data, ...getCurrentRef().values() }
         setData((prevData) => ({ ...prevData, ...getCurrentRef().values() }))
-        await onEdit(dataToUpdate)
+        await onEdit(dataToUpdate, parsedValues)
     }
     const Steps = useCallback(() => {
         return (

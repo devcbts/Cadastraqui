@@ -6,6 +6,7 @@ class HabitationMapper {
     }
 
     fromPersistence(data) {
+        if (!data.housingInfo) return null
         return {
             ...data.housingInfo,
             uid: data.uid,
