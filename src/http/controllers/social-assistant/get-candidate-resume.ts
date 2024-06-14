@@ -15,33 +15,33 @@ export async function getCandidateResume(
     const AssistantParamsSchema = z.object({
         application_id: z.string(),
     })
-    
-    const {application_id} = AssistantParamsSchema.parse(request.params)
 
-    const section = ["identity",
-        "housing",
-        "family-member",
-        "monthly-income",
-        "income",
-        "bank",
-        "registrato",
-        "statement",
-        "health",
-        "medication",
-        "vehicle",
-        "expenses",
-        "loan",
-        "financing",
-        "credit-card"]
+    const { application_id } = AssistantParamsSchema.parse(request.params)
+
+    const section = ['identity',
+        'housing',
+        'family-member',
+        'monthly-income',
+        'income',
+        'bank',
+        'registrato',
+        'statement',
+        'health',
+        'medication',
+        'vehicle',
+        'expenses',
+        'loan',
+        'financing',
+        'credit-card']
     try {
         const user_id = request.user.sub;
 
         const isAssistant = await prisma.socialAssistant.findUnique({
-          where: { user_id }
+            where: { user_id }
         })
         if (!isAssistant) {
-          throw new ForbiddenError()
-    
+            throw new ForbiddenError()
+
         }
         const application = await prisma.application.findUnique({
             where: { id: application_id },
@@ -52,24 +52,24 @@ export async function getCandidateResume(
 
         if (!application) {
             throw new ResourceNotFoundError()
-            
+
         }
         const candidate = application.candidate
 
-        const candidateHDB  = await historyDatabase.candidate.findUnique({
+        const candidateHDB = await historyDatabase.candidate.findUnique({
             where: { application_id }
         })
         if (!candidateHDB) {
             throw new ResourceNotFoundError()
-            
+
         }
         const identityDetails = await historyDatabase.identityDetails.findUnique({
-            where: {application_id}
+            where: { application_id }
         })
         if (!identityDetails) {
             throw new ResourceNotFoundError()
         }
-        const {incomePerCapita, incomesPerMember} = await CalculateIncomePerCapitaHDB(candidateHDB.id)
+        const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapitaHDB(candidateHDB.id)
         const candidateInfo = {
             id: candidateHDB.id,
             number: application.number,
@@ -78,7 +78,7 @@ export async function getCandidateResume(
             age: calculateAge(identityDetails.birthDate),
             profession: identityDetails.profession,
             income: incomesPerMember[candidateHDB.id]
-            
+
         }
 
         const familyMembers = await historyDatabase.familyMember.findMany({
@@ -99,7 +99,7 @@ export async function getCandidateResume(
 
         const housingInfo = await historyDatabase.housing.findUnique({
             where: { application_id },
-            select:{
+            select: {
                 domicileType: true,
                 propertyStatus: true,
                 numberOfBedrooms: true,
@@ -109,7 +109,7 @@ export async function getCandidateResume(
 
         const vehicles = await historyDatabase.vehicle.findMany({
             where: { application_id },
-            select:{
+            select: {
                 _count: true,
                 modelAndBrand: true,
                 manufacturingYear: true,
@@ -120,7 +120,7 @@ export async function getCandidateResume(
         })
         const diseases = await historyDatabase.familyMemberDisease.findMany({
             where: { application_id },
-            include:{
+            include: {
                 Medication: true,
                 familyMember: true,
                 candidate: true,
@@ -143,29 +143,59 @@ export async function getCandidateResume(
 
         const expenses = await historyDatabase.expense.findMany({
             where: { application_id },
-            
+
             select: {
                 totalExpense: true,
-                
-                
-            }
-        })
-        
-        const importantInfo = {
-            cadUnico: identityDetails.CadUnico,
-            familyIncome: incomePerCapita*(familyMembers.length + 1),
-            familyExpenses: expenses ?  expenses.reduce((acc, expense) => acc + expense.totalExpense!, 0)/ (expenses.length ) : 0,
-            hasSevereDisease : application.hasSevereDesease,
-            housingSituation : housingInfo?.propertyStatus,
-            vehiclesCount: vehicles.length,
-            distance: application.distance,
-        }
-        const documentsUrls = section.map(async (section) => {
-            return {
-                [section]: await getSectionDocumentsPDF_HDB(application_id, section)
+
+
             }
         })
 
+        const importantInfo = {
+            cadUnico: identityDetails.CadUnico,
+            familyIncome: incomePerCapita * (familyMembers.length + 1),
+            familyExpenses: expenses ? expenses.reduce((acc, expense) => acc + expense.totalExpense!, 0) / (expenses.length) : 0,
+            hasSevereDisease: application.hasSevereDesease,
+            housingSituation: housingInfo?.propertyStatus,
+            vehiclesCount: vehicles.length,
+            distance: application.distance,
+        }
+        const getDocumentsUrls = async (sections: string[], application_id: string) => {
+            const documentsPromises = sections.map(section =>
+                getSectionDocumentsPDF_HDB(application_id, section).then(document => ({ [section]: document }))
+            );
+            return Promise.all(documentsPromises);
+        };
+        const documentsUrls = await getDocumentsUrls(section, application_id)
+        const membersNames = familyMembers.map((member) => {
+            return {
+
+                id: member.id,
+                name: member.fullName
+            }
+        }
+        )
+        membersNames.push({ id: candidateHDB.id, name: identityDetails.fullName })
+
+        const documentsFilteredByMember = membersNames.map(member => {
+            const groupedDocuments: { [key: string]: string[] } = {};
+          
+            documentsUrls.forEach((sectionUrls, sectionIndex) => {
+              Object.entries(sectionUrls).forEach(([section, urls]) => {
+                Object.entries(urls).forEach(([url]) => {
+                  const parts = url.split('/');
+                  if (parts[3] === member.id) {
+                    if (!groupedDocuments[section]) {
+                      groupedDocuments[section] = [];
+                    }
+                    groupedDocuments[section].push(url);
+                  }
+                });
+              });
+            });
+          
+            return { member: member.name, documents: groupedDocuments };
+          });
         return reply.status(200).send({
             candidateInfo,
             familyMembersInfo,
@@ -173,7 +203,7 @@ export async function getCandidateResume(
             vehicles,
             familyMembersDiseases,
             importantInfo,
-            documentsUrls
+            documentsUrls: documentsFilteredByMember
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {
