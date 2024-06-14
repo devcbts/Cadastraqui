@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
 
-export default function Declaration_RuralWorkerConfirmation({ onBack, onSave, activity }) {
+export default function Declaration_RuralWorkerConfirmation({ onBack, onSave }) {
     const [confirmation, setConfirmation] = useState(null);
+    const [declarationData, setDeclarationData] = useState(null);
+    const [ruralWorkerDetails, setRuralWorkerDetails] = useState(null);
+
+    useEffect(() => {
+        const savedData = localStorage.getItem('declarationData');
+        const savedRuralWorkerDetails = localStorage.getItem('ruralWorkerDetails');
+        if (savedData) {
+            setDeclarationData(JSON.parse(savedData));
+        }
+        if (savedRuralWorkerDetails) {
+            setRuralWorkerDetails(JSON.parse(savedRuralWorkerDetails));
+        }
+    }, []);
 
     const handleSave = () => {
         if (confirmation !== null) {
@@ -12,13 +25,17 @@ export default function Declaration_RuralWorkerConfirmation({ onBack, onSave, ac
         }
     };
 
+    if (!declarationData || !ruralWorkerDetails) {
+        return <p>Carregando...</p>;
+    }
+
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE TRABALHADOR(A) RURAL</h1>
-            <h2>João da Silva - usuário do Cadastraqui</h2>
+            <h2>{declarationData.fullName} - usuário do Cadastraqui</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Eu, <span>João da Silva</span>, portador(a) do CPF nº <span>123.321.456-87</span>, sou trabalhador(a) rural, desenvolvo atividades <span>{activity}</span> e recebo a quantia média de R$ 2500,00 mensal.
+                    Eu, <span>{declarationData.fullName}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, sou trabalhador(a) rural, desenvolvo atividades <span>{ruralWorkerDetails.activity}</span> e recebo a quantia média de R$ 2500,00 mensal.
                 </p>
             </div>
             <div className={commonStyles.radioGroup}>

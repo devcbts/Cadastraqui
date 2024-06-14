@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
@@ -6,17 +6,30 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-
 export default function Declaration_RuralWorker({ onBack, onNext }) {
     const [ruralWorker, setRuralWorker] = useState(null);
     const [activity, setActivity] = useState('');
+    const [declarationData, setDeclarationData] = useState(null);
+
+    useEffect(() => {
+        const savedData = localStorage.getItem('declarationData');
+        if (savedData) {
+            setDeclarationData(JSON.parse(savedData));
+        }
+    }, []);
 
     const handleSave = () => {
         if (ruralWorker !== null) {
+            localStorage.setItem('ruralWorkerDetails', JSON.stringify({ ruralWorker, activity }));
             onNext(ruralWorker, activity);
         }
     };
 
+    if (!declarationData) {
+        return <p>Carregando...</p>;
+    }
+
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE TRABALHADOR(A) RURAL</h1>
-            <h2>João da Silva - usuário do Cadastraqui</h2>
+            <h2>{declarationData.fullName} - usuário do Cadastraqui</h2>
             <p>Você é trabalhador rural?</p>
             <div className={commonStyles.radioGroup}>
                 <label>

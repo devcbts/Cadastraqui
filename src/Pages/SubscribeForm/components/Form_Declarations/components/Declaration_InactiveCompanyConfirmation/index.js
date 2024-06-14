@@ -1,26 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
 
-export default function Declaration_InactiveCompanyConfirmation({ onBack, onSave, activity }) {
+export default function Declaration_InactiveCompanyConfirmation({ onBack, onSave }) {
+    const [confirmation, setConfirmation] = useState(null);
+    const [declarationData, setDeclarationData] = useState(null);
+    const [inactiveCompanyDetails, setInactiveCompanyDetails] = useState(null);
+
+    useEffect(() => {
+        const savedData = localStorage.getItem('declarationData');
+        const savedInactiveCompanyDetails = localStorage.getItem('inactiveCompanyDetails');
+        if (savedData) {
+            setDeclarationData(JSON.parse(savedData));
+        }
+        if (savedInactiveCompanyDetails) {
+            setInactiveCompanyDetails(JSON.parse(savedInactiveCompanyDetails));
+        }
+    }, []);
+
     const handleSave = () => {
-        onSave(true);
+        if (confirmation !== null) {
+            onSave(confirmation);
+        }
     };
+
+    if (!declarationData || !inactiveCompanyDetails) {
+        return <p>Carregando...</p>;
+    }
 
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE EMPRESA INATIVA</h1>
-            <h2>João da Silva - usuário do Cadastraqui</h2>
-            <p>
-                Eu, <span>João da Silva</span>, portador(a) do CPF nº <span>123.321.456-87</span>, possuo empresa inativa e exerço a atividade de <span>{activity}</span>.
-            </p>
+            <h2>{declarationData.fullName} - usuário do Cadastraqui</h2>
+            <div className={commonStyles.declarationContent}>
+                <p>
+                    Eu, <span>{declarationData.fullName}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, possuo uma empresa inativa localizada no endereço <span>{inactiveCompanyDetails.address}</span>, nº <span>{inactiveCompanyDetails.number}</span>, complemento <span>{inactiveCompanyDetails.complement}</span>, bairro <span>{inactiveCompanyDetails.neighborhood}</span>, cidade <span>{inactiveCompanyDetails.city}</span>, UF <span>{inactiveCompanyDetails.uf}</span>, CEP <span>{inactiveCompanyDetails.cep}</span>.
+                </p>
+            </div>
+            <p>Confirma a declaração?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
-                    <input type="radio" name="confirm" value="sim" /> Sim
+                    <input type="radio" name="confirmation" value="sim" onChange={() => setConfirmation('sim')} /> Sim
                 </label>
                 <label>
-                    <input type="radio" name="confirm" value="nao" /> Não
+                    <input type="radio" name="confirmation" value="nao" onChange={() => setConfirmation('nao')} /> Não
                 </label>
             </div>
             <div className={commonStyles.navigationButtons}>

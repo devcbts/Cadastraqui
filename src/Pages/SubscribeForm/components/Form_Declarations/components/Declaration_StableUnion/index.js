@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
@@ -7,6 +7,14 @@ export default function Declaration_StableUnion({ onBack, onSave }) {
     const [confirmation, setConfirmation] = useState(null);
     const [partnerName, setPartnerName] = useState('');
     const [unionStartDate, setUnionStartDate] = useState('');
+    const [declarationData, setDeclarationData] = useState(null);
+
+    useEffect(() => {
+        const savedData = localStorage.getItem('declarationData');
+        if (savedData) {
+            setDeclarationData(JSON.parse(savedData));
+        }
+    }, []);
 
     const handleSave = () => {
         if (confirmation === 'sim' && partnerName && unionStartDate) {
@@ -16,11 +24,15 @@ export default function Declaration_StableUnion({ onBack, onSave }) {
         }
     };
 
+    if (!declarationData) {
+        return <p>Carregando...</p>;
+    }
+
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE UNIÃO ESTÁVEL</h2>
-            <h3>João da Silva - usuário do Cadastraqui</h3>
+            <h3>{declarationData.fullName} - usuário do Cadastraqui</h3>
             <p>Convive em união estável com alguém?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
