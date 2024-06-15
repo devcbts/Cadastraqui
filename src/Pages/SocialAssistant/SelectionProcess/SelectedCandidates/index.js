@@ -65,7 +65,12 @@ export default function SelectedCandidates() {
                                 <Table.Cell >0</Table.Cell>
                                 <Table.Cell >Em análise</Table.Cell>
                                 <Table.Cell >
-                                    <ButtonBase onClick={() => navigate('')}>
+                                    <ButtonBase onClick={() => navigate('candidato', {
+                                        state: {
+                                            candidateId: candidate.candidate_id,
+                                            applicationId: candidate.id
+                                        }
+                                    })}>
                                         <Magnifier width={14} height={14} />
                                     </ButtonBase>
                                 </Table.Cell>

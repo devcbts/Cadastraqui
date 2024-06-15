@@ -3,6 +3,7 @@ import Profile from "Pages/Profile";
 import { useEffect, useState } from "react";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
+import FormView from "./components/FormView";
 
 export default function ProfileCandidate() {
     const [data, setData] = useState(null)
@@ -37,7 +38,7 @@ export default function ProfileCandidate() {
         <>
             <Loader loading={isLoading} />
             <Profile
-                data={data}
+                dataForm={(onEdit) => <FormView data={data} onEdit={onEdit} />}
                 onPictureChange={handlePictureChange}
             />
         </>

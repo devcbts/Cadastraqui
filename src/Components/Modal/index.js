@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Portal from "../Portal";
 import Overlay from "../Overlay";
+import ButtonBase from "Components/ButtonBase";
 
 export default function Modal({ title, text, children, onCancel, onConfirm, open }) {
     useEffect(() => {
@@ -21,8 +22,8 @@ export default function Modal({ title, text, children, onCancel, onConfirm, open
                     {children}
                 </div>
                 <div style={{ display: "flex", gap: "16px", justifyContent: "center" }}>
-                    <button onClick={onCancel}>Cancelar</button>
-                    <button onClick={onConfirm}>Ok</button>
+                    <ButtonBase onClick={onCancel}>Cancelar</ButtonBase>
+                    <ButtonBase onClick={onConfirm}>Ok</ButtonBase>
                 </div>
             </div>
         </Overlay>

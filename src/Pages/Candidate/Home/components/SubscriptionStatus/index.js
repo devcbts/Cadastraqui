@@ -9,20 +9,24 @@ import { ReactComponent as Money } from 'Assets/icons/money.svg';
 import { ReactComponent as Doctor } from 'Assets/icons/doctor.svg';
 import { ReactComponent as List } from 'Assets/icons/list.svg';
 import { ReactComponent as Edit } from 'Assets/icons/edit.svg';
-const data = [
-    { value: 1, },
-    { value: 0, },
-    { value: 1, },
-    { value: 0, },
-    { value: 1, },
-    { value: 1, },
-    { value: 0, },
-    { value: 0, },
-]
-const max = 8
-const percentage = data.filter((e) => e.value === 1).length / max
+import { useEffect, useMemo, useState } from 'react';
+import candidateService from 'services/candidate/candidateService';
+
 export default function SubscriptionStatus() {
-    const icons = [User,
+    const [data, setData] = useState([])
+    const max = 8
+    const percentage = data?.filter((e) => e.value === 1).length / max
+    useEffect(() => {
+        const fetchProgress = async () => {
+            try {
+                const progress = await candidateService.getProgress()
+                setData(Object.entries(progress).map(([key, val]) => ({ [key]: val, value: val ? 1 : 0 })))
+            } catch (err) { }
+        }
+        fetchProgress()
+    }, [])
+    const icons = [
+        User,
         House,
         Family,
         Car,
@@ -33,7 +37,7 @@ export default function SubscriptionStatus() {
         Edit]
     return (
         <div className={styles.container}>
-            <span>Situação do cadastro: Incompleto</span>
+            <span>Situação do cadastro: {percentage < 1 ? 'Incompleto' : 'Completo'}</span>
             <div className={styles.chartwrapper}>
                 <h1>Preenchimento do Cadastro</h1>
                 <div className={styles.chartdisplay}>
@@ -51,7 +55,6 @@ export default function SubscriptionStatus() {
                             className={styles.chart}
                             direction={'right'}
                         >
-                            <span className={styles.percent}>25%</span>
                         </Pie>
                     </PieChart>
                 </div>

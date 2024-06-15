@@ -8,6 +8,10 @@ import RoleRoutes from "./components/RoleRoutes";
 import SelectionProcess from "Pages/SocialAssistant/SelectionProcess";
 import SocialAssistantAnnouncement from "Pages/SocialAssistant/SelectionProcess/Announcement";
 import SelectedCandidates from "Pages/SocialAssistant/SelectionProcess/SelectedCandidates";
+import CandidateInfo from "Pages/SocialAssistant/SelectionProcess/CandidateInfo";
+import CandidateView from "Pages/SocialAssistant/SelectionProcess/CandidateView";
+import LegalOpinion from "Pages/SocialAssistant/SelectionProcess/LegalOpinion";
+import SocialAssistantProfile from "Pages/SocialAssistant/SelectionProcess/Profile";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -35,11 +39,16 @@ export default function AppRoutes() {
                     <Route path="/home" element={<Outlet />} >
                         <Route path="" element={<SelectionProcess />}></Route>
                         <Route path="selecao/:announcementId" element={<Outlet />} >
-
                             <Route path="" element={<SocialAssistantAnnouncement />}></Route>
-                            <Route path=":courseId" element={<SelectedCandidates />}></Route>
+                            <Route path=":courseId" element={<Outlet />}>
+                                <Route path="" element={<SelectedCandidates />}></Route>
+                                <Route path="candidato" element={<CandidateInfo />}></Route>
+                            </Route>
                         </Route>
                     </Route>
+                    <Route path="parecer" element={<LegalOpinion />}></Route>
+                    <Route path="/ficha-completa" element={<CandidateView />}></Route>
+                    <Route path="/profile" element={<SocialAssistantProfile />}></Route>
                 </Routes>
             </RoleRoutes>
         </>

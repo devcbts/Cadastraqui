@@ -1,0 +1,21 @@
+@import '../../../../Assets/theme/global.module.scss';
+.header{
+    position: relative;
+    width: 100%;
+   
+    
+}
+.titlewrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img{
+        width: 100px;
+        height: 100px;
+        clip-path: circle();
+    }
+    .edit{
+        cursor: pointer;
+        color: $primary;
+    }
+}

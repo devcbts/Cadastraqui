@@ -35,7 +35,7 @@ class ExpenseMapper {
                     additionalExpenses: mappedAdditionalExpenses()
                 }
             })
-            return { months: mappedData }
+            return { months: mappedData.map((e => ({ ...e, isUpdated: true }))) }
         }
         catch (err) { }
     }

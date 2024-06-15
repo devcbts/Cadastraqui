@@ -18,7 +18,10 @@ const ExpenseSelection = forwardRef(({ data }, ref) => {
             acc += stringToFloat(e.totalExpense.toString())
             return acc
         }, 0)
-        const monthAvg = (totalExpense ?? 0 / 3)?.toFixed(2)
+        const validMonths = data?.months?.filter((e) => e.isUpdated)?.length
+        console.log(validMonths)
+        const monthAvg = ((totalExpense ?? 0) / (!validMonths ? 1 : validMonths))?.toFixed(2)
+        console.log(monthAvg)
         setTotal(moneyInputMask(totalExpense?.toFixed(2)))
         setAvg(moneyInputMask(monthAvg))
     }, [data])

@@ -36,7 +36,8 @@
             &.pass{
              border-color: $success !important;
             }
-            &[type="file"]{
+            &[data-type="file"]{
+                cursor: pointer;
                 background: url("../../Assets/icons/upload.svg") no-repeat;
                 background-position: calc(100% - 48px);
             }

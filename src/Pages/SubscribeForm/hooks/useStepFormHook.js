@@ -22,7 +22,6 @@ export default function useStepFormHook({
     const next = async () => {
         const values = getCurrentRef().values()
         const parsedValues = await getCurrentRef().beforeSubmit?.()
-        console.log('VALIDANDO', isFormValid(), MAX_STEPS)
         if (isFormValid()) {
             setParsedData((prev) => ({ ...prev, ...parsedValues }))
             setData((prevData) => ({ ...prevData, ...values }))
