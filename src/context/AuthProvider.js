@@ -21,10 +21,13 @@ export default function AuthProvider({ children }) {
             setAuth(decodedToken)
             const profilePicUrl = await userService.getProfilePicture()
             set('profilepic', profilePicUrl)
+            return true
         } catch (err) {
             NotificationService.error({ text: err.response?.data?.message })
+            return false
+        } finally {
+            setIsLoading(false)
         }
-        setIsLoading(false)
     }
     const logout = async () => {
         try {

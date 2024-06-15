@@ -296,6 +296,10 @@ class CandidateService {
     deleteFile(path) {
         return api.post('/candidates/document/delete', { path })
     }
+
+    register(data) {
+        return api.post('/candidates/', data)
+    }
 }
 
 export default new CandidateService()

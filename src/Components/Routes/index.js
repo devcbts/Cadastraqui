@@ -12,6 +12,9 @@ import CandidateInfo from "Pages/SocialAssistant/SelectionProcess/CandidateInfo"
 import CandidateView from "Pages/SocialAssistant/SelectionProcess/CandidateView";
 import LegalOpinion from "Pages/SocialAssistant/SelectionProcess/LegalOpinion";
 import SocialAssistantProfile from "Pages/SocialAssistant/SelectionProcess/Profile";
+import HeaderWrapper from "Components/Header";
+import Login from "Pages/Login";
+import Register from "Pages/Register";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -19,37 +22,49 @@ export default function AppRoutes() {
     // Create NOT_FOUND screen to avoid blank pages
     return (
         <>
-            <RoleRoutes role="CANDIDATE">
+            <RoleRoutes role={null}>
                 <Routes>
-                    <Route path="/formulario_inscricao" element={<SubscribeForm />}></Route>
-                    <Route path="/profile" element={<ProfileCandidate />}></Route>
-                    <Route path="/home" element={<Outlet />}>
-                        <Route path="" element={<HomeCandidate />}></Route>
-                        <Route path="editais" element={<Outlet />}>
-                            <Route path="" element={<AnnouncementCandidate />}></Route>
-                            <Route path=":announcementId" element={<AnnouncementView />}></Route>
-                        </Route>
-                        {/* <Route path="edital/:announcementId" element={<AnnouncementView />}></Route> */}
-
-                    </Route>
+                    <Route path="/" element={<Login />} />
+                    <Route path="/registrar" element={<Register />} />
                 </Routes>
             </RoleRoutes>
+            <RoleRoutes role="CANDIDATE">
+                <HeaderWrapper>
+                    <Routes>
+                        <Route path="/formulario_inscricao" element={<SubscribeForm />}></Route>
+                        <Route path="/profile" element={<ProfileCandidate />}></Route>
+                        <Route path="/home" element={<Outlet />}>
+                            <Route path="" element={<HomeCandidate />}></Route>
+                            <Route path="editais" element={<Outlet />}>
+                                <Route path="" element={<AnnouncementCandidate />}></Route>
+                                <Route path=":announcementId" element={<AnnouncementView />}></Route>
+                            </Route>
+                            {/* <Route path="edital/:announcementId" element={<AnnouncementView />}></Route> */}
+
+                        </Route>
+                    </Routes>
+                </HeaderWrapper>
+            </RoleRoutes>
             <RoleRoutes role="ASSISTANT">
-                <Routes>
-                    <Route path="/home" element={<Outlet />} >
-                        <Route path="" element={<SelectionProcess />}></Route>
-                        <Route path="selecao/:announcementId" element={<Outlet />} >
-                            <Route path="" element={<SocialAssistantAnnouncement />}></Route>
-                            <Route path=":courseId" element={<Outlet />}>
-                                <Route path="" element={<SelectedCandidates />}></Route>
-                                <Route path="candidato" element={<CandidateInfo />}></Route>
+                <HeaderWrapper>
+
+                    <Routes>
+                        <Route path="/home" element={<Outlet />} >
+                            <Route path="" element={<SelectionProcess />}></Route>
+                            <Route path="selecao/:announcementId" element={<Outlet />} >
+                                <Route path="" element={<SocialAssistantAnnouncement />}></Route>
+                                <Route path=":courseId" element={<Outlet />}>
+                                    <Route path="" element={<SelectedCandidates />}></Route>
+                                    <Route path="candidato" element={<CandidateInfo />}></Route>
+                                </Route>
                             </Route>
                         </Route>
-                    </Route>
-                    <Route path="parecer" element={<LegalOpinion />}></Route>
-                    <Route path="/ficha-completa" element={<CandidateView />}></Route>
-                    <Route path="/profile" element={<SocialAssistantProfile />}></Route>
-                </Routes>
+                        <Route path="parecer" element={<LegalOpinion />}></Route>
+                        <Route path="/ficha-completa" element={<CandidateView />}></Route>
+                        <Route path="/profile" element={<SocialAssistantProfile />}></Route>
+                    </Routes>
+
+                </HeaderWrapper>
             </RoleRoutes>
         </>
     )

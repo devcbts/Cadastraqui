@@ -13,7 +13,9 @@ class UserService {
         const response = await api.get('/profilePicture', { headers: { Authorization: `Bearer ${token}` } })
         return response.data.url
     }
-
+    async forgotPassword(email) {
+        return api.post('/forgot_password', { email })
+    }
 
 }
 
