@@ -10,19 +10,30 @@ export async function createMedicationHDB (id: string, candidate_id: string | nu
     if (!medication) {
         return null;
     }
-    const { id: oldId, familyMember_id: oldFamilyMemberId,candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId, ...medicationData } = medication;
+    const { id: oldId, familyMember_id: oldFamilyMemberId,candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId, familyMemberDiseaseId: oldDiseaseId, ...medicationData } = medication;
     const familyMemberMapping = await historyDatabase.idMapping.findFirst({
         where: { mainId: (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, application_id }
     });
+    let diseaseMapping
+    if (oldDiseaseId) {
+        
+        diseaseMapping = await historyDatabase.idMapping.findFirst({
+            where: { mainId: oldDiseaseId!, application_id }
+        })
+    }
+
     const newFamilyMemberId = familyMemberMapping?.newId;
     const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (candidate_id ? { candidate_id: newFamilyMemberId } : { responsible_id: newFamilyMemberId });
 
     const createMedication = await historyDatabase.medication.create({
-            data: {main_id:id, ...medicationData, ...idField, application_id }
+            data: {main_id:id, ...medicationData, ...idField, application_id, familyMemberDiseaseId: diseaseMapping?.newId }
     });
     const route = `CandidateDocuments/${candidate_id || legalResponsibleId || ''}/medication/${(oldFamilyMemberId || oldCandidateId || oldResponsibleId || '')}/${medication.id}/`;
     const RouteHDB = await findAWSRouteHDB(candidate_id || legalResponsibleId || '' , 'medication', (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, medication.id, application_id);
     await copyFilesToAnotherFolder(route, RouteHDB)
+
+    
+    
 }
 
 export async function updateMedicationHDB(id: string) {
