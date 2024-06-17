@@ -576,7 +576,8 @@ model Medication {
 model Declarations {
   id                 String            @id @default(uuid())
   declarationType    Declaration_Type
-  text               String
+  declarationExists  Boolean          @default(true)
+  text               String?
   familyMember_id    String?
   candidate_id       String?
   candidate          Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)

@@ -13,7 +13,8 @@ export async function registerDeclaration(
   reply: FastifyReply,
 ) {
   const DeclarationDataSchema = z.object({
-    text: z.string(),
+    text: z.string().optional(),
+    declarationExists: z.boolean(),
   })
 
   const DeclarationParamsSchema = z.object({
@@ -25,7 +26,7 @@ export async function registerDeclaration(
   const { _id, type } = DeclarationParamsSchema.parse(request.params)
 
   const {
-
+    declarationExists,
     text
   } = DeclarationDataSchema.parse(request.body)
 
@@ -44,17 +45,31 @@ export async function registerDeclaration(
       if (!familyMember) {
         throw new ResourceNotFoundError()
       }
-      idField = {familyMember_id: _id}
+      idField = { familyMember_id: _id }
     }
 
+    if (!declarationExists) {
+      await prisma.declarations.create({
+        data: {
+          declarationType: type,
+          ...(CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : idField),
+          declarationExists
+        },
+      
+      })
+    }
     // Store declaration information in the database
-    await prisma.declarations.create({
-      data: {
-        declarationType: type,
-        text,
-        ...(CandidateOrResponsible? (CandidateOrResponsible.IsResponsible ? {legalResponsibleId: _id} : {candidate_id: _id}) : idField) 
-      },
-    })
+    if (text) {
+      await prisma.declarations.create({
+        data: {
+          declarationType: type,
+          text,
+          ...(CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : idField),
+          declarationExists
+        },
+      })
+    }
+
 
     return reply.status(201).send()
   } catch (err: any) {
