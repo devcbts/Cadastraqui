@@ -24,11 +24,7 @@ export async function uploadAdtionalInfo(
             throw new ForbiddenError();
         }
 
-        const application = await prisma.application.findUnique({ where: { id: application_id } });
-        if (application?.socialAssistant_id !== assistant.id) {
-            throw new ForbiddenError();
-        }
-
+        
 
 
 
