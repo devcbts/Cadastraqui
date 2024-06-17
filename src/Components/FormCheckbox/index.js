@@ -27,6 +27,7 @@ export default function FormCheckbox({ name, control, label }) {
                         {...field}
                         error={showErrorBorder(isDirty, error)}
                         onChange={(e) => {
+                            console.log(e.target.value === "true")
                             field.onChange(e.target.value === "true")
                         }}
                     />

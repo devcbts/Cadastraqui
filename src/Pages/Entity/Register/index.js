@@ -3,6 +3,7 @@ import { useState } from "react";
 import Subsidiary from "./components/Subsidiary";
 import Responsible from "./components/Responsible";
 import Assistant from "./components/Assistant";
+import Announcement from "./components/Announcement";
 
 export default function EntitySelectRegister() {
     const [selection, setSelection] = useState({ label: 'Filial', value: 'subsidiary' })
@@ -21,6 +22,7 @@ export default function EntitySelectRegister() {
             {selection?.value === "subsidiary" && <Subsidiary />}
             {selection?.value === "responsible" && <Responsible />}
             {selection?.value === "assistant" && <Assistant />}
+            {selection?.value === "announcement" && <Announcement />}
         </>
     )
 }
