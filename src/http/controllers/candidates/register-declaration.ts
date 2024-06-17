@@ -55,8 +55,9 @@ export async function registerDeclaration(
           ...(CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : idField),
           declarationExists
         },
-      
+        
       })
+      return reply.status(201).send({ message: 'Declaration created successfully'})
     }
     // Store declaration information in the database
     if (text) {
