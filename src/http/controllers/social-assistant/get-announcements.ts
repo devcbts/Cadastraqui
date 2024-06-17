@@ -14,6 +14,7 @@ export async function getAnnouncements(
   })
 
   const { announcement_id } = announcementParamsSchema.parse(request.params)
+  console.log(request.query)
   try {
     const userId = request.user.sub
 
@@ -26,14 +27,41 @@ export async function getAnnouncements(
     // Verifica se existe o processo seletivo
     let announcement
     if (!announcement_id) {
+      const { filter } = request.query as { filter: 'subscription' | 'validation' | 'finished' }
+      const getFilter = () => {
+        const currentDate = new Date()
+        if (filter === 'subscription') {
+          return [
+            { openDate: { gte: currentDate } },
+            { closeDate: { lt: currentDate } },
+          ]
+        }
+        if (filter === 'validation') {
+          return [
+            { closeDate: { gte: currentDate } },
+            { announcementDate: { lt: currentDate } },
+          ]
+        }
+        if (filter === 'finished') {
+          return [
+            { closeDate: { gte: currentDate } },
+            { announcementDate: { gte: currentDate } },
+          ]
+        }
+      }
       announcement = await prisma.announcement.findMany({
         where: {
-          socialAssistant: {
-            some: {
-              id: assistant.id,
+          AND: [{
+            socialAssistant: {
+              some: {
+                id: assistant.id,
 
+              },
             },
           },
+          { AND: getFilter() }
+          ]
+
         },
         include: {
           entity: true,
