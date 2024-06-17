@@ -1,6 +1,7 @@
 import SelectBase from "Components/SelectBase";
 import { useState } from "react";
 import Subsidiary from "./components/Subsidiary";
+import Responsible from "./components/Responsible";
 
 export default function EntitySelectRegister() {
     const [selection, setSelection] = useState({ label: 'Filial', value: 'subsidiary' })
@@ -16,9 +17,8 @@ export default function EntitySelectRegister() {
             <div style={{ maxWidth: '30%' }}>
                 <SelectBase label="Selecione o que deseja cadastrar" options={options} value={selection} onChange={(v) => setSelection(v)} error={null} />
             </div>
-            {
-                selection.value === "subsidiary" && <Subsidiary />
-            }
+            {selection.value === "subsidiary" && <Subsidiary />}
+            {selection.value === "responsible" && <Responsible />}
         </>
     )
 }

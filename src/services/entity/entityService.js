@@ -11,6 +11,9 @@ class EntityService {
     async registerSubsidiary(data) {
         return api.post("/entities/subsidiary", data)
     }
+    async registerResponsible(data) {
+        return api.post("/entities/director", data)
+    }
 }
 
 export default new EntityService()
