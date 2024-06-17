@@ -1,10 +1,13 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { getSignedUrlsGroupedByFolder } from '@/lib/S3'
 import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { getDocumentsPDF } from './AWS Routes/get-pdf-documents'
+import { getSectionDocumentsPDF } from './AWS Routes/get-pdf-documents-by-section'
 export async function getExpensesInfo(
   request: FastifyRequest,
   reply: FastifyReply,
@@ -38,8 +41,16 @@ export async function getExpensesInfo(
     const expenses = await prisma.expense.findMany({
       where: idField,
     })
+    const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'expenses');
+    const expensesWithUrls = expenses.map((expense) => {
+      const mathcedUrls = Object.entries(urls).filter(([url]) => url.split("/")[4] === expense.id)
+      return {
+        ...expense,
+        urls: Object.fromEntries(mathcedUrls),
+      }
+    })
 
-    return reply.status(200).send({ expenses })
+    return reply.status(200).send({ expenses: expensesWithUrls })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
