@@ -450,7 +450,7 @@ model MonthlyIncome {
 
 model BankAccount {
   id                 String            @id @default(uuid())
-  main_id            String
+  main_id            String?
   bankName           String
   agencyNumber       String
   accountNumber      String

@@ -22232,7 +22232,7 @@ export namespace Prisma {
 
   export type BankAccountGroupByOutputType = {
     id: string
-    main_id: string
+    main_id: string | null
     bankName: string
     agencyNumber: string
     accountNumber: string
@@ -22305,7 +22305,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetResult<{
       id: string
-      main_id: string
+      main_id: string | null
       bankName: string
       agencyNumber: string
       accountNumber: string
@@ -43703,7 +43703,7 @@ export namespace Prisma {
     OR?: BankAccountWhereInput[]
     NOT?: BankAccountWhereInput | BankAccountWhereInput[]
     id?: StringFilter<"BankAccount"> | string
-    main_id?: StringFilter<"BankAccount"> | string
+    main_id?: StringNullableFilter<"BankAccount"> | string | null
     bankName?: StringFilter<"BankAccount"> | string
     agencyNumber?: StringFilter<"BankAccount"> | string
     accountNumber?: StringFilter<"BankAccount"> | string
@@ -43719,7 +43719,7 @@ export namespace Prisma {
 
   export type BankAccountOrderByWithRelationInput = {
     id?: SortOrder
-    main_id?: SortOrder
+    main_id?: SortOrderInput | SortOrder
     bankName?: SortOrder
     agencyNumber?: SortOrder
     accountNumber?: SortOrder
@@ -43738,7 +43738,7 @@ export namespace Prisma {
     AND?: BankAccountWhereInput | BankAccountWhereInput[]
     OR?: BankAccountWhereInput[]
     NOT?: BankAccountWhereInput | BankAccountWhereInput[]
-    main_id?: StringFilter<"BankAccount"> | string
+    main_id?: StringNullableFilter<"BankAccount"> | string | null
     bankName?: StringFilter<"BankAccount"> | string
     agencyNumber?: StringFilter<"BankAccount"> | string
     accountNumber?: StringFilter<"BankAccount"> | string
@@ -43754,7 +43754,7 @@ export namespace Prisma {
 
   export type BankAccountOrderByWithAggregationInput = {
     id?: SortOrder
-    main_id?: SortOrder
+    main_id?: SortOrderInput | SortOrder
     bankName?: SortOrder
     agencyNumber?: SortOrder
     accountNumber?: SortOrder
@@ -43773,7 +43773,7 @@ export namespace Prisma {
     OR?: BankAccountScalarWhereWithAggregatesInput[]
     NOT?: BankAccountScalarWhereWithAggregatesInput | BankAccountScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"BankAccount"> | string
-    main_id?: StringWithAggregatesFilter<"BankAccount"> | string
+    main_id?: StringNullableWithAggregatesFilter<"BankAccount"> | string | null
     bankName?: StringWithAggregatesFilter<"BankAccount"> | string
     agencyNumber?: StringWithAggregatesFilter<"BankAccount"> | string
     accountNumber?: StringWithAggregatesFilter<"BankAccount"> | string
@@ -47794,7 +47794,7 @@ export namespace Prisma {
 
   export type BankAccountCreateInput = {
     id?: string
-    main_id: string
+    main_id?: string | null
     bankName: string
     agencyNumber: string
     accountNumber: string
@@ -47807,7 +47807,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedCreateInput = {
     id?: string
-    main_id: string
+    main_id?: string | null
     bankName: string
     agencyNumber: string
     accountNumber: string
@@ -47820,7 +47820,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    main_id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: StringFieldUpdateOperationsInput | string
     agencyNumber?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
@@ -47833,7 +47833,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    main_id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: StringFieldUpdateOperationsInput | string
     agencyNumber?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
@@ -47846,7 +47846,7 @@ export namespace Prisma {
 
   export type BankAccountCreateManyInput = {
     id?: string
-    main_id: string
+    main_id?: string | null
     bankName: string
     agencyNumber: string
     accountNumber: string
@@ -47859,7 +47859,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    main_id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: StringFieldUpdateOperationsInput | string
     agencyNumber?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
@@ -47869,7 +47869,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    main_id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: StringFieldUpdateOperationsInput | string
     agencyNumber?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
@@ -58921,7 +58921,7 @@ export namespace Prisma {
 
   export type BankAccountCreateWithoutCandidateInput = {
     id?: string
-    main_id: string
+    main_id?: string | null
     bankName: string
     agencyNumber: string
     accountNumber: string
@@ -58933,7 +58933,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedCreateWithoutCandidateInput = {
     id?: string
-    main_id: string
+    main_id?: string | null
     bankName: string
     agencyNumber: string
     accountNumber: string
@@ -59711,7 +59711,7 @@ export namespace Prisma {
     OR?: BankAccountScalarWhereInput[]
     NOT?: BankAccountScalarWhereInput | BankAccountScalarWhereInput[]
     id?: StringFilter<"BankAccount"> | string
-    main_id?: StringFilter<"BankAccount"> | string
+    main_id?: StringNullableFilter<"BankAccount"> | string | null
     bankName?: StringFilter<"BankAccount"> | string
     agencyNumber?: StringFilter<"BankAccount"> | string
     accountNumber?: StringFilter<"BankAccount"> | string
@@ -60973,7 +60973,7 @@ export namespace Prisma {
 
   export type BankAccountCreateWithoutLegalResponsibleInput = {
     id?: string
-    main_id: string
+    main_id?: string | null
     bankName: string
     agencyNumber: string
     accountNumber: string
@@ -60985,7 +60985,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedCreateWithoutLegalResponsibleInput = {
     id?: string
-    main_id: string
+    main_id?: string | null
     bankName: string
     agencyNumber: string
     accountNumber: string
@@ -63610,7 +63610,7 @@ export namespace Prisma {
 
   export type BankAccountCreateWithoutFamilyMemberInput = {
     id?: string
-    main_id: string
+    main_id?: string | null
     bankName: string
     agencyNumber: string
     accountNumber: string
@@ -63622,7 +63622,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedCreateWithoutFamilyMemberInput = {
     id?: string
-    main_id: string
+    main_id?: string | null
     bankName: string
     agencyNumber: string
     accountNumber: string
@@ -74193,7 +74193,7 @@ export namespace Prisma {
 
   export type BankAccountCreateManyCandidateInput = {
     id?: string
-    main_id: string
+    main_id?: string | null
     bankName: string
     agencyNumber: string
     accountNumber: string
@@ -75234,7 +75234,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    main_id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: StringFieldUpdateOperationsInput | string
     agencyNumber?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
@@ -75246,7 +75246,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    main_id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: StringFieldUpdateOperationsInput | string
     agencyNumber?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
@@ -75258,7 +75258,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateManyWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    main_id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: StringFieldUpdateOperationsInput | string
     agencyNumber?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
@@ -75649,7 +75649,7 @@ export namespace Prisma {
 
   export type BankAccountCreateManyLegalResponsibleInput = {
     id?: string
-    main_id: string
+    main_id?: string | null
     bankName: string
     agencyNumber: string
     accountNumber: string
@@ -76788,7 +76788,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateWithoutLegalResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
-    main_id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: StringFieldUpdateOperationsInput | string
     agencyNumber?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
@@ -76800,7 +76800,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateWithoutLegalResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
-    main_id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: StringFieldUpdateOperationsInput | string
     agencyNumber?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
@@ -76812,7 +76812,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateManyWithoutLegalResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
-    main_id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: StringFieldUpdateOperationsInput | string
     agencyNumber?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
@@ -77653,7 +77653,7 @@ export namespace Prisma {
 
   export type BankAccountCreateManyFamilyMemberInput = {
     id?: string
-    main_id: string
+    main_id?: string | null
     bankName: string
     agencyNumber: string
     accountNumber: string
@@ -78075,7 +78075,7 @@ export namespace Prisma {
 
   export type BankAccountUpdateWithoutFamilyMemberInput = {
     id?: StringFieldUpdateOperationsInput | string
-    main_id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: StringFieldUpdateOperationsInput | string
     agencyNumber?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
@@ -78087,7 +78087,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateWithoutFamilyMemberInput = {
     id?: StringFieldUpdateOperationsInput | string
-    main_id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: StringFieldUpdateOperationsInput | string
     agencyNumber?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string
@@ -78099,7 +78099,7 @@ export namespace Prisma {
 
   export type BankAccountUncheckedUpdateManyWithoutFamilyMemberInput = {
     id?: StringFieldUpdateOperationsInput | string
-    main_id?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: StringFieldUpdateOperationsInput | string
     agencyNumber?: StringFieldUpdateOperationsInput | string
     accountNumber?: StringFieldUpdateOperationsInput | string

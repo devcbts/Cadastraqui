@@ -27,6 +27,8 @@ import { prisma } from './prisma';
 import { CalculateMemberAverageIncome } from "@/utils/Trigger-Functions/calculate-member-income";
 import { CalculateIncomePerCapita } from "@/utils/Trigger-Functions/calculate-income-per-capita";
 import { createVehicleHDB } from "@/HistDatabaseFunctions/handle-vehicle";
+import { createBankAccountHDB, updateBankAccountHDB } from "@/HistDatabaseFunctions/handle-bank-account";
+import findAllBankAccount from "@/HistDatabaseFunctions/Handle Application/find-all-bank-account";
 const clientBackup = new Client(env.DATABASE_URL);
 clientBackup.connect();
 
@@ -45,7 +47,8 @@ clientBackup.query('LISTEN "channel_medication"');
 clientBackup.query('LISTEN "channel_monthlyIncome"');
 clientBackup.query('LISTEN "channel_otherExpense"');
 clientBackup.query('LISTEN "channel_responsible"');
-
+clientBackup.query('LISTEN "channel_vehicle"');
+clientBackup.query('LISTEN "channel_bankaccount"');
 
 clientBackup.on('notification', async (msg) => {
     console.log('Received notification:', msg.payload);
@@ -272,7 +275,22 @@ try{
             }
         }
     }
-
+    if (msg.channel == 'channel_bankaccount') {
+        const bankaccount = JSON.parse(msg.payload!);
+        const bankaccountInfo = await prisma.bankAccount.findUnique({
+            where: { id: bankaccount.data.id },
+            include: { familyMember: true }
+        })
+        if (bankaccount.operation == 'Update') {
+            updateBankAccountHDB(bankaccount.data.id)
+        }
+        else if (bankaccount.operation == 'Insert') {
+            const openApplications = await getOpenApplications(bankaccount?.candidate_id || bankaccount?.legalResponsibleId || bankaccountInfo?.familyMember?.candidate_id || bankaccountInfo?.familyMember?.legalResponsibleId);
+            for (const application of openApplications) {
+                createBankAccountHDB(bankaccount.data.id, bankaccount.data.candidate_id, bankaccount.data.legalResponsibleId, application.id)
+            }
+        }
+    }
 
 
 
@@ -315,7 +333,7 @@ try{
         const findOtherExpense = await prisma.otherExpense.findMany({
             where: { candidate_id }
         });
-
+        const findBankAccount = await findAllBankAccount(candidate_id, '')
         const findFamilyMemberDisease = await findAllDiseases(candidate_id, '')
         const findMedication = await findAllMedication(candidate_id, '')
 
@@ -341,7 +359,10 @@ try{
         for (const monthlyIncome of findMonthlyIncome!) {
             await createMonthlyIncomeHDB(monthlyIncome.id, monthlyIncome.candidate_id, monthlyIncome.candidate_id, application_id)
         }
+        for(const bankAccount of findBankAccount!){
+            await createBankAccountHDB(bankAccount.id, bankAccount.candidate_id, bankAccount.legalResponsibleId, application_id)
 
+        }
         for (const expense of findExpense!) {
             await createExpenseHDB(expense.id, expense.candidate_id, expense.legalResponsibleId, application_id)
         }
@@ -373,7 +394,7 @@ try{
             await createMedicationHDB(medication.id, medication.candidate_id, medication.legalResponsibleId, application_id)
         }
 
-
+        
 
     }
 } catch(error){
