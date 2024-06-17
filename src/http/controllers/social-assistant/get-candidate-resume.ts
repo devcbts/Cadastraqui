@@ -7,6 +7,7 @@ import { CalculateIncomePerCapitaHDB } from "@/utils/Trigger-Functions/calculate
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { getSectionDocumentsPDF_HDB } from "./AWS-routes/get-documents-by-section-HDB";
+import { getAssistantDocumentsPDF_HDB } from "./AWS-routes/get-assistant-documents-by-section";
 
 export async function getCandidateResume(
     request: FastifyRequest,
@@ -223,6 +224,9 @@ export async function getCandidateResume(
             entity: application.announcement.entity.socialReason,
             city: application.EducationLevel.entitySubsidiary ? application.EducationLevel.entitySubsidiary.city : application.announcement.entity.city,
         }
+
+
+        const majoracao = await getAssistantDocumentsPDF_HDB(application_id, 'majoracao')
         return reply.status(200).send({
             candidateInfo,
             familyMembersInfo,
@@ -231,7 +235,8 @@ export async function getCandidateResume(
             familyMembersDiseases,
             importantInfo,
             documentsUrls: documentsFilteredByMember,
-            applicationInfo: applicationFormated
+            applicationInfo: applicationFormated,
+            majoracao: majoracao
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {

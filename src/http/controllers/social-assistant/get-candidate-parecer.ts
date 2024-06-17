@@ -205,7 +205,8 @@ export async function getCandidateParecer(
         })
 
         const totalExpenses = expenses.length > 0 ? expenses.reduce((total, expense) => total + (expense.totalExpense ?? 0), 0) / expenses.length : 0;
-    
+        const majoracao = await  getSectionDocumentsPDF_HDB(application_id, 'majoracao')
+        const aditional = await  getSectionDocumentsPDF_HDB(application_id, 'aditional')
         return reply.status(200).send({
             candidateInfo,
             familyMembersInfo,
@@ -213,7 +214,9 @@ export async function getCandidateParecer(
             vehicleInfoResults,
             familyMembersDiseases,
             incomePerCapita,
-            totalExpenses
+            totalExpenses,
+            majoracao,
+            aditional
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {

@@ -33,6 +33,8 @@ import { getVehicleInfoHDB } from './detailed-form/get-vehicle-info'
 import { getMonthlyIncomeBySourceHDB } from './detailed-form/get-monthly-income'
 import { getExpensesInfoHDB } from './detailed-form/get-expenses'
 import { getBankingInfoHDB } from './detailed-form/get-banking-info'
+import { uploadMarojacaoDocument } from './AWS-routes/upload-majoracao-document'
+import { uploadAdtionalInfo } from './AWS-routes/upload-aditional-info'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -132,4 +134,8 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/candidateInfo/vehicle/:application_id', { onRequest: [verifyJWT] }, getVehicleInfoHDB)
   app.get('/candidateInfo/expenses/:application_id', { onRequest: [verifyJWT] }, getExpensesInfoHDB)
   app.get('/candidateInfo/bank-info/:application_id/:_id?', { onRequest: [verifyJWT] }, getBankingInfoHDB)
+
+  // Documentos da assistente
+  app.post('/documents/majoracao/:application_id', { onRequest: [verifyJWT] }, uploadMarojacaoDocument)
+  app.post('/documents/aditional/:application_id', { onRequest: [verifyJWT] }, uploadAdtionalInfo)
 }
