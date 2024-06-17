@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
@@ -7,10 +7,23 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
     const [confirmation, setConfirmation] = useState(null);
     const [year, setYear] = useState('');
     const [file, setFile] = useState(null);
+    const [declarationData, setDeclarationData] = useState(null);
+
+    useEffect(() => {
+        const savedData = localStorage.getItem('declarationData');
+        if (savedData) {
+            setDeclarationData(JSON.parse(savedData));
+        }
+    }, []);
 
     const handleSave = () => {
-        if (confirmation !== null && (confirmation === 'sim' || (confirmation === 'nao' && year && file))) {
-            onSave();
+        if (confirmation !== null) {
+            if (confirmation === 'sim') {
+                onSave('sim');
+            } else if (confirmation === 'nao' && year && file) {
+                localStorage.setItem('incomeTaxDetails', JSON.stringify({ year, file: file.name }));
+                onSave('nao');
+            }
         }
     };
 
@@ -18,11 +31,15 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
         setFile(e.target.files[0]);
     };
 
+    if (!declarationData) {
+        return <p>Carregando...</p>;
+    }
+
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE ISENTO DE IMPOSTO DE RENDA</h2>
-            <h3>João da Silva - usuário do Cadastraqui</h3>
+            <h3>{declarationData.fullName} - usuário do Cadastraqui</h3>
             <p>Você é isento(a) de Imposto de Renda?</p>
             <div className={commonStyles.radioGroup}>
                 <label>

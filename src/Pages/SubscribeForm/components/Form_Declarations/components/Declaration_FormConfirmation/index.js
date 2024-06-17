@@ -46,10 +46,11 @@ export default function Declaration_Form({ onBack, onEdit, userId, declarationDa
                         <label htmlFor="no">Não</label>
                     </div>
                 </div>
-                <ButtonBase label="Editar" onClick={onEdit} />
+                
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase label="Editar" onClick={onEdit} />
                 <ButtonBase onClick={handleRegisterDeclaration}>Registrar Declaração</ButtonBase>
             </div>
         </div>

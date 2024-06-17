@@ -1,26 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_RentIncome({ onBack, onNext }) {
     const [receivesRent, setReceivesRent] = useState(null);
+    const [declarationData, setDeclarationData] = useState(null);
+
+    useEffect(() => {
+        const savedData = localStorage.getItem('declarationData');
+        if (savedData) {
+            setDeclarationData(JSON.parse(savedData));
+        }
+    }, []);
 
     const handleNext = () => {
         onNext(receivesRent === 'sim');
     };
 
+    if (!declarationData) {
+        return <p>Carregando...</p>;
+    }
+
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE RECEBIMENTO DE ALUGUEL</h1>
-            <h2>João da Silva - usuário do Cadastraqui</h2>
+            <h2>{declarationData.fullName} - usuário do Cadastraqui</h2>
             <p>Você recebe rendimento de imóvel alugado?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
                     <input type="radio" name="receivesRent" value="sim" onChange={() => setReceivesRent('sim')} /> Sim
                 </label>
                 <label>
-                    <input type="radio" name="receivesRent" value="não" onChange={() => setReceivesRent('não')} /> Não
+                    <input type="radio" name="receivesRent" value="nao" onChange={() => setReceivesRent('nao')} /> Não
                 </label>
             </div>
             <div className={commonStyles.navigationButtons}>

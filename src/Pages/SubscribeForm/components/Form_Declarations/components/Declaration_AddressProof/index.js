@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_AddressProof({ onBack, onNext }) {
     const [hasAddressProof, setHasAddressProof] = useState(null);
+    const [declarationData, setDeclarationData] = useState(null);
+
+    useEffect(() => {
+        const savedData = localStorage.getItem('declarationData');
+        if (savedData) {
+            setDeclarationData(JSON.parse(savedData));
+        }
+    }, []);
 
     const handleSave = () => {
         if (hasAddressProof !== null) {
@@ -12,11 +20,15 @@ export default function Declaration_AddressProof({ onBack, onNext }) {
         }
     };
 
+    if (!declarationData) {
+        return <p>Carregando...</p>;
+    }
+
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE AUSÊNCIA DE COMPROVANTE DE ENDEREÇO EM NOME</h2>
-            <h3>João da Silva - usuário do Cadastraqui</h3>
+            <h3>{declarationData.fullName} - usuário do Cadastraqui</h3>
             <p>Você possui comprovante de endereço em seu nome?</p>
             <div className={commonStyles.radioButtons}>
                 <label>

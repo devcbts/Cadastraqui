@@ -3,12 +3,14 @@ import commonStyles from '../../styles.module.scss'; // Certifique-se de que o c
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
 
-export default function Declaration_StableUnionConfirmation({ onBack, partnerName, unionStartDate }) {
+export default function Declaration_StableUnionConfirmation({ onBack, onNext, partnerName, unionStartDate }) {
     const [confirmation, setConfirmation] = useState(null);
 
     const handleSave = () => {
         if (confirmation !== null) {
-            // Adicione a lógica para salvar os dados aqui
+            if (confirmation === 'sim') {
+                onNext();
+            }
         }
     };
 

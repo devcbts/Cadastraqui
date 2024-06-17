@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
 
-export default function Declaration_AutonomoConfirmation({ onBack, activity, onSave }) {
+export default function Declaration_AutonomoConfirmation({ onBack, onSave }) {
     const [confirmation, setConfirmation] = useState(null);
+    const [declarationData, setDeclarationData] = useState(null);
+    const [autonomoDetails, setAutonomoDetails] = useState(null);
+
+    useEffect(() => {
+        const savedData = localStorage.getItem('declarationData');
+        const savedAutonomoDetails = localStorage.getItem('autonomoDetails');
+        if (savedData) {
+            setDeclarationData(JSON.parse(savedData));
+        }
+        if (savedAutonomoDetails) {
+            setAutonomoDetails(JSON.parse(savedAutonomoDetails));
+        }
+    }, []);
 
     const handleSave = () => {
         if (confirmation !== null) {
@@ -12,13 +25,17 @@ export default function Declaration_AutonomoConfirmation({ onBack, activity, onS
         }
     };
 
+    if (!declarationData || !autonomoDetails) {
+        return <p>Carregando...</p>;
+    }
+
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE AUTÔNOMO(A)/RENDA INFORMAL</h1>
-            <h2>João da Silva - usuário do Cadastraqui</h2>
+            <h2>{declarationData.fullName} - usuário do Cadastraqui</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Eu, <span>João da Silva</span>, portador(a) do CPF nº <span>123.321.456-87</span>, desenvolvo atividades <span>{activity}</span> e recebo uma quantia média de R$ 2500,00 mensal.
+                    Eu, <span>{declarationData.fullName}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, desenvolvo atividades <span>{autonomoDetails.activity}</span> e recebo uma quantia média de R$ 2500,00 mensal.
                 </p>
             </div>
             <div className={commonStyles.radioGroup}>
