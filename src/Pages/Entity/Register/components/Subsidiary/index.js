@@ -10,9 +10,10 @@ import STATES from "utils/enums/states"
 import subsidiarySchema from "./schemas/subsidiary-schema"
 import { formatCNPJ } from "utils/format-cnpj"
 import { formatCEP } from "utils/format-cep"
+import { isValid } from "zod"
 
 export default function Subsidiary() {
-    const { control, watch, getValues, setValue, reset } = useControlForm({
+    const { control, formState: { isValid }, watch, getValues, setValue, reset, trigger } = useControlForm({
         schema: subsidiarySchema,
         defaultValues: {
             name: "",
@@ -32,6 +33,10 @@ export default function Subsidiary() {
     const watchCep = watch("CEP")
     const watchCnpj = watch("CNPJ")
     const handleRegister = async () => {
+        if (!isValid) {
+            trigger()
+            return
+        }
         try {
             const data = getValues()
             await entityService.registerSubsidiary(data)
@@ -53,10 +58,10 @@ export default function Subsidiary() {
         console.log(cnpj)
     }, watchCnpj)
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
             <h1>Informações cadastrais</h1>
-            <div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', }}>
+            <div style={{ width: 'max(400px, 50%)' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px', }}>
                     <InputForm control={control} name={"CNPJ"} label={"CNPJ"} transform={(e) => formatCNPJ(e.target.value)} />
                     <InputForm control={control} name={"socialReason"} label={"razão social"} />
                     <InputForm control={control} name={"CEP"} label={"CEP"} transform={(e) => formatCEP(e.target.value)} />

@@ -4,13 +4,13 @@ import headerAtom from './atoms/header-atom'
 import HamburgHeader from './variants/HamburgHeader'
 import UserHeader from './variants/UserHeader'
 import useAuth from 'hooks/useAuth'
-import { Fragment, useEffect, useMemo } from 'react'
+import { Fragment, memo, useEffect, useMemo } from 'react'
 import useLocalStorage from 'hooks/useLocalStorage'
 import CandidateSidebar from 'Components/Candidate/Sidebar'
 import styles from './styles.module.scss'
 import SocialAssistantSidebar from 'Components/SocialAssistant/Sidebar'
 import EntitySidebar from 'Components/Entity/Sidebar'
-export default function HeaderWrapper({ children }) {
+const HeaderWrapper = ({ children }) => {
     const [header, setHeader] = useRecoilState(headerAtom)
     const { sidebar } = header
     const { auth, login, logout } = useAuth()
@@ -56,3 +56,5 @@ export default function HeaderWrapper({ children }) {
 
     )
 }
+
+export default memo(HeaderWrapper)

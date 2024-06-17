@@ -14,6 +14,9 @@ class EntityService {
     async registerResponsible(data) {
         return api.post("/entities/director", data)
     }
+    async registerAssistant(data) {
+        return api.post("/assistant/", data)
+    }
 }
 
 export default new EntityService()
