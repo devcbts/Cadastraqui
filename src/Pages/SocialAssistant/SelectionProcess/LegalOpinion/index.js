@@ -35,7 +35,7 @@ export default function LegalOpinion() {
     }, [state])
     return (
         <div>
-            <BackPageTitle title={'processo de seleção'} />
+            <BackPageTitle title={'processo de seleção'} path={-1} />
             <div>
                 <h1>Parecer final sobre a inscrição e perfil socioeconômico aferido</h1>
                 <div className={styles.content}>

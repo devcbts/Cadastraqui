@@ -13,8 +13,8 @@ class SocialAssistantService {
         await api.patch('/assistant/update-profile', data, { headers: { Authorization: `Bearer ${token}` } })
     }
 
-    async getAllAnnouncements() {
-        const response = await api.get('/assistant/announcement')
+    async getAllAnnouncements(filter) {
+        const response = await api.get(`/assistant/announcement?filter=${filter}`)
         return response.data.announcements
     }
 

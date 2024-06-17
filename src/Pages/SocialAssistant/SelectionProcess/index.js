@@ -7,10 +7,12 @@ import Table from "Components/Table";
 import ButtonBase from "Components/ButtonBase";
 import { useNavigate } from "react-router";
 import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import Loader from "Components/Loader";
 export default function SelectionProcess() {
     const navigate = useNavigate()
     const [selection, setSelection] = useState({ label: 'Fase de inscrição', value: 'subscription' })
     const [announcements, setAnnouncements] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
     const handleSelection = (value) => {
         setSelection(value)
     }
@@ -22,38 +24,45 @@ export default function SelectionProcess() {
     useEffect(() => {
         const fetchAnnouncements = async () => {
             try {
-                const information = await socialAssistantService.getAllAnnouncements()
+                setIsLoading(true)
+                const information = await socialAssistantService.getAllAnnouncements(selection.value)
                 setAnnouncements(information)
             } catch (err) { }
+            setIsLoading(false)
         }
         fetchAnnouncements()
-    }, [])
+    }, [selection])
     return (
         <div className={styles.container}>
+            <Loader loading={isLoading} />
             <h1>Processo de Seleção</h1>
             <div className={styles.selection}>
                 <span>Editais com atuação</span>
                 <SelectBase options={filter} value={selection} onChange={handleSelection} error={null} />
             </div>
             {!!selection?.value && (
-                <div>
-                    <span>Editais - {selection.label}</span>
-                    <Table.Root headers={['entidade', 'edital', 'total de vagas', 'concluído?', 'ações']}>
-                        {
-                            announcements.map((announcement) => (
-                                <Table.Row>
-                                    <Table.Cell>{announcement.entity}</Table.Cell>
-                                    <Table.Cell>{announcement.name}</Table.Cell>
-                                    <Table.Cell>{announcement.vacancies}</Table.Cell>
-                                    <Table.Cell>{announcement.finished ? 'Sim' : 'Não'}</Table.Cell>
-                                    <Table.Cell>
-                                        <ButtonBase label={'visualizar'} onClick={() => navigate(`selecao/${announcement.id}`)} />
-                                    </Table.Cell>
-                                </Table.Row>
-                            ))
-                        }
-                    </Table.Root>
-                </div>
+                announcements.length ?
+                    (<div>
+                        <span>Editais - {selection.label}</span>
+                        <Table.Root headers={['entidade', 'edital', 'total de vagas', 'concluído?', 'ações']}>
+                            {
+                                announcements.map((announcement) => (
+                                    <Table.Row>
+                                        <Table.Cell>{announcement.entity}</Table.Cell>
+                                        <Table.Cell>{announcement.name}</Table.Cell>
+                                        <Table.Cell>{announcement.vacancies}</Table.Cell>
+                                        <Table.Cell>{announcement.finished ? 'Sim' : 'Não'}</Table.Cell>
+                                        <Table.Cell>
+                                            <ButtonBase label={'visualizar'} onClick={() => navigate(`selecao/${announcement.id}`)} />
+                                        </Table.Cell>
+                                    </Table.Row>
+                                ))
+                            }
+                        </Table.Root>
+                    </div>)
+                    : <h3>
+                        Nenhum edital encontrado na cateogria "{selection.label}"
+                    </h3>
             )
             }
         </div>

@@ -1,5 +1,7 @@
 import Table from "Components/Table";
 import styles from '../../styles.module.scss'
+import findLabel from "utils/enums/helpers/findLabel";
+import PROPERTY_STATUS from "utils/enums/property-status";
 export default function SummaryData({ data }) {
     return (
         <div className={styles.table}>
@@ -10,7 +12,7 @@ export default function SummaryData({ data }) {
                     <Table.Cell>{data.familyIncome}</Table.Cell>
                     <Table.Cell>{data.familyExpenses}</Table.Cell>
                     <Table.Cell>{data.hasSevereDisease ? 'Sim' : 'Não'}</Table.Cell>
-                    <Table.Cell>{data.housingSituation}</Table.Cell>
+                    <Table.Cell>{findLabel(PROPERTY_STATUS, data.housingSituation)}</Table.Cell>
                     <Table.Cell>{data.vehiclesCount}</Table.Cell>
                     <Table.Cell>{data.distance}</Table.Cell>
                 </Table.Row>

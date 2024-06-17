@@ -26,10 +26,6 @@ export default function HeaderWrapper({ children }) {
     }, [auth])
     return (
         <div style={{ height: '100vh', minHeight: '100vh', maxHeight: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-            <span>{JSON.stringify(auth)}</span>
-            <button onClick={async () => await login({ email: 'a@b.com', password: '123456' })} >login assistente</button>
-            <button onClick={async () => await login({ email: 'gab@teste.com', password: '123456' })} >login candidato</button>
-
             {sidebar ? (
                 <>
                     <UserHeader />

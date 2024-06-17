@@ -44,15 +44,19 @@ export default function AddressInfo({ data, onBack, onSubmit }) {
             </div>
             <div className={styles.inputs}>
                 <InputForm control={control} name="CEP" label="CEP" transform={(e) => formatCEP(e.target.value)} />
-                <FormSelect control={control} name="UF" label="UF" options={STATES} value={watchUF} />
-                <InputForm control={control} name="city" label="cidade" />
-                <InputForm control={control} name="neighborhood" label="bairro" />
-                <InputForm control={control} name="addressNumber" label="número" />
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '16px', rowGap: '20px' }}>
+
+                    <FormSelect control={control} name="UF" label="UF" options={STATES} value={watchUF} />
+                    <InputForm control={control} name="city" label="cidade" />
+                    <InputForm control={control} name="neighborhood" label="bairro" />
+                    <InputForm control={control} name="addressNumber" label="número" />
+                </div>
+                <InputForm control={control} name="address" label="rua" />
 
             </div>
             <div className={styles.actions}>
                 <ButtonBase label={'voltar'} onClick={() => onBack(getValues())} />
-                <ButtonBase label={'próximo'} onClick={handleSubmit} />
+                <ButtonBase label={'concluir'} onClick={handleSubmit} />
             </div>
 
         </div>

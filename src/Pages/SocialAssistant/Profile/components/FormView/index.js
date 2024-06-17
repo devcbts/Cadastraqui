@@ -10,7 +10,7 @@ import socialAssistantService from "services/socialAssistant/socialAssistantServ
 import styles from './styles.module.scss'
 export default function FormView({ data, onEdit }) {
     const [editMode, setEditMode] = useState(false)
-    const { control, getValues } = useControlForm({
+    const { control, getValues, reset } = useControlForm({
         schema: assistantProfileSchema,
         defaultValues: {
             name: "",
@@ -27,8 +27,13 @@ export default function FormView({ data, onEdit }) {
             await socialAssistantService.updateProfile(values)
             NotificationService.success({ text: 'Informações alteradas' })
         } catch (err) {
-            NotificationService.error({ text: 'Erro ao atualizar o perfil' })
+            NotificationService.error({ text: 'Erro ao atualizar as informações' })
         }
+    }
+    const handleCancel = () => {
+        reset()
+        setEditMode(false)
+
     }
     return (
         <div>
@@ -41,7 +46,7 @@ export default function FormView({ data, onEdit }) {
             </fieldset>
             <InputBase error={null} readOnly name="" label={'senha'} value="********" />
             <div className={styles.actions}>
-
+                {editMode && <ButtonBase label={'cancelar'} onClick={handleCancel} />}
                 <ButtonBase label={editMode ? 'salvar' : 'editar'} onClick={async () => {
                     setEditMode(!editMode)
                     if (editMode) {

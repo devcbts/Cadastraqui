@@ -11,7 +11,7 @@ import SelectedCandidates from "Pages/SocialAssistant/SelectionProcess/SelectedC
 import CandidateInfo from "Pages/SocialAssistant/SelectionProcess/CandidateInfo";
 import CandidateView from "Pages/SocialAssistant/SelectionProcess/CandidateView";
 import LegalOpinion from "Pages/SocialAssistant/SelectionProcess/LegalOpinion";
-import SocialAssistantProfile from "Pages/SocialAssistant/SelectionProcess/Profile";
+import SocialAssistantProfile from "Pages/SocialAssistant/Profile";
 import HeaderWrapper from "Components/Header";
 import Login from "Pages/Login";
 import Register from "Pages/Register";

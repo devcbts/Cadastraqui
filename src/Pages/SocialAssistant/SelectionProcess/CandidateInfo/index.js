@@ -26,7 +26,8 @@ export default function CandidateInfo() {
         vehicles: [],
         familyMembersDiseases: [],
         importantInfo: {},
-        documentsUrls: {}
+        documentsUrls: {},
+        applicationInfo: {},
     })
     const { state } = location
     useEffect(() => {
@@ -64,7 +65,7 @@ export default function CandidateInfo() {
                 <BasicInformation data={summary.candidateInfo} />
                 <FamilyGroup data={summary.familyMembersInfo} />
                 <SummaryData data={summary.importantInfo} />
-                <Course />
+                <Course data={summary.applicationInfo} />
                 <Vehicle data={summary.vehicles} />
                 <Habitation data={summary.housingInfo} />
                 <Health data={summary.familyMembersDiseases} />
