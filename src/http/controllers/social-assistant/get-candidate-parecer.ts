@@ -212,7 +212,8 @@ export async function getCandidateParecer(
             housingInfo,
             vehicleInfoResults,
             familyMembersDiseases,
-            incomePerCapita
+            incomePerCapita,
+            totalExpenses
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {
