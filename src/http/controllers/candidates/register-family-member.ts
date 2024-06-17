@@ -15,6 +15,8 @@ import { SCHOLARSHIP } from './enums/Scholarship'
 import { SHIFT } from './enums/Shift'
 import { SkinColor } from './enums/SkinColor'
 import { UF } from './enums/UF'
+import { calculateAge } from '@/utils/calculate-age'
+import { createLegalDependent } from '../legal-responsible/create-legal-dependent'
 
 export async function registerFamilyMemberInfo(
   request: FastifyRequest,
@@ -209,6 +211,10 @@ export async function registerFamilyMemberInfo(
       data: dataToCreate,
     })
 
+    const age = calculateAge(new Date(birthDate))
+    if (age < 18 && responsible) {
+      await createLegalDependent(fullName, CPF, birthDate, responsible?.id)
+    }
 
     await prisma.finishedRegistration.updateMany({
       where: {
