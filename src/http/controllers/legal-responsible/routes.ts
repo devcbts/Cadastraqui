@@ -15,7 +15,6 @@ export async function legalResponsibleRoutes(app: FastifyInstance) {
   app.patch('/update-profile', { onRequest: [verifyJWT, verifyRole("RESPONSIBLE")] }, updateResponsible)
 
   /** Legal Responsible Routes */
-  app.post('/legal-dependents', createLegalDependent)
 
   app.get(
     '/legal-dependents/:dependent_id?',
