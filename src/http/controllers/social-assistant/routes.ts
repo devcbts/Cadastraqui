@@ -29,6 +29,10 @@ import { getCandidateParecer } from './get-candidate-parecer'
 import { getHealthInfo } from '../candidates/get-health-info'
 import { getHealthInfoHDB } from './detailed-form/get-health-info'
 import { getVehicleInfo } from '../candidates/get-vehicle-info'
+import { getVehicleInfoHDB } from './detailed-form/get-vehicle-info'
+import { getMonthlyIncomeBySourceHDB } from './detailed-form/get-monthly-income'
+import { getExpensesInfoHDB } from './detailed-form/get-expenses'
+import { getBankingInfoHDB } from './detailed-form/get-banking-info'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -114,7 +118,7 @@ export async function assistantRoutes(app: FastifyInstance) {
 
   // Pegar informações do candidato
   // Extrato (informações resumidas):
-  app.get('/candidateInfo/resume/:application_id', { onRequest: [verifyJWT] }, getCandidateResume) 
+  app.get('/candidateInfo/resume/:application_id', { onRequest: [verifyJWT] }, getCandidateResume)
   //Parecer
   app.get('/candidateInfo/parecer/:application_id', { onRequest: [verifyJWT] }, getCandidateParecer)
   // Formulário detalhado
@@ -123,7 +127,9 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/candidateInfo/family/:application_id', { onRequest: [verifyJWT] }, getFamilyMemberInfoHDB)
   app.get('/candidateInfo/housing/:application_id', { onRequest: [verifyJWT] }, getHousingInfoHDB)
   app.get('/candidateInfo/income/:_id/:application_id', { onRequest: [verifyJWT] }, getIncomeInfoHDB)
+  app.get('/candidateInfo/monthly-income/:application_id/:_id', { onRequest: [verifyJWT] }, getMonthlyIncomeBySourceHDB)
   app.get('/candidateInfo/health/:application_id', { onRequest: [verifyJWT] }, getHealthInfoHDB)
-  app.get('/candidateInfo/vehicle/:application_id', { onRequest: [verifyJWT] }, getVehicleInfo)
-
+  app.get('/candidateInfo/vehicle/:application_id', { onRequest: [verifyJWT] }, getVehicleInfoHDB)
+  app.get('/candidateInfo/expenses/:application_id', { onRequest: [verifyJWT] }, getExpensesInfoHDB)
+  app.get('/candidateInfo/bank-info/:application_id/:_id?', { onRequest: [verifyJWT] }, getBankingInfoHDB)
 }

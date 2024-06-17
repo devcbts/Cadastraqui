@@ -24,6 +24,9 @@ export async function createFamilyMemberDiseaseHDB (id: string, candidate_id: st
     const RouteHDB = await findAWSRouteHDB(candidate_id || legalResponsibleId || '' , 'health', (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, familyMemberDisease.id, application_id);
     await copyFilesToAnotherFolder(route, RouteHDB)
 
+    await historyDatabase.idMapping.create({
+        data: { mainId: id, newId: createFamilyMemberDisease.id, application_id }
+    });
 }
 
 export async function updateFamilyMemberDiseaseHDB(id: string) {

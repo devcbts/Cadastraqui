@@ -36,6 +36,33 @@ export async function findAWSRouteHDB(candidateOrResponsible_id: string, section
         return `applicationDocuments/${application_id}/${section}/${memberHDB_id?.newId}/${tableHDB_id?.id}/`
 
     }
-
+    if (section === 'bank') {
+        const tableHDB_id = await historyDatabase.bankAccount.findFirst({
+            where: {application_id, main_id: table_id},
+            select: {id:true}
+        })
+        return `applicationDocuments/${application_id}/${section}/${memberHDB_id?.newId}/${tableHDB_id?.id}/`
+    }
+    if(section === 'health'){
+        const tableHDB_id = await historyDatabase.familyMemberDisease.findFirst({
+            where: {application_id, main_id: table_id},
+            select: {id:true}
+        })
+        return `applicationDocuments/${application_id}/${section}/${memberHDB_id?.newId}/${tableHDB_id?.id}/`
+    }
+    if(section === 'medication'){
+        const tableHDB_id = await historyDatabase.medication.findFirst({
+            where: {application_id, main_id: table_id},
+            select: {id:true}
+        })
+        return `applicationDocuments/${application_id}/${section}/${memberHDB_id?.newId}/${tableHDB_id?.id}/`
+    }
+    if (section === 'statement') {
+        const tableHDB_id = await historyDatabase.bankAccount.findFirst({
+            where: {application_id, main_id: table_id},
+            select: {id:true}
+        })
+        return `applicationDocuments/${application_id}/${section}/${memberHDB_id?.newId}/${tableHDB_id?.id}/`
+    }
     return `applicationDocuments/${application_id}/${section}/${memberHDB_id?.newId}/`
 }

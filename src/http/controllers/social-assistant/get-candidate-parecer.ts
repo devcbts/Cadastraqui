@@ -5,7 +5,6 @@ import { calculateAge } from "@/utils/calculate-age";
 import { CalculateIncomePerCapitaHDB } from "@/utils/Trigger-Functions/calculate-income-per-capita-HDB";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { getSectionDocumentsPDF_HDB } from "./AWS-routes/get-documents-by-section-HDB";
 
 export async function getCandidateParecer(
     request: FastifyRequest,
@@ -201,20 +200,7 @@ export async function getCandidateParecer(
             }
         })
 
-        const importantInfo = {
-            cadUnico: identityDetails.CadUnico,
-            familyIncome: incomePerCapita * (familyMembers.length + 1),
-            familyExpenses: expenses ? expenses.reduce((acc, expense) => acc + expense.totalExpense!, 0) / (expenses.length) : 0,
-            hasSevereDisease: application.hasSevereDesease,
-            housingSituation: housingInfo?.propertyStatus,
-            vehiclesCount: vehicles.length,
-            distance: application.distance,
-        }
-        const documentsUrls = section.map(async (section) => {
-            return {
-                [section]: await getSectionDocumentsPDF_HDB(application_id, section)
-            }
-        })
+        const totalExpenses = expenses.length > 0 ? expenses.reduce((total, expense) => total + (expense.totalExpense ?? 0), 0) / expenses.length : 0;
 
         return reply.status(200).send({
             candidateInfo,
@@ -222,6 +208,8 @@ export async function getCandidateParecer(
             housingInfo,
             vehicleInfoResults,
             familyMembersDiseases,
+            incomePerCapita,
+            totalExpenses
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {

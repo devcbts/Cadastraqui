@@ -46,7 +46,17 @@ export async function getCandidateResume(
         const application = await prisma.application.findUnique({
             where: { id: application_id },
             include: {
-                candidate: true
+                candidate: true,
+                EducationLevel: {
+                    include: {
+                        entitySubsidiary: true,
+                    }
+                },
+                announcement: {
+                    include: {
+                        entity: true
+                    }
+                }
             }
         })
 
@@ -180,24 +190,41 @@ export async function getCandidateResume(
         membersNames.push({ id: candidateHDB.id, name: identityDetails.fullName })
 
         const documentsFilteredByMember = membersNames.map(member => {
-            const groupedDocuments: { [key: string]: string[] } = {};
+            const groupedDocuments: { [key: string]: { [fileName: string]: string[] } } = {};
 
-            documentsUrls.forEach((sectionUrls, sectionIndex) => {
+            documentsUrls.forEach((sectionUrls) => {
                 Object.entries(sectionUrls).forEach(([section, urls]) => {
-                    Object.entries(urls).forEach(([url]) => {
-                        const parts = url.split('/');
+                    Object.entries(urls).forEach(([path, fileName]) => {
+                        const parts = path.split('/');
                         if (parts[3] === member.id) {
                             if (!groupedDocuments[section]) {
-                                groupedDocuments[section] = [];
+                                groupedDocuments[section] = {};
                             }
-                            groupedDocuments[section].push(url);
+                            Object.entries(fileName).forEach(([Name, url]) => {
+
+                                if (!groupedDocuments[section][Name]) {
+                                    groupedDocuments[section][Name] = [];
+                                }
+                                groupedDocuments[section][Name].push(url);
+                            })
                         }
                     });
                 });
-            });
 
-            return { member: member.name, documents: groupedDocuments };
-        });
+                return { member: member.name, documents: groupedDocuments };
+            });
+        })
+
+
+        const applicationFormated = {
+            id: application.id,
+            number: application.number,
+            announcement: application.announcement.announcementName,
+            course: application.EducationLevel.availableCourses,
+            shift: application.EducationLevel.shift,
+            entity: application.announcement.entity.socialReason,
+            city: application.EducationLevel.entitySubsidiary ? application.EducationLevel.entitySubsidiary.city : application.announcement.entity.city,
+        }
         return reply.status(200).send({
             candidateInfo,
             familyMembersInfo,
@@ -205,7 +232,8 @@ export async function getCandidateResume(
             vehicles,
             familyMembersDiseases,
             importantInfo,
-            documentsUrls: documentsFilteredByMember
+            documentsUrls: documentsFilteredByMember,
+            applicationInfo: applicationFormated
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {

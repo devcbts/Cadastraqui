@@ -1,6 +1,7 @@
 import { env } from "process";
 
 import getOpenApplications from "@/HistDatabaseFunctions/find-open-applications";
+import findAllBankAccount from "@/HistDatabaseFunctions/Handle Application/find-all-bank-account";
 import findAllCreditCard from "@/HistDatabaseFunctions/Handle Application/find-all-credit-card";
 import findAllDiseases from "@/HistDatabaseFunctions/Handle Application/find-all-diseases";
 import findAllExpense from "@/HistDatabaseFunctions/Handle Application/find-all-expense";
@@ -9,6 +10,7 @@ import findAllIncome from "@/HistDatabaseFunctions/Handle Application/find-all-i
 import findAllLoan from "@/HistDatabaseFunctions/Handle Application/find-all-loan";
 import findAllMedication from "@/HistDatabaseFunctions/Handle Application/find-all-medication";
 import findAllMonthlyIncome from "@/HistDatabaseFunctions/Handle Application/find-all-monthly-income";
+import { createBankAccountHDB, updateBankAccountHDB } from "@/HistDatabaseFunctions/handle-bank-account";
 import { createCandidateHDB, updateCandidateHDB } from "@/HistDatabaseFunctions/handle-candidate";
 import { createCreditCardHDB, updateCreditCardHDB } from "@/HistDatabaseFunctions/handle-credit-card";
 import { createExpenseHDB, updateExpenseHDB } from "@/HistDatabaseFunctions/handle-expenses";
@@ -45,7 +47,8 @@ clientBackup.query('LISTEN "channel_medication"');
 clientBackup.query('LISTEN "channel_monthlyIncome"');
 clientBackup.query('LISTEN "channel_otherExpense"');
 clientBackup.query('LISTEN "channel_responsible"');
-
+clientBackup.query('LISTEN "channel_vehicle"');
+clientBackup.query('LISTEN "channel_bankaccount"');
 
 clientBackup.on('notification', async (msg) => {
     console.log('Received notification:', msg.payload);
@@ -379,6 +382,128 @@ clientBackup.on('notification', async (msg) => {
         }
     } catch (error) {
         console.log(error)
+    }
+    if (msg.channel == 'channel_bankaccount') {
+        const bankaccount = JSON.parse(msg.payload!);
+        const bankaccountInfo = await prisma.bankAccount.findUnique({
+            where: { id: bankaccount.data.id },
+            include: { familyMember: true }
+        })
+        if (bankaccount.operation == 'Update') {
+            updateBankAccountHDB(bankaccount.data.id)
+        }
+        else if (bankaccount.operation == 'Insert') {
+            const openApplications = await getOpenApplications(bankaccount?.candidate_id || bankaccount?.legalResponsibleId || bankaccountInfo?.familyMember?.candidate_id || bankaccountInfo?.familyMember?.legalResponsibleId);
+            for (const application of openApplications) {
+                createBankAccountHDB(bankaccount.data.id, bankaccount.data.candidate_id, bankaccount.data.legalResponsibleId, application.id)
+            }
+        }
+    }
+
+
+
+    if (msg.channel == 'channel_application') {
+        const application = JSON.parse(msg.payload!);
+        const application_id = application.id
+        const candidate_id = application.candidate_id
+        console.log('Feito')
+        const findUserDetails = await prisma.candidate.findUnique({
+            where: { id: candidate_id }
+        })
+
+        const findIdentityDetails = await prisma.identityDetails.findUnique({
+            where: { candidate_id }
+        })
+
+        const findFamilyMembers = await prisma.familyMember.findMany({
+            where: { candidate_id }
+        }
+        )
+        const findHousing = await prisma.housing.findUnique({
+            where: { candidate_id }
+        });
+
+        const findVehicle = await prisma.vehicle.findMany({
+            where: { candidate_id }
+        });
+
+        const findFamilyMemberIncome = await findAllIncome(candidate_id, '')
+
+        const findMonthlyIncome = await findAllMonthlyIncome(candidate_id, '')
+
+        const findExpense = await findAllExpense(candidate_id, '')
+
+        const findLoan = await findAllLoan(candidate_id, '')
+
+        const findFinancing = await findAllFinancing(candidate_id, '')
+
+        const findCreditCard = await findAllCreditCard(candidate_id, '')
+        const findOtherExpense = await prisma.otherExpense.findMany({
+            where: { candidate_id }
+        });
+        const findBankAccount = await findAllBankAccount(candidate_id, '')
+        const findFamilyMemberDisease = await findAllDiseases(candidate_id, '')
+        const findMedication = await findAllMedication(candidate_id, '')
+
+        await createCandidateHDB(candidate_id, '', '', application_id)
+
+        // ... repeat for the FamilyMember table ...
+
+        for (const familyMember of findFamilyMembers) {
+            await createFamilyMemberHDB(familyMember.id, candidate_id, '', application_id)
+        }
+        await createIdentityDetailsHDB(findIdentityDetails!.id, candidate_id, '', application_id)
+
+        await createHousingHDB(findHousing!.id, candidate_id, '', application_id)
+
+
+        for (const familyMemberIncome of findFamilyMemberIncome!) {
+            await createFamilyMemberIncomeHDB(familyMemberIncome.id, familyMemberIncome.candidate_id, familyMemberIncome.legalResponsibleId, application_id)
+        }
+
+        for (const vehicle of findVehicle!) {
+            await createVehicleHDB(vehicle.id, vehicle.candidate_id, vehicle.legalResponsibleId, application_id)
+        }
+        for (const monthlyIncome of findMonthlyIncome!) {
+            await createMonthlyIncomeHDB(monthlyIncome.id, monthlyIncome.candidate_id, monthlyIncome.candidate_id, application_id)
+        }
+        for (const bankAccount of findBankAccount!) {
+            await createBankAccountHDB(bankAccount.id, bankAccount.candidate_id, bankAccount.legalResponsibleId, application_id)
+
+        }
+        for (const expense of findExpense!) {
+            await createExpenseHDB(expense.id, expense.candidate_id, expense.legalResponsibleId, application_id)
+        }
+        for (const loan of findLoan!) {
+            await createLoanHDB(loan.id, loan.candidate_id, loan.legalResponsibleId, application_id)
+        }
+
+        for (const financing of findFinancing!) {
+            await createLoanHDB(financing.id, financing.candidate_id, financing.legalResponsibleId, application_id)
+        }
+
+        // Para creditCard
+        for (const creditCard of findCreditCard!) {
+            await createCreditCardHDB(creditCard.id, creditCard.candidate_id, creditCard.legalResponsibleId, application_id)
+        }
+
+        // Para otherExpense
+        for (const otherExpense of findOtherExpense) {
+            await createOtherExpenseHDB(otherExpense.id, otherExpense.candidate_id, otherExpense.legalResponsibleId, application_id)
+        }
+
+        // Para familyMemberDisease
+        for (const familyMemberDisease of findFamilyMemberDisease!) {
+            await createFamilyMemberDiseaseHDB(familyMemberDisease.id, familyMemberDisease.candidate_id, familyMemberDisease.legalResponsibleId, application_id)
+        }
+
+        // Para medication
+        for (const medication of findMedication!) {
+            await createMedicationHDB(medication.id, medication.candidate_id, medication.legalResponsibleId, application_id)
+        }
+
+
+
     }
 });
 

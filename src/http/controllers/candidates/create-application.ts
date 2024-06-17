@@ -1,8 +1,10 @@
 import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
+import findAllDiseases from '@/HistDatabaseFunctions/Handle Application/find-all-diseases'
 import { prisma } from '@/lib/prisma'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
+import { CalculateIncomePerCapita } from '@/utils/Trigger-Functions/calculate-income-per-capita'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -56,11 +58,19 @@ export async function subscribeAnnouncement(
     const numberOfApplications = await prisma.application.count({
       where: { announcement_id },
     });
-
     // O número da inscrição será o total de inscrições existentes + 1
     const applicationNumber = numberOfApplications + 1;
     // Criar inscrição
     const idField = CandidateOrResponsible.IsResponsible ? { responsible_id: CandidateOrResponsible.UserData.id } : ''
+    const idFieldForSearch = CandidateOrResponsible.IsResponsible ? { responsible_id: CandidateOrResponsible.UserData.id } : { candidate_id: candidate.id }
+
+
+      const hasCadUnico = await prisma.identityDetails.findUnique({
+        where: idFieldForSearch,
+        select: { CadUnico: true }
+      })
+      const {incomePerCapita, incomesPerMember} = await CalculateIncomePerCapita(CandidateOrResponsible.UserData.id)
+      const severeDisease = await findAllDiseases(CandidateOrResponsible.UserData.id, CandidateOrResponsible.UserData.id)
     const application = await prisma.application.create({
       data: {
         candidate_id: candidate.id,
@@ -69,6 +79,9 @@ export async function subscribeAnnouncement(
         educationLevel_id,
         candidateName: candidate.name,
         number: applicationNumber,
+        averageIncome: incomePerCapita,
+        CadUnico: hasCadUnico?.CadUnico,
+        hasSevereDesease: severeDisease ? severeDisease.length > 0 : false,
         ...idField
       },
     })
