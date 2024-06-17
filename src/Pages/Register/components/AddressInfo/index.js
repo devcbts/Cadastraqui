@@ -45,7 +45,6 @@ export default function AddressInfo({ data, onBack, onSubmit }) {
             <div className={styles.inputs}>
                 <InputForm control={control} name="CEP" label="CEP" transform={(e) => formatCEP(e.target.value)} />
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '16px', rowGap: '20px' }}>
-
                     <FormSelect control={control} name="UF" label="UF" options={STATES} value={watchUF} />
                     <InputForm control={control} name="city" label="cidade" />
                     <InputForm control={control} name="neighborhood" label="bairro" />
