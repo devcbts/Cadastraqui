@@ -9,6 +9,7 @@ import useLocalStorage from 'hooks/useLocalStorage'
 import CandidateSidebar from 'Components/Candidate/Sidebar'
 import styles from './styles.module.scss'
 import SocialAssistantSidebar from 'Components/SocialAssistant/Sidebar'
+import EntitySidebar from 'Components/Entity/Sidebar'
 export default function HeaderWrapper({ children }) {
     const [header, setHeader] = useRecoilState(headerAtom)
     const { sidebar } = header
@@ -20,6 +21,8 @@ export default function HeaderWrapper({ children }) {
                 return CandidateSidebar
             case "ASSISTANT":
                 return SocialAssistantSidebar
+            case "ENTITY":
+                return EntitySidebar
             default:
                 return Fragment
         }

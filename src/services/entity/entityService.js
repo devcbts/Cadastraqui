@@ -8,6 +8,9 @@ class EntityService {
             name, email, CEP, address, addressNumber, neighborhood, city, UF, CNPJ, socialReason
         }, { headers: { Authorization: `Bearer ${token}` } })
     }
+    async registerSubsidiary(data) {
+        return api.post("/entities/subsidiary", data)
+    }
 }
 
 export default new EntityService()

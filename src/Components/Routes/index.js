@@ -15,6 +15,7 @@ import SocialAssistantProfile from "Pages/SocialAssistant/Profile";
 import HeaderWrapper from "Components/Header";
 import Login from "Pages/Login";
 import Register from "Pages/Register";
+import EntitySelectRegister from "Pages/Entity/Register";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -62,6 +63,26 @@ export default function AppRoutes() {
                         <Route path="parecer" element={<LegalOpinion />}></Route>
                         <Route path="/ficha-completa" element={<CandidateView />}></Route>
                         <Route path="/profile" element={<SocialAssistantProfile />}></Route>
+                    </Routes>
+
+                </HeaderWrapper>
+            </RoleRoutes>
+            <RoleRoutes role="ENTITY">
+                <HeaderWrapper>
+
+                    <Routes>
+                        {/* <Route path="/home" element={<Outlet />} >
+                            <Route path="" element={<SelectionProcess />}></Route>
+                            <Route path="selecao/:announcementId" element={<Outlet />} >
+                                <Route path="" element={<SocialAssistantAnnouncement />}></Route>
+                                <Route path=":courseId" element={<Outlet />}>
+                                    <Route path="" element={<SelectedCandidates />}></Route>
+                                    <Route path="candidato" element={<CandidateInfo />}></Route>
+                                </Route>
+                            </Route>
+                        </Route> */}
+                        <Route path="/cadastro" element={<EntitySelectRegister />}></Route>
+
                     </Routes>
 
                 </HeaderWrapper>
