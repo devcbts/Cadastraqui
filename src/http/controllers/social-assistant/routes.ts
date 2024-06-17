@@ -32,6 +32,7 @@ import { getVehicleInfo } from '../candidates/get-vehicle-info'
 import { getVehicleInfoHDB } from './detailed-form/get-vehicle-info'
 import { getMonthlyIncomeBySourceHDB } from './detailed-form/get-monthly-income'
 import { getExpensesInfoHDB } from './detailed-form/get-expenses'
+import { getBankingInfoHDB } from './detailed-form/get-banking-info'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -130,4 +131,5 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/candidateInfo/health/:application_id', { onRequest: [verifyJWT] }, getHealthInfoHDB)
   app.get('/candidateInfo/vehicle/:application_id', { onRequest: [verifyJWT] }, getVehicleInfoHDB)
   app.get('/candidateInfo/expenses/:application_id', { onRequest: [verifyJWT] }, getExpensesInfoHDB)
+  app.get('/candidateInfo/bank-info/:application_id/:_id?', { onRequest: [verifyJWT] }, getBankingInfoHDB)
 }
