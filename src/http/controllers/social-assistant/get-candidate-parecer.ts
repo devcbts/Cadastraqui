@@ -6,6 +6,7 @@ import { CalculateIncomePerCapitaHDB } from "@/utils/Trigger-Functions/calculate
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { getSectionDocumentsPDF_HDB } from "./AWS-routes/get-documents-by-section-HDB";
+import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsibleHDB";
 
 export async function getCandidateParecer(
     request: FastifyRequest,
@@ -68,7 +69,8 @@ export async function getCandidateParecer(
         if (!identityDetails) {
             throw new ResourceNotFoundError()
         }
-        const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapitaHDB(application_id)
+        const candidateOrResponsible = await SelectCandidateResponsibleHDB(application_id)
+        const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapitaHDB(candidateOrResponsible?.UserData.id)
         const candidateInfo = {
             id: candidateHDB.id,
             name: identityDetails.fullName,
