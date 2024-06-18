@@ -55,11 +55,15 @@ export default function Subsidiary() {
     }, watchCep)
 
     useCnpj((cnpj) => {
-        console.log(cnpj)
+        setValue("socialReason", cnpj?.name)
+        setValue("CEP", cnpj?.CEP)
+        setValue("email", cnpj?.emails?.[0])
+        setValue("phone", cnpj?.phones?.[0])
+
     }, watchCnpj)
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
-            <h1>Informações cadastrais</h1>
+            <h1>Informações Cadastrais</h1>
             <div style={{ width: 'max(400px, 50%)' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px', }}>
                     <InputForm control={control} name={"CNPJ"} label={"CNPJ"} transform={(e) => formatCNPJ(e.target.value)} />

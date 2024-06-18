@@ -6,12 +6,15 @@ import announcementInfoSchema from "./schemas/announcement-info-schema";
 import ANNOUNCEMENT_TYPE from "utils/enums/announcement-types";
 import EDUCATION_TYPE from "utils/enums/education-type";
 import FormCheckbox from "Components/FormCheckbox";
+import Interview from "./Interview";
+import { useRef } from "react";
 // announcementDate - final announcement date
 // announcementBegin - announcement start date
 // openDate - subscription start
 // closeDate - subscription end
 export default function AnnouncementInfo({ data, onPageChange }) {
-    const { control, watch, getValues, formState: { isValid }, trigger } = useControlForm({
+    const interviewRef = useRef(null)
+    const { control, watch, getValues, formState: { isValid }, trigger, setValue } = useControlForm({
         schema: announcementInfoSchema,
         defaultValues: {
             announcementType: "",
@@ -23,16 +26,23 @@ export default function AnnouncementInfo({ data, onPageChange }) {
             announcementName: "",
             waitingList: null,
             hasInterview: null,
+            announcementInterview: null
         },
         initialData: data
     })
-
+    const handleInterview = (data) => {
+        setValue('announcementInterview', data)
+    }
     const handleSubmit = () => {
+        if (interviewRef.current && !interviewRef?.current?.validate()) {
+            return
+        }
         if (!isValid) {
             trigger()
             return
         }
-
+        const data = getValues()
+        onPageChange(1, data)
     }
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
@@ -51,15 +61,7 @@ export default function AnnouncementInfo({ data, onPageChange }) {
                 <FormCheckbox control={control} label={'haverá entrevista obrigatória com o candidato?'} name={"hasInterview"} />
                 {
                     watch("hasInterview") && (
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>
-                            <InputForm control={control} name={"closeDate"} label={'data limite das inscrições'} type="date" />
-                            <InputForm control={control} name={"closeDate"} label={'data limite das inscrições'} type="date" />
-                            <InputForm control={control} name={"closeDate"} label={'data limite das inscrições'} type="date" />
-                            <InputForm control={control} name={"closeDate"} label={'data limite das inscrições'} type="date" />
-                            <InputForm control={control} name={"closeDate"} label={'data limite das inscrições'} type="date" />
-                            <InputForm control={control} name={"closeDate"} label={'data limite das inscrições'} type="date" />
-
-                        </div>
+                        <Interview data={getValues("annoucementInterview")} onChange={handleInterview} ref={interviewRef} />
                     )
                 }
             </div>

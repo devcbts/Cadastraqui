@@ -35,7 +35,7 @@ export default function Responsible() {
     }
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
-            <h1>Informações cadastrais</h1>
+            <h1>Informações Cadastrais</h1>
             <div style={{ width: 'max(400px, 50%)' }}>
                 <InputForm control={control} name="name" label="nome" />
                 <InputForm control={control} name="email" label="email" />
