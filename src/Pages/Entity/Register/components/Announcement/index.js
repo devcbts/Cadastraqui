@@ -3,9 +3,10 @@ import AnnouncementInfo from "./components/AnnouncementInfo"
 import AnnouncementCourses from "./components/AnnouncementCourses"
 import Loader from "Components/Loader"
 import entityService from "services/entity/entityService"
+import AnnouncementAssist from "./components/AnnouncementAssist"
 
 export default function Announcement() {
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(3)
     const [data, setData] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [entity, setEntity] = useState(null)
@@ -30,10 +31,11 @@ export default function Announcement() {
         fetchEntity()
     }, [])
     return (
-        <div>
+        <>
             <Loader loading={isLoading} />
             {page === 1 && <AnnouncementInfo data={data} onPageChange={handlePageChange} />}
             {page === 2 && <AnnouncementCourses data={data} entity={entity} onPageChange={handlePageChange} />}
-        </div>
+            {page === 3 && <AnnouncementAssist data={data} onPageChange={handlePageChange} />}
+        </>
     )
 }

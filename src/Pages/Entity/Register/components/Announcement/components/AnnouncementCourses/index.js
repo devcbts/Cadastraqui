@@ -63,6 +63,9 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
         if (value === 'UndergraduateTechnologist') list = cursos.tecnologos
         return list?.map(e => ({ label: e, value: e }))
     }, [watch("offeredCourseType")])
+    const handleSubmit = () => {
+        onPageChange(1, courses)
+    }
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
             <BackPageTitle title={'Cadastrar Curso'} onClick={() => onPageChange(-1)} />
@@ -125,7 +128,7 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
                     }
                 </Table.Root>
             </div>
-            <ButtonBase label={'próximo'} />
+            <ButtonBase label={'próximo'} onClick={handleSubmit} />
         </div>
     )
 }
