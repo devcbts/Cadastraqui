@@ -206,7 +206,7 @@ model EntityDirector {
 model IdentityDetails {
   id                                         String            @id @default(uuid())
   fullName                                   String
-  socialName                                 String
+  socialName                                 String?
   birthDate                                  DateTime
   gender                                     GENDER
   nationality                                String

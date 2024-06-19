@@ -32,7 +32,7 @@ import findAllBankAccount from "@/HistDatabaseFunctions/Handle Application/find-
 const clientBackup = new Client(env.DATABASE_URL);
 clientBackup.connect();
 
-//clientBackup.query('LISTEN channel_application');
+clientBackup.query('LISTEN channel_application');
 clientBackup.query('LISTEN "channel_housing"');
 clientBackup.query('LISTEN "channel_candidate"');
 clientBackup.query('LISTEN "channel_creditCard"');

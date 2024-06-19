@@ -14596,7 +14596,7 @@ export namespace Prisma {
   export type IdentityDetailsGroupByOutputType = {
     id: string
     fullName: string
-    socialName: string
+    socialName: string | null
     main_id: string | null
     birthDate: Date
     gender: $Enums.GENDER
@@ -14804,7 +14804,7 @@ export namespace Prisma {
     scalars: $Extensions.GetResult<{
       id: string
       fullName: string
-      socialName: string
+      socialName: string | null
       main_id: string | null
       birthDate: Date
       gender: $Enums.GENDER
@@ -42566,7 +42566,7 @@ export namespace Prisma {
     NOT?: IdentityDetailsWhereInput | IdentityDetailsWhereInput[]
     id?: StringFilter<"IdentityDetails"> | string
     fullName?: StringFilter<"IdentityDetails"> | string
-    socialName?: StringFilter<"IdentityDetails"> | string
+    socialName?: StringNullableFilter<"IdentityDetails"> | string | null
     main_id?: StringNullableFilter<"IdentityDetails"> | string | null
     birthDate?: DateTimeFilter<"IdentityDetails"> | Date | string
     gender?: EnumGENDERFilter<"IdentityDetails"> | $Enums.GENDER
@@ -42627,7 +42627,7 @@ export namespace Prisma {
   export type IdentityDetailsOrderByWithRelationInput = {
     id?: SortOrder
     fullName?: SortOrder
-    socialName?: SortOrder
+    socialName?: SortOrderInput | SortOrder
     main_id?: SortOrderInput | SortOrder
     birthDate?: SortOrder
     gender?: SortOrder
@@ -42692,7 +42692,7 @@ export namespace Prisma {
     OR?: IdentityDetailsWhereInput[]
     NOT?: IdentityDetailsWhereInput | IdentityDetailsWhereInput[]
     fullName?: StringFilter<"IdentityDetails"> | string
-    socialName?: StringFilter<"IdentityDetails"> | string
+    socialName?: StringNullableFilter<"IdentityDetails"> | string | null
     main_id?: StringNullableFilter<"IdentityDetails"> | string | null
     birthDate?: DateTimeFilter<"IdentityDetails"> | Date | string
     gender?: EnumGENDERFilter<"IdentityDetails"> | $Enums.GENDER
@@ -42752,7 +42752,7 @@ export namespace Prisma {
   export type IdentityDetailsOrderByWithAggregationInput = {
     id?: SortOrder
     fullName?: SortOrder
-    socialName?: SortOrder
+    socialName?: SortOrderInput | SortOrder
     main_id?: SortOrderInput | SortOrder
     birthDate?: SortOrder
     gender?: SortOrder
@@ -42817,7 +42817,7 @@ export namespace Prisma {
     NOT?: IdentityDetailsScalarWhereWithAggregatesInput | IdentityDetailsScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"IdentityDetails"> | string
     fullName?: StringWithAggregatesFilter<"IdentityDetails"> | string
-    socialName?: StringWithAggregatesFilter<"IdentityDetails"> | string
+    socialName?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     main_id?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     birthDate?: DateTimeWithAggregatesFilter<"IdentityDetails"> | Date | string
     gender?: EnumGENDERWithAggregatesFilter<"IdentityDetails"> | $Enums.GENDER
@@ -46396,7 +46396,7 @@ export namespace Prisma {
   export type IdentityDetailsCreateInput = {
     id?: string
     fullName: string
-    socialName: string
+    socialName?: string | null
     main_id?: string | null
     birthDate: Date | string
     gender: $Enums.GENDER
@@ -46455,7 +46455,7 @@ export namespace Prisma {
   export type IdentityDetailsUncheckedCreateInput = {
     id?: string
     fullName: string
-    socialName: string
+    socialName?: string | null
     main_id?: string | null
     birthDate: Date | string
     gender: $Enums.GENDER
@@ -46514,7 +46514,7 @@ export namespace Prisma {
   export type IdentityDetailsUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    socialName?: StringFieldUpdateOperationsInput | string
+    socialName?: NullableStringFieldUpdateOperationsInput | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
@@ -46573,7 +46573,7 @@ export namespace Prisma {
   export type IdentityDetailsUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    socialName?: StringFieldUpdateOperationsInput | string
+    socialName?: NullableStringFieldUpdateOperationsInput | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
@@ -46632,7 +46632,7 @@ export namespace Prisma {
   export type IdentityDetailsCreateManyInput = {
     id?: string
     fullName: string
-    socialName: string
+    socialName?: string | null
     main_id?: string | null
     birthDate: Date | string
     gender: $Enums.GENDER
@@ -46691,7 +46691,7 @@ export namespace Prisma {
   export type IdentityDetailsUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    socialName?: StringFieldUpdateOperationsInput | string
+    socialName?: NullableStringFieldUpdateOperationsInput | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
@@ -46748,7 +46748,7 @@ export namespace Prisma {
   export type IdentityDetailsUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    socialName?: StringFieldUpdateOperationsInput | string
+    socialName?: NullableStringFieldUpdateOperationsInput | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
@@ -58231,7 +58231,7 @@ export namespace Prisma {
   export type IdentityDetailsCreateWithoutCandidateInput = {
     id?: string
     fullName: string
-    socialName: string
+    socialName?: string | null
     main_id?: string | null
     birthDate: Date | string
     gender: $Enums.GENDER
@@ -58289,7 +58289,7 @@ export namespace Prisma {
   export type IdentityDetailsUncheckedCreateWithoutCandidateInput = {
     id?: string
     fullName: string
-    socialName: string
+    socialName?: string | null
     main_id?: string | null
     birthDate: Date | string
     gender: $Enums.GENDER
@@ -59177,7 +59177,7 @@ export namespace Prisma {
     NOT?: IdentityDetailsScalarWhereInput | IdentityDetailsScalarWhereInput[]
     id?: StringFilter<"IdentityDetails"> | string
     fullName?: StringFilter<"IdentityDetails"> | string
-    socialName?: StringFilter<"IdentityDetails"> | string
+    socialName?: StringNullableFilter<"IdentityDetails"> | string | null
     main_id?: StringNullableFilter<"IdentityDetails"> | string | null
     birthDate?: DateTimeFilter<"IdentityDetails"> | Date | string
     gender?: EnumGENDERFilter<"IdentityDetails"> | $Enums.GENDER
@@ -60058,7 +60058,7 @@ export namespace Prisma {
   export type IdentityDetailsCreateWithoutResponsibleInput = {
     id?: string
     fullName: string
-    socialName: string
+    socialName?: string | null
     main_id?: string | null
     birthDate: Date | string
     gender: $Enums.GENDER
@@ -60116,7 +60116,7 @@ export namespace Prisma {
   export type IdentityDetailsUncheckedCreateWithoutResponsibleInput = {
     id?: string
     fullName: string
-    socialName: string
+    socialName?: string | null
     main_id?: string | null
     birthDate: Date | string
     gender: $Enums.GENDER
@@ -73958,7 +73958,7 @@ export namespace Prisma {
   export type IdentityDetailsCreateManyCandidateInput = {
     id?: string
     fullName: string
-    socialName: string
+    socialName?: string | null
     main_id?: string | null
     birthDate: Date | string
     gender: $Enums.GENDER
@@ -74501,7 +74501,7 @@ export namespace Prisma {
   export type IdentityDetailsUpdateWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    socialName?: StringFieldUpdateOperationsInput | string
+    socialName?: NullableStringFieldUpdateOperationsInput | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
@@ -74559,7 +74559,7 @@ export namespace Prisma {
   export type IdentityDetailsUncheckedUpdateWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    socialName?: StringFieldUpdateOperationsInput | string
+    socialName?: NullableStringFieldUpdateOperationsInput | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
@@ -74617,7 +74617,7 @@ export namespace Prisma {
   export type IdentityDetailsUncheckedUpdateManyWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    socialName?: StringFieldUpdateOperationsInput | string
+    socialName?: NullableStringFieldUpdateOperationsInput | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
@@ -75298,7 +75298,7 @@ export namespace Prisma {
   export type IdentityDetailsCreateManyResponsibleInput = {
     id?: string
     fullName: string
-    socialName: string
+    socialName?: string | null
     main_id?: string | null
     birthDate: Date | string
     gender: $Enums.GENDER
@@ -75671,7 +75671,7 @@ export namespace Prisma {
   export type IdentityDetailsUpdateWithoutResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    socialName?: StringFieldUpdateOperationsInput | string
+    socialName?: NullableStringFieldUpdateOperationsInput | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
@@ -75729,7 +75729,7 @@ export namespace Prisma {
   export type IdentityDetailsUncheckedUpdateWithoutResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    socialName?: StringFieldUpdateOperationsInput | string
+    socialName?: NullableStringFieldUpdateOperationsInput | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
@@ -75787,7 +75787,7 @@ export namespace Prisma {
   export type IdentityDetailsUncheckedUpdateManyWithoutResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
-    socialName?: StringFieldUpdateOperationsInput | string
+    socialName?: NullableStringFieldUpdateOperationsInput | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
     gender?: EnumGENDERFieldUpdateOperationsInput | $Enums.GENDER
