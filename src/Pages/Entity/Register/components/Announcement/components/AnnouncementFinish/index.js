@@ -37,7 +37,7 @@ export default function AnnouncementFinish({ data, onPageChange, onSubmit }) {
                     control={control}
                     options={CRITERIAS}
                     value={watch("criteria")} />
-                <FormFilePicker control={control} name={"file"} accept={'application/pdf'} label={'Fazer upload do PDF do Edital, Termo aditivo ou Comunicados'} />
+                <FormFilePicker control={control} name={"file"} accept={'application/pdf'} label={'PDF do Edital, Termo aditivo ou Comunicados'} />
                 <FilePreview file={watch("file")} text={'ver documento anexado'} />
                 <InputForm
                     control={control}

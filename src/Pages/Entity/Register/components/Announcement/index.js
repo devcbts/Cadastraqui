@@ -34,9 +34,14 @@ export default function Announcement() {
     }, [])
     const handleSubmit = async (data) => {
         try {
-            await entityService.createAnnouncement(data)
-            // setPage(1)
-            // setData(null)
+            const announcement = await entityService.createAnnouncement(data)
+            if (announcement) {
+                const formData = new FormData()
+                formData.append('file', data.file)
+                await entityService.uploadAnnouncementPDF(announcement.id, formData)
+            }
+            setPage(1)
+            setData(null)
             NotificationService.success({ text: 'Edital criado' })
         } catch (err) {
             NotificationService.error({ text: err?.response?.data?.message })

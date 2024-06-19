@@ -22,9 +22,13 @@ class EntityService {
     async registerAssistant(data) {
         return api.post("/assistant/", data)
     }
+    async uploadAnnouncementPDF(id, data) {
+        return api.post(`/entities/upload/${id}`, data)
+    }
     async createAnnouncement(data) {
         const mappedData = announcementMapper.toPersistence(data)
-        return api.post("/entities/announcement", mappedData)
+        const response = await api.post("/entities/announcement", mappedData)
+        return response.data.announcement
     }
 }
 
