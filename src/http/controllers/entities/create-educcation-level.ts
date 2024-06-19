@@ -1,15 +1,15 @@
-import { prisma } from '@/lib/prisma'
-import { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
-import { EntityNotExistsError } from '../../../errors/entity-not-exists-error';
 import { AnnouncementNotExists } from '@/errors/announcement-not-exists-error';
 import { NotAllowedError } from '@/errors/not-allowed-error';
+import { prisma } from '@/lib/prisma';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { z } from 'zod';
+import { EntityNotExistsError } from '../../../errors/entity-not-exists-error';
 
 export async function createEducationalLevel(
     request: FastifyRequest,
     reply: FastifyReply,
 ) {
-
+    console.log(request.params)
     const SHIFT = z.enum(["Matutino",
         "Vespertino",
         "Noturno",
@@ -60,7 +60,7 @@ export async function createEducationalLevel(
         shift: SHIFT,
         grade: z.string().optional().nullable(),
         semester: z.number().optional(),
-        entity_subsidiary_id: z.string().optional(),
+        entity_subsidiary_id: z.string().nullish(),
     })
 
     const educationLevelParamsSchema = z.object({
@@ -82,14 +82,14 @@ export async function createEducationalLevel(
         entity_subsidiary_id
     } = educationalLevelBodySchema.parse(request.body)
 
-    const { announcement_id} = educationLevelParamsSchema.parse(request.params)
+    const { announcement_id } = educationLevelParamsSchema.parse(request.params)
 
     try {
 
         const user_id = request.user.sub
 
         const entity = await prisma.entity.findUnique({
-            where: {user_id: user_id}
+            where: { user_id: user_id }
         })
 
         if (!entity) {
@@ -97,17 +97,17 @@ export async function createEducationalLevel(
         }
 
         const announcement = await prisma.announcement.findUnique({
-            where: {id: announcement_id}
+            where: { id: announcement_id }
         })
         const entitySubsidiary = await prisma.entitySubsidiary.findUnique({
-            where: {id : entity_subsidiary_id}
+            where: { id: entity_subsidiary_id ?? '' }
         })
 
         if (!announcement) {
             throw new AnnouncementNotExists()
         }
 
-        if (announcement.entity_id !== entity.id ) {
+        if (announcement.entity_id !== entity.id) {
             throw new NotAllowedError()
         }
 
@@ -126,25 +126,25 @@ export async function createEducationalLevel(
             ...(semester && { semester }),
             ...(grade && { grade }),
 
-            ...(entitySubsidiary && {entitySubsidiaryId : entity_subsidiary_id} )
+            ...(entitySubsidiary && { entitySubsidiaryId: entity_subsidiary_id })
         };
 
         await prisma.educationLevel.create({
-            data: educationLevelData 
-                
+            data: educationLevelData
+
         })
         return reply.status(201).send({ message: 'Educational level created successfully!' })
     } catch (err: any) {
         if (err instanceof EntityNotExistsError) {
-            return reply.status(404).send({message: err.message})
+            return reply.status(404).send({ message: err.message })
         }
-        
+
         if (err instanceof AnnouncementNotExists) {
-            return reply.status(404).send({message: err.message})
+            return reply.status(404).send({ message: err.message })
         }
-        
+
         if (err instanceof NotAllowedError) {
-            return reply.status(404).send({message: err.message})
+            return reply.status(404).send({ message: err.message })
         }
         return reply.status(500).send({ message: err.message })
     }

@@ -2,11 +2,11 @@ import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { historyDatabase, prisma } from "@/lib/prisma";
 import { calculateAge } from "@/utils/calculate-age";
+import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsibleHDB";
 import { CalculateIncomePerCapitaHDB } from "@/utils/Trigger-Functions/calculate-income-per-capita-HDB";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { getSectionDocumentsPDF_HDB } from "./AWS-routes/get-documents-by-section-HDB";
-import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsibleHDB";
 
 export async function getCandidateParecer(
     request: FastifyRequest,
@@ -71,6 +71,7 @@ export async function getCandidateParecer(
         }
         const candidateOrResponsible = await SelectCandidateResponsibleHDB(application_id)
         const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapitaHDB(candidateOrResponsible?.UserData.id)
+        console.log(incomesPerMember)
         const candidateInfo = {
             id: candidateHDB.id,
             name: identityDetails.fullName,
