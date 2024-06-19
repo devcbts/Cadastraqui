@@ -24,7 +24,7 @@ export default function AnnouncementView() {
                 setAnnouncement(information)
             } catch (err) {
                 NotificationService.error({ text: 'Erro ao carregar edital. Tente novamente' })
-                navigate(-1)
+                navigate('/home')
             }
             setIsLoading(false)
         }

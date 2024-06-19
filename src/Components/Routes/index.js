@@ -16,6 +16,8 @@ import HeaderWrapper from "Components/Header";
 import Login from "Pages/Login";
 import Register from "Pages/Register";
 import EntitySelectRegister from "Pages/Entity/Register";
+import EntityAnnouncement from "Pages/Entity/Announcement";
+import EntityAnnouncementView from "Pages/Entity/AnnouncementView";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -40,9 +42,9 @@ export default function AppRoutes() {
                                 <Route path="" element={<AnnouncementCandidate />}></Route>
                                 <Route path=":announcementId" element={<AnnouncementView />}></Route>
                             </Route>
-                            {/* <Route path="edital/:announcementId" element={<AnnouncementView />}></Route> */}
 
                         </Route>
+                        <Route path="edital/:announcementId" element={<AnnouncementView />}></Route>
                     </Routes>
                 </HeaderWrapper>
             </RoleRoutes>
@@ -71,17 +73,12 @@ export default function AppRoutes() {
                 <HeaderWrapper>
 
                     <Routes>
-                        {/* <Route path="/home" element={<Outlet />} >
-                            <Route path="" element={<SelectionProcess />}></Route>
-                            <Route path="selecao/:announcementId" element={<Outlet />} >
-                                <Route path="" element={<SocialAssistantAnnouncement />}></Route>
-                                <Route path=":courseId" element={<Outlet />}>
-                                    <Route path="" element={<SelectedCandidates />}></Route>
-                                    <Route path="candidato" element={<CandidateInfo />}></Route>
-                                </Route>
-                            </Route>
-                        </Route> */}
+
                         <Route path="/cadastro" element={<EntitySelectRegister />}></Route>
+                        <Route path="/editais" element={<Outlet />}>
+                            <Route path="" element={<EntityAnnouncement />} />
+                            <Route path=":announcementId" element={<EntityAnnouncementView />} />
+                        </Route>
 
                     </Routes>
 

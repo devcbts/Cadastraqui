@@ -22,11 +22,12 @@ const Interview = forwardRef(({ data, onChange }, ref) => {
     }, [watch()])
     return (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>
+            <button onClick={() => console.log(getValues())} >aaa</button>
             <InputForm control={control} name={"startDate"} label={'data de início'} type="date" />
             <InputForm control={control} name={"endDate"} label={'data de término'} type="date" />
             <InputForm control={control} name={"duration"} label={'duração'} />
-            <InputForm control={control} name={"beginHour"} label={'horário de início'} />
-            <InputForm control={control} name={"endHour"} label={'horário de término'} />
+            <InputForm control={control} name={"beginHour"} label={'horário de início'} type="time" />
+            <InputForm control={control} name={"endHour"} label={'horário de término'} type="time" />
             <InputForm control={control} name={"interval"} label={'intervalo'} />
         </div>
     )

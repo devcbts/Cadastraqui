@@ -30,6 +30,38 @@ class EntityService {
         const response = await api.post("/entities/announcement", mappedData)
         return response.data.announcement
     }
+    async getOpenAnnouncements() {
+        const response = await api.get("/entities/announcement/open")
+        return response.data.announcements
+    }
+    async getAnnouncementById(id) {
+        const response = await api.get(`/entities/announcement/${id}`)
+        return response.data.announcement
+    }
+    async linkAssistantToAnnouncement(assistantId, announcementId) {
+        return api.post(
+            "/entities/announcement/assistant",
+            {
+                announcement_id: announcementId,
+                assistant_id: assistantId,
+            })
+    }
+    async removeAssistantFromAnnouncement(assistantId, announcementId) {
+        return api.put(
+            "/entities/announcement/assistant",
+            {
+                announcement_id: announcementId,
+                assistant_id: assistantId,
+            })
+    }
+    async getAvailableAssistants() {
+        const response = await api.get(`/entities/announcement/assistant`)
+        return response.data.socialAssistants
+    }
+    async updateAssistant(data) {
+        return api.post(`/entities/assistant/update`, data)
+
+    }
 }
 
 export default new EntityService()
