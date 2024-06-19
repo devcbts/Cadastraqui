@@ -9,8 +9,8 @@ export default function FilePreview({
     return (
         <div className={styles.container}>
             {file
-                ? <Link download to={URL.createObjectURL(file)} target="_blank">{text}</Link>
-                : <Link download to={url} target="_blank">{text}</Link>}
+                ? <Link to={URL.createObjectURL(file)} target="_blank">{text}</Link>
+                : <Link to={url} target="_blank">{text}</Link>}
         </div>
     )
 }

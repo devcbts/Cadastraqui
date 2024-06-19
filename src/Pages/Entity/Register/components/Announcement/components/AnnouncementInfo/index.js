@@ -7,7 +7,7 @@ import ANNOUNCEMENT_TYPE from "utils/enums/announcement-types";
 import EDUCATION_TYPE from "utils/enums/education-type";
 import FormCheckbox from "Components/FormCheckbox";
 import Interview from "./Interview";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 // announcementDate - final announcement date
 // announcementBegin - announcement start date
 // openDate - subscription start
@@ -44,6 +44,7 @@ export default function AnnouncementInfo({ data, onPageChange }) {
         const data = getValues()
         onPageChange(1, data)
     }
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
             <h1>Informações Cadastrais</h1>

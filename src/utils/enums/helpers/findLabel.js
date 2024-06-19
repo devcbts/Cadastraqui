@@ -6,6 +6,5 @@ export default function findLabel(enumerator, value) {
         console.log(err)
         returnValue = ''
     }
-    console.log('aaaa', enumerator, value)
     return returnValue
 }

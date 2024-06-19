@@ -5,7 +5,7 @@ import ButtonBase from "Components/ButtonBase"
 import { useFieldArray } from "react-hook-form"
 import Table from "Components/Table"
 import announcementCoursesSchema from "./schemas/announcement-courses-schema"
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import FormSelect from "Components/FormSelect"
 import SCHOOL_LEVELS from "utils/enums/school-levels"
 import SHIFT from "utils/enums/shift-types"
@@ -18,32 +18,38 @@ import cursos from 'objects/cursos.json'
 import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type"
 export default function AnnouncementCourses({ entity, data, onPageChange }) {
     // can be 'HigherEducation' or 'BasicEducation'
-    const isBasicEducation = useMemo(() => data?.educationLevel === 'BasicEducation', [data])
-    const { control, formState: { isValid }, trigger, getValues, watch, reset } = useControlForm({
+    const isBasicEducation = data?.educationLevel === 'BasicEducation'
+    const { control, formState: { isValid, errors }, trigger, getValues, watch, reset } = useControlForm({
         schema: announcementCoursesSchema(isBasicEducation),
         defaultValues: {
-            level: "",
-            basicEduType: "",
-            scholarshipType: "",
-            higherEduScholarshipType: "",
-            offeredCourseType: "",
-            availableCourses: "",
-            offeredVacancies: "",
-            verifiedScholarships: "",
+            level: data?.educationLevel,
+            basicEduType: null,
+            scholarshipType: null,
+            higherEduScholarshipType: null,
+            offeredCourseType: null,
+            availableCourses: null,
+            offeredVacancies: 0,
+            verifiedScholarships: 0,
             shift: "",
-            grade: "",
-            semester: "",
+            grade: null,
+            semester: undefined,
             entity_subsidiary_id: undefined,
         }
     })
-    const [courses, setCourses] = useState(data?.courses ?? [])
+    const [courses, setCourses] = useState(data?.educationalLevels ?? [])
+    const [totalScholarships, setTotalScholarships] = useState(0)
     const handleAddCourse = () => {
         if (!isValid) {
             trigger()
+            console.log(errors)
             return
         }
         const data = getValues()
-        setCourses((prev) => ([...prev, data]))
+        let mappedData = { ...data, shift: findLabel(SHIFT, data.shift) }
+        // if (!data.entity_subsidiary_id) {
+        //     mappedData.entity_subsidiary_id = entity.id
+        // }
+        setCourses((prev) => ([...prev, mappedData]))
         reset()
     }
     const entitiesOptions = useMemo(() => {
@@ -63,8 +69,16 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
         if (value === 'UndergraduateTechnologist') list = cursos.tecnologos
         return list?.map(e => ({ label: e, value: e }))
     }, [watch("offeredCourseType")])
+
+    useEffect(() => {
+        const total = courses.reduce((acc, value) => {
+            return acc += Number(value.verifiedScholarships)
+        }, 0)
+        setTotalScholarships(total)
+    }, [courses])
+
     const handleSubmit = () => {
-        onPageChange(1, courses)
+        onPageChange(1, { educationalLevels: courses, verifiedScholarships: totalScholarships, entity_subsidiary_id: courses.map(e => e.entity_subsidiary_id).filter(e => !!e) })
     }
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
@@ -97,13 +111,18 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
                         : <FormSelect label={'tipo de bolsa do ensino superior'} control={control} name="higherEduScholarshipType" options={SCHOLARSHIP_TYPE} value={watch("higherEduScholarshipType")} />
 
                 }
-                <InputForm label={'número de bolsas'} control={control} name="verifiedScholarships" />
+                <InputForm label={'número de bolsas'} control={control} name="verifiedScholarships" transform={(e) => {
+                    if (!isNaN(parseInt(e.target.value))) {
+                        return parseInt(e.target.value, 10)
+                    }
+                    return 0
+                }} />
                 {!isBasicEducation && <InputForm control={control} label={'semestre'} name='semester' transform={(e) => {
                     if (!isNaN(parseInt(e.target.value))) {
                         const value = parseInt(e.target.value, 10)
-                        return value > 2 ? '2' : '1'
+                        return value > 2 ? 2 : 1
                     }
-                    return '1'
+                    return 1
                 }} />}
             </div>
             <ButtonBase label={'cadastrar vaga'} onClick={handleAddCourse} />

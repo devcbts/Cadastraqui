@@ -1,4 +1,5 @@
 import { api } from "../axios"
+import announcementMapper from "./mappers/announcementMapper"
 
 class EntityService {
 
@@ -20,6 +21,10 @@ class EntityService {
     }
     async registerAssistant(data) {
         return api.post("/assistant/", data)
+    }
+    async createAnnouncement(data) {
+        const mappedData = announcementMapper.toPersistence(data)
+        return api.post("/entities/announcement", mappedData)
     }
 }
 

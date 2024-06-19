@@ -2,18 +2,18 @@ const { z } = require("zod");
 
 const announcementCoursesSchema = (isBasicEducation) => z.object({
     level: z.string(),
-    basicEduType: z.string().optional(),
-    scholarshipType: z.string().optional(),
-    higherEduScholarshipType: z.string().optional(),
-    offeredCourseType: z.string().optional(),
-    availableCourses: z.string().optional(),
-    offeredVacancies: z.string().optional(),
-    verifiedScholarships: z.string().min(1, 'Número de bolsas obrigatório'),
+    basicEduType: z.string().nullish(),
+    scholarshipType: z.string().nullish(),
+    higherEduScholarshipType: z.string().nullish(),
+    offeredCourseType: z.string().nullish(),
+    availableCourses: z.string().nullish(),
+    offeredVacancies: z.number().default(0).nullish(),
+    verifiedScholarships: z.number({ invalid_type_error: 'Número de bolsas obrigatório' }).min(1, 'Não pode ser zero'),
     shift: z.string().min(1, 'Turno obrigatório'),
-    grade: z.string().optional(),
-    semester: z.string().optional(),
+    grade: z.string().nullish(),
+    semester: z.number().nullish(),
     entity_subsidiary_id: z.string().nullish().refine((data) => data === null || !!data, { message: 'Matriz ou filial obrigatória' }),
-    courses: z.array(z.any()).optional()
+    courses: z.array(z.any()).nullish()
 })
     .superRefine((data, ctx) => {
         if (isBasicEducation) {
