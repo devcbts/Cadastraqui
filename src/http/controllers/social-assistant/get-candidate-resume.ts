@@ -227,6 +227,8 @@ export async function getCandidateResume(
 
 
         const majoracao = await getAssistantDocumentsPDF_HDB(application_id, 'majoracao')
+        const interviewDocument = await getAssistantDocumentsPDF_HDB(application_id, 'Interview')
+        const visitDocument = await getAssistantDocumentsPDF_HDB(application_id, 'Visit')
         return reply.status(200).send({
             candidateInfo,
             familyMembersInfo,
@@ -236,7 +238,9 @@ export async function getCandidateResume(
             importantInfo,
             documentsUrls: documentsFilteredByMember,
             applicationInfo: applicationFormated,
-            majoracao: majoracao
+            majoracao: majoracao,
+            interviewDocument: interviewDocument,
+            visitDocument: visitDocument
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {
