@@ -62,6 +62,23 @@ class EntityService {
     async updateProfilePicture(data) {
         return api.post("/entities/profilePicture", data)
     }
+    async getDirectors() {
+        const response = await api.get(`/entities/director/`)
+        return response.data.directors
+    }
+    async deleteAssistant(id) {
+        return api.delete(`/entities/assistant/${id}`)
+    }
+    async deleteDirector(id) {
+        return api.delete(`/entities/director/${id}`)
+    }
+    async deleteSubsidiary(id) {
+        return api.delete(`/entities/subsidiary/${id}`)
+    }
+    async updateSubsidiary(id, data) {
+        return api.patch(`/entities/subsidiary/${id}`, data)
+    }
+
 }
 
 export default new EntityService()

@@ -20,6 +20,7 @@ import EntityAnnouncement from "Pages/Entity/Announcement";
 import EntityAnnouncementView from "Pages/Entity/AnnouncementView";
 import AdminRegister from "Pages/Admin/Register";
 import EntityProfile from "Pages/Entity/Profile";
+import EntityAccounts from "Pages/Entity/Accounts";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -89,6 +90,7 @@ export default function AppRoutes() {
                             <Route path=":announcementId" element={<EntityAnnouncementView />} />
                         </Route>
                         <Route path="/profile" element={<EntityProfile />} />
+                        <Route path="/contas" element={<EntityAccounts />} />
                         <Route path="*" element={<Navigate to={'/cadastro'} />} />
 
                     </Routes>
