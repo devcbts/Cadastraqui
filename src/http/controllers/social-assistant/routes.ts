@@ -1,13 +1,30 @@
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { FastifyInstance } from 'fastify'
 import { addHistory } from './add-history'
+import { uploadAdtionalInfo } from './AWS-routes/upload-aditional-info'
+import { uploadMarojacaoDocument } from './AWS-routes/upload-majoracao-document'
+import { uploadSolicitationDocument } from './AWS-routes/upload-solicitation-document'
 import { calculateExpenses } from './calculate-expenses'
 import { closeApplication } from './close-application'
 import { createSolicitation } from './create-solicitation'
+import { getBankingInfoHDB } from './detailed-form/get-banking-info'
+import { getBasicInfoHDB } from './detailed-form/get-basic-info'
+import { getExpensesInfoHDB } from './detailed-form/get-expenses'
+import { getFamilyMemberInfoHDB } from './detailed-form/get-family-member-info'
+import { getHealthInfoHDB } from './detailed-form/get-health-info'
+import { getHousingInfoHDB } from './detailed-form/get-housing-info'
+import { getIdentityInfoHDB } from './detailed-form/get-identity-info'
+import { getIncomeInfoHDB } from './detailed-form/get-income-info'
+import { getMonthlyIncomeBySourceHDB } from './detailed-form/get-monthly-income'
+import { getVehicleInfoHDB } from './detailed-form/get-vehicle-info'
 import { enrollApplication } from './enrol-application'
+import { findCPF_CNPJ } from './find-cpf-cnpj'
 import { getAnnouncements } from './get-announcements'
 import { getApplications } from './get-applications'
 import { getCandidateIncome } from './get-candidate-income'
+import { getCandidateParecer } from './get-candidate-parecer'
+import { getCandidateResume } from './get-candidate-resume'
+import getCandidatesApplications from './get-candidates-applications'
 import { getDocumentsPDF } from './get-pdf-documents'
 import { getBasicAssistantInfo } from './get-social-assistant-information'
 import { getSolicitationDocumentsPDF } from './get-solicitation-response'
@@ -17,26 +34,6 @@ import { registerAssistant } from './register'
 import { updateApplication } from './update-application'
 import updateAssistantProfile from './update-assistant-profile'
 import { updateSolicitationWithReport } from './update-solicitation-report'
-import { getIdentityInfoHDB } from './detailed-form/get-identity-info'
-import { getBasicInfoHDB } from './detailed-form/get-basic-info'
-import { getFamilyMemberInfoHDB } from './detailed-form/get-family-member-info'
-import { getHousingInfoHDB } from './detailed-form/get-housing-info'
-import { getIncomeInfo } from '../candidates/get-income-info'
-import { getIncomeInfoHDB } from './detailed-form/get-income-info'
-import getCandidatesApplications from './get-candidates-applications'
-import { getCandidateResume } from './get-candidate-resume'
-import { getCandidateParecer } from './get-candidate-parecer'
-import { getHealthInfo } from '../candidates/get-health-info'
-import { getHealthInfoHDB } from './detailed-form/get-health-info'
-import { getVehicleInfo } from '../candidates/get-vehicle-info'
-import { getVehicleInfoHDB } from './detailed-form/get-vehicle-info'
-import { getMonthlyIncomeBySourceHDB } from './detailed-form/get-monthly-income'
-import { getExpensesInfoHDB } from './detailed-form/get-expenses'
-import { getBankingInfoHDB } from './detailed-form/get-banking-info'
-import { uploadMarojacaoDocument } from './AWS-routes/upload-majoracao-document'
-import { uploadAdtionalInfo } from './AWS-routes/upload-aditional-info'
-import { findCPF_CNPJ } from './find-cpf-cnpj'
-import { uploadSolicitationDocument } from './AWS-routes/upload-solicitation-document'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -130,7 +127,7 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/candidateInfo/basic/:application_id', { onRequest: [verifyJWT] }, getBasicInfoHDB)
   app.get('/candidateInfo/family/:application_id', { onRequest: [verifyJWT] }, getFamilyMemberInfoHDB)
   app.get('/candidateInfo/housing/:application_id', { onRequest: [verifyJWT] }, getHousingInfoHDB)
-  app.get('/candidateInfo/income/:_id/:application_id', { onRequest: [verifyJWT] }, getIncomeInfoHDB)
+  app.get('/candidateInfo/income/:application_id', { onRequest: [verifyJWT] }, getIncomeInfoHDB)
   app.get('/candidateInfo/monthly-income/:application_id/:_id', { onRequest: [verifyJWT] }, getMonthlyIncomeBySourceHDB)
   app.get('/candidateInfo/health/:application_id', { onRequest: [verifyJWT] }, getHealthInfoHDB)
   app.get('/candidateInfo/vehicle/:application_id', { onRequest: [verifyJWT] }, getVehicleInfoHDB)

@@ -1,11 +1,10 @@
+import { ForbiddenError } from '@/errors/forbidden-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { historyDatabase, prisma } from '@/lib/prisma'
-import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
+import { SelectCandidateResponsibleHDB } from '@/utils/select-candidate-responsibleHDB'
 import { FamilyMember } from '@prisma/client'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { SelectCandidateResponsibleHDB } from '@/utils/select-candidate-responsibleHDB';
-import { ForbiddenError } from '@/errors/forbidden-error'
 import { getSectionDocumentsPDF_HDB } from '../AWS-routes/get-documents-by-section-HDB'
 
 
@@ -57,7 +56,7 @@ export async function getHealthInfoHDB(
                         disease: disease,
                         hasMedicalReport: disease.hasMedicalReport,
                         specificDisease: disease.specificDisease,
-                        medication: disease.Medication.map(medication => medication.medicationName)
+                        medication: disease.Medication
                     }))
                     const familyMedicationInfo = await historyDatabase.medication.findMany({
                         where: { familyMember_id: familyMember.id },
@@ -77,11 +76,11 @@ export async function getHealthInfoHDB(
             return healthInfoResults
         }
         const candidateDisease = await historyDatabase.familyMemberDisease.findMany({
-            where: {OR: [{candidate_id: candidateOrResponsible.UserData.id}, {legalResponsibleId: candidateOrResponsible.UserData.id}]},
+            where: { OR: [{ candidate_id: candidateOrResponsible.UserData.id }, { legalResponsibleId: candidateOrResponsible.UserData.id }] },
             include: { Medication: true }
         })
         const candidateMedications = await historyDatabase.medication.findMany({
-            where: {OR: [{candidate_id: candidateOrResponsible.UserData.id}, {legalResponsibleId: candidateOrResponsible.UserData.id}]},
+            where: { OR: [{ candidate_id: candidateOrResponsible.UserData.id }, { legalResponsibleId: candidateOrResponsible.UserData.id }] },
             include: { FamilyMemberDisease: true }
         })
         const healthInfo: { id: string, disease?: any, specificDisease?: any, hasMedicalReport: boolean, medication: any[] }[] = candidateDisease.map(disease => ({
@@ -89,7 +88,7 @@ export async function getHealthInfoHDB(
             disease: disease,
             hasMedicalReport: disease.hasMedicalReport,
             specificDisease: disease.specificDisease,
-            medication: disease.Medication.map(medication => medication.medicationName)
+            medication: disease.Medication
         }))
 
         // Need to get MEDICATIONS that DO NOT HAVE any disease registered :)
@@ -118,6 +117,7 @@ export async function getHealthInfoHDB(
                 }
             })
             return {
+                ...member,
                 healthInfoResultsUrls
             }
         })
