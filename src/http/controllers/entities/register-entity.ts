@@ -17,7 +17,7 @@ export async function registerEntity(
     name: z.string(),
     email: z.string().email(),
     password: z.string().min(6),
-    role: z.enum([ROLE.ENTITY]),
+    role: z.enum([ROLE.ENTITY]).default("ENTITY"),
     CNPJ: z.string(),
     socialReason: z.string(),
     CEP: z.string(),
@@ -77,7 +77,7 @@ export async function registerEntity(
     })
 
     // Cria a entidade
-    await prisma.entity.create({
+    const entity = await prisma.entity.create({
       data: {
         user_id: user.id,
         name,
@@ -93,7 +93,7 @@ export async function registerEntity(
       },
     })
 
-    return reply.status(201).send()
+    return reply.status(201).send({ entity })
   } catch (err: any) {
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })

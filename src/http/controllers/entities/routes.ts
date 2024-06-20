@@ -27,6 +27,7 @@ import { updateAnnouncement } from './update-announcement'
 import { updateDirector } from './update-director'
 import { updateEntity } from './update-entity'
 import updateEntityProfile from './update-entity-profile'
+import updateSocialAssistant from './update-social-assistant'
 import { updateSubsidiary } from './update-subsidiary'
 import { uploadAnnouncementPdf } from './upload-announcement-pdf'
 import { uploadEntityProfilePicture } from './upload-profile-picture'
@@ -103,6 +104,7 @@ export async function entityRoutes(app: FastifyInstance) {
   app.post('/announcement/assistant', { onRequest: [verifyJWT] }, addAssistantAnnouncement)
   app.put('/announcement/assistant', { onRequest: [verifyJWT] }, removeAssistantFromAnnouncement)
   app.delete('/assistant/:_id', { onRequest: [verifyJWT] }, deleteAssistant)
+  app.post('/assistant/update', { onRequest: [verifyJWT] }, updateSocialAssistant)
   // Edital
   app.post(
     '/announcement',

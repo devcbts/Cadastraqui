@@ -1,5 +1,6 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
+import { GetUrl } from '@/http/services/get-file'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -10,10 +11,10 @@ export async function fetchAnnouncements(
 
 ) {
   const fetchParamsSchema = z.object({
-    announcement_id : z.string().optional()
+    announcement_id: z.string().optional()
   })
 
-  const {announcement_id} = fetchParamsSchema.parse(request.params)
+  const { announcement_id } = fetchParamsSchema.parse(request.params)
   try {
     const userId = request.user.sub
     if (!userId) {
@@ -27,29 +28,53 @@ export async function fetchAnnouncements(
     if (!entity) {
       throw new ResourceNotFoundError()
     }
-
     if (announcement_id) {
+      let pdf = null;
       const announcement = await prisma.announcement.findUnique({
-        where: { id: announcement_id }, include:{ 
+        where: { id: announcement_id }, include: {
           Application: true,
-          educationLevels: true,
+          entity: true,
+          educationLevels: { include: { entitySubsidiary: true } },
           socialAssistant: true
         }
-      }) 
-      return reply.status(200).send({ announcement })
+      })
+      if (announcement) {
+        try {
+          const Folder = `Announcemenets/${announcement.entity_id}/${announcement_id}.pdf`;
+          pdf = await GetUrl(Folder);
+        } catch (err) {
+
+        }
+      }
+      // map to return the correct educationLevel entity
+      const mappedAnnouncement = {
+        ...announcement,
+        pdf,
+        educationLevels: announcement?.educationLevels.map((education) => {
+          return (
+            {
+              ...education,
+              entityName: education.entitySubsidiary?.socialReason ?? announcement.entity.socialReason,
+              city: education.entitySubsidiary?.city ?? announcement.entity.city
+            }
+          )
+        })
+      }
+      return reply.status(200).send({ announcement: mappedAnnouncement })
 
     }
 
     const announcements = await prisma.announcement.findMany({
       where: { entity_id: entity.id }, include: {
-        entity :true,
+        entity: true,
         entity_subsidiary: true
       }
-      
+
     })
 
     return reply.status(200).send({ announcements, entity })
   } catch (err: any) {
+    console.log(err)
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
     }

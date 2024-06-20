@@ -34,7 +34,7 @@ export async function addAssistantAnnouncement(
     if (!assistant || !announcement) {
       throw new ResourceNotFoundError()
     }
-    await prisma.socialAssistant.update({
+    const linkedAssistant = await prisma.socialAssistant.update({
       where: { id: assistant_id },
       data: {
         Announcement: {
@@ -44,6 +44,7 @@ export async function addAssistantAnnouncement(
         },
       },
     })
+    return reply.status(200).send(linkedAssistant)
   } catch (err: any) {
     if (err instanceof announcementAlreadyExists) {
       return reply.status(409).send({ message: err.message })
