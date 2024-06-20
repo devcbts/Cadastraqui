@@ -4,8 +4,9 @@ import RowTextAction from "Components/RowTextAction"
 import FormList from "Pages/SubscribeForm/components/FormList"
 import FormListItem from "Pages/SubscribeForm/components/FormList/FormListItem"
 import ViewBankAccount from "../../../View_BankAccount"
+import socialAssistantService from "services/socialAssistant/socialAssistantService"
 
-export default function MemberIncomeView({ member, onSelect, onAdd }) {
+export default function MemberIncomeView({ member, onSelect, applicationId }) {
     const { id, fullName } = member
     const [isLoading, setIsLoading] = useState(true)
     // MonthlyIncome stores an array with registered months
@@ -17,7 +18,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd }) {
             setIsLoading(true)
             try {
                 // TODO: fetch member monthly income info on assistant route
-                const incomes = {}
+                const incomes = await socialAssistantService.getMemberIncomeInfo(applicationId, id)
                 if (incomes) {
                     setIncomeInfo(incomes)
                 }
@@ -37,7 +38,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd }) {
                 <FormList.Root title={"Rendas cadastradas"} isLoading={isLoading}>
                     <h2>{fullName} </h2>
                     <RowTextAction text={"declarações e comprovantes bancários"} label={'visualizar'} onClick={handleShowBankAccount} />
-                    <FormList.List list={incomeInfo.monthlyIncome} text={`Nenhuma renda cadastrada para ${fullName}, clique abaixo para realizar o primeiro cadastro`} render={(item) => {
+                    <FormList.List list={incomeInfo.monthlyIncome} text={`Nenhuma renda cadastrada para ${fullName}`} render={(item) => {
                         return (
                             <FormListItem.Root text={item.income.label}>
                                 <FormListItem.Actions>
@@ -50,7 +51,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd }) {
                 </FormList.Root>
             )
                 : (
-                    <ViewBankAccount id={member.id} />
+                    <ViewBankAccount id={member.id} applicationId={applicationId} />
                 )
             }
         </>

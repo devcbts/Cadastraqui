@@ -10,7 +10,7 @@ import InputBase from "Components/InputBase";
 import { zodResolver } from "@hookform/resolvers/zod";
 import incomeSelectionSchema from "./schemas/income-selection-schema";
 import useControlForm from "hooks/useControlForm";
-const IncomeSelection = forwardRef(({ data }, ref) => {
+const IncomeSelection = forwardRef(({ data, viewMode }, ref) => {
     const { control, watch } = useControlForm({
         schema: incomeSelectionSchema,
         defaultValues: {
@@ -25,6 +25,7 @@ const IncomeSelection = forwardRef(({ data }, ref) => {
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Fonte de Renda</h1>
+            <fieldset disabled={viewMode}>
             <InputBase label={"integrante"} value={data.member.fullName} error={null} disabled />
             {
                 data.incomeSource ? (
@@ -32,6 +33,7 @@ const IncomeSelection = forwardRef(({ data }, ref) => {
                 ) :
                     <FormSelect name={"incomeSource"} control={control} label={"fonte de renda"} value={watchIncome} options={INCOME_SOURCE.filter(e => !data.member?.incomeSource?.includes(e.value))} />
             }
+            </fieldset>
         </div>
     )
 })

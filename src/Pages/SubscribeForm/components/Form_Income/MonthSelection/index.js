@@ -13,7 +13,7 @@ import INCOME_SOURCE from "utils/enums/income-source";
 import useControlForm from "hooks/useControlForm";
 import MonthSelection from "Components/MonthSelection";
 // quantity = months that user needs to fullfill in order to proceed saving information
-const IncomeMonthSelection = forwardRef(({ data, render = [] }, ref) => {
+const IncomeMonthSelection = forwardRef(({ data, render = [], viewMode }, ref) => {
 
     return (
         <div className={[commonStyles.formcontainer, styles.container].join(' ')}>
@@ -23,6 +23,7 @@ const IncomeMonthSelection = forwardRef(({ data, render = [] }, ref) => {
                 ref={ref}
                 render={render}
                 data={data}
+                viewMode={viewMode}
                 schema={monthSelectionSchema(data.quantity)}
             />
         </div>

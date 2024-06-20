@@ -5,6 +5,10 @@ import habitationMapper from "services/candidate/mappers/habitation-mapper"
 import employementTypeMapper from "services/candidate/mappers/employement-type-mapper"
 import vehicleMapper from "services/candidate/mappers/vehicle-mapper"
 import basicInfoMapper from "./mappers/basic-info-mapper"
+import expenseMapper from "services/candidate/mappers/expense-mapper"
+import incomeMapper from "services/candidate/mappers/income-mapper"
+import bankAccountMapper from "services/candidate/mappers/bank-account-mapper"
+import healthInfoMapper from "services/candidate/mappers/health-info-mapper"
 
 class SocialAssistantService {
 
@@ -56,12 +60,31 @@ class SocialAssistantService {
     }
     async getVehicleInfo(applicationId) {
         const response = await api.get(`/assistant/candidateInfo/vehicle/${applicationId}`);
-        return vehicleMapper.fromPersistence(response.data)
+        return vehicleMapper.fromPersistence(response.data.vehicleInfoResults)
+
+    }
+    async getExpenses(applicationId) {
+        const response = await api.get(`/assistant/candidateInfo/expenses/${applicationId}`);
+        return expenseMapper.fromPersistence(response.data)
 
     }
     async getAssistant() {
         const response = await api.get(`/assistant/basic-info`);
         return basicInfoMapper.fromPersistence(response.data)
+    }
+    async getMemberIncomeInfo(applicationId, memberId) {
+        const response = await api.get(`/assistant/candidateInfo/monthly-income/${applicationId}/${memberId}`);
+        const memberIncome = await this.getAllIncomes(applicationId)
+        const monthlyIncome = incomeMapper.fromPersistence(response.data.incomeBySource)
+        return { monthlyIncome, info: memberIncome.incomes?.find(e => e.id === memberId).months }
+    }
+    async getBankingAccountById(applicationId, id) {
+        const response = await api.get(`/assistant/candidateInfo/bank-info/${applicationId}/${id}`)
+        return bankAccountMapper.fromPersistence(response.data)
+    }
+    async getHealthInfo(applicationId) {
+        const response = await api.get(`/assistant/candidateInfo/health/${applicationId}`)
+        return healthInfoMapper.fromPersistence(response.data.healthInfoResultsWithUrls)
     }
 
 }

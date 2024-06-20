@@ -31,6 +31,7 @@ export default function ViewBasicInformation({ candidateId, applicationId }) {
             AdditionalDocuments,
             Benefits
         ],
+        viewMode: true
     })
     useEffect(() => {
         const fetchData = async () => {
@@ -49,7 +50,9 @@ export default function ViewBasicInformation({ candidateId, applicationId }) {
     return (
         <div className={commonStyles.container}>
             <Loader loading={isLoading} />
-            <Steps />
+            <fieldset disabled>
+                <Steps />
+            </fieldset>
             <div className={commonStyles.actions}>
                 {activeStep !== 1 &&
                     <ButtonBase onClick={previous}>

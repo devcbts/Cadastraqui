@@ -6,7 +6,8 @@ import { useEffect, useState } from "react"
 import { NotificationService } from "services/notification"
 import BankReport from "../BankReport"
 import ButtonBase from "Components/ButtonBase"
-export default function MemberBankAccount({ id, onSelect }) {
+import socialAssistantService from "services/socialAssistant/socialAssistantService"
+export default function MemberBankAccount({ id, onSelect, applicationId }) {
     const [isLoading, setIsLoading] = useState(true)
     const [accounts, setAccounts] = useState([])
     // TODO: fetch bank account information from SPECIFIC USER
@@ -14,15 +15,15 @@ export default function MemberBankAccount({ id, onSelect }) {
         const fetchData = async () => {
             try {
                 setIsLoading(true)
-                // const information = await candidateService.getBankingAccountById(id)
-                // setAccounts(information)
+                const information = await socialAssistantService.getBankingAccountById(applicationId, id)
+                setAccounts(information)
             } catch (err) {
 
             }
             setIsLoading(false)
         }
         fetchData()
-    }, [])
+    }, [applicationId, id])
 
     const [isReportOpen, setIsReportOpen] = useState(false)
     const handleReport = () => {

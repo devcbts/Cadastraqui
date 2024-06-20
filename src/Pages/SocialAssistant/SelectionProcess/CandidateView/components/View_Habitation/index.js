@@ -20,6 +20,7 @@ export default function ViewHabitation({ candidateId, applicationId }) {
             PropertyStatus,
             PropertyInfo
         ],
+        viewMode: true
 
     })
     useEffect(() => {
@@ -36,7 +37,9 @@ export default function ViewHabitation({ candidateId, applicationId }) {
     return (
         <div className={commonStyles.container}>
             <Loader loading={isLoading} />
-            <Steps />
+            <fieldset disabled>
+                <Steps />
+            </fieldset>
             <div className={commonStyles.actions}>
                 {activeStep !== 1 &&
                     <ButtonBase onClick={previous}>

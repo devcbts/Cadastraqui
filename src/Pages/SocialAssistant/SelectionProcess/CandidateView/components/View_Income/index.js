@@ -28,6 +28,7 @@ export default function ViewIncome({ candidateId, applicationId }) {
         state: { activeStep, data, setData, setActiveStep }
     } = useStepFormHook({
         render: renderItems,
+        viewMode: true
     })
     useEffect(() => {
         const currentIncomeSource = data?.incomeSource

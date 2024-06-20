@@ -41,7 +41,7 @@ export default function IncomeList({ applicationId, onSelect }) {
             </FormList.Root>}
             {
                 selectedMember &&
-                <MemberIncomeView member={selectedMember} onSelect={(member) => onSelect(member)} />
+                <MemberIncomeView member={selectedMember} onSelect={(member) => onSelect(member)} applicationId={applicationId} />
             }
         </>
     )

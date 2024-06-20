@@ -10,7 +10,7 @@ import { NotificationService } from "services/notification"
 import uploadService from "services/upload/uploadService"
 import healthFileSchema from "./schemas/health-files-schema"
 
-export default function HealthFiles({ items }) {
+export default function HealthFiles({ items, edit = true }) {
     const { control, getValues, formState: { isValid }, trigger, resetField } = useControlForm({
         schema: healthFileSchema,
         defaultValues: {
@@ -58,17 +58,17 @@ export default function HealthFiles({ items }) {
                             <Link to={item?.[1]} target="_blank">
                                 <ButtonBase label={'baixar'} />
                             </Link>
-                            <ButtonBase label={'excluir'} danger onClick={() => handleDelete(item?.[0].split('_')[1])} />
+                            {edit && <ButtonBase label={'excluir'} danger onClick={() => handleDelete(item?.[0].split('_')[1])} />}
                         </FormListItem.Actions>
                     </FormListItem.Root>
                 )}>
 
                 </FormList.List>
             </FormList.Root>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            {edit && <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <FormFilePicker accept={'application/pdf'} control={control} name={"file_exam"} />
                 <ButtonBase label={'cadastrar'} onClick={handleUpload} />
-            </div>
+            </div>}
         </div>
     )
 }

@@ -47,6 +47,7 @@ export default function ViewFamilyGroup({ candidateId, applicationId }) {
             AdditionalDocuments,
             Benefits
         ],
+        viewMode: true
     })
     const handleSelectMember = (member) => {
         setData(member)
@@ -64,7 +65,9 @@ export default function ViewFamilyGroup({ candidateId, applicationId }) {
             {!data && <MemberList members={familyMembers} onSelect={handleSelectMember} />}
             {data && (
                 <>
-                    <Steps />
+                    <fieldset disabled>
+                        <Steps />
+                    </fieldset>
                     <div className={commonStyles.actions}>
                         <ButtonBase onClick={handlePrevious}>
                             <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />

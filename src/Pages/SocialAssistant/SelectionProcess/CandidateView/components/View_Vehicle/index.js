@@ -12,6 +12,7 @@ import socialAssistantService from "services/socialAssistant/socialAssistantServ
 
 export default function ViewVehicle({ candidateId, applicationId }) {
     const [isLoading, setIsLoading] = useState(false)
+    const [vehicles, setVehicles] = useState([])
     const {
         Steps,
         pages: { previous, next },
@@ -23,6 +24,7 @@ export default function ViewVehicle({ candidateId, applicationId }) {
             VehicleSituation,
             VehicleInsurance
         ],
+        viewMode: true
 
     })
     const handlePrevious = () => {
@@ -37,22 +39,31 @@ export default function ViewVehicle({ candidateId, applicationId }) {
             try {
                 setIsLoading(true)
                 const information = await socialAssistantService.getVehicleInfo(applicationId)
-                setData(information)
+                console.log(information)
+                setVehicles(information)
             } catch (err) { }
             setIsLoading(false)
         }
         fetchData()
     }, [applicationId])
     const handleSelectVehicle = (vehicle) => {
-        setData(vehicle)
+        const members = vehicle.ownerNames.map((e) => ({ label: e, value: e }))
+        const owners_id = vehicle.ownerNames
+        setData({
+            ...vehicle,
+            members,
+            owners_id
+        })
     }
     return (
         <div className={commonStyles.container}>
             <Loader loading={isLoading} />
-            {!data && <VehicleList onSelect={handleSelectVehicle} />}
+            {!data && <VehicleList vehicles={vehicles} onSelect={handleSelectVehicle} />}
             {data &&
                 <>
-                    <Steps />
+                    <fieldset disabled>
+                        <Steps />
+                    </fieldset>
                     <div className={commonStyles.actions}>
                         <ButtonBase onClick={handlePrevious}>
                             <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />

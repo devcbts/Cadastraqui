@@ -9,7 +9,7 @@ import TotalValue from "../TotalValue";
 import Dividends from "../Dividends";
 import IncomeMonthSelection from "../MonthSelection";
 
-const IncomeFormModelC = forwardRef(({ data }, ref) => {
+const IncomeFormModelC = forwardRef(({ data, viewMode }, ref) => {
     return (
         <IncomeMonthSelection
             ref={ref}
@@ -19,6 +19,7 @@ const IncomeFormModelC = forwardRef(({ data }, ref) => {
                 Pension,
                 TotalValue
             ]}
+            viewMode={viewMode}
         />
     )
 })
