@@ -48,7 +48,8 @@ export default function useControlForm({
     return {
         ...form,
         setValue: (arg1, arg2, arg3) => {
-            return setValue(arg1, arg2, { shouldDirty: true, ...arg3 })
+            if (!!arg2)
+                return setValue(arg1, arg2, { shouldDirty: true, ...arg3 })
         }
     }
 }

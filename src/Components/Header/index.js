@@ -10,6 +10,7 @@ import CandidateSidebar from 'Components/Candidate/Sidebar'
 import styles from './styles.module.scss'
 import SocialAssistantSidebar from 'Components/SocialAssistant/Sidebar'
 import EntitySidebar from 'Components/Entity/Sidebar'
+import AdminSidebar from 'Components/Admin/Sidebar'
 const HeaderWrapper = ({ children }) => {
     const [header, setHeader] = useRecoilState(headerAtom)
     const { sidebar } = header
@@ -23,6 +24,8 @@ const HeaderWrapper = ({ children }) => {
                 return SocialAssistantSidebar
             case "ENTITY":
                 return EntitySidebar
+            case "ADMIN":
+                return AdminSidebar
             default:
                 return Fragment
         }
