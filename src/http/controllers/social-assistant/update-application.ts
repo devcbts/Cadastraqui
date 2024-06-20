@@ -19,17 +19,17 @@ export async function updateApplication(
 ) {
     const applicationParamsSchema = z.object({
         application_id: z.string(),
-        announcement_id: z.string()
 
     })
     const statusType = z.enum(["Approved", "Rejected", "Pending", "WaitingList"])
 
     const applicationUpdateSchema = z.object({
-        status: statusType,
-        report: z.string().nullable()
+        status: statusType.optional(),
+        report: z.string().optional(),
+        partial: z.boolean().optional()
     })
-    const { application_id, announcement_id } = applicationParamsSchema.parse(request.params)
-    const { status, report } = applicationUpdateSchema.parse(request.body)
+    const { application_id } = applicationParamsSchema.parse(request.params)
+    const { status, report, partial } = applicationUpdateSchema.parse(request.body)
     try {
         const userType = request.user.role
         const userId = request.user.sub
@@ -48,6 +48,7 @@ export async function updateApplication(
             where: {id: application_id},
             data:{
                 status: status,
+                ScholarshipPartial: partial
                 
             }
         })
@@ -57,7 +58,6 @@ export async function updateApplication(
                 data:{
                     application_id,
                     description:'Inscrição indeferida',
-                    report: report
                 }
             })
         }
@@ -67,7 +67,6 @@ export async function updateApplication(
                 data:{
                     application_id,
                     description:'Inscrição deferida',
-                    report: report
                 }
             })
         }

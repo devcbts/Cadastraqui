@@ -8,6 +8,7 @@ const envSchema = z.object({
   AWS_BUCKET_REGION: z.string(),
   AWS_ACCESS_KEY_ID: z.string(),
   AWS_SECRET_KEY_ID: z.string(),
+  CPF_CNPJ_KEY : z.string(),
 })
 // Validação das variáveis de ambiente
 const _env = envSchema.safeParse(process.env)

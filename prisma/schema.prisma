@@ -206,7 +206,7 @@ model EntityDirector {
 model IdentityDetails {
   id                                         String            @id @default(uuid())
   fullName                                   String
-  socialName                                 String
+  socialName                                 String?
   birthDate                                  DateTime
   gender                                     GENDER
   nationality                                String
@@ -576,7 +576,7 @@ model Medication {
 model Declarations {
   id                 String            @id @default(uuid())
   declarationType    Declaration_Type
-  declarationExists  Boolean          @default(true)
+  declarationExists  Boolean           @default(true)
   text               String?
   familyMember_id    String?
   candidate_id       String?
@@ -703,6 +703,8 @@ model Application {
   perCapita            Float?
   position             Int?
   distance             Float                @default(100)
+  CPFCNPJ              Boolean?
+  ScholarshipPartial   Boolean?
   number               Int                  @default(1)
   announcement         Announcement         @relation(fields: [announcement_id], references: [id], onDelete: Cascade)
   candidate            Candidate            @relation(fields: [candidate_id], references: [id], onDelete: Cascade)

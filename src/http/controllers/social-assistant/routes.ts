@@ -35,6 +35,8 @@ import { getExpensesInfoHDB } from './detailed-form/get-expenses'
 import { getBankingInfoHDB } from './detailed-form/get-banking-info'
 import { uploadMarojacaoDocument } from './AWS-routes/upload-majoracao-document'
 import { uploadAdtionalInfo } from './AWS-routes/upload-aditional-info'
+import { findCPF_CNPJ } from './find-cpf-cnpj'
+import { uploadSolicitationDocument } from './AWS-routes/upload-solicitation-document'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -95,7 +97,7 @@ export async function assistantRoutes(app: FastifyInstance) {
     closeApplication,
   )
   app.patch(
-    '/:announcement_id/:application_id',
+    'application/:application_id',
     { onRequest: [verifyJWT] },
     updateApplication,
   )
@@ -138,4 +140,7 @@ export async function assistantRoutes(app: FastifyInstance) {
   // Documentos da assistente
   app.post('/documents/majoracao/:application_id', { onRequest: [verifyJWT] }, uploadMarojacaoDocument)
   app.post('/documents/aditional/:application_id', { onRequest: [verifyJWT] }, uploadAdtionalInfo)
+  app.post('/documents/solicitation/:application_id', { onRequest: [verifyJWT] }, uploadSolicitationDocument)
+  // Pegar CPF-CNPJ
+  app.get('/candidateInfo/find-cpf-cnpj/:application_id', { onRequest: [verifyJWT] }, findCPF_CNPJ)
 }
