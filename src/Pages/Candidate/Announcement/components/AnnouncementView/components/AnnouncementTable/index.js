@@ -5,11 +5,11 @@ export default function AnnouncementTable({ title, rowData, onClick }) {
     return (
         <div>
             <span>{title}</span>
-            <Table.Root headers={['curso', 'vagas', 'critérios', 'ações']}>
+            <Table.Root headers={['curso/série', 'vagas', 'critérios', 'ações']}>
                 {
                     rowData?.map((data) => {
                         return (<Table.Row>
-                            <Table.Cell>{data?.availableCourses}</Table.Cell>
+                            <Table.Cell>{data?.availableCourses ?? data?.grade}</Table.Cell>
                             <Table.Cell>{data?.verifiedScholarships}</Table.Cell>
                             <Table.Cell>{data?.criteria}</Table.Cell>
                             <Table.Cell>

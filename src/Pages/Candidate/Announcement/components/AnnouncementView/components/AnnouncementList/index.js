@@ -10,18 +10,19 @@ export default function AnnouncementList({ announcement, onSelect }) {
             <div className={styles.content}>
                 <div className={styles.contentheader}>
                     <img src={Logo} ></img>
-                    <span>Total de vagas oferecidas: {announcement?.offeredVacancies}</span>
+                    <span>Total de vagas oferecidas: {announcement?.verifiedScholarships}</span>
                 </div>
                 {
                     announcement?.apply?.map((courseToApply) => {
                         const { criteria } = announcement
                         const { courses } = courseToApply
                         const row = courses?.map((e) => ({ criteria: criteria.join('; '), ...e }))
+                        console.log('cursos', courseToApply)
                         if (!courses?.length) return null
                         return <
                             AnnouncementTable
                             key={courseToApply?.id}
-                            title={`Unidade: ${courseToApply?.name}`}
+                            title={`Unidade: ${courseToApply?.socialReason}`}
                             rowData={row}
                             onClick={(id) => onSelect({ ...courseToApply, course: courses.find((e) => e.id === id) })}
                         />

@@ -3,11 +3,8 @@ import announcementMapper from "./mappers/announcementMapper"
 
 class EntityService {
 
-    async updateProfile({ name, email, CEP, CNPJ, socialReason, address, addressNumber, neighborhood, city, UF, }) {
-        const token = localStorage.getItem("token")
-        await api.patch('/entities/update-profile', {
-            name, email, CEP, address, addressNumber, neighborhood, city, UF, CNPJ, socialReason
-        }, { headers: { Authorization: `Bearer ${token}` } })
+    async updateProfile(data) {
+        await api.patch('/entities/update-profile', data)
     }
     async getEntityInfo() {
         const response = await api.get("/entities/")
@@ -61,6 +58,9 @@ class EntityService {
     async updateAssistant(data) {
         return api.post(`/entities/assistant/update`, data)
 
+    }
+    async updateProfilePicture(data) {
+        return api.post("/entities/profilePicture", data)
     }
 }
 

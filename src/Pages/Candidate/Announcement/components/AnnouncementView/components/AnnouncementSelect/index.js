@@ -51,7 +51,7 @@ export default function AnnouncementSelect({ announcement }) {
     }, [])
     const announcementCourse = useMemo(() => {
         if (announcementInfo) {
-            const { name, address, addressNumber, city, neighborhood, UF, course } = getCourse
+            const { name, address, addressNumber, city, UF, course } = getCourse
             return {
                 name,
                 address: `${address}, Nº ${addressNumber}. ${city} - ${UF}`,
@@ -81,7 +81,7 @@ export default function AnnouncementSelect({ announcement }) {
                             <div className={styles.contentwrapper}>
                                 <img src={Logo}></img>
                                 <div className={styles.info}>
-                                    <span>Instituição: {announcementCourse?.name}</span>
+                                    <span>Instituição: {announcementCourse?.socialReason}</span>
                                     <span>Endereço: {announcementCourse?.address} </span>
                                     <span>Email: unifei@unifei.com</span>
                                 </div>

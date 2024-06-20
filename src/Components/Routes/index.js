@@ -1,7 +1,7 @@
 import HomeCandidate from "Pages/Candidate/Home";
 import ProfileCandidate from "Pages/Candidate/Profile";
 import SubscribeForm from "Pages/SubscribeForm";
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import AnnouncementCandidate from "Pages/Candidate/Announcement";
 import AnnouncementView from "Pages/Candidate/Announcement/components/AnnouncementView";
 import RoleRoutes from "./components/RoleRoutes";
@@ -19,6 +19,7 @@ import EntitySelectRegister from "Pages/Entity/Register";
 import EntityAnnouncement from "Pages/Entity/Announcement";
 import EntityAnnouncementView from "Pages/Entity/AnnouncementView";
 import AdminRegister from "Pages/Admin/Register";
+import EntityProfile from "Pages/Entity/Profile";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -30,6 +31,8 @@ export default function AppRoutes() {
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/registrar" element={<Register />} />
+                    {/* <Route path="*" element={<Navigate to={'/'} />} /> */}
+
                 </Routes>
             </RoleRoutes>
             <RoleRoutes role="CANDIDATE">
@@ -45,7 +48,10 @@ export default function AppRoutes() {
                             </Route>
 
                         </Route>
-                        <Route path="edital/:announcementId" element={<AnnouncementView />}></Route>
+                        <Route path="/teste" element={<div> teste</div>} />
+                        <Route path="/edital/:announcementId" element={<AnnouncementView />}></Route>
+                        <Route path="*" element={<Navigate to={'/home'} />} />
+
                     </Routes>
                 </HeaderWrapper>
             </RoleRoutes>
@@ -66,6 +72,8 @@ export default function AppRoutes() {
                         <Route path="parecer" element={<LegalOpinion />}></Route>
                         <Route path="/ficha-completa" element={<CandidateView />}></Route>
                         <Route path="/profile" element={<SocialAssistantProfile />}></Route>
+                        <Route path="*" element={<Navigate to={'/home'} />} />
+
                     </Routes>
 
                 </HeaderWrapper>
@@ -80,6 +88,8 @@ export default function AppRoutes() {
                             <Route path="" element={<EntityAnnouncement />} />
                             <Route path=":announcementId" element={<EntityAnnouncementView />} />
                         </Route>
+                        <Route path="/profile" element={<EntityProfile />} />
+                        <Route path="*" element={<Navigate to={'/cadastro'} />} />
 
                     </Routes>
 
@@ -89,8 +99,8 @@ export default function AppRoutes() {
                 <HeaderWrapper>
 
                     <Routes>
-
                         <Route path="/cadastro" element={<AdminRegister />} />
+                        <Route path="*" element={<Navigate to={'/cadastro'} />} />
                     </Routes>
                 </HeaderWrapper>
             </RoleRoutes>
