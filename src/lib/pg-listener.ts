@@ -338,7 +338,7 @@ clientBackup.on('notification', async (msg) => {
 
             const findFamilyMemberDisease = await findAllDiseases(candidate_id, '')
             const findMedication = await findAllMedication(candidate_id, '')
-            
+            const findBankAccount = await findAllBankAccount(candidate_id, '')
 
         await createResponsibleHDB(responsible_id, candidate_id, responsible_id, application_id)
         await createCandidateHDB(candidate_id, '', '', application_id)
