@@ -1,6 +1,6 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
-import { prisma } from '@/lib/prisma'
+import { historyDatabase, prisma } from '@/lib/prisma'
 import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -35,7 +35,7 @@ export async function getExpensesInfoHDB(
     const idField = candidateOrResponsible.IsResponsible ? {legalResponsibleId: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
     
     // Busca todas as despesas associadas ao candidato
-    const expenses = await prisma.expense.findMany({
+    const expenses = await historyDatabase.expense.findMany({
       where: idField,
     })
     const urls = await getSectionDocumentsPDF_HDB(candidateOrResponsible.UserData.id, 'expenses');

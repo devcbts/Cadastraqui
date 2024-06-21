@@ -1,11 +1,19 @@
-import { historyDatabase } from "@/lib/prisma";
+import { historyDatabase, prisma } from "@/lib/prisma";
 import { SelectCandidateResponsible } from "../../../utils/select-candidate-responsible";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsibleHDB";
 import { env } from "@/env";
-
+import IncomeSource from '../../../../backup_prisma/generated/clientBackup/index';
+interface Empresa {
+    cnpj: string;
+    razao: string;
+    fantasia: string;
+    dataSociedade: null | string; // Assuming it can be a string date or null
+    qualificacao: string;
+    situacao: string;
+}
 export async function findCPF_CNPJ(
     request: FastifyRequest,
     reply: FastifyReply
@@ -36,6 +44,48 @@ export async function findCPF_CNPJ(
         const numbersOnlyCPF = CPF.replace(/\D/g, '');
         console.log(numbersOnlyCPF)
         const apiFetch = await fetch(`https://api.cpfcnpj.com.br/${env.CPF_CNPJ_KEY}/15/${numbersOnlyCPF}`);
+
+        const data = await apiFetch.json();
+        const empresas: Empresa[] = data.empresas;
+        const idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
+        
+        if (empresas) {
+            let InformedCNPJ = true;
+            const registeredIncome = await historyDatabase.familyMemberIncome.findMany({
+                where: {
+                    ...idField,
+ 
+                }
+            })
+            empresas.forEach(async empresa => {
+                const cnpj = empresa.cnpj;
+
+                const findRegisteredEmpresas = registeredIncome.filter(registeredIncome => registeredIncome.CNPJ? registeredIncome.CNPJ.replace(/\D/g, '') === cnpj : '');
+                if (findRegisteredEmpresas.length < 0) {
+                    InformedCNPJ = false;
+                }
+
+            });
+            
+
+
+            await prisma.application.update({
+                where: {id: application_id},
+                data: {
+                    CPFCNPJ: true,
+                    InformedCNPJ
+                }
+            })
+        }
+        else {
+            await prisma.application.update({
+                where: {id: application_id},
+                data: {
+                    CPFCNPJ: false,
+                    InformedCNPJ: true
+                }
+            })
+        }
         return reply.status(200).send(await apiFetch.json());
     } catch (error) {
         if (error instanceof ResourceNotFoundError) {

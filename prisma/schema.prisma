@@ -704,6 +704,7 @@ model Application {
   position             Int?
   distance             Float                @default(100)
   CPFCNPJ              Boolean?
+  InformedCNPJ        Boolean?
   ScholarshipPartial   Boolean?
   number               Int                  @default(1)
   announcement         Announcement         @relation(fields: [announcement_id], references: [id], onDelete: Cascade)
