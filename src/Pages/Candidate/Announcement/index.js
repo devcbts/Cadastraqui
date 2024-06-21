@@ -23,6 +23,7 @@ export default function AnnouncementCandidate() {
         }
         fetchAnnouncement()
     }, [])
+    const currentYear = new Date().getFullYear()
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -35,7 +36,7 @@ export default function AnnouncementCandidate() {
                         <h1>Atenção</h1>
                     </Card.Header>
                     <Card.Content>
-                        A bolsa de estudos terá validade para o ano letivo de {2024},
+                        A bolsa de estudos terá validade para o ano letivo de {currentYear},
                         com a renovação anual através de seleção. A concessão
                         de bolsa de estudo estará sujeita à disponibilidade de vagas
                         na unidade escolar solicitada e ao perfil socioeconômico
@@ -52,9 +53,9 @@ export default function AnnouncementCandidate() {
                             return (
                                 <Table.Row>
                                     {/* <Table.Cell divider>Teste</Table.Cell> */}
-                                    <Table.Cell>{announcement.entity?.name}</Table.Cell>
+                                    <Table.Cell>{announcement.entity?.socialReason}</Table.Cell>
                                     <Table.Cell>{announcement.announcementNumber}</Table.Cell>
-                                    <Table.Cell>{announcement.offeredVacancies}</Table.Cell>
+                                    <Table.Cell>{announcement.verifiedScholarships}</Table.Cell>
                                     <Table.Cell>
                                         <ButtonBase label={'visualizar'} onClick={() => navigate(announcement.id)}></ButtonBase>
                                     </Table.Cell>

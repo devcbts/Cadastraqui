@@ -20,6 +20,7 @@ export default function SubscriptionStatus() {
         const fetchProgress = async () => {
             try {
                 const progress = await candidateService.getProgress()
+                console.log(progress)
                 setData(Object.entries(progress).map(([key, val]) => ({ [key]: val, value: val ? 1 : 0 })))
             } catch (err) { }
         }
@@ -42,21 +43,25 @@ export default function SubscriptionStatus() {
                 <h1>Preenchimento do Cadastro</h1>
                 <div className={styles.chartdisplay}>
                     <span>Complete seu cadastro, para se inscrever e começar a desfrutar de todos os benefícios de uma educação de qualidade!</span>
-                    <PieChart width={100} height={100} >
-                        <Pie
-                            data={data}
-                            dataKey={"value"}
-                            innerRadius={40}
-                            outerRadius={50}
-                            paddingAngle={0}
-                            startAngle={90}
-                            endAngle={(percentage * 360) + 90}
-                            fill='#1F4B73'
-                            className={styles.chart}
-                            direction={'right'}
-                        >
-                        </Pie>
-                    </PieChart>
+                    <div style={{ position: 'relative' }}>
+
+                        <span style={{ position: 'absolute', top: '50%', right: '50%', transform: 'translate(50%,-50%)' }}> {percentage * 100}%</span>
+                        <PieChart width={100} height={100} >
+                            <Pie
+                                data={data}
+                                dataKey={"value"}
+                                innerRadius={40}
+                                outerRadius={50}
+                                paddingAngle={0}
+                                startAngle={90}
+                                endAngle={(percentage * 360) + 90}
+                                fill='#1F4B73'
+                                className={styles.chart}
+                                direction={'right'}
+                            >
+                            </Pie>
+                        </PieChart>
+                    </div>
                 </div>
             </div>
             <div className={styles.sections}>

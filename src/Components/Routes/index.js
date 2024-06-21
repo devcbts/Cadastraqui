@@ -36,7 +36,7 @@ export default function AppRoutes() {
 
                 </Routes>
             </RoleRoutes>
-            <RoleRoutes role="CANDIDATE">
+            <RoleRoutes role={["CANDIDATE", "RESPONSIBLE"]}>
                 <HeaderWrapper>
                     <Routes>
                         <Route path="/formulario_inscricao" element={<SubscribeForm />}></Route>

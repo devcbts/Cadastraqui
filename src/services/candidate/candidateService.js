@@ -264,11 +264,7 @@ class CandidateService {
         return applicantsMapper.fromPersistence(response.data)
     }
     applyAnnouncement({ announcementId, courseId, candidateId = '' }) {
-        return api.post(`/candidates/application`, {
-            announcement_id: announcementId,
-            educationLevel_id: courseId,
-            candidate_id: candidateId
-        })
+        return api.post(`/candidates/application/${announcementId}/${courseId}/${candidateId}`)
     }
 
     async getExpenses(id = '') {
@@ -299,6 +295,17 @@ class CandidateService {
 
     register(data) {
         return api.post('/candidates/', data)
+    }
+    registerResponsible(data) {
+        return api.post('/responsibles', data)
+    }
+    async getAnnouncementPdf(id) {
+        const response = await api.get(`/candidates/documents/announcement/${id}`)
+        return response.data.url
+    }
+    async getDashboard() {
+        const response = await api.get(`/candidates/dashboard`)
+        return response.data
     }
 }
 

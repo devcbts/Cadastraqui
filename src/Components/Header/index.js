@@ -19,6 +19,7 @@ const HeaderWrapper = ({ children }) => {
     const Sidebar = useMemo(() => {
         switch (auth?.role) {
             case "CANDIDATE":
+            case "RESPONSIBLE":
                 return CandidateSidebar
             case "ASSISTANT":
                 return SocialAssistantSidebar

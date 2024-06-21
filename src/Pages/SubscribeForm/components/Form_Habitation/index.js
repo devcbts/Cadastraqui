@@ -42,6 +42,7 @@ export default function FormHabitation() {
             await candidateService.registerHousingInfo(data)
             await uploadHabitationDocuments(data, auth?.uid)
             NotificationService.success({ text: 'Dados de moradia cadastrados' })
+            setEnableEditing(true)
         } catch (err) {
             NotificationService.error({ text: err.response.data.message })
         }

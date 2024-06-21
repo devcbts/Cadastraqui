@@ -1,7 +1,8 @@
+import { useRef, useState } from "react";
 import { Controller } from "react-hook-form";
-import CheckboxBase from "../CheckboxBase";
 
-export default function FormCheckbox({ name, control, label, value }) {
+
+export default function FormRadio({ name, control, label, value }) {
     const showErrorBorder = (isDirty, error) => {
         // Input wasn't modified but has error OR has been modified and has error (ERROR BORDER)
         if ((!isDirty && error) || (isDirty && error)) {
@@ -22,14 +23,19 @@ export default function FormCheckbox({ name, control, label, value }) {
             control={control}
             render={({ field, fieldState: { isDirty, error } }) => {
                 return (
-                    <CheckboxBase
-                        label={label}
-                        {...field}
-                        error={showErrorBorder(isDirty, error)}
-                        onChange={(e) => {
-                            field.onChange(e.target.value === "true")
-                        }}
-                    />
+                    <div style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center', color: "white", textTransform: "capitalize" }}>
+
+                        <input
+                            {...field}
+                            onChange={(e) => {
+                                field.onChange(e.target.value)
+                                console.log(e.target.value)
+                            }}
+                            value={value}
+                            type="radio"
+                        />
+                        <span>{label}</span>
+                    </div>
                 )
             }}
         />
