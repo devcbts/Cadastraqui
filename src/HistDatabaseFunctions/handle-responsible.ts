@@ -4,6 +4,9 @@ import getOpenApplications from './find-open-applications';
 
 /// HDB == HistoryDataBase
 export async function createResponsibleHDB(id: string, candidate_id: string | null, legalResponsibleId: string | null, application_id: string) {
+    if (!id) {
+        return null;
+    }
     const findResponsible = await prisma.legalResponsible.findUnique({
         where: {
             id,
