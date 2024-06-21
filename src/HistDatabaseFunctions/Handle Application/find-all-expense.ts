@@ -19,7 +19,7 @@ export default async function findAllExpense(candidate_id: string | null, legalR
     }
 
 
-    const income = await prisma.expense.findMany({
+    const expenses = await prisma.expense.findMany({
         where: {
             OR: [
                 { candidate_id: candidateOrResponsible.id },
@@ -28,5 +28,5 @@ export default async function findAllExpense(candidate_id: string | null, legalR
         }
     });
 
-    return income;
+    return expenses;
 }

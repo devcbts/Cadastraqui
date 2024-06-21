@@ -19,7 +19,7 @@ export default async function findAllDiseases(candidate_id: string | null, legal
     }
 
 
-    const income = await prisma.familyMemberDisease.findMany({
+    const diseases = await prisma.familyMemberDisease.findMany({
         where: {
             OR: [
                 { candidate_id: candidateOrResponsible.id },
@@ -29,5 +29,5 @@ export default async function findAllDiseases(candidate_id: string | null, legal
         }
     });
 
-    return income;
+    return diseases;
 }

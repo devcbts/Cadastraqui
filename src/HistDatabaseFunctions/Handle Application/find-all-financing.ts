@@ -19,7 +19,7 @@ export default async function findAllFinancing(candidate_id: string | null, lega
     }
 
 
-    const income = await prisma.financing.findMany({
+    const financing = await prisma.financing.findMany({
         where: {
             OR: [
                 { candidate_id: candidateOrResponsible.id },
@@ -29,5 +29,5 @@ export default async function findAllFinancing(candidate_id: string | null, lega
         }
     });
 
-    return income;
+    return financing;
 }

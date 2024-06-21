@@ -19,7 +19,7 @@ export default async function findAllBankAccount(candidate_id: string | null, le
     }
 
 
-    const income = await prisma.bankAccount.findMany({
+    const bankAccount = await prisma.bankAccount.findMany({
         where: {
             OR: [
                 { candidate_id: candidateOrResponsible.id },
@@ -29,5 +29,5 @@ export default async function findAllBankAccount(candidate_id: string | null, le
         }
     });
 
-    return income;
+    return bankAccount;
 }

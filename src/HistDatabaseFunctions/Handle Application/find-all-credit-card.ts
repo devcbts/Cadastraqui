@@ -19,7 +19,7 @@ export default async function findAllCreditCard(candidate_id: string | null, leg
     }
 
 
-    const income = await prisma.creditCard.findMany({
+    const creditCard = await prisma.creditCard.findMany({
         where: {
             OR: [
                 { candidate_id: candidateOrResponsible.id },
@@ -29,5 +29,5 @@ export default async function findAllCreditCard(candidate_id: string | null, leg
         }
     });
 
-    return income;
+    return creditCard;
 }

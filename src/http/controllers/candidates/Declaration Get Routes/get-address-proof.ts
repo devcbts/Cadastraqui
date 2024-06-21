@@ -67,6 +67,10 @@ export default async function getAddressProof(
     return reply.status(200).send({infoDetails})
 
   } catch (error) {
-    
+    if (error instanceof NotAllowedError) {
+        return reply.status(401).send({message: error.message})
+        
+    }
+    return reply.status(500).send({message: 'Internal server error'})
   }
 }
