@@ -54,7 +54,8 @@ export default function AnnouncementView() {
             setCourse: setSelectedCourse,
             clear: handleCourseSelection,
             step: currentStep,
-            move: setCurrentStep
+            move: setCurrentStep,
+            announcement
         }}>
             <Loader text="Carregando informações do edital" loading={isLoading} />
             {

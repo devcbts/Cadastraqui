@@ -15,7 +15,8 @@ const ExpenseSelection = forwardRef(({ data, viewMode = false }, ref) => {
     const [avg, setAvg] = useState('')
     useEffect(() => {
         const totalExpense = data?.months?.reduce((acc, e) => {
-            acc += stringToFloat(e.totalExpense.toString())
+            console.log(e.totalExpense)
+            acc += parseFloat(e.totalExpense.toString())
             return acc
         }, 0)
         const validMonths = data?.months?.filter((e) => e.isUpdated)?.length

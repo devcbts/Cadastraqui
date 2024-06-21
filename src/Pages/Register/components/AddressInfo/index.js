@@ -55,7 +55,7 @@ export default function AddressInfo({ data, onBack, onSubmit }) {
             </div>
             <div className={styles.actions}>
                 <ButtonBase label={'voltar'} onClick={() => onBack(getValues())} />
-                <ButtonBase label={'concluir'} onClick={handleSubmit} />
+                <ButtonBase label={'próximo'} onClick={handleSubmit} />
             </div>
 
         </div>

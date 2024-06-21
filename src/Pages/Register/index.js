@@ -9,14 +9,17 @@ import AddressInfo from './components/AddressInfo'
 import { NotificationService } from 'services/notification'
 import { useNavigate } from 'react-router'
 import candidateService from 'services/candidate/candidateService'
+import UserType from './components/UserType'
 export default function Register() {
     const [current, setCurrent] = useState(0)
-    const [data, setData] = useState({ role: "CANDIDATE" })
+    const [data, setData] = useState(null)
     const navigate = useNavigate()
     const handleRegister = async (data) => {
         try {
-            if (data.role === "CANDIDATE") {
+            if (data.role === "candidate") {
                 await candidateService.register(data)
+            } else {
+                await candidateService.registerResponsible(data)
             }
             NotificationService.success({ text: 'Cadastro realizado com sucesso' }).then(() => {
                 navigate('/')
@@ -27,11 +30,10 @@ export default function Register() {
     }
     const handleSection = async (form) => {
         setData((prev) => ({ ...prev, ...form }))
-        if (current !== 2) {
+        if (current !== 3) {
             setCurrent((prev) => prev + 1)
             return
         }
-        console.log('passo')
         await handleRegister({ ...data, ...form })
     }
     const handleBack = (form) => {
@@ -58,6 +60,7 @@ export default function Register() {
                         <Personal data={data} onSubmit={handleSection} />,
                         <LoginInfo data={data} onBack={handleBack} onSubmit={handleSection} />,
                         <AddressInfo data={data} onBack={handleBack} onSubmit={handleSection} />,
+                        <UserType data={data} onBack={handleBack} onSubmit={handleSection} />,
                     ][current]
 
                 }

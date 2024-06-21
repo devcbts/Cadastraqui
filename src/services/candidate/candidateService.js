@@ -300,6 +300,13 @@ class CandidateService {
     register(data) {
         return api.post('/candidates/', data)
     }
+    registerResponsible(data) {
+        return api.post('/responsibles', data)
+    }
+    async getAnnouncementPdf(id) {
+        const response = await api.get(`/candidates/documents/announcement/${id}`)
+        return response.data.url
+    }
 }
 
 export default new CandidateService()
