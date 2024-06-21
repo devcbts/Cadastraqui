@@ -27,6 +27,7 @@ import { getAvailableApplicants } from './get-available-applicants'
 import { getBankingInfo } from './get-banking-info'
 import { getBasicInfo } from './get-basic-info'
 import { getCreditCardInfo } from './get-credit-card-info'
+import getCandidateDashboard from './get-dashboard'
 import { getDeclaration } from './get-declaration'
 import { getExpensesInfo } from './get-expenses'
 import { getFamilyMemberHealthInfo } from './get-family-member-health-info'
@@ -39,6 +40,8 @@ import { getIncomeInfo } from './get-income-info'
 import { getLoanInfo } from './get-loan-info'
 import { getMonthlyIncomeBySource } from './get-monthly-income'
 import { getOpenAnnouncements } from './get-open-announcements'
+import { getRegistrationProgress } from './get-registration-progress'
+import { getRegistrato } from './get-registrato'
 import { getBasicInfoFormated } from './get-user-basic-info-formated'
 import { getVehicleInfo } from './get-vehicle-info'
 import { registerCandidate } from './register'
@@ -70,8 +73,6 @@ import updateIncomeSource from './update-income-source'
 import { updateLoanInfo } from './update-loan-info'
 import { updateMedicationInfo } from './update-medication-info'
 import { updateVehicleInfo } from './update-vehicle-info'
-import { getRegistrato } from './get-registrato'
-import { getRegistrationProgress } from './get-registration-progress'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT] }, uploadDocument)
@@ -224,7 +225,7 @@ export async function candidateRoutes(app: FastifyInstance) {
 
   //get all available applicants based on user role 
   app.get('/applicants', { onRequest: [verifyJWT] }, getAvailableApplicants)
-
+  app.get('/dashboard', { onRequest: [verifyJWT] }, getCandidateDashboard)
   //Terminar o cadastro
   app.post('/finish', { onRequest: [verifyJWT] }, finishRegistration)
 

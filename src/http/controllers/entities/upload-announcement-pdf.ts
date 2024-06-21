@@ -47,6 +47,7 @@ export async function uploadAnnouncementPdf(
 
         reply.status(201).send()
     } catch (error) {
+        console.log(error)
         if (error instanceof NotAllowedError) {
             return reply.status(401).send()
         }

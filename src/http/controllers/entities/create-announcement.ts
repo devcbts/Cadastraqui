@@ -1,8 +1,10 @@
 import { announcementAlreadyExists } from '@/errors/announcement-already-exists-error'
 import { EntityNotExistsError } from '@/errors/entity-not-exists-error'
 import { prisma } from '@/lib/prisma'
+import { Announcement } from '@prisma/client'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import createAnnouncementEducationLevel from './utils/create-announcement-education-level'
 
 export async function CreateAnnoucment(
   request: FastifyRequest,
@@ -36,7 +38,7 @@ export async function CreateAnnoucment(
         return curr
       }),
       interval: z.number().int().default(5)
-    }).optional(),
+    }).nullish(),
     hasInterview: z.boolean(),
     announcementNumber: z.string().optional(),
     openDate: z.string().pipe(z.coerce.date()),
@@ -48,7 +50,8 @@ export async function CreateAnnoucment(
     types1: z.array(scholarshipGrantedType).optional(),
     type2: z.string().optional(),
     criteria: z.array(z.enum(["CadUnico", "LeastFamilyIncome", "SeriousIllness", "Draw"])),
-    waitingList: z.boolean()
+    waitingList: z.boolean(),
+    educationalLevels: z.array(z.any())
   })
 
   const {
@@ -70,7 +73,8 @@ export async function CreateAnnoucment(
     description,
     types1,
     type2,
-    criteria
+    criteria,
+    educationalLevels
   } = registerBodySchema.parse(request.body)
 
   try {
@@ -82,7 +86,7 @@ export async function CreateAnnoucment(
 
     let subsidiaries = 0
     if (entity_subsidiary_id) {
-      
+
       // Supondo que você queira verificar a existência de cada subsidiária
       subsidiaries = await prisma.entitySubsidiary.count({
         where: {
@@ -95,23 +99,25 @@ export async function CreateAnnoucment(
       }
     }
 
-      if (!entityMatrix) {
-        throw new EntityNotExistsError()
+    if (!entityMatrix) {
+      throw new EntityNotExistsError()
+    }
+    // get current announcement linked to an entity at some year
+    const currentYear = openDate.getFullYear()
+    const countAnnouncement = await prisma.announcement.count({
+      where: {
+        AND: [
+          { entity_id: entityMatrix.id },
+          { openDate: { gte: new Date(`${currentYear}-01-01`), lt: new Date(`${currentYear + 1}-01-01`) } }
+        ]
       }
-      // get current announcement linked to an entity at some year
-      const currentYear = openDate.getFullYear()
-      const countAnnouncement = await prisma.announcement.count({
-        where: {
-          AND: [
-            { entity_id: entityMatrix.id },
-            { openDate: { gte: new Date(`${currentYear}-01-01`), lt: new Date(`${currentYear + 1}-01-01`) } }
-          ]
-        }
-      })
+    })
+    let announcement: Announcement;
+    await prisma.$transaction(async (tprisma) => {
       if (!subsidiaries) {
 
 
-        const announcement = await prisma.announcement.create({
+        announcement = await tprisma.announcement.create({
           data: {
             entityChanged,
             branchChanged,
@@ -132,39 +138,48 @@ export async function CreateAnnoucment(
             type2
           },
         })
-        return reply.status(201).send({ announcement })
-      }
+      } else {
 
 
-      const announcement = await prisma.announcement.create({
-        data: {
-          entityChanged,
-          branchChanged,
-          openDate,
-          closeDate,
-          announcementType,
-          offeredVacancies,
-          verifiedScholarships,
-          waitingList,
-          entity_id: entityMatrix.id,
-          entity_subsidiary: {
-            connect: entity_subsidiary_id?.map(id => ({ id })),
+
+        announcement = await tprisma.announcement.create({
+          data: {
+            entityChanged,
+            branchChanged,
+            openDate,
+            closeDate,
+            announcementType,
+            offeredVacancies,
+            verifiedScholarships,
+            waitingList,
+            entity_id: entityMatrix.id,
+            entity_subsidiary: {
+              connect: entity_subsidiary_id?.map(id => ({ id })),
+            },
+            criteria,
+            announcementNumber: `${countAnnouncement + 1}/${openDate.getFullYear()}`,
+            announcementDate: new Date(announcementDate),
+            announcementBegin: new Date(announcementBegin),
+            announcementName,
+            description,
+            types1,
+            type2
           },
-          criteria,
-          announcementNumber: `${countAnnouncement + 1}/${openDate.getFullYear()}`,
-          announcementDate: new Date(announcementDate),
-          announcementBegin: new Date(announcementBegin),
-          announcementName,
-          description,
-          types1,
-          type2
-        },
-      })
-      if (hasInterview && announcementInterview) {
-        await prisma.announcementInterview.create({ data: { ...announcementInterview, announcement_id: announcement.id } })
+        })
       }
-      return reply.status(201).send({ announcement })
-    
+      await Promise.all(educationalLevels.map(async (education) => {
+        const { entity_subsidiary_id, ...data } = education
+        await createAnnouncementEducationLevel({ dbClient: tprisma, data: { ...data, announcementId: announcement.id, entitySubsidiaryId: education.entity_subsidiary_id } })
+      }))
+
+    })
+
+    if (hasInterview && announcementInterview) {
+      await prisma.announcementInterview.create({ data: { ...announcementInterview, announcement_id: announcement!.id } })
+    }
+
+    return reply.status(201).send({ announcement: announcement! })
+
   } catch (err: any) {
     if (err instanceof announcementAlreadyExists) {
       return reply.status(409).send({ message: err.message })

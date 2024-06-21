@@ -1,5 +1,4 @@
 import { ForbiddenError } from "@/errors/forbidden-error";
-import { NotAllowedError } from "@/errors/not-allowed-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { historyDatabase, prisma } from "@/lib/prisma";
 import { calculateAge } from "@/utils/calculate-age";
@@ -16,6 +15,7 @@ export async function getCandidateResume(
     const AssistantParamsSchema = z.object({
         application_id: z.string(),
     })
+
 
     const { application_id } = AssistantParamsSchema.parse(request.params)
 
@@ -49,12 +49,12 @@ export async function getCandidateResume(
             include: {
                 candidate: true,
                 EducationLevel: {
-                    include:{
+                    include: {
                         entitySubsidiary: true,
                     }
                 },
                 announcement: {
-                    include:{
+                    include: {
                         entity: true
                     }
                 }
@@ -143,7 +143,7 @@ export async function getCandidateResume(
                 id: disease.id,
                 name: disease.familyMember?.fullName || identityDetails.fullName,
                 disease: disease.disease,
-                medication: disease.Medication.forEach((medication) => {
+                medication: disease.Medication.map((medication) => {
                     return {
                         name: medication.medicationName,
                         obtainedPublicy: medication.obtainedPublicly,
@@ -161,6 +161,8 @@ export async function getCandidateResume(
 
             }
         })
+
+
 
         const importantInfo = {
             cadUnico: identityDetails.CadUnico,
@@ -190,31 +192,31 @@ export async function getCandidateResume(
 
         const documentsFilteredByMember = membersNames.map(member => {
             const groupedDocuments: { [key: string]: { [fileName: string]: string[] } } = {};
-          
+
             documentsUrls.forEach((sectionUrls) => {
-              Object.entries(sectionUrls).forEach(([section, urls]) => {
-                Object.entries(urls).forEach(([path, fileName]) => {
-                  const parts = path.split('/');
-                  if (parts[3] === member.id) {
-                    if (!groupedDocuments[section]) {
-                      groupedDocuments[section] = {};
-                    }
-                    Object.entries(fileName).forEach(([Name, url]) => {
+                Object.entries(sectionUrls).forEach(([section, urls]) => {
+                    Object.entries(urls).forEach(([path, fileName]) => {
+                        const parts = path.split('/');
+                        if (parts[3] === member.id) {
+                            if (!groupedDocuments[section]) {
+                                groupedDocuments[section] = {};
+                            }
+                            Object.entries(fileName).forEach(([Name, url]) => {
 
-                        if (!groupedDocuments[section][Name]) {
-                            groupedDocuments[section][Name] = [];
+                                if (!groupedDocuments[section][Name]) {
+                                    groupedDocuments[section][Name] = [];
+                                }
+                                groupedDocuments[section][Name].push(url);
+                            })
                         }
-                    groupedDocuments[section][Name].push(url);
-                    })
-                  }
+                    });
                 });
-              });
-            });
-          
-            return { member: member.name, documents: groupedDocuments };
-          });
 
-        
+                return { member: member.name, documents: groupedDocuments };
+            });
+        })
+
+
         const applicationFormated = {
             id: application.id,
             number: application.number,

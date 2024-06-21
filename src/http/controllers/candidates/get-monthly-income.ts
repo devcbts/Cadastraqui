@@ -40,13 +40,13 @@ export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: F
 
   try {
     const user_id = request.user.sub;
-    const IsUser = await SelectCandidateResponsible(user_id);
-    if (!IsUser) {
-      throw new ForbiddenError()
-    }
+    // const IsUser = await SelectCandidateResponsible(_id);
+    // if (!IsUser) {
+    //   throw new ForbiddenError()
+    // }
     const CandidateOrResponsible = await SelectCandidateResponsible(_id);
 
-    const idField = CandidateOrResponsible ? CandidateOrResponsible.IsResponsible ? { responsible_id: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id } : { familyMember_id: _id };
+    const idField = CandidateOrResponsible ? CandidateOrResponsible.IsResponsible ? { legalResponsibleId: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id } : { familyMember_id: _id };
 
     const monthlyIncomes = await prisma.monthlyIncome.findMany({
       where: idField,
@@ -63,7 +63,7 @@ export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: F
     type IncomeBySourceAccumulator = Record<string, typeof monthlyIncomes>;
 
 
-    const urls = await getSectionDocumentsPDF(IsUser.UserData.id, 'monthly-income')
+    const urls = await getSectionDocumentsPDF(_id, 'monthly-income')
 
     const incomeBySource = monthlyIncomes.reduce<IncomeBySourceAccumulator>((acc, income) => {
       const source = income.incomeSource ? income.incomeSource : 'Unknown';

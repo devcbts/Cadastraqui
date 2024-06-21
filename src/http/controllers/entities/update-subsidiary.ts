@@ -1,5 +1,6 @@
 import { SubsidiaryNotExistsError } from '@/errors/subsidiary-not-exists-error'
 import { prisma } from '@/lib/prisma'
+import STATES from '@/utils/enums/zod/state'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -12,6 +13,9 @@ export async function updateSubsidiary(
     socialReason: z.string().optional(),
     CEP: z.string().optional(),
     address: z.string().optional(),
+    addressNumber: z.number().optional(),
+    UF: STATES.optional(),
+    city: z.string().optional(),
     educationalInstitutionCode: z.string().optional(),
   })
   const updateParamsSchema = z.object({

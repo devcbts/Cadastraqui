@@ -1,6 +1,7 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import IncomeSource from './enums/IncomeSource'
@@ -56,17 +57,15 @@ export async function registerEmploymenType(
 
     try {
         const user_id = request.user.sub
-
-        const candidate = await prisma.candidate.findUnique({ where: { user_id }, include: { FamillyMember: true } })
-        if (!candidate) {
-            throw new ResourceNotFoundError()
-        }
-
-        const isCandidate = await prisma.candidate.findUnique({
-            where: { id: _id }
-        })
-
-        const idField = isCandidate ? { candidate_id: _id } : { familyMember_id: _id };
+        const candidate = await SelectCandidateResponsible(_id)
+        // const candidate = await prisma.candidate.findUnique({ where: { user_id }, include: { FamillyMember: true } })
+        // if (!candidate) {
+        //     throw new ResourceNotFoundError()
+        // }
+        console.log(candidate)
+        const isCandidate = candidate !== null
+        console.log(isCandidate)
+        const idField = isCandidate ? (candidate.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : { familyMember_id: _id };
 
         await prisma.familyMemberIncome.deleteMany({
             where: { ...idField, employmentType: employmentType }

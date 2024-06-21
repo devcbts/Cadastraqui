@@ -1,8 +1,10 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { calculateAge } from '@/utils/calculate-age'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { createLegalDependent } from '../legal-responsible/create-legal-dependent'
 import { DOCUMENT_TYPE } from './enums/Document_Type'
 import { Education_Type } from './enums/Education_Type'
 import { GENDER } from './enums/Gender'
@@ -15,8 +17,6 @@ import { SCHOLARSHIP } from './enums/Scholarship'
 import { SHIFT } from './enums/Shift'
 import { SkinColor } from './enums/SkinColor'
 import { UF } from './enums/UF'
-import { calculateAge } from '@/utils/calculate-age'
-import { createLegalDependent } from '../legal-responsible/create-legal-dependent'
 
 export async function registerFamilyMemberInfo(
   request: FastifyRequest,
@@ -142,21 +142,27 @@ export async function registerFamilyMemberInfo(
     // Verifica se já existe um familiar com o RG ou CPF associados ao candidato
     if (
       await prisma.familyMember.findFirst({
-        where: { CPF, candidate_id: candidate?.id },
-      }) || await prisma.familyMember.findFirst({
-        where: { CPF, candidate_id: responsible?.id },
+        where: {
+          AND: [
+            { CPF },
+            candidate ? { candidate_id: candidate?.id } : { legalResponsibleId: responsible?.id }
+          ]
+        },
       })
     ) {
-      throw new ResourceNotFoundError()
+      throw new Error('CPF já existe para outro membro familiar')
     }
     if (
       await prisma.familyMember.findFirst({
-        where: { RG, candidate_id: candidate?.id },
-      }) || await prisma.familyMember.findFirst({
-        where: { RG, candidate_id: responsible?.id },
+        where: {
+          AND: [
+            { RG },
+            candidate ? { candidate_id: candidate?.id } : { legalResponsibleId: responsible?.id }
+          ]
+        },
       })
     ) {
-      throw new NotAllowedError()
+      throw new Error('RG já existe para outro membro familiar')
     }
 
     const dataToCreate = {
@@ -227,6 +233,7 @@ export async function registerFamilyMemberInfo(
     })
     return reply.status(201).send({ id })
   } catch (err: any) {
+    console.log(err)
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
     }

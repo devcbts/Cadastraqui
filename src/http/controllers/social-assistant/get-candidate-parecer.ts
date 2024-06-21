@@ -1,13 +1,12 @@
 import { ForbiddenError } from "@/errors/forbidden-error";
-import { NotAllowedError } from "@/errors/not-allowed-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { historyDatabase, prisma } from "@/lib/prisma";
 import { calculateAge } from "@/utils/calculate-age";
+import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsibleHDB";
 import { CalculateIncomePerCapitaHDB } from "@/utils/Trigger-Functions/calculate-income-per-capita-HDB";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { getSectionDocumentsPDF_HDB } from "./AWS-routes/get-documents-by-section-HDB";
-import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsibleHDB";
 
 export async function getCandidateParecer(
     request: FastifyRequest,
@@ -72,19 +71,25 @@ export async function getCandidateParecer(
         }
         const candidateOrResponsible = await SelectCandidateResponsibleHDB(application_id)
         const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapitaHDB(candidateOrResponsible?.UserData.id)
+        console.log(incomesPerMember)
         const candidateInfo = {
             id: candidateHDB.id,
             name: identityDetails.fullName,
             cpf: identityDetails.CPF,
             nationality: identityDetails.nationality,
             maritalStatus: identityDetails.maritalStatus,
-
+            email: identityDetails.email,
             RG: identityDetails.RG,
             rgIssuingState: identityDetails.rgIssuingState,
             rgIssuingAuthority: identityDetails.rgIssuingAuthority,
             age: calculateAge(identityDetails.birthDate),
             profession: identityDetails.profession,
-            income: incomesPerMember[candidateHDB.id]
+            income: incomesPerMember[candidateHDB.id],
+            address: identityDetails.address,
+            addressNumber: identityDetails.addressNumber,
+            city: identityDetails.city,
+            CEP: identityDetails.CEP,
+            UF: identityDetails.UF,
 
         }
 
@@ -106,13 +111,6 @@ export async function getCandidateParecer(
 
         const housingInfo = await historyDatabase.housing.findUnique({
             where: { application_id },
-            select: {
-                domicileType: true,
-                propertyStatus: true,
-                numberOfBedrooms: true,
-                numberOfRooms: true,
-                timeLivingInProperty: true
-            }
         })
 
         const vehicles = await historyDatabase.vehicle.findMany({
@@ -176,10 +174,10 @@ export async function getCandidateParecer(
                 obtainedPublicly: medication.obtainedPublicly,
             };
         });
-        
+
         // Initialize the result object
         const familyMedicationsSummary: { [key: string]: { medications: string[], obtainedPublicly: boolean, medicationsObtainedPublicly: string[] } } = {};
-        
+
         familyMemberMedications.forEach(medication => {
             const memberName = medication.name;
             // Initialize the member in the summary object if not already present
@@ -207,8 +205,8 @@ export async function getCandidateParecer(
         })
 
         const totalExpenses = expenses.length > 0 ? expenses.reduce((total, expense) => total + (expense.totalExpense ?? 0), 0) / expenses.length : 0;
-        const majoracao = await  getSectionDocumentsPDF_HDB(application_id, 'majoracao')
-        const aditional = await  getSectionDocumentsPDF_HDB(application_id, 'aditional')
+        const majoracao = await getSectionDocumentsPDF_HDB(application_id, 'majoracao')
+        const aditional = await getSectionDocumentsPDF_HDB(application_id, 'aditional')
         return reply.status(200).send({
             candidateInfo,
             familyMembersInfo,
