@@ -47,20 +47,27 @@ export async function registerDeclaration(
       }
       idField = { familyMember_id: _id }
     }
-
-    if (!declarationExists) {
-      await prisma.declarations.create({
-        data: {
-          declarationType: type,
-          ...(CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : idField),
-          declarationExists
+    const declarationInstanceOnDatabase = await prisma.declarations.findFirst({
+      where: {
+        declarationType: type,
+        ...(CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : idField),
+      }
+    })
+    if (declarationInstanceOnDatabase) {
+      await prisma.declarations.update({
+        where: {
+          id: declarationInstanceOnDatabase.id
         },
-        
+        data: {
+          text,
+          declarationExists
+        }
       })
-      return reply.status(201).send({ message: 'Declaration created successfully'})
+      return reply.status(200).send({ message: 'Declaration updated successfully' })
     }
+
     // Store declaration information in the database
-    if (text) {
+    
       await prisma.declarations.create({
         data: {
           declarationType: type,
@@ -69,7 +76,7 @@ export async function registerDeclaration(
           declarationExists
         },
       })
-    }
+    
 
 
     return reply.status(201).send()
