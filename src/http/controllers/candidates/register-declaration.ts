@@ -82,7 +82,7 @@ export async function registerDeclaration(
     return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
-      return reply.status(404).send({ message: err.message })
+      return reply.status(404).send({ message: "Membro da Familia não Encontrado" })
     }
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })

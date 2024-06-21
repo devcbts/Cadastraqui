@@ -109,7 +109,7 @@ export async function getHealthInfoHDB(
             const healthInfoResultsUrls = member.healthInfo.map((disease) => {
 
                 const healthDocuments = Object.entries(urlsHealth).filter(([url]) => url.split("/")[4] === disease.id)
-                const medicationDocuments = Object.entries(urlsMedication).filter(([url]) => url.split("/")[4] === disease.id)
+                const medicationDocuments = Object.entries(urlsMedication).filter(([url]) => disease.medication.find(e => e.id === url.split("/")[4]))
                 return {
                     ...disease,
                     urlsHealth: Object.fromEntries(healthDocuments),
