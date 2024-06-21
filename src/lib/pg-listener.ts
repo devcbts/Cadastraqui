@@ -29,6 +29,7 @@ import { CalculateIncomePerCapita } from "@/utils/Trigger-Functions/calculate-in
 import { createVehicleHDB } from "@/HistDatabaseFunctions/handle-vehicle";
 import { createBankAccountHDB, updateBankAccountHDB } from "@/HistDatabaseFunctions/handle-bank-account";
 import findAllBankAccount from "@/HistDatabaseFunctions/Handle Application/find-all-bank-account";
+import { createRegistratoHDB } from "@/HistDatabaseFunctions/handle-registrato";
 const clientBackup = new Client(env.DATABASE_URL);
 clientBackup.connect();
 
@@ -298,6 +299,7 @@ try{
         const application = JSON.parse(msg.payload!);
         const application_id = application.id
         const candidate_id = application.candidate_id
+        const responsible_id = application.legalResponsibleId
         console.log('Feito')
         const findUserDetails = await prisma.candidate.findUnique({
             where: { id: candidate_id }
@@ -337,64 +339,69 @@ try{
         const findFamilyMemberDisease = await findAllDiseases(candidate_id, '')
         const findMedication = await findAllMedication(candidate_id, '')
 
+
+        await createResponsibleHDB(responsible_id, candidate_id, responsible_id, application_id)
         await createCandidateHDB(candidate_id, '', '', application_id)
 
         // ... repeat for the FamilyMember table ...
 
         for (const familyMember of findFamilyMembers) {
-            await createFamilyMemberHDB(familyMember.id, candidate_id, '', application_id)
+            await createFamilyMemberHDB(familyMember.id, candidate_id, responsible_id, application_id)
         }
-        await createIdentityDetailsHDB(findIdentityDetails!.id, candidate_id, '', application_id)
+        await createIdentityDetailsHDB(findIdentityDetails!.id, candidate_id, responsible_id, application_id)
 
-        await createHousingHDB(findHousing!.id, candidate_id, '', application_id)
+        await createHousingHDB(findHousing!.id, candidate_id, responsible_id, application_id)
 
 
         for (const familyMemberIncome of findFamilyMemberIncome!) {
-            await createFamilyMemberIncomeHDB(familyMemberIncome.id, familyMemberIncome.candidate_id, familyMemberIncome.legalResponsibleId, application_id)
+            await createFamilyMemberIncomeHDB(familyMemberIncome.id, candidate_id, responsible_id, application_id)
         }
 
         for (const vehicle of findVehicle!) {
-            await createVehicleHDB(vehicle.id, vehicle.candidate_id, vehicle.legalResponsibleId, application_id)
+            await createVehicleHDB(vehicle.id, candidate_id,responsible_id, application_id)
         }
         for (const monthlyIncome of findMonthlyIncome!) {
-            await createMonthlyIncomeHDB(monthlyIncome.id, monthlyIncome.candidate_id, monthlyIncome.candidate_id, application_id)
+            await createMonthlyIncomeHDB(monthlyIncome.id, candidate_id, responsible_id, application_id)
         }
         for(const bankAccount of findBankAccount!){
-            await createBankAccountHDB(bankAccount.id, bankAccount.candidate_id, bankAccount.legalResponsibleId, application_id)
+            await createBankAccountHDB(bankAccount.id, candidate_id, responsible_id, application_id)
 
         }
         for (const expense of findExpense!) {
-            await createExpenseHDB(expense.id, expense.candidate_id, expense.legalResponsibleId, application_id)
+            await createExpenseHDB(expense.id, candidate_id, responsible_id, application_id)
         }
         for (const loan of findLoan!) {
-            await createLoanHDB(loan.id, loan.candidate_id, loan.legalResponsibleId, application_id)
+            await createLoanHDB(loan.id, candidate_id, responsible_id, application_id)
         }
 
         for (const financing of findFinancing!) {
-            await createLoanHDB(financing.id, financing.candidate_id, financing.legalResponsibleId, application_id)
+            await createLoanHDB(financing.id, candidate_id, responsible_id, application_id)
         }
 
         // Para creditCard
         for (const creditCard of findCreditCard!) {
-            await createCreditCardHDB(creditCard.id, creditCard.candidate_id, creditCard.legalResponsibleId, application_id)
+            await createCreditCardHDB(creditCard.id, candidate_id, responsible_id, application_id)
         }
 
         // Para otherExpense
         for (const otherExpense of findOtherExpense) {
-            await createOtherExpenseHDB(otherExpense.id, otherExpense.candidate_id, otherExpense.legalResponsibleId, application_id)
+            await createOtherExpenseHDB(otherExpense.id, candidate_id, responsible_id, application_id)
         }
 
         // Para familyMemberDisease
         for (const familyMemberDisease of findFamilyMemberDisease!) {
-            await createFamilyMemberDiseaseHDB(familyMemberDisease.id, familyMemberDisease.candidate_id, familyMemberDisease.legalResponsibleId, application_id)
+            await createFamilyMemberDiseaseHDB(familyMemberDisease.id, candidate_id, responsible_id, application_id)
         }
 
         // Para medication
         for (const medication of findMedication!) {
-            await createMedicationHDB(medication.id, medication.candidate_id, medication.legalResponsibleId, application_id)
+            await createMedicationHDB(medication.id, candidate_id,responsible_id, application_id)
         }
 
-        
+        // Para o registrato
+        for (const familyMember of findFamilyMembers) {
+            await createRegistratoHDB(familyMember.id, candidate_id, responsible_id, application_id)
+        }
 
     }
 } catch(error){
