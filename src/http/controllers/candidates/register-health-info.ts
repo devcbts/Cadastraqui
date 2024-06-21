@@ -50,10 +50,10 @@ export async function registerHealthInfo(
 
   try {
     const user_id = request.user.sub
-    const IsUser = await SelectCandidateResponsible(user_id)
-    if (!IsUser) {
-      throw new NotAllowedError()
-    }
+    // const IsUser = await SelectCandidateResponsible(user_id)
+    // if (!IsUser) {
+    //   throw new NotAllowedError()
+    // }
     const CandidateOrResponsible = await SelectCandidateResponsible(_id)
     if (!CandidateOrResponsible) {
       const familyMember = await prisma.familyMember.findUnique({
@@ -64,20 +64,24 @@ export async function registerHealthInfo(
       }
     }
 
-    const idField = CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsible_id: _id } : { candidate_id: _id }) : { familyMember_id: _id }
+    const idField = CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : { familyMember_id: _id }
 
     const { id } = await prisma.familyMemberDisease.create({
       data: {
         hasMedicalReport,
         diseases,
         specificDisease: specificDisease ? specificDisease : undefined,
-        ...idField
+        ...idField,
+
       },
     })
-    await prisma.identityDetails.update({
-      where: (IsUser.IsResponsible ? { responsible_id: IsUser.UserData.id } : { candidate_id: IsUser.UserData.id }),
-      data: { hasSevereDesease: true }
-    })
+
+    if (CandidateOrResponsible) {
+      await prisma.identityDetails.update({
+        where: (CandidateOrResponsible!.IsResponsible ? { responsible_id: CandidateOrResponsible!.UserData.id } : { candidate_id: CandidateOrResponsible!.UserData.id }),
+        data: { hasSevereDesease: true }
+      })
+    }
     return reply.status(201).send({ id })
 
   } catch (err: any) {

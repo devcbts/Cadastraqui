@@ -76,7 +76,7 @@ export async function registerHousingInfo(
     if (!CandidateOrResponsible) {
       throw new NotAllowedError()
     }
-    const idField = CandidateOrResponsible.IsResponsible ? { legalresponsible_id: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id }
+    const idField = CandidateOrResponsible.IsResponsible ? { responsible_id: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id }
     const dataToCreate = {
       domicileType,
 
@@ -88,16 +88,16 @@ export async function registerHousingInfo(
       ...(contractType && { contractType }),
       ...(grantorName && { grantorName })
     }
-
+    console.log(dataToCreate)
     // Armazena informações acerca da moradia no banco de dados
     const { id } = await prisma.housing.create({
       data: dataToCreate
 
     })
     await prisma.finishedRegistration.updateMany({
-      where: { OR: [{ candidate_id: CandidateOrResponsible.UserData.id }, { legalResponsibleId: CandidateOrResponsible.UserData.id }]},
+      where: { OR: [{ candidate_id: CandidateOrResponsible.UserData.id }, { legalResponsibleId: CandidateOrResponsible.UserData.id }] },
       data: { moradia: true }
-    
+
     })
     return reply.status(201).send({ id })
   } catch (err: any) {

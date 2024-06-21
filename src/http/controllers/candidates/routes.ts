@@ -27,6 +27,7 @@ import { getAvailableApplicants } from './get-available-applicants'
 import { getBankingInfo } from './get-banking-info'
 import { getBasicInfo } from './get-basic-info'
 import { getCreditCardInfo } from './get-credit-card-info'
+import getCandidateDashboard from './get-dashboard'
 import { getDeclaration } from './get-declaration'
 import { getExpensesInfo } from './get-expenses'
 import { getFamilyMemberHealthInfo } from './get-family-member-health-info'
@@ -224,7 +225,7 @@ export async function candidateRoutes(app: FastifyInstance) {
 
   //get all available applicants based on user role 
   app.get('/applicants', { onRequest: [verifyJWT] }, getAvailableApplicants)
-
+  app.get('/dashboard', { onRequest: [verifyJWT] }, getCandidateDashboard)
   //Terminar o cadastro
   app.post('/finish', { onRequest: [verifyJWT] }, finishRegistration)
 

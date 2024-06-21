@@ -1,4 +1,3 @@
-import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
@@ -28,10 +27,10 @@ export async function registerMedicationInfo(
 
   try {
     const user_id = request.user.sub
-    const IsUser = await SelectCandidateResponsible(user_id)
-    if (!IsUser) {
-      throw new NotAllowedError()
-    }
+    // const IsUser = await SelectCandidateResponsible(user_id)
+    // if (!IsUser) {
+    //   throw new NotAllowedError()
+    // }
     const CandidateOrResponsible = await SelectCandidateResponsible(_id)
     if (!CandidateOrResponsible) {
       const familyMember = await prisma.familyMember.findUnique({
@@ -42,7 +41,7 @@ export async function registerMedicationInfo(
       }
     }
 
-    const idField = CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsible_id: _id } : { candidate_id: _id }) : { familyMember_id: _id }
+    const idField = CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : { familyMember_id: _id }
 
     await prisma.medication.create({
       data: {

@@ -16,10 +16,10 @@ export async function getRegistrationProgress(request: FastifyRequest,
         let idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
 
         const progress = await prisma.finishedRegistration.findFirst({
-            where: idField ,
+            where: idField,
         })
-        
-        return reply.status(200).send(progress );
+        console.log(progress)
+        return reply.status(200).send(progress);
     } catch (error) {
         if (error instanceof ForbiddenError) {
 

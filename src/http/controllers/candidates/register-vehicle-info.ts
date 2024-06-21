@@ -56,7 +56,7 @@ export async function registerVehicleInfo(
     if (!candidateResponsible) {
       throw new NotAllowedError()
     }
-    connectField = candidateResponsible.IsResponsible ? { legalResponsible: { connect: { id: candidateResponsible.UserData.id } } } : { candidate: { connect: { id: candidateResponsible.UserData.id } } };;
+    connectField = candidateResponsible.IsResponsible ? { LegalResponsible: { connect: { id: candidateResponsible.UserData.id } } } : { candidate: { connect: { id: candidateResponsible.UserData.id } } };;
 
 
 
@@ -91,7 +91,7 @@ export async function registerVehicleInfo(
         insuranceValue,
         monthsToPayOff,
         owners_id,
-        ...connectField
+        ...connectField,
         // Não adiciona os proprietários aqui, pois será feito no próximo passo
       },
     });

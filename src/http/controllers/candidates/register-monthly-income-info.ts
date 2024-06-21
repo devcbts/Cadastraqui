@@ -1,7 +1,7 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
-import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -80,10 +80,10 @@ export async function registerMonthlyIncomeInfo(
       throw new ResourceNotFoundError()
     }
 
-    const isCandidateOrResponsible = await ChooseCandidateResponsible(_id)
+    const isCandidateOrResponsible = await SelectCandidateResponsible(_id)
     // Verifica se existe um familiar cadastrado com o owner_id
 
-    const idField = isCandidateOrResponsible ? (isCandidateOrResponsible.IsResponsible ? { responsible_id: _id } : { candidate_id: _id }) : { familyMember_id: _id };
+    const idField = isCandidateOrResponsible ? (isCandidateOrResponsible.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : { familyMember_id: _id };
 
     // iterate over the month array to get all total income
     monthlyIncome.incomes.forEach(async (income) => {
@@ -103,6 +103,7 @@ export async function registerMonthlyIncomeInfo(
         // Armazena informações acerca da renda mensal no banco de dados
         await prisma.monthlyIncome.create({
           data: {
+
             grossAmount: income.grossAmount,
             liquidAmount,
             date: income.date,
