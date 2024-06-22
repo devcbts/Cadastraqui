@@ -8,8 +8,12 @@ class UserService {
             newPassword: newPass
         }, { headers: { Authorization: `Bearer ${token}` } })
     }
-    async getProfilePicture() {
+    async getProfilePicture({ role = null }) {
         const token = localStorage.getItem("token")
+        if (role?.toLowerCase() === "entity") {
+            const response = await api.get('/entities/profilePicture/', { headers: { Authorization: `Bearer ${token}` } })
+            return response.data.url
+        }
         const response = await api.get('/profilePicture', { headers: { Authorization: `Bearer ${token}` } })
         return response.data.url
     }

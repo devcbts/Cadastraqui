@@ -4,6 +4,7 @@ import SubscriptionStatus from "./components/SubscriptionStatus"
 import { useNavigate } from "react-router"
 import styles from './styles.module.scss'
 import candidateService from "services/candidate/candidateService"
+import formatMoney from "utils/format-money"
 export default function HomeCandidate() {
     const navigate = useNavigate()
     const [data, setData] = useState({ announcements: 0, subscriptions: 0 })
@@ -43,29 +44,29 @@ export default function HomeCandidate() {
                     </div>
                     <div className={styles.row}>
                         <Card.Root width={230}>
-                            <Card.Title text={'renda bruta mensal'} />
+                            <Card.Title text={'renda média mensal'} />
                             <Card.Content>
-                                <h3>R$1400</h3>
+                                <h3>{formatMoney(data.familyIncome)}</h3>
                             </Card.Content>
                         </Card.Root>
                         <Card.Root width={230}>
-                            <Card.Title text={'renda bruta familiar mensal'} />
+                            <Card.Title text={'renda méida familiar mensal'} />
                             <Card.Content>
-                                <h3>R$1250</h3>
+                                <h3>{formatMoney(data.familyIncome)}</h3>
                             </Card.Content>
                         </Card.Root>
                         <Card.Root width={230}>
                             <Card.Title text={'salário mínimo nacional'} />
                             <Card.Content>
-                                <h3>R$1412</h3>
+                                <h3>{formatMoney(1412)}</h3>
                             </Card.Content>
                         </Card.Root>
-                        <Card.Root width={230}>
+                        {/* <Card.Root width={230}>
                             <Card.Title text={'elegível a bolsa'} />
                             <Card.Content>
                                 <h3>Integral</h3>
                             </Card.Content>
-                        </Card.Root>
+                        </Card.Root> */}
                     </div>
                 </div>
                 <SubscriptionStatus />

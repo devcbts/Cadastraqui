@@ -26,7 +26,9 @@ export default function Visit({ data, onSubmit }) {
                     <Table.Cell divider>
                         {report?.date ? formatDate(report?.date) : '-'}
                     </Table.Cell>
-                    <Table.Cell> </Table.Cell>
+                    <Table.Cell>
+                        Se houver, registre o relatório da visita domiciliar realizada
+                    </Table.Cell>
                     <Table.Cell>
                         {report?.file
                             ? <FilePreview url={report.file} text={'visualizar documento'} />

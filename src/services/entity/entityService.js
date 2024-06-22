@@ -78,6 +78,9 @@ class EntityService {
     async updateSubsidiary(id, data) {
         return api.patch(`/entities/subsidiary/${id}`, data)
     }
+    async updateDirector(id, data) {
+        return api.patch(`/entities/director/${id}`, data)
+    }
 
 }
 

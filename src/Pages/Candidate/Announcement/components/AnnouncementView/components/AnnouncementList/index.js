@@ -9,7 +9,10 @@ export default function AnnouncementList({ announcement, onSelect }) {
             <BackPageTitle title={'Edital selecionado'} path={'/home/editais'} />
             <div className={styles.content}>
                 <div className={styles.contentheader}>
-                    <img src={Logo} ></img>
+                    {announcement?.logo
+                        ? <img className={styles.logo} src={announcement.logo} ></img>
+                        : <img src={Logo} height={120} width={100}></img>
+                    }
                     <span>Total de vagas oferecidas: {announcement?.verifiedScholarships}</span>
                 </div>
                 {

@@ -80,7 +80,9 @@ export default function AnnouncementSelect({ announcement }) {
                                 <ButtonBase label={'salvar edital'} onClick={handleSaveAnnouncement} />
                             </div>}
                             <div className={styles.contentwrapper}>
-                                <img src={Logo}></img>
+                                {announcementInfo?.logo
+                                    ? <img src={announcementInfo.logo}></img>
+                                    : <img src={Logo}></img>}
                                 <div className={styles.info}>
                                     <span>Instituição: {announcementCourse?.socialReason}</span>
                                     <span>Endereço: {announcementCourse?.address} </span>

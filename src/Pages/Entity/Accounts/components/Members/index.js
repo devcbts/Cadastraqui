@@ -4,6 +4,7 @@ import AssistantModal from "Pages/Entity/AnnouncementView/components/SocialAssis
 import { useEffect, useState } from "react";
 import entityService from "services/entity/entityService";
 import { NotificationService } from "services/notification";
+import DirectorModal from "./DirectorModal";
 
 export default function Members() {
     const [members, setMembers] = useState([])
@@ -57,7 +58,9 @@ export default function Members() {
     }
     return (
         <div>
-            {selection?.role === "assistente" && <AssistantModal data={selection} onClose={handleClose} onUpdate={handleUpdate} />}
+            {selection?.role === "assistente" ? <AssistantModal data={selection} onClose={handleClose} onUpdate={handleUpdate} />
+                : <DirectorModal data={selection} onClose={handleClose} onUpdate={handleUpdate} />
+            }
             <h3>Status dos colaboradores</h3>
             <Table.Root headers={['nome', 'status', 'ações']}>
                 {
