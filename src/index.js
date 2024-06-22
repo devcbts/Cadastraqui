@@ -23,7 +23,7 @@ root.render(
   <BrowserRouter>
     <AuthProvider>
       <RecoilRoot>
-          <AppRoutes />
+        <AppRoutes />
       </RecoilRoot>
     </AuthProvider>
   </BrowserRouter>

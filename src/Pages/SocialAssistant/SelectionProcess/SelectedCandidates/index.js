@@ -12,6 +12,8 @@ import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer";
 import moneyInputMask from "Components/MoneyFormInput/money-input-mask";
 import SCHOOL_LEVELS from "utils/enums/school-levels";
 import Loader from "Components/Loader";
+import findLabel from "utils/enums/helpers/findLabel";
+import APPLICATION_STATUS from "utils/enums/application-status";
 export default function SelectedCandidates() {
     const navigate = useNavigate()
     const { announcementId, courseId } = useParams()
@@ -63,7 +65,7 @@ export default function SelectedCandidates() {
                                 <Table.Cell >{moneyInputMask(candidate.averageIncome?.toString())}</Table.Cell>
                                 <Table.Cell >Titular</Table.Cell>
                                 <Table.Cell >0</Table.Cell>
-                                <Table.Cell >Em análise</Table.Cell>
+                                <Table.Cell >{findLabel(APPLICATION_STATUS, candidate?.status)}</Table.Cell>
                                 <Table.Cell >
                                     <ButtonBase onClick={() => navigate('candidato', {
                                         state: {

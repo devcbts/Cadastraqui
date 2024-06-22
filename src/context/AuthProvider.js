@@ -42,6 +42,7 @@ export default function AuthProvider({ children }) {
     }
     useEffect(() => {
         const token = get('token')
+        console.log('RUNNING')
         if (token) {
             setAuth(jwtDecode(token))
         }

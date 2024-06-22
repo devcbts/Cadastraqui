@@ -1,5 +1,5 @@
 import BackPageTitle from "Components/BackPageTitle";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import styles from './styles.module.scss'
 import BasicInformation from "./components/BasicInformation";
@@ -19,6 +19,7 @@ import FormCheckbox from "Components/FormCheckbox";
 import useControlForm from "hooks/useControlForm";
 import UploadButton from "./components/UploadButton";
 import reportSchema from "./schemas/report-schema";
+import Visit from "./components/Visit";
 export default function CandidateInfo() {
     const location = useLocation()
     const navigate = useNavigate()
@@ -30,8 +31,11 @@ export default function CandidateInfo() {
         vehicles: [],
         familyMembersDiseases: [],
         importantInfo: {},
-        documentsUrls: {},
+        documentsUrls: [],
         applicationInfo: {},
+        majoracao: {},
+        interviewDocument: {},
+        visitDocument: {}
     })
     const { state } = location
     const { control, formState: { isValid }, trigger, watch } = useControlForm({
@@ -40,15 +44,23 @@ export default function CandidateInfo() {
             check_report: null
         }
     })
+    const [data, setData] = useState()
+
+    const fileRef = useRef(null)
     const watchReport = watch("check_report")
     const handleSubmit = () => {
         if (!isValid) {
             trigger()
             return
         }
-        navigate('/parecer', { state })
+        navigate('/parecer', { state: { ...state, data } })
 
     }
+    useEffect(() => {
+        if (!watchReport) {
+            setData((prev) => ({ ...prev, majoracao: null }))
+        }
+    }, [watchReport])
     useEffect(() => {
         if (!state) {
             navigate(-1)
@@ -64,8 +76,21 @@ export default function CandidateInfo() {
                 setIsLoading(false)
             }
             fetchCandidateInfo()
+            setData(state?.data)
+
         }
     }, [state])
+    const handleSearchCNPJ = async () => {
+        try {
+            const response = await socialAssistantService.findCPFCNPJ(state?.applicationId)
+            if (response) {
+                setSummary((prev) => ({
+                    ...prev,
+                    candidateInfo: { ...prev.candidateInfo, hasCompany: !!response.data.empresas.length }
+                }))
+            }
+        } catch (err) { }
+    }
     return (
         <div className={styles.container}>
             <Loader loading={isLoading} text="Carregando informações do candidato" />
@@ -81,16 +106,21 @@ export default function CandidateInfo() {
                     </span>
                     <span>Ficha do candidato: Em análise</span>
                 </div> */}
-                <BasicInformation data={summary.candidateInfo} />
+                <BasicInformation data={summary.candidateInfo} onSearch={handleSearchCNPJ} />
                 <FamilyGroup data={summary.familyMembersInfo} />
                 <SummaryData data={summary.importantInfo} />
                 <Course data={summary.applicationInfo} />
                 <Vehicle data={summary.vehicles} />
                 <Habitation data={summary.housingInfo} />
                 <Health data={summary.familyMembersDiseases} />
-                <Documents />
-                <Scholarship />
-                <Interview />
+                <Documents data={summary.documentsUrls} />
+                <Scholarship data={data ?? summary.applicationInfo} onChange={(v) => { setData((prev) => ({ ...prev, partial: v })) }} />
+                <Interview data={summary.interview} onSubmit={(v) => {
+                    setData((prev) => ({ ...prev, interview: v }))
+                }} />
+                <Visit data={summary.visit} onSubmit={(v) => {
+                    setData((prev) => ({ ...prev, visit: v }))
+                }} />
 
                 <p style={{ marginTop: '16px' }}>
                     Será aplicada a faculdade contida no § 2º do art. 19, relacionada a majoração em até 20% (vinte por cento) do teto estabelecido (bolsa de estudo integral),
@@ -105,7 +135,10 @@ export default function CandidateInfo() {
                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignContent: 'center', placeItems: 'center' }}>
                         Se sim, elaborar o relatório referente a majoração de que trata o § 2º do art. 19 da Lei Complementar nº 187, de 16 de dezembro de 2021
                         e fazer o upload do mesmo, clicando no ícone abaixo.
-                        <UploadButton onClick={() => { }} />
+                        <input hidden type="file" ref={fileRef} onChange={(e) => {
+                            setData((prev) => ({ ...prev, majoracao: e.target.files[0] }))
+                        }}></input>
+                        <UploadButton onClick={() => fileRef?.current?.click()} />
                     </div>}
             </div>
             <div className={styles.actions}>

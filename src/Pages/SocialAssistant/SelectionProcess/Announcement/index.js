@@ -35,7 +35,7 @@ export default function SocialAssistantAnnouncement() {
                 <div className={styles.row}>
                     <span>Instituição: {process.announcement?.entity?.socialReason}</span>
                     <span>Edital: {process.announcement.announcementNumber}</span>
-                    <span>Total de vagas: {process.announcement.offeredVacancies} </span>
+                    <span>Total de vagas: {process.announcement.verifiedScholarships} </span>
                 </div>
                 <span>Vigência do Edital: {formatDate(process.announcement.announcementDate)}</span>
                 <span>Período de Inscrição: {formatDate(process.announcement.openDate)} à {formatDate(process.announcement.closeDate)}</span>

@@ -7,12 +7,12 @@ export default function Health({ data }) {
             <h3>Saúde</h3>
             <Table.Root headers={['nome completo', 'doença', 'remédio controlado', 'obtém pela rede pública?']}>
                 {
-                    data?.medication?.map((medication) => {
+                    data?.map((item) => {
                         return (<Table.Row>
-                            <Table.Cell>{data.name}</Table.Cell>
-                            <Table.Cell>{DISEASES.find(e => e.value === data.disease)?.label}</Table.Cell>
-                            <Table.Cell>{medication.name}</Table.Cell>
-                            <Table.Cell>{medication.obtainedPublicy}</Table.Cell>
+                            <Table.Cell>{item.name}</Table.Cell>
+                            <Table.Cell>{DISEASES.find(e => e.value === data.disease)?.label ?? '-'}</Table.Cell>
+                            <Table.Cell>{item.medication?.[0]?.name ?? '-'}</Table.Cell>
+                            <Table.Cell>{item.medication?.[0]?.obtainedPublicy === null ? '-' : (item.medication?.[0]?.obtainedPublicy ? 'Sim' : 'Não')}</Table.Cell>
                         </Table.Row>)
                     })
                 }

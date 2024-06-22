@@ -6,8 +6,15 @@
             text-transform: uppercase;
         }
     }
+    border: 1px solid #CFCFCF;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
 }
 .table{
+    + .table {
+        margin-top: 20px;
+    }
     display: flex;
     flex-direction: column;
     h3{

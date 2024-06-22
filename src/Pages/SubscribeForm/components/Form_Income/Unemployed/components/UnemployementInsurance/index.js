@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import unemployementInsuranceSchema from "./schemas/unemployement-insurance-schema";
 import ButtonBase from "Components/ButtonBase";
 import useControlForm from "hooks/useControlForm";
-const UnemployementInsurance = forwardRef(({ data }, ref) => {
+const UnemployementInsurance = forwardRef(({ data, viewMode }, ref) => {
     const { control, watch, resetField } = useControlForm({
         schema: unemployementInsuranceSchema,
         defaultValues: {
@@ -32,22 +32,25 @@ const UnemployementInsurance = forwardRef(({ data }, ref) => {
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Seguro Desemprego</h1>
-            <FormCheckbox name={"receivesUnemployment"} control={control} label={"recebe seguro desemprego?"} />
-            {
-                watchInsurance && (
-                    <>
-                        <MoneyFormInput name="parcelValue" control={control} label={"valor da parcela"} />
-                        <InputForm name="firstParcelDate" control={control} type="date" label={"data da primeira parcela"} />
-                        <InputForm name="parcels" control={control} label={"quantidade de parcelas"} transform={(e) => {
-                            if (!isNaN(parseInt(e.target.value))) {
-                                return parseInt(e.target.value)
-                            }
-                            return 0
-                        }} />
-                    </>
-                )
+            <fieldset disabled={viewMode}>
 
-            }
+                <FormCheckbox name={"receivesUnemployment"} control={control} label={"recebe seguro desemprego?"} />
+                {
+                    watchInsurance && (
+                        <>
+                            <MoneyFormInput name="parcelValue" control={control} label={"valor da parcela"} />
+                            <InputForm name="firstParcelDate" control={control} type="date" label={"data da primeira parcela"} />
+                            <InputForm name="parcels" control={control} label={"quantidade de parcelas"} transform={(e) => {
+                                if (!isNaN(parseInt(e.target.value))) {
+                                    return parseInt(e.target.value)
+                                }
+                                return 0
+                            }} />
+                        </>
+                    )
+
+                }
+            </fieldset>
         </div>
     )
 })

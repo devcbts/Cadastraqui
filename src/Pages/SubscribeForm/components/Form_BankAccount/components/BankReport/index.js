@@ -60,10 +60,9 @@ export default function BankReport({ id }) {
     }
     return (
         <>
-            {console.log()}
             <h1>{new Date().toLocaleString('pt-br', { year: 'numeric', month: 'long' }).toUpperCase()}</h1>
             <div className={styles.report}>
-                <h1>Relatório de Contas e Relationamentos (CCS)</h1>
+                <h1>Relatório de Contas e Relacionamentos (CCS)</h1>
                 <div style={{ width: '100%' }}>
                     <FormFilePicker accept={"application/pdf"} control={control} label={'Arquivo'} name={'file_bankReport'} />
                     {watch('date') && <Table.Root headers={['data', 'status', 'ações']}>

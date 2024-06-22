@@ -12,6 +12,16 @@ import TIME_LIVING_PROPERTY from "utils/enums/time-living-property";
 import DOMICILE_TYPE from "utils/enums/domicile-type";
 import PROPERTY_STATUS from "utils/enums/property-status";
 import NUMBER_ROOMS from "utils/enums/number-rooms";
+import FilePreview from "Components/FilePreview";
+import FormCheckbox from "Components/FormCheckbox";
+import useControlForm from "hooks/useControlForm";
+import FormFilePicker from "Components/FormFilePicker";
+import legalOpinionSchema from "./schemas/legal-opinion-schema";
+import FormRadio from "Components/FormRadio";
+import ButtonBase from "Components/ButtonBase";
+import { NotificationService } from "services/notification";
+import formatMoney from "utils/format-money";
+import uploadService from "services/upload/uploadService";
 
 export default function LegalOpinion() {
     const { state } = useLocation()
@@ -20,9 +30,13 @@ export default function LegalOpinion() {
     const candidate = useMemo(() => data?.candidateInfo, [data])
     const family = useMemo(() => data?.familyMembersInfo, [data])
     const house = useMemo(() => data?.housingInfo, [data])
+
+    const handleBack = () => {
+        navigate(-1, { state })
+    }
     useEffect(() => {
         if (!state.applicationId) {
-            navigate(-1)
+            handleBack()
         } else {
             const fetchLegalOpinion = async () => {
                 try {
@@ -33,10 +47,59 @@ export default function LegalOpinion() {
             fetchLegalOpinion()
         }
     }, [state])
+
+    const { control, watch, getValues, trigger, formState: { isValid } } = useControlForm({
+        schema: legalOpinionSchema,
+        defaultValues: {
+            additional: null,
+            file: null,
+            status: null
+        },
+        initialData: data
+    })
+    const disease = data?.familyMembersDiseases
+    const members = data?.familyMembersInfo
+    const submitData = state?.data
+    const handleSubmit = async () => {
+        if (!isValid) {
+            trigger()
+            return
+        }
+        try {
+            const values = getValues()
+            if (submitData?.interview) {
+                const formData = new FormData()
+                formData.append(`${submitData.interview.date}`, submitData.interview.file)
+                await uploadService.uploadSolicitation({ applicationId: state?.applicationId, type: "Interview" }, formData)
+            }
+            if (submitData?.visit) {
+                const formData = new FormData()
+                formData.append(`${submitData.visit.date}`, submitData.visit.file)
+                await uploadService.uploadSolicitation({ applicationId: state?.applicationId, type: "Visit" }, formData)
+
+            }
+            if (submitData?.majoracao) {
+                const formData = new FormData()
+                formData.append("majoracao", submitData.majoracao)
+                await socialAssistantService.uploadMajoracao(state?.applicationId, formData)
+            }
+            if (values.additional) {
+                const formData = new FormData()
+                formData.append("additional", values.file)
+                await socialAssistantService.uploadAdditionalInfo(state?.applicationId, formData)
+            }
+            const applicationData = {
+                status: values.status
+            }
+            await socialAssistantService.updateApplication(state?.applicationId, applicationData)
+            NotificationService.success({ text: 'Parecer salvo' })
+        } catch (err) {
+        }
+    }
     return (
         <div>
-            <BackPageTitle title={'processo de seleção'} path={-1} />
-            <div>
+            <BackPageTitle title={'processo de seleção'} onClick={handleBack} />
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 64 }}>
                 <h1>Parecer final sobre a inscrição e perfil socioeconômico aferido</h1>
                 <div className={styles.content}>
                     <p>
@@ -89,41 +152,87 @@ export default function LegalOpinion() {
 
 
                     <Vehicles data={data?.vehicleInfoResults} />
-                    <h3>O(s) integrante(s) identificados abaixo fazem uso dos seguintes medicamentos:</h3>
-                    <Table.Root headers={['integrante', 'nome do(s) medicamento(s)', 'Obtém medicamento(s) através da rede pública', 'Relação de medicamentos obtidos através da rede pública']}>
-                        <Table.Row>
-                            <Table.Cell></Table.Cell>
-                            <Table.Cell></Table.Cell>
-                            <Table.Cell></Table.Cell>
-                            <Table.Cell></Table.Cell>
-                        </Table.Row>
-                    </Table.Root>
-                    <h3>Para subsistência do grupo familiar, a renda provêm de:</h3>
-                    <Table.Root headers={['nome', 'CPF', 'idade', 'parentesco', 'ocupação', 'renda média aferida']}>
-                        <Table.Row>
+                    <div className={styles.table}>
+
+                        <h3>O(s) integrante(s) identificados abaixo fazem uso dos seguintes medicamentos:</h3>
+                        <Table.Root headers={['integrante', 'nome do(s) medicamento(s)', 'Obtém medicamento(s) através da rede pública', 'Relação de medicamentos obtidos através da rede pública']}>
+                            {
+                                disease?.filter(e => e.medications.length).map((item) => {
+                                    return (
+                                        <Table.Row>
+                                            <Table.Cell>{item.name}</Table.Cell>
+                                            <Table.Cell>{item.medications?.[0]?.medicationName}</Table.Cell>
+                                            <Table.Cell>{item.medications?.[0]?.obtainedPublicly ? 'Sim' : 'Não'}</Table.Cell>
+                                            <Table.Cell>{item.medications?.[0]?.specificMedicationPublicly}</Table.Cell>
+
+                                        </Table.Row>
+                                    )
+                                })
+                            }
+                        </Table.Root>
+                    </div>
+                    <div className={styles.table}>
+
+                        <h3>Para subsistência do grupo familiar, a renda provêm de:</h3>
+                        <Table.Root headers={['nome', 'CPF', 'idade', 'parentesco', 'ocupação', 'renda média aferida']}>
+                            {
+                                members?.map((member) => {
+                                    return (<Table.Row>
+                                        <Table.Cell>{member.name}</Table.Cell>
+                                        <Table.Cell>{member.cpf}</Table.Cell>
+                                        <Table.Cell>{member.age}</Table.Cell>
+                                        <Table.Cell>{findLabel(FAMILY_RELATIONSHIP, member.relationship)}</Table.Cell>
+                                        <Table.Cell>{member.profession}</Table.Cell>
+                                        <Table.Cell>{formatMoney(member.income)}</Table.Cell>
+                                    </Table.Row>)
+                                })}
                             <Table.Cell></Table.Cell>
                             <Table.Cell></Table.Cell>
                             <Table.Cell></Table.Cell>
                             <Table.Cell></Table.Cell>
                             <Table.Cell>Total</Table.Cell>
-                            <Table.Cell>R$0000</Table.Cell>
-                        </Table.Row>
-                    </Table.Root>
+                            <Table.Cell>{formatMoney(data?.totalIncome)}</Table.Cell>
+                        </Table.Root>
+                    </div>
                     <p>
 
-                        O total de recursos obtidos por cada membro que aufere renda foi somado e dividido pelo total de de pessoas que moram na mesma moradia e o resultado obtido foi R$. x.xxx,xx (xxxxxxxxxxxxxxxxxxx). Desta forma,a renda é compatível com o contido no inciso I do § 1º do art. 19 da Lei Complementar nº 187, de 16 de dezembro de 2021, a qual permite a concessão ou renovação da bolsa de estudo integral.
+                        O total de recursos obtidos por cada membro que aufere renda foi somado e dividido pelo total de de pessoas que moram na mesma moradia
+                        e o resultado obtido foi {formatMoney(data?.incomePerCapita)}. Desta forma,a renda é compatível com o contido no inciso I do § 1º do art.
+                        19 da Lei Complementar nº 187, de 16 de dezembro de 2021, a qual permite a concessão ou renovação da bolsa de estudo {submitData?.partial ? "parcial" : "integral"}.
                     </p>
                     <p>
 
-                        A soma das despesas apresentadas é inferior à renda familiar bruta mensal com base em toda documentação juntada e análise realizada.
+                        A soma das despesas apresentadas é {data?.hasGreaterIncome ? "inferior" : "superior"} à renda familiar bruta mensal com base em toda documentação juntada e análise realizada.
+                    </p>
+                    <p>
+                        A faculdade contida no § 2º do art. 19, relacionada a majoração em até 20% (vinte por cento) do teto estabelecido (bolsa de estudo integral),
+                        ao se considerar aspectos de natureza social do beneficiário, de sua família ou de ambos, quando consubstanciados em relatório comprobatório
+                        devidamente assinado por assistente social com registro no respectivo órgão de classe foi {submitData?.majoracao ? "aplicada" : "não foi aplicada"}.
                     </p>
                     <p>
 
-                        A faculdade contida no § 2º do art. 19, relacionada a majoração em até 20% (vinte por cento) do teto estabelecido (bolsa de estudo integral), ao se considerar aspectos de natureza social do beneficiário, de sua família ou de ambos, quando consubstanciados em relatório comprobatório devidamente assinado por assistente social com registro no respectivo órgão de classe foi aplicada / não foi aplicada.
+                        Sobre a majoração de que trata o § 2º do art. 19 da Lei Complementar nº 187, de 16 de dezembro de 2021, importante ressaltar:
+                    </p>
+                    <FilePreview file={state?.data?.file} />
+                    <p>
+                        Deseja inserir informações adicionais?
                     </p>
 
-                    Sobre a majoração de que trata o § 2º do art. 19 da Lei Complementar nº 187, de 16 de dezembro de 2021, importante ressaltar:
+                    <FormCheckbox control={control} name={"additional"} />
+                    {
+                        watch("additional") && (
+                            <FormFilePicker control={control} name="file" accept={"application/pdf"} />
+                        )
+                    }
+                    <p>
+                        Diante do acima exposto, conclui-se a análise pelo:
+                    </p>
+                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '20px' }}>
+                        <FormRadio control={control} name="status" value={"Approved"} label={"deferimento"} color />
+                        <FormRadio control={control} name="status" value={"Rejected"} label={"indeferimento"} color />
+                    </div>
                 </div>
+                <ButtonBase label={'concluir'} onClick={handleSubmit} />
             </div>
         </div>
     )

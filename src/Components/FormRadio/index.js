@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { Controller } from "react-hook-form";
 
 
-export default function FormRadio({ name, control, label, value }) {
+export default function FormRadio({ name, control, label, value, color }) {
     const showErrorBorder = (isDirty, error) => {
         // Input wasn't modified but has error OR has been modified and has error (ERROR BORDER)
         if ((!isDirty && error) || (isDirty && error)) {
@@ -23,7 +23,7 @@ export default function FormRadio({ name, control, label, value }) {
             control={control}
             render={({ field, fieldState: { isDirty, error } }) => {
                 return (
-                    <div style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center', color: "white", textTransform: "capitalize" }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', gap: '2px', alignItems: 'center', color: color ? "#52525C" : "white", textTransform: "capitalize" }}>
 
                         <input
                             {...field}
@@ -34,7 +34,7 @@ export default function FormRadio({ name, control, label, value }) {
                             value={value}
                             type="radio"
                         />
-                        <span>{label}</span>
+                        <span style={{ fontWeight: "600" }}>{label}</span>
                     </div>
                 )
             }}

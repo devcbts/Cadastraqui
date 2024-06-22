@@ -4,7 +4,7 @@ export default function Course({ data }) {
     return (
         <div className={styles.table}>
             <h3>Curso pretendido</h3>
-            <Table.Root headers={['edital', 'instituição', 'cidade', 'curso', 'turno']}>
+            <Table.Root headers={['edital', 'instituição', 'cidade', 'curso/série', 'turno']}>
                 <Table.Row>
                     <Table.Cell>{data?.announcement}</Table.Cell>
                     <Table.Cell>{data?.entity}</Table.Cell>

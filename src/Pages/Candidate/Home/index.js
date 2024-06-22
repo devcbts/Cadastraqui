@@ -34,7 +34,7 @@ export default function HomeCandidate() {
                                 <h1>0</h1>
                             </Card.Content>
                         </Card.Root>
-                        <Card.Root onClick={() => navigate('editais')}>
+                        <Card.Root width={230} onClick={() => navigate('editais')}>
                             <Card.Title text={'editais do candidato'} />
                             <Card.Content>
                                 <h1>{data.announcements}</h1>

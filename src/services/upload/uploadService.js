@@ -10,6 +10,9 @@ class UploadService {
             }
         })
     }
+    uploadSolicitation({ type, applicationId }, data) {
+        return api.post(`/assistant/documents/solicitation/${type}/${applicationId}`, data)
+    }
 }
 
 export default new UploadService()

@@ -1,6 +1,7 @@
 import Table from 'Components/Table'
 import styles from '../../styles.module.scss'
 import FAMILY_RELATIONSHIP from 'utils/enums/family-relationship'
+import formatMoney from 'utils/format-money'
 export default function FamilyGroup({ data }) {
     return (
         <div className={styles.table}>
@@ -14,7 +15,7 @@ export default function FamilyGroup({ data }) {
                             <Table.Cell>{familyMember.age}</Table.Cell>
                             <Table.Cell>{familyMember.profession}</Table.Cell>
                             <Table.Cell>{FAMILY_RELATIONSHIP.find(e => e.value === familyMember.relationship)?.label}</Table.Cell>
-                            <Table.Cell>{familyMember.income}</Table.Cell>
+                            <Table.Cell>{formatMoney(familyMember.income)}</Table.Cell>
                         </Table.Row>
                     ))
                 }

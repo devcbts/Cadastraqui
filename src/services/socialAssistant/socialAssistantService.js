@@ -9,6 +9,8 @@ import expenseMapper from "services/candidate/mappers/expense-mapper"
 import incomeMapper from "services/candidate/mappers/income-mapper"
 import bankAccountMapper from "services/candidate/mappers/bank-account-mapper"
 import healthInfoMapper from "services/candidate/mappers/health-info-mapper"
+import removeObjectFileExtension from "utils/remove-file-ext"
+import resumeMapper from "./mappers/resume-mapper"
 
 class SocialAssistantService {
 
@@ -52,7 +54,7 @@ class SocialAssistantService {
     }
     async getCandidateResume(applicationId) {
         const response = await api.get(`/assistant/candidateInfo/resume/${applicationId}`);
-        return response.data
+        return resumeMapper.fromPersistence(response.data)
     }
     async getLegalOpinion(applicationId) {
         const response = await api.get(`/assistant/candidateInfo/parecer/${applicationId}`);
@@ -86,7 +88,26 @@ class SocialAssistantService {
         const response = await api.get(`/assistant/candidateInfo/health/${applicationId}`)
         return healthInfoMapper.fromPersistence(response.data.healthInfoResultsWithUrls)
     }
-
+    async findCPFCNPJ(applicationId) {
+        return api.get(`/assistant/candidateInfo/find-cpf-cnpj/${applicationId}`)
+    }
+    async uploadMajoracao(applicationId, data) {
+        return api.post(`/assistant/documents/majoracao/${applicationId}`, data)
+    }
+    async uploadAdditionalInfo(applicationId, data) {
+        return api.post(`/assistant/documents/aditional/${applicationId}`, data)
+    }
+    async updateApplication(applicationId, data) {
+        return api.patch(`/assistant/application/${applicationId}`, data)
+    }
+    async getRegistrato(applicationId, id) {
+        const response = await api.get(`/assistant/candidateInfo/registrato/${applicationId}/${id}`)
+        const data = removeObjectFileExtension(response.data)
+        const [date, url] = Object.entries(data)[0]
+        const [month, year] = date.split('_')[1].split('-')
+        const registrato_date = new Date(`${month}-01-${year}`)
+        return { url, date: registrato_date }
+    }
 }
 
 export default new SocialAssistantService()

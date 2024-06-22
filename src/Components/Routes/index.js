@@ -32,7 +32,7 @@ export default function AppRoutes() {
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/registrar" element={<Register />} />
-                    {/* <Route path="*" element={<Navigate to={'/'} />} /> */}
+                    {/* <Route path="*" element={<Navigate to={'/login'} />} /> */}
 
                 </Routes>
             </RoleRoutes>
@@ -49,9 +49,8 @@ export default function AppRoutes() {
                             </Route>
 
                         </Route>
-                        <Route path="/teste" element={<div> teste</div>} />
                         <Route path="/edital/:announcementId" element={<AnnouncementView />}></Route>
-                        <Route path="*" element={<Navigate to={'/home'} />} />
+                        {/* <Route path="*" element={<Navigate to={'/home'} />} /> */}
 
                     </Routes>
                 </HeaderWrapper>
