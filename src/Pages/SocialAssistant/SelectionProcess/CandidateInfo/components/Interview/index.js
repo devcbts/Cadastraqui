@@ -25,6 +25,7 @@ export default function Interview({ data, onSubmit }) {
                         {report?.date ? formatDate(report?.date) : '-'}
                     </Table.Cell>
                     <Table.Cell>
+                        Se houver, registre o relatório da entrevista realizada
                     </Table.Cell>
                     <Table.Cell>
                         {report?.file

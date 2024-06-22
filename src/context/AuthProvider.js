@@ -21,7 +21,7 @@ export default function AuthProvider({ children }) {
             set('refresh_token', refreshToken)
             const decodedToken = jwtDecode(token)
             setAuth(decodedToken)
-            userService.getProfilePicture()
+            userService.getProfilePicture({ role: user_role })
                 .then((profilePic) => set('profilepic', profilePic))
                 .catch(() => { })
 
