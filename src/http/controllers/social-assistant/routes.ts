@@ -16,6 +16,7 @@ import { getHousingInfoHDB } from './detailed-form/get-housing-info'
 import { getIdentityInfoHDB } from './detailed-form/get-identity-info'
 import { getIncomeInfoHDB } from './detailed-form/get-income-info'
 import { getMonthlyIncomeBySourceHDB } from './detailed-form/get-monthly-income'
+import { getRegistratoHDB } from './detailed-form/get-registrato'
 import { getVehicleInfoHDB } from './detailed-form/get-vehicle-info'
 import { enrollApplication } from './enrol-application'
 import { findCPF_CNPJ } from './find-cpf-cnpj'
@@ -94,7 +95,7 @@ export async function assistantRoutes(app: FastifyInstance) {
     closeApplication,
   )
   app.patch(
-    'application/:application_id',
+    '/application/:application_id',
     { onRequest: [verifyJWT] },
     updateApplication,
   )
@@ -133,11 +134,12 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/candidateInfo/vehicle/:application_id', { onRequest: [verifyJWT] }, getVehicleInfoHDB)
   app.get('/candidateInfo/expenses/:application_id', { onRequest: [verifyJWT] }, getExpensesInfoHDB)
   app.get('/candidateInfo/bank-info/:application_id/:_id?', { onRequest: [verifyJWT] }, getBankingInfoHDB)
+  app.get('/candidateInfo/registrato/:application_id/:_id?', { onRequest: [verifyJWT] }, getRegistratoHDB)
 
   // Documentos da assistente
   app.post('/documents/majoracao/:application_id', { onRequest: [verifyJWT] }, uploadMarojacaoDocument)
   app.post('/documents/aditional/:application_id', { onRequest: [verifyJWT] }, uploadAdtionalInfo)
-  app.post('/documents/solicitation/:application_id', { onRequest: [verifyJWT] }, uploadSolicitationDocument)
+  app.post('/documents/solicitation/:type/:application_id', { onRequest: [verifyJWT] }, uploadSolicitationDocument)
   // Pegar CPF-CNPJ
   app.get('/candidateInfo/find-cpf-cnpj/:application_id', { onRequest: [verifyJWT] }, findCPF_CNPJ)
 }

@@ -24,7 +24,7 @@ export async function uploadMarojacaoDocument(
             throw new ForbiddenError();
         }
 
-        
+
 
 
 
@@ -39,7 +39,7 @@ export async function uploadMarojacaoDocument(
         }
 
 
-        const route = `assistantDocuments/${application_id}/majoracao`;
+        const route = `assistantDocuments/${application_id}/majoracao/majoracao.pdf`;
         const sended = await uploadFile(fileBuffer, route);
 
         if (!sended) {
@@ -48,14 +48,15 @@ export async function uploadMarojacaoDocument(
 
         reply.status(201).send();
     } catch (error) {
+        console.log(error)
         if (error instanceof NotAllowedError) {
             return reply.status(401).send();
         } if (error instanceof ResourceNotFoundError) {
             return reply.status(404).send();
         }
         if (error instanceof ForbiddenError) {
-            return reply.status(403).send({ message: error.message});
-            
+            return reply.status(403).send({ message: error.message });
+
         }
         return reply.status(400).send();
     }

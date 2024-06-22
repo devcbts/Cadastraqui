@@ -5,8 +5,8 @@ import { calculateAge } from "@/utils/calculate-age";
 import { CalculateIncomePerCapitaHDB } from "@/utils/Trigger-Functions/calculate-income-per-capita-HDB";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { getSectionDocumentsPDF_HDB } from "./AWS-routes/get-documents-by-section-HDB";
 import { getAssistantDocumentsPDF_HDB } from "./AWS-routes/get-assistant-documents-by-section";
+import { getSectionDocumentsPDF_HDB } from "./AWS-routes/get-documents-by-section-HDB";
 
 export async function getCandidateResume(
     request: FastifyRequest,
@@ -48,6 +48,7 @@ export async function getCandidateResume(
             where: { id: application_id },
             include: {
                 candidate: true,
+                ScholarshipGranted: true,
                 EducationLevel: {
                     include: {
                         entitySubsidiary: true,
@@ -88,7 +89,9 @@ export async function getCandidateResume(
             cpf: identityDetails.fullName,
             age: calculateAge(identityDetails.birthDate),
             profession: identityDetails.profession,
-            income: incomesPerMember[candidateHDB.id]
+            income: incomesPerMember[candidateHDB.id],
+            hasCompany: application.CPFCNPJ
+
 
         }
 
@@ -221,11 +224,13 @@ export async function getCandidateResume(
             id: application.id,
             number: application.number,
             announcement: application.announcement.announcementName,
-            course: application.EducationLevel.availableCourses,
+            course: application.EducationLevel.availableCourses ?? application.EducationLevel.grade,
             shift: application.EducationLevel.shift,
             entity: application.announcement.entity.socialReason,
             city: application.EducationLevel.entitySubsidiary ? application.EducationLevel.entitySubsidiary.city : application.announcement.entity.city,
+            partial: application.ScholarshipPartial,
         }
+
 
 
         const majoracao = await getAssistantDocumentsPDF_HDB(application_id, 'majoracao')

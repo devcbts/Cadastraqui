@@ -50,7 +50,7 @@ export async function createDirector(
       throw new DirectorAlreadyExistsError()
     }
 
-    if (_id || _id !== '') {
+    if (_id && _id !== '') {
       const subsidiary = await prisma.entitySubsidiary.findUnique({
         where: { id: _id },
       })
