@@ -212,8 +212,8 @@ export async function getCandidateResume(
                     });
                 });
 
-                return { member: member.name, documents: groupedDocuments };
             });
+            return { member: member.name, documents: groupedDocuments };
         })
 
 
