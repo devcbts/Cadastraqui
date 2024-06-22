@@ -11,7 +11,7 @@ export async function uploadAdtionalInfo(
     reply: FastifyReply
 ) {
     const uploadParamsSchema = z.object({
-        application_id: z.string()
+        application_id: z.string(),
     });
 
     const { application_id } = uploadParamsSchema.parse(request.params);
@@ -24,7 +24,7 @@ export async function uploadAdtionalInfo(
             throw new ForbiddenError();
         }
 
-        
+
 
 
 
@@ -39,7 +39,7 @@ export async function uploadAdtionalInfo(
         }
 
 
-        const route = `assistantDocuments/${application_id}/aditional`;
+        const route = `assistantDocuments/${application_id}/aditional/aditional.pdf`;
         const sended = await uploadFile(fileBuffer, route);
 
         if (!sended) {
@@ -54,8 +54,8 @@ export async function uploadAdtionalInfo(
             return reply.status(404).send();
         }
         if (error instanceof ForbiddenError) {
-            return reply.status(403).send({ message: error.message});
-            
+            return reply.status(403).send({ message: error.message });
+
         }
         return reply.status(400).send();
     }

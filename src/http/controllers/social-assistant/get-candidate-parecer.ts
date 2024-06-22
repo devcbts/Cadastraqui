@@ -6,7 +6,7 @@ import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsi
 import { CalculateIncomePerCapitaHDB } from "@/utils/Trigger-Functions/calculate-income-per-capita-HDB";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { getSectionDocumentsPDF_HDB } from "./AWS-routes/get-documents-by-section-HDB";
+import { getAssistantDocumentsPDF_HDB } from "./AWS-routes/get-assistant-documents-by-section";
 
 export async function getCandidateParecer(
     request: FastifyRequest,
@@ -156,6 +156,7 @@ export async function getCandidateParecer(
                 name: disease.familyMember?.fullName || identityDetails.fullName,
                 disease: disease.disease,
                 hasMedicalReport: disease.hasMedicalReport,
+                medications: disease.Medication
             }
         })
 
@@ -205,8 +206,12 @@ export async function getCandidateParecer(
         })
 
         const totalExpenses = expenses.length > 0 ? expenses.reduce((total, expense) => total + (expense.totalExpense ?? 0), 0) / expenses.length : 0;
-        const majoracao = await getSectionDocumentsPDF_HDB(application_id, 'majoracao')
-        const aditional = await getSectionDocumentsPDF_HDB(application_id, 'aditional')
+        const totalIncome = Object.values(incomesPerMember).reduce((acc, income) => {
+            return acc += income
+        }, 0)
+        const hasGreaterIncome = totalIncome > totalExpenses
+        const majoracao = await getAssistantDocumentsPDF_HDB(application_id, 'majoracao')
+        const aditional = await getAssistantDocumentsPDF_HDB(application_id, 'aditional')
         return reply.status(200).send({
             candidateInfo,
             familyMembersInfo,
@@ -216,7 +221,9 @@ export async function getCandidateParecer(
             incomePerCapita,
             totalExpenses,
             majoracao,
-            aditional
+            aditional,
+            totalIncome,
+            hasGreaterIncome
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {

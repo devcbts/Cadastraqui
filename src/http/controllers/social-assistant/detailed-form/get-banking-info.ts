@@ -1,7 +1,6 @@
 import { ForbiddenError } from "@/errors/forbidden-error"
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error"
 import { historyDatabase, prisma } from "@/lib/prisma"
-import { SelectCandidateResponsible } from "@/utils/select-candidate-responsible"
 import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsibleHDB"
 import { FamilyMember } from "@prisma/client"
 import { FastifyReply, FastifyRequest } from "fastify"
@@ -18,7 +17,7 @@ export async function getBankingInfoHDB(
     })
 
     // _id === bankAccount_id
-    const {application_id, _id } = BankingInfoParamsSchema.parse(request.params)
+    const { application_id, _id } = BankingInfoParamsSchema.parse(request.params)
 
     try {
         const user_id = request.user.sub
@@ -29,7 +28,7 @@ export async function getBankingInfoHDB(
             throw new ForbiddenError()
 
         }
-        const candidateOrResponsible = await SelectCandidateResponsibleHDB(application_id) 
+        const candidateOrResponsible = await SelectCandidateResponsibleHDB(application_id)
         if (!candidateOrResponsible) {
             throw new ResourceNotFoundError()
         }
@@ -41,7 +40,7 @@ export async function getBankingInfoHDB(
                 where: { OR: [{ familyMember_id: _id }, { candidate_id: _id }, { legalResponsibleId: _id }] },
             })
             bankAccounts = await Promise.all(bankAccounts.map(async (account) => {
-                const urls = await getSectionDocumentsPDF_HDB(_id, `statement/${_id}/${account.id}`)
+                const urls = await getSectionDocumentsPDF_HDB(application_id, `statement/${_id}/${account.id}`)
                 return { ...account, urls }
             }))
         }
@@ -49,7 +48,7 @@ export async function getBankingInfoHDB(
             const idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
 
             const familyMembers = await historyDatabase.familyMember.findMany({
-                where: {application_id},
+                where: { application_id },
             })
 
             async function fetchData(familyMembers: FamilyMember[]) {
@@ -76,7 +75,7 @@ export async function getBankingInfoHDB(
                 where: idField,
             })
             const candidateBankWithUrls = candidateBanks.map(async (account) => {
-                const urls = await getSectionDocumentsPDF_HDB(candidateOrResponsible.UserData.id, `statement/${candidateOrResponsible.UserData.id}/${account.id}`)
+                const urls = await getSectionDocumentsPDF_HDB(application_id, `statement/${candidateOrResponsible.UserData.id}/${account.id}`)
                 console.log('urls', urls)
                 return { ...account, urls }
             })
