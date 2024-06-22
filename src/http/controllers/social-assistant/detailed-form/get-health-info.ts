@@ -103,8 +103,9 @@ export async function getHealthInfoHDB(
 
 
         healthInfoResults.push({ name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, healthInfo })
-        const urlsHealth = await getSectionDocumentsPDF_HDB(candidateOrResponsible.UserData.id, 'health')
-        const urlsMedication = await getSectionDocumentsPDF_HDB(candidateOrResponsible.UserData.id, 'medication')
+        const urlsHealth = await getSectionDocumentsPDF_HDB(application_id, 'health')
+        const urlsMedication = await getSectionDocumentsPDF_HDB(application_id, 'medication')
+        console.log(urlsMedication)
         const healthInfoResultsWithUrls = healthInfoResults.map((member) => {
             const healthInfoResultsUrls = member.healthInfo.map((disease) => {
 

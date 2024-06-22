@@ -31,7 +31,7 @@ export async function uploadSolicitationDocument(
             throw new ForbiddenError();
         }
 
-        
+
 
 
 
@@ -46,7 +46,7 @@ export async function uploadSolicitationDocument(
         }
 
 
-        const route = `assistantDocuments/${application_id}/${type}/${data.filename}`;
+        const route = `assistantDocuments/${application_id}/${type}/${data.fieldname}.pdf`;
         const sended = await uploadFile(fileBuffer, route);
 
         if (!sended) {
@@ -61,8 +61,8 @@ export async function uploadSolicitationDocument(
             return reply.status(404).send();
         }
         if (error instanceof ForbiddenError) {
-            return reply.status(403).send({ message: error.message});
-            
+            return reply.status(403).send({ message: error.message });
+
         }
         return reply.status(400).send();
     }

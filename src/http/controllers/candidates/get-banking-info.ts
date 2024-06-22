@@ -32,7 +32,7 @@ export async function getBankingInfo(
                 where: { OR: [{ familyMember_id: _id }, { candidate_id: _id }, { legalResponsibleId: _id }] },
             })
             bankAccounts = await Promise.all(bankAccounts.map(async (account) => {
-                const urls = await getSectionDocumentsPDF(_id, `statement/${_id}/${account.id}`)
+                const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, `statement/${_id}/${account.id}`)
                 return { ...account, urls }
             }))
         }

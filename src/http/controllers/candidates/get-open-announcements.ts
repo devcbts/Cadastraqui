@@ -1,5 +1,6 @@
 import { ForbiddenError } from '@/errors/forbidden-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
+import { GetUrl } from '@/http/services/get-file'
 import { prisma } from '@/lib/prisma'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -55,6 +56,9 @@ export async function getOpenAnnouncements(
       if (!announcement) {
         throw new ResourceNotFoundError()
       }
+      const Route = `ProfilePictures/${announcement.entity.id}`
+      const logo = await GetUrl(Route)
+
       const educationLevels = announcement.educationLevels
       const entityAndSubsidiaries = [announcement.entity, ...announcement.entity_subsidiary]
       const educationLevelsFiltered = entityAndSubsidiaries.map((entity) => {
@@ -66,7 +70,7 @@ export async function getOpenAnnouncements(
         }
         return { ...entity, matchedEducationLevels }
       })
-      return reply.status(200).send({ announcement, educationLevels: educationLevelsFiltered })
+      return reply.status(200).send({ announcement: { ...announcement, logo }, educationLevels: educationLevelsFiltered })
 
     }
 
