@@ -85,20 +85,7 @@ export async function CreateAnnoucment(
     })
 
     let subsidiaries = 0
-    if (entity_subsidiary_id) {
-
-      // Supondo que você queira verificar a existência de cada subsidiária
-      subsidiaries = await prisma.entitySubsidiary.count({
-        where: {
-          id: { in: entity_subsidiary_id },
-        },
-      });
-      // Se a quantidade de subsidiárias encontradas não corresponder à quantidade de IDs fornecidos
-      if (subsidiaries !== entity_subsidiary_id.length) {
-        throw new Error("Uma ou mais subsidiárias fornecidas não existem.");
-      }
-    }
-
+    
     if (!entityMatrix) {
       throw new EntityNotExistsError()
     }
