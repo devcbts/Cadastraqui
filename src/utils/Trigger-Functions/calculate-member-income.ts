@@ -14,7 +14,7 @@ export async function CalculateMemberAverageIncome(member_id: string, source: In
         }
     })
     const totalIncome = memberIncomes.reduce((acc: number, income: any) => {
-        return acc + income.amount
+        return acc + income.liquidAmount
     }, 0)
     const averageIncome = totalIncome / memberIncomes.length
 
