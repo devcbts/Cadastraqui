@@ -45,7 +45,7 @@ export async function getOpenAnnouncements(
     }
     else {
       const announcement = await prisma.announcement.findUnique({
-        where: { id: announcement_id, announcementDate: { gte: new Date() } },
+        where: { id: announcement_id, closeDate: { gte: new Date() } },
         include: {
           educationLevels: true,
           entity: true,
@@ -77,6 +77,10 @@ export async function getOpenAnnouncements(
   } catch (err: any) {
     if (err instanceof ForbiddenError) {
       return reply.status(403).send({ message: err.message })
+
+    }
+    if (err instanceof ResourceNotFoundError) {
+      return reply.status(404).send({ message: "Edital não encontrado" })
 
     }
     return reply.status(500).send({ message: err.message })
