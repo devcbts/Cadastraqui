@@ -70,7 +70,8 @@ export async function registerIdentityInfo(
     institutionName_professional: z.union([z.string(), z.undefined(), z.null()]),
     institutionCNPJ_professional: z.union([z.string(), z.undefined(), z.null()]),
     nameOfScholarshipCourse_professional: z.union([z.string(), z.undefined(), z.null()]),
-    CadUnico: z.boolean()
+    CadUnico: z.boolean(),
+    email: z.string(),
   })
 
   const {
@@ -114,7 +115,8 @@ export async function registerIdentityInfo(
     institutionName_professional,
     institutionCNPJ_professional,
     nameOfScholarshipCourse_professional,
-    CadUnico
+    CadUnico,
+    email
   } = userDataSchema.parse(request.body)
 
   try {
@@ -162,7 +164,7 @@ export async function registerIdentityInfo(
         benefitedFromCebasScholarship_professional,
         contactNameForMessage,
         documentNumber,
-
+        email: email,
         documentValidity: documentValidity
           ? new Date(documentValidity)
           : undefined,
@@ -194,8 +196,9 @@ export async function registerIdentityInfo(
         CEP: candidateOrResponsible.UserData.CEP,
       },
     })
+    const idFieldRegistration = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
     await prisma.finishedRegistration.updateMany({
-      where: idField,
+      where: idFieldRegistration,
       data: {
         cadastrante: true,
       },
