@@ -21,6 +21,7 @@ import EntityAnnouncementView from "Pages/Entity/AnnouncementView";
 import AdminRegister from "Pages/Admin/Register";
 import EntityProfile from "Pages/Entity/Profile";
 import EntityAccounts from "Pages/Entity/Accounts";
+import EntityHome from "Pages/Entity/Home";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -80,9 +81,8 @@ export default function AppRoutes() {
             </RoleRoutes>
             <RoleRoutes role="ENTITY">
                 <HeaderWrapper>
-
                     <Routes>
-
+                        <Route path="/home" element={<EntityHome />} />
                         <Route path="/cadastro" element={<EntitySelectRegister />}></Route>
                         <Route path="/editais" element={<Outlet />}>
                             <Route path="" element={<EntityAnnouncement />} />

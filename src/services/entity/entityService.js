@@ -81,7 +81,10 @@ class EntityService {
     async updateDirector(id, data) {
         return api.patch(`/entities/director/${id}`, data)
     }
-
+    async getDashboard() {
+        const response = await api.get('/entities/dashboard')
+        return response.data
+    }
 }
 
 export default new EntityService()
