@@ -17,6 +17,7 @@ import { fetchDirectors } from './fetch-directors'
 import { fetchOpenAnnouncements } from './fetch-open-announcement'
 import { fetchSubsidiarys } from './fetch-subsidiarys'
 import { getApplications } from './get-applications'
+import getEntityDashboard from './get-dashboard'
 import { getEntityInfo } from './get-entity-info'
 import { getEntityProfilePicture } from './get-profile-picture'
 import { getSocialAssistants } from './get-social-assistants'
@@ -122,6 +123,7 @@ export async function entityRoutes(app: FastifyInstance) {
 
   app.get('/announcement/open/:page_number?', { onRequest: [verifyJWT] }, fetchOpenAnnouncements)
   app.get('/announcement/close/:page_number?', { onRequest: [verifyJWT] }, fetchClosedAnnouncements)
+  app.get('/dashboard', { onRequest: [verifyJWT] }, getEntityDashboard)
 
   app.patch(
     '/announcement/:announcement_id',
