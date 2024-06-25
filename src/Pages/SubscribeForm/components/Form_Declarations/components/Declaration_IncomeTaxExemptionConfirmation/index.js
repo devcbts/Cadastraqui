@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import useAuth from 'hooks/useAuth'; 
+import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_IncomeTaxExemptionConfirmation({ onBack, onNext }) {
+    const { auth } = useAuth();
     const [confirmation, setConfirmation] = useState(null);
     const [incomeTaxDetails, setIncomeTaxDetails] = useState(null);
     const [declarationData, setDeclarationData] = useState({});
@@ -19,9 +22,45 @@ export default function Declaration_IncomeTaxExemptionConfirmation({ onBack, onN
         }
     }, []);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (confirmation !== null) {
-            onNext();
+            try {
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    console.error('Token não está definido');
+                    return;
+                }
+
+                const text = `
+                    Eu, ${declarationData.fullName}, portador(a) da cédula de identidade RG n° ${declarationData.RG}, órgão emissor ${declarationData.rgIssuingAuthority}, UF do órgão emissor ${declarationData.rgIssuingState}, CPF n° ${declarationData.CPF}, nacionalidade ${declarationData.nationality}, estado civil ${declarationData.maritalStatus}, profissão ${declarationData.profession}, residente na rua ${declarationData.address}, n° ${declarationData.addressNumber}, complemento ${declarationData.complement}, CEP: ${declarationData.CEP}, bairro ${declarationData.neighborhood}, cidade ${declarationData.city}, UF ${declarationData.UF}, e-mail: ${declarationData.email}, DECLARO SER ISENTO(A) da apresentação da Declaração do Imposto de Renda Pessoa Física (DIRPF) no(s) exercício(s) ${incomeTaxDetails.year} por não incorrer em nenhuma das hipóteses de obrigatoriedade estabelecidas pelas Instruções Normativas (IN) da Receita Federal do Brasil (RFB). Esta declaração está em conformidade com a IN RFB n° 1548/2015 e a Lei n° 7.115/83. Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas.
+                `;
+
+                const payload = {
+                    declarationExists: confirmation === 'sim',
+                    ...(confirmation === 'sim' && { text })
+                };
+
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/IncomeTaxExemption/${auth.uid}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                console.log('Declaração registrada:', data);
+
+                // Redireciona para a próxima tela
+                onNext();
+            } catch (error) {
+                console.error('Erro ao registrar a declaração:', error);
+            }
         }
     };
 

@@ -4,10 +4,6 @@
     align-items: center;
     padding: 20px;
     background-color: #f5f5f5;
-
-    h1 {
-        margin-bottom: 20px;
-    }
 }
 
 .declarationSection {
@@ -21,20 +17,20 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
+}
 
-    .declarationItem {
-        margin: 10px 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
+.declarationItem {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
 
-        label {
-            margin-right: 10px;
-            font-size: 16px;
-            color: #1F4B73;
-        }
-    }
+label {
+    margin-right: 10px;
+    font-size: 16px;
+    color: #1F4B73;
 }
 
 .navigationButtons {
@@ -43,34 +39,29 @@
     width: 100%;
     max-width: 600px;
     margin-top: 20px;
+}
 
-    button {
-        // background-color: #1F4B73;
-        // color: #fff;
-        border: solid 2px #1F4B73;
-        
-        border-radius: 4px;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-size: 16px;
-        display: flex;
-        align-items: center;
-        accent-color: #fff;
-        
+button {
+    border: solid 2px #1F4B73;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
 
-        svg {
-            fill: #fff; 
-            margin-right: 10px;
-        }
+button svg {
+    fill: #1F4B73; 
+    margin-right: 10px;
+}
 
-        &:hover {
-            background-color: #164066;
-        }
+button:hover {
+    background-color: #164066;
+}
 
-        &:focus {
-            outline: none;
-        }
-    }
+button:focus {
+    outline: none;
 }
 
 .declarationForm {
@@ -84,11 +75,11 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-bottom: 20px;
+}
 
-    h1, h2, h3 {
-        margin-bottom: 20px;
-        color: #1F4B73;
-    }
+h1, h2, h3 {
+    margin-bottom: 20px;
+    color: #1F4B73;
 }
 
 .declarationContent {
@@ -96,14 +87,14 @@
     color: #333;
     margin-bottom: 20px;
     text-align: center;
+}
 
-    span {
-        font-weight: bold;
-    }
+.declarationContent span {
+    font-weight: bold;
+}
 
-    p {
-        margin-bottom: 20px;
-    }
+.declarationContent p {
+    margin-bottom: 20px;
 }
 
 .radioGroup {
@@ -111,113 +102,39 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+}
 
-    label {
-        margin-right: 10px;
-        font-size: 16px;
-        color: #1F4B73;
-    }
+.radioGroup label {
+    margin-right: 10px;
+    font-size: 16px;
+    color: #1F4B73;
+}
 
-    input {
-        margin-right: 5px;
-    }
+.radioGroup input {
+    margin-right: 5px;
 }
 
 .additionalFields {
     margin-top: 20px;
-
-    .inputGroup {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 10px;
-
-        label {
-            font-size: 14px;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        input {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-    }
-}
-
-.fileUpload {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 20px 0;
-
-    input[type="file"] {
-        display: none;
-    }
-
-    label {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #f4f4f4;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-size: 16px;
-        color: #666;
-
-        &:hover {
-            background-color: #e4e4e4;
-        }
-
-        &::after {
-            content: '\f093';
-            font-family: 'FontAwesome';
-            margin-left: 10px;
-        }
-    }
 }
 
 .inputGroup {
-    margin-top: 20px;
     display: flex;
     flex-direction: column;
-
-    label {
-        font-size: 16px;
-        color: #333;
-        margin-bottom: 5px;
-    }
-
-    input[type="text"], input[type="date"], input[type="file"] {
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 14px;
-    }
+    margin-bottom: 10px;
 }
 
-.cardsContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 10px;
+.inputGroup label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
 }
 
-.card {
+.inputGroup input {
+    padding: 8px;
     border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    width: 100px;
-    text-align: center;
-    background-color: #f0f0f0;
-}
-
-.status {
-    margin-top: 5px;
-    font-weight: bold;
+    border-radius: 4px;
+    font-size: 14px;
 }
 
 /* Responsividade para dispositivos móveis */
@@ -240,12 +157,16 @@
 
     .navigationButtons {
         flex-direction: column;
+    }
 
-        button {
-            width: 100%;
-            margin-bottom: 10px;
-        }
+    button {
+        width: 100%;
+        margin-bottom: 10px;
     }
 }
 
-
+.centeredButton {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}

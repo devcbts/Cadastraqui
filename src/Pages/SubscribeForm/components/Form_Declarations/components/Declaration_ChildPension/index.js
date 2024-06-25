@@ -3,9 +3,13 @@ import commonStyles from '../../styles.module.scss'; // Certifique-se de que o c
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
 
-export default function Declaration_ChildPension({ onBack, onNext }) {
+export default function Declaration_ChildPension({ onBack, onNext, onNoPension }) {
     const [childReceivesPension, setChildReceivesPension] = useState(null);
     const [declarationData, setDeclarationData] = useState(null);
+    const [childPensionRecipients, setChildPensionRecipients] = useState('');
+    const [payerName, setPayerName] = useState('');
+    const [payerCpf, setPayerCpf] = useState('');
+    const [amount, setAmount] = useState('');
 
     useEffect(() => {
         const savedData = localStorage.getItem('declarationData');
@@ -19,8 +23,18 @@ export default function Declaration_ChildPension({ onBack, onNext }) {
     };
 
     const handleNext = () => {
+        const pensionData = {
+            childReceivesPension,
+            childPensionRecipients: childReceivesPension ? childPensionRecipients : '',
+            payerName: childReceivesPension ? payerName : '',
+            payerCpf: childReceivesPension ? payerCpf : '',
+            amount: childReceivesPension ? amount : '',
+        };
+        localStorage.setItem('childPensionData', JSON.stringify(pensionData));
         if (childReceivesPension) {
             onNext();
+        } else {
+            onNoPension();
         }
     };
 
@@ -59,19 +73,47 @@ export default function Declaration_ChildPension({ onBack, onNext }) {
                     <div className={commonStyles.additionalFields}>
                         <div className={commonStyles.inputGroup}>
                             <label htmlFor="childPensionRecipients">Selecione todos que recebem pensão</label>
-                            <input type="text" id="childPensionRecipients" name="childPensionRecipients" placeholder="Carlos da Silva, Fulana da Silva" />
+                            <input 
+                                type="text" 
+                                id="childPensionRecipients" 
+                                name="childPensionRecipients" 
+                                value={childPensionRecipients}
+                                onChange={(e) => setChildPensionRecipients(e.target.value)}
+                                placeholder="Carlos da Silva, Fulana da Silva" 
+                            />
                         </div>
                         <div className={commonStyles.inputGroup}>
                             <label htmlFor="payerName">Nome do Pagador da Pensão</label>
-                            <input type="text" id="payerName" name="payerName" placeholder="Joana de Gizman Londres" />
+                            <input 
+                                type="text" 
+                                id="payerName" 
+                                name="payerName" 
+                                value={payerName}
+                                onChange={(e) => setPayerName(e.target.value)}
+                                placeholder="Joana de Gizman Londres" 
+                            />
                         </div>
                         <div className={commonStyles.inputGroup}>
                             <label htmlFor="payerCpf">CPF do Pagador da Pensão</label>
-                            <input type="text" id="payerCpf" name="payerCpf" placeholder="524.321.789-09" />
+                            <input 
+                                type="text" 
+                                id="payerCpf" 
+                                name="payerCpf" 
+                                value={payerCpf}
+                                onChange={(e) => setPayerCpf(e.target.value)}
+                                placeholder="524.321.789-09" 
+                            />
                         </div>
                         <div className={commonStyles.inputGroup}>
                             <label htmlFor="amount">Valor</label>
-                            <input type="text" id="amount" name="amount" placeholder="550,00" />
+                            <input 
+                                type="text" 
+                                id="amount" 
+                                name="amount" 
+                                value={amount}
+                                onChange={(e) => setAmount(e.target.value)}
+                                placeholder="550,00" 
+                            />
                         </div>
                     </div>
                 )}

@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
+import useAuth from 'hooks/useAuth';
 
 export default function Declaration_ActivitConfirmation({ onBack, onNext }) {
-    const [confirmation, setConfirmation] = useState(null);
+    const { auth } = useAuth();
+    const [confirmation, setConfirmation] = useState('sim');
     const [declarationData, setDeclarationData] = useState(null);
 
     useEffect(() => {
@@ -14,9 +17,50 @@ export default function Declaration_ActivitConfirmation({ onBack, onNext }) {
         }
     }, []);
 
-    const handleSave = () => {
-        if (confirmation !== null) {
-            onNext(confirmation);
+    const handleSave = async () => {
+        if (!auth?.uid) {
+            console.error('UID não está definido');
+            return;
+        }
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error('Token não está definido');
+            return;
+        }
+
+        if (!declarationData) {
+            console.error('Os dados da declaração não estão disponíveis');
+            return;
+        }
+
+        const text = `
+            Eu, ${declarationData.fullName}, portador(a) do CPF nº ${declarationData.CPF}, residente e domiciliado(a) à ${declarationData.address}, nº ${declarationData.addressNumber}, complemento, CEP: ${declarationData.CEP}, bairro ${declarationData.neighborhood}, cidade ${declarationData.city}, UF ${declarationData.UF}, e-mail: ${declarationData.email}, declaro para os devidos fins e sob as penas da lei, que não exerço nenhuma atividade remunerada, seja ela formal ou informal, não possuindo, portanto, nenhuma fonte de renda.
+        `;
+
+        const payload = {
+            declarationExists: confirmation === 'sim',
+            text: confirmation === 'sim' ? text : ''
+        };
+
+        try {
+            const response = await api.post(`/candidates/declaration/Activity/${auth.uid}`, payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.status !== 200) {
+                throw new Error(`Erro: ${response.statusText}`);
+            }
+
+            const data = await response.data;
+            console.log('Declaração registrada:', data);
+
+            onNext(confirmation === 'sim');
+        } catch (error) {
+            console.error('Erro ao registrar a declaração:', error);
         }
     };
 
@@ -34,10 +78,22 @@ export default function Declaration_ActivitConfirmation({ onBack, onNext }) {
             <p>Confirma a declaração?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
-                    <input type="radio" name="confirmation" value="sim" onChange={() => setConfirmation('sim')} /> Sim
+                    <input 
+                        type="radio" 
+                        name="confirmation" 
+                        value="sim" 
+                        checked={confirmation === 'sim'} 
+                        onChange={() => setConfirmation('sim')} 
+                    /> Sim
                 </label>
                 <label>
-                    <input type="radio" name="confirmation" value="nao" onChange={() => setConfirmation('nao')} /> Não
+                    <input 
+                        type="radio" 
+                        name="confirmation" 
+                        value="nao" 
+                        checked={confirmation === 'nao'} 
+                        onChange={() => setConfirmation('nao')} 
+                    /> Não
                 </label>
             </div>
             <div className={commonStyles.navigationButtons}>

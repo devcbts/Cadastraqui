@@ -14,11 +14,12 @@ export default function Declaration_RentIncomeDetails({ onBack, onSave }) {
         complement: '',
         landlordName: '',
         landlordCpf: '',
+        rentAmount: '' // Adicionei rentAmount aqui
     });
 
     const handleSave = () => {
         localStorage.setItem('rentDetails', JSON.stringify(rentDetails));
-        onSave();
+        onSave(); // Navega para a próxima tela
     };
 
     const handleInputChange = (e) => {
@@ -122,6 +123,16 @@ export default function Declaration_RentIncomeDetails({ onBack, onSave }) {
                     value={rentDetails.landlordCpf}
                     onChange={handleInputChange}
                     placeholder="999.999.999-99"
+                />
+            </div>
+            <div className={commonStyles.inputGroup}>
+                <label>Valor do Aluguel</label>
+                <input
+                    type="text"
+                    name="rentAmount"
+                    value={rentDetails.rentAmount}
+                    onChange={handleInputChange}
+                    placeholder="Valor do aluguel"
                 />
             </div>
             <div className={commonStyles.navigationButtons}>

@@ -101,6 +101,7 @@ export default function Declaration_Pension({ onBack, onNext }) {
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase onClick={onNext}><Arrow width="40px" /></ButtonBase>
             </div>
         </div>
     );

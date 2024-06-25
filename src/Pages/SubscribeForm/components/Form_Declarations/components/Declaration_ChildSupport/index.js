@@ -3,7 +3,7 @@ import commonStyles from '../../styles.module.scss'; // Certifique-se de que o c
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
 
-export default function Declaration_ChildSupport({ onBack, onNext }) {
+export default function Declaration_ChildSupport({ onBack, onNext, onNoPension }) {
     const [childReceivesSupport, setChildReceivesSupport] = useState(null);
     const [declarationData, setDeclarationData] = useState(null);
 
@@ -19,7 +19,9 @@ export default function Declaration_ChildSupport({ onBack, onNext }) {
     };
 
     const handleNext = () => {
-        if (childReceivesSupport) {
+        if (childReceivesSupport === false) {
+            onNoPension();
+        } else {
             onNext();
         }
     };
