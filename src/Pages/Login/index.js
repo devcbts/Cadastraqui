@@ -1,17 +1,17 @@
-import Logo from 'Assets/images/logo_white.png'
 import { ReactComponent as IconLogo } from 'Assets/icons/logo.svg'
-import styles from './styles.module.scss'
-import InputForm from 'Components/InputForm'
-import useAuth from 'hooks/useAuth'
-import { NotificationService } from 'services/notification'
-import { useNavigate } from 'react-router'
+import Logo from 'Assets/images/logo_white.png'
 import ButtonBase from 'Components/ButtonBase'
-import useControlForm from 'hooks/useControlForm'
-import loginSchema from './schemas/login-schema'
-import { Link } from 'react-router-dom'
-import userService from 'services/user/userService'
-import { useState } from 'react'
+import InputForm from 'Components/InputForm'
 import Loader from 'Components/Loader'
+import useAuth from 'hooks/useAuth'
+import useControlForm from 'hooks/useControlForm'
+import { useState } from 'react'
+import { useNavigate } from 'react-router'
+import { Link } from 'react-router-dom'
+import { NotificationService } from 'services/notification'
+import userService from 'services/user/userService'
+import loginSchema from './schemas/login-schema'
+import styles from './styles.module.scss'
 export default function Login() {
     const { login } = useAuth()
     const navigate = useNavigate()
@@ -56,16 +56,14 @@ export default function Login() {
         <div>
             <Loader loading={!!loading} text={loading} />
             <header style={{ height: '80px', backgroundColor: '#1F4B73', display: 'flex', flexDirection: 'row', justifyContent: 'start', padding: '0 40px', alignItems: 'center' }}>
-                <img className={styles.logo} src={Logo} />
+                <img className={styles.logo} src={Logo} alt='Logo' />
             </header>
             <div className={styles.content}>
                 <div className={styles.brand}>
                     <IconLogo />
-                    <h1>
-                        Facilite o processo de concessão
-                        de bolsas de estudos
-                        para o CEBAS
-                    </h1>
+                    <h2>
+                        Plataforma para processos de concessão e manutenção de bolsas de estudos para fins de CEBAS
+                    </h2>
                 </div>
                 <div className={styles.login}>
                     <div className={styles.title}>
