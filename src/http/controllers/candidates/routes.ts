@@ -73,14 +73,12 @@ import updateIncomeSource from './update-income-source'
 import { updateLoanInfo } from './update-loan-info'
 import { updateMedicationInfo } from './update-medication-info'
 import { updateVehicleInfo } from './update-vehicle-info'
+import getSolicitations from './get-solicitations'
+import { answerSolicitation } from './answer-solicitation'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT] }, uploadDocument)
-  app.post(
-    '/upload/:solicitation_id',
-    { onRequest: [verifyJWT] },
-    uploadSolicitationDocument,
-  )
+ 
   app.get('/documents/:_id?', { onRequest: [verifyJWT] }, getDocumentsPDF)
   app.get('/documents/announcement/:announcement_id', { onRequest: [verifyJWT] }, getAnnouncementDocument)
   app.post('/document/delete', { onRequest: [verifyJWT] }, deleteDocument)
@@ -267,6 +265,15 @@ export async function candidateRoutes(app: FastifyInstance) {
   )
   // Historico
   app.get('/application/history/:application_id', { onRequest: [verifyJWT] }, getApplicationHistory)
+
+  // Solicitações
+  app.get('/solicitation/:application_id?', { onRequest: [verifyJWT] }, getSolicitations)
+  app.post('/solicitation/:solicitation_id', { onRequest: [verifyJWT] }, answerSolicitation)
+  app.post(
+    '/upload/:solicitation_id',
+    { onRequest: [verifyJWT] },
+    uploadSolicitationDocument,
+  )
 }
 
 

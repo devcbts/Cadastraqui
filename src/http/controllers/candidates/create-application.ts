@@ -29,16 +29,13 @@ export async function subscribeAnnouncement(
       throw new NotAllowedError()
     }
 
-    let candidate = CandidateOrResponsible.UserData
+    const candidate = await prisma.candidate.findUnique({
+      where: { id: (candidate_id || CandidateOrResponsible.UserData.id) },
+    })
     // check if the candidate is the legal dependent of the responsible
-    if (CandidateOrResponsible.IsResponsible) {
-      const legalDependent = await prisma.candidate.findUnique({
-        where: { id: candidate_id, responsible_id: CandidateOrResponsible.UserData.id },
-      })
-      if (!legalDependent) {
-        throw new NotAllowedError()
-      }
-      candidate = legalDependent
+    if (!candidate) {
+      throw new ResourceNotFoundError()
+      
     }
 
     // if (!CandidateOrResponsible.UserData.finishedapplication) {

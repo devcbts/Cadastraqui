@@ -1,7 +1,9 @@
+import { ForbiddenError } from '@/errors/forbidden-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { uploadFile } from '@/http/services/upload-file'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -18,9 +20,9 @@ export async function uploadSolicitationDocument(
     try {
         const user_id = request.user.sub;
 
-        const candidate = await prisma.candidate.findUnique({ where: { user_id } });
-        if (!candidate) {
-            throw new ResourceNotFoundError();
+       const CandidateOrResponsible = await SelectCandidateResponsible(user_id);
+        if (!CandidateOrResponsible) {
+            throw new ForbiddenError();
         }
 
         const solicitation = await prisma.applicationHistory.findUnique({ where: { id: solicitation_id } });
@@ -29,10 +31,9 @@ export async function uploadSolicitationDocument(
         }
 
         const application = await prisma.application.findUnique({ where: { id: solicitation.application_id } });
-        if (candidate.id != application?.candidate_id) {
-            throw new NotAllowedError();
+        if (!application) {
+            throw new ResourceNotFoundError();
         }
-
         const data = await request.file();
         if (!data) {
             throw new ResourceNotFoundError();
@@ -55,9 +56,12 @@ export async function uploadSolicitationDocument(
         reply.status(201).send();
     } catch (error) {
         if (error instanceof NotAllowedError) {
-            return reply.status(401).send();
+            return reply.status(401).send({ message: error.message});
         } if (error instanceof ResourceNotFoundError) {
-            return reply.status(404).send();
+            return reply.status(404).send({ message: error.message});
+        }
+        if (error instanceof ForbiddenError) {
+            return reply.status(403).send({ message: error.message});
         }
         return reply.status(400).send();
     }

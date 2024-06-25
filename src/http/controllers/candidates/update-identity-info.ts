@@ -4,6 +4,8 @@ import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { ScholarshipType } from './enums/Scholaship_Type'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
+import { ForbiddenError } from '@/errors/forbidden-error'
 
 export async function updateIdentityInfo(
   request: FastifyRequest,
@@ -324,10 +326,22 @@ export async function updateIdentityInfo(
       })
     }
     console.log(parsedData)
+    const candidateOrResponsible = await SelectCandidateResponsible(user_id)
+    if (!candidateOrResponsible) {
+      throw new ForbiddenError()
+    }
+    const idFieldRegistration = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
+    await prisma.finishedRegistration.update({
+      where: idFieldRegistration,
+      data: { cadastrante: true }
+    })
     return reply.status(201).send()
   } catch (err: any) {
     console.log(err)
-
+    if (err instanceof ForbiddenError) {
+      return reply.status(403).send({ message: err.message })
+      
+    }
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
     }
