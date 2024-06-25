@@ -9,16 +9,20 @@ import monthAtom from "Components/MonthSelection/atoms/month-atom";
 const { default: MonthSelection } = require("Components/MonthSelection");
 const { forwardRef, useState, useEffect } = require("react");
 const { default: Expenses } = require("../Expenses");
-const ExpenseSelection = forwardRef(({ data }, ref) => {
+const ExpenseSelection = forwardRef(({ data, viewMode = false }, ref) => {
     const hasSelectedMonth = useRecoilValue(monthAtom)
     const [total, setTotal] = useState('')
     const [avg, setAvg] = useState('')
     useEffect(() => {
         const totalExpense = data?.months?.reduce((acc, e) => {
-            acc += stringToFloat(e.totalExpense.toString())
+            console.log(e.totalExpense)
+            acc += parseFloat(e.totalExpense.toString())
             return acc
         }, 0)
-        const monthAvg = (totalExpense ?? 0 / 3)?.toFixed(2)
+        const validMonths = data?.months?.filter((e) => e.isUpdated)?.length
+        console.log(validMonths)
+        const monthAvg = ((totalExpense ?? 0) / (!validMonths ? 1 : validMonths))?.toFixed(2)
+        console.log(monthAvg)
         setTotal(moneyInputMask(totalExpense?.toFixed(2)))
         setAvg(moneyInputMask(monthAvg))
     }, [data])
@@ -45,6 +49,7 @@ const ExpenseSelection = forwardRef(({ data }, ref) => {
                 render={[
                     Expenses
                 ]}
+                viewMode={viewMode}
                 schema={expenseSelectionSchema}
             />
         </>

@@ -74,7 +74,6 @@ const Expenses = forwardRef(({ data }, ref) => {
     }, [watch])
     return (
         <div className={styles.container}>
-            {console.log('CAMPOS', fields, getValues())}
             <Card.Root >
                 <Card.Title text={'soma das despesas do mês'} />
                 <Card.Content>

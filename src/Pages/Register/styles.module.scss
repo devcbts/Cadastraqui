@@ -1,0 +1,61 @@
+@import '../../Assets/theme/global.module.scss';
+.logo{
+    -webkit-user-drag: none;
+    width: 200px;
+    height: 80%;
+}
+
+.content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 24px 32px;
+    .brand{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: justify;
+        max-width: 30%;
+    }
+}
+.register{
+    display: flex;
+    flex-direction: column;
+    background-color: $primary;
+    border-radius: 8px;
+    padding: 32px 64px;
+    min-height: 65vh;
+    flex-grow: .2;
+    justify-content: space-between;
+    max-width: 35%;
+    .title{
+        text-align: center;
+        span{
+            color: white;
+        }
+        h1{
+            color: white;
+            font-weight: bold;
+        }
+    }
+    .inputs{
+        label{
+            color: white !important;
+        }
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        
+    }
+    button{
+        place-self: center;
+    }
+    .actions{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+   
+}

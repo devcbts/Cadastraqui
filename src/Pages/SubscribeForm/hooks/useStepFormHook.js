@@ -1,10 +1,11 @@
 import FormStepper from "Components/FormStepper"
 import { createRef, useCallback, useEffect, useMemo, useRef, useState } from "react"
-
+// viewMode can be false - validation on, or true - disable validation 
 export default function useStepFormHook({
     render = [],
     onSave,
     onEdit,
+    viewMode = false,
     showStepper = true
 }) {
     const MAX_STEPS = useMemo(() => render.length, [render])
@@ -13,7 +14,7 @@ export default function useStepFormHook({
     // const { current: stepsRef } = refs
     const getCurrentRef = () => stepsRef[activeStep - 1].current
     const [data, setData] = useState(null)
-    const isFormValid = () => getCurrentRef().validate()
+    const isFormValid = () => !viewMode ? getCurrentRef().validate() : true
     const [parsedData, setParsedData] = useState(null)
     useEffect(() => {
         setStepsRefs(Array.from({ length: MAX_STEPS }).fill(createRef()))
@@ -22,7 +23,6 @@ export default function useStepFormHook({
     const next = async () => {
         const values = getCurrentRef().values()
         const parsedValues = await getCurrentRef().beforeSubmit?.()
-        console.log('VALIDANDO', isFormValid(), MAX_STEPS)
         if (isFormValid()) {
             setParsedData((prev) => ({ ...prev, ...parsedValues }))
             setData((prevData) => ({ ...prevData, ...values }))
@@ -61,7 +61,7 @@ export default function useStepFormHook({
                     const Component = e
                     return (
                         <FormStepper.View index={index + 1}>
-                            <Component data={data} ref={stepsRef[index]} />
+                            <Component data={data} ref={stepsRef[index]} viewMode={viewMode} />
                         </FormStepper.View>
                     )
                 })}

@@ -24,7 +24,7 @@ export default function AnnouncementView() {
                 setAnnouncement(information)
             } catch (err) {
                 NotificationService.error({ text: 'Erro ao carregar edital. Tente novamente' })
-                navigate(-1)
+                navigate('/home')
             }
             setIsLoading(false)
         }
@@ -54,7 +54,8 @@ export default function AnnouncementView() {
             setCourse: setSelectedCourse,
             clear: handleCourseSelection,
             step: currentStep,
-            move: setCurrentStep
+            move: setCurrentStep,
+            announcement
         }}>
             <Loader text="Carregando informações do edital" loading={isLoading} />
             {

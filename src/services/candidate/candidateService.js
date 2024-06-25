@@ -1,3 +1,4 @@
+import removeObjectFileExtension from "utils/remove-file-ext";
 import { api } from "../axios"
 import announcementMapper from "./mappers/announcement-mapper";
 import applicantsMapper from "./mappers/applicants-mapper";
@@ -9,6 +10,7 @@ import habitationMapper from "./mappers/habitation-mapper";
 import healthInfoMapper from "./mappers/health-info-mapper";
 import identityInfoMapper from "./mappers/identity-info-mapper";
 import incomeMapper from "./mappers/income-mapper";
+import progressMapper from "./mappers/progress-mapper";
 import vehicleMapper from "./mappers/vehicle-mapper";
 
 class CandidateService {
@@ -206,7 +208,7 @@ class CandidateService {
                 authorization: `Bearer ${token}`,
             },
         })
-        return healthInfoMapper.fromPersistence(response.data.healthInfoResults)
+        return healthInfoMapper.fromPersistence(response.data.healthInfoResultsWithUrls)
     }
 
     registerHealthInfo(id, data) {
@@ -262,11 +264,7 @@ class CandidateService {
         return applicantsMapper.fromPersistence(response.data)
     }
     applyAnnouncement({ announcementId, courseId, candidateId = '' }) {
-        return api.post(`/candidates/application`, {
-            announcement_id: announcementId,
-            educationLevel_id: courseId,
-            candidate_id: candidateId
-        })
+        return api.post(`/candidates/application/${announcementId}/${courseId}/${candidateId}`)
     }
 
     async getExpenses(id = '') {
@@ -276,6 +274,38 @@ class CandidateService {
 
     registerExpenses(data) {
         return api.post('/candidates/expenses', data)
+    }
+
+    async getProgress() {
+        const response = await api.get('/candidates/progress')
+        return progressMapper.fromPersistence(response.data)
+    }
+    async getRegistrato(id) {
+        const response = await api.get(`/candidates/registrato/${id}`)
+        const data = removeObjectFileExtension(response.data)
+        const [date, url] = Object.entries(data)[0]
+        const [month, year] = date.split('_')[1].split('-')
+        const registrato_date = new Date(`${month}-01-${year}`)
+        return { url, date: registrato_date }
+    }
+
+    deleteFile(path) {
+        return api.post('/candidates/document/delete', { path })
+    }
+
+    register(data) {
+        return api.post('/candidates/', data)
+    }
+    registerResponsible(data) {
+        return api.post('/responsibles', data)
+    }
+    async getAnnouncementPdf(id) {
+        const response = await api.get(`/candidates/documents/announcement/${id}`)
+        return response.data.url
+    }
+    async getDashboard() {
+        const response = await api.get(`/candidates/dashboard`)
+        return response.data
     }
 }
 

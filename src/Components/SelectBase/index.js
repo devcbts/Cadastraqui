@@ -7,6 +7,7 @@ import { forwardRef } from "react";
 
 const SelectBase = forwardRef(({ label, error, ...props }, ref) => {
     const borderStyle = error === null ? '#CFCFCF' : (error ? "#EF3E36" : "#499468")
+    const paddingStyle = error !== null
     return (
         <div className={inputBaseStyles.container}>
             <div className={inputBaseStyles.inputwrapper}>
@@ -18,7 +19,7 @@ const SelectBase = forwardRef(({ label, error, ...props }, ref) => {
                         isMulti={props.multiple}
                         styles={{
                             container: (style) => ({ ...style, outline: "none", paddingRight: "-2px" }),
-                            control: (style) => ({ ...style, border: `2px solid ${borderStyle}`, outline: "none", borderRadius: "8px", paddingRight: "28px" }),
+                            control: (style) => ({ ...style, border: `2px solid ${borderStyle}`, outline: "none", borderRadius: "8px", paddingRight: paddingStyle ? '28px' : '0' }),
                         }}
                         {...props}
                     />

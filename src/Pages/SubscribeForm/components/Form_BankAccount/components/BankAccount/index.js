@@ -7,7 +7,7 @@ import useControlForm from "hooks/useControlForm"
 import FormSelect from "Components/FormSelect"
 import BANK_ACCOUNT_TYPES from "utils/enums/bank-account-types"
 import bankAccountSchema from "./schemas/bank-account-schema"
-const BankAccount = forwardRef(({ data }, ref) => {
+const BankAccount = forwardRef(({ data, viewMode }, ref) => {
     const { control, watch } = useControlForm({
         schema: bankAccountSchema,
         defaultValues: {
@@ -19,14 +19,15 @@ const BankAccount = forwardRef(({ data }, ref) => {
         initialData: data
     }, ref)
     const watchType = watch("accountType")
-    console.log(data)
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Dados Bancários</h1>
+            <fieldset disabled={viewMode}>
             <InputForm name="bankName" label="banco" control={control} />
             <FormSelect name="accountType" label="tipo de conta" control={control} options={BANK_ACCOUNT_TYPES} value={watchType} />
             <InputForm name="agencyNumber" label="agência" control={control} />
             <InputForm name="accountNumber" label="número da conta" control={control} />
+            </fieldset>
         </div>
     )
 })

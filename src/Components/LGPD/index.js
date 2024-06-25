@@ -3,7 +3,7 @@ import styles from './styles.module.scss'
 import Portal from 'Components/Portal'
 import Overlay from 'Components/Overlay'
 import ButtonBase from 'Components/ButtonBase'
-export default function LGPD() {
+export default function LGPD({ children }) {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const handleModal = () => {
         setIsModalOpen((prev) => !prev)
@@ -20,7 +20,12 @@ export default function LGPD() {
     //TODO : turn the LGPD overlay into another component (maybe modal with composition pattern)
     return (
         <>
-            <div className={styles.badge} onClick={handleModal}>LGPD</div>
+            <div onClick={handleModal}>
+                {children ??
+                    <div className={styles.badge}>LGPD</div>
+
+                }
+            </div>
             {
                 isModalOpen && (
                     <Portal id={"lgpd"}>

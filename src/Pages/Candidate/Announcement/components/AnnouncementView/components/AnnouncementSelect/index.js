@@ -14,6 +14,8 @@ import Subscription from "../Subscription";
 import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
 import Loader from "Components/Loader";
 import { NotificationService } from "services/notification";
+import findLabel from "utils/enums/helpers/findLabel";
+import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer";
 export default function AnnouncementSelect({ announcement }) {
     const { announcementId } = useParams()
     const { clear, step, move, setCourse, getCourse } = useContext(AnnouncementContext)
@@ -32,7 +34,6 @@ export default function AnnouncementSelect({ announcement }) {
                 try {
                     const information = await candidateService.getAnnouncementById(announcementId)
                     const savedAnnouncements = await candidateService.getCandidateAnnouncements()
-                    console.log('id aqui', information)
                     setIsVisited(savedAnnouncements?.find((e) => e.announcement.id === information.id))
                     setAnnouncement(information)
                     if (information) {
@@ -51,9 +52,9 @@ export default function AnnouncementSelect({ announcement }) {
     }, [])
     const announcementCourse = useMemo(() => {
         if (announcementInfo) {
-            const { name, address, addressNumber, city, neighborhood, UF, course } = getCourse
+            const { socialReason, address, addressNumber, city, UF, course } = getCourse
             return {
-                name,
+                socialReason,
                 address: `${address}, Nº ${addressNumber}. ${city} - ${UF}`,
                 ...course
             }
@@ -79,16 +80,18 @@ export default function AnnouncementSelect({ announcement }) {
                                 <ButtonBase label={'salvar edital'} onClick={handleSaveAnnouncement} />
                             </div>}
                             <div className={styles.contentwrapper}>
-                                <img src={Logo}></img>
+                                {announcementInfo?.logo
+                                    ? <img src={announcementInfo.logo}></img>
+                                    : <img src={Logo}></img>}
                                 <div className={styles.info}>
-                                    <span>Instituição: {announcementCourse?.name}</span>
+                                    <span>Instituição: {announcementCourse?.socialReason}</span>
                                     <span>Endereço: {announcementCourse?.address} </span>
                                     <span>Email: unifei@unifei.com</span>
                                 </div>
                                 <Card.Root width="230px">
-                                    <Card.Title text={'curso pretendido'} />
+                                    <Card.Title text={'curso/série pretendida'} />
                                     <Card.Content>
-                                        <span>{announcementCourse?.availableCourses}</span>
+                                        <span>{announcementCourse?.availableCourses ?? announcementCourse?.grade}</span>
                                     </Card.Content>
                                 </Card.Root>
                                 <div className={styles.cards}>
@@ -98,12 +101,12 @@ export default function AnnouncementSelect({ announcement }) {
                                             <span>{announcementCourse?.verifiedScholarships}</span>
                                         </Card.Content>
                                     </Card.Root>
-                                    <Card.Root width="230px">
+                                    {/* <Card.Root width="230px">
                                         <Card.Title text={'semestre'} />
                                         <Card.Content>
                                             <span>{announcementCourse?.semester}</span>
                                         </Card.Content>
-                                    </Card.Root>
+                                    </Card.Root> */}
                                     <Card.Root width="230px">
                                         <Card.Title text={'turno'} />
                                         <Card.Content>
@@ -119,7 +122,10 @@ export default function AnnouncementSelect({ announcement }) {
                                     <Card.Root width="230px">
                                         <Card.Title text={'bolsa'} />
                                         <Card.Content>
-                                            <span>{SCHOLARSHIP_TYPE.find(e => e.value === announcementCourse?.higherEduScholarshipType)?.label}</span>
+                                            <span>{
+                                                findLabel(SCHOLARSHIP_TYPE, announcementCourse?.higherEduScholarshipType)
+                                                ?? findLabel(SCHOLARSHIP_OFFER, announcementCourse?.scholarshipType)
+                                            }</span>
                                         </Card.Content>
                                     </Card.Root>
                                 </div>

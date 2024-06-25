@@ -11,7 +11,7 @@ import incomeAtom from "Pages/SubscribeForm/components/Form_Income/atoms/income-
 import MonthSelection from "Components/MonthSelection";
 import Statement from "../Statement";
 // quantity = months that user needs to fullfill in order to proceed saving information
-const BankMonthSelection = forwardRef(({ data }, ref) => {
+const BankMonthSelection = forwardRef(({ data, viewMode }, ref) => {
 
     return (
         <div className={[commonStyles.formcontainer, styles.container].join(' ')}>
@@ -23,6 +23,7 @@ const BankMonthSelection = forwardRef(({ data }, ref) => {
                 render={[
                     Statement
                 ]}
+                viewMode={viewMode}
             />
         </div>
     )

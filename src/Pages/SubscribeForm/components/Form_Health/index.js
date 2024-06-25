@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
@@ -9,16 +9,16 @@ import HealthList from "./components/HealthList";
 import HealthDisease from "./components/HealthDisease";
 import HealthMedication from "./components/HealthMedication";
 export default function FormHealth() {
+    const [isLoading, setIsLoading] = useState(true)
+    // const handleEditInformation = async (data) => {
+    //     try {
+    //         await candidateService.updateIdentityInfo(data);
+    //         NotificationService.success({ text: 'Informações alteradas' })
+    //     } catch (err) {
+    //         NotificationService.error({ text: err.response.data.message })
 
-    const handleEditInformation = async (data) => {
-        try {
-            await candidateService.updateIdentityInfo(data);
-            NotificationService.success({ text: 'Informações alteradas' })
-        } catch (err) {
-            NotificationService.error({ text: err.response.data.message })
-
-        }
-    }
+    //     }
+    // }
     const handleSaveInformation = async (data) => {
         try {
             const { memberId, ...rest } = data
@@ -32,6 +32,7 @@ export default function FormHealth() {
             }
             NotificationService.success({ text: 'Informações cadastradas' })
             setEnableEditing(true)
+            setIsAdding(false)
         } catch (err) {
             NotificationService.error({ text: err.response.data.message })
 
@@ -48,7 +49,7 @@ export default function FormHealth() {
             HealthDisease,
             HealthMedication
         ],
-        onEdit: handleEditInformation,
+        // onEdit: handleEditInformation,
         onSave: handleSaveInformation
     })
 
@@ -75,21 +76,37 @@ export default function FormHealth() {
         }
         previous()
     }
+    const [members, setMembers] = useState([])
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setIsLoading(true)
+                const members = await candidateService.getHealthInfo()
+                if (members) {
+                    setMembers(members)
+                }
+            } catch (err) {
+
+            }
+            setIsLoading(false)
+        }
+        fetchData()
+    }, [])
     return (
         <div className={commonStyles.container}>
-            {!hasSelectionOrIsAdding() && <HealthList onSelect={selectDisease} onAdd={addHealthInfo} />}
+            {!hasSelectionOrIsAdding() && <HealthList loading={isLoading} data={members} onSelect={selectDisease} onAdd={addHealthInfo} />}
             {hasSelectionOrIsAdding() &&
                 <>
                     <Steps />
                     <div className={commonStyles.actions}>
-                        {activeStep !== 1 &&
-                            <ButtonBase onClick={handlePrevious}>
-                                <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
-                            </ButtonBase>
-                        }
-                        {enableEditing &&
+
+                        <ButtonBase onClick={handlePrevious}>
+                            <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                        </ButtonBase>
+
+                        {/* {(enableEditing && !isAdding) &&
                             <ButtonBase onClick={handleEdit} label={"editar"} />
-                        }
+                        } */}
                         {activeStep !== max &&
                             <ButtonBase onClick={next}>
                                 <Arrow width="40px" />

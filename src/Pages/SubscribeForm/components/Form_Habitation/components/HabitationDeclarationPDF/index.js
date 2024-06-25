@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     strong: {
         fontWeight: 'black',
         fontSize: '10px',
-        color: 'red',
         textTransform: 'uppercase'
     },
     signwrapper: {

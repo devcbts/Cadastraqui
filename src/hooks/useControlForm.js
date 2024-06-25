@@ -29,7 +29,7 @@ export default function useControlForm({
         values: populateValues(),
         resolver: zodResolver(schema)
     })
-    const { control, trigger, formState: { isValid, dirtyFields }, getValues, handleSubmit } = form
+    const { control, trigger, formState: { isValid, dirtyFields }, getValues, handleSubmit, setValue } = form
     useImperativeHandle(ref, () => ({
         validate: () => {
             trigger();
@@ -46,6 +46,10 @@ export default function useControlForm({
         }
     }))
     return {
-        ...form
+        ...form,
+        setValue: (arg1, arg2, arg3) => {
+            if (!!arg2)
+                return setValue(arg1, arg2, { shouldDirty: true, ...arg3 })
+        }
     }
 }

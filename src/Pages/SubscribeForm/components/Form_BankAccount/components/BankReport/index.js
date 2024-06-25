@@ -9,34 +9,74 @@ import uploadService from "services/upload/uploadService";
 import createFileForm from "utils/create-file-form";
 import bankReportSchema from "./schemas/bank-report-schema";
 import styles from './styles.module.scss'
+import FilePreview from "Components/FilePreview";
+import { useEffect } from "react";
+import candidateService from "services/candidate/candidateService";
+import Table from "Components/Table";
 export default function BankReport({ id }) {
-    const { control, getValues, formState: { isValid }, trigger } = useControlForm({
+    const { control, getValues, formState: { isValid }, trigger, watch, setValue } = useControlForm({
         schema: bankReportSchema,
         defaultValues: {
-            file_bankReport: null
-        }
+            file_bankReport: null,
+            date: null,
+            url_bankReport: null
+        },
     })
+    useEffect(() => {
+        const fetchRegistrato = async () => {
+            try {
+                const registrato = await candidateService.getRegistrato(id)
+                setValue('date', registrato.date)
+                setValue('url_bankReport', registrato.url)
+            } catch (err) { }
+        }
+        fetchRegistrato()
+    }, [id])
     const handleUploadFile = async () => {
         if (!isValid) {
             trigger()
             return
         }
         try {
-            const values = getValues()
-            const formData = createFileForm(values)
+            const value = getValues('file_bankReport')
+            const date = new Date()
+            const formData = new FormData()
+            formData.append(`file_${date.getMonth() + 1}-${date.getFullYear()}`, value)
+            console.log(formData)
             await uploadService.uploadBySectionAndId({ section: 'registrato', id }, formData)
             NotificationService.success({ text: 'Registrato enviado com sucesso' })
         } catch (err) {
             NotificationService.error({ text: 'Erro ao enviar o registrato, tente novamente' })
         }
     }
+    const getStatus = () => {
+        const currDate = new Date()
+        currDate.setDate(1)
+        const compareDate = watch('date')
+        const days = currDate.getMonth() - compareDate.getMonth() +
+            (12 * (currDate.getFullYear() - compareDate.getFullYear()))
+        console.log(days, currDate.getMonth() - compareDate.getMonth())
+        return days !== 0 ? 'Vencido' : 'Atualizado'
+    }
     return (
         <>
             <h1>{new Date().toLocaleString('pt-br', { year: 'numeric', month: 'long' }).toUpperCase()}</h1>
             <div className={styles.report}>
-                <h1>Relatório de Contas e Relationamentos (CCS)</h1>
+                <h1>Relatório de Contas e Relacionamentos (CCS)</h1>
                 <div style={{ width: '100%' }}>
                     <FormFilePicker accept={"application/pdf"} control={control} label={'Arquivo'} name={'file_bankReport'} />
+                    {watch('date') && <Table.Root headers={['data', 'status', 'ações']}>
+                        <Table.Row>
+                            <Table.Cell>{watch('date')?.toLocaleString('pt-br', { month: 'long', year: 'numeric' })}</Table.Cell>
+                            <Table.Cell>{getStatus()}</Table.Cell>
+                            <Table.Cell>
+                                <Link to={watch('url_bankReport')} target="_blank">
+                                    <ButtonBase label={'visualizar'} />
+                                </Link>
+                            </Table.Cell>
+                        </Table.Row>
+                    </Table.Root>}
+                    {/* <FilePreview file={watchFile} url={getValues("url_bankReport")} text={'visualizar documento'} /> */}
                 </div>
                 <ButtonBase label={'enviar'} onClick={handleUploadFile} />
                 <Tooltip tooltip={'Não possui ainda o seu relatório de contas e relacionamento do mês atual?'}>

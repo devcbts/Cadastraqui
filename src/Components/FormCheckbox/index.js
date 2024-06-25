@@ -1,7 +1,7 @@
 import { Controller } from "react-hook-form";
 import CheckboxBase from "../CheckboxBase";
 
-export default function FormCheckbox({ name, control, label }) {
+export default function FormCheckbox({ name, control, label, value }) {
     const showErrorBorder = (isDirty, error) => {
         // Input wasn't modified but has error OR has been modified and has error (ERROR BORDER)
         if ((!isDirty && error) || (isDirty && error)) {

@@ -11,7 +11,7 @@ export default function ButtonBase({
     const [isLoading, setLoading] = useState(false)
     const handleClick = async () => {
         setLoading(true)
-        await onClick()
+        await onClick?.()
         setLoading(false)
     }
     return (

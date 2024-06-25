@@ -8,7 +8,7 @@ import validateCEP from "../utils/validate-cep"
  */
 export default function useCep(callback, value) {
     // Ignore when cep already starts completed (example: Editing screens)
-    const [ignoreWhenEqual, setIgnoreWhenEqual] = useState(value)
+    const [ignoreWhenEqual, setIgnoreWhenEqual] = useState(value ?? "")
     const isMounted = useRef(null)
     useEffect(() => {
         if (!isMounted.current && validateCEP(ignoreWhenEqual)) {
@@ -18,7 +18,7 @@ export default function useCep(callback, value) {
         }
         const updateAddress = async () => {
             if (validateCEP(value)) {
-                const address = await getUserAddress(value.replace(/\D/g, ''))
+                const address = await getUserAddress(value?.replace(/\D/g, ''))
                 callback(address)
             }
 

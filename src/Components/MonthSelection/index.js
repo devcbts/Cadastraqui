@@ -8,7 +8,7 @@ import styles from './styles.module.scss'
 import useControlForm from "hooks/useControlForm";
 import monthAtom from "./atoms/month-atom";
 // quantity = months that user needs to fullfill in order to proceed saving information
-const MonthSelection = forwardRef(({ data, render = [], schema }, ref) => {
+const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false }, ref) => {
     const { watch, setValue, getValues, trigger, formState: { errors } } = useControlForm({
         schema: schema,
         defaultValues: {
@@ -81,7 +81,8 @@ const MonthSelection = forwardRef(({ data, render = [], schema }, ref) => {
     } = useStepFormHook({
         render,
         onSave: handleSave,
-        showStepper: false
+        showStepper: false,
+        viewMode: viewMode
     })
     const handleSelectMonth = (month) => {
         setActiveStep(1)
@@ -121,7 +122,9 @@ const MonthSelection = forwardRef(({ data, render = [], schema }, ref) => {
                 monthSelected && (
                     <>
                         <span className={styles.month}>{monthSelected.dateString}</span>
-                        <Steps />
+                        <fieldset disabled={viewMode}>
+                            <Steps />
+                        </fieldset>
                         {<div className={commonStyles.actions}>
                             <ButtonBase onClick={handlePrevious}>
                                 <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
@@ -132,7 +135,7 @@ const MonthSelection = forwardRef(({ data, render = [], schema }, ref) => {
                                 </ButtonBase>
                             }
                             {
-                                activeStep === max && (
+                                (activeStep === max && !viewMode) && (
                                     <ButtonBase onClick={next}>
                                         Salvar
                                     </ButtonBase>

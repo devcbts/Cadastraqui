@@ -1,13 +1,26 @@
 import HomeCandidate from "Pages/Candidate/Home";
 import ProfileCandidate from "Pages/Candidate/Profile";
 import SubscribeForm from "Pages/SubscribeForm";
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import AnnouncementCandidate from "Pages/Candidate/Announcement";
 import AnnouncementView from "Pages/Candidate/Announcement/components/AnnouncementView";
 import RoleRoutes from "./components/RoleRoutes";
 import SelectionProcess from "Pages/SocialAssistant/SelectionProcess";
 import SocialAssistantAnnouncement from "Pages/SocialAssistant/SelectionProcess/Announcement";
 import SelectedCandidates from "Pages/SocialAssistant/SelectionProcess/SelectedCandidates";
+import CandidateInfo from "Pages/SocialAssistant/SelectionProcess/CandidateInfo";
+import CandidateView from "Pages/SocialAssistant/SelectionProcess/CandidateView";
+import LegalOpinion from "Pages/SocialAssistant/SelectionProcess/LegalOpinion";
+import SocialAssistantProfile from "Pages/SocialAssistant/Profile";
+import HeaderWrapper from "Components/Header";
+import Login from "Pages/Login";
+import Register from "Pages/Register";
+import EntitySelectRegister from "Pages/Entity/Register";
+import EntityAnnouncement from "Pages/Entity/Announcement";
+import EntityAnnouncementView from "Pages/Entity/AnnouncementView";
+import AdminRegister from "Pages/Admin/Register";
+import EntityProfile from "Pages/Entity/Profile";
+import EntityAccounts from "Pages/Entity/Accounts";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -15,32 +28,82 @@ export default function AppRoutes() {
     // Create NOT_FOUND screen to avoid blank pages
     return (
         <>
-            <RoleRoutes role="CANDIDATE">
+            <RoleRoutes role={null}>
                 <Routes>
-                    <Route path="/formulario_inscricao" element={<SubscribeForm />}></Route>
-                    <Route path="/profile" element={<ProfileCandidate />}></Route>
-                    <Route path="/home" element={<Outlet />}>
-                        <Route path="" element={<HomeCandidate />}></Route>
-                        <Route path="editais" element={<Outlet />}>
-                            <Route path="" element={<AnnouncementCandidate />}></Route>
-                            <Route path=":announcementId" element={<AnnouncementView />}></Route>
-                        </Route>
-                        {/* <Route path="edital/:announcementId" element={<AnnouncementView />}></Route> */}
+                    <Route path="/" element={<Login />} />
+                    <Route path="/registrar" element={<Register />} />
+                    {/* <Route path="*" element={<Navigate to={'/login'} />} /> */}
 
-                    </Route>
                 </Routes>
             </RoleRoutes>
-            <RoleRoutes role="ASSISTANT">
-                <Routes>
-                    <Route path="/home" element={<Outlet />} >
-                        <Route path="" element={<SelectionProcess />}></Route>
-                        <Route path="selecao/:id" element={<Outlet />} >
+            <RoleRoutes role={["CANDIDATE", "RESPONSIBLE"]}>
+                <HeaderWrapper>
+                    <Routes>
+                        <Route path="/formulario_inscricao" element={<SubscribeForm />}></Route>
+                        <Route path="/profile" element={<ProfileCandidate />}></Route>
+                        <Route path="/home" element={<Outlet />}>
+                            <Route path="" element={<HomeCandidate />}></Route>
+                            <Route path="editais" element={<Outlet />}>
+                                <Route path="" element={<AnnouncementCandidate />}></Route>
+                                <Route path=":announcementId" element={<AnnouncementView />}></Route>
+                            </Route>
 
-                            <Route path="" element={<SocialAssistantAnnouncement />}></Route>
-                            <Route path="candidatos" element={<SelectedCandidates />}></Route>
                         </Route>
-                    </Route>
-                </Routes>
+                        <Route path="/edital/:announcementId" element={<AnnouncementView />}></Route>
+                        {/* <Route path="*" element={<Navigate to={'/home'} />} /> */}
+
+                    </Routes>
+                </HeaderWrapper>
+            </RoleRoutes>
+            <RoleRoutes role="ASSISTANT">
+                <HeaderWrapper>
+
+                    <Routes>
+                        <Route path="/home" element={<Outlet />} >
+                            <Route path="" element={<SelectionProcess />}></Route>
+                            <Route path="selecao/:announcementId" element={<Outlet />} >
+                                <Route path="" element={<SocialAssistantAnnouncement />}></Route>
+                                <Route path=":courseId" element={<Outlet />}>
+                                    <Route path="" element={<SelectedCandidates />}></Route>
+                                    <Route path="candidato" element={<CandidateInfo />}></Route>
+                                </Route>
+                            </Route>
+                        </Route>
+                        <Route path="parecer" element={<LegalOpinion />}></Route>
+                        <Route path="/ficha-completa" element={<CandidateView />}></Route>
+                        <Route path="/profile" element={<SocialAssistantProfile />}></Route>
+                        <Route path="*" element={<Navigate to={'/home'} />} />
+
+                    </Routes>
+
+                </HeaderWrapper>
+            </RoleRoutes>
+            <RoleRoutes role="ENTITY">
+                <HeaderWrapper>
+
+                    <Routes>
+
+                        <Route path="/cadastro" element={<EntitySelectRegister />}></Route>
+                        <Route path="/editais" element={<Outlet />}>
+                            <Route path="" element={<EntityAnnouncement />} />
+                            <Route path=":announcementId" element={<EntityAnnouncementView />} />
+                        </Route>
+                        <Route path="/profile" element={<EntityProfile />} />
+                        <Route path="/contas" element={<EntityAccounts />} />
+                        <Route path="*" element={<Navigate to={'/cadastro'} />} />
+
+                    </Routes>
+
+                </HeaderWrapper>
+            </RoleRoutes>
+            <RoleRoutes role="ADMIN">
+                <HeaderWrapper>
+
+                    <Routes>
+                        <Route path="/cadastro" element={<AdminRegister />} />
+                        <Route path="*" element={<Navigate to={'/cadastro'} />} />
+                    </Routes>
+                </HeaderWrapper>
             </RoleRoutes>
         </>
     )

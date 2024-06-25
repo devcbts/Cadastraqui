@@ -1,38 +1,70 @@
 import FormSelect from "Components/FormSelect";
 import SelectBase from "Components/SelectBase";
 import useControlForm from "hooks/useControlForm";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from './styles.module.scss'
 import Table from "Components/Table";
 import ButtonBase from "Components/ButtonBase";
 import { useNavigate } from "react-router";
+import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import Loader from "Components/Loader";
 export default function SelectionProcess() {
     const navigate = useNavigate()
-    const [selection, setSelection] = useState({ label: '', value: '' })
+    const [selection, setSelection] = useState({ label: 'Fase de inscrição', value: 'subscription' })
+    const [announcements, setAnnouncements] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
     const handleSelection = (value) => {
         setSelection(value)
     }
+    const filter = useMemo(() => {
+        return [{ label: 'Fase de inscrição', value: 'subscription' },
+        { label: 'Fase de avaliação', value: 'validation' },
+        { label: 'Finalizados', value: 'finished' }]
+    }, [])
+    useEffect(() => {
+        const fetchAnnouncements = async () => {
+            try {
+                setIsLoading(true)
+                const information = await socialAssistantService.getAllAnnouncements(selection.value)
+                setAnnouncements(information)
+            } catch (err) { }
+            setIsLoading(false)
+        }
+        fetchAnnouncements()
+    }, [selection])
     return (
         <div className={styles.container}>
+            <Loader loading={isLoading} />
             <h1>Processo de Seleção</h1>
             <div className={styles.selection}>
                 <span>Editais com atuação</span>
-                <SelectBase options={[{ label: 'abc', value: 1 }]} value={selection} onChange={handleSelection} error={null} />
+                <SelectBase options={filter} value={selection} onChange={handleSelection} error={null} />
             </div>
-            <div>
-                <span>Editais - {selection.label}</span>
-                <Table.Root headers={['entidade', 'edital', 'total de vagas', 'concluído?', 'ações']}>
-                    <Table.Row>
-                        <Table.Cell>teste</Table.Cell>
-                        <Table.Cell>teste</Table.Cell>
-                        <Table.Cell>teste</Table.Cell>
-                        <Table.Cell>teste</Table.Cell>
-                        <Table.Cell>
-                            <ButtonBase label={'visualizar'} onClick={() => navigate('selecao/1234')} />
-                        </Table.Cell>
-                    </Table.Row>
-                </Table.Root>
-            </div>
+            {!!selection?.value && (
+                announcements.length ?
+                    (<div>
+                        <span>Editais - {selection.label}</span>
+                        <Table.Root headers={['entidade', 'edital', 'total de vagas', 'concluído?', 'ações']}>
+                            {
+                                announcements.map((announcement) => (
+                                    <Table.Row>
+                                        <Table.Cell>{announcement.entity}</Table.Cell>
+                                        <Table.Cell>{announcement.name}</Table.Cell>
+                                        <Table.Cell>{announcement.vacancies}</Table.Cell>
+                                        <Table.Cell>{announcement.finished ? 'Sim' : 'Não'}</Table.Cell>
+                                        <Table.Cell>
+                                            <ButtonBase label={'visualizar'} onClick={() => navigate(`selecao/${announcement.id}`)} />
+                                        </Table.Cell>
+                                    </Table.Row>
+                                ))
+                            }
+                        </Table.Root>
+                    </div>)
+                    : <h3>
+                        Nenhum edital encontrado na cateogria "{selection.label}"
+                    </h3>
+            )
+            }
         </div>
     )
 }

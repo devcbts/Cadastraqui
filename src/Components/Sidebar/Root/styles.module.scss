@@ -1,5 +1,8 @@
 @import '../../../Assets/theme/global.module.scss';
 .container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background-color: $primary;
     height: 100%;
     width: 300px;
