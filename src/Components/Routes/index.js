@@ -25,6 +25,8 @@ import EntityHome from "Pages/Entity/Home";
 import CandidateRequest from "Pages/Candidate/Request";
 import CandidatePendency from "Pages/Candidate/Request/Pendency";
 import SelectionProcessContext from "Pages/SocialAssistant/SelectionProcess/CandidateInfo/context/SelectionProcessContext";
+import AdminHome from "Pages/Admin/Home";
+import AdminEntityView from "Pages/Admin/EntityView";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -36,14 +38,14 @@ export default function AppRoutes() {
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/registrar" element={<Register />} />
-                    {/* <Route path="*" element={<Navigate to={'/login'} />} /> */}
+                    <Route path="*" element={<Navigate to={'/'} />} />
 
                 </Routes>
             </RoleRoutes>
             <RoleRoutes role={["CANDIDATE", "RESPONSIBLE"]}>
                 <HeaderWrapper>
                     <Routes>
-                        <Route path="/formulario_inscricao" element={<SubscribeForm />}></Route>
+                        <Route path="/formulario-inscricao" element={<SubscribeForm />}></Route>
                         <Route path="/profile" element={<ProfileCandidate />}></Route>
                         <Route path="/home" element={<Outlet />}>
                             <Route path="" element={<HomeCandidate />}></Route>
@@ -111,6 +113,10 @@ export default function AppRoutes() {
                 <HeaderWrapper>
 
                     <Routes>
+                        <Route path="/home" element={<Outlet />} >
+                            <Route index element={<AdminHome />} />
+                            <Route path=":entityId" element={<AdminEntityView />} />
+                        </Route>
                         <Route path="/cadastro" element={<AdminRegister />} />
                         <Route path="*" element={<Navigate to={'/cadastro'} />} />
                     </Routes>

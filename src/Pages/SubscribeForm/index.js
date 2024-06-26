@@ -19,9 +19,10 @@ import { useSetRecoilState } from "recoil";
 import headerAtom from "Components/Header/atoms/header-atom";
 import FormDeclarations from "./components/Form_Declarations";
 import FormExpenses from "./components/Form_Expenses";
+import { useLocation } from "react-router";
 export default function SubscribeForm() {
     const [activeStep, setActiveStep] = useState(1)
-
+    const { state } = useLocation()
     const handleChangeCategory = (index) => {
         setActiveStep(index)
     }
@@ -39,6 +40,9 @@ export default function SubscribeForm() {
     const setHeader = useSetRecoilState(headerAtom)
     useEffect(() => {
         setHeader({ sidebar: false })
+        if (state?.step) {
+            setActiveStep(state?.step)
+        }
         return () => {
             setHeader({ sidebar: true })
         }

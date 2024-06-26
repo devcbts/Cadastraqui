@@ -7,7 +7,7 @@ export default function CandidateSidebar() {
     return (
         <Sidebar.Root>
             <Sidebar.Item icon={Home} text={'início'} path={'/home'}></Sidebar.Item>
-            <Sidebar.Item icon={Edit} text={'cadastro'} path={'/formulario_inscricao'}></Sidebar.Item>
+            <Sidebar.Item icon={Edit} text={'cadastro'} path={'/formulario-inscricao'}></Sidebar.Item>
             <Sidebar.Item icon={Request} text={'solicitações'} path={'/solicitacoes'}></Sidebar.Item>
             <Sidebar.Item icon={Profile} text={'perfil'} path={'/profile'}></Sidebar.Item>
         </Sidebar.Root>
