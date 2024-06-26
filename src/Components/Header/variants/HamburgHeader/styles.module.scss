@@ -13,8 +13,12 @@
     .logo{
         -webkit-user-drag: none;
         margin: auto;
-        width: 400px;
-        height: 100%;
+        width: 300px;
+        height: 70px;
+        @media(max-width: 390px){
+            width: 210px;
+            height: 49px;
+        }
     }
     .hamburger{
         color: white;

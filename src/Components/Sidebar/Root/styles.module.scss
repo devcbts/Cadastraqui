@@ -9,6 +9,10 @@
     border-top-right-radius: 8px;
     padding: 100px 40px 40px 40px;
     box-shadow: 2px 2px 5px $grey;
+    @media(max-width: 769px){
+        width: 150px;
+        padding: 100px 10px 40px 10px;
+    }
 }
 
 .hide{

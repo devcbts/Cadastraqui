@@ -2,5 +2,8 @@
 .container{
     color: $primary;
     text-align: center;
-    font-size: .8em
+    font-size: .8em;
+    @media(max-width:769px){
+        font-size: 12px;
+    }
 }
