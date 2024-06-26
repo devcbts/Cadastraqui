@@ -18,7 +18,11 @@ export default function Declaration_RuralWorker({ onBack, onNext }) {
     const handleSave = () => {
         if (ruralWorker !== null) {
             localStorage.setItem('ruralWorkerDetails', JSON.stringify({ ruralWorker, activity }));
-            onNext(ruralWorker, activity);
+            if (ruralWorker === 'nao') {
+                onNext(false); // Navega para AUTONOMO
+            } else {
+                onNext(true, activity); // Navega para a próxima tela com a atividade
+            }
         }
     };
 

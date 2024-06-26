@@ -3,16 +3,17 @@ import commonStyles from '../../styles.module.scss'; // Certifique-se de que o c
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
 import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
+import useAuth from 'hooks/useAuth'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_NoAddressProof({ onBack, onNext }) {
     const [declarationData, setDeclarationData] = useState(null);
     const [hasConfirmed, setHasConfirmed] = useState(null);
-    const userId = "uid_do_usuario"; // Defina o userId ou obtenha-o de props/contexto
+    const { auth } = useAuth(); // Obtendo o auth do contexto
 
     useEffect(() => {
         const fetchDeclarationData = async () => {
             try {
-                const response = await api.get(`/candidates/declaration/Form/${userId}`);
+                const response = await api.get(`/candidates/declaration/Form/${auth.uid}`);
                 const data = response.data.infoDetails;
                 setDeclarationData(data);
             } catch (error) {
@@ -21,11 +22,59 @@ export default function Declaration_NoAddressProof({ onBack, onNext }) {
         };
 
         fetchDeclarationData();
-    }, [userId]);
+    }, [auth.uid]);
 
-    const handleSave = () => {
-        if (hasConfirmed === 'sim') {
-            onNext(true);
+    const handleSave = async () => {
+        if (!auth?.uid) {
+            console.error('UID não está definido');
+            return;
+        }
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error('Token não está definido');
+            return;
+        }
+
+        if (!declarationData) {
+            console.error('Os dados da declaração não estão disponíveis');
+            return;
+        }
+
+        const text = `
+            Eu, ${declarationData.fullName}, resido na ${declarationData.address}, nº ${declarationData.addressNumber}, complemento, 
+            CEP: ${declarationData.CEP}, bairro ${declarationData.neighborhood}, cidade ${declarationData.city}, estado ${declarationData.state}, 
+            UF ${declarationData.UF}, e-mail: ${declarationData.email}, declaro que não possuo comprovante de endereço em meu nome. Por ser 
+            a expressão da verdade e, ciente que a falsidade de informação sujeitará às penas da legislação pertinente, confirmo a presente 
+            declaração para efeitos legais.
+        `;
+
+        const payload = {
+            declarationExists: hasConfirmed === 'sim',
+            ...(hasConfirmed === 'sim' && { text })
+        };
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/NoAddressProof/${auth.uid}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erro: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log('Declaração registrada:', data);
+
+            // Redireciona para a próxima tela
+            onNext(hasConfirmed === 'sim');
+        } catch (error) {
+            console.error('Erro ao registrar a declaração:', error);
         }
     };
 

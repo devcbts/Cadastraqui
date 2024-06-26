@@ -20,15 +20,11 @@ export default function Declaration_RentedHouse({ onBack, onNext }) {
         }
     };
 
-    if (!declarationData) {
-        return <p>Carregando...</p>;
-    }
-
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE IMÓVEL ALUGADO - SEM CONTRATO DE ALUGUEL</h2>
-            <h3>{declarationData.fullName} - usuário do Cadastraqui</h3>
+            <h3>{declarationData?.fullName} - usuário do Cadastraqui</h3>
             <p>Você mora em imóvel alugado sem contrato de aluguel?</p>
             <div className={commonStyles.radioButtons}>
                 <label>
@@ -41,6 +37,7 @@ export default function Declaration_RentedHouse({ onBack, onNext }) {
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase onClick={handleSave}><Arrow width="40px" /></ButtonBase>
             </div>
         </div>
     );
