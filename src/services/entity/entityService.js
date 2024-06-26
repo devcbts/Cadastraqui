@@ -60,7 +60,8 @@ class EntityService {
 
     }
     async updateProfilePicture(data) {
-        return api.post("/entities/profilePicture", data)
+        const response = await api.post("/entities/profilePicture", data)
+        return response.data.url
     }
     async getDirectors() {
         const response = await api.get(`/entities/director/`)

@@ -10,19 +10,20 @@ export const AuthContext = createContext(null)
 export default function AuthProvider({ children }) {
     const [auth, setAuth] = useState(null)
     const navigate = useNavigate()
-    const { get, set, remove } = useLocalStorage()
+    const { get: getToken, set: setToken, remove } = useLocalStorage("token")
+    const { set: setRefreshToken } = useLocalStorage("refresh_token")
+    const { set: setPicture } = useLocalStorage("profilepic")
     const [isLoading, setIsLoading] = useState(false)
     const login = async ({ email, password }) => {
         try {
             setIsLoading(true)
             const { token, user_role, refreshToken } = await authService.login({ email, password })
-            console.log(token, user_role, refreshToken)
-            set('token', token)
-            set('refresh_token', refreshToken)
+            setToken(token)
+            setRefreshToken(refreshToken)
             const decodedToken = jwtDecode(token)
             setAuth(decodedToken)
             userService.getProfilePicture({ role: user_role })
-                .then((profilePic) => set('profilepic', profilePic))
+                .then((profilePic) => setPicture(profilePic))
                 .catch(() => { })
 
             return true
@@ -41,10 +42,10 @@ export default function AuthProvider({ children }) {
         } catch (err) { }
     }
     useEffect(() => {
-        const token = get('token')
-        console.log('RUNNING')
-        if (token) {
-            setAuth(jwtDecode(token))
+        console.log('renderizou')
+        console.log(getToken)
+        if (getToken) {
+            setAuth(jwtDecode(getToken))
         }
     }, [])
     return (

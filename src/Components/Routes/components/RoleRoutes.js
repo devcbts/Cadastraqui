@@ -1,7 +1,7 @@
 import useAuth from "hooks/useAuth"
-import { useMemo } from "react"
+import { memo, useMemo } from "react"
 
-export default function RoleRoutes({ role, children }) {
+const RoleRoutes = ({ role, children }) => {
     const { auth } = useAuth()
     // verify if current role (auth) is the same as the role based route requested
     const sameRole = useMemo(() => {
@@ -18,3 +18,5 @@ export default function RoleRoutes({ role, children }) {
         children
     )
 }
+
+export default memo(RoleRoutes)

@@ -24,13 +24,14 @@ class CandidateService {
         return response.data.candidate
     }
 
-    uploadProfilePicture(img) {
+    async uploadProfilePicture(img) {
         const token = localStorage.getItem("token")
-        return api.post("/candidates/profilePicture", img, {
+        const response = await api.post("/candidates/profilePicture", img, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
         })
+        return response.data.url
     }
     async registerIdentityInfo(data) {
         const token = localStorage.getItem("token")

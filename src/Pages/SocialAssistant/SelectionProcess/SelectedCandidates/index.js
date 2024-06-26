@@ -50,8 +50,8 @@ export default function SelectedCandidates() {
                 </div>
                 <span>Endereço: {getAddress()}</span>
                 <div className={styles.row}>
-                    <span>Ciclo/Ano/Série/Semestre/Curso: {application.level?.grade}</span>
-                    <span>Tipo de Bolsa: {SCHOLARSHIP_OFFER.find(e => e.value === application.level?.scholarshipType)?.label}</span>
+                    <span>Ciclo/Ano/Série/Semestre/Curso: {application?.level?.availableCourses ?? application.level?.grade}</span>
+                    <span>Tipo de Bolsa: {findLabel(SCHOLARSHIP_OFFER, application.level?.scholarshipType)}</span>
                 </div>
                 <span>Critério do Rank / desempate: {application.announcement?.criteria?.map(e => CRITERIAS.find(c => c.value === e)?.label).join('; ')}</span>
             </div>
