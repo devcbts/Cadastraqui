@@ -15,7 +15,7 @@ export async function getRegistrationProgress(request: FastifyRequest,
         }
         let idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
 
-        const progress = await prisma.finishedRegistration.findFirst({
+        const progress = await prisma.finishedRegistration.findUnique({
             where: idField,
         })
         console.log(progress)
