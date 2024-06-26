@@ -1,8 +1,12 @@
 @import '../../Assets/theme/global.module.scss';
 .logo{
     -webkit-user-drag: none;
-    width: 200px;
-    height: 60%;
+    width: 320px;
+    height: 80px;
+    @media(max-width:390px){
+        width: 320px;
+        height: 60px;
+    }
 }
 
 .content{

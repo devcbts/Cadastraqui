@@ -3,15 +3,25 @@
     flex-direction: column;
     height: 100%;
     flex-wrap: wrap;
+    @media(max-width:400px){
+        flex-direction: row;
+        height: 100vh;
+    }
+
     .title{
         text-align: start;
         margin-bottom: 24px;
+        @media(max-width:400px){
+            padding: 5px;
+            margin-bottom: 15px;
+        }
     }
     .informative{
         display: flex;
         flex-direction: column;
         gap: 48px;
         flex-grow: 1;
+        width: inherit;
         @media(max-width:769px){
             gap: 5px;
             flex-wrap: wrap;
@@ -26,6 +36,10 @@
     @media(max-width:769px){
         gap: 10px;
         flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+    @media(max-width:390px){
+        margin-bottom: 10px;
     }
     
 }
@@ -39,10 +53,10 @@
     @media(max-width:769px){
         gap: 10px;
         flex-wrap: wrap;
-        width: 90%;
+        width: 100%;
     }
     @media(max-width:400px){
-        width: 90%;
+        width: 100%;
         gap: 10px;
         flex-wrap: wrap;
         flex-direction: column;

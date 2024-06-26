@@ -1,12 +1,26 @@
 .container {
     display: flex;
     flex-direction: column;
+    @media(max-width:400px){
+        span{
+            padding: 10px;
+            font-size: 12px;
+        }
+    }
+    
     .chartwrapper{
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         margin-bottom: 64px;
+        @media(max-width:600px){
+            align-items: start;
+            padding: 10px;
+            h1{
+                font-size: 14px;
+            }
+        }
         .chartdisplay{
             max-width: fit-content;
             display: flex;
@@ -16,6 +30,12 @@
             gap: 16px;
             >span{
                 max-width: 40%;
+                text-align: justify;
+                @media(max-width: 600px){
+                    max-width: 100%;
+                    padding: 5px;
+
+                }
             }
             .chart{
                 position: relative;
@@ -25,6 +45,10 @@
                 }
 
             }
+            @media(max-width: 600px){
+                flex-direction: column;
+                max-width: 67%;
+            }
         }
     }
     .sections{
@@ -33,7 +57,16 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
+        cursor: pointer;
         @media(max-width: 770px ){
+            svg{
+                width: 30px;
+                height: 30px;
+            }
+        }
+        @media(max-width: 600px ){
+            margin-bottom: 30px;
+            gap: 5px;
             svg{
                 width: 30px;
                 height: 30px;

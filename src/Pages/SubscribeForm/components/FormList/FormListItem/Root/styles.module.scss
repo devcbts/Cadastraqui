@@ -8,10 +8,16 @@
     align-items: center;
     justify-content: space-between;
     padding: 4px 16px;
+    @media(max-width:400px){
+        flex-direction: column;
+    }
     .label{
         font-size: 18px;
         font-weight: 700;
         color: $grey;
+        @media(max-width:400px){
+            font-size: 14px;
+        }
     }
     & + &  {
         margin-top: 12px;

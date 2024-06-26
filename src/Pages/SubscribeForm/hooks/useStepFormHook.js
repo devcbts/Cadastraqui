@@ -1,5 +1,5 @@
 import FormStepper from "Components/FormStepper"
-import { createRef, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { createRef, useCallback, useEffect, useMemo, useState } from "react"
 // viewMode can be false - validation on, or true - disable validation 
 export default function useStepFormHook({
     render = [],
@@ -67,7 +67,7 @@ export default function useStepFormHook({
                 })}
             </FormStepper.Root>
         )
-    }, [stepsRef, activeStep, data, render, MAX_STEPS])
+    }, [activeStep, showStepper, MAX_STEPS, render, data, stepsRef, viewMode])
 
     return {
         Steps,
