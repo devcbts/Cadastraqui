@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
 import useAuth from 'hooks/useAuth';
 import { api } from 'services/axios';
 import DeclarationOverview from './components/Declaration_Status';
@@ -9,7 +9,7 @@ import Declaration_Pension from './components/Declaration_Pension';
 import Declaration_ChildPension from './components/Declaration_ChildPension';
 import Declaration_ChildSupport from './components/Declaration_ChildSupport';
 import Declaration_ChildSupportDetails from './components/Declaration_ChildSupportDetails';
-import Declaration_Final from './components/Declaration_PensionConfirmation';
+import Declaration_PensionConfirmation from './components/Declaration_PensionConfirmation';
 import Declaration_AddressProof from './components/Declaration_AddressProof';
 import Declaration_NoAddressProof from './components/Declaration_NoAddressProof';
 import Declaration_RentedHouse from './components/Declaration_RentedHouse';
@@ -44,6 +44,10 @@ import Declaration_RentIncome from './components/Declaration_RentIncome';
 import Declaration_RentIncomeDetails from './components/Declaration_RentIncomeDetails';
 import Declaration_Form from './components/Declaration_FormConfirmation';
 import Declaration_VehicleOwnership from './components/Declaration_VehicleOwnership'; // Nova tela
+import Declaration_FamilyIncomeChange from './components/Declaration_FamilyIncomeChange'; // Adicionando nova declaração
+import Declaration_ResponsibilityConfirmation from './components/Declaration_ResponsibilityConfirmation'; // Adicionando nova declaração
+import Declaration_Witnesses from './components/Declaration_Witnesses.js';
+import Declaration_RentIncomeConfirmation from './components/Declaration_RentIncomeConfirmation';
 
 const SCREENS = {
     OVERVIEW: 'overview',
@@ -52,7 +56,7 @@ const SCREENS = {
     CHILD_PENSION: 'childPension',
     CHILD_SUPPORT: 'childSupport',
     CHILD_SUPPORT_DETAILS: 'childSupportDetails',
-    FINAL: 'final',
+    PENSION_CONFIRMATION: 'pensionConfirmation',
     ADDRESS_PROOF: 'addressProof',
     NO_ADDRESS_PROOF: 'noAddressProof',
     RENTED_HOUSE: 'rentedHouse',
@@ -85,7 +89,12 @@ const SCREENS = {
     INACTIVE_COMPANY_CONFIRMATION: 'inactiveCompanyConfirmation',
     RENT_INCOME: 'rentIncome',
     RENT_INCOME_DETAILS: 'rentIncomeDetails',
-    VEHICLE_OWNERSHIP: 'vehicleOwnership', // Nova tela
+    RENT_INCOME_CONFIRMATION: 'rentIncomeConfirmation',
+    VEHICLE_OWNERSHIP: 'vehicleOwnership',
+    FAMILY_INCOME_CHANGE: 'familyIncomeChange',
+    RESPONSIBILITY_CONFIRMATION: 'responsibilityConfirmation',
+    WITNESSES: 'witnesses'
+
 };
 
 export default function FormDeclarations() {
@@ -226,6 +235,22 @@ export default function FormDeclarations() {
         navigateToScreen(SCREENS.VEHICLE_OWNERSHIP);
     }, [navigateToScreen]);
 
+    const handleNavigateToFamilyIncomeChange = useCallback(() => {
+        navigateToScreen(SCREENS.FAMILY_INCOME_CHANGE);
+    }, [navigateToScreen]);
+
+    const handleNavigateToResponsibilityConfirmation = useCallback(() => {
+        navigateToScreen(SCREENS.RESPONSIBILITY_CONFIRMATION);
+    }, [navigateToScreen]);
+
+    const handleNavigateToWitnesses = useCallback(() => {
+        navigateToScreen(SCREENS.WITNESSES);
+    }, [navigateToScreen]);
+
+    const handleNavigateToRentIncomeConfirmation = useCallback(() => {
+        navigateToScreen(SCREENS.RENT_INCOME_CONFIRMATION);
+    }, [navigateToScreen]);
+
     return (
         <div className={commonStyles.container}>
             {currentScreen === SCREENS.OVERVIEW && (
@@ -261,19 +286,23 @@ export default function FormDeclarations() {
                 <Declaration_Pension onBack={() => handleNavigate(SCREENS.FORM)} onNext={() => handleNavigate(SCREENS.CHILD_PENSION)} />
             )}
             {currentScreen === SCREENS.CHILD_PENSION && (
-                <Declaration_ChildPension onBack={() => handleNavigate(SCREENS.PENSION)} onNext={() => handleNavigate(SCREENS.CHILD_SUPPORT)} />
+                <Declaration_ChildPension onBack={() => handleNavigate(SCREENS.PENSION)} onNext={() => handleNavigate(SCREENS.CHILD_SUPPORT)} onNoPension={() => handleNavigate(SCREENS.ADDRESS_PROOF)} />
             )}
             {currentScreen === SCREENS.CHILD_SUPPORT && (
-                <Declaration_ChildSupport onBack={() => handleNavigate(SCREENS.CHILD_PENSION)} onNext={() => handleNavigate(SCREENS.CHILD_SUPPORT_DETAILS)} />
+                <Declaration_ChildSupport 
+                    onBack={() => handleNavigate(SCREENS.CHILD_PENSION)} 
+                    onNext={() => handleNavigate(SCREENS.CHILD_SUPPORT_DETAILS)} 
+                    onNoPension={() => handleNavigate(SCREENS.ADDRESS_PROOF)} 
+                />
             )}
             {currentScreen === SCREENS.CHILD_SUPPORT_DETAILS && (
-                <Declaration_ChildSupportDetails onBack={() => handleNavigate(SCREENS.CHILD_SUPPORT)} onNext={() => handleNavigate(SCREENS.FINAL)} />
+                <Declaration_ChildSupportDetails onBack={() => handleNavigate(SCREENS.CHILD_SUPPORT)} onNext={() => handleNavigate(SCREENS.PENSION_CONFIRMATION)} />
             )}
-            {currentScreen === SCREENS.FINAL && (
-                <Declaration_Final onBack={() => handleNavigate(SCREENS.CHILD_SUPPORT_DETAILS)} onNext={(hasAddressProof) => handleNavigate(hasAddressProof ? SCREENS.ADDRESS_PROOF : SCREENS.FINAL)} />
+            {currentScreen === SCREENS.PENSION_CONFIRMATION && (
+                <Declaration_PensionConfirmation onBack={() => handleNavigate(SCREENS.CHILD_SUPPORT_DETAILS)} onNext={(hasAddressProof) => handleNavigate(hasAddressProof ? SCREENS.ADDRESS_PROOF : SCREENS.PENSION_CONFIRMATION)} />
             )}
             {currentScreen === SCREENS.ADDRESS_PROOF && (
-                <Declaration_AddressProof onBack={() => handleNavigate(SCREENS.FINAL)} onNext={(hasAddressProof) => handleNavigate(hasAddressProof ? SCREENS.RENTED_HOUSE : SCREENS.NO_ADDRESS_PROOF)} />
+                <Declaration_AddressProof onBack={() => handleNavigate(SCREENS.PENSION)} onNext={(hasAddressProof) => handleNavigate(hasAddressProof ? SCREENS.RENTED_HOUSE : SCREENS.NO_ADDRESS_PROOF)} />
             )}
             {currentScreen === SCREENS.NO_ADDRESS_PROOF && (
                 <Declaration_NoAddressProof
@@ -284,7 +313,7 @@ export default function FormDeclarations() {
             {currentScreen === SCREENS.RENTED_HOUSE && (
                 <Declaration_RentedHouse
                     onBack={() => handleNavigate(SCREENS.NO_ADDRESS_PROOF)}
-                    onNext={handleNavigateToRentDetails}
+                    onNext={(rentedHouse) => handleNavigate(rentedHouse ? SCREENS.RENT_DETAILS : SCREENS.WORK_CARD)}
                 />
             )}
             {currentScreen === SCREENS.RENT_DETAILS && (
@@ -300,11 +329,11 @@ export default function FormDeclarations() {
                 />
             )}
             {currentScreen === SCREENS.WORK_CARD && (
-                <Declaration_WorkCard 
-                    onBack={() => handleNavigate(SCREENS.RENT_CONFIRMATION)} 
-                    onNext={(hasWorkCard) => handleNavigate(hasWorkCard ? SCREENS.WORK_CARD_UPLOAD : SCREENS.WORK_CARD)} 
-                />
-            )}
+    <Declaration_WorkCard 
+        onBack={() => handleNavigate(SCREENS.RENT_CONFIRMATION)} 
+        onNext={(hasWorkCard) => handleNavigate(hasWorkCard ? SCREENS.WORK_CARD_UPLOAD : SCREENS.CONTRIBUTION_STATEMENT)} 
+    />
+)}
             {currentScreen === SCREENS.WORK_CARD_UPLOAD && (
                 <Declaration_WorkCardUpload onBack={() => handleNavigate(SCREENS.WORK_CARD)} onSave={() => handleNavigate(SCREENS.WORK_CARD_CONFIRMATION)} />
             )}
@@ -347,11 +376,11 @@ export default function FormDeclarations() {
                 />
             )}
             {currentScreen === SCREENS.SEPARATION_STATUS && (
-                <Declaration_SeparationStatus
-                    onBack={() => handleNavigate(SCREENS.SINGLE_STATUS)}
-                    onNext={(knowsCurrentAddress) => handleNavigate(knowsCurrentAddress ? SCREENS.CURRENT_ADDRESS : SCREENS.SEPARATION_NO_ADDRESS_CONFIRMATION)}
-                />
-            )}
+    <Declaration_SeparationStatus
+        onBack={() => handleNavigate(SCREENS.SINGLE_STATUS)}
+        onNext={(knowsCurrentAddress) => handleNavigate(knowsCurrentAddress ? SCREENS.CURRENT_ADDRESS : SCREENS.INCOME_TAX_EXEMPTION)}
+    />
+)}
             {currentScreen === SCREENS.CURRENT_ADDRESS && (
                 <Declaration_CurrentAddress 
                     onBack={() => handleNavigate(SCREENS.SEPARATION_STATUS)}
@@ -407,14 +436,18 @@ export default function FormDeclarations() {
                 />
             )}
             {currentScreen === SCREENS.RURAL_WORKER && (
-                <Declaration_RuralWorker
-                    onBack={() => handleNavigate(SCREENS.MEI_CONFIRMATION)}
-                    onNext={(ruralWorker, activity) => {
-                        setActivity(activity);
-                        handleNavigate(SCREENS.RURAL_WORKER_CONFIRMATION);
-                    }}
-                />
-            )}
+    <Declaration_RuralWorker
+        onBack={() => handleNavigate(SCREENS.MEI_CONFIRMATION)}
+        onNext={(isRuralWorker, activity) => {
+            if (!isRuralWorker) {
+                handleNavigate(SCREENS.AUTONOMO);
+            } else {
+                setActivity(activity);
+                handleNavigate(SCREENS.RURAL_WORKER_CONFIRMATION);
+            }
+        }}
+    />
+)}
             {currentScreen === SCREENS.RURAL_WORKER_CONFIRMATION && (
                 <Declaration_RuralWorkerConfirmation
                     onBack={() => handleNavigate(SCREENS.RURAL_WORKER)}
@@ -468,21 +501,45 @@ export default function FormDeclarations() {
                 />
             )}
             {currentScreen === SCREENS.RENT_INCOME && (
-                <Declaration_RentIncome
-                    onBack={() => handleNavigate(SCREENS.INACTIVE_COMPANY_CONFIRMATION)}
-                    onNext={(receivesRent) => handleNavigate(receivesRent ? SCREENS.RENT_INCOME_DETAILS : SCREENS.VEHICLE_OWNERSHIP)}
-                />
-            )}
+    <Declaration_RentIncome
+        onBack={() => handleNavigate(SCREENS.INACTIVE_COMPANY_CONFIRMATION)}
+        onNext={(receivesRent) => handleNavigate(receivesRent ? SCREENS.RENT_INCOME_DETAILS : SCREENS.VEHICLE_OWNERSHIP)}
+    />
+)}
             {currentScreen === SCREENS.RENT_INCOME_DETAILS && (
-                <Declaration_RentIncomeDetails
+    <Declaration_RentIncomeDetails
+        onBack={() => handleNavigate(SCREENS.RENT_INCOME)}
+        onSave={handleNavigateToRentIncomeConfirmation}
+    />
+)}
+            {currentScreen === SCREENS.VEHICLE_OWNERSHIP && (
+    <Declaration_VehicleOwnership
+        onBack={() => handleNavigate(SCREENS.RENT_INCOME)}
+        onNext={(confirmation) => handleNavigate(confirmation === 'sim' ? SCREENS.FAMILY_INCOME_CHANGE : SCREENS.FAMILY_INCOME_CHANGE)}
+    />
+)}
+            {currentScreen === SCREENS.FAMILY_INCOME_CHANGE && (
+                <Declaration_FamilyIncomeChange
                     onBack={() => handleNavigate(SCREENS.RENT_INCOME)}
-                    onSave={() => handleNavigate(SCREENS.OVERVIEW)}
+                    onResponsibilityConfirmation={handleNavigateToResponsibilityConfirmation}
                 />
             )}
-            {currentScreen === SCREENS.VEHICLE_OWNERSHIP && (
-                <Declaration_VehicleOwnership
-                    onBack={() => handleNavigate(SCREENS.RENT_INCOME)}
+            {currentScreen === SCREENS.RESPONSIBILITY_CONFIRMATION && (
+                <Declaration_ResponsibilityConfirmation
+                    onBack={() => handleNavigate(SCREENS.FAMILY_INCOME_CHANGE)}
+                    onNext={handleNavigateToWitnesses} 
+                />
+            )}
+            {currentScreen === SCREENS.WITNESSES && (
+                <Declaration_Witnesses
+                    onBack={() => handleNavigate(SCREENS.RESPONSIBILITY_CONFIRMATION)}
                     onNext={() => handleNavigate(SCREENS.OVERVIEW)}
+                />
+            )}
+            {currentScreen === SCREENS.RENT_INCOME_CONFIRMATION && (
+                <Declaration_RentIncomeConfirmation 
+                    onBack={() => handleNavigate(SCREENS.RENT_INCOME_DETAILS)} 
+                    onNext={() => handleNavigate(SCREENS.VEHICLE_OWNERSHIP)}
                 />
             )}
         </div>

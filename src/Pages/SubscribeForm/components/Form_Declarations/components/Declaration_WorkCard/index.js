@@ -20,14 +20,10 @@ export default function Declaration_WorkCard({ onBack, onNext }) {
         }
     };
 
-    if (!declarationData) {
-        return <p>Carregando...</p>;
-    }
-
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
-            <h3>{declarationData.fullName} - usuário do Cadastraqui</h3>
+            <h3>{declarationData?.fullName} - usuário do Cadastraqui</h3>
             <p>Você possui Carteira de trabalho? (a partir de 16 anos)</p>
             <div className={commonStyles.radioGroup}>
                 <label>
