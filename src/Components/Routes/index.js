@@ -22,6 +22,9 @@ import AdminRegister from "Pages/Admin/Register";
 import EntityProfile from "Pages/Entity/Profile";
 import EntityAccounts from "Pages/Entity/Accounts";
 import EntityHome from "Pages/Entity/Home";
+import CandidateRequest from "Pages/Candidate/Request";
+import CandidatePendency from "Pages/Candidate/Request/Pendency";
+import SelectionProcessContext from "Pages/SocialAssistant/SelectionProcess/CandidateInfo/context/SelectionProcessContext";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -52,7 +55,10 @@ export default function AppRoutes() {
                         </Route>
                         <Route path="/edital/:announcementId" element={<AnnouncementView />}></Route>
                         {/* <Route path="*" element={<Navigate to={'/home'} />} /> */}
-
+                        <Route path="/solicitacoes" element={<Outlet />} >
+                            <Route path="" element={<CandidateRequest />} />
+                            <Route path=":applicationId" element={<CandidatePendency />} />
+                        </Route>
                     </Routes>
                 </HeaderWrapper>
             </RoleRoutes>
@@ -65,12 +71,17 @@ export default function AppRoutes() {
                             <Route path="selecao/:announcementId" element={<Outlet />} >
                                 <Route path="" element={<SocialAssistantAnnouncement />}></Route>
                                 <Route path=":courseId" element={<Outlet />}>
-                                    <Route path="" element={<SelectedCandidates />}></Route>
-                                    <Route path="candidato" element={<CandidateInfo />}></Route>
+                                    <Route index element={<SelectedCandidates />}></Route>
+                                    <Route element={<SelectionProcessContext>
+                                        <Outlet />
+                                    </SelectionProcessContext>
+                                    }>
+                                        <Route path="candidato" element={<CandidateInfo />}></Route>
+                                        <Route path="parecer" element={<LegalOpinion />}></Route>
+                                    </Route>
                                 </Route>
                             </Route>
                         </Route>
-                        <Route path="parecer" element={<LegalOpinion />}></Route>
                         <Route path="/ficha-completa" element={<CandidateView />}></Route>
                         <Route path="/profile" element={<SocialAssistantProfile />}></Route>
                         <Route path="*" element={<Navigate to={'/home'} />} />

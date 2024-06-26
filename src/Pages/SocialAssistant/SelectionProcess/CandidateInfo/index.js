@@ -1,5 +1,5 @@
 import BackPageTitle from "Components/BackPageTitle";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import styles from './styles.module.scss'
 import BasicInformation from "./components/BasicInformation";
@@ -20,31 +20,18 @@ import useControlForm from "hooks/useControlForm";
 import UploadButton from "./components/UploadButton";
 import reportSchema from "./schemas/report-schema";
 import Visit from "./components/Visit";
+import { selectionProcessContext } from "./context/SelectionProcessContext";
+import FilePreview from "Components/FilePreview";
 export default function CandidateInfo() {
-    const location = useLocation()
+    const { data, setData, summary, setSummary } = useContext(selectionProcessContext)
+    const { state } = useLocation()
     const navigate = useNavigate()
-    const [isLoading, setIsLoading] = useState(true)
-    const [summary, setSummary] = useState({
-        candidateInfo: {},
-        familyMembersInfo: [],
-        housingInfo: {},
-        vehicles: [],
-        familyMembersDiseases: [],
-        importantInfo: {},
-        documentsUrls: [],
-        applicationInfo: {},
-        majoracao: {},
-        interviewDocument: {},
-        visitDocument: {}
-    })
-    const { state } = location
     const { control, formState: { isValid }, trigger, watch } = useControlForm({
         schema: reportSchema,
         defaultValues: {
-            check_report: null
+            check_report: !!summary?.majoracao ?? !!data?.majoracao
         }
     })
-    const [data, setData] = useState()
 
     const fileRef = useRef(null)
     const watchReport = watch("check_report")
@@ -53,7 +40,7 @@ export default function CandidateInfo() {
             trigger()
             return
         }
-        navigate('/parecer', { state: { ...state, data } })
+        navigate('../parecer', { state: { ...state, data } })
 
     }
     useEffect(() => {
@@ -61,25 +48,7 @@ export default function CandidateInfo() {
             setData((prev) => ({ ...prev, majoracao: null }))
         }
     }, [watchReport])
-    useEffect(() => {
-        if (!state) {
-            navigate(-1)
-        } else {
-            const { applicationId } = state
-            // TODO: load all user information to display on screen
-            const fetchCandidateInfo = async () => {
-                try {
-                    setIsLoading(true)
-                    const information = await socialAssistantService.getCandidateResume(applicationId)
-                    setSummary(information)
-                } catch (err) { }
-                setIsLoading(false)
-            }
-            fetchCandidateInfo()
-            setData(state?.data)
 
-        }
-    }, [state])
     const handleSearchCNPJ = async () => {
         try {
             const response = await socialAssistantService.findCPFCNPJ(state?.applicationId)
@@ -91,9 +60,9 @@ export default function CandidateInfo() {
             }
         } catch (err) { }
     }
+    console.log('summary', summary)
     return (
         <div className={styles.container}>
-            <Loader loading={isLoading} text="Carregando informações do candidato" />
             <BackPageTitle title={'processo de seleção'} path={-1} />
             <div className={styles.options}>
                 <ButtonBase label={'ficha completa'} onClick={() => navigate('/ficha-completa', { state })} />
@@ -113,12 +82,12 @@ export default function CandidateInfo() {
                 <Vehicle data={summary.vehicles} />
                 <Habitation data={summary.housingInfo} />
                 <Health data={summary.familyMembersDiseases} />
-                <Documents data={summary.documentsUrls} />
-                <Scholarship data={data ?? summary.applicationInfo} onChange={(v) => { setData((prev) => ({ ...prev, partial: v })) }} />
-                <Interview data={summary.interview} onSubmit={(v) => {
+                <Documents data={summary.documentsUrls} onRequest={(v) => setData((prev) => ({ ...prev, solicitations: v }))} />
+                <Scholarship data={data?.scholarship ?? summary.applicationInfo} onChange={(v) => { setData((prev) => ({ ...prev, scholarship: v })) }} />
+                <Interview data={data?.interview ?? summary.interview} onSubmit={(v) => {
                     setData((prev) => ({ ...prev, interview: v }))
                 }} />
-                <Visit data={summary.visit} onSubmit={(v) => {
+                <Visit data={data?.visit ?? summary.visit} onSubmit={(v) => {
                     setData((prev) => ({ ...prev, visit: v }))
                 }} />
 
@@ -135,10 +104,15 @@ export default function CandidateInfo() {
                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignContent: 'center', placeItems: 'center' }}>
                         Se sim, elaborar o relatório referente a majoração de que trata o § 2º do art. 19 da Lei Complementar nº 187, de 16 de dezembro de 2021
                         e fazer o upload do mesmo, clicando no ícone abaixo.
-                        <input hidden type="file" ref={fileRef} onChange={(e) => {
-                            setData((prev) => ({ ...prev, majoracao: e.target.files[0] }))
-                        }}></input>
-                        <UploadButton onClick={() => fileRef?.current?.click()} />
+                        {(summary?.majoracao || data?.majoracao) ?
+                            <FilePreview url={summary?.majoracao} text={'ver documento'} />
+                            : <>
+                                <input hidden type="file" ref={fileRef} onChange={(e) => {
+                                    setData((prev) => ({ ...prev, majoracao: e.target.files[0] }))
+                                }}></input>
+                                <UploadButton onClick={() => fileRef?.current?.click()} />
+                            </>
+                        }
                     </div>}
             </div>
             <div className={styles.actions}>

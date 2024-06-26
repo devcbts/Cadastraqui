@@ -21,6 +21,7 @@ export default function AnnouncementView() {
             setIsLoading(true)
             try {
                 const information = await candidateService.getAnnouncementById(currentAnnouncementId)
+                candidateService.saveAnnouncement(currentAnnouncementId).catch((_) => { })
                 setAnnouncement(information)
             } catch (err) {
                 NotificationService.error({ text: 'Erro ao carregar edital. Tente novamente' })

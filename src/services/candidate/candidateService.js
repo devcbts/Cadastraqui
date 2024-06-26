@@ -307,6 +307,14 @@ class CandidateService {
         const response = await api.get(`/candidates/dashboard`)
         return response.data
     }
+    async getCandidateSolicitations() {
+        const response = await api.get(`/candidates/solicitation/`)
+        return response.data.solicitations
+    }
+    async getCandidateSolicitationByApplication(applicationId) {
+        const response = await api.get(`/candidates/solicitation/${applicationId}`)
+        return response.data.solicitations
+    }
 }
 
 export default new CandidateService()
