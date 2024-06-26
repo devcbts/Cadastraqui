@@ -55,6 +55,7 @@ model Candidate {
   AnnouncementsSeen      AnnouncementsSeen[]
   FinishedRegistration   FinishedRegistration?
   finishedRegistrationId String?
+  InterviewSchedule      InterviewSchedule[]
 
   @@unique([id, responsible_id])
   @@map("candidates")
@@ -128,19 +129,20 @@ model LegalResponsible {
 }
 
 model SocialAssistant {
-  id                String             @id @default(uuid())
+  id                String              @id @default(uuid())
   name              String
-  CPF               String             @unique
-  RG                String             @unique
-  CRESS             String             @unique
+  CPF               String              @unique
+  RG                String              @unique
+  CRESS             String              @unique
   phone             String
-  user_id           String             @unique
+  user_id           String              @unique
   entity_id         String
   Application       Application[]
-  entity            Entity             @relation(fields: [entity_id], references: [id])
-  user              User               @relation(fields: [user_id], references: [id])
-  Announcement      Announcement[]     @relation("AnnouncementToSocialAssistant")
-  entity_subsidiary EntitySubsidiary[] @relation("EntitySubsidiaryToSocialAssistant")
+  entity            Entity              @relation(fields: [entity_id], references: [id])
+  user              User                @relation(fields: [user_id], references: [id])
+  Announcement      Announcement[]      @relation("AnnouncementToSocialAssistant")
+  entity_subsidiary EntitySubsidiary[]  @relation("EntitySubsidiaryToSocialAssistant")
+  InterviewSchedule InterviewSchedule[]
 
   @@map("assistants")
 }
@@ -645,6 +647,18 @@ model Announcement {
   timelines            Timeline[]
   socialAssistant      SocialAssistant[]        @relation("AnnouncementToSocialAssistant")
   AnnouncementsSeen    AnnouncementsSeen[]
+  InterviewSchedule    InterviewSchedule[]
+}
+
+model InterviewSchedule {
+  id              String          @id @default(uuid())
+  date            DateTime
+  announcement    Announcement    @relation(fields: [announcement_id], references: [id])
+  announcement_id String
+  assistant       SocialAssistant @relation(fields: [assistant_id], references: [id])
+  assistant_id    String
+  candidate       Candidate       @relation(fields: [candidate_id], references: [id])
+  candidate_id    String
 }
 
 model AnnouncementsSeen {
@@ -704,7 +718,7 @@ model Application {
   position             Int?
   distance             Float                @default(100)
   CPFCNPJ              Boolean?
-  InformedCNPJ        Boolean?
+  InformedCNPJ         Boolean?
   ScholarshipPartial   Boolean?
   number               Int                  @default(1)
   announcement         Announcement         @relation(fields: [announcement_id], references: [id], onDelete: Cascade)

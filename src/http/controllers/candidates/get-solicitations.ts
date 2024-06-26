@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getSignedUrlsGroupedByFolder } from "@/lib/S3";
 import { SelectCandidateResponsible } from "@/utils/select-candidate-responsible";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { object, z } from "zod";
+import { z } from "zod";
 
 export default async function getSolicitations(
     request: FastifyRequest,
@@ -32,6 +32,8 @@ export default async function getSolicitations(
                 return {
                     id: solicitation.id,
                     solicitation: solicitation.solicitation,
+                    description: solicitation.description,
+                    answered: solicitation.answered,
                     matchedUrls
                 }
             })

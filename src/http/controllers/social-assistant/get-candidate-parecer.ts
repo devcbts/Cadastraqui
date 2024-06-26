@@ -46,7 +46,7 @@ export async function getCandidateParecer(
         const application = await prisma.application.findUnique({
             where: { id: application_id },
             include: {
-                candidate: true
+                candidate: true,
             }
         })
 
@@ -223,7 +223,8 @@ export async function getCandidateParecer(
             majoracao,
             aditional,
             totalIncome,
-            hasGreaterIncome
+            hasGreaterIncome,
+            status: application.status
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {

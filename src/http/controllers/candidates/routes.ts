@@ -1,5 +1,6 @@
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { FastifyInstance } from 'fastify'
+import { answerSolicitation } from './answer-solicitation'
 import { deleteDocument } from './AWS Routes/delete-document'
 import { getDocumentsPDF } from './AWS Routes/get-pdf-documents'
 import { getCandidateProfilePicture } from './AWS Routes/get-profile-picture'
@@ -37,11 +38,13 @@ import { getHealthInfo } from './get-health-info'
 import { getHousingInfo } from './get-housing-info'
 import { getIdentityInfo } from './get-identity-info'
 import { getIncomeInfo } from './get-income-info'
+import getCandidateInterviewSchedule from './get-interview-schedule'
 import { getLoanInfo } from './get-loan-info'
 import { getMonthlyIncomeBySource } from './get-monthly-income'
 import { getOpenAnnouncements } from './get-open-announcements'
 import { getRegistrationProgress } from './get-registration-progress'
 import { getRegistrato } from './get-registrato'
+import getSolicitations from './get-solicitations'
 import { getBasicInfoFormated } from './get-user-basic-info-formated'
 import { getVehicleInfo } from './get-vehicle-info'
 import { registerCandidate } from './register'
@@ -73,12 +76,10 @@ import updateIncomeSource from './update-income-source'
 import { updateLoanInfo } from './update-loan-info'
 import { updateMedicationInfo } from './update-medication-info'
 import { updateVehicleInfo } from './update-vehicle-info'
-import getSolicitations from './get-solicitations'
-import { answerSolicitation } from './answer-solicitation'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT] }, uploadDocument)
- 
+
   app.get('/documents/:_id?', { onRequest: [verifyJWT] }, getDocumentsPDF)
   app.get('/documents/announcement/:announcement_id', { onRequest: [verifyJWT] }, getAnnouncementDocument)
   app.post('/document/delete', { onRequest: [verifyJWT] }, deleteDocument)
@@ -274,6 +275,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     uploadSolicitationDocument,
   )
+  app.get('/schedule/interview/:announcement_id/:assistant_id', getCandidateInterviewSchedule)
 }
 
 

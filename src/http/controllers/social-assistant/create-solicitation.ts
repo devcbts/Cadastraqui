@@ -1,4 +1,3 @@
-import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
@@ -20,14 +19,20 @@ export async function createSolicitation(
         application_id: z.string(),
 
     })
-    const applicationBodySchema = z.object({
+    const applicationBodySchema = z.array(z.object({
+        id: z.string().nullish(),
         description: z.string(),
-        deadLineTime: z.number().optional(),
+        deadLineTime: z.string().optional().transform((d) => {
+            if (d) {
+                return new Date(d)
+            }
+            return undefined
+        }),
         solicitation: solicitationType.optional()
 
-    })
+    }))
     const { application_id } = applicationParamsSchema.parse(request.params)
-    const { description, deadLineTime, solicitation } = applicationBodySchema.parse(request.body)
+    const solicitations = applicationBodySchema.parse(request.body)
     try {
         const userType = request.user.role
         const userId = request.user.sub
@@ -47,26 +52,37 @@ export async function createSolicitation(
         // Criar novo report no histórico da inscrição 
 
         // Se a solicitação for do tipo de documentos
-        if (deadLineTime) {
-            const deadLineDate = new Date()
-            const deadLine = new Date(deadLineDate.setDate(deadLineDate.getDate() + deadLineTime))
-            await prisma.applicationHistory.create({
-                data: {
-                    application_id,
-                    description: description,
-                    solicitation: solicitation,
-                    deadLine: deadLine
-                },
-            })
-            return reply.status(201).send({ message: "Solicitação criada com sucesso!" })
-        }
-        await prisma.applicationHistory.create({
-            data: {
-                application_id,
-                description: description,
-                solicitation: solicitation
-            },
+        await prisma.$transaction(async (tsPrisma) => {
+            await Promise.all(
+                solicitations.map(async (item) => {
+                    const { deadLineTime, description, solicitation, id } = item
+                    if (deadLineTime) {
+                        // const deadLineDate = new Date()
+                        // const deadLine = new Date(deadLineDate.setDate(deadLineDate.getDate() + deadLineTime))
+                        await tsPrisma.applicationHistory.create({
+                            data: {
+                                application_id,
+                                description: description,
+                                solicitation: solicitation,
+                                deadLine: deadLineTime
+                            },
+                        })
+                    }
+                    // if id is not null, that means that solicitation already exists
+                    if (!id) {
+                        await tsPrisma.applicationHistory.create({
+                            data: {
+                                application_id,
+                                description: description,
+                                solicitation: solicitation
+                            },
+                        })
+                    }
+                })
+            )
+
         })
+
 
         return reply.status(201).send({ message: "Solicitação criada com sucesso!" })
 
