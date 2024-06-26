@@ -289,7 +289,11 @@ export default function FormDeclarations() {
                 <Declaration_ChildPension onBack={() => handleNavigate(SCREENS.PENSION)} onNext={() => handleNavigate(SCREENS.CHILD_SUPPORT)} onNoPension={() => handleNavigate(SCREENS.ADDRESS_PROOF)} />
             )}
             {currentScreen === SCREENS.CHILD_SUPPORT && (
-                <Declaration_ChildSupport onBack={() => handleNavigate(SCREENS.CHILD_PENSION)} onNext={() => handleNavigate(SCREENS.CHILD_SUPPORT_DETAILS)} onNoSupport={() => handleNavigate(SCREENS.FINAL)} />
+                <Declaration_ChildSupport 
+                    onBack={() => handleNavigate(SCREENS.CHILD_PENSION)} 
+                    onNext={() => handleNavigate(SCREENS.CHILD_SUPPORT_DETAILS)} 
+                    onNoPension={() => handleNavigate(SCREENS.ADDRESS_PROOF)} 
+                />
             )}
             {currentScreen === SCREENS.CHILD_SUPPORT_DETAILS && (
                 <Declaration_ChildSupportDetails onBack={() => handleNavigate(SCREENS.CHILD_SUPPORT)} onNext={() => handleNavigate(SCREENS.FINAL)} />
@@ -298,7 +302,7 @@ export default function FormDeclarations() {
                 <Declaration_Final onBack={() => handleNavigate(SCREENS.CHILD_SUPPORT_DETAILS)} onNext={(hasAddressProof) => handleNavigate(hasAddressProof ? SCREENS.ADDRESS_PROOF : SCREENS.FINAL)} />
             )}
             {currentScreen === SCREENS.ADDRESS_PROOF && (
-                <Declaration_AddressProof onBack={() => handleNavigate(SCREENS.FINAL)} onNext={(hasAddressProof) => handleNavigate(hasAddressProof ? SCREENS.RENTED_HOUSE : SCREENS.NO_ADDRESS_PROOF)} />
+                <Declaration_AddressProof onBack={() => handleNavigate(SCREENS.PENSION)} onNext={(hasAddressProof) => handleNavigate(hasAddressProof ? SCREENS.RENTED_HOUSE : SCREENS.NO_ADDRESS_PROOF)} />
             )}
             {currentScreen === SCREENS.NO_ADDRESS_PROOF && (
                 <Declaration_NoAddressProof

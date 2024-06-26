@@ -5,11 +5,12 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-
 import useAuth from 'hooks/useAuth'; 
 import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
 
-export default function Declaration_PensionConfirmation({ onBack, onNext, userId }) {
+export default function Declaration_PensionConfirmation({ onBack, onNext, onNoPension, userId }) {
     const { auth } = useAuth();
     const [hasAddressProof, setHasAddressProof] = useState('sim'); // Inicialize como 'sim'
     const [pensionData, setPensionData] = useState(null);
     const [declarationData, setDeclarationData] = useState(null);
+    const [childrenData, setChildrenData] = useState([]);
 
     useEffect(() => {
         const pensionData = localStorage.getItem('pensionData');
@@ -19,6 +20,10 @@ export default function Declaration_PensionConfirmation({ onBack, onNext, userId
         const declarationData = localStorage.getItem('declarationData');
         if (declarationData) {
             setDeclarationData(JSON.parse(declarationData));
+        }
+        const childrenData = localStorage.getItem('childrenData');
+        if (childrenData) {
+            setChildrenData(JSON.parse(childrenData));
         }
     }, []);
 
@@ -39,12 +44,15 @@ export default function Declaration_PensionConfirmation({ onBack, onNext, userId
             return;
         }
 
+        const alphabet = ['B', 'C', 'D', 'E', 'F', 'G'];
+        const childrenText = childrenData.map((child, index) => (
+            `${alphabet[index]}. Meu(s) filho(s) ${child.childName} recebe(m) pensão alimentícia (judicial) no valor total de R$ ${child.amount}, inscrito(s) no CPF nº ${child.payerCpf}.`
+        )).join(' ');
+
         const text = pensionData && pensionData.receivesPension
             ? `
                 A. Recebo pensão alimentícia (judicial) no valor total de R$ ${pensionData.amount}, inscrito(a) no CPF nº ${pensionData.payerCpf}.
-                B. Meu(s) filho(s) DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA B (CADA FILHO DECLARADO ENTRA NESSA INFORMAÇÃO), Carlos da Silva e Fulana da Silva recebem() pensão alimentícia (judicial) no valor total de R$ DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA B, inscrito(s) no CPF nº DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA B.
-                C. Meu(s) filho(s) DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA C1 (CADA FILHO DECLARADO ENTRA NESSA INFORMAÇÃO), recebem() pensão alimentícia (judicial) no valor total de R$ DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA C1, inscrito(s) no CPF nº DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA C1 (utilizar caso um mais filhos recebam pensão de pessoas diferentes).
-                D. Meu(s) filho(s) DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA C2 (CADA FILHO DECLARADO ENTRA NESSA INFORMAÇÃO), recebem() pensão alimentícia (judicial) no valor total de R$ DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA C2, inscrito(s) no CPF nº DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA C2 (utilizar caso um mais filhos recebam pensão de pessoas diferentes).
+                ${childrenText}
             `
             : 'Não recebo pensão alimentícia.';
 
@@ -71,7 +79,11 @@ export default function Declaration_PensionConfirmation({ onBack, onNext, userId
             console.log('Declaração registrada:', data);
 
             // Redireciona para a próxima tela
-            onNext(hasAddressProof === 'sim');
+            if (hasAddressProof === 'sim') {
+                onNext();
+            } else {
+                onNoPension();
+            }
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }
@@ -90,9 +102,9 @@ export default function Declaration_PensionConfirmation({ onBack, onNext, userId
                 {pensionData && pensionData.receivesPension ? (
                     <>
                         <p>A. Recebo pensão alimentícia (judicial) no valor total de R$ {pensionData.amount}, inscrito(a) no CPF nº {pensionData.payerCpf}.</p>
-                        <p>B. Meu(s) filho(s) DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA B (CADA FILHO DECLARADO ENTRA NESSA INFORMAÇÃO), Carlos da Silva e Fulana da Silva recebem() pensão alimentícia (judicial) no valor total de R$ DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA B, inscrito(s) no CPF nº DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA B.</p>
-                        <p>C. Meu(s) filho(s) DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA C1 (CADA FILHO DECLARADO ENTRA NESSA INFORMAÇÃO), recebem() pensão alimentícia (judicial) no valor total de R$ DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA C1, inscrito(s) no CPF nº DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA C1 (utilizar caso um mais filhos recebam pensão de pessoas diferentes).</p>
-                        <p>D. Meu(s) filho(s) DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA C2 (CADA FILHO DECLARADO ENTRA NESSA INFORMAÇÃO), recebem() pensão alimentícia (judicial) no valor total de R$ DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA C2, inscrito(s) no CPF nº DADOS VEM DO FORM DA PENSÃO ALIMENTÍCIA_LETRA C2 (utilizar caso um mais filhos recebam pensão de pessoas diferentes).</p>
+                        {childrenData.map((child, index) => (
+                            <p key={index}>{`${String.fromCharCode(66 + index)}. Meu(s) filho(s) ${child.childName} recebe(m) pensão alimentícia (judicial) no valor total de R$ ${child.amount}, inscrito(s) no CPF nº ${child.payerCpf}.`}</p>
+                        ))}
                     </>
                 ) : (
                     <p>Não recebo pensão alimentícia.</p>

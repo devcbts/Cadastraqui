@@ -170,3 +170,53 @@ h1, h2, h3 {
     justify-content: center;
     margin-top: 20px;
 }
+
+.declarationForm {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.declarationContent {
+    margin-bottom: 20px;
+}
+
+.fieldGroup {
+    margin-bottom: 15px;
+}
+
+.fieldGroup label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.fieldGroup input,
+.fieldGroup select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.childForm {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.childForm h4 {
+    margin-bottom: 20px;
+}
+
+.navigationButtons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
