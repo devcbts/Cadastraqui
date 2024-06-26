@@ -5,7 +5,7 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-
 import useAuth from 'hooks/useAuth'; 
 import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
 
-export default function Declaration_PensionConfirmation({ onBack, onNext, onNoPension, userId }) {
+export default function Declaration_PensionConfirmation({ onBack, onNext, userId }) {
     const { auth } = useAuth();
     const [hasAddressProof, setHasAddressProof] = useState('sim'); // Inicialize como 'sim'
     const [pensionData, setPensionData] = useState(null);
@@ -79,11 +79,7 @@ export default function Declaration_PensionConfirmation({ onBack, onNext, onNoPe
             console.log('Declaração registrada:', data);
 
             // Redireciona para a próxima tela
-            if (hasAddressProof === 'sim') {
-                onNext();
-            } else {
-                onNoPension();
-            }
+            onNext(true);  // Sempre redireciona para ADDRESS_PROOF
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }

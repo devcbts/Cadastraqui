@@ -9,7 +9,7 @@ import Declaration_Pension from './components/Declaration_Pension';
 import Declaration_ChildPension from './components/Declaration_ChildPension';
 import Declaration_ChildSupport from './components/Declaration_ChildSupport';
 import Declaration_ChildSupportDetails from './components/Declaration_ChildSupportDetails';
-import Declaration_Final from './components/Declaration_PensionConfirmation';
+import Declaration_PensionConfirmation from './components/Declaration_PensionConfirmation';
 import Declaration_AddressProof from './components/Declaration_AddressProof';
 import Declaration_NoAddressProof from './components/Declaration_NoAddressProof';
 import Declaration_RentedHouse from './components/Declaration_RentedHouse';
@@ -56,7 +56,7 @@ const SCREENS = {
     CHILD_PENSION: 'childPension',
     CHILD_SUPPORT: 'childSupport',
     CHILD_SUPPORT_DETAILS: 'childSupportDetails',
-    FINAL: 'final',
+    PENSION_CONFIRMATION: 'pensionConfirmation',
     ADDRESS_PROOF: 'addressProof',
     NO_ADDRESS_PROOF: 'noAddressProof',
     RENTED_HOUSE: 'rentedHouse',
@@ -296,10 +296,10 @@ export default function FormDeclarations() {
                 />
             )}
             {currentScreen === SCREENS.CHILD_SUPPORT_DETAILS && (
-                <Declaration_ChildSupportDetails onBack={() => handleNavigate(SCREENS.CHILD_SUPPORT)} onNext={() => handleNavigate(SCREENS.FINAL)} />
+                <Declaration_ChildSupportDetails onBack={() => handleNavigate(SCREENS.CHILD_SUPPORT)} onNext={() => handleNavigate(SCREENS.PENSION_CONFIRMATION)} />
             )}
-            {currentScreen === SCREENS.FINAL && (
-                <Declaration_Final onBack={() => handleNavigate(SCREENS.CHILD_SUPPORT_DETAILS)} onNext={(hasAddressProof) => handleNavigate(hasAddressProof ? SCREENS.ADDRESS_PROOF : SCREENS.FINAL)} />
+            {currentScreen === SCREENS.PENSION_CONFIRMATION && (
+                <Declaration_PensionConfirmation onBack={() => handleNavigate(SCREENS.CHILD_SUPPORT_DETAILS)} onNext={(hasAddressProof) => handleNavigate(hasAddressProof ? SCREENS.ADDRESS_PROOF : SCREENS.PENSION_CONFIRMATION)} />
             )}
             {currentScreen === SCREENS.ADDRESS_PROOF && (
                 <Declaration_AddressProof onBack={() => handleNavigate(SCREENS.PENSION)} onNext={(hasAddressProof) => handleNavigate(hasAddressProof ? SCREENS.RENTED_HOUSE : SCREENS.NO_ADDRESS_PROOF)} />
