@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import useAuth from 'hooks/useAuth';
+import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
 
-export default function Declaration_RuralWorkerConfirmation({ onBack, onSave }) {
-    const [confirmation, setConfirmation] = useState(null);
+export default function Declaration_RuralWorkerConfirmation({ onBack, onSave, userId }) {
+    const { auth } = useAuth();
+    const [confirmation, setConfirmation] = useState('sim'); // Inicialize como 'sim'
     const [declarationData, setDeclarationData] = useState(null);
     const [ruralWorkerDetails, setRuralWorkerDetails] = useState(null);
 
@@ -19,9 +22,53 @@ export default function Declaration_RuralWorkerConfirmation({ onBack, onSave }) 
         }
     }, []);
 
-    const handleSave = () => {
-        if (confirmation !== null) {
-            onSave(confirmation);
+    const handleRegisterDeclaration = async () => {
+        if (!auth?.uid) {
+            console.error('UID não está definido');
+            return;
+        }
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error('Token não está definido');
+            return;
+        }
+
+        if (!declarationData || !ruralWorkerDetails) {
+            console.error('Os dados da declaração ou do trabalhador rural não estão disponíveis');
+            return;
+        }
+
+        const text = `
+            Eu, ${declarationData.fullName}, portador(a) do CPF nº ${declarationData.CPF}, sou trabalhador(a) rural, desenvolvo atividades ${ruralWorkerDetails.activity} e recebo a quantia média de R$ 2500,00 mensal.
+        `;
+
+        const payload = {
+            declarationExists: confirmation === 'sim',
+            ...(confirmation === 'sim' && { text })
+        };
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/RuralWorker/${auth.uid}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erro: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log('Declaração registrada:', data);
+
+            // Redireciona para a próxima tela
+            onSave(confirmation === 'sim');
+        } catch (error) {
+            console.error('Erro ao registrar a declaração:', error);
         }
     };
 
@@ -40,15 +87,27 @@ export default function Declaration_RuralWorkerConfirmation({ onBack, onSave }) 
             </div>
             <div className={commonStyles.radioGroup}>
                 <label>
-                    <input type="radio" name="confirmation" value="sim" onChange={() => setConfirmation('sim')} /> Sim
+                    <input 
+                        type="radio" 
+                        name="confirmation" 
+                        value="sim" 
+                        checked={confirmation === 'sim'} 
+                        onChange={() => setConfirmation('sim')} 
+                    /> Sim
                 </label>
                 <label>
-                    <input type="radio" name="confirmation" value="nao" onChange={() => setConfirmation('nao')} /> Não
+                    <input 
+                        type="radio" 
+                        name="confirmation" 
+                        value="nao" 
+                        checked={confirmation === 'nao'} 
+                        onChange={() => setConfirmation('nao')} 
+                    /> Não
                 </label>
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase label="Salvar" onClick={handleRegisterDeclaration} />
             </div>
         </div>
     );

@@ -61,7 +61,10 @@ export default function CandidatePendency() {
                                     return (
                                         <FormListItem.Root text={item.description}>
                                             <FormListItem.Actions>
-                                                {!item.answered && <ButtonBase label={'enviar'} onClick={() => handleSelection(item)} />}
+                                                {!item.answered
+                                                    ? <ButtonBase label={'enviar'} onClick={() => handleSelection(item)} />
+                                                    : <span>Enviada</span>
+                                                }
                                             </FormListItem.Actions>
                                         </FormListItem.Root>
                                     )
