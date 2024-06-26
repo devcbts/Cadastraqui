@@ -4,11 +4,25 @@
     align-items: center;
     justify-content: center;
     padding: 8px 16px;
+    @media(max-width:770px){
+        padding: 10px 0px;
+    }
+    @media(max-width:390px){
+        padding: 0px 0px;
+    }
     &.vertical{
         flex-direction: column;
         padding: 16px 8px;
         justify-content: center;
         align-items: center;
+        @media(max-width:770px){
+            justify-content: flex-start;
+            padding: 10px 0px;
+        }
+        @media(max-width:390px){
+            padding: 10px 0px;
+            margin-top: 50px;
+        }
     }
     &.clickable{
         cursor: pointer;

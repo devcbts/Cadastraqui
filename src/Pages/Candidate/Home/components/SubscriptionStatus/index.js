@@ -1,16 +1,16 @@
-import { Pie, PieChart } from 'recharts'
-import styles from './styles.module.scss'
-import { ReactComponent as User } from 'Assets/icons/user.svg';
-import { ReactComponent as House } from 'Assets/icons/house.svg';
-import { ReactComponent as Family } from 'Assets/icons/family.svg';
 import { ReactComponent as Car } from 'Assets/icons/car.svg';
 import { ReactComponent as Currency } from 'Assets/icons/currency.svg';
-import { ReactComponent as Money } from 'Assets/icons/money.svg';
 import { ReactComponent as Doctor } from 'Assets/icons/doctor.svg';
-import { ReactComponent as List } from 'Assets/icons/list.svg';
 import { ReactComponent as Edit } from 'Assets/icons/edit.svg';
-import { useEffect, useMemo, useState } from 'react';
+import { ReactComponent as Family } from 'Assets/icons/family.svg';
+import { ReactComponent as House } from 'Assets/icons/house.svg';
+import { ReactComponent as List } from 'Assets/icons/list.svg';
+import { ReactComponent as Money } from 'Assets/icons/money.svg';
+import { ReactComponent as User } from 'Assets/icons/user.svg';
+import { useEffect, useState } from 'react';
+import { Pie, PieChart } from 'recharts';
 import candidateService from 'services/candidate/candidateService';
+import styles from './styles.module.scss';
 
 export default function SubscriptionStatus() {
     const [data, setData] = useState([])

@@ -2,15 +2,15 @@
 .logo{
     -webkit-user-drag: none;
     width: 200px;
-    height: 80%;
+    height: 60%;
 }
 
 .content{
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
-    padding: 24px 32px;
+    padding: 20px 20px;
+        
     .brand{
         display: flex;
         flex-direction: column;
@@ -18,6 +18,14 @@
         align-items: center;
         text-align: justify;
         max-width: 30%;
+        padding: 10px 10px;
+        @media (max-width:550px) {
+            display: none;
+        }
+        @media (max-width:770px) {
+            width: 150px;
+        }
+
     }
     .login{
         display: flex;
@@ -28,6 +36,10 @@
         min-height: 65vh;
         flex-grow: .2;
         justify-content: space-between;
+        @media (max-width:600px) {
+            padding: 10px 20px;
+            gap: 10px;
+        }
         .title{
             text-align: center;
             span{
