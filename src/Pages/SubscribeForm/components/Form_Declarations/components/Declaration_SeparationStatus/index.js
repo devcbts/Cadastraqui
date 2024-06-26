@@ -23,7 +23,11 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
     const handleSave = () => {
         if (confirmation !== null) {
             localStorage.setItem('separationDetails', JSON.stringify(personDetails));
-            onNext(confirmation === 'sim' && personDetails.knowsCurrentAddress === 'sim');
+            if (confirmation === 'nao') {
+                onNext(false); // Navega para INCOME_TAX_EXEMPTION
+            } else {
+                onNext(confirmation === 'sim' && personDetails.knowsCurrentAddress === 'sim');
+            }
         }
     };
 

@@ -5,31 +5,28 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-
 import useAuth from 'hooks/useAuth';
 import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
 
-export default function Declaration_SeparationConfirmation({ onBack, onNext, userId }) {
+export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
     const { auth } = useAuth();
-    const [confirmation, setConfirmation] = useState('sim'); // Inicialize como 'sim'
-    const [separationDetails, setSeparationDetails] = useState(null);
-    const [addressDetails, setAddressDetails] = useState(null);
+    const [confirmation, setConfirmation] = useState(null);
+    const [rentDetails, setRentDetails] = useState(null);
     const [declarationData, setDeclarationData] = useState(null);
 
     useEffect(() => {
-        const savedSeparationDetails = localStorage.getItem('separationDetails');
-        if (savedSeparationDetails) {
-            setSeparationDetails(JSON.parse(savedSeparationDetails));
+        const savedRentDetails = localStorage.getItem('rentDetails');
+        if (savedRentDetails) {
+            setRentDetails(JSON.parse(savedRentDetails));
         }
-
-        const savedAddressDetails = localStorage.getItem('addressDetails');
-        if (savedAddressDetails) {
-            setAddressDetails(JSON.parse(savedAddressDetails));
-        }
-
         const savedDeclarationData = localStorage.getItem('declarationData');
         if (savedDeclarationData) {
             setDeclarationData(JSON.parse(savedDeclarationData));
         }
     }, []);
 
-    const handleRegisterDeclaration = async () => {
+    const handleSave = async () => {
+        if (confirmation === null) {
+            return;
+        }
+
         if (!auth?.uid) {
             console.error('UID não está definido');
             return;
@@ -41,15 +38,13 @@ export default function Declaration_SeparationConfirmation({ onBack, onNext, use
             return;
         }
 
-        if (!separationDetails || !addressDetails || !declarationData) {
-            console.error('Os dados da separação, endereço ou declaração não estão disponíveis');
+        if (!rentDetails || !declarationData) {
+            console.error('Os dados da declaração não estão disponíveis');
             return;
         }
 
         const text = `
-            Me separei de ${separationDetails.personName}, inscrito(a) no CPF nº ${separationDetails.personCpf}, desde ${separationDetails.separationDate}.
-            Meu(minha) ex-companheiro(a) reside na ${addressDetails.address}, nº ${addressDetails.number}, complemento ${addressDetails.complement}, CEP: ${addressDetails.cep}, bairro ${addressDetails.neighborhood}, cidade ${addressDetails.city}, UF ${addressDetails.uf}.
-            Até o presente momento não formalizei o encerramento de nossa relação por meio de divórcio.
+            Eu, ${declarationData.fullName}, portador(a) do CPF nº ${declarationData.CPF}, recebo aluguel do imóvel situado no Endereço ${rentDetails.address}, nº ${rentDetails.number}, complemento, CEP: ${rentDetails.cep}, bairro ${rentDetails.neighborhood}, cidade ${rentDetails.city}, Estado ${rentDetails.uf}, no valor mensal de R$ ${rentDetails.rentAmount}, pago por ${rentDetails.landlordName}, inscrito(a) no CPF nº ${rentDetails.landlordCpf} (locatário(a)).
         `;
 
         const payload = {
@@ -58,7 +53,7 @@ export default function Declaration_SeparationConfirmation({ onBack, onNext, use
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/NoAddressProof/${auth.uid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/RentIncome/${auth.uid}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -74,27 +69,24 @@ export default function Declaration_SeparationConfirmation({ onBack, onNext, use
             const data = await response.json();
             console.log('Declaração registrada:', data);
 
-            // Redireciona para a próxima tela
-            onNext(confirmation === 'sim');
+            // Redireciona para a próxima tela (sempre VEHICLE_OWNERSHIP)
+            onNext('vehicleOwnership');
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }
     };
 
-    if (!separationDetails || !addressDetails || !declarationData) {
+    if (!rentDetails || !declarationData) {
         return <p>Carregando...</p>;
     }
 
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
-            <h2>DECLARAÇÃO DE SEPARAÇÃO DE FATO (NÃO JUDICIAL)</h2>
-            <h3>{declarationData.fullName} - usuário do Cadastraqui</h3>
+            <h1>DECLARAÇÃO DE RECEBIMENTO DE ALUGUEL</h1>
+            <h2>{declarationData.fullName} - usuário do Cadastraqui</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Me separei de <strong>{separationDetails.personName}</strong>, inscrito(a) no CPF nº <strong>{separationDetails.personCpf}</strong>, desde <strong>{separationDetails.separationDate}</strong>.
-                    Meu(minha) ex-companheiro(a) reside na <strong>{addressDetails.address}</strong>, nº <strong>{addressDetails.number}</strong>, complemento <strong>{addressDetails.complement}</strong>, CEP: <strong>{addressDetails.cep}</strong>, bairro <strong>{addressDetails.neighborhood}</strong>, cidade <strong>{addressDetails.city}</strong>, UF <strong>{addressDetails.uf}</strong>.
-                    Até o presente momento não formalizei o encerramento de nossa relação por meio de divórcio.
+                    Recebo aluguel do imóvel situado no Endereço <strong>{rentDetails.address}</strong>, nº <strong>{rentDetails.number}</strong>, complemento, CEP: <strong>{rentDetails.cep}</strong>, bairro <strong>{rentDetails.neighborhood}</strong>, cidade <strong>{rentDetails.city}</strong>, Estado <strong>{rentDetails.uf}</strong>, no valor mensal de R$ <strong>{rentDetails.rentAmount}</strong>, pago por <strong>{rentDetails.landlordName}</strong>, inscrito(a) no CPF nº <strong>{rentDetails.landlordCpf}</strong> (locatário(a)).
                 </p>
                 <p>Confirma a declaração?</p>
                 <div className={commonStyles.radioGroup}>
@@ -120,7 +112,7 @@ export default function Declaration_SeparationConfirmation({ onBack, onNext, use
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleRegisterDeclaration} />
+                <ButtonBase label="Salvar" onClick={handleSave} />
             </div>
         </div>
     );

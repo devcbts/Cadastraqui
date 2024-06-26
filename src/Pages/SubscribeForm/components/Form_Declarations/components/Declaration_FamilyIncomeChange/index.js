@@ -5,27 +5,15 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-
 import useAuth from 'hooks/useAuth';
 import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
 
-export default function Declaration_SeparationConfirmation({ onBack, onNext, userId }) {
+export default function Declaration_FamilyIncomeChange({ onBack, onNext, onResponsibilityConfirmation, userId }) {
     const { auth } = useAuth();
     const [confirmation, setConfirmation] = useState('sim'); // Inicialize como 'sim'
-    const [separationDetails, setSeparationDetails] = useState(null);
-    const [addressDetails, setAddressDetails] = useState(null);
     const [declarationData, setDeclarationData] = useState(null);
 
     useEffect(() => {
-        const savedSeparationDetails = localStorage.getItem('separationDetails');
-        if (savedSeparationDetails) {
-            setSeparationDetails(JSON.parse(savedSeparationDetails));
-        }
-
-        const savedAddressDetails = localStorage.getItem('addressDetails');
-        if (savedAddressDetails) {
-            setAddressDetails(JSON.parse(savedAddressDetails));
-        }
-
-        const savedDeclarationData = localStorage.getItem('declarationData');
-        if (savedDeclarationData) {
-            setDeclarationData(JSON.parse(savedDeclarationData));
+        const savedData = localStorage.getItem('declarationData');
+        if (savedData) {
+            setDeclarationData(JSON.parse(savedData));
         }
     }, []);
 
@@ -41,15 +29,13 @@ export default function Declaration_SeparationConfirmation({ onBack, onNext, use
             return;
         }
 
-        if (!separationDetails || !addressDetails || !declarationData) {
-            console.error('Os dados da separação, endereço ou declaração não estão disponíveis');
+        if (!declarationData) {
+            console.error('Os dados da declaração não estão disponíveis');
             return;
         }
 
         const text = `
-            Me separei de ${separationDetails.personName}, inscrito(a) no CPF nº ${separationDetails.personCpf}, desde ${separationDetails.separationDate}.
-            Meu(minha) ex-companheiro(a) reside na ${addressDetails.address}, nº ${addressDetails.number}, complemento ${addressDetails.complement}, CEP: ${addressDetails.cep}, bairro ${addressDetails.neighborhood}, cidade ${addressDetails.city}, UF ${addressDetails.uf}.
-            Até o presente momento não formalizei o encerramento de nossa relação por meio de divórcio.
+            Tenho ciência de que deve comunicar o(a) assistente social da entidade beneficente sobre nascimento ou falecimento de membro do meu grupo familiar, desde que morem na mesma residência, bem como sobre eventual rescisão de contrato de trabalho, encerramento de atividade que gere renda ou sobre início em novo emprego ou atividade que gere renda para um dos membros, pois altera a aferição realizada e o benefício em decorrência da nova renda familiar bruta mensal pode ser ampliado, reduzido ou mesmo cancelado, após análise por profissional de serviço social.
         `;
 
         const payload = {
@@ -58,7 +44,7 @@ export default function Declaration_SeparationConfirmation({ onBack, onNext, use
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/NoAddressProof/${auth.uid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Form/${auth.uid}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,26 +61,23 @@ export default function Declaration_SeparationConfirmation({ onBack, onNext, use
             console.log('Declaração registrada:', data);
 
             // Redireciona para a próxima tela
-            onNext(confirmation === 'sim');
+            onResponsibilityConfirmation();
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }
     };
 
-    if (!separationDetails || !addressDetails || !declarationData) {
+    if (!declarationData) {
         return <p>Carregando...</p>;
     }
 
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
-            <h2>DECLARAÇÃO DE SEPARAÇÃO DE FATO (NÃO JUDICIAL)</h2>
-            <h3>{declarationData.fullName} - usuário do Cadastraqui</h3>
+            <h1>DECLARAÇÃO ALTERAÇÃO NO TAMANHO DO GRUPO FAMILIAR E/OU RENDA</h1>
+            <h2>{declarationData.fullName} - usuário do Cadastraqui</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Me separei de <strong>{separationDetails.personName}</strong>, inscrito(a) no CPF nº <strong>{separationDetails.personCpf}</strong>, desde <strong>{separationDetails.separationDate}</strong>.
-                    Meu(minha) ex-companheiro(a) reside na <strong>{addressDetails.address}</strong>, nº <strong>{addressDetails.number}</strong>, complemento <strong>{addressDetails.complement}</strong>, CEP: <strong>{addressDetails.cep}</strong>, bairro <strong>{addressDetails.neighborhood}</strong>, cidade <strong>{addressDetails.city}</strong>, UF <strong>{addressDetails.uf}</strong>.
-                    Até o presente momento não formalizei o encerramento de nossa relação por meio de divórcio.
+                    Tenho ciência de que deve comunicar o(a) assistente social da entidade beneficente sobre nascimento ou falecimento de membro do meu grupo familiar, desde que morem na mesma residência, bem como sobre eventual rescisão de contrato de trabalho, encerramento de atividade que gere renda ou sobre início em novo emprego ou atividade que gere renda para um dos membros, pois altera a aferição realizada e o benefício em decorrência da nova renda familiar bruta mensal pode ser ampliado, reduzido ou mesmo cancelado, após análise por profissional de serviço social.
                 </p>
                 <p>Confirma a declaração?</p>
                 <div className={commonStyles.radioGroup}>
