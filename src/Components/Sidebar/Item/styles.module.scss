@@ -8,6 +8,9 @@
     align-items: center;
     padding: 4px 5px;
     border-radius: 8px;
+    @media(max-width:600px){
+        justify-content: center;
+    }
     svg{
         color: white;
         width: 30px;
@@ -25,6 +28,9 @@
         @media(max-width:769px){
             margin-left: 10px;
         }
+        @media(max-width:600px){
+            display: none;
+        }
     }
     &.active, &:hover {
         color: $primary;
@@ -37,5 +43,8 @@
 
     & + .container{
         margin-top: 24px;
+        @media(max-width:600px){
+            margin-top: 15px;
+        }
     }
 }

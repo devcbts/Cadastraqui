@@ -56,11 +56,12 @@ export default function AppRoutes() {
 
                         </Route>
                         <Route path="/edital/:announcementId" element={<AnnouncementView />}></Route>
-                        {/* <Route path="*" element={<Navigate to={'/home'} />} /> */}
                         <Route path="/solicitacoes" element={<Outlet />} >
                             <Route path="" element={<CandidateRequest />} />
                             <Route path=":applicationId" element={<CandidatePendency />} />
                         </Route>
+                        <Route path="*" element={<Navigate to={'/home'} />} />
+
                     </Routes>
                 </HeaderWrapper>
             </RoleRoutes>

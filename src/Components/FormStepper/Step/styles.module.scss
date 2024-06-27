@@ -9,7 +9,7 @@
     @media(max-width: 770px){
         margin-right: 10px;
     }
-    @media(max-width: 390px){
+    @media(max-width: 600px){
         margin-right: 0px;
     }
     &.clickable{
@@ -40,9 +40,9 @@
                 height: 40px;
                 width: 40px;
             }
-            @media(max-width: 390px){
-                height: 25px;
-                width: 25px;                
+            @media(max-width: 600px){
+                height: 29px;
+                width: 29px;       
             }
             &.active{
                 background-color: $primary ;
@@ -73,8 +73,9 @@
                 @media(max-width: 770px){
                     width: 40px;
                 }
-                @media(max-width: 390px){
+                @media(max-width: 600px){
                     width: 10px;
+                    border: 2px solid $primary;
                 }
             }
             
@@ -85,7 +86,7 @@
             font-weight: 600;
             color: $lightgrey;
             margin-top: 8px;
-            @media(max-width: 390px){
+            @media(max-width: 600px){
                 display: none;
             }
             &.active{

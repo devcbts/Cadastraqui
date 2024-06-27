@@ -10,6 +10,7 @@ import { NotificationService } from 'services/notification'
 import { useNavigate } from 'react-router'
 import candidateService from 'services/candidate/candidateService'
 import UserType from './components/UserType'
+import ButtonBase from 'Components/ButtonBase'
 export default function Register() {
     const [current, setCurrent] = useState(0)
     const [data, setData] = useState(null)
@@ -54,6 +55,7 @@ export default function Register() {
                         de bolsas de estudos
                         para o CEBAS
                     </h1>
+                    <ButtonBase label={'já tem uma conta?'} onClick={() => navigate('/')} />
                 </div>
                 {
                     [

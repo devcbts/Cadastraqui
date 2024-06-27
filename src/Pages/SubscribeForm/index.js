@@ -1,25 +1,24 @@
-import { useEffect, useState } from "react";
-import FormBasicInformation from "./components/Form_BasicInformation";
-import FormStepper from "Components/FormStepper";
-import { ReactComponent as User } from 'Assets/icons/user.svg';
-import { ReactComponent as Family } from 'Assets/icons/family.svg';
-import { ReactComponent as House } from 'Assets/icons/house.svg';
 import { ReactComponent as Car } from 'Assets/icons/car.svg';
 import { ReactComponent as Currency } from 'Assets/icons/currency.svg';
-import { ReactComponent as Money } from 'Assets/icons/money.svg';
 import { ReactComponent as Doctor } from 'Assets/icons/doctor.svg';
+import { ReactComponent as Family } from 'Assets/icons/family.svg';
+import { ReactComponent as House } from 'Assets/icons/house.svg';
 import { ReactComponent as List } from 'Assets/icons/list.svg';
-import { ReactComponent as Edit } from 'Assets/icons/edit.svg';
-import FormFamilyGroup from "./components/Form_FamilyGroup";
-import FormHabitation from "./components/Form_Habitation";
-import FormVehicle from "./components/Form_Vehicle";
-import FormHealth from "./components/Form_Health";
-import FormIncome from "./components/Form_Income";
-import { useSetRecoilState } from "recoil";
+import { ReactComponent as Money } from 'Assets/icons/money.svg';
+import { ReactComponent as User } from 'Assets/icons/user.svg';
+import FormStepper from "Components/FormStepper";
 import headerAtom from "Components/Header/atoms/header-atom";
+import { useEffect, useState } from "react";
+import { useSetRecoilState } from "recoil";
+import FormBasicInformation from "./components/Form_BasicInformation";
 import FormDeclarations from "./components/Form_Declarations";
 import FormExpenses from "./components/Form_Expenses";
-import { useLocation } from "react-router";
+import FormFamilyGroup from "./components/Form_FamilyGroup";
+import FormHabitation from "./components/Form_Habitation";
+import FormHealth from "./components/Form_Health";
+import FormIncome from "./components/Form_Income";
+import FormVehicle from "./components/Form_Vehicle";
+import { useLocation } from 'react-router';
 export default function SubscribeForm() {
     const [activeStep, setActiveStep] = useState(1)
     const { state } = useLocation()
@@ -46,7 +45,7 @@ export default function SubscribeForm() {
         return () => {
             setHeader({ sidebar: true })
         }
-    }, [])
+    }, [setHeader])
     return (
         <FormStepper.Root vertical activeStep={activeStep}>
             <FormStepper.Stepper>
