@@ -1,5 +1,6 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
+import { GetUrl } from '@/http/services/get-file'
 import { uploadFile } from '@/http/services/upload-file'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
@@ -25,10 +26,10 @@ export async function uploadUserProfilePicture(
     }
 
 
+    const url = await GetUrl(Route)
 
 
-
-    reply.status(201).send()
+    reply.status(201).send({ url })
   } catch (error) {
     if (error instanceof NotAllowedError) {
       return reply.status(401).send()

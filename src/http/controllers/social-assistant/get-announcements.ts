@@ -32,20 +32,20 @@ export async function getAnnouncements(
         const currentDate = new Date()
         if (filter === 'subscription') {
           return [
-            { openDate: { lte: currentDate } },
-            { closeDate: { gt: currentDate } },
+            { openDate: { lt: currentDate } },
+            { closeDate: { gte: currentDate } },
           ]
         }
         if (filter === 'validation') {
           return [
-            { closeDate: { lte: currentDate } },
+            { closeDate: { lt: currentDate } },
             { announcementDate: { gte: currentDate } },
           ]
         }
         if (filter === 'finished') {
           return [
-            { closeDate: { lte: currentDate } },
-            { announcementDate: { lte: currentDate } },
+            { closeDate: { lt: currentDate } },
+            { announcementDate: { lt: currentDate } },
           ]
         }
       }
@@ -106,10 +106,10 @@ export async function getAnnouncements(
           const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === null)
           const returnObj = matchedEducationLevels.map((e) => ({
             id: e.id,
-            education: e.basicEduType,
+            education: e.basicEduType || e.higherEduScholarshipType,
             shift: e.shift,
             entity: entity.socialReason,
-            grade: e.grade,
+            grade: e.availableCourses || e.grade,
           }))
           return { ...entity, matchedEducationLevels: returnObj }
         }

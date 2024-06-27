@@ -1,7 +1,9 @@
+import { ForbiddenError } from '@/errors/forbidden-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { calculateAge } from '@/utils/calculate-age'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { createLegalDependent } from '../legal-responsible/create-legal-dependent'
@@ -124,20 +126,12 @@ export async function registerFamilyMemberInfo(
 
   try {
     const user_id = request.user.sub
-    const role = request.user.role
-
-    const responsible = await prisma.legalResponsible.findUnique(
-      {
-        where: {
-          user_id
-        }
-      }
-    )
-    // Verifica se existe um candidato associado ao user_id
-    const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-    if (!candidate && !responsible) {
-      throw new ResourceNotFoundError()
+    const candidateOrResponsible = await SelectCandidateResponsible(user_id)
+    if (!candidateOrResponsible) {
+      throw new ForbiddenError()
     }
+
+    const idField = (candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id })
 
     // Verifica se já existe um familiar com o RG ou CPF associados ao candidato
     if (
@@ -145,7 +139,7 @@ export async function registerFamilyMemberInfo(
         where: {
           AND: [
             { CPF },
-            candidate ? { candidate_id: candidate?.id } : { legalResponsibleId: responsible?.id }
+            idField
           ]
         },
       })
@@ -157,7 +151,7 @@ export async function registerFamilyMemberInfo(
         where: {
           AND: [
             { RG },
-            candidate ? { candidate_id: candidate?.id } : { legalResponsibleId: responsible?.id }
+            idField
           ]
         },
       })
@@ -183,8 +177,7 @@ export async function registerFamilyMemberInfo(
       educationLevel,
       email,
       profession,
-      candidate_id: candidate?.id,
-      legalResponsibleId: responsible?.id,
+      ...idField,
       // Campos opcionais são adicionados condicionalmente
       ...(otherRelationship && { otherRelationship }),
       ...(socialName && { socialName }),
@@ -218,18 +211,16 @@ export async function registerFamilyMemberInfo(
     })
 
     const age = calculateAge(new Date(birthDate))
-    if (age < 18 && responsible) {
-      await createLegalDependent(fullName, CPF, birthDate, responsible?.id)
+    if (age < 18 && candidateOrResponsible.IsResponsible) {
+      await createLegalDependent(fullName, CPF, birthDate, candidateOrResponsible.UserData.id)
     }
 
-    await prisma.finishedRegistration.updateMany({
-      where: {
-        OR: [
-          { candidate_id: candidate?.id },
-          { legalResponsibleId: responsible?.id },
-        ],
-      },
-      data: { grupoFamiliar: true },
+    await prisma.finishedRegistration.upsert({
+      where: idField,
+      create: { grupoFamiliar: true, ...idField },
+      update: {
+        grupoFamiliar: true,
+      }
     })
     return reply.status(201).send({ id })
   } catch (err: any) {

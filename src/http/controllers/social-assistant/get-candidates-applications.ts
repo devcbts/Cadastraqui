@@ -1,4 +1,5 @@
 import { ForbiddenError } from "@/errors/forbidden-error";
+import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
@@ -21,50 +22,37 @@ export default async function getCandidatesApplications(
             throw new ForbiddenError()
 
         }
-        const applications = await prisma.application.findMany({
-            where: { educationLevel_id },
-            orderBy: [
-                {
-                    position: 'asc'
-                }
-            ]
-        })
+        // find the entity linked with this educationlevel
+        const item = await prisma.educationLevel.findUnique({
+            where: { id: educationLevel_id },
+            include: { entitySubsidiary: true, announcement: { include: { entity: true } }, Application: { orderBy: [{ position: 'asc' }] } },
 
-        const [item] = applications
-        const announcementId = item.announcement_id
-        const announcement = await prisma.announcement.findUnique({
-            where: {
-                id: announcementId
-            },
-            include: {
-                entity: true,
-                educationLevels: true,
-                entity_subsidiary: true
-            }
         })
-        const level = announcement?.educationLevels.find(l => l.id === educationLevel_id)
 
         let entity;
         // matriz
-        if (level?.entitySubsidiaryId === null) {
-            entity = announcement?.entity
+        if (item?.entitySubsidiaryId === null) {
+            entity = item?.announcement?.entity
         } else {
             // filial
-            entity = announcement?.entity_subsidiary.find(e => e.id === level?.entitySubsidiaryId)
+            entity = item?.entitySubsidiary
         }
 
 
         const returnObj = {
-            candidates: applications ?? [],
+            candidates: item?.Application,
             entity,
-            level,
-            announcement
+            level: item,
+            announcement: item?.announcement
         }
         return reply.status(200).send(returnObj)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof ForbiddenError) {
             return reply.status(403).send({ message: error.message })
         }
-        return reply.status(500).send({ message: 'Internal server error' })
+        if (error instanceof ResourceNotFoundError) {
+            return reply.status(404).send({ message: error.message })
+        }
+        return reply.status(500).send({ message: error.message })
     }
 }

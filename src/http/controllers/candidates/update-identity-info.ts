@@ -1,11 +1,11 @@
+import { ForbiddenError } from '@/errors/forbidden-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { ScholarshipType } from './enums/Scholaship_Type'
-import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
-import { ForbiddenError } from '@/errors/forbidden-error'
 
 export async function updateIdentityInfo(
   request: FastifyRequest,
@@ -166,7 +166,8 @@ export async function updateIdentityInfo(
     neighborhood: z.string().nullish(),
     city: z.string().nullish(),
     UF: z.string().nullish(),
-    email: z.string().email()
+    email: z.string().email(),
+    complement: z.string().nullish(),
   }).partial()
 
   const {
@@ -218,7 +219,9 @@ export async function updateIdentityInfo(
     neighborhood,
     city,
     UF,
-    email
+    email,
+    complement
+
   } = userDataSchema.parse(request.body)
 
   try {
@@ -288,7 +291,9 @@ export async function updateIdentityInfo(
       address,
       addressNumber,
       neighborhood,
-      email
+      email,
+      complement
+
     }
 
     if (candidate) {
@@ -331,16 +336,18 @@ export async function updateIdentityInfo(
       throw new ForbiddenError()
     }
     const idFieldRegistration = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
-    await prisma.finishedRegistration.update({
+    await prisma.finishedRegistration.upsert({
       where: idFieldRegistration,
-      data: { cadastrante: true }
+
+      create: { cadastrante: true, ...idFieldRegistration },
+      update: { cadastrante: true },
     })
     return reply.status(201).send()
   } catch (err: any) {
     console.log(err)
     if (err instanceof ForbiddenError) {
       return reply.status(403).send({ message: err.message })
-      
+
     }
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

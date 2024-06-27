@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 
 export async function sendPasswordRecoveryMail({ token, email }: { token: string, email: string }) {
   const transport = nodemailer.createTransport({
-    service: "outlook",
+    service: "godaddy",
 
     auth: {
       user: process.env.SMTP_EMAIL,

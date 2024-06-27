@@ -49,6 +49,7 @@ export async function registerLegalResponsible(
       'TO',
     ]),
     addressNumber: z.string(),
+    complement: z.string().nullish()
   })
 
   const {
@@ -64,6 +65,7 @@ export async function registerLegalResponsible(
     phone,
     addressNumber,
     birthDate,
+    complement
   } = registerBodySchema.parse(request.body)
 
   try {
@@ -104,6 +106,7 @@ export async function registerLegalResponsible(
         phone,
         UF,
         name,
+        complement
       },
     })
     const responsible_id = responsible.id

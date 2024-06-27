@@ -32,14 +32,16 @@ model Candidate {
   CPF     String
   main_id String?
 
-  birthDate           DateTime
-  phone               String
-  address             String
-  city                String
-  UF                  COUNTRY
-  CEP                 String
-  neighborhood        String
-  addressNumber       String
+  birthDate     DateTime
+  phone         String
+  address       String
+  city          String
+  UF            COUNTRY
+  CEP           String
+  neighborhood  String
+  addressNumber String
+  complement    String?
+
   role                ROLE                  @default(CANDIDATE)
   createdAt           DateTime              @default(now())
   user_id             String?
@@ -99,6 +101,7 @@ model LegalResponsible {
   CEP                             String
   neighborhood                    String
   addressNumber                   String
+  complement                      String?
   livesAtSameAddress              Boolean?
   institutionType                 INSTITUTION_TYPE?
   responsibleEducationLevel       EDUCATION_TYPE?
@@ -236,6 +239,7 @@ model IdentityDetails {
   specialNeeds                               Boolean?
   address                                    String?
   addressNumber                              String?
+  complement                                 String?
   neighborhood                               String?
   city                                       String?
   UF                                         COUNTRY?
@@ -465,10 +469,10 @@ model BankAccount {
 }
 
 model Expense {
-  id      String  @id @default(uuid())
-  main_id String?
-  date DateTime
-waterSewage              Float?
+  id                       String            @id @default(uuid())
+  main_id                  String?
+  date                     DateTime
+  waterSewage              Float?
   electricity              Float?
   landlinePhone            Float?
   mobilePhone              Float?

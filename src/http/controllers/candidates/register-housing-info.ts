@@ -94,10 +94,17 @@ export async function registerHousingInfo(
       data: dataToCreate
 
     })
-    await prisma.finishedRegistration.updateMany({
-      where: { OR: [{ candidate_id: CandidateOrResponsible.UserData.id }, { legalResponsibleId: CandidateOrResponsible.UserData.id }] },
-      data: { moradia: true }
+    const idFieldRegistration = CandidateOrResponsible.IsResponsible ? { legalResponsibleId: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id }
 
+    await prisma.finishedRegistration.upsert({
+      where: idFieldRegistration,
+      create: {
+        moradia: true,
+        ...idFieldRegistration
+      },
+      update: {
+        moradia: true,
+      },
     })
     return reply.status(201).send({ id })
   } catch (err: any) {

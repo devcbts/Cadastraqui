@@ -49,6 +49,7 @@ export async function registerCandidate(
       'TO',
     ]),
     addressNumber: z.string(),
+    complement: z.string().nullish()
   })
 
   const {
@@ -64,6 +65,7 @@ export async function registerCandidate(
     phone,
     addressNumber,
     birthDate,
+    complement
   } = registerBodySchema.parse(request.body)
 
   try {
@@ -105,7 +107,8 @@ export async function registerCandidate(
         phone,
         UF,
         name,
-        email
+        email,
+        complement
       },
     })
 

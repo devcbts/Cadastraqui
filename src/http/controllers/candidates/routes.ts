@@ -75,6 +75,7 @@ import { updateIdentityInfo } from './update-identity-info'
 import updateIncomeSource from './update-income-source'
 import { updateLoanInfo } from './update-loan-info'
 import { updateMedicationInfo } from './update-medication-info'
+import { updateRegistrationInfo } from './update-registration-info'
 import { updateVehicleInfo } from './update-vehicle-info'
 
 export async function candidateRoutes(app: FastifyInstance) {
@@ -91,6 +92,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.get('/basic-info/formated', { onRequest: [verifyJWT] }, getBasicInfoFormated)
   // Registration Progress
   app.get('/progress', { onRequest: [verifyJWT] }, getRegistrationProgress)
+  app.patch('/progress/:section', { onRequest: [verifyJWT] }, updateRegistrationInfo)
   /** Identity Info */
   app.get('/identity-info/:_id?', { onRequest: [verifyJWT] }, getIdentityInfo)
   app.post('/identity-info', { onRequest: [verifyJWT] }, registerIdentityInfo)

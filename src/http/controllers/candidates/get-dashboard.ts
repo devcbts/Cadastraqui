@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { SelectCandidateResponsible } from "@/utils/select-candidate-responsible";
+import { CalculateIncomePerCapita } from "@/utils/Trigger-Functions/calculate-income-per-capita";
 import { FastifyReply, FastifyRequest } from "fastify";
 
 export default async function getCandidateDashboard(
@@ -24,17 +25,9 @@ export default async function getCandidateDashboard(
                 FamilyMemberIncome: true
             }
         })
-        const familyIncome = members.reduce((acc, v) => {
-            const memberIncome =
-                v.FamilyMemberIncome.length
-                    ? v.FamilyMemberIncome.reduce((acc2, v2) => {
-                        return acc2 += parseInt(v2.averageIncome) ?? 0;
-                    }, 0) / v.FamilyMemberIncome.length
-                    : 0
-            return acc += memberIncome
-        }, 0) / (members?.length ?? 1)
+        const {incomePerCapita, incomesPerMember} = await CalculateIncomePerCapita(user.UserData.id);
 
-        return response.status(200).send({ subscriptions, announcements, familyIncome })
+        return response.status(200).send({ subscriptions, announcements, familyIncome: incomePerCapita*(1 + members.length) })
 
     } catch (err) {
         return response.status(400).send(err)

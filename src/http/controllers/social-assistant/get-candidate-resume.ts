@@ -236,6 +236,7 @@ export async function getCandidateResume(
         const majoracao = await getAssistantDocumentsPDF_HDB(application_id, 'majoracao')
         const interviewDocument = await getAssistantDocumentsPDF_HDB(application_id, 'Interview')
         const visitDocument = await getAssistantDocumentsPDF_HDB(application_id, 'Visit')
+
         return reply.status(200).send({
             candidateInfo,
             familyMembersInfo,
