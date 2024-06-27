@@ -106,10 +106,10 @@ export async function getAnnouncements(
           const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === null)
           const returnObj = matchedEducationLevels.map((e) => ({
             id: e.id,
-            education: e.basicEduType,
+            education: e.basicEduType || e.higherEduScholarshipType,
             shift: e.shift,
             entity: entity.socialReason,
-            grade: e.grade,
+            grade: e.availableCourses || e.grade,
           }))
           return { ...entity, matchedEducationLevels: returnObj }
         }
