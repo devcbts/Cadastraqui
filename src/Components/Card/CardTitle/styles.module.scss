@@ -2,9 +2,14 @@
     text-align: center;
     text-transform: capitalize;
     span{
-        font-size: 14px;
+        font-size: 13px;
         text-wrap: nowrap;
-        @media(max-width:769px){
+        @media(max-width:1090px){
+            font-size: 11px;
+            text-wrap: wrap;
+            line-height: normal;
+        }
+        @media(max-width:890px){
             font-size: 10px;
             text-wrap: wrap;
             line-height: normal;

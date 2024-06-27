@@ -12,7 +12,11 @@
         border-bottom: 5px solid $primary;
         width: 230px;
         height: 70px;
-        @media(max-width:769px){
+        @media(max-width:1090px){
+            width: 185px;
+            height: 70px;
+        }
+        @media(max-width:890px){
             width: 165px;
             height: 70px;
         }

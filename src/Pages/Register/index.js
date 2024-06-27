@@ -1,15 +1,14 @@
-import Logo from 'Assets/images/logo_white.png'
 import { ReactComponent as IconLogo } from 'Assets/icons/logo.svg'
-import styles from './styles.module.scss'
+import Logo from 'Assets/images/logo_white.png'
 import { useState } from 'react'
-import useStepFormHook from 'Pages/SubscribeForm/hooks/useStepFormHook'
-import Personal from './components/PersonalInfo'
-import LoginInfo from './components/LoginInfo'
-import AddressInfo from './components/AddressInfo'
-import { NotificationService } from 'services/notification'
 import { useNavigate } from 'react-router'
 import candidateService from 'services/candidate/candidateService'
+import { NotificationService } from 'services/notification'
+import AddressInfo from './components/AddressInfo'
+import LoginInfo from './components/LoginInfo'
+import Personal from './components/PersonalInfo'
 import UserType from './components/UserType'
+import styles from './styles.module.scss'
 export default function Register() {
     const [current, setCurrent] = useState(0)
     const [data, setData] = useState(null)
@@ -44,7 +43,7 @@ export default function Register() {
         <div>
             {/* <Loader loading={!!loading} text={loading} /> */}
             <header style={{ height: '80px', backgroundColor: '#1F4B73', display: 'flex', flexDirection: 'row', justifyContent: 'start', padding: '0 40px', alignItems: 'center' }}>
-                <img className={styles.logo} src={Logo} />
+                <img className={styles.logo} src={Logo} alt='logo' />
             </header>
             <div className={styles.content}>
                 <div className={styles.brand}>
@@ -59,7 +58,7 @@ export default function Register() {
                     [
                         <Personal data={data} onSubmit={handleSection} />,
                         <LoginInfo data={data} onBack={handleBack} onSubmit={handleSection} />,
-                        <AddressInfo data={data} onBack={handleBack} onSubmit={handleSection} />,
+                        <AddressInfo className={styles.address} data={data} onBack={handleBack} onSubmit={handleSection} />,
                         <UserType data={data} onBack={handleBack} onSubmit={handleSection} />,
                     ][current]
 

@@ -1,7 +1,6 @@
 import { ReactComponent as Car } from 'Assets/icons/car.svg';
 import { ReactComponent as Currency } from 'Assets/icons/currency.svg';
 import { ReactComponent as Doctor } from 'Assets/icons/doctor.svg';
-import { ReactComponent as Edit } from 'Assets/icons/edit.svg';
 import { ReactComponent as Family } from 'Assets/icons/family.svg';
 import { ReactComponent as House } from 'Assets/icons/house.svg';
 import { ReactComponent as List } from 'Assets/icons/list.svg';
@@ -35,7 +34,7 @@ export default function SubscriptionStatus() {
         Money,
         Doctor,
         List,
-        Edit]
+    ]
     return (
         <div className={styles.container}>
             <span>Situação do cadastro: {percentage < 1 ? 'Incompleto' : 'Completo'}</span>

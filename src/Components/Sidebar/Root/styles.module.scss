@@ -9,11 +9,11 @@
     border-top-right-radius: 8px;
     padding: 100px 40px 40px 40px;
     box-shadow: 2px 2px 5px $grey;
-    @media(max-width: 769px){
+    @media(max-width: 870px){
         width: 150px;
         padding: 100px 10px 40px 10px;
     }
-    @media(max-width: 600px){
+    @media(max-width: 700px){
         display: flex;
         width: 50px;
         padding: 50px 5px 50px 5px;
