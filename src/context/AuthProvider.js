@@ -8,7 +8,7 @@ import { NotificationService } from "services/notification"
 import userService from "services/user/userService"
 export const AuthContext = createContext(null)
 export default function AuthProvider({ children }) {
-    const [auth, setAuth] = useState(null)
+    const [auth, setAuth] = useState(undefined)
     const navigate = useNavigate()
     const { get, set, remove } = useLocalStorage()
     const [isLoading, setIsLoading] = useState(false)
@@ -42,9 +42,10 @@ export default function AuthProvider({ children }) {
     }
     useEffect(() => {
         const token = get('token')
-        console.log('RUNNING')
         if (token) {
             setAuth(jwtDecode(token))
+        } else {
+            setAuth(null)
         }
     }, [])
     return (
