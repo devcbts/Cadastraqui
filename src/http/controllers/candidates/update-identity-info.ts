@@ -331,9 +331,11 @@ export async function updateIdentityInfo(
       throw new ForbiddenError()
     }
     const idFieldRegistration = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
-    await prisma.finishedRegistration.update({
+    await prisma.finishedRegistration.upsert({
       where: idFieldRegistration,
-      data: { cadastrante: true }
+
+      create: { cadastrante: true },
+      update: { cadastrante: true },
     })
     return reply.status(201).send()
   } catch (err: any) {
