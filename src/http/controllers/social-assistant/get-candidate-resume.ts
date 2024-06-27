@@ -7,6 +7,8 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { getAssistantDocumentsPDF_HDB } from "./AWS-routes/get-assistant-documents-by-section";
 import { getSectionDocumentsPDF_HDB } from "./AWS-routes/get-documents-by-section-HDB";
+import { getSectionDocumentsPDF } from "../candidates/AWS Routes/get-pdf-documents-by-section";
+import { getSignedUrlsGroupedByFolder } from "@/lib/S3";
 
 export async function getCandidateResume(
     request: FastifyRequest,
@@ -232,10 +234,24 @@ export async function getCandidateResume(
         }
 
 
-
+        // Documentos de solicitações
         const majoracao = await getAssistantDocumentsPDF_HDB(application_id, 'majoracao')
         const interviewDocument = await getAssistantDocumentsPDF_HDB(application_id, 'Interview')
         const visitDocument = await getAssistantDocumentsPDF_HDB(application_id, 'Visit')
+
+        const solicitations = await prisma.applicationHistory.findMany({
+            where: {application_id, solicitation: {not : null}},
+        })
+        const solicitationFolder = `SolicitationDocuments/${application.id}` 
+        const solicitationsUrls = await getSignedUrlsGroupedByFolder(solicitationFolder);
+        const solicitationsFiltered = solicitations.map((solicitation) => {
+            const solicitationDocument = Object.entries(solicitationsUrls).filter(([url]) => url.split('/')[2] === solicitation.id)
+            return {
+                ...solicitation,
+                urls: Object.fromEntries(solicitationDocument)
+            }
+        })
+
         return reply.status(200).send({
             candidateInfo,
             familyMembersInfo,
@@ -247,7 +263,8 @@ export async function getCandidateResume(
             applicationInfo: applicationFormated,
             majoracao: majoracao,
             interviewDocument: interviewDocument,
-            visitDocument: visitDocument
+            visitDocument: visitDocument,
+            solicitations: solicitationsFiltered
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {
