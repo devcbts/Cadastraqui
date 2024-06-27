@@ -61,10 +61,10 @@ export default async function getCandidatesApplications(
             announcement
         }
         return reply.status(200).send(returnObj)
-    } catch (error) {
+    } catch (error: any) {
         if (error instanceof ForbiddenError) {
             return reply.status(403).send({ message: error.message })
         }
-        return reply.status(500).send({ message: 'Internal server error' })
+        return reply.status(500).send({ message: error.message })
     }
 }

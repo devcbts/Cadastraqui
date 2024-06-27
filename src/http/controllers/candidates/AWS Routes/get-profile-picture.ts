@@ -1,7 +1,9 @@
+import { ForbiddenError } from '@/errors/forbidden-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { GetUrl } from '@/http/services/get-file'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function getCandidateProfilePicture(
@@ -12,12 +14,12 @@ export async function getCandidateProfilePicture(
     const user_id = request.user.sub
 
     // Verifica se existe um candidato associado ao user_id
-    const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-    if (!candidate) {
-      throw new ResourceNotFoundError()
+    const candidateOrResponsible = await SelectCandidateResponsible(user_id);
+    if (!candidateOrResponsible) {
+      throw new ForbiddenError()
     }
 
-    const Route = `ProfilePictures/${candidate.id}`
+    const Route = `ProfilePictures/${candidateOrResponsible.UserData.id}`
 
     const url = await GetUrl(Route)
 
