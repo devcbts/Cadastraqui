@@ -1,12 +1,12 @@
-import { forwardRef, useEffect, useImperativeHandle } from "react";
-import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { useRecoilState } from "recoil";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
-import styles from './styles.module.scss'
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
 import useControlForm from "hooks/useControlForm";
+import { forwardRef, useEffect } from "react";
+import { useRecoilState } from "recoil";
 import monthAtom from "./atoms/month-atom";
+import styles from './styles.module.scss';
 // quantity = months that user needs to fullfill in order to proceed saving information
 const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false }, ref) => {
     const { watch, setValue, getValues, trigger, formState: { errors } } = useControlForm({
@@ -17,7 +17,8 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
         },
         initialData: data
     }, ref)
-
+    const [monthSelected, setMonthSelected] = useRecoilState(monthAtom);
+    const watchMonths = watch("months");
     const getMonths = () => {
         return Array.from({ length: data.quantity }).map((_, index) => {
             const currentDate = new Date();
@@ -57,9 +58,6 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
             setMonthSelected(null)
         }
     }, [ref])
-    const watchMonths = watch("months")
-
-    const [monthSelected, setMonthSelected] = useRecoilState(monthAtom)
 
     const handleSave = (_, data) => {
         // Find the current month to be updated at "months" array, then update the entire array
