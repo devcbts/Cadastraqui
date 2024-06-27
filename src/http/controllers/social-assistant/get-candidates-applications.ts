@@ -1,4 +1,5 @@
 import { ForbiddenError } from "@/errors/forbidden-error";
+import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
@@ -21,6 +22,14 @@ export default async function getCandidatesApplications(
             throw new ForbiddenError()
 
         }
+
+        const educationLevel = await prisma.educationLevel.findUnique({
+            where: { id: educationLevel_id }
+        })
+
+        if (!educationLevel) {
+            throw new ResourceNotFoundError()
+        }
         const applications = await prisma.application.findMany({
             where: { educationLevel_id },
             orderBy: [
@@ -30,8 +39,7 @@ export default async function getCandidatesApplications(
             ]
         })
 
-        const [item] = applications
-        const announcementId = item.announcement_id
+        const announcementId = educationLevel.announcementId;
         const announcement = await prisma.announcement.findUnique({
             where: {
                 id: announcementId
@@ -64,6 +72,9 @@ export default async function getCandidatesApplications(
     } catch (error: any) {
         if (error instanceof ForbiddenError) {
             return reply.status(403).send({ message: error.message })
+        }
+        if (error instanceof ResourceNotFoundError) {
+            return reply.status(404).send({ message: error.message })
         }
         return reply.status(500).send({ message: error.message })
     }
