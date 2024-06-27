@@ -200,7 +200,7 @@ export async function registerIdentityInfo(
     await prisma.finishedRegistration.upsert({
       where: idFieldRegistration,
       create: {
-      cadastrante: true,
+      cadastrante: true, ...idFieldRegistration
       },
       update: {
       cadastrante: true,

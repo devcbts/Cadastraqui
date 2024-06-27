@@ -216,7 +216,7 @@ export async function registerFamilyMemberInfo(
 
     await prisma.finishedRegistration.upsert({
       where: idField,
-      create: { grupoFamiliar: true },
+      create: { grupoFamiliar: true, ...idField },
       update: {
         grupoFamiliar: true,
       }

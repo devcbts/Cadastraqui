@@ -100,7 +100,7 @@ export async function registerHousingInfo(
       where: idFieldRegistration,
       create: {
         moradia: true,
-        candidate_id: CandidateOrResponsible.UserData.id,
+        ...idFieldRegistration
       },
       update: {
         moradia: true,
