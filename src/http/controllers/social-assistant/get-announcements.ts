@@ -32,20 +32,20 @@ export async function getAnnouncements(
         const currentDate = new Date()
         if (filter === 'subscription') {
           return [
-            { openDate: { gte: currentDate } },
-            { closeDate: { lt: currentDate } },
+            { openDate: { lt: currentDate } },
+            { closeDate: { gte: currentDate } },
           ]
         }
         if (filter === 'validation') {
           return [
-            { closeDate: { gte: currentDate } },
-            { announcementDate: { lt: currentDate } },
+            { closeDate: { lt: currentDate } },
+            { announcementDate: { gte: currentDate } },
           ]
         }
         if (filter === 'finished') {
           return [
-            { closeDate: { gte: currentDate } },
-            { announcementDate: { gte: currentDate } },
+            { closeDate: { lt: currentDate } },
+            { announcementDate: { lt: currentDate } },
           ]
         }
       }
