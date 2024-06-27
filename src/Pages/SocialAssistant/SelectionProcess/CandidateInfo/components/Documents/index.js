@@ -6,6 +6,7 @@ import { saveAs } from 'file-saver';
 import { useEffect, useState } from "react";
 import DocumentRequestModal from "../DocumentRequestModal";
 import FormListItem from "Pages/SubscribeForm/components/FormList/FormListItem";
+import FilePreview from "Components/FilePreview";
 export default function Documents({ data, solicitations, onRequest }) {
     const [requests, setRequests] = useState([])
     const [openModal, setOpenModal] = useState(false)
@@ -27,18 +28,28 @@ export default function Documents({ data, solicitations, onRequest }) {
             saveAs(content, `documentos_${name}.zip`);
         });
     };
-    const handleAddRequest = (newRequest) => {
-        setRequests((prev) => ([...prev, { ...newRequest, index: new Date().getTime() }]))
+    const handleAddRequest = (req) => {
+        const newRequest = { ...req, index: new Date().getTime() }
+        setRequests((prev) => {
+            const newArr = [...prev, newRequest]
+            onRequest(newArr)
+            return newArr
+        })
     }
     const handleAddDocument = () => {
         setOpenModal((prev) => !prev)
     }
-    const handleDeleteRequest = (id) => {
-        setRequests((prev) => prev.filter(e => e.id !== id))
+    const handleDeleteRequest = (index) => {
+        setRequests((prev) => {
+            const newArr = prev.filter(e => e.index !== index)
+            onRequest(newArr)
+            return newArr
+        })
     }
+
     useEffect(() => {
-        onRequest(requests)
-    }, [requests])
+        setRequests(solicitations)
+    }, [solicitations])
     return (
         <div className={styles.table}>
             <DocumentRequestModal open={openModal} onClose={handleAddDocument} onConfirm={handleAddRequest} />
@@ -64,7 +75,13 @@ export default function Documents({ data, solicitations, onRequest }) {
                         {requests.map((request) => (
                             <FormListItem.Root text={request.description}>
                                 <FormListItem.Actions>
-                                    <ButtonBase label={'excluir'} danger onClick={() => handleDeleteRequest(request.index)} />
+                                    {request.id ? (
+                                        request.answered
+                                            ? <FilePreview url={request.url} text={'ver documento'} />
+                                            : <span>Aguardando envio</span>
+                                    )
+
+                                        : <ButtonBase label={'excluir'} danger onClick={() => handleDeleteRequest(request.index)} />}
                                 </FormListItem.Actions>
                             </FormListItem.Root>
                         )

@@ -82,7 +82,7 @@ export default function CandidateInfo() {
                 <Vehicle data={summary.vehicles} />
                 <Habitation data={summary.housingInfo} />
                 <Health data={summary.familyMembersDiseases} />
-                <Documents data={summary.documentsUrls} onRequest={(v) => setData((prev) => ({ ...prev, solicitations: v }))} />
+                <Documents data={summary.documentsUrls} solicitations={data?.solicitations ?? summary.solicitations} onRequest={(v) => setData((prev) => ({ ...prev, solicitations: v }))} />
                 <Scholarship data={data?.scholarship ?? summary.applicationInfo} onChange={(v) => { setData((prev) => ({ ...prev, scholarship: v })) }} />
                 <Interview data={data?.interview ?? summary.interview} onSubmit={(v) => {
                     setData((prev) => ({ ...prev, interview: v }))

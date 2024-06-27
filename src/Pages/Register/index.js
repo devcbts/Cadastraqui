@@ -11,12 +11,15 @@ import { useNavigate } from 'react-router'
 import candidateService from 'services/candidate/candidateService'
 import UserType from './components/UserType'
 import ButtonBase from 'Components/ButtonBase'
+import Loader from 'Components/Loader'
 export default function Register() {
     const [current, setCurrent] = useState(0)
     const [data, setData] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
     const handleRegister = async (data) => {
         try {
+            setIsLoading(true)
             if (data.role === "candidate") {
                 await candidateService.register(data)
             } else {
@@ -28,6 +31,7 @@ export default function Register() {
         } catch (err) {
             NotificationService.error({ text: err?.response?.data?.message })
         }
+        setIsLoading(false)
     }
     const handleSection = async (form) => {
         setData((prev) => ({ ...prev, ...form }))
@@ -43,7 +47,7 @@ export default function Register() {
     }
     return (
         <div>
-            {/* <Loader loading={!!loading} text={loading} /> */}
+            <Loader loading={isLoading} />
             <header style={{ height: '80px', backgroundColor: '#1F4B73', display: 'flex', flexDirection: 'row', justifyContent: 'start', padding: '0 40px', alignItems: 'center' }}>
                 <img className={styles.logo} src={Logo} />
             </header>

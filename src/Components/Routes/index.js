@@ -27,6 +27,7 @@ import CandidatePendency from "Pages/Candidate/Request/Pendency";
 import SelectionProcessContext from "Pages/SocialAssistant/SelectionProcess/CandidateInfo/context/SelectionProcessContext";
 import AdminHome from "Pages/Admin/Home";
 import AdminEntityView from "Pages/Admin/EntityView";
+import PasswordRecovery from "Pages/PasswordRecovery";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -38,6 +39,7 @@ export default function AppRoutes() {
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/registrar" element={<Register />} />
+                    <Route path="/reset_password" element={<PasswordRecovery />} />
                     <Route path="*" element={<Navigate to={'/'} />} />
 
                 </Routes>

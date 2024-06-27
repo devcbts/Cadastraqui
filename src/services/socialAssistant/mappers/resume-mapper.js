@@ -28,9 +28,15 @@ class ResumeMapper {
             if (Object.keys(majoracao).length) {
                 maj = removeObjectFileExtension(majoracao)["url_majoracao"]
             }
-            console.log(maj)
+            const solicitations = data?.solicitations?.map((e) => {
+                return ({
+                    ...e,
+                    url: Object.values(removeObjectFileExtension(e.urls))?.[0]
+                })
+            })
+            console.log(solicitations)
             return {
-                interview, visit, majoracao: maj
+                interview, visit, majoracao: maj, solicitations
             }
         }
         return {

@@ -21,7 +21,8 @@ export default function SelectionProcessContext({ children }) {
         applicationInfo: {},
         majoracao: {},
         interviewDocument: {},
-        visitDocument: {}
+        visitDocument: {},
+        solicitations: [],
     })
     useEffect(() => {
         if (!state?.applicationId) {

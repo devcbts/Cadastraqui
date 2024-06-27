@@ -21,6 +21,7 @@ const AddressData = forwardRef(({ data }, ref) => {
             neighborhood: "",
             city: "",
             UF: "",
+            complement: ""
         },
         initialData: data
     }, ref)
@@ -43,6 +44,7 @@ const AddressData = forwardRef(({ data }, ref) => {
                 <InputForm name={"addressNumber"} control={control} label={"número"} />
                 <InputForm name={"neighborhood"} control={control} label={"bairro"} />
                 <InputForm name={"city"} control={control} label={"cidade"} />
+                <InputForm name={"complement"} control={control} label={"complemento"} />
                 <FormSelect name={"UF"} control={control} label={"unidade federativa"} options={STATES} value={watchState} />
             </div>
         </div>

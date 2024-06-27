@@ -18,6 +18,7 @@ const PersonalInformation = forwardRef(({ data }, ref) => {
             skinColor: '',
             educationLevel: '',
             specialNeeds: null,
+            specialNeedsDescription: '',
             religion: ''
         },
         initialData: data
@@ -26,6 +27,7 @@ const PersonalInformation = forwardRef(({ data }, ref) => {
     const watchSkinColor = watch("skinColor")
     const watchScholarship = watch("educationLevel")
     const watchReligion = watch("religion")
+    const watchNeeds = watch("specialNeeds")
 
     return (
         <div className={commonStyles.formcontainer}>
@@ -36,6 +38,11 @@ const PersonalInformation = forwardRef(({ data }, ref) => {
                 <FormSelect name="religion" label="religião" control={control} options={RELIGION} value={watchReligion} />
             </div>
             <FormCheckbox name="specialNeeds" label="necessidades especiais" control={control} />
+            {
+                watchNeeds && (
+                    <InputForm control={control} name={"specialNeedsDescription"} label={"descrição das necessidades especiais"} />
+                )
+            }
         </div>
     )
 })

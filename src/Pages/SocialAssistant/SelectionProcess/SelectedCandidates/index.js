@@ -62,7 +62,7 @@ export default function SelectedCandidates() {
                             <Table.Row>
                                 <Table.Cell divider>{candidate.position ?? '-'}</Table.Cell>
                                 <Table.Cell >{candidate.candidateName}</Table.Cell>
-                                <Table.Cell >{moneyInputMask(candidate.averageIncome?.toString())}</Table.Cell>
+                                <Table.Cell >{moneyInputMask(candidate.averageIncome?.toFixed(2)?.toString())}</Table.Cell>
                                 <Table.Cell >Titular</Table.Cell>
                                 <Table.Cell >0</Table.Cell>
                                 <Table.Cell >{findLabel(APPLICATION_STATUS, candidate?.status)}</Table.Cell>
