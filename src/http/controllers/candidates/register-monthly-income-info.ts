@@ -85,73 +85,81 @@ export async function registerMonthlyIncomeInfo(
 
     const idField = isCandidateOrResponsible ? (isCandidateOrResponsible.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : { familyMember_id: _id };
 
-    // iterate over the month array to get all total income
-    monthlyIncome.incomes.forEach(async (income) => {
-      if (income.grossAmount) {
-        let liquidAmount =
-          income.grossAmount -
-          income.foodAllowanceValue -
-          income.transportAllowanceValue -
-          income.compensationValue -
-          income.expenseReimbursementValue -
-          income.advancePaymentValue -
-          income.reversalValue -
-          income.judicialPensionValue
-        if (income.proLabore && income.dividends) {
-          liquidAmount = income.proLabore + income.dividends
-        }
-        // Armazena informações acerca da renda mensal no banco de dados
-        await prisma.monthlyIncome.create({
-          data: {
+    await prisma.$transaction(async (tsPrisma) => {
 
-            grossAmount: income.grossAmount,
-            liquidAmount,
-            date: income.date,
-            advancePaymentValue: income.advancePaymentValue,
-            compensationValue: income.compensationValue,
-            deductionValue: income.deductionValue,
-            expenseReimbursementValue: income.expenseReimbursementValue,
-            incomeTax: income.incomeTax,
-            judicialPensionValue: income.judicialPensionValue,
-            otherDeductions: income.otherDeductions,
-            publicPension: income.publicPension,
-            reversalValue: income.reversalValue,
-            foodAllowanceValue: income.foodAllowanceValue,
-            transportAllowanceValue: income.transportAllowanceValue,
-            ...idField,
-            dividends: income.dividends,
-            proLabore: income.proLabore,
-            incomeSource: monthlyIncome.incomeSource
+      //delete all monthlyIncome linked to that user
+      await tsPrisma.monthlyIncome.deleteMany({
+        where: { AND: [idField, { incomeSource: monthlyIncome.incomeSource }] }
+      })
+      // iterate over the month array to get all total income
+      await Promise.all(monthlyIncome.incomes.map(async (income) => {
+        if (income.grossAmount) {
+          let liquidAmount =
+            income.grossAmount -
+            income.foodAllowanceValue -
+            income.transportAllowanceValue -
+            income.compensationValue -
+            income.expenseReimbursementValue -
+            income.advancePaymentValue -
+            income.reversalValue -
+            income.judicialPensionValue
+          if (income.proLabore && income.dividends) {
+            liquidAmount = income.proLabore + income.dividends
           }
-        })
-      } else {
-        const total = (income.dividends || 0) + (income.proLabore || 0)
-        // Armazena informações acerca da renda mensal no banco de dados (Empresário)
-        await prisma.monthlyIncome.create({
-          data: {
-            grossAmount: income.grossAmount,
-            date: income.date,
-            advancePaymentValue: income.advancePaymentValue,
-            compensationValue: income.compensationValue,
-            deductionValue: income.deductionValue,
-            expenseReimbursementValue: income.expenseReimbursementValue,
-            incomeTax: income.incomeTax,
-            judicialPensionValue: income.judicialPensionValue,
-            otherDeductions: income.otherDeductions,
-            publicPension: income.publicPension,
-            proLabore: income.proLabore,
-            dividends: income.dividends,
-            reversalValue: income.reversalValue,
-            foodAllowanceValue: income.foodAllowanceValue,
-            transportAllowanceValue: income.transportAllowanceValue,
-            total,
-            ...idField,
-            incomeSource: monthlyIncome.incomeSource
-          },
-        })
-      }
-    })
+          // Armazena informações acerca da renda mensal no banco de dados
+          await tsPrisma.monthlyIncome.create({
+            data: {
 
+              grossAmount: income.grossAmount,
+              liquidAmount,
+              date: income.date,
+              advancePaymentValue: income.advancePaymentValue,
+              compensationValue: income.compensationValue,
+              deductionValue: income.deductionValue,
+              expenseReimbursementValue: income.expenseReimbursementValue,
+              incomeTax: income.incomeTax,
+              judicialPensionValue: income.judicialPensionValue,
+              otherDeductions: income.otherDeductions,
+              publicPension: income.publicPension,
+              reversalValue: income.reversalValue,
+              foodAllowanceValue: income.foodAllowanceValue,
+              transportAllowanceValue: income.transportAllowanceValue,
+              ...idField,
+              dividends: income.dividends,
+              proLabore: income.proLabore,
+              incomeSource: monthlyIncome.incomeSource
+            }
+          })
+        } else {
+          const total = (income.dividends || 0) + (income.proLabore || 0)
+          // Armazena informações acerca da renda mensal no banco de dados (Empresário)
+          await tsPrisma.monthlyIncome.create({
+            data: {
+              grossAmount: income.grossAmount,
+              date: income.date,
+              advancePaymentValue: income.advancePaymentValue,
+              compensationValue: income.compensationValue,
+              deductionValue: income.deductionValue,
+              expenseReimbursementValue: income.expenseReimbursementValue,
+              incomeTax: income.incomeTax,
+              judicialPensionValue: income.judicialPensionValue,
+              otherDeductions: income.otherDeductions,
+              publicPension: income.publicPension,
+              proLabore: income.proLabore,
+              dividends: income.dividends,
+              reversalValue: income.reversalValue,
+              foodAllowanceValue: income.foodAllowanceValue,
+              transportAllowanceValue: income.transportAllowanceValue,
+              total,
+              ...idField,
+              incomeSource: monthlyIncome.incomeSource
+            },
+          })
+        }
+      }))
+
+
+    })
 
 
 

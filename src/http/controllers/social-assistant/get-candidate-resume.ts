@@ -1,6 +1,7 @@
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { historyDatabase, prisma } from "@/lib/prisma";
+import { getSignedUrlsGroupedByFolder } from "@/lib/S3";
 import { calculateAge } from "@/utils/calculate-age";
 import { CalculateIncomePerCapitaHDB } from "@/utils/Trigger-Functions/calculate-income-per-capita-HDB";
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -232,10 +233,23 @@ export async function getCandidateResume(
         }
 
 
-
+        // Documentos de solicitações
         const majoracao = await getAssistantDocumentsPDF_HDB(application_id, 'majoracao')
         const interviewDocument = await getAssistantDocumentsPDF_HDB(application_id, 'Interview')
         const visitDocument = await getAssistantDocumentsPDF_HDB(application_id, 'Visit')
+
+        const solicitations = await prisma.applicationHistory.findMany({
+            where: { application_id, solicitation: { not: null } },
+        })
+        const solicitationFolder = `SolicitationDocuments/${application.id}`
+        const solicitationsUrls = await getSignedUrlsGroupedByFolder(solicitationFolder);
+        const solicitationsFiltered = solicitations.map((solicitation) => {
+            const solicitationDocument = Object.entries(solicitationsUrls).filter(([url]) => url.split('/')[2] === solicitation.id)
+            return {
+                ...solicitation,
+                urls: Object.fromEntries(solicitationDocument)
+            }
+        })
 
         return reply.status(200).send({
             candidateInfo,
@@ -248,7 +262,8 @@ export async function getCandidateResume(
             applicationInfo: applicationFormated,
             majoracao: majoracao,
             interviewDocument: interviewDocument,
-            visitDocument: visitDocument
+            visitDocument: visitDocument,
+            solicitations: solicitationsFiltered
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {

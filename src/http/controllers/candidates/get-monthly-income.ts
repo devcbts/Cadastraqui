@@ -47,20 +47,28 @@ export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: F
     const CandidateOrResponsible = await SelectCandidateResponsible(_id);
 
     const idField = CandidateOrResponsible ? CandidateOrResponsible.IsResponsible ? { legalResponsibleId: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id } : { familyMember_id: _id };
-
+    let result = {};
     const monthlyIncomes = await prisma.monthlyIncome.findMany({
       where: idField,
     });
     if (monthlyIncomes.length === 0) {
-      const isUnemployed = await prisma.familyMemberIncome.findFirst({
+      const isUnemployed = await prisma.familyMemberIncome.findMany({
         where: idField
       })
       console.log(isUnemployed)
-      if (isUnemployed) {
-        return reply.status(200).send({ incomeBySource: { [isUnemployed.employmentType]: [] } })
+      if (isUnemployed.length) {
+        const types = isUnemployed.reduce((acc: any, e) => {
+          acc[e.employmentType] = []
+          return acc
+        }, {})
+        result = {
+          ...result,
+          ...types
+        }
+        return reply.status(200).send({ incomeBySource: result })
       }
     }
-    type IncomeBySourceAccumulator = Record<string, typeof monthlyIncomes>;
+    type IncomeBySourceAccumulator = Record<string, typeof monthlyIncomes | any>;
 
 
     const urls = await getSectionDocumentsPDF(_id, 'monthly-income')

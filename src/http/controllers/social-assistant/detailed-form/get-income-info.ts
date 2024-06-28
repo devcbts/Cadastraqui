@@ -1,11 +1,11 @@
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
-import { historyDatabase, prisma } from '@/lib/prisma'
+import { historyDatabase } from '@/lib/prisma'
 import { SelectCandidateResponsibleHDB } from '@/utils/select-candidate-responsibleHDB'
+import { CalculateIncomePerCapitaHDB } from '@/utils/Trigger-Functions/calculate-income-per-capita-HDB'
 import { FamilyMember } from 'backup_prisma/generated/clientBackup'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { getSectionDocumentsPDF_HDB } from '../AWS-routes/get-documents-by-section-HDB'
-import { CalculateIncomePerCapitaHDB } from '@/utils/Trigger-Functions/calculate-income-per-capita-HDB'
 
 export async function getIncomeInfoHDB(
   request: FastifyRequest,
@@ -15,7 +15,7 @@ export async function getIncomeInfoHDB(
     application_id: z.string(),
   })
 
-  const {application_id } = queryParamsSchema.parse(request.params)
+  const { application_id } = queryParamsSchema.parse(request.params)
   try {
 
     const candidateOrResponsible = await SelectCandidateResponsibleHDB(application_id)
@@ -54,7 +54,7 @@ export async function getIncomeInfoHDB(
     incomeInfoResults.push({ name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, incomes: candidateIncome })
     const incomeInfoResultsWithUrls = incomeInfoResults.map((familyMember) => {
       const incomesWithUrls = familyMember.incomes.map((income) => {
-        const incomeDocuments = Object.entries(urls).filter(([url]) => url.split("/")[4] === income.id)
+        const incomeDocuments = Object.entries(urls).filter(([url]) => url.split("/")[3] === income.id)
         return {
           ...income,
           urls: Object.fromEntries(incomeDocuments),
@@ -67,7 +67,7 @@ export async function getIncomeInfoHDB(
     })
     const averageIncome = await CalculateIncomePerCapitaHDB(candidateOrResponsible.UserData.id)
 
-    const incomeInfoResultsWithAverageIncome = incomeInfoResultsWithUrls.map((memberIncome) =>{
+    const incomeInfoResultsWithAverageIncome = incomeInfoResultsWithUrls.map((memberIncome) => {
       const averageMemberIncome = Object.keys(averageIncome.incomesPerMember).find((key) => key === memberIncome.id)
       return {
         ...memberIncome,

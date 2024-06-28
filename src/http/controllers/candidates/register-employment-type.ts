@@ -81,7 +81,7 @@ export async function registerEmploymenType(
 
         const avgIncome = validIncomes.length > 0 ? totalAmount / quantity : 0;
 
-        await prisma.familyMemberIncome.create({
+        const { id } = await prisma.familyMemberIncome.create({
             data: {
                 employmentType,
                 averageIncome: avgIncome.toString(),
@@ -103,7 +103,7 @@ export async function registerEmploymenType(
             },
         })
 
-        return reply.status(201).send()
+        return reply.status(201).send({ id })
     } catch (err: any) {
         if (err instanceof ResourceNotFoundError) {
             return reply.status(404).send({ message: err.message })

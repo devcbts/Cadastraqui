@@ -1,13 +1,10 @@
-import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
-import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
+import { CalculateIncomePerCapita } from '@/utils/Trigger-Functions/calculate-income-per-capita'
 import { FamilyMember } from '@prisma/client'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { object, z } from 'zod'
 import { getSectionDocumentsPDF } from './AWS Routes/get-pdf-documents-by-section'
-import { CalculateIncomePerCapita } from '@/utils/Trigger-Functions/calculate-income-per-capita'
 
 export async function getIncomeInfo(
   request: FastifyRequest,
@@ -56,7 +53,7 @@ export async function getIncomeInfo(
     incomeInfoResults.push({ name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, incomes: candidateIncome })
     const incomeInfoResultsWithUrls = incomeInfoResults.map((familyMember) => {
       const incomesWithUrls = familyMember.incomes.map((income) => {
-        const incomeDocuments = Object.entries(urls).filter(([url]) => url.split("/")[4] === income.id)
+        const incomeDocuments = Object.entries(urls).filter(([url]) => url.split("/")[3] === income.id)
         return {
           ...income,
           urls: Object.fromEntries(incomeDocuments),
@@ -69,7 +66,7 @@ export async function getIncomeInfo(
     })
     const averageIncome = await CalculateIncomePerCapita(candidateOrResponsible.UserData.id)
 
-    const incomeInfoResultsWithAverageIncome = incomeInfoResultsWithUrls.map((memberIncome) =>{
+    const incomeInfoResultsWithAverageIncome = incomeInfoResultsWithUrls.map((memberIncome) => {
       const averageMemberIncome = Object.keys(averageIncome.incomesPerMember).find((key) => key === memberIncome.id)
       return {
         ...memberIncome,

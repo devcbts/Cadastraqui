@@ -19,6 +19,7 @@ import getRuralWorker from './Declaration Get Routes/get-rural-worker'
 import { deleteBankingInfo } from './delete-banking-info'
 import deleteFamilyMember from './delete-family-member'
 import { deleteHealthInfo } from './delete-health-info'
+import { deleteIncomeInfo } from './delete-income-info'
 import { deleteMedicationInfo } from './delete-medication'
 import { finishRegistration } from './finish-registration'
 import { getAnnouncementDocument } from './get-announcement-pdf'
@@ -141,6 +142,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     getMonthlyIncomeBySource,
   )
+  app.delete('/income/:income_id/:member_id', { onRequest: [verifyJWT] }, deleteIncomeInfo)
   // bank-info 
   app.get('/bank-info/:_id?', { onRequest: [verifyJWT] }, getBankingInfo)
   app.post('/bank-info/:_id', { onRequest: [verifyJWT] }, registerBankingInfo)
