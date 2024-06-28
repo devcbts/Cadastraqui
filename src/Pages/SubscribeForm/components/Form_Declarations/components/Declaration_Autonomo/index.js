@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss'; 
 import ButtonBase from "Components/ButtonBase";
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; 
 
 export default function Declaration_Autonomo({ onBack, onSave }) {
     const [informalWork, setInformalWork] = useState(null);

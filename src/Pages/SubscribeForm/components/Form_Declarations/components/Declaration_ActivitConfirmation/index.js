@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss'; 
 import ButtonBase from "Components/ButtonBase";
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
-import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; 
+import { api } from 'services/axios'; 
 import useAuth from 'hooks/useAuth';
 
 export default function Declaration_ActivitConfirmation({ onBack, onNext }) {

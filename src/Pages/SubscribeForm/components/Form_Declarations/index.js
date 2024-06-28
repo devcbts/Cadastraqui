@@ -115,6 +115,7 @@ export default function FormDeclarations() {
                     setDeclarationData(data.infoDetails);
                     setUserId(auth.uid);
                     console.log('Form Declaration:', data.infoDetails);
+                    localStorage.setItem('declarationData', JSON.stringify(data.infoDetails));
                 } catch (error) {
                     console.error('Erro ao buscar a declaração:', error);
                 }
@@ -312,7 +313,7 @@ export default function FormDeclarations() {
             )}
             {currentScreen === SCREENS.RENTED_HOUSE && (
                 <Declaration_RentedHouse
-                    onBack={() => handleNavigate(SCREENS.NO_ADDRESS_PROOF)}
+                    onBack={() => handleNavigate(SCREENS.ADDRESS_PROOF)}
                     onNext={(rentedHouse) => handleNavigate(rentedHouse ? SCREENS.RENT_DETAILS : SCREENS.WORK_CARD)}
                 />
             )}
@@ -330,7 +331,7 @@ export default function FormDeclarations() {
             )}
             {currentScreen === SCREENS.WORK_CARD && (
     <Declaration_WorkCard 
-        onBack={() => handleNavigate(SCREENS.RENT_CONFIRMATION)} 
+        onBack={() => handleNavigate(SCREENS.RENTED_HOUSE)} 
         onNext={(hasWorkCard) => handleNavigate(hasWorkCard ? SCREENS.WORK_CARD_UPLOAD : SCREENS.CONTRIBUTION_STATEMENT)} 
     />
 )}
