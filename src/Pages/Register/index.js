@@ -8,6 +8,7 @@ import AddressInfo from './components/AddressInfo'
 import LoginInfo from './components/LoginInfo'
 import Personal from './components/PersonalInfo'
 import UserType from './components/UserType'
+import styles from './styles.module.scss'
 import ButtonBase from 'Components/ButtonBase'
 import Loader from 'Components/Loader'
 export default function Register() {
