@@ -1,17 +1,13 @@
-import useControlForm from "hooks/useControlForm"
-import entityInfoSchema from "./schemas/entity-info-schema"
-import ButtonBase from "Components/ButtonBase"
-import InputForm from "Components/InputForm"
-import FormFilePicker from "Components/FormFilePicker"
-import FilePreview from "Components/FilePreview"
-import { formatCNPJ } from "utils/format-cnpj"
-import useCnpj from "hooks/useCnpj"
 import BackPageTitle from "Components/BackPageTitle"
-import entityAddressSchema from "./schemas/entity-address-schema"
-import useCep from "hooks/useCep"
+import ButtonBase from "Components/ButtonBase"
 import FormSelect from "Components/FormSelect"
-import { formatCEP } from "utils/format-cep"
+import InputForm from "Components/InputForm"
+import useCep from "hooks/useCep"
+import useControlForm from "hooks/useControlForm"
 import STATES from "utils/enums/states"
+import { formatCEP } from "utils/format-cep"
+import entityAddressSchema from "./schemas/entity-address-schema"
+import styles from './styles.module.scss'
 
 export default function EntityAddress({ data, onPageChange }) {
     const { control, formState: { isValid }, trigger, getValues, watch, setValue } = useControlForm({
@@ -45,10 +41,10 @@ export default function EntityAddress({ data, onPageChange }) {
         setValue("neighborhood", address?.neighborhood)
     }, watch("CEP"))
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
+        <div className={styles.container}>
             <BackPageTitle title={'Informações cadastrais'} onClick={handlePageChange} />
-            <div style={{ width: 'max(400px, 50%)' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>
+            <div className={styles.informacoes}>
+                <div className={styles.endereco}>
                     <InputForm control={control} name="CEP" label={"CEP"} transform={(e) => formatCEP(e.target.value)} />
                     <InputForm control={control} name="city" label={"cidade"} />
                     <FormSelect control={control} name="UF" label={"UF"} options={STATES} value={watch("UF")} />

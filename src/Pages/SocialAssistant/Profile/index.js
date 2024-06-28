@@ -1,9 +1,9 @@
 import Profile from "Pages/Profile";
-import { NotificationService } from "services/notification";
-import FormView from "./components/FormView";
 import { useEffect, useState } from "react";
+import { NotificationService } from "services/notification";
 import socialAssistantService from "services/socialAssistant/socialAssistantService";
 import userServiceInstance from "services/user/userService";
+import FormView from "./components/FormView";
 
 export default function SocialAssistantProfile() {
     const [data, setData] = useState(null)

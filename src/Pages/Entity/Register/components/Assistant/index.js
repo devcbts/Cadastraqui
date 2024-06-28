@@ -1,9 +1,9 @@
-import useControlForm from "hooks/useControlForm"
-import assistantSchema from "./schemas/assistant-schema"
-import { NotificationService } from "services/notification"
-import entityService from "services/entity/entityService"
-import InputForm from "Components/InputForm"
 import ButtonBase from "Components/ButtonBase"
+import InputForm from "Components/InputForm"
+import useControlForm from "hooks/useControlForm"
+import entityService from "services/entity/entityService"
+import { NotificationService } from "services/notification"
+import assistantSchema from "./schemas/assistant-schema"
 
 export default function Assistant() {
     const { control, formState: { isValid }, trigger, reset, getValues } = useControlForm({
@@ -35,7 +35,7 @@ export default function Assistant() {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
             <h1>Informações Cadastrais</h1>
-            <div style={{ width: 'max(400px, 50%)' }}>
+            <div style={{ width: 'max(290px, 50%)' }}>
                 <InputForm control={control} label={'nome'} name={"name"} />
                 <InputForm control={control} label={'email'} name={"email"} />
                 <InputForm control={control} label={'celular'} name={"phone"} />

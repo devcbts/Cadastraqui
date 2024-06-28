@@ -1,10 +1,10 @@
 @import '../../Assets/theme/global.module.scss';
 .logo{
     -webkit-user-drag: none;
-    width: 320px;
+    width: 307px;
     height: 80px;
     @media(max-width:390px){
-        width: 320px;
+        width: 230px;
         height: 60px;
     }
 }
