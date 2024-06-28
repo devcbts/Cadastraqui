@@ -50,7 +50,7 @@ export default function SocialAssistantAnnouncement() {
                             <Table.Row>
                                 <Table.Cell>{course.entity}</Table.Cell>
                                 <Table.Cell>{SCHOOL_LEVELS.find(e => e.value === course.education)?.label}</Table.Cell>
-                                <Table.Cell>{course.grade}</Table.Cell>
+                                <Table.Cell>{course.availableCourse ?? course.grade}</Table.Cell>
                                 <Table.Cell>{course.shift}</Table.Cell>
                                 <Table.Cell>
                                     <ButtonBase onClick={() => navigate(course.id)}>

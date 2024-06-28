@@ -15,7 +15,6 @@ const HeaderWrapper = ({ children }) => {
     const [header, setHeader] = useRecoilState(headerAtom)
     const { sidebar } = header
     const { auth, login, logout } = useAuth()
-    const { set } = useLocalStorage()
     const Sidebar = useMemo(() => {
         switch (auth?.role) {
             case "CANDIDATE":

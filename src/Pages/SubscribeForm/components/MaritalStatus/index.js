@@ -33,7 +33,8 @@ const MaritalStatus = forwardRef(({ data }, ref) => {
             <h1 className={commonStyles.title}>Estado Civil</h1>
             <div>
                 <FormSelect name="maritalStatus" label="estado civil" control={control} options={MARITAL_STATUS} value={watchStatus} />
-                <FormFilePicker name="file_statusCertificate" label={`documento que comprove a situação (${findLabel(MARITAL_STATUS, watchStatus)})`} control={control} accept={'application/pdf'} />
+                {!!watchStatus &&
+                    <FormFilePicker name="file_statusCertificate" label={`documento que comprove a situação (${findLabel(MARITAL_STATUS, watchStatus)})`} control={control} accept={'application/pdf'} />}
                 <FilePreview file={watchFile} url={data.url_statusCertificate} text={'visualizar documento'} />
 
 

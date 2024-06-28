@@ -1,6 +1,6 @@
 import BackPageTitle from "Components/BackPageTitle";
 import Table from "Components/Table";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import socialAssistantService from "services/socialAssistant/socialAssistantService";
 import styles from './styles.module.scss'
@@ -22,6 +22,7 @@ import ButtonBase from "Components/ButtonBase";
 import { NotificationService } from "services/notification";
 import formatMoney from "utils/format-money";
 import uploadService from "services/upload/uploadService";
+import { selectionProcessContext } from "../CandidateInfo/context/SelectionProcessContext";
 
 export default function LegalOpinion() {
     const { state } = useLocation()
@@ -48,20 +49,21 @@ export default function LegalOpinion() {
         }
     }, [state])
 
-    const { control, watch, getValues, trigger, formState: { isValid } } = useControlForm({
+    const { control, watch, getValues, trigger, formState: { isValid, errors } } = useControlForm({
         schema: legalOpinionSchema,
         defaultValues: {
+            hasAdditional: !!data?.additional,
             additional: null,
-            file: null,
             status: null
         },
         initialData: data
     })
     const disease = data?.familyMembersDiseases
     const members = data?.familyMembersInfo
-    const submitData = state?.data
+    const { data: submitData } = useContext(selectionProcessContext)
     const handleSubmit = async () => {
         if (!isValid) {
+            console.log(errors)
             trigger()
             return
         }
@@ -83,19 +85,25 @@ export default function LegalOpinion() {
                 formData.append("majoracao", submitData.majoracao)
                 await socialAssistantService.uploadMajoracao(state?.applicationId, formData)
             }
-            if (values.additional) {
+            if (values.additional && typeof values.additional !== 'string') {
                 const formData = new FormData()
-                formData.append("additional", values.file)
+                formData.append("additional", values.additional)
                 await socialAssistantService.uploadAdditionalInfo(state?.applicationId, formData)
             }
+            if (submitData?.solicitations?.length) {
+                await socialAssistantService.registerSolicitations(state?.applicationId, submitData.solicitations)
+            }
             const applicationData = {
-                status: values.status
+                status: values.status,
+                partial: submitData?.scholarship?.partial
             }
             await socialAssistantService.updateApplication(state?.applicationId, applicationData)
             NotificationService.success({ text: 'Parecer salvo' })
         } catch (err) {
+
         }
     }
+
     return (
         <div>
             <BackPageTitle title={'processo de seleção'} onClick={handleBack} />
@@ -164,7 +172,6 @@ export default function LegalOpinion() {
                                             <Table.Cell>{item.medications?.[0]?.medicationName}</Table.Cell>
                                             <Table.Cell>{item.medications?.[0]?.obtainedPublicly ? 'Sim' : 'Não'}</Table.Cell>
                                             <Table.Cell>{item.medications?.[0]?.specificMedicationPublicly}</Table.Cell>
-
                                         </Table.Row>
                                     )
                                 })
@@ -213,15 +220,18 @@ export default function LegalOpinion() {
 
                         Sobre a majoração de que trata o § 2º do art. 19 da Lei Complementar nº 187, de 16 de dezembro de 2021, importante ressaltar:
                     </p>
-                    <FilePreview file={state?.data?.file} />
+                    <FilePreview url={data?.majoracao} text={'ver documento de majoração'} />
                     <p>
                         Deseja inserir informações adicionais?
                     </p>
 
-                    <FormCheckbox control={control} name={"additional"} />
+                    <FormCheckbox control={control} name={"hasAdditional"} />
                     {
-                        watch("additional") && (
-                            <FormFilePicker control={control} name="file" accept={"application/pdf"} />
+                        watch("hasAdditional") && (
+                            !watch("additional")
+                                ? <FormFilePicker control={control} name="additional" accept={"application/pdf"} />
+                                : <FilePreview url={data?.additional} text={'ver documento de informações adicionais'} />
+
                         )
                     }
                     <p>

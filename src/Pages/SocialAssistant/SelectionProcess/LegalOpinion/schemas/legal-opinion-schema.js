@@ -1,14 +1,14 @@
 const { z } = require("zod");
 
 const legalOpinionSchema = z.object({
-    additional: z.boolean(),
-    file: z.instanceof(File).nullish(),
+    hasAdditional: z.boolean(),
+    additional: z.instanceof(File).or(z.string()).nullish(),
     status: z.string().min(1, 'Escolha um')
 }).superRefine((data, ctx) => {
-    if (data.additional && !data.file) {
+    if (data.hasAdditional && !data.additional) {
         ctx.addIssue({
             message: 'Arquivo obrigatório',
-            path: ['file']
+            path: ['additional']
         })
     }
 })

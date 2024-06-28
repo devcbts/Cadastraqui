@@ -32,7 +32,9 @@ export default function AnnouncementSelect({ announcement }) {
             const fetchAnnouncement = async () => {
                 setIsLoading(true)
                 try {
+                    console.log('sal ')
                     const information = await candidateService.getAnnouncementById(announcementId)
+                    // candidateService.saveAnnouncement(announcementId).catch((_) => { })
                     const savedAnnouncements = await candidateService.getCandidateAnnouncements()
                     setIsVisited(savedAnnouncements?.find((e) => e.announcement.id === information.id))
                     setAnnouncement(information)

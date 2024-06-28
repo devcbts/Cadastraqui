@@ -70,6 +70,7 @@ const Expenses = forwardRef(({ data }, ref) => {
     }
     useEffect(() => {
         // calculate the sum of all elements whenever any field is changed
+        console.log(getTotalExpense(watchExceptTotal()))
         setValue('totalExpense', getTotalExpense(watchExceptTotal()))
     }, [watch])
     return (

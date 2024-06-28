@@ -22,20 +22,21 @@ const Benefits = forwardRef(({ data }, ref) => {
     }, ref)
 
 
-    const watchEnrolledGovProgram = watch("enrolledGovernmentProgram")
+    const watchCad = watch("CadUnico")
 
     useEffect(() => {
-        if (!watchEnrolledGovProgram) {
+        if (!watchCad) {
             resetField("NIS", { defaultValue: '', keepDirty: false, keepError: false })
         }
-    }, [watchEnrolledGovProgram])
+    }, [watchCad])
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Benefícios e Programas</h1>
             <div className={styles.container}>
-                <div className={watchEnrolledGovProgram && styles.grid}>
-                    <FormCheckbox name={"enrolledGovernmentProgram"} control={control} label={"inscrito em programa governamental?"} />
-                    {watchEnrolledGovProgram &&
+                <div className={watchCad && styles.grid}>
+                    <FormCheckbox name={"CadUnico"} control={control} label={"Possui cadastro único?"} />
+
+                    {watchCad &&
                         <InputForm name={"NIS"} control={control} label={"NIS"} />
                     }
                 </div>
@@ -43,7 +44,7 @@ const Benefits = forwardRef(({ data }, ref) => {
                     <FormCheckbox name={"attendedPublicHighSchool"} control={control} label={"estudou em escola pública?"} />
                     <FormCheckbox name={"benefitedFromCebasScholarship_basic"} control={control} label={"já recebeu bolsa CEBAS para educação básica?"} />
                     <FormCheckbox name={"benefitedFromCebasScholarship_professional"} control={control} label={"já recebeu bolsa CEBAS para educação profissional?"} />
-                    <FormCheckbox name={"CadUnico"} control={control} label={"Possui cadastro único?"} />
+                    <FormCheckbox name={"enrolledGovernmentProgram"} control={control} label={"inscrito em programa governamental?"} />
                 </div>
             </div>
         </div>

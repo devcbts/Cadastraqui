@@ -3,7 +3,7 @@ import stringToFloat from "utils/string-to-float";
 const { z } = require("zod");
 
 const pensionSchema = z.object({
-    hasjudicialPensionValue: z.boolean().nullish(),
+    hasjudicialPensionValue: z.boolean(),
     judicialPensionValue: z.string().nullish().transform(stringToFloat),
 }).superRefine((data, ctx) => {
     if (data.hasjudicialPensionValue && !data.judicialPensionValue) {

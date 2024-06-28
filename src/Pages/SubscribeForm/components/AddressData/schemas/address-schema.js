@@ -7,5 +7,6 @@ export const addressDataSchema = z.object({
     addressNumber: z.string().min(1, 'Número obrigatório').regex(/^\d+$/g, 'Apenas números'),
     UF: z.string().min(1, 'Estado obrigatório'),
     neighborhood: z.string().min(1, 'Bairro obrigatório'),
-    city: z.string().min(1, 'Cidade obrigatória')
+    city: z.string().min(1, 'Cidade obrigatória'),
+    complement: z.string().nullish(),
 })

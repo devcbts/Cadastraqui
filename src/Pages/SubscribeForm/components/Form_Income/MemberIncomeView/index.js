@@ -6,6 +6,7 @@ import ButtonBase from "Components/ButtonBase"
 import RowTextAction from "Components/RowTextAction"
 import FormBankAccount from "../../Form_BankAccount"
 import InputBase from "Components/InputBase"
+import { NotificationService } from "services/notification"
 
 export default function MemberIncomeView({ member, onSelect, onAdd }) {
     const { id, fullName } = member
@@ -32,6 +33,21 @@ export default function MemberIncomeView({ member, onSelect, onAdd }) {
     const handleShowBankAccount = () => {
         setShowBankAccount(true)
     }
+    const handleDeleteIncome = async (item) => {
+        try {
+            const deletedIncome = incomeInfo?.info.find(e => e.employmentType === item.income.value)
+            console.log(incomeInfo)
+            await candidateService.deleteIncome(deletedIncome.id, member.id)
+            NotificationService.success({ text: 'Renda excluída' })
+            setIncomeInfo((prev) => ({
+                info: prev.info.filter(e => e.id !== deletedIncome.id),
+                monthlyIncome: prev.monthlyIncome.filter(e => e.income.value !== deletedIncome.employmentType)
+            }))
+        } catch (err) {
+            console.log(err)
+            NotificationService.error({ text: 'Erro ao excluir renda' })
+        }
+    }
     return (
         <>
             {!showBankAccount ? (
@@ -43,7 +59,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd }) {
                             <FormListItem.Root text={item.income.label}>
                                 <FormListItem.Actions>
                                     <ButtonBase label={"visualizar"} onClick={() => onSelect({ member: member, income: item, info: incomeInfo?.info.find(e => e.employmentType === item.income.value) })} />
-                                    {/* <ButtonBase label={"excluir"} onClick={() => console.log(item)} danger /> */}
+                                    <ButtonBase label={"excluir"} onClick={() => handleDeleteIncome(item)} danger />
                                 </FormListItem.Actions>
                             </FormListItem.Root>
                         )

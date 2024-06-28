@@ -14,8 +14,8 @@ export default function UserType({ data, onBack, onSubmit }) {
         initialData: data
 
     })
-    const handleSubmit = () => {
-        onSubmit(getValues())
+    const handleSubmit = async () => {
+        await onSubmit(getValues())
     }
     return (
         <div className={styles.register}>

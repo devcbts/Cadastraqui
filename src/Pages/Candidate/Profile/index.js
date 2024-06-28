@@ -27,12 +27,14 @@ export default function ProfileCandidate() {
         const img = files[0]
         const formData = new FormData()
         formData.append('file', img)
+        let url = null;
         try {
-            await candidateService.uploadProfilePicture(formData)
+            url = await candidateService.uploadProfilePicture(formData)
             NotificationService.success({ text: 'Foto de perfil alterada' })
         } catch (err) {
             NotificationService.success({ text: 'Erro ao alterar foto de perfil' })
         }
+        return url
     }
     return (
         <>

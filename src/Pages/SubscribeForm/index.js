@@ -18,9 +18,10 @@ import FormHabitation from "./components/Form_Habitation";
 import FormHealth from "./components/Form_Health";
 import FormIncome from "./components/Form_Income";
 import FormVehicle from "./components/Form_Vehicle";
+import { useLocation } from 'react-router';
 export default function SubscribeForm() {
     const [activeStep, setActiveStep] = useState(1)
-
+    const { state } = useLocation()
     const handleChangeCategory = (index) => {
         setActiveStep(index)
     }
@@ -38,6 +39,9 @@ export default function SubscribeForm() {
     const setHeader = useSetRecoilState(headerAtom)
     useEffect(() => {
         setHeader({ sidebar: false })
+        if (state?.step) {
+            setActiveStep(state?.step)
+        }
         return () => {
             setHeader({ sidebar: true })
         }

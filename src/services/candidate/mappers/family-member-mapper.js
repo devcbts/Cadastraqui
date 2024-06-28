@@ -7,7 +7,6 @@ class FamilyMemberMapper {
     toPersistence(data) {
         return {
             ...data,
-            landlinePhone: data.phone
         }
     }
     fromPersistence(data) {
@@ -15,7 +14,7 @@ class FamilyMemberMapper {
             ...data,
             CPF: formatCPF(data.CPF),
             birthDate: data.birthDate.split('T')?.[0],
-            phone: formatTelephone(data.landlinePhone),
+            landlinePhone: formatTelephone(data.landlinePhone),
             ...removeObjectFileExtension(data.urls)
         }
     }

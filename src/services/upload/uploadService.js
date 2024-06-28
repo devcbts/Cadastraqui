@@ -13,6 +13,9 @@ class UploadService {
     uploadSolicitation({ type, applicationId }, data) {
         return api.post(`/assistant/documents/solicitation/${type}/${applicationId}`, data)
     }
+    uploadCandidateSolicitation(solicitationId, file) {
+        return api.post(`/candidates/upload/${solicitationId}`, file)
+    }
 }
 
 export default new UploadService()
