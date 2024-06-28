@@ -1,6 +1,6 @@
 import Card from "Components/Card";
 import { useEffect, useState } from "react";
-import { Bar, BarChart, CartesianGrid, Legend, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Legend, Pie, PieChart, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import entityService from "services/entity/entityService";
 
 const data = [
@@ -47,7 +47,7 @@ export default function EntityHome() {
                         <BarChart
                             width={500}
                             height={300}
-                            data={data?.unitVacancies}
+                            data={data?.unit}
                         >
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" />
@@ -55,6 +55,29 @@ export default function EntityHome() {
                             <Tooltip formatter={(value, name, props) => [value, "inscritos"]} />
                             <Bar dataKey="applicants" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="black" />} />
                         </BarChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+            <div>
+                <h3>Distribuição por curso</h3>
+                <div style={{ display: 'flex', justifyContent: 'center', width: "max(400px,100%)", height: "200px", alignItems: 'center' }}>
+                    <ResponsiveContainer width={"40%"}>
+                        <PieChart>
+
+                            <Pie
+                                width={500}
+                                height={300}
+                                data={data?.courses}
+                                dataKey={"applicants"}
+                                fill="#1F4B73"
+                                outerRadius={100}
+                                innerRadius={60}
+                                spacing={0}
+                            >
+
+                            </Pie>
+                            <Tooltip formatter={(value, name, props) => [value, props.payload.course]} />
+                        </PieChart>
                     </ResponsiveContainer>
                 </div>
             </div>
