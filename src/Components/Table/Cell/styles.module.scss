@@ -9,6 +9,9 @@
     font-weight: 500;
     width: auto;
     white-space: nowrap;
+    @media (max-width: 1080px) {
+        font-size: 10px;
+    }
     &.divider{
         border-right: 1px solid $lightgrey;
     }
@@ -20,6 +23,13 @@
         justify-content: center;
         button{
             font-size: 12px;
+            align-items: center;
+            justify-content: center;
+            @media (max-width: 1080px) {
+                width: 50px;
+                height: 30px;
+                font-size: 9px;
+            }
         }
             
     }

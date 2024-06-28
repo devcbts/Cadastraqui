@@ -7,10 +7,9 @@ import useControlForm from "hooks/useControlForm"
 import entityService from "services/entity/entityService"
 import { NotificationService } from "services/notification"
 import STATES from "utils/enums/states"
-import subsidiarySchema from "./schemas/subsidiary-schema"
-import { formatCNPJ } from "utils/format-cnpj"
 import { formatCEP } from "utils/format-cep"
-import { isValid } from "zod"
+import { formatCNPJ } from "utils/format-cnpj"
+import subsidiarySchema from "./schemas/subsidiary-schema"
 
 export default function Subsidiary() {
     const { control, formState: { isValid }, watch, getValues, setValue, reset, trigger } = useControlForm({
@@ -64,7 +63,7 @@ export default function Subsidiary() {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
             <h1>Informações Cadastrais</h1>
-            <div style={{ width: 'max(400px, 50%)' }}>
+            <div style={{ width: 'max(290px, 50%)' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px', }}>
                     <InputForm control={control} name={"CNPJ"} label={"CNPJ"} transform={(e) => formatCNPJ(e.target.value)} />
                     <InputForm control={control} name={"socialReason"} label={"razão social"} />

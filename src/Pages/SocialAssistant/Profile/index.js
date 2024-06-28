@@ -1,8 +1,7 @@
 import Profile from "Pages/Profile";
-import { NotificationService } from "services/notification";
-import FormView from "./components/FormView";
 import { useEffect, useState } from "react";
 import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import FormView from "./components/FormView";
 
 export default function SocialAssistantProfile() {
     const [data, setData] = useState(null)
@@ -10,7 +9,7 @@ export default function SocialAssistantProfile() {
         const fetchData = async () => {
             try {
                 const information = await socialAssistantService.getAssistant()
-                console.log(information)
+                //console.log(information)
                 setData(information)
             } catch (err) {
             }
