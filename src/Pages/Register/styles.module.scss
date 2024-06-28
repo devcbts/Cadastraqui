@@ -14,7 +14,7 @@
     align-items: center;
     justify-content: space-evenly;
     padding: 20px 20px;
-    width: 100%;    
+    width: 100%;
     .brand{
         display: flex;
         flex-direction: column;
@@ -39,6 +39,7 @@
     min-height: 65vh;
     justify-content: space-between;
     // max-width: 35%;
+    flex-grow: .2;
     @media (max-width:600px) {
         padding: 10px 20px;
         gap: 10px;
