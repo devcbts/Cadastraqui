@@ -63,7 +63,10 @@ export async function getOpenAnnouncements(
       const entityAndSubsidiaries = [announcement.entity, ...announcement.entity_subsidiary]
       const educationLevelsFiltered = entityAndSubsidiaries.map((entity) => {
         const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === entity.id)
+        if (entity.id = announcement.entity.id) {
+          matchedEducationLevels.push(...educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === null))
         
+        }
         return { ...entity, matchedEducationLevels }
       })
       return reply.status(200).send({ announcement: { ...announcement, logo }, educationLevels: educationLevelsFiltered })
