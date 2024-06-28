@@ -176,14 +176,15 @@ class CandidateService {
             },
         })
     }
-    registerEmploymentType(id, data) {
+    async registerEmploymentType(id, data) {
         const token = localStorage.getItem("token")
         const mappedData = employementTypeMapper.toPersistence(data)
-        return api.post(`/candidates/family-member/employmentType/${id}`, mappedData, {
+        const response = await api.post(`/candidates/family-member/employmentType/${id}`, mappedData, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
         })
+        return response.data.id
     }
     async getAllIncomes() {
         const token = localStorage.getItem("token")
@@ -315,6 +316,9 @@ class CandidateService {
     async getCandidateSolicitationByApplication(applicationId) {
         const response = await api.get(`/candidates/solicitation/${applicationId}`)
         return response.data.solicitations
+    }
+    async deleteIncome(incomeId, memberId) {
+        return api.delete(`/candidates/income/${incomeId}/${memberId}`)
     }
 }
 

@@ -20,6 +20,9 @@ import IncomeFormModelC from "./ModelC";
 import InformationModelD from "./ModelD/components/InformationModelC";
 import IncomeFormModelD from "./ModelD";
 import monthAtom from "Components/MonthSelection/atoms/month-atom";
+import IncomeFile from "./IncomeFile";
+import uploadService from "services/upload/uploadService";
+import createFileForm from "utils/create-file-form";
 export default function FormIncome() {
     // Keep track of incomes created/updated by user
     const hasIncomeSelected = useRecoilValue(monthAtom)
@@ -42,8 +45,10 @@ export default function FormIncome() {
         try {
             // first update income source list from user
             await candidateService.updateIncomeSource({ id: member.id, incomeSource: [incomeSource] })
-            await candidateService.registerEmploymentType(member.id, data)
+            const id = await candidateService.registerEmploymentType(member.id, data)
             await candidateService.registerMonthlyIncome(member.id, data)
+            const formData = createFileForm(data)
+            await uploadService.uploadBySectionAndId({ section: 'income', id }, formData)
             // then execute the rest of operation
             NotificationService.success({ text: 'Informações cadastradas' })
         } catch (err) {
@@ -72,12 +77,14 @@ export default function FormIncome() {
             setRenderItems([IncomeSelection, InformationModelA, IncomeFormModelA])
         } else if (['IndividualEntrepreneur'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelA])
-        } else if (['PrivateEmployee', 'PublicEmployee', 'DomesticEmployee', 'Retired', 'Pensioner', 'Apprentice', 'TemporaryDisabilityBenefit', 'Volunteer', 'Student'].includes(currentIncomeSource)) {
+        } else if (['PrivateEmployee', 'PublicEmployee', 'DomesticEmployee', 'Retired', 'Pensioner', 'Apprentice', 'TemporaryDisabilityBenefit'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelB])
         } else if (['BusinessOwnerSimplifiedTax', 'BusinessOwner'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelC])
         } else if (['Alimony', 'FinancialHelpFromOthers'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelD, IncomeFormModelD])
+        } else if (['Volunteer', 'Student'].includes(currentIncomeSource)) {
+            setRenderItems([IncomeSelection, IncomeFile])
         } else {
             setRenderItems([IncomeSelection])
         }
