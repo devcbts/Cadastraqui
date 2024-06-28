@@ -1,5 +1,13 @@
 .container{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0px 100px ;
+    gap: 0px 100px;
+    @media(max-width: 770px){
+        gap: 0px 10px;
+    }
+    @media(max-width: 600px){
+        display: flex;
+        flex-direction: column;
+    }
+    
 }

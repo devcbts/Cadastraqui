@@ -82,6 +82,7 @@
     ]
   },
   "devDependencies": {
+    "@iconify/react": "^5.0.1",
     "sass": "^1.76.0"
   }
 }

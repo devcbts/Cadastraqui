@@ -1,23 +1,22 @@
-import { createRef, useEffect, useMemo, useRef, useState } from "react";
-import FormStepper from "Components/FormStepper";
-import PersonalData from "../PersonalData";
-import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import AddressData from "../AddressData";
-import AdditionalInfo from "../AdditionalInfo";
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
-import MaritalStatus from "../MaritalStatus";
-import PersonalInformation from "../PersonalInformation";
-import Document from "../Document";
-import Benefits from "../Benefits";
-import candidateService from "services/candidate/candidateService";
-import AdditionalDocuments from "../AdditionalDocuments";
 import Loader from "Components/Loader";
-import { NotificationService } from "services/notification";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
+import useAuth from "hooks/useAuth";
+import { useEffect, useState } from "react";
+import candidateService from "services/candidate/candidateService";
+import { NotificationService } from "services/notification";
 import uploadService from "services/upload/uploadService";
 import createFileForm from "utils/create-file-form";
-import useAuth from "hooks/useAuth";
+import AdditionalDocuments from "../AdditionalDocuments";
+import AdditionalInfo from "../AdditionalInfo";
+import AddressData from "../AddressData";
+import Benefits from "../Benefits";
+import Document from "../Document";
+import MaritalStatus from "../MaritalStatus";
+import PersonalData from "../PersonalData";
+import PersonalInformation from "../PersonalInformation";
 export default function FormBasicInformation() {
     const { auth } = useAuth()
     const uploadDocuments = async (userId, data) => {
@@ -91,7 +90,7 @@ export default function FormBasicInformation() {
             setIsLoading(false)
         }
         fetchData()
-    }, [])
+    }, [setData])
 
     return (
         <div className={commonStyles.container}>
@@ -120,8 +119,6 @@ export default function FormBasicInformation() {
                 }
 
             </div>
-
-
         </div >
     )
 }

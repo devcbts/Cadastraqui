@@ -12,7 +12,7 @@ const IncomeFormModelD = forwardRef(({ data, viewMode }, ref) => {
     return (
         <IncomeMonthSelection
             ref={ref}
-            data={{ ...data, quantity: 3 }}
+            data={{ ...data, quantity: data.quantity }}
             render={[
                 GrossValue,
                 TotalValue

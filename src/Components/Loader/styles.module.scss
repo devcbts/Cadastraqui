@@ -10,6 +10,10 @@
     justify-content: center;
     background-color: white;
     color: $primary;
+    @media(max-width:800px){
+        height: auto;
+        width: 80%;
+    }
     .loader{
       animation: spin 1.5s linear infinite;
       width: 50%;

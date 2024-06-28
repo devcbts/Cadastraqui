@@ -5,7 +5,13 @@
     flex-direction: row;
     align-items: center;
     padding: 8px;
-    margin-right: 50px;
+    margin-right: 30px;
+    @media(max-width: 870px){
+        margin-right: 10px;
+    }
+    @media(max-width: 600px){
+        margin-right: 0px;
+    }
     &.clickable{
         cursor: pointer;
         &:hover{
@@ -17,6 +23,7 @@
         flex-direction: column;
         align-items: center;
         user-select: none;
+
         .container{
             position: relative;
             height: 50px;
@@ -29,6 +36,14 @@
             font-size: 20px;
             font-weight: 800;
             color: white;
+            @media(max-width: 870px){
+                height: 35px;
+                width: 35px;
+            }
+            @media(max-width: 600px){
+                height: 29px;
+                width: 29px;       
+            }
             &.active{
                 background-color: $primary ;
                 svg{
@@ -44,7 +59,7 @@
             &:has(svg){
                 background-color: transparent !important;
                 svg{
-                    background-color: white;
+                    background-color: transparent;
                     color: $lightgrey;
                 }
             }
@@ -55,6 +70,13 @@
                 left: 100%;
                 width: 60px;
                 border: 4px solid $primary;
+                @media(max-width: 870px){
+                    width: 40px;
+                }
+                @media(max-width: 600px){
+                    width: 10px;
+                    border: 2px solid $primary;
+                }
             }
             
         }
@@ -64,6 +86,9 @@
             font-weight: 600;
             color: $lightgrey;
             margin-top: 8px;
+            @media(max-width: 600px){
+                display: none;
+            }
             &.active{
                 color: $primary;
             }

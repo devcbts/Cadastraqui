@@ -5,15 +5,20 @@
     align-items: center;
     justify-content: space-between;
     margin: 0px auto;
-    // height: 80vh;
-    width: 80%;
-     padding: 32px 0px;
-   
+    width: 90%;
+    padding: 32px 0px;
+    @media(max-width: 600px){
+        padding: 20px 5px;
+        width: 95%;
+    }   
     .formcontainer{
         margin: auto;
         width: 80%;
         display: flex;
         flex-direction: column;
+        @media(max-width: 450px){
+            margin: 1px 1px;
+        }
      }
     h1{
         display: flex;
@@ -24,6 +29,9 @@
         color: $primary;
         font-size: 28px;
         margin-bottom: 16px;
+        @media(max-width: 600px){
+            font-size: 20px;
+        }
         +p{
             margin-bottom: 16px;
             margin-top: -16px;

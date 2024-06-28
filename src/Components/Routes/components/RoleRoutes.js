@@ -1,10 +1,14 @@
 import useAuth from "hooks/useAuth"
-import { useMemo } from "react"
+import { memo, useMemo } from "react"
 
-export default function RoleRoutes({ role, children }) {
+const RoleRoutes = ({ role, children }) => {
     const { auth } = useAuth()
+    console.log('aiuth', auth)
     // verify if current role (auth) is the same as the role based route requested
     const sameRole = useMemo(() => {
+        if (auth === undefined) {
+            return false
+        }
         // console.log(role, auth, role === auth?.role, '')
         // in case it's a string or 'null'
         if (typeof role === "string" || role === null) {
@@ -18,3 +22,5 @@ export default function RoleRoutes({ role, children }) {
         children
     )
 }
+
+export default memo(RoleRoutes)

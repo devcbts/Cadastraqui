@@ -2,12 +2,12 @@ import removeObjectFileExtension from "utils/remove-file-ext"
 
 class ResumeMapper {
     fromPersistence(data) {
-        const { interviewDocument, visitDocument } = data
-        console.log('DATA', Object.keys(visitDocument))
+        const { interviewDocument, visitDocument, majoracao } = data
         const getDate = (v) => new Date(v?.split('_')[1]?.split('.')?.[0])
         const mapped = () => {
             let interview = null;
             let visit = null;
+            let maj = null
             if (Object.keys(interviewDocument).length) {
                 const a = removeObjectFileExtension(interviewDocument)
                 const aDate = getDate(Object.keys(a)?.[0])
@@ -25,11 +25,20 @@ class ResumeMapper {
                     file: Object.values(b)[0]
                 }
             }
+            if (Object.keys(majoracao).length) {
+                maj = removeObjectFileExtension(majoracao)["url_majoracao"]
+            }
+            const solicitations = data?.solicitations?.map((e) => {
+                return ({
+                    ...e,
+                    url: Object.values(removeObjectFileExtension(e.urls))?.[0]
+                })
+            })
+            console.log(solicitations)
             return {
-                interview, visit
+                interview, visit, majoracao: maj, solicitations
             }
         }
-        console.log(mapped())
         return {
             ...data,
             ...mapped()

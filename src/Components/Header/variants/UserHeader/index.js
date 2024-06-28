@@ -3,8 +3,7 @@ import Logo from '../../../../Assets/images/logo_primary.png'
 import { ReactComponent as User } from '../../../../Assets/icons/user.svg'
 import useLocalStorage from 'hooks/useLocalStorage'
 export default function UserHeader() {
-    const { get } = useLocalStorage()
-    const profilePicture = get('profilepic')
+    const { get: profilePicture } = useLocalStorage("profilepic")
     return (
         <header className={styles.container}>
             <img alt="Cadastraqui" src={Logo} draggable={false} />

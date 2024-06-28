@@ -5,8 +5,7 @@ import FormPassword from "./components/FormPassword"
 import LGPD from "Components/LGPD"
 import ProfilePhoto from "./components/ProfilePhoto"
 export default function Profile({ onPictureChange, dataForm }) {
-    const { get } = useLocalStorage()
-    const profilePic = get('profilepic')
+    const { get: profilePic } = useLocalStorage("profilepic")
     const [editMode, setEditMode] = useState(false)
     const handleEdit = () => {
         setEditMode(!editMode)

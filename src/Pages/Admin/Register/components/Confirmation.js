@@ -1,7 +1,8 @@
-import BackPageTitle from "Components/BackPageTitle"
-import ButtonBase from "Components/ButtonBase"
-import FilePreview from "Components/FilePreview"
-import InputBase from "Components/InputBase"
+import BackPageTitle from "Components/BackPageTitle";
+import ButtonBase from "Components/ButtonBase";
+import FilePreview from "Components/FilePreview";
+import InputBase from "Components/InputBase";
+import styles from './styles.module.scss';
 
 export default function Confirmation({ data, onPageChange, onSubmit }) {
     const handlePageChange = () => {
@@ -11,9 +12,9 @@ export default function Confirmation({ data, onPageChange, onSubmit }) {
         onSubmit(data)
     }
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
+        <div className={styles.container}>
             <BackPageTitle title={'Confirmação'} onClick={handlePageChange} />
-            <fieldset style={{ all: "unset", width: 'max(400px, 50%)' }} disabled  >
+            <fieldset style={{ all: "unset" }} className={styles.informacoes} disabled  >
 
                 <InputBase value={data?.CNPJ} name="CNPJ" label={"CNPJ"} error={null} />
                 <InputBase value={data?.name} name="name" label={"nome da instituição"} error={null} />
@@ -22,7 +23,7 @@ export default function Confirmation({ data, onPageChange, onSubmit }) {
                 <InputBase value={data?.educationalInstitutionCode} name="educationalInstitutionCode" label={"código institucional"} error={null} />
 
                 <FilePreview file={data?.file} />
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>
+                <div className={styles.endereco}>
                     <InputBase value={data?.CEP} name="CEP" label={"CEP"} error={null} />
                     <InputBase value={data?.city} name="city" label={"cidade"} error={null} />
                     <InputBase value={data?.UF} name="UF" label={"UF"} error={null} />
@@ -31,7 +32,7 @@ export default function Confirmation({ data, onPageChange, onSubmit }) {
                 <InputBase value={data?.address} name="address" label={"rua"} error={null} />
                 <InputBase value={data?.addressNumber} name="addressNumber" label={"número"} error={null} />
             </fieldset>
-            <ButtonBase label={'concluir'} onClick={handleSubmit} />
+            <ButtonBase style={{ marginBottom: '30px' }} label={'concluir'} onClick={handleSubmit} />
         </div>
     )
 }

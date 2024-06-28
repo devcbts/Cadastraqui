@@ -11,9 +11,7 @@ export default function EntityFormSummary({ data, onSubmit, onCancel }) {
         { field: "Código Institucional", value: data.educationalInstitutionCode },
 
     ]
-
-
-    console.log(data)
+    //console.log(data)
     return (
         <FormSummary form={formattedData} onCancel={onCancel} onConfirm={onSubmit} />
     )

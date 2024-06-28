@@ -2,15 +2,30 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    flex-wrap: wrap;
+    @media(max-width:600px){
+        flex-direction: row;
+        height: 100vh;
+    }
+
     .title{
         text-align: start;
         margin-bottom: 24px;
+        @media(max-width:600px){
+            padding: 5px;
+            margin-bottom: 15px;
+        }
     }
     .informative{
         display: flex;
         flex-direction: column;
         gap: 48px;
         flex-grow: 1;
+        width: inherit;
+        @media(max-width:870px){
+            gap: 5px;
+            flex-wrap: wrap;
+        }
     }
 }
 
@@ -18,6 +33,15 @@
     display: flex;
     flex-direction: column;
     gap: 64px;
+    @media(max-width:870px){
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+    @media(max-width:600px){
+        margin-bottom: 10px;
+    }
+    
 }
 
 .row{
@@ -26,4 +50,15 @@
     align-items: center;
     justify-content: center;
     gap: 48px;
+    @media(max-width:870px){
+        gap: 10px;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+    @media(max-width:500px){
+        width: 100%;
+        gap: 10px;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
 }

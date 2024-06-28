@@ -12,7 +12,7 @@ export default function SidebarItem({ icon: Icon, text, path, onClick }) {
     }
     return (
         <button className={[styles.container, isActive].join(' ')} onClick={handleClick}>
-            <Icon width={30} height={30} />
+            <Icon />
             <span className={styles.text}>{text}</span>
         </button>
     )

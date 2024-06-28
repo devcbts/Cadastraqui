@@ -2,15 +2,38 @@
 .container {
     border-collapse: collapse;
     border: none !important;
+    width: 99%;
    .header{
     background: none;
     border: none;
     box-shadow: none;
     text-shadow: none;
     color: $primary;
-    font-size: 14px;
+    font-size: 12px;
     text-transform: capitalize;
     text-align: center;
     font-weight: 700;
+    @media(max-width: 800px) {
+        font-size: 10px;
+      }
    }
+   
+}
+/* Estilo das células */
+td, th {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Habilita rolagem horizontal em telas pequenas */
+@media (max-width: 1080px) {
+    table {
+        overflow-x: auto;
+        display: block;
+    }
+    th, td {
+        white-space: nowrap; /* Evita que o texto quebre em várias linhas */
+        min-width: 100px; /* Define uma largura mínima para as células */
+    }
 }

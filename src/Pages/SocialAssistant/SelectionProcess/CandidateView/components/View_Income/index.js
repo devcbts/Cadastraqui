@@ -38,7 +38,7 @@ export default function ViewIncome({ candidateId, applicationId }) {
             setRenderItems([IncomeSelection, InformationModelA, IncomeFormModelA])
         } else if (['IndividualEntrepreneur'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelA])
-        } else if (['PrivateEmployee', 'PublicEmployee', 'DomesticEmployee', 'Retired', 'Pensioner', 'Apprentice', 'TemporaryDisabilityBenefit'].includes(currentIncomeSource)) {
+        } else if (['PrivateEmployee', 'PublicEmployee', 'DomesticEmployee', 'Retired', 'Pensioner', 'Apprentice', 'TemporaryDisabilityBenefit', 'Volunteer', 'Student'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelB])
         } else if (['BusinessOwnerSimplifiedTax', 'BusinessOwner'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelC])

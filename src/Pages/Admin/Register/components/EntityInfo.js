@@ -1,11 +1,12 @@
-import useControlForm from "hooks/useControlForm"
-import entityInfoSchema from "./schemas/entity-info-schema"
 import ButtonBase from "Components/ButtonBase"
-import InputForm from "Components/InputForm"
-import FormFilePicker from "Components/FormFilePicker"
 import FilePreview from "Components/FilePreview"
-import { formatCNPJ } from "utils/format-cnpj"
+import FormFilePicker from "Components/FormFilePicker"
+import InputForm from "Components/InputForm"
 import useCnpj from "hooks/useCnpj"
+import useControlForm from "hooks/useControlForm"
+import { formatCNPJ } from "utils/format-cnpj"
+import entityInfoSchema from "./schemas/entity-info-schema"
+import styles from './styles.module.scss'
 
 export default function EntityInfo({ data, onPageChange }) {
     const { control, formState: { isValid }, trigger, getValues, watch, setValue } = useControlForm({
@@ -36,9 +37,9 @@ export default function EntityInfo({ data, onPageChange }) {
         setValue("CEP", cnpj?.CEP)
     }, watch("CNPJ"))
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
+        <div className={styles.container}>
             <h1>Informações Cadastrais</h1>
-            <div style={{ width: 'max(400px, 50%)' }}>
+            <div className={styles.informacoes}>
                 <InputForm control={control} name="CNPJ" label={"CNPJ"} transform={(e) => formatCNPJ(e.target.value)} />
                 <InputForm control={control} name="name" label={"nome da instituição"} />
                 <InputForm control={control} name="email" label={"email institucional"} />

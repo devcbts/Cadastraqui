@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { api } from "../../services/axios";
-import imovelCedidoPDF from "../../Assets/imovel-cedido.pdf"; // Importando o arquivo PDF
+import { useEffect, useState } from "react";
 import auxilioTerceirosPDF from "../../Assets/auxilio-terceiros.pdf"; // Importando o arquivo PDF
 import declaracaoCandidatoResponsavelPDF from "../../Assets/candidato-responsavel-declaracao.pdf"; // Importando o arquivo PDF
 import declaracaoGrupoFamiliarPDF from "../../Assets/declaracao-grupo-familiar.pdf"; // Importando o arquivo PDF
+import imovelCedidoPDF from "../../Assets/imovel-cedido.pdf"; // Importando o arquivo PDF
 import { handleAuthError } from "../../ErrorHandling/handleError";
 import { handleSuccess } from "../../ErrorHandling/handleSuceess";
+import { api } from "../../services/axios";
 
 const DECLARATION_CATEGORIES = {
   responsavelLegal:
@@ -53,7 +53,7 @@ export default function EnviarDeclaracoes({ id }) {
         },
       });
       // Trate a resposta conforme necessário
-      handleSuccess(response,"Declaração Enviada!");
+      handleSuccess(response, "Declaração Enviada!");
     } catch (error) {
       // Trate o erro conforme necessário
       handleAuthError(error)
@@ -125,7 +125,7 @@ export default function EnviarDeclaracoes({ id }) {
               <div
                 key={categoryKey}
                 className="survey-box"
-                
+
               >
                 <h2>{categoryLabel}</h2>
 

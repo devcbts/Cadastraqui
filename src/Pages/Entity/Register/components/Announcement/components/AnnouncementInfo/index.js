@@ -1,13 +1,13 @@
 import ButtonBase from "Components/ButtonBase";
+import FormCheckbox from "Components/FormCheckbox";
 import FormSelect from "Components/FormSelect";
 import InputForm from "Components/InputForm";
 import useControlForm from "hooks/useControlForm";
-import announcementInfoSchema from "./schemas/announcement-info-schema";
+import { useRef } from "react";
 import ANNOUNCEMENT_TYPE from "utils/enums/announcement-types";
 import EDUCATION_TYPE from "utils/enums/education-type";
-import FormCheckbox from "Components/FormCheckbox";
 import Interview from "./Interview";
-import { useEffect, useRef } from "react";
+import announcementInfoSchema from "./schemas/announcement-info-schema";
 // announcementDate - final announcement date
 // announcementBegin - announcement start date
 // openDate - subscription start
@@ -48,7 +48,7 @@ export default function AnnouncementInfo({ data, onPageChange }) {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
             <h1>Informações Cadastrais</h1>
-            <div style={{ width: 'max(400px, 50%)' }}>
+            <div style={{ width: 'max(290px, 50%)' }}>
                 <FormSelect control={control} name={"announcementType"} label={'tipo do edital'} options={ANNOUNCEMENT_TYPE} value={watch("announcementType")} />
                 <FormSelect control={control} name={"educationLevel"} label={'nível de ensino'} options={EDUCATION_TYPE} value={watch("educationLevel")} />
                 <InputForm control={control} name={"announcementName"} label={'nome do edital'} />

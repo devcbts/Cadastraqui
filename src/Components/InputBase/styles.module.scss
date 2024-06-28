@@ -12,6 +12,9 @@
 .inputwrapper {
     display: flex;
     flex-direction: column;
+    @media(max-width:400px){
+        min-width: 250px;
+    }
     .label{
         font-weight: 600;
         font-size: 16px;
@@ -19,6 +22,9 @@
         margin-bottom: 4px;
         text-transform: capitalize;
         // mix-blend-mode: screen;
+        @media(max-width:400px){
+            font-size: 14px;
+        }
     }
     .inputbox{
         position: relative;
@@ -31,6 +37,9 @@
             color: $grey;
             font-size: 16px;
             width: 100%;
+            @media(max-width:400px){
+                font-size: 12px;
+            }
             &.error{
              border-color: $error !important;
             }

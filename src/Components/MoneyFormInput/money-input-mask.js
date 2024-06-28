@@ -1,7 +1,7 @@
 const moneyInputMask = (value = '') => {
     let valueToParse = value?.toString();
     if (!value) {
-        valueToParse = 0
+        valueToParse = '0';
     }
 
     if (!valueToParse?.toString().includes('.') && !valueToParse?.toString().includes(',')) {

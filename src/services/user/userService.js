@@ -20,7 +20,12 @@ class UserService {
     async forgotPassword(email) {
         return api.post('/forgot_password', { email })
     }
+    async uploadProfilePicture(data) {
+        const response = await api.post('/profilePicture', data)
+        return response.data.url
+    }
 
 }
 
-export default new UserService()
+const userServiceInstance = new UserService();
+export default userServiceInstance;

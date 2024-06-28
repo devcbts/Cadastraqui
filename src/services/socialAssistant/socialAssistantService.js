@@ -11,6 +11,7 @@ import bankAccountMapper from "services/candidate/mappers/bank-account-mapper"
 import healthInfoMapper from "services/candidate/mappers/health-info-mapper"
 import removeObjectFileExtension from "utils/remove-file-ext"
 import resumeMapper from "./mappers/resume-mapper"
+import legalOpinionMapper from "./mappers/legal-opinion-mapper"
 
 class SocialAssistantService {
 
@@ -58,7 +59,7 @@ class SocialAssistantService {
     }
     async getLegalOpinion(applicationId) {
         const response = await api.get(`/assistant/candidateInfo/parecer/${applicationId}`);
-        return response.data
+        return legalOpinionMapper.fromPersistence(response.data)
     }
     async getVehicleInfo(applicationId) {
         const response = await api.get(`/assistant/candidateInfo/vehicle/${applicationId}`);
@@ -107,6 +108,10 @@ class SocialAssistantService {
         const [month, year] = date.split('_')[1].split('-')
         const registrato_date = new Date(`${month}-01-${year}`)
         return { url, date: registrato_date }
+    }
+    async registerSolicitations(applicationId, solicitations) {
+        return api.post(`/assistant/solicitation/${applicationId}`, solicitations)
+
     }
 }
 
