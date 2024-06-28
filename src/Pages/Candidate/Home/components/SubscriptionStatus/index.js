@@ -10,9 +10,11 @@ import { useEffect, useState } from 'react';
 import { Pie, PieChart } from 'recharts';
 import candidateService from 'services/candidate/candidateService';
 import styles from './styles.module.scss';
+import { useNavigate } from 'react-router';
 
 export default function SubscriptionStatus() {
     const [data, setData] = useState([])
+    const navigate = useNavigate()
     const max = 8
     const percentage = data?.filter((e) => e.value === 1).length / max
     useEffect(() => {
@@ -20,20 +22,20 @@ export default function SubscriptionStatus() {
             try {
                 const progress = await candidateService.getProgress()
                 console.log(progress)
-                setData(Object.entries(progress).map(([key, val]) => ({ [key]: val, value: val ? 1 : 0 })))
+                setData(Object.entries(progress).map(([key, val]) => ({ name: key, value: val ? 1 : 0 })))
             } catch (err) { }
         }
         fetchProgress()
     }, [])
     const icons = [
-        User,
-        House,
-        Family,
-        Car,
-        Currency,
-        Money,
-        Doctor,
-        List,
+        { name: 'cadastrante', icon: User },
+        { name: 'grupoFamiliar', icon: Family },
+        { name: 'moradia', icon: House },
+        { name: 'veiculos', icon: Car },
+        { name: 'rendaMensal', icon: Currency },
+        { name: 'despesas', icon: Money },
+        { name: 'saude', icon: Doctor },
+        { name: 'declaracoes', icon: List },
     ]
     return (
         <div className={styles.container}>
@@ -64,10 +66,18 @@ export default function SubscriptionStatus() {
                 </div>
             </div>
             <div className={styles.sections}>
-                {icons.map((icon, index) => {
+                {icons.map(({ icon, name }, index) => {
                     const Component = icon
+                    const step = index + 1
                     return (
-                        <Component key={index} height={50} width={50} color='#1F4B73' />
+                        <Component
+                            key={index}
+                            style={{ cursor: 'pointer', color: !!data?.find(e => e.name === name)?.value && '#499468' }}
+                            onClick={() => navigate('/formulario-inscricao', { state: { step } })}
+                            height={50}
+                            width={50}
+                            color='#1F4B73'
+                        />
                     )
                 })}
 

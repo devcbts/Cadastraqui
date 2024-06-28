@@ -29,7 +29,6 @@ export default function FormRadio({ name, control, label, value, color }) {
                             {...field}
                             onChange={(e) => {
                                 field.onChange(e.target.value)
-                                console.log(e.target.value)
                             }}
                             value={value}
                             type="radio"

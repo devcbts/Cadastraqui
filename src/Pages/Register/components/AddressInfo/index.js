@@ -17,6 +17,7 @@ export default function AddressInfo({ data, onBack, onSubmit }) {
             UF: '',
             CEP: '',
             neighborhood: '',
+            complement: '',
         },
         initialData: data
     })
@@ -49,6 +50,8 @@ export default function AddressInfo({ data, onBack, onSubmit }) {
                 <InputForm control={control} name="neighborhood" label="bairro" />
                 <InputForm control={control} name="addressNumber" label="número" />
                 <InputForm control={control} name="address" label="rua" />
+                <InputForm control={control} name="complement" label="complemento" />
+
             </div>
             <div className={styles.actions}>
                 <ButtonBase label={'voltar'} onClick={() => onBack(getValues())} />

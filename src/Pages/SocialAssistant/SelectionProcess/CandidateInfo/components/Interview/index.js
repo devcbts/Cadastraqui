@@ -13,6 +13,7 @@ export default function Interview({ data, onSubmit }) {
         onSubmit(values)
     }
     useEffect(() => {
+        console.log(data)
         setReport(data)
     }, [data])
     return (

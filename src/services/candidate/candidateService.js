@@ -24,13 +24,14 @@ class CandidateService {
         return response.data.candidate
     }
 
-    uploadProfilePicture(img) {
+    async uploadProfilePicture(img) {
         const token = localStorage.getItem("token")
-        return api.post("/candidates/profilePicture", img, {
+        const response = await api.post("/candidates/profilePicture", img, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
         })
+        return response.data.url
     }
     async registerIdentityInfo(data) {
         const token = localStorage.getItem("token")
@@ -175,14 +176,15 @@ class CandidateService {
             },
         })
     }
-    registerEmploymentType(id, data) {
+    async registerEmploymentType(id, data) {
         const token = localStorage.getItem("token")
         const mappedData = employementTypeMapper.toPersistence(data)
-        return api.post(`/candidates/family-member/employmentType/${id}`, mappedData, {
+        const response = await api.post(`/candidates/family-member/employmentType/${id}`, mappedData, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
         })
+        return response.data.id
     }
     async getAllIncomes() {
         const token = localStorage.getItem("token")
@@ -306,6 +308,17 @@ class CandidateService {
     async getDashboard() {
         const response = await api.get(`/candidates/dashboard`)
         return response.data
+    }
+    async getCandidateSolicitations() {
+        const response = await api.get(`/candidates/solicitation/`)
+        return response.data.solicitations
+    }
+    async getCandidateSolicitationByApplication(applicationId) {
+        const response = await api.get(`/candidates/solicitation/${applicationId}`)
+        return response.data.solicitations
+    }
+    async deleteIncome(incomeId, memberId) {
+        return api.delete(`/candidates/income/${incomeId}/${memberId}`)
     }
 }
 

@@ -8,17 +8,18 @@ export default function EntityProfile() {
     const [data, setData] = useState(null)
     const handlePictureChange = async (e) => {
         const file = e.target.files[0];
-
+        let url = null
         if (file) {
 
             try {
                 const formData = new FormData();
                 formData.append("file", file);
-                await entityService.updateProfilePicture(formData)
+                url = await entityService.updateProfilePicture(formData)
                 NotificationService.success({ text: 'Foto de perfil alterada' })
             } catch (err) {
                 NotificationService.error({ text: 'Erro ao alterar foto de perfil' })
             }
+            return url
         }
     }
     useEffect(() => {

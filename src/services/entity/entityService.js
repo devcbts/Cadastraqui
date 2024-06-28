@@ -60,7 +60,8 @@ class EntityService {
 
     }
     async updateProfilePicture(data) {
-        return api.post("/entities/profilePicture", data)
+        const response = await api.post("/entities/profilePicture", data)
+        return response.data.url
     }
     async getDirectors() {
         const response = await api.get(`/entities/director/`)
@@ -81,7 +82,10 @@ class EntityService {
     async updateDirector(id, data) {
         return api.patch(`/entities/director/${id}`, data)
     }
-
+    async getDashboard() {
+        const response = await api.get('/entities/dashboard')
+        return response.data
+    }
 }
 
 export default new EntityService()

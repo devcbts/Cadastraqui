@@ -1,6 +1,6 @@
 import Table from "Components/Table";
 import styles from '../../styles.module.scss'
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 export default function Scholarship({ data, onChange }) {
     const handleChange = (v) => {
         setChecked(v.target.value)
@@ -8,8 +8,11 @@ export default function Scholarship({ data, onChange }) {
             v.target.value === "true"
         )
     }
-    const [checked, setChecked] = useState(data?.partial?.toString())
-    console.log(data)
+    const [checked, setChecked] = useState()
+    useEffect(() => {
+        console.log(data)
+        setChecked(data?.partial?.toString())
+    }, [data])
     return (
         <div className={styles.table}>
             <h3>Renda bruta aferida compatível com:</h3>

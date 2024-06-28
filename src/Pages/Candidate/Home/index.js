@@ -50,7 +50,7 @@ export default function HomeCandidate() {
                             </Card.Content>
                         </Card.Root>
                         <Card.Root >
-                            <Card.Title text={'renda méida familiar mensal'} />
+                            <Card.Title text={'renda média familiar mensal'} />
                             <Card.Content>
                                 <h3>{formatMoney(data.familyIncome)}</h3>
                             </Card.Content>

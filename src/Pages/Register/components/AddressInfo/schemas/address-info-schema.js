@@ -7,6 +7,7 @@ const addressInfoSchema = z.object({
     UF: z.string().min(1, 'Estado obrigatório'),
     CEP: z.string().min(1, 'CEP obrigatório'),
     neighborhood: z.string().min(1, 'Bairro obrigatório'),
+    complement: z.string().nullish(),
 })
 
 export default addressInfoSchema

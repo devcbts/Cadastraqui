@@ -1,4 +1,5 @@
 import { formatCNPJ } from "utils/format-cnpj"
+import removeObjectFileExtension from "utils/remove-file-ext"
 
 class EmployementTypeMapper {
     toPersistence(data) {
@@ -17,6 +18,7 @@ class EmployementTypeMapper {
                 parcelValue: i.parcelValue ? Number(i.parcelValue).toLocaleString('pt-br', { style: "currency", currency: "brl" }) : null,
                 firstParcelDate: i.firstParcelDate?.split('T')[0],
                 admissionDate: i.admissionDate?.split('T')[0],
+                url_document: Object.values(removeObjectFileExtension(i?.urls))?.[0],
             }))
         }))
         const mappedIncome = new Number(averageIncome).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
