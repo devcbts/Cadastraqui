@@ -1,7 +1,7 @@
 import { ReactComponent as IconLogo } from 'Assets/icons/logo.svg'
 import Logo from 'Assets/images/logo_white.png'
 import { useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate, useParams } from 'react-router'
 import candidateService from 'services/candidate/candidateService'
 import { NotificationService } from 'services/notification'
 import AddressInfo from './components/AddressInfo'
@@ -13,6 +13,7 @@ import ButtonBase from 'Components/ButtonBase'
 import Loader from 'Components/Loader'
 export default function Register() {
     const [current, setCurrent] = useState(0)
+    const { state } = useLocation()
     const [data, setData] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
@@ -25,7 +26,11 @@ export default function Register() {
                 await candidateService.registerResponsible(data)
             }
             NotificationService.success({ text: 'Cadastro realizado com sucesso' }).then(() => {
-                navigate('/')
+                // if (state.announcementId) {
+                //     navigate(`/edital/${state.announcementId}`, { state: {} })
+                //     return
+                // }
+                navigate('/', { state })
             })
         } catch (err) {
             NotificationService.error({ text: err?.response?.data?.message })

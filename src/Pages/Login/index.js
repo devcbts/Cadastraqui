@@ -6,7 +6,7 @@ import Loader from 'Components/Loader'
 import useAuth from 'hooks/useAuth'
 import useControlForm from 'hooks/useControlForm'
 import { useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import { NotificationService } from 'services/notification'
 import userService from 'services/user/userService'
@@ -14,6 +14,7 @@ import loginSchema from './schemas/login-schema'
 import styles from './styles.module.scss'
 export default function Login() {
     const { login } = useAuth()
+    const { state } = useLocation()
     const navigate = useNavigate()
     const [loading, setLoading] = useState(null)
     const { control, getValues, formState: { isValid }, trigger } = useControlForm({
@@ -32,6 +33,11 @@ export default function Login() {
         const { email, password } = getValues()
         const pass = await login({ email, password })
         if (pass) {
+            if (state?.announcementId) {
+                console.log(state)
+                navigate(`/edital/${state.announcementId}`, { state: {} })
+                return
+            }
             navigate('/home')
         }
         setLoading(null)
@@ -54,6 +60,7 @@ export default function Login() {
     }
     return (
         <div>
+            {JSON.stringify(state)}
             <Loader loading={!!loading} text={loading} />
             <header style={{ height: '80px', backgroundColor: '#1F4B73', display: 'flex', flexDirection: 'row', justifyContent: 'start', padding: '0 40px', alignItems: 'center' }}>
                 <img className={styles.logo} src={Logo} alt='Logo' />
@@ -76,7 +83,7 @@ export default function Login() {
                         <a href='#' onClick={handleForgotPassword}>Esqueceu sua senha?</a>
                         <ButtonBase label={'login'} onClick={handleLogin} />
                     </div>
-                    <Link to={'/registrar'}>
+                    <Link to={'/registrar'} state={state}>
                         Ainda não tem uma conta? Cadastre-se
                     </Link>
                 </div>

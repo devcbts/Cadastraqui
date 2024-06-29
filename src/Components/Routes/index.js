@@ -1,7 +1,7 @@
 import HomeCandidate from "Pages/Candidate/Home";
 import ProfileCandidate from "Pages/Candidate/Profile";
 import SubscribeForm from "Pages/SubscribeForm";
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes, useParams } from "react-router-dom";
 import AnnouncementCandidate from "Pages/Candidate/Announcement";
 import AnnouncementView from "Pages/Candidate/Announcement/components/AnnouncementView";
 import RoleRoutes from "./components/RoleRoutes";
@@ -28,6 +28,7 @@ import SelectionProcessContext from "Pages/SocialAssistant/SelectionProcess/Cand
 import AdminHome from "Pages/Admin/Home";
 import AdminEntityView from "Pages/Admin/EntityView";
 import PasswordRecovery from "Pages/PasswordRecovery";
+import RedirectWithParams from "Components/RedirectWithParams";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -40,6 +41,7 @@ export default function AppRoutes() {
                     <Route path="/" element={<Login />} />
                     <Route path="/registrar" element={<Register />} />
                     <Route path="/reset_password" element={<PasswordRecovery />} />
+                    <Route path="/edital/:announcementId" element={<RedirectWithParams path={'/'} />}></Route>
                     <Route path="*" element={<Navigate to={'/'} />} />
 
                 </Routes>
