@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import ButtonBase from "Components/ButtonBase";
+import { useState } from 'react';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_CurrentAddress({ onBack, onNext }) {
     const [addressDetails, setAddressDetails] = useState({
@@ -31,7 +31,7 @@ export default function Declaration_CurrentAddress({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE SEPARAÇÃO DE FATO (NÃO JUDICIAL)</h2>
-            <h3>João da Silva - usuário do Cadastraqui</h3>
+            <h3>João da Silva</h3>
             <div className={commonStyles.declarationContent}>
                 <div className={commonStyles.inputGroup}>
                     <label>CEP</label>

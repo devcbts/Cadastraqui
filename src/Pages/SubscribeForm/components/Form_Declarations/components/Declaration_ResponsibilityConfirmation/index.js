@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
-import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
+import { useEffect, useState } from 'react';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_ResponsibilityConfirmation({ onBack, onNext, userId }) {
     console.log('Declaration_ResponsibilityConfirmation renderizado'); // Log para debug
@@ -77,7 +76,7 @@ export default function Declaration_ResponsibilityConfirmation({ onBack, onNext,
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO INTEIRA RESPONSABILIDADE PELAS INFORMAÇÕES CONTIDAS NESTE INSTRUMENTO</h1>
-            <h2>{declarationData.fullName} - usuário do Cadastraqui</h2>
+            <h2>{declarationData.fullName}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
                     Estou ciente e assumo, inteira responsabilidade pelas informações contidas neste instrumento e em relação as informações prestadas no decorrer do preenchimento deste formulário eletrônico e documentos anexados, estando consciente que a apresentação de documento falso e/ou a falsidade nas informações implicará nas penalidades cabíveis, previstas nos artigos 298 e 299 do Código Penal Brasileiro, bem como sobre a condição prevista no caput e § 2º do art. 26 da Lei Complementar nº 187, de 16 de dezembro de 2021.
@@ -91,21 +90,21 @@ export default function Declaration_ResponsibilityConfirmation({ onBack, onNext,
                 <p>Confirma a declaração?</p>
                 <div className={commonStyles.radioGroup}>
                     <label>
-                        <input 
-                            type="radio" 
-                            name="confirmation" 
-                            value="sim" 
-                            checked={confirmation === 'sim'} 
-                            onChange={() => setConfirmation('sim')} 
+                        <input
+                            type="radio"
+                            name="confirmation"
+                            value="sim"
+                            checked={confirmation === 'sim'}
+                            onChange={() => setConfirmation('sim')}
                         /> Sim
                     </label>
                     <label>
-                        <input 
-                            type="radio" 
-                            name="confirmation" 
-                            value="nao" 
-                            checked={confirmation === 'nao'} 
-                            onChange={() => setConfirmation('nao')} 
+                        <input
+                            type="radio"
+                            name="confirmation"
+                            value="nao"
+                            checked={confirmation === 'nao'}
+                            onChange={() => setConfirmation('nao')}
                         /> Não
                     </label>
                 </div>

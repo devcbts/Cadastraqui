@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import commonStyles from '../../styles.module.scss';
-import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
+import ButtonBase from "Components/ButtonBase";
+import { useState } from 'react';
+import commonStyles from '../../styles.module.scss';
 
 export default function DeclarationForm({ onBack, onEdit, userId, declarationData, type }) {
     const [infoCorrect, setInfoCorrect] = useState(null);
@@ -18,8 +18,8 @@ export default function DeclarationForm({ onBack, onEdit, userId, declarationDat
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ 
-                    text: generateDeclarationText(declarationData), 
+                body: JSON.stringify({
+                    text: generateDeclarationText(declarationData),
                     declarationExists: infoCorrect === "yes"
                 })
             });
@@ -41,26 +41,26 @@ export default function DeclarationForm({ onBack, onEdit, userId, declarationDat
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
-            <h2>{declarationData.fullName} - usuário do cadastraqui</h2>
+            <h2>{declarationData.fullName} </h2>
             <div className={commonStyles.declarationContent}>
                 <p>{generateDeclarationText(declarationData)}</p>
                 <div className={commonStyles.radioGroup}>
                     <label>Todas as informações estão corretas?</label>
                     <div>
-                        <input 
-                            type="radio" 
-                            id="yes" 
-                            name="infoCorrect" 
-                            value="yes" 
-                            onChange={(e) => setInfoCorrect(e.target.value)} 
+                        <input
+                            type="radio"
+                            id="yes"
+                            name="infoCorrect"
+                            value="yes"
+                            onChange={(e) => setInfoCorrect(e.target.value)}
                         />
                         <label htmlFor="yes">Sim</label>
-                        <input 
-                            type="radio" 
-                            id="no" 
-                            name="infoCorrect" 
-                            value="no" 
-                            onChange={(e) => setInfoCorrect(e.target.value)} 
+                        <input
+                            type="radio"
+                            id="no"
+                            name="infoCorrect"
+                            value="no"
+                            onChange={(e) => setInfoCorrect(e.target.value)}
                         />
                         <label htmlFor="no">Não</label>
                     </div>

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
-import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
+import { useEffect, useState } from 'react';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_FamilyIncomeChange({ onBack, onNext, onResponsibilityConfirmation, userId }) {
     const { auth } = useAuth();
@@ -74,7 +73,7 @@ export default function Declaration_FamilyIncomeChange({ onBack, onNext, onRespo
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO ALTERAÇÃO NO TAMANHO DO GRUPO FAMILIAR E/OU RENDA</h1>
-            <h2>{declarationData.fullName} - usuário do Cadastraqui</h2>
+            <h2>{declarationData.fullName}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
                     Tenho ciência de que deve comunicar o(a) assistente social da entidade beneficente sobre nascimento ou falecimento de membro do meu grupo familiar, desde que morem na mesma residência, bem como sobre eventual rescisão de contrato de trabalho, encerramento de atividade que gere renda ou sobre início em novo emprego ou atividade que gere renda para um dos membros, pois altera a aferição realizada e o benefício em decorrência da nova renda familiar bruta mensal pode ser ampliado, reduzido ou mesmo cancelado, após análise por profissional de serviço social.
@@ -82,21 +81,21 @@ export default function Declaration_FamilyIncomeChange({ onBack, onNext, onRespo
                 <p>Confirma a declaração?</p>
                 <div className={commonStyles.radioGroup}>
                     <label>
-                        <input 
-                            type="radio" 
-                            name="confirmation" 
-                            value="sim" 
-                            checked={confirmation === 'sim'} 
-                            onChange={() => setConfirmation('sim')} 
+                        <input
+                            type="radio"
+                            name="confirmation"
+                            value="sim"
+                            checked={confirmation === 'sim'}
+                            onChange={() => setConfirmation('sim')}
                         /> Sim
                     </label>
                     <label>
-                        <input 
-                            type="radio" 
-                            name="confirmation" 
-                            value="nao" 
-                            checked={confirmation === 'nao'} 
-                            onChange={() => setConfirmation('nao')} 
+                        <input
+                            type="radio"
+                            name="confirmation"
+                            value="nao"
+                            checked={confirmation === 'nao'}
+                            onChange={() => setConfirmation('nao')}
                         /> Não
                     </label>
                 </div>

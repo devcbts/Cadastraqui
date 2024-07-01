@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from '../../styles.module.scss';
 import Card from '../Declaration_Card/index'; // Supondo que Card é um componente que você já tem ou criará
 
@@ -18,8 +17,8 @@ export default function DeclarationOverview() {
 
     return (
         <div className={styles.container}>
-            <h1>Declarações para fins de processo seletivo CEAS</h1>
-            <h2>João da Silva - usuário do cadastrAqui</h2>
+            <h1>Declarações para fins de processo seletivo CEBAS</h1>
+            <h2>João da Silva</h2>
             <section>
                 <h3>Em dia</h3>
                 <div className={styles.cardsContainer}>

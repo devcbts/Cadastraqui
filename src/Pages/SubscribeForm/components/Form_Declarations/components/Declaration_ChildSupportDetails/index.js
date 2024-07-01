@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import ButtonBase from "Components/ButtonBase";
+import { useEffect, useState } from 'react';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_ChildSupportDetails({ onBack, onNext }) {
     const [declarationData, setDeclarationData] = useState(null);
@@ -37,7 +37,7 @@ export default function Declaration_ChildSupportDetails({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>RECEBIMENTO OU AUSÊNCIA DE RECEBIMENTO DE PENSÃO ALIMENTÍCIA</h2>
-            <h3>{declarationData.fullName} - usuário do Cadastraqui</h3>
+            <h3>{declarationData.fullName}</h3>
             <div className={commonStyles.declarationContent}>
                 <label htmlFor="numberOfParents">C - De quantos?</label>
                 <input

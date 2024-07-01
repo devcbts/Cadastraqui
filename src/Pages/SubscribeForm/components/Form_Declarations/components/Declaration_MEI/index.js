@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import ButtonBase from "Components/ButtonBase";
+import { useEffect, useState } from 'react';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_MEI({ onBack, onNext }) {
     const [mei, setMei] = useState(null);
@@ -36,7 +36,7 @@ export default function Declaration_MEI({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE RENDIMENTOS - MEI</h2>
-            <h3>{declarationData.fullName} - usuário do Cadastraqui</h3>
+            <h3>{declarationData.fullName}</h3>
             <p>Você possui o cadastro de Microempreendedor Individual?</p>
             <div className={commonStyles.radioGroup}>
                 <label>

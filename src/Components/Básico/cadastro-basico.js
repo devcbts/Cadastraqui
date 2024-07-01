@@ -1,17 +1,14 @@
-import React from "react";
-import "../Familia/cadastroFamiliar.css";
-import { useState } from "react";
-import { api } from "../../services/axios";
-import "./cadastro-basico.css";
-import Select from "react-select";
-import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 import { handleAuthError } from "../../ErrorHandling/handleError";
-import InputCheckbox from "../Inputs/InputCheckbox";
+import { handleSuccess } from "../../ErrorHandling/handleSuceess";
 import useForm from "../../hooks/useForm";
+import { api } from "../../services/axios";
 import { formatRG } from "../../utils/format-rg";
-import candidateInfoValidations from "./validations/candidate-info-validation";
-import Input from "../Inputs/FormInput";
 import { formatTelephone } from "../../utils/format-telephone";
+import "../Familia/cadastroFamiliar.css";
+import Input from "../Inputs/FormInput";
+import InputCheckbox from "../Inputs/InputCheckbox";
+import "./cadastro-basico.css";
+import candidateInfoValidations from "./validations/candidate-info-validation";
 
 const GENDER = [
   { value: "MALE", label: "Masculino" },

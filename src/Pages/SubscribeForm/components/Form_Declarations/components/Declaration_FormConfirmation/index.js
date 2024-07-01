@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
+import { useState } from 'react';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_Form({ onEdit, declarationData }) {
     const { auth } = useAuth();
@@ -59,7 +59,7 @@ export default function Declaration_Form({ onEdit, declarationData }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
-            <h2>{declarationData.fullName} - usuário do cadastraqui</h2>
+            <h2>{declarationData.fullName} </h2>
             <div className={commonStyles.declarationContent}>
                 <p>
                     Eu, <span>{declarationData.fullName}</span>, portador(a) da cédula de identidade RG nº <span>{declarationData.RG}</span>, órgão emissor <span>{declarationData.rgIssuingAuthority}</span>, UF do órgão emissor <span>{declarationData.rgIssuingState}</span> ou portador(a) da <span>{declarationData.documentType}</span>, número <span>{declarationData.documentNumber}</span>, validade <span>{declarationData.documentValidity}</span>, inscrito(a) no <span>CPF</span> nº <span>{declarationData.CPF}</span>, nacionalidade <span>{declarationData.nationalidade}</span>, estado civil <span>{declarationData.maritalStatus}</span>, profissão <span>{declarationData.profession}</span>, residente na <span>{declarationData.address}</span>, nº <span>{declarationData.addressNumber}</span>, complemento, <span>CEP: {declarationData.CEP}</span>, bairro {declarationData.neighborhood}, cidade <span>{declarationData.city}</span>, estado <span>{declarationData.UF}</span>, UF <span>{declarationData.UF}</span>, e-mail: <span>{declarationData.email}</span>, responsável legal por (quando for o caso, incluir os nomes dos menores de idade do grupo familiar), declaro para os devidos fins do processo seletivo realizado nos termos da Lei Complementar nº 187, de 16 de dezembro de 2021 que:

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
-import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
+import { useEffect, useState } from 'react';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_VehicleOwnership({ onBack, onNext }) {
     const { auth } = useAuth();
@@ -79,7 +78,7 @@ export default function Declaration_VehicleOwnership({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO NEGATIVA DE PROPRIEDADE DE VEÍCULO AUTOMOTOR</h2>
-            <h3>{declarationData.fullName} - usuário do Cadastraqui</h3>
+            <h3>{declarationData.fullName}</h3>
             <p>Não possuo veículo(s) registrado(s) em meu nome e nenhum membro do meu grupo familiar possui veículo(s) registrado(s) em seu nome.</p>
             <p>Confirma a declaração?</p>
             <div className={commonStyles.radioGroup}>

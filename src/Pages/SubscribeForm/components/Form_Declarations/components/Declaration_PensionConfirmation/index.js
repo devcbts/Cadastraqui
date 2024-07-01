@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
-import useAuth from 'hooks/useAuth'; 
-import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
+import ButtonBase from "Components/ButtonBase";
+import useAuth from 'hooks/useAuth';
+import { useEffect, useState } from 'react';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_PensionConfirmation({ onBack, onNext, userId }) {
     const { auth } = useAuth();
@@ -93,7 +92,7 @@ export default function Declaration_PensionConfirmation({ onBack, onNext, userId
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>Recebimento ou ausência de recebimento de pensão alimentícia</h2>
-            <h3>{declarationData.fullName} - usuário do Cadastraqui</h3>
+            <h3>{declarationData.fullName}</h3>
             <div className={commonStyles.declarationContent}>
                 {pensionData && pensionData.receivesPension ? (
                     <>
@@ -108,21 +107,21 @@ export default function Declaration_PensionConfirmation({ onBack, onNext, userId
                 <p>Confirma a declaração?</p>
                 <div className={commonStyles.radioGroup}>
                     <label>
-                        <input 
-                            type="radio" 
-                            name="confirmation" 
-                            value="sim" 
-                            checked={hasAddressProof === 'sim'} 
-                            onChange={() => setHasAddressProof('sim')} 
+                        <input
+                            type="radio"
+                            name="confirmation"
+                            value="sim"
+                            checked={hasAddressProof === 'sim'}
+                            onChange={() => setHasAddressProof('sim')}
                         /> Sim
                     </label>
                     <label>
-                        <input 
-                            type="radio" 
-                            name="confirmation" 
-                            value="nao" 
-                            checked={hasAddressProof === 'nao'} 
-                            onChange={() => setHasAddressProof('nao')} 
+                        <input
+                            type="radio"
+                            name="confirmation"
+                            value="nao"
+                            checked={hasAddressProof === 'nao'}
+                            onChange={() => setHasAddressProof('nao')}
                         /> Não
                     </label>
                 </div>

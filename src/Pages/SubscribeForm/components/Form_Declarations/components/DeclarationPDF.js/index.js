@@ -1,6 +1,5 @@
 // DeclarationPDF.js
-import React from 'react';
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
   page: {
@@ -24,7 +23,7 @@ const DeclarationPDF = ({ declarationData }) => (
     <Page style={styles.page}>
       <View style={styles.section}>
         <Text style={styles.header}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
-        <Text style={styles.text}>{declarationData.fullName} - usuário do cadastraqui</Text>
+        <Text style={styles.text}>{declarationData.fullName} </Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.text}>

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import ButtonBase from "Components/ButtonBase";
+import { useEffect, useState } from 'react';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_ChildPension({ onBack, onNext, onNoPension }) {
     const [childReceivesPension, setChildReceivesPension] = useState(null);
@@ -46,24 +46,24 @@ export default function Declaration_ChildPension({ onBack, onNext, onNoPension }
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>RECEBIMENTO OU AUSÊNCIA DE RECEBIMENTO DE PENSÃO ALIMENTÍCIA</h2>
-            <h3>{declarationData.fullName} - usuário do Cadastraqui</h3>
+            <h3>{declarationData.fullName}</h3>
             <div className={commonStyles.declarationContent}>
                 <label>B - Algum filho recebe pensão alimentícia?</label>
                 <div className={commonStyles.radioGroup}>
-                    <input 
-                        type="radio" 
-                        id="childYes" 
-                        name="childPension" 
-                        value="yes" 
+                    <input
+                        type="radio"
+                        id="childYes"
+                        name="childPension"
+                        value="yes"
                         onChange={handleRadioChange}
                         checked={childReceivesPension === true}
                     />
                     <label htmlFor="childYes">Sim</label>
-                    <input 
-                        type="radio" 
-                        id="childNo" 
-                        name="childPension" 
-                        value="no" 
+                    <input
+                        type="radio"
+                        id="childNo"
+                        name="childPension"
+                        value="no"
                         onChange={handleRadioChange}
                         checked={childReceivesPension === false}
                     />
@@ -73,46 +73,46 @@ export default function Declaration_ChildPension({ onBack, onNext, onNoPension }
                     <div className={commonStyles.additionalFields}>
                         <div className={commonStyles.inputGroup}>
                             <label htmlFor="childPensionRecipients">Selecione todos que recebem pensão</label>
-                            <input 
-                                type="text" 
-                                id="childPensionRecipients" 
-                                name="childPensionRecipients" 
+                            <input
+                                type="text"
+                                id="childPensionRecipients"
+                                name="childPensionRecipients"
                                 value={childPensionRecipients}
                                 onChange={(e) => setChildPensionRecipients(e.target.value)}
-                                placeholder="Carlos da Silva, Fulana da Silva" 
+                                placeholder="Carlos da Silva, Fulana da Silva"
                             />
                         </div>
                         <div className={commonStyles.inputGroup}>
                             <label htmlFor="payerName">Nome do Pagador da Pensão</label>
-                            <input 
-                                type="text" 
-                                id="payerName" 
-                                name="payerName" 
+                            <input
+                                type="text"
+                                id="payerName"
+                                name="payerName"
                                 value={payerName}
                                 onChange={(e) => setPayerName(e.target.value)}
-                                placeholder="Joana de Gizman Londres" 
+                                placeholder="Joana de Gizman Londres"
                             />
                         </div>
                         <div className={commonStyles.inputGroup}>
                             <label htmlFor="payerCpf">CPF do Pagador da Pensão</label>
-                            <input 
-                                type="text" 
-                                id="payerCpf" 
-                                name="payerCpf" 
+                            <input
+                                type="text"
+                                id="payerCpf"
+                                name="payerCpf"
                                 value={payerCpf}
                                 onChange={(e) => setPayerCpf(e.target.value)}
-                                placeholder="524.321.789-09" 
+                                placeholder="524.321.789-09"
                             />
                         </div>
                         <div className={commonStyles.inputGroup}>
                             <label htmlFor="amount">Valor</label>
-                            <input 
-                                type="text" 
-                                id="amount" 
-                                name="amount" 
+                            <input
+                                type="text"
+                                id="amount"
+                                name="amount"
                                 value={amount}
                                 onChange={(e) => setAmount(e.target.value)}
-                                placeholder="550,00" 
+                                placeholder="550,00"
                             />
                         </div>
                     </div>

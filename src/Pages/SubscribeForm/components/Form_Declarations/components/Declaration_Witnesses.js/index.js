@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import ButtonBase from "Components/ButtonBase";
+import { Document, PDFDownloadLink, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
+import { useEffect, useState } from 'react';
 import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
-import { PDFDownloadLink, Document, Page, Text, StyleSheet, View } from '@react-pdf/renderer';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     const { auth } = useAuth();
@@ -147,7 +147,7 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO INTEIRA RESPONSABILIDADE PELAS INFORMAÇÕES CONTIDAS NESTE INSTRUMENTO</h1>
-            <h2>{declarationData.fullName} - usuário do Cadastraqui</h2>
+            <h2>{declarationData.fullName}</h2>
             <div className={commonStyles.declarationContent}>
                 <h3>Indique duas Testemunhas</h3>
                 <div>

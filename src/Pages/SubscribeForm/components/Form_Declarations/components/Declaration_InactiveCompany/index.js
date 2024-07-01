@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import ButtonBase from "Components/ButtonBase";
+import { useEffect, useState } from 'react';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_InactiveCompany({ onBack, onSave }) {
     const [hasInactiveCompany, setHasInactiveCompany] = useState(null);
@@ -45,7 +45,7 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE EMPRESA INATIVA</h1>
-            <h2>{declarationData.fullName} - usuário do Cadastraqui</h2>
+            <h2>{declarationData.fullName}</h2>
             <p>Você possui alguma empresa inativa?</p>
             <div className={commonStyles.radioGroup}>
                 <label>

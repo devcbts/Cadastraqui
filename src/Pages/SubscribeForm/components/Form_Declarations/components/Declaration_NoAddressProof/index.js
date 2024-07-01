@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
-import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
+import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth'; // Certifique-se de que o caminho está correto
+import { useEffect, useState } from 'react';
+import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_NoAddressProof({ onBack, onNext }) {
     const [declarationData, setDeclarationData] = useState(null);
@@ -86,13 +86,13 @@ export default function Declaration_NoAddressProof({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE AUSÊNCIA DE COMPROVANTE DE ENDEREÇO EM NOME</h2>
-            <h3>{declarationData.fullName} - usuário do Cadastraqui</h3>
+            <h3>{declarationData.fullName}</h3>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Eu, <strong>{declarationData.fullName}</strong>, resido na <strong>{declarationData.address}</strong>, nº <strong>{declarationData.addressNumber}</strong>, complemento, 
-                    CEP: <strong>{declarationData.CEP}</strong>, bairro <strong>{declarationData.neighborhood}</strong>, cidade <strong>{declarationData.city}</strong>, estado <strong>{declarationData.state}</strong>, 
-                    UF <strong>{declarationData.UF}</strong>, e-mail: <strong>{declarationData.email}</strong>, declaro que não possuo comprovante de endereço em meu nome. Por ser 
-                    a expressão da verdade e, ciente que a falsidade de informação sujeitará às penas da legislação pertinente, confirmo a presente 
+                    Eu, <strong>{declarationData.fullName}</strong>, resido na <strong>{declarationData.address}</strong>, nº <strong>{declarationData.addressNumber}</strong>, complemento,
+                    CEP: <strong>{declarationData.CEP}</strong>, bairro <strong>{declarationData.neighborhood}</strong>, cidade <strong>{declarationData.city}</strong>, estado <strong>{declarationData.state}</strong>,
+                    UF <strong>{declarationData.UF}</strong>, e-mail: <strong>{declarationData.email}</strong>, declaro que não possuo comprovante de endereço em meu nome. Por ser
+                    a expressão da verdade e, ciente que a falsidade de informação sujeitará às penas da legislação pertinente, confirmo a presente
                     declaração para efeitos legais.
                 </p>
                 <p>Confirma a declaração?</p>

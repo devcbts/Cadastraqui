@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
-import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
+import { useEffect, useState } from 'react';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
     const { auth } = useAuth();
@@ -83,7 +82,7 @@ export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE RECEBIMENTO DE ALUGUEL</h1>
-            <h2>{declarationData.fullName} - usuário do Cadastraqui</h2>
+            <h2>{declarationData.fullName}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
                     Recebo aluguel do imóvel situado no Endereço <strong>{rentDetails.address}</strong>, nº <strong>{rentDetails.number}</strong>, complemento, CEP: <strong>{rentDetails.cep}</strong>, bairro <strong>{rentDetails.neighborhood}</strong>, cidade <strong>{rentDetails.city}</strong>, Estado <strong>{rentDetails.uf}</strong>, no valor mensal de R$ <strong>{rentDetails.rentAmount}</strong>, pago por <strong>{rentDetails.landlordName}</strong>, inscrito(a) no CPF nº <strong>{rentDetails.landlordCpf}</strong> (locatário(a)).
@@ -91,21 +90,21 @@ export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
                 <p>Confirma a declaração?</p>
                 <div className={commonStyles.radioGroup}>
                     <label>
-                        <input 
-                            type="radio" 
-                            name="confirmation" 
-                            value="sim" 
-                            checked={confirmation === 'sim'} 
-                            onChange={() => setConfirmation('sim')} 
+                        <input
+                            type="radio"
+                            name="confirmation"
+                            value="sim"
+                            checked={confirmation === 'sim'}
+                            onChange={() => setConfirmation('sim')}
                         /> Sim
                     </label>
                     <label>
-                        <input 
-                            type="radio" 
-                            name="confirmation" 
-                            value="nao" 
-                            checked={confirmation === 'nao'} 
-                            onChange={() => setConfirmation('nao')} 
+                        <input
+                            type="radio"
+                            name="confirmation"
+                            value="nao"
+                            checked={confirmation === 'nao'}
+                            onChange={() => setConfirmation('nao')}
                         /> Não
                     </label>
                 </div>

@@ -1,7 +1,6 @@
-import React from "react";
-import "./Familia/cadastroFamiliar.css";
 import { useState } from "react";
 import { api } from "../services/axios";
+import "./Familia/cadastroFamiliar.css";
 import "./cadastro-basico.css";
 
 const GENDER = [
@@ -775,7 +774,7 @@ export default function CadastroBasico() {
               {/*<!-- NIS -->*/}
               <div class="survey-box">
                 <label for="NIS" id="NIS-label">
-                  NIS:
+                  Número de Identificação Social (NIS):
                 </label>
                 <br />
                 <input

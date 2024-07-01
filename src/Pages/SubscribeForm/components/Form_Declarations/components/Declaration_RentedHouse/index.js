@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import ButtonBase from "Components/ButtonBase";
+import { useEffect, useState } from 'react';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_RentedHouse({ onBack, onNext }) {
     const [rentedHouse, setRentedHouse] = useState(null);
@@ -24,7 +24,7 @@ export default function Declaration_RentedHouse({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE IMÓVEL ALUGADO - SEM CONTRATO DE ALUGUEL</h2>
-            <h3>{declarationData?.fullName} - usuário do Cadastraqui</h3>
+            <h3>{declarationData?.fullName}</h3>
             <p>Você mora em imóvel alugado sem contrato de aluguel?</p>
             <div className={commonStyles.radioButtons}>
                 <label>

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import commonStyles from '../../styles.module.scss'; 
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; 
+import { useEffect, useState } from 'react';
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_Autonomo({ onBack, onSave }) {
     const [informalWork, setInformalWork] = useState(null);
@@ -29,7 +29,7 @@ export default function Declaration_Autonomo({ onBack, onSave }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE AUTÔNOMO(A)/RENDA INFORMAL</h1>
-            <h2>{declarationData.fullName} - usuário do Cadastraqui</h2>
+            <h2>{declarationData.fullName}</h2>
             <p>Você desenvolve alguma atividade sem vínculo empregatício?</p>
             <div className={commonStyles.radioGroup}>
                 <label>

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import commonStyles from '../../styles.module.scss'; 
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; 
+import { useEffect, useState } from 'react';
+import commonStyles from '../../styles.module.scss';
 
 export default function Assistent_EmpresarioConfirmation({ onBack }) {
     const [declarationData, setDeclarationData] = useState(null);
@@ -25,7 +25,7 @@ export default function Assistent_EmpresarioConfirmation({ onBack }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE RENDA DE EMPRESÁRIO</h1>
-            <h2>{declarationData.fullName} - usuário do Cadastraqui</h2>
+            <h2>{declarationData.fullName}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
                     Eu, <span>{declarationData.fullName}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, sou sócio de uma empresa e exerço a atividade: <span>{empresarioDetails.activity}</span>.

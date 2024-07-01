@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
-import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
+import { useEffect, useState } from 'react';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_RuralWorkerConfirmation({ onBack, onSave, userId }) {
     const { auth } = useAuth();
@@ -79,7 +78,7 @@ export default function Declaration_RuralWorkerConfirmation({ onBack, onSave, us
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE TRABALHADOR(A) RURAL</h1>
-            <h2>{declarationData.fullName} - usuário do Cadastraqui</h2>
+            <h2>{declarationData.fullName}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
                     Eu, <span>{declarationData.fullName}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, sou trabalhador(a) rural, desenvolvo atividades <span>{ruralWorkerDetails.activity}</span> e recebo a quantia média de R$ 2500,00 mensal.
@@ -87,21 +86,21 @@ export default function Declaration_RuralWorkerConfirmation({ onBack, onSave, us
             </div>
             <div className={commonStyles.radioGroup}>
                 <label>
-                    <input 
-                        type="radio" 
-                        name="confirmation" 
-                        value="sim" 
-                        checked={confirmation === 'sim'} 
-                        onChange={() => setConfirmation('sim')} 
+                    <input
+                        type="radio"
+                        name="confirmation"
+                        value="sim"
+                        checked={confirmation === 'sim'}
+                        onChange={() => setConfirmation('sim')}
                     /> Sim
                 </label>
                 <label>
-                    <input 
-                        type="radio" 
-                        name="confirmation" 
-                        value="nao" 
-                        checked={confirmation === 'nao'} 
-                        onChange={() => setConfirmation('nao')} 
+                    <input
+                        type="radio"
+                        name="confirmation"
+                        value="nao"
+                        checked={confirmation === 'nao'}
+                        onChange={() => setConfirmation('nao')}
                     /> Não
                 </label>
             </div>

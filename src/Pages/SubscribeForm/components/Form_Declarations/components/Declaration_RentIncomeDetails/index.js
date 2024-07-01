@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import ButtonBase from "Components/ButtonBase";
+import { useState } from 'react';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_RentIncomeDetails({ onBack, onSave }) {
     const [rentDetails, setRentDetails] = useState({
@@ -33,7 +33,7 @@ export default function Declaration_RentIncomeDetails({ onBack, onSave }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE RECEBIMENTO DE ALUGUEL</h1>
-            <h2>João da Silva - usuário do Cadastraqui</h2>
+            <h2>João da Silva</h2>
             <p>Preencha os dados do endereço do imóvel que você recebe aluguel:</p>
             <div className={commonStyles.inputGroup}>
                 <label>CEP</label>
