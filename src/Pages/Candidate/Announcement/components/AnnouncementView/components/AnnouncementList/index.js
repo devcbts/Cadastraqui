@@ -1,7 +1,7 @@
 import BackPageTitle from "Components/BackPageTitle";
+import Logo from '../../../../../../../Assets/images/logo_primary.png';
 import AnnouncementTable from "../AnnouncementTable";
-import styles from './styles.module.scss'
-import Logo from '../../../../../../../Assets/images/logo_primary.png'
+import styles from './styles.module.scss';
 
 export default function AnnouncementList({ announcement, onSelect }) {
     return (
@@ -10,8 +10,8 @@ export default function AnnouncementList({ announcement, onSelect }) {
             <div className={styles.content}>
                 <div className={styles.contentheader}>
                     {announcement?.logo
-                        ? <img className={styles.logo} src={announcement.logo} ></img>
-                        : <img src={Logo} height={120} width={100}></img>
+                        ? <img className={styles.logo} src={announcement.logo} alt="Logo"></img>
+                        : <img src={Logo} width={100} alt="Logo"></img>
                     }
                     <span>Total de vagas oferecidas: {announcement?.verifiedScholarships}</span>
                 </div>
