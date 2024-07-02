@@ -39,7 +39,7 @@ export default function Register() {
     }
     const handleSection = async (form) => {
         setData((prev) => ({ ...prev, ...form }))
-        if (current !== 3) {
+        if (current !== 2) {
             setCurrent((prev) => prev + 1)
             return
         }
@@ -69,7 +69,7 @@ export default function Register() {
                     [
                         <Personal data={data} onSubmit={handleSection} />,
                         <LoginInfo data={data} onBack={handleBack} onSubmit={handleSection} />,
-                        <AddressInfo className={styles.address} data={data} onBack={handleBack} onSubmit={handleSection} />,
+                        // <AddressInfo className={styles.address} data={data} onBack={handleBack} onSubmit={handleSection} />,
                         <UserType data={data} onBack={handleBack} onSubmit={handleSection} />,
                     ][current]
 

@@ -12,7 +12,7 @@ export default function Personal({ data, onSubmit }) {
             name: '',
             CPF: '',
             birthDate: '',
-            phone: ''
+            // phone: ''
         },
         initialData: data
     })
@@ -33,7 +33,7 @@ export default function Personal({ data, onSubmit }) {
                 <InputForm control={control} name="name" label="nome completo" />
                 <InputForm control={control} name="CPF" label="CPF" transform={(e) => formatCPF(e.target.value)} />
                 <InputForm control={control} name="birthDate" label="data de nascimento" type="date" />
-                <InputForm control={control} name="phone" label="telefone" transform={(e) => formatTelephone(e.target.value)} />
+                {/* <InputForm control={control} name="phone" label="telefone" transform={(e) => formatTelephone(e.target.value)} /> */}
             </div>
             <ButtonBase label={'próximo'} onClick={handleSubmit} />
 

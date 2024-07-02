@@ -15,6 +15,10 @@ export default function UserType({ data, onBack, onSubmit }) {
 
     })
     const handleSubmit = async () => {
+        if (!isValid) {
+            trigger()
+            return
+        }
         await onSubmit(getValues())
     }
     return (
