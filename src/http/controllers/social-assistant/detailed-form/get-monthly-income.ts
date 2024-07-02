@@ -19,7 +19,7 @@ export async function getMonthlyIncomeBySourceHDB(request: FastifyRequest, reply
   try {
     const CandidateOrResponsible = await SelectCandidateResponsibleHDB(_id);
 
-    const idField = CandidateOrResponsible ? CandidateOrResponsible.IsResponsible ? { responsible_id: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id } : { familyMember_id: _id };
+    const idField = CandidateOrResponsible ? CandidateOrResponsible.IsResponsible ? { legalResponsibleId: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id } : { familyMember_id: _id };
 
     const monthlyIncomes = await historyDatabase.monthlyIncome.findMany({
       where: idField,
