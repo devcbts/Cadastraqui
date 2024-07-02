@@ -15,7 +15,7 @@ export async function createBankAccountHDB(id: string, candidate_id: string | nu
         where: { mainId: (oldCandidateId || oldResponsibleId || oldFamilyMemberId)!, application_id }
     });
     const newFamilyMemberId = bankAccountMapping?.newId;
-    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (bankAccount.candidate_id ? { candidate_id: newFamilyMemberId } : { responsible_id: newFamilyMemberId });
+    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (bankAccount.candidate_id ? { candidate_id: newFamilyMemberId } : { legalResponsibleId: newFamilyMemberId });
     const createBankAccount = await historyDatabase.bankAccount.create({
         data: { main_id: id, ...bankAccountData, ...idField, application_id }
     });

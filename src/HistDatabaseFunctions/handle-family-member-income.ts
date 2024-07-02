@@ -16,7 +16,7 @@ export async function createFamilyMemberIncomeHDB (id: string, candidate_id: str
     });
     const newFamilyMemberId = familyMemberMapping?.newId;
     console.log(familyMemberMapping)
-    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (familyMemberIncome.candidate_id ? { candidate_id: newFamilyMemberId } : { responsible_id: newFamilyMemberId });
+    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (familyMemberIncome.candidate_id ? { candidate_id: newFamilyMemberId } : { legalResponsibleId: newFamilyMemberId });
     const createFamilyMemberIncome = await historyDatabase.familyMemberIncome.create({
             data: {main_id:id, ...familyMemberIncomeData, ...idField, application_id }
     });

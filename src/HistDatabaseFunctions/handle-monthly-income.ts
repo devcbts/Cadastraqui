@@ -16,7 +16,7 @@ export async function createMonthlyIncomeHDB (id: string, candidate_id: string |
         where: { mainId: (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, application_id }
     });
     const newFamilyMemberId = familyMemberMapping?.newId;
-    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (candidate_id ? { candidate_id: newFamilyMemberId } : { responsible_id: newFamilyMemberId });
+    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (candidate_id ? { candidate_id: newFamilyMemberId } : { legalResponsibleId: newFamilyMemberId });
 
     const createMonthlyIncome = await historyDatabase.monthlyIncome.create({
             data: {main_id:monthlyIncome.id, ...monthlyIncomeData, ...idField, application_id }

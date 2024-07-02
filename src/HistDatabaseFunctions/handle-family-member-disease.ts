@@ -15,7 +15,7 @@ export async function createFamilyMemberDiseaseHDB (id: string, candidate_id: st
         where: { mainId: (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, application_id }
     });
     const newFamilyMemberId = familyMemberMapping?.newId;
-    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (candidate_id ? { candidate_id: newFamilyMemberId } : { responsible_id: newFamilyMemberId });
+    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (candidate_id ? { candidate_id: newFamilyMemberId } : { legalResponsibleId: newFamilyMemberId });
 
     const createFamilyMemberDisease = await historyDatabase.familyMemberDisease.create({
             data: {main_id:id, ...familyMemberDiseaseData, ...idField, application_id }
