@@ -76,6 +76,11 @@ export default function FormBasicInformation() {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
+        const fetchBasic = async () => {
+            try {
+                return await candidateService.getBasicInfo()
+            } catch (err) { }
+        }
         const fetchData = async () => {
             setIsLoading(true)
             try {
@@ -83,6 +88,9 @@ export default function FormBasicInformation() {
                 setData(information)
                 if (information) {
                     setEnableEditing(true)
+                } else {
+                    const basic = await fetchBasic()
+                    setData(basic)
                 }
             } catch (err) {
 

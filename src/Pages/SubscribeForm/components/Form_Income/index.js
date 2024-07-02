@@ -52,7 +52,7 @@ export default function FormIncome() {
             // then execute the rest of operation
             NotificationService.success({ text: 'Informações cadastradas' })
         } catch (err) {
-            NotificationService.error({ text: err.response.data.message })
+            NotificationService.error({ text: err?.response?.data?.message })
 
         }
     }

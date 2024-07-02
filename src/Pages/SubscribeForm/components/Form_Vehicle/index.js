@@ -21,10 +21,10 @@ import VehicleSituation from "./components/VehicleSituation";
 import VehicleInsurance from "./components/VehicleInsurance";
 export default function FormVehicle() {
 
-    const handleEditVehicle = async (data) => {
+    const handleEditVehicle = async (data, updated) => {
         setIsLoading(true)
         try {
-            await candidateService.updateVehicle(data.id, data);
+            await candidateService.updateVehicle(data.id, updated);
             NotificationService.success({ text: 'Veículo alterado' })
         } catch (err) {
             NotificationService.error({ text: err.response.data.message })
@@ -81,10 +81,18 @@ export default function FormVehicle() {
         }
         previous()
     }
+    const handleDeleteVehicle = async (id) => {
+        try {
+            await candidateService.deleteVehicle(id)
+            NotificationService.success({ text: 'Veículo excluído' })
+        } catch (err) {
+            NotificationService.error({ text: err?.response?.data?.message })
+        }
+    }
     return (
         <div className={commonStyles.container}>
             <Loader loading={isLoading} />
-            {!hasSelectionOrIsAdding() && <VehicleList onSelect={handleSelectVehicle} onAdd={handleAddVehicle} />}
+            {!hasSelectionOrIsAdding() && <VehicleList onSelect={handleSelectVehicle} onAdd={handleAddVehicle} onDelete={handleDeleteVehicle} />}
             {hasSelectionOrIsAdding() &&
                 <>
                     <Steps />

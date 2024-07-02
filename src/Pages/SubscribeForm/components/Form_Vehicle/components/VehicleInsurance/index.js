@@ -5,6 +5,7 @@ import InputForm from "Components/InputForm";
 import FormCheckbox from "Components/FormCheckbox";
 import vehicleInsuranceSchema from "./schemas/vehicle-insurance-schema";
 import useControlForm from "hooks/useControlForm";
+import MoneyFormInput from "Components/MoneyFormInput";
 const { forwardRef, useImperativeHandle, useEffect, useState } = require("react");
 
 const VehicleInsurance = forwardRef(({ data }, ref) => {
@@ -34,13 +35,8 @@ const VehicleInsurance = forwardRef(({ data }, ref) => {
 
             {
                 watchInsurance &&
-                <InputForm control={control} name="insuranceValue" label="valor do seguro"
-                    transform={(e) => {
-                        if (!isNaN(parseInt(e.target.value))) {
-                            return parseInt(e.target.value, 10)
-                        }
-                        return 0
-                    }} />
+                <MoneyFormInput control={control} name="insuranceValue" label="valor do seguro"
+                />
 
             }
 
