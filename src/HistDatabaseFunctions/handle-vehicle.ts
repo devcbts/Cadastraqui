@@ -42,9 +42,12 @@ export async function createVehicleHDB(id: string, candidate_id: string | null, 
     const createVehicle = await historyDatabase.vehicle.create({
         data: { main_id: vehicleId, ...updatedVehicleDetails, ...idField, application_id },
     });
-
-    const route = `CandidateDocuments/${candidate_id || legalResponsibleId || ''}/vehicle/${candidate_id || legalResponsibleId || ''}/${vehicleId}`;
-    const RouteHDB = await findAWSRouteHDB(candidate_id || legalResponsibleId || '', 'vehicle', candidate_id || legalResponsibleId || '', vehicleId, application_id);
+    const idRoute = legalResponsibleId ? legalResponsibleId : candidate_id;
+    if (!idRoute) {
+        return null;
+    }
+    const route = `CandidateDocuments/${idRoute}/vehicle/${idRoute}/${vehicleId}`;
+    const RouteHDB = await findAWSRouteHDB(idRoute, 'vehicle', idRoute, vehicleId, application_id);
     await copyFilesToAnotherFolder(route, RouteHDB);
 }
 

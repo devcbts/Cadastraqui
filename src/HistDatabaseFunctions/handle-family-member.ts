@@ -32,8 +32,12 @@ export async function createFamilyMemberHDB(id: string, candidate_id: string | n
     await historyDatabase.idMapping.create({
         data: { mainId: id, newId: newFamilyMemberId, application_id }
     });
-    const route = `CandidateDocuments/${candidate_id || legalResponsibleId || ''}/family-member/${id}/`;
-    const RouteHDB = await findAWSRouteHDB(candidate_id || legalResponsibleId || '' , 'family-member', familyMemberId, null, application_id);
+    const idRoute = mainCandidateId ? candidate_id : legalResponsibleId;
+    if (!idRoute) {
+        return null;
+    }
+    const route = `CandidateDocuments/${idRoute}/family-member/${id}/`;
+    const RouteHDB = await findAWSRouteHDB(idRoute , 'family-member', familyMemberId, null, application_id);
     await copyFilesToAnotherFolder(route, RouteHDB)
 
 }

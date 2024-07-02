@@ -19,8 +19,12 @@ export async function createBankAccountHDB(id: string, candidate_id: string | nu
     const createBankAccount = await historyDatabase.bankAccount.create({
         data: { main_id: id, ...bankAccountData, ...idField, application_id }
     });
-    const route = `CandidateDocuments/${candidate_id || legalResponsibleId || ''}/statement/${(oldCandidateId || oldResponsibleId || '')}/${bankAccount.id}/`;
-    const RouteHDB = await findAWSRouteHDB(candidate_id || legalResponsibleId || '', 'statement', (oldCandidateId || oldResponsibleId)!, bankAccount.id, application_id);
+    const idRoute = legalResponsibleId ? legalResponsibleId : candidate_id;
+    if (!idRoute) {
+        return null;
+    }
+    const route = `CandidateDocuments/${idRoute}/statement/${(oldCandidateId || oldResponsibleId || '')}/${bankAccount.id}/`;
+    const RouteHDB = await findAWSRouteHDB(idRoute, 'statement', (oldCandidateId || oldResponsibleId)!, bankAccount.id, application_id);
     await copyFilesToAnotherFolder(route, RouteHDB);
 }
 

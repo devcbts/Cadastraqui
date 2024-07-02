@@ -20,8 +20,12 @@ export async function createFamilyMemberIncomeHDB (id: string, candidate_id: str
     const createFamilyMemberIncome = await historyDatabase.familyMemberIncome.create({
             data: {main_id:id, ...familyMemberIncomeData, ...idField, application_id }
     });
-    const route = `CandidateDocuments/${candidate_id || legalResponsibleId || ''}/income/${(oldFamilyMemberId || oldCandidateId || oldResponsibleId || '')}/${familyMemberIncome.id}/`;
-    const RouteHDB = await findAWSRouteHDB(candidate_id || legalResponsibleId || '' , 'income', (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, familyMemberIncome.id, application_id);
+    const idRoute = legalResponsibleId ? legalResponsibleId : candidate_id;
+    if (!idRoute) {
+        return null;
+    }
+    const route = `CandidateDocuments/${idRoute}/income/${(oldFamilyMemberId || oldCandidateId || oldResponsibleId || '')}/${familyMemberIncome.id}/`;
+    const RouteHDB = await findAWSRouteHDB(idRoute , 'income', (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, familyMemberIncome.id, application_id);
     await copyFilesToAnotherFolder(route, RouteHDB)
 
     

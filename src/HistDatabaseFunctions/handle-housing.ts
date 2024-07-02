@@ -29,9 +29,12 @@ export async function createHousingHDB(id: string, candidate_id: string | null, 
     const createHousing = await historyDatabase.housing.create({
         data: { main_id: housingId, ...housingDetails, ...idField, application_id }
     });
-
-    const route = `CandidateDocuments/${candidate_id || legalResponsibleId || ''}/housing/${candidate_id || legalResponsibleId || ''}/`;
-    const RouteHDB = await findAWSRouteHDB(candidate_id || legalResponsibleId || '' , 'housing', candidate_id || legalResponsibleId || '' , null, application_id);
+    const idRoute = mainCandidateId ? candidate_id : legalResponsibleId;
+    if (!idRoute) {
+        return null;
+    }
+    const route = `CandidateDocuments/${idRoute}/housing/${idRoute}/`;
+    const RouteHDB = await findAWSRouteHDB(idRoute , 'housing', idRoute , null, application_id);
     await copyFilesToAnotherFolder(route, RouteHDB)
 
 }

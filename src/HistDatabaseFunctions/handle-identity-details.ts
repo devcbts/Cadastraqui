@@ -26,8 +26,12 @@ export async function createIdentityDetailsHDB(id: string, candidate_id: string 
     const createIdentityDetails = await historyDatabase.identityDetails.create({
         data: { main_id: identityId, ...identityDetails, ...idField, application_id }
     });
-    const route = `CandidateDocuments/${candidate_id || legalResponsibleId || ''}/identity/${candidate_id || legalResponsibleId || ''}/`;
-    const RouteHDB = await findAWSRouteHDB(candidate_id || legalResponsibleId || '' , 'identity', candidate_id || legalResponsibleId || '', null, application_id)
+    const idRoute = mainCandidateId ? candidate_id : legalResponsibleId;
+    if (!idRoute) {
+        return null;
+    }
+    const route = `CandidateDocuments/${idRoute}/identity/${idRoute}/`;
+    const RouteHDB = await findAWSRouteHDB(idRoute , 'identity', idRoute, null, application_id)
     await copyFilesToAnotherFolder(route, RouteHDB)
 
 }

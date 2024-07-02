@@ -20,8 +20,12 @@ export async function createExpenseHDB (id: string, candidate_id: string | null,
     const createExpense = await historyDatabase.expense.create({
             data: {main_id:id, ...expenseData, ...idField, application_id }
     });
-    const route = `CandidateDocuments/${candidate_id || legalResponsibleId || ''}/expenses/${candidate_id || legalResponsibleId || ''}/`;
-    const RouteHDB = await findAWSRouteHDB(candidate_id || legalResponsibleId || '' , 'expenses', candidate_id || legalResponsibleId || '' , null, application_id);
+    const idRoute = legalResponsibleId ? legalResponsibleId : candidate_id;
+    if (!idRoute) {
+        return null;
+    }
+    const route = `CandidateDocuments/${idRoute}/expenses/${idRoute}/`;
+    const RouteHDB = await findAWSRouteHDB(idRoute , 'expenses', idRoute , null, application_id);
     await copyFilesToAnotherFolder(route, RouteHDB)
 
 }

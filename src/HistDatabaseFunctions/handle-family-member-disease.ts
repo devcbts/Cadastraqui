@@ -20,8 +20,12 @@ export async function createFamilyMemberDiseaseHDB (id: string, candidate_id: st
     const createFamilyMemberDisease = await historyDatabase.familyMemberDisease.create({
             data: {main_id:id, ...familyMemberDiseaseData, ...idField, application_id }
     });
-    const route = `CandidateDocuments/${candidate_id || legalResponsibleId || ''}/health/${(oldFamilyMemberId || oldCandidateId || oldResponsibleId || '')}/${familyMemberDisease.id}/`;
-    const RouteHDB = await findAWSRouteHDB(candidate_id || legalResponsibleId || '' , 'health', (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, familyMemberDisease.id, application_id);
+    const idRoute = legalResponsibleId ? legalResponsibleId : candidate_id;
+    if (!idRoute) {
+        return null;
+    }
+    const route = `CandidateDocuments/${idRoute}/health/${(oldFamilyMemberId || oldCandidateId || oldResponsibleId || '')}/${familyMemberDisease.id}/`;
+    const RouteHDB = await findAWSRouteHDB(idRoute , 'health', (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, familyMemberDisease.id, application_id);
     await copyFilesToAnotherFolder(route, RouteHDB)
 
     await historyDatabase.idMapping.create({
