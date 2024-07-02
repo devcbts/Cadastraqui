@@ -8,6 +8,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { getAssistantDocumentsPDF_HDB } from "./AWS-routes/get-assistant-documents-by-section";
 import { getSectionDocumentsPDF_HDB } from "./AWS-routes/get-documents-by-section-HDB";
+import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsibleHDB";
 
 export async function getCandidateResume(
     request: FastifyRequest,
@@ -72,6 +73,11 @@ export async function getCandidateResume(
         const candidateHDB = await historyDatabase.candidate.findUnique({
             where: { application_id }
         })
+
+        const candidateOrResponsibleHDB = await SelectCandidateResponsibleHDB(application_id)
+        if (!candidateOrResponsibleHDB) {
+            throw new ResourceNotFoundError()
+        }
         if (!candidateHDB) {
             throw new ResourceNotFoundError()
 
@@ -82,7 +88,7 @@ export async function getCandidateResume(
         if (!identityDetails) {
             throw new ResourceNotFoundError()
         }
-        const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapitaHDB(candidateHDB.id)
+        const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapitaHDB(candidateOrResponsibleHDB.UserData.id)
         const candidateInfo = {
             id: candidateHDB.id,
             number: application.number,
@@ -99,6 +105,10 @@ export async function getCandidateResume(
         const familyMembers = await historyDatabase.familyMember.findMany({
             where: { application_id }
         })
+        if (candidateOrResponsibleHDB.IsResponsible) {
+            
+        }
+
 
         const familyMembersInfo = familyMembers.map((familyMember) => {
             return {
