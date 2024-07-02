@@ -21,7 +21,7 @@ export async function createIdentityDetailsHDB(id: string, candidate_id: string 
         where: { mainId: (mainCandidateId || responsible_id)!, application_id }
     
     })
-   const idField = mainCandidateId ? { candidate_id: newId?.newId } : { legalResponsibleId: newId?.newId };
+   const idField = mainCandidateId ? { candidate_id: newId?.newId } : { responsible_id: newId?.newId };
 
     const createIdentityDetails = await historyDatabase.identityDetails.create({
         data: { main_id: identityId, ...identityDetails, ...idField, application_id }
