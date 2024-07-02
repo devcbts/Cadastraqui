@@ -8,6 +8,8 @@ BEGIN
     operation := 'Update';
   ELSIF (TG_OP = 'DELETE') THEN
     operation := 'Delete';
+      PERFORM pg_notify('channel_monthlyIncome', json_build_object('operation', operation, 'data', row_to_json(OLD))::text);
+      RETURN OLD;
   END IF;
 
   PERFORM pg_notify('channel_monthlyIncome', json_build_object('operation', operation, 'data', row_to_json(NEW))::text);

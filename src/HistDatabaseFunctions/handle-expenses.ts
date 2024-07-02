@@ -51,3 +51,28 @@ export async function updateExpenseHDB(id: string) {
         });
     }
 }
+
+
+export async function deleteExpenseHDB(id: string) {
+    const expense = await prisma.expense.findUnique({
+        where: { id },
+        
+    });
+    if (!expense) {
+        return null;
+    }
+    const { id: oldId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId,  ...expenseData } = expense;
+    let candidateOrResponsible = expense.candidate_id  || expense.legalResponsibleId 
+    if (!candidateOrResponsible) {
+        return null;
+    }
+    const openApplications = await getOpenApplications(candidateOrResponsible);
+    if (!openApplications) {
+        return null;
+    }
+    for(const application of openApplications){
+        const deleteExpense = await historyDatabase.expense.deleteMany({
+            where: { main_id: id, application_id: application.id }
+        });
+    }
+}

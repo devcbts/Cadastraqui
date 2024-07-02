@@ -72,3 +72,28 @@ export async function updateFamilyMemberHDB(id: string) {
 
     }
 }
+
+
+export async function deleteFamilyMemberHDB(id: string) {
+    const findFamilyMember = await prisma.familyMember.findUnique({
+        where: {
+            id,
+        },
+    });
+    if (!findFamilyMember) {
+        return null;
+    }
+    let candidateOrResponsible = findFamilyMember.candidate_id || findFamilyMember.legalResponsibleId;
+    if (!candidateOrResponsible) {
+        return null;
+    }
+    const openApplications = await getOpenApplications(candidateOrResponsible);
+    if (!openApplications) {
+        return null;
+    }
+    for (const application of openApplications) {
+        const deleteFamilyMember = await historyDatabase.familyMember.deleteMany({
+            where: { main_id: id, application_id: application.id },
+        });
+    }
+}

@@ -6,6 +6,11 @@ BEGIN
     operation := 'Insert';
   ELSIF (TG_OP = 'UPDATE') THEN
     operation := 'Update';
+  ELSIF (TG_OP = 'DELETE') THEN
+    operation := 'Delete';
+    -- For DELETE operation, use OLD instead of NEW to get the row data before deletion
+    PERFORM pg_notify('channel_expense', json_build_object('operation', operation, 'data', row_to_json(OLD))::text);
+    RETURN OLD; -- Return OLD for DELETE operation  
   END IF;
 
   PERFORM pg_notify('channel_expense', json_build_object('operation', operation, 'data', row_to_json(NEW))::text);

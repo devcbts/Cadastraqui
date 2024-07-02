@@ -48,10 +48,34 @@ export async function updateFamilyMemberDiseaseHDB(id: string) {
         return null;
     }
     for(const application of openApplications){
-
+        const {familyMember: none ,...dataToSend} =familyMemberDiseaseData
         const updateFamilyMemberDisease = await historyDatabase.familyMemberDisease.updateMany({
             where: { main_id: id, application_id: application.id },
-            data: { ...familyMemberDiseaseData }
+            data: { ...dataToSend }
+        });
+    }
+}
+
+export async function deleteFamilyMemberDiseaseHDB(id: string) {
+    const familyMemberDisease = await prisma.familyMemberDisease.findUnique({
+        where: { id },
+        include: { familyMember: true }
+    });
+    if (!familyMemberDisease) {
+        return null;
+    }
+    const { id: oldId, familyMember_id: oldFamilyMemberId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId } = familyMemberDisease;
+    let candidateOrResponsible = familyMemberDisease.candidate_id || familyMemberDisease.familyMember?.candidate_id || familyMemberDisease.legalResponsibleId || familyMemberDisease.familyMember?.legalResponsibleId
+    if (!candidateOrResponsible) {
+        return null;
+    }
+    const openApplications = await getOpenApplications(candidateOrResponsible);
+    if (!openApplications) {
+        return null;
+    }
+    for(const application of openApplications){
+        const deleteFamilyMemberDisease = await historyDatabase.familyMemberDisease.deleteMany({
+            where: { main_id: id, application_id: application.id }
         });
     }
 }

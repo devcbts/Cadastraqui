@@ -45,10 +45,32 @@ export async function updateMonthlyIncomeHDB(id: string) {
         return null;
     }
     for(const application of openApplications){
-
+        const {familyMember: none ,...dataToSend} =monthlyIncomeData
         const updateMonthlyIncome = await historyDatabase.monthlyIncome.updateMany({
             where: { main_id: id, application_id: application.id },
-            data: { ...monthlyIncomeData }
+            data: { ...dataToSend }
+        });
+    }
+}
+export async function deleteMonthlyIncomeHDB(id: string) {
+    const monthlyIncome = await prisma.monthlyIncome.findUnique({
+        where: { id },
+        include: { familyMember: true }
+    });
+    if (!monthlyIncome) {
+        return null;
+    }
+    let candidateOrResponsible = monthlyIncome.candidate_id || monthlyIncome.familyMember?.candidate_id || monthlyIncome.legalResponsibleId || monthlyIncome.familyMember?.legalResponsibleId;
+    if (!candidateOrResponsible) {
+        return null;
+    }
+    const openApplications = await getOpenApplications(candidateOrResponsible);
+    if (!openApplications) {
+        return null;
+    }
+    for (const application of openApplications) {
+        await historyDatabase.monthlyIncome.deleteMany({
+            where: { main_id: id, application_id: application.id },
         });
     }
 }

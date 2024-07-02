@@ -55,10 +55,34 @@ export async function updateMedicationHDB(id: string) {
         return null;
     }
     for(const application of openApplications){
-
+        const {familyMember: none ,...dataToSend} =medicationData
         const updateMedication = await historyDatabase.medication.updateMany({
             where: { main_id: id, application_id: application.id },
-            data: { ...medicationData }
+            data: { ...dataToSend }
+        });
+    }
+}
+
+export async function deleteMedicationHDB(id: string) {
+    const medication = await prisma.medication.findUnique({
+        where: { id },
+        include: { familyMember: true }
+    });
+    if (!medication) {
+        return null;
+    }
+    const { id: oldId, familyMember_id: oldFamilyMemberId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId,  ...medicationData } = medication;
+    let candidateOrResponsible = medication.candidate_id || medication.familyMember?.candidate_id || medication.legalResponsibleId || medication.familyMember?.legalResponsibleId;
+    if (!candidateOrResponsible) {
+        return null;
+    }
+    const openApplications = await getOpenApplications(candidateOrResponsible);
+    if (!openApplications) {
+        return null;
+    }
+    for(const application of openApplications){
+        const deleteMedication = await historyDatabase.medication.deleteMany({
+            where: { main_id: id, application_id: application.id }
         });
     }
 }

@@ -10,7 +10,7 @@ export async function createBankAccountHDB(id: string, candidate_id: string | nu
     if (!bankAccount) {
         return null;
     }
-    const { id: oldId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId,familyMember_id: oldFamilyMemberId, ...bankAccountData } = bankAccount;
+    const { id: oldId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId, familyMember_id: oldFamilyMemberId, ...bankAccountData } = bankAccount;
     const bankAccountMapping = await historyDatabase.idMapping.findFirst({
         where: { mainId: (oldCandidateId || oldResponsibleId || oldFamilyMemberId)!, application_id }
     });
@@ -27,7 +27,7 @@ export async function createBankAccountHDB(id: string, candidate_id: string | nu
 export async function updateBankAccountHDB(id: string) {
     const bankAccount = await prisma.bankAccount.findUnique({
         where: { id },
-        include: { familyMember:true }
+        include: { familyMember: true }
     });
     if (!bankAccount) {
         return null;
@@ -42,9 +42,35 @@ export async function updateBankAccountHDB(id: string) {
         return null;
     }
     for (const application of openApplications) {
+        const { familyMember: none, ...dataToSend } = bankAccountData;
         const updateBankAccount = await historyDatabase.bankAccount.updateMany({
             where: { main_id: id, application_id: application.id },
-            data: { ...bankAccountData }
+            data: { ...dataToSend }
         });
+    }
+}
+
+
+export async function deleteBankAccountHDB(id: string) {
+    const bankAccount = await prisma.bankAccount.findUnique({
+        where: { id },
+        include: { familyMember: true }
+    });
+    if (!bankAccount) {
+        return null;
+    }
+    const { id: oldId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId, familyMember_id: oldFamilyMemberId, ...bankAccountData } = bankAccount;
+    let candidateOrResponsible = bankAccount.candidate_id || bankAccount.familyMember?.candidate_id || bankAccount.legalResponsibleId || bankAccount.familyMember?.legalResponsibleId;
+    if (!candidateOrResponsible) {
+        return null;
+    }
+    const openApplications = await getOpenApplications(candidateOrResponsible);
+    if (!openApplications) {
+        return null;
+    }
+    for (const application of openApplications) {
+        const deleteBankAccount = await historyDatabase.bankAccount.deleteMany({
+            where: { main_id: id, application_id: application.id }
+        })
     }
 }
