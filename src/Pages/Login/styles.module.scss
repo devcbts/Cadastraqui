@@ -1,37 +1,73 @@
 @import '../../Assets/theme/global.module.scss';
-.logo{
+
+.logo {
     -webkit-user-drag: none;
     width: 307px;
     height: 80px;
-    @media(max-width:390px){
+
+    @media(max-width:390px) {
         width: 230px;
         height: 60px;
     }
 }
 
-.content{
+.content {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
     padding: 20px 20px;
-        
-    .brand{
+    width: 100%;
+    gap: 20px;
+
+    .brand {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: justify;
-        max-width: 30%;
-        padding: 10px 10px;
+        max-width: 200px;
+
+        h1 {
+            font-size: 20px;
+        }
+
+        button {
+            width: 180px;
+            height: 30px;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        svg {
+            width: 142px;
+            height: 150.5px;
+        }
+
         @media (max-width:550px) {
             display: none;
         }
+
         @media (max-width:770px) {
             width: 150px;
-        }
 
+            h1 {
+                font-size: 16px;
+            }
+
+            svg {
+                width: 122px;
+                height: 130.5px;
+            }
+
+            button {
+                width: 150px;
+                height: 30px;
+                font-size: 10px;
+            }
+        }
     }
-    .login{
+
+    .login {
         display: flex;
         flex-direction: column;
         background-color: $primary;
@@ -40,35 +76,44 @@
         min-height: 65vh;
         flex-grow: .2;
         justify-content: space-between;
+
         @media (max-width:600px) {
             padding: 10px 20px;
             gap: 10px;
         }
-        .title{
+
+        .title {
             text-align: center;
-            span{
+
+            span {
                 color: white;
             }
-            h1{
+
+            h1 {
                 color: white;
                 font-weight: bold;
             }
         }
-        .inputs{
-            label{
+
+        .inputs {
+            label {
                 color: white !important;
             }
+
             display: flex;
             flex-direction: column;
             gap: 24px;
-            a{
+
+            a {
                 place-self: end;
             }
-            button{
+
+            button {
                 place-self: center;
             }
         }
-        a{
+
+        a {
             text-decoration: none;
             font-size: 14px;
             color: white;
