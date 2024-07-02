@@ -21,6 +21,7 @@ import deleteFamilyMember from './delete-family-member'
 import { deleteHealthInfo } from './delete-health-info'
 import { deleteIncomeInfo } from './delete-income-info'
 import { deleteMedicationInfo } from './delete-medication'
+import deleteVehicle from './delete-vehicle'
 import { finishRegistration } from './finish-registration'
 import { getAnnouncementDocument } from './get-announcement-pdf'
 import { getApplicationHistory } from './get-application-history'
@@ -182,6 +183,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.get('/vehicle-info/:_id?', { onRequest: [verifyJWT] }, getVehicleInfo)
   app.post('/vehicle-info', { onRequest: [verifyJWT] }, registerVehicleInfo)
   app.patch('/vehicle-info/:_id', { onRequest: [verifyJWT] }, updateVehicleInfo)
+  app.delete('/vehicle-info/:id', { onRequest: [verifyJWT] }, deleteVehicle)
   // Despesas
   app.post('/expenses', { onRequest: [verifyJWT] }, registerExpensesInfo)
   app.get('/expenses/:_id?', { onRequest: [verifyJWT] }, getExpensesInfo)

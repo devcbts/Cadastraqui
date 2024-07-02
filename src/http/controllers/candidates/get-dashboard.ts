@@ -25,9 +25,15 @@ export default async function getCandidateDashboard(
                 FamilyMemberIncome: true
             }
         })
-        const {incomePerCapita, incomesPerMember} = await CalculateIncomePerCapita(user.UserData.id);
+        const expense = await prisma.expense.findMany({
+            where: { candidate_id: user.UserData.id }
+        })
+        const avgExpense = (expense.reduce((acc, expense) => {
+            return acc += expense.totalExpense ?? 0
+        }, 0) / (expense.length == 0 ? 1 : expense.length)).toFixed(2)
+        const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapita(user.UserData.id);
 
-        return response.status(200).send({ subscriptions, announcements, familyIncome: incomePerCapita*(1 + members.length) })
+        return response.status(200).send({ subscriptions, announcements, familyIncome: incomePerCapita * (1 + members.length), avgExpense })
 
     } catch (err) {
         return response.status(400).send(err)
