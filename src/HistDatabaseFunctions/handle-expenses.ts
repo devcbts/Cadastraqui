@@ -15,7 +15,7 @@ export async function createExpenseHDB (id: string, candidate_id: string | null,
         where: { mainId: ( oldCandidateId || oldResponsibleId)!, application_id }
     });
     const newFamilyMemberId = familyMemberMapping?.newId;
-    const idField = (candidate_id ? { candidate_id: newFamilyMemberId } : { legalResponsibleId: newFamilyMemberId });
+    const idField = (oldCandidateId ? { candidate_id: newFamilyMemberId } : { legalResponsibleId: newFamilyMemberId });
 
     const createExpense = await historyDatabase.expense.create({
             data: {main_id:id, ...expenseData, ...idField, application_id }
