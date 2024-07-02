@@ -1,13 +1,13 @@
-import styles from './styles.module.scss'
-import { ReactComponent as Arrow } from '../../../../../Assets/icons/arrow.svg'
-import { useNavigate } from 'react-router'
-import { ReactComponent as Siren } from '../../../../../Assets/icons/siren.svg'
-import Card from 'Components/Card'
-import Table from 'Components/Table'
-import ButtonBase from 'Components/ButtonBase'
+import ButtonBase from 'Components/ButtonBase';
+import Table from 'Components/Table';
+import { useNavigate } from 'react-router';
+import { ReactComponent as Arrow } from '../../../../../Assets/icons/arrow.svg';
+import { ReactComponent as Siren } from '../../../../../Assets/icons/siren.svg';
+import styles from './styles.module.scss';
+import { CardContent, CardHead, CardRoot, CardTitle } from './styles.ts';
 export default function AnnouncementView() {
     const navigate = useNavigate()
-    const actualYear = new Date().getFullYear();
+    const currentYear = new Date().getFullYear();
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -15,19 +15,19 @@ export default function AnnouncementView() {
                     <Arrow height={15} style={{ transform: "rotateZ(180deg)" }} onClick={() => navigate('/home')} />
                     <h1>Editais do candidato</h1>
                 </div>
-                <Card.Root width={'30%'}>
-                    <Card.Header>
+                <CardRoot>
+                    <CardHead>
                         <Siren />
-                        <h1>Atenção</h1>
-                    </Card.Header>
-                    <Card.Content>
-                        A bolsa de estudos terá validade para o ano letivo de {actualYear},
+                        <CardTitle><h1>Atenção</h1></CardTitle>
+                    </CardHead>
+                    <CardContent>
+                        A bolsa de estudos terá validade para o ano letivo de {currentYear},
                         com a renovação anual através de seleção. A concessão
                         de bolsa de estudo estará sujeita à disponibilidade de vagas
                         na unidade escolar solicitada e ao perfil socioeconômico
                         compatível às exigências da Lei Complementar nº 187/2021.
-                    </Card.Content>
-                </Card.Root>
+                    </CardContent>
+                </CardRoot>
             </div>
             <div>
                 <span>Editais em andamento</span>

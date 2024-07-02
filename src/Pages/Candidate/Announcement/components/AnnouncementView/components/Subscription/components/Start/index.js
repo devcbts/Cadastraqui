@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from "react";
-import AnnouncementContext from "../../../../context/announcementContext";
+import { ReactComponent as Siren } from 'Assets/icons/siren.svg';
 import BackPageTitle from "Components/BackPageTitle";
-import { ReactComponent as Siren } from 'Assets/icons/siren.svg'
-import Card from "Components/Card";
-import styles from './styles.module.scss'
 import ButtonBase from "Components/ButtonBase";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import candidateService from "services/candidate/candidateService";
+import AnnouncementContext from "../../../../context/announcementContext";
+import styles from './styles.module.scss';
+import { CardContent, CardHead, CardRoot, CardTitle } from './styles.ts';
 export default function StartSubscription() {
     const { move, id } = useContext(AnnouncementContext)
     const [pdf, setPdf] = useState(null)
@@ -20,25 +20,26 @@ export default function StartSubscription() {
             }
         }
         fetchData()
-    }, [])
+    }, [id]);
+    const currentYear = new Date().getFullYear();
 
     return (
         <>
             <BackPageTitle title={'inscrição em processo seletivo'} onClick={() => move('INITIAL')} />
             <div className={styles.card}>
-                <Card.Root width={'max(30%, 300px)'}>
-                    <Card.Header>
+                <CardRoot>
+                    <CardHead>
                         <Siren />
-                        <h1>Atenção</h1>
-                    </Card.Header>
-                    <Card.Content>
-                        A bolsa de estudos terá validade para o ano letivo de {2024},
+                        <CardTitle><h1>Atenção</h1></CardTitle>
+                    </CardHead>
+                    <CardContent>
+                        A bolsa de estudos terá validade para o ano letivo de {currentYear},
                         com a renovação anual através de seleção. A concessão
                         de bolsa de estudo estará sujeita à disponibilidade de vagas
                         na unidade escolar solicitada e ao perfil socioeconômico
                         compatível às exigências da Lei Complementar nº 187/2021.
-                    </Card.Content>
-                </Card.Root>
+                    </CardContent>
+                </CardRoot>
             </div>
             <div className={styles.content}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '32px', height: '100%' }}>
