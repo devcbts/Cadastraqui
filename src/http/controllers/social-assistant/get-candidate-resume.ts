@@ -87,7 +87,7 @@ export async function getCandidateResume(
             id: candidateHDB.id,
             number: application.number,
             name: identityDetails.fullName,
-            cpf: identityDetails.fullName,
+            cpf: identityDetails.CPF,
             age: calculateAge(identityDetails.birthDate),
             profession: identityDetails.profession,
             income: incomesPerMember[candidateHDB.id],
