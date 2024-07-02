@@ -23,7 +23,7 @@ export async function createMedicationHDB (id: string, candidate_id: string | nu
     }
 
     const newFamilyMemberId = familyMemberMapping?.newId;
-    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (candidate_id ? { candidate_id: newFamilyMemberId } : { legalResponsibleId: newFamilyMemberId });
+    const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (medication.legalResponsibleId ?  { legalResponsibleId: newFamilyMemberId } : { candidate_id: newFamilyMemberId } );
 
     const createMedication = await historyDatabase.medication.create({
             data: {main_id:id, ...medicationData, ...idField, application_id, familyMemberDiseaseId: diseaseMapping?.newId }
