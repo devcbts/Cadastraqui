@@ -160,7 +160,7 @@ export async function updateIdentityInfo(
     nameOfScholarshipCourse_professional: z.union([z.string(), z.null()]),
     CadUnico: z.boolean(),
     CPF: z.string(),
-    CEP: z.string(),
+    CEP: z.string().nullish(),
     address: z.string().nullish(),
     addressNumber: z.string().nullish(),
     neighborhood: z.string().nullish(),
