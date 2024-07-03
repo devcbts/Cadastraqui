@@ -34,10 +34,10 @@ const Benefits = forwardRef(({ data }, ref) => {
             <h1 className={commonStyles.title}>Benefícios e Programas</h1>
             <div className={styles.container}>
                 <div className={watchCad && styles.grid}>
-                    <FormCheckbox name={"CadUnico"} control={control} label={"Possui cadastro único?"} />
+                    <FormCheckbox name={"CadUnico"} control={control} label={"Inscrito no cadastro único?"} />
 
                     {watchCad &&
-                        <InputForm name={"NIS"} control={control} label={"NIS"} />
+                        <InputForm name={"NIS"} control={control} label={"Número de Identificação Social (NIS)"} />
                     }
                 </div>
                 <div className={styles.grid}>

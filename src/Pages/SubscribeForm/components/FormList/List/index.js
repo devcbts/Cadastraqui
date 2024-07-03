@@ -3,6 +3,7 @@ export default function List({
     list = [],
     text,
     render,
+    children
 }) {
     return (
         <div className={styles.list}>
@@ -11,9 +12,12 @@ export default function List({
                     {list.map(render)}
                 </>
             )}
-            {list.length === 0 && (
-                <p className={styles.emptytext}>{text}</p>
-            )}
+            {list.length === 0 && !children
+                ? (
+                    <p className={styles.emptytext}>{text}</p>
+                )
+                : children
+            }
         </div>
 
     )

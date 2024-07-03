@@ -8,7 +8,8 @@ import modelBInformationSchema from "./schemas/model-b-information-schema";
 import { formatTelephone } from "utils/format-telephone";
 import { formatCNPJ } from "utils/format-cnpj";
 import useControlForm from "hooks/useControlForm";
-const InformationModelB = forwardRef(({ data, viewMode}, ref) => {
+import { formatCPF } from "utils/format-cpf";
+const InformationModelB = forwardRef(({ data, viewMode }, ref) => {
     const { control } = useControlForm({
         schema: modelBInformationSchema,
         defaultValues: {
@@ -23,12 +24,15 @@ const InformationModelB = forwardRef(({ data, viewMode}, ref) => {
     return (
         <div className={commonStyles.formcontainer}>
             <fieldset disabled={viewMode}>
-            <InputForm name={"CNPJ"} control={control} label={"CNPJ"} transform={(e) => formatCNPJ(e.target.value)} />
-            <InputForm name={"admissionDate"} control={control} label={"date de início/admissão"} type="date" />
-            <InputForm name={"position"} control={control} label={"atividade exercida"} />
-            <InputForm name={"payingSource"} control={control} label={"fonte pagadora"} />
-            <InputForm name={"payingSourcePhone"} control={control} label={"telefone da fonte pagadora"} transform={(e) => formatTelephone(e.target.value)} />
-        </fieldset>
+                {data.incomeSource === "DomesticEmployee"
+                    ? <InputForm name={"CNPJ"} control={control} label={"CPF"} transform={(e) => formatCPF(e.target.value)} />
+                    : <InputForm name={"CNPJ"} control={control} label={"CNPJ"} transform={(e) => formatCNPJ(e.target.value)} />
+                }
+                <InputForm name={"admissionDate"} control={control} label={"date de início/admissão"} type="date" />
+                <InputForm name={"position"} control={control} label={"atividade exercida"} />
+                <InputForm name={"payingSource"} control={control} label={"fonte pagadora"} />
+                <InputForm name={"payingSourcePhone"} control={control} label={"telefone da fonte pagadora"} transform={(e) => formatTelephone(e.target.value)} />
+            </fieldset>
         </div>
     )
 })

@@ -35,7 +35,7 @@ export const CardRoot = styled.div`
   border-radius: 10px;
   border-bottom: 5px solid red;
   width: 303px;
-  height: 100px;
+  height: 120px;
   box-shadow: 0px 0px 10px 1px rgb(241 10 149 / 20%);
   @media (max-width: 600px) {
     margin: 10px auto;

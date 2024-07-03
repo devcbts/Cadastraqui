@@ -27,8 +27,8 @@ const VehicleSituation = forwardRef(({ data }, ref) => {
 
     useEffect(() => {
         if (!isFinanced) {
-            resetField("financedMonths", { defaultValue: '' })
-            resetField("monthsToPayOff", { defaultValue: '' })
+            resetField("financedMonths", { defaultValue: null })
+            resetField("monthsToPayOff", { defaultValue: null })
         }
     }, [watchVehicleSituation])
 

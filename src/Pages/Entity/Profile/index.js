@@ -19,8 +19,9 @@ export default function EntityProfile() {
             } catch (err) {
                 NotificationService.error({ text: 'Erro ao alterar foto de perfil' })
             }
-            return url
         }
+        console.log(url)
+        return url
     }
     useEffect(() => {
         const fetchData = async () => {

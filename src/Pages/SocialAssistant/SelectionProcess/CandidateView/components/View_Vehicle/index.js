@@ -39,7 +39,6 @@ export default function ViewVehicle({ candidateId, applicationId }) {
             try {
                 setIsLoading(true)
                 const information = await socialAssistantService.getVehicleInfo(applicationId)
-                console.log(information)
                 setVehicles(information)
             } catch (err) { }
             setIsLoading(false)
@@ -55,6 +54,7 @@ export default function ViewVehicle({ candidateId, applicationId }) {
             owners_id
         })
     }
+
     return (
         <div className={commonStyles.container}>
             <Loader loading={isLoading} />

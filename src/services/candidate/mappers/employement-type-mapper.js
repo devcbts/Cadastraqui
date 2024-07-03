@@ -1,4 +1,5 @@
 import { formatCNPJ } from "utils/format-cnpj"
+import { formatCPF } from "utils/format-cpf"
 import removeObjectFileExtension from "utils/remove-file-ext"
 
 class EmployementTypeMapper {
@@ -10,11 +11,16 @@ class EmployementTypeMapper {
     }
     fromPersistence(data) {
         const { incomeInfoResults, averageIncome } = data
+        const formatCPFCNPJ = (str) => {
+            console.log(str?.toString().replace(/\D/g, ''))
+            if (str?.toString().replace(/\D/g, '').length === 11) return formatCPF(str)
+            return formatCNPJ(str)
+        }
         const mappedData = incomeInfoResults?.map((e) => ({
             ...e,
             months: e.incomes.map((i) => ({
                 ...i,
-                CNPJ: formatCNPJ(i.CNPJ),
+                CNPJ: formatCPFCNPJ(i.CNPJ),
                 parcelValue: i.parcelValue ? Number(i.parcelValue).toLocaleString('pt-br', { style: "currency", currency: "brl" }) : null,
                 firstParcelDate: i.firstParcelDate?.split('T')[0],
                 admissionDate: i.admissionDate?.split('T')[0],

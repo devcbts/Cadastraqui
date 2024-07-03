@@ -15,6 +15,7 @@ class FamilyMemberMapper {
             CPF: formatCPF(data.CPF),
             birthDate: data.birthDate.split('T')?.[0],
             landlinePhone: formatTelephone(data.landlinePhone),
+            fullName: data.name ?? data.fullName,
             ...removeObjectFileExtension(data.urls)
         }
     }

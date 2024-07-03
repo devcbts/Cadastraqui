@@ -7,6 +7,7 @@ import STATES from "utils/enums/states";
 import entityService from "services/entity/entityService";
 import useCep from "hooks/useCep";
 import { NotificationService } from "services/notification";
+import { formatCEP } from "utils/format-cep";
 
 export default function SubsidiaryModal({ data, onClose }) {
     const { control, formState: { isValid }, trigger, getValues, watch, setValue } = useControlForm({
@@ -47,7 +48,7 @@ export default function SubsidiaryModal({ data, onClose }) {
         <Modal open={!!data} onCancel={onClose} onConfirm={handleSubmit}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>
 
-                <InputForm control={control} name="CEP" label="CEP" />
+                <InputForm control={control} name="CEP" label="CEP" transform={(e) => formatCEP(e.target.value)} />
                 <InputForm control={control} name="address" label="rua" />
                 <InputForm control={control} name="addressNumber" label="Número" transform={(e) => {
                     if (!isNaN(parseInt(e.target.value))) {

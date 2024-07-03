@@ -2,15 +2,14 @@
 
 .logo {
     -webkit-user-drag: none;
-    width: 320px;
+    width: 307px;
     height: 80px;
 
     @media(max-width:390px) {
-        width: 320px;
+        width: 230px;
         height: 60px;
     }
 }
-
 .content {
     display: flex;
     flex-direction: row;
@@ -48,24 +47,24 @@
             display: none;
         }
 
-        @media (max-width:770px) {
-            width: 150px;
+        // @media (max-width:770px) {
+        //     width: 150px;
 
-            h1 {
-                font-size: 16px;
-            }
+        //     h1 {
+        //         font-size: 16px;
+        //     }
 
-            svg {
-                width: 122px;
-                height: 130.5px;
-            }
+        //     svg {
+        //         width: 122px;
+        //         height: 130.5px;
+        //     }
 
-            button {
-                width: 150px;
-                height: 30px;
-                font-size: 10px;
-            }
-        }
+        //     button {
+        //         width: 150px;
+        //         height: 30px;
+        //         font-size: 10px;
+        //     }
+        // }
     }
 }
 

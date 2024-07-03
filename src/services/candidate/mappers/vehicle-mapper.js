@@ -1,3 +1,5 @@
+import { formatCurrency } from "utils/format-currency"
+
 class VehicleMapper {
     toPersistence(data) {
         throw Error('not implemented')
@@ -7,6 +9,7 @@ class VehicleMapper {
         const mappedData = data.map((vehicleInfo) => {
             return {
                 ...vehicleInfo,
+                insuranceValue: formatCurrency(vehicleInfo?.insuranceValue)
             }
         }
 

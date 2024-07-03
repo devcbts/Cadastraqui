@@ -39,7 +39,7 @@ const VehicleData = forwardRef(({ data }, ref) => {
         const fetchData = async () => {
             setIsLoading(true)
             try {
-                const members = await candidateService.getFamilyMembers()
+                const members = await candidateService.getFamilyMembers({ includeSelf: true })
                 if (members) {
                     setValue("members", members.map(member => ({ value: member.id, label: member.fullName })))
                 }

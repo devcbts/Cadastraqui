@@ -21,7 +21,7 @@ class CandidateService {
                 authorization: `Bearer ${token}`,
             },
         })
-        return response.data.candidate
+        return { ...response.data.candidate, fullName: response?.data?.candidate?.name }
     }
 
     async uploadProfilePicture(img) {
@@ -50,9 +50,9 @@ class CandidateService {
             },
         });
     }
-    async getFamilyMembers() {
+    async getFamilyMembers({ includeSelf } = { includeSelf: false }) {
         const token = localStorage.getItem("token")
-        const response = await api.get('/candidates/family-member', {
+        const response = await api.get(`/candidates/family-member?includeSelf=${includeSelf}`, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
@@ -124,7 +124,10 @@ class CandidateService {
                 Authorization: `Bearer ${token}`,
             },
         })
-        return vehicleMapper.fromPersistence(response.data.vehicleInfoResults)
+        return {
+            vehicles: vehicleMapper.fromPersistence(response.data.vehicleInfoResults),
+            hasVehicles: response?.data?.hasVehicles
+        }
     }
 
     registerVehicle(data) {
@@ -319,6 +322,12 @@ class CandidateService {
     }
     async deleteIncome(incomeId, memberId) {
         return api.delete(`/candidates/income/${incomeId}/${memberId}`)
+    }
+    async deleteVehicle(vehicleId) {
+        return api.delete(`/candidates/vehicle-info/${vehicleId}`)
+    }
+    async updateRegistrationProgress(section, status) {
+        return api.patch(`/candidates/progress/${section}`, { status })
     }
 }
 
