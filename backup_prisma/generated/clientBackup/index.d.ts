@@ -173,40 +173,7 @@ export type FamilyMemberToVehicle = $Result.DefaultSelection<Prisma.$FamilyMembe
  * Enums
  */
 export namespace $Enums {
-  export const COUNTRY: {
-  AC: 'AC',
-  AL: 'AL',
-  AM: 'AM',
-  AP: 'AP',
-  BA: 'BA',
-  CE: 'CE',
-  DF: 'DF',
-  ES: 'ES',
-  GO: 'GO',
-  MA: 'MA',
-  MG: 'MG',
-  MS: 'MS',
-  MT: 'MT',
-  PA: 'PA',
-  PB: 'PB',
-  PE: 'PE',
-  PI: 'PI',
-  PR: 'PR',
-  RJ: 'RJ',
-  RN: 'RN',
-  RO: 'RO',
-  RR: 'RR',
-  RS: 'RS',
-  SC: 'SC',
-  SE: 'SE',
-  SP: 'SP',
-  TO: 'TO'
-};
-
-export type COUNTRY = (typeof COUNTRY)[keyof typeof COUNTRY]
-
-
-export const ROLE: {
+  export const ROLE: {
   ADMIN: 'ADMIN',
   CANDIDATE: 'CANDIDATE',
   RESPONSIBLE: 'RESPONSIBLE',
@@ -246,6 +213,39 @@ export const SHIFT: {
 };
 
 export type SHIFT = (typeof SHIFT)[keyof typeof SHIFT]
+
+
+export const COUNTRY: {
+  AC: 'AC',
+  AL: 'AL',
+  AM: 'AM',
+  AP: 'AP',
+  BA: 'BA',
+  CE: 'CE',
+  DF: 'DF',
+  ES: 'ES',
+  GO: 'GO',
+  MA: 'MA',
+  MG: 'MG',
+  MS: 'MS',
+  MT: 'MT',
+  PA: 'PA',
+  PB: 'PB',
+  PE: 'PE',
+  PI: 'PI',
+  PR: 'PR',
+  RJ: 'RJ',
+  RN: 'RN',
+  RO: 'RO',
+  RR: 'RR',
+  RS: 'RS',
+  SC: 'SC',
+  SE: 'SE',
+  SP: 'SP',
+  TO: 'TO'
+};
+
+export type COUNTRY = (typeof COUNTRY)[keyof typeof COUNTRY]
 
 
 export const GENDER: {
@@ -674,10 +674,6 @@ export type SolicitationType = (typeof SolicitationType)[keyof typeof Solicitati
 
 }
 
-export type COUNTRY = $Enums.COUNTRY
-
-export const COUNTRY: typeof $Enums.COUNTRY
-
 export type ROLE = $Enums.ROLE
 
 export const ROLE: typeof $Enums.ROLE
@@ -693,6 +689,10 @@ export const EDUCATION_TYPE: typeof $Enums.EDUCATION_TYPE
 export type SHIFT = $Enums.SHIFT
 
 export const SHIFT: typeof $Enums.SHIFT
+
+export type COUNTRY = $Enums.COUNTRY
+
+export const COUNTRY: typeof $Enums.COUNTRY
 
 export type GENDER = $Enums.GENDER
 
@@ -5761,14 +5761,6 @@ export namespace Prisma {
     CPF: string | null
     main_id: string | null
     birthDate: Date | null
-    phone: string | null
-    address: string | null
-    city: string | null
-    UF: $Enums.COUNTRY | null
-    CEP: string | null
-    neighborhood: string | null
-    addressNumber: string | null
-    complement: string | null
     role: $Enums.ROLE | null
     createdAt: Date | null
     user_id: string | null
@@ -5785,14 +5777,6 @@ export namespace Prisma {
     CPF: string | null
     main_id: string | null
     birthDate: Date | null
-    phone: string | null
-    address: string | null
-    city: string | null
-    UF: $Enums.COUNTRY | null
-    CEP: string | null
-    neighborhood: string | null
-    addressNumber: string | null
-    complement: string | null
     role: $Enums.ROLE | null
     createdAt: Date | null
     user_id: string | null
@@ -5809,14 +5793,6 @@ export namespace Prisma {
     CPF: number
     main_id: number
     birthDate: number
-    phone: number
-    address: number
-    city: number
-    UF: number
-    CEP: number
-    neighborhood: number
-    addressNumber: number
-    complement: number
     role: number
     createdAt: number
     user_id: number
@@ -5835,14 +5811,6 @@ export namespace Prisma {
     CPF?: true
     main_id?: true
     birthDate?: true
-    phone?: true
-    address?: true
-    city?: true
-    UF?: true
-    CEP?: true
-    neighborhood?: true
-    addressNumber?: true
-    complement?: true
     role?: true
     createdAt?: true
     user_id?: true
@@ -5859,14 +5827,6 @@ export namespace Prisma {
     CPF?: true
     main_id?: true
     birthDate?: true
-    phone?: true
-    address?: true
-    city?: true
-    UF?: true
-    CEP?: true
-    neighborhood?: true
-    addressNumber?: true
-    complement?: true
     role?: true
     createdAt?: true
     user_id?: true
@@ -5883,14 +5843,6 @@ export namespace Prisma {
     CPF?: true
     main_id?: true
     birthDate?: true
-    phone?: true
-    address?: true
-    city?: true
-    UF?: true
-    CEP?: true
-    neighborhood?: true
-    addressNumber?: true
-    complement?: true
     role?: true
     createdAt?: true
     user_id?: true
@@ -5980,14 +5932,6 @@ export namespace Prisma {
     CPF: string
     main_id: string | null
     birthDate: Date
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement: string | null
     role: $Enums.ROLE
     createdAt: Date
     user_id: string | null
@@ -6021,14 +5965,6 @@ export namespace Prisma {
     CPF?: boolean
     main_id?: boolean
     birthDate?: boolean
-    phone?: boolean
-    address?: boolean
-    city?: boolean
-    UF?: boolean
-    CEP?: boolean
-    neighborhood?: boolean
-    addressNumber?: boolean
-    complement?: boolean
     role?: boolean
     createdAt?: boolean
     user_id?: boolean
@@ -6063,14 +5999,6 @@ export namespace Prisma {
     CPF?: boolean
     main_id?: boolean
     birthDate?: boolean
-    phone?: boolean
-    address?: boolean
-    city?: boolean
-    UF?: boolean
-    CEP?: boolean
-    neighborhood?: boolean
-    addressNumber?: boolean
-    complement?: boolean
     role?: boolean
     createdAt?: boolean
     user_id?: boolean
@@ -6130,14 +6058,6 @@ export namespace Prisma {
       CPF: string
       main_id: string | null
       birthDate: Date
-      phone: string
-      address: string
-      city: string
-      UF: $Enums.COUNTRY
-      CEP: string
-      neighborhood: string
-      addressNumber: string
-      complement: string | null
       role: $Enums.ROLE
       createdAt: Date
       user_id: string | null
@@ -6578,14 +6498,6 @@ export namespace Prisma {
     readonly CPF: FieldRef<"Candidate", 'String'>
     readonly main_id: FieldRef<"Candidate", 'String'>
     readonly birthDate: FieldRef<"Candidate", 'DateTime'>
-    readonly phone: FieldRef<"Candidate", 'String'>
-    readonly address: FieldRef<"Candidate", 'String'>
-    readonly city: FieldRef<"Candidate", 'String'>
-    readonly UF: FieldRef<"Candidate", 'COUNTRY'>
-    readonly CEP: FieldRef<"Candidate", 'String'>
-    readonly neighborhood: FieldRef<"Candidate", 'String'>
-    readonly addressNumber: FieldRef<"Candidate", 'String'>
-    readonly complement: FieldRef<"Candidate", 'String'>
     readonly role: FieldRef<"Candidate", 'ROLE'>
     readonly createdAt: FieldRef<"Candidate", 'DateTime'>
     readonly user_id: FieldRef<"Candidate", 'String'>
@@ -8297,14 +8209,6 @@ export namespace Prisma {
     main_id: string | null
     CPF: string | null
     birthDate: Date | null
-    phone: string | null
-    address: string | null
-    city: string | null
-    UF: $Enums.COUNTRY | null
-    CEP: string | null
-    neighborhood: string | null
-    addressNumber: string | null
-    complement: string | null
     livesAtSameAddress: boolean | null
     institutionType: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel: $Enums.EDUCATION_TYPE | null
@@ -8326,14 +8230,6 @@ export namespace Prisma {
     main_id: string | null
     CPF: string | null
     birthDate: Date | null
-    phone: string | null
-    address: string | null
-    city: string | null
-    UF: $Enums.COUNTRY | null
-    CEP: string | null
-    neighborhood: string | null
-    addressNumber: string | null
-    complement: string | null
     livesAtSameAddress: boolean | null
     institutionType: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel: $Enums.EDUCATION_TYPE | null
@@ -8355,14 +8251,6 @@ export namespace Prisma {
     main_id: number
     CPF: number
     birthDate: number
-    phone: number
-    address: number
-    city: number
-    UF: number
-    CEP: number
-    neighborhood: number
-    addressNumber: number
-    complement: number
     livesAtSameAddress: number
     institutionType: number
     responsibleEducationLevel: number
@@ -8386,14 +8274,6 @@ export namespace Prisma {
     main_id?: true
     CPF?: true
     birthDate?: true
-    phone?: true
-    address?: true
-    city?: true
-    UF?: true
-    CEP?: true
-    neighborhood?: true
-    addressNumber?: true
-    complement?: true
     livesAtSameAddress?: true
     institutionType?: true
     responsibleEducationLevel?: true
@@ -8415,14 +8295,6 @@ export namespace Prisma {
     main_id?: true
     CPF?: true
     birthDate?: true
-    phone?: true
-    address?: true
-    city?: true
-    UF?: true
-    CEP?: true
-    neighborhood?: true
-    addressNumber?: true
-    complement?: true
     livesAtSameAddress?: true
     institutionType?: true
     responsibleEducationLevel?: true
@@ -8444,14 +8316,6 @@ export namespace Prisma {
     main_id?: true
     CPF?: true
     birthDate?: true
-    phone?: true
-    address?: true
-    city?: true
-    UF?: true
-    CEP?: true
-    neighborhood?: true
-    addressNumber?: true
-    complement?: true
     livesAtSameAddress?: true
     institutionType?: true
     responsibleEducationLevel?: true
@@ -8546,14 +8410,6 @@ export namespace Prisma {
     main_id: string | null
     CPF: string
     birthDate: Date
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement: string | null
     livesAtSameAddress: boolean | null
     institutionType: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel: $Enums.EDUCATION_TYPE | null
@@ -8592,14 +8448,6 @@ export namespace Prisma {
     main_id?: boolean
     CPF?: boolean
     birthDate?: boolean
-    phone?: boolean
-    address?: boolean
-    city?: boolean
-    UF?: boolean
-    CEP?: boolean
-    neighborhood?: boolean
-    addressNumber?: boolean
-    complement?: boolean
     livesAtSameAddress?: boolean
     institutionType?: boolean
     responsibleEducationLevel?: boolean
@@ -8639,14 +8487,6 @@ export namespace Prisma {
     main_id?: boolean
     CPF?: boolean
     birthDate?: boolean
-    phone?: boolean
-    address?: boolean
-    city?: boolean
-    UF?: boolean
-    CEP?: boolean
-    neighborhood?: boolean
-    addressNumber?: boolean
-    complement?: boolean
     livesAtSameAddress?: boolean
     institutionType?: boolean
     responsibleEducationLevel?: boolean
@@ -8711,14 +8551,6 @@ export namespace Prisma {
       main_id: string | null
       CPF: string
       birthDate: Date
-      phone: string
-      address: string
-      city: string
-      UF: $Enums.COUNTRY
-      CEP: string
-      neighborhood: string
-      addressNumber: string
-      complement: string | null
       livesAtSameAddress: boolean | null
       institutionType: $Enums.INSTITUTION_TYPE | null
       responsibleEducationLevel: $Enums.EDUCATION_TYPE | null
@@ -9164,14 +8996,6 @@ export namespace Prisma {
     readonly main_id: FieldRef<"LegalResponsible", 'String'>
     readonly CPF: FieldRef<"LegalResponsible", 'String'>
     readonly birthDate: FieldRef<"LegalResponsible", 'DateTime'>
-    readonly phone: FieldRef<"LegalResponsible", 'String'>
-    readonly address: FieldRef<"LegalResponsible", 'String'>
-    readonly city: FieldRef<"LegalResponsible", 'String'>
-    readonly UF: FieldRef<"LegalResponsible", 'COUNTRY'>
-    readonly CEP: FieldRef<"LegalResponsible", 'String'>
-    readonly neighborhood: FieldRef<"LegalResponsible", 'String'>
-    readonly addressNumber: FieldRef<"LegalResponsible", 'String'>
-    readonly complement: FieldRef<"LegalResponsible", 'String'>
     readonly livesAtSameAddress: FieldRef<"LegalResponsible", 'Boolean'>
     readonly institutionType: FieldRef<"LegalResponsible", 'INSTITUTION_TYPE'>
     readonly responsibleEducationLevel: FieldRef<"LegalResponsible", 'EDUCATION_TYPE'>
@@ -40445,14 +40269,6 @@ export namespace Prisma {
     CPF: 'CPF',
     main_id: 'main_id',
     birthDate: 'birthDate',
-    phone: 'phone',
-    address: 'address',
-    city: 'city',
-    UF: 'UF',
-    CEP: 'CEP',
-    neighborhood: 'neighborhood',
-    addressNumber: 'addressNumber',
-    complement: 'complement',
     role: 'role',
     createdAt: 'createdAt',
     user_id: 'user_id',
@@ -40484,14 +40300,6 @@ export namespace Prisma {
     main_id: 'main_id',
     CPF: 'CPF',
     birthDate: 'birthDate',
-    phone: 'phone',
-    address: 'address',
-    city: 'city',
-    UF: 'UF',
-    CEP: 'CEP',
-    neighborhood: 'neighborhood',
-    addressNumber: 'addressNumber',
-    complement: 'complement',
     livesAtSameAddress: 'livesAtSameAddress',
     institutionType: 'institutionType',
     responsibleEducationLevel: 'responsibleEducationLevel',
@@ -41154,20 +40962,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'COUNTRY'
-   */
-  export type EnumCOUNTRYFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'COUNTRY'>
-    
-
-
-  /**
-   * Reference to a field of type 'COUNTRY[]'
-   */
-  export type ListEnumCOUNTRYFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'COUNTRY[]'>
-    
-
-
-  /**
    * Reference to a field of type 'ROLE'
    */
   export type EnumROLEFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ROLE'>
@@ -41241,6 +41035,20 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'COUNTRY'
+   */
+  export type EnumCOUNTRYFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'COUNTRY'>
+    
+
+
+  /**
+   * Reference to a field of type 'COUNTRY[]'
+   */
+  export type ListEnumCOUNTRYFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'COUNTRY[]'>
     
 
 
@@ -41779,14 +41587,6 @@ export namespace Prisma {
     CPF?: StringFilter<"Candidate"> | string
     main_id?: StringNullableFilter<"Candidate"> | string | null
     birthDate?: DateTimeFilter<"Candidate"> | Date | string
-    phone?: StringFilter<"Candidate"> | string
-    address?: StringFilter<"Candidate"> | string
-    city?: StringFilter<"Candidate"> | string
-    UF?: EnumCOUNTRYFilter<"Candidate"> | $Enums.COUNTRY
-    CEP?: StringFilter<"Candidate"> | string
-    neighborhood?: StringFilter<"Candidate"> | string
-    addressNumber?: StringFilter<"Candidate"> | string
-    complement?: StringNullableFilter<"Candidate"> | string | null
     role?: EnumROLEFilter<"Candidate"> | $Enums.ROLE
     createdAt?: DateTimeFilter<"Candidate"> | Date | string
     user_id?: StringNullableFilter<"Candidate"> | string | null
@@ -41820,14 +41620,6 @@ export namespace Prisma {
     CPF?: SortOrder
     main_id?: SortOrderInput | SortOrder
     birthDate?: SortOrder
-    phone?: SortOrder
-    address?: SortOrder
-    city?: SortOrder
-    UF?: SortOrder
-    CEP?: SortOrder
-    neighborhood?: SortOrder
-    addressNumber?: SortOrder
-    complement?: SortOrderInput | SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     user_id?: SortOrderInput | SortOrder
@@ -41866,14 +41658,6 @@ export namespace Prisma {
     CPF?: StringFilter<"Candidate"> | string
     main_id?: StringNullableFilter<"Candidate"> | string | null
     birthDate?: DateTimeFilter<"Candidate"> | Date | string
-    phone?: StringFilter<"Candidate"> | string
-    address?: StringFilter<"Candidate"> | string
-    city?: StringFilter<"Candidate"> | string
-    UF?: EnumCOUNTRYFilter<"Candidate"> | $Enums.COUNTRY
-    CEP?: StringFilter<"Candidate"> | string
-    neighborhood?: StringFilter<"Candidate"> | string
-    addressNumber?: StringFilter<"Candidate"> | string
-    complement?: StringNullableFilter<"Candidate"> | string | null
     role?: EnumROLEFilter<"Candidate"> | $Enums.ROLE
     createdAt?: DateTimeFilter<"Candidate"> | Date | string
     user_id?: StringNullableFilter<"Candidate"> | string | null
@@ -41906,14 +41690,6 @@ export namespace Prisma {
     CPF?: SortOrder
     main_id?: SortOrderInput | SortOrder
     birthDate?: SortOrder
-    phone?: SortOrder
-    address?: SortOrder
-    city?: SortOrder
-    UF?: SortOrder
-    CEP?: SortOrder
-    neighborhood?: SortOrder
-    addressNumber?: SortOrder
-    complement?: SortOrderInput | SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     user_id?: SortOrderInput | SortOrder
@@ -41936,14 +41712,6 @@ export namespace Prisma {
     CPF?: StringWithAggregatesFilter<"Candidate"> | string
     main_id?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
     birthDate?: DateTimeWithAggregatesFilter<"Candidate"> | Date | string
-    phone?: StringWithAggregatesFilter<"Candidate"> | string
-    address?: StringWithAggregatesFilter<"Candidate"> | string
-    city?: StringWithAggregatesFilter<"Candidate"> | string
-    UF?: EnumCOUNTRYWithAggregatesFilter<"Candidate"> | $Enums.COUNTRY
-    CEP?: StringWithAggregatesFilter<"Candidate"> | string
-    neighborhood?: StringWithAggregatesFilter<"Candidate"> | string
-    addressNumber?: StringWithAggregatesFilter<"Candidate"> | string
-    complement?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
     role?: EnumROLEWithAggregatesFilter<"Candidate"> | $Enums.ROLE
     createdAt?: DateTimeWithAggregatesFilter<"Candidate"> | Date | string
     user_id?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
@@ -42032,14 +41800,6 @@ export namespace Prisma {
     main_id?: StringNullableFilter<"LegalResponsible"> | string | null
     CPF?: StringFilter<"LegalResponsible"> | string
     birthDate?: DateTimeFilter<"LegalResponsible"> | Date | string
-    phone?: StringFilter<"LegalResponsible"> | string
-    address?: StringFilter<"LegalResponsible"> | string
-    city?: StringFilter<"LegalResponsible"> | string
-    UF?: EnumCOUNTRYFilter<"LegalResponsible"> | $Enums.COUNTRY
-    CEP?: StringFilter<"LegalResponsible"> | string
-    neighborhood?: StringFilter<"LegalResponsible"> | string
-    addressNumber?: StringFilter<"LegalResponsible"> | string
-    complement?: StringNullableFilter<"LegalResponsible"> | string | null
     livesAtSameAddress?: BoolNullableFilter<"LegalResponsible"> | boolean | null
     institutionType?: EnumINSTITUTION_TYPENullableFilter<"LegalResponsible"> | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: EnumEDUCATION_TYPENullableFilter<"LegalResponsible"> | $Enums.EDUCATION_TYPE | null
@@ -42078,14 +41838,6 @@ export namespace Prisma {
     main_id?: SortOrderInput | SortOrder
     CPF?: SortOrder
     birthDate?: SortOrder
-    phone?: SortOrder
-    address?: SortOrder
-    city?: SortOrder
-    UF?: SortOrder
-    CEP?: SortOrder
-    neighborhood?: SortOrder
-    addressNumber?: SortOrder
-    complement?: SortOrderInput | SortOrder
     livesAtSameAddress?: SortOrderInput | SortOrder
     institutionType?: SortOrderInput | SortOrder
     responsibleEducationLevel?: SortOrderInput | SortOrder
@@ -42129,14 +41881,6 @@ export namespace Prisma {
     main_id?: StringNullableFilter<"LegalResponsible"> | string | null
     CPF?: StringFilter<"LegalResponsible"> | string
     birthDate?: DateTimeFilter<"LegalResponsible"> | Date | string
-    phone?: StringFilter<"LegalResponsible"> | string
-    address?: StringFilter<"LegalResponsible"> | string
-    city?: StringFilter<"LegalResponsible"> | string
-    UF?: EnumCOUNTRYFilter<"LegalResponsible"> | $Enums.COUNTRY
-    CEP?: StringFilter<"LegalResponsible"> | string
-    neighborhood?: StringFilter<"LegalResponsible"> | string
-    addressNumber?: StringFilter<"LegalResponsible"> | string
-    complement?: StringNullableFilter<"LegalResponsible"> | string | null
     livesAtSameAddress?: BoolNullableFilter<"LegalResponsible"> | boolean | null
     institutionType?: EnumINSTITUTION_TYPENullableFilter<"LegalResponsible"> | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: EnumEDUCATION_TYPENullableFilter<"LegalResponsible"> | $Enums.EDUCATION_TYPE | null
@@ -42174,14 +41918,6 @@ export namespace Prisma {
     main_id?: SortOrderInput | SortOrder
     CPF?: SortOrder
     birthDate?: SortOrder
-    phone?: SortOrder
-    address?: SortOrder
-    city?: SortOrder
-    UF?: SortOrder
-    CEP?: SortOrder
-    neighborhood?: SortOrder
-    addressNumber?: SortOrder
-    complement?: SortOrderInput | SortOrder
     livesAtSameAddress?: SortOrderInput | SortOrder
     institutionType?: SortOrderInput | SortOrder
     responsibleEducationLevel?: SortOrderInput | SortOrder
@@ -42209,14 +41945,6 @@ export namespace Prisma {
     main_id?: StringNullableWithAggregatesFilter<"LegalResponsible"> | string | null
     CPF?: StringWithAggregatesFilter<"LegalResponsible"> | string
     birthDate?: DateTimeWithAggregatesFilter<"LegalResponsible"> | Date | string
-    phone?: StringWithAggregatesFilter<"LegalResponsible"> | string
-    address?: StringWithAggregatesFilter<"LegalResponsible"> | string
-    city?: StringWithAggregatesFilter<"LegalResponsible"> | string
-    UF?: EnumCOUNTRYWithAggregatesFilter<"LegalResponsible"> | $Enums.COUNTRY
-    CEP?: StringWithAggregatesFilter<"LegalResponsible"> | string
-    neighborhood?: StringWithAggregatesFilter<"LegalResponsible"> | string
-    addressNumber?: StringWithAggregatesFilter<"LegalResponsible"> | string
-    complement?: StringNullableWithAggregatesFilter<"LegalResponsible"> | string | null
     livesAtSameAddress?: BoolNullableWithAggregatesFilter<"LegalResponsible"> | boolean | null
     institutionType?: EnumINSTITUTION_TYPENullableWithAggregatesFilter<"LegalResponsible"> | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: EnumEDUCATION_TYPENullableWithAggregatesFilter<"LegalResponsible"> | $Enums.EDUCATION_TYPE | null
@@ -45476,14 +45204,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -45516,14 +45236,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -45556,14 +45268,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -45596,14 +45300,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -45636,14 +45332,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -45660,14 +45348,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -45683,14 +45363,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -45786,14 +45458,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -45832,14 +45496,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -45878,14 +45534,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -45924,14 +45572,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -45970,14 +45610,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -45999,14 +45631,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -46028,14 +45652,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -49738,13 +49354,6 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type EnumCOUNTRYFilter<$PrismaModel = never> = {
-    equals?: $Enums.COUNTRY | EnumCOUNTRYFieldRefInput<$PrismaModel>
-    in?: $Enums.COUNTRY[] | ListEnumCOUNTRYFieldRefInput<$PrismaModel>
-    notIn?: $Enums.COUNTRY[] | ListEnumCOUNTRYFieldRefInput<$PrismaModel>
-    not?: NestedEnumCOUNTRYFilter<$PrismaModel> | $Enums.COUNTRY
-  }
-
   export type EnumROLEFilter<$PrismaModel = never> = {
     equals?: $Enums.ROLE | EnumROLEFieldRefInput<$PrismaModel>
     in?: $Enums.ROLE[] | ListEnumROLEFieldRefInput<$PrismaModel>
@@ -49938,14 +49547,6 @@ export namespace Prisma {
     CPF?: SortOrder
     main_id?: SortOrder
     birthDate?: SortOrder
-    phone?: SortOrder
-    address?: SortOrder
-    city?: SortOrder
-    UF?: SortOrder
-    CEP?: SortOrder
-    neighborhood?: SortOrder
-    addressNumber?: SortOrder
-    complement?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     user_id?: SortOrder
@@ -49962,14 +49563,6 @@ export namespace Prisma {
     CPF?: SortOrder
     main_id?: SortOrder
     birthDate?: SortOrder
-    phone?: SortOrder
-    address?: SortOrder
-    city?: SortOrder
-    UF?: SortOrder
-    CEP?: SortOrder
-    neighborhood?: SortOrder
-    addressNumber?: SortOrder
-    complement?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     user_id?: SortOrder
@@ -49986,14 +49579,6 @@ export namespace Prisma {
     CPF?: SortOrder
     main_id?: SortOrder
     birthDate?: SortOrder
-    phone?: SortOrder
-    address?: SortOrder
-    city?: SortOrder
-    UF?: SortOrder
-    CEP?: SortOrder
-    neighborhood?: SortOrder
-    addressNumber?: SortOrder
-    complement?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     user_id?: SortOrder
@@ -50034,16 +49619,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type EnumCOUNTRYWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.COUNTRY | EnumCOUNTRYFieldRefInput<$PrismaModel>
-    in?: $Enums.COUNTRY[] | ListEnumCOUNTRYFieldRefInput<$PrismaModel>
-    notIn?: $Enums.COUNTRY[] | ListEnumCOUNTRYFieldRefInput<$PrismaModel>
-    not?: NestedEnumCOUNTRYWithAggregatesFilter<$PrismaModel> | $Enums.COUNTRY
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumCOUNTRYFilter<$PrismaModel>
-    _max?: NestedEnumCOUNTRYFilter<$PrismaModel>
   }
 
   export type EnumROLEWithAggregatesFilter<$PrismaModel = never> = {
@@ -50158,14 +49733,6 @@ export namespace Prisma {
     main_id?: SortOrder
     CPF?: SortOrder
     birthDate?: SortOrder
-    phone?: SortOrder
-    address?: SortOrder
-    city?: SortOrder
-    UF?: SortOrder
-    CEP?: SortOrder
-    neighborhood?: SortOrder
-    addressNumber?: SortOrder
-    complement?: SortOrder
     livesAtSameAddress?: SortOrder
     institutionType?: SortOrder
     responsibleEducationLevel?: SortOrder
@@ -50187,14 +49754,6 @@ export namespace Prisma {
     main_id?: SortOrder
     CPF?: SortOrder
     birthDate?: SortOrder
-    phone?: SortOrder
-    address?: SortOrder
-    city?: SortOrder
-    UF?: SortOrder
-    CEP?: SortOrder
-    neighborhood?: SortOrder
-    addressNumber?: SortOrder
-    complement?: SortOrder
     livesAtSameAddress?: SortOrder
     institutionType?: SortOrder
     responsibleEducationLevel?: SortOrder
@@ -50216,14 +49775,6 @@ export namespace Prisma {
     main_id?: SortOrder
     CPF?: SortOrder
     birthDate?: SortOrder
-    phone?: SortOrder
-    address?: SortOrder
-    city?: SortOrder
-    UF?: SortOrder
-    CEP?: SortOrder
-    neighborhood?: SortOrder
-    addressNumber?: SortOrder
-    complement?: SortOrder
     livesAtSameAddress?: SortOrder
     institutionType?: SortOrder
     responsibleEducationLevel?: SortOrder
@@ -50563,6 +50114,13 @@ export namespace Prisma {
     not?: NestedEnumGENDERFilter<$PrismaModel> | $Enums.GENDER
   }
 
+  export type EnumCOUNTRYFilter<$PrismaModel = never> = {
+    equals?: $Enums.COUNTRY | EnumCOUNTRYFieldRefInput<$PrismaModel>
+    in?: $Enums.COUNTRY[] | ListEnumCOUNTRYFieldRefInput<$PrismaModel>
+    notIn?: $Enums.COUNTRY[] | ListEnumCOUNTRYFieldRefInput<$PrismaModel>
+    not?: NestedEnumCOUNTRYFilter<$PrismaModel> | $Enums.COUNTRY
+  }
+
   export type EnumDOCUMENT_TYPENullableFilter<$PrismaModel = never> = {
     equals?: $Enums.DOCUMENT_TYPE | EnumDOCUMENT_TYPEFieldRefInput<$PrismaModel> | null
     in?: $Enums.DOCUMENT_TYPE[] | ListEnumDOCUMENT_TYPEFieldRefInput<$PrismaModel> | null
@@ -50821,6 +50379,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumGENDERFilter<$PrismaModel>
     _max?: NestedEnumGENDERFilter<$PrismaModel>
+  }
+
+  export type EnumCOUNTRYWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.COUNTRY | EnumCOUNTRYFieldRefInput<$PrismaModel>
+    in?: $Enums.COUNTRY[] | ListEnumCOUNTRYFieldRefInput<$PrismaModel>
+    notIn?: $Enums.COUNTRY[] | ListEnumCOUNTRYFieldRefInput<$PrismaModel>
+    not?: NestedEnumCOUNTRYWithAggregatesFilter<$PrismaModel> | $Enums.COUNTRY
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCOUNTRYFilter<$PrismaModel>
+    _max?: NestedEnumCOUNTRYFilter<$PrismaModel>
   }
 
   export type EnumDOCUMENT_TYPENullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -53234,10 +52802,6 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type EnumCOUNTRYFieldUpdateOperationsInput = {
-    set?: $Enums.COUNTRY
-  }
-
   export type EnumROLEFieldUpdateOperationsInput = {
     set?: $Enums.ROLE
   }
@@ -55158,6 +54722,10 @@ export namespace Prisma {
 
   export type EnumGENDERFieldUpdateOperationsInput = {
     set?: $Enums.GENDER
+  }
+
+  export type EnumCOUNTRYFieldUpdateOperationsInput = {
+    set?: $Enums.COUNTRY
   }
 
   export type NullableEnumDOCUMENT_TYPEFieldUpdateOperationsInput = {
@@ -57259,13 +56827,6 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type NestedEnumCOUNTRYFilter<$PrismaModel = never> = {
-    equals?: $Enums.COUNTRY | EnumCOUNTRYFieldRefInput<$PrismaModel>
-    in?: $Enums.COUNTRY[] | ListEnumCOUNTRYFieldRefInput<$PrismaModel>
-    notIn?: $Enums.COUNTRY[] | ListEnumCOUNTRYFieldRefInput<$PrismaModel>
-    not?: NestedEnumCOUNTRYFilter<$PrismaModel> | $Enums.COUNTRY
-  }
-
   export type NestedEnumROLEFilter<$PrismaModel = never> = {
     equals?: $Enums.ROLE | EnumROLEFieldRefInput<$PrismaModel>
     in?: $Enums.ROLE[] | ListEnumROLEFieldRefInput<$PrismaModel>
@@ -57318,16 +56879,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedEnumCOUNTRYWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.COUNTRY | EnumCOUNTRYFieldRefInput<$PrismaModel>
-    in?: $Enums.COUNTRY[] | ListEnumCOUNTRYFieldRefInput<$PrismaModel>
-    notIn?: $Enums.COUNTRY[] | ListEnumCOUNTRYFieldRefInput<$PrismaModel>
-    not?: NestedEnumCOUNTRYWithAggregatesFilter<$PrismaModel> | $Enums.COUNTRY
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumCOUNTRYFilter<$PrismaModel>
-    _max?: NestedEnumCOUNTRYFilter<$PrismaModel>
   }
 
   export type NestedEnumROLEWithAggregatesFilter<$PrismaModel = never> = {
@@ -57463,6 +57014,13 @@ export namespace Prisma {
     not?: NestedEnumGENDERFilter<$PrismaModel> | $Enums.GENDER
   }
 
+  export type NestedEnumCOUNTRYFilter<$PrismaModel = never> = {
+    equals?: $Enums.COUNTRY | EnumCOUNTRYFieldRefInput<$PrismaModel>
+    in?: $Enums.COUNTRY[] | ListEnumCOUNTRYFieldRefInput<$PrismaModel>
+    notIn?: $Enums.COUNTRY[] | ListEnumCOUNTRYFieldRefInput<$PrismaModel>
+    not?: NestedEnumCOUNTRYFilter<$PrismaModel> | $Enums.COUNTRY
+  }
+
   export type NestedEnumDOCUMENT_TYPENullableFilter<$PrismaModel = never> = {
     equals?: $Enums.DOCUMENT_TYPE | EnumDOCUMENT_TYPEFieldRefInput<$PrismaModel> | null
     in?: $Enums.DOCUMENT_TYPE[] | ListEnumDOCUMENT_TYPEFieldRefInput<$PrismaModel> | null
@@ -57524,6 +57082,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumGENDERFilter<$PrismaModel>
     _max?: NestedEnumGENDERFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCOUNTRYWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.COUNTRY | EnumCOUNTRYFieldRefInput<$PrismaModel>
+    in?: $Enums.COUNTRY[] | ListEnumCOUNTRYFieldRefInput<$PrismaModel>
+    notIn?: $Enums.COUNTRY[] | ListEnumCOUNTRYFieldRefInput<$PrismaModel>
+    not?: NestedEnumCOUNTRYWithAggregatesFilter<$PrismaModel> | $Enums.COUNTRY
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCOUNTRYFilter<$PrismaModel>
+    _max?: NestedEnumCOUNTRYFilter<$PrismaModel>
   }
 
   export type NestedEnumDOCUMENT_TYPENullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -58615,14 +58183,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -58660,14 +58220,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -59481,14 +59033,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -59526,14 +59070,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -60277,14 +59813,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -60316,14 +59844,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -61166,14 +60686,6 @@ export namespace Prisma {
     CPF?: StringFilter<"Candidate"> | string
     main_id?: StringNullableFilter<"Candidate"> | string | null
     birthDate?: DateTimeFilter<"Candidate"> | Date | string
-    phone?: StringFilter<"Candidate"> | string
-    address?: StringFilter<"Candidate"> | string
-    city?: StringFilter<"Candidate"> | string
-    UF?: EnumCOUNTRYFilter<"Candidate"> | $Enums.COUNTRY
-    CEP?: StringFilter<"Candidate"> | string
-    neighborhood?: StringFilter<"Candidate"> | string
-    addressNumber?: StringFilter<"Candidate"> | string
-    complement?: StringNullableFilter<"Candidate"> | string | null
     role?: EnumROLEFilter<"Candidate"> | $Enums.ROLE
     createdAt?: DateTimeFilter<"Candidate"> | Date | string
     user_id?: StringNullableFilter<"Candidate"> | string | null
@@ -62815,14 +62327,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -62854,14 +62358,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -62898,14 +62394,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -62943,14 +62431,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -63004,14 +62484,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -63043,14 +62515,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -63093,14 +62557,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -63138,14 +62594,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -63507,14 +62955,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -63546,14 +62986,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -63624,14 +63056,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -63669,14 +63093,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -63930,14 +63346,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -63969,14 +63377,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64035,14 +63435,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -64080,14 +63472,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -64157,14 +63541,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -64196,14 +63572,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -64240,14 +63608,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -64285,14 +63645,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -64346,14 +63698,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64385,14 +63729,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64435,14 +63771,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -64480,14 +63808,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -64525,14 +63845,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -64564,14 +63876,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -64630,14 +63934,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -64675,14 +63971,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -64736,14 +64024,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64775,14 +64055,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64841,14 +64113,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -64886,14 +64150,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -65056,14 +64312,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -65095,14 +64343,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -65139,14 +64379,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -65184,14 +64416,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -65376,14 +64600,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -65415,14 +64631,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -65465,14 +64673,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -65510,14 +64710,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -65680,14 +64872,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -65719,14 +64903,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -65763,14 +64939,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -65808,14 +64976,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -66000,14 +65160,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -66039,14 +65191,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -66089,14 +65233,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -66134,14 +65270,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -66304,14 +65432,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -66343,14 +65463,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -66387,14 +65499,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -66432,14 +65536,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -66624,14 +65720,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -66663,14 +65751,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -66713,14 +65793,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -66758,14 +65830,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -66803,14 +65867,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -66842,14 +65898,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -66886,14 +65934,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -66931,14 +65971,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -66992,14 +66024,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -67031,14 +66055,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -67081,14 +66097,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -67126,14 +66134,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -67171,14 +66171,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -67210,14 +66202,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -67379,14 +66363,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -67424,14 +66400,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -67485,14 +66453,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -67524,14 +66484,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -67705,14 +66657,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -67750,14 +66694,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -67795,14 +66731,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -67834,14 +66762,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -68003,14 +66923,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -68048,14 +66960,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -68109,14 +67013,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -68148,14 +67044,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -68329,14 +67217,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -68374,14 +67254,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -68419,14 +67291,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -68458,14 +67322,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -68627,14 +67483,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -68672,14 +67520,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -68733,14 +67573,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -68772,14 +67604,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -68953,14 +67777,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -68998,14 +67814,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -69043,14 +67851,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -69082,14 +67882,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -69251,14 +68043,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -69296,14 +68080,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -69357,14 +68133,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -69396,14 +68164,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -69577,14 +68337,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -69622,14 +68374,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -69792,14 +68536,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -69831,14 +68567,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -69875,14 +68603,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -69920,14 +68640,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -70146,14 +68858,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -70185,14 +68889,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -70235,14 +68931,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -70280,14 +68968,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -70466,14 +69146,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -70505,14 +69177,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -70549,14 +69213,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -70594,14 +69250,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -70817,14 +69465,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -70856,14 +69496,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -70906,14 +69538,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -70951,14 +69575,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -71033,14 +69649,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -71072,14 +69680,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -71241,14 +69841,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -71286,14 +69878,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -71347,14 +69931,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -71386,14 +69962,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -71567,14 +70135,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -71612,14 +70172,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -72737,14 +71289,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -72776,14 +71320,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -72941,14 +71477,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -72986,14 +71514,6 @@ export namespace Prisma {
     main_id?: string | null
     CPF: string
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     livesAtSameAddress?: boolean | null
     institutionType?: $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: $Enums.EDUCATION_TYPE | null
@@ -73114,14 +71634,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -73153,14 +71665,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -73342,14 +71846,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -73387,14 +71883,6 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     CPF?: StringFieldUpdateOperationsInput | string
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     livesAtSameAddress?: NullableBoolFieldUpdateOperationsInput | boolean | null
     institutionType?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     responsibleEducationLevel?: NullableEnumEDUCATION_TYPEFieldUpdateOperationsInput | $Enums.EDUCATION_TYPE | null
@@ -75585,14 +74073,6 @@ export namespace Prisma {
     CPF: string
     main_id?: string | null
     birthDate: Date | string
-    phone: string
-    address: string
-    city: string
-    UF: $Enums.COUNTRY
-    CEP: string
-    neighborhood: string
-    addressNumber: string
-    complement?: string | null
     role?: $Enums.ROLE
     createdAt?: Date | string
     user_id?: string | null
@@ -76078,14 +74558,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -76117,14 +74589,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -76156,14 +74620,6 @@ export namespace Prisma {
     CPF?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     birthDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    phone?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    UF?: EnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY
-    CEP?: StringFieldUpdateOperationsInput | string
-    neighborhood?: StringFieldUpdateOperationsInput | string
-    addressNumber?: StringFieldUpdateOperationsInput | string
-    complement?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
