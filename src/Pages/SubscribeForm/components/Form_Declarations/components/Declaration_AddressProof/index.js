@@ -40,7 +40,16 @@ export default function Declaration_AddressProof({ onBack, onNext }) {
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={hasAddressProof === null}
+                    style={{
+                        borderColor: hasAddressProof === null ? '#ccc' : '#1F4B73',
+                        cursor: hasAddressProof === null ? 'not-allowed' : 'pointer',
+                        opacity: hasAddressProof === null ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

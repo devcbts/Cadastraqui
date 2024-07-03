@@ -1,12 +1,13 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; 
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss'; 
 
 export default function Declaration_ChildSupportDetails({ onBack, onNext }) {
     const [declarationData, setDeclarationData] = useState(null);
     const [numberOfChildren, setNumberOfChildren] = useState(0);
     const [childrenData, setChildrenData] = useState([]);
+    const [isSaveDisabled, setIsSaveDisabled] = useState(true);
 
     useEffect(() => {
         const savedData = localStorage.getItem('declarationData');
@@ -18,6 +19,13 @@ export default function Declaration_ChildSupportDetails({ onBack, onNext }) {
             setChildrenData(JSON.parse(savedChildrenData));
         }
     }, []);
+
+    useEffect(() => {
+        const isFormValid = childrenData.length === numberOfChildren && childrenData.every(child => 
+            child.childName && child.payerName && child.payerCpf && child.amount
+        );
+        setIsSaveDisabled(!isFormValid);
+    }, [numberOfChildren, childrenData]);
 
     const handleChildrenDataChange = (index, field, value) => {
         const newChildrenData = [...childrenData];
@@ -101,8 +109,27 @@ export default function Declaration_ChildSupportDetails({ onBack, onNext }) {
             ))}
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={onNext} />
-                <ButtonBase onClick={onNext}><Arrow width="40px" /></ButtonBase>
+                <ButtonBase
+                    label="Salvar"
+                    onClick={onNext}
+                    disabled={isSaveDisabled}
+                    style={{
+                        borderColor: isSaveDisabled ? '#ccc' : '#1F4B73',
+                        cursor: isSaveDisabled ? 'not-allowed' : 'pointer',
+                        opacity: isSaveDisabled ? 0.6 : 1
+                    }}
+                />
+                <ButtonBase
+                    onClick={onNext}
+                    disabled={isSaveDisabled}
+                    style={{
+                        borderColor: isSaveDisabled ? '#ccc' : '#1F4B73',
+                        cursor: isSaveDisabled ? 'not-allowed' : 'pointer',
+                        opacity: isSaveDisabled ? 0.6 : 1
+                    }}
+                >
+                    <Arrow width="40px" />
+                </ButtonBase>
             </div>
         </div>
     );

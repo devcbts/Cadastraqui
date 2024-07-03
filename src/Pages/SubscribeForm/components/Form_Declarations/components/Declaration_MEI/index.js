@@ -1,7 +1,7 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_MEI({ onBack, onNext }) {
     const [mei, setMei] = useState(null);
@@ -26,6 +26,13 @@ export default function Declaration_MEI({ onBack, onNext }) {
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
+    };
+
+    const isSaveDisabled = () => {
+        if (mei === 'sim') {
+            return !file;
+        }
+        return mei === null;
     };
 
     if (!declarationData) {
@@ -54,7 +61,16 @@ export default function Declaration_MEI({ onBack, onNext }) {
             )}
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={isSaveDisabled()}
+                    style={{
+                        borderColor: isSaveDisabled() ? '#ccc' : '#1F4B73',
+                        cursor: isSaveDisabled() ? 'not-allowed' : 'pointer',
+                        opacity: isSaveDisabled() ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

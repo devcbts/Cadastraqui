@@ -1,7 +1,7 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_CurrentAddress({ onBack, onNext }) {
     const [addressDetails, setAddressDetails] = useState({
@@ -26,6 +26,8 @@ export default function Declaration_CurrentAddress({ onBack, onNext }) {
         localStorage.setItem('addressDetails', JSON.stringify(addressDetails));
         onNext();
     };
+
+    const isSaveDisabled = !addressDetails.cep || !addressDetails.address || !addressDetails.neighborhood || !addressDetails.number || !addressDetails.city || !addressDetails.uf;
 
     return (
         <div className={commonStyles.declarationForm}>
@@ -106,7 +108,16 @@ export default function Declaration_CurrentAddress({ onBack, onNext }) {
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase 
+                    label="Salvar" 
+                    onClick={handleSave} 
+                    disabled={isSaveDisabled}
+                    style={{
+                        borderColor: isSaveDisabled ? '#ccc' : '#1F4B73',
+                        cursor: isSaveDisabled ? 'not-allowed' : 'pointer',
+                        opacity: isSaveDisabled ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

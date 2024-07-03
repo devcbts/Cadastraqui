@@ -1,7 +1,7 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import { useState, useEffect } from 'react';
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_RentIncomeDetails({ onBack, onSave }) {
     const [rentDetails, setRentDetails] = useState({
@@ -14,12 +14,18 @@ export default function Declaration_RentIncomeDetails({ onBack, onSave }) {
         complement: '',
         landlordName: '',
         landlordCpf: '',
-        rentAmount: '' // Adicionei rentAmount aqui
+        rentAmount: ''
     });
+    const [isSaveDisabled, setIsSaveDisabled] = useState(true);
+
+    useEffect(() => {
+        const areAllFieldsFilled = Object.values(rentDetails).every(field => field.trim() !== '');
+        setIsSaveDisabled(!areAllFieldsFilled);
+    }, [rentDetails]);
 
     const handleSave = () => {
         localStorage.setItem('rentDetails', JSON.stringify(rentDetails));
-        onSave(); // Navega para a próxima tela
+        onSave();
     };
 
     const handleInputChange = (e) => {
@@ -137,7 +143,16 @@ export default function Declaration_RentIncomeDetails({ onBack, onSave }) {
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={isSaveDisabled}
+                    style={{
+                        borderColor: isSaveDisabled ? '#ccc' : '#1F4B73',
+                        cursor: isSaveDisabled ? 'not-allowed' : 'pointer',
+                        opacity: isSaveDisabled ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );
