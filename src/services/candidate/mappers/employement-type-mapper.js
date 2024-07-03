@@ -12,7 +12,6 @@ class EmployementTypeMapper {
     fromPersistence(data) {
         const { incomeInfoResults, averageIncome } = data
         const formatCPFCNPJ = (str) => {
-            console.log(str?.toString().replace(/\D/g, ''))
             if (str?.toString().replace(/\D/g, '').length === 11) return formatCPF(str)
             return formatCNPJ(str)
         }

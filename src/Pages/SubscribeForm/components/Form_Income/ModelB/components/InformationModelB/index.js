@@ -11,7 +11,7 @@ import useControlForm from "hooks/useControlForm";
 import { formatCPF } from "utils/format-cpf";
 const InformationModelB = forwardRef(({ data, viewMode }, ref) => {
     const { control } = useControlForm({
-        schema: modelBInformationSchema,
+        schema: modelBInformationSchema(data.incomeSource),
         defaultValues: {
             CNPJ: "",
             admissionDate: "",
