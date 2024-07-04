@@ -1,7 +1,7 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_Pension({ onBack, onNext }) {
     const [receivesPension, setReceivesPension] = useState(null);
@@ -22,6 +22,16 @@ export default function Declaration_Pension({ onBack, onNext }) {
     };
 
     const handleSave = () => {
+        if (receivesPension === null) {
+            alert('Por favor, selecione uma opção antes de avançar.');
+            return;
+        }
+
+        if (receivesPension === true && (!payerName || !payerCpf || !amount)) {
+            alert('Por favor, preencha todos os campos obrigatórios.');
+            return;
+        }
+
         const pensionData = {
             receivesPension,
             payerName,
@@ -31,6 +41,8 @@ export default function Declaration_Pension({ onBack, onNext }) {
         localStorage.setItem('pensionData', JSON.stringify(pensionData));
         onNext();
     };
+
+    const isSaveDisabled = receivesPension === null || (receivesPension === true && (!payerName || !payerCpf || !amount));
 
     if (!declarationData) {
         return <p>Carregando...</p>;
@@ -100,8 +112,27 @@ export default function Declaration_Pension({ onBack, onNext }) {
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
-                <ButtonBase onClick={onNext}><Arrow width="40px" /></ButtonBase>
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={isSaveDisabled}
+                    style={{
+                        borderColor: isSaveDisabled ? '#ccc' : '#1F4B73',
+                        cursor: isSaveDisabled ? 'not-allowed' : 'pointer',
+                        opacity: isSaveDisabled ? 0.6 : 1
+                    }}
+                />
+                <ButtonBase
+                    onClick={handleSave}
+                    disabled={isSaveDisabled}
+                    style={{
+                        borderColor: isSaveDisabled ? '#ccc' : '#1F4B73',
+                        cursor: isSaveDisabled ? 'not-allowed' : 'pointer',
+                        opacity: isSaveDisabled ? 0.6 : 1
+                    }}
+                >
+                    <Arrow width="40px" />
+                </ButtonBase>
             </div>
         </div>
     );

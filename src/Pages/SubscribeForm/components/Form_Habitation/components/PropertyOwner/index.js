@@ -69,7 +69,7 @@ export default function PropertyOwner({ show, onClose }) {
                         <BlobProvider document={<HabitationDeclarationPDF owner={{ ...ownerRef.current?.values(), ...addressRef.current?.values() }} />}>
                             {
                                 ({ url, loading }) => {
-                                    return loading ? 'teste' : <ButtonBase label={'gerar pdf'} onClick={() => handlePDF(url)} />
+                                    return loading ? 'carregando...' : <ButtonBase label={'gerar pdf'} onClick={() => handlePDF(url)} />
                                 }
                             }
                         </BlobProvider>

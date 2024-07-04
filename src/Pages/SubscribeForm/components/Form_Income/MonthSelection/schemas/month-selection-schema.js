@@ -4,6 +4,7 @@ const { z } = require("zod");
 
 const monthSelectionSchema = (quantity) => z.object({
     months: z.array(z.object({
+        id: z.string().nullish(),
         date: z.date().or(z.string().transform(v => new Date(v))).default(new Date()),
         grossAmount: z.string().nullish().transform(stringToFloat),
         proLabore: z.string().nullish().transform(stringToFloat),

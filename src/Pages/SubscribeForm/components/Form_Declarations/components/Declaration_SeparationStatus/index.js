@@ -39,6 +39,13 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
         }));
     };
 
+    const isSaveDisabled = () => {
+        if (confirmation === 'sim') {
+            return !personDetails.personName || !personDetails.personCpf || !personDetails.separationDate || personDetails.knowsCurrentAddress === null;
+        }
+        return confirmation === null;
+    };
+
     if (!declarationData) {
         return <p>Carregando...</p>;
     }
@@ -101,7 +108,16 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
             )}
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={isSaveDisabled()}
+                    style={{
+                        borderColor: isSaveDisabled() ? '#ccc' : '#1F4B73',
+                        cursor: isSaveDisabled() ? 'not-allowed' : 'pointer',
+                        opacity: isSaveDisabled() ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

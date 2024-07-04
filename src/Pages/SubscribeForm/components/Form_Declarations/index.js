@@ -269,7 +269,7 @@ export default function FormDeclarations() {
                             )}
                         </div>
                     </div>
-                    <div className={commonStyles.navigationButtons}>
+                    <div className={commonStyles.actions}>
                         <ButtonBase onClick={() => navigateToScreen(SCREENS.OVERVIEW)}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                         <ButtonBase onClick={handleNavigateToForm}><Arrow width="40px" /></ButtonBase>
                     </div>

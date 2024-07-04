@@ -7,8 +7,9 @@ import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_ActivitConfirmation({ onBack, onNext }) {
     const { auth } = useAuth();
-    const [confirmation, setConfirmation] = useState('sim');
+    const [confirmation, setConfirmation] = useState(null);
     const [declarationData, setDeclarationData] = useState(null);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const savedData = localStorage.getItem('declarationData');
@@ -18,6 +19,11 @@ export default function Declaration_ActivitConfirmation({ onBack, onNext }) {
     }, []);
 
     const handleSave = async () => {
+        if (confirmation === 'nao') {
+            setError('Por favor, verifique os dados de cadastro.');
+            return;
+        }
+
         if (!auth?.uid) {
             console.error('UID não está definido');
             return;
@@ -83,7 +89,7 @@ export default function Declaration_ActivitConfirmation({ onBack, onNext }) {
                         name="confirmation"
                         value="sim"
                         checked={confirmation === 'sim'}
-                        onChange={() => setConfirmation('sim')}
+                        onChange={() => { setConfirmation('sim'); setError(''); }}
                     /> Sim
                 </label>
                 <label>
@@ -92,13 +98,23 @@ export default function Declaration_ActivitConfirmation({ onBack, onNext }) {
                         name="confirmation"
                         value="nao"
                         checked={confirmation === 'nao'}
-                        onChange={() => setConfirmation('nao')}
+                        onChange={() => { setConfirmation('nao'); setError(''); }}
                     /> Não
                 </label>
             </div>
+            {error && <div style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={confirmation === null}
+                    style={{
+                        borderColor: confirmation === null ? '#ccc' : '#1F4B73',
+                        cursor: confirmation === null ? 'not-allowed' : 'pointer',
+                        opacity: confirmation === null ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

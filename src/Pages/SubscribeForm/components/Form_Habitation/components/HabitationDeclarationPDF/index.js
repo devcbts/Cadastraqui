@@ -115,7 +115,7 @@ export default function HabitationDeclarationPDF({
                         declaro para os devidos fins do processo seletivo realizado nos termos da Lei Complementar nº 187, de 16 de dezembro de 2021 que meu imóvel localizado no(a)
                         <Strong>{user?.address}</Strong>, nº <Strong>{user?.addressNumber}</Strong>, CEP <Strong>{user?.CEP}</Strong>, bairro <Strong>{user?.neighborhood}</Strong>,
                         cidade <Strong>{user?.city}</Strong> estado <Strong>{user?.UF}</Strong>, UF <Strong>{user?.UF}</Strong>, foi cedido sem nenhum custo/ônus para
-                        <Strong> {user?.name}</Strong> (nome do membro familiar para o qual o imóvel foi cedido), inscrito(a) no
+                        <Strong> {user?.name}</Strong>, inscrito(a) no
                         CPF nº <Strong>{user?.CPF}</Strong>.
                     </Text>
                 </View>

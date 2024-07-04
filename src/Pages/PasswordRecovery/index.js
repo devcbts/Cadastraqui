@@ -65,8 +65,8 @@ export default function PasswordRecovery() {
                 <div className={styles.container}>
                     <h1 className={styles.title}>Alterar senha</h1>
                     <div className={styles.inputs}>
-                        <InputForm control={control} name={"password"} label={"senha"} />
-                        <InputForm control={control} name={"passwordConfirm"} label={"confirme sua senha"} />
+                        <InputForm control={control} name={"password"} label={"senha"} type="password" />
+                        <InputForm control={control} name={"passwordConfirm"} label={"confirme sua senha"} type="password" />
                     </div>
                     <ButtonBase label={'alterar senha'} onClick={handleResetPassword} />
                 </div>

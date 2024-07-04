@@ -5,6 +5,8 @@ import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import uploadService from 'services/upload/uploadService';
+import { NotificationService } from 'services/notification';
 
 export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     const { auth } = useAuth();
@@ -12,8 +14,8 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     const [witness1, setWitness1] = useState({ name: '', cpf: '' });
     const [witness2, setWitness2] = useState({ name: '', cpf: '' });
     const [declarations, setDeclarations] = useState([]);
-    const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
-
+    const [isGeneratingPDF, setIsGeneratingPDF] = useState('');
+    const [file, setFile] = useState(null)
     useEffect(() => {
         const savedData = localStorage.getItem('declarationData');
         if (savedData) {
@@ -40,9 +42,9 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     };
 
     const handleGeneratePDF = () => {
-        setIsGeneratingPDF(true);
+        setIsGeneratingPDF('generating');
         fetchDeclarations().then(() => {
-            setIsGeneratingPDF(false);
+            setIsGeneratingPDF('done');
         });
     };
 
@@ -55,11 +57,13 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
             marginBottom: 20,
         },
         declarationType: {
+            textAlign: 'center',
             fontSize: 16,
             fontWeight: 'bold',
             marginBottom: 8,
         },
         declarationText: {
+            textAlign: 'justify',
             marginBottom: 10,
             fontSize: 12,
             lineHeight: 1.5,
@@ -79,7 +83,7 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
                 {declarations.map((declaration, index) => (
                     <View key={index} style={styles.section}>
                         <Text style={styles.declarationType}>{declaration.type}</Text>
-                        <Text style={styles.declarationText}>{declaration.text.trim()}</Text>
+                        <Text style={styles.declarationText}>{declaration.text.replace(/\n/g, '').replace(/\s/g, ' ').trim()}</Text>
                     </View>
                 ))}
             </Page>
@@ -115,8 +119,14 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
             declarationExists: true,
             text
         };
-
         try {
+            const formData = new FormData()
+            formData.append("file_declaracoes", file)
+            await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: auth?.uid }, formData)
+            NotificationService.success({ text: 'Declaração enviada' })
+        } catch (err) { }
+        try {
+
             const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Witnesses/${auth.uid}`, {
                 method: 'POST',
                 headers: {
@@ -143,7 +153,9 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     if (!declarationData) {
         return <p>Carregando...</p>;
     }
-
+    const handleFileChange = (e) => {
+        setFile(e.target.files?.[0])
+    }
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO INTEIRA RESPONSABILIDADE PELAS INFORMAÇÕES CONTIDAS NESTE INSTRUMENTO</h1>
@@ -180,25 +192,30 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
                         onChange={(e) => setWitness2({ ...witness2, cpf: e.target.value })}
                     />
                 </div>
+                <div>
+                    <label>Anexar declaração</label>
+                    <input type='file' accept='application/pdf' onChange={handleFileChange} />
+                </div>
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleRegisterDeclaration} />
-                <ButtonBase label="Gerar PDF" onClick={handleGeneratePDF} />
+                <ButtonBase label="Salvar" onClick={handleRegisterDeclaration} disabled={!file} />
+                {!isGeneratingPDF && <ButtonBase label="Gerar declarações" onClick={handleGeneratePDF} />}
+                {isGeneratingPDF === "generating" && (
+                    <p>Gerando PDF...</p>
+                )}
+                {isGeneratingPDF === "done" && (
+                    <PDFDownloadLink
+                        document={<MyDocument />}
+                        fileName="declaracoes.pdf"
+                    // style={{ textDecoration: 'none', padding: '10px', color: '#4a4a4a', backgroundColor: '#f2f2f2', border: '1px solid #4a4a4a', borderRadius: '4px' }}
+                    >
+                        {({ blob, url, loading, error }) =>
+                            loading ? 'Gerando PDF...' : <ButtonBase label={"baixar PDF"} />
+                        }
+                    </PDFDownloadLink>
+                )}
             </div>
-            {isGeneratingPDF ? (
-                <p>Gerando PDF...</p>
-            ) : (
-                <PDFDownloadLink
-                    document={<MyDocument />}
-                    fileName="declaracoes.pdf"
-                    style={{ textDecoration: 'none', padding: '10px', color: '#4a4a4a', backgroundColor: '#f2f2f2', border: '1px solid #4a4a4a', borderRadius: '4px' }}
-                >
-                    {({ blob, url, loading, error }) =>
-                        loading ? 'Gerando PDF...' : 'Baixar PDF'
-                    }
-                </PDFDownloadLink>
-            )}
         </div>
     );
 }

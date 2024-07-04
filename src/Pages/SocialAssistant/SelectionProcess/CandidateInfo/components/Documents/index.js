@@ -11,22 +11,28 @@ export default function Documents({ data, solicitations, onRequest }) {
     const [requests, setRequests] = useState([])
     const [openModal, setOpenModal] = useState(false)
     const downloadFilesAsZip = async (name, files) => {
-        const zip = new JSZip();
-        const urls = Object.values(files).map((e) => {
-            return Object.values(e)[0][0]
-        })
+        try {
 
-        for (let i = 0; i < urls.length; i++) {
-            const url = urls[i];
-            const response = await fetch(url);
-            const blob = await response.blob();
-            const filename = url.split('#')[0].split('?')[0].split('/').pop();
-            zip.file(filename, blob);
-        }
+            const zip = new JSZip();
+            const urls = Object.values(files).map((e) => {
+                return Object.values(e)
+            })
 
-        zip.generateAsync({ type: 'blob' }).then((content) => {
-            saveAs(content, `documentos_${name}.zip`);
-        });
+            for (let i = 0; i < urls.length; i++) {
+                const zipUrls = urls[i];
+                for (let j = 0; j < zipUrls.length; j++) {
+                    const url = zipUrls[j][0]
+                    const response = await fetch(url);
+                    const blob = await response.blob();
+                    const filename = url.split('#')[0].split('?')[0].split('/').pop();
+                    zip.file(filename, blob);
+                }
+            }
+
+            zip.generateAsync({ type: 'blob' }).then((content) => {
+                saveAs(content, `documentos_${name}.zip`);
+            });
+        } catch (err) { }
     };
     const handleAddRequest = (req) => {
         const newRequest = { ...req, index: new Date().getTime() }

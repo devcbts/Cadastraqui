@@ -1,14 +1,17 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import { NotificationService } from 'services/notification';
+import uploadService from 'services/upload/uploadService';
+import useAuth from 'hooks/useAuth';
 
 export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
     const [confirmation, setConfirmation] = useState(null);
     const [year, setYear] = useState('');
     const [file, setFile] = useState(null);
     const [declarationData, setDeclarationData] = useState(null);
-
+    const { auth } = useAuth()
     useEffect(() => {
         const savedData = localStorage.getItem('declarationData');
         if (savedData) {
@@ -16,19 +19,38 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
         }
     }, []);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (confirmation !== null) {
             if (confirmation === 'sim') {
                 onSave('sim');
             } else if (confirmation === 'nao' && year && file) {
-                localStorage.setItem('incomeTaxDetails', JSON.stringify({ year, file: file.name }));
-                onSave('nao');
+                try {
+
+                    const formData = new FormData()
+                    formData.append("file_IR", file)
+                    await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: auth?.uid }, formData)
+                    localStorage.setItem('incomeTaxDetails', JSON.stringify({ year, file: file.name }));
+                    NotificationService.success({ text: 'Documento enviado' }).then(_ => {
+
+                        onSave('nao');
+                    }
+                    )
+                } catch (err) {
+
+                }
             }
         }
     };
 
     const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
+        setFile(e.target.files?.[0]);
+    };
+
+    const isSaveDisabled = () => {
+        if (confirmation === 'nao') {
+            return !year || !file;
+        }
+        return confirmation === null;
     };
 
     if (!declarationData) {
@@ -69,13 +91,23 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
                             id="fileUpload"
                             name="fileUpload"
                             onChange={handleFileChange}
+                            accept='application/pdf'
                         />
                     </div>
                 </>
             )}
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={isSaveDisabled()}
+                    style={{
+                        borderColor: isSaveDisabled() ? '#ccc' : '#1F4B73',
+                        cursor: isSaveDisabled() ? 'not-allowed' : 'pointer',
+                        opacity: isSaveDisabled() ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

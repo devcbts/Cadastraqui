@@ -1,8 +1,8 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_VehicleOwnership({ onBack, onNext }) {
     const { auth } = useAuth();
@@ -83,15 +83,34 @@ export default function Declaration_VehicleOwnership({ onBack, onNext }) {
             <p>Confirma a declaração?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
-                    <input type="radio" name="confirmation" value="sim" onChange={() => setConfirmation('sim')} /> Sim
+                    <input
+                        type="radio"
+                        name="confirmation"
+                        value="sim"
+                        onChange={() => setConfirmation('sim')}
+                    /> Sim
                 </label>
                 <label>
-                    <input type="radio" name="confirmation" value="nao" onChange={() => setConfirmation('nao')} /> Não
+                    <input
+                        type="radio"
+                        name="confirmation"
+                        value="nao"
+                        onChange={() => setConfirmation('nao')}
+                    /> Não
                 </label>
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={confirmation === null}
+                    style={{
+                        borderColor: confirmation === null ? '#ccc' : '#1F4B73',
+                        cursor: confirmation === null ? 'not-allowed' : 'pointer',
+                        opacity: confirmation === null ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );
