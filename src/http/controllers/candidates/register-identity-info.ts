@@ -2,6 +2,7 @@ import { AlreadyExistsError } from '@/errors/already-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import STATES from '@/utils/enums/zod/state'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -13,7 +14,6 @@ import { RELIGION } from './enums/Religion'
 import { SCHOLARSHIP } from './enums/Scholarship'
 import { ScholarshipType } from './enums/Scholaship_Type'
 import { SkinColor } from './enums/SkinColor'
-import { UF } from './enums/UF'
 
 export async function registerIdentityInfo(
   request: FastifyRequest,
@@ -26,7 +26,7 @@ export async function registerIdentityInfo(
     gender: GENDER,
     nationality: z.string(),
     natural_city: z.string(),
-    natural_UF: UF,
+    natural_UF: STATES,
     RG: z.string(),
     rgIssuingAuthority: z.string(),
     rgIssuingState: z.string(),
@@ -73,6 +73,12 @@ export async function registerIdentityInfo(
     CadUnico: z.boolean(),
     email: z.string(),
     complement: z.string().nullish(),
+    address: z.string().nullish(),
+    addressNumber: z.string().nullish(),
+    CEP: z.string().nullish(),
+    UF: STATES,
+    neighborhood: z.string().nullish(),
+    city: z.string().nullish(),
   })
 
   const {
@@ -118,7 +124,13 @@ export async function registerIdentityInfo(
     nameOfScholarshipCourse_professional,
     CadUnico,
     email,
-    complement
+    complement,
+    CEP,
+    address,
+    addressNumber,
+    UF,
+    city,
+    neighborhood
 
   } = userDataSchema.parse(request.body)
 
@@ -190,13 +202,13 @@ export async function registerIdentityInfo(
         yearsBenefitedFromCebas_basic: [],
         ...idField,
         CadUnico,
-        address: candidateOrResponsible.UserData.address,
-        addressNumber: candidateOrResponsible.UserData.addressNumber,
-        neighborhood: candidateOrResponsible.UserData.neighborhood,
+        address,
+        addressNumber,
+        neighborhood,
         CPF: candidateOrResponsible.UserData.CPF,
-        city: candidateOrResponsible.UserData.city,
-        UF: candidateOrResponsible.UserData.UF,
-        CEP: candidateOrResponsible.UserData.CEP,
+        city,
+        UF,
+        CEP,
         complement
       },
     })

@@ -3,12 +3,12 @@ import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { historyDatabase, prisma } from "@/lib/prisma";
 import { getSignedUrlsGroupedByFolder } from "@/lib/S3";
 import { calculateAge } from "@/utils/calculate-age";
+import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsibleHDB";
 import { CalculateIncomePerCapitaHDB } from "@/utils/Trigger-Functions/calculate-income-per-capita-HDB";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { getAssistantDocumentsPDF_HDB } from "./AWS-routes/get-assistant-documents-by-section";
 import { getSectionDocumentsPDF_HDB } from "./AWS-routes/get-documents-by-section-HDB";
-import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsibleHDB";
 
 export async function getCandidateResume(
     request: FastifyRequest,
@@ -63,7 +63,6 @@ export async function getCandidateResume(
                 }
             }
         })
-
         if (!application) {
             throw new ResourceNotFoundError()
 
@@ -106,7 +105,7 @@ export async function getCandidateResume(
             where: { application_id }
         })
         if (candidateOrResponsibleHDB.IsResponsible) {
-            
+
         }
 
 

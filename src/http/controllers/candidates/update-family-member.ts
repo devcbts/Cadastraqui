@@ -1,6 +1,7 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { DOCUMENT_TYPE } from './enums/Document_Type'
@@ -134,7 +135,7 @@ export async function updateFamilyMemberInfo(
       throw new NotAllowedError()
     }
 
-    const candidate = await prisma.candidate.findUnique({ where: { user_id } })
+    const candidate = await SelectCandidateResponsible(user_id)
 
     if (!candidate) {
       throw new ResourceNotFoundError()
@@ -145,7 +146,7 @@ export async function updateFamilyMemberInfo(
       throw new ResourceNotFoundError()
     }
 
-
+    const idField = candidate.IsResponsible ? { legalResponsibleId: candidate.UserData.id } : { candidate_id: candidate.UserData.id }
     const dataToUpdate = {
       relationship,
       fullName,
@@ -164,7 +165,7 @@ export async function updateFamilyMemberInfo(
       educationLevel,
       email,
       profession,
-      candidate_id: candidate.id,
+      ...idField,
       // Campos opcionais são adicionados condicionalmente
       ...(otherRelationship && { otherRelationship }),
       ...(socialName && { socialName }),
