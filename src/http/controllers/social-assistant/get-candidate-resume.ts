@@ -89,26 +89,58 @@ export async function getCandidateResume(
             throw new ResourceNotFoundError()
         }
         const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapitaHDB(candidateOrResponsibleHDB.UserData.id)
-        const candidateInfo = {
-            id: candidateHDB.id,
-            number: application.number,
+
+
+        const responsibleInfo = {
+            id: candidateOrResponsibleHDB.UserData.id,
             name: identityDetails.fullName,
             cpf: identityDetails.CPF,
             age: calculateAge(identityDetails.birthDate),
             profession: identityDetails.profession,
-            income: incomesPerMember[candidateHDB.id],
+            income: incomesPerMember[candidateOrResponsibleHDB.UserData.id],
             hasCompany: application.CPFCNPJ
 
-
         }
+
+
 
         const familyMembers = await historyDatabase.familyMember.findMany({
             where: { application_id }
         })
+        let candidateInfo
         if (candidateOrResponsibleHDB.IsResponsible) {
-            
-        }
+            const candidateFamilyMember = familyMembers.find((familyMember) => familyMember.CPF === candidateHDB.CPF)
+            if (!candidateFamilyMember) {
+                candidateInfo = {}
+            } else {
 
+                candidateInfo = {
+                    id: candidateHDB.id,
+                    number: application.number,
+                    name: candidateFamilyMember.fullName,
+                    cpf: candidateFamilyMember.CPF,
+                    age: calculateAge(candidateFamilyMember.birthDate),
+                    profession: candidateFamilyMember.profession,
+                    income: incomesPerMember[candidateFamilyMember.id],
+
+
+                }
+            }
+        } else {
+
+
+            candidateInfo = {
+                id: candidateHDB.id,
+                number: application.number,
+                name: identityDetails.fullName,
+                cpf: identityDetails.CPF,
+                age: calculateAge(identityDetails.birthDate),
+                profession: identityDetails.profession,
+                income: incomesPerMember[candidateHDB.id],
+
+            }
+
+        }
 
         const familyMembersInfo = familyMembers.map((familyMember) => {
             return {
@@ -263,6 +295,7 @@ export async function getCandidateResume(
 
         return reply.status(200).send({
             candidateInfo,
+            responsibleInfo,        
             familyMembersInfo,
             housingInfo,
             vehicles,
