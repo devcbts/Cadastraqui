@@ -1,13 +1,13 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
+import getOpenApplications from '@/HistDatabaseFunctions/find-open-applications'
+import { findAWSRouteHDB } from '@/HistDatabaseFunctions/Handle Application/find-AWS-Route'
 import { uploadFile } from '@/http/services/upload-file'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import fs from 'fs'
 import pump from 'pump'
 import { z } from 'zod'
-import fs from 'fs';
-import getOpenApplications from '@/HistDatabaseFunctions/find-open-applications'
-import { findAWSRouteHDB } from '@/HistDatabaseFunctions/Handle Application/find-AWS-Route'
 
 
 
@@ -25,7 +25,9 @@ const section = z.enum(["identity",
     "expenses",
     "loan",
     "financing",
-    "credit-card"])
+    "credit-card",
+    "declaracoes"
+])
 
 export async function uploadDocument(request: FastifyRequest, reply: FastifyReply) {
     const requestParamsSchema = z.object({

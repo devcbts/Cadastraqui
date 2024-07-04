@@ -37,7 +37,6 @@ export async function registerMonthlyIncomeInfo(
   const MontlhyIncomeDataSchemaTest = z.object({
     quantity: z.number().default(0),
     incomeSource: IncomeSource,
-
     incomes: z.array(z.object({
       date: z.date().or(z.string().transform(v => new Date(v))).default(new Date()),
       grossAmount: z.number().default(0),

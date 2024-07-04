@@ -1,12 +1,11 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
-import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { UserAlreadyExistsError } from '@/errors/users-already-exists-error'
 import { prisma } from '@/lib/prisma'
 
 export async function createLegalDependent(
   name: string, CPF: string, birthDate: string, responsible_id: string
 ) {
- 
+
   try {
     const responsible = await prisma.legalResponsible.findUnique({
       where: { id: responsible_id },

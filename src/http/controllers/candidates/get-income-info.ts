@@ -53,7 +53,7 @@ export async function getIncomeInfo(
     incomeInfoResults.push({ name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, incomes: candidateIncome })
     const incomeInfoResultsWithUrls = incomeInfoResults.map((familyMember) => {
       const incomesWithUrls = familyMember.incomes.map((income) => {
-        const incomeDocuments = Object.entries(urls).filter(([url]) => url.split("/")[3] === income.id)
+        const incomeDocuments = Object.entries(urls).filter(([url]) => url.split("/")[4] === income.id)
         return {
           ...income,
           urls: Object.fromEntries(incomeDocuments),
