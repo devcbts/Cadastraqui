@@ -1,7 +1,7 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_RentDetails({ onBack, onSave }) {
     const [rentValue, setRentValue] = useState('');
@@ -17,6 +17,11 @@ export default function Declaration_RentDetails({ onBack, onSave }) {
     }, []);
 
     const handleSave = () => {
+        if (!rentValue || !landlordName || !landlordCpf) {
+            alert('Por favor, preencha todos os campos antes de salvar.');
+            return;
+        }
+
         const rentDetails = {
             rentValue,
             landlordName,
@@ -66,7 +71,16 @@ export default function Declaration_RentDetails({ onBack, onSave }) {
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={!rentValue || !landlordName || !landlordCpf}
+                    style={{
+                        borderColor: !rentValue || !landlordName || !landlordCpf ? '#ccc' : '#1F4B73',
+                        cursor: !rentValue || !landlordName || !landlordCpf ? 'not-allowed' : 'pointer',
+                        opacity: !rentValue || !landlordName || !landlordCpf ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

@@ -1,13 +1,26 @@
 import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss'; 
 
 export default function Declaration_Form({ onEdit, declarationData }) {
     const { auth } = useAuth();
-    const [declarationExists, setDeclarationExists] = useState(true);
+    const [declarationExists, setDeclarationExists] = useState(null); 
+    const [error, setError] = useState(null);
 
     const handleRegisterDeclaration = async () => {
+        setError(null);
+
+        if (declarationExists === null) {
+            setError('Por favor, selecione uma opção antes de salvar.');
+            return;
+        }
+
+        if (declarationExists === false) {
+            setError('Por favor, verifique os dados de cadastro.');
+            return;
+        }
+
         if (!auth?.uid) {
             console.error('UID não está definido');
             return;
@@ -45,7 +58,6 @@ export default function Declaration_Form({ onEdit, declarationData }) {
             const data = await response.json();
             console.log('Declaração registrada:', data);
 
-            // Redireciona para a próxima tela
             onEdit();
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
@@ -72,7 +84,7 @@ export default function Declaration_Form({ onEdit, declarationData }) {
                             id="yes"
                             name="infoCorrect"
                             value="yes"
-                            checked={declarationExists}
+                            checked={declarationExists === true}
                             onChange={() => setDeclarationExists(true)}
                         />
                         <label htmlFor="yes">Sim</label>
@@ -81,15 +93,26 @@ export default function Declaration_Form({ onEdit, declarationData }) {
                             id="no"
                             name="infoCorrect"
                             value="no"
-                            checked={!declarationExists}
+                            checked={declarationExists === false}
                             onChange={() => setDeclarationExists(false)}
                         />
                         <label htmlFor="no">Não</label>
                     </div>
                 </div>
+                {error && <div className={commonStyles.error} style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
             </div>
             <div className={commonStyles.centeredButton}>
-                <ButtonBase onClick={handleRegisterDeclaration}>Salvar</ButtonBase>
+                <ButtonBase
+                    onClick={handleRegisterDeclaration}
+                    disabled={declarationExists === null}
+                    style={{
+                        borderColor: declarationExists === null ? '#ccc' : '#1F4B73',
+                        cursor: declarationExists === null ? 'not-allowed' : 'pointer',
+                        opacity: declarationExists === null ? 0.6 : 1
+                    }}
+                >
+                    Salvar
+                </ButtonBase>
             </div>
         </div>
     );

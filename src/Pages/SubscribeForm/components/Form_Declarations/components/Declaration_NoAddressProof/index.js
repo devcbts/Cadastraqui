@@ -1,14 +1,15 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; 
 import ButtonBase from "Components/ButtonBase";
-import useAuth from 'hooks/useAuth'; // Certifique-se de que o caminho está correto
+import useAuth from 'hooks/useAuth'; 
 import { useEffect, useState } from 'react';
-import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import { api } from 'services/axios'; 
+import commonStyles from '../../styles.module.scss'; 
 
 export default function Declaration_NoAddressProof({ onBack, onNext }) {
     const [declarationData, setDeclarationData] = useState(null);
     const [hasConfirmed, setHasConfirmed] = useState(null);
-    const { auth } = useAuth(); // Obtendo o auth do contexto
+    const [error, setError] = useState(null); 
+    const { auth } = useAuth(); 
 
     useEffect(() => {
         const fetchDeclarationData = async () => {
@@ -25,6 +26,8 @@ export default function Declaration_NoAddressProof({ onBack, onNext }) {
     }, [auth.uid]);
 
     const handleSave = async () => {
+        setError(null); // Reseta o erro
+
         if (!auth?.uid) {
             console.error('UID não está definido');
             return;
@@ -38,6 +41,16 @@ export default function Declaration_NoAddressProof({ onBack, onNext }) {
 
         if (!declarationData) {
             console.error('Os dados da declaração não estão disponíveis');
+            return;
+        }
+
+        if (hasConfirmed === null) {
+            setError('Por favor, selecione uma opção antes de salvar.');
+            return;
+        }
+
+        if (hasConfirmed === 'nao') {
+            setError('Por favor, verifique os dados cadastrados.');
             return;
         }
 
@@ -104,10 +117,20 @@ export default function Declaration_NoAddressProof({ onBack, onNext }) {
                         <input type="radio" name="confirmation" value="nao" onChange={() => setHasConfirmed('nao')} /> Não
                     </label>
                 </div>
+                {error && <div className={commonStyles.error} style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={hasConfirmed === null}
+                    style={{
+                        borderColor: hasConfirmed === null ? '#ccc' : '#1F4B73',
+                        cursor: hasConfirmed === null ? 'not-allowed' : 'pointer',
+                        opacity: hasConfirmed === null ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

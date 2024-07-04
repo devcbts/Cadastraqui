@@ -1,14 +1,15 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_IncomeTaxExemptionConfirmation({ onBack, onNext }) {
     const { auth } = useAuth();
     const [confirmation, setConfirmation] = useState(null);
     const [incomeTaxDetails, setIncomeTaxDetails] = useState(null);
     const [declarationData, setDeclarationData] = useState({});
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const savedDetails = localStorage.getItem('incomeTaxDetails');
@@ -22,6 +23,11 @@ export default function Declaration_IncomeTaxExemptionConfirmation({ onBack, onN
     }, []);
 
     const handleSave = async () => {
+        if (confirmation === 'nao') {
+            setError('Por favor, verifique os dados de cadastro.');
+            return;
+        }
+
         if (confirmation !== null) {
             try {
                 const token = localStorage.getItem("token");
@@ -55,7 +61,6 @@ export default function Declaration_IncomeTaxExemptionConfirmation({ onBack, onN
                 const data = await response.json();
                 console.log('Declaração registrada:', data);
 
-                // Redireciona para a próxima tela
                 onNext();
             } catch (error) {
                 console.error('Erro ao registrar a declaração:', error);
@@ -79,16 +84,26 @@ export default function Declaration_IncomeTaxExemptionConfirmation({ onBack, onN
                 <p>Confirma a declaração?</p>
                 <div className={commonStyles.radioGroup}>
                     <label>
-                        <input type="radio" name="confirmation" value="sim" onChange={() => setConfirmation('sim')} /> Sim
+                        <input type="radio" name="confirmation" value="sim" onChange={() => {setConfirmation('sim'); setError('')}} /> Sim
                     </label>
                     <label>
-                        <input type="radio" name="confirmation" value="nao" onChange={() => setConfirmation('nao')} /> Não
+                        <input type="radio" name="confirmation" value="nao" onChange={() => {setConfirmation('nao'); setError('')}} /> Não
                     </label>
                 </div>
+                {error && <div style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={confirmation === null}
+                    style={{
+                        borderColor: confirmation === null ? '#ccc' : '#1F4B73',
+                        cursor: confirmation === null ? 'not-allowed' : 'pointer',
+                        opacity: confirmation === null ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

@@ -25,8 +25,10 @@ class EmployementTypeMapper {
                 firstParcelDate: i.firstParcelDate?.split('T')[0],
                 admissionDate: i.admissionDate?.split('T')[0],
                 url_document: Object.values(removeObjectFileExtension(i?.urls))?.[0],
+                isUpdated: true
             }))
         }))
+        console.log('MESES', mappedData)
         const mappedIncome = new Number(averageIncome).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
         return { incomes: mappedData, avgFamilyIncome: mappedIncome }
     }

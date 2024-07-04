@@ -10,12 +10,26 @@ export default function Declaration_WorkCardUpload({ onBack, onSave }) {
     const [declarationData, setDeclarationData] = useState(null);
     const [file, setFile] = useState(null)
     const { auth } = useAuth()
+
     useEffect(() => {
         const savedData = localStorage.getItem('declarationData');
         if (savedData) {
             setDeclarationData(JSON.parse(savedData));
         }
     }, []);
+
+    const handleFileChange = (e) => {
+        setFile(e.target.files?.[0]);
+    };
+
+    const handleSave = () => {
+        if (file) {
+            // Logic to save the file
+            onSave();
+        } else {
+            alert('Por favor, selecione um arquivo antes de salvar.');
+        }
+    };
 
     if (!declarationData) {
         return <p>Carregando...</p>;
@@ -42,12 +56,22 @@ export default function Declaration_WorkCardUpload({ onBack, onSave }) {
             <p>Relatório digital da Carteira de Trabalho e Previdência Social contendo todos os dados pessoais e todos os contratos de trabalho</p>
             <div className={commonStyles.fileUpload}>
                 <label htmlFor="fileUpload">Anexar arquivo</label>
-                <input type="file" id="fileUpload" onChange={(e) => setFile(e.target.files?.[0])} accept='application/pdf' />
+                <input type="file" id="fileUpload" onChange={handleFileChange} accept='application/pdf' />
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSubmitDocument} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSubmitDocument}
+                    disabled={!file}
+                    style={{
+                        borderColor: !file ? '#ccc' : '#1F4B73',
+                        cursor: !file ? 'not-allowed' : 'pointer',
+                        opacity: !file ? 0.6 : 1
+                    }}
+                />
             </div>
+
         </div>
     );
 }

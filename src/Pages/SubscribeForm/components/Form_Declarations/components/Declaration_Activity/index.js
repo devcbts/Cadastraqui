@@ -40,8 +40,27 @@ export default function Declaration_Activity({ onBack, onNext }) {
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
-                <ButtonBase onClick={handleSave}><Arrow width="40px" /></ButtonBase>
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={activity === null}
+                    style={{
+                        borderColor: activity === null ? '#ccc' : '#1F4B73',
+                        cursor: activity === null ? 'not-allowed' : 'pointer',
+                        opacity: activity === null ? 0.6 : 1
+                    }}
+                />
+                <ButtonBase
+                    onClick={handleSave}
+                    disabled={activity === null}
+                    style={{
+                        borderColor: activity === null ? '#ccc' : '#1F4B73',
+                        cursor: activity === null ? 'not-allowed' : 'pointer',
+                        opacity: activity === null ? 0.6 : 1
+                    }}
+                >
+                    <Arrow width="40px" />
+                </ButtonBase>
             </div>
         </div>
     );

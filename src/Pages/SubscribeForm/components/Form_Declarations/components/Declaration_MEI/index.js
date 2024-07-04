@@ -1,7 +1,10 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss';
+import { NotificationService } from 'services/notification';
+import uploadService from 'services/upload/uploadService';
+import useAuth from 'hooks/useAuth';
 
 export default function Declaration_MEI({ onBack, onNext }) {
     const [mei, setMei] = useState(null);
@@ -14,18 +17,32 @@ export default function Declaration_MEI({ onBack, onNext }) {
             setDeclarationData(JSON.parse(savedData));
         }
     }, []);
-
-    const handleSave = () => {
+    const { auth } = useAuth()
+    const handleSave = async () => {
         if (mei !== null && (mei === 'sim' ? file : true)) {
             if (mei === 'sim' && file) {
-                localStorage.setItem('meiDetails', JSON.stringify({ file: file.name }));
+                try {
+                    const formData = new FormData()
+                    formData.append("file_MEI", file)
+                    await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: auth?.uid }, formData)
+                    localStorage.setItem('meiDetails', JSON.stringify({ file: file.name }));
+                    NotificationService.success({ text: 'Documento enviado' })
+                } catch (err) {
+                }
             }
             onNext(mei);
         }
     };
 
     const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
+        setFile(e.target.files?.[0]);
+    };
+
+    const isSaveDisabled = () => {
+        if (mei === 'sim') {
+            return !file;
+        }
+        return mei === null;
     };
 
     if (!declarationData) {
@@ -49,12 +66,21 @@ export default function Declaration_MEI({ onBack, onNext }) {
             {mei === 'sim' && (
                 <>
                     <p>Anexar Declaração Anual do Simples Nacional para o(a) Microempreendedor(a) Individual (DAS-SIMEI).</p>
-                    <input type="file" onChange={handleFileChange} />
+                    <input type="file" onChange={handleFileChange} accept='application/pdf' />
                 </>
             )}
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={isSaveDisabled()}
+                    style={{
+                        borderColor: isSaveDisabled() ? '#ccc' : '#1F4B73',
+                        cursor: isSaveDisabled() ? 'not-allowed' : 'pointer',
+                        opacity: isSaveDisabled() ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

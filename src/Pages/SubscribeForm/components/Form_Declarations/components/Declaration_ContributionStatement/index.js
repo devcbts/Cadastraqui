@@ -11,6 +11,7 @@ import useAuth from 'hooks/useAuth';
 export default function Declaration_ContributionStatement({ onBack, onSave }) {
     const [declarationData, setDeclarationData] = useState(null);
     const [file, setFile] = useState(null)
+
     useEffect(() => {
         const savedData = localStorage.getItem('declarationData');
         if (savedData) {
@@ -19,6 +20,12 @@ export default function Declaration_ContributionStatement({ onBack, onSave }) {
     }, []);
 
     const { auth } = useAuth()
+    const handleFileChange = (e) => {
+        setFile(e.target.files?.[0]);
+    };
+
+
+
     if (!declarationData) {
         return <p>Carregando...</p>;
     }
@@ -28,7 +35,7 @@ export default function Declaration_ContributionStatement({ onBack, onSave }) {
         }
         try {
             const formData = new FormData()
-            formData.append("file_contribuicao-cnis", file)
+            formData.append("file_CNIS", file)
             await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: auth?.uid }, formData)
             NotificationService.success({ text: 'Documento enviado' }).then((_) => onSave())
         } catch (err) {
@@ -44,7 +51,7 @@ export default function Declaration_ContributionStatement({ onBack, onSave }) {
                 <p>Anexar o Extrato de Contribuição (CNIS).</p>
                 <div className={commonStyles.fileUpload}>
                     <label htmlFor="fileUpload">Anexar arquivo</label>
-                    <input type="file" id="fileUpload" onChange={(e) => setFile(e.target.files?.[0])} accept='application/pdf' />
+                    <input type="file" id="fileUpload" onChange={handleFileChange} accept='application/pdf' />
                 </div>
                 <p>Não possui ainda o seu extrato de contribuição (CNIS)?</p>
                 <Link target='_blank' to={'https://www.gov.br/pt-br/servicos/emitir-extrato-de-contribuicao-cnis'}>
@@ -53,7 +60,16 @@ export default function Declaration_ContributionStatement({ onBack, onSave }) {
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSubmitDocument} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSubmitDocument}
+                    disabled={!file}
+                    style={{
+                        borderColor: !file ? '#ccc' : '#1F4B73',
+                        cursor: !file ? 'not-allowed' : 'pointer',
+                        opacity: !file ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

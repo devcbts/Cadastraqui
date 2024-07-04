@@ -329,6 +329,9 @@ class CandidateService {
     async updateRegistrationProgress(section, status) {
         return api.patch(`/candidates/progress/${section}`, { status })
     }
+    async updateIncome(memberId, data) {
+        return api.put(`/candidates/update-income/${memberId}`, data)
+    }
 }
 
 export default new CandidateService()

@@ -22,6 +22,13 @@ export default function Declaration_Autonomo({ onBack, onSave }) {
         }
     };
 
+    const isSaveDisabled = () => {
+        if (informalWork === 'sim') {
+            return !activity;
+        }
+        return informalWork === null;
+    };
+
     if (!declarationData) {
         return <p>Carregando...</p>;
     }
@@ -55,7 +62,16 @@ export default function Declaration_Autonomo({ onBack, onSave }) {
             )}
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={isSaveDisabled()}
+                    style={{
+                        borderColor: isSaveDisabled() ? '#ccc' : '#1F4B73',
+                        cursor: isSaveDisabled() ? 'not-allowed' : 'pointer',
+                        opacity: isSaveDisabled() ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

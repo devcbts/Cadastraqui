@@ -42,7 +42,15 @@ export default function FormIncome() {
             setActiveStep(2)
             return
         }
+        // if data.id exists, the data is being updated
         try {
+            if (data.id) {
+                await candidateService.updateIncome(member.id, data)
+                const formData = createFileForm(data)
+                await uploadService.uploadBySectionAndId({ section: 'income', id: member.id, tableId: data.id }, formData)
+                NotificationService.success({ text: 'Informações de renda alteradas' })
+                return
+            }
             // first update income source list from user
             await candidateService.updateIncomeSource({ id: member.id, incomeSource: [incomeSource] })
             const id = await candidateService.registerEmploymentType(member.id, data)
@@ -50,7 +58,11 @@ export default function FormIncome() {
             const formData = createFileForm(data)
             await uploadService.uploadBySectionAndId({ section: 'income', id: member.id, tableId: id }, formData)
             // then execute the rest of operation
-            NotificationService.success({ text: 'Informações cadastradas' })
+            NotificationService.success({ text: 'Informações cadastradas' }).then(_ => {
+                setData(null)
+                setIsAdding(false)
+                setActiveStep(1)
+            })
         } catch (err) {
             NotificationService.error({ text: err?.response?.data?.message })
 
