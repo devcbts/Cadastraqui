@@ -25,16 +25,10 @@ export async function createLegalDependent(
 
     await prisma.candidate.create({
       data: {
-        address: responsible.address,
-        CEP: responsible.CEP,
-        city: responsible.city,
         CPF,
         birthDate: new Date(birthDate),
         name,
-        neighborhood: responsible.neighborhood,
-        addressNumber: responsible.addressNumber,
-        phone: responsible.phone,
-        UF: responsible.UF,
+
         responsible_id: responsible.id,
       },
     })
