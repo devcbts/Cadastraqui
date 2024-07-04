@@ -48,7 +48,7 @@ export default function FormIncome() {
             const id = await candidateService.registerEmploymentType(member.id, data)
             await candidateService.registerMonthlyIncome(member.id, data)
             const formData = createFileForm(data)
-            await uploadService.uploadBySectionAndId({ section: 'income', id }, formData)
+            await uploadService.uploadBySectionAndId({ section: 'income', id: member.id, tableId: id }, formData)
             // then execute the rest of operation
             NotificationService.success({ text: 'Informações cadastradas' })
         } catch (err) {

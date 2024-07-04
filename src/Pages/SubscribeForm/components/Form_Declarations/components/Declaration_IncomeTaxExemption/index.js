@@ -2,13 +2,16 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import { NotificationService } from 'services/notification';
+import uploadService from 'services/upload/uploadService';
+import useAuth from 'hooks/useAuth';
 
 export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
     const [confirmation, setConfirmation] = useState(null);
     const [year, setYear] = useState('');
     const [file, setFile] = useState(null);
     const [declarationData, setDeclarationData] = useState(null);
-
+    const { auth } = useAuth()
     useEffect(() => {
         const savedData = localStorage.getItem('declarationData');
         if (savedData) {
@@ -16,13 +19,22 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
         }
     }, []);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (confirmation !== null) {
             if (confirmation === 'sim') {
                 onSave('sim');
             } else if (confirmation === 'nao' && year && file) {
-                localStorage.setItem('incomeTaxDetails', JSON.stringify({ year, file: file.name }));
-                onSave('nao');
+                try {
+
+                    const formData = new FormData()
+                    formData.append("file_IR", file)
+                    await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: auth?.uid })
+                    localStorage.setItem('incomeTaxDetails', JSON.stringify({ year, file: file.name }));
+                    onSave('nao');
+                    NotificationService.success({ text: 'Documento enviado' })
+                } catch (err) {
+
+                }
             }
         }
     };

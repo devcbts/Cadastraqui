@@ -55,11 +55,13 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
             marginBottom: 20,
         },
         declarationType: {
+            textAlign: 'center',
             fontSize: 16,
             fontWeight: 'bold',
             marginBottom: 8,
         },
         declarationText: {
+            textAlign: 'justify',
             marginBottom: 10,
             fontSize: 12,
             lineHeight: 1.5,
@@ -79,7 +81,7 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
                 {declarations.map((declaration, index) => (
                     <View key={index} style={styles.section}>
                         <Text style={styles.declarationType}>{declaration.type}</Text>
-                        <Text style={styles.declarationText}>{declaration.text.trim()}</Text>
+                        <Text style={styles.declarationText}>{declaration.text.replace(/\n/g, '').replace(/\s/g, ' ').trim()}</Text>
                     </View>
                 ))}
             </Page>
@@ -184,21 +186,21 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase label="Salvar" onClick={handleRegisterDeclaration} />
-                <ButtonBase label="Gerar PDF" onClick={handleGeneratePDF} />
+                {/* <ButtonBase label="Gerar PDF" onClick={handleGeneratePDF} /> */}
+                {isGeneratingPDF ? (
+                    <p>Gerando PDF...</p>
+                ) : (
+                    <PDFDownloadLink
+                        document={<MyDocument />}
+                        fileName="declaracoes.pdf"
+                    // style={{ textDecoration: 'none', padding: '10px', color: '#4a4a4a', backgroundColor: '#f2f2f2', border: '1px solid #4a4a4a', borderRadius: '4px' }}
+                    >
+                        {({ blob, url, loading, error }) =>
+                            loading ? 'Gerando PDF...' : <ButtonBase label={"Baixar PDF"} />
+                        }
+                    </PDFDownloadLink>
+                )}
             </div>
-            {isGeneratingPDF ? (
-                <p>Gerando PDF...</p>
-            ) : (
-                <PDFDownloadLink
-                    document={<MyDocument />}
-                    fileName="declaracoes.pdf"
-                    style={{ textDecoration: 'none', padding: '10px', color: '#4a4a4a', backgroundColor: '#f2f2f2', border: '1px solid #4a4a4a', borderRadius: '4px' }}
-                >
-                    {({ blob, url, loading, error }) =>
-                        loading ? 'Gerando PDF...' : 'Baixar PDF'
-                    }
-                </PDFDownloadLink>
-            )}
         </div>
     );
 }
