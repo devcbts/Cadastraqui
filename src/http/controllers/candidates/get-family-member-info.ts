@@ -48,8 +48,10 @@ export async function getFamilyMemberInfo(
         urls: Object.fromEntries(documents),
       }
     })
-
-    return reply.status(200).send({ familyMembers: familyMembersWithUrls })
+    // includeSelf on query = true means the candidate will be included on the result
+    const { includeSelf } = JSON.parse(JSON.stringify(request.query)) as { includeSelf: string }
+    const result = includeSelf === "true" ? [...familyMembersWithUrls, candidateOrResponsible.UserData] : familyMembersWithUrls
+    return reply.status(200).send({ familyMembers: result })
 
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {

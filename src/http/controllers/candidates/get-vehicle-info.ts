@@ -1,7 +1,5 @@
-import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
-import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -79,8 +77,10 @@ export async function getVehicleInfo(
       }
 
     });
-    console.log(vehicleInfoResultsWithUrls[0].urls)
-    return reply.status(200).send({ vehicleInfoResults: vehicleInfoResultsWithUrls });
+    const hasVehicles = await prisma.finishedRegistration.findUnique({
+      where: idField
+    })
+    return reply.status(200).send({ vehicleInfoResults: vehicleInfoResultsWithUrls, hasVehicles: hasVehicles?.veiculos });
 
 
 

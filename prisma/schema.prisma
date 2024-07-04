@@ -20,14 +20,14 @@ model Candidate {
   name                   String
   CPF                    String                @unique
   birthDate              DateTime
-  phone                  String
-  address                String
-  city                   String
-  UF                     COUNTRY
-  CEP                    String
-  neighborhood           String
-  addressNumber          String
-  complement             String?
+  // phone                  String
+  // address                String
+  // city                   String
+  // UF                     COUNTRY
+  // CEP                    String
+  // neighborhood           String
+  // addressNumber          String
+  // complement             String?
   role                   ROLE                  @default(CANDIDATE)
   createdAt              DateTime              @default(now())
   user_id                String?               @unique
@@ -84,14 +84,14 @@ model LegalResponsible {
   name                            String
   CPF                             String                @unique
   birthDate                       DateTime
-  phone                           String
-  address                         String
-  city                            String
-  UF                              COUNTRY
-  CEP                             String
-  neighborhood                    String
-  addressNumber                   String
-  complement                      String?
+  // phone                           String
+  // address                         String
+  // city                            String
+  // UF                              COUNTRY
+  // CEP                             String
+  // neighborhood                    String
+  // addressNumber                   String
+  // complement                      String?
   livesAtSameAddress              Boolean?
   institutionType                 INSTITUTION_TYPE?
   responsibleEducationLevel       EDUCATION_TYPE?

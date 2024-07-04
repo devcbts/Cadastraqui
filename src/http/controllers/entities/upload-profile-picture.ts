@@ -35,7 +35,9 @@ export async function uploadEntityProfilePicture(
 
         throw new NotAllowedError()
       }
-      reply.status(201).send({ url: sended })
+      const url = await GetUrl(Route)
+
+      reply.status(201).send({ url })
     }
     if (entitySubisidary) {
       const Route = `ProfilePictures/${entitySubisidary.id}`

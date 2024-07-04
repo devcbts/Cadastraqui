@@ -1,5 +1,5 @@
-import nodeSchedule from 'node-schedule'
-import { prisma } from '../lib/prisma'
+import nodeSchedule from 'node-schedule';
+import { prisma } from '../lib/prisma';
 
 export async function removeOutdatedIncome() {
     const deletedIncomes = []; // Passo 1
@@ -10,7 +10,7 @@ export async function removeOutdatedIncome() {
                 candidate_id: true,
                 incomeSource: true,
             },
-            distinct: ['familyMember_id', 'candidate_id','legalResponsibleId', 'incomeSource']
+            distinct: ['familyMember_id', 'candidate_id', 'legalResponsibleId', 'incomeSource']
         });
 
         for (const group of uniqueGroups) {
@@ -40,7 +40,7 @@ export async function removeOutdatedIncome() {
     return deletedIncomes; // Passo 3
 }
 
-const job: nodeSchedule.Job = nodeSchedule.scheduleJob("* * * 1 * * *", async () => {
+const job: nodeSchedule.Job = nodeSchedule.scheduleJob("0 0 1 * * * ", async () => {
     const deletedIncomes = await removeOutdatedIncome();
 })
 

@@ -37,7 +37,7 @@ export async function getOpenAnnouncements(
       })
       console.log('vistos', announcementsSeen)
       const announcementsFiltered = announcementsSeen.filter((announcementSee) => {
-        if (announcementSee.announcement.announcementBegin! <= new Date() && announcementSee.announcement.closeDate! >= new Date()) {
+        if (announcementSee.announcement.announcementBegin! <= new Date() && announcementSee.announcement.announcementDate! >= new Date()) {
           return announcementSee.announcement
         }
       })
@@ -45,7 +45,7 @@ export async function getOpenAnnouncements(
     }
     else {
       const announcement = await prisma.announcement.findUnique({
-        where: { id: announcement_id, closeDate: { gte: new Date() } },
+        where: { id: announcement_id, announcementDate: { gte: new Date() } },
         include: {
           educationLevels: true,
           entity: true,
@@ -57,7 +57,7 @@ export async function getOpenAnnouncements(
         throw new ResourceNotFoundError()
       }
       const Route = `ProfilePictures/${announcement.entity.id}`
-      const logo ='' //await GetUrl(Route) 
+      const logo = await GetUrl(Route)
 
       const educationLevels = announcement.educationLevels
       const entityAndSubsidiaries = [announcement.entity, ...announcement.entity_subsidiary]
@@ -65,7 +65,7 @@ export async function getOpenAnnouncements(
         const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === entity.id)
         if (entity.id = announcement.entity.id) {
           matchedEducationLevels.push(...educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === null))
-        
+
         }
         return { ...entity, matchedEducationLevels }
       })

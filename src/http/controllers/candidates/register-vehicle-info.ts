@@ -95,7 +95,19 @@ export async function registerVehicleInfo(
         // Não adiciona os proprietários aqui, pois será feito no próximo passo
       },
     });
+    if (vehicle) {
+      const idField = candidateResponsible.IsResponsible
+        ? { legalResponsibleId: candidateResponsible.UserData.id }
+        : { candidate_id: candidateResponsible.UserData.id }
 
+      await prisma.finishedRegistration.update({
+        where: idField
+        ,
+        data: {
+          veiculos: true
+        }
+      })
+    }
     // Associa os membros da família ao veículo
 
     return reply.status(201).send({ vehicle })
