@@ -108,6 +108,7 @@ clientBackup.on('notification', async (msg) => {
                    await createExpenseHDB(expense.data.id, expense.data.candidate_id, expense.data.legalResponsibleId, application.id)
                 }
             }
+            
         }
         if (msg.channel == 'channel_familyMember') {
             const familyMember = JSON.parse(msg.payload!);
@@ -294,7 +295,7 @@ clientBackup.on('notification', async (msg) => {
                 updateBankAccountHDB(bankaccount.data.id)
             }
             else if (bankaccount.operation == 'Insert') {
-                const openApplications = await getOpenApplications(bankaccount?.candidate_id || bankaccount?.legalResponsibleId || bankaccountInfo?.familyMember?.candidate_id || bankaccountInfo?.familyMember?.legalResponsibleId);
+                const openApplications = await getOpenApplications(bankaccount.data.candidate_id || bankaccount.data.legalResponsibleId || bankaccountInfo?.familyMember?.candidate_id || bankaccountInfo?.familyMember?.legalResponsibleId);
                 for (const application of openApplications) {
                     createBankAccountHDB(bankaccount.data.id, bankaccount.data.candidate_id, bankaccount.data.legalResponsibleId, application.id)
                 }
