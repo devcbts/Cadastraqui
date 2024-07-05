@@ -11,6 +11,7 @@ import { subscribeAnnouncement } from './create-application'
 import getActivity from './Declaration Get Routes/get-activity'
 import getAddressProof from './Declaration Get Routes/get-address-proof'
 import getDeclarationForm from './Declaration Get Routes/get-declaration-form'
+import getUserInformationForDeclaration from './Declaration Get Routes/get-declaration-info'
 import getEmpresario from './Declaration Get Routes/get-empresario'
 import getIncomeTaxExemption from './Declaration Get Routes/get-IncomeTaxExemption'
 import getMEIDeclaration from './Declaration Get Routes/get-MEI'
@@ -240,6 +241,7 @@ export async function candidateRoutes(app: FastifyInstance) {
 
 
   // Declaration Get Routes ( to create a declaration)
+  app.get('/declaration/get-info', { onRequest: [verifyJWT] }, getUserInformationForDeclaration)
   app.get('/declaration/Form/:_id', { onRequest: [verifyJWT] }, getDeclarationForm)
   app.get('/declaration/AddressProof/:_id', { onRequest: [verifyJWT] }, getAddressProof)
   app.get('/declaration/MEI/:_id', { onRequest: [verifyJWT] }, getMEIDeclaration)
