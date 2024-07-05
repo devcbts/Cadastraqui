@@ -1,14 +1,15 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
     const { auth } = useAuth();
     const [confirmation, setConfirmation] = useState(null);
     const [rentDetails, setRentDetails] = useState(null);
     const [declarationData, setDeclarationData] = useState(null);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const savedRentDetails = localStorage.getItem('rentDetails');
@@ -23,6 +24,11 @@ export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
 
     const handleSave = async () => {
         if (confirmation === null) {
+            return;
+        }
+
+        if (confirmation === 'nao') {
+            setError('Por favor, verifique os dados de cadastro.');
             return;
         }
 
@@ -68,12 +74,13 @@ export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
             const data = await response.json();
             console.log('Declaração registrada:', data);
 
-            // Redireciona para a próxima tela (sempre VEHICLE_OWNERSHIP)
             onNext('vehicleOwnership');
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }
     };
+
+    const isSaveDisabled = confirmation === null;
 
     if (!rentDetails || !declarationData) {
         return <p>Carregando...</p>;
@@ -108,10 +115,20 @@ export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
                         /> Não
                     </label>
                 </div>
+                {error && <div className={commonStyles.error} style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={isSaveDisabled}
+                    style={{
+                        borderColor: isSaveDisabled ? '#ccc' : '#1F4B73',
+                        cursor: isSaveDisabled ? 'not-allowed' : 'pointer',
+                        opacity: isSaveDisabled ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

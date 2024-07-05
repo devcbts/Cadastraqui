@@ -4,10 +4,10 @@ import commonStyles from '../../../styles.module.scss'
 import { z } from "zod";
 import FilePreview from "Components/FilePreview";
 
-const { forwardRef } = require("react");
+const { forwardRef, useEffect } = require("react");
 
 const IncomeFile = forwardRef(({ data }, ref) => {
-    const { control, watch } = useControlForm({
+    const { control, watch, setValue } = useControlForm({
         schema: z.object({
             file_document: z.instanceof(File).nullish()
         }),
@@ -17,6 +17,11 @@ const IncomeFile = forwardRef(({ data }, ref) => {
         },
         initialData: data
     }, ref)
+    // useEffect(()=>{
+    //     if(watch("file_document")){
+    //         setValue()
+    //     }
+    // },[watch("file_document")])
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Comprovante</h1>

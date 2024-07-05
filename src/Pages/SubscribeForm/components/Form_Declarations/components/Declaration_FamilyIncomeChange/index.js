@@ -1,12 +1,12 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_FamilyIncomeChange({ onBack, onNext, onResponsibilityConfirmation, userId }) {
     const { auth } = useAuth();
-    const [confirmation, setConfirmation] = useState('sim'); // Inicialize como 'sim'
+    const [confirmation, setConfirmation] = useState(null); // Inicialize como null
     const [declarationData, setDeclarationData] = useState(null);
 
     useEffect(() => {
@@ -17,6 +17,10 @@ export default function Declaration_FamilyIncomeChange({ onBack, onNext, onRespo
     }, []);
 
     const handleRegisterDeclaration = async () => {
+        if (confirmation === null) {
+            return;
+        }
+
         if (!auth?.uid) {
             console.error('UID não está definido');
             return;
@@ -102,7 +106,16 @@ export default function Declaration_FamilyIncomeChange({ onBack, onNext, onRespo
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleRegisterDeclaration} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleRegisterDeclaration}
+                    disabled={confirmation === null}
+                    style={{
+                        borderColor: confirmation === null ? '#ccc' : '#1F4B73',
+                        cursor: confirmation === null ? 'not-allowed' : 'pointer',
+                        opacity: confirmation === null ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

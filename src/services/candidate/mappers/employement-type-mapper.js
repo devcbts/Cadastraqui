@@ -12,7 +12,6 @@ class EmployementTypeMapper {
     fromPersistence(data) {
         const { incomeInfoResults, averageIncome } = data
         const formatCPFCNPJ = (str) => {
-            console.log(str?.toString().replace(/\D/g, ''))
             if (str?.toString().replace(/\D/g, '').length === 11) return formatCPF(str)
             return formatCNPJ(str)
         }
@@ -25,8 +24,10 @@ class EmployementTypeMapper {
                 firstParcelDate: i.firstParcelDate?.split('T')[0],
                 admissionDate: i.admissionDate?.split('T')[0],
                 url_document: Object.values(removeObjectFileExtension(i?.urls))?.[0],
+                isUpdated: true
             }))
         }))
+        console.log('MESES', mappedData)
         const mappedIncome = new Number(averageIncome).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
         return { incomes: mappedData, avgFamilyIncome: mappedIncome }
     }

@@ -1,7 +1,7 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; 
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss'; 
 
 export default function Declaration_ChildSupport({ onBack, onNext, onNoPension }) {
     const [childReceivesSupport, setChildReceivesSupport] = useState(null);
@@ -60,8 +60,27 @@ export default function Declaration_ChildSupport({ onBack, onNext, onNoPension }
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleNext} />
-                <ButtonBase onClick={handleNext}><Arrow width="40px" /></ButtonBase>
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleNext}
+                    disabled={childReceivesSupport === null}
+                    style={{
+                        borderColor: childReceivesSupport === null ? '#ccc' : '#1F4B73',
+                        cursor: childReceivesSupport === null ? 'not-allowed' : 'pointer',
+                        opacity: childReceivesSupport === null ? 0.6 : 1
+                    }}
+                />
+                <ButtonBase
+                    onClick={handleNext}
+                    disabled={childReceivesSupport === null}
+                    style={{
+                        borderColor: childReceivesSupport === null ? '#ccc' : '#1F4B73',
+                        cursor: childReceivesSupport === null ? 'not-allowed' : 'pointer',
+                        opacity: childReceivesSupport === null ? 0.6 : 1
+                    }}
+                >
+                    <Arrow width="40px" />
+                </ButtonBase>
             </div>
         </div>
     );

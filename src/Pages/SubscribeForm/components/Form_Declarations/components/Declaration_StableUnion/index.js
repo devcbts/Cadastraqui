@@ -28,6 +28,13 @@ export default function Declaration_StableUnion({ onBack, onSave }) {
         return <p>Carregando...</p>;
     }
 
+    const isSaveDisabled = () => {
+        if (confirmation === 'sim') {
+            return !partnerName || !unionStartDate;
+        }
+        return confirmation === null;
+    };
+
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
@@ -69,7 +76,16 @@ export default function Declaration_StableUnion({ onBack, onSave }) {
             )}
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={isSaveDisabled()}
+                    style={{
+                        borderColor: isSaveDisabled() ? '#ccc' : '#1F4B73',
+                        cursor: isSaveDisabled() ? 'not-allowed' : 'pointer',
+                        opacity: isSaveDisabled() ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

@@ -1,15 +1,16 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; 
 import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss';
 
-export default function Declaration_PensionConfirmation({ onBack, onNext, userId }) {
+export default function Declaration_PensionConfirmation({ onBack, onNext }) {
     const { auth } = useAuth();
-    const [hasAddressProof, setHasAddressProof] = useState('sim'); // Inicialize como 'sim'
+    const [hasAddressProof, setHasAddressProof] = useState(null); 
     const [pensionData, setPensionData] = useState(null);
     const [declarationData, setDeclarationData] = useState(null);
     const [childrenData, setChildrenData] = useState([]);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const pensionData = localStorage.getItem('pensionData');
@@ -27,6 +28,15 @@ export default function Declaration_PensionConfirmation({ onBack, onNext, userId
     }, []);
 
     const handleRegisterDeclaration = async () => {
+        if (hasAddressProof === null) {
+            return;
+        }
+
+        if (hasAddressProof === 'nao') {
+            setError('Por favor, verifique os dados de cadastro.');
+            return;
+        }
+
         if (!auth?.uid) {
             console.error('UID não está definido');
             return;
@@ -77,12 +87,13 @@ export default function Declaration_PensionConfirmation({ onBack, onNext, userId
             const data = await response.json();
             console.log('Declaração registrada:', data);
 
-            // Redireciona para a próxima tela
-            onNext(true);  // Sempre redireciona para ADDRESS_PROOF
+            onNext(true);  
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }
     };
+
+    const isSaveDisabled = hasAddressProof === null;
 
     if (!declarationData) {
         return <p>Carregando...</p>;
@@ -125,10 +136,20 @@ export default function Declaration_PensionConfirmation({ onBack, onNext, userId
                         /> Não
                     </label>
                 </div>
+                {error && <div className={commonStyles.error} style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleRegisterDeclaration} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleRegisterDeclaration}
+                    disabled={isSaveDisabled}
+                    style={{
+                        borderColor: isSaveDisabled ? '#ccc' : '#1F4B73',
+                        cursor: isSaveDisabled ? 'not-allowed' : 'pointer',
+                        opacity: isSaveDisabled ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

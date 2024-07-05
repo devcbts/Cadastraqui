@@ -35,7 +35,16 @@ export default function Declaration_WorkCard({ onBack, onNext }) {
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleSave} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
+                    disabled={hasWorkCard === null}
+                    style={{
+                        borderColor: hasWorkCard === null ? '#ccc' : '#1F4B73',
+                        cursor: hasWorkCard === null ? 'not-allowed' : 'pointer',
+                        opacity: hasWorkCard === null ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

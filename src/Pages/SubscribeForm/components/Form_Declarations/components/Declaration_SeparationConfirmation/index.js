@@ -1,15 +1,16 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_SeparationConfirmation({ onBack, onNext, userId }) {
     const { auth } = useAuth();
-    const [confirmation, setConfirmation] = useState('sim'); // Inicialize como 'sim'
+    const [confirmation, setConfirmation] = useState(null);
     const [separationDetails, setSeparationDetails] = useState(null);
     const [addressDetails, setAddressDetails] = useState(null);
     const [declarationData, setDeclarationData] = useState(null);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const savedSeparationDetails = localStorage.getItem('separationDetails');
@@ -29,6 +30,11 @@ export default function Declaration_SeparationConfirmation({ onBack, onNext, use
     }, []);
 
     const handleRegisterDeclaration = async () => {
+        if (confirmation === 'nao') {
+            setError('Por favor, verifique os dados de cadastro.');
+            return;
+        }
+
         if (!auth?.uid) {
             console.error('UID não está definido');
             return;
@@ -73,7 +79,6 @@ export default function Declaration_SeparationConfirmation({ onBack, onNext, use
             const data = await response.json();
             console.log('Declaração registrada:', data);
 
-            // Redireciona para a próxima tela
             onNext(confirmation === 'sim');
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
@@ -83,6 +88,8 @@ export default function Declaration_SeparationConfirmation({ onBack, onNext, use
     if (!separationDetails || !addressDetails || !declarationData) {
         return <p>Carregando...</p>;
     }
+
+    const isSaveDisabled = confirmation === null;
 
     return (
         <div className={commonStyles.declarationForm}>
@@ -116,10 +123,20 @@ export default function Declaration_SeparationConfirmation({ onBack, onNext, use
                         /> Não
                     </label>
                 </div>
+                {error && <div className={commonStyles.error} style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleRegisterDeclaration} />
+                <ButtonBase 
+                    label="Salvar" 
+                    onClick={handleRegisterDeclaration}
+                    disabled={isSaveDisabled}
+                    style={{
+                        borderColor: isSaveDisabled ? '#ccc' : '#1F4B73',
+                        cursor: isSaveDisabled ? 'not-allowed' : 'pointer',
+                        opacity: isSaveDisabled ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

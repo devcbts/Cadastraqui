@@ -6,9 +6,10 @@ import commonStyles from '../../styles.module.scss'; // Certifique-se de que o c
 
 export default function Declaration_EmpresarioConfirmation({ onBack, onSave, userId }) {
     const { auth } = useAuth();
-    const [confirmation, setConfirmation] = useState('sim'); // Inicialize como 'sim'
+    const [confirmation, setConfirmation] = useState(null);
     const [declarationData, setDeclarationData] = useState(null);
     const [empresarioDetails, setEmpresarioDetails] = useState(null);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const savedData = localStorage.getItem('declarationData');
@@ -22,6 +23,11 @@ export default function Declaration_EmpresarioConfirmation({ onBack, onSave, use
     }, []);
 
     const handleRegisterDeclaration = async () => {
+        if (confirmation === 'nao') {
+            setError('Por favor, verifique os dados de cadastro.');
+            return;
+        }
+
         if (!auth?.uid) {
             console.error('UID não está definido');
             return;
@@ -64,12 +70,13 @@ export default function Declaration_EmpresarioConfirmation({ onBack, onSave, use
             const data = await response.json();
             console.log('Declaração registrada:', data);
 
-            // Redireciona para a próxima tela
             onSave(confirmation === 'sim');
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }
     };
+
+    const isSaveDisabled = !declarationData || !empresarioDetails || confirmation === null;
 
     if (!declarationData || !empresarioDetails) {
         return <p>Carregando...</p>;
@@ -105,9 +112,19 @@ export default function Declaration_EmpresarioConfirmation({ onBack, onSave, use
                     /> Não
                 </label>
             </div>
+            {error && <div className={commonStyles.error} style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleRegisterDeclaration} />
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleRegisterDeclaration}
+                    disabled={isSaveDisabled}
+                    style={{
+                        borderColor: isSaveDisabled ? '#ccc' : '#1F4B73',
+                        cursor: isSaveDisabled ? 'not-allowed' : 'pointer',
+                        opacity: isSaveDisabled ? 0.6 : 1
+                    }}
+                />
             </div>
         </div>
     );

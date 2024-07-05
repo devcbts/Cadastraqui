@@ -40,7 +40,17 @@ export default function Assistent_AutonomoConfirmation({ onBack }) {
                 </label>
             </div>
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase
+                    onClick={onBack}
+                    disabled={!declarationData || !autonomoDetails}
+                    style={{
+                        borderColor: !declarationData || !autonomoDetails ? '#ccc' : '#1F4B73',
+                        cursor: !declarationData || !autonomoDetails ? 'not-allowed' : 'pointer',
+                        opacity: !declarationData || !autonomoDetails ? 0.6 : 1
+                    }}
+                >
+                    <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                </ButtonBase>
             </div>
         </div>
     );
