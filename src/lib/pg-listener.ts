@@ -32,6 +32,7 @@ import { prisma } from './prisma';
 import { createRegistratoHDB } from "@/HistDatabaseFunctions/handle-registrato";
 import { SelectCandidateResponsible } from "@/utils/select-candidate-responsible";
 import { ChooseCandidateResponsible } from "@/utils/choose-candidate-responsible";
+import { createDeclarationHDB } from "@/HistDatabaseFunctions/handle-declaration";
 const clientBackup = new Client(env.DATABASE_URL);
 clientBackup.connect();
 
@@ -415,6 +416,10 @@ clientBackup.on('notification', async (msg) => {
                 await createRegistratoHDB(familyMember.id, candidate_id, responsible_id, application_id)
             }
 
+
+            // For declarations 
+            await createDeclarationHDB(findUserDetails.UserData.id, findUserDetails.UserData.id, application_id)
+            
         }
     } catch (error) {
         console.log(error)
