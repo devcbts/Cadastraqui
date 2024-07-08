@@ -23,11 +23,11 @@ const DeclarationPDF = ({ declarationData }) => (
     <Page style={styles.page}>
       <View style={styles.section}>
         <Text style={styles.header}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
-        <Text style={styles.text}>{declarationData.fullName} </Text>
+        <Text style={styles.text}>{declarationData.name} </Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.text}>
-          Eu, {declarationData.fullName}, portador(a) da cédula de identidade RG nº {declarationData.RG}, órgão emissor {declarationData.rgIssuingAuthority}, UF do órgão emissor {declarationData.rgIssuingState} ou portador(a) da {declarationData.documentType}, número {declarationData.documentNumber}, validade {declarationData.documentValidity}, inscrito(a) no CPF nº {declarationData.CPF}, nacionalidade {declarationData.nationalidade}, estado civil {declarationData.maritalStatus}, profissão {declarationData.profession}, residente na {declarationData.address}, nº {declarationData.addressNumber}, complemento, CEP: {declarationData.CEP}, bairro {declarationData.neighborhood}, cidade {declarationData.city}, estado {declarationData.UF}, UF {declarationData.UF}, e-mail: {declarationData.email}, responsável legal por (quando for o caso, incluir os nomes dos menores de idade do grupo familiar), declaro para os devidos fins do processo seletivo realizado nos termos da Lei Complementar nº 187, de 16 de dezembro de 2021 que:
+          Eu, {declarationData.name}, portador(a) da cédula de identidade RG nº {declarationData.RG}, órgão emissor {declarationData.rgIssuingAuthority}, UF do órgão emissor {declarationData.rgIssuingState} ou portador(a) da {declarationData.documentType}, número {declarationData.documentNumber}, validade {declarationData.documentValidity}, inscrito(a) no CPF nº {declarationData.CPF}, nacionalidade {declarationData.nationalidade}, estado civil {declarationData.maritalStatus}, profissão {declarationData.profession}, residente na {declarationData.address}, nº {declarationData.addressNumber}, complemento, CEP: {declarationData.CEP}, bairro {declarationData.neighborhood}, cidade {declarationData.city}, estado {declarationData.UF}, UF {declarationData.UF}, e-mail: {declarationData.email}, responsável legal por (quando for o caso, incluir os nomes dos menores de idade do grupo familiar), declaro para os devidos fins do processo seletivo realizado nos termos da Lei Complementar nº 187, de 16 de dezembro de 2021 que:
         </Text>
       </View>
     </Page>

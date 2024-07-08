@@ -1,7 +1,9 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_CurrentAddress({ onBack, onNext }) {
     const [addressDetails, setAddressDetails] = useState({
@@ -13,7 +15,20 @@ export default function Declaration_CurrentAddress({ onBack, onNext }) {
         uf: '',
         complement: ''
     });
-
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom)
+    useEffect(() => {
+        if (declarationData.separationDetails) {
+            setAddressDetails(declarationData.separationDetails.addressDetails ?? {
+                cep: '',
+                address: '',
+                neighborhood: '',
+                number: '',
+                city: '',
+                uf: '',
+                complement: ''
+            })
+        }
+    }, [])
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setAddressDetails((prevDetails) => ({
@@ -24,6 +39,7 @@ export default function Declaration_CurrentAddress({ onBack, onNext }) {
 
     const handleSave = () => {
         localStorage.setItem('addressDetails', JSON.stringify(addressDetails));
+        setDeclarationData((prev) => ({ ...prev, separationDetails: { ...prev.separationDetails, addressDetails } }))
         onNext();
     };
 
@@ -33,7 +49,7 @@ export default function Declaration_CurrentAddress({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE SEPARAÇÃO DE FATO (NÃO JUDICIAL)</h2>
-            <h3>João da Silva</h3>
+            <h3>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
                 <div className={commonStyles.inputGroup}>
                     <label>CEP</label>
@@ -108,9 +124,9 @@ export default function Declaration_CurrentAddress({ onBack, onNext }) {
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase 
-                    label="Salvar" 
-                    onClick={handleSave} 
+                <ButtonBase
+                    label="Salvar"
+                    onClick={handleSave}
                     disabled={isSaveDisabled}
                     style={{
                         borderColor: isSaveDisabled ? '#ccc' : '#1F4B73',

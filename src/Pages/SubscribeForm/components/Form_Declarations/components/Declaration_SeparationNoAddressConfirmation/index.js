@@ -3,22 +3,27 @@ import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_SeparationNoAddressConfirmation({ onBack, onNext, userId }) {
     const { auth } = useAuth();
-    const [confirmation, setConfirmation] = useState(null); 
+    const [confirmation, setConfirmation] = useState(null);
     const [separationDetails, setSeparationDetails] = useState(null);
     const [error, setError] = useState('');
-
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom)
     useEffect(() => {
-        const savedSeparationDetails = localStorage.getItem('separationDetails');
-        if (savedSeparationDetails) {
-            setSeparationDetails(JSON.parse(savedSeparationDetails));
+        if (declarationData.separationDetails) {
+            setSeparationDetails(declarationData.separationDetails)
         }
+        // const savedSeparationDetails = localStorage.getItem('separationDetails');
+        // if (savedSeparationDetails) {
+        //     setSeparationDetails(JSON.parse(savedSeparationDetails));
+        // }
     }, []);
 
     const handleRegisterDeclaration = async () => {
-        if (confirmation === 'nao') {
+        if (confirmation === false) {
             setError('Por favor, verifique os dados de cadastro.');
             return;
         }
@@ -46,12 +51,12 @@ export default function Declaration_SeparationNoAddressConfirmation({ onBack, on
         `;
 
         const payload = {
-            declarationExists: confirmation === 'sim',
-            ...(confirmation === 'sim' && { text })
+            declarationExists: confirmation,
+            ...(confirmation && { text })
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/NoAddressProof/${auth.uid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/NoAddressProof/${declarationData.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,7 +72,7 @@ export default function Declaration_SeparationNoAddressConfirmation({ onBack, on
             const data = await response.json();
             console.log('Declaração registrada:', data);
 
-            onNext(confirmation === 'sim');
+            onNext(confirmation);
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }
@@ -83,7 +88,7 @@ export default function Declaration_SeparationNoAddressConfirmation({ onBack, on
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE SEPARAÇÃO DE FATO (NÃO JUDICIAL)</h2>
-            <h3>João da Silva</h3>
+            <h3>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
                 <p>
                     Me separei de <strong>{separationDetails.personName}</strong>, inscrito(a) no CPF nº <strong>{separationDetails.personCpf}</strong>, desde <strong>{separationDetails.separationDate}</strong>.
@@ -97,8 +102,8 @@ export default function Declaration_SeparationNoAddressConfirmation({ onBack, on
                             type="radio"
                             name="confirmation"
                             value="sim"
-                            checked={confirmation === 'sim'}
-                            onChange={() => setConfirmation('sim')}
+                            checked={confirmation}
+                            onChange={() => setConfirmation(true)}
                         /> Sim
                     </label>
                     <label>
@@ -106,8 +111,8 @@ export default function Declaration_SeparationNoAddressConfirmation({ onBack, on
                             type="radio"
                             name="confirmation"
                             value="nao"
-                            checked={confirmation === 'nao'}
-                            onChange={() => setConfirmation('nao')}
+                            checked={confirmation === false}
+                            onChange={() => setConfirmation(false)}
                         /> Não
                     </label>
                 </div>
@@ -115,8 +120,8 @@ export default function Declaration_SeparationNoAddressConfirmation({ onBack, on
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase 
-                    label="Salvar" 
+                <ButtonBase
+                    label="Salvar"
                     onClick={handleRegisterDeclaration}
                     disabled={isSaveDisabled}
                     style={{

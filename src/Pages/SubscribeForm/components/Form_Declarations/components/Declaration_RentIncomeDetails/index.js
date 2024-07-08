@@ -2,6 +2,8 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useState, useEffect } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_RentIncomeDetails({ onBack, onSave }) {
     const [rentDetails, setRentDetails] = useState({
@@ -17,13 +19,21 @@ export default function Declaration_RentIncomeDetails({ onBack, onSave }) {
         rentAmount: ''
     });
     const [isSaveDisabled, setIsSaveDisabled] = useState(true);
-
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom)
     useEffect(() => {
         const areAllFieldsFilled = Object.values(rentDetails).every(field => field.trim() !== '');
         setIsSaveDisabled(!areAllFieldsFilled);
     }, [rentDetails]);
-
+    useEffect(() => {
+        if (declarationData.rentDetails) {
+            setRentDetails(declarationData.rentDetails)
+        }
+    }, [])
     const handleSave = () => {
+        setDeclarationData((prev) => ({
+            ...prev,
+            rentDetails
+        }))
         localStorage.setItem('rentDetails', JSON.stringify(rentDetails));
         onSave();
     };

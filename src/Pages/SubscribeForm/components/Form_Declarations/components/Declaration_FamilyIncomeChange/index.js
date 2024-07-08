@@ -3,12 +3,14 @@ import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_FamilyIncomeChange({ onBack, onNext, onResponsibilityConfirmation, userId }) {
     const { auth } = useAuth();
     const [confirmation, setConfirmation] = useState(null); // Inicialize como null
-    const [declarationData, setDeclarationData] = useState(null);
-
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
+    const [error, setError] = useState(null)
     useEffect(() => {
         const savedData = localStorage.getItem('declarationData');
         if (savedData) {
@@ -17,7 +19,9 @@ export default function Declaration_FamilyIncomeChange({ onBack, onNext, onRespo
     }, []);
 
     const handleRegisterDeclaration = async () => {
-        if (confirmation === null) {
+        if (confirmation === false) {
+            setError('Por favor, verifique os dados de cadastro.');
+
             return;
         }
 
@@ -42,8 +46,8 @@ export default function Declaration_FamilyIncomeChange({ onBack, onNext, onRespo
         `;
 
         const payload = {
-            declarationExists: confirmation === 'sim',
-            ...(confirmation === 'sim' && { text })
+            declarationExists: confirmation,
+            ...(confirmation && { text })
         };
 
         try {
@@ -77,7 +81,7 @@ export default function Declaration_FamilyIncomeChange({ onBack, onNext, onRespo
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO ALTERAÇÃO NO TAMANHO DO GRUPO FAMILIAR E/OU RENDA</h1>
-            <h2>{declarationData.fullName}</h2>
+            <h2>{declarationData.name}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
                     Tenho ciência de que deve comunicar o(a) assistente social da entidade beneficente sobre nascimento ou falecimento de membro do meu grupo familiar, desde que morem na mesma residência, bem como sobre eventual rescisão de contrato de trabalho, encerramento de atividade que gere renda ou sobre início em novo emprego ou atividade que gere renda para um dos membros, pois altera a aferição realizada e o benefício em decorrência da nova renda familiar bruta mensal pode ser ampliado, reduzido ou mesmo cancelado, após análise por profissional de serviço social.
@@ -89,8 +93,8 @@ export default function Declaration_FamilyIncomeChange({ onBack, onNext, onRespo
                             type="radio"
                             name="confirmation"
                             value="sim"
-                            checked={confirmation === 'sim'}
-                            onChange={() => setConfirmation('sim')}
+                            checked={confirmation}
+                            onChange={() => setConfirmation(true)}
                         /> Sim
                     </label>
                     <label>
@@ -98,11 +102,13 @@ export default function Declaration_FamilyIncomeChange({ onBack, onNext, onRespo
                             type="radio"
                             name="confirmation"
                             value="nao"
-                            checked={confirmation === 'nao'}
-                            onChange={() => setConfirmation('nao')}
+                            onChange={() => setConfirmation(false)}
+                            checked={confirmation === false}
                         /> Não
                     </label>
                 </div>
+                {error && <div className={commonStyles.error} style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
+
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>

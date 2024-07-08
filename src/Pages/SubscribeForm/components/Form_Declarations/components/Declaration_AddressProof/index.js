@@ -2,21 +2,24 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_AddressProof({ onBack, onNext }) {
     const [hasAddressProof, setHasAddressProof] = useState(null);
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
 
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (declarationData.hasAddressProof) {
+            setHasAddressProof(declarationData.hasAddressProof)
         }
+
     }, []);
 
     const handleSave = () => {
+        setDeclarationData((prev) => ({ ...prev, hasAddressProof }))
         if (hasAddressProof !== null) {
-            onNext(hasAddressProof === 'sim');
+            onNext(hasAddressProof);
         }
     };
 
@@ -28,14 +31,14 @@ export default function Declaration_AddressProof({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE AUSÊNCIA DE COMPROVANTE DE ENDEREÇO EM NOME</h2>
-            <h3>{declarationData.fullName}</h3>
+            <h3>{declarationData.name}</h3>
             <p>Você possui comprovante de endereço em seu nome?</p>
             <div className={commonStyles.radioButtons}>
                 <label>
-                    <input type="radio" name="confirmation" value="sim" onChange={() => setHasAddressProof('sim')} /> Sim
+                    <input type="radio" name="confirmation" value="sim" onChange={() => setHasAddressProof(true)} checked={hasAddressProof} /> Sim
                 </label>
                 <label>
-                    <input type="radio" name="confirmation" value="nao" onChange={() => setHasAddressProof('nao')} /> Não
+                    <input type="radio" name="confirmation" value="nao" onChange={() => setHasAddressProof(false)} checked={hasAddressProof === false} /> Não
                 </label>
             </div>
             <div className={commonStyles.navigationButtons}>

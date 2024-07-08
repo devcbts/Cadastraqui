@@ -2,32 +2,43 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_RuralWorker({ onBack, onNext }) {
     const [ruralWorker, setRuralWorker] = useState(null);
     const [activity, setActivity] = useState('');
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
 
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (declarationData.ruralWorkerDetails) {
+            const ruralWorkerDetails = declarationData.ruralWorkerDetails
+            setRuralWorker(ruralWorkerDetails.ruralWorker)
+            setActivity(ruralWorkerDetails.activity)
         }
+
     }, []);
 
     const handleSave = () => {
+        setDeclarationData((prev) => ({
+            ...prev,
+            ruralWorkerDetails: {
+                ruralWorker,
+                activity: ruralWorker ? activity : ''
+            }
+        }))
         if (ruralWorker !== null) {
             localStorage.setItem('ruralWorkerDetails', JSON.stringify({ ruralWorker, activity }));
-            if (ruralWorker === 'nao') {
+            if (!ruralWorker) {
                 onNext(false); // Navega para AUTONOMO
             } else {
-                onNext(true, activity); // Navega para a próxima tela com a atividade
+                onNext(true); // Navega para a próxima tela com a atividade
             }
         }
     };
 
     const isSaveDisabled = () => {
-        if (ruralWorker === 'sim') {
+        if (ruralWorker) {
             return !activity;
         }
         return ruralWorker === null;
@@ -40,17 +51,17 @@ export default function Declaration_RuralWorker({ onBack, onNext }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE TRABALHADOR(A) RURAL</h1>
-            <h2>{declarationData.fullName}</h2>
+            <h2>{declarationData.name}</h2>
             <p>Você é trabalhador rural?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
-                    <input type="radio" name="ruralWorker" value="sim" onChange={() => setRuralWorker('sim')} /> Sim
+                    <input type="radio" name="ruralWorker" value="sim" onChange={() => setRuralWorker(true)} checked={ruralWorker} /> Sim
                 </label>
                 <label>
-                    <input type="radio" name="ruralWorker" value="nao" onChange={() => setRuralWorker('nao')} /> Não
+                    <input type="radio" name="ruralWorker" value="nao" onChange={() => setRuralWorker(false)} checked={ruralWorker === false} /> Não
                 </label>
             </div>
-            {ruralWorker === 'sim' && (
+            {ruralWorker && (
                 <div className={commonStyles.inputGroup}>
                     <label htmlFor="activity">Escreva a atividade que exerce</label>
                     <textarea

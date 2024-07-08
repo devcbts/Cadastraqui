@@ -4,22 +4,24 @@ import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { api } from 'services/axios';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_ActivitConfirmation({ onBack, onNext }) {
     const { auth } = useAuth();
     const [confirmation, setConfirmation] = useState(null);
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const [error, setError] = useState('');
-
-    useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
-        }
-    }, []);
+    const identityDetails = declarationData?.IdentityDetails
+    // useEffect(() => {
+    //     const savedData = localStorage.getItem('declarationData');
+    //     if (savedData) {
+    //         setDeclarationData(JSON.parse(savedData));
+    //     }
+    // }, []);
 
     const handleSave = async () => {
-        if (confirmation === 'nao') {
+        if (confirmation === false) {
             setError('Por favor, verifique os dados de cadastro.');
             return;
         }
@@ -41,12 +43,12 @@ export default function Declaration_ActivitConfirmation({ onBack, onNext }) {
         }
 
         const text = `
-            Eu, ${declarationData.fullName}, portador(a) do CPF nº ${declarationData.CPF}, residente e domiciliado(a) à ${declarationData.address}, nº ${declarationData.addressNumber}, complemento, CEP: ${declarationData.CEP}, bairro ${declarationData.neighborhood}, cidade ${declarationData.city}, UF ${declarationData.UF}, e-mail: ${declarationData.email}, declaro para os devidos fins e sob as penas da lei, que não exerço nenhuma atividade remunerada, seja ela formal ou informal, não possuindo, portanto, nenhuma fonte de renda.
+            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, residente e domiciliado(a) à ${declarationData.address}, nº ${declarationData.addressNumber}, complemento, CEP: ${declarationData.CEP}, bairro ${declarationData.neighborhood}, cidade ${declarationData.city}, UF ${declarationData.UF}, e-mail: ${declarationData.email}, declaro para os devidos fins e sob as penas da lei, que não exerço nenhuma atividade remunerada, seja ela formal ou informal, não possuindo, portanto, nenhuma fonte de renda.
         `;
 
         const payload = {
-            declarationExists: confirmation === 'sim',
-            text: confirmation === 'sim' ? text : ''
+            declarationExists: confirmation,
+            text: confirmation ? text : ''
         };
 
         try {
@@ -64,7 +66,7 @@ export default function Declaration_ActivitConfirmation({ onBack, onNext }) {
             const data = await response.data;
             console.log('Declaração registrada:', data);
 
-            onNext(confirmation === 'sim');
+            onNext(confirmation);
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }
@@ -77,9 +79,9 @@ export default function Declaration_ActivitConfirmation({ onBack, onNext }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE AUSÊNCIA DE RENDA (DESEMPREGADO(A) OU DO LAR)</h1>
-            <h2>{declarationData.fullName}</h2>
+            <h2>{declarationData.name}</h2>
             <p>
-                Eu, <span>{declarationData.fullName}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, residente e domiciliado(a) à <span>{declarationData.address}</span>, nº <span>{declarationData.addressNumber}</span>, complemento, CEP: <span>{declarationData.CEP}</span>, bairro <span>{declarationData.neighborhood}</span>, cidade <span>{declarationData.city}</span>, UF <span>{declarationData.UF}</span>, e-mail: <span>{declarationData.email}</span>, declaro para os devidos fins e sob as penas da lei, que não exerço nenhuma atividade remunerada, seja ela formal ou informal, não possuindo, portanto, nenhuma fonte de renda.
+                Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, residente e domiciliado(a) à <span>{identityDetails.address}</span>, nº <span>{identityDetails.addressNumber}</span>, complemento, CEP: <span>{identityDetails.CEP}</span>, bairro <span>{identityDetails.neighborhood}</span>, cidade <span>{identityDetails.city}</span>, UF <span>{identityDetails.UF}</span>, e-mail: <span>{declarationData.email}</span>, declaro para os devidos fins e sob as penas da lei, que não exerço nenhuma atividade remunerada, seja ela formal ou informal, não possuindo, portanto, nenhuma fonte de renda.
             </p>
             <p>Confirma a declaração?</p>
             <div className={commonStyles.radioGroup}>
@@ -88,8 +90,8 @@ export default function Declaration_ActivitConfirmation({ onBack, onNext }) {
                         type="radio"
                         name="confirmation"
                         value="sim"
-                        checked={confirmation === 'sim'}
-                        onChange={() => { setConfirmation('sim'); setError(''); }}
+                        checked={confirmation}
+                        onChange={() => { setConfirmation(true); setError(''); }}
                     /> Sim
                 </label>
                 <label>
@@ -97,8 +99,8 @@ export default function Declaration_ActivitConfirmation({ onBack, onNext }) {
                         type="radio"
                         name="confirmation"
                         value="nao"
-                        checked={confirmation === 'nao'}
-                        onChange={() => { setConfirmation('nao'); setError(''); }}
+                        checked={confirmation === false}
+                        onChange={() => { setConfirmation(false); setError(''); }}
                     /> Não
                 </label>
             </div>

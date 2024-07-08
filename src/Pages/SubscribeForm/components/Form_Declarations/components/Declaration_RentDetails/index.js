@@ -39,7 +39,7 @@ export default function Declaration_RentDetails({ onBack, onSave }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE IMÓVEL ALUGADO - SEM CONTRATO DE ALUGUEL</h2>
-            <h3>{declarationData.fullName}</h3>
+            <h3>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
                 <div className={commonStyles.inputGroup}>
                     <label>Valor do aluguel</label>

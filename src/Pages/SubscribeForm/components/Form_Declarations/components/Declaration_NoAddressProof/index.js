@@ -1,20 +1,20 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; 
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import useAuth from 'hooks/useAuth'; 
+import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
-import { api } from 'services/axios'; 
-import commonStyles from '../../styles.module.scss'; 
+import { api } from 'services/axios';
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_NoAddressProof({ onBack, onNext }) {
     const [declarationData, setDeclarationData] = useState(null);
     const [hasConfirmed, setHasConfirmed] = useState(null);
-    const [error, setError] = useState(null); 
-    const { auth } = useAuth(); 
+    const [error, setError] = useState(null);
+    const { auth } = useAuth();
 
     useEffect(() => {
         const fetchDeclarationData = async () => {
             try {
-                const response = await api.get(`/candidates/declaration/Form/${auth.uid}`);
+                const response = await api.get(`/candidates/declaration/Form/${declarationData.id}`);
                 const data = response.data.infoDetails;
                 setDeclarationData(data);
             } catch (error) {
@@ -23,7 +23,7 @@ export default function Declaration_NoAddressProof({ onBack, onNext }) {
         };
 
         fetchDeclarationData();
-    }, [auth.uid]);
+    }, [declarationData.id]);
 
     const handleSave = async () => {
         setError(null); // Reseta o erro
@@ -55,7 +55,7 @@ export default function Declaration_NoAddressProof({ onBack, onNext }) {
         }
 
         const text = `
-            Eu, ${declarationData.fullName}, resido na ${declarationData.address}, nº ${declarationData.addressNumber}, complemento, 
+            Eu, ${declarationData.name}, resido na ${declarationData.address}, nº ${declarationData.addressNumber}, complemento, 
             CEP: ${declarationData.CEP}, bairro ${declarationData.neighborhood}, cidade ${declarationData.city}, estado ${declarationData.state}, 
             UF ${declarationData.UF}, e-mail: ${declarationData.email}, declaro que não possuo comprovante de endereço em meu nome. Por ser 
             a expressão da verdade e, ciente que a falsidade de informação sujeitará às penas da legislação pertinente, confirmo a presente 
@@ -68,7 +68,7 @@ export default function Declaration_NoAddressProof({ onBack, onNext }) {
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/NoAddressProof/${auth.uid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/NoAddressProof/${declarationData.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -99,10 +99,10 @@ export default function Declaration_NoAddressProof({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE AUSÊNCIA DE COMPROVANTE DE ENDEREÇO EM NOME</h2>
-            <h3>{declarationData.fullName}</h3>
+            <h3>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Eu, <strong>{declarationData.fullName}</strong>, resido na <strong>{declarationData.address}</strong>, nº <strong>{declarationData.addressNumber}</strong>, complemento,
+                    Eu, <strong>{declarationData.name}</strong>, resido na <strong>{declarationData.address}</strong>, nº <strong>{declarationData.addressNumber}</strong>, complemento,
                     CEP: <strong>{declarationData.CEP}</strong>, bairro <strong>{declarationData.neighborhood}</strong>, cidade <strong>{declarationData.city}</strong>, estado <strong>{declarationData.state}</strong>,
                     UF <strong>{declarationData.UF}</strong>, e-mail: <strong>{declarationData.email}</strong>, declaro que não possuo comprovante de endereço em meu nome. Por ser
                     a expressão da verdade e, ciente que a falsidade de informação sujeitará às penas da legislação pertinente, confirmo a presente

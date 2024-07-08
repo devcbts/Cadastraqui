@@ -2,47 +2,72 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { formatCPF } from 'utils/format-cpf';
+import { formatCurrency } from 'utils/format-currency';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
+import useControlForm from 'hooks/useControlForm';
+import { z } from 'zod';
+import { isValidCPF } from 'utils/validate-cpf';
+import InputForm from 'Components/InputForm';
+import MoneyFormInput from 'Components/MoneyFormInput';
+import stringToFloat from 'utils/string-to-float';
+import FormCheckbox from 'Components/FormCheckbox';
+import pensionSchema from './pension-schema';
 
 export default function Declaration_Pension({ onBack, onNext }) {
-    const [receivesPension, setReceivesPension] = useState(null);
-    const [payerName, setPayerName] = useState('');
-    const [payerCpf, setPayerCpf] = useState('');
-    const [amount, setAmount] = useState('');
-    const [declarationData, setDeclarationData] = useState(null);
+    // const [receivesPension, setReceivesPension] = useState(null);
 
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
+    const { control, formState: { isValid }, trigger, getValues, watch, resetField } = useControlForm({
+        schema: pensionSchema,
+        defaultValues: {
+            receivesPension: null,
+            payerName: '',
+            payerCpf: '',
+            amount: ''
+        },
+        initialData: declarationData?.pensionData
+    })
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (!watch("receivesPension")) {
+            console.log('a')
+            resetField("payerName", { defaultValue: '' })
+            resetField("payerCpf", { defaultValue: '' })
+            resetField("amount", { defaultValue: '' })
         }
-    }, []);
-
-    const handleRadioChange = (event) => {
-        setReceivesPension(event.target.value === 'yes');
-    };
+    }, [watch("receivesPension")])
+    // useEffect(() => {
+    //     if (declarationData.pensionData) {
+    //         const { pensionData } = declarationData
+    //         setReceivesPension(pensionData.receivesPension)
+    //         setPayerName(pensionData.payerName)
+    //         setPayerCpf(pensionData.payerCpf)
+    //         setAmount(pensionData.amount)
+    //     }
+    // }, []);
+    // const handleRadioChange = (event) => {
+    //     setReceivesPension(event.target.value === 'yes');
+    // };
 
     const handleSave = () => {
-        if (receivesPension === null) {
-            alert('Por favor, selecione uma opção antes de avançar.');
-            return;
+        if (!isValid) {
+            trigger()
+            return
         }
 
-        if (receivesPension === true && (!payerName || !payerCpf || !amount)) {
-            alert('Por favor, preencha todos os campos obrigatórios.');
-            return;
-        }
 
         const pensionData = {
-            receivesPension,
-            payerName,
-            payerCpf,
-            amount,
+            // receivesPension,
+            ...getValues()
         };
-        localStorage.setItem('pensionData', JSON.stringify(pensionData));
+        // localStorage.setItem('pensionData', JSON.stringify(pensionData));
+        setDeclarationData((prev) => {
+            return ({ ...prev, pensionData })
+        })
         onNext();
     };
 
-    const isSaveDisabled = receivesPension === null || (receivesPension === true && (!payerName || !payerCpf || !amount));
 
     if (!declarationData) {
         return <p>Carregando...</p>;
@@ -52,9 +77,15 @@ export default function Declaration_Pension({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>RECEBIMENTO OU AUSÊNCIA DE RECEBIMENTO DE PENSÃO ALIMENTÍCIA</h2>
-            <h3>{declarationData.fullName}</h3>
+            <h3>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
-                <label>A - Você recebe pensão alimentícia?</label>
+                <FormCheckbox
+                    label={'A - Você recebe pensão alimentícia?'}
+                    control={control}
+                    name={"receivesPension"}
+                    value={watch("receivesPension")}
+                />
+                {/* <label>A - Você recebe pensão alimentícia?</label>
                 <div className={commonStyles.radioGroup}>
                     <input
                         type="radio"
@@ -62,7 +93,7 @@ export default function Declaration_Pension({ onBack, onNext }) {
                         name="pension"
                         value="yes"
                         onChange={handleRadioChange}
-                        checked={receivesPension === true}
+                        checked={receivesPension}
                     />
                     <label htmlFor="yes">Sim</label>
                     <input
@@ -74,39 +105,12 @@ export default function Declaration_Pension({ onBack, onNext }) {
                         checked={receivesPension === false}
                     />
                     <label htmlFor="no">Não</label>
-                </div>
-                {receivesPension && (
+                </div> */}
+                {watch("receivesPension") && (
                     <div className={commonStyles.additionalFields}>
-                        <div className={commonStyles.inputGroup}>
-                            <label htmlFor="payerName">Nome do Pagador da Pensão</label>
-                            <input
-                                type="text"
-                                id="payerName"
-                                name="payerName"
-                                value={payerName}
-                                onChange={(e) => setPayerName(e.target.value)}
-                            />
-                        </div>
-                        <div className={commonStyles.inputGroup}>
-                            <label htmlFor="payerCpf">CPF do Pagador da Pensão</label>
-                            <input
-                                type="text"
-                                id="payerCpf"
-                                name="payerCpf"
-                                value={payerCpf}
-                                onChange={(e) => setPayerCpf(e.target.value)}
-                            />
-                        </div>
-                        <div className={commonStyles.inputGroup}>
-                            <label htmlFor="amount">Valor</label>
-                            <input
-                                type="text"
-                                id="amount"
-                                name="amount"
-                                value={amount}
-                                onChange={(e) => setAmount(e.target.value)}
-                            />
-                        </div>
+                        <InputForm control={control} label={'Nome do pagador'} name="payerName" />
+                        <InputForm control={control} label={'CPF do pagador'} name="payerCpf" transform={(e) => formatCPF(e.target.value)} />
+                        <MoneyFormInput control={control} label={'Valor da pensão'} name="amount" />
                     </div>
                 )}
             </div>
@@ -115,21 +119,11 @@ export default function Declaration_Pension({ onBack, onNext }) {
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}
-                    disabled={isSaveDisabled}
-                    style={{
-                        borderColor: isSaveDisabled ? '#ccc' : '#1F4B73',
-                        cursor: isSaveDisabled ? 'not-allowed' : 'pointer',
-                        opacity: isSaveDisabled ? 0.6 : 1
-                    }}
+
                 />
                 <ButtonBase
                     onClick={handleSave}
-                    disabled={isSaveDisabled}
-                    style={{
-                        borderColor: isSaveDisabled ? '#ccc' : '#1F4B73',
-                        cursor: isSaveDisabled ? 'not-allowed' : 'pointer',
-                        opacity: isSaveDisabled ? 0.6 : 1
-                    }}
+
                 >
                     <Arrow width="40px" />
                 </ButtonBase>

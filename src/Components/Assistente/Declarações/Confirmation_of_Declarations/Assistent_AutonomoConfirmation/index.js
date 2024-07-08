@@ -25,10 +25,10 @@ export default function Assistent_AutonomoConfirmation({ onBack }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE AUTÔNOMO(A)/RENDA INFORMAL</h1>
-            <h2>{declarationData.fullName}</h2>
+            <h2>{declarationData.name}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Eu, <span>{declarationData.fullName}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, desenvolvo atividades <span>{autonomoDetails.activity}</span> e recebo uma quantia média de R$ 2500,00 mensal.
+                    Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, desenvolvo atividades <span>{autonomoDetails.activity}</span> e recebo uma quantia média de R$ 2500,00 mensal.
                 </p>
             </div>
             <div className={commonStyles.radioGroup}>

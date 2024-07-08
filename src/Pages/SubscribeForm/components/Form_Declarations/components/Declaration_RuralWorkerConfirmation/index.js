@@ -3,27 +3,25 @@ import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_RuralWorkerConfirmation({ onBack, onSave, userId }) {
     const { auth } = useAuth();
     const [confirmation, setConfirmation] = useState(null);
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const [ruralWorkerDetails, setRuralWorkerDetails] = useState(null);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        const savedRuralWorkerDetails = localStorage.getItem('ruralWorkerDetails');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (declarationData.ruralWorkerDetails) {
+            setRuralWorkerDetails(declarationData.ruralWorkerDetails)
         }
-        if (savedRuralWorkerDetails) {
-            setRuralWorkerDetails(JSON.parse(savedRuralWorkerDetails));
-        }
+
     }, []);
 
     const handleRegisterDeclaration = async () => {
-        if (confirmation === 'nao') {
+        if (!confirmation) {
             setError('Por favor, verifique os dados de cadastro.');
             return;
         }
@@ -45,16 +43,16 @@ export default function Declaration_RuralWorkerConfirmation({ onBack, onSave, us
         }
 
         const text = `
-            Eu, ${declarationData.fullName}, portador(a) do CPF nº ${declarationData.CPF}, sou trabalhador(a) rural, desenvolvo atividades ${ruralWorkerDetails.activity} e recebo a quantia média de R$ 2500,00 mensal.
+            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, sou trabalhador(a) rural, desenvolvo atividades ${ruralWorkerDetails.activity} e recebo a quantia média de R$ 2500,00 mensal.
         `;
 
         const payload = {
-            declarationExists: confirmation === 'sim',
-            ...(confirmation === 'sim' && { text })
+            declarationExists: confirmation,
+            ...(confirmation && { text })
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/RuralWorker/${auth.uid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/RuralWorker/${declarationData.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -70,7 +68,7 @@ export default function Declaration_RuralWorkerConfirmation({ onBack, onSave, us
             const data = await response.json();
             console.log('Declaração registrada:', data);
 
-            onSave(confirmation === 'sim');
+            onSave(confirmation);
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }
@@ -85,10 +83,10 @@ export default function Declaration_RuralWorkerConfirmation({ onBack, onSave, us
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE TRABALHADOR(A) RURAL</h1>
-            <h2>{declarationData.fullName}</h2>
+            <h2>{declarationData.name}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Eu, <span>{declarationData.fullName}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, sou trabalhador(a) rural, desenvolvo atividades <span>{ruralWorkerDetails.activity}</span> e recebo a quantia média de R$ 2500,00 mensal.
+                    Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, sou trabalhador(a) rural, desenvolvo atividades <span>{ruralWorkerDetails.activity}</span> e recebo a quantia média de R$ 2500,00 mensal.
                 </p>
             </div>
             <div className={commonStyles.radioGroup}>
@@ -97,8 +95,8 @@ export default function Declaration_RuralWorkerConfirmation({ onBack, onSave, us
                         type="radio"
                         name="confirmation"
                         value="sim"
-                        checked={confirmation === 'sim'}
-                        onChange={() => setConfirmation('sim')}
+                        checked={confirmation}
+                        onChange={() => setConfirmation(true)}
                     /> Sim
                 </label>
                 <label>
@@ -106,16 +104,16 @@ export default function Declaration_RuralWorkerConfirmation({ onBack, onSave, us
                         type="radio"
                         name="confirmation"
                         value="nao"
-                        checked={confirmation === 'nao'}
-                        onChange={() => setConfirmation('nao')}
+                        checked={confirmation === false}
+                        onChange={() => setConfirmation(false)}
                     /> Não
                 </label>
             </div>
             {error && <div className={commonStyles.error} style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase 
-                    label="Salvar" 
+                <ButtonBase
+                    label="Salvar"
                     onClick={handleRegisterDeclaration}
                     disabled={isSaveDisabled}
                     style={{

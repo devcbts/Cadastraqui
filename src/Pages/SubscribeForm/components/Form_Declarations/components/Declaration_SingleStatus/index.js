@@ -2,21 +2,24 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_SingleStatus({ onBack, onNext }) {
     const [confirmation, setConfirmation] = useState(null);
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
 
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (declarationData.single) {
+            setConfirmation(declarationData.single.confirmation)
         }
+
     }, []);
 
     const handleSave = () => {
+        setDeclarationData(prev => ({ ...prev, single: { confirmation } }))
         if (confirmation !== null) {
-            onNext(confirmation === 'sim');
+            onNext(confirmation);
         }
     };
 
@@ -28,14 +31,14 @@ export default function Declaration_SingleStatus({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE ESTADO CIVIL SOLTEIRO(A)</h2>
-            <h3>{declarationData.fullName}</h3>
+            <h3>{declarationData.name}</h3>
             <p>Sou solteiro e não mantenho união estável</p>
             <div className={commonStyles.radioGroup}>
                 <label>
-                    <input type="radio" name="confirmation" value="sim" onChange={() => setConfirmation('sim')} /> Sim
+                    <input type="radio" name="confirmation" value="sim" onChange={() => setConfirmation(true)} checked={confirmation} /> Sim
                 </label>
                 <label>
-                    <input type="radio" name="confirmation" value="nao" onChange={() => setConfirmation('nao')} /> Não
+                    <input type="radio" name="confirmation" value="nao" onChange={() => setConfirmation(false)} checked={confirmation === false} /> Não
                 </label>
             </div>
             <div className={commonStyles.navigationButtons}>

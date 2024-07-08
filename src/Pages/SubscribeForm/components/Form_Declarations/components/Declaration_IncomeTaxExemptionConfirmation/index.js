@@ -3,27 +3,27 @@ import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
+import findLabel from 'utils/enums/helpers/findLabel';
+import MARITAL_STATUS from 'utils/enums/marital-status';
 
 export default function Declaration_IncomeTaxExemptionConfirmation({ onBack, onNext }) {
     const { auth } = useAuth();
     const [confirmation, setConfirmation] = useState(null);
     const [incomeTaxDetails, setIncomeTaxDetails] = useState(null);
-    const [declarationData, setDeclarationData] = useState({});
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const [error, setError] = useState('');
-
+    const identityDetails = declarationData?.IdentityDetails
     useEffect(() => {
-        const savedDetails = localStorage.getItem('incomeTaxDetails');
-        if (savedDetails) {
-            setIncomeTaxDetails(JSON.parse(savedDetails));
+        if (declarationData.incomeTaxDetails) {
+            setIncomeTaxDetails(declarationData.incomeTaxDetails)
         }
-        const savedDeclarationData = localStorage.getItem('declarationData');
-        if (savedDeclarationData) {
-            setDeclarationData(JSON.parse(savedDeclarationData));
-        }
+
     }, []);
 
     const handleSave = async () => {
-        if (confirmation === 'nao') {
+        if (confirmation === false) {
             setError('Por favor, verifique os dados de cadastro.');
             return;
         }
@@ -37,12 +37,12 @@ export default function Declaration_IncomeTaxExemptionConfirmation({ onBack, onN
                 }
 
                 const text = `
-                    Eu, ${declarationData.fullName}, portador(a) da cédula de identidade RG n° ${declarationData.RG}, órgão emissor ${declarationData.rgIssuingAuthority}, UF do órgão emissor ${declarationData.rgIssuingState}, CPF n° ${declarationData.CPF}, nacionalidade ${declarationData.nationality}, estado civil ${declarationData.maritalStatus}, profissão ${declarationData.profession}, residente na rua ${declarationData.address}, n° ${declarationData.addressNumber}, complemento ${declarationData.complement}, CEP: ${declarationData.CEP}, bairro ${declarationData.neighborhood}, cidade ${declarationData.city}, UF ${declarationData.UF}, e-mail: ${declarationData.email}, DECLARO SER ISENTO(A) da apresentação da Declaração do Imposto de Renda Pessoa Física (DIRPF) no(s) exercício(s) ${incomeTaxDetails.year} por não incorrer em nenhuma das hipóteses de obrigatoriedade estabelecidas pelas Instruções Normativas (IN) da Receita Federal do Brasil (RFB). Esta declaração está em conformidade com a IN RFB n° 1548/2015 e a Lei n° 7.115/83. Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas.
+                    Eu, ${identityDetails.fullName}, portador(a) da cédula de identidade RG n° ${identityDetails.RG}, órgão emissor ${identityDetails.rgIssuingAuthority}, UF do órgão emissor ${identityDetails.rgIssuingState}, CPF n° ${identityDetails.CPF}, nacionalidade ${identityDetails.nationality}, estado civil ${identityDetails.maritalStatus}, profissão ${identityDetails.profession}, residente na rua ${identityDetails.address}, n° ${identityDetails.addressNumber}, complemento ${identityDetails.complement}, CEP: ${identityDetails.CEP}, bairro ${identityDetails.neighborhood}, cidade ${identityDetails.city}, UF ${identityDetails.UF}, e-mail: ${identityDetails.email}, DECLARO SER ISENTO(A) da apresentação da Declaração do Imposto de Renda Pessoa Física (DIRPF) no(s) exercício(s) ${incomeTaxDetails.year} por não incorrer em nenhuma das hipóteses de obrigatoriedade estabelecidas pelas Instruções Normativas (IN) da Receita Federal do Brasil (RFB). Esta declaração está em conformidade com a IN RFB n° 1548/2015 e a Lei n° 7.115/83. Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas.
                 `;
 
                 const payload = {
-                    declarationExists: confirmation === 'sim',
-                    ...(confirmation === 'sim' && { text })
+                    declarationExists: confirmation,
+                    ...(confirmation && { text })
                 };
 
                 const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/IncomeTaxExemption/${auth.uid}`, {
@@ -76,18 +76,27 @@ export default function Declaration_IncomeTaxExemptionConfirmation({ onBack, onN
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE ISENTO DE IMPOSTO DE RENDA</h2>
-            <h3>{declarationData.fullName}</h3>
+            <h3>{identityDetails.fullName}</h3>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Eu, <b>{declarationData.fullName}</b>, portador(a) da cédula de identidade RG n° <b>{declarationData.RG}</b>, órgão emissor <b>{declarationData.rgIssuingAuthority}</b>, UF do órgão emissor <b>{declarationData.rgIssuingState}</b>, CPF n° <b>{declarationData.CPF}</b>, nacionalidade <b>{declarationData.nationality}</b>, estado civil <b>{declarationData.maritalStatus}</b>, profissão <b>{declarationData.profession}</b>, residente na rua <b>{declarationData.address}</b>, n° <b>{declarationData.addressNumber}</b>, complemento <b>{declarationData.complement}</b>, CEP: <b>{declarationData.CEP}</b>, bairro <b>{declarationData.neighborhood}</b>, cidade <b>{declarationData.city}</b>, UF <b>{declarationData.UF}</b>, e-mail: <b>{declarationData.email}</b>, DECLARO SER ISENTO(A) da apresentação da Declaração do Imposto de Renda Pessoa Física (DIRPF) no(s) exercício(s) <b>{incomeTaxDetails.year}</b> por não incorrer em nenhuma das hipóteses de obrigatoriedade estabelecidas pelas Instruções Normativas (IN) da Receita Federal do Brasil (RFB). Esta declaração está em conformidade com a IN RFB n° 1548/2015 e a Lei n° 7.115/83. Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas.
+                    Eu, <b>{identityDetails.fullName}</b>, portador(a) da cédula de identidade RG n° <b>{identityDetails.RG}</b>,
+                    órgão emissor <b>{identityDetails.rgIssuingAuthority}</b>, UF do órgão emissor <b>{identityDetails.rgIssuingState}</b>,
+                    CPF n° <b>{identityDetails.CPF}</b>, nacionalidade <b>{identityDetails.nationality}</b>, estado civil <b>{findLabel(MARITAL_STATUS, identityDetails.maritalStatus)}</b>,
+                    profissão <b>{identityDetails.profession}</b>, residente na rua <b>{identityDetails.address}</b>, n° <b>{identityDetails.addressNumber}</b>,
+                    complemento <b>{identityDetails.complement}</b>, CEP: <b>{identityDetails.CEP}</b>, bairro <b>{identityDetails.neighborhood}</b>,
+                    cidade <b>{identityDetails.city}</b>, UF <b>{identityDetails.UF}</b>, e-mail: <b>{identityDetails.email}</b>,
+                    DECLARO SER ISENTO(A) da apresentação da Declaração do Imposto de Renda Pessoa Física (DIRPF)
+                    no(s) exercício(s) <b>{incomeTaxDetails.year}</b> por não incorrer em nenhuma das hipóteses de obrigatoriedade estabelecidas pelas Instruções
+                    Normativas (IN) da Receita Federal do Brasil (RFB). Esta declaração está em conformidade com a IN RFB n° 1548/2015 e a Lei n° 7.115/83.
+                    Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas.
                 </p>
                 <p>Confirma a declaração?</p>
                 <div className={commonStyles.radioGroup}>
                     <label>
-                        <input type="radio" name="confirmation" value="sim" onChange={() => {setConfirmation('sim'); setError('')}} /> Sim
+                        <input type="radio" name="confirmation" value="sim" onChange={() => { setConfirmation(true); setError('') }} /> Sim
                     </label>
                     <label>
-                        <input type="radio" name="confirmation" value="nao" onChange={() => {setConfirmation('nao'); setError('')}} /> Não
+                        <input type="radio" name="confirmation" value="nao" onChange={() => { setConfirmation(false); setError('') }} /> Não
                     </label>
                 </div>
                 {error && <div style={{ color: 'red', textAlign: 'center' }}>{error}</div>}

@@ -3,11 +3,13 @@ import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_ResponsibilityConfirmation({ onBack, onNext, userId }) {
     const { auth } = useAuth();
     const [confirmation, setConfirmation] = useState(null);
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -18,7 +20,7 @@ export default function Declaration_ResponsibilityConfirmation({ onBack, onNext,
     }, []);
 
     const handleRegisterDeclaration = async () => {
-        if (confirmation === 'nao') {
+        if (confirmation === false) {
             setError('Por favor, verifique os dados de cadastro.');
             return;
         }
@@ -46,12 +48,12 @@ export default function Declaration_ResponsibilityConfirmation({ onBack, onNext,
         `;
 
         const payload = {
-            declarationExists: confirmation === 'sim',
-            ...(confirmation === 'sim' && { text })
+            declarationExists: confirmation,
+            ...(confirmation && { text })
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Form/${auth.uid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Form/${declarationData.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -80,7 +82,7 @@ export default function Declaration_ResponsibilityConfirmation({ onBack, onNext,
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO INTEIRA RESPONSABILIDADE PELAS INFORMAÇÕES CONTIDAS NESTE INSTRUMENTO</h1>
-            <h2>{declarationData.fullName}</h2>
+            <h2>{declarationData.name}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
                     Estou ciente e assumo, inteira responsabilidade pelas informações contidas neste instrumento e em relação as informações prestadas no decorrer do preenchimento deste formulário eletrônico e documentos anexados, estando consciente que a apresentação de documento falso e/ou a falsidade nas informações implicará nas penalidades cabíveis, previstas nos artigos 298 e 299 do Código Penal Brasileiro, bem como sobre a condição prevista no caput e § 2º do art. 26 da Lei Complementar nº 187, de 16 de dezembro de 2021.
@@ -98,8 +100,8 @@ export default function Declaration_ResponsibilityConfirmation({ onBack, onNext,
                             type="radio"
                             name="confirmation"
                             value="sim"
-                            checked={confirmation === 'sim'}
-                            onChange={() => setConfirmation('sim')}
+                            checked={confirmation}
+                            onChange={() => setConfirmation(true)}
                         /> Sim
                     </label>
                     <label>
@@ -107,8 +109,8 @@ export default function Declaration_ResponsibilityConfirmation({ onBack, onNext,
                             type="radio"
                             name="confirmation"
                             value="nao"
-                            checked={confirmation === 'nao'}
-                            onChange={() => setConfirmation('nao')}
+                            checked={confirmation === false}
+                            onChange={() => setConfirmation(false)}
                         /> Não
                     </label>
                 </div>

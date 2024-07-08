@@ -2,6 +2,9 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
+import { formatCEP } from 'utils/format-cep';
 
 export default function Declaration_InactiveCompany({ onBack, onSave }) {
     const [hasInactiveCompany, setHasInactiveCompany] = useState(null);
@@ -14,16 +17,33 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
         uf: '',
         complement: '',
     });
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
 
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (declarationData.inactiveCompanyDetails) {
+            const inactiveCompanyDetails = declarationData.inactiveCompanyDetails
+            setCompanyDetails(inactiveCompanyDetails.companyDetails)
+            setHasInactiveCompany(inactiveCompanyDetails.hasInactiveCompany)
         }
+
     }, []);
 
     const handleSave = () => {
+        setDeclarationData((prev) => ({
+            ...prev,
+            inactiveCompanyDetails: {
+                hasInactiveCompany,
+                companyDetails: hasInactiveCompany ? companyDetails : {
+                    cep: '',
+                    address: '',
+                    neighborhood: '',
+                    number: '',
+                    city: '',
+                    uf: '',
+                    complement: '',
+                }
+            }
+        }))
         if (hasInactiveCompany !== null) {
             localStorage.setItem('inactiveCompanyDetails', JSON.stringify({ hasInactiveCompany, companyDetails }));
             onSave(hasInactiveCompany);
@@ -39,7 +59,7 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
     };
 
     const isSaveDisabled = () => {
-        if (hasInactiveCompany === 'sim') {
+        if (hasInactiveCompany) {
             return !companyDetails.cep || !companyDetails.address || !companyDetails.neighborhood || !companyDetails.number || !companyDetails.city || !companyDetails.uf;
         }
         return hasInactiveCompany === null;
@@ -52,17 +72,17 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE EMPRESA INATIVA</h1>
-            <h2>{declarationData.fullName}</h2>
+            <h2>{declarationData.name}</h2>
             <p>Você possui alguma empresa inativa?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
-                    <input type="radio" name="hasInactiveCompany" value="sim" onChange={() => setHasInactiveCompany('sim')} /> Sim
+                    <input type="radio" name="hasInactiveCompany" value="sim" onChange={() => setHasInactiveCompany(true)} checked={hasInactiveCompany} /> Sim
                 </label>
                 <label>
-                    <input type="radio" name="hasInactiveCompany" value="nao" onChange={() => setHasInactiveCompany('nao')} /> Não
+                    <input type="radio" name="hasInactiveCompany" value="nao" onChange={() => setHasInactiveCompany(false)} checked={hasInactiveCompany === false} /> Não
                 </label>
             </div>
-            {hasInactiveCompany === 'sim' && (
+            {hasInactiveCompany && (
                 <div className={commonStyles.additionalFields}>
                     <div className={commonStyles.inputGroup}>
                         <label htmlFor="cep">CEP</label>
@@ -71,7 +91,7 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
                             id="cep"
                             name="cep"
                             value={companyDetails.cep}
-                            onChange={handleInputChange}
+                            onChange={(e) => setCompanyDetails((prev) => ({ ...prev, cep: formatCEP(e.target.value) }))}
                             placeholder="78910-111"
                         />
                     </div>

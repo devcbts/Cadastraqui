@@ -7,38 +7,67 @@ import { api } from 'services/axios'; // Certifique-se de que o caminho está co
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import uploadService from 'services/upload/uploadService';
 import { NotificationService } from 'services/notification';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     const { auth } = useAuth();
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const [witness1, setWitness1] = useState({ name: '', cpf: '' });
     const [witness2, setWitness2] = useState({ name: '', cpf: '' });
     const [declarations, setDeclarations] = useState([]);
     const [isGeneratingPDF, setIsGeneratingPDF] = useState('');
     const [file, setFile] = useState(null)
-    useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
-        }
-    }, []);
+    // useEffect(() => {
+    //     const savedData = localStorage.getItem('declarationData');
+    //     if (savedData) {
+    //         setDeclarationData(JSON.parse(savedData));
+    //     }
+    // }, []);
 
     const fetchDeclarations = async () => {
-        const types = ['Form', 'Activity', 'AddressProof', 'Autonomo', 'Card', 'ChildPension', 'ChildSupport', 'ContributionStatement', 'Data', 'Empresario', 'InactiveCompany', 'IncomeTaxExemption', 'MEI', 'NoAddressProof', 'Penseion', 'Pension', 'Rent', 'RentDetails', 'RentIncome', 'RentedHouse', 'RuralWorker', 'SingleStatus', 'StableUnion', 'Status', 'WorkCard'];
-        const fetchedDeclarations = [];
+        const types = ['Form', 'Activity', 'AddressProof', 'Autonomo', 'Card',
+            'ChildPension', 'ChildSupport', 'ContributionStatement', 'Data',
+            'Empresario', 'InactiveCompany', 'IncomeTaxExemption', 'MEI',
+            'NoAddressProof', 'Pension', 'Rent', 'RentDetails',
+            'RentIncome', 'RentedHouse', 'RuralWorker', 'SingleStatus', 'StableUnion', 'Status', 'WorkCard'];
+        // const fetchedDeclarations = [];
+        const title = {
+            Form: '',
+            AddressProof: 'DECLARAÇÃO DE AUSÊNCIA DE COMPROVANTE DE ENDEREÇO',
+            RentedHouse: 'DECLARAÇÃO DE IMÓVEL ALUGADO - SEM CONTRATO DE ALUGUEL',
+            WorkCard: 'DECLARAÇÃO QUE INTEGRANTE DO GRUPO FAMILIAR AINDA NÃO POSSUI CARTEIRA DE TRABALHO (maiores de 16 anos)',
+            StableUnion: 'DECLARAÇÃO DE UNIÃO ESTÁVEL',
+            SingleStatus: 'DECLARAÇÃO DE ESTADO CIVIL SOLTEIRO(A)',
+            NoAddressProof: 'DECLARAÇÃO DE SEPARAÇÃO DE FATO (NÃO JUDICIAL)',
+            IncomeTaxExemption: 'DECLARAÇÃO DE ISENTO DE IMPOSTO DE RENDA',
+            Activity: 'DECLARAÇÃO DE AUSÊNCIA DE RENDA (DESEMPREGADO(A) OU DO LAR)',
+            MEI: 'DECLARAÇÃO DE RENDIMENTOS – MEI',
+            RuralWorker: 'DECLARAÇÃO DE TRABALHADOR(A) RURAL',
+            Autonomo: 'DECLARAÇÃO DE AUTÔNOMO(A)/RENDA INFORMAL',
+            Empresario: 'DECLARAÇÃO DE RENDA DE EMPRESÁRIO',
+            InactiveCompany: 'DECLARAÇÃO DE EMPRESA INATIVA',
+            Status: 'DECLARAÇÃO DE PROPRIEDADE DE VEÍCULO AUTOMOTOR',
+            Pension: 'DECLARAÇÃO DE PENSÃO ALIMENTÍCIA'
 
-        for (const type of types) {
-            try {
-                const response = await api.get(`/candidates/declaration/${type}/${auth.uid}`);
-                if (response.data && response.data.declaration) {
-                    fetchedDeclarations.push({ type, text: response.data.declaration.text });
-                }
-            } catch (error) {
-                console.error(`Erro ao buscar a declaração de tipo ${type}:`, error);
-            }
         }
+        try {
+            const response = await api.get(`/candidates/declaration/${declarationData.id}`)
+            setDeclarations(response.data.declarations.map((e) => ({ ...e, title: title[e?.declarationType] })))
+        } catch (err) {
 
-        setDeclarations(fetchedDeclarations);
+        }
+        // for (const type of types) {
+        //     try {
+        //         const response = await api.get(`/candidates/declaration/${type}/${declarationData.id}`);
+        //         if (response.data && response.data.declaration) {
+        //             fetchedDeclarations.push({ type, text: response.data.declaration.text, title: title[type] });
+        //         }
+        //     } catch (error) {
+        //         console.error(`Erro ao buscar a declaração de tipo ${type}:`, error);
+        //     }
+        // }
+
     };
 
     const handleGeneratePDF = () => {
@@ -52,20 +81,20 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
         page: {
             padding: 30,
             fontSize: 12,
+            fontFamily: 'Courier'
         },
         section: {
-            marginBottom: 20,
+            marginBottom: 32,
         },
         declarationType: {
             textAlign: 'center',
-            fontSize: 16,
-            fontWeight: 'bold',
-            marginBottom: 8,
+            fontSize: 14,
+            fontWeight: 'heavy',
+            marginBottom: 16
         },
         declarationText: {
             textAlign: 'justify',
-            marginBottom: 10,
-            fontSize: 12,
+            fontSize: 10,
             lineHeight: 1.5,
         },
         title: {
@@ -74,18 +103,50 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
             marginBottom: 20,
             textAlign: 'center', // Centraliza o texto
         },
+        sign: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center',
+            marginTop: 64
+        },
+        footer: {
+            position: "absolute",
+            padding: '0 32',
+            bottom: 0,
+            width: '100vw',
+            height: 40,
+            backgroundColor: '#1F4B73',
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            color: 'white'
+        }
     });
 
     const MyDocument = () => (
-        <Document>
-            <Page style={styles.page}>
-                <Text style={styles.title}>Declarações</Text>
+        <Document  >
+            <Page style={styles.page} >
+                <Text style={styles.title} color='#1F4B73'>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
                 {declarations.map((declaration, index) => (
-                    <View key={index} style={styles.section}>
-                        <Text style={styles.declarationType}>{declaration.type}</Text>
-                        <Text style={styles.declarationText}>{declaration.text.replace(/\n/g, '').replace(/\s/g, ' ').trim()}</Text>
+                    <View key={index} style={styles.section}  >
+                        <Text style={styles.declarationType}>{declaration.title}</Text>
+                        <Text style={styles.declarationText}>{declaration.text.trim()}</Text>
                     </View>
                 ))}
+                <Text >Cidade do candidato, {new Date().toLocaleString('pt-br', { month: 'long', year: 'numeric', day: '2-digit' })}</Text>
+                <View style={styles.sign}>
+                    <Text>____________________</Text>
+                    <Text>Assinatura Nome do candidato</Text>
+                </View>
+                <View style={styles.footer} fixed>
+                    <Text>Cadastraqui</Text>
+                    <Text render={({ pageNumber, totalPages }) => {
+                        return `Pág. ${pageNumber}/${totalPages}`
+                    }}></Text>
+                </View>
             </Page>
         </Document>
     );
@@ -122,12 +183,12 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
         try {
             const formData = new FormData()
             formData.append("file_declaracoes", file)
-            await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: auth?.uid }, formData)
+            await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData.id }, formData)
             NotificationService.success({ text: 'Declaração enviada' })
         } catch (err) { }
         try {
 
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Witnesses/${auth.uid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Witnesses/${declarationData.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -159,9 +220,9 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO INTEIRA RESPONSABILIDADE PELAS INFORMAÇÕES CONTIDAS NESTE INSTRUMENTO</h1>
-            <h2>{declarationData.fullName}</h2>
+            <h2>{declarationData.name}</h2>
             <div className={commonStyles.declarationContent}>
-                <h3>Indique duas Testemunhas</h3>
+                {/* <h3>Indique duas Testemunhas</h3>
                 <div>
                     <label>Testemunha 1</label>
                     <input
@@ -191,7 +252,7 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
                         value={witness2.cpf}
                         onChange={(e) => setWitness2({ ...witness2, cpf: e.target.value })}
                     />
-                </div>
+                </div> */}
                 <div>
                     <label>Anexar declaração</label>
                     <input type='file' accept='application/pdf' onChange={handleFileChange} />

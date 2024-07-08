@@ -45,7 +45,7 @@ export default function Declaration_MEI_Confirmation({ onBack, onNext, onRentInc
         }
 
         const text = `
-            Eu, ${declarationData.fullName}, portador(a) do CPF nº ${declarationData.CPF}, POSSUO o cadastro como Microempreendedor Individual e consta no meu cadastro, neste processo, a Declaração Anual do Simples Nacional para o(a) Microempreendedor(a) Individual (DAS-SIMEI). 
+            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, POSSUO o cadastro como Microempreendedor Individual e consta no meu cadastro, neste processo, a Declaração Anual do Simples Nacional para o(a) Microempreendedor(a) Individual (DAS-SIMEI). 
             Esta declaração está em conformidade com a Lei n° 7.115/83. Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas.
         `;
 
@@ -86,10 +86,10 @@ export default function Declaration_MEI_Confirmation({ onBack, onNext, onRentInc
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE RENDIMENTOS - MEI</h1>
-            <h2>{declarationData.fullName}</h2>
+            <h2>{declarationData.name}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Eu, <span>{declarationData.fullName}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, POSSUO o cadastro como Microempreendedor Individual e consta no meu cadastro, neste processo, a Declaração Anual do Simples Nacional para o(a) Microempreendedor(a) Individual (DAS-SIMEI).
+                    Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, POSSUO o cadastro como Microempreendedor Individual e consta no meu cadastro, neste processo, a Declaração Anual do Simples Nacional para o(a) Microempreendedor(a) Individual (DAS-SIMEI).
                     Esta declaração está em conformidade com a Lei n° 7.115/83. Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas.
                 </p>
                 <p>Confirma a declaração?</p>
@@ -117,8 +117,8 @@ export default function Declaration_MEI_Confirmation({ onBack, onNext, onRentInc
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase 
-                    label="Salvar" 
+                <ButtonBase
+                    label="Salvar"
                     onClick={handleRegisterDeclaration}
                     disabled={isSaveDisabled}
                     style={{

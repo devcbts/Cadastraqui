@@ -12,14 +12,10 @@ export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const savedRentDetails = localStorage.getItem('rentDetails');
-        if (savedRentDetails) {
-            setRentDetails(JSON.parse(savedRentDetails));
+        if (declarationData.rentDetails) {
+            setRentDetails(declarationData.rentDetails)
         }
-        const savedDeclarationData = localStorage.getItem('declarationData');
-        if (savedDeclarationData) {
-            setDeclarationData(JSON.parse(savedDeclarationData));
-        }
+
     }, []);
 
     const handleSave = async () => {
@@ -27,7 +23,7 @@ export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
             return;
         }
 
-        if (confirmation === 'nao') {
+        if (confirmation === false) {
             setError('Por favor, verifique os dados de cadastro.');
             return;
         }
@@ -49,16 +45,16 @@ export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
         }
 
         const text = `
-            Eu, ${declarationData.fullName}, portador(a) do CPF nº ${declarationData.CPF}, recebo aluguel do imóvel situado no Endereço ${rentDetails.address}, nº ${rentDetails.number}, complemento, CEP: ${rentDetails.cep}, bairro ${rentDetails.neighborhood}, cidade ${rentDetails.city}, Estado ${rentDetails.uf}, no valor mensal de R$ ${rentDetails.rentAmount}, pago por ${rentDetails.landlordName}, inscrito(a) no CPF nº ${rentDetails.landlordCpf} (locatário(a)).
+            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, recebo aluguel do imóvel situado no Endereço ${rentDetails.address}, nº ${rentDetails.number}, complemento, CEP: ${rentDetails.cep}, bairro ${rentDetails.neighborhood}, cidade ${rentDetails.city}, Estado ${rentDetails.uf}, no valor mensal de R$ ${rentDetails.rentAmount}, pago por ${rentDetails.landlordName}, inscrito(a) no CPF nº ${rentDetails.landlordCpf} (locatário(a)).
         `;
 
         const payload = {
-            declarationExists: confirmation === 'sim',
-            ...(confirmation === 'sim' && { text })
+            declarationExists: confirmation,
+            ...(confirmation && { text })
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/RentIncome/${auth.uid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/RentIncome/${declarationData.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -89,7 +85,7 @@ export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE RECEBIMENTO DE ALUGUEL</h1>
-            <h2>{declarationData.fullName}</h2>
+            <h2>{declarationData.name}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
                     Recebo aluguel do imóvel situado no Endereço <strong>{rentDetails.address}</strong>, nº <strong>{rentDetails.number}</strong>, complemento, CEP: <strong>{rentDetails.cep}</strong>, bairro <strong>{rentDetails.neighborhood}</strong>, cidade <strong>{rentDetails.city}</strong>, Estado <strong>{rentDetails.uf}</strong>, no valor mensal de R$ <strong>{rentDetails.rentAmount}</strong>, pago por <strong>{rentDetails.landlordName}</strong>, inscrito(a) no CPF nº <strong>{rentDetails.landlordCpf}</strong> (locatário(a)).
@@ -101,8 +97,8 @@ export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
                             type="radio"
                             name="confirmation"
                             value="sim"
-                            checked={confirmation === 'sim'}
-                            onChange={() => setConfirmation('sim')}
+                            checked={confirmation}
+                            onChange={() => setConfirmation(true)}
                         /> Sim
                     </label>
                     <label>
@@ -110,8 +106,8 @@ export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
                             type="radio"
                             name="confirmation"
                             value="nao"
-                            checked={confirmation === 'nao'}
-                            onChange={() => setConfirmation('nao')}
+                            checked={confirmation === false}
+                            onChange={() => setConfirmation(false)}
                         /> Não
                     </label>
                 </div>

@@ -2,20 +2,31 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_Empresario({ onBack, onSave }) {
     const [isPartner, setIsPartner] = useState(null);
     const [activity, setActivity] = useState('');
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
 
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (declarationData.empresarioDetails) {
+            const empresarioDetails = declarationData.empresarioDetails
+            setIsPartner(empresarioDetails.isPartner)
+            setActivity(empresarioDetails.activity)
         }
+
     }, []);
 
     const handleSave = () => {
+        setDeclarationData((prev) => ({
+            ...prev,
+            empresarioDetails: {
+                isPartner,
+                activity: isPartner ? activity : ''
+            }
+        }))
         if (isPartner !== null) {
             localStorage.setItem('empresarioDetails', JSON.stringify({ isPartner, activity }));
             onSave(isPartner, activity);
@@ -23,7 +34,7 @@ export default function Declaration_Empresario({ onBack, onSave }) {
     };
 
     const isSaveDisabled = () => {
-        if (isPartner === 'sim') {
+        if (isPartner) {
             return !activity;
         }
         return isPartner === null;
@@ -36,17 +47,17 @@ export default function Declaration_Empresario({ onBack, onSave }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE RENDA DE EMPRESÁRIO</h1>
-            <h2>{declarationData.fullName}</h2>
+            <h2>{declarationData.name}</h2>
             <p>Você é sócio de alguma empresa?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
-                    <input type="radio" name="isPartner" value="sim" onChange={() => setIsPartner('sim')} /> Sim
+                    <input type="radio" name="isPartner" value="sim" onChange={() => setIsPartner(true)} checked={isPartner} /> Sim
                 </label>
                 <label>
-                    <input type="radio" name="isPartner" value="nao" onChange={() => setIsPartner('nao')} /> Não
+                    <input type="radio" name="isPartner" value="nao" onChange={() => setIsPartner(false)} checked={isPartner === false} /> Não
                 </label>
             </div>
-            {isPartner === 'sim' && (
+            {isPartner && (
                 <div className={commonStyles.inputGroup}>
                     <label htmlFor="activity">Escreva a atividade que exerce</label>
                     <textarea

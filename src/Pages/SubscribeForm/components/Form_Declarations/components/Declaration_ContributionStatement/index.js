@@ -7,9 +7,11 @@ import { NotificationService } from 'services/notification';
 import candidateService from 'services/candidate/candidateService';
 import uploadService from 'services/upload/uploadService';
 import useAuth from 'hooks/useAuth';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_ContributionStatement({ onBack, onSave }) {
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const [file, setFile] = useState(null)
 
     useEffect(() => {
@@ -36,7 +38,7 @@ export default function Declaration_ContributionStatement({ onBack, onSave }) {
         try {
             const formData = new FormData()
             formData.append("file_CNIS", file)
-            await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: auth?.uid }, formData)
+            await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData.id }, formData)
             NotificationService.success({ text: 'Documento enviado' }).then((_) => onSave())
         } catch (err) {
             NotificationService.success({ text: 'Erro ao enviar documento. Tente novamente' })
@@ -46,7 +48,7 @@ export default function Declaration_ContributionStatement({ onBack, onSave }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
-            <h3>{declarationData.fullName}</h3>
+            <h3>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
                 <p>Anexar o Extrato de Contribuição (CNIS).</p>
                 <div className={commonStyles.fileUpload}>

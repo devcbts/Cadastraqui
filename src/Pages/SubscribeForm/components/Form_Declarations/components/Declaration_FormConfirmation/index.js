@@ -1,13 +1,20 @@
 import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useState } from 'react';
-import commonStyles from '../../styles.module.scss'; 
+import commonStyles from '../../styles.module.scss';
+import findLabel from "utils/enums/helpers/findLabel";
+import MARITAL_STATUS from "utils/enums/marital-status";
+import { useRecoilState } from "recoil";
+import declarationAtom from "../../atoms/declarationAtom";
+import DOCUMENT_TYPE from "utils/enums/document-type";
+import formatDate from "utils/format-date";
 
-export default function Declaration_Form({ onEdit, declarationData }) {
+export default function Declaration_Form({ onEdit }) {
     const { auth } = useAuth();
-    const [declarationExists, setDeclarationExists] = useState(null); 
+    const [declarationExists, setDeclarationExists] = useState(null);
     const [error, setError] = useState(null);
-
+    const [declarationData] = useRecoilState(declarationAtom)
+    const identityDetails = declarationData?.IdentityDetails
     const handleRegisterDeclaration = async () => {
         setError(null);
 
@@ -33,7 +40,16 @@ export default function Declaration_Form({ onEdit, declarationData }) {
         }
 
         const text = `
-            Eu, ${declarationData.fullName}, portador(a) da cédula de identidade RG nº ${declarationData.RG}, órgão emissor ${declarationData.rgIssuingAuthority}, UF do órgão emissor ${declarationData.rgIssuingState} ou portador(a) da ${declarationData.documentType}, número ${declarationData.documentNumber}, validade ${declarationData.documentValidity}, inscrito(a) no CPF nº ${declarationData.CPF}, nacionalidade ${declarationData.nationalidade}, estado civil ${declarationData.maritalStatus}, profissão ${declarationData.profession}, residente na ${declarationData.address}, nº ${declarationData.addressNumber}, complemento, CEP: ${declarationData.CEP}, bairro ${declarationData.neighborhood}, cidade ${declarationData.city}, estado ${declarationData.UF}, UF ${declarationData.UF}, e-mail: ${declarationData.email}, responsável legal por (quando for o caso, incluir os nomes dos menores de idade do grupo familiar), declaro para os devidos fins do processo seletivo realizado nos termos da Lei Complementar nº 187, de 16 de dezembro de 2021 que:
+            Eu, ${identityDetails.fullName}, portador(a) da cédula de identidade RG nº ${identityDetails.RG}, órgão emissor ${identityDetails.rgIssuingAuthority}, \
+            UF do órgão emissor ${identityDetails.rgIssuingState} ${identityDetails.documentType && `portador(a) da ${findLabel(DOCUMENT_TYPE, identityDetails.documentType)}, número ${identityDetails.documentNumber}, \ 
+            validade ${formatDate(identityDetails.documentValidity)},`}ou  inscrito(a) no CPF nº ${identityDetails.CPF}, nacionalidade ${identityDetails.nationalidade}, \
+            estado civil ${identityDetails.maritalStatus}, profissão ${identityDetails.profession}, residente na ${identityDetails.address}, \
+            nº ${identityDetails.addressNumber}, complemento, CEP: ${identityDetails.CEP}, bairro ${identityDetails.neighborhood}, \
+            cidade ${identityDetails.city}, estado ${identityDetails.UF}, UF ${identityDetails.UF}, e-mail: ${identityDetails.email}, \
+            ${identityDetails?.Candidate?.length > 0 &&
+            `responsável legal por ${identityDetails.Candidate.map((e) => e.name)}, \ `
+            }
+            declaro para os devidos fins do processo seletivo realizado nos termos da Lei Complementar nº 187, de 16 de dezembro de 2021 que:
         `;
 
         const payload = {
@@ -64,17 +80,39 @@ export default function Declaration_Form({ onEdit, declarationData }) {
         }
     };
 
-    if (!declarationData) {
+    if (!identityDetails) {
         return <div>Carregando...</div>;
     }
 
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
-            <h2>{declarationData.fullName} </h2>
+            <h2>{identityDetails.fullName} </h2>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Eu, <span>{declarationData.fullName}</span>, portador(a) da cédula de identidade RG nº <span>{declarationData.RG}</span>, órgão emissor <span>{declarationData.rgIssuingAuthority}</span>, UF do órgão emissor <span>{declarationData.rgIssuingState}</span> ou portador(a) da <span>{declarationData.documentType}</span>, número <span>{declarationData.documentNumber}</span>, validade <span>{declarationData.documentValidity}</span>, inscrito(a) no <span>CPF</span> nº <span>{declarationData.CPF}</span>, nacionalidade <span>{declarationData.nationalidade}</span>, estado civil <span>{declarationData.maritalStatus}</span>, profissão <span>{declarationData.profession}</span>, residente na <span>{declarationData.address}</span>, nº <span>{declarationData.addressNumber}</span>, complemento, <span>CEP: {declarationData.CEP}</span>, bairro {declarationData.neighborhood}, cidade <span>{declarationData.city}</span>, estado <span>{declarationData.UF}</span>, UF <span>{declarationData.UF}</span>, e-mail: <span>{declarationData.email}</span>, responsável legal por (quando for o caso, incluir os nomes dos menores de idade do grupo familiar), declaro para os devidos fins do processo seletivo realizado nos termos da Lei Complementar nº 187, de 16 de dezembro de 2021 que:
+                    Eu, <span>{identityDetails.fullName}</span>, portador(a) da cédula de identidade RG nº <span>{identityDetails.RG}</span>,
+                    órgão emissor <span>{identityDetails.rgIssuingAuthority}</span>, UF do órgão emissor <span>{identityDetails.rgIssuingState}</span>
+                    {identityDetails.documentType &&
+                        <>
+                            , portador(a) da <span>{findLabel(DOCUMENT_TYPE, identityDetails.documentType)}</span>, número <span>{identityDetails.documentNumber}</span>,
+                            validade <span>{formatDate(identityDetails.documentValidity)}</span>
+                        </>
+                    }
+                    , inscrito(a) no <span>CPF</span> nº <span>{identityDetails.CPF}</span>,
+                    nacionalidade <span>{identityDetails.nationalidade}</span>, estado civil <span>{findLabel(MARITAL_STATUS, identityDetails.maritalStatus)}</span>,
+                    profissão <span>{identityDetails.profession}</span>, residente na <span>{identityDetails.address}</span>,
+                    nº <span>{identityDetails.addressNumber}</span>, complemento, <span>CEP: {identityDetails.CEP}</span>,
+                    bairro {identityDetails.neighborhood}, cidade <span>{identityDetails.city}</span>,
+                    estado <span>{identityDetails.UF}</span>, UF <span>{identityDetails.UF}</span>,
+                    e-mail: <span>{identityDetails.email}</span>
+                    {
+                        identityDetails?.Candidate?.length > 0 &&
+                        <>
+                            , responsável legal por {identityDetails.Candidate.map((e) => e.name)},
+                        </>
+                    }
+                    , declaro para os devidos fins do processo seletivo realizado nos termos da Lei
+                    Complementar nº 187, de 16 de dezembro de 2021 que:
                 </p>
                 <div className={commonStyles.radioGroup}>
                     <label>Todas as informações estão corretas?</label>

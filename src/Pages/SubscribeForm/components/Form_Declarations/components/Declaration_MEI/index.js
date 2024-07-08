@@ -5,22 +5,25 @@ import commonStyles from '../../styles.module.scss';
 import { NotificationService } from 'services/notification';
 import uploadService from 'services/upload/uploadService';
 import useAuth from 'hooks/useAuth';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_MEI({ onBack, onNext }) {
     const [mei, setMei] = useState(null);
     const [file, setFile] = useState(null);
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
 
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (declarationData.mei) {
+            setMei(declarationData.mei)
         }
+
     }, []);
     const { auth } = useAuth()
     const handleSave = async () => {
-        if (mei !== null && (mei === 'sim' ? file : true)) {
-            if (mei === 'sim' && file) {
+        setDeclarationData((prev) => ({ ...prev, mei }))
+        if (mei !== null && (mei ? file : true)) {
+            if (mei && file) {
                 try {
                     const formData = new FormData()
                     formData.append("file_MEI", file)
@@ -39,7 +42,7 @@ export default function Declaration_MEI({ onBack, onNext }) {
     };
 
     const isSaveDisabled = () => {
-        if (mei === 'sim') {
+        if (mei) {
             return !file;
         }
         return mei === null;
@@ -53,17 +56,17 @@ export default function Declaration_MEI({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE RENDIMENTOS - MEI</h2>
-            <h3>{declarationData.fullName}</h3>
+            <h3>{declarationData.name}</h3>
             <p>Você possui o cadastro de Microempreendedor Individual?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
-                    <input type="radio" name="mei" value="sim" onChange={() => setMei('sim')} /> Sim
+                    <input type="radio" name="mei" value="sim" onChange={() => setMei(true)} checked={mei} /> Sim
                 </label>
                 <label>
-                    <input type="radio" name="mei" value="nao" onChange={() => setMei('nao')} /> Não
+                    <input type="radio" name="mei" value="nao" onChange={() => setMei(false)} checked={mei === false} /> Não
                 </label>
             </div>
-            {mei === 'sim' && (
+            {mei && (
                 <>
                     <p>Anexar Declaração Anual do Simples Nacional para o(a) Microempreendedor(a) Individual (DAS-SIMEI).</p>
                     <input type="file" onChange={handleFileChange} accept='application/pdf' />

@@ -1,29 +1,25 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; 
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_PensionConfirmation({ onBack, onNext }) {
     const { auth } = useAuth();
-    const [hasAddressProof, setHasAddressProof] = useState(null); 
+    const [hasAddressProof, setHasAddressProof] = useState(null);
     const [pensionData, setPensionData] = useState(null);
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const [childrenData, setChildrenData] = useState([]);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const pensionData = localStorage.getItem('pensionData');
-        if (pensionData) {
-            setPensionData(JSON.parse(pensionData));
+        if (declarationData.pensionData) {
+            setPensionData(declarationData.pensionData)
         }
-        const declarationData = localStorage.getItem('declarationData');
-        if (declarationData) {
-            setDeclarationData(JSON.parse(declarationData));
-        }
-        const childrenData = localStorage.getItem('childrenData');
-        if (childrenData) {
-            setChildrenData(JSON.parse(childrenData));
+        if (declarationData.childrenData) {
+            setChildrenData(declarationData.childrenData)
         }
     }, []);
 
@@ -71,7 +67,7 @@ export default function Declaration_PensionConfirmation({ onBack, onNext }) {
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Pension/${auth.uid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Pension/${declarationData.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,7 +83,7 @@ export default function Declaration_PensionConfirmation({ onBack, onNext }) {
             const data = await response.json();
             console.log('Declaração registrada:', data);
 
-            onNext(true);  
+            onNext(true);
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }
@@ -103,7 +99,7 @@ export default function Declaration_PensionConfirmation({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>Recebimento ou ausência de recebimento de pensão alimentícia</h2>
-            <h3>{declarationData.fullName}</h3>
+            <h3>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
                 {pensionData && pensionData.receivesPension ? (
                     <>

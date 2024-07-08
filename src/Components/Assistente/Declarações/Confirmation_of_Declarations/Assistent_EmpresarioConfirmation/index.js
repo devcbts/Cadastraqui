@@ -25,10 +25,10 @@ export default function Assistent_EmpresarioConfirmation({ onBack }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE RENDA DE EMPRESÁRIO</h1>
-            <h2>{declarationData.fullName}</h2>
+            <h2>{declarationData.name}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Eu, <span>{declarationData.fullName}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, sou sócio de uma empresa e exerço a atividade: <span>{empresarioDetails.activity}</span>.
+                    Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, sou sócio de uma empresa e exerço a atividade: <span>{empresarioDetails.activity}</span>.
                 </p>
             </div>
             <p>Confirma a declaração?</p>

@@ -3,17 +3,19 @@ import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_RentIncome({ onBack, onNext }) {
     const { auth } = useAuth();
     const [receivesRent, setReceivesRent] = useState(null);
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
 
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (declarationData.receivesRent) {
+            setReceivesRent(declarationData.receivesRent)
         }
+
     }, []);
 
     const handleRegisterDeclaration = async () => {
@@ -21,7 +23,7 @@ export default function Declaration_RentIncome({ onBack, onNext }) {
             return;
         }
 
-        if (receivesRent === 'nao') {
+        if (receivesRent === false) {
             onNext(false); // Navega para VEHICLE_OWNERSHIP
             return;
         }
@@ -43,16 +45,16 @@ export default function Declaration_RentIncome({ onBack, onNext }) {
         }
 
         const text = `
-            Eu, ${declarationData.fullName}, portador(a) do CPF nº ${declarationData.CPF}, ${receivesRent === 'sim' ? 'recebo' : 'não recebo'} rendimento de imóvel alugado.
+            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, ${receivesRent ? 'recebo' : 'não recebo'} rendimento de imóvel alugado.
         `;
 
         const payload = {
-            declarationExists: receivesRent === 'sim',
-            ...(receivesRent === 'sim' && { text })
+            declarationExists: receivesRent,
+            ...(receivesRent && { text })
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/RentIncome/${auth.uid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/RentIncome/${declarationData.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -69,7 +71,7 @@ export default function Declaration_RentIncome({ onBack, onNext }) {
             console.log('Declaração registrada:', data);
 
             // Redireciona para a próxima tela
-            onNext(receivesRent === 'sim');
+            onNext(receivesRent);
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }
@@ -82,7 +84,7 @@ export default function Declaration_RentIncome({ onBack, onNext }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE RECEBIMENTO DE ALUGUEL</h1>
-            <h2>{declarationData.fullName}</h2>
+            <h2>{declarationData.name}</h2>
             <p>Você recebe rendimento de imóvel alugado?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
@@ -90,7 +92,8 @@ export default function Declaration_RentIncome({ onBack, onNext }) {
                         type="radio"
                         name="receivesRent"
                         value="sim"
-                        onChange={() => setReceivesRent('sim')}
+                        onChange={() => setReceivesRent(true)}
+                        checked={receivesRent}
                     /> Sim
                 </label>
                 <label>
@@ -98,7 +101,8 @@ export default function Declaration_RentIncome({ onBack, onNext }) {
                         type="radio"
                         name="receivesRent"
                         value="nao"
-                        onChange={() => setReceivesRent('nao')}
+                        onChange={() => setReceivesRent(false)}
+                        checked={receivesRent === false}
                     /> Não
                 </label>
             </div>

@@ -3,21 +3,26 @@ import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
+import findLabel from 'utils/enums/helpers/findLabel';
+import VEHICLE_USAGE from 'utils/enums/vehicle-usage';
+import VEHICLE_TYPE from 'utils/enums/vehicle-type';
 
 export default function Declaration_VehicleOwnership({ onBack, onNext }) {
     const { auth } = useAuth();
     const [confirmation, setConfirmation] = useState(null);
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
 
-    useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
-        }
-    }, []);
+    // useEffect(() => {
+    //     const savedData = localStorage.getItem('declarationData');
+    //     if (savedData) {
+    //         setDeclarationData(JSON.parse(savedData));
+    //     }
+    // }, []);
 
     const handleSave = async () => {
-        if (confirmation === null) {
+        if (confirmation === false) {
             return;
         }
 
@@ -37,17 +42,25 @@ export default function Declaration_VehicleOwnership({ onBack, onNext }) {
             return;
         }
 
-        const text = `
-            Eu, ${declarationData.fullName}, portador(a) do CPF nº ${declarationData.CPF}, declaro que não possuo veículo(s) registrado(s) em meu nome e nenhum membro do meu grupo familiar possui veículo(s) registrado(s) em seu nome.
-        `;
+        const text = declarationData?.Vehicle?.length === 0 ? `
+            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, declaro que não possuo veículo(s) registrado(s) em meu nome e nenhum membro do meu grupo familiar possui veículo(s) registrado(s) em seu nome.
+        `
+            :
+            `Declaro que eu ou alguém do meu grupo familiar possui o(s) veículo(s) abaixo:
+                ${declarationData.Vehicle.map((vehicle, index) => {
+                return `${index + 1}. ${vehicle.modelAndBrand} para fins de ${findLabel(VEHICLE_USAGE, vehicle.usage)} sendo do tipo ${findLabel(VEHICLE_TYPE, vehicle.vehicleType)}`
+
+            })}
+            `
+
 
         const payload = {
-            declarationExists: confirmation === 'sim',
-            ...(confirmation === 'sim' && { text })
+            declarationExists: confirmation,
+            ...(confirmation && { text })
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Status/${auth.uid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Status/${declarationData.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -64,7 +77,7 @@ export default function Declaration_VehicleOwnership({ onBack, onNext }) {
             console.log('Declaração registrada:', data);
 
             // Redireciona para a próxima tela
-            onNext(confirmation === 'sim' ? 'familyIncomeChange' : 'overview'); // ou a tela correta para "não"
+            onNext(confirmation ? 'familyIncomeChange' : 'overview'); // ou a tela correta para "não"
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }
@@ -78,8 +91,20 @@ export default function Declaration_VehicleOwnership({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO NEGATIVA DE PROPRIEDADE DE VEÍCULO AUTOMOTOR</h2>
-            <h3>{declarationData.fullName}</h3>
-            <p>Não possuo veículo(s) registrado(s) em meu nome e nenhum membro do meu grupo familiar possui veículo(s) registrado(s) em seu nome.</p>
+            <h3>{declarationData.name}</h3>
+            <p>
+                {declarationData?.Vehicle?.length === 0 ?
+                    'Não possuo veículo(s) registrado(s) em meu nome e nenhum membro do meu grupo familiar possui veículo(s) registrado(s) em seu nome.'
+                    : <>
+                        Declaro que eu ou alguém do meu grupo familiar possui o(s) veículo(s) abaixo:
+                        {declarationData.Vehicle.map((vehicle, index) => {
+                            return <p>
+                                {index + 1}. {vehicle.modelAndBrand} para fins de {findLabel(VEHICLE_USAGE, vehicle.usage)} sendo do tipo {findLabel(VEHICLE_TYPE, vehicle.vehicleType)}
+                            </p>
+                        })}
+                    </>
+                }
+            </p>
             <p>Confirma a declaração?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
@@ -87,7 +112,8 @@ export default function Declaration_VehicleOwnership({ onBack, onNext }) {
                         type="radio"
                         name="confirmation"
                         value="sim"
-                        onChange={() => setConfirmation('sim')}
+                        onChange={() => setConfirmation(true)}
+                        checked={confirmation}
                     /> Sim
                 </label>
                 <label>
@@ -95,7 +121,8 @@ export default function Declaration_VehicleOwnership({ onBack, onNext }) {
                         type="radio"
                         name="confirmation"
                         value="nao"
-                        onChange={() => setConfirmation('nao')}
+                        onChange={() => setConfirmation(false)}
+                        checked={confirmation === false}
                     /> Não
                 </label>
             </div>

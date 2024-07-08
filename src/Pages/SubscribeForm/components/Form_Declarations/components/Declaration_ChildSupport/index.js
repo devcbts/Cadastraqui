@@ -1,17 +1,19 @@
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; 
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; 
+import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_ChildSupport({ onBack, onNext, onNoPension }) {
     const [childReceivesSupport, setChildReceivesSupport] = useState(null);
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
 
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (declarationData.childReceivesSupport) {
+            setChildReceivesSupport(declarationData.childReceivesSupport)
         }
+
     }, []);
 
     const handleRadioChange = (event) => {
@@ -19,6 +21,11 @@ export default function Declaration_ChildSupport({ onBack, onNext, onNoPension }
     };
 
     const handleNext = () => {
+        setDeclarationData((prev) => ({
+            ...prev, childReceivesSupport,
+            childrenData: childReceivesSupport ? prev.childrenData : null,
+
+        }))
         if (childReceivesSupport === false) {
             onNoPension();
         } else {
@@ -34,7 +41,7 @@ export default function Declaration_ChildSupport({ onBack, onNext, onNoPension }
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>RECEBIMENTO OU AUSÊNCIA DE RECEBIMENTO DE PENSÃO ALIMENTÍCIA</h2>
-            <h3>{declarationData.fullName}</h3>
+            <h3>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
                 <label>C - Há filho(s) que recebe(m) pensão alimentícia de outro(s) pai(s) ou mãe(s)?</label>
                 <div className={commonStyles.radioGroup}>

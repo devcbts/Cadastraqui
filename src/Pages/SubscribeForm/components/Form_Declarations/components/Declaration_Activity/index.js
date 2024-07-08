@@ -2,19 +2,22 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_Activity({ onBack, onNext }) {
     const [activity, setActivity] = useState(null);
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
 
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (declarationData.activity) {
+            setActivity(declarationData.activity)
         }
+
     }, []);
 
     const handleSave = () => {
+        setDeclarationData((prev) => ({ ...prev, activity }))
         if (activity !== null) {
             onNext(activity);
         }
@@ -28,14 +31,14 @@ export default function Declaration_Activity({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE AUSÊNCIA DE RENDA (DESEMPREGADO(A) OU DO LAR)</h2>
-            <h3>{declarationData.fullName}</h3>
+            <h3>{declarationData.name}</h3>
             <p>Você faz alguma atividade laboral?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
-                    <input type="radio" name="activity" value="sim" onChange={() => setActivity('sim')} /> Sim
+                    <input type="radio" name="activity" value="sim" onChange={() => setActivity(true)} checked={activity} /> Sim
                 </label>
                 <label>
-                    <input type="radio" name="activity" value="nao" onChange={() => setActivity('nao')} /> Não
+                    <input type="radio" name="activity" value="nao" onChange={() => setActivity(false)} checked={activity === false} /> Não
                 </label>
             </div>
             <div className={commonStyles.navigationButtons}>

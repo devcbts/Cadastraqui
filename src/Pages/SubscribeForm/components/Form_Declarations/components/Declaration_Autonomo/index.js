@@ -2,20 +2,31 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_Autonomo({ onBack, onSave }) {
     const [informalWork, setInformalWork] = useState(null);
     const [activity, setActivity] = useState('');
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
 
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (declarationData.autonomoDetails) {
+            const autonomoDetails = declarationData.autonomoDetails
+            setInformalWork(autonomoDetails.informalWork)
+            setActivity(autonomoDetails.activity)
         }
+
     }, []);
 
     const handleSave = () => {
+        setDeclarationData((prev) => ({
+            ...prev,
+            autonomoDetails: {
+                informalWork,
+                activity: informalWork ? activity : ''
+            }
+        }))
         if (informalWork !== null) {
             localStorage.setItem('autonomoDetails', JSON.stringify({ informalWork, activity }));
             onSave(informalWork, activity);
@@ -23,7 +34,7 @@ export default function Declaration_Autonomo({ onBack, onSave }) {
     };
 
     const isSaveDisabled = () => {
-        if (informalWork === 'sim') {
+        if (informalWork) {
             return !activity;
         }
         return informalWork === null;
@@ -36,17 +47,17 @@ export default function Declaration_Autonomo({ onBack, onSave }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE AUTÔNOMO(A)/RENDA INFORMAL</h1>
-            <h2>{declarationData.fullName}</h2>
+            <h2>{declarationData.name}</h2>
             <p>Você desenvolve alguma atividade sem vínculo empregatício?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
-                    <input type="radio" name="informalWork" value="sim" onChange={() => setInformalWork('sim')} /> Sim
+                    <input type="radio" name="informalWork" value="sim" onChange={() => setInformalWork(true)} checked={informalWork} /> Sim
                 </label>
                 <label>
-                    <input type="radio" name="informalWork" value="nao" onChange={() => setInformalWork('nao')} /> Não
+                    <input type="radio" name="informalWork" value="nao" onChange={() => setInformalWork(false)} checked={informalWork === false} /> Não
                 </label>
             </div>
-            {informalWork === 'sim' && (
+            {informalWork && (
                 <div className={commonStyles.inputGroup}>
                     <label htmlFor="activity">Escreva a atividade que exerce</label>
                     <textarea

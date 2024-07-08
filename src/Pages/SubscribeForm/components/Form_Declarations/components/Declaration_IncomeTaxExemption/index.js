@@ -5,38 +5,42 @@ import commonStyles from '../../styles.module.scss'; // Certifique-se de que o c
 import { NotificationService } from 'services/notification';
 import uploadService from 'services/upload/uploadService';
 import useAuth from 'hooks/useAuth';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
     const [confirmation, setConfirmation] = useState(null);
     const [year, setYear] = useState('');
     const [file, setFile] = useState(null);
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const { auth } = useAuth()
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (declarationData.incomeTaxDetails) {
+            const { year, confirmation } = declarationData.incomeTaxDetails
+            setYear(year ?? '')
+            setConfirmation(confirmation)
         }
+
     }, []);
 
     const handleSave = async () => {
         if (confirmation !== null) {
-            if (confirmation === 'sim') {
-                onSave('sim');
-            } else if (confirmation === 'nao' && year && file) {
+            if (confirmation) {
+                setDeclarationData((prev) => ({ ...prev, incomeTaxDetails: { confirmation } }))
+                onSave(true);
+            } else if (!confirmation && year && file) {
                 try {
-
+                    setDeclarationData((prev) => ({ ...prev, incomeTaxDetails: { year, confirmation } }))
                     const formData = new FormData()
                     formData.append("file_IR", file)
                     await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: auth?.uid }, formData)
                     localStorage.setItem('incomeTaxDetails', JSON.stringify({ year, file: file.name }));
                     NotificationService.success({ text: 'Documento enviado' }).then(_ => {
-
-                        onSave('nao');
+                        onSave(false);
                     }
                     )
                 } catch (err) {
-
+                    console.log(err)
                 }
             }
         }
@@ -47,7 +51,7 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
     };
 
     const isSaveDisabled = () => {
-        if (confirmation === 'nao') {
+        if (!confirmation) {
             return !year || !file;
         }
         return confirmation === null;
@@ -61,17 +65,17 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE ISENTO DE IMPOSTO DE RENDA</h2>
-            <h3>{declarationData.fullName}</h3>
+            <h3>{declarationData.name}</h3>
             <p>Você é isento(a) de Imposto de Renda?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
-                    <input type="radio" name="incomeTaxExemption" value="sim" onChange={() => setConfirmation('sim')} /> Sim
+                    <input type="radio" name="incomeTaxExemption" value="sim" onChange={() => setConfirmation(true)} checked={confirmation} /> Sim
                 </label>
                 <label>
-                    <input type="radio" name="incomeTaxExemption" value="nao" onChange={() => setConfirmation('nao')} /> Não
+                    <input type="radio" name="incomeTaxExemption" value="nao" onChange={() => setConfirmation(false)} checked={confirmation === false} /> Não
                 </label>
             </div>
-            {confirmation === 'nao' && (
+            {confirmation === false && (
                 <>
                     <div className={commonStyles.inputGroup}>
                         <label htmlFor="year">Exercício</label>

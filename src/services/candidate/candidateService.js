@@ -332,6 +332,10 @@ class CandidateService {
     async updateIncome(memberId, data) {
         return api.put(`/candidates/update-income/${memberId}`, data)
     }
+    async getInfoForDeclaration() {
+        const response = await api.get(`/candidates/declaration/get-info`)
+        return response.data.userInfo
+    }
 }
 
 export default new CandidateService()

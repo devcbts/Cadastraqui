@@ -2,26 +2,35 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_StableUnion({ onBack, onSave }) {
     const [confirmation, setConfirmation] = useState(null);
     const [partnerName, setPartnerName] = useState('');
     const [unionStartDate, setUnionStartDate] = useState('');
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
 
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (declarationData.stableUnion) {
+            const { confirmation, partnerName, unionStartDate } = declarationData.stableUnion
+            setConfirmation(confirmation)
+            setPartnerName(partnerName)
+            setUnionStartDate(unionStartDate)
         }
+        // const savedData = localStorage.getItem('declarationData');
+        // if (savedData) {
+        //     setDeclarationData(JSON.parse(savedData));
+        // }
     }, []);
 
     const handleSave = () => {
-        if (confirmation === 'sim' && partnerName && unionStartDate) {
-            onSave(partnerName, unionStartDate);
-        } else if (confirmation === 'nao') {
-            onSave(null, null);
+        if (confirmation && partnerName && unionStartDate) {
+            setDeclarationData((prev) => ({ ...prev, stableUnion: { confirmation, partnerName, unionStartDate } }))
+        } else if (!confirmation) {
+            setDeclarationData((prev) => ({ ...prev, stableUnion: { confirmation, partnerName: '', unionStartDate: '' } }))
         }
+        onSave(confirmation);
     };
 
     if (!declarationData) {
@@ -29,7 +38,7 @@ export default function Declaration_StableUnion({ onBack, onSave }) {
     }
 
     const isSaveDisabled = () => {
-        if (confirmation === 'sim') {
+        if (confirmation) {
             return !partnerName || !unionStartDate;
         }
         return confirmation === null;
@@ -39,17 +48,17 @@ export default function Declaration_StableUnion({ onBack, onSave }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE UNIÃO ESTÁVEL</h2>
-            <h3>{declarationData.fullName}</h3>
+            <h3>{declarationData.name}</h3>
             <p>Convive em união estável com alguém?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
-                    <input type="radio" name="stableUnion" value="sim" onChange={() => setConfirmation('sim')} /> Sim
+                    <input type="radio" name="stableUnion" value="sim" onChange={() => setConfirmation(true)} checked={confirmation} /> Sim
                 </label>
                 <label>
-                    <input type="radio" name="stableUnion" value="nao" onChange={() => setConfirmation('nao')} /> Não
+                    <input type="radio" name="stableUnion" value="nao" onChange={() => setConfirmation(false)} checked={confirmation === false} /> Não
                 </label>
             </div>
-            {confirmation === 'sim' && (
+            {confirmation && (
                 <div className={commonStyles.additionalFields}>
                     <div className={commonStyles.inputGroup}>
                         <label htmlFor="partnerName">Nome do Parceiro</label>

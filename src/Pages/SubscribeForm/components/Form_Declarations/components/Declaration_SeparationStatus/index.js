@@ -2,6 +2,9 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
+import { formatCPF } from 'utils/format-cpf';
 
 export default function Declaration_SeparationStatus({ onBack, onNext }) {
     const [confirmation, setConfirmation] = useState(null);
@@ -11,22 +14,34 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
         separationDate: '',
         knowsCurrentAddress: null,
     });
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
 
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (declarationData.separationDetails) {
+            setPersonDetails(declarationData.separationDetails.personDetails)
+            setConfirmation(declarationData.separationDetails.confirmation)
         }
+
     }, []);
 
     const handleSave = () => {
+        setDeclarationData((prev) => ({
+            ...prev,
+            separationDetails: {
+                confirmation, personDetails: confirmation ? personDetails : {
+                    personName: '',
+                    personCpf: '',
+                    separationDate: '',
+                    knowsCurrentAddress: null,
+                }
+            }
+        }))
         if (confirmation !== null) {
             localStorage.setItem('separationDetails', JSON.stringify(personDetails));
-            if (confirmation === 'nao') {
+            if (!confirmation) {
                 onNext(false); // Navega para INCOME_TAX_EXEMPTION
             } else {
-                onNext(confirmation === 'sim' && personDetails.knowsCurrentAddress === 'sim');
+                onNext(confirmation && personDetails.knowsCurrentAddress);
             }
         }
     };
@@ -40,7 +55,7 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
     };
 
     const isSaveDisabled = () => {
-        if (confirmation === 'sim') {
+        if (confirmation) {
             return !personDetails.personName || !personDetails.personCpf || !personDetails.separationDate || personDetails.knowsCurrentAddress === null;
         }
         return confirmation === null;
@@ -54,17 +69,17 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE SEPARAÇÃO DE FATO (NÃO JUDICIAL)</h2>
-            <h3>{declarationData.fullName}</h3>
+            <h3>{declarationData.name}</h3>
             <p>Você é separado de fato, porém ainda não formalizou o encerramento por meio do divórcio?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
-                    <input type="radio" name="confirmation" value="sim" onChange={() => setConfirmation('sim')} /> Sim
+                    <input type="radio" name="confirmation" value="sim" onChange={() => setConfirmation(true)} checked={confirmation} /> Sim
                 </label>
                 <label>
-                    <input type="radio" name="confirmation" value="nao" onChange={() => setConfirmation('nao')} /> Não
+                    <input type="radio" name="confirmation" value="nao" onChange={() => setConfirmation(false)} checked={confirmation === false} /> Não
                 </label>
             </div>
-            {confirmation === 'sim' && (
+            {confirmation && (
                 <div className={commonStyles.additionalFields}>
                     <div className={commonStyles.inputGroup}>
                         <label>Nome da pessoa</label>
@@ -82,7 +97,7 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
                             type="text"
                             name="personCpf"
                             value={personDetails.personCpf}
-                            onChange={handleInputChange}
+                            onChange={(e) => setPersonDetails((prev) => ({ ...prev, personCpf: formatCPF(e.target.value) }))}
                             placeholder="652.954.652-78"
                         />
                     </div>
@@ -98,10 +113,10 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
                     <p>Sabe onde essa pessoa mora atualmente?</p>
                     <div className={commonStyles.radioGroup}>
                         <label>
-                            <input type="radio" name="knowsCurrentAddress" value="sim" onChange={handleInputChange} /> Sim
+                            <input type="radio" name="knowsCurrentAddress" value="sim" onChange={() => setPersonDetails(prev => ({ ...prev, knowsCurrentAddress: true }))} checked={personDetails.knowsCurrentAddress} /> Sim
                         </label>
                         <label>
-                            <input type="radio" name="knowsCurrentAddress" value="nao" onChange={handleInputChange} /> Não
+                            <input type="radio" name="knowsCurrentAddress" value="nao" onChange={() => setPersonDetails(prev => ({ ...prev, knowsCurrentAddress: false }))} checked={personDetails.knowsCurrentAddress === false} /> Não
                         </label>
                     </div>
                 </div>

@@ -41,7 +41,7 @@ export default function DeclarationForm({ onBack, onEdit, userId, declarationDat
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
-            <h2>{declarationData.fullName} </h2>
+            <h2>{declarationData.name} </h2>
             <div className={commonStyles.declarationContent}>
                 <p>{generateDeclarationText(declarationData)}</p>
                 <div className={commonStyles.radioGroup}>

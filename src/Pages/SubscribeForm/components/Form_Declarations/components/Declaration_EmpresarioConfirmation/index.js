@@ -3,27 +3,25 @@ import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_EmpresarioConfirmation({ onBack, onSave, userId }) {
     const { auth } = useAuth();
     const [confirmation, setConfirmation] = useState(null);
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const [empresarioDetails, setEmpresarioDetails] = useState(null);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        const savedEmpresarioDetails = localStorage.getItem('empresarioDetails');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (declarationData.empresarioDetails) {
+            setEmpresarioDetails(declarationData.empresarioDetails)
         }
-        if (savedEmpresarioDetails) {
-            setEmpresarioDetails(JSON.parse(savedEmpresarioDetails));
-        }
+
     }, []);
 
     const handleRegisterDeclaration = async () => {
-        if (confirmation === 'nao') {
+        if (confirmation === false) {
             setError('Por favor, verifique os dados de cadastro.');
             return;
         }
@@ -45,12 +43,12 @@ export default function Declaration_EmpresarioConfirmation({ onBack, onSave, use
         }
 
         const text = `
-            Eu, ${declarationData.fullName}, portador(a) do CPF nº ${declarationData.CPF}, sou sócio de uma empresa e exerço a atividade: ${empresarioDetails.activity}.
+            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, sou sócio de uma empresa e exerço a atividade: ${empresarioDetails.activity}.
         `;
 
         const payload = {
-            declarationExists: confirmation === 'sim',
-            ...(confirmation === 'sim' && { text })
+            declarationExists: confirmation,
+            ...(confirmation && { text })
         };
 
         try {
@@ -70,7 +68,7 @@ export default function Declaration_EmpresarioConfirmation({ onBack, onSave, use
             const data = await response.json();
             console.log('Declaração registrada:', data);
 
-            onSave(confirmation === 'sim');
+            onSave(confirmation);
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }
@@ -85,10 +83,10 @@ export default function Declaration_EmpresarioConfirmation({ onBack, onSave, use
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE RENDA DE EMPRESÁRIO</h1>
-            <h2>{declarationData.fullName}</h2>
+            <h2>{declarationData.name}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Eu, <span>{declarationData.fullName}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, sou sócio de uma empresa e exerço a atividade: <span>{empresarioDetails.activity}</span>.
+                    Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, sou sócio de uma empresa e exerço a atividade: <span>{empresarioDetails.activity}</span>.
                 </p>
             </div>
             <p>Confirma a declaração?</p>
@@ -98,8 +96,8 @@ export default function Declaration_EmpresarioConfirmation({ onBack, onSave, use
                         type="radio"
                         name="confirmation"
                         value="sim"
-                        checked={confirmation === 'sim'}
-                        onChange={() => setConfirmation('sim')}
+                        checked={confirmation}
+                        onChange={() => setConfirmation(true)}
                     /> Sim
                 </label>
                 <label>
@@ -107,8 +105,8 @@ export default function Declaration_EmpresarioConfirmation({ onBack, onSave, use
                         type="radio"
                         name="confirmation"
                         value="nao"
-                        checked={confirmation === 'nao'}
-                        onChange={() => setConfirmation('nao')}
+                        checked={confirmation === false}
+                        onChange={() => setConfirmation(false)}
                     /> Não
                 </label>
             </div>
