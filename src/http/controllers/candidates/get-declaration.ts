@@ -1,10 +1,10 @@
+import { ForbiddenError } from '@/errors/forbidden-error'
+import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
+import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { prisma } from '@/lib/prisma'
-import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { Declaration_Type } from './enums/Declatarion_Type'
-import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
-import { ForbiddenError } from '@/errors/forbidden-error'
 
 export async function getDeclaration(
     request: FastifyRequest,
@@ -23,17 +23,48 @@ export async function getDeclaration(
         if (!isUser) {
             throw new ForbiddenError()
         }
-        if (!type){
+        const desiredOrder = ['Form',
+            'Activity',
+            'AddressProof',
+            'Autonomo',
+            'Card',
+            'ChildPension',
+            'ChildSupport',
+            'ContributionStatement',
+            'Data',
+            'Empresario',
+            'InactiveCompany',
+            'IncomeTaxExemption',
+            'MEI',
+            'NoAddressProof',
+            'Penseion',
+            'Pension',
+            'Rent',
+            'RentDetails',
+            'RentIncome',
+            'RentedHouse',
+            'RuralWorker',
+            'SingleStatus',
+            'StableUnion',
+            'Status',
+            'WorkCard',
+            'Notify',
+            'Responsiblity'
+        ]
+        if (!type) {
             const declarations = await prisma.declarations.findMany({
                 where: {
                     OR: [{ familyMember_id: _id }, { candidate_id: _id }, { legalResponsibleId: _id }],
                 },
+
             })
-            
-            return reply.status(200).send({ declarations })
+
+            const orderedDeclarations = declarations.sort((a, b) => {
+                return desiredOrder.indexOf(a.declarationType) - desiredOrder.indexOf(b.declarationType);
+            });
+            return reply.status(200).send({ declarations: orderedDeclarations })
 
         }
-
         const declaration = await prisma.declarations.findFirst({
             where: {
                 OR: [{ familyMember_id: _id }, { candidate_id: _id }, { legalResponsibleId: _id }],

@@ -13,7 +13,7 @@ export default async function getUserInformationForDeclaration(
         if (!user) {
             throw new Error('Usuário não encontrado')
         }
-        let result;
+        let result: any;
         if (user.IsResponsible) {
             result = await prisma.legalResponsible.findUnique({
                 where: { id: user.UserData.id },
@@ -22,14 +22,29 @@ export default async function getUserInformationForDeclaration(
                         include: {
                             Vehicle: true,
                             BankAccount: true,
-                            IdentityDetails: true
                         }
                     },
-                    Vehicle: true,
+                    Vehicle: { include: { FamilyMemberToVehicle: true } },
                     BankAccount: true,
                     IdentityDetails: true
                 }
             })
+            // Legal dependents are 'copies' of a family member, so each candidate need to have it's own
+            // identity details to fit all declarations
+            const mappedCandidates = await Promise.all(result?.Candidate.map(async (candidate: any) => {
+                const fm = await prisma.familyMember.findFirst({
+                    where: { AND: [{ legalResponsibleId: result.id }, { fullName: candidate.fullName }] }
+                })
+                let identity: any = fm
+                if (result.IdentityDetails) {
+                    const { address, addressNumber, neighborhood, city, UF, CEP } = result.IdentityDetails
+                    identity = { ...identity, address, addressNumber, neighborhood, city, UF, CEP }
+                }
+                return { ...candidate, IdentityDetails: identity }
+            }) as [])
+            if (result?.Candidate) {
+                result.Candidate = mappedCandidates
+            }
         } else {
             result = await prisma.candidate.findUnique({
                 where: { id: user.UserData.id },

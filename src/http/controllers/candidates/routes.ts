@@ -18,6 +18,7 @@ import getMEIDeclaration from './Declaration Get Routes/get-MEI'
 import getRentIncome from './Declaration Get Routes/get-rent-income'
 import getRuralWorker from './Declaration Get Routes/get-rural-worker'
 import { deleteBankingInfo } from './delete-banking-info'
+import deleteDeclaration from './delete-declaration'
 import deleteFamilyMember from './delete-family-member'
 import { deleteHealthInfo } from './delete-health-info'
 import { deleteIncomeInfo } from './delete-income-info'
@@ -254,7 +255,9 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.post('/declaration/:type/:_id', { onRequest: [verifyJWT] }, registerDeclaration)
 
   // Get individual declaration
-  app.get('/declaration/:type/:_id', { onRequest: [verifyJWT] }, getDeclaration)
+  app.get('/declaration/:_id/:type?', { onRequest: [verifyJWT] }, getDeclaration)
+  // Delete individual declaration
+  app.delete('/declaration/:_id/:type', { onRequest: [verifyJWT] }, deleteDeclaration)
 
   // Announcement Routes
   app.post('/announcement/save/:announcement_id', { onRequest: [verifyJWT] }, saveAnnouncement)
