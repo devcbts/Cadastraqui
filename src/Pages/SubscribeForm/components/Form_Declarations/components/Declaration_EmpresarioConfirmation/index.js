@@ -52,7 +52,7 @@ export default function Declaration_EmpresarioConfirmation({ onBack, onSave, use
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Empresario/${auth.uid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Empresario/${declarationData.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

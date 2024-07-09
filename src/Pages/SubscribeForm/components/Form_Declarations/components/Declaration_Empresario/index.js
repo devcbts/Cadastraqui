@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
 import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_Empresario({ onBack, onSave }) {
     const [isPartner, setIsPartner] = useState(null);
@@ -27,6 +28,10 @@ export default function Declaration_Empresario({ onBack, onSave }) {
                 activity: isPartner ? activity : ''
             }
         }))
+        if (!isPartner) {
+            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'Empresario' })
+
+        }
         if (isPartner !== null) {
             localStorage.setItem('empresarioDetails', JSON.stringify({ isPartner, activity }));
             onSave(isPartner, activity);

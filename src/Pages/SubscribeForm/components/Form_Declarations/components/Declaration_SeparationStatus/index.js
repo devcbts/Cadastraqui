@@ -5,61 +5,79 @@ import commonStyles from '../../styles.module.scss'; // Certifique-se de que o c
 import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
 import { formatCPF } from 'utils/format-cpf';
+import useControlForm from 'hooks/useControlForm';
+import separationSchema from './separation-schema';
+import FormCheckbox from 'Components/FormCheckbox';
+import InputForm from 'Components/InputForm';
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_SeparationStatus({ onBack, onNext }) {
-    const [confirmation, setConfirmation] = useState(null);
-    const [personDetails, setPersonDetails] = useState({
-        personName: '',
-        personCpf: '',
-        separationDate: '',
-        knowsCurrentAddress: null,
-    });
+    // const [confirmation, setConfirmation] = useState(null);
+    // const [personDetails, setPersonDetails] = useState({
+    //     personName: '',
+    //     personCpf: '',
+    //     separationDate: '',
+    //     knowsCurrentAddress: null,
+    // });
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
+    const { control, watch, formState: { isValid, errors }, trigger, getValues, resetField } = useControlForm({
+        schema: separationSchema,
+        defaultValues: {
+            confirmation: null,
+            personDetails: {
+                personName: '',
+                personCpf: '',
+                separationDate: '',
+                knowsCurrentAddress: null,
+            }
+        },
+        initialData: declarationData?.separationDetails
+    })
+    const confirmation = watch("confirmation")
+    const personDetails = watch("personDetails")
+    // useEffect(() => {
+    //     if (declarationData.separationDetails) {
+    //         setPersonDetails(declarationData.separationDetails.personDetails)
+    //         setConfirmation(declarationData.separationDetails.confirmation)
+    //     }
 
-    useEffect(() => {
-        if (declarationData.separationDetails) {
-            setPersonDetails(declarationData.separationDetails.personDetails)
-            setConfirmation(declarationData.separationDetails.confirmation)
-        }
-
-    }, []);
+    // }, []);
 
     const handleSave = () => {
+        console.log(errors)
+        if (!isValid) {
+            trigger()
+            return
+        }
         setDeclarationData((prev) => ({
             ...prev,
-            separationDetails: {
-                confirmation, personDetails: confirmation ? personDetails : {
-                    personName: '',
-                    personCpf: '',
-                    separationDate: '',
-                    knowsCurrentAddress: null,
-                }
-            }
+            separationDetails: getValues()
         }))
         if (confirmation !== null) {
             localStorage.setItem('separationDetails', JSON.stringify(personDetails));
             if (!confirmation) {
-                onNext(false); // Navega para INCOME_TAX_EXEMPTION
+                candidateService.deleteDeclaration({ userId: declarationData?.id, type: 'NoAddressProof' }).catch(err => { })
+                onNext(null); // Navega para INCOME_TAX_EXEMPTION
             } else {
-                onNext(confirmation && personDetails.knowsCurrentAddress);
+                onNext(personDetails.knowsCurrentAddress);
             }
         }
     };
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setPersonDetails((prevDetails) => ({
-            ...prevDetails,
-            [name]: value,
-        }));
-    };
+    // const handleInputChange = (e) => {
+    // const { name, value } = e.target;
+    // setPersonDetails((prevDetails) => ({
+    // ...prevDetails,
+    // [name]: value,
+    // }));
+    // };
 
-    const isSaveDisabled = () => {
-        if (confirmation) {
-            return !personDetails.personName || !personDetails.personCpf || !personDetails.separationDate || personDetails.knowsCurrentAddress === null;
-        }
-        return confirmation === null;
-    };
+    // const isSaveDisabled = () => {
+    //     if (confirmation) {
+    //         return !personDetails.personName || !personDetails.personCpf || !personDetails.separationDate || personDetails.knowsCurrentAddress === null;
+    //     }
+    //     return confirmation === null;
+    // };
 
     if (!declarationData) {
         return <p>Carregando...</p>;
@@ -70,18 +88,19 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE SEPARAÇÃO DE FATO (NÃO JUDICIAL)</h2>
             <h3>{declarationData.name}</h3>
-            <p>Você é separado de fato, porém ainda não formalizou o encerramento por meio do divórcio?</p>
-            <div className={commonStyles.radioGroup}>
-                <label>
-                    <input type="radio" name="confirmation" value="sim" onChange={() => setConfirmation(true)} checked={confirmation} /> Sim
-                </label>
-                <label>
-                    <input type="radio" name="confirmation" value="nao" onChange={() => setConfirmation(false)} checked={confirmation === false} /> Não
-                </label>
-            </div>
+            <FormCheckbox
+                control={control}
+                label={'você é separado de fato, porém ainda não formalizou o encerramento por meio do divórcio?'}
+                name="confirmation"
+                value={confirmation}
+            />
+
             {confirmation && (
                 <div className={commonStyles.additionalFields}>
-                    <div className={commonStyles.inputGroup}>
+                    <InputForm label={'Nome da pessoa'} name={"personDetails.personName"} control={control} />
+                    <InputForm label={'CPF da pessoa'} name={"personDetails.personCpf"} control={control} transform={(e) => formatCPF(e.target.value)} />
+                    <InputForm label={'Data da separação'} name={"personDetails.separationDate"} control={control} type="date" />
+                    {/* <div className={commonStyles.inputGroup}>
                         <label>Nome da pessoa</label>
                         <input
                             type="text"
@@ -90,8 +109,8 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
                             onChange={handleInputChange}
                             placeholder="Fulana de tal"
                         />
-                    </div>
-                    <div className={commonStyles.inputGroup}>
+                    </div> */}
+                    {/* <div className={commonStyles.inputGroup}>
                         <label>CPF da pessoa</label>
                         <input
                             type="text"
@@ -100,8 +119,8 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
                             onChange={(e) => setPersonDetails((prev) => ({ ...prev, personCpf: formatCPF(e.target.value) }))}
                             placeholder="652.954.652-78"
                         />
-                    </div>
-                    <div className={commonStyles.inputGroup}>
+                    </div> */}
+                    {/* <div className={commonStyles.inputGroup}>
                         <label>Data da separação</label>
                         <input
                             type="date"
@@ -109,8 +128,14 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
                             value={personDetails.separationDate}
                             onChange={handleInputChange}
                         />
-                    </div>
-                    <p>Sabe onde essa pessoa mora atualmente?</p>
+                    </div> */}
+                    <FormCheckbox
+                        control={control}
+                        label={'Sabe onde essa pessoa mora atualmente?'}
+                        name="personDetails.knowsCurrentAddress"
+                        value={watch("personDetails.knowsCurrentAddress")}
+                    />
+                    {/* <p>Sabe onde essa pessoa mora atualmente?</p>
                     <div className={commonStyles.radioGroup}>
                         <label>
                             <input type="radio" name="knowsCurrentAddress" value="sim" onChange={() => setPersonDetails(prev => ({ ...prev, knowsCurrentAddress: true }))} checked={personDetails.knowsCurrentAddress} /> Sim
@@ -118,7 +143,7 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
                         <label>
                             <input type="radio" name="knowsCurrentAddress" value="nao" onChange={() => setPersonDetails(prev => ({ ...prev, knowsCurrentAddress: false }))} checked={personDetails.knowsCurrentAddress === false} /> Não
                         </label>
-                    </div>
+                    </div> */}
                 </div>
             )}
             <div className={commonStyles.navigationButtons}>
@@ -126,12 +151,7 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}
-                    disabled={isSaveDisabled()}
-                    style={{
-                        borderColor: isSaveDisabled() ? '#ccc' : '#1F4B73',
-                        cursor: isSaveDisabled() ? 'not-allowed' : 'pointer',
-                        opacity: isSaveDisabled() ? 0.6 : 1
-                    }}
+
                 />
             </div>
         </div>

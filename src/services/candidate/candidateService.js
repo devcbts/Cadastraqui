@@ -336,6 +336,37 @@ class CandidateService {
         const response = await api.get(`/candidates/declaration/get-info`)
         return response.data.userInfo
     }
+    async deleteDeclaration({ userId, type } = {
+        userId: '',
+        type: "Form" ||
+            "Activity" ||
+            "AddressProof" ||
+            "Autonomo" ||
+            "Card" ||
+            "ChildPension" ||
+            "ChildSupport" ||
+            "ContributionStatement" ||
+            "Data" ||
+            "Empresario" ||
+            "InactiveCompany" ||
+            "IncomeTaxExemption" ||
+            "MEI" ||
+            "NoAddressProof" ||
+            "Penseion" ||
+            "Pension" ||
+            "Rent" ||
+            "RentDetails" ||
+            "RentIncome" ||
+            "RentedHouse" ||
+            "RuralWorker" ||
+            "SingleStatus" ||
+            "StableUnion" ||
+            "Status" ||
+            "WorkCard"
+    }
+    ) {
+        await api.delete(`/candidates/declaration/${userId}/${type}`)
+    }
 }
 
 export default new CandidateService()

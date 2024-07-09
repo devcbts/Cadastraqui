@@ -45,7 +45,7 @@ export default function Declaration_IncomeTaxExemptionConfirmation({ onBack, onN
                     ...(confirmation && { text })
                 };
 
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/IncomeTaxExemption/${auth.uid}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/IncomeTaxExemption/${declarationData.id}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

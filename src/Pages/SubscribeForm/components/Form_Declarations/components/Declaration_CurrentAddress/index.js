@@ -1,49 +1,57 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
 import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
+import AddressData from 'Pages/SubscribeForm/components/AddressData';
 
 export default function Declaration_CurrentAddress({ onBack, onNext }) {
-    const [addressDetails, setAddressDetails] = useState({
-        cep: '',
-        address: '',
-        neighborhood: '',
-        number: '',
-        city: '',
-        uf: '',
-        complement: ''
-    });
+    // const [addressDetails, setAddressDetails] = useState({
+    //     cep: '',
+    //     address: '',
+    //     neighborhood: '',
+    //     number: '',
+    //     city: '',
+    //     uf: '',
+    //     complement: ''
+    // });
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom)
-    useEffect(() => {
-        if (declarationData.separationDetails) {
-            setAddressDetails(declarationData.separationDetails.addressDetails ?? {
-                cep: '',
-                address: '',
-                neighborhood: '',
-                number: '',
-                city: '',
-                uf: '',
-                complement: ''
-            })
-        }
-    }, [])
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setAddressDetails((prevDetails) => ({
-            ...prevDetails,
-            [name]: value,
-        }));
-    };
+
+    // useEffect(() => {
+    //     if (declarationData.separationDetails) {
+    //         setAddressDetails(declarationData.separationDetails.addressDetails ?? {
+    //             cep: '',
+    //             address: '',
+    //             neighborhood: '',
+    //             number: '',
+    //             city: '',
+    //             uf: '',
+    //             complement: ''
+    //         })
+    //     }
+    // }, [])
+    const addressRef = useRef(null)
+    // const handleInputChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setAddressDetails((prevDetails) => ({
+    //         ...prevDetails,
+    //         [name]: value,
+    //     }));
+    // };
 
     const handleSave = () => {
-        localStorage.setItem('addressDetails', JSON.stringify(addressDetails));
+        console.log(addressRef.current.values())
+        if (!addressRef?.current?.validate()) {
+            return
+        }
+        const addressDetails = addressRef?.current?.values()
+        // localStorage.setItem('addressDetails', JSON.stringify(addressDetails));
         setDeclarationData((prev) => ({ ...prev, separationDetails: { ...prev.separationDetails, addressDetails } }))
         onNext();
     };
 
-    const isSaveDisabled = !addressDetails.cep || !addressDetails.address || !addressDetails.neighborhood || !addressDetails.number || !addressDetails.city || !addressDetails.uf;
+    // const isSaveDisabled = !addressDetails.cep || !addressDetails.address || !addressDetails.neighborhood || !addressDetails.number || !addressDetails.city || !addressDetails.uf;
 
     return (
         <div className={commonStyles.declarationForm}>
@@ -51,7 +59,8 @@ export default function Declaration_CurrentAddress({ onBack, onNext }) {
             <h2>DECLARAÇÃO DE SEPARAÇÃO DE FATO (NÃO JUDICIAL)</h2>
             <h3>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
-                <div className={commonStyles.inputGroup}>
+                <AddressData ref={addressRef} data={declarationData?.separationDetails.addressDetails} />
+                {/* <div className={commonStyles.inputGroup}>
                     <label>CEP</label>
                     <input
                         type="text"
@@ -120,19 +129,14 @@ export default function Declaration_CurrentAddress({ onBack, onNext }) {
                         onChange={handleInputChange}
                         placeholder="Complemento"
                     />
-                </div>
+                </div> */}
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}
-                    disabled={isSaveDisabled}
-                    style={{
-                        borderColor: isSaveDisabled ? '#ccc' : '#1F4B73',
-                        cursor: isSaveDisabled ? 'not-allowed' : 'pointer',
-                        opacity: isSaveDisabled ? 0.6 : 1
-                    }}
+
                 />
             </div>
         </div>

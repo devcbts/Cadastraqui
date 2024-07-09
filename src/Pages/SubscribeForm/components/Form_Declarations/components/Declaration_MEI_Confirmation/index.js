@@ -3,23 +3,25 @@ import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_MEI_Confirmation({ onBack, onNext, onRentIncome, userId }) {
     const { auth } = useAuth();
     const [confirmation, setConfirmation] = useState(null);
     const [meiDetails, setMeiDetails] = useState(null);
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const savedDetails = localStorage.getItem('meiDetails');
-        const savedDeclarationData = localStorage.getItem('declarationData');
-        if (savedDetails) {
-            setMeiDetails(JSON.parse(savedDetails));
-        }
-        if (savedDeclarationData) {
-            setDeclarationData(JSON.parse(savedDeclarationData));
-        }
+        // const savedDetails = localStorage.getItem('meiDetails');
+        // const savedDeclarationData = localStorage.getItem('declarationData');
+        // if (savedDetails) {
+        //     setMeiDetails(JSON.parse(savedDetails));
+        // }
+        // if (savedDeclarationData) {
+        //     setDeclarationData(JSON.parse(savedDeclarationData));
+        // }
     }, []);
 
     const handleRegisterDeclaration = async () => {
@@ -39,23 +41,23 @@ export default function Declaration_MEI_Confirmation({ onBack, onNext, onRentInc
             return;
         }
 
-        if (!meiDetails || !declarationData) {
+        if (!declarationData) {
             console.error('Os dados da declaração ou do MEI não estão disponíveis');
             return;
         }
 
         const text = `
-            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, POSSUO o cadastro como Microempreendedor Individual e consta no meu cadastro, neste processo, a Declaração Anual do Simples Nacional para o(a) Microempreendedor(a) Individual (DAS-SIMEI). 
+            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, POSSUO o cadastro como Microempreendedor Individual e consta no meu cadastro, neste processo, a Declaração Anual do Simples Nacional para o(a) Microempreendedor(a) Individual (DAS-SIMEI).\
             Esta declaração está em conformidade com a Lei n° 7.115/83. Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas.
         `;
 
         const payload = {
-            declarationExists: confirmation === 'sim',
-            ...(confirmation === 'sim' && { text })
+            declarationExists: confirmation,
+            ...(confirmation && { text })
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/MEI/${auth.uid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/MEI/${declarationData.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,13 +73,13 @@ export default function Declaration_MEI_Confirmation({ onBack, onNext, onRentInc
             const data = await response.json();
             console.log('Declaração registrada:', data);
 
-            onNext(confirmation === 'sim');
+            onNext(confirmation);
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }
     };
 
-    if (!meiDetails || !declarationData) {
+    if (!declarationData) {
         return <p>Carregando...</p>;
     }
 
@@ -99,8 +101,8 @@ export default function Declaration_MEI_Confirmation({ onBack, onNext, onRentInc
                             type="radio"
                             name="confirmation"
                             value="sim"
-                            checked={confirmation === 'sim'}
-                            onChange={() => setConfirmation('sim')}
+                            checked={confirmation}
+                            onChange={() => setConfirmation(true)}
                         /> Sim
                     </label>
                     <label>
@@ -108,8 +110,8 @@ export default function Declaration_MEI_Confirmation({ onBack, onNext, onRentInc
                             type="radio"
                             name="confirmation"
                             value="nao"
-                            checked={confirmation === 'nao'}
-                            onChange={() => setConfirmation('nao')}
+                            checked={confirmation === false}
+                            onChange={() => setConfirmation(false)}
                         /> Não
                     </label>
                 </div>

@@ -293,14 +293,14 @@ export default function FormDeclarations() {
                 <Declaration_ChildPension
                     onBack={() => handleNavigate(SCREENS.PENSION)}
                     onNext={() => handleNavigate(SCREENS.CHILD_SUPPORT)}
-                    onNoPension={() => handleNavigate(SCREENS.ADDRESS_PROOF)}
+                    onNoPension={() => handleNavigate(SCREENS.PENSION_CONFIRMATION)}
                 />
             )}
             {currentScreen === SCREENS.CHILD_SUPPORT && (
                 <Declaration_ChildSupport
                     onBack={() => handleNavigate(SCREENS.CHILD_PENSION)}
                     onNext={() => handleNavigate(SCREENS.CHILD_SUPPORT_DETAILS)}
-                    onNoPension={() => handleNavigate(SCREENS.ADDRESS_PROOF)}
+                    onNoPension={() => handleNavigate(SCREENS.PENSION_CONFIRMATION)}
                 />
             )}
             {currentScreen === SCREENS.CHILD_SUPPORT_DETAILS && (
@@ -308,7 +308,7 @@ export default function FormDeclarations() {
             )}
             {currentScreen === SCREENS.PENSION_CONFIRMATION && (
                 <Declaration_PensionConfirmation
-                    onBack={() => handleNavigate(SCREENS.CHILD_SUPPORT_DETAILS)}
+                    onBack={() => handleNavigate(SCREENS.PENSION)}
                     onNext={(hasAddressProof) => handleNavigate(hasAddressProof ? SCREENS.ADDRESS_PROOF : SCREENS.PENSION_CONFIRMATION)} />
             )}
             {currentScreen === SCREENS.ADDRESS_PROOF && (
@@ -389,7 +389,14 @@ export default function FormDeclarations() {
             {currentScreen === SCREENS.SEPARATION_STATUS && (
                 <Declaration_SeparationStatus
                     onBack={() => handleNavigate(SCREENS.SINGLE_STATUS)}
-                    onNext={(knowsCurrentAddress) => handleNavigate(knowsCurrentAddress ? SCREENS.CURRENT_ADDRESS : SCREENS.INCOME_TAX_EXEMPTION)}
+                    onNext={(knowsCurrentAddress) => {
+                        if (knowsCurrentAddress === null) {
+
+                            handleNavigate(SCREENS.INCOME_TAX_EXEMPTION)
+                            return
+                        }
+                        handleNavigate(knowsCurrentAddress ? SCREENS.CURRENT_ADDRESS : SCREENS.SEPARATION_CONFIRMATION)
+                    }}
                 />
             )}
             {currentScreen === SCREENS.CURRENT_ADDRESS && (
@@ -398,15 +405,15 @@ export default function FormDeclarations() {
                     onNext={handleNavigateToSeparationConfirmation}
                 />
             )}
-            {currentScreen === SCREENS.SEPARATION_NO_ADDRESS_CONFIRMATION && (
+            {/* {currentScreen === SCREENS.SEPARATION_NO_ADDRESS_CONFIRMATION && (
                 <Declaration_SeparationNoAddressConfirmation
                     onBack={() => handleNavigate(SCREENS.SEPARATION_STATUS)}
                     onNext={() => handleNavigate(SCREENS.INCOME_TAX_EXEMPTION)}
                 />
-            )}
+            )} */}
             {currentScreen === SCREENS.SEPARATION_CONFIRMATION && (
                 <Declaration_SeparationConfirmation
-                    onBack={() => handleNavigate(SCREENS.CURRENT_ADDRESS)}
+                    onBack={() => handleNavigate(SCREENS.SEPARATION_STATUS)}
                     onNext={() => handleNavigate(SCREENS.INCOME_TAX_EXEMPTION)}
                 />
             )}
@@ -426,7 +433,7 @@ export default function FormDeclarations() {
             )}
             {currentScreen === SCREENS.ACTIVITY && (
                 <Declaration_Activity
-                    onBack={() => handleNavigate(SCREENS.INCOME_TAX_EXEMPTION_CONFIRMATION)}
+                    onBack={() => handleNavigate(SCREENS.INCOME_TAX_EXEMPTION)}
                     onNext={(activity) => handleNavigate(activity ? SCREENS.MEI : SCREENS.ACTIVITY_CONFIRMATION)}
                 />
             )}

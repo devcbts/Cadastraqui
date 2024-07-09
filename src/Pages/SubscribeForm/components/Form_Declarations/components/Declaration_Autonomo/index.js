@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
 import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_Autonomo({ onBack, onSave }) {
     const [informalWork, setInformalWork] = useState(null);
@@ -27,6 +28,9 @@ export default function Declaration_Autonomo({ onBack, onSave }) {
                 activity: informalWork ? activity : ''
             }
         }))
+        if (!informalWork) {
+            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'Autonomo' })
+        }
         if (informalWork !== null) {
             localStorage.setItem('autonomoDetails', JSON.stringify({ informalWork, activity }));
             onSave(informalWork, activity);

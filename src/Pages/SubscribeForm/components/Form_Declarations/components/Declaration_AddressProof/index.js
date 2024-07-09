@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
 import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_AddressProof({ onBack, onNext }) {
     const [hasAddressProof, setHasAddressProof] = useState(null);
@@ -18,6 +19,9 @@ export default function Declaration_AddressProof({ onBack, onNext }) {
 
     const handleSave = () => {
         setDeclarationData((prev) => ({ ...prev, hasAddressProof }))
+        if (hasAddressProof) {
+            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'NoAddressProof' }).catch(err => { })
+        }
         if (hasAddressProof !== null) {
             onNext(hasAddressProof);
         }

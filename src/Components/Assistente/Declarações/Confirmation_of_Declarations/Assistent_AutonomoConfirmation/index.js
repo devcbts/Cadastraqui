@@ -28,7 +28,7 @@ export default function Assistent_AutonomoConfirmation({ onBack }) {
             <h2>{declarationData.name}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, desenvolvo atividades <span>{autonomoDetails.activity}</span> e recebo uma quantia média de R$ 2500,00 mensal.
+                    Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, desenvolvo atividades <span>{autonomoDetails.activity}</span>.
                 </p>
             </div>
             <div className={commonStyles.radioGroup}>

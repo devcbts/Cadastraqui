@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
 import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_RentIncome({ onBack, onNext }) {
     const { auth } = useAuth();
@@ -24,57 +25,58 @@ export default function Declaration_RentIncome({ onBack, onNext }) {
         }
 
         if (receivesRent === false) {
+            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'RentIncome' })
             onNext(false); // Navega para VEHICLE_OWNERSHIP
             return;
         }
 
-        if (!auth?.uid) {
-            console.error('UID não está definido');
-            return;
-        }
+        // if (!auth?.uid) {
+        //     console.error('UID não está definido');
+        //     return;
+        // }
 
-        const token = localStorage.getItem("token");
-        if (!token) {
-            console.error('Token não está definido');
-            return;
-        }
+        // const token = localStorage.getItem("token");
+        // if (!token) {
+        //     console.error('Token não está definido');
+        //     return;
+        // }
 
-        if (!declarationData) {
-            console.error('Os dados da declaração não estão disponíveis');
-            return;
-        }
+        // if (!declarationData) {
+        //     console.error('Os dados da declaração não estão disponíveis');
+        //     return;
+        // }
 
-        const text = `
-            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, ${receivesRent ? 'recebo' : 'não recebo'} rendimento de imóvel alugado.
-        `;
+        // const text = `
+        //     Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, ${receivesRent ? 'recebo' : 'não recebo'} rendimento de imóvel alugado.
+        // `;
 
-        const payload = {
-            declarationExists: receivesRent,
-            ...(receivesRent && { text })
-        };
+        // const payload = {
+        //     declarationExists: receivesRent,
+        //     ...(receivesRent && { text })
+        // };
 
-        try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/RentIncome/${declarationData.id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(payload)
-            });
+        // try {
+        //     const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/RentIncome/${declarationData.id}`, {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Authorization': `Bearer ${token}`
+        //         },
+        //         body: JSON.stringify(payload)
+        //     });
 
-            if (!response.ok) {
-                throw new Error(`Erro: ${response.statusText}`);
-            }
+        //     if (!response.ok) {
+        //         throw new Error(`Erro: ${response.statusText}`);
+        //     }
 
-            const data = await response.json();
-            console.log('Declaração registrada:', data);
+        //     const data = await response.json();
+        //     console.log('Declaração registrada:', data);
 
-            // Redireciona para a próxima tela
-            onNext(receivesRent);
-        } catch (error) {
-            console.error('Erro ao registrar a declaração:', error);
-        }
+        //     // Redireciona para a próxima tela
+        // } catch (error) {
+        //     console.error('Erro ao registrar a declaração:', error);
+        // }
+        onNext(receivesRent);
     };
 
     if (!declarationData) {

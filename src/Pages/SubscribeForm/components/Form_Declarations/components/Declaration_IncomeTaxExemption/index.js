@@ -7,55 +7,74 @@ import uploadService from 'services/upload/uploadService';
 import useAuth from 'hooks/useAuth';
 import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
+import candidateService from 'services/candidate/candidateService';
+import FormCheckbox from 'Components/FormCheckbox';
+import useControlForm from 'hooks/useControlForm';
+import InputForm from 'Components/InputForm';
+import FormFilePicker from 'Components/FormFilePicker';
+import incomeTaxSchema from './income-tax-schema';
 
 export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
-    const [confirmation, setConfirmation] = useState(null);
-    const [year, setYear] = useState('');
-    const [file, setFile] = useState(null);
+    // const [confirmation, setConfirmation] = useState(null);
+    // const [year, setYear] = useState('');
+    // const [file, setFile] = useState(null);
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
-    const { auth } = useAuth()
-    useEffect(() => {
-        if (declarationData.incomeTaxDetails) {
-            const { year, confirmation } = declarationData.incomeTaxDetails
-            setYear(year ?? '')
-            setConfirmation(confirmation)
-        }
+    // const { auth } = useAuth()
+    const { control, getValues, formState: { isValid }, trigger, watch } = useControlForm({
+        schema: incomeTaxSchema,
+        defaultValues: {
+            confirmation: null,
+            file: null,
+            year: ''
+        },
+        initialData: declarationData?.incomeTaxDetails
+    })
+    const confirmation = watch('confirmation')
+    // useEffect(() => {
+    //     if (declarationData.incomeTaxDetails) {
+    //         const { year, confirmation } = declarationData.incomeTaxDetails
+    //         setYear(year ?? '')
+    //         setConfirmation(confirmation)
+    //     }
 
-    }, []);
+    // }, []);
 
     const handleSave = async () => {
-        if (confirmation !== null) {
-            if (confirmation) {
-                setDeclarationData((prev) => ({ ...prev, incomeTaxDetails: { confirmation } }))
-                onSave(true);
-            } else if (!confirmation && year && file) {
-                try {
-                    setDeclarationData((prev) => ({ ...prev, incomeTaxDetails: { year, confirmation } }))
-                    const formData = new FormData()
-                    formData.append("file_IR", file)
-                    await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: auth?.uid }, formData)
-                    localStorage.setItem('incomeTaxDetails', JSON.stringify({ year, file: file.name }));
-                    NotificationService.success({ text: 'Documento enviado' }).then(_ => {
-                        onSave(false);
-                    }
-                    )
-                } catch (err) {
-                    console.log(err)
+        if (!isValid) {
+            trigger()
+            return
+        }
+        setDeclarationData((prev) => ({ ...prev, incomeTaxDetails: { confirmation } }))
+        if (confirmation) {
+            onSave(true);
+        } else {
+            try {
+                const values = getValues()
+                setDeclarationData((prev) => ({ ...prev, incomeTaxDetails: { year: values.year, confirmation: values.confirmation } }))
+                const formData = new FormData()
+                formData.append("file_IR", values.file)
+                await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData?.id }, formData)
+                candidateService.deleteDeclaration({ userId: declarationData?.id, type: 'IncomeTaxExemption' }).catch(err => { })
+                NotificationService.success({ text: 'Documento enviado' }).then(_ => {
+                    onSave(false);
                 }
+                )
+            } catch (err) {
             }
         }
+
     };
 
-    const handleFileChange = (e) => {
-        setFile(e.target.files?.[0]);
-    };
+    // const handleFileChange = (e) => {
+    //     setFile(e.target.files?.[0]);
+    // };
 
-    const isSaveDisabled = () => {
-        if (!confirmation) {
-            return !year || !file;
-        }
-        return confirmation === null;
-    };
+    // const isSaveDisabled = () => {
+    //     if (!confirmation) {
+    //         return !year || !file;
+    //     }
+    //     return confirmation === null;
+    // };
 
     if (!declarationData) {
         return <p>Carregando...</p>;
@@ -66,7 +85,12 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE ISENTO DE IMPOSTO DE RENDA</h2>
             <h3>{declarationData.name}</h3>
-            <p>Você é isento(a) de Imposto de Renda?</p>
+            <FormCheckbox
+                control={control}
+                label={'Você é isento(a) de Imposto de Renda?'}
+                name={"confirmation"}
+            />
+            {/* <p>Você é isento(a) de Imposto de Renda?</p>
             <div className={commonStyles.radioGroup}>
                 <label>
                     <input type="radio" name="incomeTaxExemption" value="sim" onChange={() => setConfirmation(true)} checked={confirmation} /> Sim
@@ -74,10 +98,12 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
                 <label>
                     <input type="radio" name="incomeTaxExemption" value="nao" onChange={() => setConfirmation(false)} checked={confirmation === false} /> Não
                 </label>
-            </div>
+            </div> */}
             {confirmation === false && (
                 <>
-                    <div className={commonStyles.inputGroup}>
+                    <InputForm control={control} label={'Ano de exercício'} name={"year"} />
+                    <FormFilePicker accept={'application/pdf'} control={control} name={"file"} label={'última declaração completa de imposto de renda e recibo'} />
+                    {/* <div className={commonStyles.inputGroup}>
                         <label htmlFor="year">Exercício</label>
                         <input
                             type="text"
@@ -97,7 +123,7 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
                             onChange={handleFileChange}
                             accept='application/pdf'
                         />
-                    </div>
+                    </div> */}
                 </>
             )}
             <div className={commonStyles.navigationButtons}>
@@ -105,12 +131,12 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}
-                    disabled={isSaveDisabled()}
-                    style={{
-                        borderColor: isSaveDisabled() ? '#ccc' : '#1F4B73',
-                        cursor: isSaveDisabled() ? 'not-allowed' : 'pointer',
-                        opacity: isSaveDisabled() ? 0.6 : 1
-                    }}
+                // disabled={isSaveDisabled()}
+                // style={{
+                //     borderColor: isSaveDisabled() ? '#ccc' : '#1F4B73',
+                //     cursor: isSaveDisabled() ? 'not-allowed' : 'pointer',
+                //     opacity: isSaveDisabled() ? 0.6 : 1
+                // }}
                 />
             </div>
         </div>

@@ -52,7 +52,7 @@ export default function Declaration_ActivitConfirmation({ onBack, onNext }) {
         };
 
         try {
-            const response = await api.post(`/candidates/declaration/Activity/${auth.uid}`, payload, {
+            const response = await api.post(`/candidates/declaration/Activity/${declarationData.id}`, payload, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`

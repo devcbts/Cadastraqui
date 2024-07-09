@@ -45,13 +45,13 @@ export default function Declaration_RentConfirmation({ onBack, onNext, userId })
         }
 
         const text = `
-            Resido em imóvel alugado e não possuo contrato de aluguel, pois se trata de acordo verbal/informal, ao qual pago o valor de 
-            R$ ${rentDetails.rentValue} 
-            por mês de aluguel para 
-            ${rentDetails.landlordName}, 
-            inscrito no CPF nº 
-            ${rentDetails.landlordCpf}.
-        `;
+Resido em imóvel alugado e não possuo contrato de aluguel, pois se trata de acordo verbal/informal, ao qual pago o valor de \
+R$ ${rentDetails.rentValue} \
+por mês de aluguel para \
+${rentDetails.landlordName}, \ 
+inscrito no CPF nº \
+${rentDetails.landlordCpf}. \
+`;
 
         const payload = {
             declarationExists: confirmation === 'sim',

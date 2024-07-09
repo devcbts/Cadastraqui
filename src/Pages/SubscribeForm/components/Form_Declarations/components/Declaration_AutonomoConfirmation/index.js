@@ -43,7 +43,7 @@ export default function Assistent_AutonomoConfirmation({ onBack, onSave, userId 
         }
 
         const text = `
-            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, desenvolvo atividades ${autonomoDetails.activity} e recebo uma quantia média de R$ 2500,00 mensal.
+            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, desenvolvo atividades ${autonomoDetails.activity}.
         `;
 
         const payload = {
@@ -52,7 +52,7 @@ export default function Assistent_AutonomoConfirmation({ onBack, onSave, userId 
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Autonomo/${auth.uid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Autonomo/${declarationData.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ export default function Assistent_AutonomoConfirmation({ onBack, onSave, userId 
             <h2>{declarationData.name}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, desenvolvo atividades <span>{autonomoDetails.activity}</span> e recebo uma quantia média de R$ 2500,00 mensal.
+                    Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, desenvolvo atividades <span>{autonomoDetails.activity}</span>.
                 </p>
             </div>
             <div className={commonStyles.radioGroup}>

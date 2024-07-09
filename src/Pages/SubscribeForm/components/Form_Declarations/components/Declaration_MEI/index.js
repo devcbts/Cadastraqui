@@ -7,6 +7,7 @@ import uploadService from 'services/upload/uploadService';
 import useAuth from 'hooks/useAuth';
 import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_MEI({ onBack, onNext }) {
     const [mei, setMei] = useState(null);
@@ -27,11 +28,14 @@ export default function Declaration_MEI({ onBack, onNext }) {
                 try {
                     const formData = new FormData()
                     formData.append("file_MEI", file)
-                    await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: auth?.uid }, formData)
+                    await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData.id }, formData)
                     localStorage.setItem('meiDetails', JSON.stringify({ file: file.name }));
                     NotificationService.success({ text: 'Documento enviado' })
                 } catch (err) {
                 }
+            }
+            if (!mei) {
+                candidateService.deleteDeclaration({ userId: declarationData.id, type: 'MEI' }).catch(err => { })
             }
             onNext(mei);
         }

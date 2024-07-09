@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
 import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_RuralWorker({ onBack, onNext }) {
     const [ruralWorker, setRuralWorker] = useState(null);
@@ -30,6 +31,7 @@ export default function Declaration_RuralWorker({ onBack, onNext }) {
         if (ruralWorker !== null) {
             localStorage.setItem('ruralWorkerDetails', JSON.stringify({ ruralWorker, activity }));
             if (!ruralWorker) {
+                candidateService.deleteDeclaration({ userId: declarationData.id, type: 'RuralWorker' }).catch(err => { })
                 onNext(false); // Navega para AUTONOMO
             } else {
                 onNext(true); // Navega para a próxima tela com a atividade

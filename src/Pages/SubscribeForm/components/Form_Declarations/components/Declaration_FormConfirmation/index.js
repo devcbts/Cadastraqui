@@ -41,16 +41,15 @@ export default function Declaration_Form({ onEdit }) {
 
         const text = `
             Eu, ${identityDetails.fullName}, portador(a) da cédula de identidade RG nº ${identityDetails.RG}, órgão emissor ${identityDetails.rgIssuingAuthority}, \
-            UF do órgão emissor ${identityDetails.rgIssuingState} ${identityDetails.documentType && `portador(a) da ${findLabel(DOCUMENT_TYPE, identityDetails.documentType)}, número ${identityDetails.documentNumber}, \ 
-            validade ${formatDate(identityDetails.documentValidity)},`}ou  inscrito(a) no CPF nº ${identityDetails.CPF}, nacionalidade ${identityDetails.nationalidade}, \
-            estado civil ${identityDetails.maritalStatus}, profissão ${identityDetails.profession}, residente na ${identityDetails.address}, \
-            nº ${identityDetails.addressNumber}, complemento, CEP: ${identityDetails.CEP}, bairro ${identityDetails.neighborhood}, \
-            cidade ${identityDetails.city}, estado ${identityDetails.UF}, UF ${identityDetails.UF}, e-mail: ${identityDetails.email}, \
-            ${identityDetails?.Candidate?.length > 0 &&
-            `responsável legal por ${identityDetails.Candidate.map((e) => e.name)}, \ `
-            }
-            declaro para os devidos fins do processo seletivo realizado nos termos da Lei Complementar nº 187, de 16 de dezembro de 2021 que:
-        `;
+UF do órgão emissor ${identityDetails.rgIssuingState} ${identityDetails.documentType && `portador(a) da ${findLabel(DOCUMENT_TYPE, identityDetails.documentType)}, número ${identityDetails.documentNumber}, \ 
+validade ${formatDate(identityDetails.documentValidity)},`}ou  inscrito(a) no CPF nº ${identityDetails.CPF}, nacionalidade ${identityDetails.nationality}, \
+estado civil ${identityDetails.maritalStatus}, profissão ${identityDetails.profession}, residente na ${identityDetails.address}, \
+nº ${identityDetails.addressNumber}, complemento, CEP: ${identityDetails.CEP}, bairro ${identityDetails.neighborhood}, \
+cidade ${identityDetails.city}, estado ${identityDetails.UF}, UF ${identityDetails.UF}, e-mail: ${identityDetails.email}, \
+${declarationData?.Candidate?.length > 0 ?
+                `responsável legal por ${declarationData.Candidate.map((e) => `${e.name}, \ `)}`
+                : ''}\
+declaro para os devidos fins do processo seletivo realizado nos termos da Lei Complementar nº 187 de 16 de dezembro de 2021 que todas as informações estão corretas.`;
 
         const payload = {
             declarationExists,
@@ -58,7 +57,7 @@ export default function Declaration_Form({ onEdit }) {
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Form/${auth.uid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Form/${declarationData.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -99,19 +98,19 @@ export default function Declaration_Form({ onEdit }) {
                         </>
                     }
                     , inscrito(a) no <span>CPF</span> nº <span>{identityDetails.CPF}</span>,
-                    nacionalidade <span>{identityDetails.nationalidade}</span>, estado civil <span>{findLabel(MARITAL_STATUS, identityDetails.maritalStatus)}</span>,
+                    nacionalidade <span>{identityDetails.nationality}</span>, estado civil <span>{findLabel(MARITAL_STATUS, identityDetails.maritalStatus)}</span>,
                     profissão <span>{identityDetails.profession}</span>, residente na <span>{identityDetails.address}</span>,
                     nº <span>{identityDetails.addressNumber}</span>, complemento, <span>CEP: {identityDetails.CEP}</span>,
                     bairro {identityDetails.neighborhood}, cidade <span>{identityDetails.city}</span>,
                     estado <span>{identityDetails.UF}</span>, UF <span>{identityDetails.UF}</span>,
-                    e-mail: <span>{identityDetails.email}</span>
+                    e-mail: <span>{identityDetails.email}</span>,
                     {
-                        identityDetails?.Candidate?.length > 0 &&
+                        declarationData?.Candidate?.length > 0 &&
                         <>
-                            , responsável legal por {identityDetails.Candidate.map((e) => e.name)},
+                            responsável legal por {declarationData.Candidate.map((e) => `${e.name}, `)}
                         </>
                     }
-                    , declaro para os devidos fins do processo seletivo realizado nos termos da Lei
+                    declaro para os devidos fins do processo seletivo realizado nos termos da Lei
                     Complementar nº 187, de 16 de dezembro de 2021 que:
                 </p>
                 <div className={commonStyles.radioGroup}>

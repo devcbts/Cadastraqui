@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
 import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_Activity({ onBack, onNext }) {
     const [activity, setActivity] = useState(null);
@@ -18,6 +19,9 @@ export default function Declaration_Activity({ onBack, onNext }) {
 
     const handleSave = () => {
         setDeclarationData((prev) => ({ ...prev, activity }))
+        if (activity) {
+            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'Activity' })
+        }
         if (activity !== null) {
             onNext(activity);
         }

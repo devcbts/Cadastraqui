@@ -9,6 +9,10 @@ import uploadService from 'services/upload/uploadService';
 import { NotificationService } from 'services/notification';
 import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
+import FormFilePicker from 'Components/FormFilePicker';
+import useControlForm from 'hooks/useControlForm';
+import { z } from 'zod';
+import Tooltip from 'Components/Tooltip';
 
 export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     const { auth } = useAuth();
@@ -17,7 +21,15 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     const [witness2, setWitness2] = useState({ name: '', cpf: '' });
     const [declarations, setDeclarations] = useState([]);
     const [isGeneratingPDF, setIsGeneratingPDF] = useState('');
-    const [file, setFile] = useState(null)
+    // const [file, setFile] = useState(null)
+    const { control, getValues, formState: { isValid }, trigger } = useControlForm({
+        schema: z.object({
+            file: z.instanceof(File, 'Arquivo obrigatório').refine(d => !!d, 'Arquivo obrigatório')
+        }),
+        defaultValues: {
+            file: null
+        }
+    })
     // useEffect(() => {
     //     const savedData = localStorage.getItem('declarationData');
     //     if (savedData) {
@@ -48,7 +60,8 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
             Empresario: 'DECLARAÇÃO DE RENDA DE EMPRESÁRIO',
             InactiveCompany: 'DECLARAÇÃO DE EMPRESA INATIVA',
             Status: 'DECLARAÇÃO DE PROPRIEDADE DE VEÍCULO AUTOMOTOR',
-            Pension: 'DECLARAÇÃO DE PENSÃO ALIMENTÍCIA'
+            Pension: 'DECLARAÇÃO DE PENSÃO ALIMENTÍCIA',
+            RentIncome: 'DECLARAÇÃO DE RENDIMENTO DE IMÓVEL ALUGADO'
 
         }
         try {
@@ -122,7 +135,7 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            color: 'white'
+            color: 'white',
         }
     });
 
@@ -131,15 +144,15 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
             <Page style={styles.page} >
                 <Text style={styles.title} color='#1F4B73'>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
                 {declarations.map((declaration, index) => (
-                    <View key={index} style={styles.section}  >
+                    <View key={index} style={styles.section} wrap={false} >
                         <Text style={styles.declarationType}>{declaration.title}</Text>
                         <Text style={styles.declarationText}>{declaration.text.trim()}</Text>
                     </View>
                 ))}
-                <Text >Cidade do candidato, {new Date().toLocaleString('pt-br', { month: 'long', year: 'numeric', day: '2-digit' })}</Text>
+                <Text >{declarationData?.IdentityDetails?.city}, {new Date().toLocaleString('pt-br', { month: 'long', year: 'numeric', day: '2-digit' })}</Text>
                 <View style={styles.sign}>
                     <Text>____________________</Text>
-                    <Text>Assinatura Nome do candidato</Text>
+                    <Text>Assinatura {declarationData?.name}</Text>
                 </View>
                 <View style={styles.footer} fixed>
                     <Text>Cadastraqui</Text>
@@ -152,71 +165,77 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     );
 
     const handleRegisterDeclaration = async () => {
-        if (!auth?.uid) {
-            console.error('UID não está definido');
-            return;
+        if (!isValid) {
+            trigger()
+            return
         }
+        // if (!auth?.uid) {
+        //     console.error('UID não está definido');
+        //     return;
+        // }
 
-        const token = localStorage.getItem("token");
-        if (!token) {
-            console.error('Token não está definido');
-            return;
-        }
+        // const token = localStorage.getItem("token");
+        // if (!token) {
+        //     console.error('Token não está definido');
+        //     return;
+        // }
 
-        if (!declarationData) {
-            console.error('Os dados da declaração não estão disponíveis');
-            return;
-        }
+        // if (!declarationData) {
+        //     console.error('Os dados da declaração não estão disponíveis');
+        //     return;
+        // }
 
-        const text = `
-            Indique duas Testemunhas:
-            Testemunha 1:
-            Nome: ${witness1.name}, CPF: ${witness1.cpf}
-            Testemunha 2:
-            Nome: ${witness2.name}, CPF: ${witness2.cpf}
-        `;
+        // const text = `
+        //     Indique duas Testemunhas:
+        //     Testemunha 1:
+        //     Nome: ${witness1.name}, CPF: ${witness1.cpf}
+        //     Testemunha 2:
+        //     Nome: ${witness2.name}, CPF: ${witness2.cpf}
+        // `;
 
-        const payload = {
-            declarationExists: true,
-            text
-        };
+        // const payload = {
+        //     declarationExists: true,
+        //     text
+        // };
         try {
+
             const formData = new FormData()
+            const file = getValues("file")
             formData.append("file_declaracoes", file)
             await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData.id }, formData)
             NotificationService.success({ text: 'Declaração enviada' })
         } catch (err) { }
-        try {
+        // try {
 
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Witnesses/${declarationData.id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(payload)
-            });
+        //     const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Witnesses/${declarationData.id}`, {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Authorization': `Bearer ${token}`
+        //         },
+        //         body: JSON.stringify(payload)
+        //     });
 
-            if (!response.ok) {
-                throw new Error(`Erro: ${response.statusText}`);
-            }
+        //     if (!response.ok) {
+        //         throw new Error(`Erro: ${response.statusText}`);
+        //     }
 
-            const data = await response.json();
-            console.log('Declaração registrada:', data);
+        //     const data = await response.json();
+        //     console.log('Declaração registrada:', data);
 
-            // Redireciona para a próxima tela
-            onNext();
-        } catch (error) {
-            console.error('Erro ao registrar a declaração:', error);
-        }
+        //     // Redireciona para a próxima tela
+        //     onNext();
+        // } catch (error) {
+        //     console.error('Erro ao registrar a declaração:', error);
+        // }
     };
 
     if (!declarationData) {
         return <p>Carregando...</p>;
     }
-    const handleFileChange = (e) => {
-        setFile(e.target.files?.[0])
-    }
+    // const handleFileChange = (e) => {
+    //     setFile(e.target.files?.[0])
+    // }
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO INTEIRA RESPONSABILIDADE PELAS INFORMAÇÕES CONTIDAS NESTE INSTRUMENTO</h1>
@@ -253,14 +272,17 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
                         onChange={(e) => setWitness2({ ...witness2, cpf: e.target.value })}
                     />
                 </div> */}
-                <div>
+                <Tooltip tooltip={'Clique em "Gerar declarações" e anexe o documento assinado'}>
+                    <FormFilePicker label={'Anexar declaração'} accept={'application/pdf'} control={control} name={"file"} />
+                </Tooltip>
+                {/* <div>
                     <label>Anexar declaração</label>
                     <input type='file' accept='application/pdf' onChange={handleFileChange} />
-                </div>
+                </div> */}
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                <ButtonBase label="Salvar" onClick={handleRegisterDeclaration} disabled={!file} />
+                <ButtonBase label="Salvar" onClick={handleRegisterDeclaration} />
                 {!isGeneratingPDF && <ButtonBase label="Gerar declarações" onClick={handleGeneratePDF} />}
                 {isGeneratingPDF === "generating" && (
                     <p>Gerando PDF...</p>

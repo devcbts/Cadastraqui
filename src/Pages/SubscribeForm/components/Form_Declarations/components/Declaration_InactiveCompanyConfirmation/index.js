@@ -15,7 +15,7 @@ export default function Declaration_InactiveCompanyConfirmation({ onBack, onSave
 
     useEffect(() => {
         if (declarationData.inactiveCompanyDetails) {
-            setInactiveCompanyDetails(declarationData.inactiveCompanyDetails)
+            setInactiveCompanyDetails(declarationData.inactiveCompanyDetails.companyDetails)
         }
 
     }, []);
@@ -43,7 +43,7 @@ export default function Declaration_InactiveCompanyConfirmation({ onBack, onSave
         }
 
         const text = `
-            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, possuo uma empresa inativa localizada no endereço ${inactiveCompanyDetails.address}, nº ${inactiveCompanyDetails.number}, complemento ${inactiveCompanyDetails.complement}, bairro ${inactiveCompanyDetails.neighborhood}, cidade ${inactiveCompanyDetails.city}, UF ${inactiveCompanyDetails.uf}, CEP ${inactiveCompanyDetails.cep}.
+            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, possuo uma empresa inativa localizada no endereço ${inactiveCompanyDetails.address}, nº ${inactiveCompanyDetails.addressNumber}, complemento ${inactiveCompanyDetails.complement}, bairro ${inactiveCompanyDetails.neighborhood}, cidade ${inactiveCompanyDetails.city}, UF ${inactiveCompanyDetails.UF}, CEP ${inactiveCompanyDetails.CEP}.
         `;
 
         const payload = {
@@ -52,7 +52,7 @@ export default function Declaration_InactiveCompanyConfirmation({ onBack, onSave
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/InactiveCompany/${auth.uid}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/InactiveCompany/${declarationData.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ export default function Declaration_InactiveCompanyConfirmation({ onBack, onSave
             <h2>{declarationData.name}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, possuo uma empresa inativa localizada no endereço <span>{inactiveCompanyDetails.address}</span>, nº <span>{inactiveCompanyDetails.number}</span>, complemento <span>{inactiveCompanyDetails.complement}</span>, bairro <span>{inactiveCompanyDetails.neighborhood}</span>, cidade <span>{inactiveCompanyDetails.city}</span>, UF <span>{inactiveCompanyDetails.uf}</span>, CEP <span>{inactiveCompanyDetails.cep}</span>.
+                    Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, possuo uma empresa inativa localizada no endereço <span>{inactiveCompanyDetails.address}</span>, nº <span>{inactiveCompanyDetails.addressNumber}</span>, complemento <span>{inactiveCompanyDetails.complement}</span>, bairro <span>{inactiveCompanyDetails.neighborhood}</span>, cidade <span>{inactiveCompanyDetails.city}</span>, UF <span>{inactiveCompanyDetails.UF}</span>, CEP <span>{inactiveCompanyDetails.CEP}</span>.
                 </p>
             </div>
             <p>Confirma a declaração?</p>

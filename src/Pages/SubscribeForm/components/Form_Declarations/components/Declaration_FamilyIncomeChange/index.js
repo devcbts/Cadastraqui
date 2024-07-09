@@ -25,53 +25,57 @@ export default function Declaration_FamilyIncomeChange({ onBack, onNext, onRespo
             return;
         }
 
-        if (!auth?.uid) {
-            console.error('UID não está definido');
-            return;
-        }
+        //         if (!auth?.uid) {
+        //             console.error('UID não está definido');
+        //             return;
+        //         }
 
-        const token = localStorage.getItem("token");
-        if (!token) {
-            console.error('Token não está definido');
-            return;
-        }
+        //         const token = localStorage.getItem("token");
+        //         if (!token) {
+        //             console.error('Token não está definido');
+        //             return;
+        //         }
 
-        if (!declarationData) {
-            console.error('Os dados da declaração não estão disponíveis');
-            return;
-        }
+        //         if (!declarationData) {
+        //             console.error('Os dados da declaração não estão disponíveis');
+        //             return;
+        //         }
 
-        const text = `
-            Tenho ciência de que deve comunicar o(a) assistente social da entidade beneficente sobre nascimento ou falecimento de membro do meu grupo familiar, desde que morem na mesma residência, bem como sobre eventual rescisão de contrato de trabalho, encerramento de atividade que gere renda ou sobre início em novo emprego ou atividade que gere renda para um dos membros, pois altera a aferição realizada e o benefício em decorrência da nova renda familiar bruta mensal pode ser ampliado, reduzido ou mesmo cancelado, após análise por profissional de serviço social.
-        `;
+        //         const text = `
+        //             Tenho ciência de que deve comunicar o(a) assistente social da entidade beneficente sobre nascimento ou falecimento de membro do meu grupo familiar, \
+        // desde que morem na mesma residência, bem como sobre eventual rescisão de contrato de trabalho, encerramento de atividade que gere renda ou sobre início em novo \
+        // emprego ou atividade que gere renda para um dos membros, pois altera a aferição realizada e o benefício em decorrência da nova renda familiar bruta mensal pode ser \ 
+        // ampliado, reduzido ou mesmo cancelado, após análise por profissional de serviço social.
+        //         `;
 
-        const payload = {
-            declarationExists: confirmation,
-            ...(confirmation && { text })
-        };
+        //         const payload = {
+        //             declarationExists: confirmation,
+        //             ...(confirmation && { text })
+        //         };
 
-        try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Form/${auth.uid}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(payload)
-            });
+        //         try {
+        //             const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Notify/${declarationData.id}`, {
+        //                 method: 'POST',
+        //                 headers: {
+        //                     'Content-Type': 'application/json',
+        //                     'Authorization': `Bearer ${token}`
+        //                 },
+        //                 body: JSON.stringify(payload)
+        //             });
 
-            if (!response.ok) {
-                throw new Error(`Erro: ${response.statusText}`);
-            }
+        //             if (!response.ok) {
+        //                 throw new Error(`Erro: ${response.statusText}`);
+        //             }
 
-            const data = await response.json();
-            console.log('Declaração registrada:', data);
+        //             const data = await response.json();
+        //             console.log('Declaração registrada:', data);
 
-            // Redireciona para a próxima tela
-            onResponsibilityConfirmation();
-        } catch (error) {
-            console.error('Erro ao registrar a declaração:', error);
-        }
+        //             // Redireciona para a próxima tela
+        //             onResponsibilityConfirmation();
+        //         } catch (error) {
+        //             console.error('Erro ao registrar a declaração:', error);
+        //         }
+        onResponsibilityConfirmation()
     };
 
     if (!declarationData) {

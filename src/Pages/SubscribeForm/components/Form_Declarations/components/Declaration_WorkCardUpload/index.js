@@ -7,6 +7,7 @@ import uploadService from 'services/upload/uploadService';
 import { NotificationService } from 'services/notification';
 import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_WorkCardUpload({ onBack, onSave }) {
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
@@ -44,9 +45,10 @@ export default function Declaration_WorkCardUpload({ onBack, onSave }) {
             const formData = new FormData()
             formData.append("file_carteira-de-trabalho", file)
             await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData.id }, formData)
+            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'WorkCard' }).catch(err => { })
             NotificationService.success({ text: 'Documento enviado' }).then((_) => onSave())
         } catch (err) {
-            NotificationService.success({ text: 'Erro ao enviar documento. Tente novamente' })
+            NotificationService.error({ text: 'Erro ao enviar documento. Tente novamente' })
 
         }
     }

@@ -15,6 +15,7 @@ export default function Declaration_PensionConfirmation({ onBack, onNext }) {
     const [error, setError] = useState('');
 
     useEffect(() => {
+        console.log(declarationData)
         if (declarationData.pensionData) {
             setPensionData(declarationData.pensionData)
         }
@@ -48,18 +49,35 @@ export default function Declaration_PensionConfirmation({ onBack, onNext }) {
             console.error('Os dados da declaração não estão disponíveis');
             return;
         }
+        let lastUsedLetter = 0
+        let finalText = ''
+        try {
 
-        const alphabet = ['B', 'C', 'D', 'E', 'F', 'G'];
-        const childrenText = childrenData.map((child, index) => (
-            `${alphabet[index]}. Meu(s) filho(s) ${child.childName} recebe(m) pensão alimentícia (judicial) no valor total de R$ ${child.amount}, inscrito(s) no CPF nº ${child.payerCpf}.`
-        )).join(' ');
+            finalText += `
+            ${String.fromCharCode(65 + lastUsedLetter++)}. ${pensionData.receivesPension
+                    ? `Recebo pensão alimentícia (judicial) no valor total de R$ ${pensionData.amount}, inscrito(a) no CPF nº ${pensionData.payerCpf}.\ `
+                    : `Não recebo pensão alimentícia.\ `}
+        `
+            if (declarationData?.Candidate?.length) {
+                finalText += !declarationData.childPensionData?.childReceivesPension
+                    ? `${String.fromCharCode(65 + lastUsedLetter++)}. Meus filhos(as) não recebem pensão.\ `
+                    : `
+${String.fromCharCode(65 + lastUsedLetter++)}. Meu(s) filho(s) \
+${declarationData.childPensionData?.childPensionRecipients.map(e => e)} recebe(m) pensão alimentícia (judicial) no valor total de R$ ${declarationData.childPensionData?.amount}, \
+inscrito(a) no CPF nº ${declarationData.childPensionData?.payerCpf}.
+`
+                childrenData.map((child, index) => (
+                    finalText += `${String.fromCharCode(65 + lastUsedLetter++)}. Meu(s) filho(s) ${child.childName.map(e => e)} recebe(m) pensão alimentícia (judicial) no valor total de R$ ${child.amount}, \ 
+inscrito(a) no CPF nº ${child.payerCpf}.`
+                ));
+            }
+        } catch (err) {
+            console.log(err)
+        }
 
-        const text = pensionData && pensionData.receivesPension
-            ? `
-                A. Recebo pensão alimentícia (judicial) no valor total de R$ ${pensionData.amount}, inscrito(a) no CPF nº ${pensionData.payerCpf}.
-                ${childrenText}
-            `
-            : 'Não recebo pensão alimentícia.';
+        const text = finalText
+
+
 
         const payload = {
             declarationExists: hasAddressProof === 'sim',
@@ -67,17 +85,18 @@ export default function Declaration_PensionConfirmation({ onBack, onNext }) {
         };
 
         try {
+
             const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Pension/${declarationData.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token} `
                 },
                 body: JSON.stringify(payload)
             });
 
             if (!response.ok) {
-                throw new Error(`Erro: ${response.statusText}`);
+                throw new Error(`Erro: ${response.statusText} `);
             }
 
             const data = await response.json();
@@ -94,23 +113,38 @@ export default function Declaration_PensionConfirmation({ onBack, onNext }) {
     if (!declarationData) {
         return <p>Carregando...</p>;
     }
-
+    let lastUsedLetter = 0
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>Recebimento ou ausência de recebimento de pensão alimentícia</h2>
             <h3>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
-                {pensionData && pensionData.receivesPension ? (
-                    <>
-                        <p>A. Recebo pensão alimentícia (judicial) no valor total de R$ {pensionData.amount}, inscrito(a) no CPF nº {pensionData.payerCpf}.</p>
-                        {childrenData.map((child, index) => (
-                            <p key={index}>{`${String.fromCharCode(66 + index)}. Meu(s) filho(s) ${child.childName} recebe(m) pensão alimentícia (judicial) no valor total de R$ ${child.amount}, inscrito(s) no CPF nº ${child.payerCpf}.`}</p>
-                        ))}
-                    </>
-                ) : (
-                    <p>Não recebo pensão alimentícia.</p>
-                )}
+                <>
+                    <p>
+                        {pensionData?.receivesPension
+                            ? `${String.fromCharCode(65 + lastUsedLetter++)}. Recebo pensão alimentícia(judicial) no valor total de R$ ${pensionData.amount}, inscrito(a) no CPF nº ${pensionData.payerCpf}.`
+                            : `${String.fromCharCode(65 + lastUsedLetter++)}. Não recebo pensão alimentícia(judicial).`
+                        }
+                    </p>
+                    <p>
+
+                        {declarationData?.Candidate?.length > 0
+                            ? (!declarationData.childPensionData?.childReceivesPension
+                                ? `${String.fromCharCode(65 + lastUsedLetter++)}. Meus filhos(as) não recebem pensão.`
+                                : `
+                        ${String.fromCharCode(65 + lastUsedLetter++)}. Meu(s) filho(s) \ 
+                        ${declarationData.childPensionData?.childPensionRecipients.map(e => e).join(', ')} \
+    recebe(m) pensão alimentícia(judicial) no valor total de R$ ${declarationData.childPensionData?.amount}, \
+    inscrito(a) no CPF nº ${declarationData.childPensionData?.payerCpf}.
+    `) : ''
+                        }
+                    </p>
+
+                    {childrenData.map((child, index) => (
+                        <p>{`${String.fromCharCode(65 + lastUsedLetter++)}. Meu(s) filho(s) ${child.childName} recebe(m) pensão alimentícia(judicial) no valor total de R$ ${child.amount}, inscrito(s) no CPF nº ${child.payerCpf}.`}</p>
+                    ))}
+                </>
                 <p>Confirma a declaração?</p>
                 <div className={commonStyles.radioGroup}>
                     <label>

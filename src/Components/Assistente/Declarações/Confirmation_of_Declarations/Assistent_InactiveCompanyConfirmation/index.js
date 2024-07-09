@@ -2,20 +2,25 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from 'Pages/SubscribeForm/components/Form_Declarations/atoms/declarationAtom';
 
 export default function Assistent_InactiveCompanyConfirmation({ onBack }) {
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const [inactiveCompanyDetails, setInactiveCompanyDetails] = useState(null);
 
     useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        const savedInactiveCompanyDetails = localStorage.getItem('inactiveCompanyDetails');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
+        if (declarationData.inactiveCompanyDetails) {
+            setInactiveCompanyDetails(declarationData.inactiveCompanyDetails)
         }
-        if (savedInactiveCompanyDetails) {
-            setInactiveCompanyDetails(JSON.parse(savedInactiveCompanyDetails));
-        }
+        // const savedData = localStorage.getItem('declarationData');
+        // const savedInactiveCompanyDetails = localStorage.getItem('inactiveCompanyDetails');
+        // if (savedData) {
+        //     setDeclarationData(JSON.parse(savedData));
+        // }
+        // if (savedInactiveCompanyDetails) {
+        //     setInactiveCompanyDetails(JSON.parse(savedInactiveCompanyDetails));
+        // }
     }, []);
 
     if (!declarationData || !inactiveCompanyDetails) {

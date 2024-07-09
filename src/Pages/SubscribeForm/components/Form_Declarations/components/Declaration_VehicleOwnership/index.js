@@ -90,7 +90,7 @@ export default function Declaration_VehicleOwnership({ onBack, onNext }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
-            <h2>DECLARAÇÃO NEGATIVA DE PROPRIEDADE DE VEÍCULO AUTOMOTOR</h2>
+            <h2>DECLARAÇÃO DE PROPRIEDADE DE VEÍCULO AUTOMOTOR</h2>
             <h3>{declarationData.name}</h3>
             <p>
                 {declarationData?.Vehicle?.length === 0 ?

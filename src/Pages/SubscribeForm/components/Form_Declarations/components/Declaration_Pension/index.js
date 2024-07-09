@@ -31,7 +31,6 @@ export default function Declaration_Pension({ onBack, onNext }) {
     })
     useEffect(() => {
         if (!watch("receivesPension")) {
-            console.log('a')
             resetField("payerName", { defaultValue: '' })
             resetField("payerCpf", { defaultValue: '' })
             resetField("amount", { defaultValue: '' })

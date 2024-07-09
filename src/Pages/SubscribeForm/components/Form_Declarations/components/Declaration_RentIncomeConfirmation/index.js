@@ -3,12 +3,14 @@ import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
     const { auth } = useAuth();
     const [confirmation, setConfirmation] = useState(null);
     const [rentDetails, setRentDetails] = useState(null);
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -45,7 +47,9 @@ export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
         }
 
         const text = `
-            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, recebo aluguel do imóvel situado no Endereço ${rentDetails.address}, nº ${rentDetails.number}, complemento, CEP: ${rentDetails.cep}, bairro ${rentDetails.neighborhood}, cidade ${rentDetails.city}, Estado ${rentDetails.uf}, no valor mensal de R$ ${rentDetails.rentAmount}, pago por ${rentDetails.landlordName}, inscrito(a) no CPF nº ${rentDetails.landlordCpf} (locatário(a)).
+            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, recebo aluguel do imóvel situado no Endereço ${rentDetails.address}, \
+nº ${rentDetails.addressNumber}, complemento, CEP: ${rentDetails.CEP}, bairro ${rentDetails.neighborhood}, cidade ${rentDetails.city}, \
+UF ${rentDetails.UF}, no valor mensal de R$ ${rentDetails.rentAmount}, pago por ${rentDetails.landlordName}, inscrito(a) no CPF nº ${rentDetails.landlordCpf} (locatário(a)).
         `;
 
         const payload = {
@@ -88,7 +92,7 @@ export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
             <h2>{declarationData.name}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Recebo aluguel do imóvel situado no Endereço <strong>{rentDetails.address}</strong>, nº <strong>{rentDetails.number}</strong>, complemento, CEP: <strong>{rentDetails.cep}</strong>, bairro <strong>{rentDetails.neighborhood}</strong>, cidade <strong>{rentDetails.city}</strong>, Estado <strong>{rentDetails.uf}</strong>, no valor mensal de R$ <strong>{rentDetails.rentAmount}</strong>, pago por <strong>{rentDetails.landlordName}</strong>, inscrito(a) no CPF nº <strong>{rentDetails.landlordCpf}</strong> (locatário(a)).
+                    Recebo aluguel do imóvel situado no Endereço <strong>{rentDetails.address}</strong>, nº <strong>{rentDetails.addressNumber}</strong>, complemento, CEP: <strong>{rentDetails.CEP}</strong>, bairro <strong>{rentDetails.neighborhood}</strong>, cidade <strong>{rentDetails.city}</strong>, Estado <strong>{rentDetails.UF}</strong>, no valor mensal de R$ <strong>{rentDetails.rentAmount}</strong>, pago por <strong>{rentDetails.landlordName}</strong>, inscrito(a) no CPF nº <strong>{rentDetails.landlordCpf}</strong> (locatário(a)).
                 </p>
                 <p>Confirma a declaração?</p>
                 <div className={commonStyles.radioGroup}>

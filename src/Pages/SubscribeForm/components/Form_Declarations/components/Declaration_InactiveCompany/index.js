@@ -1,20 +1,22 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
 import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
 import { formatCEP } from 'utils/format-cep';
+import AddressData from 'Pages/SubscribeForm/components/AddressData';
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_InactiveCompany({ onBack, onSave }) {
     const [hasInactiveCompany, setHasInactiveCompany] = useState(null);
     const [companyDetails, setCompanyDetails] = useState({
-        cep: '',
+        CEP: '',
         address: '',
         neighborhood: '',
-        number: '',
+        addressNumber: '',
         city: '',
-        uf: '',
+        UF: '',
         complement: '',
     });
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
@@ -29,17 +31,24 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
     }, []);
 
     const handleSave = () => {
+        if (!hasInactiveCompany) {
+            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'InactiveCompany' })
+        }
+        if (!addressRef.current?.validate() && addressRef.current) {
+            return
+        }
+        const values = addressRef.current?.values()
         setDeclarationData((prev) => ({
             ...prev,
             inactiveCompanyDetails: {
                 hasInactiveCompany,
-                companyDetails: hasInactiveCompany ? companyDetails : {
-                    cep: '',
+                companyDetails: hasInactiveCompany ? values : {
+                    CEP: '',
                     address: '',
                     neighborhood: '',
-                    number: '',
+                    addressNumber: '',
                     city: '',
-                    uf: '',
+                    UF: '',
                     complement: '',
                 }
             }
@@ -50,25 +59,25 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
         }
     };
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setCompanyDetails((prevDetails) => ({
-            ...prevDetails,
-            [name]: value,
-        }));
-    };
+    // const handleInputChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setCompanyDetails((prevDetails) => ({
+    //         ...prevDetails,
+    //         [name]: value,
+    //     }));
+    // };
 
-    const isSaveDisabled = () => {
-        if (hasInactiveCompany) {
-            return !companyDetails.cep || !companyDetails.address || !companyDetails.neighborhood || !companyDetails.number || !companyDetails.city || !companyDetails.uf;
-        }
-        return hasInactiveCompany === null;
-    };
+    // const isSaveDisabled = () => {
+    //     if (hasInactiveCompany) {
+    //         return !companyDetails.cep || !companyDetails.address || !companyDetails.neighborhood || !companyDetails.number || !companyDetails.city || !companyDetails.uf;
+    //     }
+    //     return hasInactiveCompany === null;
+    // };
 
+    const addressRef = useRef(null)
     if (!declarationData) {
         return <p>Carregando...</p>;
     }
-
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE EMPRESA INATIVA</h1>
@@ -84,7 +93,8 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
             </div>
             {hasInactiveCompany && (
                 <div className={commonStyles.additionalFields}>
-                    <div className={commonStyles.inputGroup}>
+                    <AddressData ref={addressRef} data={companyDetails} />
+                    {/* <div className={commonStyles.inputGroup}>
                         <label htmlFor="cep">CEP</label>
                         <input
                             type="text"
@@ -160,7 +170,7 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
                             onChange={handleInputChange}
                             placeholder="Sala 456"
                         />
-                    </div>
+                    </div> */}
                 </div>
             )}
             <div className={commonStyles.navigationButtons}>
@@ -168,12 +178,7 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}
-                    disabled={isSaveDisabled()}
-                    style={{
-                        borderColor: isSaveDisabled() ? '#ccc' : '#1F4B73',
-                        cursor: isSaveDisabled() ? 'not-allowed' : 'pointer',
-                        opacity: isSaveDisabled() ? 0.6 : 1
-                    }}
+
                 />
             </div>
         </div>

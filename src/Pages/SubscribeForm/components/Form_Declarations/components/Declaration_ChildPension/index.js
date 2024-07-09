@@ -13,6 +13,7 @@ import FormCheckbox from 'Components/FormCheckbox';
 import FormSelect from 'Components/FormSelect';
 import pensionSchema from '../Declaration_Pension/pension-schema';
 import childPensionSchema from './child-pension-schema';
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_ChildPension({ onBack, onNext, onNoPension }) {
     const [childReceivesPension, setChildReceivesPension] = useState(null);
@@ -55,7 +56,7 @@ export default function Declaration_ChildPension({ onBack, onNext, onNoPension }
     //     setChildReceivesPension(event.target.value === 'yes');
     // };
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if (!isValid) {
             trigger()
             return
@@ -72,6 +73,45 @@ export default function Declaration_ChildPension({ onBack, onNext, onNoPension }
         };
         const childReceivesPension = getValues("childReceivesPension")
         // localStorage.setItem('childPensionData', JSON.stringify(pensionData));
+        // if (!childReceivesPension) {
+        //     const text = `
+        //     A. ${declarationData.pensionData.receivesPension
+        //             ? `Recebo pensão alimentícia (judicial) no valor total de R$ ${declarationData.pensionData.amount}, inscrito(a) no CPF nº ${declarationData.pensionData.payerCpf}.`
+        //             : `Não recebo pensão alimentícia.`
+        //         }
+        //     ${declarationData?.Candidate?.length > 0 ? `
+        //     B. Meu(s) filhos(as) não recebe(m) pensão alimentícia.
+        //     ` : ''}
+        // `
+
+
+        //     try {
+        //         const token = localStorage.getItem("token");
+
+        //         const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Pension/${declarationData.id}`, {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //                 'Authorization': `Bearer ${token}`
+        //             },
+        //             body: JSON.stringify({
+        //                 declarationExists: true,
+        //                 text
+        //             })
+        //         });
+
+        //         if (!response.ok) {
+        //             throw new Error(`Erro: ${response.statusText}`);
+        //         }
+
+        //         const data = await response.json();
+        //         console.log('Declaração registrada:', data);
+
+        //         onNext(true);
+        //     } catch (error) {
+        //         console.error('Erro ao registrar a declaração:', error);
+        //     }
+        // }
         setDeclarationData((prev) => ({
             ...prev, childPensionData,
             childrenData: childReceivesPension ? prev.childrenData : null,
@@ -127,7 +167,7 @@ export default function Declaration_ChildPension({ onBack, onNext, onNoPension }
                         <FormSelect control={control} name={'childPensionRecipients'} label={'Selecione todos que recebem pensão'}
                             multiple
                             value={watch("childPensionRecipients")}
-                            options={declarationData?.Candidate?.filter(e => e.relationship === "Child").map((e) => ({ value: e.name, label: e.name }))}
+                            options={declarationData?.Candidate?.filter(e => e?.IdentityDetails?.relationship === "Child").map((e) => ({ value: e.name, label: e.name }))}
                         />
                         <InputForm control={control} label={'Nome do pagador'} name="payerName" />
                         <InputForm control={control} label={'CPF do pagador'} name="payerCpf" transform={(e) => formatCPF(e.target.value)} />
