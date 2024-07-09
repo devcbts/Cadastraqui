@@ -365,7 +365,10 @@ class CandidateService {
             "WorkCard"
     }
     ) {
-        await api.delete(`/candidates/declaration/${userId}/${type}`)
+        await api.post(`/candidates/declaration/${type}/${userId}`, {
+            text: null,
+            declarationExists: false
+        })
     }
 }
 

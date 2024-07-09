@@ -445,7 +445,7 @@ export default function FormDeclarations() {
             {currentScreen === SCREENS.MEI && (
                 <Declaration_MEI
                     onBack={() => handleNavigate(SCREENS.ACTIVITY)}
-                    onNext={(mei) => handleNavigate(mei ? SCREENS.MEI_CONFIRMATION : SCREENS.RURAL_WORKER)}
+                    onNext={(mei) => handleNavigate(mei ? SCREENS.MEI_CONFIRMATION : SCREENS.MEI_CONFIRMATION)}
                 />
             )}
             {currentScreen === SCREENS.MEI_CONFIRMATION && (

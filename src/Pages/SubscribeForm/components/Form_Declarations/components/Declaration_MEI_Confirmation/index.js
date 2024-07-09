@@ -46,10 +46,15 @@ export default function Declaration_MEI_Confirmation({ onBack, onNext, onRentInc
             return;
         }
 
-        const text = `
+        const text = declarationData?.mei
+            ? `
             Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, POSSUO o cadastro como Microempreendedor Individual e consta no meu cadastro, neste processo, a Declaração Anual do Simples Nacional para o(a) Microempreendedor(a) Individual (DAS-SIMEI).\
-            Esta declaração está em conformidade com a Lei n° 7.115/83. Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas.
-        `;
+Esta declaração está em conformidade com a Lei n° 7.115/83. Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas.
+        `
+            : `
+        Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, NÃO POSSUO o cadastro como Microempreendedor Individual e que não recebo nenhuma remuneração nesta  atividade. Esta declaração está em conformidade com a Lei nº 7.115/83*. \
+Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas
+        `
 
         const payload = {
             declarationExists: confirmation,
@@ -91,8 +96,22 @@ export default function Declaration_MEI_Confirmation({ onBack, onNext, onRentInc
             <h2>{declarationData.name}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, POSSUO o cadastro como Microempreendedor Individual e consta no meu cadastro, neste processo, a Declaração Anual do Simples Nacional para o(a) Microempreendedor(a) Individual (DAS-SIMEI).
-                    Esta declaração está em conformidade com a Lei n° 7.115/83. Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas.
+                    {
+                        declarationData?.mei
+                            ? (
+                                <>
+                                    Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, POSSUO o cadastro como Microempreendedor Individual e consta no meu cadastro, neste processo, a Declaração Anual do Simples Nacional para o(a) Microempreendedor(a) Individual (DAS-SIMEI).
+                                    Esta declaração está em conformidade com a Lei n° 7.115/83. Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas.
+                                </>
+                            )
+                            : (
+                                <>
+                                    Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, NÃO POSSUO o cadastro como Microempreendedor Individual e que não recebo nenhuma remuneração nesta  atividade. Esta declaração está em conformidade com a Lei nº 7.115/83*.
+                                    Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas.
+                                </>
+                            )
+                    }
+
                 </p>
                 <p>Confirma a declaração?</p>
                 <div className={commonStyles.radioGroup}>
