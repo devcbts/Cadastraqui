@@ -43,7 +43,10 @@ export default function Declaration_ActivitConfirmation({ onBack, onNext }) {
         }
 
         const text = `
-            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, residente e domiciliado(a) à ${declarationData.address}, nº ${declarationData.addressNumber}, complemento, CEP: ${declarationData.CEP}, bairro ${declarationData.neighborhood}, cidade ${declarationData.city}, UF ${declarationData.UF}, e-mail: ${declarationData.email}, declaro para os devidos fins e sob as penas da lei, que não exerço nenhuma atividade remunerada, seja ela formal ou informal, não possuindo, portanto, nenhuma fonte de renda.
+Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, residente e domiciliado(a) à ${identityDetails.address}, \
+nº ${identityDetails.addressNumber}, complemento, CEP: ${identityDetails.CEP}, bairro ${identityDetails.neighborhood}, cidade ${identityDetails.city}, \
+UF ${identityDetails.UF}, e-mail: ${declarationData.email}, declaro para os devidos fins e sob as penas da lei, que não exerço nenhuma atividade remunerada, \
+seja ela formal ou informal, não possuindo, portanto, nenhuma fonte de renda.\
         `;
 
         const payload = {

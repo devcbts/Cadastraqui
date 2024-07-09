@@ -37,7 +37,15 @@ export default function Declaration_IncomeTaxExemptionConfirmation({ onBack, onN
                 }
 
                 const text = `
-                    Eu, ${identityDetails.fullName}, portador(a) da cédula de identidade RG n° ${identityDetails.RG}, órgão emissor ${identityDetails.rgIssuingAuthority}, UF do órgão emissor ${identityDetails.rgIssuingState}, CPF n° ${identityDetails.CPF}, nacionalidade ${identityDetails.nationality}, estado civil ${identityDetails.maritalStatus}, profissão ${identityDetails.profession}, residente na rua ${identityDetails.address}, n° ${identityDetails.addressNumber}, complemento ${identityDetails.complement}, CEP: ${identityDetails.CEP}, bairro ${identityDetails.neighborhood}, cidade ${identityDetails.city}, UF ${identityDetails.UF}, e-mail: ${identityDetails.email}, DECLARO SER ISENTO(A) da apresentação da Declaração do Imposto de Renda Pessoa Física (DIRPF) no(s) exercício(s) ${incomeTaxDetails.year} por não incorrer em nenhuma das hipóteses de obrigatoriedade estabelecidas pelas Instruções Normativas (IN) da Receita Federal do Brasil (RFB). Esta declaração está em conformidade com a IN RFB n° 1548/2015 e a Lei n° 7.115/83. Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas.
+Eu, ${identityDetails.fullName}, portador(a) da cédula de identidade RG n° ${identityDetails.RG}, órgão emissor ${identityDetails.rgIssuingAuthority}, \
+UF do órgão emissor ${identityDetails.rgIssuingState}, CPF n° ${identityDetails.CPF}, nacionalidade ${identityDetails.nationality}, \
+estado civil ${findLabel(MARITAL_STATUS, identityDetails.maritalStatus)}, profissão ${identityDetails.profession}, residente na rua ${identityDetails.address}, \
+n° ${identityDetails.addressNumber}, complemento ${identityDetails.complement}, CEP: ${identityDetails.CEP}, bairro ${identityDetails.neighborhood}, \
+cidade ${identityDetails.city}, UF ${identityDetails.UF}, e-mail: ${identityDetails.email}, \
+DECLARO SER ISENTO(A) da apresentação da Declaração do Imposto de Renda Pessoa Física (DIRPF) no(s) exercício(s) ${incomeTaxDetails.year}. \
+por não incorrer em nenhuma das hipóteses de obrigatoriedade estabelecidas pelas Instruções Normativas (IN) da Receita Federal do Brasil (RFB). \
+Esta declaração está em conformidade com a IN RFB n° 1548/2015 e a Lei n° 7.115/83. Declaro ainda, sob as penas da lei, \
+serem verdadeiras todas as informações acima prestadas. \
                 `;
 
                 const payload = {
