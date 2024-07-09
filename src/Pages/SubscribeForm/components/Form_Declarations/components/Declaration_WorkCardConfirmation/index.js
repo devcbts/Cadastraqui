@@ -12,12 +12,12 @@ export default function Declaration_WorkCardConfirmation({ onBack, onNext, userI
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const [error, setError] = useState('');
 
-    useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
-        }
-    }, []);
+    // useEffect(() => {
+    //     const savedData = localStorage.getItem('declarationData');
+    //     if (savedData) {
+    //         setDeclarationData(JSON.parse(savedData));
+    //     }
+    // }, []);
 
     const handleRegisterDeclaration = async () => {
         if (confirmation === 'nao') {

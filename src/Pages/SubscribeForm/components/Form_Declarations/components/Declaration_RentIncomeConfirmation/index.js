@@ -49,7 +49,7 @@ export default function Declaration_RentIncomeConfirmation({ onBack, onNext }) {
         const text = `
             Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, recebo aluguel do imóvel situado no Endereço ${rentDetails.address}, \
 nº ${rentDetails.addressNumber}, complemento, CEP: ${rentDetails.CEP}, bairro ${rentDetails.neighborhood}, cidade ${rentDetails.city}, \
-UF ${rentDetails.UF}, no valor mensal de R$ ${rentDetails.rentAmount}, pago por ${rentDetails.landlordName}, inscrito(a) no CPF nº ${rentDetails.landlordCpf} (locatário(a)).
+UF ${rentDetails.UF}, no valor mensal de ${rentDetails.rentAmount}, pago por ${rentDetails.landlordName}, inscrito(a) no CPF nº ${rentDetails.landlordCpf} (locatário(a)).
         `;
 
         const payload = {
@@ -92,7 +92,7 @@ UF ${rentDetails.UF}, no valor mensal de R$ ${rentDetails.rentAmount}, pago por 
             <h2>{declarationData.name}</h2>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Recebo aluguel do imóvel situado no Endereço <strong>{rentDetails.address}</strong>, nº <strong>{rentDetails.addressNumber}</strong>, complemento, CEP: <strong>{rentDetails.CEP}</strong>, bairro <strong>{rentDetails.neighborhood}</strong>, cidade <strong>{rentDetails.city}</strong>, Estado <strong>{rentDetails.UF}</strong>, no valor mensal de R$ <strong>{rentDetails.rentAmount}</strong>, pago por <strong>{rentDetails.landlordName}</strong>, inscrito(a) no CPF nº <strong>{rentDetails.landlordCpf}</strong> (locatário(a)).
+                    Recebo aluguel do imóvel situado no Endereço <strong>{rentDetails.address}</strong>, nº <strong>{rentDetails.addressNumber}</strong>, complemento, CEP: <strong>{rentDetails.CEP}</strong>, bairro <strong>{rentDetails.neighborhood}</strong>, cidade <strong>{rentDetails.city}</strong>, Estado <strong>{rentDetails.UF}</strong>, no valor mensal de <strong>{rentDetails.rentAmount}</strong>, pago por <strong>{rentDetails.landlordName}</strong>, inscrito(a) no CPF nº <strong>{rentDetails.landlordCpf}</strong> (locatário(a)).
                 </p>
                 <p>Confirma a declaração?</p>
                 <div className={commonStyles.radioGroup}>

@@ -143,7 +143,6 @@ export default function FormDeclarations() {
     const handleNavigateToForm = useCallback((currentUser) => {
         if (data) {
             setDeclarationData(currentUser)
-            console.log(currentUser)
             navigateToScreen(SCREENS.FORM);
         }
     }, [data, navigateToScreen]);

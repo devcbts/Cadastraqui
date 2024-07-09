@@ -11,12 +11,12 @@ export default function Declaration_FamilyIncomeChange({ onBack, onNext, onRespo
     const [confirmation, setConfirmation] = useState(null); // Inicialize como null
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const [error, setError] = useState(null)
-    useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
-        }
-    }, []);
+    // useEffect(() => {
+    //     const savedData = localStorage.getItem('declarationData');
+    //     if (savedData) {
+    //         setDeclarationData(JSON.parse(savedData));
+    //     }
+    // }, []);
 
     const handleRegisterDeclaration = async () => {
         if (confirmation === false) {

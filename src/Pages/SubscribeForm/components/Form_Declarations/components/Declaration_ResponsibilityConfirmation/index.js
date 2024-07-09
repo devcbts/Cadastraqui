@@ -12,12 +12,12 @@ export default function Declaration_ResponsibilityConfirmation({ onBack, onNext,
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const [error, setError] = useState('');
 
-    useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
-        }
-    }, []);
+    // useEffect(() => {
+    //     const savedData = localStorage.getItem('declarationData');
+    //     if (savedData) {
+    //         setDeclarationData(JSON.parse(savedData));
+    //     }
+    // }, []);
 
     const handleRegisterDeclaration = async () => {
         if (confirmation === false) {

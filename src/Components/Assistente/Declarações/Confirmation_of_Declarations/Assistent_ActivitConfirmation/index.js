@@ -6,12 +6,12 @@ import commonStyles from '../../styles.module.scss';
 export default function Assistent_ActivitConfirmation({ onBack }) {
     const [declarationData, setDeclarationData] = useState(null);
 
-    useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
-        }
-    }, []);
+    // useEffect(() => {
+    //     const savedData = localStorage.getItem('declarationData');
+    //     if (savedData) {
+    //         setDeclarationData(JSON.parse(savedData));
+    //     }
+    // }, []);
 
     if (!declarationData) {
         return <p>Carregando...</p>;

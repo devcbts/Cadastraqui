@@ -55,7 +55,7 @@ export default function Declaration_PensionConfirmation({ onBack, onNext }) {
 
             finalText += `
             ${String.fromCharCode(65 + lastUsedLetter++)}. ${pensionData.receivesPension
-                    ? `Recebo pensão alimentícia (judicial) no valor total de R$ ${pensionData.amount}, inscrito(a) no CPF nº ${pensionData.payerCpf}.\ `
+                    ? `Recebo pensão alimentícia (judicial) no valor total de ${pensionData.amount}, inscrito(a) no CPF nº ${pensionData.payerCpf}.\ `
                     : `Não recebo pensão alimentícia.\ `}
         `
             if (declarationData?.Candidate?.length) {
@@ -63,11 +63,11 @@ export default function Declaration_PensionConfirmation({ onBack, onNext }) {
                     ? `${String.fromCharCode(65 + lastUsedLetter++)}. Meus filhos(as) não recebem pensão.\ `
                     : `
 ${String.fromCharCode(65 + lastUsedLetter++)}. Meu(s) filho(s) \
-${declarationData.childPensionData?.childPensionRecipients.map(e => e)} recebe(m) pensão alimentícia (judicial) no valor total de R$ ${declarationData.childPensionData?.amount}, \
+${declarationData.childPensionData?.childPensionRecipients.map(e => e)} recebe(m) pensão alimentícia (judicial) no valor total de ${declarationData.childPensionData?.amount}, \
 inscrito(a) no CPF nº ${declarationData.childPensionData?.payerCpf}.
 `
                 childrenData.map((child, index) => (
-                    finalText += `${String.fromCharCode(65 + lastUsedLetter++)}. Meu(s) filho(s) ${child.childName.map(e => e)} recebe(m) pensão alimentícia (judicial) no valor total de R$ ${child.amount}, \ 
+                    finalText += `${String.fromCharCode(65 + lastUsedLetter++)}. Meu(s) filho(s) ${child.childName.map(e => e)} recebe(m) pensão alimentícia (judicial) no valor total de ${child.amount}, \ 
 inscrito(a) no CPF nº ${child.payerCpf}.`
                 ));
             }
@@ -123,7 +123,7 @@ inscrito(a) no CPF nº ${child.payerCpf}.`
                 <>
                     <p>
                         {pensionData?.receivesPension
-                            ? `${String.fromCharCode(65 + lastUsedLetter++)}. Recebo pensão alimentícia(judicial) no valor total de R$ ${pensionData.amount}, inscrito(a) no CPF nº ${pensionData.payerCpf}.`
+                            ? `${String.fromCharCode(65 + lastUsedLetter++)}. Recebo pensão alimentícia(judicial) no valor total de ${pensionData.amount}, inscrito(a) no CPF nº ${pensionData.payerCpf}.`
                             : `${String.fromCharCode(65 + lastUsedLetter++)}. Não recebo pensão alimentícia(judicial).`
                         }
                     </p>
@@ -135,14 +135,14 @@ inscrito(a) no CPF nº ${child.payerCpf}.`
                                 : `
                         ${String.fromCharCode(65 + lastUsedLetter++)}. Meu(s) filho(s) \ 
                         ${declarationData.childPensionData?.childPensionRecipients.map(e => e).join(', ')} \
-    recebe(m) pensão alimentícia(judicial) no valor total de R$ ${declarationData.childPensionData?.amount}, \
+    recebe(m) pensão alimentícia(judicial) no valor total de ${declarationData.childPensionData?.amount}, \
     inscrito(a) no CPF nº ${declarationData.childPensionData?.payerCpf}.
     `) : ''
                         }
                     </p>
 
                     {childrenData.map((child, index) => (
-                        <p>{`${String.fromCharCode(65 + lastUsedLetter++)}. Meu(s) filho(s) ${child.childName} recebe(m) pensão alimentícia(judicial) no valor total de R$ ${child.amount}, inscrito(s) no CPF nº ${child.payerCpf}.`}</p>
+                        <p>{`${String.fromCharCode(65 + lastUsedLetter++)}. Meu(s) filho(s) ${child.childName} recebe(m) pensão alimentícia(judicial) no valor total de ${child.amount}, inscrito(s) no CPF nº ${child.payerCpf}.`}</p>
                     ))}
                 </>
                 <p>Confirma a declaração?</p>
