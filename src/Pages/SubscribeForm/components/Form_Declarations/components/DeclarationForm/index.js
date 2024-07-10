@@ -2,6 +2,8 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import findLabel from 'utils/enums/helpers/findLabel';
+import MARITAL_STATUS from 'utils/enums/marital-status';
 
 export default function DeclarationForm({ onBack, onEdit, userId, declarationData, type }) {
     const [infoCorrect, setInfoCorrect] = useState(null);
@@ -31,7 +33,7 @@ export default function DeclarationForm({ onBack, onEdit, userId, declarationDat
     };
 
     const generateDeclarationText = (data) => {
-        return `Eu, ${data.fullName}, portador(a) da cédula de identidade RG nº ${data.RG}, órgão emissor ${data.rgIssuingAuthority}, UF do órgão emissor ${data.rgIssuingState} ou portador(a) da ${data.documentType}, número ${data.documentNumber}, validade ${data.documentValidity}, inscrito(a) no CPF nº ${data.CPF}, nacionalidade ${data.nacionalidade}, estado civil ${data.maritalStatus}, profissão ${data.profession}, residente na ${data.address}, nº ${data.addressNumber}, complemento, CEP: ${data.CEP}, bairro ${data.neighborhood}, cidade ${data.city}, estado ${data.UF}, UF ${data.UF}, e-mail: ${data.email}, responsável legal por (quando for o caso, incluir os nomes dos menores de idade do grupo familiar), declaro para os devidos fins do processo seletivo realizado nos termos da Lei Complementar nº 187, de 16 de dezembro de 2021 que:`;
+        return `Eu, ${data.fullName}, portador(a) da cédula de identidade RG nº ${data.RG}, órgão emissor ${data.rgIssuingAuthority}, UF do órgão emissor ${data.rgIssuingState} ou portador(a) da ${data.documentType}, número ${data.documentNumber}, validade ${data.documentValidity}, inscrito(a) no CPF nº ${data.CPF}, nacionalidade ${data.nationality}, estado civil ${findLabel(MARITAL_STATUS, data.maritalStatus)}, profissão ${data.profession}, residente na ${data.address}, nº ${data.addressNumber}, complemento, CEP: ${data.CEP}, bairro ${data.neighborhood}, cidade ${data.city}, estado ${data.UF}, UF ${data.UF}, e-mail: ${data.email}, responsável legal por (quando for o caso, incluir os nomes dos menores de idade do grupo familiar), declaro para os devidos fins do processo seletivo realizado nos termos da Lei Complementar nº 187, de 16 de dezembro de 2021 que:`;
     };
 
     if (!declarationData) {

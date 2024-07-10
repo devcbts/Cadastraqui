@@ -107,6 +107,7 @@ export default function HabitationDeclarationPDF({
                 </View>
                 <View style={styles.body} >
                     <Text style={styles.h2} > Declaração de Imóvel Cedido </Text>
+
                     <Text style={styles.text}>
                         Eu, <Strong>{owner.ownerName}</Strong>, portador(a) da cédula de identidade RG nº <Strong>{owner.RG}</Strong>, órgão emissor <Strong>{owner.documentIssuing}</Strong>,
                         UF do órgão emissor <Strong>{owner.ufIssuing}</Strong>,inscrito(a) no CPF nº <Strong>{owner.CPF}</Strong>, nacionalidade <Strong>{owner.nationality}</Strong>,

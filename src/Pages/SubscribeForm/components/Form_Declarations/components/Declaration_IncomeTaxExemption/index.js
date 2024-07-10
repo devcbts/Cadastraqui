@@ -101,7 +101,7 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
             </div> */}
             {confirmation === false && (
                 <>
-                    <InputForm control={control} label={'Ano de exercício'} name={"year"} />
+                    <InputForm control={control} label={'exercício'} name={"year"} />
                     <FormFilePicker accept={'application/pdf'} control={control} name={"file"} label={'última declaração completa de imposto de renda e recibo'} />
                     {/* <div className={commonStyles.inputGroup}>
                         <label htmlFor="year">Exercício</label>

@@ -8,6 +8,7 @@ import { ReactComponent as Car } from 'Assets/icons/car.svg'
 import { ReactComponent as Currency } from 'Assets/icons/currency.svg'
 import { ReactComponent as Money } from 'Assets/icons/money.svg'
 import { ReactComponent as Doctor } from 'Assets/icons/doctor.svg'
+import { ReactComponent as List } from 'Assets/icons/list.svg'
 import FormStepper from "Components/FormStepper"
 import headerAtom from "Components/Header/atoms/header-atom"
 import { useLocation } from "react-router"
@@ -17,6 +18,7 @@ import ViewVehicle from "./components/View_Vehicle"
 import ViewIncome from "./components/View_Income"
 import ViewExpenses from "./components/View_Expenses"
 import ViewHealth from "./components/View_Health"
+import ViewDeclarations from "./components/View_Declarations"
 export default function CandidateView() {
     const [activeStep, setActiveStep] = useState(1)
     const location = useLocation()
@@ -33,7 +35,7 @@ export default function CandidateView() {
         { label: "Renda", icon: Currency, component: ViewIncome },
         { label: "Gastos", icon: Money, component: ViewExpenses },
         { label: "Saúde", icon: Doctor, component: ViewHealth },
-        // { label: "Declarações", icon: List, component: FormDeclarations },
+        { label: "Declarações", icon: List, component: ViewDeclarations },
         // { label: "_", icon: Edit },
     ], [state])
     const setHeader = useSetRecoilState(headerAtom)

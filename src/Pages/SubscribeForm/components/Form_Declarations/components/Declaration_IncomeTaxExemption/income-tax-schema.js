@@ -14,7 +14,7 @@ export default z.object({
         }
         if (!data.year) {
             ctx.addIssue({
-                message: 'Ano de exercício obrigatório',
+                message: 'Exercício obrigatório',
                 path: ['year']
             })
         }

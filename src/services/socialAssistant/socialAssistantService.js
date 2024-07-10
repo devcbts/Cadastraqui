@@ -113,6 +113,11 @@ class SocialAssistantService {
         return api.post(`/assistant/solicitation/${applicationId}`, solicitations)
 
     }
+    async getDeclarations(applicationId) {
+        const response = await api.get(`/assistant/candidateInfo/declaration/${applicationId}`)
+        return response.data.declarations
+
+    }
 }
 
 export default new SocialAssistantService()
