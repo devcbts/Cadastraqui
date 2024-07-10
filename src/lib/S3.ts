@@ -160,6 +160,32 @@ export async function deleteFromS3(fileKey: string) {
     throw error;
   }
 }
+export async function deleteFromS3Folder(folderKey: string) {
+  const listParams = {
+    Bucket: bucketName!,
+    Prefix: folderKey, // Assuming folderKey ends with a '/'
+  };
+
+  try {
+    const listedObjects = await s3.listObjectsV2(listParams).promise();
+    if (!listedObjects.Contents) return
+    if (listedObjects.Contents.length === 0) return;
+
+    const deleteParams = {
+      Bucket: bucketName!,
+      Delete: {
+        Objects: listedObjects.Contents.map(({ Key }) => ({ Key: Key! })),
+      },
+    };
+
+    await s3.deleteObjects(deleteParams).promise();
+
+    if (listedObjects.IsTruncated) await deleteFromS3Folder(folderKey); // Recursively delete if the folder is large
+  } catch (error: any) {
+    console.log(error);
+    throw error;
+  }
+}
 
 export async function copyFilesToAnotherFolder(sourceFolder: string, destinationFolder: string) {
   try {
