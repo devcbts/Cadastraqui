@@ -40,7 +40,7 @@ export async function fetchAnnouncements(
       })
       if (announcement) {
         try {
-          const Folder = `Announcemenets/${announcement.entity_id}/${announcement_id}.pdf`;
+          const Folder = `Announcements/${announcement.entity_id}/${announcement_id}.pdf`;
           pdf = await GetUrl(Folder);
         } catch (err) {
 

@@ -9,6 +9,7 @@ import { closeApplication } from './close-application'
 import { createSolicitation } from './create-solicitation'
 import { getBankingInfoHDB } from './detailed-form/get-banking-info'
 import { getBasicInfoHDB } from './detailed-form/get-basic-info'
+import { getDeclarationsPDF } from './detailed-form/get-declarations'
 import { getExpensesInfoHDB } from './detailed-form/get-expenses'
 import { getFamilyMemberInfoHDB } from './detailed-form/get-family-member-info'
 import { getHealthInfoHDB } from './detailed-form/get-health-info'
@@ -135,6 +136,7 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/candidateInfo/expenses/:application_id', { onRequest: [verifyJWT] }, getExpensesInfoHDB)
   app.get('/candidateInfo/bank-info/:application_id/:_id?', { onRequest: [verifyJWT] }, getBankingInfoHDB)
   app.get('/candidateInfo/registrato/:application_id/:_id?', { onRequest: [verifyJWT] }, getRegistratoHDB)
+  app.get('/candidateInfo/declaration/:application_id', { onRequest: [verifyJWT] }, getDeclarationsPDF)
 
   // Documentos da assistente
   app.post('/documents/majoracao/:application_id', { onRequest: [verifyJWT] }, uploadMarojacaoDocument)

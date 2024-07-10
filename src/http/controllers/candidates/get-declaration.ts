@@ -54,7 +54,10 @@ export async function getDeclaration(
         if (!type) {
             const declarations = await prisma.declarations.findMany({
                 where: {
-                    OR: [{ familyMember_id: _id }, { candidate_id: _id }, { legalResponsibleId: _id }],
+                    AND: [
+                        { OR: [{ familyMember_id: _id }, { candidate_id: _id }, { legalResponsibleId: _id }] },
+                        { declarationExists: true }
+                    ]
                 },
 
             })

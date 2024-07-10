@@ -25,7 +25,7 @@ export async function getAnnouncementDocument(
     if (!announcement) {
       throw new ResourceNotFoundError();
     }
-    const Folder = `Announcemenets/${announcement.entity_id}/${announcement_id}.pdf`;
+    const Folder = `Announcements/${announcement.entity_id}/${announcement_id}.pdf`;
     const url = await GetUrl(Folder); // Assumindo que esta função retorna a URL direta para o documento
 
     if (!url) {

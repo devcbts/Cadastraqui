@@ -1,9 +1,9 @@
-import { NotAllowedError } from '@/errors/not-allowed-error'
+import { NotAllowedError } from '@/errors/not-allowed-error';
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error';
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/lib/prisma';
 import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible';
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible';
-import { FastifyReply, FastifyRequest } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 
 export async function getBasicInfo(
@@ -20,15 +20,27 @@ export async function getBasicInfo(
     let candidateOrResponsible = await SelectCandidateResponsible(user_id)
     if (_id) {
       candidateOrResponsible = await ChooseCandidateResponsible(_id)
-    } 
-    
+    }
     // Verifica se existe um candidato associado ao user_id
     if (!candidateOrResponsible) {
       throw new ResourceNotFoundError()
     }
+    let result;
+    if (candidateOrResponsible?.IsResponsible) {
+      result = await prisma.legalResponsible.findUnique({
+        where: { id: candidateOrResponsible.UserData.id },
+        include: { IdentityDetails: { select: { address: true, addressNumber: true, city: true, complement: true, neighborhood: true, UF: true, CEP: true } } }
+      })
+    } else {
+      result = await prisma.candidate.findUnique({
+        where: { id: candidateOrResponsible.UserData.id },
+        include: { IdentityDetails: { select: { address: true, addressNumber: true, city: true, complement: true, neighborhood: true, UF: true, CEP: true } } }
+      })
+    }
+
 
     const basic_info = candidateOrResponsible.UserData
-    return reply.status(200).send({ candidate: basic_info })
+    return reply.status(200).send({ candidate: { ...basic_info, ...result?.IdentityDetails } })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })

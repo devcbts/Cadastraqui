@@ -13,7 +13,7 @@ export async function registerDeclaration(
   reply: FastifyReply,
 ) {
   const DeclarationDataSchema = z.object({
-    text: z.string().optional(),
+    text: z.string().nullish(),
     declarationExists: z.boolean(),
   })
 
@@ -67,16 +67,16 @@ export async function registerDeclaration(
     }
 
     // Store declaration information in the database
-    
-      await prisma.declarations.create({
-        data: {
-          declarationType: type,
-          text,
-          ...(CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : idField),
-          declarationExists
-        },
-      })
-    
+
+    await prisma.declarations.create({
+      data: {
+        declarationType: type,
+        text,
+        ...(CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : idField),
+        declarationExists
+      },
+    })
+
 
 
     return reply.status(201).send()
