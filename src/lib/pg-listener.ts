@@ -108,7 +108,7 @@ clientBackup.on('notification', async (msg) => {
                    await createExpenseHDB(expense.data.id, expense.data.candidate_id, expense.data.legalResponsibleId, application.id)
                 }
             }
-            
+
         }
         if (msg.channel == 'channel_familyMember') {
             const familyMember = JSON.parse(msg.payload!);
@@ -413,6 +413,7 @@ clientBackup.on('notification', async (msg) => {
 
 
             // Para o registrato
+            await createRegistratoHDB(responsible_id? responsible_id: candidate_id  , candidate_id, responsible_id, application_id)
             for (const familyMember of findFamilyMembers) {
                 await createRegistratoHDB(familyMember.id, candidate_id, responsible_id, application_id)
             }
@@ -420,7 +421,9 @@ clientBackup.on('notification', async (msg) => {
 
             // For declarations 
             await createDeclarationHDB(findUserDetails.UserData.id, findUserDetails.UserData.id, application_id)
-            
+            for (const familyMember of findFamilyMembers) {
+                await createDeclarationHDB(familyMember.id, findUserDetails.UserData.id, application_id)
+            }
         }
     } catch (error) {
         console.log(error)
