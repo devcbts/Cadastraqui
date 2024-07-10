@@ -24,7 +24,7 @@ export async function createBankAccountHDB(id: string, candidate_id: string | nu
         return null;
     }
     const route = `CandidateDocuments/${idRoute}/statement/${(oldCandidateId || oldResponsibleId || '')}/${bankAccount.id}/`;
-    const RouteHDB = await findAWSRouteHDB(idRoute, 'statement', (oldCandidateId || oldResponsibleId)!, bankAccount.id, application_id);
+    const RouteHDB = await findAWSRouteHDB(idRoute, 'statement', (oldCandidateId || oldResponsibleId || oldFamilyMemberId)!, bankAccount.id, application_id);
     await copyFilesToAnotherFolder(route, RouteHDB);
 }
 
