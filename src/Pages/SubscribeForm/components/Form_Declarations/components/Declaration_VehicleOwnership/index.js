@@ -8,6 +8,7 @@ import declarationAtom from '../../atoms/declarationAtom';
 import findLabel from 'utils/enums/helpers/findLabel';
 import VEHICLE_USAGE from 'utils/enums/vehicle-usage';
 import VEHICLE_TYPE from 'utils/enums/vehicle-type';
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_VehicleOwnership({ onBack, onNext }) {
     const { auth } = useAuth();
@@ -60,21 +61,23 @@ export default function Declaration_VehicleOwnership({ onBack, onNext }) {
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Status/${declarationData.id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(payload)
-            });
+            await candidateService.registerDeclaration({ section: 'Status', id: declarationData.id, data: payload })
 
-            if (!response.ok) {
-                throw new Error(`Erro: ${response.statusText}`);
-            }
+            // const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Status/${declarationData.id}`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Authorization': `Bearer ${token}`
+            //     },
+            //     body: JSON.stringify(payload)
+            // });
 
-            const data = await response.json();
-            console.log('Declaração registrada:', data);
+            // if (!response.ok) {
+            //     throw new Error(`Erro: ${response.statusText}`);
+            // }
+
+            // const data = await response.json();
+            // console.log('Declaração registrada:', data);
 
             // Redireciona para a próxima tela
             onNext(confirmation ? 'familyIncomeChange' : 'overview'); // ou a tela correta para "não"

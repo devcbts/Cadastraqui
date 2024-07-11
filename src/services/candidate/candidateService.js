@@ -336,6 +336,9 @@ class CandidateService {
         const response = await api.get(`/candidates/declaration/get-info`)
         return response.data.userInfo
     }
+    async registerDeclaration({ section, id, data }) {
+        return api.post(`/candidates/declaration/${section}/${id}`, data)
+    }
     async deleteDeclaration({ userId, type } = {
         userId: '',
         type: "Form" ||

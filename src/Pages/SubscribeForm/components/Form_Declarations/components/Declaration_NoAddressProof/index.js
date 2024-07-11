@@ -6,6 +6,7 @@ import { api } from 'services/axios';
 import commonStyles from '../../styles.module.scss';
 import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_NoAddressProof({ onBack, onNext }) {
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
@@ -70,21 +71,23 @@ export default function Declaration_NoAddressProof({ onBack, onNext }) {
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/NoAddressProof/${declarationData.id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(payload)
-            });
+            await candidateService.registerDeclaration({ section: 'NoAddressProof', id: declarationData.id, data: payload })
 
-            if (!response.ok) {
-                throw new Error(`Erro: ${response.statusText}`);
-            }
+            // const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/NoAddressProof/${declarationData.id}`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Authorization': `Bearer ${token}`
+            //     },
+            //     body: JSON.stringify(payload)
+            // });
 
-            const data = await response.json();
-            console.log('Declaração registrada:', data);
+            // if (!response.ok) {
+            //     throw new Error(`Erro: ${response.statusText}`);
+            // }
+
+            // const data = await response.json();
+            // console.log('Declaração registrada:', data);
 
             // Redireciona para a próxima tela
             onNext(hasConfirmed);

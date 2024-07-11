@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
 import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_PensionConfirmation({ onBack, onNext }) {
     const { auth } = useAuth();
@@ -86,21 +87,23 @@ inscrito(a) no CPF nº ${child.payerCpf}.`
 
         try {
 
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Pension/${declarationData.id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token} `
-                },
-                body: JSON.stringify(payload)
-            });
+            await candidateService.registerDeclaration({ section: 'Pension', id: declarationData.id, data: payload })
 
-            if (!response.ok) {
-                throw new Error(`Erro: ${response.statusText} `);
-            }
+            // const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Pension/${declarationData.id}`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Authorization': `Bearer ${token} `
+            //     },
+            //     body: JSON.stringify(payload)
+            // });
 
-            const data = await response.json();
-            console.log('Declaração registrada:', data);
+            // if (!response.ok) {
+            //     throw new Error(`Erro: ${response.statusText} `);
+            // }
+
+            // const data = await response.json();
+            // console.log('Declaração registrada:', data);
 
             onNext(true);
         } catch (error) {

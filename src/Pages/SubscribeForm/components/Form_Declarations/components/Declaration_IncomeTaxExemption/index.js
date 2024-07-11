@@ -45,12 +45,13 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
             return
         }
         setDeclarationData((prev) => ({ ...prev, incomeTaxDetails: { confirmation } }))
+        const values = getValues()
         if (confirmation) {
+            setDeclarationData((prev) => ({ ...prev, incomeTaxDetails: { year: values.year, confirmation: values.confirmation } }))
             onSave(true);
         } else {
             try {
-                const values = getValues()
-                setDeclarationData((prev) => ({ ...prev, incomeTaxDetails: { year: values.year, confirmation: values.confirmation } }))
+                // setDeclarationData((prev) => ({ ...prev, incomeTaxDetails: { year: values.year, confirmation: values.confirmation } }))
                 const formData = new FormData()
                 formData.append("file_IR", values.file)
                 await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData?.id }, formData)
@@ -98,10 +99,10 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
                 <label>
                     <input type="radio" name="incomeTaxExemption" value="nao" onChange={() => setConfirmation(false)} checked={confirmation === false} /> Não
                 </label>
-            </div> */}
+                </div> */}
+            {confirmation && <InputForm control={control} label={'exercício'} name={"year"} />}
             {confirmation === false && (
                 <>
-                    <InputForm control={control} label={'exercício'} name={"year"} />
                     <FormFilePicker accept={'application/pdf'} control={control} name={"file"} label={'última declaração completa de imposto de renda e recibo'} />
                     {/* <div className={commonStyles.inputGroup}>
                         <label htmlFor="year">Exercício</label>

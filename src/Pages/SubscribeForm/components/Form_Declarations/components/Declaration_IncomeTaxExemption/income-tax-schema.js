@@ -12,6 +12,8 @@ export default z.object({
                 path: ['file']
             })
         }
+    }
+    if (data.confirmation) {
         if (!data.year) {
             ctx.addIssue({
                 message: 'Exercício obrigatório',
@@ -19,4 +21,5 @@ export default z.object({
             })
         }
     }
+
 })

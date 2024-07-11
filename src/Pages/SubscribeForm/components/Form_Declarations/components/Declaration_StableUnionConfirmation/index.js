@@ -6,6 +6,7 @@ import commonStyles from '../../styles.module.scss';
 import { useRecoilValue } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
 import formatDate from 'utils/format-date';
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_StableUnionConfirmation({ onBack, onNext, partnerName, unionStartDate }) {
     const { auth } = useAuth();
@@ -41,21 +42,23 @@ Nossa União Estável possui natureza pública, contínua e duradoura com o obje
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/StableUnion/${declarationData.id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(payload)
-            });
+            await candidateService.registerDeclaration({ section: 'StableUnion', id: declarationData.id, data: payload })
 
-            if (!response.ok) {
-                throw new Error(`Erro: ${response.statusText}`);
-            }
+            // const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/StableUnion/${declarationData.id}`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Authorization': `Bearer ${token}`
+            //     },
+            //     body: JSON.stringify(payload)
+            // });
 
-            const data = await response.json();
-            console.log('Declaração registrada:', data);
+            // if (!response.ok) {
+            //     throw new Error(`Erro: ${response.statusText}`);
+            // }
+
+            // const data = await response.json();
+            // console.log('Declaração registrada:', data);
 
             onNext(confirmation === 'sim');
         } catch (error) {

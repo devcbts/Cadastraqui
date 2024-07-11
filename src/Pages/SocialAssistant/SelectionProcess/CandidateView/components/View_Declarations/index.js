@@ -8,6 +8,7 @@ import socialAssistantService from 'services/socialAssistant/socialAssistantServ
 export default function ViewDeclarations({ applicationId }) {
     const [declarations, setDeclarations] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [selectedUser, setSelectedUser] = useState(null)
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -24,19 +25,61 @@ export default function ViewDeclarations({ applicationId }) {
             <Loader loading={isLoading} />
             <div>
                 <h1>Declarações do processo seletivo</h1>
-                <div className={commonStyles.declarationSection}>
+                {<div className={commonStyles.declarationSection}>
                     <div className={commonStyles.declarationItem}>
                         {
-                            declarations.map(e => (
-                                <FormListItem.Root text={e.name}>
-                                    <FormListItem.Actions>
-                                        <ButtonBase label={'baixar'} onClick={() => { }} />
-                                    </FormListItem.Actions>
-                                </FormListItem.Root>
-                            ))
+                            !selectedUser
+                                ? (<>
+                                    {declarations.map(e => (
+                                        <FormListItem.Root text={e.name}>
+                                            <FormListItem.Actions>
+                                                <ButtonBase label={'visualizar'} onClick={() => setSelectedUser(e)} />
+                                            </FormListItem.Actions>
+                                        </FormListItem.Root>
+                                    ))}
+                                </>)
+                                : (
+                                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '20px' }}>
+                                        <h3 style={{ textAlign: 'center' }}> {selectedUser.name}</h3>
+                                        <div>
+                                            {
+                                                Object.entries(selectedUser?.urls).map(([k, v]) => {
+                                                    const fileName = k.split('_')[1]
+                                                    let name;
+                                                    switch (fileName.toLowerCase()) {
+                                                        case 'mei':
+                                                            name = 'Documento MEI';
+                                                            break
+                                                        case 'carteira-de-trabalho':
+                                                            name = 'Carteira de Trabalho';
+                                                            break
+                                                        case 'ir':
+                                                            name = 'Documento de imposto de renda'
+                                                            break;
+                                                        case 'cnis':
+                                                            name = 'Documento CNIS'
+                                                            break
+                                                        case 'declaracoes':
+                                                            name = 'Declarações'
+                                                            break
+                                                    }
+                                                    return (
+                                                        <FormListItem.Root text={name}>
+                                                            <FormListItem.Actions>
+                                                                <ButtonBase label={'visualizar'} onClick={() => window.open(v, '_blank')} />
+                                                            </FormListItem.Actions>
+                                                        </FormListItem.Root>
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                    </div>
+                                )
                         }
                     </div>
                 </div>
+                }
+
             </div>
         </div>
     )

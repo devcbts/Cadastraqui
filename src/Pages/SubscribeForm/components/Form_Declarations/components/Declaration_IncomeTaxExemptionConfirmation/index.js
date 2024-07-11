@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
 import findLabel from 'utils/enums/helpers/findLabel';
 import MARITAL_STATUS from 'utils/enums/marital-status';
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_IncomeTaxExemptionConfirmation({ onBack, onNext }) {
     const { auth } = useAuth();
@@ -52,22 +53,23 @@ serem verdadeiras todas as informações acima prestadas. \
                     declarationExists: confirmation,
                     ...(confirmation && { text })
                 };
+                await candidateService.registerDeclaration({ section: 'IncomeTaxExemption', id: declarationData.id, data: payload })
 
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/IncomeTaxExemption/${declarationData.id}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(payload)
-                });
+                // const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/IncomeTaxExemption/${declarationData.id}`, {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //         'Authorization': `Bearer ${token}`
+                //     },
+                //     body: JSON.stringify(payload)
+                // });
 
-                if (!response.ok) {
-                    throw new Error(`Erro: ${response.statusText}`);
-                }
+                // if (!response.ok) {
+                //     throw new Error(`Erro: ${response.statusText}`);
+                // }
 
-                const data = await response.json();
-                console.log('Declaração registrada:', data);
+                // const data = await response.json();
+                // console.log('Declaração registrada:', data);
 
                 onNext();
             } catch (error) {

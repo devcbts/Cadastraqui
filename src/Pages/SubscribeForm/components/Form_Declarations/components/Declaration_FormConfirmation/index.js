@@ -8,6 +8,7 @@ import { useRecoilState } from "recoil";
 import declarationAtom from "../../atoms/declarationAtom";
 import DOCUMENT_TYPE from "utils/enums/document-type";
 import formatDate from "utils/format-date";
+import candidateService from "services/candidate/candidateService";
 
 export default function Declaration_Form({ onEdit }) {
     const { auth } = useAuth();
@@ -57,21 +58,22 @@ declaro para os devidos fins do processo seletivo realizado nos termos da Lei Co
         };
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Form/${declarationData.id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(payload)
-            });
+            await candidateService.registerDeclaration({ section: 'Form', id: declarationData.id, data: payload })
+            // const response = await fetch(`${process.env.REACT_APP_API_URL}/candidates/declaration/Form/${declarationData.id}`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Authorization': `Bearer ${token}`
+            //     },
+            //     body: JSON.stringify(payload)
+            // });
 
-            if (!response.ok) {
-                throw new Error(`Erro: ${response.statusText}`);
-            }
+            // if (!response.ok) {
+            //     throw new Error(`Erro: ${response.statusText}`);
+            // }
 
-            const data = await response.json();
-            console.log('Declaração registrada:', data);
+            // const data = await response.json();
+            // console.log('Declaração registrada:', data);
 
             onEdit();
         } catch (error) {
