@@ -69,6 +69,10 @@ export async function updateFamilyMemberInfo(
     institutionName: z.string().optional().nullable(),
     coursingEducationLevel: z.union([Education_Type, z.null()]).optional().nullable(),
     cycleOfEducation: z.string().optional().nullable(),
+    attendedPublicHighSchool: z.boolean().nullish(),
+    benefitedFromCebasScholarship_basic: z.boolean().nullish(),
+    benefitedFromCebasScholarship_professional: z.boolean().nullish(),
+    CadUnico: z.boolean().nullish(),
     turnOfEducation: z.union([SHIFT, z.null()]).optional().nullable(),
     hasScholarship: z.boolean().optional().nullable(),
     percentageOfScholarship: z.string().optional().nullable(),
@@ -120,6 +124,10 @@ export async function updateFamilyMemberInfo(
     turnOfEducation,
     workPhone,
     incomeSource,
+    attendedPublicHighSchool,
+    benefitedFromCebasScholarship_basic,
+    benefitedFromCebasScholarship_professional,
+    CadUnico
   } = familyMemberDataSchema.parse(request.body)
 
   try {
@@ -165,6 +173,12 @@ export async function updateFamilyMemberInfo(
       educationLevel,
       email,
       profession,
+      attendedPublicHighSchool,
+      benefitedFromCebasScholarship_basic,
+      benefitedFromCebasScholarship_professional,
+      enrolledGovernmentProgram,
+      NIS,
+      CadUnico,
       ...idField,
       // Campos opcionais são adicionados condicionalmente
       ...(otherRelationship && { otherRelationship }),

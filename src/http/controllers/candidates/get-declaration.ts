@@ -48,8 +48,6 @@ export async function getDeclaration(
             'StableUnion',
             'Status',
             'WorkCard',
-            'Notify',
-            'Responsiblity'
         ]
         if (!type) {
             const declarations = await prisma.declarations.findMany({

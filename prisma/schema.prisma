@@ -268,64 +268,68 @@ model IdentityDetails {
 }
 
 model FamilyMember {
-  id                        String                  @id @default(uuid())
-  relationship              Relationship
-  otherRelationship         String?
-  fullName                  String
-  socialName                String?
-  birthDate                 DateTime
-  gender                    GENDER
-  nationality               String
-  natural_city              String
-  natural_UF                COUNTRY
-  CPF                       String
-  RG                        String
-  rgIssuingAuthority        String
-  rgIssuingState            String
-  documentType              DOCUMENT_TYPE?
-  documentNumber            String?
-  documentValidity          DateTime?
-  numberOfBirthRegister     String?
-  bookOfBirthRegister       String?
-  pageOfBirthRegister       String?
-  maritalStatus             MARITAL_STATUS
-  skinColor                 SkinColor
-  religion                  RELIGION
-  educationLevel            SCHOLARSHIP
-  specialNeeds              Boolean?
-  specialNeedsDescription   String?
-  hasMedicalReport          Boolean?
-  landlinePhone             String?
-  workPhone                 String?
-  contactNameForMessage     String?
-  email                     String?
-  profession                String
-  enrolledGovernmentProgram Boolean?
-  NIS                       String?
-  educationPlace            INSTITUTION_TYPE?
-  institutionName           String?
-  coursingEducationLevel    EDUCATION_TYPE?
-  cycleOfEducation          String?
-  turnOfEducation           SHIFT?
-  hasScholarship            Boolean?
-  percentageOfScholarship   String?
-  monthlyAmount             String?
-  candidate_id              String?
-  incomeSource              IncomeSource[]
-  CreditCard                CreditCard[]
-  FamilyMemberIncome        FamilyMemberIncome[]
-  Financing                 Financing[]
-  Loan                      Loan[]
-  MonthlyIncome             MonthlyIncome[]
-  OtherExpense              OtherExpense[]
-  FamilyMemberToVehicle     FamilyMemberToVehicle[]
-  FamilyMemberDisease       FamilyMemberDisease[]
-  candidate                 Candidate?              @relation(fields: [candidate_id], references: [id])
-  Medication                Medication[]
-  LegalResponsible          LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
-  legalResponsibleId        String?
-  BankAccount               BankAccount[]
-  Declarations              Declarations[]
+  id                                         String                  @id @default(uuid())
+  relationship                               Relationship
+  otherRelationship                          String?
+  fullName                                   String
+  socialName                                 String?
+  birthDate                                  DateTime
+  gender                                     GENDER
+  nationality                                String
+  natural_city                               String
+  natural_UF                                 COUNTRY
+  CPF                                        String
+  RG                                         String
+  rgIssuingAuthority                         String
+  rgIssuingState                             String
+  documentType                               DOCUMENT_TYPE?
+  documentNumber                             String?
+  documentValidity                           DateTime?
+  numberOfBirthRegister                      String?
+  bookOfBirthRegister                        String?
+  pageOfBirthRegister                        String?
+  maritalStatus                              MARITAL_STATUS
+  skinColor                                  SkinColor
+  religion                                   RELIGION
+  educationLevel                             SCHOLARSHIP
+  specialNeeds                               Boolean?
+  specialNeedsDescription                    String?
+  hasMedicalReport                           Boolean?
+  landlinePhone                              String?
+  workPhone                                  String?
+  contactNameForMessage                      String?
+  email                                      String?
+  profession                                 String
+  enrolledGovernmentProgram                  Boolean?
+  NIS                                        String?
+  educationPlace                             INSTITUTION_TYPE?
+  institutionName                            String?
+  coursingEducationLevel                     EDUCATION_TYPE?
+  cycleOfEducation                           String?
+  turnOfEducation                            SHIFT?
+  hasScholarship                             Boolean?
+  percentageOfScholarship                    String?
+  monthlyAmount                              String?
+  candidate_id                               String?
+  attendedPublicHighSchool                   Boolean?
+  benefitedFromCebasScholarship_basic        Boolean?
+  benefitedFromCebasScholarship_professional Boolean?
+  CadUnico                                   Boolean?
+  incomeSource                               IncomeSource[]
+  CreditCard                                 CreditCard[]
+  FamilyMemberIncome                         FamilyMemberIncome[]
+  Financing                                  Financing[]
+  Loan                                       Loan[]
+  MonthlyIncome                              MonthlyIncome[]
+  OtherExpense                               OtherExpense[]
+  FamilyMemberToVehicle                      FamilyMemberToVehicle[]
+  FamilyMemberDisease                        FamilyMemberDisease[]
+  candidate                                  Candidate?              @relation(fields: [candidate_id], references: [id])
+  Medication                                 Medication[]
+  LegalResponsible                           LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId                         String?
+  BankAccount                                BankAccount[]
+  Declarations                               Declarations[]
 
   @@map("familyMembers")
 }

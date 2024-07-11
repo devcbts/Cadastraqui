@@ -318,6 +318,10 @@ exports.Prisma.FamilyMemberScalarFieldEnum = {
   percentageOfScholarship: 'percentageOfScholarship',
   monthlyAmount: 'monthlyAmount',
   candidate_id: 'candidate_id',
+  attendedPublicHighSchool: 'attendedPublicHighSchool',
+  benefitedFromCebasScholarship_basic: 'benefitedFromCebasScholarship_basic',
+  benefitedFromCebasScholarship_professional: 'benefitedFromCebasScholarship_professional',
+  CadUnico: 'CadUnico',
   incomeSource: 'incomeSource',
   legalResponsibleId: 'legalResponsibleId',
   application_id: 'application_id'
