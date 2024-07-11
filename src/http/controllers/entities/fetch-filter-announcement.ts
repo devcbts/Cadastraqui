@@ -4,16 +4,23 @@ import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function fetchOpenAnnouncements(
+export async function fetchFilterAnnouncements(
   request: FastifyRequest,
   reply: FastifyReply,
 
 ) {
   const fetchParamsSchema = z.object({
-    page_number: z.number().optional()
+    page_number: z.number().optional(),
+  })
+  const querySchema = z.object({
+
+    filter: z.enum(['open', 'subscription', 'finished']).optional()
   })
 
   const { page_number } = fetchParamsSchema.parse(request.params)
+
+  const { filter } = querySchema.parse(request.query)
+  console.log('passei aq')
   try {
     const userId = request.user.sub
     if (!userId) {
@@ -27,8 +34,22 @@ export async function fetchOpenAnnouncements(
     if (!entity) {
       throw new ResourceNotFoundError()
     }
-
-
+    // filter will be on 'AND' expression
+    let filterParams = [{}]
+    if (filter) {
+      const today = new Date()
+      switch (filter) {
+        case 'open':
+          filterParams = [{ announcementBegin: { lte: today } }, { announcementDate: { gt: today } }]
+          break
+        case 'subscription':
+          filterParams = [{ openDate: { lte: today } }, { closeDate: { gt: today } }]
+          break
+        case 'finished':
+          filterParams = [{ announcementDate: { lte: today } }]
+          break
+      }
+    }
 
     const currentDate = new Date()
     const pageSize = 10; // number of records per page
@@ -37,10 +58,7 @@ export async function fetchOpenAnnouncements(
     const announcements = await prisma.announcement.findMany({
       where: {
         entity_id: entity.id,
-        AND: [
-          // { openDate: { lte: currentDate } },
-          { closeDate: { gt: currentDate } }
-        ]
+        AND: filterParams
       },
       include: {
         entity: true,

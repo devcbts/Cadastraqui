@@ -14,7 +14,7 @@ import { deleteSubsidiary } from './delete-subsidiary'
 import { fetchAnnouncements } from './fetch-announcements'
 import { fetchClosedAnnouncements } from './fetch-closed-announcements'
 import { fetchDirectors } from './fetch-directors'
-import { fetchOpenAnnouncements } from './fetch-open-announcement'
+import { fetchFilterAnnouncements } from './fetch-filter-announcement'
 import { fetchSubsidiarys } from './fetch-subsidiarys'
 import { getApplications } from './get-applications'
 import getEntityDashboard from './get-dashboard'
@@ -121,7 +121,8 @@ export async function entityRoutes(app: FastifyInstance) {
     fetchAnnouncements,
   )
 
-  app.get('/announcement/open/:page_number?', { onRequest: [verifyJWT] }, fetchOpenAnnouncements)
+  app.get('/announcement/search', { onRequest: [verifyJWT] }, fetchFilterAnnouncements)
+  // app.get('/announcement/open/:page_number?', { onRequest: [verifyJWT] }, fetchOpenAnnouncements)
   app.get('/announcement/close/:page_number?', { onRequest: [verifyJWT] }, fetchClosedAnnouncements)
   app.get('/dashboard', { onRequest: [verifyJWT] }, getEntityDashboard)
 
