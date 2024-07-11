@@ -29,7 +29,7 @@ export async function getDeclarationsPDF(request: FastifyRequest, reply: Fastify
 
         }
         if (!candidateOrResponsibleHDB.IsResponsible) {
-            const url = await getSectionDocumentsPDF_HDB(application_id, 'declaracoes')
+            const url = await getSectionDocumentsPDF_HDB(application_id, `declaracoes/${candidateOrResponsibleHDB.UserData.id}`)
             const declarations = [{
                 name: candidateOrResponsibleHDB.UserData.name,
                 id: candidateOrResponsibleHDB.UserData.id,
@@ -50,12 +50,12 @@ export async function getDeclarationsPDF(request: FastifyRequest, reply: Fastify
                 {
                     name: responsible?.name,
                     id: responsible?.id,
-                    url: await getSectionDocumentsPDF_HDB(application_id, 'declaracoes')
+                    url: await getSectionDocumentsPDF_HDB(application_id, `declaracoes/${responsible.id}`)
                 },
                 ...responsible.Candidate.map(async candidate => ({
                     name: candidate.name,
                     id: candidate.id,
-                    url: await getSectionDocumentsPDF_HDB(application_id, 'declaracoes')
+                    url: await getSectionDocumentsPDF_HDB(application_id, `declaracoes/${candidate.id}`)
                 }))
             ])
             return reply.status(200).send({ declarations })

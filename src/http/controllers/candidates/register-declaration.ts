@@ -1,6 +1,7 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import deleteAwsFile from '@/utils/delete-aws-file'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -53,6 +54,7 @@ export async function registerDeclaration(
         ...(CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : idField),
       }
     })
+    let status = 200;
     if (declarationInstanceOnDatabase) {
       await prisma.declarations.update({
         where: {
@@ -63,24 +65,47 @@ export async function registerDeclaration(
           declarationExists
         }
       })
-      return reply.status(200).send({ message: 'Declaration updated successfully' })
+      // return reply.status(200).send({ message: 'Declaration updated successfully' })
+    } else {
+      status = 201
+
+      // Store declaration information in the database
+
+      await prisma.declarations.create({
+        data: {
+          declarationType: type,
+          text,
+          ...(CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : idField),
+          declarationExists
+        },
+      })
+    }
+    // Maybe change to a flag system after
+    switch (type) {
+      case 'WorkCard':
+        // if declaration exists is true = file is not necessary, only declaration
+        if (declarationExists) {
+          await deleteAwsFile(IsUser.UserData.id, `CandidateDocuments/${IsUser.UserData.id}/declaracoes/${_id}/carteira-de-trabalho.pdf`)
+        }
+        break
+      case 'MEI':
+        // if declarationExists is false, it shouldn't upload the file (or remove if it exists)
+        if (!declarationExists) {
+          await deleteAwsFile(IsUser.UserData.id, `CandidateDocuments/${IsUser.UserData.id}/declaracoes/${_id}/MEI.pdf`)
+        }
+        break
+      case 'IncomeTaxExemption':
+        // if declarationExists is true = it shouldn't upload the file
+        if (declarationExists) {
+          await deleteAwsFile(IsUser.UserData.id, `CandidateDocuments/${IsUser.UserData.id}/declaracoes/${_id}/IR.pdf`)
+        }
+        break
     }
 
-    // Store declaration information in the database
 
-    await prisma.declarations.create({
-      data: {
-        declarationType: type,
-        text,
-        ...(CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : idField),
-        declarationExists
-      },
-    })
-
-
-
-    return reply.status(201).send()
+    return reply.status(status).send({ message: 'Declaration updated successfully' })
   } catch (err: any) {
+    console.log(err)
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: "Membro da Familia não Encontrado" })
     }
