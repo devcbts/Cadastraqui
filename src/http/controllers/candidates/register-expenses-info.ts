@@ -1,6 +1,8 @@
+import { ForbiddenError } from '@/errors/forbidden-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -63,31 +65,23 @@ export async function registerExpensesInfo(
 
   try {
     const user_id = request.user.sub
-    const role = request.user.role
+    const candidateOrResponsible = await SelectCandidateResponsible(user_id)
+    if (!candidateOrResponsible) {
+      throw new ForbiddenError()
+    }
     // get the current user role to set the correct id
-    let field: { candidate_id: string } | { legalResponsibleId: string };
-    if (role === 'RESPONSIBLE') {
-      const responsible = await prisma.legalResponsible.findUnique({
-        where: { user_id }
-      })
-      if (!responsible) {
-        throw new NotAllowedError()
-      }
-      field = { legalResponsibleId: responsible.id }
-    }
-    if (role === "CANDIDATE") {
-
-      // Verifica se existe um candidato associado ao user_id
-      const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-      if (!candidate) {
-        throw new ResourceNotFoundError()
-      }
-      field = { candidate_id: candidate.id }
-    }
+    const idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
     //clean all expenses from the current user
-    await prisma.expense.deleteMany({
-      where: { ...field! }
+    const oldestExpense = await prisma.expense.findFirst({
+      where: { ...idField },
+      orderBy: { date: 'asc' },
     })
+
+    if (oldestExpense) {
+      await prisma.expense.delete({
+      where: { id: oldestExpense.id },
+      })
+    }
     expenses.forEach(async (expense) => {
       const {
         date,
@@ -165,7 +159,7 @@ export async function registerExpensesInfo(
           optedForInstallmentIR,
           landlinePhone,
           internet,
-          ...field,
+          ...idField,
           mobilePhone,
           publicTransport,
           rent,
@@ -181,12 +175,18 @@ export async function registerExpensesInfo(
         },
       })
     })
-
+    await prisma.finishedRegistration.upsert({
+      where: idField,
+      create: { grupoFamiliar: true, ...idField },
+      update: {
+        despesas: true,
+      }
+    })
 
     return reply.status(201).send()
   } catch (err: any) {
-    if (err instanceof NotAllowedError) {
-      return reply.status(401).send({ message: err.message })
+    if (err instanceof ForbiddenError) {
+      return reply.status(403).send({ message: err.message })
     }
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
