@@ -182,6 +182,8 @@ clientBackup.on('notification', async (msg) => {
             else if (familyMemberIncome.operation == 'Delete') {
                 await deleteFamilyMemberIncomeHDB(familyMemberIncome.data.id)
             }
+            await CalculateMemberAverageIncome((income?.candidate_id || income?.familyMember_id || income?.legalResponsibleId)!, income?.employmentType!)
+
             const incomePerCapita = await CalculateIncomePerCapita(candidateOrResponsible!)
             const openApplications = await getOpenApplications(candidateOrResponsible!);
             for (const application of openApplications) {
@@ -254,7 +256,7 @@ clientBackup.on('notification', async (msg) => {
                 include: { familyMember: true }
 
             })
-            await CalculateMemberAverageIncome(monthlyIncome.data.candidate_id || monthlyIncome.data.familyMember_id || monthlyIncome.data.legalResponsible_id, monthlyIncome.data.incomeSource)
+            await CalculateMemberAverageIncome(monthlyIncome.data.candidate_id || monthlyIncome.data.familyMember_id || monthIncome?.legalResponsibleId, monthlyIncome.data.incomeSource)
             if (monthlyIncome.operation == 'Update') {
                 await updateMonthlyIncomeHDB(monthlyIncome.data.id)
             }
