@@ -29,12 +29,14 @@ export async function getBasicInfo(
     if (candidateOrResponsible?.IsResponsible) {
       result = await prisma.legalResponsible.findUnique({
         where: { id: candidateOrResponsible.UserData.id },
-        include: { IdentityDetails: { select: { address: true, addressNumber: true, city: true, complement: true, neighborhood: true, UF: true, CEP: true } } }
+        include: { IdentityDetails: { select: { address: true, addressNumber: true, city: true, complement: true, neighborhood: true, UF: true, CEP: true } }, user: { select: { email: true } } }
       })
     } else {
       result = await prisma.candidate.findUnique({
         where: { id: candidateOrResponsible.UserData.id },
-        include: { IdentityDetails: { select: { address: true, addressNumber: true, city: true, complement: true, neighborhood: true, UF: true, CEP: true } } }
+        include: {
+          IdentityDetails: { select: { address: true, addressNumber: true, city: true, complement: true, neighborhood: true, UF: true, CEP: true } }, user: { select: { email: true } }
+        }
       })
     }
 
