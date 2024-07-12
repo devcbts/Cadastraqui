@@ -72,7 +72,7 @@ export async function verifyIncomeBankRegistration(CandidateOrResponsibleId: str
         where: idField,
         create: { rendaMensal: update, ...idField },
         update: {
-          saude: update,
+          rendaMensal: update,
         }
     });
 }
