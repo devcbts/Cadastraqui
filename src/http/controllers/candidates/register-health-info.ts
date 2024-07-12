@@ -76,12 +76,7 @@ export async function registerHealthInfo(
       },
     })
 
-    if (CandidateOrResponsible) {
-      await prisma.identityDetails.update({
-        where: (CandidateOrResponsible!.IsResponsible ? { responsible_id: CandidateOrResponsible!.UserData.id } : { candidate_id: CandidateOrResponsible!.UserData.id }),
-        data: { hasSevereDesease: true }
-      })
-    }
+   
     return reply.status(201).send({ id })
 
   } catch (err: any) {
