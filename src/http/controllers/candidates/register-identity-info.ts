@@ -40,9 +40,9 @@ export async function registerIdentityInfo(
     skinColor: SkinColor,
     religion: RELIGION,
     educationLevel: SCHOLARSHIP,
+    hasMedicalReport: z.boolean().default(false),
     specialNeeds: z.union([z.boolean(), z.undefined(), z.null()]),
     specialNeedsDescription: z.union([z.string(), z.undefined(), z.null()]),
-    hasMedicalReport: z.union([z.boolean(), z.undefined(), z.null()]),
     landlinePhone: z.union([z.string(), z.undefined(), z.null()]),
     workPhone: z.union([z.string(), z.undefined(), z.null()]),
     contactNameForMessage: z.union([z.string(), z.undefined(), z.null()]),
@@ -79,6 +79,8 @@ export async function registerIdentityInfo(
     UF: STATES,
     neighborhood: z.string().nullish(),
     city: z.string().nullish(),
+    hasSevereDeseaseOrUsesMedication: z.boolean().default(false),
+    hasBankAccount: z.boolean().default(false),
   })
 
   const {
@@ -100,7 +102,6 @@ export async function registerIdentityInfo(
     educationLevel,
     specialNeeds,
     specialNeedsDescription,
-    hasMedicalReport,
     landlinePhone,
     workPhone,
     contactNameForMessage,
@@ -130,7 +131,10 @@ export async function registerIdentityInfo(
     addressNumber,
     UF,
     city,
-    neighborhood
+    neighborhood,
+    hasSevereDeseaseOrUsesMedication,
+    hasBankAccount,
+    hasMedicalReport
 
   } = userDataSchema.parse(request.body)
 
@@ -184,7 +188,6 @@ export async function registerIdentityInfo(
           ? new Date(documentValidity)
           : undefined,
         enrolledGovernmentProgram,
-        hasMedicalReport,
         incomeSource,
         institutionCNPJ_basic,
         institutionCNPJ_professional,
@@ -209,7 +212,10 @@ export async function registerIdentityInfo(
         city,
         UF,
         CEP,
-        complement
+        complement,
+        hasBankAccount,
+        hasSevereDeseaseOrUsesMedication,
+        hasMedicalReport
       },
     })
     const idFieldRegistration = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }

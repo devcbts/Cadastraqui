@@ -74,6 +74,8 @@ export async function updateFamilyMemberInfo(
     percentageOfScholarship: z.string().optional().nullable(),
     monthlyAmount: z.string().optional().nullable(),
     incomeSource: z.array(IncomeSource).optional().nullable(),
+    hasSevereDeseaseOrUsesMedication: z.boolean(),
+    hasBankAccount: z.boolean(),
   }).partial()
 
   const {
@@ -120,6 +122,8 @@ export async function updateFamilyMemberInfo(
     turnOfEducation,
     workPhone,
     incomeSource,
+    hasSevereDeseaseOrUsesMedication,
+      hasBankAccount,
   } = familyMemberDataSchema.parse(request.body)
 
   try {
@@ -165,6 +169,8 @@ export async function updateFamilyMemberInfo(
       educationLevel,
       email,
       profession,
+      hasSevereDeseaseOrUsesMedication,
+      hasBankAccount,
       ...idField,
       // Campos opcionais são adicionados condicionalmente
       ...(otherRelationship && { otherRelationship }),

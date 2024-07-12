@@ -214,22 +214,24 @@ model EntityDirector {
 }
 
 model IdentityDetails {
-  id                                         String            @id @default(uuid())
-  fullName                                   String
-  socialName                                 String?
-  main_id                                    String?
-  birthDate                                  DateTime
-  gender                                     GENDER
-  nationality                                String
-  natural_city                               String
-  natural_UF                                 COUNTRY
-  CPF                                        String?
-  RG                                         String
-  rgIssuingAuthority                         String
-  rgIssuingState                             String
-  documentType                               DOCUMENT_TYPE?
-  CadUnico                                   Boolean           @default(false)
-  hasSevereDesease                           Boolean           @default(false)
+  id                               String         @id @default(uuid())
+  fullName                         String
+  socialName                       String?
+  main_id                          String?
+  birthDate                        DateTime
+  gender                           GENDER
+  nationality                      String
+  natural_city                     String
+  natural_UF                       COUNTRY
+  CPF                              String?
+  RG                               String
+  rgIssuingAuthority               String
+  rgIssuingState                   String
+  documentType                     DOCUMENT_TYPE?
+  CadUnico                         Boolean        @default(false)
+  hasSevereDeseaseOrUsesMedication Boolean        @default(false)
+  hasBankAccount                   Boolean        @default(false)
+
   documentNumber                             String?
   documentValidity                           DateTime?
   maritalStatus                              MARITAL_STATUS
@@ -320,6 +322,9 @@ model FamilyMember {
   hasScholarship            Boolean?
   percentageOfScholarship   String?
   monthlyAmount             String?
+  hasSevereDeseaseOrUsesMedication Boolean        @default(false)
+  hasBankAccount                   Boolean        @default(false)
+
   candidate_id              String?
   incomeSource              IncomeSource[]
   CreditCard                CreditCard[]
