@@ -72,10 +72,7 @@ export async function updateHealthInfo(
           specificDisease: specificDisease ? specificDisease : undefined,
         },
       })
-      await prisma.identityDetails.update({
-        where: (IsUser.IsResponsible ? {responsible_id: IsUser.UserData.id} : {candidate_id: IsUser.UserData.id}),
-        data: { hasSevereDesease: true }
-      })
+      
       return reply.status(200).send()
   
     } catch (err: any) {

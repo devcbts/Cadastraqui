@@ -14034,7 +14034,8 @@ export namespace Prisma {
     rgIssuingState: string | null
     documentType: $Enums.DOCUMENT_TYPE | null
     CadUnico: boolean | null
-    hasSevereDesease: boolean | null
+    hasSevereDeseaseOrUsesMedication: boolean | null
+    hasBankAccount: boolean | null
     documentNumber: string | null
     documentValidity: Date | null
     maritalStatus: $Enums.MARITAL_STATUS | null
@@ -14092,7 +14093,8 @@ export namespace Prisma {
     rgIssuingState: string | null
     documentType: $Enums.DOCUMENT_TYPE | null
     CadUnico: boolean | null
-    hasSevereDesease: boolean | null
+    hasSevereDeseaseOrUsesMedication: boolean | null
+    hasBankAccount: boolean | null
     documentNumber: string | null
     documentValidity: Date | null
     maritalStatus: $Enums.MARITAL_STATUS | null
@@ -14150,7 +14152,8 @@ export namespace Prisma {
     rgIssuingState: number
     documentType: number
     CadUnico: number
-    hasSevereDesease: number
+    hasSevereDeseaseOrUsesMedication: number
+    hasBankAccount: number
     documentNumber: number
     documentValidity: number
     maritalStatus: number
@@ -14212,7 +14215,8 @@ export namespace Prisma {
     rgIssuingState?: true
     documentType?: true
     CadUnico?: true
-    hasSevereDesease?: true
+    hasSevereDeseaseOrUsesMedication?: true
+    hasBankAccount?: true
     documentNumber?: true
     documentValidity?: true
     maritalStatus?: true
@@ -14270,7 +14274,8 @@ export namespace Prisma {
     rgIssuingState?: true
     documentType?: true
     CadUnico?: true
-    hasSevereDesease?: true
+    hasSevereDeseaseOrUsesMedication?: true
+    hasBankAccount?: true
     documentNumber?: true
     documentValidity?: true
     maritalStatus?: true
@@ -14328,7 +14333,8 @@ export namespace Prisma {
     rgIssuingState?: true
     documentType?: true
     CadUnico?: true
-    hasSevereDesease?: true
+    hasSevereDeseaseOrUsesMedication?: true
+    hasBankAccount?: true
     documentNumber?: true
     documentValidity?: true
     maritalStatus?: true
@@ -14461,7 +14467,8 @@ export namespace Prisma {
     rgIssuingState: string
     documentType: $Enums.DOCUMENT_TYPE | null
     CadUnico: boolean
-    hasSevereDesease: boolean
+    hasSevereDeseaseOrUsesMedication: boolean | null
+    hasBankAccount: boolean | null
     documentNumber: string | null
     documentValidity: Date | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -14538,7 +14545,8 @@ export namespace Prisma {
     rgIssuingState?: boolean
     documentType?: boolean
     CadUnico?: boolean
-    hasSevereDesease?: boolean
+    hasSevereDeseaseOrUsesMedication?: boolean
+    hasBankAccount?: boolean
     documentNumber?: boolean
     documentValidity?: boolean
     maritalStatus?: boolean
@@ -14600,7 +14608,8 @@ export namespace Prisma {
     rgIssuingState?: boolean
     documentType?: boolean
     CadUnico?: boolean
-    hasSevereDesease?: boolean
+    hasSevereDeseaseOrUsesMedication?: boolean
+    hasBankAccount?: boolean
     documentNumber?: boolean
     documentValidity?: boolean
     maritalStatus?: boolean
@@ -14672,7 +14681,8 @@ export namespace Prisma {
       rgIssuingState: string
       documentType: $Enums.DOCUMENT_TYPE | null
       CadUnico: boolean
-      hasSevereDesease: boolean
+      hasSevereDeseaseOrUsesMedication: boolean | null
+      hasBankAccount: boolean | null
       documentNumber: string | null
       documentValidity: Date | null
       maritalStatus: $Enums.MARITAL_STATUS
@@ -15126,7 +15136,8 @@ export namespace Prisma {
     readonly rgIssuingState: FieldRef<"IdentityDetails", 'String'>
     readonly documentType: FieldRef<"IdentityDetails", 'DOCUMENT_TYPE'>
     readonly CadUnico: FieldRef<"IdentityDetails", 'Boolean'>
-    readonly hasSevereDesease: FieldRef<"IdentityDetails", 'Boolean'>
+    readonly hasSevereDeseaseOrUsesMedication: FieldRef<"IdentityDetails", 'Boolean'>
+    readonly hasBankAccount: FieldRef<"IdentityDetails", 'Boolean'>
     readonly documentNumber: FieldRef<"IdentityDetails", 'String'>
     readonly documentValidity: FieldRef<"IdentityDetails", 'DateTime'>
     readonly maritalStatus: FieldRef<"IdentityDetails", 'MARITAL_STATUS'>
@@ -15586,6 +15597,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic: boolean | null
     benefitedFromCebasScholarship_professional: boolean | null
     CadUnico: boolean | null
+    hasSevereDeseaseOrUsesMedication: boolean | null
+    hasBankAccount: boolean | null
     legalResponsibleId: string | null
     application_id: string | null
   }
@@ -15639,6 +15652,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic: boolean | null
     benefitedFromCebasScholarship_professional: boolean | null
     CadUnico: boolean | null
+    hasSevereDeseaseOrUsesMedication: boolean | null
+    hasBankAccount: boolean | null
     legalResponsibleId: string | null
     application_id: string | null
   }
@@ -15692,6 +15707,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic: number
     benefitedFromCebasScholarship_professional: number
     CadUnico: number
+    hasSevereDeseaseOrUsesMedication: number
+    hasBankAccount: number
     incomeSource: number
     legalResponsibleId: number
     application_id: number
@@ -15748,6 +15765,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: true
     benefitedFromCebasScholarship_professional?: true
     CadUnico?: true
+    hasSevereDeseaseOrUsesMedication?: true
+    hasBankAccount?: true
     legalResponsibleId?: true
     application_id?: true
   }
@@ -15801,6 +15820,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: true
     benefitedFromCebasScholarship_professional?: true
     CadUnico?: true
+    hasSevereDeseaseOrUsesMedication?: true
+    hasBankAccount?: true
     legalResponsibleId?: true
     application_id?: true
   }
@@ -15854,6 +15875,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: true
     benefitedFromCebasScholarship_professional?: true
     CadUnico?: true
+    hasSevereDeseaseOrUsesMedication?: true
+    hasBankAccount?: true
     incomeSource?: true
     legalResponsibleId?: true
     application_id?: true
@@ -15981,6 +16004,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic: boolean | null
     benefitedFromCebasScholarship_professional: boolean | null
     CadUnico: boolean | null
+    hasSevereDeseaseOrUsesMedication: boolean | null
+    hasBankAccount: boolean | null
     incomeSource: $Enums.IncomeSource[]
     legalResponsibleId: string | null
     application_id: string
@@ -16052,6 +16077,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean
     benefitedFromCebasScholarship_professional?: boolean
     CadUnico?: boolean
+    hasSevereDeseaseOrUsesMedication?: boolean
+    hasBankAccount?: boolean
     incomeSource?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
@@ -16120,6 +16147,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean
     benefitedFromCebasScholarship_professional?: boolean
     CadUnico?: boolean
+    hasSevereDeseaseOrUsesMedication?: boolean
+    hasBankAccount?: boolean
     incomeSource?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
@@ -16209,6 +16238,8 @@ export namespace Prisma {
       benefitedFromCebasScholarship_basic: boolean | null
       benefitedFromCebasScholarship_professional: boolean | null
       CadUnico: boolean | null
+      hasSevereDeseaseOrUsesMedication: boolean | null
+      hasBankAccount: boolean | null
       incomeSource: $Enums.IncomeSource[]
       legalResponsibleId: string | null
       application_id: string
@@ -16679,6 +16710,8 @@ export namespace Prisma {
     readonly benefitedFromCebasScholarship_basic: FieldRef<"FamilyMember", 'Boolean'>
     readonly benefitedFromCebasScholarship_professional: FieldRef<"FamilyMember", 'Boolean'>
     readonly CadUnico: FieldRef<"FamilyMember", 'Boolean'>
+    readonly hasSevereDeseaseOrUsesMedication: FieldRef<"FamilyMember", 'Boolean'>
+    readonly hasBankAccount: FieldRef<"FamilyMember", 'Boolean'>
     readonly incomeSource: FieldRef<"FamilyMember", 'IncomeSource[]'>
     readonly legalResponsibleId: FieldRef<"FamilyMember", 'String'>
     readonly application_id: FieldRef<"FamilyMember", 'String'>
@@ -40443,7 +40476,8 @@ export namespace Prisma {
     rgIssuingState: 'rgIssuingState',
     documentType: 'documentType',
     CadUnico: 'CadUnico',
-    hasSevereDesease: 'hasSevereDesease',
+    hasSevereDeseaseOrUsesMedication: 'hasSevereDeseaseOrUsesMedication',
+    hasBankAccount: 'hasBankAccount',
     documentNumber: 'documentNumber',
     documentValidity: 'documentValidity',
     maritalStatus: 'maritalStatus',
@@ -40539,6 +40573,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic: 'benefitedFromCebasScholarship_basic',
     benefitedFromCebasScholarship_professional: 'benefitedFromCebasScholarship_professional',
     CadUnico: 'CadUnico',
+    hasSevereDeseaseOrUsesMedication: 'hasSevereDeseaseOrUsesMedication',
+    hasBankAccount: 'hasBankAccount',
     incomeSource: 'incomeSource',
     legalResponsibleId: 'legalResponsibleId',
     application_id: 'application_id'
@@ -42401,7 +42437,8 @@ export namespace Prisma {
     rgIssuingState?: StringFilter<"IdentityDetails"> | string
     documentType?: EnumDOCUMENT_TYPENullableFilter<"IdentityDetails"> | $Enums.DOCUMENT_TYPE | null
     CadUnico?: BoolFilter<"IdentityDetails"> | boolean
-    hasSevereDesease?: BoolFilter<"IdentityDetails"> | boolean
+    hasSevereDeseaseOrUsesMedication?: BoolNullableFilter<"IdentityDetails"> | boolean | null
+    hasBankAccount?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     documentNumber?: StringNullableFilter<"IdentityDetails"> | string | null
     documentValidity?: DateTimeNullableFilter<"IdentityDetails"> | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFilter<"IdentityDetails"> | $Enums.MARITAL_STATUS
@@ -42463,7 +42500,8 @@ export namespace Prisma {
     rgIssuingState?: SortOrder
     documentType?: SortOrderInput | SortOrder
     CadUnico?: SortOrder
-    hasSevereDesease?: SortOrder
+    hasSevereDeseaseOrUsesMedication?: SortOrderInput | SortOrder
+    hasBankAccount?: SortOrderInput | SortOrder
     documentNumber?: SortOrderInput | SortOrder
     documentValidity?: SortOrderInput | SortOrder
     maritalStatus?: SortOrder
@@ -42529,7 +42567,8 @@ export namespace Prisma {
     rgIssuingState?: StringFilter<"IdentityDetails"> | string
     documentType?: EnumDOCUMENT_TYPENullableFilter<"IdentityDetails"> | $Enums.DOCUMENT_TYPE | null
     CadUnico?: BoolFilter<"IdentityDetails"> | boolean
-    hasSevereDesease?: BoolFilter<"IdentityDetails"> | boolean
+    hasSevereDeseaseOrUsesMedication?: BoolNullableFilter<"IdentityDetails"> | boolean | null
+    hasBankAccount?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     documentNumber?: StringNullableFilter<"IdentityDetails"> | string | null
     documentValidity?: DateTimeNullableFilter<"IdentityDetails"> | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFilter<"IdentityDetails"> | $Enums.MARITAL_STATUS
@@ -42590,7 +42629,8 @@ export namespace Prisma {
     rgIssuingState?: SortOrder
     documentType?: SortOrderInput | SortOrder
     CadUnico?: SortOrder
-    hasSevereDesease?: SortOrder
+    hasSevereDeseaseOrUsesMedication?: SortOrderInput | SortOrder
+    hasBankAccount?: SortOrderInput | SortOrder
     documentNumber?: SortOrderInput | SortOrder
     documentValidity?: SortOrderInput | SortOrder
     maritalStatus?: SortOrder
@@ -42656,7 +42696,8 @@ export namespace Prisma {
     rgIssuingState?: StringWithAggregatesFilter<"IdentityDetails"> | string
     documentType?: EnumDOCUMENT_TYPENullableWithAggregatesFilter<"IdentityDetails"> | $Enums.DOCUMENT_TYPE | null
     CadUnico?: BoolWithAggregatesFilter<"IdentityDetails"> | boolean
-    hasSevereDesease?: BoolWithAggregatesFilter<"IdentityDetails"> | boolean
+    hasSevereDeseaseOrUsesMedication?: BoolNullableWithAggregatesFilter<"IdentityDetails"> | boolean | null
+    hasBankAccount?: BoolNullableWithAggregatesFilter<"IdentityDetails"> | boolean | null
     documentNumber?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     documentValidity?: DateTimeNullableWithAggregatesFilter<"IdentityDetails"> | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSWithAggregatesFilter<"IdentityDetails"> | $Enums.MARITAL_STATUS
@@ -42752,6 +42793,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: BoolNullableFilter<"FamilyMember"> | boolean | null
     benefitedFromCebasScholarship_professional?: BoolNullableFilter<"FamilyMember"> | boolean | null
     CadUnico?: BoolNullableFilter<"FamilyMember"> | boolean | null
+    hasSevereDeseaseOrUsesMedication?: BoolNullableFilter<"FamilyMember"> | boolean | null
+    hasBankAccount?: BoolNullableFilter<"FamilyMember"> | boolean | null
     incomeSource?: EnumIncomeSourceNullableListFilter<"FamilyMember">
     legalResponsibleId?: StringNullableFilter<"FamilyMember"> | string | null
     application_id?: StringFilter<"FamilyMember"> | string
@@ -42819,6 +42862,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: SortOrderInput | SortOrder
     benefitedFromCebasScholarship_professional?: SortOrderInput | SortOrder
     CadUnico?: SortOrderInput | SortOrder
+    hasSevereDeseaseOrUsesMedication?: SortOrderInput | SortOrder
+    hasBankAccount?: SortOrderInput | SortOrder
     incomeSource?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
@@ -42890,6 +42935,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: BoolNullableFilter<"FamilyMember"> | boolean | null
     benefitedFromCebasScholarship_professional?: BoolNullableFilter<"FamilyMember"> | boolean | null
     CadUnico?: BoolNullableFilter<"FamilyMember"> | boolean | null
+    hasSevereDeseaseOrUsesMedication?: BoolNullableFilter<"FamilyMember"> | boolean | null
+    hasBankAccount?: BoolNullableFilter<"FamilyMember"> | boolean | null
     incomeSource?: EnumIncomeSourceNullableListFilter<"FamilyMember">
     legalResponsibleId?: StringNullableFilter<"FamilyMember"> | string | null
     application_id?: StringFilter<"FamilyMember"> | string
@@ -42957,6 +43004,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: SortOrderInput | SortOrder
     benefitedFromCebasScholarship_professional?: SortOrderInput | SortOrder
     CadUnico?: SortOrderInput | SortOrder
+    hasSevereDeseaseOrUsesMedication?: SortOrderInput | SortOrder
+    hasBankAccount?: SortOrderInput | SortOrder
     incomeSource?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
@@ -43017,6 +43066,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: BoolNullableWithAggregatesFilter<"FamilyMember"> | boolean | null
     benefitedFromCebasScholarship_professional?: BoolNullableWithAggregatesFilter<"FamilyMember"> | boolean | null
     CadUnico?: BoolNullableWithAggregatesFilter<"FamilyMember"> | boolean | null
+    hasSevereDeseaseOrUsesMedication?: BoolNullableWithAggregatesFilter<"FamilyMember"> | boolean | null
+    hasBankAccount?: BoolNullableWithAggregatesFilter<"FamilyMember"> | boolean | null
     incomeSource?: EnumIncomeSourceNullableListFilter<"FamilyMember">
     legalResponsibleId?: StringNullableWithAggregatesFilter<"FamilyMember"> | string | null
     application_id?: StringWithAggregatesFilter<"FamilyMember"> | string
@@ -46158,7 +46209,8 @@ export namespace Prisma {
     rgIssuingState: string
     documentType?: $Enums.DOCUMENT_TYPE | null
     CadUnico?: boolean
-    hasSevereDesease?: boolean
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -46218,7 +46270,8 @@ export namespace Prisma {
     rgIssuingState: string
     documentType?: $Enums.DOCUMENT_TYPE | null
     CadUnico?: boolean
-    hasSevereDesease?: boolean
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -46278,7 +46331,8 @@ export namespace Prisma {
     rgIssuingState?: StringFieldUpdateOperationsInput | string
     documentType?: NullableEnumDOCUMENT_TYPEFieldUpdateOperationsInput | $Enums.DOCUMENT_TYPE | null
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
-    hasSevereDesease?: BoolFieldUpdateOperationsInput | boolean
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -46338,7 +46392,8 @@ export namespace Prisma {
     rgIssuingState?: StringFieldUpdateOperationsInput | string
     documentType?: NullableEnumDOCUMENT_TYPEFieldUpdateOperationsInput | $Enums.DOCUMENT_TYPE | null
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
-    hasSevereDesease?: BoolFieldUpdateOperationsInput | boolean
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -46398,7 +46453,8 @@ export namespace Prisma {
     rgIssuingState: string
     documentType?: $Enums.DOCUMENT_TYPE | null
     CadUnico?: boolean
-    hasSevereDesease?: boolean
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -46458,7 +46514,8 @@ export namespace Prisma {
     rgIssuingState?: StringFieldUpdateOperationsInput | string
     documentType?: NullableEnumDOCUMENT_TYPEFieldUpdateOperationsInput | $Enums.DOCUMENT_TYPE | null
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
-    hasSevereDesease?: BoolFieldUpdateOperationsInput | boolean
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -46516,7 +46573,8 @@ export namespace Prisma {
     rgIssuingState?: StringFieldUpdateOperationsInput | string
     documentType?: NullableEnumDOCUMENT_TYPEFieldUpdateOperationsInput | $Enums.DOCUMENT_TYPE | null
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
-    hasSevereDesease?: BoolFieldUpdateOperationsInput | boolean
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -46608,6 +46666,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
@@ -46674,6 +46734,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -46738,6 +46800,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
@@ -46804,6 +46868,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -46869,6 +46935,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -46922,6 +46990,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
   }
@@ -46975,6 +47045,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -50307,7 +50379,8 @@ export namespace Prisma {
     rgIssuingState?: SortOrder
     documentType?: SortOrder
     CadUnico?: SortOrder
-    hasSevereDesease?: SortOrder
+    hasSevereDeseaseOrUsesMedication?: SortOrder
+    hasBankAccount?: SortOrder
     documentNumber?: SortOrder
     documentValidity?: SortOrder
     maritalStatus?: SortOrder
@@ -50367,7 +50440,8 @@ export namespace Prisma {
     rgIssuingState?: SortOrder
     documentType?: SortOrder
     CadUnico?: SortOrder
-    hasSevereDesease?: SortOrder
+    hasSevereDeseaseOrUsesMedication?: SortOrder
+    hasBankAccount?: SortOrder
     documentNumber?: SortOrder
     documentValidity?: SortOrder
     maritalStatus?: SortOrder
@@ -50425,7 +50499,8 @@ export namespace Prisma {
     rgIssuingState?: SortOrder
     documentType?: SortOrder
     CadUnico?: SortOrder
-    hasSevereDesease?: SortOrder
+    hasSevereDeseaseOrUsesMedication?: SortOrder
+    hasBankAccount?: SortOrder
     documentNumber?: SortOrder
     documentValidity?: SortOrder
     maritalStatus?: SortOrder
@@ -50632,6 +50707,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: SortOrder
     benefitedFromCebasScholarship_professional?: SortOrder
     CadUnico?: SortOrder
+    hasSevereDeseaseOrUsesMedication?: SortOrder
+    hasBankAccount?: SortOrder
     incomeSource?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
@@ -50686,6 +50763,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: SortOrder
     benefitedFromCebasScholarship_professional?: SortOrder
     CadUnico?: SortOrder
+    hasSevereDeseaseOrUsesMedication?: SortOrder
+    hasBankAccount?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
   }
@@ -50739,6 +50818,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: SortOrder
     benefitedFromCebasScholarship_professional?: SortOrder
     CadUnico?: SortOrder
+    hasSevereDeseaseOrUsesMedication?: SortOrder
+    hasBankAccount?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
   }
@@ -58001,7 +58082,8 @@ export namespace Prisma {
     rgIssuingState: string
     documentType?: $Enums.DOCUMENT_TYPE | null
     CadUnico?: boolean
-    hasSevereDesease?: boolean
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -58060,7 +58142,8 @@ export namespace Prisma {
     rgIssuingState: string
     documentType?: $Enums.DOCUMENT_TYPE | null
     CadUnico?: boolean
-    hasSevereDesease?: boolean
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -58412,6 +58495,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
@@ -58476,6 +58561,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -58943,7 +59030,8 @@ export namespace Prisma {
     rgIssuingState?: StringFilter<"IdentityDetails"> | string
     documentType?: EnumDOCUMENT_TYPENullableFilter<"IdentityDetails"> | $Enums.DOCUMENT_TYPE | null
     CadUnico?: BoolFilter<"IdentityDetails"> | boolean
-    hasSevereDesease?: BoolFilter<"IdentityDetails"> | boolean
+    hasSevereDeseaseOrUsesMedication?: BoolNullableFilter<"IdentityDetails"> | boolean | null
+    hasBankAccount?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     documentNumber?: StringNullableFilter<"IdentityDetails"> | string | null
     documentValidity?: DateTimeNullableFilter<"IdentityDetails"> | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFilter<"IdentityDetails"> | $Enums.MARITAL_STATUS
@@ -59285,6 +59373,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: BoolNullableFilter<"FamilyMember"> | boolean | null
     benefitedFromCebasScholarship_professional?: BoolNullableFilter<"FamilyMember"> | boolean | null
     CadUnico?: BoolNullableFilter<"FamilyMember"> | boolean | null
+    hasSevereDeseaseOrUsesMedication?: BoolNullableFilter<"FamilyMember"> | boolean | null
+    hasBankAccount?: BoolNullableFilter<"FamilyMember"> | boolean | null
     incomeSource?: EnumIncomeSourceNullableListFilter<"FamilyMember">
     legalResponsibleId?: StringNullableFilter<"FamilyMember"> | string | null
     application_id?: StringFilter<"FamilyMember"> | string
@@ -59815,7 +59905,8 @@ export namespace Prisma {
     rgIssuingState: string
     documentType?: $Enums.DOCUMENT_TYPE | null
     CadUnico?: boolean
-    hasSevereDesease?: boolean
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -59874,7 +59965,8 @@ export namespace Prisma {
     rgIssuingState: string
     documentType?: $Enums.DOCUMENT_TYPE | null
     CadUnico?: boolean
-    hasSevereDesease?: boolean
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -60085,6 +60177,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
@@ -60150,6 +60244,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput
@@ -64357,6 +64453,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
@@ -64422,6 +64520,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -64647,6 +64747,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
@@ -64712,6 +64814,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -64933,6 +65037,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
@@ -64998,6 +65104,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -65223,6 +65331,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
@@ -65288,6 +65398,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -65509,6 +65621,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
@@ -65574,6 +65688,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -65799,6 +65915,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
@@ -65864,6 +65982,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -66456,6 +66576,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
@@ -66521,6 +66643,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -66752,6 +66876,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
@@ -66817,6 +66943,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -67032,6 +67160,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
@@ -67097,6 +67227,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -67328,6 +67460,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
@@ -67393,6 +67527,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -67608,6 +67744,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutFamilyMemberInput
@@ -67673,6 +67811,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -67904,6 +68044,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutFamilyMemberNestedInput
@@ -67969,6 +68111,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -68184,6 +68328,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
@@ -68249,6 +68395,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -68480,6 +68628,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
@@ -68545,6 +68695,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -68693,6 +68845,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
@@ -68758,6 +68912,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -69017,6 +69173,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
@@ -69082,6 +69240,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -69319,6 +69479,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
@@ -69384,6 +69546,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -69640,6 +69804,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
@@ -69705,6 +69871,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -70030,6 +70198,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
@@ -70095,6 +70265,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -70326,6 +70498,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
@@ -70391,6 +70565,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -72562,6 +72738,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
@@ -72627,6 +72805,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -72747,6 +72927,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
@@ -72812,6 +72994,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -72984,7 +73168,8 @@ export namespace Prisma {
     rgIssuingState: string
     documentType?: $Enums.DOCUMENT_TYPE | null
     CadUnico?: boolean
-    hasSevereDesease?: boolean
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -73140,6 +73325,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
@@ -73532,7 +73719,8 @@ export namespace Prisma {
     rgIssuingState?: StringFieldUpdateOperationsInput | string
     documentType?: NullableEnumDOCUMENT_TYPEFieldUpdateOperationsInput | $Enums.DOCUMENT_TYPE | null
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
-    hasSevereDesease?: BoolFieldUpdateOperationsInput | boolean
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -73591,7 +73779,8 @@ export namespace Prisma {
     rgIssuingState?: StringFieldUpdateOperationsInput | string
     documentType?: NullableEnumDOCUMENT_TYPEFieldUpdateOperationsInput | $Enums.DOCUMENT_TYPE | null
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
-    hasSevereDesease?: BoolFieldUpdateOperationsInput | boolean
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -73650,7 +73839,8 @@ export namespace Prisma {
     rgIssuingState?: StringFieldUpdateOperationsInput | string
     documentType?: NullableEnumDOCUMENT_TYPEFieldUpdateOperationsInput | $Enums.DOCUMENT_TYPE | null
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
-    hasSevereDesease?: BoolFieldUpdateOperationsInput | boolean
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -73938,6 +74128,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
@@ -74002,6 +74194,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -74066,6 +74260,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
@@ -74344,7 +74540,8 @@ export namespace Prisma {
     rgIssuingState: string
     documentType?: $Enums.DOCUMENT_TYPE | null
     CadUnico?: boolean
-    hasSevereDesease?: boolean
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -74465,6 +74662,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: boolean | null
     benefitedFromCebasScholarship_professional?: boolean | null
     CadUnico?: boolean | null
+    hasSevereDeseaseOrUsesMedication?: boolean | null
+    hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
   }
@@ -74715,7 +74914,8 @@ export namespace Prisma {
     rgIssuingState?: StringFieldUpdateOperationsInput | string
     documentType?: NullableEnumDOCUMENT_TYPEFieldUpdateOperationsInput | $Enums.DOCUMENT_TYPE | null
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
-    hasSevereDesease?: BoolFieldUpdateOperationsInput | boolean
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -74774,7 +74974,8 @@ export namespace Prisma {
     rgIssuingState?: StringFieldUpdateOperationsInput | string
     documentType?: NullableEnumDOCUMENT_TYPEFieldUpdateOperationsInput | $Enums.DOCUMENT_TYPE | null
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
-    hasSevereDesease?: BoolFieldUpdateOperationsInput | boolean
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -74833,7 +75034,8 @@ export namespace Prisma {
     rgIssuingState?: StringFieldUpdateOperationsInput | string
     documentType?: NullableEnumDOCUMENT_TYPEFieldUpdateOperationsInput | $Enums.DOCUMENT_TYPE | null
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
-    hasSevereDesease?: BoolFieldUpdateOperationsInput | boolean
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -75043,6 +75245,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
@@ -75108,6 +75312,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
     CreditCard?: CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput
@@ -75172,6 +75378,8 @@ export namespace Prisma {
     benefitedFromCebasScholarship_basic?: NullableBoolFieldUpdateOperationsInput | boolean | null
     benefitedFromCebasScholarship_professional?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CadUnico?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
   }

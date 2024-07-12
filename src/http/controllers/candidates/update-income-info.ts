@@ -9,7 +9,7 @@ export default async function updateIncome(
     response: FastifyReply
 ) {
     const schema = z.object({
-        id: z.string(),
+        id: z.string().nullish(),
         // IncomeSource: IncomeSource,
         quantity: z.number().default(0),
         incomeSource: IncomeSource,
@@ -43,6 +43,7 @@ export default async function updateIncome(
             reversalValue: z.number().default(0),
             compensationValue: z.number().default(0),
             judicialPensionValue: z.number().default(0),
+            // file_document: z.instanceof(File).nullish()
         })).default([])
     })
     const paramsSchema = z.object({
@@ -53,8 +54,8 @@ export default async function updateIncome(
         const { id: memberId } = paramsSchema.parse(request.params)
         const { id, incomes, quantity, incomeSource, ...rest } = schema.parse(request.body)
         const isCandidateOrResponsible = await SelectCandidateResponsible(memberId)
+        let monthlyIncomesId: string[] = []
         // Verifica se existe um familiar cadastrado com o owner_id
-
         const idField = isCandidateOrResponsible ? (isCandidateOrResponsible.IsResponsible ? { legalResponsibleId: memberId } : { candidate_id: memberId }) : { familyMember_id: memberId };
         await prisma.$transaction(async (tsPrisma) => {
             await Promise.all(incomes.map(async (income) => {
@@ -73,6 +74,7 @@ export default async function updateIncome(
                     }
                     // Armazena informações acerca da renda mensal no banco de dados
                     if (income.id) {
+                        monthlyIncomesId.push(income.id)
                         await tsPrisma.monthlyIncome.update({
                             where: { id: income.id },
                             data: {
@@ -95,7 +97,7 @@ export default async function updateIncome(
                             }
                         })
                     } else {
-                        await tsPrisma.monthlyIncome.create({
+                        const newIncome = await tsPrisma.monthlyIncome.create({
                             data: {
                                 grossAmount: income.grossAmount,
                                 liquidAmount,
@@ -117,12 +119,16 @@ export default async function updateIncome(
                                 ...idField
                             }
                         })
+                        monthlyIncomesId.push(newIncome.id)
+
                     }
 
                 } else {
                     const total = (income.dividends || 0) + (income.proLabore || 0)
                     // Armazena informações acerca da renda mensal no banco de dados (Empresário)
                     if (income.id) {
+                        monthlyIncomesId.push(income.id)
+
                         await tsPrisma.monthlyIncome.update({
                             where: { id: income.id },
                             data: {
@@ -145,7 +151,7 @@ export default async function updateIncome(
                             }
                         })
                     } else {
-                        await tsPrisma.monthlyIncome.create({
+                        const newIncome = await tsPrisma.monthlyIncome.create({
                             data: {
                                 ...idField,
                                 incomeSource,
@@ -167,6 +173,8 @@ export default async function updateIncome(
                                 total,
                             }
                         })
+                        monthlyIncomesId.push(newIncome.id)
+
                     }
 
                 }
@@ -181,30 +189,60 @@ export default async function updateIncome(
             }, 0);
 
             const avgIncome = validIncomes.length > 0 ? totalAmount / quantity : 0;
+            let income;
+            if (id) {
+                income = await tsPrisma.familyMemberIncome.update({
+                    where: { id },
+                    data: {
+                        averageIncome: avgIncome.toString(),
+                        startDate: rest.startDate ? new Date(rest.startDate) : undefined,
+                        fantasyName: rest.fantasyName,
+                        CNPJ: rest.CNPJ,
+                        socialReason: rest.socialReason,
+                        quantity,
+                        financialAssistantCPF: rest.financialAssistantCPF,
+                        admissionDate: rest.admissionDate ? new Date(rest.admissionDate) : undefined,
+                        position: rest.position,
+                        payingSource: rest.payingSource,
+                        payingSourcePhone: rest.payingSourcePhone,
+                        receivesUnemployment: rest.receivesUnemployment,
+                        parcels: rest.parcels,
+                        firstParcelDate: rest.firstParcelDate ? new Date(rest.firstParcelDate) : undefined,
+                        parcelValue: rest.parcelValue,
+                    },
+                })
+            } else {
+                income = await tsPrisma.familyMemberIncome.create({
+                    data: {
+                        ...idField,
+                        employmentType: incomeSource,
+                        averageIncome: avgIncome.toString(),
+                        startDate: rest.startDate ? new Date(rest.startDate) : undefined,
+                        fantasyName: rest.fantasyName,
+                        CNPJ: rest.CNPJ,
+                        socialReason: rest.socialReason,
+                        quantity,
+                        financialAssistantCPF: rest.financialAssistantCPF,
+                        admissionDate: rest.admissionDate ? new Date(rest.admissionDate) : undefined,
+                        position: rest.position,
+                        payingSource: rest.payingSource,
+                        payingSourcePhone: rest.payingSourcePhone,
+                        receivesUnemployment: rest.receivesUnemployment,
+                        parcels: rest.parcels,
+                        firstParcelDate: rest.firstParcelDate ? new Date(rest.firstParcelDate) : undefined,
+                        parcelValue: rest.parcelValue,
 
-            await tsPrisma.familyMemberIncome.update({
-                where: { id },
-                data: {
-                    averageIncome: avgIncome.toString(),
-                    startDate: rest.startDate ? new Date(rest.startDate) : undefined,
-                    fantasyName: rest.fantasyName,
-                    CNPJ: rest.CNPJ,
-                    socialReason: rest.socialReason,
-                    quantity,
-                    financialAssistantCPF: rest.financialAssistantCPF,
-                    admissionDate: rest.admissionDate ? new Date(rest.admissionDate) : undefined,
-                    position: rest.position,
-                    payingSource: rest.payingSource,
-                    payingSourcePhone: rest.payingSourcePhone,
-                    receivesUnemployment: rest.receivesUnemployment,
-                    parcels: rest.parcels,
-                    firstParcelDate: rest.firstParcelDate ? new Date(rest.firstParcelDate) : undefined,
-                    parcelValue: rest.parcelValue,
-                },
+                    }
+                })
+
+            }
+
+            return response.status(200).send({
+                incomeId: income.id,
+                monthlyIncomesId
             })
         })
 
-        return response.status(204).send()
     } catch (err) {
         console.log(err)
         return response.status(400).send({ message: err })

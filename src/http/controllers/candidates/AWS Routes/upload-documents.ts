@@ -65,7 +65,9 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
                     throw new NotAllowedError();
                 }
             }
-            fs.unlinkSync(part.filename)
+            if (fs.existsSync(part.filename)) {
+                fs.unlinkSync(part.filename)
+            }
         }
 
 
@@ -78,6 +80,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
         } if (error instanceof ResourceNotFoundError) {
             return reply.status(404).send({ error });
         }
+        console.log(error)
         return reply.status(400).send({ error });
     }
 }

@@ -130,7 +130,6 @@ export async function updateIdentityInfo(
     educationLevel: z.union([SCHOLARSHIP, z.null()]),
     specialNeeds: z.union([z.boolean(), z.null()]),
     specialNeedsDescription: z.union([z.string(), z.null()]),
-    hasMedicalReport: z.union([z.boolean(), z.null()]),
     landlinePhone: z.union([z.string(), z.null()]),
     workPhone: z.union([z.string(), z.null()]),
     contactNameForMessage: z.union([z.string(), z.null()]),
@@ -168,6 +167,10 @@ export async function updateIdentityInfo(
     UF: z.string().nullish(),
     email: z.string().email(),
     complement: z.string().nullish(),
+    hasSevereDeseaseOrUsesMedication: z.boolean().nullish(),
+    hasBankAccount: z.boolean().nullish(),
+    hasMedicalReport: z.boolean().nullish(),
+
   }).partial()
 
   const {
@@ -189,7 +192,6 @@ export async function updateIdentityInfo(
     educationLevel,
     specialNeeds,
     specialNeedsDescription,
-    hasMedicalReport,
     landlinePhone,
     workPhone,
     contactNameForMessage,
@@ -220,7 +222,10 @@ export async function updateIdentityInfo(
     city,
     UF,
     email,
-    complement
+    complement,
+    hasSevereDeseaseOrUsesMedication,
+    hasBankAccount,
+    hasMedicalReport
 
   } = userDataSchema.parse(request.body)
 
@@ -267,7 +272,6 @@ export async function updateIdentityInfo(
         ? new Date(documentValidity)
         : null,
       enrolledGovernmentProgram,
-      hasMedicalReport,
       incomeSource,
       institutionCNPJ_basic,
       institutionCNPJ_professional,
@@ -292,7 +296,10 @@ export async function updateIdentityInfo(
       addressNumber,
       neighborhood,
       email,
-      complement
+      complement,
+      hasSevereDeseaseOrUsesMedication,
+      hasBankAccount,
+      hasMedicalReport
 
     }
 

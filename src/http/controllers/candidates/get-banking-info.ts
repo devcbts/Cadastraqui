@@ -25,12 +25,31 @@ export async function getBankingInfo(
             throw new ForbiddenError()
         }
         let bankAccounts
+        let hasBankAccount = null
+        // identify if user is (candidate or responsible) or family member
+        let isUser = null;
         if (_id) {
-
+            const getCurrentMember = await SelectCandidateResponsible(_id)
             // Verifica se existe uma conta bancária cadastrada com o _id
             bankAccounts = await prisma.bankAccount.findMany({
                 where: { OR: [{ familyMember_id: _id }, { candidate_id: _id }, { legalResponsibleId: _id }] },
+                include: { candidate: { include: { IdentityDetails: true } }, familyMember: true, LegalResponsible: { include: { IdentityDetails: true } } }
             })
+            // family member
+            if (getCurrentMember === null) {
+                const member = await prisma.familyMember.findUnique({
+                    where: { id: _id }
+                })
+                hasBankAccount = member?.hasBankAccount
+                isUser = false
+            } else {
+                // candidate or legal responsible
+                const user = await prisma.identityDetails.findFirst({
+                    where: { OR: [{ candidate_id: _id }, { responsible_id: _id }] }
+                })
+                hasBankAccount = user?.hasBankAccount
+                isUser = true
+            }
             bankAccounts = await Promise.all(bankAccounts.map(async (account) => {
                 const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, `statement/${_id}/${account.id}`)
                 return { ...account, urls }
@@ -82,7 +101,7 @@ export async function getBankingInfo(
         }
         console.log('accounts', bankAccounts)
 
-        return reply.status(200).send({ bankAccounts })
+        return reply.status(200).send({ bankAccounts, hasBankAccount, isUser })
     } catch (err: any) {
         if (err instanceof ResourceNotFoundError) {
             return reply.status(404).send({ message: err.message })

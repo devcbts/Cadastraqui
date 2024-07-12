@@ -229,7 +229,8 @@ exports.Prisma.IdentityDetailsScalarFieldEnum = {
   rgIssuingState: 'rgIssuingState',
   documentType: 'documentType',
   CadUnico: 'CadUnico',
-  hasSevereDesease: 'hasSevereDesease',
+  hasSevereDeseaseOrUsesMedication: 'hasSevereDeseaseOrUsesMedication',
+  hasBankAccount: 'hasBankAccount',
   documentNumber: 'documentNumber',
   documentValidity: 'documentValidity',
   maritalStatus: 'maritalStatus',
@@ -322,6 +323,8 @@ exports.Prisma.FamilyMemberScalarFieldEnum = {
   benefitedFromCebasScholarship_basic: 'benefitedFromCebasScholarship_basic',
   benefitedFromCebasScholarship_professional: 'benefitedFromCebasScholarship_professional',
   CadUnico: 'CadUnico',
+  hasSevereDeseaseOrUsesMedication: 'hasSevereDeseaseOrUsesMedication',
+  hasBankAccount: 'hasBankAccount',
   incomeSource: 'incomeSource',
   legalResponsibleId: 'legalResponsibleId',
   application_id: 'application_id'

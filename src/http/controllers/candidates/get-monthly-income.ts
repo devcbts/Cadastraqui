@@ -72,7 +72,7 @@ export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: F
 
 
     const urls = await getSectionDocumentsPDF(_id, 'monthly-income')
-
+    console.log('MONTHLY INCOME', _id)
     const incomeBySource = monthlyIncomes.reduce<IncomeBySourceAccumulator>((acc, income) => {
       const source = income.incomeSource ? income.incomeSource : 'Unknown';
       acc[source] = acc[source] || [];

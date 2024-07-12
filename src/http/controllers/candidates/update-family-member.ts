@@ -78,6 +78,8 @@ export async function updateFamilyMemberInfo(
     percentageOfScholarship: z.string().optional().nullable(),
     monthlyAmount: z.string().optional().nullable(),
     incomeSource: z.array(IncomeSource).optional().nullable(),
+    hasSevereDeseaseOrUsesMedication: z.boolean(),
+    hasBankAccount: z.boolean(),
   }).partial()
 
   const {
@@ -127,7 +129,9 @@ export async function updateFamilyMemberInfo(
     attendedPublicHighSchool,
     benefitedFromCebasScholarship_basic,
     benefitedFromCebasScholarship_professional,
-    CadUnico
+    CadUnico,
+    hasSevereDeseaseOrUsesMedication,
+    hasBankAccount,
   } = familyMemberDataSchema.parse(request.body)
 
   try {
@@ -179,6 +183,8 @@ export async function updateFamilyMemberInfo(
       enrolledGovernmentProgram,
       NIS,
       CadUnico,
+      hasSevereDeseaseOrUsesMedication,
+      hasBankAccount,
       ...idField,
       // Campos opcionais são adicionados condicionalmente
       ...(otherRelationship && { otherRelationship }),

@@ -79,6 +79,8 @@ export async function registerFamilyMemberInfo(
     percentageOfScholarship: z.string().optional(),
     monthlyAmount: z.string().optional(),
     incomeSource: z.array(IncomeSource).optional(),
+    hasSevereDeseaseOrUsesMedication: z.boolean().default(false),
+    hasBankAccount: z.boolean().default(false),
   })
   console.log('====================================')
   console.log(request.body)
@@ -129,7 +131,9 @@ export async function registerFamilyMemberInfo(
     attendedPublicHighSchool,
     benefitedFromCebasScholarship_basic,
     benefitedFromCebasScholarship_professional,
-    CadUnico
+    CadUnico,
+    hasSevereDeseaseOrUsesMedication,
+    hasBankAccount,
   } = familyMemberDataSchema.parse(request.body)
 
   try {
@@ -190,6 +194,8 @@ export async function registerFamilyMemberInfo(
       benefitedFromCebasScholarship_professional,
       enrolledGovernmentProgram,
       CadUnico,
+      hasSevereDeseaseOrUsesMedication,
+      hasBankAccount,
       ...idField,
       // Campos opcionais são adicionados condicionalmente
       ...(otherRelationship && { otherRelationship }),

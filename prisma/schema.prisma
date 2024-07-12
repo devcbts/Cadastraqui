@@ -208,21 +208,23 @@ model EntityDirector {
 }
 
 model IdentityDetails {
-  id                                         String            @id @default(uuid())
-  fullName                                   String
-  socialName                                 String?
-  birthDate                                  DateTime
-  gender                                     GENDER
-  nationality                                String
-  natural_city                               String
-  natural_UF                                 COUNTRY
-  CPF                                        String?           @unique
-  RG                                         String            @unique
-  rgIssuingAuthority                         String
-  rgIssuingState                             String
-  documentType                               DOCUMENT_TYPE?
-  CadUnico                                   Boolean           @default(false)
-  hasSevereDesease                           Boolean           @default(false)
+  id                               String         @id @default(uuid())
+  fullName                         String
+  socialName                       String?
+  birthDate                        DateTime
+  gender                           GENDER
+  nationality                      String
+  natural_city                     String
+  natural_UF                       COUNTRY
+  CPF                              String?        @unique
+  RG                               String         @unique
+  rgIssuingAuthority               String
+  rgIssuingState                   String
+  documentType                     DOCUMENT_TYPE?
+  CadUnico                         Boolean        @default(false)
+  hasSevereDeseaseOrUsesMedication Boolean?
+  hasBankAccount                   Boolean?
+
   documentNumber                             String?
   documentValidity                           DateTime?
   maritalStatus                              MARITAL_STATUS
@@ -330,6 +332,8 @@ model FamilyMember {
   legalResponsibleId                         String?
   BankAccount                                BankAccount[]
   Declarations                               Declarations[]
+  hasSevereDeseaseOrUsesMedication           Boolean?
+  hasBankAccount                             Boolean?
 
   @@map("familyMembers")
 }
