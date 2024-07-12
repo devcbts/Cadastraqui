@@ -185,7 +185,6 @@ clientBackup.on('notification', async (msg) => {
             else if (familyMemberIncome.operation == 'Delete') {
                 await deleteFamilyMemberIncomeHDB(familyMemberIncome.data.id)
             }
-            await CalculateMemberAverageIncome((income?.candidate_id || income?.familyMember_id || income?.legalResponsibleId)!, income?.employmentType!)
 
             const incomePerCapita = await CalculateIncomePerCapita(candidateOrResponsible!)
             const openApplications = await getOpenApplications(candidateOrResponsible!);
