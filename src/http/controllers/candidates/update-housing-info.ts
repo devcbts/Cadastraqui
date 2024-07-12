@@ -1,6 +1,8 @@
+import { ForbiddenError } from '@/errors/forbidden-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -64,18 +66,14 @@ export async function updateHousingInfo(
   try {
     const user_id = request.user.sub
 
-    if (!user_id) {
-      throw new NotAllowedError()
+    const candidateOrResponsible =await SelectCandidateResponsible(user_id)
+    if (!candidateOrResponsible) {
+      throw new ForbiddenError()
+
     }
-
-    const candidate = await prisma.candidate.findUnique({ where: { user_id } })
-
-    if (!candidate) {
-      throw new ResourceNotFoundError()
-    }
-
+    const idField = candidateOrResponsible.IsResponsible ? { responsible_id: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
     const candidateHousingInfo = await prisma.housing.findUnique({
-      where: { candidate_id: candidate.id },
+      where: {...idField},
     })
     // Analisa se o candidato não possui cadastro de moradia
     if (!candidateHousingInfo) {
@@ -92,13 +90,13 @@ export async function updateHousingInfo(
     // Armazena informações acerca da moradia no banco de dados
     await prisma.housing.update({
       data: dataToUpdate,
-      where: { candidate_id: candidate.id },
+      where: {...idField },
     })
 
     return reply.status(201).send()
   } catch (err: any) {
-    if (err instanceof NotAllowedError) {
-      return reply.status(401).send({ message: err.message })
+    if (err instanceof ForbiddenError) {
+      return reply.status(403).send({ message: err.message })
     }
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

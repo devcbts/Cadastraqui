@@ -1,5 +1,7 @@
+import { ForbiddenError } from '@/errors/forbidden-error';
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error';
 import { prisma } from '@/lib/prisma';
+import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 
@@ -55,9 +57,9 @@ export async function updateExpensesInfo(request: FastifyRequest, reply: Fastify
 
     try {
         const user_id = request.user.sub;
-        const candidate = await prisma.candidate.findUnique({ where: { user_id } });
-        if (!candidate) {
-            throw new ResourceNotFoundError();
+        const candidateOrReponsible = await SelectCandidateResponsible(user_id)
+        if (!candidateOrReponsible) {
+            throw new ForbiddenError();
         }
 
         // Verifica se a despesa existe e está associada ao candidato antes de atualizar
@@ -65,9 +67,7 @@ export async function updateExpensesInfo(request: FastifyRequest, reply: Fastify
             where: { id: validatedData.id },
         });
 
-        if (!existingExpense || existingExpense.candidate_id !== candidate.id) {
-            throw new ResourceNotFoundError();
-        }
+      
 
         // Atualiza as informações de despesas
         await prisma.expense.update({
@@ -77,6 +77,9 @@ export async function updateExpensesInfo(request: FastifyRequest, reply: Fastify
 
         return reply.status(200).send({ message: 'Informações de despesas atualizadas com sucesso.' });
     } catch (err: any) {
+        if (err instanceof ForbiddenError) {
+            return reply.status(403).send({ message: err.message });
+        }
         if (err instanceof ResourceNotFoundError) {
             return reply.status(404).send({ message: err.message });
         }
