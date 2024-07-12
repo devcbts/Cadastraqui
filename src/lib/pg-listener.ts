@@ -17,7 +17,7 @@ import { createDeclarationHDB } from "@/HistDatabaseFunctions/handle-declaration
 import { createExpenseHDB, updateExpenseHDB } from "@/HistDatabaseFunctions/handle-expenses";
 import { createFamilyMemberHDB, updateFamilyMemberHDB } from "@/HistDatabaseFunctions/handle-family-member";
 import { createFamilyMemberDiseaseHDB, deleteFamilyMemberDiseaseHDB, updateFamilyMemberDiseaseHDB } from "@/HistDatabaseFunctions/handle-family-member-disease";
-import { createFamilyMemberIncomeHDB } from "@/HistDatabaseFunctions/handle-family-member-income";
+import { createFamilyMemberIncomeHDB, deleteFamilyMemberIncomeHDB, updateFamilyMemberIncomeHDB } from "@/HistDatabaseFunctions/handle-family-member-income";
 import { createHousingHDB, updateHousingHDB } from "@/HistDatabaseFunctions/handle-housing";
 import { createIdentityDetailsHDB, updateIdentityDetailsHDB } from "@/HistDatabaseFunctions/handle-identity-details";
 import { createLoanHDB, updateLoanHDB } from "@/HistDatabaseFunctions/handle-loan-info";
@@ -28,7 +28,10 @@ import { createRegistratoHDB } from "@/HistDatabaseFunctions/handle-registrato";
 import { createResponsibleHDB, updateResponsibleHDB } from "@/HistDatabaseFunctions/handle-responsible";
 import { createVehicleHDB, deleteVehicleHDB, updateVehicleHDB } from "@/HistDatabaseFunctions/handle-vehicle";
 import { ChooseCandidateResponsible } from "@/utils/choose-candidate-responsible";
+import { CalculateIncomePerCapita } from "@/utils/Trigger-Functions/calculate-income-per-capita";
 import { CalculateMemberAverageIncome } from "@/utils/Trigger-Functions/calculate-member-income";
+import { verifyHealthRegistration } from "@/utils/Trigger-Functions/verify-health-registration";
+import { verifyIncomeBankRegistration } from "@/utils/Trigger-Functions/verify-income-bank-registration";
 import { Client } from 'pg';
 import { prisma } from './prisma';
 const clientBackup = new Client(env.DATABASE_URL);
@@ -159,38 +162,39 @@ clientBackup.on('notification', async (msg) => {
                     await deleteFamilyMemberDiseaseHDB(familyMemberDisease.data.id)
                 }
             }
+            await verifyHealthRegistration((disease.candidate_id || disease.legalResponsibleId || disease.familyMember?.candidate_id || disease.familyMember?.legalResponsibleId)!)
         }
 
-        // if (msg.channel == 'channel_familyMemberIncome') {
-        //     const familyMemberIncome = JSON.parse(msg.payload!);
-        //     const income = await prisma.familyMemberIncome.findUnique({
-        //         where: { id: familyMemberIncome.data.id },
-        //         include: { familyMember: true }
-        //     })
-        //     const candidateOrResponsible = income?.candidate_id || income?.legalResponsibleId || income?.familyMember?.candidate_id || income?.familyMember?.legalResponsibleId
-        //     if (familyMemberIncome.operation == 'Update') {
-        //         await updateFamilyMemberIncomeHDB(familyMemberIncome.data.id)
-        //     }
-        //     else if (familyMemberIncome.operation == 'Insert') {
-        //         const openApplications = await getOpenApplications(candidateOrResponsible!);
-        //         for (const application of openApplications) {
-        //            await  createFamilyMemberIncomeHDB(familyMemberIncome.data.id, familyMemberIncome.data.candidate_id || income?.familyMember?.candidate_id, familyMemberIncome.data.legalResponsibleId || income?.familyMember?.legalResponsibleId, application.id)
-        //         }
-        //     }
-        //     else if (familyMemberIncome.operation == 'Delete') {
-        //         await deleteFamilyMemberIncomeHDB(familyMemberIncome.data.id)
-        //     }
-        //     await CalculateMemberAverageIncome((income?.candidate_id || income?.familyMember_id || income?.legalResponsibleId)!, income?.employmentType!)
+        if (msg.channel == 'channel_familyMemberIncome') {
+            const familyMemberIncome = JSON.parse(msg.payload!);
+            const income = await prisma.familyMemberIncome.findUnique({
+                where: { id: familyMemberIncome.data.id },
+                include: { familyMember: true }
+            })
+            const candidateOrResponsible = income?.candidate_id || income?.legalResponsibleId || income?.familyMember?.candidate_id || income?.familyMember?.legalResponsibleId
+            if (familyMemberIncome.operation == 'Update') {
+                await updateFamilyMemberIncomeHDB(familyMemberIncome.data.id)
+            }
+            else if (familyMemberIncome.operation == 'Insert') {
+                const openApplications = await getOpenApplications(candidateOrResponsible!);
+                for (const application of openApplications) {
+                    await createFamilyMemberIncomeHDB(familyMemberIncome.data.id, familyMemberIncome.data.candidate_id || income?.familyMember?.candidate_id, familyMemberIncome.data.legalResponsibleId || income?.familyMember?.legalResponsibleId, application.id)
+                }
+            }
+            else if (familyMemberIncome.operation == 'Delete') {
+                await deleteFamilyMemberIncomeHDB(familyMemberIncome.data.id)
+            }
 
-        //     const incomePerCapita = await CalculateIncomePerCapita(candidateOrResponsible!)
-        //     const openApplications = await getOpenApplications(candidateOrResponsible!);
-        //     for (const application of openApplications) {
-        //         await prisma.application.update({
-        //             where: { id: application.id },
-        //             data: { averageIncome: incomePerCapita.incomePerCapita }
-        //         })
-        //     }
-        // }
+            const incomePerCapita = await CalculateIncomePerCapita(candidateOrResponsible!)
+            const openApplications = await getOpenApplications(candidateOrResponsible!);
+            for (const application of openApplications) {
+                await prisma.application.update({
+                    where: { id: application.id },
+                    data: { averageIncome: incomePerCapita.incomePerCapita }
+                })
+            }
+            await verifyIncomeBankRegistration(candidateOrResponsible!)
+        }
 
         if (msg.channel == 'channel_loan') {
             const loan = JSON.parse(msg.payload!);
@@ -246,6 +250,7 @@ clientBackup.on('notification', async (msg) => {
             else if (medication.operation == 'Delete') {
                 await deleteMedicationHDB(medication.data.id)
             }
+            await verifyHealthRegistration(medication.data.candidate_id || medication.data.legalResponsibleId || Medication?.familyMember?.candidate_id || Medication?.familyMember?.legalResponsibleId)
         }
         if (msg.channel == 'channel_monthlyIncome') {
             const monthlyIncome = JSON.parse(msg.payload!);
@@ -291,18 +296,20 @@ clientBackup.on('notification', async (msg) => {
                 where: { id: bankaccount.data.id },
                 include: { familyMember: true }
             })
+            const candidateOrResponsible = bankaccount.data.candidate_id || bankaccount.data.legalResponsibleId || bankaccountInfo?.familyMember?.candidate_id || bankaccountInfo?.familyMember?.legalResponsibleId
             if (bankaccount.operation == 'Update') {
                 updateBankAccountHDB(bankaccount.data.id)
             }
             else if (bankaccount.operation == 'Insert') {
-                const openApplications = await getOpenApplications(bankaccount.data.candidate_id || bankaccount.data.legalResponsibleId || bankaccountInfo?.familyMember?.candidate_id || bankaccountInfo?.familyMember?.legalResponsibleId);
+                const openApplications = await getOpenApplications(candidateOrResponsible);
                 for (const application of openApplications) {
-                    createBankAccountHDB(bankaccount.data.id, bankaccount.data.candidate_id, bankaccount.data.legalResponsibleId, application.id)
+                    createBankAccountHDB(bankaccount.data.id, bankaccount.data.candidate_id || bankaccountInfo?.familyMember?.candidate_id, bankaccount.data.legalResponsibleId, application.id)
                 }
             }
             else if (bankaccount.operation == 'Delete') {
                 await deleteBankAccountHDB(bankaccount.data.id)
             }
+            await verifyIncomeBankRegistration(candidateOrResponsible)
         }
 
 
