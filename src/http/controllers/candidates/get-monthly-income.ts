@@ -40,10 +40,10 @@ export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: F
 
   try {
     const user_id = request.user.sub;
-    // const IsUser = await SelectCandidateResponsible(_id);
-    // if (!IsUser) {
-    //   throw new ForbiddenError()
-    // }
+    const IsUser = await SelectCandidateResponsible(user_id);
+    if (!IsUser) {
+      throw new ForbiddenError()
+    }
     const CandidateOrResponsible = await SelectCandidateResponsible(_id);
 
     const idField = CandidateOrResponsible ? CandidateOrResponsible.IsResponsible ? { legalResponsibleId: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id } : { familyMember_id: _id };
@@ -71,8 +71,8 @@ export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: F
     type IncomeBySourceAccumulator = Record<string, typeof monthlyIncomes | any>;
 
 
-    const urls = await getSectionDocumentsPDF(_id, 'monthly-income')
-    console.log('MONTHLY INCOME', _id)
+    const urls = await getSectionDocumentsPDF(IsUser.UserData.id, `monthly-income/${_id}`)
+
     const incomeBySource = monthlyIncomes.reduce<IncomeBySourceAccumulator>((acc, income) => {
       const source = income.incomeSource ? income.incomeSource : 'Unknown';
       acc[source] = acc[source] || [];
