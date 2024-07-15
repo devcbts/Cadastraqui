@@ -15,7 +15,7 @@ import { createCandidateHDB, updateCandidateHDB } from "@/HistDatabaseFunctions/
 import { createCreditCardHDB, updateCreditCardHDB } from "@/HistDatabaseFunctions/handle-credit-card";
 import { createDeclarationHDB } from "@/HistDatabaseFunctions/handle-declaration";
 import { createExpenseHDB, updateExpenseHDB } from "@/HistDatabaseFunctions/handle-expenses";
-import { createFamilyMemberHDB, updateFamilyMemberHDB } from "@/HistDatabaseFunctions/handle-family-member";
+import { createFamilyMemberHDB, deleteFamilyMemberHDB, updateFamilyMemberHDB } from "@/HistDatabaseFunctions/handle-family-member";
 import { createFamilyMemberDiseaseHDB, deleteFamilyMemberDiseaseHDB, updateFamilyMemberDiseaseHDB } from "@/HistDatabaseFunctions/handle-family-member-disease";
 import { createFamilyMemberIncomeHDB, deleteFamilyMemberIncomeHDB, updateFamilyMemberIncomeHDB } from "@/HistDatabaseFunctions/handle-family-member-income";
 import { createHousingHDB, updateHousingHDB } from "@/HistDatabaseFunctions/handle-housing";
@@ -122,6 +122,9 @@ clientBackup.on('notification', async (msg) => {
                     await createFamilyMemberHDB(familyMember.data.id, familyMember.data.candidate_id, familyMember.data.legalResponsibleId, application.id)
                 }
             }
+            if (familyMember.operation == 'Delete') {
+                await deleteFamilyMemberHDB(familyMember.data.id, familyMember.data.candidate_id || familyMember.data.legalResponsibleId)
+            }
         }
 
 
@@ -145,7 +148,11 @@ clientBackup.on('notification', async (msg) => {
                 include: { familyMember: true }
             })
             if (!disease) {
-                return null;
+                const memberId = familyMemberDisease.data.familyMember_id || familyMemberDisease.data.candidate_id || familyMemberDisease.data.legalResponsibleId
+                if (familyMemberDisease.operation == 'Delete') {
+                    await deleteFamilyMemberDiseaseHDB(familyMemberDisease.data.id, memberId )
+                }
+                
             }
             else {
 
@@ -158,11 +165,9 @@ clientBackup.on('notification', async (msg) => {
                         await createFamilyMemberDiseaseHDB(familyMemberDisease.data.id, (disease.candidate_id || disease.familyMember?.candidate_id || null), (disease.legalResponsibleId || disease.familyMember?.legalResponsibleId || null), application.id)
                     }
                 }
-                else if (familyMemberDisease.operation == 'Delete') {
-                    await deleteFamilyMemberDiseaseHDB(familyMemberDisease.data.id)
-                }
+                 
+                await verifyHealthRegistration((disease.candidate_id || disease.legalResponsibleId || disease.familyMember?.candidate_id || disease.familyMember?.legalResponsibleId)!)
             }
-            await verifyHealthRegistration((disease.candidate_id || disease.legalResponsibleId || disease.familyMember?.candidate_id || disease.familyMember?.legalResponsibleId)!)
         }
 
         if (msg.channel == 'channel_familyMemberIncome') {
@@ -182,7 +187,7 @@ clientBackup.on('notification', async (msg) => {
                 }
             }
             else if (familyMemberIncome.operation == 'Delete') {
-                await deleteFamilyMemberIncomeHDB(familyMemberIncome.data.id)
+                await deleteFamilyMemberIncomeHDB(familyMemberIncome.data.id, candidateOrResponsible || familyMemberIncome.data.familyMember_id)
             }
 
             const incomePerCapita = await CalculateIncomePerCapita(candidateOrResponsible!)
@@ -248,7 +253,7 @@ clientBackup.on('notification', async (msg) => {
                 }
             }
             else if (medication.operation == 'Delete') {
-                await deleteMedicationHDB(medication.data.id)
+                await deleteMedicationHDB(medication.data.id, medication.data.familyMember_id || medication.data.candidate_id || medication.data.legalResponsibleId)
             }
             await verifyHealthRegistration(medication.data.candidate_id || medication.data.legalResponsibleId || Medication?.familyMember?.candidate_id || Medication?.familyMember?.legalResponsibleId)
         }
@@ -271,7 +276,7 @@ clientBackup.on('notification', async (msg) => {
 
             }
             else if (monthlyIncome.operation == 'Delete') {
-                await deleteMonthlyIncomeHDB(monthlyIncome.data.id)
+                await deleteMonthlyIncomeHDB(monthlyIncome.data.id, monthlyIncome.data.familyMember_id || monthlyIncome.data.candidate_id || monthlyIncome.data.legalResponsibleId)
             }
         }
 
@@ -287,7 +292,7 @@ clientBackup.on('notification', async (msg) => {
                 }
             }
             else if (vehicle.operation == 'Delete') {
-                await deleteVehicleHDB(vehicle.data.id)
+                await deleteVehicleHDB(vehicle.data.id, vehicle.data.candidate_id || vehicle.data.legalResponsibleId)
             }
         }
         if (msg.channel == 'channel_bankaccount') {
@@ -307,7 +312,7 @@ clientBackup.on('notification', async (msg) => {
                 }
             }
             else if (bankaccount.operation == 'Delete') {
-                await deleteBankAccountHDB(bankaccount.data.id)
+                await deleteBankAccountHDB(bankaccount.data.id, candidateOrResponsible || bankaccount.data.familyMember_id)
             }
             await verifyIncomeBankRegistration(candidateOrResponsible)
         }

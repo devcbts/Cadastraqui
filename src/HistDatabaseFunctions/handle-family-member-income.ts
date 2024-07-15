@@ -58,20 +58,12 @@ export async function updateFamilyMemberIncomeHDB(id: string) {
     }
 }
 
-export async function deleteFamilyMemberIncomeHDB(id: string) {
-    const familyMemberIncome = await prisma.familyMemberIncome.findUnique({
-        where: { id },
-        include: { familyMember: true }
-    });
-    if (!familyMemberIncome) {
-        return null;
-    }
-    const { id: oldId, familyMember_id: oldFamilyMemberId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId,  ...familyMemberIncomeData } = familyMemberIncome;
-    let candidateOrResponsible = familyMemberIncome.candidate_id || familyMemberIncome.familyMember?.candidate_id || familyMemberIncome.legalResponsibleId || familyMemberIncome.familyMember?.legalResponsibleId
-    if (!candidateOrResponsible) {
-        return null;
-    }
-    const openApplications = await getOpenApplications(candidateOrResponsible);
+export async function deleteFamilyMemberIncomeHDB(id: string, memberId: string) {
+    const member = await prisma.familyMember.findUnique({
+        where: { id: memberId }
+    })
+    let candidateOrResponsibleId = member?.candidate_id || member?.legalResponsibleId || memberId;
+    const openApplications = await getOpenApplications(candidateOrResponsibleId);
     if (!openApplications) {
         return null;
     }

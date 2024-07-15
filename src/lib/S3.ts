@@ -165,8 +165,9 @@ export async function deleteFromS3Folder(folderKey: string) {
     Bucket: bucketName!,
     Prefix: folderKey, // Assuming folderKey ends with a '/'
   };
-
+  console.log(folderKey)
   try {
+    
     const listedObjects = await s3.listObjectsV2(listParams).promise();
     if (!listedObjects.Contents) return
     if (listedObjects.Contents.length === 0) return;

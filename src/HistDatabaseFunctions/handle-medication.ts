@@ -67,20 +67,13 @@ export async function updateMedicationHDB(id: string) {
     }
 }
 
-export async function deleteMedicationHDB(id: string) {
-    const medication = await prisma.medication.findUnique({
-        where: { id },
-        include: { familyMember: true }
-    });
-    if (!medication) {
-        return null;
-    }
-    const { id: oldId, familyMember_id: oldFamilyMemberId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId,  ...medicationData } = medication;
-    let candidateOrResponsible = medication.candidate_id || medication.familyMember?.candidate_id || medication.legalResponsibleId || medication.familyMember?.legalResponsibleId;
-    if (!candidateOrResponsible) {
-        return null;
-    }
-    const openApplications = await getOpenApplications(candidateOrResponsible);
+export async function deleteMedicationHDB(id: string, memberId: string) {
+   
+    const member = await prisma.familyMember.findUnique({
+        where: { id: memberId }
+    })
+    let candidateOrResponsibleId = member?.candidate_id || member?.legalResponsibleId || memberId;
+    const openApplications = await getOpenApplications(candidateOrResponsibleId);
     if (!openApplications) {
         return null;
     }

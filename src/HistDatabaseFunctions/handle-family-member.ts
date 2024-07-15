@@ -78,20 +78,12 @@ export async function updateFamilyMemberHDB(id: string) {
 }
 
 
-export async function deleteFamilyMemberHDB(id: string) {
-    const findFamilyMember = await prisma.familyMember.findUnique({
-        where: {
-            id,
-        },
-    });
-    if (!findFamilyMember) {
-        return null;
-    }
-    let candidateOrResponsible = findFamilyMember.candidate_id || findFamilyMember.legalResponsibleId;
-    if (!candidateOrResponsible) {
-        return null;
-    }
-    const openApplications = await getOpenApplications(candidateOrResponsible);
+export async function deleteFamilyMemberHDB(id: string, memberId: string) {
+    const member = await prisma.familyMember.findUnique({
+        where: { id: memberId }
+    })
+    let candidateOrResponsibleId = member?.candidate_id || member?.legalResponsibleId || memberId;
+    const openApplications = await getOpenApplications(candidateOrResponsibleId);
     if (!openApplications) {
         return null;
     }

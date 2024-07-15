@@ -57,20 +57,12 @@ export async function updateExpenseHDB(id: string) {
 }
 
 
-export async function deleteExpenseHDB(id: string) {
-    const expense = await prisma.expense.findUnique({
-        where: { id },
-        
-    });
-    if (!expense) {
-        return null;
-    }
-    const { id: oldId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId,  ...expenseData } = expense;
-    let candidateOrResponsible = expense.candidate_id  || expense.legalResponsibleId 
-    if (!candidateOrResponsible) {
-        return null;
-    }
-    const openApplications = await getOpenApplications(candidateOrResponsible);
+export async function deleteExpenseHDB(id: string, memberId: string) {
+    const member = await prisma.familyMember.findUnique({
+        where: { id: memberId }
+    })
+    let candidateOrResponsibleId = member?.candidate_id || member?.legalResponsibleId || memberId;
+    const openApplications = await getOpenApplications(candidateOrResponsibleId);
     if (!openApplications) {
         return null;
     }

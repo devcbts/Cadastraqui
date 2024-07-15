@@ -1,7 +1,7 @@
 import { historyDatabase, prisma } from "@/lib/prisma";
 import getOpenApplications from "./find-open-applications";
 import { findAWSRouteHDB } from "./Handle Application/find-AWS-Route";
-import { copyFilesToAnotherFolder } from "@/lib/S3";
+import { copyFilesToAnotherFolder, deleteFromS3Folder } from "@/lib/S3";
 
 export async function createBankAccountHDB(id: string, candidate_id: string | null, legalResponsibleId: string | null, application_id: string) {
     const bankAccount = await prisma.bankAccount.findUnique({
@@ -55,26 +55,23 @@ export async function updateBankAccountHDB(id: string) {
 }
 
 
-export async function deleteBankAccountHDB(id: string) {
-    const bankAccount = await prisma.bankAccount.findUnique({
-        where: { id },
-        include: { familyMember: true }
-    });
-    if (!bankAccount) {
-        return null;
-    }
-    const { id: oldId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId, familyMember_id: oldFamilyMemberId, ...bankAccountData } = bankAccount;
-    let candidateOrResponsible = bankAccount.candidate_id || bankAccount.familyMember?.candidate_id || bankAccount.legalResponsibleId || bankAccount.familyMember?.legalResponsibleId;
-    if (!candidateOrResponsible) {
-        return null;
-    }
-    const openApplications = await getOpenApplications(candidateOrResponsible);
+export async function deleteBankAccountHDB(id: string, memberId: string) {
+    const member = await prisma.familyMember.findUnique({
+        where: { id: memberId }
+    })
+    let candidateOrResponsibleId = member?.candidate_id || member?.legalResponsibleId || memberId;
+    const openApplications = await getOpenApplications( candidateOrResponsibleId);
     if (!openApplications) {
         return null;
     }
+    const route = `CandidateDocuments/${candidateOrResponsibleId}/statement/${(memberId)}/${id}/`;
+    await deleteFromS3Folder(route)
+
     for (const application of openApplications) {
         const deleteBankAccount = await historyDatabase.bankAccount.deleteMany({
             where: { main_id: id, application_id: application.id }
         })
-    }
+    const RouteHDB = await findAWSRouteHDB(candidateOrResponsibleId, 'statement', (memberId)!, id, application.id);
+    await deleteFromS3Folder(RouteHDB);
+}
 }
