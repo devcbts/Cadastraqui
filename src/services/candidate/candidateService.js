@@ -226,13 +226,14 @@ class CandidateService {
             },
         })
     }
-    registerMedicationInfo(id, data) {
+    async registerMedicationInfo(id, data) {
         const token = localStorage.getItem("token")
-        return api.post(`/candidates/medication-info/${id}`, data, {
+        const response = await api.post(`/candidates/medication-info/${id}`, data, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
         })
+        return response.data.id
     }
     async getBankingAccountById(id) {
         const token = localStorage.getItem("token")

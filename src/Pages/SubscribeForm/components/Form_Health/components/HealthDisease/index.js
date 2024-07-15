@@ -8,6 +8,7 @@ import DISEASES from "utils/enums/diseases";
 import FormCheckbox from "Components/FormCheckbox";
 import healthDiseaseSchema from "./schemas/health-disease-schema";
 import useControlForm from "hooks/useControlForm";
+import FormFilePicker from "Components/FormFilePicker";
 const HealthDisease = forwardRef(({ data }, ref) => {
     const { control, watch } = useControlForm({
         schema: healthDiseaseSchema,
@@ -16,6 +17,7 @@ const HealthDisease = forwardRef(({ data }, ref) => {
             disease: '',
             specificDisease: '',
             hasMedicalReport: null,
+            file_disease: null
         },
         initialData: data
     }, ref)
@@ -49,7 +51,11 @@ const HealthDisease = forwardRef(({ data }, ref) => {
                         control={control}
                         label="possui relatório médico?"
                     />
-
+                    {
+                        watch("hasMedicalReport") && (
+                            <FormFilePicker label={'Anexar laudo'} accept={'application/pdf'} control={control} name={'file_disease'} />
+                        )
+                    }
                 </>}
 
         </div>

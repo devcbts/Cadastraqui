@@ -8,6 +8,7 @@ import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
 import HealthList from "./components/HealthList";
 import HealthDisease from "./components/HealthDisease";
 import HealthMedication from "./components/HealthMedication";
+import uploadService from "services/upload/uploadService";
 export default function FormHealth() {
     const [isLoading, setIsLoading] = useState(true)
     // const handleEditInformation = async (data) => {
@@ -23,12 +24,24 @@ export default function FormHealth() {
         try {
             const { memberId, ...rest } = data
             let diseaseId = null
+            let medicationId = null
             if (data.hasDisease) {
                 const response = await candidateService.registerHealthInfo(memberId, rest)
                 diseaseId = response.data.id
             }
+
+            if (data.file_disease && diseaseId) {
+                const formData = new FormData()
+                formData.append(`file_laudo${new Date().getTime()}`, data.file_disease)
+                await uploadService.uploadBySectionAndId({ section: 'health', id: data.memberId, tableId: diseaseId }, formData)
+            }
             if (data.controlledMedication) {
-                await candidateService.registerMedicationInfo(memberId, { ...rest, familyMemberDiseaseId: diseaseId })
+                medicationId = await candidateService.registerMedicationInfo(memberId, { ...rest, familyMemberDiseaseId: diseaseId })
+            }
+            if (data.file_medication && medicationId) {
+                const formData = new FormData()
+                formData.append(`file_laudo${new Date().getTime()}`, data.file_medication)
+                await uploadService.uploadBySectionAndId({ section: 'medication', id: data.memberId, tableId: medicationId }, formData)
             }
             NotificationService.success({ text: 'Informações cadastradas' })
             setEnableEditing(true)

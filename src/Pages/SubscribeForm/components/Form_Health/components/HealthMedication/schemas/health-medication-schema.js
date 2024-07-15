@@ -4,7 +4,7 @@ const healthMedicationSchema = z.object({
     controlledMedication: z.boolean(),
     medicationName: z.string().nullish(),
     obtainedPublicly: z.boolean().nullish(),
-    specificMedicationPublicly: z.string().nullish()
+    specificMedicationPublicly: z.string().nullish(),
 }).superRefine((data, ctx) => {
     if (data.controlledMedication && !data.medicationName) {
         ctx.addIssue({

@@ -23,6 +23,8 @@ export default function HealthList({ loading, data, onSelect, onAdd }) {
         // obj contains {name, urls}
         setFiles({ type, memberId: selectedMember.id, ...{ ...obj, urls, deleteUrl } })
     }
+
+
     return (
         <>
             {!selectedMember

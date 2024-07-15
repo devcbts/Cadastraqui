@@ -13,7 +13,7 @@ const HealthMedication = forwardRef(({ data }, ref) => {
             controlledMedication: null,
             medicationName: '',
             obtainedPublicly: null,
-            specificMedicationPublicly: ''
+            specificMedicationPublicly: '',
         },
         initialData: data
     }, ref)
