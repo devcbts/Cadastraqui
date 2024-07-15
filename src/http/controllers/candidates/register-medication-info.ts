@@ -43,7 +43,7 @@ export async function registerMedicationInfo(
 
     const idField = CandidateOrResponsible ? (CandidateOrResponsible.IsResponsible ? { legalResponsibleId: _id } : { candidate_id: _id }) : { familyMember_id: _id }
 
-    await prisma.medication.create({
+    const { id } = await prisma.medication.create({
       data: {
         medicationName,
         obtainedPublicly: obtainedPublicly ?? false,
@@ -54,7 +54,7 @@ export async function registerMedicationInfo(
     })
 
 
-    return reply.status(201).send()
+    return reply.status(201).send({ id })
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

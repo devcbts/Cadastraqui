@@ -57,13 +57,14 @@ export async function updateFamilyMemberInfo(
     educationLevel: SCHOLARSHIP,
     specialNeeds: z.boolean().optional().nullable(),
     specialNeedsDescription: z.string().optional().nullable(),
+    specialNeedsType: z.string().optional().nullable(),
     hasMedicalReport: z.boolean().optional().nullable(),
     landlinePhone: z.string().optional().nullable(),
     workPhone: z.string().optional().nullable(),
     contactNameForMessage: z.string().optional().nullable(),
     email: z.string().email().optional().nullable(),
     profession: z.string(),
-    enrolledGovernmentProgram: z.boolean().optional().nullable(),
+    enrolledGovernmentProgram: z.string().optional().nullable(),
     NIS: z.string().optional().nullable(),
     educationPlace: z.union([Institution_Type, z.null()]),
     institutionName: z.string().optional().nullable(),
@@ -132,6 +133,7 @@ export async function updateFamilyMemberInfo(
     CadUnico,
     hasSevereDeseaseOrUsesMedication,
     hasBankAccount,
+    specialNeedsType
   } = familyMemberDataSchema.parse(request.body)
 
   try {
@@ -185,6 +187,7 @@ export async function updateFamilyMemberInfo(
       CadUnico,
       hasSevereDeseaseOrUsesMedication,
       hasBankAccount,
+      specialNeedsType,
       ...idField,
       // Campos opcionais são adicionados condicionalmente
       ...(otherRelationship && { otherRelationship }),

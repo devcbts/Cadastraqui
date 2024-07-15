@@ -47,7 +47,7 @@ export async function findCPF_CNPJ(
         const empresas: Empresa[] = data.empresas;
         const idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
 
-        if (empresas.length) {
+        if (empresas?.length) {
             let InformedCNPJ = true;
             const registeredIncome = await historyDatabase.familyMemberIncome.findMany({
                 where: {
@@ -59,7 +59,7 @@ export async function findCPF_CNPJ(
                 const cnpj = empresa.cnpj;
 
                 const findRegisteredEmpresas = registeredIncome.filter(registeredIncome => registeredIncome.CNPJ ? registeredIncome.CNPJ.replace(/\D/g, '') === cnpj : '');
-                if (findRegisteredEmpresas.length < 0) {
+                if (findRegisteredEmpresas?.length < 0) {
                     InformedCNPJ = false;
                 }
 

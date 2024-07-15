@@ -52,6 +52,7 @@ export async function registerFamilyMemberInfo(
     educationLevel: SCHOLARSHIP,
     specialNeeds: z.boolean().nullish(),
     specialNeedsDescription: z.string().nullish(),
+    specialNeedsType: z.string().nullish(),
     hasMedicalReport: z.boolean().nullish(),
     landlinePhone: z.string().nullish(),
     workPhone: z.string().nullish(),
@@ -64,7 +65,7 @@ export async function registerFamilyMemberInfo(
     neighborhood: z.string(),
     addressNumber: z.string(), */
     profession: z.string(),
-    enrolledGovernmentProgram: z.boolean().optional(),
+    enrolledGovernmentProgram: z.string().optional(),
     NIS: z.string().optional(),
     educationPlace: z.union([Institution_Type, z.undefined()]),
     institutionName: z.string().optional(),
@@ -134,6 +135,7 @@ export async function registerFamilyMemberInfo(
     CadUnico,
     hasSevereDeseaseOrUsesMedication,
     hasBankAccount,
+    specialNeedsType
   } = familyMemberDataSchema.parse(request.body)
 
   try {
@@ -196,6 +198,7 @@ export async function registerFamilyMemberInfo(
       CadUnico,
       hasSevereDeseaseOrUsesMedication,
       hasBankAccount,
+      specialNeedsType,
       ...idField,
       // Campos opcionais são adicionados condicionalmente
       ...(otherRelationship && { otherRelationship }),

@@ -14051,13 +14051,14 @@ export namespace Prisma {
     UF: $Enums.COUNTRY | null
     CEP: string | null
     specialNeedsDescription: string | null
+    specialNeedsType: string | null
     hasMedicalReport: boolean | null
     email: string | null
     landlinePhone: string | null
     workPhone: string | null
     contactNameForMessage: string | null
     profession: string | null
-    enrolledGovernmentProgram: boolean | null
+    enrolledGovernmentProgram: string | null
     NIS: string | null
     livesAlone: boolean | null
     intendsToGetScholarship: boolean | null
@@ -14110,13 +14111,14 @@ export namespace Prisma {
     UF: $Enums.COUNTRY | null
     CEP: string | null
     specialNeedsDescription: string | null
+    specialNeedsType: string | null
     hasMedicalReport: boolean | null
     email: string | null
     landlinePhone: string | null
     workPhone: string | null
     contactNameForMessage: string | null
     profession: string | null
-    enrolledGovernmentProgram: boolean | null
+    enrolledGovernmentProgram: string | null
     NIS: string | null
     livesAlone: boolean | null
     intendsToGetScholarship: boolean | null
@@ -14169,6 +14171,7 @@ export namespace Prisma {
     UF: number
     CEP: number
     specialNeedsDescription: number
+    specialNeedsType: number
     hasMedicalReport: number
     email: number
     landlinePhone: number
@@ -14232,6 +14235,7 @@ export namespace Prisma {
     UF?: true
     CEP?: true
     specialNeedsDescription?: true
+    specialNeedsType?: true
     hasMedicalReport?: true
     email?: true
     landlinePhone?: true
@@ -14291,6 +14295,7 @@ export namespace Prisma {
     UF?: true
     CEP?: true
     specialNeedsDescription?: true
+    specialNeedsType?: true
     hasMedicalReport?: true
     email?: true
     landlinePhone?: true
@@ -14350,6 +14355,7 @@ export namespace Prisma {
     UF?: true
     CEP?: true
     specialNeedsDescription?: true
+    specialNeedsType?: true
     hasMedicalReport?: true
     email?: true
     landlinePhone?: true
@@ -14484,13 +14490,14 @@ export namespace Prisma {
     UF: $Enums.COUNTRY | null
     CEP: string | null
     specialNeedsDescription: string | null
+    specialNeedsType: string | null
     hasMedicalReport: boolean | null
     email: string | null
     landlinePhone: string | null
     workPhone: string | null
     contactNameForMessage: string | null
     profession: string
-    enrolledGovernmentProgram: boolean | null
+    enrolledGovernmentProgram: string | null
     NIS: string | null
     incomeSource: $Enums.IncomeSource[]
     livesAlone: boolean
@@ -14562,6 +14569,7 @@ export namespace Prisma {
     UF?: boolean
     CEP?: boolean
     specialNeedsDescription?: boolean
+    specialNeedsType?: boolean
     hasMedicalReport?: boolean
     email?: boolean
     landlinePhone?: boolean
@@ -14625,6 +14633,7 @@ export namespace Prisma {
     UF?: boolean
     CEP?: boolean
     specialNeedsDescription?: boolean
+    specialNeedsType?: boolean
     hasMedicalReport?: boolean
     email?: boolean
     landlinePhone?: boolean
@@ -14698,13 +14707,14 @@ export namespace Prisma {
       UF: $Enums.COUNTRY | null
       CEP: string | null
       specialNeedsDescription: string | null
+      specialNeedsType: string | null
       hasMedicalReport: boolean | null
       email: string | null
       landlinePhone: string | null
       workPhone: string | null
       contactNameForMessage: string | null
       profession: string
-      enrolledGovernmentProgram: boolean | null
+      enrolledGovernmentProgram: string | null
       NIS: string | null
       incomeSource: $Enums.IncomeSource[]
       livesAlone: boolean
@@ -15153,13 +15163,14 @@ export namespace Prisma {
     readonly UF: FieldRef<"IdentityDetails", 'COUNTRY'>
     readonly CEP: FieldRef<"IdentityDetails", 'String'>
     readonly specialNeedsDescription: FieldRef<"IdentityDetails", 'String'>
+    readonly specialNeedsType: FieldRef<"IdentityDetails", 'String'>
     readonly hasMedicalReport: FieldRef<"IdentityDetails", 'Boolean'>
     readonly email: FieldRef<"IdentityDetails", 'String'>
     readonly landlinePhone: FieldRef<"IdentityDetails", 'String'>
     readonly workPhone: FieldRef<"IdentityDetails", 'String'>
     readonly contactNameForMessage: FieldRef<"IdentityDetails", 'String'>
     readonly profession: FieldRef<"IdentityDetails", 'String'>
-    readonly enrolledGovernmentProgram: FieldRef<"IdentityDetails", 'Boolean'>
+    readonly enrolledGovernmentProgram: FieldRef<"IdentityDetails", 'String'>
     readonly NIS: FieldRef<"IdentityDetails", 'String'>
     readonly incomeSource: FieldRef<"IdentityDetails", 'IncomeSource[]'>
     readonly livesAlone: FieldRef<"IdentityDetails", 'Boolean'>
@@ -15576,13 +15587,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP | null
     specialNeeds: boolean | null
     specialNeedsDescription: string | null
+    specialNeedsType: string | null
     hasMedicalReport: boolean | null
     landlinePhone: string | null
     workPhone: string | null
     contactNameForMessage: string | null
     email: string | null
     profession: string | null
-    enrolledGovernmentProgram: boolean | null
+    enrolledGovernmentProgram: string | null
     NIS: string | null
     educationPlace: $Enums.INSTITUTION_TYPE | null
     institutionName: string | null
@@ -15631,13 +15643,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP | null
     specialNeeds: boolean | null
     specialNeedsDescription: string | null
+    specialNeedsType: string | null
     hasMedicalReport: boolean | null
     landlinePhone: string | null
     workPhone: string | null
     contactNameForMessage: string | null
     email: string | null
     profession: string | null
-    enrolledGovernmentProgram: boolean | null
+    enrolledGovernmentProgram: string | null
     NIS: string | null
     educationPlace: $Enums.INSTITUTION_TYPE | null
     institutionName: string | null
@@ -15686,6 +15699,7 @@ export namespace Prisma {
     educationLevel: number
     specialNeeds: number
     specialNeedsDescription: number
+    specialNeedsType: number
     hasMedicalReport: number
     landlinePhone: number
     workPhone: number
@@ -15744,6 +15758,7 @@ export namespace Prisma {
     educationLevel?: true
     specialNeeds?: true
     specialNeedsDescription?: true
+    specialNeedsType?: true
     hasMedicalReport?: true
     landlinePhone?: true
     workPhone?: true
@@ -15799,6 +15814,7 @@ export namespace Prisma {
     educationLevel?: true
     specialNeeds?: true
     specialNeedsDescription?: true
+    specialNeedsType?: true
     hasMedicalReport?: true
     landlinePhone?: true
     workPhone?: true
@@ -15854,6 +15870,7 @@ export namespace Prisma {
     educationLevel?: true
     specialNeeds?: true
     specialNeedsDescription?: true
+    specialNeedsType?: true
     hasMedicalReport?: true
     landlinePhone?: true
     workPhone?: true
@@ -15983,13 +16000,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds: boolean | null
     specialNeedsDescription: string | null
+    specialNeedsType: string | null
     hasMedicalReport: boolean | null
     landlinePhone: string | null
     workPhone: string | null
     contactNameForMessage: string | null
     email: string | null
     profession: string
-    enrolledGovernmentProgram: boolean | null
+    enrolledGovernmentProgram: string | null
     NIS: string | null
     educationPlace: $Enums.INSTITUTION_TYPE | null
     institutionName: string | null
@@ -16056,6 +16074,7 @@ export namespace Prisma {
     educationLevel?: boolean
     specialNeeds?: boolean
     specialNeedsDescription?: boolean
+    specialNeedsType?: boolean
     hasMedicalReport?: boolean
     landlinePhone?: boolean
     workPhone?: boolean
@@ -16126,6 +16145,7 @@ export namespace Prisma {
     educationLevel?: boolean
     specialNeeds?: boolean
     specialNeedsDescription?: boolean
+    specialNeedsType?: boolean
     hasMedicalReport?: boolean
     landlinePhone?: boolean
     workPhone?: boolean
@@ -16217,13 +16237,14 @@ export namespace Prisma {
       educationLevel: $Enums.SCHOLARSHIP
       specialNeeds: boolean | null
       specialNeedsDescription: string | null
+      specialNeedsType: string | null
       hasMedicalReport: boolean | null
       landlinePhone: string | null
       workPhone: string | null
       contactNameForMessage: string | null
       email: string | null
       profession: string
-      enrolledGovernmentProgram: boolean | null
+      enrolledGovernmentProgram: string | null
       NIS: string | null
       educationPlace: $Enums.INSTITUTION_TYPE | null
       institutionName: string | null
@@ -16689,13 +16710,14 @@ export namespace Prisma {
     readonly educationLevel: FieldRef<"FamilyMember", 'SCHOLARSHIP'>
     readonly specialNeeds: FieldRef<"FamilyMember", 'Boolean'>
     readonly specialNeedsDescription: FieldRef<"FamilyMember", 'String'>
+    readonly specialNeedsType: FieldRef<"FamilyMember", 'String'>
     readonly hasMedicalReport: FieldRef<"FamilyMember", 'Boolean'>
     readonly landlinePhone: FieldRef<"FamilyMember", 'String'>
     readonly workPhone: FieldRef<"FamilyMember", 'String'>
     readonly contactNameForMessage: FieldRef<"FamilyMember", 'String'>
     readonly email: FieldRef<"FamilyMember", 'String'>
     readonly profession: FieldRef<"FamilyMember", 'String'>
-    readonly enrolledGovernmentProgram: FieldRef<"FamilyMember", 'Boolean'>
+    readonly enrolledGovernmentProgram: FieldRef<"FamilyMember", 'String'>
     readonly NIS: FieldRef<"FamilyMember", 'String'>
     readonly educationPlace: FieldRef<"FamilyMember", 'INSTITUTION_TYPE'>
     readonly institutionName: FieldRef<"FamilyMember", 'String'>
@@ -40493,6 +40515,7 @@ export namespace Prisma {
     UF: 'UF',
     CEP: 'CEP',
     specialNeedsDescription: 'specialNeedsDescription',
+    specialNeedsType: 'specialNeedsType',
     hasMedicalReport: 'hasMedicalReport',
     email: 'email',
     landlinePhone: 'landlinePhone',
@@ -40552,6 +40575,7 @@ export namespace Prisma {
     educationLevel: 'educationLevel',
     specialNeeds: 'specialNeeds',
     specialNeedsDescription: 'specialNeedsDescription',
+    specialNeedsType: 'specialNeedsType',
     hasMedicalReport: 'hasMedicalReport',
     landlinePhone: 'landlinePhone',
     workPhone: 'workPhone',
@@ -42454,13 +42478,14 @@ export namespace Prisma {
     UF?: EnumCOUNTRYNullableFilter<"IdentityDetails"> | $Enums.COUNTRY | null
     CEP?: StringNullableFilter<"IdentityDetails"> | string | null
     specialNeedsDescription?: StringNullableFilter<"IdentityDetails"> | string | null
+    specialNeedsType?: StringNullableFilter<"IdentityDetails"> | string | null
     hasMedicalReport?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     email?: StringNullableFilter<"IdentityDetails"> | string | null
     landlinePhone?: StringNullableFilter<"IdentityDetails"> | string | null
     workPhone?: StringNullableFilter<"IdentityDetails"> | string | null
     contactNameForMessage?: StringNullableFilter<"IdentityDetails"> | string | null
     profession?: StringFilter<"IdentityDetails"> | string
-    enrolledGovernmentProgram?: BoolNullableFilter<"IdentityDetails"> | boolean | null
+    enrolledGovernmentProgram?: StringNullableFilter<"IdentityDetails"> | string | null
     NIS?: StringNullableFilter<"IdentityDetails"> | string | null
     incomeSource?: EnumIncomeSourceNullableListFilter<"IdentityDetails">
     livesAlone?: BoolFilter<"IdentityDetails"> | boolean
@@ -42517,6 +42542,7 @@ export namespace Prisma {
     UF?: SortOrderInput | SortOrder
     CEP?: SortOrderInput | SortOrder
     specialNeedsDescription?: SortOrderInput | SortOrder
+    specialNeedsType?: SortOrderInput | SortOrder
     hasMedicalReport?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     landlinePhone?: SortOrderInput | SortOrder
@@ -42584,13 +42610,14 @@ export namespace Prisma {
     UF?: EnumCOUNTRYNullableFilter<"IdentityDetails"> | $Enums.COUNTRY | null
     CEP?: StringNullableFilter<"IdentityDetails"> | string | null
     specialNeedsDescription?: StringNullableFilter<"IdentityDetails"> | string | null
+    specialNeedsType?: StringNullableFilter<"IdentityDetails"> | string | null
     hasMedicalReport?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     email?: StringNullableFilter<"IdentityDetails"> | string | null
     landlinePhone?: StringNullableFilter<"IdentityDetails"> | string | null
     workPhone?: StringNullableFilter<"IdentityDetails"> | string | null
     contactNameForMessage?: StringNullableFilter<"IdentityDetails"> | string | null
     profession?: StringFilter<"IdentityDetails"> | string
-    enrolledGovernmentProgram?: BoolNullableFilter<"IdentityDetails"> | boolean | null
+    enrolledGovernmentProgram?: StringNullableFilter<"IdentityDetails"> | string | null
     NIS?: StringNullableFilter<"IdentityDetails"> | string | null
     incomeSource?: EnumIncomeSourceNullableListFilter<"IdentityDetails">
     livesAlone?: BoolFilter<"IdentityDetails"> | boolean
@@ -42646,6 +42673,7 @@ export namespace Prisma {
     UF?: SortOrderInput | SortOrder
     CEP?: SortOrderInput | SortOrder
     specialNeedsDescription?: SortOrderInput | SortOrder
+    specialNeedsType?: SortOrderInput | SortOrder
     hasMedicalReport?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     landlinePhone?: SortOrderInput | SortOrder
@@ -42713,13 +42741,14 @@ export namespace Prisma {
     UF?: EnumCOUNTRYNullableWithAggregatesFilter<"IdentityDetails"> | $Enums.COUNTRY | null
     CEP?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     specialNeedsDescription?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
+    specialNeedsType?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     hasMedicalReport?: BoolNullableWithAggregatesFilter<"IdentityDetails"> | boolean | null
     email?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     landlinePhone?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     workPhone?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     contactNameForMessage?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     profession?: StringWithAggregatesFilter<"IdentityDetails"> | string
-    enrolledGovernmentProgram?: BoolNullableWithAggregatesFilter<"IdentityDetails"> | boolean | null
+    enrolledGovernmentProgram?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     NIS?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     incomeSource?: EnumIncomeSourceNullableListFilter<"IdentityDetails">
     livesAlone?: BoolWithAggregatesFilter<"IdentityDetails"> | boolean
@@ -42772,13 +42801,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFilter<"FamilyMember"> | $Enums.SCHOLARSHIP
     specialNeeds?: BoolNullableFilter<"FamilyMember"> | boolean | null
     specialNeedsDescription?: StringNullableFilter<"FamilyMember"> | string | null
+    specialNeedsType?: StringNullableFilter<"FamilyMember"> | string | null
     hasMedicalReport?: BoolNullableFilter<"FamilyMember"> | boolean | null
     landlinePhone?: StringNullableFilter<"FamilyMember"> | string | null
     workPhone?: StringNullableFilter<"FamilyMember"> | string | null
     contactNameForMessage?: StringNullableFilter<"FamilyMember"> | string | null
     email?: StringNullableFilter<"FamilyMember"> | string | null
     profession?: StringFilter<"FamilyMember"> | string
-    enrolledGovernmentProgram?: BoolNullableFilter<"FamilyMember"> | boolean | null
+    enrolledGovernmentProgram?: StringNullableFilter<"FamilyMember"> | string | null
     NIS?: StringNullableFilter<"FamilyMember"> | string | null
     educationPlace?: EnumINSTITUTION_TYPENullableFilter<"FamilyMember"> | $Enums.INSTITUTION_TYPE | null
     institutionName?: StringNullableFilter<"FamilyMember"> | string | null
@@ -42841,6 +42871,7 @@ export namespace Prisma {
     educationLevel?: SortOrder
     specialNeeds?: SortOrderInput | SortOrder
     specialNeedsDescription?: SortOrderInput | SortOrder
+    specialNeedsType?: SortOrderInput | SortOrder
     hasMedicalReport?: SortOrderInput | SortOrder
     landlinePhone?: SortOrderInput | SortOrder
     workPhone?: SortOrderInput | SortOrder
@@ -42914,13 +42945,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFilter<"FamilyMember"> | $Enums.SCHOLARSHIP
     specialNeeds?: BoolNullableFilter<"FamilyMember"> | boolean | null
     specialNeedsDescription?: StringNullableFilter<"FamilyMember"> | string | null
+    specialNeedsType?: StringNullableFilter<"FamilyMember"> | string | null
     hasMedicalReport?: BoolNullableFilter<"FamilyMember"> | boolean | null
     landlinePhone?: StringNullableFilter<"FamilyMember"> | string | null
     workPhone?: StringNullableFilter<"FamilyMember"> | string | null
     contactNameForMessage?: StringNullableFilter<"FamilyMember"> | string | null
     email?: StringNullableFilter<"FamilyMember"> | string | null
     profession?: StringFilter<"FamilyMember"> | string
-    enrolledGovernmentProgram?: BoolNullableFilter<"FamilyMember"> | boolean | null
+    enrolledGovernmentProgram?: StringNullableFilter<"FamilyMember"> | string | null
     NIS?: StringNullableFilter<"FamilyMember"> | string | null
     educationPlace?: EnumINSTITUTION_TYPENullableFilter<"FamilyMember"> | $Enums.INSTITUTION_TYPE | null
     institutionName?: StringNullableFilter<"FamilyMember"> | string | null
@@ -42983,6 +43015,7 @@ export namespace Prisma {
     educationLevel?: SortOrder
     specialNeeds?: SortOrderInput | SortOrder
     specialNeedsDescription?: SortOrderInput | SortOrder
+    specialNeedsType?: SortOrderInput | SortOrder
     hasMedicalReport?: SortOrderInput | SortOrder
     landlinePhone?: SortOrderInput | SortOrder
     workPhone?: SortOrderInput | SortOrder
@@ -43045,13 +43078,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPWithAggregatesFilter<"FamilyMember"> | $Enums.SCHOLARSHIP
     specialNeeds?: BoolNullableWithAggregatesFilter<"FamilyMember"> | boolean | null
     specialNeedsDescription?: StringNullableWithAggregatesFilter<"FamilyMember"> | string | null
+    specialNeedsType?: StringNullableWithAggregatesFilter<"FamilyMember"> | string | null
     hasMedicalReport?: BoolNullableWithAggregatesFilter<"FamilyMember"> | boolean | null
     landlinePhone?: StringNullableWithAggregatesFilter<"FamilyMember"> | string | null
     workPhone?: StringNullableWithAggregatesFilter<"FamilyMember"> | string | null
     contactNameForMessage?: StringNullableWithAggregatesFilter<"FamilyMember"> | string | null
     email?: StringNullableWithAggregatesFilter<"FamilyMember"> | string | null
     profession?: StringWithAggregatesFilter<"FamilyMember"> | string
-    enrolledGovernmentProgram?: BoolNullableWithAggregatesFilter<"FamilyMember"> | boolean | null
+    enrolledGovernmentProgram?: StringNullableWithAggregatesFilter<"FamilyMember"> | string | null
     NIS?: StringNullableWithAggregatesFilter<"FamilyMember"> | string | null
     educationPlace?: EnumINSTITUTION_TYPENullableWithAggregatesFilter<"FamilyMember"> | $Enums.INSTITUTION_TYPE | null
     institutionName?: StringNullableWithAggregatesFilter<"FamilyMember"> | string | null
@@ -46226,13 +46260,14 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     CEP?: string | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     incomeSource?: IdentityDetailsCreateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone: boolean
@@ -46287,13 +46322,14 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     CEP?: string | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     incomeSource?: IdentityDetailsCreateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone: boolean
@@ -46348,13 +46384,14 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     incomeSource?: IdentityDetailsUpdateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone?: BoolFieldUpdateOperationsInput | boolean
@@ -46409,13 +46446,14 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     incomeSource?: IdentityDetailsUpdateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone?: BoolFieldUpdateOperationsInput | boolean
@@ -46470,13 +46508,14 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     CEP?: string | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     incomeSource?: IdentityDetailsCreateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone: boolean
@@ -46531,13 +46570,14 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     incomeSource?: IdentityDetailsUpdateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone?: BoolFieldUpdateOperationsInput | boolean
@@ -46590,13 +46630,14 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     incomeSource?: IdentityDetailsUpdateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone?: BoolFieldUpdateOperationsInput | boolean
@@ -46646,13 +46687,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -46713,13 +46755,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -46780,13 +46823,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -46847,13 +46891,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -46914,13 +46959,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -46970,13 +47016,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47024,13 +47071,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50396,6 +50444,7 @@ export namespace Prisma {
     UF?: SortOrder
     CEP?: SortOrder
     specialNeedsDescription?: SortOrder
+    specialNeedsType?: SortOrder
     hasMedicalReport?: SortOrder
     email?: SortOrder
     landlinePhone?: SortOrder
@@ -50457,6 +50506,7 @@ export namespace Prisma {
     UF?: SortOrder
     CEP?: SortOrder
     specialNeedsDescription?: SortOrder
+    specialNeedsType?: SortOrder
     hasMedicalReport?: SortOrder
     email?: SortOrder
     landlinePhone?: SortOrder
@@ -50516,6 +50566,7 @@ export namespace Prisma {
     UF?: SortOrder
     CEP?: SortOrder
     specialNeedsDescription?: SortOrder
+    specialNeedsType?: SortOrder
     hasMedicalReport?: SortOrder
     email?: SortOrder
     landlinePhone?: SortOrder
@@ -50686,6 +50737,7 @@ export namespace Prisma {
     educationLevel?: SortOrder
     specialNeeds?: SortOrder
     specialNeedsDescription?: SortOrder
+    specialNeedsType?: SortOrder
     hasMedicalReport?: SortOrder
     landlinePhone?: SortOrder
     workPhone?: SortOrder
@@ -50742,6 +50794,7 @@ export namespace Prisma {
     educationLevel?: SortOrder
     specialNeeds?: SortOrder
     specialNeedsDescription?: SortOrder
+    specialNeedsType?: SortOrder
     hasMedicalReport?: SortOrder
     landlinePhone?: SortOrder
     workPhone?: SortOrder
@@ -50797,6 +50850,7 @@ export namespace Prisma {
     educationLevel?: SortOrder
     specialNeeds?: SortOrder
     specialNeedsDescription?: SortOrder
+    specialNeedsType?: SortOrder
     hasMedicalReport?: SortOrder
     landlinePhone?: SortOrder
     workPhone?: SortOrder
@@ -58099,13 +58153,14 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     CEP?: string | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     incomeSource?: IdentityDetailsCreateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone: boolean
@@ -58159,13 +58214,14 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     CEP?: string | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     incomeSource?: IdentityDetailsCreateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone: boolean
@@ -58475,13 +58531,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -58541,13 +58598,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -59047,13 +59105,14 @@ export namespace Prisma {
     UF?: EnumCOUNTRYNullableFilter<"IdentityDetails"> | $Enums.COUNTRY | null
     CEP?: StringNullableFilter<"IdentityDetails"> | string | null
     specialNeedsDescription?: StringNullableFilter<"IdentityDetails"> | string | null
+    specialNeedsType?: StringNullableFilter<"IdentityDetails"> | string | null
     hasMedicalReport?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     email?: StringNullableFilter<"IdentityDetails"> | string | null
     landlinePhone?: StringNullableFilter<"IdentityDetails"> | string | null
     workPhone?: StringNullableFilter<"IdentityDetails"> | string | null
     contactNameForMessage?: StringNullableFilter<"IdentityDetails"> | string | null
     profession?: StringFilter<"IdentityDetails"> | string
-    enrolledGovernmentProgram?: BoolNullableFilter<"IdentityDetails"> | boolean | null
+    enrolledGovernmentProgram?: StringNullableFilter<"IdentityDetails"> | string | null
     NIS?: StringNullableFilter<"IdentityDetails"> | string | null
     incomeSource?: EnumIncomeSourceNullableListFilter<"IdentityDetails">
     livesAlone?: BoolFilter<"IdentityDetails"> | boolean
@@ -59352,13 +59411,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFilter<"FamilyMember"> | $Enums.SCHOLARSHIP
     specialNeeds?: BoolNullableFilter<"FamilyMember"> | boolean | null
     specialNeedsDescription?: StringNullableFilter<"FamilyMember"> | string | null
+    specialNeedsType?: StringNullableFilter<"FamilyMember"> | string | null
     hasMedicalReport?: BoolNullableFilter<"FamilyMember"> | boolean | null
     landlinePhone?: StringNullableFilter<"FamilyMember"> | string | null
     workPhone?: StringNullableFilter<"FamilyMember"> | string | null
     contactNameForMessage?: StringNullableFilter<"FamilyMember"> | string | null
     email?: StringNullableFilter<"FamilyMember"> | string | null
     profession?: StringFilter<"FamilyMember"> | string
-    enrolledGovernmentProgram?: BoolNullableFilter<"FamilyMember"> | boolean | null
+    enrolledGovernmentProgram?: StringNullableFilter<"FamilyMember"> | string | null
     NIS?: StringNullableFilter<"FamilyMember"> | string | null
     educationPlace?: EnumINSTITUTION_TYPENullableFilter<"FamilyMember"> | $Enums.INSTITUTION_TYPE | null
     institutionName?: StringNullableFilter<"FamilyMember"> | string | null
@@ -59922,13 +59982,14 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     CEP?: string | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     incomeSource?: IdentityDetailsCreateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone: boolean
@@ -59982,13 +60043,14 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     CEP?: string | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     incomeSource?: IdentityDetailsCreateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone: boolean
@@ -60157,13 +60219,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -60223,13 +60286,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -64433,13 +64497,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -64499,13 +64564,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -64727,13 +64793,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64793,13 +64860,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -65017,13 +65085,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -65083,13 +65152,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -65311,13 +65381,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -65377,13 +65448,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -65601,13 +65673,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -65667,13 +65740,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -65895,13 +65969,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -65961,13 +66036,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -66556,13 +66632,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -66622,13 +66699,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -66856,13 +66934,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -66922,13 +67001,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -67140,13 +67220,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -67206,13 +67287,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -67440,13 +67522,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -67506,13 +67589,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -67724,13 +67808,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -67790,13 +67875,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -68024,13 +68110,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -68090,13 +68177,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -68308,13 +68396,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -68374,13 +68463,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -68608,13 +68698,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -68674,13 +68765,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -68825,13 +68917,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -68891,13 +68984,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -69153,13 +69247,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -69219,13 +69314,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -69459,13 +69555,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -69525,13 +69622,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -69784,13 +69882,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -69850,13 +69949,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -70178,13 +70278,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -70244,13 +70345,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -70478,13 +70580,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -70544,13 +70647,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -72718,13 +72822,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -72784,13 +72889,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -72907,13 +73013,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -72973,13 +73080,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -73185,13 +73293,14 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     CEP?: string | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     incomeSource?: IdentityDetailsCreateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone: boolean
@@ -73305,13 +73414,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -73736,13 +73846,14 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     incomeSource?: IdentityDetailsUpdateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone?: BoolFieldUpdateOperationsInput | boolean
@@ -73796,13 +73907,14 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     incomeSource?: IdentityDetailsUpdateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone?: BoolFieldUpdateOperationsInput | boolean
@@ -73856,13 +73968,14 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     incomeSource?: IdentityDetailsUpdateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone?: BoolFieldUpdateOperationsInput | boolean
@@ -74108,13 +74221,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -74174,13 +74288,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -74240,13 +74355,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -74557,13 +74673,14 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     CEP?: string | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     email?: string | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     incomeSource?: IdentityDetailsCreateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone: boolean
@@ -74641,13 +74758,14 @@ export namespace Prisma {
     educationLevel: $Enums.SCHOLARSHIP
     specialNeeds?: boolean | null
     specialNeedsDescription?: string | null
+    specialNeedsType?: string | null
     hasMedicalReport?: boolean | null
     landlinePhone?: string | null
     workPhone?: string | null
     contactNameForMessage?: string | null
     email?: string | null
     profession: string
-    enrolledGovernmentProgram?: boolean | null
+    enrolledGovernmentProgram?: string | null
     NIS?: string | null
     educationPlace?: $Enums.INSTITUTION_TYPE | null
     institutionName?: string | null
@@ -74931,13 +75049,14 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     incomeSource?: IdentityDetailsUpdateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone?: BoolFieldUpdateOperationsInput | boolean
@@ -74991,13 +75110,14 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     incomeSource?: IdentityDetailsUpdateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone?: BoolFieldUpdateOperationsInput | boolean
@@ -75051,13 +75171,14 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     CEP?: NullableStringFieldUpdateOperationsInput | string | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     incomeSource?: IdentityDetailsUpdateincomeSourceInput | $Enums.IncomeSource[]
     livesAlone?: BoolFieldUpdateOperationsInput | boolean
@@ -75225,13 +75346,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -75291,13 +75413,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -75357,13 +75480,14 @@ export namespace Prisma {
     educationLevel?: EnumSCHOLARSHIPFieldUpdateOperationsInput | $Enums.SCHOLARSHIP
     specialNeeds?: NullableBoolFieldUpdateOperationsInput | boolean | null
     specialNeedsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    specialNeedsType?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: NullableBoolFieldUpdateOperationsInput | boolean | null
     landlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
     workPhone?: NullableStringFieldUpdateOperationsInput | string | null
     contactNameForMessage?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     profession?: StringFieldUpdateOperationsInput | string
-    enrolledGovernmentProgram?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    enrolledGovernmentProgram?: NullableStringFieldUpdateOperationsInput | string | null
     NIS?: NullableStringFieldUpdateOperationsInput | string | null
     educationPlace?: NullableEnumINSTITUTION_TYPEFieldUpdateOperationsInput | $Enums.INSTITUTION_TYPE | null
     institutionName?: NullableStringFieldUpdateOperationsInput | string | null

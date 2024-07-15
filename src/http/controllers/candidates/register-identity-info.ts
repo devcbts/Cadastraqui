@@ -43,11 +43,12 @@ export async function registerIdentityInfo(
     hasMedicalReport: z.boolean().default(false),
     specialNeeds: z.union([z.boolean(), z.undefined(), z.null()]),
     specialNeedsDescription: z.union([z.string(), z.undefined(), z.null()]),
+    specialNeedsType: z.union([z.string(), z.undefined(), z.null()]),
     landlinePhone: z.union([z.string(), z.undefined(), z.null()]),
     workPhone: z.union([z.string(), z.undefined(), z.null()]),
     contactNameForMessage: z.union([z.string(), z.undefined(), z.null()]),
     profession: z.string(),
-    enrolledGovernmentProgram: z.union([z.boolean(), z.undefined(), z.null()]),
+    enrolledGovernmentProgram: z.union([z.string(), z.undefined(), z.null()]),
     NIS: z.union([z.string(), z.undefined(), z.null()]),
     incomeSource: z.array(IncomeSource).default([]),
     livesAlone: z.boolean().default(false),
@@ -134,7 +135,8 @@ export async function registerIdentityInfo(
     neighborhood,
     hasSevereDeseaseOrUsesMedication,
     hasBankAccount,
-    hasMedicalReport
+    hasMedicalReport,
+    specialNeedsType
 
   } = userDataSchema.parse(request.body)
 
@@ -201,6 +203,7 @@ export async function registerIdentityInfo(
         scholarshipType_professional,
         specialNeeds,
         specialNeedsDescription,
+        specialNeedsType,
         workPhone,
         yearsBenefitedFromCebas_basic: [],
         ...idField,

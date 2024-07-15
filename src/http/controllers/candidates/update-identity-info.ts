@@ -130,11 +130,12 @@ export async function updateIdentityInfo(
     educationLevel: z.union([SCHOLARSHIP, z.null()]),
     specialNeeds: z.union([z.boolean(), z.null()]),
     specialNeedsDescription: z.union([z.string(), z.null()]),
+    specialNeedsType: z.union([z.string(), z.null()]),
     landlinePhone: z.union([z.string(), z.null()]),
     workPhone: z.union([z.string(), z.null()]),
     contactNameForMessage: z.union([z.string(), z.null()]),
     profession: z.string().optional(),
-    enrolledGovernmentProgram: z.union([z.boolean(), z.null()]),
+    enrolledGovernmentProgram: z.union([z.string(), z.null()]),
     NIS: z.union([z.string(), z.null()]),
     incomeSource: z.array(IncomeSource).optional(),
     livesAlone: z.boolean().optional(),
@@ -225,7 +226,8 @@ export async function updateIdentityInfo(
     complement,
     hasSevereDeseaseOrUsesMedication,
     hasBankAccount,
-    hasMedicalReport
+    hasMedicalReport,
+    specialNeedsType
 
   } = userDataSchema.parse(request.body)
 
@@ -285,6 +287,7 @@ export async function updateIdentityInfo(
       scholarshipType_professional,
       specialNeeds,
       specialNeedsDescription,
+      specialNeedsType,
       workPhone,
       yearsBenefitedFromCebas_basic,
       CadUnico,

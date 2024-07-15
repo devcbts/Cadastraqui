@@ -240,13 +240,14 @@ model IdentityDetails {
   UF                                         COUNTRY?
   CEP                                        String?
   specialNeedsDescription                    String?
+  specialNeedsType                           String?
   hasMedicalReport                           Boolean?
   email                                      String?
   landlinePhone                              String?
   workPhone                                  String?
   contactNameForMessage                      String?
   profession                                 String
-  enrolledGovernmentProgram                  Boolean?
+  enrolledGovernmentProgram                  String?
   NIS                                        String?
   incomeSource                               IncomeSource[]
   livesAlone                                 Boolean
@@ -296,13 +297,14 @@ model FamilyMember {
   educationLevel                             SCHOLARSHIP
   specialNeeds                               Boolean?
   specialNeedsDescription                    String?
+  specialNeedsType                           String?
   hasMedicalReport                           Boolean?
   landlinePhone                              String?
   workPhone                                  String?
   contactNameForMessage                      String?
   email                                      String?
   profession                                 String
-  enrolledGovernmentProgram                  Boolean?
+  enrolledGovernmentProgram                  String?
   NIS                                        String?
   educationPlace                             INSTITUTION_TYPE?
   institutionName                            String?

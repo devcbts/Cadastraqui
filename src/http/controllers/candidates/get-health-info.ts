@@ -37,18 +37,25 @@ export async function getHealthInfo(
       const healthInfoResults = []
       for (const familyMember of familyMembers) {
         try {
-          const familyMemberHealthInfo = await prisma.familyMemberDisease.findMany({
-            where: { familyMember_id: familyMember.id },
-            include: { medications: true }
+          // get the current family Member
+          const familyMemberHealthInfo = await prisma.familyMember.findUnique({
+            where: { id: familyMember.id },
+            include: { FamilyMemberDisease: { include: { medications: true } } }
           })
 
-          const healthInfo: { id: string, disease?: any, specificDisease?: any, hasMedicalReport: boolean, medication: any[] }[] = familyMemberHealthInfo.map(disease => ({
+          const healthInfo: {
+            id: string,
+            disease?: any,
+            specificDisease?: any,
+            hasMedicalReport: boolean,
+            medication: any[]
+          }[] = familyMemberHealthInfo?.FamilyMemberDisease?.map(disease => ({
             id: disease.id,
             disease: disease,
             hasMedicalReport: disease.hasMedicalReport,
             specificDisease: disease.specificDisease,
             medication: disease.medications
-          }))
+          })) ?? []
           const familyMedicationInfo = await prisma.medication.findMany({
             where: { familyMember_id: familyMember.id },
             include: { FamilyMemberDisease: true }
@@ -59,13 +66,17 @@ export async function getHealthInfo(
               healthInfo.push({ id: med.id, disease: null, medication: [med], hasMedicalReport: false })
             }
           })
-          healthInfoResults.push({ name: familyMember.fullName, id: familyMember.id, healthInfo })
+          healthInfoResults.push({ name: familyMember.fullName, id: familyMember.id, healthInfo, hasDiseaseOrMedication: familyMemberHealthInfo?.hasSevereDeseaseOrUsesMedication, isUser: false })
         } catch (error) {
           throw new ResourceNotFoundError()
         }
       }
       return healthInfoResults
     }
+    const candidateHasDisease = await prisma.identityDetails.findFirst({
+      where: { OR: [{ responsible_id: candidateOrResponsible.UserData.id }, { candidate_id: candidateOrResponsible.UserData.id }] },
+      select: { hasSevereDeseaseOrUsesMedication: true }
+    })
     const candidateDisease = await prisma.familyMemberDisease.findMany({
       where: idField,
       include: { medications: true }
@@ -93,7 +104,7 @@ export async function getHealthInfo(
     let healthInfoResults = await fetchData(familyMembers)
 
 
-    healthInfoResults.push({ name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, healthInfo })
+    healthInfoResults.push({ name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, healthInfo, hasDiseaseOrMedication: candidateHasDisease?.hasSevereDeseaseOrUsesMedication, isUser: true })
     const urlsHealth = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'health')
     const urlsMedication = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'medication')
     const healthInfoResultsWithUrls = healthInfoResults.map((member) => {
@@ -105,12 +116,12 @@ export async function getHealthInfo(
         return {
           ...disease,
           urlsHealth: Object.fromEntries(healthDocuments),
-          urlsmedication: Object.fromEntries(medicationDocuments)
+          urlsmedication: Object.fromEntries(medicationDocuments),
         }
       })
       return {
         ...member,
-        healthInfoResultsUrls
+        healthInfoResultsUrls,
       }
     })
 
