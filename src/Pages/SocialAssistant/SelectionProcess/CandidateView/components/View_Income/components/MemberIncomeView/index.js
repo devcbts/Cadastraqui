@@ -5,8 +5,8 @@ import FormList from "Pages/SubscribeForm/components/FormList"
 import FormListItem from "Pages/SubscribeForm/components/FormList/FormListItem"
 import ViewBankAccount from "../../../View_BankAccount"
 import socialAssistantService from "services/socialAssistant/socialAssistantService"
-
-export default function MemberIncomeView({ member, onSelect, applicationId }) {
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
+export default function MemberIncomeView({ member, onSelect, applicationId, onBack }) {
     const { id, fullName } = member
     const [isLoading, setIsLoading] = useState(true)
     // MonthlyIncome stores an array with registered months
@@ -35,23 +35,28 @@ export default function MemberIncomeView({ member, onSelect, applicationId }) {
     return (
         <>
             {!showBankAccount ? (
-                <FormList.Root title={"Rendas cadastradas"} isLoading={isLoading}>
-                    <h2>{fullName} </h2>
-                    <RowTextAction text={"declarações e comprovantes bancários"} label={'visualizar'} onClick={handleShowBankAccount} />
-                    <FormList.List list={incomeInfo.monthlyIncome} text={`Nenhuma renda cadastrada para ${fullName}`} render={(item) => {
-                        return (
-                            <FormListItem.Root text={item.income.label}>
-                                <FormListItem.Actions>
-                                    <ButtonBase label={"visualizar"} onClick={() => onSelect({ member: member, income: item, info: incomeInfo?.info.find(e => e.employmentType === item.income.value) })} />
-                                </FormListItem.Actions>
-                            </FormListItem.Root>
-                        )
-                    }}>
-                    </FormList.List>
-                </FormList.Root>
+                <>
+                    <FormList.Root title={"Rendas cadastradas"} isLoading={isLoading}>
+                        <h2>{fullName} </h2>
+                        <RowTextAction text={"declarações e comprovantes bancários"} label={'visualizar'} onClick={handleShowBankAccount} />
+                        <FormList.List list={incomeInfo.monthlyIncome} text={`Nenhuma renda cadastrada para ${fullName}`} render={(item) => {
+                            return (
+                                <FormListItem.Root text={item.income.label}>
+                                    <FormListItem.Actions>
+                                        <ButtonBase label={"visualizar"} onClick={() => onSelect({ member: member, income: item, info: incomeInfo?.info.find(e => e.employmentType === item.income.value) })} />
+                                    </FormListItem.Actions>
+                                </FormListItem.Root>
+                            )
+                        }}>
+                        </FormList.List>
+                    </FormList.Root>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
+                        <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                    </div>
+                </>
             )
                 : (
-                    <ViewBankAccount id={member.id} applicationId={applicationId} />
+                    <ViewBankAccount id={member.id} applicationId={applicationId} onBack={() => setShowBankAccount(false)} />
                 )
             }
         </>

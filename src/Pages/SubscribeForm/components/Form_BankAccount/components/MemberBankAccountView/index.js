@@ -65,12 +65,12 @@ export default function MemberBankAccountView({ id, onSelect, onBack, onAdd }) {
             {isReportOpen ?
                 <BankReport id={id} onBack={() => setIsReportOpen(false)} />
                 : <>
-                    <RowTextAction
-                        text={'relatório de contas e relacionamentos (CCS)'}
-                        label={'visualizar'}
-                        onClick={handleReport}
-                    />
                     <FormList.Root title={"Contas cadastradas"} isLoading={isLoading}>
+                        <RowTextAction
+                            text={'relatório de contas e relacionamentos (CCS)'}
+                            label={'visualizar'}
+                            onClick={handleReport}
+                        />
                         <FormList.List list={bankingInfo.accounts} text={`Nenhuma conta cadastrada, clique abaixo para realizar o primeiro cadastro`} render={(item) => {
                             return (
                                 <FormListItem.Root text={item.bankName}>

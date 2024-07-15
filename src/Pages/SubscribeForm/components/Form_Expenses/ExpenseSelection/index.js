@@ -16,14 +16,14 @@ const ExpenseSelection = forwardRef(({ data, viewMode = false }, ref) => {
     useEffect(() => {
         const lastMonthExpenses = parseFloat(data?.months?.sort((a, b) => {
             return new Date(a.date) < new Date(b.date)
-        })?.[0]?.totalExpense?.toString().replace(/[^\d,.]/g, '').replace(',', '.'))
+        })?.[0]?.totalExpense?.toString().replace(/[^\d,.]/g, '').replace(',', '.') ?? 0)
         const totalExpense = data?.months?.reduce((acc, e) => {
             acc += parseFloat(e.totalExpense.toString().replace(/[^\d,.]/g, '').replace(',', '.'))
             return acc
         }, 0)
         const validMonths = data?.months?.filter((e) => e.isUpdated)?.length
-         const monthAvg = ((totalExpense ?? 0) / (!validMonths ? 1 : validMonths))?.toFixed(2)
-         setTotal(moneyInputMask(lastMonthExpenses?.toFixed?.(2)))
+        const monthAvg = ((totalExpense ?? 0) / (!validMonths ? 1 : validMonths))?.toFixed(2)
+        setTotal(moneyInputMask(lastMonthExpenses?.toFixed?.(2)))
         setAvg(moneyInputMask(monthAvg))
     }, [data])
     return (

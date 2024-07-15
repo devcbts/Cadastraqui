@@ -19,6 +19,7 @@ const PersonalInformation = forwardRef(({ data }, ref) => {
             educationLevel: '',
             specialNeeds: null,
             specialNeedsDescription: '',
+            specialNeedsType: '',
             religion: ''
         },
         initialData: data
@@ -40,7 +41,10 @@ const PersonalInformation = forwardRef(({ data }, ref) => {
             <FormCheckbox name="specialNeeds" label="necessidades especiais" control={control} />
             {
                 watchNeeds && (
-                    <InputForm control={control} name={"specialNeedsDescription"} label={"descrição das necessidades especiais"} />
+                    <>
+                        <InputForm control={control} name={"specialNeedsType"} label={"tipo das necessidades especiais"} />
+                        <InputForm control={control} name={"specialNeedsDescription"} label={"descrição das necessidades especiais"} />
+                    </>
                 )
             }
         </div>

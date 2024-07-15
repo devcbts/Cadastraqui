@@ -11,7 +11,7 @@ const Benefits = forwardRef(({ data }, ref) => {
     const { control, watch, resetField } = useControlForm({
         schema: benefitsSchema,
         defaultValues: {
-            enrolledGovernmentProgram: null,
+            enrolledGovernmentProgram: "",
             NIS: "",
             attendedPublicHighSchool: null,
             benefitedFromCebasScholarship_basic: null,
@@ -27,24 +27,25 @@ const Benefits = forwardRef(({ data }, ref) => {
     useEffect(() => {
         if (!watchCad) {
             resetField("NIS", { defaultValue: '', keepDirty: false, keepError: false })
+            resetField("enrolledGovernmentProgram", { defaultValue: '', keepDirty: false, keepError: false })
         }
     }, [watchCad])
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Benefícios e Programas</h1>
             <div className={styles.container}>
-                <div className={watchCad && styles.grid}>
-                    <FormCheckbox name={"CadUnico"} control={control} label={"Inscrito no cadastro único?"} />
+                <FormCheckbox name={"CadUnico"} control={control} label={"Inscrito no cadastro único?"} />
 
-                    {watchCad &&
-                        <InputForm name={"NIS"} control={control} label={"Número de Identificação Social (NIS)"} />
-                    }
-                </div>
                 <div className={styles.grid}>
+                    {watchCad &&
+                        <>
+                            <InputForm name={"NIS"} control={control} label={"Número de Identificação Social (NIS)"} />
+                            <InputForm name={"enrolledGovernmentProgram"} control={control} label={"inscrito em qual programa governamental?"} />
+                        </>
+                    }
                     <FormCheckbox name={"attendedPublicHighSchool"} control={control} label={"estudou em escola pública?"} />
                     <FormCheckbox name={"benefitedFromCebasScholarship_basic"} control={control} label={"já recebeu bolsa CEBAS para educação básica?"} />
                     <FormCheckbox name={"benefitedFromCebasScholarship_professional"} control={control} label={"já recebeu bolsa CEBAS para educação profissional?"} />
-                    <FormCheckbox name={"enrolledGovernmentProgram"} control={control} label={"inscrito em programa governamental?"} />
                 </div>
             </div>
         </div>

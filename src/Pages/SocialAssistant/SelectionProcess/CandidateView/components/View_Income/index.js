@@ -16,6 +16,7 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 import { useEffect, useState } from "react"
 import { useRecoilValue } from "recoil"
 import IncomeList from "./components/IncomeList"
+import IncomeFile from "Pages/SubscribeForm/components/Form_Income/IncomeFile"
 
 export default function ViewIncome({ candidateId, applicationId }) {
     const [renderItems, setRenderItems] = useState()
@@ -38,13 +39,20 @@ export default function ViewIncome({ candidateId, applicationId }) {
             setRenderItems([IncomeSelection, InformationModelA, IncomeFormModelA])
         } else if (['IndividualEntrepreneur'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelA])
-        } else if (['PrivateEmployee', 'PublicEmployee', 'DomesticEmployee', 'Retired', 'Pensioner', 'Apprentice', 'TemporaryDisabilityBenefit', 'Volunteer', 'Student'].includes(currentIncomeSource)) {
+        } else if (['PrivateEmployee', 'PublicEmployee', 'DomesticEmployee', 'Retired', 'Pensioner', 'Apprentice', 'TemporaryDisabilityBenefit'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelB])
         } else if (['BusinessOwnerSimplifiedTax', 'BusinessOwner'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelC])
         } else if (['Alimony', 'FinancialHelpFromOthers'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelD, IncomeFormModelD])
-        } else {
+        } else if (['Volunteer', 'Student'].includes(currentIncomeSource)) {
+            setRenderItems([IncomeSelection
+                , <IncomeFile
+                    label={currentIncomeSource === "Student" ? "declaração que comprove frequência escolar" : null}
+                />])
+        }
+
+        else {
             setRenderItems([IncomeSelection])
         }
     }, [data?.incomeSource])

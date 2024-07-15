@@ -115,7 +115,10 @@ export default function FormIncome() {
             setRenderItems([IncomeSelection, InformationModelD, IncomeFormModelD, FinancialHelp])
         }
         else if (['Volunteer', 'Student'].includes(currentIncomeSource)) {
-            setRenderItems([IncomeSelection, IncomeFile])
+            setRenderItems([IncomeSelection
+                , <IncomeFile
+                    label={currentIncomeSource === "Student" ? "declaração que comprove frequência escolar" : null}
+                />])
         } else {
             setRenderItems([IncomeSelection])
         }

@@ -7,7 +7,9 @@ import { NotificationService } from "services/notification"
 import BankReport from "../BankReport"
 import ButtonBase from "Components/ButtonBase"
 import socialAssistantService from "services/socialAssistant/socialAssistantService"
-export default function MemberBankAccount({ id, onSelect, applicationId }) {
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
+
+export default function MemberBankAccount({ id, onSelect, applicationId, onBack }) {
     const [isLoading, setIsLoading] = useState(true)
     const [accounts, setAccounts] = useState([])
     // TODO: fetch bank account information from SPECIFIC USER
@@ -32,14 +34,14 @@ export default function MemberBankAccount({ id, onSelect, applicationId }) {
     return (
         <>
             {isReportOpen ?
-                <BankReport id={id} />
+                <BankReport id={id} onBack={handleReport} />
                 : <>
-                    <RowTextAction
-                        text={'relatório de contas e relacionamentos (CCS)'}
-                        label={'visualizar'}
-                        onClick={handleReport}
-                    />
                     <FormList.Root title={"Contas cadastradas"} isLoading={isLoading}>
+                        <RowTextAction
+                            text={'relatório de contas e relacionamentos (CCS)'}
+                            label={'visualizar'}
+                            onClick={handleReport}
+                        />
                         <FormList.List list={accounts} text={`Nenhuma conta cadastrada para este membro familiar`} render={(item) => {
                             return (
                                 <FormListItem.Root text={item.bankName}>
@@ -52,6 +54,9 @@ export default function MemberBankAccount({ id, onSelect, applicationId }) {
 
                         </FormList.List>
                     </FormList.Root>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
+                        <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                    </div>
                 </>
             }
 

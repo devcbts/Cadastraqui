@@ -7,7 +7,9 @@ import Table from "Components/Table";
 import ButtonBase from "Components/ButtonBase";
 import socialAssistantService from "services/socialAssistant/socialAssistantService";
 import { useEffect, useState } from "react";
-export default function BankReport({ applicationId, id }) {
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
+
+export default function BankReport({ applicationId, id, onBack }) {
     // { date: '', url: '' }
     const [data, setData] = useState(null)
     useEffect(() => {
@@ -33,7 +35,7 @@ export default function BankReport({ applicationId, id }) {
             <h1>{new Date().toLocaleString('pt-br', { year: 'numeric', month: 'long' }).toUpperCase()}</h1>
             <div className={styles.report}>
                 <h1>Relatório de Contas e Relacionamentos (CCS)</h1>
-                {data && <Table.Root headers={['data', 'status', 'ações']}>
+                {data && < Table.Root headers={['data', 'status', 'ações']}>
                     <Table.Row>
                         <Table.Cell>{data.date?.toLocaleString('pt-br', { month: 'long', year: 'numeric' })}</Table.Cell>
                         <Table.Cell>{getStatus()}</Table.Cell>
@@ -44,8 +46,10 @@ export default function BankReport({ applicationId, id }) {
                         </Table.Cell>
                     </Table.Row>
                 </Table.Root>
-
                 }
+            </div >
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
+                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
             </div>
             <div>
 

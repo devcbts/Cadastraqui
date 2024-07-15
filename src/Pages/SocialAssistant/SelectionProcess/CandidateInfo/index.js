@@ -49,14 +49,19 @@ export default function CandidateInfo() {
         }
     }, [watchReport])
 
-    const handleSearchCNPJ = async () => {
+    const handleSearchCNPJ = async (isCandidate) => {
         try {
             const response = await socialAssistantService.findCPFCNPJ(state?.applicationId)
             if (response) {
-                setSummary((prev) => ({
-                    ...prev,
-                    candidateInfo: { ...prev.candidateInfo, hasCompany: !!response.data.empresas.length }
-                }))
+                isCandidate
+                    ? setSummary((prev) => ({
+                        ...prev,
+                        candidateInfo: { ...prev.candidateInfo, hasCompany: !!response.data?.empresas?.length }
+                    }))
+                    : setSummary((prev) => ({
+                        ...prev,
+                        responsibleInfo: { ...prev.responsibleInfo, hasCompany: !!response.data?.empresas?.length }
+                    }))
             }
         } catch (err) { }
     }
@@ -75,7 +80,8 @@ export default function CandidateInfo() {
                     </span>
                     <span>Ficha do candidato: Em análise</span>
                 </div> */}
-                <BasicInformation data={summary.candidateInfo} onSearch={handleSearchCNPJ} />
+                <BasicInformation data={summary.candidateInfo} onSearch={handleSearchCNPJ} title={'Quadro sintético do candidato'} />
+                <BasicInformation data={summary.responsibleInfo} onSearch={handleSearchCNPJ} title={'Responsável legal'} isCandidate={false} />
                 <FamilyGroup data={summary.familyMembersInfo} />
                 <SummaryData data={summary.importantInfo} />
                 <Course data={summary.applicationInfo} />

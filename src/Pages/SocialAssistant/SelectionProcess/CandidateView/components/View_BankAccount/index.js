@@ -8,7 +8,7 @@ import MemberBankAccount from "./components/MemberBankAccount"
 import BankAccount from "Pages/SubscribeForm/components/Form_BankAccount/components/BankAccount"
 import BankMonthSelection from "Pages/SubscribeForm/components/Form_BankAccount/components/BankMonthSelection"
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
-export default function ViewBankAccount({ id, applicationId }) {
+export default function ViewBankAccount({ id, applicationId, onBack }) {
     const [renderList, setRenderList] = useState([])
     useEffect(() => {
         setRenderList([
@@ -39,7 +39,7 @@ export default function ViewBankAccount({ id, applicationId }) {
     }
     return (
         <>
-            {!data && <MemberBankAccount id={id} onSelect={handleSelectAccount} applicationId={applicationId} />}
+            {!data && <MemberBankAccount id={id} onSelect={handleSelectAccount} applicationId={applicationId} onBack={onBack} />}
             {data && <>
                 <Steps />
                 {!hasMonthSelected && <div className={commonStyles.actions}>
