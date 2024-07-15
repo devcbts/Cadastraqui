@@ -15,7 +15,7 @@ import FormFilePicker from 'Components/FormFilePicker';
 
 export default function Declaration_MEI({ onBack, onNext }) {
     // const [mei, setMei] = useState(null);
-    const [file, setFile] = useState(null);
+    // const [file, setFile] = useState(null);
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const { control, getValues, formState: { isValid }, trigger, watch } = useControlForm({
         schema: declarationMeiSchema,
@@ -39,22 +39,21 @@ export default function Declaration_MEI({ onBack, onNext }) {
             return
         }
         setDeclarationData((prev) => ({ ...prev, mei }))
-        if (mei !== null && (mei ? file : true)) {
-            if (mei && file) {
-                try {
-                    const formData = new FormData()
-                    const file = getValues('file')
-                    formData.append("file_MEI", file)
-                    await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData.id }, formData)
-                    // localStorage.setItem('meiDetails', JSON.stringify({ file: file.name }));
-                    NotificationService.success({ text: 'Documento enviado' })
-                } catch (err) {
-                }
+        if (mei) {
+            try {
+                const formData = new FormData()
+                const file = getValues('file')
+                formData.append("file_MEI", file)
+                await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData.id }, formData)
+                // localStorage.setItem('meiDetails', JSON.stringify({ file: file.name }));
+                NotificationService.success({ text: 'Documento enviado' }).then(_ => onNext(mei))
+            } catch (err) {
+                console.log(err)
             }
-            if (!mei) {
-                candidateService.deleteDeclaration({ userId: declarationData.id, type: 'MEI' }).catch(err => { })
-            }
-            onNext(mei);
+        }
+        if (!mei) {
+            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'MEI' }).catch(err => { })
+            onNext(mei)
         }
     };
 

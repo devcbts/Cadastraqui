@@ -2,32 +2,47 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
+import useControlForm from 'hooks/useControlForm';
+import rentDetailsSchema from './rent-details-schema';
+import InputForm from 'Components/InputForm';
+import { formatCPF } from 'utils/format-cpf';
+import MoneyFormInput from 'Components/MoneyFormInput';
 
 export default function Declaration_RentDetails({ onBack, onSave }) {
-    const [rentValue, setRentValue] = useState('');
-    const [landlordName, setLandlordName] = useState('');
-    const [landlordCpf, setLandlordCpf] = useState('');
-    const [declarationData, setDeclarationData] = useState(null);
-
-    useEffect(() => {
-        const savedData = localStorage.getItem('declarationData');
-        if (savedData) {
-            setDeclarationData(JSON.parse(savedData));
-        }
-    }, []);
+    // const [rentValue, setRentValue] = useState('');
+    // const [landlordName, setLandlordName] = useState('');
+    // const [landlordCpf, setLandlordCpf] = useState('');
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
+    const { control, formState: { isValid }, trigger, getValues } = useControlForm({
+        schema: rentDetailsSchema,
+        defaultValues: {
+            rentValue: '',
+            landlordCpf: '',
+            landlordName: ''
+        },
+        initialData: declarationData?.rent
+    })
+    // useEffect(() => {
+    //     const savedData = localStorage.getItem('declarationData');
+    //     if (savedData) {
+    //         setDeclarationData(JSON.parse(savedData));
+    //     }
+    // }, []);
 
     const handleSave = () => {
-        if (!rentValue || !landlordName || !landlordCpf) {
-            alert('Por favor, preencha todos os campos antes de salvar.');
-            return;
+        // if (!rentValue || !landlordName || !landlordCpf) {
+        //     alert('Por favor, preencha todos os campos antes de salvar.');
+        //     return;
+        // }
+        if (!isValid) {
+            trigger()
+            return
         }
-
-        const rentDetails = {
-            rentValue,
-            landlordName,
-            landlordCpf
-        };
-        localStorage.setItem('rentDetails', JSON.stringify(rentDetails));
+        const rentDetails = getValues()
+        // localStorage.setItem('rentDetails', JSON.stringify(rentDetails));
+        setDeclarationData((prev) => ({ ...prev, rent: { ...prev.rent, ...rentDetails } }))
         onSave();
     };
 
@@ -41,7 +56,10 @@ export default function Declaration_RentDetails({ onBack, onSave }) {
             <h2>DECLARAÇÃO DE IMÓVEL ALUGADO - SEM CONTRATO DE ALUGUEL</h2>
             <h3>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
-                <div className={commonStyles.inputGroup}>
+                <MoneyFormInput control={control} label={'Valor do aluguel'} name="rentValue" />
+                <InputForm control={control} label={'Nome do Locador'} name="landlordName" />
+                <InputForm control={control} label={'CPF do Locador'} name="landlordCpf" transform={(e) => formatCPF(e.target.value)} />
+                {/* <div className={commonStyles.inputGroup}>
                     <label>Valor do aluguel</label>
                     <input
                         type="text"
@@ -67,19 +85,19 @@ export default function Declaration_RentDetails({ onBack, onSave }) {
                         value={landlordCpf}
                         onChange={(e) => setLandlordCpf(e.target.value)}
                     />
-                </div>
+                </div> */}
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}
-                    disabled={!rentValue || !landlordName || !landlordCpf}
-                    style={{
-                        borderColor: !rentValue || !landlordName || !landlordCpf ? '#ccc' : '#1F4B73',
-                        cursor: !rentValue || !landlordName || !landlordCpf ? 'not-allowed' : 'pointer',
-                        opacity: !rentValue || !landlordName || !landlordCpf ? 0.6 : 1
-                    }}
+                // disabled={!rentValue || !landlordName || !landlordCpf}
+                // style={{
+                //     borderColor: !rentValue || !landlordName || !landlordCpf ? '#ccc' : '#1F4B73',
+                //     cursor: !rentValue || !landlordName || !landlordCpf ? 'not-allowed' : 'pointer',
+                //     opacity: !rentValue || !landlordName || !landlordCpf ? 0.6 : 1
+                // }}
                 />
             </div>
         </div>

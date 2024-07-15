@@ -9,9 +9,10 @@ import CONTRACT_TYPE from "utils/enums/contract-type";
 import useControlForm from "hooks/useControlForm";
 import FilePreview from "Components/FilePreview";
 import FormFilePicker from "Components/FormFilePicker";
-import HabitationDeclarationPDF from "../HabitationDeclarationPDF";
+import HabitationDeclarationPDF from "../../../Form_Declarations/components/HabitationDeclarationPDF";
 import RowTextAction from "Components/RowTextAction";
 import PropertyOwner from "../PropertyOwner";
+import GivenPropertyPDF from "../GivenPropertyPDF";
 
 const { forwardRef, useEffect, useState } = require("react");
 
@@ -48,7 +49,11 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
     }
     return (
         <div className={commonStyles.formcontainer}>
-            <PropertyOwner show={ownerForm} onClose={handlePropertyOwnerForm} />
+            <PropertyOwner show={ownerForm} onClose={handlePropertyOwnerForm} pdf={(data) => {
+                console.log('data', data)
+
+                return <GivenPropertyPDF owner={data} />
+            }} />
             <h1 className={commonStyles.title}>Status da Propriedade</h1>
             <FormSelect name="propertyStatus" label="status" control={control} options={PROPERTY_STATUS} value={watchPropertyStatus} />
             {

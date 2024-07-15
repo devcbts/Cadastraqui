@@ -10,13 +10,18 @@ class FamilyMemberMapper {
         }
     }
     fromPersistence(data) {
+        let documentValidity = null;
+        if (data?.documentValidity) {
+            documentValidity = data.documentValidity.split('T')?.[0]
+        }
         return {
             ...data,
             CPF: formatCPF(data.CPF),
             birthDate: data.birthDate.split('T')?.[0],
             landlinePhone: formatTelephone(data.landlinePhone),
             fullName: data.name ?? data.fullName,
-            ...removeObjectFileExtension(data.urls)
+            ...removeObjectFileExtension(data.urls),
+            documentValidity
         }
     }
 }

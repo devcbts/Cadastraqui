@@ -12,12 +12,13 @@ import ReversalValue from "../ReversalValue";
 import Compensation from "../Compensation";
 import Pension from "../Pension";
 import IncomeMonthSelection from "../MonthSelection";
+import IncomeFile from "../IncomeFile";
 
-const IncomeFormModelB = forwardRef(({ data,viewMode }, ref) => {
+const IncomeFormModelB = forwardRef(({ data, viewMode }, ref) => {
     return (
         <IncomeMonthSelection
             ref={ref}
-            data={{ ...data, quantity: 3 }}
+            data={{ ...data, quantity: 6 }}
             render={[
                 GrossValue,
                 FoodAllowance,
@@ -26,7 +27,8 @@ const IncomeFormModelB = forwardRef(({ data,viewMode }, ref) => {
                 AdvancePayment,
                 ReversalValue,
                 Compensation,
-                Pension
+                Pension,
+                IncomeFile,
             ]}
             viewMode={viewMode}
         />

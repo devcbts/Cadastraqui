@@ -4,12 +4,12 @@ import commonStyles from '../../../styles.module.scss'
 import { z } from "zod";
 import FilePreview from "Components/FilePreview";
 
-const { forwardRef, useEffect } = require("react");
+const { forwardRef, useEffect, useMemo } = require("react");
 
-const IncomeFile = forwardRef(({ data }, ref) => {
+const IncomeFile = forwardRef(({ data, label, required }, ref) => {
     const { control, watch, setValue } = useControlForm({
         schema: z.object({
-            file_document: z.instanceof(File).nullish()
+            file_document: required ? z.instanceof(File, 'Arquivo obrigatório') : z.instanceof(File).nullish()
         }),
         defaultValues: {
             file_document: null,
@@ -17,17 +17,11 @@ const IncomeFile = forwardRef(({ data }, ref) => {
         },
         initialData: data
     }, ref)
-    // useEffect(()=>{
-    //     if(watch("file_document")){
-    //         setValue()
-    //     }
-    // },[watch("file_document")])
     return (
-        <div className={commonStyles.formcontainer}>
-            <h1 className={commonStyles.title}>Comprovante</h1>
-            <FormFilePicker control={control} name={"file_document"} label={'arquivo que comprove a situação'} accept={"application/pdf"} />
+        <>
+            <FormFilePicker control={control} name={"file_document"} label={label ?? 'comprovante mensal de receitas brutas'} accept={"application/pdf"} />
             <FilePreview url={watch("url_document")} file={watch("file_document")} text={'ver documento'} />
-        </div>
+        </>
 
     )
 })

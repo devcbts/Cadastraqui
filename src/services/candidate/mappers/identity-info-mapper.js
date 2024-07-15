@@ -9,7 +9,11 @@ class IdentityInfoMapper {
     fromPersistence(data) {
         const { identityInfo } = data
         if (!identityInfo) return null
-        return { ...identityInfo, CPF: formatCPF(identityInfo.CPF), birthDate: identityInfo.birthDate?.split('T')?.[0], ...removeObjectFileExtension(data.urls) }
+        let documentValidity = null;
+        if (identityInfo?.documentValidity) {
+            documentValidity = identityInfo.documentValidity.split('T')?.[0]
+        }
+        return { ...identityInfo, CPF: formatCPF(identityInfo.CPF), birthDate: identityInfo.birthDate?.split('T')?.[0], ...removeObjectFileExtension(data.urls), documentValidity }
     }
 }
 

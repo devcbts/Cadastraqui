@@ -7,7 +7,7 @@ import { formatCPF } from "utils/format-cpf"
 import { formatTelephone } from "utils/format-telephone"
 import { forwardRef } from "react"
 import useControlForm from "hooks/useControlForm"
-const PersonalData = forwardRef(({ data }, ref) => {
+const PersonalData = forwardRef(({ data, tooltips }, ref) => {
     const { control } = useControlForm({
         schema: personalDataFormSchema,
         defaultValues: {
@@ -27,8 +27,8 @@ const PersonalData = forwardRef(({ data }, ref) => {
             <InputForm name="fullName" label="nome completo" control={control} />
             <InputForm name="CPF" label="CPF" control={control} transform={(e) => formatCPF(e.target.value)} />
             <InputForm name="birthDate" label="data de nascimento" type="date" control={control} />
-            <InputForm name="landlinePhone" label="telefone" control={control} transform={(e) => formatTelephone(e.target.value)} />
-            <InputForm name="email" label="email" control={control} />
+            <InputForm name="landlinePhone" label="telefone" control={control} transform={(e) => formatTelephone(e.target.value)} tooltip={tooltips?.['landlinePhone']} />
+            <InputForm name="email" label="email" control={control} tooltip={tooltips?.['email']} />
 
         </div>
     )

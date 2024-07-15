@@ -5,15 +5,16 @@ import FormListItem from "../../FormList/FormListItem"
 import ButtonBase from "Components/ButtonBase"
 import RowTextAction from "Components/RowTextAction"
 import FormBankAccount from "../../Form_BankAccount"
-import InputBase from "Components/InputBase"
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 import { NotificationService } from "services/notification"
+import InputBase from "Components/InputBase"
 
-export default function MemberIncomeView({ member, onSelect, onAdd }) {
+export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
     const { id, fullName } = member
     const [isLoading, setIsLoading] = useState(true)
     // MonthlyIncome stores an array with registered months
     // info stores the current additional information for each occupation (position)
-    const [incomeInfo, setIncomeInfo] = useState({ monthlyIncome: [], info: [] })
+    const [incomeInfo, setIncomeInfo] = useState({ monthlyIncome: [], info: [], data: {} })
     const [showBankAccount, setShowBankAccount] = useState(false)
     useEffect(() => {
         const fetchData = async () => {
@@ -21,6 +22,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd }) {
             try {
                 const incomes = await candidateService.getMemberIncomeInfo(id)
                 if (incomes) {
+                    console.log(incomes)
                     setIncomeInfo(incomes)
                 }
             } catch (err) {
@@ -36,7 +38,6 @@ export default function MemberIncomeView({ member, onSelect, onAdd }) {
     const handleDeleteIncome = async (item) => {
         try {
             const deletedIncome = incomeInfo?.info.find(e => e.employmentType === item.income.value)
-            console.log(incomeInfo)
             await candidateService.deleteIncome(deletedIncome.id, member.id)
             NotificationService.success({ text: 'Renda excluída' })
             setIncomeInfo((prev) => ({
@@ -44,7 +45,6 @@ export default function MemberIncomeView({ member, onSelect, onAdd }) {
                 monthlyIncome: prev.monthlyIncome.filter(e => e.income.value !== deletedIncome.employmentType)
             }))
         } catch (err) {
-            console.log(err)
             NotificationService.error({ text: 'Erro ao excluir renda' })
         }
     }
@@ -53,7 +53,20 @@ export default function MemberIncomeView({ member, onSelect, onAdd }) {
             {!showBankAccount ? (
                 <FormList.Root title={"Rendas cadastradas"} isLoading={isLoading}>
                     <h2>{fullName} </h2>
-                    <RowTextAction text={"declarações e comprovantes bancários"} label={'visualizar'} onClick={handleShowBankAccount} />
+                    <InputBase disabled label={'Renda média'} value={incomeInfo?.data?.averageIncome} error={null} />
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        {
+                            incomeInfo?.data?.hasBankAccount === null
+                                ? <>
+                                    <h3>Declarações e Comprovantes Bancários</h3>
+                                    <ButtonBase label={'Cadastrar declaração'} onClick={handleShowBankAccount} />
+                                </>
+                                : <>
+                                    <RowTextAction text={'Declaração e Comprovantes Bancários'} onClick={() => setShowBankAccount(true)} label={'visualizar'} />
+                                </>
+                        }
+
+                    </div>
                     <FormList.List list={incomeInfo.monthlyIncome} text={`Nenhuma renda cadastrada para ${fullName}, clique abaixo para realizar o primeiro cadastro`} render={(item) => {
                         return (
                             <FormListItem.Root text={item.income.label}>
@@ -66,11 +79,14 @@ export default function MemberIncomeView({ member, onSelect, onAdd }) {
                     }}>
 
                     </FormList.List>
-                    <ButtonBase label={"cadastrar renda"} onClick={() => onAdd({ member })} />
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
+                        <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                        <ButtonBase label={"cadastrar renda"} onClick={() => onAdd({ member })} />
+                    </div>
                 </FormList.Root>
             )
                 : (
-                    <FormBankAccount id={member.id} />
+                    <FormBankAccount id={member.id} onBack={() => setShowBankAccount(false)} />
                 )
             }
         </>

@@ -73,6 +73,12 @@ export default function FormFamilyGroup() {
         ],
         onEdit: handleEditFamilyMember,
         onSave: handleSaveFamilyMember,
+        tooltips: {
+            1: {
+                landlinePhone: 'Caso seja menor de idade, utilize o telefone do responsável',
+                email: 'Caso seja menor de idade, utilize o email do responsável',
+            }
+        }
     })
 
     const handlePrevious = () => {

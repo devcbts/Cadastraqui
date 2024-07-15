@@ -20,10 +20,18 @@ const monthSelectionSchema = (quantity) => z.object({
         reversalValue: z.string().nullish().transform(stringToFloat),
         compensationValue: z.string().nullish().transform(stringToFloat),
         judicialPensionValue: z.string().nullish().transform(stringToFloat),
+        file_document: z.instanceof(File).nullish(),
+        url_document: z.string().nullish(),
         isUpdated: z.boolean().default(false).refine((v) => v, { message: 'Mês não preenchido' })
     })).min(quantity).max(quantity)
 }).transform((data) => {
-    return { incomes: data.months }
+    return {
+        incomes: data.months.map((e) => {
+            const month = e.date.getMonth() + 1
+            const year = e.date.getFullYear()
+            return ({ ...e, [`file_rendimentos-${month}-${year}`]: e.file_document, file_document: null })
+        })
+    }
 })
 
 export default monthSelectionSchema

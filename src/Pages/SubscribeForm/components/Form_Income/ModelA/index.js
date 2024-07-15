@@ -7,8 +7,9 @@ import InformationModelA from "./components/InformationModelA";
 import TotalValue from "../TotalValue";
 import Pension from "../Pension";
 import IncomeMonthSelection from "../MonthSelection";
+import IncomeFile from "../IncomeFile";
 
-const IncomeFormModelA = forwardRef(({ data, viewMode}, ref) => {
+const IncomeFormModelA = forwardRef(({ data, viewMode }, ref) => {
     return (
         <IncomeMonthSelection
             ref={ref}
@@ -16,6 +17,7 @@ const IncomeFormModelA = forwardRef(({ data, viewMode}, ref) => {
             render={[
                 GrossValue,
                 Pension,
+                IncomeFile,
                 TotalValue
             ]}
             viewMode={viewMode}

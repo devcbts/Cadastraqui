@@ -7,6 +7,7 @@ import MonthSelection from "../MonthSelection";
 import TotalValue from "../TotalValue";
 import GrossValue from "../GrossValue";
 import IncomeMonthSelection from "../MonthSelection";
+import IncomeFile from "../IncomeFile";
 
 const IncomeFormModelD = forwardRef(({ data, viewMode }, ref) => {
     return (
@@ -15,6 +16,7 @@ const IncomeFormModelD = forwardRef(({ data, viewMode }, ref) => {
             data={{ ...data, quantity: data.quantity }}
             render={[
                 GrossValue,
+                IncomeFile,
                 TotalValue
             ]}
             viewMode={viewMode}

@@ -16,27 +16,29 @@ export default function SubscriptionStatus() {
     const [data, setData] = useState([])
     const navigate = useNavigate()
     const max = 8
-    const percentage = data?.filter((e) => e.value === 1).length / max
+
     useEffect(() => {
         const fetchProgress = async () => {
             try {
                 const progress = await candidateService.getProgress()
-                console.log(progress)
                 setData(Object.entries(progress).map(([key, val]) => ({ name: key, value: val ? 1 : 0 })))
             } catch (err) { }
         }
         fetchProgress()
     }, [])
     const icons = [
-        { name: 'cadastrante', icon: User },
-        { name: 'grupoFamiliar', icon: Family },
-        { name: 'moradia', icon: House },
-        { name: 'veiculos', icon: Car },
-        { name: 'rendaMensal', icon: Currency },
-        { name: 'despesas', icon: Money },
-        { name: 'saude', icon: Doctor },
-        { name: 'declaracoes', icon: List },
+        { name: 'cadastrante', icon: User, percentage: 20 },
+        { name: 'grupoFamiliar', icon: Family, percentage: 20 },
+        { name: 'moradia', icon: House, percentage: 5 },
+        { name: 'veiculos', icon: Car, percentage: 5 },
+        { name: 'rendaMensal', icon: Currency, percentage: 20 },
+        { name: 'despesas', icon: Money, percentage: 10 },
+        { name: 'saude', icon: Doctor, percentage: 5 },
+        { name: 'declaracoes', icon: List, percentage: 15 },
     ]
+    const percentage = data?.reduce((acc, e) => {
+        return acc += Number((icons?.find(i => i.name === e.name)?.percentage ?? 0) * e.value)
+    }, 0)
     return (
         <div className={styles.container}>
             <span>Situação do cadastro: {percentage < 1 ? 'Incompleto' : 'Completo'}</span>
@@ -46,7 +48,7 @@ export default function SubscriptionStatus() {
                     <span>Complete seu cadastro, para se inscrever e começar a desfrutar de todos os benefícios de uma educação de qualidade!</span>
                     <div style={{ position: 'relative' }}>
 
-                        <span style={{ position: 'absolute', top: '50%', right: '50%', transform: 'translate(50%,-50%)' }}> {percentage * 100}%</span>
+                        <span style={{ position: 'absolute', top: '50%', right: '50%', transform: 'translate(50%,-50%)' }}> {percentage}%</span>
                         <PieChart width={100} height={100} >
                             <Pie
                                 data={data}
@@ -55,7 +57,7 @@ export default function SubscriptionStatus() {
                                 outerRadius={50}
                                 paddingAngle={0}
                                 startAngle={90}
-                                endAngle={(percentage * 360) + 90}
+                                endAngle={(percentage * 3.6) + 90}
                                 fill='#1F4B73'
                                 className={styles.chart}
                                 direction={'right'}

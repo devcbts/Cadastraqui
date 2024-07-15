@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useImperativeHandle } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import InputForm from "Components/InputForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
@@ -11,7 +11,7 @@ import useControlForm from "hooks/useControlForm";
 import FilePreview from "Components/FilePreview";
 import findLabel from "utils/enums/helpers/findLabel";
 const MaritalStatus = forwardRef(({ data }, ref) => {
-    const { control, watch, resetField } = useControlForm({
+    const { control, watch } = useControlForm({
         schema: maritalStatusSchema,
         defaultValues: {
             maritalStatus: '',
@@ -22,11 +22,28 @@ const MaritalStatus = forwardRef(({ data }, ref) => {
     }, ref)
     const watchStatus = watch("maritalStatus")
     const watchFile = watch("file_statusCertificate")
-    // useEffect(() => {
-    //     if (watchStatus !== "Married") {
-    //         resetField("statusCertificate", { defaultValue: null })
-    //     }
-    // }, [watchStatus])
+    const [text, setText] = useState('')
+    useEffect(() => {
+
+        switch (watchStatus) {
+            case 'Married':
+                setText('Certidão de casamento')
+                break
+            case 'Single':
+                setText('Certidão de nascimento')
+                break
+            case "Separated" || "Divorced":
+                setText('Certidão de casamento com averbação de divórcio')
+                break
+            case "Widowed":
+                setText('Certidão de casamento com anotação de viuvez')
+                break
+            case "StableUnion":
+                setText('Declaração de união estável')
+                break
+
+        }
+    }, [watchStatus])
 
     return (
         <div className={commonStyles.formcontainer}>
@@ -34,7 +51,7 @@ const MaritalStatus = forwardRef(({ data }, ref) => {
             <div>
                 <FormSelect name="maritalStatus" label="estado civil" control={control} options={MARITAL_STATUS} value={watchStatus} />
                 {!!watchStatus &&
-                    <FormFilePicker name="file_statusCertificate" label={`documento que comprove a situação (${findLabel(MARITAL_STATUS, watchStatus)})`} control={control} accept={'application/pdf'} />}
+                    <FormFilePicker name="file_statusCertificate" label={text} control={control} accept={'application/pdf'} />}
                 <FilePreview file={watchFile} url={data.url_statusCertificate} text={'visualizar documento'} />
 
 

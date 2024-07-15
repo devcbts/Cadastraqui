@@ -1,5 +1,6 @@
 import INCOME_SOURCE from "utils/enums/income-source"
 import { formatCurrency } from "utils/format-currency";
+import removeObjectFileExtension from "utils/remove-file-ext";
 
 class IncomeMapper {
     toPersistence(data) {
@@ -21,7 +22,11 @@ class IncomeMapper {
                         acc[objKey] = Number(objValue).toLocaleString('pt-br', { style: "currency", currency: "brl" })
                         acc[`has${objKey}`] = !!Number(objValue)
                     } else {
-                        acc[objKey] = objValue
+                        if (objKey === 'urls') {
+                            acc['url_document'] = Object.values(removeObjectFileExtension(objValue))?.[0]
+                        } else {
+                            acc[objKey] = objValue
+                        }
                     }
                     return acc
                 }, {})

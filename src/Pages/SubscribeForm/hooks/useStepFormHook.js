@@ -6,7 +6,8 @@ export default function useStepFormHook({
     onSave,
     onEdit,
     viewMode = false,
-    showStepper = true
+    showStepper = true,
+    tooltips = {}
 }) {
     const MAX_STEPS = useMemo(() => render.length, [render])
     const [activeStep, setActiveStep] = useState(1)
@@ -62,7 +63,7 @@ export default function useStepFormHook({
                     const Component = e
                     return (
                         <FormStepper.View index={index + 1}>
-                            <Component data={data} ref={stepsRef[index]} viewMode={viewMode} />
+                            <Component data={data} ref={stepsRef[index]} viewMode={viewMode} tooltips={tooltips?.[index]} />
                         </FormStepper.View>
                     )
                 })}

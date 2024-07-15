@@ -12,12 +12,13 @@ import { formatCPF } from 'utils/format-cpf';
 import AddressData from 'Pages/SubscribeForm/components/AddressData';
 import React, { useEffect, useRef, useState } from 'react';
 import propertyOwnerSchema from './schemas/property-owner-schema';
-import ReactPDF, { BlobProvider, Document, Page, PDFDownloadLink, Text, View } from '@react-pdf/renderer';
-import HabitationDeclarationPDF from '../HabitationDeclarationPDF';
-export default function PropertyOwner({ show, onClose }) {
+import ReactPDF, { BlobProvider, Document, Page, PDFDownloadLink, Text, usePDF, View } from '@react-pdf/renderer';
+import HabitationDeclarationPDF from '../../../Form_Declarations/components/HabitationDeclarationPDF';
+export default function PropertyOwner({ show, onClose, pdf }) {
     const ownerRef = useRef(null)
     const [pdfState, setPdfState] = useState(null)
     const [pdfData, setPdfData] = useState({})
+    const [document, setDocument] = usePDF(pdf(null))
     const { control, watch, reset } = useControlForm({
         schema: propertyOwnerSchema,
         defaultValues: {
@@ -38,16 +39,17 @@ export default function PropertyOwner({ show, onClose }) {
     const watchState = watch('ufIssuing')
     const watchNaturality = watch('UF')
     const watchMaritalStatus = watch("maritalStatus")
-    const handlePDF = async (url) => {
+    const handlePDF = async () => {
         try {
             setAddressData(addressRef.current.values())
-            setPdfData({})
-            window.open(url, '_blank')
+            window.open(document.url, '_blank')
         } catch (err) {
         }
     }
     const handleGeneratePdf = () => {
-        if (!ownerRef.current.validate() && !addressRef.current.validate()) return
+        if (!ownerRef.current.validate() || !addressRef.current.validate()) {
+            return
+        }
         setPdfState('generating')
     }
     const handleClose = () => {
@@ -57,6 +59,9 @@ export default function PropertyOwner({ show, onClose }) {
         setPdfData(null)
         onClose()
     }
+    useEffect(() => {
+        setDocument(pdf(pdfData))
+    }, [pdfData])
     useEffect(() => {
         if (pdfState === 'generating') {
             setPdfData({ ...ownerRef.current?.values(), ...addressRef.current?.values() })
@@ -94,13 +99,14 @@ export default function PropertyOwner({ show, onClose }) {
                                 : (
                                     <>
                                         <ButtonBase label={'alterar'} onClick={() => setPdfState(null)} />
-                                        <BlobProvider document={<HabitationDeclarationPDF owner={pdfData} />}>
+                                        <ButtonBase label={'baixar'} onClick={() => handlePDF()} />
+                                        {/* <BlobProvider document={document}>
                                             {
                                                 ({ url, loading }) => {
                                                     return loading ? 'carregando...' : <ButtonBase label={'baixar'} onClick={() => handlePDF(url)} />
                                                 }
                                             }
-                                        </BlobProvider>
+                                        </BlobProvider> */}
                                     </>
                                 )
                         }

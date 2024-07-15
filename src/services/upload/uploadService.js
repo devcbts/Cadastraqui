@@ -16,6 +16,7 @@ class UploadService {
     uploadCandidateSolicitation(solicitationId, file) {
         return api.post(`/candidates/upload/${solicitationId}`, file)
     }
+
 }
 
 export default new UploadService()

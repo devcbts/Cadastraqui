@@ -4,10 +4,13 @@ import { useEffect, useState } from "react";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
 import FormView from "./components/FormView";
+import useAuth from "hooks/useAuth";
+import userServiceInstance from "services/user/userService";
 
 export default function ProfileCandidate() {
     const [data, setData] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
+    const { auth } = useAuth()
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -29,7 +32,12 @@ export default function ProfileCandidate() {
         formData.append('file', img)
         let url = null;
         try {
-            url = await candidateService.uploadProfilePicture(formData)
+            console.log(auth)
+            if (auth.role === 'CANDIDATE') {
+                url = await candidateService.uploadProfilePicture(formData)
+            } else {
+                url = await userServiceInstance.uploadProfilePicture(formData)
+            }
             NotificationService.success({ text: 'Foto de perfil alterada' })
         } catch (err) {
             NotificationService.success({ text: 'Erro ao alterar foto de perfil' })

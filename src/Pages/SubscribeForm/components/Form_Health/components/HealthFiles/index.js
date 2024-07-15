@@ -9,8 +9,8 @@ import candidateService from "services/candidate/candidateService"
 import { NotificationService } from "services/notification"
 import uploadService from "services/upload/uploadService"
 import healthFileSchema from "./schemas/health-files-schema"
-
-export default function HealthFiles({ items, edit = true }) {
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
+export default function HealthFiles({ items, edit = true, onBack }) {
     const { control, getValues, formState: { isValid }, trigger, resetField } = useControlForm({
         schema: healthFileSchema,
         defaultValues: {
@@ -65,10 +65,15 @@ export default function HealthFiles({ items, edit = true }) {
 
                 </FormList.List>
             </FormList.Root>
-            {edit && <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <FormFilePicker accept={'application/pdf'} control={control} name={"file_exam"} />
-                <ButtonBase label={'cadastrar'} onClick={handleUpload} />
-            </div>}
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '80%' }}>
+                {edit && <FormFilePicker accept={'application/pdf'} control={control} name={"file_exam"} />}
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', }}>
+                    <ButtonBase onClick={onBack}>
+                        <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                    </ButtonBase>
+                    {edit && <ButtonBase label={'cadastrar'} onClick={handleUpload} />}
+                </div>
+            </div>
         </div>
     )
 }

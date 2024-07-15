@@ -1,14 +1,17 @@
-import { forwardRef, useEffect } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import InputForm from "Components/InputForm";
 import useControlForm from "hooks/useControlForm";
 import modelDInformationSchema from "./schemas/information-model-d-schame";
+import ButtonBase from "Components/ButtonBase";
+import PropertyOwner from "Pages/SubscribeForm/components/Form_Habitation/components/PropertyOwner";
+import Tooltip from "Components/Tooltip";
 const InformationModelD = forwardRef(({ data, viewMode }, ref) => {
     const { control, watch, setValue } = useControlForm({
         schema: modelDInformationSchema,
         defaultValues: {
             admissionDate: "",
-            quantity: 3
+            quantity: 6
         },
         initialData: data
     }, ref)
@@ -28,6 +31,7 @@ const InformationModelD = forwardRef(({ data, viewMode }, ref) => {
             setValue("quantity", total)
         }
     }, [watchDate])
+    const [pdf, setPdf] = useState(false)
     return (
         <div className={commonStyles.formcontainer}>
             <fieldset disabled={viewMode}>

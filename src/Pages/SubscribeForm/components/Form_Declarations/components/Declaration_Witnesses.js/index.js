@@ -13,6 +13,8 @@ import FormFilePicker from 'Components/FormFilePicker';
 import useControlForm from 'hooks/useControlForm';
 import { z } from 'zod';
 import Tooltip from 'Components/Tooltip';
+import findLabel from 'utils/enums/helpers/findLabel';
+import BANK_ACCOUNT_TYPES from 'utils/enums/bank-account-types';
 
 export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     const { auth } = useAuth();
@@ -61,7 +63,8 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
             InactiveCompany: 'DECLARAÇÃO DE EMPRESA INATIVA',
             Status: 'DECLARAÇÃO DE PROPRIEDADE DE VEÍCULO AUTOMOTOR',
             Pension: 'DECLARAÇÃO DE PENSÃO ALIMENTÍCIA',
-            RentIncome: 'DECLARAÇÃO DE RENDIMENTO DE IMÓVEL ALUGADO'
+            RentIncome: 'DECLARAÇÃO DE RENDIMENTO DE IMÓVEL ALUGADO',
+            Rent: 'DECLARAÇÃO DE IMÓVEL ALUGADO - SEM CONTRATO DE ALUGUEL'
 
         }
         try {
@@ -149,6 +152,32 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
                         <Text style={styles.declarationText}>{declaration.text.trim()}</Text>
                     </View>
                 ))}
+                <View style={styles.section} wrap={false} >
+                    <Text style={styles.declarationType}>DECLARAÇÃO DE ABERTURA E MANUTENÇÃO DE CONTA CORRENTE E/OU POUPANÇA</Text>
+                    <Text style={styles.declarationText}>
+                        {declarationData?.BankAccount.length === 0
+
+                            ? 'Afirmo que não sou titular de nenhuma conta corrente oo conta poupança em quaisquer instituições financeiras.'
+                            : `
+                            Afirmo que sou titular nas seguintes contas:
+                            ${declarationData.BankAccount?.map((e, index) => {
+                                return `${index + 1}. ${findLabel(BANK_ACCOUNT_TYPES, e.accountType)} nº ${e.accountNumber}, vinculada à agência ${e.agencyNumber} do banco ${e.bankName}`
+                            })}
+                            `
+                        }
+                    </Text>
+                </View>
+                <View style={styles.section} wrap={false} >
+                    <Text style={styles.declarationType}>ALTERAÇÃO NO TAMANHO DO GRUPO FAMILIAR E/OU RENDA</Text>
+                    <Text style={styles.declarationText}>Tenho ciência de que devo comunicar o(a) assistente social da entidade beneficente sobre nascimento ou falecimento de membro do meu grupo familiar, desde que morem na mesma residência, bem como sobre eventual rescisão de contrato de trabalho, encerramento de atividade que gere renda ou sobre início em novo emprego ou atividade que gere renda para um dos membros, pois altera a aferição realizada e o benefício em decorrência da nova renda familiar bruta mensal pode ser ampliado, reduzido ou mesmo cancelado, após análise por profissional de serviço social.</Text>
+                </View>
+                <View style={styles.section} wrap={false} >
+                    <Text style={styles.declarationType}>INTEIRA RESPONSABILIDADE PELAS INFORMAÇÕES CONTIDAS NESTE INSTRUMENTO</Text>
+                    <Text style={styles.declarationText}>Estou ciente e assumo, inteira responsabilidade pelas informações contidas neste instrumento e em relação as informações prestadas no decorrer do preenchimento deste formulário eletrônico e documentos anexados, estando consciente que a apresentação de documento falso e/ou a falsidade nas informações implicará nas penalidades cabíveis, previstas nos artigos 298 e 299 do Código Penal Brasileiro, bem como sobre a condição prevista no caput e § 2º do art. 26 da Lei Complementar nº 187, de 16 de dezembro de 2021.
+                        Art. 26. Os alunos beneficiários das bolsas de estudo de que trata esta Lei Complementar, ou seus pais ou responsáveis, quando for o caso, respondem legalmente pela veracidade e pela autenticidade das informações por eles prestadas, e as informações prestadas pelas instituições de ensino superior (IES) acerca dos beneficiários em qualquer âmbito devem respeitar os limites estabelecidos pela Lei nº 13.709, de 14 de agosto de 2018.
+                        (...)
+                        § 2º As bolsas de estudo poderão ser canceladas a qualquer tempo em caso de constatação de falsidade da informação prestada pelo bolsista ou por seus pais ou seu responsável, ou de inidoneidade de documento apresentado, sem prejuízo das demais sanções cíveis e penais cabíveis, sem que o ato do cancelamento resulte em prejuízo à entidade beneficente concedente, inclusive na apuração das proporções exigidas nesta Seção, salvo se comprovada negligência ou má-fé da entidade beneficente.</Text>
+                </View>
                 <Text >{declarationData?.IdentityDetails?.city}, {new Date().toLocaleString('pt-br', { month: 'long', year: 'numeric', day: '2-digit' })}</Text>
                 <View style={styles.sign}>
                     <Text>____________________</Text>

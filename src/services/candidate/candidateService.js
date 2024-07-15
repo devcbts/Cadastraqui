@@ -21,7 +21,7 @@ class CandidateService {
                 authorization: `Bearer ${token}`,
             },
         })
-        return { ...response.data.candidate, fullName: response?.data?.candidate?.name }
+        return { ...response.data.candidate, fullName: response?.data?.candidate?.name, birthDate: response.data?.candidate?.birthDate?.split('T')?.[0] }
     }
 
     async uploadProfilePicture(img) {
@@ -203,7 +203,8 @@ class CandidateService {
         const token = localStorage.getItem("token")
         const monthlyIncome = await this.getMonthlyIncome(id)
         const memberIncome = await this.getAllIncomes()
-        return { monthlyIncome, info: memberIncome.incomes?.find(e => e.id === id).months }
+        console.log(monthlyIncome, memberIncome)
+        return { monthlyIncome, info: memberIncome.incomes?.find(e => e.id === id).months, data: memberIncome.incomes?.find(e => e.id === id) }
     }
 
     async getHealthInfo() {
@@ -240,7 +241,11 @@ class CandidateService {
                 authorization: `Bearer ${token}`,
             },
         })
-        return bankAccountMapper.fromPersistence(response.data)
+        return {
+            accounts: bankAccountMapper.fromPersistence(response.data),
+            hasBankAccount: response.data.hasBankAccount,
+            isUser: response.data.isUser,
+        }
     }
     async registerBankingAccount(id = '', data) {
         const response = await api.post(`/candidates/bank-info/${id}`, data)
@@ -288,7 +293,8 @@ class CandidateService {
     async getRegistrato(id) {
         const response = await api.get(`/candidates/registrato/${id}`)
         const data = removeObjectFileExtension(response.data)
-        const [date, url] = Object.entries(data)[0]
+        // get the newest registrato (TODO: remove the last one when new is uploaded)
+        const [date, url] = Object.entries(data)?.sort((a, b) => a < b)[0]
         const [month, year] = date.split('_')[1].split('-')
         const registrato_date = new Date(`${month}-01-${year}`)
         return { url, date: registrato_date }
@@ -330,7 +336,8 @@ class CandidateService {
         return api.patch(`/candidates/progress/${section}`, { status })
     }
     async updateIncome(memberId, data) {
-        return api.put(`/candidates/update-income/${memberId}`, data)
+        const response = await api.put(`/candidates/update-income/${memberId}`, data)
+        return response.data
     }
     async getInfoForDeclaration() {
         const response = await api.get(`/candidates/declaration/get-info`)

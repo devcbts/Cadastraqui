@@ -16,7 +16,7 @@ import uploadService from "services/upload/uploadService";
 import createFileForm from "utils/create-file-form";
 import useAuth from "hooks/useAuth";
 
-export default function FormBankAccount({ id }) {
+export default function FormBankAccount({ id, onBack }) {
     const hasMonthSelected = useRecoilValue(monthAtom)
     const handleUploadStatements = async (data, tableId) => {
         console.log('files', data)
@@ -90,7 +90,7 @@ export default function FormBankAccount({ id }) {
     }
     return (
         <>
-            {!isFormAvailable() && <MemberBankAccountView id={id} onSelect={handleSelectAccount} onAdd={handleAddNewAccount} />}
+            {!isFormAvailable() && <MemberBankAccountView id={id} onSelect={handleSelectAccount} onAdd={handleAddNewAccount} onBack={onBack} />}
             {isFormAvailable() && <>
                 <Steps />
                 {!hasMonthSelected && <div className={commonStyles.actions}>

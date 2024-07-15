@@ -23,6 +23,7 @@ import monthAtom from "Components/MonthSelection/atoms/month-atom";
 import IncomeFile from "./IncomeFile";
 import uploadService from "services/upload/uploadService";
 import createFileForm from "utils/create-file-form";
+import FinancialHelp from "./ModelD/components/FinancialHelp";
 export default function FormIncome() {
     // Keep track of incomes created/updated by user
     const hasIncomeSelected = useRecoilValue(monthAtom)
@@ -44,19 +45,33 @@ export default function FormIncome() {
         }
         // if data.id exists, the data is being updated
         try {
+            let formData;
+            const { incomeId, monthlyIncomesId } = await candidateService.updateIncome(member.id, data)
+            // if incomes  ===  null or []
+            // save to 'income' folder
+            if (data.file_document) {
+                formData = createFileForm(data)
+                await uploadService.uploadBySectionAndId({ section: 'income', id: member.id, tableId: incomeId }, formData)
+            } else {
+                await Promise.all(data.incomes.map(async (e, index) => {
+                    const formData = createFileForm(e)
+                    return await uploadService.uploadBySectionAndId({ section: 'monthly-income', id: member.id, tableId: monthlyIncomesId[index] }, formData)
+                }))
+            }
             if (data.id) {
-                await candidateService.updateIncome(member.id, data)
-                const formData = createFileForm(data)
-                await uploadService.uploadBySectionAndId({ section: 'income', id: member.id, tableId: data.id }, formData)
                 NotificationService.success({ text: 'Informações de renda alteradas' })
                 return
             }
+            // if (data.incomes) {
+            //     await candidateService.updateIncome(member.id, data)
+            //     console.log(data)
+            // }
             // first update income source list from user
-            await candidateService.updateIncomeSource({ id: member.id, incomeSource: [incomeSource] })
-            const id = await candidateService.registerEmploymentType(member.id, data)
-            await candidateService.registerMonthlyIncome(member.id, data)
-            const formData = createFileForm(data)
-            await uploadService.uploadBySectionAndId({ section: 'income', id: member.id, tableId: id }, formData)
+            // await candidateService.updateIncomeSource({ id: member.id, incomeSource: [incomeSource] })
+            // const id = await candidateService.registerEmploymentType(member.id, data)
+            // await candidateService.registerMonthlyIncome(member.id, data)
+            // const formData = createFileForm(data)
+            // await uploadService.uploadBySectionAndId({ section: 'income', id: member.id, tableId: id }, formData)
             // then execute the rest of operation
             NotificationService.success({ text: 'Informações cadastradas' }).then(_ => {
                 setData(null)
@@ -64,6 +79,7 @@ export default function FormIncome() {
                 setActiveStep(1)
             })
         } catch (err) {
+            console.log(err)
             NotificationService.error({ text: err?.response?.data?.message })
 
         }
@@ -93,9 +109,12 @@ export default function FormIncome() {
             setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelB])
         } else if (['BusinessOwnerSimplifiedTax', 'BusinessOwner'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelB, IncomeFormModelC])
-        } else if (['Alimony', 'FinancialHelpFromOthers'].includes(currentIncomeSource)) {
+        } else if (['Alimony'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, InformationModelD, IncomeFormModelD])
-        } else if (['Volunteer', 'Student'].includes(currentIncomeSource)) {
+        } else if (['FinancialHelpFromOthers'].includes(currentIncomeSource)) {
+            setRenderItems([IncomeSelection, InformationModelD, IncomeFormModelD, FinancialHelp])
+        }
+        else if (['Volunteer', 'Student'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection, IncomeFile])
         } else {
             setRenderItems([IncomeSelection])

@@ -38,8 +38,8 @@ export default function HealthList({ loading, data, onSelect }) {
                     </FormList.List>
                 </FormList.Root>
                 : (!files
-                    ? <MemberHealthView member={selectedMember} onViewFiles={handleFileSelection} onSelect={onSelect} edit={false} />
-                    : <HealthFiles edit={false} items={files} />)
+                    ? <MemberHealthView member={selectedMember} onViewFiles={handleFileSelection} onSelect={onSelect} edit={false} onBack={() => handleSelect(null)} />
+                    : <HealthFiles edit={false} items={files} onBack={() => setFiles(null)} />)
             }
         </>
 

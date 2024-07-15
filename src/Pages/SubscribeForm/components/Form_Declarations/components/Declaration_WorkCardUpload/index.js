@@ -55,7 +55,7 @@ export default function Declaration_WorkCardUpload({ onBack, onSave }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
-            <h2>DECLARAÇÃO QUE INTEGRANTE DO GRUPO FAMILIAR POSSUI CARTEIRA DE TRABALHO</h2>
+            {/* <h2>DECLARAÇÃO QUE INTEGRANTE DO GRUPO FAMILIAR POSSUI CARTEIRA DE TRABALHO</h2> */}
             <h3>{declarationData.name}</h3>
             <p>Relatório digital da Carteira de Trabalho e Previdência Social contendo todos os dados pessoais e todos os contratos de trabalho</p>
             <div className={commonStyles.fileUpload}>

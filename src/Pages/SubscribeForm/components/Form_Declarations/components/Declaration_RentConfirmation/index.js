@@ -4,23 +4,28 @@ import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import commonStyles from '../../styles.module.scss';
 import candidateService from 'services/candidate/candidateService';
+import { useRecoilState } from 'recoil';
+import declarationAtom from '../../atoms/declarationAtom';
 
 export default function Declaration_RentConfirmation({ onBack, onNext, userId }) {
     const { auth } = useAuth();
     const [confirmation, setConfirmation] = useState(null);
     const [rentDetails, setRentDetails] = useState(null);
-    const [declarationData, setDeclarationData] = useState(null);
+    const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const savedRentDetails = localStorage.getItem('rentDetails');
-        if (savedRentDetails) {
-            setRentDetails(JSON.parse(savedRentDetails));
+        if (declarationData?.rent) {
+            setRentDetails(declarationData?.rent)
         }
-        const savedDeclarationData = localStorage.getItem('declarationData');
-        if (savedDeclarationData) {
-            setDeclarationData(JSON.parse(savedDeclarationData));
-        }
+        // const savedRentDetails = localStorage.getItem('rentDetails');
+        // if (savedRentDetails) {
+        //     setRentDetails(JSON.parse(savedRentDetails));
+        // }
+        // const savedDeclarationData = localStorage.getItem('declarationData');
+        // if (savedDeclarationData) {
+        //     setDeclarationData(JSON.parse(savedDeclarationData));
+        // }
     }, []);
 
     const handleRegisterDeclaration = async () => {
@@ -29,7 +34,7 @@ export default function Declaration_RentConfirmation({ onBack, onNext, userId })
             return;
         }
 
-        if (confirmation === 'nao') {
+        if (confirmation === false) {
             setError('Por favor, verifique os dados de cadastro.');
             return;
         }
@@ -40,23 +45,23 @@ export default function Declaration_RentConfirmation({ onBack, onNext, userId })
             return;
         }
 
-        if (!rentDetails || !declarationData) {
+        if (!declarationData) {
             console.error('Os dados da declaração ou do aluguel não estão disponíveis');
             return;
         }
 
         const text = `
 Resido em imóvel alugado e não possuo contrato de aluguel, pois se trata de acordo verbal/informal, ao qual pago o valor de \
-R$ ${rentDetails.rentValue} \
+${rentDetails.rentValue} \
 por mês de aluguel para \
-${rentDetails.landlordName}, \ 
+${rentDetails.landlordName}, \
 inscrito no CPF nº \
 ${rentDetails.landlordCpf}. \
 `;
 
         const payload = {
-            declarationExists: confirmation === 'sim',
-            ...(confirmation === 'sim' && { text })
+            declarationExists: confirmation,
+            ...(confirmation && { text })
         };
 
         try {
@@ -78,13 +83,13 @@ ${rentDetails.landlordCpf}. \
             // const data = await response.json();
             // console.log('Declaração registrada:', data);
 
-            onNext(confirmation === 'sim');
+            onNext(confirmation);
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }
     };
 
-    if (!rentDetails || !declarationData) {
+    if (!declarationData) {
         return <p>Carregando...</p>;
     }
 
@@ -96,11 +101,11 @@ ${rentDetails.landlordCpf}. \
             <div className={commonStyles.declarationContent}>
                 <p>
                     Resido em imóvel alugado e não possuo contrato de aluguel, pois se trata de acordo verbal/informal, ao qual pago o valor de
-                    <span> R$ {rentDetails.rentValue} </span>
+                    <span> {rentDetails?.rentValue} </span>
                     por mês de aluguel para
-                    <span> {rentDetails.landlordName} </span>,
+                    <span> {rentDetails?.landlordName} </span>,
                     inscrito no CPF nº
-                    <span> {rentDetails.landlordCpf} </span>.
+                    <span> {rentDetails?.landlordCpf} </span>.
                 </p>
                 <p>Confirma a declaração?</p>
                 <div className={commonStyles.radioGroup}>
@@ -109,9 +114,9 @@ ${rentDetails.landlordCpf}. \
                             type="radio"
                             name="confirmation"
                             value="sim"
-                            checked={confirmation === 'sim'}
+                            checked={confirmation}
                             onChange={() => {
-                                setConfirmation('sim');
+                                setConfirmation(true);
                                 setError('');
                             }}
                         /> Sim
@@ -121,9 +126,9 @@ ${rentDetails.landlordCpf}. \
                             type="radio"
                             name="confirmation"
                             value="nao"
-                            checked={confirmation === 'nao'}
+                            checked={confirmation === false}
                             onChange={() => {
-                                setConfirmation('nao');
+                                setConfirmation(false);
                                 setError('');
                             }}
                         /> Não

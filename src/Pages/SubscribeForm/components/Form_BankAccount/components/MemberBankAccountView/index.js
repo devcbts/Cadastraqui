@@ -2,21 +2,25 @@ import ButtonBase from "Components/ButtonBase"
 import RowTextAction from "Components/RowTextAction"
 import FormList from "Pages/SubscribeForm/components/FormList"
 import FormListItem from "Pages/SubscribeForm/components/FormList/FormListItem"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import candidateService from "services/candidate/candidateService"
 import BankReport from "../BankReport"
 import { api } from "services/axios"
 import { NotificationService } from "services/notification"
-export default function MemberBankAccountView({ id, onSelect, onRemove, onAdd }) {
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
+import FormCheckbox from "Components/FormCheckbox"
+import CheckboxBase from "Components/CheckboxBase"
+export default function MemberBankAccountView({ id, onSelect, onBack, onAdd }) {
     const [isLoading, setIsLoading] = useState(true)
-    const [accounts, setAccounts] = useState([])
+    const [bankingInfo, setBankingInfo] = useState([])
+    const isMounted = useRef(null)
     // TODO: fetch bank account information from SPECIFIC USER
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setIsLoading(true)
                 const information = await candidateService.getBankingAccountById(id)
-                setAccounts(information)
+                setBankingInfo(information)
             } catch (err) {
 
             }
@@ -28,7 +32,7 @@ export default function MemberBankAccountView({ id, onSelect, onRemove, onAdd })
         const remove = async () => {
             try {
                 await candidateService.removeBankingAccount(id)
-                setAccounts((prev) => prev.filter(account => account.id !== id))
+                setBankingInfo((prev) => ({ ...prev, accounts: prev.accounts.filter(account => account.id !== id) }))
                 NotificationService.success({ text: 'Conta bancária excluída' })
             } catch (err) {
                 NotificationService.error({ text: err?.response?.data?.message })
@@ -45,10 +49,21 @@ export default function MemberBankAccountView({ id, onSelect, onRemove, onAdd })
     const handleReport = () => {
         setIsReportOpen(prev => !prev)
     }
+    useEffect(() => {
+        if (!isMounted.current) {
+            isMounted.current = true
+            return
+        }
+        if (bankingInfo.isUser) {
+            candidateService.updateIdentityInfo({ hasBankAccount: bankingInfo.hasBankAccount }).catch(_ => { })
+        } else {
+            candidateService.updateFamilyMember(id, { hasBankAccount: bankingInfo.hasBankAccount }).catch(_ => { })
+        }
+    }, [bankingInfo?.hasBankAccount])
     return (
         <>
             {isReportOpen ?
-                <BankReport id={id} />
+                <BankReport id={id} onBack={() => setIsReportOpen(false)} />
                 : <>
                     <RowTextAction
                         text={'relatório de contas e relacionamentos (CCS)'}
@@ -56,7 +71,7 @@ export default function MemberBankAccountView({ id, onSelect, onRemove, onAdd })
                         onClick={handleReport}
                     />
                     <FormList.Root title={"Contas cadastradas"} isLoading={isLoading}>
-                        <FormList.List list={accounts} text={`Nenhuma conta cadastrada, clique abaixo para realizar o primeiro cadastro`} render={(item) => {
+                        <FormList.List list={bankingInfo.accounts} text={`Nenhuma conta cadastrada, clique abaixo para realizar o primeiro cadastro`} render={(item) => {
                             return (
                                 <FormListItem.Root text={item.bankName}>
                                     <FormListItem.Actions>
@@ -66,9 +81,18 @@ export default function MemberBankAccountView({ id, onSelect, onRemove, onAdd })
                                 </FormListItem.Root>
                             )
                         }}>
-
+                            {bankingInfo?.accounts?.length === 0 && <CheckboxBase
+                                label={'Você possui alguma conta em banco?'}
+                                value={bankingInfo.hasBankAccount}
+                                onChange={(e) => setBankingInfo(prev => ({ ...prev, hasBankAccount: e.target.value === "true" }))}
+                            />}
                         </FormList.List>
-                        <ButtonBase label={"cadastrar conta"} onClick={() => onAdd()} />
+                        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
+
+                            <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+
+                            {bankingInfo.hasBankAccount && <ButtonBase label={"cadastrar conta"} onClick={() => onAdd()} />}
+                        </div>
                     </FormList.Root>
                 </>
             }

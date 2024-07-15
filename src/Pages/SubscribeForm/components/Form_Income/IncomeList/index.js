@@ -43,7 +43,7 @@ export default function IncomeList({ onSelect, onAdd }) {
             </FormList.Root>}
             {
                 selectedMember &&
-                <MemberIncomeView member={selectedMember} onSelect={(member) => onSelect(member)} onAdd={onAdd} />
+                <MemberIncomeView member={selectedMember} onSelect={(member) => onSelect(member)} onAdd={onAdd} onBack={() => setSelectedMember(null)} />
             }
         </>
     )

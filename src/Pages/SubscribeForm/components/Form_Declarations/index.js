@@ -317,30 +317,30 @@ export default function FormDeclarations() {
                 <Declaration_NoAddressProof
                     onBack={() => handleNavigate(SCREENS.ADDRESS_PROOF)}
                     // onNext={handleNavigateToRentedHouse}
-                    onNext={() => handleNavigate(SCREENS.WORK_CARD)}
+                    onNext={() => handleNavigate(SCREENS.RENTED_HOUSE)}
                 />
             )}
-            {/* {currentScreen === SCREENS.RENTED_HOUSE && (
+            {currentScreen === SCREENS.RENTED_HOUSE && (
                 <Declaration_RentedHouse
                     onBack={() => handleNavigate(SCREENS.ADDRESS_PROOF)}
                     onNext={(rentedHouse) => handleNavigate(rentedHouse ? SCREENS.RENT_DETAILS : SCREENS.WORK_CARD)}
                 />
-            )} */}
-            {/* {currentScreen === SCREENS.RENT_DETAILS && (
+            )}
+            {currentScreen === SCREENS.RENT_DETAILS && (
                 <Declaration_RentDetails
                     onBack={() => handleNavigate(SCREENS.RENTED_HOUSE)}
                     onSave={handleNavigateToRentConfirmation}
                 />
-            )} */}
-            {/* {currentScreen === SCREENS.RENT_CONFIRMATION && (
+            )}
+            {currentScreen === SCREENS.RENT_CONFIRMATION && (
                 <Declaration_RentConfirmation
                     onBack={() => handleNavigate(SCREENS.RENT_DETAILS)}
                     onNext={handleNavigateToWorkCard}
                 />
-            )} */}
+            )}
             {currentScreen === SCREENS.WORK_CARD && (
                 <Declaration_WorkCard
-                    onBack={() => handleNavigate(SCREENS.ADDRESS_PROOF)}
+                    onBack={() => handleNavigate(SCREENS.RENTED_HOUSE)}
                     onNext={(hasWorkCard) => handleNavigate(hasWorkCard ? SCREENS.WORK_CARD_UPLOAD : SCREENS.WORK_CARD_CONFIRMATION)}
                 />
             )}

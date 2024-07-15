@@ -1,7 +1,7 @@
 import styles from './styles.module.scss'
 import { ReactComponent as Lightbulb } from '../../Assets/icons/lightbulb.svg'
 import { useState } from 'react'
-export default function Tooltip({ tooltip, children }) {
+export default function Tooltip({ tooltip, icon = "lightbulb", children }) {
     const [show, setShow] = useState(false)
     const handleShow = () => {
         setShow(prev => !prev)
