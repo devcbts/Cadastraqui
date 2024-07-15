@@ -102,29 +102,20 @@ export async function updateVehicleHDB(id: string) {
     }
 }
 
-export async function deleteVehicleHDB(id: string) {
-    const findVehicle = await prisma.vehicle.findUnique({
-        where: {
-            id,
-        },
-    });
-    if (!findVehicle) {
-        return null;
-    }
-    const { id: vehicleId, candidate_id: mainCandidateId, legalResponsibleId: mainResponsibleId, owners_id: oldOwnersIds, ...vehicleDetails } = findVehicle;
-
-    let candidateOrResponsible = mainCandidateId || mainResponsibleId;
-    if (!candidateOrResponsible) {
-        return null;
-    }
-    const openApplications = await getOpenApplications(candidateOrResponsible);
+export async function deleteVehicleHDB(id: string, memberId: string) {
+    
+    const member = await prisma.familyMember.findUnique({
+        where: { id: memberId }
+    })
+    let candidateOrResponsibleId = member?.candidate_id || member?.legalResponsibleId || memberId;
+    const openApplications = await getOpenApplications(candidateOrResponsibleId);
     if (!openApplications) {
         return null;
     }
 
     for (const application of openApplications) {
         await historyDatabase.vehicle.deleteMany({
-            where: { main_id: vehicleId, application_id: application.id },
+            where: { main_id: id, application_id: application.id },
         });
     }
 }

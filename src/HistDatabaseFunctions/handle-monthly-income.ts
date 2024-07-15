@@ -56,31 +56,23 @@ export async function updateMonthlyIncomeHDB(id: string) {
         });
     }
 }
-export async function deleteMonthlyIncomeHDB(id: string) {
-    const monthlyIncome = await prisma.monthlyIncome.findUnique({
-        where: { id },
-        include: { familyMember: true }
-    });
-    if (!monthlyIncome) {
-        return null;
-    }
-    let candidateOrResponsible = monthlyIncome.candidate_id || monthlyIncome.familyMember?.candidate_id || monthlyIncome.legalResponsibleId || monthlyIncome.familyMember?.legalResponsibleId;
-    const oldMemberId = monthlyIncome.familyMember_id || monthlyIncome.candidate_id || monthlyIncome.legalResponsibleId ;
-    if (!candidateOrResponsible) {
-        return null;
-    }
-    const openApplications = await getOpenApplications(candidateOrResponsible);
+export async function deleteMonthlyIncomeHDB(id: string, memberId: string) {
+    const member = await prisma.familyMember.findUnique({
+        where: { id: memberId }
+    })
+    let candidateOrResponsibleId = member?.candidate_id || member?.legalResponsibleId || memberId;
+    const openApplications = await getOpenApplications(candidateOrResponsibleId);
     if (!openApplications) {
         return null;
     }
-    const route = `CandidateDocuments/${candidateOrResponsible}/monthly-income/${(oldMemberId || '')}/${monthlyIncome.id}/`;
+    const route = `CandidateDocuments/${candidateOrResponsibleId}/monthly-income/${(memberId)}/${id}/`;
     await deleteFromS3Folder(route)
     for (const application of openApplications) {
         await historyDatabase.monthlyIncome.deleteMany({
             where: { main_id: id, application_id: application.id },
         });
        
-        const RouteHDB = await findAWSRouteHDB(candidateOrResponsible, 'monthly-income', (oldMemberId)!, monthlyIncome.id, application.id);
+        const RouteHDB = await findAWSRouteHDB(candidateOrResponsibleId, 'monthly-income', (memberId)!, id, application.id);
         await deleteFromS3Folder(RouteHDB)
     }
 }

@@ -2,6 +2,7 @@ import { historyDatabase, prisma } from "@/lib/prisma";
 import getOpenApplications from "./find-open-applications";
 import { findAWSRouteHDB } from "./Handle Application/find-AWS-Route";
 import { copyFilesToAnotherFolder } from "@/lib/S3";
+import { verifyHealthRegistration } from "@/utils/Trigger-Functions/verify-health-registration";
 
 export async function createFamilyMemberDiseaseHDB (id: string, candidate_id: string | null, legalResponsibleId : string | null, application_id: string){
     const familyMemberDisease = await prisma.familyMemberDisease.findUnique({
@@ -60,20 +61,12 @@ export async function updateFamilyMemberDiseaseHDB(id: string) {
     }
 }
 
-export async function deleteFamilyMemberDiseaseHDB(id: string) {
-    const familyMemberDisease = await prisma.familyMemberDisease.findUnique({
-        where: { id },
-        include: { familyMember: true }
-    });
-    if (!familyMemberDisease) {
-        return null;
-    }
-    const { id: oldId, familyMember_id: oldFamilyMemberId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId } = familyMemberDisease;
-    let candidateOrResponsible = familyMemberDisease.candidate_id || familyMemberDisease.familyMember?.candidate_id || familyMemberDisease.legalResponsibleId || familyMemberDisease.familyMember?.legalResponsibleId
-    if (!candidateOrResponsible) {
-        return null;
-    }
-    const openApplications = await getOpenApplications(candidateOrResponsible);
+export async function deleteFamilyMemberDiseaseHDB(id: string, memberId: string) {
+    const member = await prisma.familyMember.findUnique({
+        where: { id: memberId }
+    })
+    let candidateOrResponsibleId = member?.candidate_id || member?.legalResponsibleId || memberId;
+    const openApplications = await getOpenApplications(candidateOrResponsibleId);
     if (!openApplications) {
         return null;
     }
@@ -82,4 +75,6 @@ export async function deleteFamilyMemberDiseaseHDB(id: string) {
             where: { main_id: id, application_id: application.id }
         });
     }
+    await verifyHealthRegistration(candidateOrResponsibleId)
+
 }

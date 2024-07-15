@@ -55,31 +55,23 @@ export async function updateBankAccountHDB(id: string) {
 }
 
 
-export async function deleteBankAccountHDB(id: string) {
-    const bankAccount = await prisma.bankAccount.findUnique({
-        where: { id },
-        include: { familyMember: true }
-    });
-    if (!bankAccount) {
-        return null;
-    }
-    const { id: oldId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId, familyMember_id: oldFamilyMemberId, ...bankAccountData } = bankAccount;
-    let candidateOrResponsible = bankAccount.candidate_id || bankAccount.familyMember?.candidate_id || bankAccount.legalResponsibleId || bankAccount.familyMember?.legalResponsibleId;
-    if (!candidateOrResponsible) {
-        return null;
-    }
-    const openApplications = await getOpenApplications(candidateOrResponsible);
+export async function deleteBankAccountHDB(id: string, memberId: string) {
+    const member = await prisma.familyMember.findUnique({
+        where: { id: memberId }
+    })
+    let candidateOrResponsibleId = member?.candidate_id || member?.legalResponsibleId || memberId;
+    const openApplications = await getOpenApplications( candidateOrResponsibleId);
     if (!openApplications) {
         return null;
     }
-    const route = `CandidateDocuments/${candidateOrResponsible}/statement/${(oldCandidateId || oldResponsibleId || '')}/${bankAccount.id}/`;
+    const route = `CandidateDocuments/${candidateOrResponsibleId}/statement/${(memberId)}/${id}/`;
     await deleteFromS3Folder(route)
 
     for (const application of openApplications) {
         const deleteBankAccount = await historyDatabase.bankAccount.deleteMany({
             where: { main_id: id, application_id: application.id }
         })
-    const RouteHDB = await findAWSRouteHDB(candidateOrResponsible, 'statement', (oldCandidateId || oldResponsibleId || oldFamilyMemberId)!, bankAccount.id, application.id);
+    const RouteHDB = await findAWSRouteHDB(candidateOrResponsibleId, 'statement', (memberId)!, id, application.id);
     await deleteFromS3Folder(RouteHDB);
 }
 }
