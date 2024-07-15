@@ -52,7 +52,8 @@ export default function FormIncome() {
             if (data.file_document) {
                 formData = createFileForm(data)
                 await uploadService.uploadBySectionAndId({ section: 'income', id: member.id, tableId: incomeId }, formData)
-            } else {
+            }
+            if (data.incomes) {
                 await Promise.all(data.incomes.map(async (e, index) => {
                     const formData = createFileForm(e)
                     return await uploadService.uploadBySectionAndId({ section: 'monthly-income', id: member.id, tableId: monthlyIncomesId[index] }, formData)
@@ -79,7 +80,6 @@ export default function FormIncome() {
                 setActiveStep(1)
             })
         } catch (err) {
-
             NotificationService.error({ text: err?.response?.data?.message })
 
         }
