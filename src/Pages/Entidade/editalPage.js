@@ -43,11 +43,11 @@ export default function EditaisEntidade() {
             'authorization': `Bearer ${token}`,
           }
         })
-        console.log(response.data)
+
         // Pega todos os editais e armazena em um estado
         setAnnouncements(response.data.announcements)
       } catch (err) {
-        console.log(err)
+
       }
     }
 
@@ -65,7 +65,7 @@ export default function EditaisEntidade() {
           path: '/',
         })
       } catch (err) {
-        console.log(err)
+
         navigate('/login')
       }
     }
@@ -82,7 +82,7 @@ export default function EditaisEntidade() {
         })
         setEntityInfo(entity_info.data.entity)
       } catch (err) {
-        console.log(err)
+
       }
     }
 

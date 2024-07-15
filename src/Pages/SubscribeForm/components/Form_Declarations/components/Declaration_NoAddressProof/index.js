@@ -87,7 +87,7 @@ export default function Declaration_NoAddressProof({ onBack, onNext }) {
             // }
 
             // const data = await response.json();
-            // console.log('Declaração registrada:', data);
+            // ;
 
             // Redireciona para a próxima tela
             onNext(hasConfirmed);

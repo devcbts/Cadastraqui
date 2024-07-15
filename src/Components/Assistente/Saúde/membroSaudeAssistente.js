@@ -15,82 +15,82 @@ const Relationship = [
   { value: 'Child', label: 'Filho/Filha' },
   { value: 'Other', label: 'Outro' },
 ];
-export default function MembrosFamiliaSaudeAssistente({id}) {
+export default function MembrosFamiliaSaudeAssistente({ id }) {
   const [familyMembers, setFamilyMembers] = useState([])
   const [memberSelected, setMemberSelected] = useState(null)
   const [memberSelectedToSeeHealth, setMemberSelectedToSeeHealth] =
-  useState(null);
+    useState(null);
 
   useEffect(() => {
     async function fetchFamilyMembers() {
-        const token = localStorage.getItem('token');
-        try {
+      const token = localStorage.getItem('token');
+      try {
 
-            const response = await api.get(`/candidates/family-member/${id}`, {
-                headers: {
-                    'authorization': `Bearer ${token}`,
-                }
-            })
-            console.log('====================================');
-            console.log(response.data);
-            console.log('====================================');
-            const membrosdaFamilia = response.data.familyMembers
-            setFamilyMembers(membrosdaFamilia)
-        }
-        catch (err) {
-            alert(err)
-        }
+        const response = await api.get(`/candidates/family-member/${id}`, {
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }
+        })
+          ;
+        ;
+        ;
+        const membrosdaFamilia = response.data.familyMembers
+        setFamilyMembers(membrosdaFamilia)
+      }
+      catch (err) {
+        alert(err)
+      }
     }
     fetchFamilyMembers()
-    
-},[])
 
- function handleShowRegisterIncome(familyMemberId) {
-  const member = familyMembers.find((member) => member.id === familyMemberId)
-  setMemberSelected(member)
- }
+  }, [])
 
- function handleHideRegisterIncome() {
-  setMemberSelectedToSeeHealth(null)
- }
- function translateRelationship(relationshipValue) {
-  const relationship = Relationship.find(r => r.value === relationshipValue);
-  return relationship ? relationship.label : 'Não especificado';
-}
-function handleShowHealth(familyMemberId) {
-  const member = familyMembers.find((member) => member.id === familyMemberId);
-  setMemberSelectedToSeeHealth(member);
-}
+  function handleShowRegisterIncome(familyMemberId) {
+    const member = familyMembers.find((member) => member.id === familyMemberId)
+    setMemberSelected(member)
+  }
+
+  function handleHideRegisterIncome() {
+    setMemberSelectedToSeeHealth(null)
+  }
+  function translateRelationship(relationshipValue) {
+    const relationship = Relationship.find(r => r.value === relationshipValue);
+    return relationship ? relationship.label : 'Não especificado';
+  }
+  function handleShowHealth(familyMemberId) {
+    const member = familyMembers.find((member) => member.id === familyMemberId);
+    setMemberSelectedToSeeHealth(member);
+  }
 
   return (
     <>
-    {!memberSelected && !memberSelectedToSeeHealth && familyMembers.map(familyMember => {
-      return (
-        <div id={familyMember.id} className="container-teste">
-          <div className="member-info">
-            <h4>{familyMember.fullName}</h4>
-            <h4>{translateRelationship(familyMember.relationship)}</h4>
-          </div>
-          <div className="box-renda-btn">
-                <button
-                  type="button"
-                  className="renda-btn"
-                  onClick={() => handleShowHealth(familyMember.id)}
-                >
-                  Ver Saúde
-                </button>
-               
-              </div>
-      </div>
-      )
-    })}
+      {!memberSelected && !memberSelectedToSeeHealth && familyMembers.map(familyMember => {
+        return (
+          <div id={familyMember.id} className="container-teste">
+            <div className="member-info">
+              <h4>{familyMember.fullName}</h4>
+              <h4>{translateRelationship(familyMember.relationship)}</h4>
+            </div>
+            <div className="box-renda-btn">
+              <button
+                type="button"
+                className="renda-btn"
+                onClick={() => handleShowHealth(familyMember.id)}
+              >
+                Ver Saúde
+              </button>
 
-    {memberSelectedToSeeHealth && (
-      <>
-    <VerSaudeAssistente member={memberSelectedToSeeHealth}/>
-    <button type="button" onClick={handleHideRegisterIncome}>Voltar</button>
-    </>
-    )}
+            </div>
+          </div>
+        )
+      })}
+
+      {memberSelectedToSeeHealth && (
+        <>
+          <VerSaudeAssistente member={memberSelectedToSeeHealth} />
+          <button type="button" onClick={handleHideRegisterIncome}>Voltar</button>
+        </>
+      )}
     </>
   );
 }

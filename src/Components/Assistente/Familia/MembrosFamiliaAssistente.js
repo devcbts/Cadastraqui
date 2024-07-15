@@ -3,7 +3,7 @@ import VerFamiliarAssistente from './verFamiliarAssistente.js';
 import Select from 'react-select'
 import { api } from '../../../services/axios.js';
 import LoadingCadastroCandidato from '../../Loading/LoadingCadastroCandidato.js';
-export default function MembrosFamiliaAssistente({id}) {
+export default function MembrosFamiliaAssistente({ id }) {
 
     //Visualização de dados
 
@@ -33,9 +33,9 @@ export default function MembrosFamiliaAssistente({id}) {
     // Setar o membro selecionado
     const selecionarMembro = (membro) => {
         setMembroSelecionado(membro);
-        console.log('====================================');
-        console.log(membro);
-        console.log('====================================');
+        ;
+        ;
+        ;
     };
 
 
@@ -51,9 +51,9 @@ export default function MembrosFamiliaAssistente({id}) {
                         'authorization': `Bearer ${token}`,
                     }
                 })
-                console.log('====================================');
-                console.log(response.data);
-                console.log('====================================');
+                    ;
+                ;
+                ;
                 const membrosdaFamilia = response.data.familyMembers
                 setMembros(membrosdaFamilia)
                 setMembroSelecionado(membrosdaFamilia[0])
@@ -63,8 +63,8 @@ export default function MembrosFamiliaAssistente({id}) {
             }
         }
         pegarMembros()
-        
-    },[])
+
+    }, [])
 
     return (
         <div>
@@ -72,11 +72,11 @@ export default function MembrosFamiliaAssistente({id}) {
 
 
 
-            {membros? <DropdownMembros membros={membros} onSelect={selecionarMembro}/> : ''}
+            {membros ? <DropdownMembros membros={membros} onSelect={selecionarMembro} /> : ''}
 
             {!mostrarCadastro && membroSelecionado ? <VerFamiliarAssistente familyMember={membroSelecionado} />
-            : <LoadingCadastroCandidato/>}
-          
+                : <LoadingCadastroCandidato />}
+
         </div>
     );
 }
@@ -85,12 +85,12 @@ export default function MembrosFamiliaAssistente({id}) {
 // Função de ser um dropdown para selecionar os dados dos membros familiares
 const DropdownMembros = ({ membros, onSelect }) => {
     if (membros.length === 0) return null;
-    
+
     const handleSelect = (selectedOption) => {
         onSelect(selectedOption.membro);
-        console.log('====================================');
-        console.log(selectedOption);
-        console.log('====================================');
+        ;
+        ;
+        ;
 
     };
 
@@ -103,11 +103,11 @@ const DropdownMembros = ({ membros, onSelect }) => {
     //Select do react select
     return (
         <Select
-        options={options}
-        onChange={handleSelect}
-        getOptionValue={(option) => option.value}
-        getOptionLabel={(option) => option.label}
+            options={options}
+            onChange={handleSelect}
+            getOptionValue={(option) => option.value}
+            getOptionLabel={(option) => option.label}
 
-    />
+        />
     );
 };

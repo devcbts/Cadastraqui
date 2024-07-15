@@ -5,7 +5,7 @@ import Select from 'react-select';
 import { api } from '../../../services/axios';
 import { formatCurrency } from '../../../utils/format-currency';
 
-export default function VerFinanciamento({ formData,id , candidate}) {
+export default function VerFinanciamento({ formData, id, candidate }) {
     /*
     const [formData, setFormData] = useState({
         familyMemberName: '',
@@ -39,7 +39,7 @@ export default function VerFinanciamento({ formData,id , candidate}) {
                     'Authorization': `Bearer ${token}`,
                 },
             });
-            console.log(response.data);
+            ;
             // Trate a resposta conforme necessário
         } catch (error) {
             console.error(error.response?.data || error.message);
@@ -55,8 +55,8 @@ export default function VerFinanciamento({ formData,id , candidate}) {
     useEffect(() => {
         setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
         { value: candidato.id, label: candidato.nome, type: 'candidate' }])
-        console.log(familyMembers)
-    },[familyMembers])
+
+    }, [familyMembers])
     useEffect(() => {
         async function pegarFamiliares() {
             const token = localStorage.getItem('token');
@@ -78,7 +78,7 @@ export default function VerFinanciamento({ formData,id , candidate}) {
     }, []);
 
     const handleSelectChange = selectedOption => {
-       // setFormData({ ...formData, familyMemberName: selectedOption.label });
+        // setFormData({ ...formData, familyMemberName: selectedOption.label });
         //setSelectedFamilyMemberId(selectedOption.value);
     };
 
@@ -98,7 +98,7 @@ export default function VerFinanciamento({ formData,id , candidate}) {
                     <label>Tipo de Financiamento:</label>
                     <Select
                         options={financingTypes}
-                        disabled 
+                        disabled
                         //onChange={e => setFormData({ ...formData, financingType: e.value })}
                         value={financingTypes.find(option => option.value === formData.financingType)}
                         required

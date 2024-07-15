@@ -42,7 +42,7 @@ export default function PerfilCandidato() {
           authorization: `Bearer ${token}`,
         },
       });
-      console.log(profilePhoto);
+      ;
       setProfilePhoto(profilePhoto.data.url);
     } catch (err) {
       if (err.response.status === 401) {
@@ -69,7 +69,7 @@ export default function PerfilCandidato() {
               const newToken = await api.patch("/token/refresh");
               localStorage.setItem("token", newToken);
             } catch (err) {
-              console.log(err);
+              ;
             }
           }
         }
@@ -88,7 +88,7 @@ export default function PerfilCandidato() {
 
   async function handleImageUpload(event) {
     const file = event.target.files[0];
-    console.log(file);
+    ;
 
     if (file) {
       const token = localStorage.getItem("token");
@@ -104,7 +104,7 @@ export default function PerfilCandidato() {
         getProfilePhoto();
       } catch (err) {
         alert("Erro ao atualizar foto de perfil.");
-        console.log(err);
+        ;
       }
     }
   }
@@ -113,7 +113,7 @@ export default function PerfilCandidato() {
   const handleEditProfile = async (updatedInfo) => {
     try {
       const role = localStorage.getItem("role")
-      console.log(role)
+
       if (role === "CANDIDATE") {
         await candidateService.updateProfile(updatedInfo)
       }

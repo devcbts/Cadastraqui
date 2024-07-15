@@ -170,7 +170,7 @@ export const CadastroRenda = ({ member }) => {
             authorization: `Bearer ${token}`,
           },
         })
-        console.log(response.data.familyMemberIncomeInfo)
+
 
         setLoading(false)
 

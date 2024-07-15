@@ -67,7 +67,7 @@ export default function HomeEntidade() {
             'authorization': `Bearer ${token}`,
           }
         })
-        console.log(response.data)
+
         // Pega todos os editais e armazena em um estado
         setClosedAnnouncements(response.data.announcements)
 
@@ -90,7 +90,7 @@ export default function HomeEntidade() {
           path: '/',
         })
       } catch (err) {
-        console.log(err)
+
       }
     }
     const intervalId = setInterval(refreshAccessToken, 480000) // Chama a função refresh token a cada 
@@ -106,7 +106,7 @@ export default function HomeEntidade() {
         })
         setEntityInfo(entity_info.data.entity)
       } catch (err) {
-        console.log(err)
+
       }
     }
     Promise.all([

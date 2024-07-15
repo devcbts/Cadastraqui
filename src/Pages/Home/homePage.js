@@ -44,7 +44,7 @@ export default function HomePage() {
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        console.log(entry);
+        ;
         if (entry.isIntersecting) {
           entry.target.classList.add("rotated-video");
         } else {
@@ -55,7 +55,7 @@ export default function HomePage() {
 
     const observerText = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        console.log(entry);
+        ;
         if (entry.isIntersecting) {
           entry.target.classList.add("visible-text");
         } else {
@@ -66,7 +66,7 @@ export default function HomePage() {
 
     const observerCard = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        console.log(entry);
+        ;
         if (entry.isIntersecting) {
           entry.target.classList.add("visible-card");
         } else {
@@ -77,7 +77,7 @@ export default function HomePage() {
 
     const observerTeam = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        console.log(entry);
+        ;
         if (entry.isIntersecting) {
           entry.target.classList.add("visible-team");
         }
@@ -154,9 +154,8 @@ export default function HomePage() {
           <div className={`navbar-inner ${isSticky ? "sticky-inner" : ""}`}>
             <div className="logo-box">
               <a
-                className={`logo-home secondary-logo ${
-                  !isSticky ? "typewriter" : ""
-                }`}
+                className={`logo-home secondary-logo ${!isSticky ? "typewriter" : ""
+                  }`}
               >
                 <img
                   src={LogoBlue}
@@ -187,9 +186,8 @@ export default function HomePage() {
                   <li>
                     <Link to={"/login"}>
                       <a
-                        className={`${
-                          !isSticky ? "dark-login" : "white-login"
-                        }`}
+                        className={`${!isSticky ? "dark-login" : "white-login"
+                          }`}
                       >
                         Login
                       </a>

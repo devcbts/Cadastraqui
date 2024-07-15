@@ -28,10 +28,10 @@ export default function Veiculos({ candidato }) {
           setVeiculos(response.data.vehicleInfoResults);
           setVeiculoSelecionado(response.data.vehicleInfoResults[0]);
         }
-        console.log(response)
+
         setLen(response.data.vehicleInfoResults.length);
       } catch (err) {
-        console.log(err)
+
         if (err.response.status === 500) {
           setLen(0);
         }
@@ -66,9 +66,9 @@ export default function Veiculos({ candidato }) {
 const DropdownVeiculos = ({ veiculos, onSelect }) => {
   const handleChange = (selectedOption) => {
     onSelect(selectedOption.value);
-    console.log("====================================");
-    console.log(selectedOption.value);
-    console.log("====================================");
+    ;
+    ;
+    ;
   };
 
   const options = veiculos.map((veiculo) => ({

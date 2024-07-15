@@ -115,7 +115,7 @@ export default function VerParecer({
   healthInfo,
   application
 }) {
-  console.log(application)
+
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const printDocument = () => {
     const input = document.getElementById('parecer-print');
@@ -159,7 +159,7 @@ export default function VerParecer({
       })
       .then((response) => {
         // Handle successful response
-        console.log("Status atualizado com sucesso:", response.data);
+        ;
       })
       .catch((error) => {
         // Handle error
@@ -337,7 +337,7 @@ export default function VerParecer({
         <tbody>
           {/* Adicione linhas estáticas ou dinâmicas conforme necessário */}
           {healthInfo?.map((member) => {
-            console.log(member.healthInfo[0]?.diseases);
+            ;
             return (
               <tr>
                 <td>{member.name}</td>
@@ -449,7 +449,7 @@ export default function VerParecer({
           <div style={{ borderBottom: '1px solid #000', width: '50%', display: 'inline-block' }}></div>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px' , flexDirection: 'column'}}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px', flexDirection: 'column' }}>
           <div>
             <label>Nome:</label>
             <div style={{ borderBottom: '1px solid #000', width: '400px', display: 'inline-block' }}></div>

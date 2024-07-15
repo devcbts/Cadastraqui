@@ -42,7 +42,7 @@ export default function HealthFiles({ items, edit = true, onBack }) {
             const urls = allFiles.urls
             delete urls[`url_${name}`]
             delete urls[`file_${name}`]
-            console.log(urls)
+
             setAllFiles((prev) => ({ ...prev, urls }))
             NotificationService.success({ text: 'Arquivo excluído' })
         } catch (err) {

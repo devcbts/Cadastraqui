@@ -34,7 +34,7 @@ class ResumeMapper {
                     url: Object.values(removeObjectFileExtension(e.urls))?.[0]
                 })
             })
-            console.log(solicitations)
+
             return {
                 interview, visit, majoracao: maj, solicitations
             }

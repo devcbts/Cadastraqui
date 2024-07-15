@@ -24,11 +24,11 @@ class BankAccountMapper {
                     })
                 })
             } catch (err) {
-                console.log(err)
+
             }
             return account
         })
-        console.log(mappedData)
+
         return mappedData
     }
 }

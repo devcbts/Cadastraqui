@@ -67,16 +67,16 @@ export default function MembrosFamiliaRendaTeste({ candidate, identityInfo }) {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log("====================================");
-        console.log(response.data);
-        console.log("====================================");
+        ;
+        ;
+        ;
         const membrosdaFamilia = response.data.familyMembers;
 
-        console.log('income', candidateWithIncomeInfo)
+
         // Inclui o candidato atualizado no início do array de membros da família
         setFamilyMembers([candidateWithIncomeInfo, ...membrosdaFamilia]);
       } catch (err) {
-        console.log(err)
+
       }
     }
     fetchFamilyMembers();
@@ -123,13 +123,13 @@ export default function MembrosFamiliaRendaTeste({ candidate, identityInfo }) {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log("====================================");
-        console.log(response.data);
-        console.log("====================================");
+        ;
+        ;
+        ;
         const membrosdaFamilia = response.data.familyMembers;
-        console.log('MEMBROS', membrosdaFamilia)
+
         setMembers([{ ...candidateWithIncomeInfo, fullName: candidate.name }, ...membrosdaFamilia,]);
-        console.log(candidate)
+
 
       } catch (err) {
         alert(err);

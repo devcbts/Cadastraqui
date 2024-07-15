@@ -2,7 +2,7 @@ import { forwardRef } from "react"
 
 const EntityFormInput = forwardRef(({ name, label, error, ...props }, ref) => {
     const errorName = name?.split('.').pop()
-    console.log(errorName)
+
     const useReactHookForm = error?.[errorName]?.hasOwnProperty("message") ? error?.[errorName]?.message : error?.[errorName]
     const style = error === null ? "#CCC" : (
         !useReactHookForm ? "#499468" : "#ef3e36"

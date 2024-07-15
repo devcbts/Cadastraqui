@@ -31,27 +31,27 @@ export default function SeeCandidatosInfo() {
   const prevButton = useRef(null)
   const { announcement_id, application_id } = useParams()
   const [candidateId, setCandidateId] = useState('')
-  useEffect( () => {
-    async function getCandidateId(){
+  useEffect(() => {
+    async function getCandidateId() {
 
       const token = localStorage.getItem('token')
       try {
         const response = await api.get(`/assistant/${announcement_id}/${application_id}`, {
           headers: {
-            'Authorization' : 'Bearer ' + token
+            'Authorization': 'Bearer ' + token
           }
         })
 
         setCandidateId(response.data.application.candidate_id)
-        console.log('====================================');
-        console.log(response.data.application);
-        console.log('====================================');
+          ;
+        ;
+        ;
       } catch (error) {
-        
+
       }
     }
     getCandidateId()
-  },[announcement_id])
+  }, [announcement_id])
 
 
   const handleCommentClick = () => {
@@ -81,7 +81,7 @@ export default function SeeCandidatosInfo() {
   function BasicInfoDiv() {
     return (
       <div >
-        <BasicoAssistente id={candidateId}/>
+        <BasicoAssistente id={candidateId} />
 
       </div>
     );
@@ -90,7 +90,7 @@ export default function SeeCandidatosInfo() {
   function FamilyInfoDiv() {
     return (
       <div >
-        <MembrosFamiliaAssistente id={candidateId}/>
+        <MembrosFamiliaAssistente id={candidateId} />
       </div>
     );
   }
@@ -98,7 +98,7 @@ export default function SeeCandidatosInfo() {
   function HousingInfoDiv() {
     return (
       <div >
-       <MoradiaAssistente id={candidateId}/>
+        <MoradiaAssistente id={candidateId} />
       </div>
     );
   }
@@ -106,17 +106,17 @@ export default function SeeCandidatosInfo() {
   function VehicleInfoDiv() {
     return (
       <div >
-       <VeiculosAssistente id={candidateId} />
+        <VeiculosAssistente id={candidateId} />
       </div>
     );
   }
 
   function EarningInfoDiv() {
-    
+
 
     return (
       <div >
-      <MembrosFamiliaRendaAssistente id={candidateId} />
+        <MembrosFamiliaRendaAssistente id={candidateId} />
       </div>
     );
   }
@@ -124,7 +124,7 @@ export default function SeeCandidatosInfo() {
   function BudgetInfoDiv() {
     return (
       <div >
-               <DespesasTotaisAssistente id={candidateId} />
+        <DespesasTotaisAssistente id={candidateId} />
 
       </div>
     );
@@ -133,16 +133,16 @@ export default function SeeCandidatosInfo() {
   function HealthInfoDiv() {
     return (
       <div >
-        <MembrosFamiliaSaudeAssistente id={candidateId}/>
-        </div>
-    
+        <MembrosFamiliaSaudeAssistente id={candidateId} />
+      </div>
+
     );
   }
 
   function DeclarationsInfoDiv() {
     return (
       <div>
-        <VerDeclaracoes id={candidateId}/>
+        <VerDeclaracoes id={candidateId} />
       </div>
     );
   }
@@ -150,7 +150,7 @@ export default function SeeCandidatosInfo() {
   function DocumentsInfoDiv() {
     return (
       <div >
-        <VerDocumentosAssistente id={candidateId}/>
+        <VerDocumentosAssistente id={candidateId} />
       </div>
     );
   }

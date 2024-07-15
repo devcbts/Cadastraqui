@@ -12,7 +12,7 @@ import CardEdital from "../../Components/Admin/CardEdital";
 export default function VerEntidade() {
     const [entity, setEntity] = useState({})
     const { entity_id } = useParams()
-    console.log(entity_id)
+
     useEffect(() => {
         async function getEntities() {
             const token = localStorage.getItem('token');
@@ -21,7 +21,7 @@ export default function VerEntidade() {
                     'authorization': `Bearer ${token}`,
                 },
             })
-            console.log(response.data)
+
             setEntity(response.data.entity)
         }
         getEntities();
@@ -72,13 +72,13 @@ export default function VerEntidade() {
                             {entity.SocialAssistant?.map(assistant => {
                                 return (<div>
                                     <h3>Nome: {assistant.name}</h3>
-                                    
+
                                 </div>)
                             })}
                             <div>
-                                    <h3>Nome: Silva</h3>
-                                    
-                                </div>
+                                <h3>Nome: Silva</h3>
+
+                            </div>
                         </div>
                     </div>
                     : ''}

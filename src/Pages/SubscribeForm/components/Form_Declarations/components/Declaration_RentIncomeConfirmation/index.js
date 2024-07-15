@@ -75,7 +75,7 @@ UF ${rentDetails.UF}, no valor mensal de ${rentDetails.rentAmount}, pago por ${r
             // }
 
             // const data = await response.json();
-            // console.log('Declaração registrada:', data);
+            // ;
 
             onNext('vehicleOwnership');
         } catch (error) {

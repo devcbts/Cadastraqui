@@ -30,7 +30,7 @@ export default function VerSolicitacoesAssistente({
         }
       });
     } catch (error) {
-      console.log(error);
+      ;
     }
   };
   useEffect(() => {
@@ -46,11 +46,11 @@ export default function VerSolicitacoesAssistente({
           }
         );
         setSolicitations(solicitation.data.solicitations);
-        console.log("====================================");
-        console.log(solicitation.data.solicitations);
-        console.log("====================================");
+        ;
+        ;
+        ;
       } catch (err) {
-        console.log(err);
+        ;
       }
     }
 
@@ -84,9 +84,9 @@ export default function VerSolicitacoesAssistente({
           },
         }
       );
-      console.log(response.data);
+      ;
     } catch (error) {
-      console.log(error);
+      ;
     }
     // Exemplo: api.post('URL_PARA_SALVAR_RELATORIO', { id: solicitationId, report: report });
   };

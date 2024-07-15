@@ -18,9 +18,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import EntityFormInput from '../../Pages/Admin/EntityFormInput';
 import MultiSelect from 'react-select'
 import FormCheckbox from '../Inputs/FormCheckbox';
-console.log('====================================');
-console.log(dadosCursos.bacharelado);
-console.log('====================================');
+;
+;
+;
 
 const LevelType = [{
     value: 'BasicEducation', label: 'Educação Básica'
@@ -142,7 +142,7 @@ export default function CadastroEdital() {
         waitingList: z.boolean().default(false),
         hasInterview: z.literal(false),
         announcementName: z.string().min(1, 'Campo obrigatório'),
-        // filePdf: z.any().refine((value) => console.log(value)),
+        // filePdf: z.any().refine((value) => ,
         selectedCursos: z.array().optional(),
     })
     const baseAnnouncementSchemaWithInterview = z.object({
@@ -198,7 +198,7 @@ export default function CadastroEdital() {
                 return new Date('1900-01-01 ' + data.endHour).getTime() > new Date('1900-01-01 ' + data.beginHour).getTime()
             }, { path: ['endHour'], message: 'Deve ser maior que o horário de início' }),
         announcementName: z.string().min(1, 'Campo obrigatório'),
-        // filePdf: z.any().refine((value) => console.log(value)),
+        // filePdf: z.any().refine((value) => ,
         selectedCursos: z.array().optional(),
     })
 
@@ -208,7 +208,7 @@ export default function CadastroEdital() {
     ]))
 
         .refine(data => {
-            console.log('refinement data', data)
+
             return data.announcementBegin >= data.openDate
         }, {
 
@@ -257,12 +257,12 @@ export default function CadastroEdital() {
                         'authorization': `Bearer ${token}`,
                     }
                 })
-                console.log(response.data)
+
                 setEntity(response.data.entity)
                 setSubsidiaries(response.data.entity.EntitySubsidiary)
 
             } catch (error) {
-                console.log(error)
+
             }
         }
 
@@ -329,14 +329,14 @@ export default function CadastroEdital() {
 
     const [educationalLevels, setEducationalLevels] = useState([]);
     const handleEducationalChange = (field, value) => {
-        console.log('campo alterado', field, value, currentCourse)
+
         setCurrentCourse({ ...currentCourse, [field]: value });
     };
 
 
     const completeCourseRegistration = () => {
         setEducationalLevels([...educationalLevels, currentCourse]);
-        console.log(currentCourse)
+
         if (educationLevel === "BasicEducation") {
             setCurrentCourse({
                 availableCourses: '',
@@ -447,9 +447,9 @@ export default function CadastroEdital() {
             types1: selectedTypes1.map(option => option.value), // Envia apenas os valores
             type2: type2,
         }
-        console.log('====================================');
-        console.log(data);
-        console.log('====================================');
+            ;
+        ;
+        ;
         try {
             const token = localStorage.getItem("token");
             const response = await api.post("/entities/announcement", {
@@ -488,9 +488,9 @@ export default function CadastroEdital() {
                     semester: education.semester,
                     entity_subsidiary_id: education.entity_subsidiary_id
                 }
-                console.log('====================================');
-                console.log(data);
-                console.log('====================================');
+                    ;
+                ;
+                ;
                 try {
                     await api.post(`/entities/education/${announcement.id}`,
                         {
@@ -524,7 +524,7 @@ export default function CadastroEdital() {
 
             })
             const formData = new FormData();
-            console.log('ARQUIVO QUE SERÁ ENVIADO', getValues().file)
+
             formData.append("file", getValues().file[0]);
             await api.post(`/entities/upload/${announcement.id}`, formData, {
                 headers: {
@@ -716,14 +716,15 @@ export default function CadastroEdital() {
                         error={touchedFields["announcementName"] ? errors : null}
                     />
 
-                    <EntityFormInput
+                    {/* <EntityFormInput
                         label="Data de abertura do edital"
                         name="openDate"
                         type="date"
 
-                        {...register("openDate", { valueAsDate: true, onChange: (e) => { console.log(new Date(e.target.value), getCurrentDateWithoutTime().toISOString()) } })}
-                        error={touchedFields["openDate"] ? errors : null}
-                    />
+                        {...register("openDate", {
+                            valueAsDate: true, onChange: (e) => { }
+                        error={ touchedFields["openDate"]? errors : null}
+                    /> */}
 
 
                     <EntityFormInput

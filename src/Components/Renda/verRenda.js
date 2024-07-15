@@ -158,7 +158,7 @@ export const VerRenda = ({ member }) => {
   }
 
   function calculateAverageIncome(arrayDeObjetos) {
-    console.log(arrayDeObjetos);
+    ;
     const { soma, contador } = arrayDeObjetos.reduce(
       (acumulador, objeto) => {
         if (objeto.averageIncome !== null) {
@@ -295,7 +295,7 @@ export const VerRenda = ({ member }) => {
   //           },
   //         }
   //       );
-  //       console.log(response);
+  //       ;
   //       if (member.incomeSource.includes("IndividualEntrepreneur")) {
   //         const MEIIncomeInfo = response.data.familyMemberIncomeInfo.filter(
   //           (data) => data.employmentType === "IndividualEntrepreneur"
@@ -310,7 +310,7 @@ export const VerRenda = ({ member }) => {
   //           averageIncome,
   //         });
 
-  //         console.log(MEIInfo);
+  //         ;
   //       }
 
   //       if (member.incomeSource.includes("SelfEmployed")) {
@@ -319,7 +319,7 @@ export const VerRenda = ({ member }) => {
   //         );
   //         const averageIncome = calculateAverageIncome(AutonomousInfo);
   //         setAutonomousInfo({ averageIncome });
-  //         console.log(autonomousInfo);
+  //         ;
   //       }
 
   //       if (member.incomeSource.includes("Unemployed")) {
@@ -338,7 +338,7 @@ export const VerRenda = ({ member }) => {
   //           parcelValue,
   //         });
 
-  //         console.log(unemployedInfo);
+  //         ;
   //       }
   //       if (member.incomeSource.includes("InformalWorker")) {
   //         const InformalWorkerInfo =
@@ -347,7 +347,7 @@ export const VerRenda = ({ member }) => {
   //           );
   //         const averageIncome = calculateAverageIncome(InformalWorkerInfo);
   //         setInformalWorkerInfo({ averageIncome });
-  //         console.log(informalWorkerInfo);
+  //         ;
   //       }
   //       if (member.incomeSource.includes("RentalIncome")) {
   //         const RentalIncomeInfo = response.data.familyMemberIncomeInfo.filter(
@@ -355,7 +355,7 @@ export const VerRenda = ({ member }) => {
   //         );
   //         const averageIncome = calculateAverageIncome(RentalIncomeInfo);
   //         setRentalIncomeInfo({ averageIncome });
-  //         console.log(rentalIncomeInfo);
+  //         ;
   //       }
   //       if (member.incomeSource.includes("LiberalProfessional")) {
   //         const LiberalProfessionalInfo =
@@ -364,7 +364,7 @@ export const VerRenda = ({ member }) => {
   //           );
   //         const averageIncome = calculateAverageIncome(LiberalProfessionalInfo);
   //         setLiberalProfessionalInfo({ averageIncome });
-  //         console.log(liberalProfessionalInfo);
+  //         ;
   //       }
   //       if (member.incomeSource.includes("PrivatePension")) {
   //         const PrivatePensionInfo =
@@ -373,7 +373,7 @@ export const VerRenda = ({ member }) => {
   //           );
   //         const averageIncome = calculateAverageIncome(PrivatePensionInfo);
   //         setPrivatePensionInfo({ averageIncome });
-  //         console.log(privatePensionInfo);
+  //         ;
   //       }
   //       if (member.incomeSource.includes("FinancialHelpFromOthers")) {
   //         const FinancialHelpFromOthersInfo =
@@ -391,7 +391,7 @@ export const VerRenda = ({ member }) => {
   //           financialAssistantCPF,
   //         });
 
-  //         console.log(financialHelpFromOthersInfo);
+  //         ;
   //       }
   //       if (
   //         member.incomeSource.includes("BusinessOwner") ||
@@ -415,7 +415,7 @@ export const VerRenda = ({ member }) => {
   //           CNPJ,
   //           averageIncome,
   //         });
-  //         console.log(entepreneurInfo);
+  //         ;
   //       }
   //       if (member.incomeSource.includes("PrivateEmployee")) {
   //         const PrivateEmployeeInfo =
@@ -435,7 +435,7 @@ export const VerRenda = ({ member }) => {
   //           payingSourcePhone,
   //           averageIncome,
   //         });
-  //         console.log(privateEmployeeInfo);
+  //         ;
   //       }
   //       if (member.incomeSource.includes("PublicEmployee")) {
   //         const PublicEmployeeInfo =
@@ -455,7 +455,7 @@ export const VerRenda = ({ member }) => {
   //           payingSourcePhone,
   //           averageIncome,
   //         });
-  //         console.log(publicEmployeeInfo);
+  //         ;
   //       }
   //       if (member.incomeSource.includes("DomesticEmployee")) {
   //         const DomesticEmployeeInfo =
@@ -475,7 +475,7 @@ export const VerRenda = ({ member }) => {
   //           payingSourcePhone,
   //           averageIncome,
   //         });
-  //         console.log(domesticEmployeeInfo);
+  //         ;
   //       }
   //       if (member.incomeSource.includes("TemporaryRuralEmployee")) {
   //         const TemporaryRuralEmployeeInfo =
@@ -498,7 +498,7 @@ export const VerRenda = ({ member }) => {
   //           payingSourcePhone,
   //           averageIncome,
   //         });
-  //         console.log(temporaryRuralEmployeeInfo);
+  //         ;
   //       }
   //       if (member.incomeSource.includes("Retired")) {
   //         const RetiredInfo = response.data.familyMemberIncomeInfo.filter(
@@ -517,7 +517,7 @@ export const VerRenda = ({ member }) => {
   //           payingSourcePhone,
   //           averageIncome,
   //         });
-  //         console.log(retiredInfo);
+  //         ;
   //       }
   //       if (member.incomeSource.includes("Pensioner")) {
   //         const PensionerInfo = response.data.familyMemberIncomeInfo.filter(
@@ -536,7 +536,7 @@ export const VerRenda = ({ member }) => {
   //           payingSourcePhone,
   //           averageIncome,
   //         });
-  //         console.log(pensionerInfo);
+  //         ;
   //       }
   //       if (member.incomeSource.includes("TemporaryDisabilityBenefit")) {
   //         const TemporaryDisabilityBenefitInfo =
@@ -559,7 +559,7 @@ export const VerRenda = ({ member }) => {
   //           payingSourcePhone,
   //           averageIncome,
   //         });
-  //         console.log(temporaryDisabilityBenefitInfo);
+  //         ;
   //       }
   //       if (member.incomeSource.includes("Apprentice")) {
   //         const ApprenticeInfo = response.data.familyMemberIncomeInfo.filter(
@@ -578,12 +578,12 @@ export const VerRenda = ({ member }) => {
   //           payingSourcePhone,
   //           averageIncome,
   //         });
-  //         console.log(apprenticeInfo);
+  //         ;
   //       }
 
   //       setLoading(false);
   //     } catch (err) {
-  //       console.log(err);
+  //       ;
   //     }
   //   }
   //   getIncomeInfo();
@@ -623,9 +623,9 @@ export const VerRenda = ({ member }) => {
           }
         );
         setMonthlyIncomes(response.data.incomeBySource);
-        console.log(response.data);
+        ;
       } catch (error) {
-        console.log(error);
+        ;
       }
     }
     getMonthlyIncome();

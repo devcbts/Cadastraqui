@@ -15,7 +15,7 @@ export default function Basico() {
     async function pegarIdentidade() {
       const token = localStorage.getItem("token");
       const role = localStorage.getItem("role");
-      console.log(role);
+      ;
       try {
         const response = await api.get(`/candidates/identity-info`, {
           headers: {
@@ -31,7 +31,7 @@ export default function Basico() {
           setBasicInfo(dadosIdentidade);
 
           setLen(dadosIdentidade.length);
-          console.log(dadosIdentidade);
+          ;
         }
       } catch (err) {
         setLen(0);
@@ -48,12 +48,12 @@ export default function Basico() {
           },
         });
 
-        console.log(response.data);
+        ;
         const dadosBasico = response.data.candidate;
 
         setRegisterInfo(dadosBasico);
 
-        console.log(dadosBasico);
+        ;
       } catch (err) {
       }
     }

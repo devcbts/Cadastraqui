@@ -46,7 +46,7 @@ export default function BankReport({ id, onBack }) {
             const date = new Date()
             const formData = new FormData()
             formData.append(`file_${date.getMonth() + 1}-${date.getFullYear()}`, value)
-            console.log(formData)
+
             await uploadService.uploadBySectionAndId({ section: 'registrato', id }, formData)
             NotificationService.success({ text: 'Registrato enviado com sucesso' })
         } catch (err) {
@@ -59,7 +59,7 @@ export default function BankReport({ id, onBack }) {
         const compareDate = watch('date')
         const days = currDate.getMonth() - compareDate.getMonth() +
             (12 * (currDate.getFullYear() - compareDate.getFullYear()))
-        console.log(days, currDate.getMonth() - compareDate.getMonth())
+
         return days !== 0 ? 'Vencido' : 'Atualizado'
     }
     return (

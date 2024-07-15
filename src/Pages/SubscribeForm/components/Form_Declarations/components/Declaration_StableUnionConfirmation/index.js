@@ -58,7 +58,7 @@ Nossa União Estável possui natureza pública, contínua e duradoura com o obje
             // }
 
             // const data = await response.json();
-            // console.log('Declaração registrada:', data);
+            // ;
 
             onNext(confirmation === 'sim');
         } catch (error) {

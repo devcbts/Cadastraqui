@@ -4,15 +4,15 @@ import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o for
 import { api } from '../../../services/axios';
 import { formatCurrency } from '../../../utils/format-currency';
 
-export default function VerCartao({formData,id, candidate}) {
-   /* const [formData, setFormData] = useState({
-        familyMemberName: '',
-        usersCount: 1, // Valor padrão
-        cardType: '',
-        bankName: '',
-        cardFlag: '',
-        invoiceValue: '',
-    });*/
+export default function VerCartao({ formData, id, candidate }) {
+    /* const [formData, setFormData] = useState({
+         familyMemberName: '',
+         usersCount: 1, // Valor padrão
+         cardType: '',
+         bankName: '',
+         cardFlag: '',
+         invoiceValue: '',
+     });*/
 
     const [familyMembers, setFamilyMembers] = useState([]);
     const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState('');
@@ -40,7 +40,7 @@ export default function VerCartao({formData,id, candidate}) {
     };
 
     const handleSelectChange = selectedOption => {
-      //  setFormData({ ...formData, familyMemberName: selectedOption.label });
+        //  setFormData({ ...formData, familyMemberName: selectedOption.label });
         setSelectedFamilyMemberId(selectedOption.value);
     };
 
@@ -50,12 +50,12 @@ export default function VerCartao({formData,id, candidate}) {
     useEffect(() => {
         setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
         { value: candidato.id, label: candidato.nome, type: 'candidate' }])
-        console.log(familyMembers)
-    },[familyMembers])
+
+    }, [familyMembers])
 
     return (
         <div className="fill-box">
-            <form  id='survey-form'>
+            <form id='survey-form'>
                 {/* Seleção de familiar */}
                 <div className='survey-box'>
                     <label>Nome do Familiar:</label>

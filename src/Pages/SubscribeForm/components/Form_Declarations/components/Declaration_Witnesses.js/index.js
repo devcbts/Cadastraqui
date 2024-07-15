@@ -250,7 +250,7 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
         //     }
 
         //     const data = await response.json();
-        //     console.log('Declaração registrada:', data);
+        //     ;
 
         //     // Redireciona para a próxima tela
         //     onNext();

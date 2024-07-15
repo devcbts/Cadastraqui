@@ -18,7 +18,7 @@ class HealthInfoMapper {
                 }))
             }
         })
-        console.log(mappedData)
+
         return mappedData
     }
 }

@@ -39,7 +39,7 @@ export default function VerEditalEntidade() {
 
   const handleRemoveAssistant = async (assistant) => {
     const token = localStorage.getItem("token");
-    console.log(assistant)
+
     try {
       await api.put(
         "/entities/announcement/assistant",
@@ -60,7 +60,7 @@ export default function VerEditalEntidade() {
       })
       setAnnouncement((prevState) => ({ ...prevState, socialAssistant: prevState.socialAssistant.filter((el) => el.id !== assistant.id) }))
     } catch (err) {
-      console.log(err)
+
       Swal.fire({
         title: 'Erro',
         text: err.response.data.message,
@@ -102,7 +102,7 @@ export default function VerEditalEntidade() {
             },
           }
         );
-        console.log('NOME', assistant)
+
         Swal.fire({
           title: 'Sucesso',
           text: `Assistente ${assistant.label} cadastrado`,
@@ -130,7 +130,7 @@ export default function VerEditalEntidade() {
       setAssistants(response.data.socialAssistants);
       setAnnouncement((prevState) => ({ ...prevState, socialAssistant: response.data.socialAssistants }))
     } catch (err) {
-      console.log(err);
+      ;
     }
   }
 
@@ -145,10 +145,10 @@ export default function VerEditalEntidade() {
           },
         }
       );
-      console.log(response.data.applications);
+      ;
       setApplications(response.data.applications);
     } catch (err) {
-      console.log(err);
+      ;
     }
   }
   useEffect(() => {
@@ -168,12 +168,12 @@ export default function VerEditalEntidade() {
             },
           }
         );
-        console.log(response.data.announcement);
+        ;
         // Pega todos os editais e armazena em um estado
         setAnnouncement(response.data.announcement);
         setEducationLevels(response.data.announcement.educationLevels);
       } catch (err) {
-        console.log(err);
+        ;
       }
     }
 
@@ -193,7 +193,7 @@ export default function VerEditalEntidade() {
           path: "/",
         });
       } catch (err) {
-        console.log(err);
+        ;
         navigate("/login");
       }
     }
@@ -208,12 +208,12 @@ export default function VerEditalEntidade() {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log(entity_info);
+        ;
         setEntityInfo(entity_info.data.entity);
         setSubsidiaries(entity_info.data.entity.EntitySubsidiary);
-        console.log(entity_info.data.entity.EntitySubsidiary);
+        ;
       } catch (err) {
-        console.log(err);
+        ;
       }
     }
     async function getProfilePhotoEntity() {
@@ -225,7 +225,7 @@ export default function VerEditalEntidade() {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log(profilePhoto);
+        ;
         setProfilePhoto(profilePhoto.data.url);
         localStorage.setItem(
           "profilePhoto",
@@ -313,9 +313,9 @@ export default function VerEditalEntidade() {
           'authorization': `Bearer ${token}`,
         }
       });
-      console.log('é aqui que eu to')
+
       setPdfUrl(response.data.url);
-      console.log(response.data)
+
     } catch (error) {
       console.error('Erro ao buscar o PDF do edital:', error);
     }

@@ -10,7 +10,7 @@ export default function EditalAssistente(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   let announcementDate
-  console.log(props)
+
   if (props.announcement) {
     const date = new Date(props.announcement.closeDate)
 

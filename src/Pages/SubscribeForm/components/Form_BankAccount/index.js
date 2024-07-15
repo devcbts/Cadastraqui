@@ -19,7 +19,7 @@ import useAuth from "hooks/useAuth";
 export default function FormBankAccount({ id, onBack }) {
     const hasMonthSelected = useRecoilValue(monthAtom)
     const handleUploadStatements = async (data, tableId) => {
-        console.log('files', data)
+
         const formData = createFileForm(data)
         try {
             await uploadService.uploadBySectionAndId({ section: 'statement', id, tableId }, formData)

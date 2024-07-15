@@ -22,12 +22,12 @@ export default function VerVeiculoAssistente({ formData, id }) {
   const [membros, setMembros] = useState([]);
 
   // Atualiza o estado do formulário quando um input className='survey-control' muda
-  const handleChange = (e) => {};
+  const handleChange = (e) => { };
 
-  const handleSelectChange = (selectedOptions) => {};
+  const handleSelectChange = (selectedOptions) => { };
 
   // Envia o formulário para o servidor
-  const handleSubmit = async (e) => {};
+  const handleSubmit = async (e) => { };
 
   useEffect(() => {
     async function pegarMembros() {
@@ -38,9 +38,9 @@ export default function VerVeiculoAssistente({ formData, id }) {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log("====================================");
-        console.log(response.data);
-        console.log("====================================");
+        ;
+        ;
+        ;
         const membrosdaFamilia = response.data.familyMembers;
         setMembros(membrosdaFamilia);
       } catch (err) {

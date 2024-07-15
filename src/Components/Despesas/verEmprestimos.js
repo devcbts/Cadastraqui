@@ -20,7 +20,7 @@ export default function VerEmprestimo({ formDataInfo, candidate }) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
+
         if (name === "installmentValue") {
             // Extrai números e vírgula, substitui vírgula por ponto para conversão.
             const numericValue = parseFloat(value.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1.$2')) || '';
@@ -33,7 +33,7 @@ export default function VerEmprestimo({ formDataInfo, candidate }) {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData)
+
         const token = localStorage.getItem('token');
         try {
             const response = await api.patch(`/candidates/expenses/loan/${formData.familyMember_id}`, {
@@ -49,7 +49,7 @@ export default function VerEmprestimo({ formDataInfo, candidate }) {
                 },
 
             });
-            console.log(response.data);
+            ;
             setIsEditing(false)
             handleSuccess(response, 'Dados Atualizados com sucesso!')
 
@@ -69,7 +69,7 @@ export default function VerEmprestimo({ formDataInfo, candidate }) {
     useEffect(() => {
         setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
         { value: candidato.id, label: candidato.nome, type: 'candidate' }])
-        console.log(familyMembers)
+
     }, [familyMembers])
 
     useEffect(() => {

@@ -67,7 +67,7 @@ seja ela formal ou informal, não possuindo, portanto, nenhuma fonte de renda.\
             }
 
             const data = await response.data;
-            console.log('Declaração registrada:', data);
+            ;
 
             onNext(confirmation);
         } catch (error) {

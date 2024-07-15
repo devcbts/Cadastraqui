@@ -23,7 +23,7 @@ export default function ViewFamilyGroup({ candidateId, applicationId }) {
             try {
                 setIsLoading(true)
                 const information = await socialAssistantService.getCandidateFamilyGroup(applicationId)
-                console.log(information)
+
                 setFamilyMembers(information)
             } catch (err) { }
             setIsLoading(false)

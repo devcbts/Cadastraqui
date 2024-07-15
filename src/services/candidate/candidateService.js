@@ -203,7 +203,7 @@ class CandidateService {
         const token = localStorage.getItem("token")
         const monthlyIncome = await this.getMonthlyIncome(id)
         const memberIncome = await this.getAllIncomes()
-        console.log(monthlyIncome, memberIncome)
+
         return { monthlyIncome, info: memberIncome.incomes?.find(e => e.id === id).months, data: memberIncome.incomes?.find(e => e.id === id) }
     }
 

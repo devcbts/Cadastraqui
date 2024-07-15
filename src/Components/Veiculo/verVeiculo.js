@@ -49,9 +49,9 @@ export default function VerVeiculo({ initialFormData, candidate }) {
     setIsEditing(!isEditing);
   };
 
-  console.log("====================================");
-  console.log(formData);
-  console.log("====================================");
+  ;
+  ;
+  ;
   const [membros, setMembros] = useState([]);
   const [candidato, setCandidato] = useState({
     id: candidate.id,
@@ -69,13 +69,13 @@ export default function VerVeiculo({ initialFormData, candidate }) {
     const { name, value, type, checked } = e.target;
     const updatedValue =
       name === "manufacturingYear" ||
-      name === "financedMonths" ||
-      name === "monthsToPayOff" ||
-      name === "insuranceValue"
+        name === "financedMonths" ||
+        name === "monthsToPayOff" ||
+        name === "insuranceValue"
         ? Number(value)
         : type === "checkbox"
-        ? checked
-        : value;
+          ? checked
+          : value;
 
     setFormData((prevState) => ({
       ...prevState,
@@ -103,12 +103,12 @@ export default function VerVeiculo({ initialFormData, candidate }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Aqui você incluiria a lógica para enviar os dados para o servidor
-    console.log(formData);
+    ;
 
     const token = localStorage.getItem("token");
     try {
       const { ownerNames, FamilyMemberToVehicle, ...formDataToSend } = formData;
-      console.log(formDataToSend);
+      ;
       const response = await api.patch(
         "/candidates/vehicle-info",
         formDataToSend,
@@ -118,22 +118,22 @@ export default function VerVeiculo({ initialFormData, candidate }) {
           },
         }
       );
-      console.log("====================================");
-      console.log(response.data);
-      console.log("====================================");
+      ;
+      ;
+      ;
       alert("Registro criado com sucesso");
       setIsEditing(false); // Desabilitar edição ao enviar
 
       // Lógica para enviar os dados atualizados para o servidor
-      console.log("Dados enviados:", formData);
+      ;
     } catch (err) {
-      console.log(err);
+      ;
     }
   };
 
-  console.log("====================================");
-  console.log(opcoes);
-  console.log("====================================");
+  ;
+  ;
+  ;
   useEffect(() => {
     async function pegarMembros() {
       const token = localStorage.getItem("token");
@@ -143,9 +143,9 @@ export default function VerVeiculo({ initialFormData, candidate }) {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log("====================================");
-        console.log(response.data);
-        console.log("====================================");
+        ;
+        ;
+        ;
         const membrosdaFamilia = response.data.familyMembers;
         setMembros(membrosdaFamilia);
       } catch (err) {
@@ -282,7 +282,7 @@ export default function VerVeiculo({ initialFormData, candidate }) {
           <br />
 
           <InputCheckbox
-          id="hasInsurance"
+            id="hasInsurance"
             className="survey-control"
             type="checkbox"
             name="hasInsurance"

@@ -19,7 +19,7 @@ export default function MembersList({ onSelect, onAdd }) {
                     setFamilyMembers(members)
                 }
             } catch (err) {
-                console.log(err)
+
                 NotificationService.error({ text: err?.response?.data?.message })
             }
             setIsLoading(false)

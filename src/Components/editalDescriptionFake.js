@@ -13,7 +13,7 @@ const LevelType = [{
 }]
 export default function EditalInscricaoFake() {
   const params = useParams()
-  console.log(params);
+    ;
   const navigate = useNavigate()
   const [announcementInfo, setAnnouncementInfo] = useState()
   const [profilePhoto, setProfilePhoto] = useState(null)
@@ -28,9 +28,9 @@ export default function EditalInscricaoFake() {
         })
         // Pega todos os editais e armazena em um estado
         setAnnouncementInfo(response.data.announcements)
-        console.log(response.data.announcements)
+
       } catch (err) {
-        console.log(err)
+
       }
     }
     fetchAnnouncements()
@@ -50,7 +50,7 @@ export default function EditalInscricaoFake() {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log(profilePhoto);
+        ;
         setProfilePhoto(profilePhoto.data.url);
         localStorage.setItem("profilePhoto", JSON.stringify(profilePhoto.data.url));
 
@@ -72,7 +72,7 @@ export default function EditalInscricaoFake() {
       setEducationLevelTranslation(translation);
     }
   }, [announcementInfo]);
-  
+
   return (
     <div className="container-inscricao">
       <div className="school-logo">
@@ -95,8 +95,8 @@ export default function EditalInscricaoFake() {
             return <>{level.availableCourses || level.grade}/ </>
           }) : ''}</h2>
         </div>
-        <h2>Escolaridade: {educationLevelTranslation}</h2>  
-            </div>
+        <h2>Escolaridade: {educationLevelTranslation}</h2>
+      </div>
     </div>
   );
 }

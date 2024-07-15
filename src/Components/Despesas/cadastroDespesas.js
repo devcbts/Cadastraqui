@@ -159,7 +159,7 @@ export default function CadastroDespesas() {
                     'authorization': `Bearer ${token}`,
                 }
             });
-            console.log(response.data);
+            ;
             handleSuccess(response, "Despesas cadastradas com sucesso");
         } catch (err) {
             handleAuthError(err)

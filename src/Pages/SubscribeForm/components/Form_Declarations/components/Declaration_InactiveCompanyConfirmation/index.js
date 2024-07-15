@@ -69,7 +69,7 @@ export default function Declaration_InactiveCompanyConfirmation({ onBack, onSave
             // }
 
             // const data = await response.json();
-            // console.log('Declaração registrada:', data);
+            // ;
 
             onSave(confirmation);
         } catch (error) {

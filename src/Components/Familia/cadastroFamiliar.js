@@ -287,12 +287,12 @@ export default function CadastroFamiliar() {
           },
         }
       );
-      console.log("====================================");
-      console.log(response.status);
-      console.log("====================================");
+      ;
+      ;
+      ;
       handleSuccess(response, "Dados cadastrados com sucesso!");
     } catch (error) {
-      console.log(error);
+      ;
       handleAuthError(error);
     }
   }

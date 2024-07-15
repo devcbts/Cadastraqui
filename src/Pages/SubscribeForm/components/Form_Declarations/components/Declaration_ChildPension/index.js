@@ -105,7 +105,7 @@ export default function Declaration_ChildPension({ onBack, onNext, onNoPension }
         //         }
 
         //         const data = await response.json();
-        //         console.log('Declaração registrada:', data);
+        //         ;
 
         //         onNext(true);
         //     } catch (error) {

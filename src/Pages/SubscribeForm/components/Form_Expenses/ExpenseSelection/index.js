@@ -14,9 +14,6 @@ const ExpenseSelection = forwardRef(({ data, viewMode = false }, ref) => {
     const [total, setTotal] = useState('')
     const [avg, setAvg] = useState('')
     useEffect(() => {
-        console.log('MES', data?.months?.sort((a, b) => {
-            return new Date(a.date) < new Date(b.date)
-        })?.[0]?.totalExpense)
         const lastMonthExpenses = parseFloat(data?.months?.sort((a, b) => {
             return new Date(a.date) < new Date(b.date)
         })?.[0]?.totalExpense?.toString().replace(/[^\d,.]/g, '').replace(',', '.'))
@@ -25,10 +22,8 @@ const ExpenseSelection = forwardRef(({ data, viewMode = false }, ref) => {
             return acc
         }, 0)
         const validMonths = data?.months?.filter((e) => e.isUpdated)?.length
-        // console.log(validMonths)
-        const monthAvg = ((totalExpense ?? 0) / (!validMonths ? 1 : validMonths))?.toFixed(2)
-        console.log(monthAvg)
-        setTotal(moneyInputMask(lastMonthExpenses?.toFixed?.(2)))
+         const monthAvg = ((totalExpense ?? 0) / (!validMonths ? 1 : validMonths))?.toFixed(2)
+         setTotal(moneyInputMask(lastMonthExpenses?.toFixed?.(2)))
         setAvg(moneyInputMask(monthAvg))
     }, [data])
     return (

@@ -39,7 +39,7 @@ export default function IncomeFormModelD({ incomeSource, onSubmit, member, edit:
             await incomeService.registerIncome(member.id, data)
 
         } catch (err) {
-            console.log('err', err)
+
         }
     }
     return (

@@ -126,7 +126,7 @@ export default function CandidatosCadastrados() {
 
       setApplications(response.data.applications);
       setEntity(response.data.entity)
-      console.log(response.data.applications);
+        ;
     }
 
     fetchAnnouncement();
@@ -145,7 +145,7 @@ export default function CandidatosCadastrados() {
       setEducationLevels(response.data.announcement.educationLevels);
       isEarlyEducation(response.data.announcement.educationLevels)
       setAnnouncement(response.data.announcement)
-      console.log(response.data.announcement)
+
     } catch (error) {
       console.error("Error fetching announcement details:", error);
     }
@@ -159,7 +159,7 @@ export default function CandidatosCadastrados() {
           authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data)
+
       setRankedList(response.data.rankedList)
     } catch (error) {
       console.error("Erro ao rankear candidatos", error);
@@ -218,7 +218,7 @@ export default function CandidatosCadastrados() {
       <div className="container-contas">
         <div className="upper-cadastrados">
           <h1>Edital - {announcement?.announcementName}</h1>
-          
+
         </div>
         <h1 className="title-thin">Candidatos</h1>
         <div

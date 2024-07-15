@@ -26,7 +26,7 @@ export default function DeclarationForm({ onBack, onEdit, userId, declarationDat
                 })
             });
             const data = await response.json();
-            console.log('Declaração registrada:', data);
+            ;
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }

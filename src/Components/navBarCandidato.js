@@ -91,7 +91,7 @@ export default function NavBarCandidato(props) {
     async function getUserInfo() {
       const token = localStorage.getItem("token")
       const user_role = localStorage.getItem("role")
-      console.log(user_role)
+
       if (user_role === 'CANDIDATE') {
         try {
           const user_info = await api.get('/candidates/basic-info', {
@@ -101,7 +101,7 @@ export default function NavBarCandidato(props) {
           })
           setUserInfo(user_info.data.candidate)
         } catch (err) {
-          console.log(err)
+
         }
 
       } else if (user_role === 'RESPONSIBLE') {
@@ -113,7 +113,7 @@ export default function NavBarCandidato(props) {
           })
           setUserInfo({ ...user_info.data.responsible, dependents: user_info.data.dependents })
         } catch (err) {
-          console.log(err)
+
         }
       }
     }
@@ -208,11 +208,11 @@ export default function NavBarCandidato(props) {
                   href="#"
                   className={`${currentPath == "/candidato/home" ? "active" : "inactive"
                     }`}
-                    onClick={(e) => {
-                      e.preventDefault(); // Prevenir o comportamento padrão do link
-                      urlNavigation("home");
-                      handleClick(); // Fecha o menu lateral
-                    }}
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevenir o comportamento padrão do link
+                    urlNavigation("home");
+                    handleClick(); // Fecha o menu lateral
+                  }}
                 >
                   <UilEstate
                     size="30"
@@ -230,11 +230,11 @@ export default function NavBarCandidato(props) {
                     ? "active"
                     : "inactive"
                     }`}
-                    onClick={(e) => {
-                      urlNavigation("historico");
-                      e.preventDefault(); // Prevenir o comportamento padrão do link
-                      handleClick(); // Fecha o menu lateral
-                    }}
+                  onClick={(e) => {
+                    urlNavigation("historico");
+                    e.preventDefault(); // Prevenir o comportamento padrão do link
+                    handleClick(); // Fecha o menu lateral
+                  }}
                 >
                   <UilHistory
                     size="30"
@@ -253,11 +253,11 @@ export default function NavBarCandidato(props) {
                     ? "active"
                     : "inactive"
                     }`}
-                    onClick={(e) => {
-                      e.preventDefault(); // Prevenir o comportamento padrão do link
-                      urlNavigation("solicitacoes");
-                      handleClick(); // Fecha o menu lateral
-                    }}
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevenir o comportamento padrão do link
+                    urlNavigation("solicitacoes");
+                    handleClick(); // Fecha o menu lateral
+                  }}
                 >
                   <UilArchive
                     size="30"
@@ -274,11 +274,11 @@ export default function NavBarCandidato(props) {
                   href="#"
                   className={`${currentPath == "/candidato/info" ? "active" : "inactive"
                     }`}
-                    onClick={(e) => {
-                      e.preventDefault(); // Prevenir o comportamento padrão do link
-                      urlNavigation("info");
-                      handleClick(); // Fecha o menu lateral
-                    }}
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevenir o comportamento padrão do link
+                    urlNavigation("info");
+                    handleClick(); // Fecha o menu lateral
+                  }}
                 >
                   <UilPlusCircle
                     size="30"
@@ -293,11 +293,11 @@ export default function NavBarCandidato(props) {
                   href="#"
                   className={`${currentPath == "/candidato/perfil" ? "active" : "inactive"
                     }`}
-                    onClick={(e) => {
-                      e.preventDefault(); // Prevenir o comportamento padrão do link
-                      urlNavigation("perfil");
-                      handleClick(); // Fecha o menu lateral
-                    }}
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevenir o comportamento padrão do link
+                    urlNavigation("perfil");
+                    handleClick(); // Fecha o menu lateral
+                  }}
                 >
                   <UilUserCircle
                     size="30"

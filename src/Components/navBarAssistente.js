@@ -71,7 +71,7 @@ export default function NavBarAssistente() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const assistant = JSON.parse(localStorage.getItem("assistant") || 'null');
-  
+
     if (!assistant) {
 
       async function getAssistantInfo() {
@@ -87,10 +87,10 @@ export default function NavBarAssistente() {
       setAssistantInfo(assistant)
     }
 
-    const profilePhoto =  JSON.parse(localStorage.getItem("profilePhoto") || 'null');
-    console.log('====================================');
-    console.log(profilePhoto);
-    console.log('====================================');
+    const profilePhoto = JSON.parse(localStorage.getItem("profilePhoto") || 'null');
+    ;
+    ;
+    ;
     if (!profilePhoto) {
 
       async function getProfilePhoto() {
@@ -102,7 +102,7 @@ export default function NavBarAssistente() {
               authorization: `Bearer ${token}`,
             },
           });
-          console.log(profilePhoto);
+          ;
           setProfilePhoto(profilePhoto.data.url);
           localStorage.setItem("profilePhoto", JSON.stringify(profilePhoto.data.url));
         } catch (err) {
@@ -181,11 +181,11 @@ export default function NavBarAssistente() {
                   href="#"
                   className={`${currentPath == "/assistente/editais" || currentPath.includes("/assistente/cadastrados") ? "active" : "inactive"
                     }`}
-                    onClick={(e) => {
-                      urlNavigation("editais");
-                      e.preventDefault(); // Prevenir o comportamento padrão do link
-                      handleClick(); // Fecha o menu lateral
-                    }}
+                  onClick={(e) => {
+                    urlNavigation("editais");
+                    e.preventDefault(); // Prevenir o comportamento padrão do link
+                    handleClick(); // Fecha o menu lateral
+                  }}
                 >
                   <UilFileAlt
                     size="30"
@@ -201,11 +201,11 @@ export default function NavBarAssistente() {
                   href="#"
                   className={`${currentPath == "/assistente/sac" ? "active" : "inactive"
                     }`}
-                    onClick={(e) => {
-                      urlNavigation("sac");
-                      e.preventDefault(); // Prevenir o comportamento padrão do link
-                      handleClick(); // Fecha o menu lateral
-                    }}
+                  onClick={(e) => {
+                    urlNavigation("sac");
+                    e.preventDefault(); // Prevenir o comportamento padrão do link
+                    handleClick(); // Fecha o menu lateral
+                  }}
                 >
                   <UilCommentAltNotes
                     size="30"
@@ -221,11 +221,11 @@ export default function NavBarAssistente() {
                   href="#"
                   className={`${currentPath == "/assistente/perfil" ? "active" : "inactive"
                     }`}
-                    onClick={(e) => {
-                      urlNavigation("perfil");
-                      e.preventDefault(); // Prevenir o comportamento padrão do link
-                      handleClick(); // Fecha o menu lateral
-                    }}
+                  onClick={(e) => {
+                    urlNavigation("perfil");
+                    e.preventDefault(); // Prevenir o comportamento padrão do link
+                    handleClick(); // Fecha o menu lateral
+                  }}
                 >
                   <UilUserCircle
                     size="30"
@@ -237,7 +237,7 @@ export default function NavBarAssistente() {
               </li>
 
               <li>
-                <Logout/>
+                <Logout />
               </li>
             </ul>
           </div>

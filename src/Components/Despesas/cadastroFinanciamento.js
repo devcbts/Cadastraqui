@@ -6,7 +6,7 @@ import Select from 'react-select';
 import { handleSuccess } from '../../ErrorHandling/handleSuceess';
 import { formatCurrency } from '../../utils/format-currency';
 
-export default function CadastroFinanciamento({candidate}) {
+export default function CadastroFinanciamento({ candidate }) {
     const [formData, setFormData] = useState({
         familyMemberName: '',
         financingType: 'House_Apartment_Land', // Valor padrão
@@ -19,7 +19,7 @@ export default function CadastroFinanciamento({candidate}) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
+
         if (name === "installmentValue") {
             // Extrai números e vírgula, substitui vírgula por ponto para conversão.
             const numericValue = parseFloat(value.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1.$2')) || '';
@@ -50,8 +50,8 @@ export default function CadastroFinanciamento({candidate}) {
                     'Authorization': `Bearer ${token}`,
                 },
             });
-            console.log(response.data);
-            handleSuccess(response,"Dados cadastrados com sucesso!")
+            ;
+            handleSuccess(response, "Dados cadastrados com sucesso!")
 
             // Trate a resposta conforme necessário
         } catch (error) {
@@ -64,13 +64,13 @@ export default function CadastroFinanciamento({candidate}) {
     const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState('');
     const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
     const [opcoes, setOpcoes] = useState([])
-     
+
 
     useEffect(() => {
         setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
         { value: candidato.id, label: candidato.nome, type: 'candidate' }])
-        console.log(familyMembers)
-    },[familyMembers])
+
+    }, [familyMembers])
 
 
     useEffect(() => {
@@ -130,9 +130,9 @@ export default function CadastroFinanciamento({candidate}) {
                 <div className='survey-box'>
                     <label>Nome do Familiar:</label>
                     <Select
-                         options={opcoes}
-                         onChange={handleSelectChange}
-                         value={opcoes.find(option => option.value === selectedFamilyMemberId)}
+                        options={opcoes}
+                        onChange={handleSelectChange}
+                        value={opcoes.find(option => option.value === selectedFamilyMemberId)}
                         required
                     />
                 </div>

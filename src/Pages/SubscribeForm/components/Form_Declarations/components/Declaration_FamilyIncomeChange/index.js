@@ -68,7 +68,7 @@ export default function Declaration_FamilyIncomeChange({ onBack, onNext, onRespo
         //             }
 
         //             const data = await response.json();
-        //             console.log('Declaração registrada:', data);
+        //             ;
 
         //             // Redireciona para a próxima tela
         //             onResponsibilityConfirmation();

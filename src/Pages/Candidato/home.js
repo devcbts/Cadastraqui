@@ -67,7 +67,7 @@ export default function HomeCandidato() {
         // Pega todos os editais e armazena em um estado
         setOpenAnnouncements(response.data.announcements)
       } catch (err) {
-        console.log(err)
+
       }
     }
 
@@ -80,12 +80,12 @@ export default function HomeCandidato() {
           }
         })
 
-        console.log(response.data)
+
         setApplications(response.data.applications)
       } catch (err) {
         handleAuthError(err, navigate)
 
-        console.log(err)
+
       }
     }
 
@@ -111,7 +111,7 @@ export default function HomeCandidato() {
     async function getUserInfo() {
       const token = localStorage.getItem("token")
       const user_role = localStorage.getItem("role")
-      console.log(user_role)
+
       if (user_role === 'CANDIDATE') {
         try {
           const user_info = await api.get('/candidates/basic-info', {
@@ -176,12 +176,12 @@ export default function HomeCandidato() {
         <div>
           <h1>Editais abertos</h1>
           <div className="container-editais">
-          {openAnnouncements && applications && filterAnnouncementsNotApplied().map((announcement) => {
-            return <Edital
-              key={announcement.id} // Recomenda-se usar uma key única para cada item na lista
-              announcement={announcement}
-              userId={announcement.entity.user_id} />
-          })}
+            {openAnnouncements && applications && filterAnnouncementsNotApplied().map((announcement) => {
+              return <Edital
+                key={announcement.id} // Recomenda-se usar uma key única para cada item na lista
+                announcement={announcement}
+                userId={announcement.entity.user_id} />
+            })}
           </div>
         </div>
 

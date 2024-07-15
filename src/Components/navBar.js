@@ -35,7 +35,7 @@ export default function NavBar({ entity }) {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log(profilePhoto);
+        ;
         setProfilePhoto(profilePhoto.data.url);
         localStorage.setItem(
           "profilePhoto",
@@ -48,7 +48,7 @@ export default function NavBar({ entity }) {
       }
     }
     getProfilePhotoEntity()
-    console.log(profilePhoto)
+
   }, [entity])
   /* useEffect(() => {
     async function getProfilePhotoEntity() {
@@ -60,7 +60,7 @@ export default function NavBar({ entity }) {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log(profilePhoto);
+        ;
         setProfilePhoto(profilePhoto.data.url);
         localStorage.setItem(
           "profilePhoto",
@@ -73,7 +73,7 @@ export default function NavBar({ entity }) {
       }
     }
     getProfilePhotoEntity()
-    console.log(profilePhoto)
+    
   }, [shouldUpdateProps]) */
 
   const navigate = useNavigate();
@@ -96,7 +96,7 @@ export default function NavBar({ entity }) {
         path: '/',
       })
     } catch (err) {
-      console.log(err)
+
       navigate('/login')
     }
   }
@@ -187,11 +187,11 @@ export default function NavBar({ entity }) {
                   href="#"
                   className={`${currentPath == "/entidade/home" ? "active" : "inactive"
                     }`}
-                    onClick={(e) => {
-                      urlNavigation("home");
-                      e.preventDefault(); // Prevenir o comportamento padrão do link
-                      handleClick(); // Fecha o menu lateral
-                    }}
+                  onClick={(e) => {
+                    urlNavigation("home");
+                    e.preventDefault(); // Prevenir o comportamento padrão do link
+                    handleClick(); // Fecha o menu lateral
+                  }}
                 >
                   <UilEstate
                     size="30"
@@ -206,11 +206,11 @@ export default function NavBar({ entity }) {
                   href="#"
                   className={`${currentPath == "/entidade/editais" ? "active" : "inactive"
                     }`}
-                    onClick={(e) => {
-                      urlNavigation("editais");
-                      e.preventDefault(); // Prevenir o comportamento padrão do link
-                      handleClick(); // Fecha o menu lateral
-                    }}
+                  onClick={(e) => {
+                    urlNavigation("editais");
+                    e.preventDefault(); // Prevenir o comportamento padrão do link
+                    handleClick(); // Fecha o menu lateral
+                  }}
                 >
                   <UilFileAlt
                     size="30"
@@ -225,11 +225,11 @@ export default function NavBar({ entity }) {
                   href="#"
                   className={`${currentPath == "/entidade/cadastro" ? "active" : "inactive"
                     }`}
-                    onClick={(e) => {
-                      urlNavigation("cadastro");
-                      e.preventDefault(); // Prevenir o comportamento padrão do link
-                      handleClick(); // Fecha o menu lateral
-                    }}
+                  onClick={(e) => {
+                    urlNavigation("cadastro");
+                    e.preventDefault(); // Prevenir o comportamento padrão do link
+                    handleClick(); // Fecha o menu lateral
+                  }}
                 >
                   <UilPlusCircle
                     size="30"
@@ -244,11 +244,11 @@ export default function NavBar({ entity }) {
                   href="#"
                   className={`${currentPath == "/entidade/sac" ? "active" : "inactive"
                     }`}
-                    onClick={(e) => {
-                      urlNavigation("sac");
-                      e.preventDefault(); // Prevenir o comportamento padrão do link
-                      handleClick(); // Fecha o menu lateral
-                    }}
+                  onClick={(e) => {
+                    urlNavigation("sac");
+                    e.preventDefault(); // Prevenir o comportamento padrão do link
+                    handleClick(); // Fecha o menu lateral
+                  }}
                 >
                   <UilCommentAltNotes
                     size="30"
@@ -263,11 +263,11 @@ export default function NavBar({ entity }) {
                   href="#"
                   className={`${currentPath == "/entidade/contas" ? "active" : "inactive"
                     }`}
-                    onClick={(e) => {
-                      urlNavigation("contas");
-                      e.preventDefault(); // Prevenir o comportamento padrão do link
-                      handleClick(); // Fecha o menu lateral
-                    }}
+                  onClick={(e) => {
+                    urlNavigation("contas");
+                    e.preventDefault(); // Prevenir o comportamento padrão do link
+                    handleClick(); // Fecha o menu lateral
+                  }}
                 >
                   <UilUsersAlt
                     size="30"
@@ -282,11 +282,11 @@ export default function NavBar({ entity }) {
                   href="#"
                   className={`${currentPath == "/entidade/perfil" ? "active" : "inactive"
                     }`}
-                    onClick={(e) => {
-                      urlNavigation("perfil");
-                      e.preventDefault(); // Prevenir o comportamento padrão do link
-                      handleClick(); // Fecha o menu lateral
-                    }}
+                  onClick={(e) => {
+                    urlNavigation("perfil");
+                    e.preventDefault(); // Prevenir o comportamento padrão do link
+                    handleClick(); // Fecha o menu lateral
+                  }}
                 >
                   <UilUserCircle
                     size="30"

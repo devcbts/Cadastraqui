@@ -7,7 +7,7 @@ export default function HamburgHeader({ children }) {
     // TODO: control sidebar effect
     const [isMenuOpen, setMenuOpen] = useState(false)
     const handleMenuChange = () => {
-        console.log('conssss', isMenuOpen)
+
         setMenuOpen((prev) => !prev)
     }
     const MenuIcon = isMenuOpen ? Close : Hamburger

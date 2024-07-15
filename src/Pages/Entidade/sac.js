@@ -17,45 +17,46 @@ export default function SacEntidade() {
 
   useEffect(() => {
     async function refreshAccessToken() {
-      try{
+      try {
         const refreshToken = Cookies.get('refreshToken')
-  
+
         const response = await api.patch(`/refresh?refreshToken=${refreshToken}`)
-        
-        const {newToken, newRefreshToken} = response.data
+
+        const { newToken, newRefreshToken } = response.data
         localStorage.setItem('token', newToken)
         Cookies.set('refreshToken', newRefreshToken, {
           expires: 7,
           sameSite: true,
           path: '/',
         })
-      } catch(err) {
-        console.log(err)
+      } catch (err) {
+
         navigate('/login')
       }
     }
     const intervalId = setInterval(refreshAccessToken, 480000) // Chama a função refresh token a cada 
-  
+
     async function getEntityInfo() {
       const token = localStorage.getItem("token")
 
-      try{
+      try {
         const entity_info = await api.get('/entities/', {
           headers: {
             'authorization': `Bearer ${token}`,
-          }})
-          setEntityInfo(entity_info.data.entity)
-        } catch(err) {
-            console.log(err)
-        }
+          }
+        })
+        setEntityInfo(entity_info.data.entity)
+      } catch (err) {
+
+      }
     }
-        
+
     getEntityInfo()
     return () => {
       // Limpar o intervalo
       clearInterval(intervalId);
     };
-  },[])
+  }, [])
 
   return (
     <div className="container">

@@ -238,7 +238,7 @@ export default function CadastroBasico() {
       CadUnico: candidateInfo.CadUnico,
     };
 
-    console.log(data);
+    ;
 
     try {
       const response = await api.post("/candidates/identity-info", data, {
@@ -246,9 +246,9 @@ export default function CadastroBasico() {
           authorization: `Bearer ${token}`,
         },
       });
-      console.log("====================================");
-      console.log(response.data);
-      console.log("====================================");
+      ;
+      ;
+      ;
       handleSuccess(response, "Dados cadastrados com sucesso!");
     } catch (error) {
       handleAuthError(error);

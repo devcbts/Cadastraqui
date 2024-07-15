@@ -6,7 +6,7 @@ import { handleSuccess } from '../../ErrorHandling/handleSuceess';
 import { handleAuthError } from '../../ErrorHandling/handleError';
 import { formatCurrency } from '../../utils/format-currency';
 
-export default function VerCartao({formDataInfo, candidate}) {
+export default function VerCartao({ formDataInfo, candidate }) {
     const [formData, setFormData] = useState(formDataInfo);
     const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
 
@@ -19,7 +19,7 @@ export default function VerCartao({formDataInfo, candidate}) {
     useEffect(() => {
         setFormData(formDataInfo)
         setIsEditing(false)
-    },[formDataInfo])
+    }, [formDataInfo])
     useEffect(() => {
         async function pegarFamiliares() {
             const token = localStorage.getItem('token');
@@ -40,7 +40,7 @@ export default function VerCartao({formDataInfo, candidate}) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
+
         if (name === "invoiceValue") {
             // Extrai números e vírgula, substitui vírgula por ponto para conversão.
             const numericValue = parseFloat(value.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1.$2')) || '';
@@ -52,7 +52,7 @@ export default function VerCartao({formDataInfo, candidate}) {
         }
     };
     const handleSelectChange = selectedOption => {
-    setFormData({ ...formData, familyMemberName: selectedOption.label });
+        setFormData({ ...formData, familyMemberName: selectedOption.label });
         setSelectedFamilyMemberId(selectedOption.value);
     };
 
@@ -72,7 +72,7 @@ export default function VerCartao({formDataInfo, candidate}) {
             }, {
                 headers: { 'Authorization': `Bearer ${token}` },
             });
-            console.log(response.data);
+            ;
             handleSuccess(response, 'Dados Atualizados com sucesso!')
             setIsEditing(false)
             // Trate a resposta conforme necessário
@@ -87,8 +87,8 @@ export default function VerCartao({formDataInfo, candidate}) {
     useEffect(() => {
         setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
         { value: candidato.id, label: candidato.nome, type: 'candidate' }])
-        console.log(familyMembers)
-    },[familyMembers])
+
+    }, [familyMembers])
 
     return (
         <div className="fill-box">
@@ -136,7 +136,7 @@ export default function VerCartao({formDataInfo, candidate}) {
                     ) : (
                         <>
                             <button className="over-button" type="button" onClick={handleSubmit}>Salvar Dados</button>
-                            <button  className="over-button"type="button" onClick={toggleEdit}>Cancelar</button>
+                            <button className="over-button" type="button" onClick={toggleEdit}>Cancelar</button>
                         </>
                     )}
                 </div>             </form>

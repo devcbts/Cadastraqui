@@ -34,9 +34,9 @@ export default function MembrosFamilia() {
   const selecionarMembro = (membro) => {
     setMembroSelecionado(membro);
     verFamiliarRef.current.setInfo(membro)
-    console.log("====================================");
-    console.log(membro);
-    console.log("====================================");
+      ;
+    ;
+    ;
   };
 
   const [len, setLen] = useState(2);
@@ -50,11 +50,11 @@ export default function MembrosFamilia() {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log("====================================");
-        console.log(response.data);
-        console.log("====================================");
+        ;
+        ;
+        ;
         const membrosdaFamilia = response.data.familyMembers;
-        console.log('MEMBROS', membrosdaFamilia)
+
         setMembros(membrosdaFamilia);
         if (membrosdaFamilia?.length === 0) {
           setMostrarCadastro(true)

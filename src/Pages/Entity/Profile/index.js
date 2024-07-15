@@ -20,7 +20,7 @@ export default function EntityProfile() {
                 NotificationService.error({ text: 'Erro ao alterar foto de perfil' })
             }
         }
-        console.log(url)
+
         return url
     }
     useEffect(() => {

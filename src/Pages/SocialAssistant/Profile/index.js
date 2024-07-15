@@ -11,7 +11,7 @@ export default function SocialAssistantProfile() {
         const fetchData = async () => {
             try {
                 const information = await socialAssistantService.getAssistant()
-                console.log(information)
+
                 setData(information)
             } catch (err) {
             }
@@ -28,7 +28,7 @@ export default function SocialAssistantProfile() {
             url = await userServiceInstance.uploadProfilePicture(formData)
             NotificationService.success({ text: 'Foto alterada' })
         } catch (err) {
-            console.log(err)
+
             NotificationService.error({ text: 'Erro ao alterar foto de perfil' })
         }
         return url

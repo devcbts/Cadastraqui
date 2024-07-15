@@ -20,7 +20,7 @@ export default function CadastroCartao({ candidate }) {
     const [selectedFamilyMemberId, setSelectedFamilyMemberId] = useState('');
     const [candidato, setCandidato] = useState({ id: candidate.id, nome: candidate.name });
     const [opcoes, setOpcoes] = useState([])
-     
+
 
     useEffect(() => {
         async function pegarFamiliares() {
@@ -33,9 +33,9 @@ export default function CadastroCartao({ candidate }) {
                     value: member.id,
                     label: member.fullName,
                 })));
-              
+
             } catch (error) {
-                console.log(error)
+
                 // Trate o erro conforme necessário
             }
         }
@@ -45,12 +45,12 @@ export default function CadastroCartao({ candidate }) {
     useEffect(() => {
         setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
         { value: candidato.id, label: candidato.nome, type: 'candidate' }])
-        console.log(familyMembers)
-    },[familyMembers])
+
+    }, [familyMembers])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
+
         if (name === "invoiceValue") {
             // Extrai números e vírgula, substitui vírgula por ponto para conversão.
             const numericValue = parseFloat(value.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1.$2')) || '';
@@ -81,8 +81,8 @@ export default function CadastroCartao({ candidate }) {
             }, {
                 headers: { 'Authorization': `Bearer ${token}` },
             });
-            console.log(response.data);
-            handleSuccess(response,"Dados cadastrados com sucesso!")
+            ;
+            handleSuccess(response, "Dados cadastrados com sucesso!")
 
             // Trate a resposta conforme necessário
         } catch (error) {

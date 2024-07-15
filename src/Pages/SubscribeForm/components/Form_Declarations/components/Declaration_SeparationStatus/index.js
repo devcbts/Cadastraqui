@@ -44,7 +44,7 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
     // }, []);
 
     const handleSave = () => {
-        console.log(errors)
+
         if (!isValid) {
             trigger()
             return

@@ -86,15 +86,15 @@ export default function EnviarDocumentos({ id }) {
     const token = localStorage.getItem("token");
 
     try {
-      console.log("====================================");
-      console.log(formData);
-      console.log("====================================");
+      ;
+      ;
+      ;
       const response = await api.post(`/candidates/upload`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
+      ;
       // Trate a resposta conforme necessário
       handleSuccess(response, "Documento Enviado!");
     } catch (error) {
@@ -137,13 +137,13 @@ export default function EnviarDocumentos({ id }) {
               })
             ) || [];
         });
-        console.log("====================================");
-        console.log(updatedDocumentLinks);
-        console.log("====================================");
+        ;
+        ;
+        ;
         setDocumentLinks(updatedDocumentLinks);
-        console.log("====================================");
-        console.log(documentLinks);
-        console.log("====================================");
+        ;
+        ;
+        ;
       } catch (error) {
         console.error("Erro ao buscar links dos documentos", error);
       }

@@ -80,7 +80,7 @@ export default function CadastroVeiculo({ candidate }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         // Aqui você incluiria a lógica para enviar os dados para o servidor
-        console.log(formData);
+        ;
 
         const token = localStorage.getItem('token');
         try {
@@ -103,9 +103,9 @@ export default function CadastroVeiculo({ candidate }) {
                     'authorization': `Bearer ${token}`,
                 }
             })
-            console.log('====================================');
-            console.log(response.data);
-            console.log('====================================');
+                ;
+            ;
+            ;
             Swal.fire({ title: "Sucesso", text: "Dados cadastrados com sucesso!", icon: "success" });
         }
         catch (err) {
@@ -123,9 +123,9 @@ export default function CadastroVeiculo({ candidate }) {
                         'authorization': `Bearer ${token}`,
                     }
                 })
-                console.log('====================================');
-                console.log(response.data);
-                console.log('====================================');
+                    ;
+                ;
+                ;
                 const membrosdaFamilia = response.data.familyMembers
                 setMembros(membrosdaFamilia)
             }

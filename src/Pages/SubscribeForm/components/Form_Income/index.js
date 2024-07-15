@@ -64,7 +64,7 @@ export default function FormIncome() {
             }
             // if (data.incomes) {
             //     await candidateService.updateIncome(member.id, data)
-            //     console.log(data)
+            //     
             // }
             // first update income source list from user
             // await candidateService.updateIncomeSource({ id: member.id, incomeSource: [incomeSource] })
@@ -79,7 +79,7 @@ export default function FormIncome() {
                 setActiveStep(1)
             })
         } catch (err) {
-            console.log(err)
+
             NotificationService.error({ text: err?.response?.data?.message })
 
         }

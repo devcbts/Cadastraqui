@@ -12,7 +12,7 @@ import { formatDate } from "../../utils/get-date-formatted";
 export default function VerHistorico() {
   const params = useParams()
   const application_id = params.application_id
-  console.log(application_id)
+
 
   const [application, setApplication] = useState(null)
   const [history, setHistory] = useState(null)
@@ -28,9 +28,9 @@ export default function VerHistorico() {
         })
         setApplication(response.data.application)
         setHistory(response.data.applicationHistory)
-        console.log(response.data)
+
       } catch (error) {
-        console.log(error)
+
         handleAuthError(error)
       }
     }

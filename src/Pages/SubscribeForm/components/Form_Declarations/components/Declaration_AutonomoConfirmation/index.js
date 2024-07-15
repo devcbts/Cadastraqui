@@ -69,7 +69,7 @@ export default function Assistent_AutonomoConfirmation({ onBack, onSave, userId 
             // }
 
             // const data = await response.json();
-            // console.log('Declaração registrada:', data);
+            // ;
 
             onSave(confirmation);
         } catch (error) {

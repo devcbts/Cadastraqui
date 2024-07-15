@@ -48,8 +48,8 @@ export default function EditaisAssistente() {
       setCloseAnnouncements(closeAnnouncements)
 
 
-      
-      console.log(response)
+
+
     }
     fetchAnnouncements()
   }, [isShown])
@@ -66,7 +66,7 @@ export default function EditaisAssistente() {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log(profilePhoto);
+        ;
         setProfilePhoto(profilePhoto.data.url);
 
       } catch (err) {
@@ -106,7 +106,7 @@ export default function EditaisAssistente() {
           </div>}
 
         </div>
-          <h1>Editais Encerrados</h1>
+        <h1>Editais Encerrados</h1>
         <div className="container-editais">
           {closeAnnouncements && profilePhoto ? closeAnnouncements.map((announcement) => {
             return (<EditalAssistente logo={profilePhoto} announcement={announcement} />)

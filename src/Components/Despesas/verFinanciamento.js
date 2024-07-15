@@ -18,10 +18,10 @@ export default function VerFinanciamento({ formDataInfo, candidate }) {
     useEffect(() => {
         setFormData(formDataInfo)
         setIsEditing(false)
-    },[formDataInfo])
+    }, [formDataInfo])
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
+
         if (name === "installmentValue") {
             // Extrai números e vírgula, substitui vírgula por ponto para conversão.
             const numericValue = parseFloat(value.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1.$2')) || '';
@@ -53,7 +53,7 @@ export default function VerFinanciamento({ formDataInfo, candidate }) {
                     'Authorization': `Bearer ${token}`,
                 },
             });
-            console.log(response.data);
+            ;
             setIsEditing(false)
             handleSuccess(response, 'Dados Atualizados com sucesso!')
 
@@ -71,8 +71,8 @@ export default function VerFinanciamento({ formDataInfo, candidate }) {
     useEffect(() => {
         setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
         { value: candidato.id, label: candidato.nome, type: 'candidate' }])
-        console.log(familyMembers)
-    },[familyMembers])
+
+    }, [familyMembers])
 
     useEffect(() => {
         async function pegarFamiliares() {
@@ -95,7 +95,7 @@ export default function VerFinanciamento({ formDataInfo, candidate }) {
     }, []);
 
     const handleSelectChange = selectedOption => {
-       setFormData({ ...formData, familyMemberName: selectedOption.label });
+        setFormData({ ...formData, familyMemberName: selectedOption.label });
         setSelectedFamilyMemberId(selectedOption.value);
     };
 
@@ -115,7 +115,7 @@ export default function VerFinanciamento({ formDataInfo, candidate }) {
                     <label>Tipo de Financiamento:</label>
                     <Select
                         options={financingTypes}
-                        isDisabled={!isEditing} 
+                        isDisabled={!isEditing}
                         //onChange={e => setFormData({ ...formData, financingType: e.value })}
                         value={financingTypes.find(option => option.value === formData.financingType)}
                         required
@@ -165,10 +165,10 @@ export default function VerFinanciamento({ formDataInfo, candidate }) {
                     ) : (
                         <>
                             <button className="over-button" type="button" onClick={handleSubmit}>Salvar Dados</button>
-                            <button  className="over-button"type="button" onClick={toggleEdit}>Cancelar</button>
+                            <button className="over-button" type="button" onClick={toggleEdit}>Cancelar</button>
                         </>
                     )}
-                </div> 
+                </div>
             </form>
         </div>
     );

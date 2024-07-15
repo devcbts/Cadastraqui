@@ -22,7 +22,7 @@ export default function Entidades() {
                     'authorization': `Bearer ${token}`,
                 },
             })
-            console.log(response.data)
+
             setEntities(response.data.entities)
         }
         getEntities();

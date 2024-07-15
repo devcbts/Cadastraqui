@@ -73,7 +73,7 @@ declaro para os devidos fins do processo seletivo realizado nos termos da Lei Co
             // }
 
             // const data = await response.json();
-            // console.log('Declaração registrada:', data);
+            // ;
 
             onEdit();
         } catch (error) {

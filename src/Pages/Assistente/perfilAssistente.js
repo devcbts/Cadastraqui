@@ -25,7 +25,7 @@ export default function PerfilAssistente() {
 
   async function handleImageUpload(event) {
     const file = event.target.files[0];
-    console.log(file);
+    ;
 
     if (file) {
       const token = localStorage.getItem("token");
@@ -41,7 +41,7 @@ export default function PerfilAssistente() {
         getProfilePhoto();
       } catch (err) {
         alert("Erro ao atualizar foto de perfil.");
-        console.log(err);
+        ;
       }
 
     }
@@ -56,7 +56,7 @@ export default function PerfilAssistente() {
           authorization: `Bearer ${token}`,
         },
       });
-      console.log(profilePhoto);
+      ;
       setProfilePhoto(profilePhoto.data.url);
       localStorage.setItem("profilePhoto", JSON.stringify(profilePhoto.data.url));
 
@@ -86,7 +86,7 @@ export default function PerfilAssistente() {
               const newToken = await api.patch("/token/refresh");
               localStorage.setItem("token", newToken);
             } catch (err) {
-              console.log(err);
+              ;
             }
           }
         }

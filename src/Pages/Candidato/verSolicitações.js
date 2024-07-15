@@ -1,4 +1,4 @@
-import React, { useEffect, useState , useRef} from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import './verSolicitações.css'
 import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -35,11 +35,11 @@ export default function VerSolicitacoes() {
                     }
                 })
                 setSolicitations(solicitation.data.solicitations)
-                console.log('====================================');
-                console.log(solicitation.data.solicitations);
-                console.log('====================================');
+                    ;
+                ;
+                ;
             } catch (err) {
-                console.log(err);
+                ;
             }
         }
         getSolicitations()
@@ -50,15 +50,15 @@ export default function VerSolicitacoes() {
         const token = localStorage.getItem('token');
 
         try {
-            console.log('====================================');
-            console.log(formData);
-            console.log('====================================');
+            ;
+            ;
+            ;
             const response = await api.post(`/candidates/upload/${solicitation_id}`, formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
             });
-            console.log(response.data);
+            ;
             // Trate a resposta conforme necessário
         } catch (error) {
             console.error(error.response?.data || error.message);
@@ -67,13 +67,13 @@ export default function VerSolicitacoes() {
     };
     return (
         <div className="container-solicitacoes">
-              <a className="btn-cadastro">
-              <Link
-                className="btn-cadastro"
-                to={`/candidato/solicitacoes`}
-              >
-                {"< "}Voltar
-              </Link>
+            <a className="btn-cadastro">
+                <Link
+                    className="btn-cadastro"
+                    to={`/candidato/solicitacoes`}
+                >
+                    {"< "}Voltar
+                </Link>
             </a>
             <header>
                 <h1>Seja bem-vindo!</h1>
@@ -121,18 +121,18 @@ export default function VerSolicitacoes() {
                                         </div>
                                     </div>
                                     {solicitation.solicitation === 'Document' &&
-                                       <div className="attach-file">
-                                       <UilLinkAdd size="25" color="#1f4b73" onClick={() => handleFileIconClick(solicitation.id)} />
-                                       <h3 onClick={() => handleFileIconClick(solicitation.id)}>Anexar documento</h3>
-                                       <input
-                                           type="file"
-                                           multiple
-                                           ref={el => fileInputRefs.current[solicitation.id] = el}
-                                           onChange={(e) => handleFileSelect(solicitation.id, e)}
-                                           style={{ display: 'none' }}
-                                       />
-                                       <button className="btn-send" onClick={() => selectedFiles[solicitation.id]?.forEach((file) =>enviarDocumento(solicitation.id,file))}>Enviar</button>
-                                   </div>
+                                        <div className="attach-file">
+                                            <UilLinkAdd size="25" color="#1f4b73" onClick={() => handleFileIconClick(solicitation.id)} />
+                                            <h3 onClick={() => handleFileIconClick(solicitation.id)}>Anexar documento</h3>
+                                            <input
+                                                type="file"
+                                                multiple
+                                                ref={el => fileInputRefs.current[solicitation.id] = el}
+                                                onChange={(e) => handleFileSelect(solicitation.id, e)}
+                                                style={{ display: 'none' }}
+                                            />
+                                            <button className="btn-send" onClick={() => selectedFiles[solicitation.id]?.forEach((file) => enviarDocumento(solicitation.id, file))}>Enviar</button>
+                                        </div>
                                     }
                                 </div>
                             </div>

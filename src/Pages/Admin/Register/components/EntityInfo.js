@@ -24,7 +24,7 @@ export default function EntityInfo({ data, onPageChange }) {
     })
     const handleSubmit = () => {
         const values = getValues()
-        console.log(values)
+
         if (!isValid) {
             trigger()
             return

@@ -50,7 +50,7 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
     return (
         <div className={commonStyles.formcontainer}>
             <PropertyOwner show={ownerForm} onClose={handlePropertyOwnerForm} pdf={(data) => {
-                console.log('data', data)
+
 
                 return <GivenPropertyPDF owner={data} />
             }} />

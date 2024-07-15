@@ -16,7 +16,7 @@ export default function Declaration_PensionConfirmation({ onBack, onNext }) {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        console.log(declarationData)
+
         if (declarationData.pensionData) {
             setPensionData(declarationData.pensionData)
         }
@@ -73,7 +73,7 @@ inscrito(a) no CPF nº ${child.payerCpf}.`
                 ));
             }
         } catch (err) {
-            console.log(err)
+
         }
 
         const text = finalText
@@ -103,7 +103,7 @@ inscrito(a) no CPF nº ${child.payerCpf}.`
             // }
 
             // const data = await response.json();
-            // console.log('Declaração registrada:', data);
+            // ;
 
             onNext(true);
         } catch (error) {

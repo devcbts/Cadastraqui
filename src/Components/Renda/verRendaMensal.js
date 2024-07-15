@@ -210,7 +210,7 @@ export const VerRendaMensal = ({
   const [initialData, setInitialData] = useState()
   useEffect(() => {
     setInitialData({ info: { ...data?.filter((e) => e.employmentType === incomeSource)[0] }, incomes: monthlyIncomesByType })
-    console.log('dado inicial', monthlyIncomesByType)
+
   }, [])
   return (
     <div>

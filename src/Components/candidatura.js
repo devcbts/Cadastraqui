@@ -26,10 +26,10 @@ export default function Candidatura(props) {
       },
     });
 
-    console.log(response.status)
+
     setEnrolled(true)
   }
- 
+
 
   return (
     <div className="card-candidatura">
@@ -38,14 +38,14 @@ export default function Candidatura(props) {
         <div className="application-info">
           <h4 className="application-name">Renda per capita: {formatCurrency(props?.valor)}</h4>
         </div>
-      
+
       </div>
       <div className="candidatura-btn">
         <Link to={`/assistente/cadastrados/geral/${props.announcement_id}/${props.id}`}>
-        <UilEllipsisH size="30" color="#7b7b7b" className="icon"></UilEllipsisH>
+          <UilEllipsisH size="30" color="#7b7b7b" className="icon"></UilEllipsisH>
         </Link>
 
-     
+
         {!enrolled && !props.assistente ?
           <div onClick={handleEnrollClick}>
 
@@ -56,7 +56,7 @@ export default function Candidatura(props) {
             ></UilPlusSquare>
           </div>
           : ""}
-        </div>
+      </div>
     </div>
   );
 }

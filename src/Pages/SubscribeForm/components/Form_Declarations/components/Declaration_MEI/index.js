@@ -48,7 +48,7 @@ export default function Declaration_MEI({ onBack, onNext }) {
                 // localStorage.setItem('meiDetails', JSON.stringify({ file: file.name }));
                 NotificationService.success({ text: 'Documento enviado' }).then(_ => onNext(mei))
             } catch (err) {
-                console.log(err)
+
             }
         }
         if (!mei) {

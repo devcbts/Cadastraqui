@@ -7,7 +7,7 @@ import { formatCurrency } from '../../utils/format-currency';
 import InputCheckbox from '../Inputs/InputCheckbox';
 
 export default function VerDespesas({ formDataInfo }) {
-  
+
     const getCurrentDate = () => {
         const today = new Date();
         const month = `${today.getMonth() + 1}`.padStart(2, '0'); // Adiciona um zero à esquerda se necessário
@@ -17,7 +17,7 @@ export default function VerDespesas({ formDataInfo }) {
     const [formData, setFormData] = useState(
         formDataInfo
     );
-    console.log(formData)
+
     //Edição de dados
     const [isEditing, setIsEditing] = useState(false)
 
@@ -28,7 +28,7 @@ export default function VerDespesas({ formDataInfo }) {
     useEffect(() => {
         setFormData(formDataInfo);
         setIsEditing(false);
-    },[formDataInfo])
+    }, [formDataInfo])
 
 
 
@@ -46,21 +46,21 @@ export default function VerDespesas({ formDataInfo }) {
     };
 
     const addOtherExpense = () => {
-        
+
         setFormData(prevFormData => ({
             ...prevFormData,
             otherExpensesDescription: [...prevFormData.otherExpensesDescription, ''],
             otherExpensesValue: [...prevFormData.otherExpensesValue, '']
         }));
-       
+
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
-        if (['waterSewage', 'electricity', 'landlinePhone', 'mobilePhone', 'food', 'rent', 'garageRent', 'condominium', 'cableTV', 'streamingServices', 
-        'fuel', 'annualIPVA', 'annualIPTU', 'annualITR', 'annualIR', 'INSS', 'publicTransport', 'schoolTransport', 'internet', 'courses', 'healthPlan', 
-        'dentalPlan', 'medicationExpenses', 'otherExpensesValue', "installmentValueIPVA","installmentValueIPTU", "installmentValueIR", "installmentValueITR" ].includes(name)) {
+
+        if (['waterSewage', 'electricity', 'landlinePhone', 'mobilePhone', 'food', 'rent', 'garageRent', 'condominium', 'cableTV', 'streamingServices',
+            'fuel', 'annualIPVA', 'annualIPTU', 'annualITR', 'annualIR', 'INSS', 'publicTransport', 'schoolTransport', 'internet', 'courses', 'healthPlan',
+            'dentalPlan', 'medicationExpenses', 'otherExpensesValue', "installmentValueIPVA", "installmentValueIPTU", "installmentValueIR", "installmentValueITR"].includes(name)) {
             // Para campos monetários, formata o valor antes de atualizar o estado
             const numericValue = parseFloat(value.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1.$2')) || '';
             setFormData({ ...formData, [name]: numericValue });
@@ -74,9 +74,9 @@ export default function VerDespesas({ formDataInfo }) {
     };
     const renderOtherExpenses = () => {
         const elements = [];
-        console.log('====================================');
-        console.log(formData);
-        console.log('====================================');
+        ;
+        ;
+        ;
         if (formData && Array.isArray(formData.otherExpensesDescription)) {
             for (let index = 0; index < formData.otherExpensesDescription.length; index++) {
                 elements.push(
@@ -161,11 +161,11 @@ export default function VerDespesas({ formDataInfo }) {
                     'authorization': `Bearer ${token}`,
                 }
             });
-            console.log(response.data);
+            ;
             handleSuccess(response, 'Dados Atualizados com sucesso!')
         } catch (err) {
             handleAuthError(err)
-            
+
         }
     };
     const calculateTotalExpense = () => {
@@ -194,22 +194,22 @@ export default function VerDespesas({ formDataInfo }) {
             formData.dentalPlan,
             formData.medicationExpenses
         ];
-    
+
         // Verifica se formData.otherExpensesValue é um array e tem elementos antes de adicionar ao array de despesas
         if (Array.isArray(formData.otherExpensesValue) && formData.otherExpensesValue.length > 0) {
             expenses.push(...formData.otherExpensesValue);
         }
-    
+
         const total = expenses.reduce((acc, value) => acc + (parseFloat(value) || 0), 0);
         setFormData({ ...formData, totalExpense: total });
     };
-    
-        useEffect(() =>{
-            
-            
-            calculateTotalExpense();
-        },[formDataInfo])
-    
+
+    useEffect(() => {
+
+
+        calculateTotalExpense();
+    }, [formDataInfo])
+
     return (
         <div className='fill-box'>
             <form onSubmit={handleSubmit} id='survey-form'>
@@ -688,7 +688,7 @@ export default function VerDespesas({ formDataInfo }) {
                 {/* Campos para outras despesas */}
                 {renderOtherExpenses()}
                 {/* Despesa Total */}
-                <button style={{display: isEditing? 'block' : 'none'}}  onClick={calculateTotalExpense}>Calcular Despesa total:</button>
+                <button style={{ display: isEditing ? 'block' : 'none' }} onClick={calculateTotalExpense}>Calcular Despesa total:</button>
                 {/* Despesa Total */}
                 <div className='survey-box'>
                     <label>Despesa Total:</label>
@@ -700,14 +700,14 @@ export default function VerDespesas({ formDataInfo }) {
                         disabled
                     />
                 </div>
-                
+
                 <div className="survey-box">
                     {!isEditing ? (
                         <button className="over-button" type="button" onClick={toggleEdit}>Editar</button>
                     ) : (
                         <>
                             <button className="over-button" type="button" onClick={handleSubmit}>Salvar Dados</button>
-                            <button  className="over-button"type="button" onClick={toggleEdit}>Cancelar</button>
+                            <button className="over-button" type="button" onClick={toggleEdit}>Cancelar</button>
                         </>
                     )}
                 </div>

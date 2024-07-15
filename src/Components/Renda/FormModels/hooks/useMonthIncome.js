@@ -11,7 +11,7 @@ export default function useMonthIncome({ inputObj, checksObj, monthCount, initia
         return dateA < dateB
     }).map(e => e.date) : undefined
     const formattedMonths = monthsArr({ length: monthCount, initialDates })
-    console.log(formattedMonths)
+
     const { register, formState: { errors, isValid }, control, resetField, setValue, getValues, watch, reset } = useForm({
         mode: "onChange",
         values: {
@@ -47,7 +47,7 @@ export default function useMonthIncome({ inputObj, checksObj, monthCount, initia
                 if (i >= appendOn) { return initialData[i - appendOn] }
                 return { ...e, date: formattedMonths[i].date }
             })
-            console.log(emptyArray)
+
             reset({
                 incomeInfo:
                     emptyArray
@@ -83,7 +83,7 @@ export default function useMonthIncome({ inputObj, checksObj, monthCount, initia
         let sum = 0;
         for (let i = 0; i < monthCount; i++) {
             sum += toFloat(getMonthTotalIncome(i))
-            console.log('soma', sum)
+
         }
         return (sum / monthCount).toFixed(2);
     }

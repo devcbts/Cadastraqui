@@ -7,27 +7,28 @@ import { api } from "../services/axios";
 
 export default function EditalInscricao() {
   const params = useParams()
-  console.log(params);
+    ;
 
   const [announcementInfo, setAnnouncementInfo] = useState()
 
   useEffect(() => {
     async function fetchAnnouncements() {
       const token = localStorage.getItem("token")
-      try{
+      try {
         const response = await api.get(`/candidates/anouncements/${params.announcement_id}`, {
           headers: {
             'authorization': `Bearer ${token}`,
-          }})
+          }
+        })
         // Pega todos os editais e armazena em um estado
-        setAnnouncementInfo(response.data.announcements)  
-        console.log(response.data.announcements)
-      } catch(err) {
-        console.log(err)  
-      } 
+        setAnnouncementInfo(response.data.announcements)
+
+      } catch (err) {
+
+      }
     }
     fetchAnnouncements()
-  },[])
+  }, [])
 
   return (
     <div className="container-inscricao">

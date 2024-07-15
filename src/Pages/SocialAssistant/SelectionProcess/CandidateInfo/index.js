@@ -60,7 +60,7 @@ export default function CandidateInfo() {
             }
         } catch (err) { }
     }
-    console.log('summary', summary)
+
     return (
         <div className={styles.container}>
             <BackPageTitle title={'processo de seleção'} path={-1} />

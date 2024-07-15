@@ -8,7 +8,7 @@ import "./BasicoAssistente.css";
 export default function BasicoAssistente({ id }) {
   const [basicInfo, setBasicInfo] = useState(null);
   const [registerInfo, setRegisterInfo] = useState(null);
- 
+
   useEffect(() => {
     async function pegarIdentidade() {
       const token = localStorage.getItem("token");
@@ -18,9 +18,9 @@ export default function BasicoAssistente({ id }) {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log("====================================");
-        console.log(response.data);
-        console.log("====================================");
+        ;
+        ;
+        ;
         const dadosIdentidade = response.data.identityInfo;
         setBasicInfo(dadosIdentidade);
       } catch (err) {
@@ -29,31 +29,31 @@ export default function BasicoAssistente({ id }) {
     }
     async function pegarBasicInfo() {
       const token = localStorage.getItem('token');
-     
+
       try {
 
-          const response = await api.get(`/candidates/basic-info/${id}`, {
-              headers: {
-                  'authorization': `Bearer ${token}`,
-              }
-          })
-          
-          
-              console.log(response.data)
-              const dadosBasico = response.data.candidate
-              
-                  
-                  setRegisterInfo(dadosBasico)
-              
-              console.log(dadosBasico)
+        const response = await api.get(`/candidates/basic-info/${id}`, {
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }
+        })
+
+
+
+        const dadosBasico = response.data.candidate
+
+
+        setRegisterInfo(dadosBasico)
+
+
 
       }
       catch (err) {
-          alert(err)
+        alert(err)
       }
-  }
-  
-  if (id) {
+    }
+
+    if (id) {
       pegarBasicInfo()
       pegarIdentidade();
     }

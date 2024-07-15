@@ -41,7 +41,7 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
     const handleAddCourse = () => {
         if (!isValid) {
             trigger()
-            console.log(errors)
+
             return
         }
         const data = getValues()

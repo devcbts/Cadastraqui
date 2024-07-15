@@ -119,7 +119,7 @@ export default function FormDeclarations() {
                 // const data = response.data;
                 // setDeclarationData(data.infoDetails);
                 // setUserId(auth.uid);
-                // // console.log('Form Declaration:', data.infoDetails);
+                // // ;
                 // localStorage.setItem('declarationData', JSON.stringify(data.infoDetails));
             } catch (error) {
                 console.error('Erro ao buscar a declaração:', error);
@@ -265,7 +265,7 @@ export default function FormDeclarations() {
                             {data ? (
                                 Array.from([...data?.Candidate ?? [], data]).map(e => (
 
-                                    <FormListItem.Root text={e.name}>
+                                    <FormListItem.Root text={e.name} key={e.id}>
 
                                         <FormListItem.Actions>
                                             <ButtonBase label="Declaração" onClick={() => handleNavigateToForm(e)} />

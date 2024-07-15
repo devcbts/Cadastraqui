@@ -20,7 +20,7 @@ export default function AnnouncementList({ announcement, onSelect }) {
                         const { criteria } = announcement
                         const { courses } = courseToApply
                         const row = courses?.map((e) => ({ criteria: criteria.join('; '), ...e }))
-                        console.log('cursos', courseToApply)
+
                         if (!courses?.length) return null
                         return <
                             AnnouncementTable

@@ -16,7 +16,7 @@ const Relationship = [
   { value: "Other", label: "Outro" },
 ];
 
-export default function MembrosFamiliaSaude({candidate}) {
+export default function MembrosFamiliaSaude({ candidate }) {
   const [familyMembers, setFamilyMembers] = useState([]);
   const [memberSelected, setMemberSelected] = useState(null);
 
@@ -29,14 +29,14 @@ export default function MembrosFamiliaSaude({candidate}) {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log("====================================");
-        console.log(response.data);
-        console.log("====================================");
+        ;
+        ;
+        ;
         const membrosdaFamilia = response.data.familyMembers;
         const candidateWithIncomeInfo = {
           ...candidate,
         };
-        console.log(candidate)
+
         // Inclui o candidato atualizado no início do array de membros da família
         setFamilyMembers([candidateWithIncomeInfo, ...membrosdaFamilia]);
       } catch (err) {

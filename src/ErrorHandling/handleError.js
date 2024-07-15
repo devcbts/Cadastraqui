@@ -57,6 +57,6 @@ export const handleAuthError = (error, navigate, message) => {
     }).then((result) => {
 
     });
-    console.log(error);
+    ;
   }
 };

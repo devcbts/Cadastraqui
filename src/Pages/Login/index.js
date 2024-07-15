@@ -34,7 +34,7 @@ export default function Login() {
         const pass = await login({ email, password })
         if (pass) {
             if (state?.announcementId) {
-                console.log(state)
+
                 navigate(`/edital/${state.announcementId}`, { state: {} })
                 return
             }

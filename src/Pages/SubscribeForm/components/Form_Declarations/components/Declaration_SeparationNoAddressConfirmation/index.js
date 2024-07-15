@@ -73,7 +73,7 @@ export default function Declaration_SeparationNoAddressConfirmation({ onBack, on
             // }
 
             // const data = await response.json();
-            // console.log('Declaração registrada:', data);
+            // ;
 
             onNext(confirmation);
         } catch (error) {

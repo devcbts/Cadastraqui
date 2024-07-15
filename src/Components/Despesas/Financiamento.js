@@ -4,7 +4,7 @@ import { api } from "../../services/axios.js";
 import CadastroFinanciamento from "./cadastroFinanciamento";
 import VerFinanciamento from "./verFinanciamento";
 
-export default function Financiamento({candidate}) {
+export default function Financiamento({ candidate }) {
   const [financingsInstances, setFinancingsInstances] = useState([]);
   const [selectedFinancing, setSelectedFinancing] = useState(null);
   const [mostrarCadastro, setMostrarCadastro] = useState(false);
@@ -18,9 +18,9 @@ export default function Financiamento({candidate}) {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log("====================================");
-        console.log(response.data.financings);
-        console.log("====================================");
+        ;
+        ;
+        ;
         setFinancingsInstances(
           response.data.financings.map((financing) => ({
             value: financing.id,

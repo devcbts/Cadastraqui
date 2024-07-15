@@ -213,15 +213,15 @@ const VerFamiliar = forwardRef(({ familyMember, onDelete }, ref) => {
           },
         }
       );
-      console.log("====================================");
-      console.log(response.status);
-      console.log("====================================");
+      ;
+      ;
+      ;
       handleSuccess(response, "Dados cadastrados com sucesso!");
     } catch (error) {
-      console.log(error);
+      ;
       handleAuthError(error);
     }
-    console.log("Dados salvos", familyMemberInfo);
+    ;
     setIsEditing(false); // Desabilita o modo de edição após salvar
   }
 

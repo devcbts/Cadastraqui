@@ -25,11 +25,11 @@ export default function Candidatura2() {
       },
     });
 
-    console.log(response.status)
+    
     setEnrolled(true)
   }*/
 
-  
+
 
 
   return (
@@ -37,7 +37,7 @@ export default function Candidatura2() {
       <div className="candidato-assistente">
         <h3>Victor</h3>
         <div className="application-info">
-          <img src={uspLogo}/>
+          <img src={uspLogo} />
           <h2 className="application-name">USP 2024.1</h2>
         </div>
         <h2 className="waiting">Situação:  <span>Lista de Espera</span></h2>

@@ -21,7 +21,7 @@ export default function Edital(props) {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log(profilePhoto);
+        ;
         setProfilePhoto(profilePhoto.data.url);
 
       } catch (err) {

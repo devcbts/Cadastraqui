@@ -196,9 +196,9 @@ export default function CadastroBasico() {
         [name]: value,
       }));
     }
-    //console.log('====================================');
-    //console.log(candidate);
-    //console.log('====================================');
+    //;
+    //;
+    //;
   }
 
   async function RegisterCandidateBasicInfo(e) {
@@ -253,7 +253,7 @@ export default function CadastroBasico() {
         candidate.nameOfScholarshipCourse_professional || undefined,
     };
 
-    console.log(data);
+    ;
 
     try {
       const response = await api.post("/candidates/identity-info", data, {
@@ -261,11 +261,11 @@ export default function CadastroBasico() {
           authorization: `Bearer ${token}`,
         },
       });
-      console.log("====================================");
-      console.log(response.status);
-      console.log("====================================");
+      ;
+      ;
+      ;
     } catch (error) {
-      console.log(error);
+      ;
       alert(error.response.data.message);
     }
   }

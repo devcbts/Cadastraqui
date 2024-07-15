@@ -81,7 +81,7 @@ ${rentDetails.landlordCpf}. \
             // }
 
             // const data = await response.json();
-            // console.log('Declaração registrada:', data);
+            // ;
 
             onNext(confirmation);
         } catch (error) {

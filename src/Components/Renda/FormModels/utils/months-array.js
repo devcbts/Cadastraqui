@@ -1,7 +1,7 @@
 const monthsArr = ({ length, initialDates = [] }) => {
     // aux array to store old dates
     const storeOldDates = initialDates;
-    console.log('inicio', initialDates, length)
+
 
     return Array.from({ length }).map((_, index) => {
         const currentDate = new Date();

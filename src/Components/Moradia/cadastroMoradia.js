@@ -85,7 +85,7 @@ export default function CadastroMoradia() {
           },
         }
       );
-      console.log(response.data);
+      ;
       Swal.fire({ title: "Sucesso", text: "Dados cadastrados com sucesso!", icon: "success" });
 
       // Tratar a resposta conforme necessário

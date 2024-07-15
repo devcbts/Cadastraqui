@@ -173,14 +173,14 @@ export default function VerBasico({ candidate, basic, role }) {
           },
         }
       );
-      console.log("====================================");
-      console.log(response.status);
-      console.log("====================================");
+      ;
+      ;
+      ;
       handleSuccess(response, "Dados cadastrados com sucesso!");
     } catch (error) {
       handleAuthError(error)
     }
-    console.log("Dados salvos", candidateInfo);
+    ;
     setIsEditing(false); // Desabilita o modo de edição após salvar
   }
 

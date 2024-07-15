@@ -10,7 +10,7 @@ const types1Options = [
 ];
 
 export default function VerAcoesPosteriores({ announcement, application }) {
-  console.log(announcement);
+  ;
   return (
     <div className="fill-container general-info acoes-posteriores">
 
@@ -21,7 +21,7 @@ export default function VerAcoesPosteriores({ announcement, application }) {
 
       <div class="container-form">
         {application.status === 'Approved' ?
-          <div class="row" style={{width:'70%'}}>
+          <div class="row" style={{ width: '70%' }}>
             <form id="survey-form-next">
               <div class="form-row">
                 <div class="form-group">
@@ -46,7 +46,7 @@ export default function VerAcoesPosteriores({ announcement, application }) {
                 <div className="form-group col-md-4">
                   <h1> Benefícios - Tipo 1:</h1>
                 </div>
-                <div className="form-group col-md-8" style={{width: '50%'}}>
+                <div className="form-group col-md-8" style={{ width: '50%' }}>
                   <div
                     style={{
                       display: "flex",
@@ -81,7 +81,7 @@ export default function VerAcoesPosteriores({ announcement, application }) {
                   </div>
                 </div>
               </div>
-              <div className="form-row" style={{ display: "flex", alignItems: "center",  width: '85%' }}
+              <div className="form-row" style={{ display: "flex", alignItems: "center", width: '85%' }}
               >
 
                 <div className="form-group col-md-4">

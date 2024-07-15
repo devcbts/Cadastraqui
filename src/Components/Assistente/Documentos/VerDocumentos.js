@@ -90,9 +90,9 @@ export default function VerDocumentosAssistente({ id }) {
 
         const linksData = response.data.urls;
         linksData[`CandidateDocuments/${id}/identificacao`]?.map((doc) => {
-          console.log("====================================");
-          console.log(doc.split("/")[6].split("?")[0]);
-          console.log("====================================");
+          ;
+          ;
+          ;
         });
         const updatedDocumentLinks = {};
         Object.keys(DOCUMENT_CATEGORIES).forEach((category) => {

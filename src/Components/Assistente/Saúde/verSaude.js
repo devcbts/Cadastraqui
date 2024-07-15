@@ -2,16 +2,16 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { api } from '../../../services/axios';
 const Relationship = [
-  { value: 'Wife', label: 'Esposa' },
-  { value: 'Husband', label: 'Marido' },
-  { value: 'Father', label: 'Pai' },
-  { value: 'Mother', label: 'Mãe' },
-  { value: 'Stepfather', label: 'Padrasto' },
-  { value: 'Stepmother', label: 'Madrasta' },
-  { value: 'Sibling', label: 'Irmão/Irmã' },
-  { value: 'Grandparent', label: 'Avô/Avó' },
-  { value: 'Child', label: 'Filho/Filha' },
-  { value: 'Other', label: 'Outro' },
+    { value: 'Wife', label: 'Esposa' },
+    { value: 'Husband', label: 'Marido' },
+    { value: 'Father', label: 'Pai' },
+    { value: 'Mother', label: 'Mãe' },
+    { value: 'Stepfather', label: 'Padrasto' },
+    { value: 'Stepmother', label: 'Madrasta' },
+    { value: 'Sibling', label: 'Irmão/Irmã' },
+    { value: 'Grandparent', label: 'Avô/Avó' },
+    { value: 'Child', label: 'Filho/Filha' },
+    { value: 'Other', label: 'Outro' },
 ];
 const Disease = [
     { value: 'ALIENATION_MENTAL', label: 'Alienação Mental' },
@@ -36,7 +36,7 @@ const Disease = [
 ]
 export const VerSaudeAssistente = ({ member }) => {
     const [monthlyIncomes, setMonthlyIncomes] = useState([]);
-    console.log(member);
+    ;
 
     const [healthInfo, setHealthInfo] = useState({
         diseases: '',
@@ -59,10 +59,10 @@ export const VerSaudeAssistente = ({ member }) => {
                     }
                 })
                 setHealthInfo(response.data.healthInfo)
-                console.log(response.data)
+
                 setLoading(false)
             } catch (err) {
-                console.log(err)
+
             }
         }
         getHealthInfo()
@@ -72,14 +72,14 @@ export const VerSaudeAssistente = ({ member }) => {
 
     const getDiseaseValuesByLabels = (diseaseLabels) => {
         return diseaseLabels?.map(value => {
-          const diseaseItem = Disease.find(item => item.value === value);
-          return diseaseItem ? diseaseItem.label : '';
+            const diseaseItem = Disease.find(item => item.value === value);
+            return diseaseItem ? diseaseItem.label : '';
         }).filter(label => label !== ''); // Filtra quaisquer valores não encontrados (strings vazias)
-      };
-      function translateRelationship(relationshipValue) {
+    };
+    function translateRelationship(relationshipValue) {
         const relationship = Relationship.find(r => r.value === relationshipValue);
         return relationship ? relationship.label : 'Não especificado';
-      }
+    }
     return (
         <div><div className="fill-box">
             <form id="survey-form">
@@ -91,7 +91,7 @@ export const VerSaudeAssistente = ({ member }) => {
                     <div class="survey-box">
                         <label for="disease" id="disease-label">Doença</label>
                         <br />
-                        <input disabled type="text" name="disease" value={ getDiseaseValuesByLabels(healthInfo[0]?.diseases).join(', ')} id="disease" class="survey-control" />
+                        <input disabled type="text" name="disease" value={getDiseaseValuesByLabels(healthInfo[0]?.diseases).join(', ')} id="disease" class="survey-control" />
                     </div>
                     {/*<!-- Doença Específica -->*/}
                     <div class="survey-box">

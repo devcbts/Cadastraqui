@@ -5,9 +5,9 @@ import '@react-pdf-viewer/core/lib/styles/index.css';
 
 export default function PdfPreview({ file }) {
 
-    console.log('====================================');
-    console.log(file);
-    console.log('====================================');
+    ;
+    ;
+    ;
     return (
         <div style={{ height: '750px' }}>
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">

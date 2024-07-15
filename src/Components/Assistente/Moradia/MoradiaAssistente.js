@@ -4,9 +4,9 @@ import VerMoradiaAssistente from './verMoradiaAssistente.js';
 import { api } from '../../../services/axios.js';
 import LoadingCadastroCandidato from '../../Loading/LoadingCadastroCandidato.js';
 
-    export default function MoradiaAssistente({id}) {
+export default function MoradiaAssistente({ id }) {
     const [housing, setHousing] = useState(null);
-   
+
 
 
     useEffect(() => {
@@ -19,9 +19,9 @@ import LoadingCadastroCandidato from '../../Loading/LoadingCadastroCandidato.js'
                         'authorization': `Bearer ${token}`,
                     }
                 })
-                console.log('====================================');
-                console.log(response.data);
-                console.log('====================================');
+                    ;
+                ;
+                ;
                 const dadosMoradia = response.data.housingInfo
                 setHousing(dadosMoradia)
             }
@@ -30,17 +30,17 @@ import LoadingCadastroCandidato from '../../Loading/LoadingCadastroCandidato.js'
             }
         }
         pegarMoradia()
-        
-    },[])
+
+    }, [])
 
     return (
         <div>
-            {housing? <VerMoradiaAssistente formData={housing}/> : <LoadingCadastroCandidato />}
+            {housing ? <VerMoradiaAssistente formData={housing} /> : <LoadingCadastroCandidato />}
 
 
 
 
-            
+
         </div>
     );
 }

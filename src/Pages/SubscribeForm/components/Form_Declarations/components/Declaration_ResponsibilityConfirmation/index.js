@@ -67,7 +67,7 @@ export default function Declaration_ResponsibilityConfirmation({ onBack, onNext,
         //             }
 
         //             const data = await response.json();
-        //             console.log('Declaração registrada:', data);
+        //             ;
 
         //             onNext();
         //         } catch (error) {

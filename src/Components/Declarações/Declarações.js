@@ -92,8 +92,8 @@ export default function EnviarDeclaracoes({ id }) {
         const updatedDeclarationLinks = {};
 
         Object.keys(DECLARATION_CATEGORIES).forEach((categoryKey) => {
-          console.log(`CandidateDocuments/${id}/${categoryKey}`);
-          console.log(linksData[`CandidateDocuments/${id}/${categoryKey}`]);
+          ;
+          ;
           updatedDeclarationLinks[categoryKey] =
             linksData[`CandidateDocuments/${id}/${categoryKey}`]?.map(
               (doc) => ({
@@ -104,9 +104,9 @@ export default function EnviarDeclaracoes({ id }) {
         });
 
         setDeclarationLinks(updatedDeclarationLinks);
-        console.log("====================================");
-        console.log(updatedDeclarationLinks);
-        console.log("====================================");
+        ;
+        ;
+        ;
       } catch (error) {
         handleAuthError(error)
         console.error("Erro ao buscar links das declarações", error);

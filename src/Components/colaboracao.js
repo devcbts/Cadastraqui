@@ -35,7 +35,7 @@ export default function Colaboracao(props) {
         const updatedInfo = { address, CEP, socialReason, educationalInstitutionCode };
         // Chamar função de atualização aqui
         const token = localStorage.getItem('token');
-        api.patch(`entities/subsidiary/${props.id}`,  updatedInfo , {
+        api.patch(`entities/subsidiary/${props.id}`, updatedInfo, {
           headers: {
             'authorization': `Bearer ${token}`,
           }
@@ -45,7 +45,7 @@ export default function Colaboracao(props) {
           })
           .catch(error => {
             MySwal.fire('Erro!', 'Houve um erro ao atualizar as informações.', 'error');
-            console.log(error)
+
           });
       }
     });
@@ -75,7 +75,7 @@ export default function Colaboracao(props) {
         const updatedInfo = { name };
         // Chamar função de atualização aqui
         const token = localStorage.getItem('token');
-        api.patch(`entities/director/${props.id}`,  updatedInfo , {
+        api.patch(`entities/director/${props.id}`, updatedInfo, {
           headers: {
             'authorization': `Bearer ${token}`,
           }
@@ -85,7 +85,7 @@ export default function Colaboracao(props) {
           })
           .catch(error => {
             MySwal.fire('Erro!', 'Houve um erro ao atualizar as informações.', 'error');
-            console.log(error)
+
           });
       }
     });
@@ -109,7 +109,7 @@ export default function Colaboracao(props) {
         } else if (props.role === 'Assistente') {
           type = 'assistant';
         } else if (props.role === 'Responsável') {
-          type= 'director';
+          type = 'director';
         }
 
         api.delete(`entities/${type}/${props.id}`, {
@@ -117,17 +117,17 @@ export default function Colaboracao(props) {
             'authorization': `Bearer ${token}`,
           }
         })
-        .then(response => {
-          MySwal.fire('Deletado!', `A ${props.role} foi deletada.`, 'success');
-          // Usar a função de remoção passada via props
-          if (props.onRemoveEntity) {
-            props.onRemoveEntity();
-          }
-        })
-        .catch(error => {
-          MySwal.fire('Erro!', `Houve um erro ao deletar a ${props.role}.`, 'error');
-          console.log(error);
-        });
+          .then(response => {
+            MySwal.fire('Deletado!', `A ${props.role} foi deletada.`, 'success');
+            // Usar a função de remoção passada via props
+            if (props.onRemoveEntity) {
+              props.onRemoveEntity();
+            }
+          })
+          .catch(error => {
+            MySwal.fire('Erro!', `Houve um erro ao deletar a ${props.role}.`, 'error');
+            ;
+          });
       }
     });
   };
@@ -146,10 +146,10 @@ export default function Colaboracao(props) {
         <h2>{props.role === 'Filial' ? '' : props.role}</h2>
       </div>
       {props.role === 'Filial' &&
-        <button onClick={handleEdit} className="button-edital-editar" style={{marginBottom: '0px'}}>Editar</button>
+        <button onClick={handleEdit} className="button-edital-editar" style={{ marginBottom: '0px' }}>Editar</button>
       }
       {props.role === 'Responsável' &&
-        <button onClick={handleEditResp} className="button-edital-editar" style={{marginBottom: '0px'}}>Editar</button>
+        <button onClick={handleEditResp} className="button-edital-editar" style={{ marginBottom: '0px' }}>Editar</button>
       }
       <button onClick={handleDelete} className="button-edital-excluir">Excluir</button>
     </div>

@@ -17,7 +17,7 @@ export default function ProfileCandidate() {
                 setIsLoading(true)
                 const information = await candidateService.getBasicInfo()
                 setData(information)
-                console.log(information)
+
             } catch (err) {
 
             }
@@ -32,7 +32,7 @@ export default function ProfileCandidate() {
         formData.append('file', img)
         let url = null;
         try {
-            console.log(auth)
+
             if (auth.role === 'CANDIDATE') {
                 url = await candidateService.uploadProfilePicture(formData)
             } else {

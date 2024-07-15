@@ -202,7 +202,7 @@ export default function CadastroEntidade() {
         });
         setEntityInfo(entity_info.data.entity);
       } catch (err) {
-        console.log(err);
+        ;
       }
     }
 

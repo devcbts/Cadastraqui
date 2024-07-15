@@ -49,7 +49,7 @@ const NumberOfRooms = [
 ];
 
 export default function VerMoradia({ candidateProp }) {
-  console.log(candidateProp);
+  ;
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const updatedValue = name === "numberOfBedrooms" ? Number(value) : value;
@@ -79,13 +79,13 @@ export default function VerMoradia({ candidateProp }) {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
+      ;
       // Tratar a resposta conforme necessário
     } catch (error) {
       console.error(error.response.data);
       // Tratar o erro conforme necessário
     }
-    console.log("Dados salvos", candidate);
+    ;
     setIsEditing(false); // Desabilita o modo de edição após salvar
   }
 
@@ -113,22 +113,22 @@ export default function VerMoradia({ candidateProp }) {
           "ProvidedByFamily",
           "ProvidedOtherWay",
         ].includes(candidate.propertyStatus) && (
-          <div className="survey-box">
-            <label>Nome do cedente:</label>
+            <div className="survey-box">
+              <label>Nome do cedente:</label>
 
-            <br />
+              <br />
 
-            <input
-              className="survey-control"
-              type="text"
-              name="grantorName"
-              value={candidate.grantorName}
-              disabled={!isEditing}
-              onChange={handleChange}
-              required
-            />
-          </div>
-        )}
+              <input
+                className="survey-control"
+                type="text"
+                name="grantorName"
+                value={candidate.grantorName}
+                disabled={!isEditing}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          )}
 
         {candidate.propertyStatus === "Rented" && (
           <div className="survey-box">
@@ -197,7 +197,7 @@ export default function VerMoradia({ candidateProp }) {
           </select>
         </div>
         <div className="survey-box">
-          <label style={{fontSize:'13px'}}>Quantos cômodos estão servindo permanentemente de dormitório aos moradores?</label>
+          <label style={{ fontSize: '13px' }}>Quantos cômodos estão servindo permanentemente de dormitório aos moradores?</label>
 
           <input
             className="survey-control"

@@ -68,7 +68,7 @@ export default function Declaration_WorkCardConfirmation({ onBack, onNext, userI
             // }
 
             // const data = await response.json();
-            // console.log('Declaração registrada:', data);
+            // ;
 
             onNext(confirmation);
         } catch (error) {

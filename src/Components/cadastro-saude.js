@@ -51,7 +51,7 @@ export const CadastroSaude = ({ member }) => {
         [name]: selectedOptions
       }));
       if (e.target.multiple && e.target.name === 'diseases') {
-        console.log(e.target.value)
+
         if (e.target.value.includes('RARE_DISEASE') || e.target.value.includes('OTHER_HIGH_COST_DISEASE')) {
           setDiseaseSpecific(true)
         } else {
@@ -63,7 +63,7 @@ export const CadastroSaude = ({ member }) => {
       setHealthInfo(prevState => ({
         ...prevState,
         [name]: value,
-      })); console.log(healthInfo)
+      }));
     }
 
   };
@@ -96,7 +96,7 @@ export const CadastroSaude = ({ member }) => {
       specificDisease: healthInfo.specificDisease,
       hasMedicalReport: healthInfo.hasMedicalReport
     }
-    console.log(data)
+
     try {
       const token = localStorage.getItem("token")
       const response = await api.post(`/candidates/health-info/${member.id}`, data, {
@@ -127,9 +127,9 @@ export const CadastroSaude = ({ member }) => {
           'authorization': `Bearer ${token}`,
         }
       })
-      console.log(response)
+
     } catch (err) {
-      console.log(err)
+
       handleAuthError(err)
     }
   }

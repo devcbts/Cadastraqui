@@ -31,7 +31,7 @@ export default function HomeAssistente() {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log(profilePhoto);
+        ;
         setProfilePhoto(profilePhoto.data.url);
 
       } catch (err) {
@@ -50,10 +50,10 @@ export default function HomeAssistente() {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.data)
+
         setAssistant(response.data.assistant);
       } catch (err) {
-        console.log(err)
+
       }
     }
     getAssistantInfo();
@@ -72,7 +72,7 @@ export default function HomeAssistente() {
           path: '/',
         })
       } catch (err) {
-        console.log(err)
+
         navigate('/login')
       }
     }
@@ -80,48 +80,48 @@ export default function HomeAssistente() {
 
 
   }, []);
-  
-    async function fetchAnnouncements() {
-      const token = localStorage.getItem("token");
-      try {
-        const response = await api.get("/assistant/announcement/", {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        });
-        // Pega todos os editais e armazena em um estado
-        setAnnouncements(response.data.announcement);
-        // Pega apenas os editais ainda abertos e armazena em um estado
-        const openAnnouncements = response.data.announcement.filter(
-          (announcement) => new Date(announcement.announcementDate) >= new Date()
-        );
-        setOpenAnnouncements(openAnnouncements);
-        // Pega os editais já fechados e armazena em um estado
 
-        const closeAnnouncements = response.data.announcement.filter(
-          (announcement) => new Date(announcement.announcementDate) < new Date()
-        );
-        setCloseAnnouncements(closeAnnouncements);
+  async function fetchAnnouncements() {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await api.get("/assistant/announcement/", {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      // Pega todos os editais e armazena em um estado
+      setAnnouncements(response.data.announcement);
+      // Pega apenas os editais ainda abertos e armazena em um estado
+      const openAnnouncements = response.data.announcement.filter(
+        (announcement) => new Date(announcement.announcementDate) >= new Date()
+      );
+      setOpenAnnouncements(openAnnouncements);
+      // Pega os editais já fechados e armazena em um estado
 
-        // Filtra os announcements associados ao assistente social em questão
-        const activeAnnouncements = openAnnouncements.filter(
-          (announcement) =>
-            announcement.socialAssistant.some(
-              (assistantObj) => assistantObj.id === assistant?.id
-            )
-        );
-        console.log(openAnnouncements)
-        setActiveAnnouncements(activeAnnouncements);
-        console.log(response);
-      } catch (err) {
-        console.log(err);
-      }
+      const closeAnnouncements = response.data.announcement.filter(
+        (announcement) => new Date(announcement.announcementDate) < new Date()
+      );
+      setCloseAnnouncements(closeAnnouncements);
 
+      // Filtra os announcements associados ao assistente social em questão
+      const activeAnnouncements = openAnnouncements.filter(
+        (announcement) =>
+          announcement.socialAssistant.some(
+            (assistantObj) => assistantObj.id === assistant?.id
+          )
+      );
+
+      setActiveAnnouncements(activeAnnouncements);
+      ;
+    } catch (err) {
+      ;
     }
-    useEffect(() => {
-      fetchAnnouncements();
 
-    },[assistant])
+  }
+  useEffect(() => {
+    fetchAnnouncements();
+
+  }, [assistant])
 
   return (
     <div className="container">
@@ -141,9 +141,9 @@ export default function HomeAssistente() {
             })
             : <div className="container-editais">
 
-             <LoadingEdital/>
-             <LoadingEdital/>
-             <LoadingEdital/>
+              <LoadingEdital />
+              <LoadingEdital />
+              <LoadingEdital />
 
             </div>}
         </div>

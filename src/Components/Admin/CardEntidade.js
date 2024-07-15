@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 import { api } from "../../services/axios";
 
-export default function CardEntidade({entity}) {
+export default function CardEntidade({ entity }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -18,7 +18,7 @@ export default function CardEntidade({entity}) {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log(profilePhoto);
+        ;
         setProfilePhoto(profilePhoto.data.url);
         localStorage.setItem("profilePhoto", JSON.stringify(profilePhoto.data.url));
 
@@ -32,9 +32,9 @@ export default function CardEntidade({entity}) {
   return (
     <Link to={`/admin/entidades/${entity.id}`}>
       <div className="edital-card">
-        {profilePhoto ? 
-        <img src={profilePhoto}></img>
-        :'' }
+        {profilePhoto ?
+          <img src={profilePhoto}></img>
+          : ''}
         <h2>{entity.name}</h2>
       </div>
     </Link>

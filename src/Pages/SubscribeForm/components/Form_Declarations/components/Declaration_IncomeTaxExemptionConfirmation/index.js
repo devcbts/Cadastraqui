@@ -69,7 +69,7 @@ serem verdadeiras todas as informações acima prestadas. \
                 // }
 
                 // const data = await response.json();
-                // console.log('Declaração registrada:', data);
+                // ;
 
                 onNext();
             } catch (error) {

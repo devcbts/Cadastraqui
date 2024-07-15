@@ -156,9 +156,9 @@ export const VerRendaAssistente = ({ member }) => {
                     }
                 })
                 setMonthlyIncomes(response.data.incomeBySource)
-                console.log(response.data.incomeBySource)
+
             } catch (error) {
-                console.log(error)
+
             }
         }
         getMonthlyIncome()
@@ -266,7 +266,7 @@ export const VerRendaAssistente = ({ member }) => {
     const [loading, setLoading] = useState(true)
 
     function calculateAverageIncome(arrayDeObjetos) {
-        console.log(arrayDeObjetos)
+
         const { soma, contador } = arrayDeObjetos.reduce((acumulador, objeto) => {
             if (objeto.averageIncome !== null) {
                 acumulador.soma += parseFloat(objeto.averageIncome);
@@ -301,14 +301,14 @@ export const VerRendaAssistente = ({ member }) => {
                         averageIncome
                     })
 
-                    console.log(MEIInfo)
+
                 }
 
                 if (member.incomeSource.includes('SelfEmployed')) {
                     const AutonomousInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'SelfEmployed')
                     const averageIncome = calculateAverageIncome(AutonomousInfo)
                     setAutonomousInfo({ averageIncome })
-                    console.log(autonomousInfo)
+
                 }
 
                 if (member.incomeSource.includes('Unemployed')) {
@@ -325,31 +325,31 @@ export const VerRendaAssistente = ({ member }) => {
                         parcelValue,
                     })
 
-                    console.log(unemployedInfo)
+
                 }
                 if (member.incomeSource.includes('InformalWorker')) {
                     const InformalWorkerInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'InformalWorker')
                     const averageIncome = calculateAverageIncome(InformalWorkerInfo)
                     setInformalWorkerInfo({ averageIncome })
-                    console.log(informalWorkerInfo)
+
                 }
                 if (member.incomeSource.includes('RentalIncome')) {
                     const RentalIncomeInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'RentalIncome')
                     const averageIncome = calculateAverageIncome(RentalIncomeInfo)
                     setRentalIncomeInfo({ averageIncome })
-                    console.log(rentalIncomeInfo)
+
                 }
                 if (member.incomeSource.includes('LiberalProfessional')) {
                     const LiberalProfessionalInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'LiberalProfessional')
                     const averageIncome = calculateAverageIncome(LiberalProfessionalInfo)
                     setLiberalProfessionalInfo({ averageIncome })
-                    console.log(liberalProfessionalInfo)
+
                 }
                 if (member.incomeSource.includes('PrivatePension')) {
                     const PrivatePensionInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'PrivatePension')
                     const averageIncome = calculateAverageIncome(PrivatePensionInfo)
                     setPrivatePensionInfo({ averageIncome })
-                    console.log(privatePensionInfo)
+
                 }
                 if (member.incomeSource.includes('FinancialHelpFromOthers')) {
                     const FinancialHelpFromOthersInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'FinancialHelpFromOthers')
@@ -361,7 +361,7 @@ export const VerRendaAssistente = ({ member }) => {
                         financialAssistantCPF
                     })
 
-                    console.log(financialHelpFromOthersInfo)
+
                 }
                 if (member.incomeSource.includes('BusinessOwner') || member.incomeSource.includes('BusinessOwnerSimplifiedTax')) {
                     const EntepreneurInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'BusinessOwner' || data.employmentType === 'BusinessOwnerSimplifiedTax')
@@ -378,7 +378,7 @@ export const VerRendaAssistente = ({ member }) => {
                         CNPJ,
                         averageIncome
                     })
-                    console.log(entepreneurInfo)
+
                 }
                 if (member.incomeSource.includes('PrivateEmployee')) {
                     const PrivateEmployeeInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'PrivateEmployee')
@@ -395,7 +395,7 @@ export const VerRendaAssistente = ({ member }) => {
                         payingSourcePhone,
                         averageIncome
                     })
-                    console.log(privateEmployeeInfo)
+
                 }
                 if (member.incomeSource.includes('PublicEmployee')) {
                     const PublicEmployeeInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'PublicEmployee')
@@ -412,7 +412,7 @@ export const VerRendaAssistente = ({ member }) => {
                         payingSourcePhone,
                         averageIncome
                     })
-                    console.log(publicEmployeeInfo)
+
                 }
                 if (member.incomeSource.includes('DomesticEmployee')) {
                     const DomesticEmployeeInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'DomesticEmployee')
@@ -429,7 +429,7 @@ export const VerRendaAssistente = ({ member }) => {
                         payingSourcePhone,
                         averageIncome
                     })
-                    console.log(domesticEmployeeInfo)
+
                 }
                 if (member.incomeSource.includes('TemporaryRuralEmployee')) {
                     const TemporaryRuralEmployeeInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'TemporaryRuralEmployee')
@@ -446,7 +446,7 @@ export const VerRendaAssistente = ({ member }) => {
                         payingSourcePhone,
                         averageIncome
                     })
-                    console.log(temporaryRuralEmployeeInfo)
+
                 }
                 if (member.incomeSource.includes('Retired')) {
                     const RetiredInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'Retired')
@@ -463,7 +463,7 @@ export const VerRendaAssistente = ({ member }) => {
                         payingSourcePhone,
                         averageIncome
                     })
-                    console.log(retiredInfo)
+
                 }
                 if (member.incomeSource.includes('Pensioner')) {
                     const PensionerInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'Pensioner')
@@ -480,7 +480,7 @@ export const VerRendaAssistente = ({ member }) => {
                         payingSourcePhone,
                         averageIncome
                     })
-                    console.log(pensionerInfo)
+
                 }
                 if (member.incomeSource.includes('TemporaryDisabilityBenefit')) {
                     const TemporaryDisabilityBenefitInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'TemporaryDisabilityBenefit')
@@ -497,7 +497,7 @@ export const VerRendaAssistente = ({ member }) => {
                         payingSourcePhone,
                         averageIncome
                     })
-                    console.log(temporaryDisabilityBenefitInfo)
+
                 }
                 if (member.incomeSource.includes('Apprentice')) {
                     const ApprenticeInfo = response.data.familyMemberIncomeInfo.filter(data => data.employmentType === 'Apprentice')
@@ -514,13 +514,13 @@ export const VerRendaAssistente = ({ member }) => {
                         payingSourcePhone,
                         averageIncome
                     })
-                    console.log(apprenticeInfo)
+
                 }
 
 
                 setLoading(false)
             } catch (err) {
-                console.log(err)
+
             }
         }
         getIncomeInfo()
@@ -958,7 +958,7 @@ export const VerRendaAssistente = ({ member }) => {
                             <div class="survey-box">
                                 <label for="averageIncome" id="averageIncome-label">Renda Média</label>
                                 <br />
-                                <input disabled type="text" name="averageIncome" value={loading ? '' :formatCurrency(pensionerInfo.averageIncome)} id="averageIncome" class="survey-control" />
+                                <input disabled type="text" name="averageIncome" value={loading ? '' : formatCurrency(pensionerInfo.averageIncome)} id="averageIncome" class="survey-control" />
                             </div>
                         </>
                     )
@@ -1047,14 +1047,14 @@ export const VerRendaAssistente = ({ member }) => {
             <div>
                 {monthlyIncomes && Object.entries(monthlyIncomes).map(([incomeSource, monthlyIncomesGrouped]) => (
                     <div>
-                        {console.log(monthlyIncomesGrouped)}
+                        { }
                         <VerRendaMensal
                             key={incomeSource} // A chave deve ser única para cada item na lista
                             incomeSource={incomeSource} // A string representando a fonte de renda
                             monthlyIncomesByType={monthlyIncomesGrouped} // Passando diretamente o array
-                            id={member.id} 
-                            role = {'Assistant'}
-                            // O ID do membro, assumido estar disponível no escopo
+                            id={member.id}
+                            role={'Assistant'}
+                        // O ID do membro, assumido estar disponível no escopo
                         />
                     </div>
                 ))}

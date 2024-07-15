@@ -18,7 +18,7 @@ const Relationship = [
   { value: "Other", label: "Outro" },
 ];
 export default function VerExtrato(props) {
-  console.log(props.application);
+  ;
   function calculateAge(birthDate) {
     const birthDateObj = new Date(birthDate);
     const today = new Date();
@@ -49,9 +49,9 @@ export default function VerExtrato(props) {
 
       const data = response.data;
       setTotalExpenses(data.grandTotal);
-      console.log("====================================");
-      console.log(response.data);
-      console.log("====================================");
+      ;
+      ;
+      ;
     } catch (error) {
       console.error("Falha ao buscar despesas:", error);
     }
@@ -84,7 +84,7 @@ export default function VerExtrato(props) {
           },
         }
       );
-      console.log(response.data);
+      ;
       setCandidateIncome(
         response.data.totalIncomePerCapita *
         (props.familyMembers.length + 1)
@@ -161,7 +161,7 @@ export default function VerExtrato(props) {
         <tbody>
           <tr>
             <td>001/2024</td>
-            <td>{props.application.number.toString().padStart(4,'0')}</td>
+            <td>{props.application.number.toString().padStart(4, '0')}</td>
             <td>{props.identityInfo.fullName}</td>
             <td>{props.identityInfo.RG}</td>
           </tr>

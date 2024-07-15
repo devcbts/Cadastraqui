@@ -24,7 +24,7 @@ export default function PerfilEntidade() {
 
   async function handleImageUpload(event) {
     const file = event.target.files[0];
-    console.log(file);
+    ;
 
     if (file) {
       const token = localStorage.getItem("token");
@@ -40,7 +40,7 @@ export default function PerfilEntidade() {
         getProfilePhotoEntity();
       } catch (err) {
         alert("Erro ao atualizar foto de perfil.");
-        console.log(err);
+        ;
       }
     }
   }
@@ -54,7 +54,7 @@ export default function PerfilEntidade() {
           authorization: `Bearer ${token}`,
         },
       });
-      console.log(profilePhoto);
+      ;
       setProfilePhoto(profilePhoto.data.url);
       localStorage.setItem(
         "profilePhoto",
@@ -84,7 +84,7 @@ export default function PerfilEntidade() {
             const newToken = await api.patch("/token/refresh");
             localStorage.setItem("token", newToken);
           } catch (err) {
-            console.log(err);
+            ;
           }
         }
       }

@@ -20,7 +20,7 @@ export default function IncomeFormModelB({ incomeSource, onSubmit, member, edit:
     const handleRegisterIncome = async (e) => {
         e.preventDefault()
         const { getValues, isValid } = monthIncomeRef.current
-        console.log(isValid)
+
         if (!submit() || !isValid) {
             return
         }

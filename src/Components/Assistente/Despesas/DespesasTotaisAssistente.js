@@ -9,7 +9,7 @@ export default function DespesasTotaisAssistente({ id }) {
     const [registerInfo, setRegisterInfo] = useState(null);
 
     useEffect(() => {
-       
+
         async function pegarBasicInfo() {
             const token = localStorage.getItem('token');
 
@@ -22,13 +22,13 @@ export default function DespesasTotaisAssistente({ id }) {
                 })
 
 
-                console.log(response.data)
+
                 const dadosBasico = response.data.candidate
 
 
                 setRegisterInfo(dadosBasico)
 
-                console.log(dadosBasico)
+
 
             }
             catch (err) {
@@ -36,10 +36,10 @@ export default function DespesasTotaisAssistente({ id }) {
             }
         } if (id) {
             pegarBasicInfo()
-            
+
         }
     }, []);
-    
+
     const [selectedDespesa, setSelectedDespesa] = useState('');
 
     const despesasOptions = [

@@ -69,7 +69,7 @@ export default function Declaration_EmpresarioConfirmation({ onBack, onSave, use
             // }
 
             // const data = await response.json();
-            // console.log('Declaração registrada:', data);
+            // ;
 
             onSave(confirmation);
         } catch (error) {

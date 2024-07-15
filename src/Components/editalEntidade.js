@@ -20,7 +20,7 @@ export default function EditalEntidade({ announcement }) {
             authorization: `Bearer ${token}`,
           },
         });
-        console.log(profilePhoto);
+        ;
         setProfilePhoto(profilePhoto.data.url);
         localStorage.setItem("profilePhoto", JSON.stringify(profilePhoto.data.url));
 

@@ -10,7 +10,7 @@ export default function Scholarship({ data, onChange }) {
     }
     const [checked, setChecked] = useState()
     useEffect(() => {
-        console.log(data)
+
         setChecked(data?.partial?.toString())
     }, [data])
     return (

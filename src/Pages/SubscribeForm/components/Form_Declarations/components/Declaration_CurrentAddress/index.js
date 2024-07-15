@@ -41,7 +41,7 @@ export default function Declaration_CurrentAddress({ onBack, onNext }) {
     // };
 
     const handleSave = () => {
-        console.log(addressRef.current.values())
+
         if (!addressRef?.current?.validate()) {
             return
         }

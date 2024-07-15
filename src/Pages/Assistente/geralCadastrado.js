@@ -17,7 +17,7 @@ import LoadingGeralCadastrado from "../../Components/Loading/LoadingGeralCadastr
 
 export default function GeralCadastrado() {
   const { announcement_id, application_id } = useParams();
-  
+
 
   const [candidateId, setCandidateId] = useState()
   const [familyMembers, setFamilyMembers] = useState([])
@@ -43,9 +43,9 @@ export default function GeralCadastrado() {
         // Pega apenas os editais ainda abertos e armazena em um estado
 
 
-        console.log(response);
+        ;
       } catch (err) {
-        console.log(err);
+        ;
       }
 
     }
@@ -65,12 +65,12 @@ export default function GeralCadastrado() {
 
         setCandidateId(response.data.application.candidate_id)
         setApplication(response.data.application)
-      } catch (error) { 
+      } catch (error) {
 
       }
     }
     getCandidateId()
-  },[announcement_id])
+  }, [announcement_id])
   useEffect(() => {
     async function pegarFamiliares() {
       const token = localStorage.getItem('token');
@@ -79,9 +79,9 @@ export default function GeralCadastrado() {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         setFamilyMembers(response.data.familyMembers);
-        console.log('====================================');
-        console.log(response.data.familyMembers);
-        console.log('====================================');
+        ;
+        ;
+        ;
       } catch (error) {
         // Trate o erro conforme necessário
       }
@@ -97,9 +97,9 @@ export default function GeralCadastrado() {
             'authorization': `Bearer ${token}`,
           }
         })
-        console.log('====================================');
-        console.log(response.data);
-        console.log('====================================');
+          ;
+        ;
+        ;
         const dadosMoradia = response.data.housingInfo
         setHousing(dadosMoradia)
       }
@@ -130,7 +130,7 @@ export default function GeralCadastrado() {
           }
         });
         setCandidateInfo(response.data.candidate);
-     
+
       } catch (err) {
         alert(err);
       }
@@ -144,29 +144,29 @@ export default function GeralCadastrado() {
           }
         });
         setIdentityInfo(response.data.identityInfo);
-        console.log('====================================');
-        console.log(response.data.identityInfo);
-        console.log('====================================');
+        ;
+        ;
+        ;
       } catch (err) {
         alert(err);
       }
     }
-   
-      async function PegarSaude() {
-          try {
-              const token = localStorage.getItem("token")
-              const response = await api.get(`/candidates/health-info/${candidateId}`, {
-                  headers: {
-                      'authorization': `Bearer ${token}`,
-                  }
-              })
-              console.log(response.data)
-              setHealthInfo(response.data.healthInfoResults)
-          } catch (err) {
-              console.log(err)
+
+    async function PegarSaude() {
+      try {
+        const token = localStorage.getItem("token")
+        const response = await api.get(`/candidates/health-info/${candidateId}`, {
+          headers: {
+            'authorization': `Bearer ${token}`,
           }
+        })
+
+        setHealthInfo(response.data.healthInfoResults)
+      } catch (err) {
+
       }
-  
+    }
+
 
 
     async function pegarInscricoes() {
@@ -180,9 +180,9 @@ export default function GeralCadastrado() {
           }
         });
         setApplications(response.data.applications);
-        console.log('====================================');
-        console.log(response.data.applications);
-        console.log('====================================');
+        ;
+        ;
+        ;
       } catch (err) {
         alert(err);
       }
@@ -217,7 +217,7 @@ export default function GeralCadastrado() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Form Data Submitted:", formData);
+    ;
     // You can process or display the filled out form here
   };
 
@@ -230,7 +230,7 @@ export default function GeralCadastrado() {
   function Extrato() {
     return (
       <div>
-        <VerExtrato familyMembers={familyMembers} candidate_id={candidateId}  identityInfo={identityInfo} application={application} Vehicles={vehicles} />
+        <VerExtrato familyMembers={familyMembers} candidate_id={candidateId} identityInfo={identityInfo} application={application} Vehicles={vehicles} />
       </div>
     );
   }
@@ -243,13 +243,13 @@ export default function GeralCadastrado() {
 
   function Parecer() {
     return (
-      <VerParecer application={application} FamilyMembers={familyMembers} Housing={housing} Vehicles={vehicles} candidate={candidateInfo} identityInfo={identityInfo} announcement={announcement} application_id={application_id} healthInfo={healthInfo}/>
+      <VerParecer application={application} FamilyMembers={familyMembers} Housing={housing} Vehicles={vehicles} candidate={candidateInfo} identityInfo={identityInfo} announcement={announcement} application_id={application_id} healthInfo={healthInfo} />
     );
   }
 
   function Acoes() {
     return (
-      <VerAcoesPosteriores announcement={announcement} application={application}/>
+      <VerAcoesPosteriores announcement={announcement} application={application} />
     );
   }
 

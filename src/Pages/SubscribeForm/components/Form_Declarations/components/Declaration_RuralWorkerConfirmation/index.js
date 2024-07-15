@@ -69,7 +69,7 @@ export default function Declaration_RuralWorkerConfirmation({ onBack, onSave, us
             // }
 
             // const data = await response.json();
-            // console.log('Declaração registrada:', data);
+            // ;
 
             onSave(confirmation);
         } catch (error) {

@@ -79,7 +79,7 @@ Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações aci
             // }
 
             // const data = await response.json();
-            // console.log('Declaração registrada:', data);
+            // ;
 
             onNext(confirmation);
         } catch (error) {

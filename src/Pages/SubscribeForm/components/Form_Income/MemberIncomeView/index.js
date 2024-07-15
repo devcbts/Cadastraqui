@@ -22,7 +22,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
             try {
                 const incomes = await candidateService.getMemberIncomeInfo(id)
                 if (incomes) {
-                    console.log(incomes)
+
                     setIncomeInfo(incomes)
                 }
             } catch (err) {

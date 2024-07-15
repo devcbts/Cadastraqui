@@ -6,7 +6,7 @@ import Select from 'react-select';
 import { handleSuccess } from '../../ErrorHandling/handleSuceess';
 import { handleAuthError } from '../../ErrorHandling/handleError';
 import { formatCurrency } from '../../utils/format-currency';
-export default function CadastroEmprestimo({candidate}) {
+export default function CadastroEmprestimo({ candidate }) {
     const [formData, setFormData] = useState({
         familyMemberName: '',
         installmentValue: '',
@@ -17,7 +17,7 @@ export default function CadastroEmprestimo({candidate}) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
+
         if (name === "installmentValue") {
             // Extrai números e vírgula, substitui vírgula por ponto para conversão.
             const numericValue = parseFloat(value.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1.$2')) || '';
@@ -46,8 +46,8 @@ export default function CadastroEmprestimo({candidate}) {
                 },
 
             });
-            console.log(response.data);
-            handleSuccess(response,"Dados cadastrados com sucesso!")
+            ;
+            handleSuccess(response, "Dados cadastrados com sucesso!")
 
             // Trate a resposta conforme necessário
         } catch (error) {
@@ -66,9 +66,9 @@ export default function CadastroEmprestimo({candidate}) {
     useEffect(() => {
         setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
         { value: candidato.id, label: candidato.nome, type: 'candidate' }])
-        console.log(familyMembers)
-    },[familyMembers])
- 
+
+    }, [familyMembers])
+
 
     useEffect(() => {
 
@@ -91,7 +91,7 @@ export default function CadastroEmprestimo({candidate}) {
             }
         }
         pegarFamiliares()
-    },[])
+    }, [])
 
     const handleSelectChange = selectedOption => {
         setFormData({ ...formData, familyMemberName: selectedOption.label });
@@ -105,7 +105,7 @@ export default function CadastroEmprestimo({candidate}) {
                 <div className='survey-box'>
                     <label>Nome do Familiar:</label>
                     <Select
-                       options={opcoes}
+                        options={opcoes}
                         onChange={handleSelectChange}
                         value={opcoes.find(option => option.value === selectedFamilyMemberId)}
                         required
@@ -114,7 +114,7 @@ export default function CadastroEmprestimo({candidate}) {
 
                 <div className='survey-box'>
                     <label>Valor da Parcela:</label>
-                    <br/>
+                    <br />
                     <input type="text" name="installmentValue" value={formatCurrency(formData.installmentValue)} onChange={handleChange} className='survey-control' required />
                 </div>
 

@@ -5,9 +5,9 @@ import { formatCurrency } from '../../../utils/format-currency';
 import InputCheckbox from '../../Inputs/InputCheckbox';
 
 export default function VerDespesas({ formData, candidate }) {
-    console.log('====================================');
-    console.log(formData);
-    console.log('====================================');
+    ;
+    ;
+    ;
     const getCurrentDate = () => {
         const today = new Date();
         const month = `${today.getMonth() + 1}`.padStart(2, '0'); // Adiciona um zero à esquerda se necessário
@@ -94,7 +94,7 @@ export default function VerDespesas({ formData, candidate }) {
 
     const renderOtherExpenses = () => {
         const elements = [];
-     
+
         if (formData && Array.isArray(formData.otherExpensesDescription)) {
             for (let index = 0; index < formData.otherExpensesDescription.length; index++) {
                 elements.push(
@@ -177,7 +177,7 @@ export default function VerDespesas({ formData, candidate }) {
                     'authorization': `Bearer ${token}`,
                 }
             });
-            console.log(response.data);
+            ;
             alert("Despesas cadastradas com sucesso");
         } catch (err) {
             alert(err.message);

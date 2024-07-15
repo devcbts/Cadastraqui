@@ -43,7 +43,7 @@ export default function AcceptEdital() {
       return (value === entity.id && !level.entitySubsidiaryId) ||
         (level.entitySubsidiaryId && level.entitySubsidiaryId === value);
     });
-    console.log(filteredLevels)
+
     // Se existirem levels filtrados, seleciona o primeiro. Caso contrário, mantém o selectedLevel atual
     if (filteredLevels.length > 0) {
       const firstLevel = filteredLevels[0];
@@ -126,7 +126,7 @@ export default function AcceptEdital() {
 
               (selectedEntityOrSubsidiary === '' || level.entitySubsidiaryId === selectedEntityOrSubsidiary || (!level.entitySubsidiaryId && selectedEntityOrSubsidiary === entity.id)))
           }
-          console.log(matchedLevels)
+
         }
       }
 
@@ -134,7 +134,7 @@ export default function AcceptEdital() {
       const levelToSelect = matchedLevels[0] || announcementInfo.educationLevels[0];
       setSelectedLevel(levelToSelect);
       setSelectedShift(levelToSelect?.shift);
-      console.log(levelToSelect)
+
       // Ajuste para configurações específicas de educação básica ou superior
       if (isBasicEducation) {
         setSelectedBasicEduType(levelToSelect?.basicEduType);
@@ -216,12 +216,12 @@ export default function AcceptEdital() {
         isEarlyEducation(response.data.announcements.educationLevels)
         handleEntityOrSubsidiaryChange(response.data.announcements.entity.id)
 
-        console.log(announcementInfo.educationLevels)
+
 
 
 
       } catch (err) {
-        console.log(err)
+
       }
     }
     fetchAnnouncements()
@@ -248,7 +248,7 @@ export default function AcceptEdital() {
               const newToken = await api.patch('/token/refresh')
               localStorage.setItem("token", newToken)
             } catch (err) {
-              console.log(err)
+
             }
           }
         }
@@ -276,7 +276,7 @@ export default function AcceptEdital() {
           }
         });
         setPdfUrl(response.data.url);
-        console.log(response.data)
+
       } catch (error) {
         console.error('Erro ao buscar o PDF do edital:', error);
       }
@@ -289,7 +289,7 @@ export default function AcceptEdital() {
   async function handleSubmitApplication() {
     const token = localStorage.getItem('token');
     if (!announcementInfo || !selectedLevel || !token) {
-      console.log("Informações necessárias para a inscrição estão faltando.");
+      ;
       return;
     }
 

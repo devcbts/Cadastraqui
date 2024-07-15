@@ -4,7 +4,7 @@ import './cadastroDespesas.css'; // Adicione um arquivo CSS para estilizar o for
 import Select from 'react-select';
 import { api } from '../../../services/axios';
 import { formatCurrency } from '../../../utils/format-currency';
-export default function VerEmprestimo({formData,id, candidate}) {
+export default function VerEmprestimo({ formData, id, candidate }) {
     /*const [formData, setFormData] = useState({
         familyMemberName: '',
         installmentValue: '',
@@ -34,7 +34,7 @@ export default function VerEmprestimo({formData,id, candidate}) {
                 },
 
             });
-            console.log(response.data);
+            ;
             // Trate a resposta conforme necessário
         } catch (error) {
             console.error(error.response?.data || error.message);
@@ -51,8 +51,8 @@ export default function VerEmprestimo({formData,id, candidate}) {
     useEffect(() => {
         setOpcoes([...familyMembers.map(m => ({ value: m.value, label: m.label, type: 'family' })),
         { value: candidato.id, label: candidato.nome, type: 'candidate' }])
-        console.log(familyMembers)
-    },[familyMembers])
+
+    }, [familyMembers])
     useEffect(() => {
 
         async function pegarFamiliares() {

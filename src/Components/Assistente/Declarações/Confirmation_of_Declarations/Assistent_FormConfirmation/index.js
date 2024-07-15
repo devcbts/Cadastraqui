@@ -18,7 +18,7 @@ export default function Assistent_Declaration_Form({ onBack, userId, declaration
                 body: JSON.stringify({ text: "Texto gerado na declaração" })
             });
             const data = await response.json();
-            console.log('Declaração registrada:', data);
+            ;
         } catch (error) {
             console.error('Erro ao registrar a declaração:', error);
         }

@@ -40,7 +40,7 @@ export default function ViewBasicInformation({ candidateId, applicationId }) {
                 const information = await socialAssistantService.getCandidateIdentityInfo(applicationId)
                 setData(information)
             } catch (err) {
-                console.log(err)
+
             }
             setIsLoading(false)
         }

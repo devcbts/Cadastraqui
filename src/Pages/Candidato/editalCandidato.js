@@ -15,46 +15,47 @@ export default function EditalAbertoCandidato() {
   const { isShown } = useAppState();
 
   const params = useParams()
-  console.log(params)
+
 
   // Estado para informações acerca do usuário logado
   const [userInfo, setUserInfo] = useState()
 
-  
+
   const navigate = useNavigate()
 
   useEffect(() => {
     async function refreshAccessToken() {
-      try{
+      try {
         const refreshToken = Cookies.get('refreshToken')
-  
+
         const response = await api.patch(`/refresh?refreshToken=${refreshToken}`)
-        
-        const {newToken, newRefreshToken} = response.data
+
+        const { newToken, newRefreshToken } = response.data
         localStorage.setItem('token', newToken)
         Cookies.set('refreshToken', newRefreshToken, {
           expires: 7,
           sameSite: true,
           path: '/',
         })
-      } catch(err) {
-        console.log(err)
+      } catch (err) {
+
         navigate('/login')
       }
     }
     const intervalId = setInterval(refreshAccessToken, 480000) // Chama a função refresh token a cada 
-  
+
     async function getUserInfo() {
       const token = localStorage.getItem("token")
-        try{
-          const user_info = await api.get('/candidates/basic-info', {
-            headers: {
-              'authorization': `Bearer ${token}`,
-            }})
-            setUserInfo(user_info.data.candidate)
-        } catch(err) {
-            console.log(err)
-        }
+      try {
+        const user_info = await api.get('/candidates/basic-info', {
+          headers: {
+            'authorization': `Bearer ${token}`,
+          }
+        })
+        setUserInfo(user_info.data.candidate)
+      } catch (err) {
+
+      }
     }
 
     getUserInfo()
@@ -62,17 +63,17 @@ export default function EditalAbertoCandidato() {
       // Limpar o intervalo
       clearInterval(intervalId);
     };
-  },[])
+  }, [])
 
   const [pageState, setPageState] = useState('show')
   function handlePage() {
-    if(pageState === 'show') {
+    if (pageState === 'show') {
       setPageState('hidden')
     }
     if (pageState === 'hidden') {
       setPageState('show')
     }
-    console.log(pageState)
+
   }
 
   return (
@@ -84,17 +85,17 @@ export default function EditalAbertoCandidato() {
       <div className="container-open-edital">
         {pageState === 'show' ? (
           <>
-          {/*<EditalInscricao className={`${pageState}`}></EditalInscricao>*/}
-          <EditalInscricaoFake></EditalInscricaoFake>
-          <button className="cadastro-btn" type="button" onClick={handlePage}>Continuar &rarr;</button>
-        </>
-        ) : ''}      
+            {/*<EditalInscricao className={`${pageState}`}></EditalInscricao>*/}
+            <EditalInscricaoFake></EditalInscricaoFake>
+            <button className="cadastro-btn" type="button" onClick={handlePage}>Continuar &rarr;</button>
+          </>
+        ) : ''}
         {pageState === 'hidden' ? <AcceptEdital></AcceptEdital> : ''}
 
         {pageState === 'hidden' ? (
-        <div className="register">
-          <button className="cadastro-btn" type="button" onClick={handlePage}>&larr; Voltar</button>
-        </div>
+          <div className="register">
+            <button className="cadastro-btn" type="button" onClick={handlePage}>&larr; Voltar</button>
+          </div>
         ) : ''}
       </div>
     </div>

@@ -26,7 +26,7 @@ const Disease = [
 ]
 export const VerSaude = ({ member }) => {
     const [monthlyIncomes, setMonthlyIncomes] = useState([]);
-    console.log(member);
+    ;
 
     const [healthInfo, setHealthInfo] = useState({
         diseases: '',
@@ -49,10 +49,10 @@ export const VerSaude = ({ member }) => {
                     }
                 })
                 setHealthInfo(response.data.healthInfo)
-                console.log(response.data)
+
                 setLoading(false)
             } catch (err) {
-                console.log(err)
+
             }
         }
         getHealthInfo()
@@ -62,10 +62,10 @@ export const VerSaude = ({ member }) => {
 
     const getDiseaseValuesByLabels = (diseaseLabels) => {
         return diseaseLabels?.map(value => {
-          const diseaseItem = Disease.find(item => item.value === value);
-          return diseaseItem ? diseaseItem.label : '';
+            const diseaseItem = Disease.find(item => item.value === value);
+            return diseaseItem ? diseaseItem.label : '';
         }).filter(label => label !== ''); // Filtra quaisquer valores não encontrados (strings vazias)
-      };
+    };
 
     return (
         <div><div className="fill-box">
@@ -78,7 +78,7 @@ export const VerSaude = ({ member }) => {
                     <div class="survey-box">
                         <label for="disease" id="disease-label">Doença</label>
                         <br />
-                        <input disabled type="text" name="disease" value={ getDiseaseValuesByLabels(healthInfo[0]?.diseases).join(', ')} id="disease" class="survey-control" />
+                        <input disabled type="text" name="disease" value={getDiseaseValuesByLabels(healthInfo[0]?.diseases).join(', ')} id="disease" class="survey-control" />
                     </div>
                     {/*<!-- Doença Específica -->*/}
                     <div class="survey-box">

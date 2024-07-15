@@ -4,7 +4,7 @@ import Select from 'react-select';
 import { api } from '../../../services/axios.js';
 import LoadingCadastroCandidato from '../../Loading/LoadingCadastroCandidato.js';
 
-export default function VeiculosAssistente({id}) {
+export default function VeiculosAssistente({ id }) {
     const [veiculos, setVeiculos] = useState([]);
     const [veiculoSelecionado, setVeiculoSelecionado] = useState(null);
     const [mostrarCadastro, setMostrarCadastro] = useState(false);
@@ -23,9 +23,9 @@ export default function VeiculosAssistente({id}) {
                     }
                 });
                 setVeiculos(response.data.vehicleInfoResults);
-                console.log('====================================');
-                console.log(response.data.vehicleInfoResults[0]);
-                console.log('====================================');
+                ;
+                ;
+                ;
                 if (response.data.vehicleInfoResults.length > 0) {
                     setVeiculoSelecionado(response.data.vehicleInfoResults[0]);
                 }
@@ -43,7 +43,7 @@ export default function VeiculosAssistente({id}) {
     return (
         <div>
 
-           
+
 
             {veiculos.length > 0 && (
                 <DropdownVeiculos
@@ -51,11 +51,11 @@ export default function VeiculosAssistente({id}) {
                     onSelect={selecionarVeiculo}
                 />
             )}
-            {!mostrarCadastro && veiculoSelecionado ? 
+            {!mostrarCadastro && veiculoSelecionado ?
                 <VerVeiculoAssistente formData={veiculoSelecionado} id={id} />
-                : <LoadingCadastroCandidato/>
+                : <LoadingCadastroCandidato />
             }
-            
+
         </div>
     );
 }
@@ -63,9 +63,9 @@ export default function VeiculosAssistente({id}) {
 const DropdownVeiculos = ({ veiculos, onSelect }) => {
     const handleChange = (selectedOption) => {
         onSelect(selectedOption.value);
-        console.log('====================================');
-        console.log(selectedOption.value);
-        console.log('====================================');
+        ;
+        ;
+        ;
     };
 
     const options = veiculos.map(veiculo => ({

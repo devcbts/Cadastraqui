@@ -50,10 +50,10 @@ export default function HistoricoCandidato() {
         }
       })
 
-      console.log(response.data)
+
       setApplications(response.data.applications)
     } catch (err) {
-      console.log(err)
+
     }
   }
 

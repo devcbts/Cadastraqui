@@ -18,7 +18,7 @@ export default function FinancialHelpPdf({
         const fetchUser = async () => {
             try {
                 const members = await candidateService.getFamilyMembers({ includeSelf: true })
-                console.log(members)
+
                 setUser(members?.find(e => e.id === memberId))
             } catch (err) { }
         }

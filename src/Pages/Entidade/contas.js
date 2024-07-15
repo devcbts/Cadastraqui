@@ -24,7 +24,7 @@ export default function ContasEntidade() {
         localStorage.setItem('token', newToken);
         Cookies.set('refreshToken', newRefreshToken, { expires: 7, sameSite: 'strict', path: '/' });
       } catch (err) {
-        console.log(err);
+        ;
         navigate('/login');
       }
     };
@@ -40,7 +40,7 @@ export default function ContasEntidade() {
         setEntityInfo(response.data.entity);
         setSubsidiaries(response.data.entity.EntitySubsidiary);
       } catch (err) {
-        console.log(err);
+        ;
       }
     };
 
@@ -57,7 +57,7 @@ export default function ContasEntidade() {
         });
         setAssistants(response.data.socialAssistants);
       } catch (err) {
-        console.log(err);
+        ;
       }
     };
 
@@ -69,7 +69,7 @@ export default function ContasEntidade() {
         });
         setDirectors(response.data.directors);
       } catch (err) {
-        console.log(err);
+        ;
       }
     };
 

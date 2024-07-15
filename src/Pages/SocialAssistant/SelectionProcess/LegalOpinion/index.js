@@ -63,7 +63,7 @@ export default function LegalOpinion() {
     const { data: submitData } = useContext(selectionProcessContext)
     const handleSubmit = async () => {
         if (!isValid) {
-            console.log(errors)
+
             trigger()
             return
         }

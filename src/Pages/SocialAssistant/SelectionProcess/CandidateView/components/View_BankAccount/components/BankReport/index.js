@@ -25,7 +25,7 @@ export default function BankReport({ applicationId, id }) {
         const compareDate = data.date
         const days = currDate.getMonth() - compareDate.getMonth() +
             (12 * (currDate.getFullYear() - compareDate.getFullYear()))
-        console.log(days, currDate.getMonth() - compareDate.getMonth())
+
         return days !== 0 ? 'Vencido' : 'Atualizado'
     }
     return (
