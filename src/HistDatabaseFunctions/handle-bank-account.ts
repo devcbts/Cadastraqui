@@ -1,7 +1,7 @@
 import { historyDatabase, prisma } from "@/lib/prisma";
 import getOpenApplications from "./find-open-applications";
 import { findAWSRouteHDB } from "./Handle Application/find-AWS-Route";
-import { copyFilesToAnotherFolder } from "@/lib/S3";
+import { copyFilesToAnotherFolder, deleteFromS3Folder } from "@/lib/S3";
 
 export async function createBankAccountHDB(id: string, candidate_id: string | null, legalResponsibleId: string | null, application_id: string) {
     const bankAccount = await prisma.bankAccount.findUnique({
@@ -72,9 +72,14 @@ export async function deleteBankAccountHDB(id: string) {
     if (!openApplications) {
         return null;
     }
+    const route = `CandidateDocuments/${candidateOrResponsible}/statement/${(oldCandidateId || oldResponsibleId || '')}/${bankAccount.id}/`;
+    await deleteFromS3Folder(route)
+
     for (const application of openApplications) {
         const deleteBankAccount = await historyDatabase.bankAccount.deleteMany({
             where: { main_id: id, application_id: application.id }
         })
-    }
+    const RouteHDB = await findAWSRouteHDB(candidateOrResponsible, 'statement', (oldCandidateId || oldResponsibleId || oldFamilyMemberId)!, bankAccount.id, application.id);
+    await deleteFromS3Folder(RouteHDB);
+}
 }
