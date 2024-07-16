@@ -41,7 +41,7 @@ export default function SubscriptionStatus() {
     }, 0)
     return (
         <div className={styles.container}>
-            <span>Situação do cadastro: {percentage < 1 ? 'Incompleto' : 'Completo'}</span>
+            <span>Situação do cadastro: {percentage < 100 ? 'Incompleto' : 'Completo'}</span>
             <div className={styles.chartwrapper}>
                 <h1>Preenchimento do Cadastro</h1>
                 <div className={styles.chartdisplay}>

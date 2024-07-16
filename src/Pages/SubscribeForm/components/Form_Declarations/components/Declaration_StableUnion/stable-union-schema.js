@@ -12,7 +12,7 @@ export default z.object({
                 path: ['partnerName']
             })
         }
-        if (!data.partnerName) {
+        if (!data.unionStartDate) {
             ctx.addIssue({
                 message: 'Data inválida',
                 path: ['unionStartDate']

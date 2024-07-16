@@ -6,11 +6,14 @@
     align-items: center;
     user-select: none;
     .label{
+        &::first-letter{
+            text-transform: capitalize;
+        }
         font-weight: 600;
         font-size: 16px;
         color: $grey;
         margin-bottom: 4px;
-        text-transform: capitalize;
+        // text-transform: capitalize;
     }
     .row{
         display: flex;

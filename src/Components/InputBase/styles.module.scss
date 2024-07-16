@@ -16,11 +16,15 @@
         min-width: 250px;
     }
     .label{
+        // display: inline-block;
         font-weight: 600;
         font-size: 16px;
         color: $grey;
         margin-bottom: 4px;
-        text-transform: capitalize;
+        &::first-letter{
+            text-transform: capitalize;
+        }
+        // text-transform: capitalize;
         // mix-blend-mode: screen;
         @media(max-width:400px){
             font-size: 14px;

@@ -1,3 +1,3 @@
 export default function formatDate(date = '') {
-    return new Date(date).toLocaleDateString('pt-br')
+    return new Date(date.split('-')).toLocaleDateString('pt-br')
 }
