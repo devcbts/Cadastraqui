@@ -109,7 +109,8 @@ export async function getSignedUrlForFile(fileKey: string): Promise<string> {
     return signedUrl
   } catch (error: any) {
     console.error('Error fetching signed URL:', error)
-    throw error
+    return ''
+    // throw error
   }
 }
 export async function getSignedUrlsGroupedByFolder(
@@ -167,7 +168,7 @@ export async function deleteFromS3Folder(folderKey: string) {
   };
   console.log(folderKey)
   try {
-    
+
     const listedObjects = await s3.listObjectsV2(listParams).promise();
     if (!listedObjects.Contents) return
     if (listedObjects.Contents.length === 0) return;
