@@ -1,4 +1,4 @@
--- Active: 1719196273890@@monorail.proxy.rlwy.net@46536@railway
+-- Active: 1715349114916@@monorail.proxy.rlwy.net@12943@railway
 CREATE OR REPLACE FUNCTION notify_bankaccount_event() RETURNS TRIGGER AS $$
 DECLARE
   operation text;
@@ -19,6 +19,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER bankaccount_trigger
-AFTER INSERT OR UPDATE ON "BankAccount"
+CREATE OR REPLACE TRIGGER bankaccount_trigger
+AFTER INSERT OR UPDATE OR DELETE ON "BankAccount"
 FOR EACH ROW EXECUTE PROCEDURE notify_bankaccount_event();

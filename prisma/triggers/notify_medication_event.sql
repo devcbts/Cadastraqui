@@ -17,6 +17,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER medication_trigger
-AFTER INSERT OR UPDATE ON "medications"
+CREATE OR REPLACE TRIGGER medication_trigger
+AFTER INSERT OR UPDATE OR DELETE ON "medications"
 FOR EACH ROW EXECUTE PROCEDURE notify_medication_event();

@@ -18,8 +18,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER familyMemberIncome_trigger
-AFTER INSERT
-OR
-UPDATE ON "FamilyMemberIncome" FOR EACH ROW
+CREATE OR REPLACE TRIGGER familyMemberIncome_trigger
+AFTER INSERT OR UPDATE OR DELETE ON "FamilyMemberIncome" FOR EACH ROW
 EXECUTE PROCEDURE notify_familyMemberIncome_event ();
