@@ -52,6 +52,7 @@ import FormListItem from '../FormList/FormListItem';
 import { useRecoilState } from 'recoil';
 import declarationAtom from './atoms/declarationAtom';
 import candidateService from 'services/candidate/candidateService';
+import FilePreview from 'Components/FilePreview';
 
 const SCREENS = {
     OVERVIEW: 'overview',
@@ -268,7 +269,8 @@ export default function FormDeclarations() {
                                     <FormListItem.Root text={e.name} key={e.id}>
 
                                         <FormListItem.Actions>
-                                            <ButtonBase label="Declaração" onClick={() => handleNavigateToForm(e)} />
+                                            <FilePreview url={e.lastDeclaration} text={'ver declaração'} />
+                                            <ButtonBase label="cadastrar" onClick={() => handleNavigateToForm(e)} />
                                         </FormListItem.Actions>
                                     </FormListItem.Root>
                                 ))
