@@ -16,6 +16,7 @@ import findLabel from "utils/enums/helpers/findLabel"
 import OFFERED_COURSES_TYPE from "utils/enums/offered-courses"
 import cursos from 'objects/cursos.json'
 import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type"
+import EDUCATION_TYPE from "utils/enums/education-type"
 export default function AnnouncementCourses({ entity, data, onPageChange }) {
     // can be 'HigherEducation' or 'BasicEducation'
     const isBasicEducation = data?.educationLevel === 'BasicEducation'
@@ -128,15 +129,17 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
             <ButtonBase label={'cadastrar vaga'} onClick={handleAddCourse} />
             <div>
                 <h1>Quadro resumo</h1>
+
                 <Table.Root headers={['matriz ou filial', 'vagas', 'tipo de educação', 'ciclo/ano/série/semestre/curso', 'turno', 'tipo de bolsa']}>
                     {
                         courses.map(course => (
                             <Table.Row>
                                 <Table.Cell>{findLabel(entitiesOptions, course.entity_subsidiary_id)}</Table.Cell>
                                 <Table.Cell>{course.verifiedScholarships}</Table.Cell>
-                                <Table.Cell>{findLabel(SCHOOL_LEVELS, course.basicEduType)}</Table.Cell>
-                                <Table.Cell>{course.grade}</Table.Cell>
-                                <Table.Cell>{findLabel(SHIFT, course.shift)}</Table.Cell>
+                                {/* <Table.Cell>{isBasicEducation ? findLabel(SCHOOL_LEVELS, course.basicEduType) : findLabel(EDUCATION_TYPE, course.level)}</Table.Cell> */}
+                                <Table.Cell>{findLabel(EDUCATION_TYPE, course.level)}</Table.Cell>
+                                <Table.Cell>{course.grade ?? course.availableCourses}</Table.Cell>
+                                <Table.Cell>{course.shift}</Table.Cell>
                                 <Table.Cell>{
                                     isBasicEducation ?
                                         findLabel(SCHOLARSHIP_OFFER, course.scholarshipType)

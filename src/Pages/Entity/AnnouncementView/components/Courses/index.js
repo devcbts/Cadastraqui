@@ -9,7 +9,7 @@ export default function Courses({ courses }) {
                     courses?.map(course => (
                         <Table.Row>
                             <Table.Cell>{course.entityName}/{course.city}</Table.Cell>
-                            <Table.Cell>{course.availableCourse ?? course.grade}</Table.Cell>
+                            <Table.Cell>{course.availableCourses ?? course.grade}</Table.Cell>
                             <Table.Cell>{course.verifiedScholarships}</Table.Cell>
                             <Table.Cell>{course.shift}</Table.Cell>
 

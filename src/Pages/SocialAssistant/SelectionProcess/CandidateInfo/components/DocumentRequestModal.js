@@ -13,12 +13,11 @@ export default function DocumentRequestModal({
         schema: z.object({
             description: z.string().min(1, 'Descreva qual documento está sendo solicitado'),
             deadLineTime: z.string().date('Data inválida'),
-
         }),
         defaultValues: {
             description: "",
             deadLineTime: "",
-            solicitation: 'Document'
+            type: 'Document'
         }
     })
     const handleClose = () => {
@@ -32,7 +31,7 @@ export default function DocumentRequestModal({
         }
         const values = getValues()
         onConfirm(values)
-        onClose()
+        handleClose()
     }
     return (
         <Modal

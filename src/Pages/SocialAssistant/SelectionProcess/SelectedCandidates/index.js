@@ -14,6 +14,7 @@ import SCHOOL_LEVELS from "utils/enums/school-levels";
 import Loader from "Components/Loader";
 import findLabel from "utils/enums/helpers/findLabel";
 import APPLICATION_STATUS from "utils/enums/application-status";
+import EDUCATION_TYPE from "utils/enums/education-type";
 export default function SelectedCandidates() {
     const navigate = useNavigate()
     const { announcementId, courseId } = useParams()
@@ -44,14 +45,14 @@ export default function SelectedCandidates() {
             <div className={styles.informative}>
                 <div className={styles.row}>
                     <span>Instituição: {application.entity?.socialReason}</span>
-                    <span>Tipo de Educação: {SCHOOL_LEVELS.find(e => e.value === application.level?.basicEduType)?.label}</span>
+                    <span>Tipo de Educação: {EDUCATION_TYPE.find(e => e.value === application.level.level)?.label}</span>
                     <span>Vagas: {application.level?.verifiedScholarships}</span>
                     <span>Inscritos: {application.candidates.length}</span>
                 </div>
                 <span>Endereço: {getAddress()}</span>
                 <div className={styles.row}>
                     <span>Ciclo/Ano/Série/Semestre/Curso: {application?.level?.availableCourses ?? application.level?.grade}</span>
-                    <span>Tipo de Bolsa: {findLabel(SCHOLARSHIP_OFFER, application.level?.scholarshipType)}</span>
+                    <span>Tipo de Bolsa: {findLabel(SCHOLARSHIP_OFFER, application.level?.scholarshipType) ?? findLabel(SCHOLARSHIP_TYPE, application.level?.higherEduScholarshipType)}</span>
                 </div>
                 <span>Critério do Rank / desempate: {application.announcement?.criteria?.map(e => CRITERIAS.find(c => c.value === e)?.label).join('; ')}</span>
             </div>

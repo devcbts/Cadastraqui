@@ -60,7 +60,7 @@ export default function Declaration_NoAddressProof({ onBack, onNext }) {
         const text = `
             Eu, ${declarationData.name}, resido na ${identityDetails.address}, nº ${identityDetails.addressNumber}, complemento, \
             CEP: ${identityDetails.CEP}, bairro ${identityDetails.neighborhood}, cidade ${identityDetails.city}, estado ${identityDetails.UF}, \
-            e-mail: ${declarationData.email}, declaro que não possuo comprovante de endereço em meu nome. Por ser \
+            e-mail: ${identityDetails.email}, declaro que não possuo comprovante de endereço em meu nome. Por ser \
             a expressão da verdade e, ciente que a falsidade de informação sujeitará às penas da legislação pertinente, confirmo a presente \
             declaração para efeitos legais.
         `;
@@ -109,7 +109,7 @@ export default function Declaration_NoAddressProof({ onBack, onNext }) {
                 <p>
                     Eu, <strong>{declarationData.name}</strong>, resido na <strong>{identityDetails?.address}</strong>, nº <strong>{identityDetails?.addressNumber}</strong>, complemento,
                     CEP: <strong>{identityDetails?.CEP}</strong>, bairro <strong>{identityDetails?.neighborhood}</strong>, cidade <strong>{identityDetails?.city}</strong>, estado <strong>{identityDetails?.UF}</strong>,
-                    e-mail: <strong>{declarationData.email}</strong>, declaro que não possuo comprovante de endereço em meu nome. Por ser
+                    e-mail: <strong>{identityDetails.email}</strong>, declaro que não possuo comprovante de endereço em meu nome. Por ser
                     a expressão da verdade e, ciente que a falsidade de informação sujeitará às penas da legislação pertinente, confirmo a presente
                     declaração para efeitos legais.
                 </p>

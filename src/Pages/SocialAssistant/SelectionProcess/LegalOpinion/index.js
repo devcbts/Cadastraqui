@@ -69,17 +69,7 @@ export default function LegalOpinion() {
         }
         try {
             const values = getValues()
-            if (submitData?.interview) {
-                const formData = new FormData()
-                formData.append(`${submitData.interview.date}`, submitData.interview.file)
-                await uploadService.uploadSolicitation({ applicationId: state?.applicationId, type: "Interview" }, formData)
-            }
-            if (submitData?.visit) {
-                const formData = new FormData()
-                formData.append(`${submitData.visit.date}`, submitData.visit.file)
-                await uploadService.uploadSolicitation({ applicationId: state?.applicationId, type: "Visit" }, formData)
 
-            }
             if (submitData?.majoracao) {
                 const formData = new FormData()
                 formData.append("majoracao", submitData.majoracao)
@@ -90,12 +80,9 @@ export default function LegalOpinion() {
                 formData.append("additional", values.additional)
                 await socialAssistantService.uploadAdditionalInfo(state?.applicationId, formData)
             }
-            if (submitData?.solicitations?.length) {
-                await socialAssistantService.registerSolicitations(state?.applicationId, submitData.solicitations)
-            }
+
             const applicationData = {
                 status: values.status,
-                partial: submitData?.scholarship?.partial
             }
             await socialAssistantService.updateApplication(state?.applicationId, applicationData)
             NotificationService.success({ text: 'Parecer salvo' })
@@ -103,13 +90,13 @@ export default function LegalOpinion() {
 
         }
     }
-
     return (
         <div>
             <BackPageTitle title={'processo de seleção'} onClick={handleBack} />
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 64 }}>
                 <h1>Parecer final sobre a inscrição e perfil socioeconômico aferido</h1>
                 <div className={styles.content}>
+
                     <p>
                         Em 28 de maio de 2024, o(a) candidato(a)
                         <strong>{candidate?.name}</strong>
@@ -133,7 +120,7 @@ export default function LegalOpinion() {
                         <strong>{candidate?.city}/{candidate?.UF}</strong>
                         , com e-mail
                         <strong>{candidate?.email}</strong>
-                        , inscreveu-se para participar do processo seletivo de que trata o Edital XYZ e recebeu o número de inscrição 20241000.
+                        , inscreveu-se para participar do processo seletivo de que trata o <strong>{data?.application?.name}</strong> e recebeu o número de inscrição <strong>{data?.application?.number}</strong>.
                     </p>
 
                     <p>

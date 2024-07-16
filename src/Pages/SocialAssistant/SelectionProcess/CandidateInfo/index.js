@@ -22,6 +22,7 @@ import reportSchema from "./schemas/report-schema";
 import Visit from "./components/Visit";
 import { selectionProcessContext } from "./context/SelectionProcessContext";
 import FilePreview from "Components/FilePreview";
+import { NotificationService } from "services/notification";
 export default function CandidateInfo() {
     const { data, setData, summary, setSummary } = useContext(selectionProcessContext)
     const { state } = useLocation()
@@ -65,7 +66,22 @@ export default function CandidateInfo() {
             }
         } catch (err) { }
     }
+    const handleDocument = async (file) => {
+        try {
 
+            const formData = new FormData()
+            formData.append("majoracao", file)
+            await socialAssistantService.uploadMajoracao(state?.applicationId, formData)
+            NotificationService.success({ text: 'Documento de majoração salvo' })
+        } catch (err) {
+            NotificationService.error({ text: 'Falha ao realizar upload do documento' })
+        }
+    }
+    useEffect(() => {
+        if (!watchReport) {
+            console.log('aaa')
+        }
+    }, [watchReport])
     return (
         <div className={styles.container}>
             <BackPageTitle title={'processo de seleção'} path={-1} />
@@ -88,14 +104,10 @@ export default function CandidateInfo() {
                 <Vehicle data={summary.vehicles} />
                 <Habitation data={summary.housingInfo} />
                 <Health data={summary.familyMembersDiseases} />
-                <Documents data={summary.documentsUrls} solicitations={data?.solicitations ?? summary.solicitations} onRequest={(v) => setData((prev) => ({ ...prev, solicitations: v }))} />
-                <Scholarship data={data?.scholarship ?? summary.applicationInfo} onChange={(v) => { setData((prev) => ({ ...prev, scholarship: v })) }} />
-                <Interview data={data?.interview ?? summary.interview} onSubmit={(v) => {
-                    setData((prev) => ({ ...prev, interview: v }))
-                }} />
-                <Visit data={data?.visit ?? summary.visit} onSubmit={(v) => {
-                    setData((prev) => ({ ...prev, visit: v }))
-                }} />
+                <Documents data={summary.documentsUrls} solicitations={summary?.solicitations} />
+                <Scholarship data={summary.applicationInfo} />
+                <Interview data={summary.interview} />
+                <Visit data={summary.visit} />
 
                 <p style={{ marginTop: '16px' }}>
                     Será aplicada a faculdade contida no § 2º do art. 19, relacionada a majoração em até 20% (vinte por cento) do teto estabelecido (bolsa de estudo integral),
@@ -111,10 +123,12 @@ export default function CandidateInfo() {
                         Se sim, elaborar o relatório referente a majoração de que trata o § 2º do art. 19 da Lei Complementar nº 187, de 16 de dezembro de 2021
                         e fazer o upload do mesmo, clicando no ícone abaixo.
                         {(summary?.majoracao || data?.majoracao) ?
-                            <FilePreview url={summary?.majoracao} text={'ver documento'} />
+                            <FilePreview file={data?.fileMajoracao} url={summary?.majoracao} text={'ver documento'} />
                             : <>
-                                <input hidden type="file" ref={fileRef} onChange={(e) => {
-                                    setData((prev) => ({ ...prev, majoracao: e.target.files[0] }))
+                                <input hidden type="file" ref={fileRef} accept="application/pdf" onChange={(e) => {
+                                    const file = e.target.files[0]
+                                    setData((prev) => ({ ...prev, fileMajoracao: e.target.files[0] }))
+                                    handleDocument(file)
                                 }}></input>
                                 <UploadButton onClick={() => fileRef?.current?.click()} />
                             </>

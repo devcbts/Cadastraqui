@@ -60,11 +60,11 @@ export default function Declaration_SeparationConfirmation({ onBack, onNext, use
         }
 
         const text = `
-            Me separei de ${separationDetails.personName}, inscrito(a) no CPF nº ${separationDetails.personCpf}, desde ${formatDate(separationDetails.separationDate)}.
+            Me separei de ${separationDetails.personName}, inscrito(a) no CPF nº ${separationDetails.personCpf}, desde ${formatDate(separationDetails.separationDate)}. \
     ${separationDetails.knowsCurrentAddress ?
                 `Meu(minha) ex-companheiro(a) reside na ${addressDetails.address}, nº ${addressDetails.addressNumber}, complemento ${addressDetails.complement}, \
- CEP: ${addressDetails.CEP}, bairro ${addressDetails.neighborhood}, cidade ${addressDetails.city}, UF ${addressDetails.UF}.\ `
-                : "Meu(minha) ex-companheiro(a) reside em local que não tenho conhecimento."
+ CEP: ${addressDetails.CEP}, bairro ${addressDetails.neighborhood}, cidade ${addressDetails.city}, UF ${addressDetails.UF}. \ `
+                : "Meu(minha) ex-companheiro(a) reside em local que não tenho conhecimento. "
             }
             Até o presente momento não formalizei o encerramento de nossa relação por meio de divórcio.
         `;
@@ -112,15 +112,16 @@ export default function Declaration_SeparationConfirmation({ onBack, onNext, use
             <h3>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Me separei de <strong>{separationDetails.personName}</strong>, inscrito(a) no CPF nº <strong>{separationDetails.personCpf}</strong>, desde <strong>{formatDate(separationDetails.separationDate)}</strong>.
+                    Me separei de <strong>{separationDetails.personName}</strong>, inscrito(a) no CPF nº <strong>{separationDetails.personCpf}</strong>, desde <strong>{formatDate(separationDetails.separationDate)}</strong>. { }
                     {separationDetails.knowsCurrentAddress
                         ? <>
-                            Meu(minha) ex-companheiro(a) reside na <strong>{addressDetails?.address}</strong>, nº <strong>{addressDetails?.addressNumber}</strong>, complemento <strong>{addressDetails?.complement}</strong>, CEP: <strong>{addressDetails?.CEP}</strong>, bairro <strong>{addressDetails?.neighborhood}</strong>, cidade <strong>{addressDetails?.city}</strong>, UF <strong>{addressDetails?.UF}</strong>.
-
+                            Meu(minha) ex-companheiro(a) reside na <strong>{addressDetails?.address}</strong>, nº <strong>{addressDetails?.addressNumber}</strong>,
+                            complemento <strong>{addressDetails?.complement}</strong>, CEP: <strong>{addressDetails?.CEP}</strong>,
+                            bairro <strong>{addressDetails?.neighborhood}</strong>, cidade <strong>{addressDetails?.city}</strong>,
+                            UF <strong>{addressDetails?.UF}</strong>. { }
                         </>
                         : <>
-                            Meu(minha) ex-companheiro(a) reside em local que não tenho conhecimento.
-
+                            Meu(minha) ex-companheiro(a) reside em local que não tenho conhecimento. { }
                         </>
                     }
                     Até o presente momento não formalizei o encerramento de nossa relação por meio de divórcio.

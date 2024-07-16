@@ -7,9 +7,13 @@ import { useEffect, useState } from "react";
 import DocumentRequestModal from "../DocumentRequestModal";
 import FormListItem from "Pages/SubscribeForm/components/FormList/FormListItem";
 import FilePreview from "Components/FilePreview";
-export default function Documents({ data, solicitations, onRequest }) {
+import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import { useLocation } from "react-router";
+import { NotificationService } from "services/notification";
+export default function Documents({ data, solicitations, }) {
     const [requests, setRequests] = useState([])
     const [openModal, setOpenModal] = useState(false)
+    const { state } = useLocation()
     const downloadFilesAsZip = async (name, files) => {
         try {
 
@@ -34,23 +38,32 @@ export default function Documents({ data, solicitations, onRequest }) {
             });
         } catch (err) { }
     };
-    const handleAddRequest = (req) => {
-        const newRequest = { ...req, index: new Date().getTime() }
-        setRequests((prev) => {
-            const newArr = [...prev, newRequest]
-            onRequest(newArr)
-            return newArr
-        })
+    const handleAddRequest = async (req) => {
+        try {
+            const id = await socialAssistantService.registerSolicitation(state?.applicationId, req)
+
+            const newRequest = { ...req, id }
+            setRequests((prev) => {
+                const newArr = [...prev, newRequest]
+                return newArr
+            })
+        } catch (err) {
+            NotificationService.error({ text: 'Falha ao criar solicitação' })
+        }
     }
     const handleAddDocument = () => {
         setOpenModal((prev) => !prev)
     }
-    const handleDeleteRequest = (index) => {
-        setRequests((prev) => {
-            const newArr = prev.filter(e => e.index !== index)
-            onRequest(newArr)
-            return newArr
-        })
+    const handleDeleteRequest = async (id) => {
+        try {
+            await socialAssistantService.deleteSolicitation(state?.applicationId, id)
+            setRequests((prev) => {
+                const newArr = prev.filter(e => e.id !== id)
+                return newArr
+            })
+        } catch (err) {
+            NotificationService.error({ text: err?.response?.data?.message })
+        }
     }
 
     useEffect(() => {
@@ -81,13 +94,16 @@ export default function Documents({ data, solicitations, onRequest }) {
                         {requests.map((request) => (
                             <FormListItem.Root text={request.description}>
                                 <FormListItem.Actions>
-                                    {request.id ? (
-                                        request.answered
-                                            ? <FilePreview url={request.url} text={'ver documento'} />
-                                            : <span>Aguardando envio</span>
-                                    )
 
-                                        : <ButtonBase label={'excluir'} danger onClick={() => handleDeleteRequest(request.index)} />}
+                                    {request.answered
+                                        ? <FilePreview url={request.url} text={'ver documento'} />
+                                        :
+                                        <>
+                                            <span>Aguardando envio</span>
+                                            <ButtonBase label={'excluir'} danger onClick={() => handleDeleteRequest(request.id)} />
+                                        </>}
+
+
                                 </FormListItem.Actions>
                             </FormListItem.Root>
                         )

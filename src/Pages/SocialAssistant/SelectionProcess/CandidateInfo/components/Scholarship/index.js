@@ -1,25 +1,45 @@
 import Table from "Components/Table";
 import styles from '../../styles.module.scss'
 import { useEffect, useMemo, useState } from "react";
+import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import { useLocation } from "react-router";
+import { NotificationService } from "services/notification";
+import useControlForm from "hooks/useControlForm";
+import FormRadio from "Components/FormRadio";
 export default function Scholarship({ data, onChange }) {
-    const handleChange = (v) => {
-        setChecked(v.target.value)
-        onChange(
-            v.target.value === "true"
-        )
-    }
-    const [checked, setChecked] = useState()
-    useEffect(() => {
+    // const handleChange = (v) => {
+    //     setChecked(v.target.value)
+    //     onChange(
+    //         v.target.value === "true"
+    //     )
+    // }
+    const { control, getValues, watch, handleSubmit } = useControlForm({
+        defaultValues: {
+            partial: null
+        },
+        initialData: { partial: data?.partial?.toString() }
+    })
+    const { state } = useLocation()
 
-        setChecked(data?.partial?.toString())
-    }, [data])
+    // const [checked, setChecked] = useState()
+    useEffect(() => {
+        const checked = getValues("partial") === "true"
+        const updatePartial = async () => {
+            if (!state) { return }
+            socialAssistantService.updateApplication(state.applicationId, { partial: checked }).catch(_ => NotificationService.error({ text: 'Falha ao alterar tipo de bolsa' }))
+        }
+        updatePartial()
+    }, [watch("partial")])
+    // useEffect(() => {
+    //     setChecked(data?.partial?.toString())
+    // }, [data])
     return (
         <div className={styles.table}>
             <h3>Renda bruta aferida compatível com:</h3>
             <Table.Root headers={['', 'tipo de bolsa']}>
                 <Table.Row>
                     <Table.Cell divider>
-                        <input type="radio" name="partial" checked={checked === "false"} value={"false"} onChange={handleChange}></input>
+                        <FormRadio control={control} name={"partial"} value={"false"} />
                     </Table.Cell>
                     <Table.Cell>
                         Bolsa de estudo INTEGRAL a aluno cuja renda familiar bruta mensal per capita não exceda o valor de 1,5 (um e meio) salário mínimo.
@@ -27,7 +47,7 @@ export default function Scholarship({ data, onChange }) {
                 </Table.Row>
                 <Table.Row>
                     <Table.Cell divider>
-                        <input type="radio" name="partial" checked={checked === "true"} value={"true"} onChange={handleChange}></input>
+                        <FormRadio control={control} name={"partial"} value={"true"} />
 
                     </Table.Cell>
                     <Table.Cell>

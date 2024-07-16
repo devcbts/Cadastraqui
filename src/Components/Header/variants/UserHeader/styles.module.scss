@@ -18,19 +18,21 @@
             height: 60px;
         }
     }
-    
-    .profilepicture{
-        clip-path: circle();
-        height: 100%;
-        width: 60px;
-    }
-    .placeholder{
-        color:$primary;
-        height: 50px;
-        width: 50px;
-        @media(max-width:390px){
-            height: 40px;
-            width: 40px;
+    .picture{
+        cursor: pointer;
+        .profilepicture{
+            clip-path: circle();
+            height: 100%;
+            width: 60px;
         }
-    }
+        .placeholder{
+            color:$primary;
+            height: 50px;
+            width: 50px;
+            @media(max-width:390px){
+                height: 40px;
+                width: 40px;
+            }
+        }
+    }   
 }

@@ -22,12 +22,12 @@ export default function useControlForm({
         })
         return newObj
     }
-
+    const resolver = schema ? { resolver: zodResolver(schema) } : {}
     const form = useForm({
         mode: "all",
         defaultValues: populateValues(),
         values: populateValues(),
-        resolver: zodResolver(schema)
+        ...resolver
     })
     const { control, trigger, formState: { isValid, dirtyFields }, getValues, handleSubmit, setValue } = form
     useImperativeHandle(ref, () => ({

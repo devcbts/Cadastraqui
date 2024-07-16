@@ -109,9 +109,12 @@ class SocialAssistantService {
         const registrato_date = new Date(`${month}-01-${year}`)
         return { url, date: registrato_date }
     }
-    async registerSolicitations(applicationId, solicitations) {
-        return api.post(`/assistant/solicitation/${applicationId}`, solicitations)
-
+    async registerSolicitation(applicationId, solicitation) {
+        const response = await api.post(`/assistant/solicitation/${applicationId}`, solicitation)
+        return response.data.id
+    }
+    async deleteSolicitation(applicationId, id) {
+        return api.delete(`/assistant/solicitation/${applicationId}/${id}`)
     }
     async getDeclarations(applicationId) {
         const response = await api.get(`/assistant/candidateInfo/declaration/${applicationId}`)

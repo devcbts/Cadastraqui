@@ -42,8 +42,8 @@ export default function Declaration_Form({ onEdit }) {
 
         const text = `
             Eu, ${identityDetails.fullName}, portador(a) da cédula de identidade RG nº ${identityDetails.RG}, órgão emissor ${identityDetails.rgIssuingAuthority}, \
-UF do órgão emissor ${identityDetails.rgIssuingState} ${identityDetails.documentType && `portador(a) da ${findLabel(DOCUMENT_TYPE, identityDetails.documentType)}, número ${identityDetails.documentNumber}, \ 
-validade ${formatDate(identityDetails.documentValidity)},`}ou  inscrito(a) no CPF nº ${identityDetails.CPF}, nacionalidade ${identityDetails.nationality}, \
+UF do órgão emissor ${identityDetails.rgIssuingState}, ${identityDetails.documentType ? `portador(a) da ${findLabel(DOCUMENT_TYPE, identityDetails.documentType)}, número ${identityDetails.documentNumber}, \ 
+validade ${formatDate(identityDetails.documentValidity)},` : ''}inscrito(a) no CPF nº ${identityDetails.CPF}, nacionalidade ${identityDetails.nationality}, \
 estado civil ${findLabel(MARITAL_STATUS, identityDetails.maritalStatus)}, profissão ${identityDetails.profession}, residente na ${identityDetails.address}, \
 nº ${identityDetails.addressNumber}, complemento, CEP: ${identityDetails.CEP}, bairro ${identityDetails.neighborhood}, \
 cidade ${identityDetails.city}, estado ${identityDetails.UF}, UF ${identityDetails.UF}, e-mail: ${identityDetails.email}, \

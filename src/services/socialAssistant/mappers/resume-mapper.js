@@ -10,6 +10,10 @@ class ResumeMapper {
             let maj = null
             if (Object.keys(interviewDocument).length) {
                 const a = removeObjectFileExtension(interviewDocument)
+                let filename = Object.keys(a)?.[0]
+                if (filename.includes('-')) {
+                    filename = filename.split('-')[1]
+                }
                 const aDate = getDate(Object.keys(a)?.[0])
                 interview = {
                     date: aDate,
@@ -19,6 +23,10 @@ class ResumeMapper {
             }
             if (Object.keys(visitDocument).length) {
                 const b = removeObjectFileExtension(visitDocument)
+                let filename = Object.keys(b)?.[0]
+                if (filename.includes('-')) {
+                    filename = filename.split('-')[1]
+                }
                 const bDate = getDate(Object.keys(b)?.[0])
                 visit = {
                     date: bDate,
