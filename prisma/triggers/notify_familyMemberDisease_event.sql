@@ -17,6 +17,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER familyMemberDisease_trigger
-AFTER INSERT OR UPDATE ON "familyMemberDiseases"
+CREATE OR REPLACE TRIGGER familyMemberDisease_trigger
+AFTER INSERT OR UPDATE OR DELETE ON "familyMemberDiseases"
 FOR EACH ROW EXECUTE PROCEDURE notify_familyMemberDisease_event();

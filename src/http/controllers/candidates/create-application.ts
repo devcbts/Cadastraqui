@@ -1,4 +1,5 @@
 import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
+import { AnnouncementClosed } from '@/errors/announcement-closed-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import findAllDiseases from '@/HistDatabaseFunctions/Handle Application/find-all-diseases'
@@ -38,6 +39,19 @@ export async function subscribeAnnouncement(
       
     }
 
+    const announcement = await prisma.announcement.findUnique({
+      where: { id: announcement_id },
+      select: {closeDate: true}
+    })
+    if (!announcement) {
+      throw new ResourceNotFoundError()
+      
+    }
+
+    if (announcement.closeDate! < new Date()) {
+      throw new AnnouncementClosed()
+      
+    }
     // if (!CandidateOrResponsible.UserData.finishedapplication) {
     //   console.log('erro aqui')
     //   throw new Error('Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.')
@@ -104,8 +118,8 @@ export async function subscribeAnnouncement(
       return reply.status(401).send({ message: err.message })
 
     }
-    if (err instanceof Error) {
-      return reply.status(400).send({ message: err.message })
+    if (err instanceof AnnouncementClosed) {
+      return reply.status(409).send({ message: err.message })
     }
     return reply.status(500).send({ message: err.message })
   }

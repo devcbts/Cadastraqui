@@ -18,8 +18,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER familyMember_trigger
-AFTER INSERT
-OR
-UPDATE ON "familyMembers" FOR EACH ROW
+CREATE OR REPLACE TRIGGER familyMember_trigger
+AFTER INSERT OR UPDATE OR DELETE ON "familyMembers" FOR EACH ROW
 EXECUTE PROCEDURE notify_familyMember_event ();

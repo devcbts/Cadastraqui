@@ -20,13 +20,13 @@ export default async function getCandidateDashboard(
             where: { OR: [{ candidate_id: user.UserData.id }, { responsible_id: user.UserData.id }] },
         })
         const members = await prisma.familyMember.findMany({
-            where: { candidate_id: user.UserData.id },
+            where: { OR: [{ candidate_id: user.UserData.id }, { legalResponsibleId: user.UserData.id }] },
             include: {
                 FamilyMemberIncome: true
             }
         })
         const expense = await prisma.expense.findMany({
-            where: { candidate_id: user.UserData.id }
+            where: { OR: [{ candidate_id: user.UserData.id }, { legalResponsibleId: user.UserData.id }] }
         })
         const avgExpense = (expense.reduce((acc, expense) => {
             return acc += expense.totalExpense ?? 0
