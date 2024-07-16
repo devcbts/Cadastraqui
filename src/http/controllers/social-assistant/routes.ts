@@ -7,6 +7,7 @@ import { uploadSolicitationDocument } from './AWS-routes/upload-solicitation-doc
 import { calculateExpenses } from './calculate-expenses'
 import { closeApplication } from './close-application'
 import { createSolicitation } from './create-solicitation'
+import { deleteSolicitation } from './delete-solicitation'
 import { getBankingInfoHDB } from './detailed-form/get-banking-info'
 import { getBasicInfoHDB } from './detailed-form/get-basic-info'
 import { getDeclarationsPDF } from './detailed-form/get-declarations'
@@ -83,6 +84,11 @@ export async function assistantRoutes(app: FastifyInstance) {
     '/solicitation/:application_id',
     { onRequest: [verifyJWT] },
     createSolicitation,
+  )
+  app.delete(
+    '/solicitation/:application_id/:id',
+    { onRequest: [verifyJWT] },
+    deleteSolicitation,
   )
   app.patch('/solicitation/:solicitation_id',
     { onRequest: [verifyJWT] },

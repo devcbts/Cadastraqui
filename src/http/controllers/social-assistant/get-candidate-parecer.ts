@@ -47,6 +47,7 @@ export async function getCandidateParecer(
             where: { id: application_id },
             include: {
                 candidate: true,
+                announcement: { select: { announcementName: true } }
             }
         })
 
@@ -224,7 +225,8 @@ export async function getCandidateParecer(
             aditional,
             totalIncome,
             hasGreaterIncome,
-            status: application.status
+            status: application.status,
+            application: { number: application.number, name: application.announcement.announcementName }
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {
