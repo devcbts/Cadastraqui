@@ -1,9 +1,9 @@
 import { Application, Prisma, TiebreakerCriterias } from "@prisma/client"
 import { prisma } from "../lib/prisma"
-import schedule from 'node-schedule';
 import nodeSchedule from 'node-schedule';
 // Change to promises to work in background
 const selectValidCandidates = async () => {
+    console.log('Starting to sort candidates')
     try {
         const announcementsToValidate = await prisma.announcement.findMany({
             where: {
@@ -61,14 +61,15 @@ const selectValidCandidates = async () => {
                 });
             });
 
+            console.log('Candidates sorted successfully')
         })
-        console.log('Candidates sorted successfully')
+        console.log("finalizado")
     } catch (err) {
         console.log(err)
     }
 }
 // Schedule the selectValidCandidates function to run every 5 minutes
-const job: nodeSchedule.Job = nodeSchedule.scheduleJob("*/5 * * * *", async () => {
+const Selectjob: nodeSchedule.Job = nodeSchedule.scheduleJob("*/15 * * * *", async () => {
     const deletedIncomes = await selectValidCandidates();
 })
-export default selectValidCandidates()
+export default Selectjob
