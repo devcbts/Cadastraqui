@@ -32,7 +32,7 @@ export default function SendDocumentSolicitation({
             onConfirm={handleConfirm}
         >
             <div>
-                <FormFilePicker control={control} label={"arquivo"} name={"file"} />
+                <FormFilePicker control={control} label={"arquivo"} name={"file"} accept={'application/pdf'} />
             </div>
         </Modal>
     )
