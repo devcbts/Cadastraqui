@@ -1,11 +1,14 @@
 import { Application, Prisma, TiebreakerCriterias } from "@prisma/client"
 import { prisma } from "../lib/prisma"
+import schedule from 'node-schedule';
+import nodeSchedule from 'node-schedule';
 // Change to promises to work in background
 const selectValidCandidates = async () => {
     try {
         const announcementsToValidate = await prisma.announcement.findMany({
             where: {
-                announcementDate: { lte: new Date() }
+                closeDate: { lte: new Date() },
+                sorted: false
             }
         })
         // Add some field on 'Application' table to define the current candidate position
@@ -38,23 +41,34 @@ const selectValidCandidates = async () => {
                 ORDER BY ${Prisma.raw(orderByExp)};
         ` as Application[]
 
-            applications.forEach(async (application, index) => {
+            await prisma.$transaction(async (prisma) => {
+                await Promise.all(applications.map(async (application, index) => {
+                    await prisma.application.update({
+                        where: {
+                            id: application!.id
+                        },
+                        data: {
+                            position: index + 1
+                        }
+                    });
+                }));
 
-                // Loop over 'candidates' to update its position on Application table
-                await prisma.application.update({
-                    where: {
-                        id: application!.id
-                    },
+                await prisma.announcement.update({
+                    where: { id: announcement.id },
                     data: {
-                        position: index + 1
+                        sorted: true
                     }
-                })
-            })
+                });
+            });
 
         })
+        console.log('Candidates sorted successfully')
     } catch (err) {
         console.log(err)
     }
 }
-
+// Schedule the selectValidCandidates function to run every 5 minutes
+const job: nodeSchedule.Job = nodeSchedule.scheduleJob("*/5 * * * *", async () => {
+    const deletedIncomes = await selectValidCandidates();
+})
 export default selectValidCandidates()
