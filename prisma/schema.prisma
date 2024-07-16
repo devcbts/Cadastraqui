@@ -649,6 +649,7 @@ model Announcement {
   announcementName     String?
   announcementLogo     String?
   type2                String?
+  sorted              Boolean?                 @default(false)
   interview            AnnouncementInterview?
   criteria             TiebreakerCriterias[]    @default([CadUnico, LeastFamilyIncome, SeriousIllness, Draw])
   types1               scholarshipGrantedType[]
