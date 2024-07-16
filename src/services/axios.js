@@ -36,11 +36,14 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
         return axios(originalRequest);
       } catch (error) {
-        // Handle refresh token error or redirect to login
-        NotificationService.error({ text: 'Seu acesso expirou, faça login novamente' }).then(_ => {
-          localStorage.clear()
-          window.location.href = '/'
-        })
+        if (error.response.status === 401) {
+          // Handle refresh token error or redirect to login
+          NotificationService.error({ text: 'Seu acesso expirou, faça login novamente' }).then(_ => {
+            localStorage.clear()
+            window.location.href = '/'
+          })
+
+        }
       }
     }
     return Promise.reject(error);
