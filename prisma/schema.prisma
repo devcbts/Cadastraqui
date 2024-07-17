@@ -1100,6 +1100,7 @@ enum OfferedCourseType {
   UndergraduateBachelor
   UndergraduateLicense
   UndergraduateTechnologist
+  Postgraduate
 }
 
 enum ApplicationStatus {

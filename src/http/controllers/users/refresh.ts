@@ -29,7 +29,7 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
       {
         sign: {
           sub: user_id,
-          expiresIn: '7d',
+          expiresIn: '3s',
         },
       },
     )

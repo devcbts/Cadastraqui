@@ -648,7 +648,8 @@ export type HigherEducationScholarshipType = (typeof HigherEducationScholarshipT
 export const OfferedCourseType: {
   UndergraduateBachelor: 'UndergraduateBachelor',
   UndergraduateLicense: 'UndergraduateLicense',
-  UndergraduateTechnologist: 'UndergraduateTechnologist'
+  UndergraduateTechnologist: 'UndergraduateTechnologist',
+  Postgraduate: 'Postgraduate'
 };
 
 export type OfferedCourseType = (typeof OfferedCourseType)[keyof typeof OfferedCourseType]

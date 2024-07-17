@@ -42,7 +42,7 @@ export async function getBasicInfo(
 
 
     const basic_info = candidateOrResponsible.UserData
-    return reply.status(200).send({ candidate: { ...basic_info, ...result?.IdentityDetails } })
+    return reply.status(200).send({ candidate: { ...basic_info, ...result?.IdentityDetails, email: result?.user?.email } })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })

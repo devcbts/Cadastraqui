@@ -1,38 +1,22 @@
+
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-
-
-// A lógica para a solicitação é ser um tipo específico de histórico, com um prazo específico e com um tipo específico também
-
-export async function createSolicitation(
+export async function deleteSolicitation(
     request: FastifyRequest,
     reply: FastifyReply,
 ) {
 
-    const solicitationType = z.enum(['Document', 'Interview', 'Visit'])
-
     const applicationParamsSchema = z.object({
         application_id: z.string(),
+        id: z.string()
 
     })
-    const applicationBodySchema = z.object({
-        id: z.string().nullish(),
-        description: z.string(),
-        deadLineTime: z.string().optional().transform((d) => {
-            if (d) {
-                return new Date(d)
-            }
-            return undefined
-        }),
-        type: solicitationType.optional()
 
-    })
-    const { application_id } = applicationParamsSchema.parse(request.params)
-    const solicitation = applicationBodySchema.parse(request.body)
+    const { application_id, id } = applicationParamsSchema.parse(request.params)
     try {
         const userType = request.user.role
         const userId = request.user.sub
@@ -50,19 +34,19 @@ export async function createSolicitation(
         }
 
         // Criar novo report no histórico da inscrição 
-        let id;
         // Se a solicitação for do tipo de documentos
         await prisma.$transaction(async (tsPrisma) => {
-            const { deadLineTime, description, type } = solicitation
-            const dbSolicitation = await tsPrisma.applicationHistory.create({
-                data: {
-                    application_id,
-                    description: description,
-                    solicitation: type,
-                    deadLine: deadLineTime,
-                },
+            const solicitation = await tsPrisma.applicationHistory.findFirst({
+                where: { AND: [{ application_id }, { id }] }
             })
-            id = dbSolicitation.id
+            if (!solicitation?.answered) {
+                await tsPrisma.applicationHistory.delete({
+                    where: { id },
+                })
+            } else {
+                return reply.status(400).send({ message: 'A solicitação não pôde ser excluída pois já foi respondida' })
+            }
+
             // await Promise.all(
             //     solicitations.map(async (item) => {
             //         const { deadLineTime, description, solicitation, id } = item
@@ -94,7 +78,7 @@ export async function createSolicitation(
         })
 
 
-        return reply.status(201).send({ id })
+        return reply.status(204).send()
 
 
     } catch (err: any) {

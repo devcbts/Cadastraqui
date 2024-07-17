@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getSignedUrlForFile } from "@/lib/S3";
 import { SelectCandidateResponsible } from "@/utils/select-candidate-responsible";
 import { FastifyReply, FastifyRequest } from "fastify";
 
@@ -14,6 +15,8 @@ export default async function getUserInformationForDeclaration(
             throw new Error('Usuário não encontrado')
         }
         let result: any;
+        const url = await getSignedUrlForFile(`CandidateDocuments/${user.UserData.id}/declaracoes/${user.UserData.id}/declaracoes.pdf`)
+        console.log(url)
         if (user.IsResponsible) {
             result = await prisma.legalResponsible.findUnique({
                 where: { id: user.UserData.id },
@@ -35,12 +38,13 @@ export default async function getUserInformationForDeclaration(
                 const fm = await prisma.familyMember.findFirst({
                     where: { AND: [{ legalResponsibleId: result.id }, { fullName: candidate.fullName }] }
                 })
+                const url = await getSignedUrlForFile(`CandidateDocuments/${user.UserData.id}/declaracoes/${fm?.id}/declaracoes.pdf`)
                 let identity: any = fm
                 if (result.IdentityDetails) {
                     const { address, addressNumber, neighborhood, city, UF, CEP } = result.IdentityDetails
                     identity = { ...identity, address, addressNumber, neighborhood, city, UF, CEP }
                 }
-                return { ...candidate, IdentityDetails: identity }
+                return { ...candidate, IdentityDetails: identity, lastDeclaration: url }
             }) as [])
             if (result?.Candidate) {
                 result.Candidate = mappedCandidates
@@ -55,7 +59,7 @@ export default async function getUserInformationForDeclaration(
                 }
             })
         }
-        return response.status(200).send({ userInfo: result })
+        return response.status(200).send({ userInfo: { ...result, lastDeclaration: url } })
     } catch (err) {
         return response.status(400).send({ message: err })
     }

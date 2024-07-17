@@ -1061,7 +1061,8 @@ exports.HigherEducationScholarshipType = exports.$Enums.HigherEducationScholarsh
 exports.OfferedCourseType = exports.$Enums.OfferedCourseType = {
   UndergraduateBachelor: 'UndergraduateBachelor',
   UndergraduateLicense: 'UndergraduateLicense',
-  UndergraduateTechnologist: 'UndergraduateTechnologist'
+  UndergraduateTechnologist: 'UndergraduateTechnologist',
+  Postgraduate: 'Postgraduate'
 };
 
 exports.ApplicationStatus = exports.$Enums.ApplicationStatus = {
