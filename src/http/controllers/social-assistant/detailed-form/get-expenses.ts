@@ -37,6 +37,10 @@ export async function getExpensesInfoHDB(
     // Busca todas as despesas associadas ao candidato
     const expenses = await historyDatabase.expense.findMany({
       where: idField,
+      take: 3,
+      orderBy: {
+      date: 'desc',
+      },
     })
     const urls = await getSectionDocumentsPDF_HDB(candidateOrResponsible.UserData.id, 'expenses');
     const expensesWithUrls = expenses.map((expense) => {

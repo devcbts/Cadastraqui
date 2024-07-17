@@ -1,5 +1,6 @@
 import { app } from './app'
 import job from './cron/remove-outdated-incomes'
+import Selectjob from './cron/select-valid-candidates'
 import { env } from './env/index'
 
 app
@@ -9,5 +10,6 @@ app
   })
   .then(() => {
     job
+    Selectjob
     console.log(`HTTP Server Running on port ${env.PORT}!`)
   })
