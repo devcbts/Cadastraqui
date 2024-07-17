@@ -76,7 +76,7 @@ import { updateFinancingInfo } from './update-financing-info'
 import { updateHealthInfo } from './update-health-info'
 import { updateHousingInfo } from './update-housing-info'
 import { updateIdentityInfo } from './update-identity-info'
-import updateIncome from './update-income-info'
+import updateMonthlyIncome from './update-monthly-income-info'
 import updateIncomeSource from './update-income-source'
 import { updateLoanInfo } from './update-loan-info'
 import { updateMedicationInfo } from './update-medication-info'
@@ -125,7 +125,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     registerMonthlyIncomeInfo,
   )
   app.post('/update-income-source', { onRequest: [verifyJWT] }, updateIncomeSource)
-  app.put('/update-income/:id', { onRequest: [verifyJWT] }, updateIncome)
+  app.put('/update-income/:id', { onRequest: [verifyJWT] }, updateMonthlyIncome)
 
   app.patch(
     '/family-info/:_id',

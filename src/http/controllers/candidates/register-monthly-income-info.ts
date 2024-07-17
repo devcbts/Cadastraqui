@@ -38,6 +38,7 @@ export async function registerMonthlyIncomeInfo(
     quantity: z.number().default(0),
     incomeSource: IncomeSource,
     incomes: z.array(z.object({
+      receivedIncome: z.boolean().default(true),
       date: z.date().or(z.string().transform(v => new Date(v))).default(new Date()),
       grossAmount: z.number().default(0),
       proLabore: z.number().default(0),
@@ -108,9 +109,10 @@ export async function registerMonthlyIncomeInfo(
           // Armazena informações acerca da renda mensal no banco de dados
           await tsPrisma.monthlyIncome.create({
             data: {
-
+              receivedIncome: income.receivedIncome,
               grossAmount: income.grossAmount,
               liquidAmount,
+              
               date: income.date,
               advancePaymentValue: income.advancePaymentValue,
               compensationValue: income.compensationValue,
@@ -134,6 +136,7 @@ export async function registerMonthlyIncomeInfo(
           // Armazena informações acerca da renda mensal no banco de dados (Empresário)
           await tsPrisma.monthlyIncome.create({
             data: {
+              receivedIncome: income.receivedIncome,
               grossAmount: income.grossAmount,
               date: income.date,
               advancePaymentValue: income.advancePaymentValue,

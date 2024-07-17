@@ -20797,6 +20797,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeMinAggregateOutputType = {
     id: string | null
+    receivedIncome: boolean | null
     date: Date | null
     main_id: string | null
     grossAmount: number | null
@@ -20824,6 +20825,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeMaxAggregateOutputType = {
     id: string | null
+    receivedIncome: boolean | null
     date: Date | null
     main_id: string | null
     grossAmount: number | null
@@ -20851,6 +20853,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeCountAggregateOutputType = {
     id: number
+    receivedIncome: number
     date: number
     main_id: number
     grossAmount: number
@@ -20918,6 +20921,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeMinAggregateInputType = {
     id?: true
+    receivedIncome?: true
     date?: true
     main_id?: true
     grossAmount?: true
@@ -20945,6 +20949,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeMaxAggregateInputType = {
     id?: true
+    receivedIncome?: true
     date?: true
     main_id?: true
     grossAmount?: true
@@ -20972,6 +20977,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeCountAggregateInputType = {
     id?: true
+    receivedIncome?: true
     date?: true
     main_id?: true
     grossAmount?: true
@@ -21086,6 +21092,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeGroupByOutputType = {
     id: string
+    receivedIncome: boolean | null
     date: Date | null
     main_id: string | null
     grossAmount: number | null
@@ -21132,6 +21139,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    receivedIncome?: boolean
     date?: boolean
     main_id?: boolean
     grossAmount?: boolean
@@ -21162,6 +21170,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeSelectScalar = {
     id?: boolean
+    receivedIncome?: boolean
     date?: boolean
     main_id?: boolean
     grossAmount?: boolean
@@ -21203,6 +21212,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetResult<{
       id: string
+      receivedIncome: boolean | null
       date: Date | null
       main_id: string | null
       grossAmount: number | null
@@ -21626,6 +21636,7 @@ export namespace Prisma {
    */ 
   interface MonthlyIncomeFieldRefs {
     readonly id: FieldRef<"MonthlyIncome", 'String'>
+    readonly receivedIncome: FieldRef<"MonthlyIncome", 'Boolean'>
     readonly date: FieldRef<"MonthlyIncome", 'DateTime'>
     readonly main_id: FieldRef<"MonthlyIncome", 'String'>
     readonly grossAmount: FieldRef<"MonthlyIncome", 'Float'>
@@ -40678,6 +40689,7 @@ export namespace Prisma {
 
   export const MonthlyIncomeScalarFieldEnum: {
     id: 'id',
+    receivedIncome: 'receivedIncome',
     date: 'date',
     main_id: 'main_id',
     grossAmount: 'grossAmount',
@@ -43477,6 +43489,7 @@ export namespace Prisma {
     OR?: MonthlyIncomeWhereInput[]
     NOT?: MonthlyIncomeWhereInput | MonthlyIncomeWhereInput[]
     id?: StringFilter<"MonthlyIncome"> | string
+    receivedIncome?: BoolNullableFilter<"MonthlyIncome"> | boolean | null
     date?: DateTimeNullableFilter<"MonthlyIncome"> | Date | string | null
     main_id?: StringNullableFilter<"MonthlyIncome"> | string | null
     grossAmount?: FloatNullableFilter<"MonthlyIncome"> | number | null
@@ -43507,6 +43520,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeOrderByWithRelationInput = {
     id?: SortOrder
+    receivedIncome?: SortOrderInput | SortOrder
     date?: SortOrderInput | SortOrder
     main_id?: SortOrderInput | SortOrder
     grossAmount?: SortOrderInput | SortOrder
@@ -43541,6 +43555,7 @@ export namespace Prisma {
     AND?: MonthlyIncomeWhereInput | MonthlyIncomeWhereInput[]
     OR?: MonthlyIncomeWhereInput[]
     NOT?: MonthlyIncomeWhereInput | MonthlyIncomeWhereInput[]
+    receivedIncome?: BoolNullableFilter<"MonthlyIncome"> | boolean | null
     date?: DateTimeNullableFilter<"MonthlyIncome"> | Date | string | null
     main_id?: StringNullableFilter<"MonthlyIncome"> | string | null
     grossAmount?: FloatNullableFilter<"MonthlyIncome"> | number | null
@@ -43571,6 +43586,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeOrderByWithAggregationInput = {
     id?: SortOrder
+    receivedIncome?: SortOrderInput | SortOrder
     date?: SortOrderInput | SortOrder
     main_id?: SortOrderInput | SortOrder
     grossAmount?: SortOrderInput | SortOrder
@@ -43606,6 +43622,7 @@ export namespace Prisma {
     OR?: MonthlyIncomeScalarWhereWithAggregatesInput[]
     NOT?: MonthlyIncomeScalarWhereWithAggregatesInput | MonthlyIncomeScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"MonthlyIncome"> | string
+    receivedIncome?: BoolNullableWithAggregatesFilter<"MonthlyIncome"> | boolean | null
     date?: DateTimeNullableWithAggregatesFilter<"MonthlyIncome"> | Date | string | null
     main_id?: StringNullableWithAggregatesFilter<"MonthlyIncome"> | string | null
     grossAmount?: FloatNullableWithAggregatesFilter<"MonthlyIncome"> | number | null
@@ -47513,6 +47530,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeCreateInput = {
     id?: string
+    receivedIncome?: boolean | null
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -47540,6 +47558,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUncheckedCreateInput = {
     id?: string
+    receivedIncome?: boolean | null
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -47567,6 +47586,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -47594,6 +47614,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -47621,6 +47642,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeCreateManyInput = {
     id?: string
+    receivedIncome?: boolean | null
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -47648,6 +47670,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -47672,6 +47695,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -51350,6 +51374,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeCountOrderByAggregateInput = {
     id?: SortOrder
+    receivedIncome?: SortOrder
     date?: SortOrder
     main_id?: SortOrder
     grossAmount?: SortOrder
@@ -51396,6 +51421,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeMaxOrderByAggregateInput = {
     id?: SortOrder
+    receivedIncome?: SortOrder
     date?: SortOrder
     main_id?: SortOrder
     grossAmount?: SortOrder
@@ -51423,6 +51449,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeMinOrderByAggregateInput = {
     id?: SortOrder
+    receivedIncome?: SortOrder
     date?: SortOrder
     main_id?: SortOrder
     grossAmount?: SortOrder
@@ -58688,6 +58715,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeCreateWithoutCandidateInput = {
     id?: string
+    receivedIncome?: boolean | null
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -58714,6 +58742,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUncheckedCreateWithoutCandidateInput = {
     id?: string
+    receivedIncome?: boolean | null
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -59496,6 +59525,7 @@ export namespace Prisma {
     OR?: MonthlyIncomeScalarWhereInput[]
     NOT?: MonthlyIncomeScalarWhereInput | MonthlyIncomeScalarWhereInput[]
     id?: StringFilter<"MonthlyIncome"> | string
+    receivedIncome?: BoolNullableFilter<"MonthlyIncome"> | boolean | null
     date?: DateTimeNullableFilter<"MonthlyIncome"> | Date | string | null
     main_id?: StringNullableFilter<"MonthlyIncome"> | string | null
     grossAmount?: FloatNullableFilter<"MonthlyIncome"> | number | null
@@ -60812,6 +60842,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeCreateWithoutLegalResponsibleInput = {
     id?: string
+    receivedIncome?: boolean | null
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -60838,6 +60869,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUncheckedCreateWithoutLegalResponsibleInput = {
     id?: string
+    receivedIncome?: boolean | null
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -63090,6 +63122,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeCreateWithoutFamilyMemberInput = {
     id?: string
+    receivedIncome?: boolean | null
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -63116,6 +63149,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUncheckedCreateWithoutFamilyMemberInput = {
     id?: string
+    receivedIncome?: boolean | null
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -73459,6 +73493,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeCreateManyCandidateInput = {
     id?: string
+    receivedIncome?: boolean | null
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -74428,6 +74463,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUpdateWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -74454,6 +74490,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUncheckedUpdateWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -74480,6 +74517,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUncheckedUpdateManyWithoutCandidateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -74972,6 +75010,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeCreateManyLegalResponsibleInput = {
     id?: string
+    receivedIncome?: boolean | null
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -76068,6 +76107,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUpdateWithoutLegalResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
+    receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -76094,6 +76134,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUncheckedUpdateWithoutLegalResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
+    receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -76120,6 +76161,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleInput = {
     id?: StringFieldUpdateOperationsInput | string
+    receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -76945,6 +76987,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeCreateManyFamilyMemberInput = {
     id?: string
+    receivedIncome?: boolean | null
     date?: Date | string | null
     main_id?: string | null
     grossAmount?: number | null
@@ -77233,6 +77276,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUpdateWithoutFamilyMemberInput = {
     id?: StringFieldUpdateOperationsInput | string
+    receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -77259,6 +77303,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUncheckedUpdateWithoutFamilyMemberInput = {
     id?: StringFieldUpdateOperationsInput | string
+    receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -77285,6 +77330,7 @@ export namespace Prisma {
 
   export type MonthlyIncomeUncheckedUpdateManyWithoutFamilyMemberInput = {
     id?: StringFieldUpdateOperationsInput | string
+    receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
     grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null

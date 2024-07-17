@@ -431,7 +431,9 @@ model FamilyMemberIncome {
 }
 
 model MonthlyIncome {
-  id                        String            @id @default(uuid())
+  id             String   @id @default(uuid())
+  receivedIncome Boolean? @default(true)
+
   date                      DateTime?         @default(now())
   main_id                   String?
   grossAmount               Float?

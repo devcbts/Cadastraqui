@@ -4,7 +4,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import IncomeSource from "./enums/IncomeSource";
 
-export default async function updateIncome(
+export default async function updateMonthlyIncome(
     request: FastifyRequest,
     response: FastifyReply
 ) {
@@ -27,6 +27,7 @@ export default async function updateIncome(
         firstParcelDate: z.string().nullish(),
         parcelValue: z.number().nullish(),
         incomes: z.array(z.object({
+            receivedIncome: z.boolean().default(true),
             id: z.string().optional(),
             date: z.date().or(z.string().transform(v => new Date(v))).default(new Date()),
             grossAmount: z.number().default(0),
@@ -78,6 +79,7 @@ export default async function updateIncome(
                         await tsPrisma.monthlyIncome.update({
                             where: { id: income.id },
                             data: {
+                                receivedIncome: income.receivedIncome,
                                 grossAmount: income.grossAmount,
                                 liquidAmount,
                                 date: income.date,
@@ -99,6 +101,7 @@ export default async function updateIncome(
                     } else {
                         const newIncome = await tsPrisma.monthlyIncome.create({
                             data: {
+                                receivedIncome: income.receivedIncome,
                                 grossAmount: income.grossAmount,
                                 liquidAmount,
                                 date: income.date,
@@ -132,6 +135,7 @@ export default async function updateIncome(
                         await tsPrisma.monthlyIncome.update({
                             where: { id: income.id },
                             data: {
+                                receivedIncome: income.receivedIncome,
                                 grossAmount: income.grossAmount,
                                 date: income.date,
                                 advancePaymentValue: income.advancePaymentValue,
@@ -154,6 +158,7 @@ export default async function updateIncome(
                         const newIncome = await tsPrisma.monthlyIncome.create({
                             data: {
                                 ...idField,
+                                receivedIncome: income.receivedIncome,
                                 incomeSource,
                                 grossAmount: income.grossAmount,
                                 date: income.date,
@@ -183,7 +188,7 @@ export default async function updateIncome(
                 where: idField,
             })
 
-            const validIncomes = monthlyIncomes.filter(income => income.liquidAmount !== null && income.liquidAmount > 0);
+            const validIncomes = monthlyIncomes.filter(income => income.liquidAmount !== null && income.liquidAmount > 0 && income.receivedIncome === true);
             const totalAmount = validIncomes.reduce((acc, current) => {
                 return acc + (current.liquidAmount || 0);
             }, 0);
@@ -194,7 +199,6 @@ export default async function updateIncome(
                 income = await tsPrisma.familyMemberIncome.update({
                     where: { id },
                     data: {
-                        averageIncome: avgIncome.toString(),
                         startDate: rest.startDate ? new Date(rest.startDate) : undefined,
                         fantasyName: rest.fantasyName,
                         CNPJ: rest.CNPJ,
