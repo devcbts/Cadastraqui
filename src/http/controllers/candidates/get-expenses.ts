@@ -40,6 +40,10 @@ export async function getExpensesInfo(
     // Busca todas as despesas associadas ao candidato
     const expenses = await prisma.expense.findMany({
       where: idField,
+      take: 3,
+      orderBy: {
+      date: 'desc',
+      },
     })
     const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'expenses');
     const expensesWithUrls = expenses.map((expense) => {
