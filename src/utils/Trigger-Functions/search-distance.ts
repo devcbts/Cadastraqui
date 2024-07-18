@@ -14,14 +14,3 @@ export default async function calculateDistance(origin: string, destination: str
     }
 }
 
-// Exemplo de uso:
-const origin = 'R. Carlos Gomes - Amargosa, BA, 45300-000';
-const destination = 'R. Prudente de Morais, 114 - Centro, Santo Antônio de Jesus - BA, 44572-060';
-
-calculateDistance(origin, destination)
-    .then(distance => {
-        console.log(`A distância entre ${origin} e ${destination} é de ${distance} metros.`);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
