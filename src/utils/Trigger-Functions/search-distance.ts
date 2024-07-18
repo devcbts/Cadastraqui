@@ -1,7 +1,8 @@
+import { env } from '@/env';
 import axios from 'axios';
 
 export default async function calculateDistance(origin: string, destination: string): Promise<number> {
-    const apiKey ="AIzaSyAKV_bglPFDHMLhkliCFuzARUGBzDlNJNU";
+    const apiKey = env.MAPS_KEY;
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=${apiKey}`;
 
     try {
