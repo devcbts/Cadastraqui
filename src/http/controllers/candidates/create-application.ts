@@ -1,11 +1,15 @@
 import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
 import { AnnouncementClosed } from '@/errors/announcement-closed-error'
+import { CandidateNotFoundError } from '@/errors/candidate-not-found-error'
+import { EducationLevelNotFoundError } from '@/errors/education-level-not-found-error'
+import { EntityNotExistsError } from '@/errors/entity-not-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import findAllDiseases from '@/HistDatabaseFunctions/Handle Application/find-all-diseases'
 import { prisma } from '@/lib/prisma'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { CalculateIncomePerCapita } from '@/utils/Trigger-Functions/calculate-income-per-capita'
+import calculateDistance from '@/utils/Trigger-Functions/search-distance'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -36,26 +40,28 @@ export async function subscribeAnnouncement(
     // check if the candidate is the legal dependent of the responsible
     if (!candidate) {
       throw new ResourceNotFoundError()
-      
+
     }
 
     const announcement = await prisma.announcement.findUnique({
       where: { id: announcement_id },
-      select: {closeDate: true}
+      select: {
+        closeDate: true,
+        entity_id: true,
+        openDate: true,
+      }
     })
     if (!announcement) {
       throw new ResourceNotFoundError()
-      
+
     }
 
-    if (announcement.closeDate! < new Date()) {
+    
+    if (announcement.closeDate! < new Date() || announcement.openDate! > new Date()) {
       throw new AnnouncementClosed()
-      
+
     }
-    // if (!CandidateOrResponsible.UserData.finishedapplication) {
-    //   console.log('erro aqui')
-    //   throw new Error('Dados cadastrais não preenchidos completamente! Volte para a sessão de cadastro.')
-    // }
+
 
     const applicationExists = await prisma.application.findFirst({
       where: { candidate_id: candidate.id, announcement_id },
@@ -76,12 +82,51 @@ export async function subscribeAnnouncement(
     const idFieldForSearch = CandidateOrResponsible.IsResponsible ? { responsible_id: CandidateOrResponsible.UserData.id } : { candidate_id: candidate.id }
 
 
-      const hasCadUnico = await prisma.identityDetails.findUnique({
-        where: idFieldForSearch,
-        select: { CadUnico: true }
-      })
-      const {incomePerCapita, incomesPerMember} = await CalculateIncomePerCapita(CandidateOrResponsible.UserData.id)
-      const severeDisease = await findAllDiseases(CandidateOrResponsible.UserData.id, CandidateOrResponsible.UserData.id)
+    const hasCadUnico = await prisma.identityDetails.findUnique({
+      where: idFieldForSearch,
+      select: { CadUnico: true }
+    })
+    const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapita(CandidateOrResponsible.UserData.id)
+    const severeDisease = await findAllDiseases(CandidateOrResponsible.UserData.id, CandidateOrResponsible.UserData.id)
+    const candidateInfo = await prisma.identityDetails.findUnique({
+      where: idFieldForSearch,
+      select: {
+        city: true,
+        UF: true,
+        CEP: true,
+        neighborhood: true,
+        address: true,
+        addressNumber: true,
+        complement: true,
+      }
+    })
+    if (!candidateInfo) {
+      throw new CandidateNotFoundError()
+
+    }
+
+
+    const educationLevel = await prisma.educationLevel.findUnique({
+      where: { id: educationLevel_id }
+    })
+    if (!educationLevel) {
+      throw new EducationLevelNotFoundError()
+    }
+    const entityInfo = educationLevel.entitySubsidiaryId ? await prisma.entitySubsidiary.findUnique({
+      where: { id: educationLevel.entitySubsidiaryId }
+    }) : await prisma.entity.findUnique({
+      where: { id: announcement.entity_id }
+    })
+
+    if (!entityInfo) {
+      throw new EntityNotExistsError()
+      
+    }
+    const candidateLocation = `${candidateInfo.address}, ${candidateInfo.addressNumber}, ${candidateInfo.neighborhood}, ${candidateInfo.city}, ${candidateInfo.UF}, ${candidateInfo.CEP}`
+
+    const entityLocation= entityInfo.address ? `${entityInfo.address}, ${entityInfo.addressNumber}, ${entityInfo.neighborhood}, ${entityInfo.city}, ${entityInfo.UF}, ${entityInfo.CEP}` : ''
+    const distance = await calculateDistance(candidateLocation, entityLocation)
+    console.log(distance)
     const application = await prisma.application.create({
       data: {
         candidate_id: candidate.id,
@@ -93,6 +138,7 @@ export async function subscribeAnnouncement(
         averageIncome: incomePerCapita,
         CadUnico: hasCadUnico?.CadUnico,
         hasSevereDesease: severeDisease ? severeDisease.length > 0 : false,
+        distance,
         ...idField
       },
     })
@@ -109,10 +155,21 @@ export async function subscribeAnnouncement(
   } catch (err: any) {
     console.log(err)
     if (err instanceof ResourceNotFoundError) {
-      return reply.status(404).send({ err })
+      return reply.status(404).send({ message: err.message })
+    }
+    if (err instanceof CandidateNotFoundError) {
+      return reply.status(404).send({ message: err.message })
+
+    }
+    if (err instanceof EducationLevelNotFoundError) {
+      return reply.status(404).send({ message: err.message })
+    }
+    if (err instanceof EntityNotExistsError) {
+      return reply.status(404).send({ message: err.message })
+      
     }
     if (err instanceof ApplicationAlreadyExistsError) {
-      return reply.status(409).send({ err })
+      return reply.status(409).send({ message: err.message })
     }
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
@@ -121,6 +178,7 @@ export async function subscribeAnnouncement(
     if (err instanceof AnnouncementClosed) {
       return reply.status(409).send({ message: err.message })
     }
+
     return reply.status(500).send({ message: err.message })
   }
 }

@@ -68,11 +68,11 @@ export async function deleteMonthlyIncomeHDB(id: string, memberId: string) {
     const route = `CandidateDocuments/${candidateOrResponsibleId}/monthly-income/${(memberId)}/${id}/`;
     await deleteFromS3Folder(route)
     for (const application of openApplications) {
+        const RouteHDB = await findAWSRouteHDB(candidateOrResponsibleId, 'monthly-income', (memberId)!, id, application.id);
+        await deleteFromS3Folder(RouteHDB)
         await historyDatabase.monthlyIncome.deleteMany({
             where: { main_id: id, application_id: application.id },
         });
        
-        const RouteHDB = await findAWSRouteHDB(candidateOrResponsibleId, 'monthly-income', (memberId)!, id, application.id);
-        await deleteFromS3Folder(RouteHDB)
     }
 }

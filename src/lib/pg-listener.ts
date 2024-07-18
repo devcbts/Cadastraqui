@@ -176,7 +176,7 @@ clientBackup.on('notification', async (msg) => {
                 where: { id: familyMemberIncome.data.id },
                 include: { familyMember: true }
             })
-            const candidateOrResponsible = income?.candidate_id || income?.legalResponsibleId || income?.familyMember?.candidate_id || income?.familyMember?.legalResponsibleId
+            const candidateOrResponsible = familyMemberIncome.data.candidate_id || familyMemberIncome.data.legalResponsibleId || income?.familyMember?.candidate_id || income?.familyMember?.legalResponsibleId
             if (familyMemberIncome.operation == 'Update') {
                 await updateFamilyMemberIncomeHDB(familyMemberIncome.data.id)
             }
@@ -201,18 +201,7 @@ clientBackup.on('notification', async (msg) => {
             await verifyIncomeBankRegistration(candidateOrResponsible!)
         }
 
-        if (msg.channel == 'channel_loan') {
-            const loan = JSON.parse(msg.payload!);
-            if (loan.operation == 'Update') {
-                await updateLoanHDB(loan.data.id)
-            }
-            else if (loan.operation == 'Insert') {
-                const openApplications = await getOpenApplications(loan.data.candidate_id || loan.data.legalResponsibleId);
-                for (const application of openApplications) {
-                    await createLoanHDB(loan.data.id, loan.data.candidate_id, loan.data.legalResponsibleId, application.id)
-                }
-            }
-        }
+      
         if (msg.channel == 'channel_identityDetails') {
             const identityDetails = JSON.parse(msg.payload!);
             if (identityDetails.operation == 'Update') {
@@ -225,18 +214,7 @@ clientBackup.on('notification', async (msg) => {
                 }
             }
         }
-        if (msg.channel == 'channel_otherExpense') {
-            const otherExpense = JSON.parse(msg.payload!);
-            if (otherExpense.operation == 'Update') {
-                updateOtherExpenseHDB(otherExpense.data.id)
-            }
-            else if (otherExpense.operation == 'Insert') {
-                const openApplications = await getOpenApplications(otherExpense.data.candidate_id || otherExpense.data.legalResponsibleId);
-                for (const application of openApplications) {
-                    createOtherExpenseHDB(otherExpense.data.id, otherExpense.data.candidate_id, otherExpense.data.legalResponsibleId, application.id)
-                }
-            }
-        }
+        
         if (msg.channel == 'channel_medication') {
             const medication = JSON.parse(msg.payload!);
             const Medication = await prisma.medication.findUnique({
@@ -264,7 +242,7 @@ clientBackup.on('notification', async (msg) => {
                 include: { familyMember: true }
 
             })
-            await CalculateMemberAverageIncome(monthlyIncome.data.candidate_id || monthlyIncome.data.familyMember_id || monthIncome?.legalResponsibleId, monthlyIncome.data.incomeSource)
+            await CalculateMemberAverageIncome(monthlyIncome.data.candidate_id || monthlyIncome.data.familyMember_id || monthlyIncome.data.legalResponsibleId, monthlyIncome.data.incomeSource)
             if (monthlyIncome.operation == 'Update') {
                 await updateMonthlyIncomeHDB(monthlyIncome.data.id)
             }
@@ -308,7 +286,7 @@ clientBackup.on('notification', async (msg) => {
             else if (bankaccount.operation == 'Insert') {
                 const openApplications = await getOpenApplications(candidateOrResponsible);
                 for (const application of openApplications) {
-                    createBankAccountHDB(bankaccount.data.id, bankaccount.data.candidate_id || bankaccountInfo?.familyMember?.candidate_id, bankaccount.data.legalResponsibleId, application.id)
+                    createBankAccountHDB(bankaccount.data.id, bankaccount.data.candidate_id || bankaccountInfo?.familyMember?.candidate_id, bankaccount.data.legalResponsibleId || bankaccountInfo?.familyMember?.legalResponsibleId, application.id)
                 }
             }
             else if (bankaccount.operation == 'Delete') {
@@ -352,14 +330,6 @@ clientBackup.on('notification', async (msg) => {
 
             const findExpense = await findAllExpense(candidate_id, responsible_id)
 
-            const findLoan = await findAllLoan(candidate_id, responsible_id)
-
-            const findFinancing = await findAllFinancing(candidate_id, responsible_id)
-
-            const findCreditCard = await findAllCreditCard(candidate_id, responsible_id)
-            const findOtherExpense = await prisma.otherExpense.findMany({
-                where: { ...findUserDetails.IsResponsible ? { legalResponsibleId: responsible_id } : { candidate_id: candidate_id } }
-            });
 
             const findFamilyMemberDisease = await findAllDiseases(candidate_id, responsible_id)
             const findMedication = await findAllMedication(candidate_id, responsible_id)
@@ -395,24 +365,8 @@ clientBackup.on('notification', async (msg) => {
             for (const expense of findExpense!) {
                 await createExpenseHDB(expense.id, candidate_id, responsible_id, application_id)
             }
-            for (const loan of findLoan!) {
-                await createLoanHDB(loan.id, candidate_id, responsible_id, application_id)
-            }
-
-            for (const financing of findFinancing!) {
-                await createLoanHDB(financing.id, candidate_id, responsible_id, application_id)
-            }
-
-            // Para creditCard
-            for (const creditCard of findCreditCard!) {
-                await createCreditCardHDB(creditCard.id, candidate_id, responsible_id, application_id)
-            }
-
-            // Para otherExpense
-            for (const otherExpense of findOtherExpense) {
-                await createOtherExpenseHDB(otherExpense.id, candidate_id, responsible_id, application_id)
-            }
-
+           
+          
             // Para familyMemberDisease
             for (const familyMemberDisease of findFamilyMemberDisease!) {
                 await createFamilyMemberDiseaseHDB(familyMemberDisease.id, candidate_id, responsible_id, application_id)

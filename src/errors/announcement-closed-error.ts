@@ -1,5 +1,5 @@
 export class AnnouncementClosed extends Error{
     constructor(){
-        super("Announcement application period is closed")
+        super("Edital fora do período de inscrição")
     }
 }

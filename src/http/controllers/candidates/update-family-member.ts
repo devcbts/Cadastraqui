@@ -223,7 +223,13 @@ export async function updateFamilyMemberInfo(
       where: { id: _id }
     });
 
-
+    await prisma.finishedRegistration.upsert({
+      where: idField,
+      create: { grupoFamiliar: true, ...idField },
+      update: {
+        grupoFamiliar: true,
+      }
+    })
     return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
