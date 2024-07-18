@@ -405,6 +405,7 @@ model FamilyMemberIncome {
 
 model MonthlyIncome {
   id                        String            @id @default(uuid())
+  receivedIncome            Boolean?          @default(true)
   date                      DateTime?         @default(now())
   grossAmount               Float?
   liquidAmount              Float?
@@ -649,7 +650,7 @@ model Announcement {
   announcementName     String?
   announcementLogo     String?
   type2                String?
-  sorted              Boolean?                 @default(false)
+  sorted               Boolean?                 @default(false)
   interview            AnnouncementInterview?
   criteria             TiebreakerCriterias[]    @default([CadUnico, LeastFamilyIncome, SeriousIllness, Draw])
   types1               scholarshipGrantedType[]

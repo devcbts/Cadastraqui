@@ -393,6 +393,7 @@ exports.Prisma.FamilyMemberIncomeScalarFieldEnum = {
 
 exports.Prisma.MonthlyIncomeScalarFieldEnum = {
   id: 'id',
+  receivedIncome: 'receivedIncome',
   date: 'date',
   main_id: 'main_id',
   grossAmount: 'grossAmount',
