@@ -60,7 +60,7 @@ export async function deleteBankAccountHDB(id: string, memberId: string) {
         where: { id: memberId }
     })
     let candidateOrResponsibleId = member?.candidate_id || member?.legalResponsibleId || memberId;
-    const openApplications = await getOpenApplications( candidateOrResponsibleId);
+    const openApplications = await getOpenApplications(candidateOrResponsibleId);
     if (!openApplications) {
         return null;
     }
@@ -68,10 +68,10 @@ export async function deleteBankAccountHDB(id: string, memberId: string) {
     await deleteFromS3Folder(route)
 
     for (const application of openApplications) {
+        const RouteHDB = await findAWSRouteHDB(candidateOrResponsibleId, 'statement', (memberId)!, id, application.id);
+        await deleteFromS3Folder(RouteHDB);
         const deleteBankAccount = await historyDatabase.bankAccount.deleteMany({
             where: { main_id: id, application_id: application.id }
         })
-    const RouteHDB = await findAWSRouteHDB(candidateOrResponsibleId, 'statement', (memberId)!, id, application.id);
-    await deleteFromS3Folder(RouteHDB);
-}
+    }
 }

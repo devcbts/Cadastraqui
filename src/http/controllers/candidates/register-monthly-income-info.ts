@@ -103,7 +103,7 @@ export async function registerMonthlyIncomeInfo(
             income.advancePaymentValue -
             income.reversalValue -
             income.judicialPensionValue
-          if (income.proLabore && income.dividends) {
+          if (income.proLabore || income.dividends) {
             liquidAmount = income.proLabore + income.dividends
           }
           // Armazena informações acerca da renda mensal no banco de dados
@@ -137,6 +137,7 @@ export async function registerMonthlyIncomeInfo(
           await tsPrisma.monthlyIncome.create({
             data: {
               receivedIncome: income.receivedIncome,
+              liquidAmount: total,
               grossAmount: income.grossAmount,
               date: income.date,
               advancePaymentValue: income.advancePaymentValue,
