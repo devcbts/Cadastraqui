@@ -330,14 +330,6 @@ clientBackup.on('notification', async (msg) => {
 
             const findExpense = await findAllExpense(candidate_id, responsible_id)
 
-            const findLoan = await findAllLoan(candidate_id, responsible_id)
-
-            const findFinancing = await findAllFinancing(candidate_id, responsible_id)
-
-            const findCreditCard = await findAllCreditCard(candidate_id, responsible_id)
-            const findOtherExpense = await prisma.otherExpense.findMany({
-                where: { ...findUserDetails.IsResponsible ? { legalResponsibleId: responsible_id } : { candidate_id: candidate_id } }
-            });
 
             const findFamilyMemberDisease = await findAllDiseases(candidate_id, responsible_id)
             const findMedication = await findAllMedication(candidate_id, responsible_id)

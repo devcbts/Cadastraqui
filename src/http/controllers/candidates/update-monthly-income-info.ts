@@ -136,6 +136,7 @@ export default async function updateMonthlyIncome(
                             where: { id: income.id },
                             data: {
                                 receivedIncome: income.receivedIncome,
+                                liquidAmount: total,
                                 grossAmount: income.grossAmount,
                                 date: income.date,
                                 advancePaymentValue: income.advancePaymentValue,
@@ -160,6 +161,7 @@ export default async function updateMonthlyIncome(
                                 ...idField,
                                 receivedIncome: income.receivedIncome,
                                 incomeSource,
+                                liquidAmount: total,
                                 grossAmount: income.grossAmount,
                                 date: income.date,
                                 advancePaymentValue: income.advancePaymentValue,
