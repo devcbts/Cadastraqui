@@ -5,16 +5,18 @@ import stringToFloat from "utils/string-to-float";
 
 
 const TotalValue = forwardRef(({ data }, ref) => {
+    console.log(data)
     const getTotalValue = () => {
         const dataValues = [
             "grossAmount", "incomeTax", "publicPension", "otherDeductions",
             "foodAllowanceValue", "transportAllowanceValue", "expenseReimbursementValue",
             "advancePaymentValue", "reversalValue", "compensationValue", "judicialPensionValue", "proLabore", "dividends", "parcelValue", "deductionValue",
             "parcels", "parcelValue"]
-        let sum = data.grossAmount ?
+        let sum = stringToFloat(data.grossAmount) ?
             stringToFloat(data.grossAmount) :
             (stringToFloat(data.dividends) + stringToFloat(data.proLabore))
-        const condition = (item) => data.grossAmount ? item !== "grossAmount" : (item !== "proLabore" && item !== "dividends")
+        console.log(sum)
+        const condition = (item) => stringToFloat(data.grossAmount) ? item !== "grossAmount" : (item !== "proLabore" && item !== "dividends")
         dataValues.forEach(e => {
             if (data.hasOwnProperty(e) && condition(e)) {
                 sum -= stringToFloat(data[e])
@@ -24,8 +26,8 @@ const TotalValue = forwardRef(({ data }, ref) => {
         return Number(sum).toLocaleString("pt-br", { style: "currency", currency: "BRL" })
     }
     const getGrossValue = () => {
-        if (data.grossAmount) return Number(stringToFloat(data.grossAmount)).toLocaleString("pt-br", { style: "currency", currency: "BRL" })
-        if (data.dividends && data.proLabore) return Number(stringToFloat(data.dividends) + stringToFloat(data.proLabore)).toLocaleString("pt-br", { style: "currency", currency: "BRL" })
+        if (stringToFloat(data.grossAmount)) return Number(stringToFloat(data.grossAmount)).toLocaleString("pt-br", { style: "currency", currency: "BRL" })
+        if (stringToFloat(data.dividends) && stringToFloat(data.proLabore)) return Number(stringToFloat(data.dividends) + stringToFloat(data.proLabore)).toLocaleString("pt-br", { style: "currency", currency: "BRL" })
         return 0
     }
     useImperativeHandle(ref, () => ({

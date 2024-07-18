@@ -26,13 +26,13 @@ const IncomeSelection = forwardRef(({ data, viewMode }, ref) => {
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Fonte de Renda</h1>
             <fieldset disabled={viewMode}>
-            <InputBase label={"integrante"} value={data.member.fullName} error={null} disabled />
-            {
-                data.incomeSource ? (
-                    <InputBase label="fonte de renda" value={INCOME_SOURCE.find(e => e.value === data.incomeSource).label} error={null} disabled />
-                ) :
-                    <FormSelect name={"incomeSource"} control={control} label={"fonte de renda"} value={watchIncome} options={INCOME_SOURCE.filter(e => !data.member?.incomeSource?.includes(e.value))} />
-            }
+                <InputBase label={"integrante"} value={data.member.fullName} error={null} disabled />
+                {
+                    data.incomeSource ? (
+                        <InputBase label="fonte de renda" value={INCOME_SOURCE.find(e => e.value === data.incomeSource).label} error={null} disabled />
+                    ) :
+                        <FormSelect name={"incomeSource"} control={control} label={"fonte de renda"} value={watchIncome} options={INCOME_SOURCE.filter(e => !data.member?.incomeSource?.includes(e.value))} />
+                }
             </fieldset>
         </div>
     )

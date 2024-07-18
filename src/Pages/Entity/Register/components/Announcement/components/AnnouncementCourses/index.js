@@ -20,7 +20,7 @@ import EDUCATION_TYPE from "utils/enums/education-type"
 export default function AnnouncementCourses({ entity, data, onPageChange }) {
     // can be 'HigherEducation' or 'BasicEducation'
     const isBasicEducation = data?.educationLevel === 'BasicEducation'
-    const { control, formState: { isValid, errors }, trigger, getValues, watch, reset } = useControlForm({
+    const { control, formState: { isValid }, trigger, getValues, watch, reset } = useControlForm({
         schema: announcementCoursesSchema(isBasicEducation),
         defaultValues: {
             level: data?.educationLevel,
@@ -42,17 +42,17 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
     const handleAddCourse = () => {
         if (!isValid) {
             trigger()
-
             return
         }
         const data = getValues()
-        let mappedData = { ...data, shift: findLabel(SHIFT, data.shift) }
+        let mappedData = { _identifier: new Date().getTime(), ...data, shift: findLabel(SHIFT, data.shift) }
         // if (!data.entity_subsidiary_id) {
         //     mappedData.entity_subsidiary_id = entity.id
         // }
         setCourses((prev) => ([...prev, mappedData]))
         reset()
     }
+
     const entitiesOptions = useMemo(() => {
         const subs = entity?.EntitySubsidiary?.map((e) => ({ label: e.socialReason, value: e.id }))
         subs?.push({ label: entity?.socialReason, value: null })
@@ -80,6 +80,10 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
 
     const handleSubmit = () => {
         onPageChange(1, { educationalLevels: courses, verifiedScholarships: totalScholarships, entity_subsidiary_id: courses.map(e => e.entity_subsidiary_id).filter(e => !!e) })
+    }
+    const handleRemoveCourse = (identifier) => {
+        setCourses((prev) => (prev.filter((e) => e._identifier !== identifier)))
+
     }
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
@@ -130,7 +134,7 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
             <div>
                 <h1>Quadro resumo</h1>
 
-                <Table.Root headers={['matriz ou filial', 'vagas', 'tipo de educação', 'ciclo/ano/série/semestre/curso', 'turno', 'tipo de bolsa']}>
+                <Table.Root headers={['matriz ou filial', 'vagas', 'tipo de educação', 'ciclo/ano/série/semestre/curso', 'turno', 'tipo de bolsa', 'ação']}>
                     {
                         courses.map(course => (
                             <Table.Row>
@@ -145,6 +149,9 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
                                         findLabel(SCHOLARSHIP_OFFER, course.scholarshipType)
                                         : findLabel(SCHOLARSHIP_TYPE, course.higherEduScholarshipType)
                                 }</Table.Cell>
+                                <Table.Cell>
+                                    <ButtonBase label={'excluir'} onClick={() => { handleRemoveCourse(course._identifier) }} danger />
+                                </Table.Cell>
                             </Table.Row>
                         ))
                     }

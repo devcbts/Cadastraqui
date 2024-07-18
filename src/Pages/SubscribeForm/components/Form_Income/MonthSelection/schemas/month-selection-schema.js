@@ -22,6 +22,7 @@ const monthSelectionSchema = (quantity) => z.object({
         judicialPensionValue: z.string().nullish().transform(stringToFloat),
         file_document: z.instanceof(File).nullish(),
         url_document: z.string().nullish(),
+        skipMonth: z.boolean().default(false),
         isUpdated: z.boolean().default(false).refine((v) => v, { message: 'Mês não preenchido' })
     })).min(quantity).max(quantity)
 }).transform((data) => {
@@ -29,7 +30,7 @@ const monthSelectionSchema = (quantity) => z.object({
         incomes: data.months.map((e) => {
             const month = e.date.getMonth() + 1
             const year = e.date.getFullYear()
-            return ({ ...e, [`file_rendimentos-${month}-${year}`]: e.file_document, file_document: null })
+            return ({ ...e, [`file_rendimentos-${month}-${year}`]: e.file_document, file_document: null, receivedIncome: !e.skipMonth })
         })
     }
 })

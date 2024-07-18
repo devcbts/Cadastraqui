@@ -24,7 +24,6 @@ api.interceptors.response.use(
     // it means the token has expired and we need to refresh it
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-
       try {
         const refreshToken = localStorage.getItem('refresh_token');
         const response = await api.patch(`/refresh?refreshToken=${refreshToken}`);
@@ -35,15 +34,16 @@ api.interceptors.response.use(
         // Retry the original request with the new token
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
         return axios(originalRequest);
-      } catch (error) {
-        if (error.response.status === 401) {
-          // Handle refresh token error or redirect to login
-          NotificationService.error({ text: 'Seu acesso expirou, faça login novamente' }).then(_ => {
-            localStorage.clear()
-            window.location.href = '/'
-          })
+      } catch (refreshError) {
+        // if (refreshError.response.status === 401) {
+        // Handle refresh token error or redirect to login
 
-        }
+
+        await NotificationService.error({ text: 'Seu acesso expirou, faça login novamente' })
+        localStorage.clear();
+        window.location.href = '/';
+        return Promise.reject(refreshError)
+        // }
       }
     }
     return Promise.reject(error);

@@ -25,6 +25,7 @@ const IncomeMonthSelection = forwardRef(({ data, render = [], viewMode }, ref) =
                 data={data}
                 viewMode={viewMode}
                 schema={monthSelectionSchema(data.quantity)}
+                checkRegister={true}
             />
         </div>
     )

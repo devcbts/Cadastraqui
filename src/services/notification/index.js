@@ -13,7 +13,7 @@ class NotificationService {
         }
     }
 
-    success({ title = "Sucesso", text }) {
+    async success({ title = "Sucesso", text }) {
         return Swal.fire({
             title,
             text,
@@ -24,7 +24,7 @@ class NotificationService {
         })
     }
 
-    error({ title = "Erro", text }) {
+    async error({ title = "Erro", text }) {
         return Swal.fire({
             title,
             text,

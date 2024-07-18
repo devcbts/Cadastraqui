@@ -18,7 +18,7 @@ const ExpenseSelection = forwardRef(({ data, viewMode = false }, ref) => {
             return new Date(a.date) < new Date(b.date)
         })?.[0]?.totalExpense?.toString().replace(/[^\d,.]/g, '').replace(',', '.') ?? 0)
         const totalExpense = data?.months?.reduce((acc, e) => {
-            acc += parseFloat(e.totalExpense.toString().replace(/[^\d,.]/g, '').replace(',', '.'))
+            acc += parseFloat(e.totalExpense?.toString().replace(/[^\d,.]/g, '').replace(',', '.'))
             return acc
         }, 0)
         const validMonths = data?.months?.filter((e) => e.isUpdated)?.length

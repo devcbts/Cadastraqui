@@ -16,7 +16,9 @@ class IncomeMapper {
         ];
 
         const mappedData = Object.keys(data).map((key) => ({
-            income: INCOME_SOURCE.find((e) => e.value === key), list: data[key].map(e => {
+            income: INCOME_SOURCE.find((e) => e.value === key),
+            // list: data[key].map(e => ({ ...e, url_document: Object.values(removeObjectFileExtension(e.urls))?.[0] }))
+            list: data[key].map(e => {
                 const obj = Object.entries(e).reduce((acc, [objKey, objValue]) => {
                     if (monetaryFields.includes(objKey)) {
                         acc[objKey] = Number(objValue).toLocaleString('pt-br', { style: "currency", currency: "brl" })
@@ -30,6 +32,8 @@ class IncomeMapper {
                     }
                     return acc
                 }, {})
+                obj['isUpdated'] = true
+                obj['skipMonth'] = !e.receivedIncome
                 return obj
             })
         }))
