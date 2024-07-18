@@ -1,5 +1,4 @@
 import { ForbiddenError } from '@/errors/forbidden-error'
-import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
@@ -13,6 +12,7 @@ export async function registerExpensesInfo(
   const ExpensesDataSchema = z.object({
     expenses: z.array(
       z.object({
+        id: z.string().nullish(),
         date: z.string().or(z.date()).transform(v => new Date(v)),
         waterSewage: z.optional(z.number()),
         electricity: z.optional(z.number()),
@@ -53,7 +53,7 @@ export async function registerExpensesInfo(
         creditCard: z.optional(z.number()),
         otherExpensesValue: z.optional(z.array(z.number())),
         otherExpensesDescription: z.optional(z.array(z.string())),
-        totalExpense: z.optional(z.number()),
+        totalExpense: z.number().nullish(),
       })
     )
   }
@@ -72,118 +72,58 @@ export async function registerExpensesInfo(
     // get the current user role to set the correct id
     const idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
     //clean all expenses from the current user
-    const oldestExpense = await prisma.expense.findFirst({
-      where: { ...idField },
-      orderBy: { date: 'asc' },
+    // const oldestExpense = await prisma.expense.findFirst({
+    //   where: { ...idField },
+    //   orderBy: { date: 'asc' },
+    // })
+
+    // if (oldestExpense) {
+    //   await prisma.expense.delete({
+    //   where: { id: oldestExpense.id },
+    //   })
+    // }
+    let newExpenses;
+    await prisma.$transaction(async (tsPrisma) => {
+      newExpenses = await Promise.all(
+        expenses.map(async expense => {
+          const { id, ...rest } = expense
+          let dbExpense;
+          if (id) {
+            dbExpense = await tsPrisma.expense.update({
+              where: { id: id },
+              data: {
+                ...rest,
+                ...idField,
+
+              },
+            })
+          } else {
+
+            dbExpense = await tsPrisma.expense.create({
+              data: {
+                ...rest,
+                ...idField,
+
+              },
+            })
+          }
+
+          await tsPrisma.finishedRegistration.upsert({
+            where: idField,
+            create: { grupoFamiliar: true, ...idField },
+            update: {
+              despesas: true,
+            }
+          })
+          return dbExpense
+        })
+      )
     })
 
-    if (oldestExpense) {
-      await prisma.expense.delete({
-      where: { id: oldestExpense.id },
-      })
-    }
-    expenses.forEach(async (expense) => {
-      const {
-        date,
-        INSS,
-        publicTransport,
-        schoolTransport,
-        internet,
-        courses,
-        healthPlan,
-        dentalPlan,
-        medicationExpenses,
-        otherExpensesValue,
-        otherExpensesDescription,
-        totalExpense,
-        annualIPTU,
-        annualIPVA,
-        annualIR,
-        annualITR,
-        cableTV,
-        condominium,
-        electricity,
-        food,
-        fuel,
-        garageRent,
-        installmentCountIPVA,
-        installmentValueIPVA,
-        optedForInstallmentIPVA,
-        installmentCountIPTU,
-        installmentValueIPTU,
-        optedForInstallmentIPTU,
-        installmentCountITR,
-        installmentValueITR,
-        optedForInstallmentITR,
-        installmentCountIR,
-        installmentValueIR,
-        optedForInstallmentIR,
-        landlinePhone,
-        mobilePhone,
-        financing,
-        creditCard,
-        rent,
-        streamingServices,
-        waterSewage,
-      } = expense
+    // Armazena informações acerca das despesas do candidato
 
-      // Armazena informações acerca das despesas do candidato
-      await prisma.expense.create({
-        data: {
-          date,
-          annualIPTU,
-          annualIPVA,
-          annualIR,
-          annualITR,
-          cableTV,
-          condominium,
-          courses,
-          dentalPlan,
-          electricity,
-          food,
-          fuel,
-          garageRent,
-          healthPlan,
-          INSS,
-          installmentCountIPVA,
-          installmentValueIPVA,
-          optedForInstallmentIPVA,
-          installmentCountIPTU,
-          installmentValueIPTU,
-          optedForInstallmentIPTU,
-          installmentCountITR,
-          installmentValueITR,
-          optedForInstallmentITR,
-          installmentCountIR,
-          installmentValueIR,
-          optedForInstallmentIR,
-          landlinePhone,
-          internet,
-          ...idField,
-          mobilePhone,
-          publicTransport,
-          rent,
-          schoolTransport,
-          streamingServices,
-          totalExpense,
-          otherExpensesValue,
-          otherExpensesDescription,
-          medicationExpenses,
-          waterSewage,
-          financing,
-          creditCard
-        },
-      })
-    })
-    await prisma.finishedRegistration.upsert({
-      where: idField,
-      create: { grupoFamiliar: true, ...idField },
-      update: {
-        despesas: true,
-      }
-    })
 
-    return reply.status(201).send()
+    return reply.status(201).send({ expenses: newExpenses })
   } catch (err: any) {
     if (err instanceof ForbiddenError) {
       return reply.status(403).send({ message: err.message })
