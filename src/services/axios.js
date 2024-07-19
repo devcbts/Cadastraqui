@@ -38,11 +38,12 @@ api.interceptors.response.use(
         // if (refreshError.response.status === 401) {
         // Handle refresh token error or redirect to login
 
-
-        await NotificationService.error({ text: 'Seu acesso expirou, faça login novamente' })
-        localStorage.clear();
-        window.location.href = '/';
-        return Promise.reject(refreshError)
+        if (refreshError.response.status === 400) {
+          await NotificationService.error({ text: 'Seu acesso expirou, faça login novamente' })
+          localStorage.clear();
+          window.location.href = '/';
+          return Promise.reject(refreshError)
+        }
         // }
       }
     }

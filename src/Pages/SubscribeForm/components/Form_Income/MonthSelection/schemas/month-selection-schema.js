@@ -23,16 +23,28 @@ const monthSelectionSchema = (quantity) => z.object({
         file_document: z.instanceof(File).nullish(),
         url_document: z.string().nullish(),
         skipMonth: z.boolean().default(false),
-        isUpdated: z.boolean().default(false).refine((v) => v, { message: 'Mês não preenchido' })
-    })).min(quantity).max(quantity)
-}).transform((data) => {
-    return {
-        incomes: data.months.map((e) => {
-            const month = e.date.getMonth() + 1
-            const year = e.date.getFullYear()
-            return ({ ...e, [`file_rendimentos-${month}-${year}`]: e.file_document, file_document: null, receivedIncome: !e.skipMonth })
-        })
-    }
+        isUpdated: z.boolean().default(false)
+    }).superRefine((data, ctx) => {
+        if (!data.skipMonth) {
+            if (!data.isUpdated) {
+                ctx.addIssue({
+                    message: 'Mês desatualizado',
+                    path: ['isUpdated']
+                })
+            }
+        }
+    })
+
+    ).min(quantity).max(quantity)
 })
+    .transform((data) => {
+        return {
+            incomes: data.months.map((e) => {
+                const month = e.date.getMonth() + 1
+                const year = e.date.getFullYear()
+                return ({ ...e, [`file_rendimentos-${month}-${year}`]: e.file_document, file_document: null, receivedIncome: !e.skipMonth })
+            })
+        }
+    })
 
 export default monthSelectionSchema

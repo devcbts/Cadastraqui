@@ -7,12 +7,12 @@ import { forwardRef, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import monthAtom from "./atoms/month-atom";
 import styles from './styles.module.scss';
-import Tooltip from 'Components/Tooltip';
-import { Controller, useFieldArray } from 'react-hook-form';
-import InputForm from 'Components/InputForm';
+import { Controller } from 'react-hook-form';
+import { ReactComponent as Pencil } from 'Assets/icons/pencil.svg'
+import { ReactComponent as Remove } from 'Assets/icons/close.svg'
 // quantity = months that user needs to fullfill in order to proceed saving information
 const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false, checkRegister = false }, ref) => {
-    const { control, watch, setValue, getValues, trigger, formState: { errors }, register } = useControlForm({
+    const { control, watch, setValue, getValues, trigger, formState: { errors } } = useControlForm({
         schema: schema,
         defaultValues: {
             months: [],
@@ -53,7 +53,7 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
                 })
                 // if TRUE return the current object formatted to display data string
                 if (!!monthDataIncome) {
-                    return { ...monthDataIncome, isUpdated: true, dateString }
+                    return { ...monthDataIncome, isUpdated: !monthDataIncome.skipMonth, dateString }
                 } else {
                     return { ...e, isUpdated: false, dateString, date: currentDate, skipMonth: false }
                 }
@@ -81,7 +81,6 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
             }
             return e
         })
-        console.log(errors)
         setValue("months", monthsToUpdate)
         trigger()
         setMonthSelected(null)
@@ -110,7 +109,6 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
             previous()
         }
     }
-
     // Render the current selected month data based on what month user has clicked
     // If NO month is selected, then the field to be send to API ("months") will stay the same as it is
     // Else, the other pages will be responsible for changing the data, and THIS component will save the new data to the specified "months" array 
@@ -123,26 +121,31 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
                     <p className={styles.text}>Agora realize o cadastro para cada um dos meses abaixo, inserindo as informações correspondentes.</p>
                     {
                         watchMonths.map((month, index) => (
-                            <div style={checkRegister ? { display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '20px' } : {}} key={month.dateString}>
-                                <div className={styles.wrapper}>
+                            <div className={styles.wrapper}>
+                                <div style={checkRegister ? { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '20px' } : {}} key={month.dateString}>
                                     <ButtonBase
                                         disabled={checkRegister ? month.skipMonth : false}
                                         label={month.dateString}
                                         onClick={() => handleSelectMonth(month)}
                                     />
-                                    {errors?.months?.[index]?.isUpdated?.message && <p className={styles.error}>{month.dateString} desatualizado</p>}
+                                    {(checkRegister && !viewMode) && <>
+                                        <Controller name={`months.${index}.skipMonth`} control={control} render={({ field }) => {
+                                            if (field.value) {
+                                                // value is true = month must be skipped
+                                                return <Pencil cursor={'pointer'} onClick={() => field.onChange(false)} width={20} height={20} />
+                                            } else {
+                                                // value is false = month must be registered
+                                                return <Remove cursor={'pointer'} onClick={() => field.onChange(true)} width={20} height={20} />
+                                            }
+                                        }}>
+
+                                        </Controller>
+                                    </>
+                                    }
                                 </div>
-                                {checkRegister && <>
-                                    {/* {JSON.stringify(month.skipMonth)} */}
-                                    <Controller name={`months.${index}.skipMonth`} control={control} render={({ field }) => {
-                                        return <input type='checkbox' {...field}
-                                            checked={field.value}
-                                        />
+                                {checkRegister && month.skipMonth && <>Não obteve renda</>}
+                                {errors?.months?.[index]?.isUpdated?.message && <span className={styles.error}>{month.dateString} desatualizado</span>}
 
-                                    }}>
-
-                                    </Controller>
-                                </>}
                             </div>
                         ))
                     }
