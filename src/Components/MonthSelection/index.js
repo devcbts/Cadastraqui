@@ -160,11 +160,11 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
                         </fieldset>
                         {<div className={commonStyles.actions}>
                             <ButtonBase onClick={handlePrevious}>
-                                <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                                <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                             </ButtonBase>
                             {activeStep !== max &&
                                 <ButtonBase onClick={next}>
-                                    <Arrow width="40px" />
+                                    <Arrow width="30px" />
                                 </ButtonBase>
                             }
                             {

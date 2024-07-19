@@ -1,19 +1,17 @@
+import { ReactComponent as Arrow } from "Assets/icons/arrow.svg";
 import ButtonBase from "Components/ButtonBase";
 import FormFilePicker from "Components/FormFilePicker";
+import Loader from "Components/Loader";
+import Table from "Components/Table";
 import Tooltip from "Components/Tooltip";
 import useControlForm from "hooks/useControlForm";
-import { ReactComponent as Arrow } from "Assets/icons/arrow.svg";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
 import uploadService from "services/upload/uploadService";
-import createFileForm from "utils/create-file-form";
 import bankReportSchema from "./schemas/bank-report-schema";
-import styles from './styles.module.scss'
-import FilePreview from "Components/FilePreview";
-import { useEffect, useState } from "react";
-import candidateService from "services/candidate/candidateService";
-import Table from "Components/Table";
-import Loader from "Components/Loader";
+import styles from './styles.module.scss';
 export default function BankReport({ id, onBack }) {
     const [isLoading, setIsLoading] = useState(true)
     const { control, getValues, formState: { isValid }, trigger, watch, setValue } = useControlForm({
@@ -90,7 +88,7 @@ export default function BankReport({ id, onBack }) {
                 </Tooltip>
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
 
-                    <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                    <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                     <ButtonBase label={'enviar'} onClick={handleUploadFile} />
                 </div>
             </div>

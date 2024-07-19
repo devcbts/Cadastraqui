@@ -1,18 +1,14 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss';
-import { formatCPF } from 'utils/format-cpf';
-import { formatCurrency } from 'utils/format-currency';
-import { useRecoilState } from 'recoil';
-import declarationAtom from '../../atoms/declarationAtom';
-import useControlForm from 'hooks/useControlForm';
-import { z } from 'zod';
-import { isValidCPF } from 'utils/validate-cpf';
+import FormCheckbox from 'Components/FormCheckbox';
 import InputForm from 'Components/InputForm';
 import MoneyFormInput from 'Components/MoneyFormInput';
-import stringToFloat from 'utils/string-to-float';
-import FormCheckbox from 'Components/FormCheckbox';
+import useControlForm from 'hooks/useControlForm';
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+import { formatCPF } from 'utils/format-cpf';
+import declarationAtom from '../../atoms/declarationAtom';
+import commonStyles from '../../styles.module.scss';
 import pensionSchema from './pension-schema';
 
 export default function Declaration_Pension({ onBack, onNext }) {
@@ -114,7 +110,7 @@ export default function Declaration_Pension({ onBack, onNext }) {
                 )}
             </div>
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}
@@ -124,7 +120,7 @@ export default function Declaration_Pension({ onBack, onNext }) {
                     onClick={handleSave}
 
                 >
-                    <Arrow width="40px" />
+                    <Arrow width="30px" />
                 </ButtonBase>
             </div>
         </div>

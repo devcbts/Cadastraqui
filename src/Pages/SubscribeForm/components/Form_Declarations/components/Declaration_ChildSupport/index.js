@@ -1,9 +1,9 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss';
 import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_ChildSupport({ onBack, onNext, onNoPension }) {
     const [childReceivesSupport, setChildReceivesSupport] = useState(null);
@@ -66,7 +66,7 @@ export default function Declaration_ChildSupport({ onBack, onNext, onNoPension }
                 </div>
             </div>
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase
                     label="Salvar"
                     onClick={handleNext}
@@ -86,7 +86,7 @@ export default function Declaration_ChildSupport({ onBack, onNext, onNoPension }
                         opacity: childReceivesSupport === null ? 0.6 : 1
                     }}
                 >
-                    <Arrow width="40px" />
+                    <Arrow width="30px" />
                 </ButtonBase>
             </div>
         </div>

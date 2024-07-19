@@ -31,3 +31,4 @@ yarn.lock
 .env.dev
 yarn.lock
 yarn.lock
+src/index.js

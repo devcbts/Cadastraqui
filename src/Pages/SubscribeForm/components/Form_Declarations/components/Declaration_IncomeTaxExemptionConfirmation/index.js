@@ -2,12 +2,12 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss';
 import { useRecoilState } from 'recoil';
-import declarationAtom from '../../atoms/declarationAtom';
+import candidateService from 'services/candidate/candidateService';
 import findLabel from 'utils/enums/helpers/findLabel';
 import MARITAL_STATUS from 'utils/enums/marital-status';
-import candidateService from 'services/candidate/candidateService';
+import declarationAtom from '../../atoms/declarationAtom';
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_IncomeTaxExemptionConfirmation({ onBack, onNext }) {
     const { auth } = useAuth();
@@ -112,7 +112,7 @@ serem verdadeiras todas as informações acima prestadas. \
                 {error && <div style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
             </div>
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}

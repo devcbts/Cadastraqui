@@ -1,13 +1,12 @@
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 import ButtonBase from 'Components/ButtonBase'
-import styles from './styles.module.scss'
+import CheckboxBase from 'Components/CheckboxBase'
 import FormList from 'Pages/SubscribeForm/components/FormList'
 import FormListItem from 'Pages/SubscribeForm/components/FormList/FormListItem'
-import DISEASES from 'utils/enums/diseases'
-import FormCheckbox from 'Components/FormCheckbox'
-import CheckboxBase from 'Components/CheckboxBase'
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 import { useState } from 'react'
 import candidateService from 'services/candidate/candidateService'
+import DISEASES from 'utils/enums/diseases'
+import styles from './styles.module.scss'
 export default function MemberHealthView({ member, onViewFiles, onSelect, onAdd, edit = true, onBack }) {
     const diseaseList = member?.healthInfo?.map(e => ({ disease: e.disease, data: e })).filter((e) => e.disease !== null)
     const medicationList = member?.healthInfo?.map(e => ({ medication: e.medication?.[0], data: e })).filter((e) => e.medication)
@@ -74,7 +73,7 @@ export default function MemberHealthView({ member, onViewFiles, onSelect, onAdd,
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
                 <ButtonBase onClick={onBack}>
-                    <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                    <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                 </ButtonBase>
                 {(edit && hasDiseaseOrMedication) && <ButtonBase label={'cadastrar'} onClick={() => onAdd(member)} />}
             </div>

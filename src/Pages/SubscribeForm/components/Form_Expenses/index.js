@@ -1,14 +1,14 @@
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
+import Loader from "Components/Loader";
+import monthAtom from "Components/MonthSelection/atoms/month-atom";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
-import Loader from "Components/Loader";
 import { useEffect, useState } from "react";
-import ExpenseSelection from "./ExpenseSelection";
+import { useRecoilState } from "recoil";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
-import { useRecoilState, useRecoilValue } from "recoil";
-import monthAtom from "Components/MonthSelection/atoms/month-atom";
+import ExpenseSelection from "./ExpenseSelection";
 
 export default function FormExpenses() {
     const [isLoading, setIsLoading] = useState(true)
@@ -57,12 +57,12 @@ export default function FormExpenses() {
             {!hasSelectedMonth && <div className={commonStyles.actions}>
                 {activeStep !== 1 && (
                     <ButtonBase onClick={previous}>
-                        <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                        <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                     </ButtonBase>
                 )}
                 {activeStep !== max &&
                     <ButtonBase onClick={next}>
-                        <Arrow width="40px" />
+                        <Arrow width="30px" />
                     </ButtonBase>
                 }
                 {

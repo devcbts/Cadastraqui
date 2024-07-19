@@ -1,4 +1,5 @@
 @import "../../Assets/theme/global.module.scss";
+
 .container {
     display: flex;
     flex-direction: column;
@@ -12,52 +13,63 @@
 .inputwrapper {
     display: flex;
     flex-direction: column;
-    @media(max-width:400px){
+
+    @media(max-width:400px) {
         min-width: 250px;
     }
-    .label{
+
+    .label {
         // display: inline-block;
         font-weight: 600;
         font-size: 16px;
         color: $grey;
         margin-bottom: 4px;
-        &::first-letter{
+
+        &::first-letter {
             text-transform: capitalize;
         }
+
         // text-transform: capitalize;
         // mix-blend-mode: screen;
-        @media(max-width:400px){
+        @media(max-width:400px) {
             font-size: 14px;
         }
     }
-    .inputbox{
+
+    .inputbox {
         position: relative;
-        .input{
+
+        .input {
             outline: none;
-            padding: 6px 38px 6px 8px;
+            /* padding: 6px 38px 6px 8px; */
+            padding: 6px 8px 6px 8px;
             border: 2px solid $lightgrey;
             border-radius: 8px;
             font-weight: 600;
             color: $grey;
             font-size: 16px;
             width: 100%;
-            @media(max-width:400px){
+
+            @media(max-width:400px) {
                 font-size: 12px;
             }
-            &.error{
-             border-color: $error !important;
+
+            &.error {
+                border-color: $error !important;
             }
-            &.pass{
-             border-color: $success !important;
+
+            &.pass {
+                border-color: $success !important;
             }
-            &[data-type="file"]{
+
+            &[data-type="file"] {
                 cursor: pointer;
                 background: url("../../Assets/icons/upload.svg") no-repeat;
                 background-position: calc(100% - 48px);
             }
         }
-        
-        .icon{
+
+        .icon {
             position: absolute;
             top: 0;
             right: 0;
@@ -68,14 +80,15 @@
             // transform:translateY(3px);
         }
     }
-    
+
 
 }
 
-.errorwrapper{
+.errorwrapper {
     min-height: 14px;
     display: flex;
     margin-top: 4px;
+
     .error {
         color: $error;
         font-size: 14px;

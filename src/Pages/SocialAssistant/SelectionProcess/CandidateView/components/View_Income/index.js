@@ -1,6 +1,8 @@
 
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 import ButtonBase from "Components/ButtonBase"
 import monthAtom from "Components/MonthSelection/atoms/month-atom"
+import IncomeFile from "Pages/SubscribeForm/components/Form_Income/IncomeFile"
 import IncomeSelection from "Pages/SubscribeForm/components/Form_Income/IncomeSelection"
 import IncomeFormModelA from "Pages/SubscribeForm/components/Form_Income/ModelA"
 import InformationModelA from "Pages/SubscribeForm/components/Form_Income/ModelA/components/InformationModelA"
@@ -12,11 +14,9 @@ import InformationModelD from "Pages/SubscribeForm/components/Form_Income/ModelD
 import UnemployementInsurance from "Pages/SubscribeForm/components/Form_Income/Unemployed/components/UnemployementInsurance"
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook"
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 import { useEffect, useState } from "react"
 import { useRecoilValue } from "recoil"
 import IncomeList from "./components/IncomeList"
-import IncomeFile from "Pages/SubscribeForm/components/Form_Income/IncomeFile"
 
 export default function ViewIncome({ candidateId, applicationId }) {
     const [renderItems, setRenderItems] = useState()
@@ -75,12 +75,12 @@ export default function ViewIncome({ candidateId, applicationId }) {
                 <Steps />
                 {!hasIncomeSelected && <div className={commonStyles.actions}>
                     <ButtonBase onClick={handlePrevious}>
-                        <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                        <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                     </ButtonBase>
 
                     {(activeStep !== max || activeStep === 1) &&
                         <ButtonBase onClick={next}>
-                            <Arrow width="40px" />
+                            <Arrow width="30px" />
                         </ButtonBase>
                     }
 

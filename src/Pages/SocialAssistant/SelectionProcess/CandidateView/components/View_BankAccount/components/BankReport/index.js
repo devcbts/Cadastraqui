@@ -1,13 +1,11 @@
-import FormFilePicker from "Components/FormFilePicker";
-import useControlForm from "hooks/useControlForm";
 
-import styles from './styles.module.scss'
-import { Link } from "react-router-dom";
-import Table from "Components/Table";
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import Table from "Components/Table";
 import { useEffect, useState } from "react";
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
+import { Link } from "react-router-dom";
+import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import styles from './styles.module.scss';
 
 export default function BankReport({ applicationId, id, onBack }) {
     // { date: '', url: '' }
@@ -49,7 +47,7 @@ export default function BankReport({ applicationId, id, onBack }) {
                 }
             </div >
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
             </div>
             <div>
 

@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react"
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 import ButtonBase from "Components/ButtonBase"
 import RowTextAction from "Components/RowTextAction"
 import FormList from "Pages/SubscribeForm/components/FormList"
 import FormListItem from "Pages/SubscribeForm/components/FormList/FormListItem"
-import ViewBankAccount from "../../../View_BankAccount"
+import { useEffect, useState } from "react"
 import socialAssistantService from "services/socialAssistant/socialAssistantService"
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
+import ViewBankAccount from "../../../View_BankAccount"
 export default function MemberIncomeView({ member, onSelect, applicationId, onBack }) {
     const { id, fullName } = member
     const [isLoading, setIsLoading] = useState(true)
@@ -38,7 +38,7 @@ export default function MemberIncomeView({ member, onSelect, applicationId, onBa
                 <>
                     <FormList.Root title={"Rendas cadastradas"} isLoading={isLoading}>
                         <h2>{fullName} </h2>
-                        <RowTextAction text={"declarações e comprovantes bancários"} label={'visualizar'} onClick={handleShowBankAccount} />
+                        <RowTextAction text={"Declarações e Comprovantes bancários"} label={'visualizar'} onClick={handleShowBankAccount} />
                         <FormList.List list={incomeInfo.monthlyIncome} text={`Nenhuma renda cadastrada para ${fullName}`} render={(item) => {
                             return (
                                 <FormListItem.Root text={item.income.label}>
@@ -51,7 +51,7 @@ export default function MemberIncomeView({ member, onSelect, applicationId, onBa
                         </FormList.List>
                     </FormList.Root>
                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
-                        <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                        <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                     </div>
                 </>
             )

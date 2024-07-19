@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
-import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
-import candidateService from "services/candidate/candidateService";
-import { NotificationService } from "services/notification";
-import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
 import HealthDisease from "Pages/SubscribeForm/components/Form_Health/components/HealthDisease";
 import HealthMedication from "Pages/SubscribeForm/components/Form_Health/components/HealthMedication";
-import HealthList from "./components/HealthList";
+import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
+import { useEffect, useState } from "react";
 import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import HealthList from "./components/HealthList";
 
 export default function ViewHealth({ applicationId }) {
     const [isLoading, setIsLoading] = useState(true)
@@ -71,13 +69,13 @@ export default function ViewHealth({ applicationId }) {
                     <div className={commonStyles.actions}>
 
                         <ButtonBase onClick={handlePrevious}>
-                            <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                            <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                         </ButtonBase>
 
 
                         {activeStep !== max &&
                             <ButtonBase onClick={next}>
-                                <Arrow width="40px" />
+                                <Arrow width="30px" />
                             </ButtonBase>
                         }
 

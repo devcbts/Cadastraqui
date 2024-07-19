@@ -1,13 +1,12 @@
 
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
+import ButtonBase from "Components/ButtonBase"
 import RowTextAction from "Components/RowTextAction"
 import FormList from "Pages/SubscribeForm/components/FormList"
 import FormListItem from "Pages/SubscribeForm/components/FormList/FormListItem"
 import { useEffect, useState } from "react"
-import { NotificationService } from "services/notification"
-import BankReport from "../BankReport"
-import ButtonBase from "Components/ButtonBase"
 import socialAssistantService from "services/socialAssistant/socialAssistantService"
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
+import BankReport from "../BankReport"
 
 export default function MemberBankAccount({ id, onSelect, applicationId, onBack }) {
     const [isLoading, setIsLoading] = useState(true)
@@ -55,7 +54,7 @@ export default function MemberBankAccount({ id, onSelect, applicationId, onBack 
                         </FormList.List>
                     </FormList.Root>
                     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
-                        <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                        <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                     </div>
                 </>
             }

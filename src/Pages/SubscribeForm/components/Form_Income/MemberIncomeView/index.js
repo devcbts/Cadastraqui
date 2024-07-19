@@ -1,13 +1,15 @@
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
+import ButtonBase from "Components/ButtonBase"
+import InputBase from "Components/InputBase"
+import RowTextAction from "Components/RowTextAction"
 import { useEffect, useState } from "react"
 import candidateService from "services/candidate/candidateService"
+import { NotificationService } from "services/notification"
+import FormBankAccount from "../../Form_BankAccount"
 import FormList from "../../FormList"
 import FormListItem from "../../FormList/FormListItem"
-import ButtonBase from "Components/ButtonBase"
-import RowTextAction from "Components/RowTextAction"
-import FormBankAccount from "../../Form_BankAccount"
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
-import { NotificationService } from "services/notification"
-import InputBase from "Components/InputBase"
+import styles from './styles.module.scss'
+import BankReport from '../../Form_BankAccount/components/BankReport'
 
 export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
     const { id, fullName } = member
@@ -15,7 +17,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
     // MonthlyIncome stores an array with registered months
     // info stores the current additional information for each occupation (position)
     const [incomeInfo, setIncomeInfo] = useState({ monthlyIncome: [], info: [], data: {} })
-    const [showBankAccount, setShowBankAccount] = useState(false)
+    const [showBankInfo, setShowBankInfo] = useState(false)
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
@@ -32,9 +34,9 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
         }
         fetchData()
     }, [id])
-    const handleShowBankAccount = () => {
-        setShowBankAccount(true)
-    }
+    // const handleShowBankInfo = () => {
+    //     setShowBankInfo(true)
+    // }
     const handleDeleteIncome = async (item) => {
         try {
             const deletedIncome = incomeInfo?.info.find(e => e.employmentType === item.income.value)
@@ -50,45 +52,74 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
     }
     return (
         <>
-            {!showBankAccount ? (
-                <FormList.Root title={"Rendas cadastradas"} isLoading={isLoading}>
-                    <h2>{fullName} </h2>
-                    <InputBase disabled label={'Renda média'} value={incomeInfo?.data?.averageIncome} error={null} />
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            {!showBankInfo && (
+                <FormList.Root title={"Renda Familiar"} isLoading={isLoading}>
+
+                    <div className={styles.containerRenda}>
+                        <h2>{fullName} </h2>
+                        <InputBase disabled label={'Renda média cadastrada'} value={incomeInfo?.data?.averageIncome} error={null} />
+                    </div>
+                    <div className={styles.containerTeste}>
                         {
                             incomeInfo?.data?.hasBankAccount === null
                                 ? <>
-                                    <h3>Declarações e Comprovantes Bancários</h3>
-                                    <ButtonBase label={'Cadastrar declaração'} onClick={handleShowBankAccount} />
+                                    <h3>Declaração e Comprovantes bancários</h3>
+                                    <ButtonBase label={'Cadastrar declaração'} onClick={() => setShowBankInfo('accounts')} />
                                 </>
                                 : <>
-                                    <RowTextAction text={'Declaração e Comprovantes Bancários'} onClick={() => setShowBankAccount(true)} label={'visualizar'} />
+                                    <RowTextAction text={'Declaração e Comprovantes bancários'} onClick={() => setShowBankInfo('accounts')} label={'visualizar'} />
                                 </>
                         }
 
-                    </div>
-                    <FormList.List list={incomeInfo.monthlyIncome} text={`Nenhuma renda cadastrada para ${fullName}, clique abaixo para realizar o primeiro cadastro`} render={(item) => {
-                        return (
-                            <FormListItem.Root text={item.income.label}>
-                                <FormListItem.Actions>
-                                    <ButtonBase label={"visualizar"} onClick={() => onSelect({ member: member, income: item, info: incomeInfo?.info.find(e => e.employmentType === item.income.value) })} />
-                                    <ButtonBase label={"excluir"} onClick={() => handleDeleteIncome(item)} danger />
-                                </FormListItem.Actions>
-                            </FormListItem.Root>
-                        )
-                    }}>
+                        {
+                            <RowTextAction
+                                text={'Relatório de contas e relacionamentos (CCS)'}
+                                label={'visualizar'}
+                                /* onClick={handleReport} */
+                                onClick={() => setShowBankInfo('report')}
+                                className={styles.RowTextAction}
+                            />
+                        }
 
-                    </FormList.List>
-                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
-                        <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                    </div>
+                    <div className={styles.containerRendaCadastrada}>
+                        <h3>Rendas Cadastradas</h3>
+                        <div className={styles.containerRendaCadastradaSituacao}>
+                            <h4>Situação do Cadastro de Rendas:</h4>
+                            <button>
+                                Atualizar Informações
+                            </button>
+                        </div>
+                    </div>
+                    <div className={styles.containerNenhumaRenda}>
+                        <FormList.List list={incomeInfo.monthlyIncome} text={`Nenhuma renda cadastrada para ${fullName}, clique abaixo para realizar o primeiro cadastro`} render={(item) => {
+                            return (
+                                <FormListItem.Root text={item.income.label}>
+                                    <FormListItem.Actions>
+                                        <ButtonBase label={"visualizar"} onClick={() => onSelect({ member: member, income: item, info: incomeInfo?.info.find(e => e.employmentType === item.income.value) })} />
+                                        <ButtonBase label={"excluir"} onClick={() => handleDeleteIncome(item)} danger />
+                                    </FormListItem.Actions>
+                                </FormListItem.Root>
+                            )
+                        }}>
+                        </FormList.List>
+                    </div>
+
+
+
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', width: '90%', gap: '100px' }}>
+                        <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                         <ButtonBase label={"cadastrar renda"} onClick={() => onAdd({ member })} />
                     </div>
-                </FormList.Root>
+                </FormList.Root >
             )
-                : (
-                    <FormBankAccount id={member.id} onBack={() => setShowBankAccount(false)} />
-                )
             }
+            {showBankInfo === 'accounts' && (
+                <FormBankAccount id={member.id} onBack={() => setShowBankInfo(null)} />
+            )}
+            {showBankInfo === 'report' && (
+                <BankReport id={member.id} onBack={() => setShowBankInfo(null)} />
+            )}
         </>
     )
 }

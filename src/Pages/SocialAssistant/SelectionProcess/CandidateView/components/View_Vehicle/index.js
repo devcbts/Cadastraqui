@@ -1,14 +1,14 @@
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import Loader from "Components/Loader";
 import VehicleData from "Pages/SubscribeForm/components/Form_Vehicle/components/VehicleData";
 import VehicleInsurance from "Pages/SubscribeForm/components/Form_Vehicle/components/VehicleInsurance";
 import VehicleSituation from "Pages/SubscribeForm/components/Form_Vehicle/components/VehicleSituation";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
-import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
 import { useEffect, useState } from "react";
-import VehicleList from "./components/VehicleList";
 import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import VehicleList from "./components/VehicleList";
 
 export default function ViewVehicle({ candidateId, applicationId }) {
     const [isLoading, setIsLoading] = useState(false)
@@ -66,14 +66,14 @@ export default function ViewVehicle({ candidateId, applicationId }) {
                     </fieldset>
                     <div className={commonStyles.actions}>
                         <ButtonBase onClick={handlePrevious}>
-                            <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                            <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                         </ButtonBase>
 
 
 
                         {activeStep !== max &&
                             <ButtonBase onClick={next}>
-                                <Arrow width="40px" />
+                                <Arrow width="30px" />
                             </ButtonBase>
                         }
 

@@ -1,17 +1,17 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { useState, useEffect, useRef } from 'react';
-import commonStyles from '../../styles.module.scss';
-import { useRecoilState } from 'recoil';
-import declarationAtom from '../../atoms/declarationAtom';
-import AddressData from 'Pages/SubscribeForm/components/AddressData';
 import InputForm from 'Components/InputForm';
-import { formatCPF } from 'utils/format-cpf';
 import MoneyFormInput from 'Components/MoneyFormInput';
 import useControlForm from 'hooks/useControlForm';
-import { z } from 'zod';
+import AddressData from 'Pages/SubscribeForm/components/AddressData';
+import { useEffect, useRef, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { formatCPF } from 'utils/format-cpf';
 import stringToFloat from 'utils/string-to-float';
 import { isValidCPF } from 'utils/validate-cpf';
+import { z } from 'zod';
+import declarationAtom from '../../atoms/declarationAtom';
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_RentIncomeDetails({ onBack, onSave }) {
     const { control, formState: { isValid }, trigger, getValues } = useControlForm({
@@ -74,7 +74,7 @@ export default function Declaration_RentIncomeDetails({ onBack, onSave }) {
             <MoneyFormInput label={'Valor'} name={"rentAmount"} control={control} />
 
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}

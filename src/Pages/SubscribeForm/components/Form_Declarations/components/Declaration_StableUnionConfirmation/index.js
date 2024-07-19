@@ -2,11 +2,11 @@ import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useState } from 'react';
-import commonStyles from '../../styles.module.scss';
 import { useRecoilValue } from 'recoil';
-import declarationAtom from '../../atoms/declarationAtom';
-import formatDate from 'utils/format-date';
 import candidateService from 'services/candidate/candidateService';
+import formatDate from 'utils/format-date';
+import declarationAtom from '../../atoms/declarationAtom';
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_StableUnionConfirmation({ onBack, onNext, partnerName, unionStartDate }) {
     const { auth } = useAuth();
@@ -97,7 +97,7 @@ Nossa União Estável possui natureza pública, contínua e duradoura com o obje
                 {error && <div className={commonStyles.error} style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
             </div>
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase
                     label="Salvar"
                     onClick={handleRegisterDeclaration}

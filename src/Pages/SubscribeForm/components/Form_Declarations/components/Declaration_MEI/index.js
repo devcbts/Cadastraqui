@@ -1,17 +1,15 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss';
+import FormCheckbox from 'Components/FormCheckbox';
+import FormFilePicker from 'Components/FormFilePicker';
+import useControlForm from 'hooks/useControlForm';
+import { useRecoilState } from 'recoil';
+import candidateService from 'services/candidate/candidateService';
 import { NotificationService } from 'services/notification';
 import uploadService from 'services/upload/uploadService';
-import useAuth from 'hooks/useAuth';
-import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
-import candidateService from 'services/candidate/candidateService';
-import FormCheckbox from 'Components/FormCheckbox';
-import useControlForm from 'hooks/useControlForm';
+import commonStyles from '../../styles.module.scss';
 import declarationMeiSchema from './declaration-mei-schema';
-import FormFilePicker from 'Components/FormFilePicker';
 
 export default function Declaration_MEI({ onBack, onNext }) {
     // const [mei, setMei] = useState(null);
@@ -107,7 +105,7 @@ export default function Declaration_MEI({ onBack, onNext }) {
                 // </>
             )}
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}

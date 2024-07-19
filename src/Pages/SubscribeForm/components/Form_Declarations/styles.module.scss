@@ -44,7 +44,7 @@ label {
 button {
     border: solid 2px #1F4B73;
     border-radius: 4px;
-    padding: 10px 20px;
+    padding: 5px 10px;
     cursor: pointer;
     font-size: 16px;
     display: flex;
@@ -52,8 +52,8 @@ button {
 }
 
 button svg {
-    fill: #1F4B73; 
-    margin-right: 10px;
+    fill: #1F4B73;
+    margin: 0px 4px;
 }
 
 button:hover {
@@ -134,7 +134,10 @@ button:focus {
 
 /* Responsividade para dispositivos móveis */
 @media (max-width: 600px) {
-    .declarationForm, .navigationButtons, .declarationSection {
+
+    .declarationForm,
+    .navigationButtons,
+    .declarationSection {
         padding: 15px;
     }
 
@@ -214,4 +217,3 @@ button:focus {
     justify-content: space-between;
     align-items: center;
 }
-

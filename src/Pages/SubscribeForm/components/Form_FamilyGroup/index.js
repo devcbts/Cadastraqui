@@ -1,23 +1,22 @@
-import { createRef, useEffect, useMemo, useRef, useState } from "react";
-import FormStepper from "Components/FormStepper";
-import PersonalData from "../PersonalData";
-import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import AdditionalInfo from "../AdditionalInfo";
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
-import MaritalStatus from "../MaritalStatus";
-import PersonalInformation from "../PersonalInformation";
-import Document from "../Document";
-import Benefits from "../Benefits";
-import candidateService from "services/candidate/candidateService";
-import AdditionalDocuments from "../AdditionalDocuments";
 import Loader from "Components/Loader";
-import { NotificationService } from "services/notification";
-import FamilyRelation from "./components/FamilyRelation";
-import MembersList from "./components/MembersList";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
+import { useState } from "react";
+import candidateService from "services/candidate/candidateService";
+import { NotificationService } from "services/notification";
 import uploadService from "services/upload/uploadService";
 import createFileForm from "utils/create-file-form";
+import AdditionalDocuments from "../AdditionalDocuments";
+import AdditionalInfo from "../AdditionalInfo";
+import Benefits from "../Benefits";
+import Document from "../Document";
+import MaritalStatus from "../MaritalStatus";
+import PersonalData from "../PersonalData";
+import PersonalInformation from "../PersonalInformation";
+import FamilyRelation from "./components/FamilyRelation";
+import MembersList from "./components/MembersList";
 export default function FormFamilyGroup() {
     const [isAdding, setIsAdding] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -110,14 +109,14 @@ export default function FormFamilyGroup() {
                     <Steps />
                     <div className={commonStyles.actions}>
                         <ButtonBase onClick={handlePrevious}>
-                            <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                            <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                         </ButtonBase>
                         {(data && !isAdding) &&
                             <ButtonBase onClick={handleEdit} label={"editar"} />
                         }
                         {activeStep !== max &&
                             <ButtonBase onClick={next}>
-                                <Arrow width="40px" />
+                                <Arrow width="30px" />
                             </ButtonBase>
                         }
                         {

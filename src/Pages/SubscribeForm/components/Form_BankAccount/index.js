@@ -1,20 +1,17 @@
-import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
-import MemberBankAccountView from "./components/MemberBankAccountView";
-import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
-import BankAccount from "./components/BankAccount";
+import monthAtom from "Components/MonthSelection/atoms/month-atom";
+import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
 import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
-import BankMonthSelection from "./components/BankMonthSelection";
-import StatementSelection from "./components/Statement";
-import incomeAtom from "../Form_Income/atoms/income-atom";
-import { useRecoilValue } from "recoil";
-import monthAtom from "Components/MonthSelection/atoms/month-atom";
 import uploadService from "services/upload/uploadService";
 import createFileForm from "utils/create-file-form";
-import useAuth from "hooks/useAuth";
+import BankAccount from "./components/BankAccount";
+import BankMonthSelection from "./components/BankMonthSelection";
+import MemberBankAccountView from "./components/MemberBankAccountView";
 
 export default function FormBankAccount({ id, onBack }) {
     const hasMonthSelected = useRecoilValue(monthAtom)
@@ -95,7 +92,7 @@ export default function FormBankAccount({ id, onBack }) {
                 <Steps />
                 {!hasMonthSelected && <div className={commonStyles.actions}>
                     <ButtonBase onClick={handlePrevious}>
-                        <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                        <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                     </ButtonBase>
 
 
@@ -103,7 +100,7 @@ export default function FormBankAccount({ id, onBack }) {
 
                     {activeStep !== max &&
                         <ButtonBase onClick={next}>
-                            <Arrow width="40px" />
+                            <Arrow width="30px" />
                         </ButtonBase>
                     }
                     {

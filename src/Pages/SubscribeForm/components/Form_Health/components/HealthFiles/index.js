@@ -1,15 +1,15 @@
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 import ButtonBase from "Components/ButtonBase"
 import FormFilePicker from "Components/FormFilePicker"
 import useControlForm from "hooks/useControlForm"
 import FormList from "Pages/SubscribeForm/components/FormList"
 import FormListItem from "Pages/SubscribeForm/components/FormList/FormListItem"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import candidateService from "services/candidate/candidateService"
 import { NotificationService } from "services/notification"
 import uploadService from "services/upload/uploadService"
 import healthFileSchema from "./schemas/health-files-schema"
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 export default function HealthFiles({ items, edit = true, onBack }) {
     const { control, getValues, formState: { isValid }, trigger, resetField } = useControlForm({
         schema: healthFileSchema,
@@ -69,7 +69,7 @@ export default function HealthFiles({ items, edit = true, onBack }) {
                 {edit && <FormFilePicker accept={'application/pdf'} control={control} name={"file_exam"} />}
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', }}>
                     <ButtonBase onClick={onBack}>
-                        <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                        <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                     </ButtonBase>
                     {edit && <ButtonBase label={'cadastrar'} onClick={handleUpload} />}
                 </div>

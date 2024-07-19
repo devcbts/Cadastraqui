@@ -1,17 +1,14 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
-import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import { Link } from 'react-router-dom';
-import { NotificationService } from 'services/notification';
-import candidateService from 'services/candidate/candidateService';
-import uploadService from 'services/upload/uploadService';
-import useAuth from 'hooks/useAuth';
-import { useRecoilState } from 'recoil';
-import declarationAtom from '../../atoms/declarationAtom';
 import FormFilePicker from 'Components/FormFilePicker';
 import useControlForm from 'hooks/useControlForm';
+import { Link } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { NotificationService } from 'services/notification';
+import uploadService from 'services/upload/uploadService';
 import { z } from 'zod';
+import declarationAtom from '../../atoms/declarationAtom';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_ContributionStatement({ onBack, onSave }) {
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
@@ -72,7 +69,7 @@ export default function Declaration_ContributionStatement({ onBack, onSave }) {
                 </Link>
             </div>
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSubmitDocument}

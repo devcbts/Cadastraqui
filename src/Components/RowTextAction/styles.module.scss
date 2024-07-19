@@ -3,8 +3,20 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    text-transform: capitalize;
-    button{
-        scale: .6
+
+    /* text-transform: capitalize; */
+    button {
+        scale: .8
+    }
+}
+
+@media(max-width:500px) {
+    .container {
+        flex-direction: column;
+        gap: 10px;
+
+        h3 {
+            font-size: 16px;
+        }
     }
 }

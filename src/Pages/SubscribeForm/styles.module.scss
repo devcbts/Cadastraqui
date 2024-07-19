@@ -1,5 +1,6 @@
 @import '../../Assets/theme/global.module.scss';
-.container{
+
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,20 +8,26 @@
     margin: 0px auto;
     width: 90%;
     padding: 32px 0px;
-    @media(max-width: 600px){
+
+    @media(max-width: 600px) {
         padding: 20px 5px;
         width: 95%;
-    }   
-    .formcontainer{
+    }
+
+    .formcontainer {
         margin: auto;
         width: 80%;
         display: flex;
         flex-direction: column;
-        // @media(max-width: 450px){
-        //     margin: 1px 1px;
-        // }
-     }
-    h1{
+
+        @media(max-width: 450px) {
+            margin: 1px 1px;
+            width: 90%;
+            padding: 5px;
+        }
+    }
+
+    h1 {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -29,16 +36,18 @@
         color: $primary;
         font-size: 28px;
         margin-bottom: 16px;
-        @media(max-width: 600px){
+
+        @media(max-width: 600px) {
             font-size: 20px;
         }
-        +p{
+
+        +p {
             margin-bottom: 16px;
             margin-top: -16px;
             text-align: center;
             font-size: 16px;
             color: $grey;
-         }
+        }
     }
 }
 
@@ -49,4 +58,4 @@
     flex-direction: row;
     justify-content: space-around;
     // padding-left: 48px;
-    }
+}
