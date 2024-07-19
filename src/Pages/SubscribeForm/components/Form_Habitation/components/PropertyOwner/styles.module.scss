@@ -19,6 +19,9 @@
         gap: 24px;
     }
 
+    fieldset {
+        border: none;
+    }
 }
 
 @media(max-width:1190px) {
@@ -45,6 +48,7 @@
 
         fieldset {
             padding: 10px;
+            border: none;
 
             div {
                 margin-top: 0px;
