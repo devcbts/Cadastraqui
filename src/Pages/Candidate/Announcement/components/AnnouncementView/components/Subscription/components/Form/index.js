@@ -1,18 +1,18 @@
 import BackPageTitle from "Components/BackPageTitle";
-import { useContext, useEffect, useState } from "react";
-import AnnouncementContext from "../../../../context/announcementContext";
-import styles from './styles.module.scss'
-import FormSelect from "Components/FormSelect";
-import useControlForm from "hooks/useControlForm";
-import InputBase from "Components/InputBase";
 import ButtonBase from "Components/ButtonBase";
-import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
-import subscribeFormSchema from "./schemas/subscribe-form-schema";
+import FormSelect from "Components/FormSelect";
+import InputBase from "Components/InputBase";
 import useAuth from "hooks/useAuth";
+import useControlForm from "hooks/useControlForm";
+import { useContext, useEffect, useState } from "react";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
 import findLabel from "utils/enums/helpers/findLabel";
 import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer";
+import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
+import AnnouncementContext from "../../../../context/announcementContext";
+import subscribeFormSchema from "./schemas/subscribe-form-schema";
+import styles from './styles.module.scss';
 export default function SubscriptionForm() {
     const { move, getCourse, id, announcement } = useContext(AnnouncementContext)
     const [applicants, setApplicants] = useState([])
@@ -53,7 +53,7 @@ export default function SubscriptionForm() {
     }
     return (
         <>
-            <BackPageTitle title={'dados da inscrição'} onClick={() => move('START_SUB')} />
+            <BackPageTitle title={'Dados da inscrição'} onClick={() => move('START_SUB')} />
             <div className={styles.content}>
                 <div className={styles.form}>
                     {

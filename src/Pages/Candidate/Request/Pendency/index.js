@@ -1,14 +1,13 @@
 import BackPageTitle from "Components/BackPageTitle";
 import ButtonBase from "Components/ButtonBase";
-import Loader from "Components/Loader";
 import FormList from "Pages/SubscribeForm/components/FormList";
 import FormListItem from "Pages/SubscribeForm/components/FormList/FormListItem";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import candidateService from "services/candidate/candidateService";
-import SendDocumentSolicitation from "./SendDocumentSolicitation";
 import { NotificationService } from "services/notification";
 import uploadService from "services/upload/uploadService";
+import SendDocumentSolicitation from "./SendDocumentSolicitation";
 
 export default function CandidatePendency() {
     const { applicationId } = useParams()
@@ -48,7 +47,7 @@ export default function CandidatePendency() {
     return (
         <div>
             <SendDocumentSolicitation data={selection} onClose={() => setSelection(null)} onConfirm={handleUploadSolicitation} />
-            <BackPageTitle title={'solicitações'} path={-1} />
+            <BackPageTitle title={'Solicitações'} path={-1} />
             <h3>Pendências</h3>
             <div style={{ display: 'flex', placeContent: 'center', width: '100%' }}>
                 <div style={{ display: 'flex', placeContent: 'center', width: '80%' }}>
