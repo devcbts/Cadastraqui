@@ -1,8 +1,8 @@
-import { useRef, useState } from 'react'
-import styles from './styles.module.scss'
 import { ReactComponent as Pencil } from 'Assets/icons/pencil.svg'
 import { ReactComponent as User } from 'Assets/icons/user.svg'
 import useLocalStorage from 'hooks/useLocalStorage'
+import { useRef, useState } from 'react'
+import styles from './styles.module.scss'
 
 export default function ProfilePhoto({ onChange, pictureUrl, title = 'Dados Pessoais', children }) {
     const inputRef = useRef(null)
@@ -26,7 +26,7 @@ export default function ProfilePhoto({ onChange, pictureUrl, title = 'Dados Pess
                     onMouseLeave={handleHover}
                     onClick={() => inputRef.current.click()}>
                     {pictureUrl
-                        ? <img src={pictureUrl} />
+                        ? <img src={pictureUrl} alt='foto de Perfil' placeholder='Foto de Perfil' />
                         : <User width={100} height={100} />
                     }
                     <input type="file" accept="image/*" ref={inputRef} onChange={handleChange} hidden />

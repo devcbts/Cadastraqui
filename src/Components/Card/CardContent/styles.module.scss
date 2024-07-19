@@ -1,9 +1,12 @@
 @import '../../../Assets/theme/global.module.scss';
-.container{
+
+.container {
     color: $primary;
     text-align: center;
-    font-size: .8em;
-    @media(max-width:890px){
+    /* font-size: .8em; */
+    font-weight: 500;
+
+    @media(max-width:890px) {
         font-size: 12px;
     }
 }
