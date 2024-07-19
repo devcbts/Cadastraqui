@@ -1,15 +1,14 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
-import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import { useRecoilState } from 'recoil';
-import declarationAtom from '../../atoms/declarationAtom';
-import { formatCPF } from 'utils/format-cpf';
-import useControlForm from 'hooks/useControlForm';
-import separationSchema from './separation-schema';
 import FormCheckbox from 'Components/FormCheckbox';
 import InputForm from 'Components/InputForm';
+import useControlForm from 'hooks/useControlForm';
+import { useRecoilState } from 'recoil';
 import candidateService from 'services/candidate/candidateService';
+import { formatCPF } from 'utils/format-cpf';
+import declarationAtom from '../../atoms/declarationAtom';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import separationSchema from './separation-schema';
 
 export default function Declaration_SeparationStatus({ onBack, onNext }) {
     // const [confirmation, setConfirmation] = useState(null);
@@ -147,7 +146,7 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
                 </div>
             )}
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}

@@ -1,9 +1,9 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import { useState } from 'react';
-import commonStyles from '../../styles.module.scss';
 import findLabel from 'utils/enums/helpers/findLabel';
 import MARITAL_STATUS from 'utils/enums/marital-status';
+import commonStyles from '../../styles.module.scss';
 
 export default function DeclarationForm({ onBack, onEdit, userId, declarationData, type }) {
     const [infoCorrect, setInfoCorrect] = useState(null);
@@ -69,7 +69,7 @@ export default function DeclarationForm({ onBack, onEdit, userId, declarationDat
                 </div>
             </div>
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase label="Editar" onClick={onEdit} />
                 <ButtonBase onClick={handleRegisterDeclaration}>Registrar Declaraçãooooo</ButtonBase>
             </div>

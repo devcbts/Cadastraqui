@@ -1,13 +1,13 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
-import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import useAuth from 'hooks/useAuth';
-import uploadService from 'services/upload/uploadService';
-import { NotificationService } from 'services/notification';
+import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import declarationAtom from '../../atoms/declarationAtom';
 import candidateService from 'services/candidate/candidateService';
+import { NotificationService } from 'services/notification';
+import uploadService from 'services/upload/uploadService';
+import declarationAtom from '../../atoms/declarationAtom';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_WorkCardUpload({ onBack, onSave }) {
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
@@ -63,7 +63,7 @@ export default function Declaration_WorkCardUpload({ onBack, onSave }) {
                 <input type="file" id="fileUpload" onChange={handleFileChange} accept='application/pdf' />
             </div>
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSubmitDocument}

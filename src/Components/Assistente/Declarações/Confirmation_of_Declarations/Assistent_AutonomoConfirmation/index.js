@@ -49,7 +49,7 @@ export default function Assistent_AutonomoConfirmation({ onBack }) {
                         opacity: !declarationData || !autonomoDetails ? 0.6 : 1
                     }}
                 >
-                    <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                    <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                 </ButtonBase>
             </div>
         </div>

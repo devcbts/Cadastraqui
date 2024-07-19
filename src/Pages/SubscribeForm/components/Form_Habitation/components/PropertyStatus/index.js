@@ -1,18 +1,15 @@
-import { useForm } from "react-hook-form";
-import propertyStatusSchema from "./schemas/property-status-schema";
-import FormSelect from "Components/FormSelect";
-import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
-import { zodResolver } from "@hookform/resolvers/zod";
-import PROPERTY_STATUS from "utils/enums/property-status";
-import InputForm from "Components/InputForm";
-import CONTRACT_TYPE from "utils/enums/contract-type";
-import useControlForm from "hooks/useControlForm";
 import FilePreview from "Components/FilePreview";
 import FormFilePicker from "Components/FormFilePicker";
-import HabitationDeclarationPDF from "../../../Form_Declarations/components/HabitationDeclarationPDF";
+import FormSelect from "Components/FormSelect";
+import InputForm from "Components/InputForm";
 import RowTextAction from "Components/RowTextAction";
-import PropertyOwner from "../PropertyOwner";
+import useControlForm from "hooks/useControlForm";
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
+import CONTRACT_TYPE from "utils/enums/contract-type";
+import PROPERTY_STATUS from "utils/enums/property-status";
 import GivenPropertyPDF from "../GivenPropertyPDF";
+import PropertyOwner from "../PropertyOwner";
+import propertyStatusSchema from "./schemas/property-status-schema";
 
 const { forwardRef, useEffect, useState } = require("react");
 
@@ -41,7 +38,7 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
         if (!hasContractType) {
             resetField("contractType", { defaultValue: null })
         }
-    }, [watchPropertyStatus])
+    }, [hasContractType, hasGrantorName, resetField, watchPropertyStatus])
     const watchFile = watch("file_document")
     const [ownerForm, setOwnerForm] = useState(false)
     const handlePropertyOwnerForm = () => {
@@ -61,7 +58,7 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
                 <>
                     <InputForm control={control} name="grantorName" label="nome do cedente" />
                     {declarationNeeded && (
-                        <RowTextAction text={'gerar declaração de imóvel cedido'} label={'gerar'} onClick={handlePropertyOwnerForm} />
+                        <RowTextAction text={'Gerar declaração de imóvel cedido'} label={'gerar'} onClick={handlePropertyOwnerForm} />
                     )}
                     <FormFilePicker name={'file_document'} control={control} accept={'application/pdf'} label={'documento'} />
                     <FilePreview file={watchFile} url={data?.url_document} text={'visualizar documento'} />

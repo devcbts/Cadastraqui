@@ -1,17 +1,16 @@
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from 'Components/ButtonBase';
-import FormStepper from 'Components/FormStepper';
 import Loader from 'Components/Loader';
+import useAuth from 'hooks/useAuth';
+import useStepFormHook from 'Pages/SubscribeForm/hooks/useStepFormHook';
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
-import { createRef, useEffect, useRef, useState } from 'react';
-import PropertyStatus from './components/PropertyStatus';
-import PropertyInfo from './components/PropertyInfo';
+import { useEffect, useState } from 'react';
 import candidateService from 'services/candidate/candidateService';
 import { NotificationService } from 'services/notification';
-import useStepFormHook from 'Pages/SubscribeForm/hooks/useStepFormHook';
-import createFileForm from 'utils/create-file-form';
 import uploadService from 'services/upload/uploadService';
-import useAuth from 'hooks/useAuth';
+import createFileForm from 'utils/create-file-form';
+import PropertyInfo from './components/PropertyInfo';
+import PropertyStatus from './components/PropertyStatus';
 
 export default function FormHabitation() {
     const [isLoading, setIsLoading] = useState(false)
@@ -84,7 +83,7 @@ export default function FormHabitation() {
             <div className={commonStyles.actions}>
                 {activeStep !== 1 &&
                     <ButtonBase onClick={previous}>
-                        <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                        <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                     </ButtonBase>
                 }
                 {enableEditing &&
@@ -92,7 +91,7 @@ export default function FormHabitation() {
                 }
                 {activeStep !== max &&
                     <ButtonBase onClick={next}>
-                        <Arrow width="40px" />
+                        <Arrow width="30px" />
                     </ButtonBase>
                 }
                 {

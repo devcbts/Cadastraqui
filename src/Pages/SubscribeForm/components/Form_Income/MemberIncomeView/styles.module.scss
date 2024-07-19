@@ -1,0 +1,136 @@
+.containerRenda {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    margin-bottom: 20px;
+
+    div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        label {
+            font-weight: 700;
+        }
+
+        input {
+            text-align: center;
+        }
+    }
+
+    h2 {
+        text-align: center;
+    }
+}
+
+.containerTeste {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.containerRendaCadastrada {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+
+    h3 {
+        font-size: 20px;
+        color: #1F4B73;
+    }
+
+}
+
+.containerRendaCadastradaSituacao {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0px;
+
+    h4 {
+        font-size: 16px;
+        color: #1F4B73;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+    }
+
+    button {
+        border-radius: 8px;
+        border: 2px solid #E38A05;
+        color: #E38A05;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+    }
+}
+
+.containerNenhumaRenda {
+    padding: 20px;
+    margin-bottom: 30px;
+    width: 80%;
+    display: flex;
+
+    p {
+        width: 100%;
+        font-size: 18px;
+        text-align: justify;
+        ;
+    }
+}
+
+@media(min-width: 1200px) {
+    .containerNenhumaRenda {
+        width: 70%;
+    }
+}
+
+@media(max-width:400px) {
+
+    .containerNenhumaRenda {
+        p {
+            font-size: 16px;
+            text-align: justify;
+        }
+    }
+
+    .containerTeste {
+        gap: 15px;
+
+        h3 {
+            text-align: center;
+        }
+    }
+
+    .containerRendaCadastrada {
+        padding: 10px;
+    }
+}
+
+@media(max-width:662px) {
+    .containerNenhumaRenda {
+        width: 100%;
+
+    }
+
+    .containerRenda {
+        margin-bottom: 0px;
+
+        div {
+            flex-direction: column;
+        }
+    }
+
+    .containerRendaCadastradaSituacao {
+
+        flex-direction: column;
+
+    }
+}

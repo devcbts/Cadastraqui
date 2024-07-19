@@ -1,12 +1,12 @@
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import Loader from "Components/Loader";
+import monthAtom from "Components/MonthSelection/atoms/month-atom";
 import ExpenseSelection from "Pages/SubscribeForm/components/Form_Expenses/ExpenseSelection";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
 import { useEffect, useState } from "react";
-import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 import { useRecoilValue } from "recoil";
-import monthAtom from "Components/MonthSelection/atoms/month-atom";
 import socialAssistantService from "services/socialAssistant/socialAssistantService";
 export default function ViewExpenses({ applicationId }) {
     const hasSelectedMonth = useRecoilValue(monthAtom)
@@ -40,12 +40,12 @@ export default function ViewExpenses({ applicationId }) {
             {!hasSelectedMonth && <div className={commonStyles.actions}>
                 {activeStep !== 1 && (
                     <ButtonBase onClick={previous}>
-                        <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                        <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                     </ButtonBase>
                 )}
                 {activeStep !== max &&
                     <ButtonBase onClick={next}>
-                        <Arrow width="40px" />
+                        <Arrow width="30px" />
                     </ButtonBase>
                 }
             </div>}

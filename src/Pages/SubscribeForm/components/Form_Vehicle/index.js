@@ -1,24 +1,15 @@
-import { createRef, useEffect, useMemo, useRef, useState } from "react";
-import FormStepper from "Components/FormStepper";
-import PersonalData from "../PersonalData";
-import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import AddressData from "../AddressData";
-import AdditionalInfo from "../AdditionalInfo";
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
-import MaritalStatus from "../MaritalStatus";
-import PersonalInformation from "../PersonalInformation";
-import Document from "../Document";
-import Benefits from "../Benefits";
-import candidateService from "services/candidate/candidateService";
-import AdditionalDocuments from "../AdditionalDocuments";
 import Loader from "Components/Loader";
-import { NotificationService } from "services/notification";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
-import VehicleList from "./components/VehicleList";
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
+import { useState } from "react";
+import candidateService from "services/candidate/candidateService";
+import { NotificationService } from "services/notification";
 import VehicleData from "./components/VehicleData";
-import VehicleSituation from "./components/VehicleSituation";
 import VehicleInsurance from "./components/VehicleInsurance";
+import VehicleList from "./components/VehicleList";
+import VehicleSituation from "./components/VehicleSituation";
 export default function FormVehicle() {
 
     const handleEditVehicle = async (data, updated) => {
@@ -98,14 +89,14 @@ export default function FormVehicle() {
                     <Steps />
                     <div className={commonStyles.actions}>
                         <ButtonBase onClick={handlePrevious}>
-                            <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                            <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                         </ButtonBase>
                         {(data && !isAdding) &&
                             <ButtonBase onClick={handleEdit} label={"editar"} />
                         }
                         {activeStep !== max &&
                             <ButtonBase onClick={next}>
-                                <Arrow width="40px" />
+                                <Arrow width="30px" />
                             </ButtonBase>
                         }
                         {

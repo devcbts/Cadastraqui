@@ -1,20 +1,18 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss';
-import { formatCurrency } from 'utils/format-currency';
-import { formatCPF } from 'utils/format-cpf';
-import { useRecoilState } from 'recoil';
-import declarationAtom from '../../atoms/declarationAtom';
-import useControlForm from 'hooks/useControlForm';
-import { number, z } from 'zod';
-import { isValidCPF } from 'utils/validate-cpf';
-import InputForm from 'Components/InputForm';
-import { useFieldArray } from 'react-hook-form';
 import FormSelect from 'Components/FormSelect';
-import InputBase from 'Components/InputBase';
+import InputForm from 'Components/InputForm';
 import MoneyFormInput from 'Components/MoneyFormInput';
+import useControlForm from 'hooks/useControlForm';
+import { useState } from 'react';
+import { useFieldArray } from 'react-hook-form';
+import { useRecoilState } from 'recoil';
+import { formatCPF } from 'utils/format-cpf';
 import stringToFloat from 'utils/string-to-float';
+import { isValidCPF } from 'utils/validate-cpf';
+import { z } from 'zod';
+import declarationAtom from '../../atoms/declarationAtom';
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_ChildSupportDetails({ onBack, onNext }) {
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
@@ -198,7 +196,7 @@ export default function Declaration_ChildSupportDetails({ onBack, onNext }) {
                 </div>
             ))}
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}
@@ -208,7 +206,7 @@ export default function Declaration_ChildSupportDetails({ onBack, onNext }) {
                     onClick={handleSave}
 
                 >
-                    <Arrow width="40px" />
+                    <Arrow width="30px" />
                 </ButtonBase>
             </div>
         </div>

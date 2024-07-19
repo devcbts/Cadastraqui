@@ -1,29 +1,26 @@
-import { useEffect, useState } from "react";
-import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
+import monthAtom from "Components/MonthSelection/atoms/month-atom";
+import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
-import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
-import IncomeList from "./IncomeList";
-import IncomeSelection from "./IncomeSelection";
-import MonthSelection from "./MonthSelection";
-import { useRecoilState, useRecoilValue } from "recoil";
-import incomeAtom from "./atoms/income-atom";
-import UnemployedModel from "./Unemployed";
-import IncomeFormModelA from "./ModelA";
-import UnemployementInsurance from "./Unemployed/components/UnemployementInsurance";
-import InformationModelA from "./ModelA/components/InformationModelA";
-import InformationModelB from "./ModelB/components/InformationModelB";
-import IncomeFormModelB from "./ModelB";
-import IncomeFormModelC from "./ModelC";
-import InformationModelD from "./ModelD/components/InformationModelC";
-import IncomeFormModelD from "./ModelD";
-import monthAtom from "Components/MonthSelection/atoms/month-atom";
-import IncomeFile from "./IncomeFile";
 import uploadService from "services/upload/uploadService";
 import createFileForm from "utils/create-file-form";
+import IncomeFile from "./IncomeFile";
+import IncomeList from "./IncomeList";
+import IncomeSelection from "./IncomeSelection";
+import IncomeFormModelA from "./ModelA";
+import InformationModelA from "./ModelA/components/InformationModelA";
+import IncomeFormModelB from "./ModelB";
+import InformationModelB from "./ModelB/components/InformationModelB";
+import IncomeFormModelC from "./ModelC";
+import IncomeFormModelD from "./ModelD";
 import FinancialHelp from "./ModelD/components/FinancialHelp";
+import InformationModelD from "./ModelD/components/InformationModelC";
+import UnemployementInsurance from "./Unemployed/components/UnemployementInsurance";
 export default function FormIncome() {
     // Keep track of incomes created/updated by user
     const hasIncomeSelected = useRecoilValue(monthAtom)
@@ -155,7 +152,7 @@ export default function FormIncome() {
                 <Steps />
                 {!hasIncomeSelected && <div className={commonStyles.actions}>
                     <ButtonBase onClick={handlePrevious}>
-                        <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                        <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                     </ButtonBase>
 
 
@@ -163,7 +160,7 @@ export default function FormIncome() {
 
                     {(activeStep !== max || activeStep === 1) &&
                         <ButtonBase onClick={next}>
-                            <Arrow width="40px" />
+                            <Arrow width="30px" />
                         </ButtonBase>
                     }
                     {

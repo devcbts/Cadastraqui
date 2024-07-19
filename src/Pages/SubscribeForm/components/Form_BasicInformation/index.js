@@ -107,7 +107,7 @@ export default function FormBasicInformation() {
             <div className={commonStyles.actions}>
                 {activeStep !== 1 &&
                     <ButtonBase onClick={previous}>
-                        <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                        <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                     </ButtonBase>
                 }
                 {enableEditing &&
@@ -115,7 +115,7 @@ export default function FormBasicInformation() {
                 }
                 {activeStep !== max &&
                     <ButtonBase onClick={next}>
-                        <Arrow width="40px" />
+                        <Arrow width="30px" />
                     </ButtonBase>
                 }
                 {

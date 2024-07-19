@@ -1,15 +1,13 @@
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 import ButtonBase from "Components/ButtonBase"
+import CheckboxBase from "Components/CheckboxBase"
 import RowTextAction from "Components/RowTextAction"
 import FormList from "Pages/SubscribeForm/components/FormList"
 import FormListItem from "Pages/SubscribeForm/components/FormList/FormListItem"
 import { useEffect, useRef, useState } from "react"
 import candidateService from "services/candidate/candidateService"
-import BankReport from "../BankReport"
-import { api } from "services/axios"
 import { NotificationService } from "services/notification"
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
-import FormCheckbox from "Components/FormCheckbox"
-import CheckboxBase from "Components/CheckboxBase"
+import BankReport from "../BankReport"
 export default function MemberBankAccountView({ id, onSelect, onBack, onAdd }) {
     const [isLoading, setIsLoading] = useState(true)
     const [bankingInfo, setBankingInfo] = useState([])
@@ -67,7 +65,7 @@ export default function MemberBankAccountView({ id, onSelect, onBack, onAdd }) {
                 : <>
                     <FormList.Root title={"Contas cadastradas"} isLoading={isLoading}>
                         <RowTextAction
-                            text={'relatório de contas e relacionamentos (CCS)'}
+                            text={'Relatório de contas e relacionamentos (CCS)'}
                             label={'visualizar'}
                             onClick={handleReport}
                         />
@@ -89,7 +87,7 @@ export default function MemberBankAccountView({ id, onSelect, onBack, onAdd }) {
                         </FormList.List>
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
 
-                            <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                            <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
 
                             {bankingInfo.hasBankAccount && <ButtonBase label={"cadastrar conta"} onClick={() => onAdd()} />}
                         </div>

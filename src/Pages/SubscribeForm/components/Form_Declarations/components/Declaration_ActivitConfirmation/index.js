@@ -1,11 +1,11 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
-import { useEffect, useState } from 'react';
-import { api } from 'services/axios';
-import commonStyles from '../../styles.module.scss';
+import { useState } from 'react';
 import { useRecoilState } from 'recoil';
+import { api } from 'services/axios';
 import declarationAtom from '../../atoms/declarationAtom';
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_ActivitConfirmation({ onBack, onNext }) {
     const { auth } = useAuth();
@@ -109,7 +109,7 @@ seja ela formal ou informal, não possuindo, portanto, nenhuma fonte de renda.\
             </div>
             {error && <div style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}

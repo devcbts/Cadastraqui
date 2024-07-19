@@ -1,20 +1,19 @@
-import ButtonBase from "Components/ButtonBase"
-import { useEffect, useState } from "react"
-import { useLocation } from "react-router"
-import MemberList from "./components/MemberList"
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
-import socialAssistantService from "services/socialAssistant/socialAssistantService"
+import ButtonBase from "Components/ButtonBase"
 import Loader from "Components/Loader"
-import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook"
-import FamilyRelation from "Pages/SubscribeForm/components/Form_FamilyGroup/components/FamilyRelation"
-import PersonalData from "Pages/SubscribeForm/components/PersonalData"
-import AdditionalInfo from "Pages/SubscribeForm/components/AdditionalInfo"
-import MaritalStatus from "Pages/SubscribeForm/components/MaritalStatus"
-import PersonalInformation from "Pages/SubscribeForm/components/PersonalInformation"
-import Document from "Pages/SubscribeForm/components/Document"
 import AdditionalDocuments from "Pages/SubscribeForm/components/AdditionalDocuments"
+import AdditionalInfo from "Pages/SubscribeForm/components/AdditionalInfo"
 import Benefits from "Pages/SubscribeForm/components/Benefits"
+import Document from "Pages/SubscribeForm/components/Document"
+import FamilyRelation from "Pages/SubscribeForm/components/Form_FamilyGroup/components/FamilyRelation"
+import MaritalStatus from "Pages/SubscribeForm/components/MaritalStatus"
+import PersonalData from "Pages/SubscribeForm/components/PersonalData"
+import PersonalInformation from "Pages/SubscribeForm/components/PersonalInformation"
+import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook"
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
+import { useEffect, useState } from "react"
+import socialAssistantService from "services/socialAssistant/socialAssistantService"
+import MemberList from "./components/MemberList"
 export default function ViewFamilyGroup({ candidateId, applicationId }) {
     const [familyMembers, setFamilyMembers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
@@ -70,11 +69,11 @@ export default function ViewFamilyGroup({ candidateId, applicationId }) {
                     </fieldset>
                     <div className={commonStyles.actions}>
                         <ButtonBase onClick={handlePrevious}>
-                            <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                            <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                         </ButtonBase>
                         {activeStep !== max &&
                             <ButtonBase onClick={next}>
-                                <Arrow width="40px" />
+                                <Arrow width="30px" />
                             </ButtonBase>
                         }
 

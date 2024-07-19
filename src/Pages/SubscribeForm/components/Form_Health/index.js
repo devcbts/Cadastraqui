@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
+import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
+import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
+import { useEffect, useState } from "react";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
-import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
-import HealthList from "./components/HealthList";
-import HealthDisease from "./components/HealthDisease";
-import HealthMedication from "./components/HealthMedication";
 import uploadService from "services/upload/uploadService";
+import HealthDisease from "./components/HealthDisease";
+import HealthList from "./components/HealthList";
+import HealthMedication from "./components/HealthMedication";
 export default function FormHealth() {
     const [isLoading, setIsLoading] = useState(true)
     // const handleEditInformation = async (data) => {
@@ -114,7 +114,7 @@ export default function FormHealth() {
                     <div className={commonStyles.actions}>
 
                         <ButtonBase onClick={handlePrevious}>
-                            <Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} />
+                            <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                         </ButtonBase>
 
                         {/* {(enableEditing && !isAdding) &&
@@ -122,7 +122,7 @@ export default function FormHealth() {
                         } */}
                         {activeStep !== max &&
                             <ButtonBase onClick={next}>
-                                <Arrow width="40px" />
+                                <Arrow width="30px" />
                             </ButtonBase>
                         }
                         {

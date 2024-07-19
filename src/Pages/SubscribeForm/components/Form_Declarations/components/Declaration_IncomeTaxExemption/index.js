@@ -1,17 +1,15 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import FormCheckbox from 'Components/FormCheckbox';
+import FormFilePicker from 'Components/FormFilePicker';
+import InputForm from 'Components/InputForm';
+import useControlForm from 'hooks/useControlForm';
+import { useRecoilState } from 'recoil';
+import candidateService from 'services/candidate/candidateService';
 import { NotificationService } from 'services/notification';
 import uploadService from 'services/upload/uploadService';
-import useAuth from 'hooks/useAuth';
-import { useRecoilState } from 'recoil';
 import declarationAtom from '../../atoms/declarationAtom';
-import candidateService from 'services/candidate/candidateService';
-import FormCheckbox from 'Components/FormCheckbox';
-import useControlForm from 'hooks/useControlForm';
-import InputForm from 'Components/InputForm';
-import FormFilePicker from 'Components/FormFilePicker';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import incomeTaxSchema from './income-tax-schema';
 
 export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
@@ -128,7 +126,7 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
                 </>
             )}
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}

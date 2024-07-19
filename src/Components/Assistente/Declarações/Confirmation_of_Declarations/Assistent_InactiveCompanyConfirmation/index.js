@@ -1,9 +1,9 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss';
-import { useRecoilState } from 'recoil';
 import declarationAtom from 'Pages/SubscribeForm/components/Form_Declarations/atoms/declarationAtom';
+import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import commonStyles from '../../styles.module.scss';
 
 export default function Assistent_InactiveCompanyConfirmation({ onBack }) {
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
@@ -46,7 +46,7 @@ export default function Assistent_InactiveCompanyConfirmation({ onBack }) {
                 </label>
             </div>
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
             </div>
         </div>
     );

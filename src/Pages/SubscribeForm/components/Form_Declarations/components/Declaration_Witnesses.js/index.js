@@ -1,20 +1,20 @@
 import { Document, PDFDownloadLink, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
-import useAuth from 'hooks/useAuth';
-import { useEffect, useState } from 'react';
-import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
-import uploadService from 'services/upload/uploadService';
-import { NotificationService } from 'services/notification';
-import { useRecoilState } from 'recoil';
-import declarationAtom from '../../atoms/declarationAtom';
 import FormFilePicker from 'Components/FormFilePicker';
-import useControlForm from 'hooks/useControlForm';
-import { z } from 'zod';
 import Tooltip from 'Components/Tooltip';
-import findLabel from 'utils/enums/helpers/findLabel';
+import useAuth from 'hooks/useAuth';
+import useControlForm from 'hooks/useControlForm';
+import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { api } from 'services/axios'; // Certifique-se de que o caminho está correto
+import { NotificationService } from 'services/notification';
+import uploadService from 'services/upload/uploadService';
 import BANK_ACCOUNT_TYPES from 'utils/enums/bank-account-types';
+import findLabel from 'utils/enums/helpers/findLabel';
+import { z } from 'zod';
+import declarationAtom from '../../atoms/declarationAtom';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 
 export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     const { auth } = useAuth();
@@ -310,7 +310,7 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
                 </div> */}
             </div>
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase label="Salvar" onClick={handleRegisterDeclaration} />
                 {!isGeneratingPDF && <ButtonBase label="Gerar declarações" onClick={handleGeneratePDF} />}
                 {isGeneratingPDF === "generating" && (

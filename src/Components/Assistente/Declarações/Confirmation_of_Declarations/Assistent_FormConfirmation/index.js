@@ -47,7 +47,7 @@ export default function Assistent_Declaration_Form({ onBack, userId, declaration
                 </div>
             </div>
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase onClick={handleRegisterDeclaration}>Registrar Declaração</ButtonBase>
             </div>
         </div>

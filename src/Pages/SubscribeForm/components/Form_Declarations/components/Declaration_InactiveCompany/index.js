@@ -1,12 +1,11 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { useEffect, useRef, useState } from 'react';
-import commonStyles from '../../styles.module.scss';
-import { useRecoilState } from 'recoil';
-import declarationAtom from '../../atoms/declarationAtom';
-import { formatCEP } from 'utils/format-cep';
 import AddressData from 'Pages/SubscribeForm/components/AddressData';
+import { useEffect, useRef, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import candidateService from 'services/candidate/candidateService';
+import declarationAtom from '../../atoms/declarationAtom';
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_InactiveCompany({ onBack, onSave }) {
     const [hasInactiveCompany, setHasInactiveCompany] = useState(null);
@@ -174,7 +173,7 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
                 </div>
             )}
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}

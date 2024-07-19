@@ -1,14 +1,13 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
 import ButtonBase from "Components/ButtonBase";
-import { useEffect, useState } from 'react';
-import commonStyles from '../../styles.module.scss';
-import { useRecoilState } from 'recoil';
-import declarationAtom from '../../atoms/declarationAtom';
-import useControlForm from 'hooks/useControlForm';
-import rentDetailsSchema from './rent-details-schema';
 import InputForm from 'Components/InputForm';
-import { formatCPF } from 'utils/format-cpf';
 import MoneyFormInput from 'Components/MoneyFormInput';
+import useControlForm from 'hooks/useControlForm';
+import { useRecoilState } from 'recoil';
+import { formatCPF } from 'utils/format-cpf';
+import declarationAtom from '../../atoms/declarationAtom';
+import commonStyles from '../../styles.module.scss';
+import rentDetailsSchema from './rent-details-schema';
 
 export default function Declaration_RentDetails({ onBack, onSave }) {
     // const [rentValue, setRentValue] = useState('');
@@ -88,7 +87,7 @@ export default function Declaration_RentDetails({ onBack, onSave }) {
                 </div> */}
             </div>
             <div className={commonStyles.navigationButtons}>
-                <ButtonBase onClick={onBack}><Arrow width="40px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}
