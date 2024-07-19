@@ -379,6 +379,7 @@ model Vehicle {
 model FamilyMemberIncome {
   id                    String            @id @default(uuid())
   employmentType        EmploymentType
+  isUpdated             Boolean?          @default(true)
   averageIncome         String
   admissionDate         DateTime?
   position              String?
@@ -427,7 +428,7 @@ model MonthlyIncome {
   familyMember              FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
   candidate                 Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id              String?
-  incomeSource              IncomeSource?
+  incomeSource              IncomeSource
   LegalResponsible          LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId        String?
 }
