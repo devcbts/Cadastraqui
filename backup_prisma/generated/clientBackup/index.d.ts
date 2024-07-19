@@ -36434,6 +36434,7 @@ export namespace Prisma {
     perCapita: number | null
     position: number | null
     number: number | null
+    createdAt: Date | null
     reponsible_id: string | null
   }
 
@@ -36452,6 +36453,7 @@ export namespace Prisma {
     perCapita: number | null
     position: number | null
     number: number | null
+    createdAt: Date | null
     reponsible_id: string | null
   }
 
@@ -36470,6 +36472,7 @@ export namespace Prisma {
     perCapita: number
     position: number
     number: number
+    createdAt: number
     reponsible_id: number
     _all: number
   }
@@ -36504,6 +36507,7 @@ export namespace Prisma {
     perCapita?: true
     position?: true
     number?: true
+    createdAt?: true
     reponsible_id?: true
   }
 
@@ -36522,6 +36526,7 @@ export namespace Prisma {
     perCapita?: true
     position?: true
     number?: true
+    createdAt?: true
     reponsible_id?: true
   }
 
@@ -36540,6 +36545,7 @@ export namespace Prisma {
     perCapita?: true
     position?: true
     number?: true
+    createdAt?: true
     reponsible_id?: true
     _all?: true
   }
@@ -36645,6 +36651,7 @@ export namespace Prisma {
     perCapita: number | null
     position: number | null
     number: number
+    createdAt: Date
     reponsible_id: string | null
     _count: ApplicationCountAggregateOutputType | null
     _avg: ApplicationAvgAggregateOutputType | null
@@ -36682,6 +36689,7 @@ export namespace Prisma {
     perCapita?: boolean
     position?: boolean
     number?: boolean
+    createdAt?: boolean
     reponsible_id?: boolean
     announcement?: boolean | AnnouncementDefaultArgs<ExtArgs>
     candidate?: boolean | CandidateDefaultArgs<ExtArgs>
@@ -36708,6 +36716,7 @@ export namespace Prisma {
     perCapita?: boolean
     position?: boolean
     number?: boolean
+    createdAt?: boolean
     reponsible_id?: boolean
   }
 
@@ -36749,6 +36758,7 @@ export namespace Prisma {
       perCapita: number | null
       position: number | null
       number: number
+      createdAt: Date
       reponsible_id: string | null
     }, ExtArgs["result"]["application"]>
     composites: {}
@@ -37171,6 +37181,7 @@ export namespace Prisma {
     readonly perCapita: FieldRef<"Application", 'Float'>
     readonly position: FieldRef<"Application", 'Int'>
     readonly number: FieldRef<"Application", 'Int'>
+    readonly createdAt: FieldRef<"Application", 'DateTime'>
     readonly reponsible_id: FieldRef<"Application", 'String'>
   }
     
@@ -40995,6 +41006,7 @@ export namespace Prisma {
     perCapita: 'perCapita',
     position: 'position',
     number: 'number',
+    createdAt: 'createdAt',
     reponsible_id: 'reponsible_id'
   };
 
@@ -45042,6 +45054,7 @@ export namespace Prisma {
     perCapita?: FloatNullableFilter<"Application"> | number | null
     position?: IntNullableFilter<"Application"> | number | null
     number?: IntFilter<"Application"> | number
+    createdAt?: DateTimeFilter<"Application"> | Date | string
     reponsible_id?: StringNullableFilter<"Application"> | string | null
     announcement?: XOR<AnnouncementRelationFilter, AnnouncementWhereInput>
     candidate?: XOR<CandidateRelationFilter, CandidateWhereInput>
@@ -45067,6 +45080,7 @@ export namespace Prisma {
     perCapita?: SortOrderInput | SortOrder
     position?: SortOrderInput | SortOrder
     number?: SortOrder
+    createdAt?: SortOrder
     reponsible_id?: SortOrderInput | SortOrder
     announcement?: AnnouncementOrderByWithRelationInput
     candidate?: CandidateOrderByWithRelationInput
@@ -45096,6 +45110,7 @@ export namespace Prisma {
     perCapita?: FloatNullableFilter<"Application"> | number | null
     position?: IntNullableFilter<"Application"> | number | null
     number?: IntFilter<"Application"> | number
+    createdAt?: DateTimeFilter<"Application"> | Date | string
     reponsible_id?: StringNullableFilter<"Application"> | string | null
     announcement?: XOR<AnnouncementRelationFilter, AnnouncementWhereInput>
     candidate?: XOR<CandidateRelationFilter, CandidateWhereInput>
@@ -45121,6 +45136,7 @@ export namespace Prisma {
     perCapita?: SortOrderInput | SortOrder
     position?: SortOrderInput | SortOrder
     number?: SortOrder
+    createdAt?: SortOrder
     reponsible_id?: SortOrderInput | SortOrder
     _count?: ApplicationCountOrderByAggregateInput
     _avg?: ApplicationAvgOrderByAggregateInput
@@ -45147,6 +45163,7 @@ export namespace Prisma {
     perCapita?: FloatNullableWithAggregatesFilter<"Application"> | number | null
     position?: IntNullableWithAggregatesFilter<"Application"> | number | null
     number?: IntWithAggregatesFilter<"Application"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Application"> | Date | string
     reponsible_id?: StringNullableWithAggregatesFilter<"Application"> | string | null
   }
 
@@ -49237,6 +49254,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     announcement: AnnouncementCreateNestedOneWithoutApplicationInput
     candidate: CandidateCreateNestedOneWithoutApplicationInput
     EducationLevel: EducationLevelCreateNestedOneWithoutApplicationInput
@@ -49261,6 +49279,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     reponsible_id?: string | null
     applicationHistories?: ApplicationHistoryUncheckedCreateNestedManyWithoutApplicationInput
     ScholarshipGranted?: ScholarshipGrantedUncheckedCreateNestedOneWithoutApplicationInput
@@ -49277,6 +49296,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     announcement?: AnnouncementUpdateOneRequiredWithoutApplicationNestedInput
     candidate?: CandidateUpdateOneRequiredWithoutApplicationNestedInput
     EducationLevel?: EducationLevelUpdateOneRequiredWithoutApplicationNestedInput
@@ -49301,6 +49321,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reponsible_id?: NullableStringFieldUpdateOperationsInput | string | null
     applicationHistories?: ApplicationHistoryUncheckedUpdateManyWithoutApplicationNestedInput
     ScholarshipGranted?: ScholarshipGrantedUncheckedUpdateOneWithoutApplicationNestedInput
@@ -49321,6 +49342,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     reponsible_id?: string | null
   }
 
@@ -49335,6 +49357,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ApplicationUncheckedUpdateManyInput = {
@@ -49352,6 +49375,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reponsible_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -52679,6 +52703,7 @@ export namespace Prisma {
     perCapita?: SortOrder
     position?: SortOrder
     number?: SortOrder
+    createdAt?: SortOrder
     reponsible_id?: SortOrder
   }
 
@@ -52704,6 +52729,7 @@ export namespace Prisma {
     perCapita?: SortOrder
     position?: SortOrder
     number?: SortOrder
+    createdAt?: SortOrder
     reponsible_id?: SortOrder
   }
 
@@ -52722,6 +52748,7 @@ export namespace Prisma {
     perCapita?: SortOrder
     position?: SortOrder
     number?: SortOrder
+    createdAt?: SortOrder
     reponsible_id?: SortOrder
   }
 
@@ -57954,6 +57981,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     announcement: AnnouncementCreateNestedOneWithoutApplicationInput
     EducationLevel: EducationLevelCreateNestedOneWithoutApplicationInput
     SocialAssistant?: SocialAssistantCreateNestedOneWithoutApplicationInput
@@ -57976,6 +58004,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     reponsible_id?: string | null
     applicationHistories?: ApplicationHistoryUncheckedCreateNestedManyWithoutApplicationInput
     ScholarshipGranted?: ScholarshipGrantedUncheckedCreateNestedOneWithoutApplicationInput
@@ -58972,6 +59001,7 @@ export namespace Prisma {
     perCapita?: FloatNullableFilter<"Application"> | number | null
     position?: IntNullableFilter<"Application"> | number | null
     number?: IntFilter<"Application"> | number
+    createdAt?: DateTimeFilter<"Application"> | Date | string
     reponsible_id?: StringNullableFilter<"Application"> | string | null
   }
 
@@ -60773,6 +60803,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     announcement: AnnouncementCreateNestedOneWithoutApplicationInput
     candidate: CandidateCreateNestedOneWithoutApplicationInput
     EducationLevel: EducationLevelCreateNestedOneWithoutApplicationInput
@@ -60796,6 +60827,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     applicationHistories?: ApplicationHistoryUncheckedCreateNestedManyWithoutApplicationInput
     ScholarshipGranted?: ScholarshipGrantedUncheckedCreateNestedOneWithoutApplicationInput
   }
@@ -61300,6 +61332,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     announcement: AnnouncementCreateNestedOneWithoutApplicationInput
     candidate: CandidateCreateNestedOneWithoutApplicationInput
     EducationLevel: EducationLevelCreateNestedOneWithoutApplicationInput
@@ -61322,6 +61355,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     reponsible_id?: string | null
     applicationHistories?: ApplicationHistoryUncheckedCreateNestedManyWithoutApplicationInput
     ScholarshipGranted?: ScholarshipGrantedUncheckedCreateNestedOneWithoutApplicationInput
@@ -71088,6 +71122,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     candidate: CandidateCreateNestedOneWithoutApplicationInput
     EducationLevel: EducationLevelCreateNestedOneWithoutApplicationInput
     SocialAssistant?: SocialAssistantCreateNestedOneWithoutApplicationInput
@@ -71110,6 +71145,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     reponsible_id?: string | null
     applicationHistories?: ApplicationHistoryUncheckedCreateNestedManyWithoutApplicationInput
     ScholarshipGranted?: ScholarshipGrantedUncheckedCreateNestedOneWithoutApplicationInput
@@ -71586,6 +71622,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     announcement: AnnouncementCreateNestedOneWithoutApplicationInput
     candidate: CandidateCreateNestedOneWithoutApplicationInput
     SocialAssistant?: SocialAssistantCreateNestedOneWithoutApplicationInput
@@ -71608,6 +71645,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     reponsible_id?: string | null
     applicationHistories?: ApplicationHistoryUncheckedCreateNestedManyWithoutApplicationInput
     ScholarshipGranted?: ScholarshipGrantedUncheckedCreateNestedOneWithoutApplicationInput
@@ -72562,6 +72600,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     announcement: AnnouncementCreateNestedOneWithoutApplicationInput
     candidate: CandidateCreateNestedOneWithoutApplicationInput
     EducationLevel: EducationLevelCreateNestedOneWithoutApplicationInput
@@ -72585,6 +72624,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     reponsible_id?: string | null
     ScholarshipGranted?: ScholarshipGrantedUncheckedCreateNestedOneWithoutApplicationInput
   }
@@ -72616,6 +72656,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     announcement?: AnnouncementUpdateOneRequiredWithoutApplicationNestedInput
     candidate?: CandidateUpdateOneRequiredWithoutApplicationNestedInput
     EducationLevel?: EducationLevelUpdateOneRequiredWithoutApplicationNestedInput
@@ -72639,6 +72680,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reponsible_id?: NullableStringFieldUpdateOperationsInput | string | null
     ScholarshipGranted?: ScholarshipGrantedUncheckedUpdateOneWithoutApplicationNestedInput
   }
@@ -72715,6 +72757,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     announcement: AnnouncementCreateNestedOneWithoutApplicationInput
     candidate: CandidateCreateNestedOneWithoutApplicationInput
     EducationLevel: EducationLevelCreateNestedOneWithoutApplicationInput
@@ -72738,6 +72781,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     reponsible_id?: string | null
     applicationHistories?: ApplicationHistoryUncheckedCreateNestedManyWithoutApplicationInput
   }
@@ -72836,6 +72880,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     announcement?: AnnouncementUpdateOneRequiredWithoutApplicationNestedInput
     candidate?: CandidateUpdateOneRequiredWithoutApplicationNestedInput
     EducationLevel?: EducationLevelUpdateOneRequiredWithoutApplicationNestedInput
@@ -72859,6 +72904,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reponsible_id?: NullableStringFieldUpdateOperationsInput | string | null
     applicationHistories?: ApplicationHistoryUncheckedUpdateManyWithoutApplicationNestedInput
   }
@@ -73249,6 +73295,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     reponsible_id?: string | null
   }
 
@@ -73609,6 +73656,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     announcement?: AnnouncementUpdateOneRequiredWithoutApplicationNestedInput
     EducationLevel?: EducationLevelUpdateOneRequiredWithoutApplicationNestedInput
     SocialAssistant?: SocialAssistantUpdateOneWithoutApplicationNestedInput
@@ -73631,6 +73679,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reponsible_id?: NullableStringFieldUpdateOperationsInput | string | null
     applicationHistories?: ApplicationHistoryUncheckedUpdateManyWithoutApplicationNestedInput
     ScholarshipGranted?: ScholarshipGrantedUncheckedUpdateOneWithoutApplicationNestedInput
@@ -73650,6 +73699,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reponsible_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -75019,6 +75069,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
   }
 
   export type FamilyMemberIncomeCreateManyLegalResponsibleInput = {
@@ -76025,6 +76076,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     announcement?: AnnouncementUpdateOneRequiredWithoutApplicationNestedInput
     candidate?: CandidateUpdateOneRequiredWithoutApplicationNestedInput
     EducationLevel?: EducationLevelUpdateOneRequiredWithoutApplicationNestedInput
@@ -76048,6 +76100,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     applicationHistories?: ApplicationHistoryUncheckedUpdateManyWithoutApplicationNestedInput
     ScholarshipGranted?: ScholarshipGrantedUncheckedUpdateOneWithoutApplicationNestedInput
   }
@@ -76067,6 +76120,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FamilyMemberIncomeUpdateWithoutLegalResponsibleInput = {
@@ -76305,6 +76359,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     reponsible_id?: string | null
   }
 
@@ -76319,6 +76374,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     announcement?: AnnouncementUpdateOneRequiredWithoutApplicationNestedInput
     candidate?: CandidateUpdateOneRequiredWithoutApplicationNestedInput
     EducationLevel?: EducationLevelUpdateOneRequiredWithoutApplicationNestedInput
@@ -76341,6 +76397,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reponsible_id?: NullableStringFieldUpdateOperationsInput | string | null
     applicationHistories?: ApplicationHistoryUncheckedUpdateManyWithoutApplicationNestedInput
     ScholarshipGranted?: ScholarshipGrantedUncheckedUpdateOneWithoutApplicationNestedInput
@@ -76360,6 +76417,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reponsible_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -77672,6 +77730,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     reponsible_id?: string | null
   }
 
@@ -77771,6 +77830,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneRequiredWithoutApplicationNestedInput
     EducationLevel?: EducationLevelUpdateOneRequiredWithoutApplicationNestedInput
     SocialAssistant?: SocialAssistantUpdateOneWithoutApplicationNestedInput
@@ -77793,6 +77853,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reponsible_id?: NullableStringFieldUpdateOperationsInput | string | null
     applicationHistories?: ApplicationHistoryUncheckedUpdateManyWithoutApplicationNestedInput
     ScholarshipGranted?: ScholarshipGrantedUncheckedUpdateOneWithoutApplicationNestedInput
@@ -77812,6 +77873,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reponsible_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -77961,6 +78023,7 @@ export namespace Prisma {
     perCapita?: number | null
     position?: number | null
     number?: number
+    createdAt?: Date | string
     reponsible_id?: string | null
   }
 
@@ -77975,6 +78038,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     announcement?: AnnouncementUpdateOneRequiredWithoutApplicationNestedInput
     candidate?: CandidateUpdateOneRequiredWithoutApplicationNestedInput
     SocialAssistant?: SocialAssistantUpdateOneWithoutApplicationNestedInput
@@ -77997,6 +78061,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reponsible_id?: NullableStringFieldUpdateOperationsInput | string | null
     applicationHistories?: ApplicationHistoryUncheckedUpdateManyWithoutApplicationNestedInput
     ScholarshipGranted?: ScholarshipGrantedUncheckedUpdateOneWithoutApplicationNestedInput
@@ -78016,6 +78081,7 @@ export namespace Prisma {
     perCapita?: NullableFloatFieldUpdateOperationsInput | number | null
     position?: NullableIntFieldUpdateOperationsInput | number | null
     number?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reponsible_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
