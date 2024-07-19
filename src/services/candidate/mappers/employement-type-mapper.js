@@ -23,6 +23,7 @@ class EmployementTypeMapper {
                 parcelValue: i.parcelValue ? Number(i.parcelValue).toLocaleString('pt-br', { style: "currency", currency: "brl" }) : null,
                 firstParcelDate: i.firstParcelDate?.split('T')[0],
                 admissionDate: i.admissionDate?.split('T')[0],
+                startDate: i.startDate?.split('T')[0],
                 url_document: Object.values(removeObjectFileExtension(i?.urls))?.[0],
             })),
             averageIncome: new Number(e.averageIncome).toLocaleString('pt-br', { style: 'currency', currency: 'brl' }),

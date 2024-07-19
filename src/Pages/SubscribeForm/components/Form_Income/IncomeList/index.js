@@ -32,7 +32,7 @@ export default function IncomeList({ onSelect, onAdd }) {
                 <FormList.List list={members?.incomes} text={'Cadastre um membro em seu grupo familiar para cadastrar um tipo de renda'} render={(item) => (
                     <FormListItem.Root text={item.name}>
                         <FormListItem.Actions>
-                            <ButtonBase label={"visualizar"} onClick={() => setSelectedMember({ fullName: item.name, id: item.id })} />
+                            <ButtonBase label={"visualizar"} onClick={() => setSelectedMember({ fullName: item.name, id: item.id, isUpdated: item.isUpdated })} />
                             <ButtonBase label={"cadastrar"} onClick={() => onAdd({ member: { fullName: item.name, id: item.id } })} />
                         </FormListItem.Actions>
                     </FormListItem.Root>

@@ -1,3 +1,4 @@
+@import '../../../../../Assets/theme/global.module.scss';
 .containerRenda {
     display: flex;
     flex-direction: column;
@@ -40,7 +41,7 @@
 
     h3 {
         font-size: 20px;
-        color: #1F4B73;
+        color: $primary;
     }
 
 }
@@ -54,13 +55,26 @@
 
     h4 {
         font-size: 16px;
-        color: #1F4B73;
+        color: $primary;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-grow: 1;
     }
-
+    span{
+        padding: 4px;
+        border-radius: 8px;
+        font-weight: 700;
+        color: white;
+        &[updated=true]{
+            background-color: $success;
+            border: 2px solid $success;
+            }
+        &[updated=false]{
+        background-color: $error;
+        border: 2px solid $error;
+        }
+    }
     button {
         border-radius: 8px;
         border: 2px solid #E38A05;

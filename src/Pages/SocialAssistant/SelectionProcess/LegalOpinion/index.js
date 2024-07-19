@@ -23,6 +23,9 @@ import { NotificationService } from "services/notification";
 import formatMoney from "utils/format-money";
 import uploadService from "services/upload/uploadService";
 import { selectionProcessContext } from "../CandidateInfo/context/SelectionProcessContext";
+import formatDate from "utils/format-date";
+import { BlobProvider } from "@react-pdf/renderer";
+import LegalOpinionPdf from "./LegalOpinionPdf";
 
 export default function LegalOpinion() {
     const { state } = useLocation()
@@ -98,7 +101,7 @@ export default function LegalOpinion() {
                 <div className={styles.content}>
 
                     <p>
-                        Em 28 de maio de 2024, o(a) candidato(a)
+                        Em <strong>{formatDate(data?.application?.createdAt)}</strong>, o(a) candidato(a)
                         <strong>{candidate?.name}</strong>
                         , portador(a) da cédula de identidade RG número
                         <strong>{candidate?.RG}</strong>
@@ -116,7 +119,7 @@ export default function LegalOpinion() {
                         <strong>{candidate?.addressNumber}</strong>
                         , CEP
                         <strong>{candidate?.CEP}</strong>
-                        , Pinheiros,
+                        ,                         <strong>{candidate?.neighborhood}</strong>                        ,
                         <strong>{candidate?.city}/{candidate?.UF}</strong>
                         , com e-mail
                         <strong>{candidate?.email}</strong>
@@ -229,7 +232,25 @@ export default function LegalOpinion() {
                         <FormRadio control={control} name="status" value={"Rejected"} label={"indeferimento"} color />
                     </div>
                 </div>
-                <ButtonBase label={'concluir'} onClick={handleSubmit} />
+                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '32px' }}>
+
+                    <ButtonBase label={'concluir'} onClick={handleSubmit} />
+                    <BlobProvider document={
+                        <LegalOpinionPdf
+                            candidate={candidate}
+                            data={data}
+                            members={members}
+                            disease={disease}
+                            house={house}
+                            family={family}
+                        />}
+                    >
+                        {({ loading, url }) => {
+
+                            return (loading ? 'carregando pdf...' : <ButtonBase label={'PDF'} onClick={() => window.open(url, '_blank')} />)
+                        }}
+                    </BlobProvider>
+                </div>
             </div>
         </div>
     )

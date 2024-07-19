@@ -86,9 +86,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                         <h3>Rendas Cadastradas</h3>
                         <div className={styles.containerRendaCadastradaSituacao}>
                             <h4>Situação do Cadastro de Rendas:</h4>
-                            <button>
-                                Atualizar Informações
-                            </button>
+                            <span updated={member.isUpdated.toString()}>{member.isUpdated ? 'Atualizada' : 'Atualização necessária'}</span>
                         </div>
                     </div>
                     <div className={styles.containerNenhumaRenda}>
