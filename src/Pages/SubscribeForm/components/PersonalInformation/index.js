@@ -42,7 +42,7 @@ const PersonalInformation = forwardRef(({ data }, ref) => {
             {
                 watchNeeds && (
                     <>
-                        <InputForm control={control} name={"specialNeedsType"} label={"tipo das necessidades especiais"} />
+                        <InputForm control={control} name={"specialNeedsType"} label={"Tipo de necessidades especiais"} />
                         <InputForm control={control} name={"specialNeedsDescription"} label={"descrição das necessidades especiais"} />
                     </>
                 )
