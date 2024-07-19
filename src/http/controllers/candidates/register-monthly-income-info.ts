@@ -112,7 +112,7 @@ export async function registerMonthlyIncomeInfo(
               receivedIncome: income.receivedIncome,
               grossAmount: income.grossAmount,
               liquidAmount,
-              
+
               date: income.date,
               advancePaymentValue: income.advancePaymentValue,
               compensationValue: income.compensationValue,
@@ -160,6 +160,19 @@ export async function registerMonthlyIncomeInfo(
           })
         }
       }))
+      // Verificar que existem todas as rendas necesárias!
+
+      const monthlyIncomes = await tsPrisma.monthlyIncome.count({
+        where: { ...idField, incomeSource: monthlyIncome.incomeSource }
+      })
+
+      // Caso existam 6 rendas mensais cadastradas, atualiza o campo isUpdated para true
+      if (monthlyIncomes >= 6) {
+        await tsPrisma.familyMemberIncome.updateMany({
+          where: { ...idField, employmentType: monthlyIncome.incomeSource },
+          data: { isUpdated: true }
+        })
+      }
 
 
     })

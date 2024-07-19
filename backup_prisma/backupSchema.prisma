@@ -403,6 +403,7 @@ model FamilyMemberIncome {
   employmentType EmploymentType
   averageIncome  String
   main_id        String?
+  isUpdated             Boolean?
 
   admissionDate         DateTime?
   position              String?
@@ -456,7 +457,7 @@ model MonthlyIncome {
   familyMember              FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
   candidate                 Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id              String?
-  incomeSource              IncomeSource?
+  incomeSource              IncomeSource
   application_id            String
   LegalResponsible          LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId        String?

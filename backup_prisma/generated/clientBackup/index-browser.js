@@ -370,6 +370,7 @@ exports.Prisma.FamilyMemberIncomeScalarFieldEnum = {
   employmentType: 'employmentType',
   averageIncome: 'averageIncome',
   main_id: 'main_id',
+  isUpdated: 'isUpdated',
   admissionDate: 'admissionDate',
   position: 'position',
   payingSource: 'payingSource',

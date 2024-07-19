@@ -19558,6 +19558,7 @@ export namespace Prisma {
     employmentType: $Enums.EmploymentType | null
     averageIncome: string | null
     main_id: string | null
+    isUpdated: boolean | null
     admissionDate: Date | null
     position: string | null
     payingSource: string | null
@@ -19584,6 +19585,7 @@ export namespace Prisma {
     employmentType: $Enums.EmploymentType | null
     averageIncome: string | null
     main_id: string | null
+    isUpdated: boolean | null
     admissionDate: Date | null
     position: string | null
     payingSource: string | null
@@ -19610,6 +19612,7 @@ export namespace Prisma {
     employmentType: number
     averageIncome: number
     main_id: number
+    isUpdated: number
     admissionDate: number
     position: number
     payingSource: number
@@ -19650,6 +19653,7 @@ export namespace Prisma {
     employmentType?: true
     averageIncome?: true
     main_id?: true
+    isUpdated?: true
     admissionDate?: true
     position?: true
     payingSource?: true
@@ -19676,6 +19680,7 @@ export namespace Prisma {
     employmentType?: true
     averageIncome?: true
     main_id?: true
+    isUpdated?: true
     admissionDate?: true
     position?: true
     payingSource?: true
@@ -19702,6 +19707,7 @@ export namespace Prisma {
     employmentType?: true
     averageIncome?: true
     main_id?: true
+    isUpdated?: true
     admissionDate?: true
     position?: true
     payingSource?: true
@@ -19815,6 +19821,7 @@ export namespace Prisma {
     employmentType: $Enums.EmploymentType
     averageIncome: string
     main_id: string | null
+    isUpdated: boolean | null
     admissionDate: Date | null
     position: string | null
     payingSource: string | null
@@ -19860,6 +19867,7 @@ export namespace Prisma {
     employmentType?: boolean
     averageIncome?: boolean
     main_id?: boolean
+    isUpdated?: boolean
     admissionDate?: boolean
     position?: boolean
     payingSource?: boolean
@@ -19889,6 +19897,7 @@ export namespace Prisma {
     employmentType?: boolean
     averageIncome?: boolean
     main_id?: boolean
+    isUpdated?: boolean
     admissionDate?: boolean
     position?: boolean
     payingSource?: boolean
@@ -19929,6 +19938,7 @@ export namespace Prisma {
       employmentType: $Enums.EmploymentType
       averageIncome: string
       main_id: string | null
+      isUpdated: boolean | null
       admissionDate: Date | null
       position: string | null
       payingSource: string | null
@@ -20351,6 +20361,7 @@ export namespace Prisma {
     readonly employmentType: FieldRef<"FamilyMemberIncome", 'EmploymentType'>
     readonly averageIncome: FieldRef<"FamilyMemberIncome", 'String'>
     readonly main_id: FieldRef<"FamilyMemberIncome", 'String'>
+    readonly isUpdated: FieldRef<"FamilyMemberIncome", 'Boolean'>
     readonly admissionDate: FieldRef<"FamilyMemberIncome", 'DateTime'>
     readonly position: FieldRef<"FamilyMemberIncome", 'String'>
     readonly payingSource: FieldRef<"FamilyMemberIncome", 'String'>
@@ -21113,7 +21124,7 @@ export namespace Prisma {
     judicialPensionValue: Decimal | null
     familyMember_id: string | null
     candidate_id: string | null
-    incomeSource: $Enums.IncomeSource | null
+    incomeSource: $Enums.IncomeSource
     application_id: string
     legalResponsibleId: string | null
     _count: MonthlyIncomeCountAggregateOutputType | null
@@ -21233,7 +21244,7 @@ export namespace Prisma {
       judicialPensionValue: Prisma.Decimal | null
       familyMember_id: string | null
       candidate_id: string | null
-      incomeSource: $Enums.IncomeSource | null
+      incomeSource: $Enums.IncomeSource
       application_id: string
       legalResponsibleId: string | null
     }, ExtArgs["result"]["monthlyIncome"]>
@@ -40663,6 +40674,7 @@ export namespace Prisma {
     employmentType: 'employmentType',
     averageIncome: 'averageIncome',
     main_id: 'main_id',
+    isUpdated: 'isUpdated',
     admissionDate: 'admissionDate',
     position: 'position',
     payingSource: 'payingSource',
@@ -43338,6 +43350,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeFilter<"FamilyMemberIncome"> | $Enums.EmploymentType
     averageIncome?: StringFilter<"FamilyMemberIncome"> | string
     main_id?: StringNullableFilter<"FamilyMemberIncome"> | string | null
+    isUpdated?: BoolNullableFilter<"FamilyMemberIncome"> | boolean | null
     admissionDate?: DateTimeNullableFilter<"FamilyMemberIncome"> | Date | string | null
     position?: StringNullableFilter<"FamilyMemberIncome"> | string | null
     payingSource?: StringNullableFilter<"FamilyMemberIncome"> | string | null
@@ -43367,6 +43380,7 @@ export namespace Prisma {
     employmentType?: SortOrder
     averageIncome?: SortOrder
     main_id?: SortOrderInput | SortOrder
+    isUpdated?: SortOrderInput | SortOrder
     admissionDate?: SortOrderInput | SortOrder
     position?: SortOrderInput | SortOrder
     payingSource?: SortOrderInput | SortOrder
@@ -43400,6 +43414,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeFilter<"FamilyMemberIncome"> | $Enums.EmploymentType
     averageIncome?: StringFilter<"FamilyMemberIncome"> | string
     main_id?: StringNullableFilter<"FamilyMemberIncome"> | string | null
+    isUpdated?: BoolNullableFilter<"FamilyMemberIncome"> | boolean | null
     admissionDate?: DateTimeNullableFilter<"FamilyMemberIncome"> | Date | string | null
     position?: StringNullableFilter<"FamilyMemberIncome"> | string | null
     payingSource?: StringNullableFilter<"FamilyMemberIncome"> | string | null
@@ -43429,6 +43444,7 @@ export namespace Prisma {
     employmentType?: SortOrder
     averageIncome?: SortOrder
     main_id?: SortOrderInput | SortOrder
+    isUpdated?: SortOrderInput | SortOrder
     admissionDate?: SortOrderInput | SortOrder
     position?: SortOrderInput | SortOrder
     payingSource?: SortOrderInput | SortOrder
@@ -43463,6 +43479,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeWithAggregatesFilter<"FamilyMemberIncome"> | $Enums.EmploymentType
     averageIncome?: StringWithAggregatesFilter<"FamilyMemberIncome"> | string
     main_id?: StringNullableWithAggregatesFilter<"FamilyMemberIncome"> | string | null
+    isUpdated?: BoolNullableWithAggregatesFilter<"FamilyMemberIncome"> | boolean | null
     admissionDate?: DateTimeNullableWithAggregatesFilter<"FamilyMemberIncome"> | Date | string | null
     position?: StringNullableWithAggregatesFilter<"FamilyMemberIncome"> | string | null
     payingSource?: StringNullableWithAggregatesFilter<"FamilyMemberIncome"> | string | null
@@ -43510,7 +43527,7 @@ export namespace Prisma {
     judicialPensionValue?: DecimalNullableFilter<"MonthlyIncome"> | Decimal | DecimalJsLike | number | string | null
     familyMember_id?: StringNullableFilter<"MonthlyIncome"> | string | null
     candidate_id?: StringNullableFilter<"MonthlyIncome"> | string | null
-    incomeSource?: EnumIncomeSourceNullableFilter<"MonthlyIncome"> | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceFilter<"MonthlyIncome"> | $Enums.IncomeSource
     application_id?: StringFilter<"MonthlyIncome"> | string
     legalResponsibleId?: StringNullableFilter<"MonthlyIncome"> | string | null
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
@@ -43541,7 +43558,7 @@ export namespace Prisma {
     judicialPensionValue?: SortOrderInput | SortOrder
     familyMember_id?: SortOrderInput | SortOrder
     candidate_id?: SortOrderInput | SortOrder
-    incomeSource?: SortOrderInput | SortOrder
+    incomeSource?: SortOrder
     application_id?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     familyMember?: FamilyMemberOrderByWithRelationInput
@@ -43576,7 +43593,7 @@ export namespace Prisma {
     judicialPensionValue?: DecimalNullableFilter<"MonthlyIncome"> | Decimal | DecimalJsLike | number | string | null
     familyMember_id?: StringNullableFilter<"MonthlyIncome"> | string | null
     candidate_id?: StringNullableFilter<"MonthlyIncome"> | string | null
-    incomeSource?: EnumIncomeSourceNullableFilter<"MonthlyIncome"> | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceFilter<"MonthlyIncome"> | $Enums.IncomeSource
     application_id?: StringFilter<"MonthlyIncome"> | string
     legalResponsibleId?: StringNullableFilter<"MonthlyIncome"> | string | null
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
@@ -43607,7 +43624,7 @@ export namespace Prisma {
     judicialPensionValue?: SortOrderInput | SortOrder
     familyMember_id?: SortOrderInput | SortOrder
     candidate_id?: SortOrderInput | SortOrder
-    incomeSource?: SortOrderInput | SortOrder
+    incomeSource?: SortOrder
     application_id?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     _count?: MonthlyIncomeCountOrderByAggregateInput
@@ -43643,7 +43660,7 @@ export namespace Prisma {
     judicialPensionValue?: DecimalNullableWithAggregatesFilter<"MonthlyIncome"> | Decimal | DecimalJsLike | number | string | null
     familyMember_id?: StringNullableWithAggregatesFilter<"MonthlyIncome"> | string | null
     candidate_id?: StringNullableWithAggregatesFilter<"MonthlyIncome"> | string | null
-    incomeSource?: EnumIncomeSourceNullableWithAggregatesFilter<"MonthlyIncome"> | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceWithAggregatesFilter<"MonthlyIncome"> | $Enums.IncomeSource
     application_id?: StringWithAggregatesFilter<"MonthlyIncome"> | string
     legalResponsibleId?: StringNullableWithAggregatesFilter<"MonthlyIncome"> | string | null
   }
@@ -47354,6 +47371,7 @@ export namespace Prisma {
     employmentType: $Enums.EmploymentType
     averageIncome: string
     main_id?: string | null
+    isUpdated?: boolean | null
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -47380,6 +47398,7 @@ export namespace Prisma {
     employmentType: $Enums.EmploymentType
     averageIncome: string
     main_id?: string | null
+    isUpdated?: boolean | null
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -47406,6 +47425,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47432,6 +47452,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47458,6 +47479,7 @@ export namespace Prisma {
     employmentType: $Enums.EmploymentType
     averageIncome: string
     main_id?: string | null
+    isUpdated?: boolean | null
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -47484,6 +47506,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47507,6 +47530,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47549,7 +47573,7 @@ export namespace Prisma {
     reversalValue?: Decimal | DecimalJsLike | number | string | null
     compensationValue?: Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
-    incomeSource?: $Enums.IncomeSource | null
+    incomeSource: $Enums.IncomeSource
     application_id: string
     familyMember?: FamilyMemberCreateNestedOneWithoutMonthlyIncomeInput
     candidate?: CandidateCreateNestedOneWithoutMonthlyIncomeInput
@@ -47579,7 +47603,7 @@ export namespace Prisma {
     judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
     familyMember_id?: string | null
     candidate_id?: string | null
-    incomeSource?: $Enums.IncomeSource | null
+    incomeSource: $Enums.IncomeSource
     application_id: string
     legalResponsibleId?: string | null
   }
@@ -47605,7 +47629,7 @@ export namespace Prisma {
     reversalValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     compensationValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    incomeSource?: NullableEnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
     familyMember?: FamilyMemberUpdateOneWithoutMonthlyIncomeNestedInput
     candidate?: CandidateUpdateOneWithoutMonthlyIncomeNestedInput
@@ -47635,7 +47659,7 @@ export namespace Prisma {
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
-    incomeSource?: NullableEnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -47663,7 +47687,7 @@ export namespace Prisma {
     judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
     familyMember_id?: string | null
     candidate_id?: string | null
-    incomeSource?: $Enums.IncomeSource | null
+    incomeSource: $Enums.IncomeSource
     application_id: string
     legalResponsibleId?: string | null
   }
@@ -47689,7 +47713,7 @@ export namespace Prisma {
     reversalValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     compensationValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    incomeSource?: NullableEnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -47716,7 +47740,7 @@ export namespace Prisma {
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
-    incomeSource?: NullableEnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -51254,6 +51278,7 @@ export namespace Prisma {
     employmentType?: SortOrder
     averageIncome?: SortOrder
     main_id?: SortOrder
+    isUpdated?: SortOrder
     admissionDate?: SortOrder
     position?: SortOrder
     payingSource?: SortOrder
@@ -51286,6 +51311,7 @@ export namespace Prisma {
     employmentType?: SortOrder
     averageIncome?: SortOrder
     main_id?: SortOrder
+    isUpdated?: SortOrder
     admissionDate?: SortOrder
     position?: SortOrder
     payingSource?: SortOrder
@@ -51312,6 +51338,7 @@ export namespace Prisma {
     employmentType?: SortOrder
     averageIncome?: SortOrder
     main_id?: SortOrder
+    isUpdated?: SortOrder
     admissionDate?: SortOrder
     position?: SortOrder
     payingSource?: SortOrder
@@ -51360,11 +51387,11 @@ export namespace Prisma {
     not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
-  export type EnumIncomeSourceNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.IncomeSource | EnumIncomeSourceFieldRefInput<$PrismaModel> | null
-    in?: $Enums.IncomeSource[] | ListEnumIncomeSourceFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.IncomeSource[] | ListEnumIncomeSourceFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumIncomeSourceNullableFilter<$PrismaModel> | $Enums.IncomeSource | null
+  export type EnumIncomeSourceFilter<$PrismaModel = never> = {
+    equals?: $Enums.IncomeSource | EnumIncomeSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.IncomeSource[] | ListEnumIncomeSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IncomeSource[] | ListEnumIncomeSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumIncomeSourceFilter<$PrismaModel> | $Enums.IncomeSource
   }
 
   export type MonthlyIncomeApplication_idMain_idCompoundUniqueInput = {
@@ -51510,14 +51537,14 @@ export namespace Prisma {
     _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
-  export type EnumIncomeSourceNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.IncomeSource | EnumIncomeSourceFieldRefInput<$PrismaModel> | null
-    in?: $Enums.IncomeSource[] | ListEnumIncomeSourceFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.IncomeSource[] | ListEnumIncomeSourceFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumIncomeSourceNullableWithAggregatesFilter<$PrismaModel> | $Enums.IncomeSource | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumIncomeSourceNullableFilter<$PrismaModel>
-    _max?: NestedEnumIncomeSourceNullableFilter<$PrismaModel>
+  export type EnumIncomeSourceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IncomeSource | EnumIncomeSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.IncomeSource[] | ListEnumIncomeSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IncomeSource[] | ListEnumIncomeSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumIncomeSourceWithAggregatesFilter<$PrismaModel> | $Enums.IncomeSource
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIncomeSourceFilter<$PrismaModel>
+    _max?: NestedEnumIncomeSourceFilter<$PrismaModel>
   }
 
   export type EnumAccountTypeFilter<$PrismaModel = never> = {
@@ -55805,8 +55832,8 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
-  export type NullableEnumIncomeSourceFieldUpdateOperationsInput = {
-    set?: $Enums.IncomeSource | null
+  export type EnumIncomeSourceFieldUpdateOperationsInput = {
+    set?: $Enums.IncomeSource
   }
 
   export type FamilyMemberUpdateOneWithoutMonthlyIncomeNestedInput = {
@@ -57663,11 +57690,11 @@ export namespace Prisma {
     not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
-  export type NestedEnumIncomeSourceNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.IncomeSource | EnumIncomeSourceFieldRefInput<$PrismaModel> | null
-    in?: $Enums.IncomeSource[] | ListEnumIncomeSourceFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.IncomeSource[] | ListEnumIncomeSourceFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumIncomeSourceNullableFilter<$PrismaModel> | $Enums.IncomeSource | null
+  export type NestedEnumIncomeSourceFilter<$PrismaModel = never> = {
+    equals?: $Enums.IncomeSource | EnumIncomeSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.IncomeSource[] | ListEnumIncomeSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IncomeSource[] | ListEnumIncomeSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumIncomeSourceFilter<$PrismaModel> | $Enums.IncomeSource
   }
 
   export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -57686,14 +57713,14 @@ export namespace Prisma {
     _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
-  export type NestedEnumIncomeSourceNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.IncomeSource | EnumIncomeSourceFieldRefInput<$PrismaModel> | null
-    in?: $Enums.IncomeSource[] | ListEnumIncomeSourceFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.IncomeSource[] | ListEnumIncomeSourceFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumIncomeSourceNullableWithAggregatesFilter<$PrismaModel> | $Enums.IncomeSource | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumIncomeSourceNullableFilter<$PrismaModel>
-    _max?: NestedEnumIncomeSourceNullableFilter<$PrismaModel>
+  export type NestedEnumIncomeSourceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IncomeSource | EnumIncomeSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.IncomeSource[] | ListEnumIncomeSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IncomeSource[] | ListEnumIncomeSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumIncomeSourceWithAggregatesFilter<$PrismaModel> | $Enums.IncomeSource
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIncomeSourceFilter<$PrismaModel>
+    _max?: NestedEnumIncomeSourceFilter<$PrismaModel>
   }
 
   export type NestedEnumAccountTypeFilter<$PrismaModel = never> = {
@@ -58285,6 +58312,7 @@ export namespace Prisma {
     employmentType: $Enums.EmploymentType
     averageIncome: string
     main_id?: string | null
+    isUpdated?: boolean | null
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -58310,6 +58338,7 @@ export namespace Prisma {
     employmentType: $Enums.EmploymentType
     averageIncome: string
     main_id?: string | null
+    isUpdated?: boolean | null
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -58734,7 +58763,7 @@ export namespace Prisma {
     reversalValue?: Decimal | DecimalJsLike | number | string | null
     compensationValue?: Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
-    incomeSource?: $Enums.IncomeSource | null
+    incomeSource: $Enums.IncomeSource
     application_id: string
     familyMember?: FamilyMemberCreateNestedOneWithoutMonthlyIncomeInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutMonthlyIncomeInput
@@ -58762,7 +58791,7 @@ export namespace Prisma {
     compensationValue?: Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
     familyMember_id?: string | null
-    incomeSource?: $Enums.IncomeSource | null
+    incomeSource: $Enums.IncomeSource
     application_id: string
     legalResponsibleId?: string | null
   }
@@ -59188,6 +59217,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeFilter<"FamilyMemberIncome"> | $Enums.EmploymentType
     averageIncome?: StringFilter<"FamilyMemberIncome"> | string
     main_id?: StringNullableFilter<"FamilyMemberIncome"> | string | null
+    isUpdated?: BoolNullableFilter<"FamilyMemberIncome"> | boolean | null
     admissionDate?: DateTimeNullableFilter<"FamilyMemberIncome"> | Date | string | null
     position?: StringNullableFilter<"FamilyMemberIncome"> | string | null
     payingSource?: StringNullableFilter<"FamilyMemberIncome"> | string | null
@@ -59546,7 +59576,7 @@ export namespace Prisma {
     judicialPensionValue?: DecimalNullableFilter<"MonthlyIncome"> | Decimal | DecimalJsLike | number | string | null
     familyMember_id?: StringNullableFilter<"MonthlyIncome"> | string | null
     candidate_id?: StringNullableFilter<"MonthlyIncome"> | string | null
-    incomeSource?: EnumIncomeSourceNullableFilter<"MonthlyIncome"> | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceFilter<"MonthlyIncome"> | $Enums.IncomeSource
     application_id?: StringFilter<"MonthlyIncome"> | string
     legalResponsibleId?: StringNullableFilter<"MonthlyIncome"> | string | null
   }
@@ -60785,6 +60815,7 @@ export namespace Prisma {
     employmentType: $Enums.EmploymentType
     averageIncome: string
     main_id?: string | null
+    isUpdated?: boolean | null
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -60810,6 +60841,7 @@ export namespace Prisma {
     employmentType: $Enums.EmploymentType
     averageIncome: string
     main_id?: string | null
+    isUpdated?: boolean | null
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -60861,7 +60893,7 @@ export namespace Prisma {
     reversalValue?: Decimal | DecimalJsLike | number | string | null
     compensationValue?: Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
-    incomeSource?: $Enums.IncomeSource | null
+    incomeSource: $Enums.IncomeSource
     application_id: string
     familyMember?: FamilyMemberCreateNestedOneWithoutMonthlyIncomeInput
     candidate?: CandidateCreateNestedOneWithoutMonthlyIncomeInput
@@ -60890,7 +60922,7 @@ export namespace Prisma {
     judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
     familyMember_id?: string | null
     candidate_id?: string | null
-    incomeSource?: $Enums.IncomeSource | null
+    incomeSource: $Enums.IncomeSource
     application_id: string
   }
 
@@ -62989,6 +63021,7 @@ export namespace Prisma {
     employmentType: $Enums.EmploymentType
     averageIncome: string
     main_id?: string | null
+    isUpdated?: boolean | null
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -63014,6 +63047,7 @@ export namespace Prisma {
     employmentType: $Enums.EmploymentType
     averageIncome: string
     main_id?: string | null
+    isUpdated?: boolean | null
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -63141,7 +63175,7 @@ export namespace Prisma {
     reversalValue?: Decimal | DecimalJsLike | number | string | null
     compensationValue?: Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
-    incomeSource?: $Enums.IncomeSource | null
+    incomeSource: $Enums.IncomeSource
     application_id: string
     candidate?: CandidateCreateNestedOneWithoutMonthlyIncomeInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutMonthlyIncomeInput
@@ -63169,7 +63203,7 @@ export namespace Prisma {
     compensationValue?: Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
     candidate_id?: string | null
-    incomeSource?: $Enums.IncomeSource | null
+    incomeSource: $Enums.IncomeSource
     application_id: string
     legalResponsibleId?: string | null
   }
@@ -73361,6 +73395,7 @@ export namespace Prisma {
     employmentType: $Enums.EmploymentType
     averageIncome: string
     main_id?: string | null
+    isUpdated?: boolean | null
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -73513,7 +73548,7 @@ export namespace Prisma {
     compensationValue?: Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
     familyMember_id?: string | null
-    incomeSource?: $Enums.IncomeSource | null
+    incomeSource: $Enums.IncomeSource
     application_id: string
     legalResponsibleId?: string | null
   }
@@ -74037,6 +74072,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -74062,6 +74098,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -74087,6 +74124,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -74482,7 +74520,7 @@ export namespace Prisma {
     reversalValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     compensationValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    incomeSource?: NullableEnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
     familyMember?: FamilyMemberUpdateOneWithoutMonthlyIncomeNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutMonthlyIncomeNestedInput
@@ -74510,7 +74548,7 @@ export namespace Prisma {
     compensationValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
-    incomeSource?: NullableEnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -74537,7 +74575,7 @@ export namespace Prisma {
     compensationValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
-    incomeSource?: NullableEnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -74988,6 +75026,7 @@ export namespace Prisma {
     employmentType: $Enums.EmploymentType
     averageIncome: string
     main_id?: string | null
+    isUpdated?: boolean | null
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -75031,7 +75070,7 @@ export namespace Prisma {
     judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
     familyMember_id?: string | null
     candidate_id?: string | null
-    incomeSource?: $Enums.IncomeSource | null
+    incomeSource: $Enums.IncomeSource
     application_id: string
   }
 
@@ -76035,6 +76074,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -76060,6 +76100,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -76085,6 +76126,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -76126,7 +76168,7 @@ export namespace Prisma {
     reversalValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     compensationValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    incomeSource?: NullableEnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
     familyMember?: FamilyMemberUpdateOneWithoutMonthlyIncomeNestedInput
     candidate?: CandidateUpdateOneWithoutMonthlyIncomeNestedInput
@@ -76155,7 +76197,7 @@ export namespace Prisma {
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
-    incomeSource?: NullableEnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -76182,7 +76224,7 @@ export namespace Prisma {
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
-    incomeSource?: NullableEnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -76937,6 +76979,7 @@ export namespace Prisma {
     employmentType: $Enums.EmploymentType
     averageIncome: string
     main_id?: string | null
+    isUpdated?: boolean | null
     admissionDate?: Date | string | null
     position?: string | null
     payingSource?: string | null
@@ -77007,7 +77050,7 @@ export namespace Prisma {
     compensationValue?: Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
     candidate_id?: string | null
-    incomeSource?: $Enums.IncomeSource | null
+    incomeSource: $Enums.IncomeSource
     application_id: string
     legalResponsibleId?: string | null
   }
@@ -77120,6 +77163,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -77145,6 +77189,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -77170,6 +77215,7 @@ export namespace Prisma {
     employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     averageIncome?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     payingSource?: NullableStringFieldUpdateOperationsInput | string | null
@@ -77295,7 +77341,7 @@ export namespace Prisma {
     reversalValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     compensationValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    incomeSource?: NullableEnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
     candidate?: CandidateUpdateOneWithoutMonthlyIncomeNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutMonthlyIncomeNestedInput
@@ -77323,7 +77369,7 @@ export namespace Prisma {
     compensationValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
-    incomeSource?: NullableEnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -77350,7 +77396,7 @@ export namespace Prisma {
     compensationValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
-    incomeSource?: NullableEnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource | null
+    incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
