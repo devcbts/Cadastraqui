@@ -10,6 +10,7 @@
         height: 60px;
     }
 }
+
 .content {
     display: flex;
     flex-direction: row;
@@ -17,7 +18,7 @@
     justify-content: center;
     padding: 20px 20px;
     width: 100%;
-    gap: 20px;
+    gap: 30px;
 
     .brand {
         display: flex;
@@ -25,10 +26,11 @@
         justify-content: center;
         align-items: center;
         text-align: justify;
-        max-width: 200px;
+        max-width: 236px;
 
         h1 {
-            font-size: 20px;
+            font-size: 18px;
+            color: #1f4b73;
         }
 
         button {
@@ -43,7 +45,7 @@
             height: 150.5px;
         }
 
-        @media (max-width:550px) {
+        @media (max-width:670px) {
             display: none;
         }
 
@@ -73,10 +75,10 @@
     flex-direction: column;
     background-color: $primary;
     border-radius: 8px;
-    padding: 32px 64px;
+    padding: 20px 30px;
     min-height: 65vh;
     justify-content: space-between;
-    max-width: min(100%, 680px);
+    max-width: min(100%, 400px);
     flex-grow: .2;
 
     @media (max-width:600px) {

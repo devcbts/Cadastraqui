@@ -79,7 +79,7 @@ export default function Login() {
                     <div className={styles.inputs}>
                         <InputForm label="email" control={control} name="email" type="email" />
                         <InputForm label="senha" control={control} name="password" type="password" />
-                        <a href='#' onClick={handleForgotPassword}>Esqueceu sua senha?</a>
+                        <p onClick={handleForgotPassword}>Esqueceu sua senha?</p>
                         <ButtonBase label={'login'} onClick={handleLogin} />
                     </div>
                     <Link to={'/registrar'} state={state}>

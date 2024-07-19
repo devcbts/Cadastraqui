@@ -1,16 +1,15 @@
 import { ReactComponent as IconLogo } from 'Assets/icons/logo.svg'
 import Logo from 'Assets/images/logo_white.png'
+import ButtonBase from 'Components/ButtonBase'
+import Loader from 'Components/Loader'
 import { useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import candidateService from 'services/candidate/candidateService'
 import { NotificationService } from 'services/notification'
-import AddressInfo from './components/AddressInfo'
 import LoginInfo from './components/LoginInfo'
 import Personal from './components/PersonalInfo'
 import UserType from './components/UserType'
 import styles from './styles.module.scss'
-import ButtonBase from 'Components/ButtonBase'
-import Loader from 'Components/Loader'
 export default function Register() {
     const [current, setCurrent] = useState(0)
     const { state } = useLocation()
@@ -59,9 +58,7 @@ export default function Register() {
                 <div className={styles.brand}>
                     <IconLogo />
                     <h1>
-                        Facilite o processo de concessão
-                        de bolsas de estudos
-                        para o CEBAS
+                        Plataforma para processos de concessão e manutenção de bolsas de estudos para fins de CEBAS
                     </h1>
                     <ButtonBase label={'já tem uma conta?'} onClick={() => navigate('/')} />
                 </div>
