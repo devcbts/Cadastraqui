@@ -15,7 +15,8 @@ export default function FormExpenses() {
     const [renderList, _] = useState([ExpenseSelection])
     const handleSaveExpenses = async (data) => {
         try {
-            await candidateService.registerExpenses(data)
+            const expenses = await candidateService.registerExpenses(data)
+            setData(expenses)
             NotificationService.success({ text: 'Despesas cadastradas com sucesso' })
         } catch (err) {
             NotificationService.error({ text: err?.response?.data?.message })

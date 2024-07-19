@@ -69,6 +69,7 @@ export default function ViewIncome({ candidateId, applicationId }) {
     }
     return (
         <div className={commonStyles.container}>
+
             {!data && <IncomeList applicationId={applicationId} onSelect={handleSpecificSelection} />}
             {data && <>
                 <Steps />

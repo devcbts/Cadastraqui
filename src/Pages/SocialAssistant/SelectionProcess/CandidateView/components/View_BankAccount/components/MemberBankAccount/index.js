@@ -33,7 +33,7 @@ export default function MemberBankAccount({ id, onSelect, applicationId, onBack 
     return (
         <>
             {isReportOpen ?
-                <BankReport id={id} onBack={handleReport} />
+                <BankReport applicationId={applicationId} id={id} onBack={handleReport} />
                 : <>
                     <FormList.Root title={"Contas cadastradas"} isLoading={isLoading}>
                         <RowTextAction

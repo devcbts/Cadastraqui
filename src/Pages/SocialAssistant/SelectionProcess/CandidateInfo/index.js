@@ -77,11 +77,7 @@ export default function CandidateInfo() {
             NotificationService.error({ text: 'Falha ao realizar upload do documento' })
         }
     }
-    useEffect(() => {
-        if (!watchReport) {
-            console.log('aaa')
-        }
-    }, [watchReport])
+
     return (
         <div className={styles.container}>
             <BackPageTitle title={'processo de seleção'} path={-1} />

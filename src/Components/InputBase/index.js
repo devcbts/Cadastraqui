@@ -23,7 +23,7 @@ const InputBase = forwardRef(({
                     </label>
                 }
                 <div className={styles.inputbox}>
-                    <input className={[styles.input, borderStyle].join(' ')} {...props} ref={ref} />
+                    <input className={[styles.input, borderStyle].join(' ')}  {...props} ref={ref} />
                     {(borderStyle === styles.pass) && <img className={styles.icon} src={check}></img>}
                     {(borderStyle === styles.error) && <img className={styles.icon} src={errorx}></img>}
                 </div>

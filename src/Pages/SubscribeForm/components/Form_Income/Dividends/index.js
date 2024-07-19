@@ -29,7 +29,7 @@ const Dividends = forwardRef(({ data }, ref) => {
         <>
             <MoneyFormInput control={control} name="proLabore" label={"valor do pró-labore"} />
             <MoneyFormInput control={control} name="dividends" label={"valor dos dividendos"} />
-            <InputBase label="rendimentos totais" value={getTotal()} error={null} />
+            <InputBase label="rendimentos totais" value={getTotal()} error={null} readOnly />
         </>
     )
 })

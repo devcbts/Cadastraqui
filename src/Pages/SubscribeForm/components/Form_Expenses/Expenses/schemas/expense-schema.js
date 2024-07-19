@@ -2,6 +2,7 @@ const { default: stringToFloat } = require("utils/string-to-float");
 const { z } = require("zod");
 
 const expenseSchema = z.object({
+    id: z.string().nullish(),
     date: z.date().or(z.string().transform(v => new Date(v))).default(new Date()),
     isUpdated: z.boolean().default(false),
     waterSewage: z.string().transform(stringToFloat).nullish(),

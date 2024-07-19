@@ -283,8 +283,9 @@ class CandidateService {
         return expenseMapper.fromPersistence(response.data)
     }
 
-    registerExpenses(data) {
-        return api.post('/candidates/expenses', data)
+    async registerExpenses(data) {
+        const response = await api.post('/candidates/expenses', data)
+        return expenseMapper.fromPersistence(response.data)
     }
 
     async getProgress() {

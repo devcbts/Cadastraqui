@@ -22,15 +22,17 @@ export default function InputForm({ name, label, control, transform = (e) => e, 
         <Controller
             name={name}
             control={control}
-            render={({ field, fieldState: { isDirty, error } }) => (
-                <InputBase
-                    label={label}
-                    error={showErrorBorder(isDirty, error)}
-                    {...field}
-                    onChange={(e) => field.onChange(transform(e) ?? '')}
-                    {...props}
-                />
-            )}
+            render={({ field, fieldState: { isDirty, error, invalid } }) => {
+                return (
+                    <InputBase
+                        label={label}
+                        error={showErrorBorder(isDirty, error)}
+                        {...field}
+                        onChange={(e) => field.onChange(transform(e) ?? '')}
+                        {...props}
+                    />
+                )
+            }}
         />
 
     )

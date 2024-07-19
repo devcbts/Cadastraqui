@@ -7,9 +7,12 @@ import { forwardRef, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import monthAtom from "./atoms/month-atom";
 import styles from './styles.module.scss';
+import { Controller } from 'react-hook-form';
+import { ReactComponent as Pencil } from 'Assets/icons/pencil.svg'
+import { ReactComponent as Remove } from 'Assets/icons/close.svg'
 // quantity = months that user needs to fullfill in order to proceed saving information
-const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false }, ref) => {
-    const { watch, setValue, getValues, trigger, formState: { errors } } = useControlForm({
+const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false, checkRegister = false }, ref) => {
+    const { control, watch, setValue, getValues, trigger, formState: { errors } } = useControlForm({
         schema: schema,
         defaultValues: {
             months: [],
@@ -19,35 +22,46 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
     }, ref)
     const [monthSelected, setMonthSelected] = useRecoilState(monthAtom);
     const watchMonths = watch("months");
-    const getMonths = () => {
-        return Array.from({ length: data.quantity }).map((_, index) => {
-            const currentDate = new Date();
-            currentDate.setDate(1)
-            currentDate.setMonth(currentDate.getMonth() - (index + 1));
-            return {
-                getDate: currentDate,
-                getDateString: currentDate.toLocaleString("pt-br", { month: "long", year: "numeric" })
-            }
-        })
-    }
+    // const { fields: months } = useFieldArray({
+    //     control,
+    //     name: 'months'
+    // })
     useEffect(() => {
         // Get the current value (if API returns any) and prepend on the array
         const incomes = getValues("months") ?? []
         const quantity = data?.quantity
-        const appendOn = quantity - incomes.length
-        const newArray = Array.from({ length: quantity }).map((e, i) => {
-            // Compare function to validate if specific month was already on the response, if it's true => set isUpdated to true (just to display error)
-            const hasMonthInfo = (date) => {
-                return !!incomes.find(e => ((new Date(e.date).getMonth() === new Date(date).getMonth()) && (new Date(e.date).getFullYear() === new Date(date).getFullYear())))
-            }
-            if (i >= appendOn) {
-                const currObj = incomes[i - appendOn]
-                return { ...currObj, isUpdated: hasMonthInfo(currObj.date), dateString: new Date(currObj.date).toLocaleString("pt-br", { month: "long", year: "numeric" }) }
-            }
-            const { getDate, getDateString } = getMonths()[i]
-            return { ...e, date: getDate, isUpdated: hasMonthInfo(getDate), dateString: getDateString }
-        })
+        let newArray;
+        if (viewMode) {
+            // If viewMode is true, means that we need to keep the months from API
+            newArray = incomes.map((e) => {
+                const date = new Date(e.date)
+                return ({ ...e, dateString: date.toLocaleString("pt-br", { month: "long", year: "numeric" }) })
+            })
+        } else {
+            // if viewMode is false, it means that we need to generate last (quantity) months from NOW
+            newArray = Array.from({ length: quantity }).map((e, index) => {
+                // current base date, to build the other ones
+                // We need every *quantity months counting from TODAY's month - 1 (index start from 0)
+                const currentDate = new Date();
+                currentDate.setDate(1)
+                currentDate.setMonth(currentDate.getMonth() - (index + 1));
+                const dateString = currentDate.toLocaleString("pt-br", { month: "long", year: "numeric" })
+                // check if API response (incomes) has any income with the current Date and Year
+                const monthDataIncome = incomes.find(income => {
+                    const incomeDate = new Date(income.date)
+                    return incomeDate.getFullYear() === currentDate.getFullYear() && incomeDate.getMonth() === currentDate.getMonth()
+                })
+                // if TRUE return the current object formatted to display data string
+                if (!!monthDataIncome) {
+                    return { ...monthDataIncome, isUpdated: !monthDataIncome.skipMonth, dateString }
+                } else {
+                    return { ...e, isUpdated: false, dateString, date: currentDate, skipMonth: false }
+                }
+
+            })
+        }
         // set the current incomes value to the newArray created, do it only ONCE when this component is rendered
+
         setValue("months",
             newArray.sort((a, b) => {
                 const dateA = new Date(a.date), dateB = new Date(b.date)
@@ -57,7 +71,7 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
         return () => {
             setMonthSelected(null)
         }
-    }, [ref])
+    }, [])
 
     const handleSave = (_, data) => {
         // Find the current month to be updated at "months" array, then update the entire array
@@ -106,12 +120,33 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
                 <>
                     <p className={styles.text}>Agora realize o cadastro para cada um dos meses abaixo, inserindo as informações correspondentes.</p>
                     {
-                        Array.from({ length: data.quantity }).map((_, index) => (
+                        watchMonths.map((month, index) => (
                             <div className={styles.wrapper}>
-                                <ButtonBase label={watchMonths?.[index]?.dateString} onClick={() => handleSelectMonth(watchMonths?.[index])} />
-                                {errors?.months?.[index]?.isUpdated?.message && <p className={styles.error}>{watchMonths?.[index]?.dateString} desatualizado</p>}
-                            </div>
+                                <div style={checkRegister ? { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '20px' } : {}} key={month.dateString}>
+                                    <ButtonBase
+                                        disabled={checkRegister ? month.skipMonth : false}
+                                        label={month.dateString}
+                                        onClick={() => handleSelectMonth(month)}
+                                    />
+                                    {(checkRegister && !viewMode) && <>
+                                        <Controller name={`months.${index}.skipMonth`} control={control} render={({ field }) => {
+                                            if (field.value) {
+                                                // value is true = month must be skipped
+                                                return <Pencil cursor={'pointer'} onClick={() => field.onChange(false)} width={20} height={20} />
+                                            } else {
+                                                // value is false = month must be registered
+                                                return <Remove cursor={'pointer'} onClick={() => field.onChange(true)} width={20} height={20} />
+                                            }
+                                        }}>
 
+                                        </Controller>
+                                    </>
+                                    }
+                                </div>
+                                {checkRegister && month.skipMonth && <>Não obteve renda</>}
+                                {errors?.months?.[index]?.isUpdated?.message && <span className={styles.error}>{month.dateString} desatualizado</span>}
+
+                            </div>
                         ))
                     }
                 </>

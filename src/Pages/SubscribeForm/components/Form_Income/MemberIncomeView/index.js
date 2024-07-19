@@ -9,6 +9,7 @@ import FormBankAccount from "../../Form_BankAccount"
 import FormList from "../../FormList"
 import FormListItem from "../../FormList/FormListItem"
 import styles from './styles.module.scss'
+import BankReport from '../../Form_BankAccount/components/BankReport'
 
 export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
     const { id, fullName } = member
@@ -16,7 +17,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
     // MonthlyIncome stores an array with registered months
     // info stores the current additional information for each occupation (position)
     const [incomeInfo, setIncomeInfo] = useState({ monthlyIncome: [], info: [], data: {} })
-    const [showBankAccount, setShowBankAccount] = useState(false)
+    const [showBankInfo, setShowBankInfo] = useState(false)
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
@@ -33,9 +34,9 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
         }
         fetchData()
     }, [id])
-    const handleShowBankAccount = () => {
-        setShowBankAccount(true)
-    }
+    // const handleShowBankInfo = () => {
+    //     setShowBankInfo(true)
+    // }
     const handleDeleteIncome = async (item) => {
         try {
             const deletedIncome = incomeInfo?.info.find(e => e.employmentType === item.income.value)
@@ -51,9 +52,9 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
     }
     return (
         <>
-            {!showBankAccount ? (
-
+            {!showBankInfo && (
                 <FormList.Root title={"Renda Familiar"} isLoading={isLoading}>
+
                     <div className={styles.containerRenda}>
                         <h2>{fullName} </h2>
                         <InputBase disabled label={'Renda média cadastrada'} value={incomeInfo?.data?.averageIncome} error={null} />
@@ -63,10 +64,10 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                             incomeInfo?.data?.hasBankAccount === null
                                 ? <>
                                     <h3>Declaração e Comprovantes bancários</h3>
-                                    <ButtonBase label={'Cadastrar declaração'} onClick={handleShowBankAccount} />
+                                    <ButtonBase label={'Cadastrar declaração'} onClick={() => setShowBankInfo('accounts')} />
                                 </>
                                 : <>
-                                    <RowTextAction text={'Declaração e Comprovantes bancários'} onClick={() => setShowBankAccount(true)} label={'visualizar'} />
+                                    <RowTextAction text={'Declaração e Comprovantes bancários'} onClick={() => setShowBankInfo('accounts')} label={'visualizar'} />
                                 </>
                         }
 
@@ -75,7 +76,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                                 text={'Relatório de contas e relacionamentos (CCS)'}
                                 label={'visualizar'}
                                 /* onClick={handleReport} */
-                                onClick={handleShowBankAccount}
+                                onClick={() => setShowBankInfo('report')}
                                 className={styles.RowTextAction}
                             />
                         }
@@ -112,10 +113,13 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                     </div>
                 </FormList.Root >
             )
-                : (
-                    <FormBankAccount id={member.id} onBack={() => setShowBankAccount(false)} />
-                )
             }
+            {showBankInfo === 'accounts' && (
+                <FormBankAccount id={member.id} onBack={() => setShowBankInfo(null)} />
+            )}
+            {showBankInfo === 'report' && (
+                <BankReport id={member.id} onBack={() => setShowBankInfo(null)} />
+            )}
         </>
     )
 }

@@ -10,12 +10,12 @@ class ExpenseMapper {
         try {
             const { expenses } = data
             const mappedData = expenses.map((expense) => {
-                const mappedExpenses = Object.keys(expense).reduce((acc, key) => {
+                const mappedExpenses = Object.entries(expense).reduce((acc, [key, v]) => {
                     const isMoney = expenseDescriptionAndField.find((e) => e.field === key)
                     if (isMoney) {
-                        acc[`${key}`] = moneyInputMask(expense[`${key}`].toString())
+                        acc[`${key}`] = moneyInputMask(v?.toString())
                     } else {
-                        acc[`${key}`] = expense[`${key}`]
+                        acc[`${key}`] = v
                     }
                     return acc
                 }, {})
@@ -35,9 +35,10 @@ class ExpenseMapper {
                     additionalExpenses: mappedAdditionalExpenses()
                 }
             })
-            return { months: mappedData.map((e => ({ ...e, isUpdated: true }))) }
+            return { months: mappedData.map(e => ({ ...e, isUpdated: true })) }
         }
-        catch (err) { }
+        catch (err) {
+        }
     }
 }
 export default new ExpenseMapper()

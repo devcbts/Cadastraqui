@@ -24,15 +24,15 @@ import UnemployementInsurance from "./Unemployed/components/UnemployementInsuran
 export default function FormIncome() {
     // Keep track of incomes created/updated by user
     const hasIncomeSelected = useRecoilValue(monthAtom)
-    const handleEditInformation = async (data) => {
-        try {
-            await candidateService.updateIdentityInfo(data);
-            NotificationService.success({ text: 'Informações alteradas' })
-        } catch (err) {
-            NotificationService.error({ text: err.response.data.message })
+    // const handleEditInformation = async (data) => {
+    //     try {
+    //         await candidateService.updateIdentityInfo(data);
+    //         NotificationService.success({ text: 'Informações alteradas' })
+    //     } catch (err) {
+    //         NotificationService.error({ text: err.response.data.message })
 
-        }
-    }
+    //     }
+    // }
     const handleSaveInformation = async (data) => {
         const { member, incomeSource } = data
         // If we're selecting income source, move to the next page instead of execute onSave on first page
@@ -91,7 +91,7 @@ export default function FormIncome() {
         state: { activeStep, data, setData, setActiveStep }
     } = useStepFormHook({
         render: renderItems,
-        onEdit: handleEditInformation,
+        // onEdit: handleEditInformation,
         onSave: handleSaveInformation
     })
     useEffect(() => {
