@@ -183,6 +183,15 @@ export async function getCandidateResume(
                 legalResponsible: true
             }
         })
+        //Get all medications with no link with disease
+        const familyMemberMedications = await historyDatabase.medication.findMany({
+            where: { AND: [{ application_id }, { familyMemberDiseaseId: null }] },
+            include: {
+                candidate: true,
+                familyMember: true,
+                legalResponsible: true
+            }
+        })
         const familyMembersDiseases = diseases.map((disease) => {
             return {
                 id: disease.id,
@@ -195,7 +204,20 @@ export async function getCandidateResume(
                     }
                 })
             }
+        }).concat(familyMemberMedications.map((medication) => {
+            return {
+                id: medication.id,
+                name: medication.familyMember?.fullName || identityDetails.fullName,
+                disease: null,
+                medication: [{
+                    name: medication.medicationName,
+                    obtainedPublicy: medication.obtainedPublicly,
+                }]
+            }
+        })).sort((a, b) => {
+            return a.name < b.name ? -1 : 1
         })
+
 
         const expenses = await historyDatabase.expense.findMany({
             where: { application_id },
@@ -294,7 +316,7 @@ export async function getCandidateResume(
 
         return reply.status(200).send({
             candidateInfo,
-            responsibleInfo,        
+            responsibleInfo,
             familyMembersInfo,
             housingInfo,
             vehicles,

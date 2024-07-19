@@ -737,6 +737,7 @@ model Application {
   InformedCNPJ         Boolean?
   ScholarshipPartial   Boolean?
   number               Int                  @default(1)
+  createdAt            DateTime             @default(now())
   announcement         Announcement         @relation(fields: [announcement_id], references: [id], onDelete: Cascade)
   candidate            Candidate            @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   EducationLevel       EducationLevel       @relation(fields: [educationLevel_id], references: [id])

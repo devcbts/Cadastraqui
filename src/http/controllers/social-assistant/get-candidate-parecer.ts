@@ -91,6 +91,7 @@ export async function getCandidateParecer(
             city: identityDetails.city,
             CEP: identityDetails.CEP,
             UF: identityDetails.UF,
+            neighborhood: identityDetails.neighborhood,
 
         }
 
@@ -226,7 +227,7 @@ export async function getCandidateParecer(
             totalIncome,
             hasGreaterIncome,
             status: application.status,
-            application: { number: application.number, name: application.announcement.announcementName }
+            application: { number: application.number, name: application.announcement.announcementName, createdAt: application.createdAt }
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {
