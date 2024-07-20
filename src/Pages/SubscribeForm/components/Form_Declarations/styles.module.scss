@@ -53,7 +53,7 @@ button {
 
 button svg {
     fill: #1F4B73;
-    margin: 0px 4px;
+    margin: 0px 3px;
 }
 
 button:hover {
@@ -142,15 +142,15 @@ button:focus {
     }
 
     h1 {
-        font-size: 20px;
-    }
-
-    h2 {
         font-size: 18px;
     }
 
-    h3 {
+    h2 {
         font-size: 16px;
+    }
+
+    h3 {
+        font-size: 14px;
     }
 
     .navigationButtons {

@@ -1,58 +1,54 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
-import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
+import FilePreview from 'Components/FilePreview';
 import useAuth from 'hooks/useAuth';
-import { api } from 'services/axios';
-import DeclarationOverview from './components/Declaration_Status';
-import Declaration_Pension from './components/Declaration_Pension';
+import { useCallback, useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import candidateService from 'services/candidate/candidateService';
+import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import FormListItem from '../FormList/FormListItem';
+import declarationAtom from './atoms/declarationAtom';
+import Declaration_ActivitConfirmation from './components/Declaration_ActivitConfirmation';
+import Declaration_Activity from './components/Declaration_Activity';
+import Declaration_AddressProof from './components/Declaration_AddressProof';
+import Declaration_Autonomo from './components/Declaration_Autonomo';
+import Declaration_AutonomoConfirmation from './components/Declaration_AutonomoConfirmation';
 import Declaration_ChildPension from './components/Declaration_ChildPension';
 import Declaration_ChildSupport from './components/Declaration_ChildSupport';
 import Declaration_ChildSupportDetails from './components/Declaration_ChildSupportDetails';
-import Declaration_PensionConfirmation from './components/Declaration_PensionConfirmation';
-import Declaration_AddressProof from './components/Declaration_AddressProof';
-import Declaration_NoAddressProof from './components/Declaration_NoAddressProof';
-import Declaration_RentedHouse from './components/Declaration_RentedHouse';
-import Declaration_RentDetails from './components/Declaration_RentDetails';
-import Declaration_RentConfirmation from './components/Declaration_RentConfirmation';
-import Declaration_WorkCard from './components/Declaration_WorkCard';
-import Declaration_WorkCardUpload from './components/Declaration_WorkCardUpload';
-import Declaration_WorkCardConfirmation from './components/Declaration_WorkCardConfirmation';
 import Declaration_ContributionStatement from './components/Declaration_ContributionStatement';
-import Declaration_StableUnion from './components/Declaration_StableUnion';
-import Declaration_StableUnionConfirmation from './components/Declaration_StableUnionConfirmation';
-import Declaration_SingleStatus from './components/Declaration_SingleStatus';
-import Declaration_SeparationStatus from './components/Declaration_SeparationStatus';
 import Declaration_CurrentAddress from './components/Declaration_CurrentAddress';
-import Declaration_SeparationConfirmation from './components/Declaration_SeparationConfirmation';
-import Declaration_SeparationNoAddressConfirmation from './components/Declaration_SeparationNoAddressConfirmation';
-import Declaration_IncomeTaxExemption from './components/Declaration_IncomeTaxExemption';
-import Declaration_IncomeTaxExemptionConfirmation from './components/Declaration_IncomeTaxExemptionConfirmation';
-import Declaration_Activity from './components/Declaration_Activity';
-import Declaration_ActivitConfirmation from './components/Declaration_ActivitConfirmation';
-import Declaration_MEI from './components/Declaration_MEI';
-import Declaration_MEI_Confirmation from './components/Declaration_MEI_Confirmation';
-import Declaration_RuralWorker from './components/Declaration_RuralWorker';
-import Declaration_RuralWorkerConfirmation from './components/Declaration_RuralWorkerConfirmation';
-import Declaration_Autonomo from './components/Declaration_Autonomo';
-import Declaration_AutonomoConfirmation from './components/Declaration_AutonomoConfirmation';
 import Declaration_Empresario from './components/Declaration_Empresario';
 import Declaration_EmpresarioConfirmation from './components/Declaration_EmpresarioConfirmation';
+import Declaration_FamilyIncomeChange from './components/Declaration_FamilyIncomeChange'; // Adicionando nova declaração
+import Declaration_Form from './components/Declaration_FormConfirmation';
 import Declaration_InactiveCompany from './components/Declaration_InactiveCompany';
 import Declaration_InactiveCompanyConfirmation from './components/Declaration_InactiveCompanyConfirmation';
+import Declaration_IncomeTaxExemption from './components/Declaration_IncomeTaxExemption';
+import Declaration_IncomeTaxExemptionConfirmation from './components/Declaration_IncomeTaxExemptionConfirmation';
+import Declaration_MEI from './components/Declaration_MEI';
+import Declaration_MEI_Confirmation from './components/Declaration_MEI_Confirmation';
+import Declaration_NoAddressProof from './components/Declaration_NoAddressProof';
+import Declaration_Pension from './components/Declaration_Pension';
+import Declaration_PensionConfirmation from './components/Declaration_PensionConfirmation';
+import Declaration_RentConfirmation from './components/Declaration_RentConfirmation';
+import Declaration_RentDetails from './components/Declaration_RentDetails';
+import Declaration_RentedHouse from './components/Declaration_RentedHouse';
 import Declaration_RentIncome from './components/Declaration_RentIncome';
-import Declaration_RentIncomeDetails from './components/Declaration_RentIncomeDetails';
-import Declaration_Form from './components/Declaration_FormConfirmation';
-import Declaration_VehicleOwnership from './components/Declaration_VehicleOwnership'; // Nova tela
-import Declaration_FamilyIncomeChange from './components/Declaration_FamilyIncomeChange'; // Adicionando nova declaração
-import Declaration_ResponsibilityConfirmation from './components/Declaration_ResponsibilityConfirmation'; // Adicionando nova declaração
-import Declaration_Witnesses from './components/Declaration_Witnesses.js';
 import Declaration_RentIncomeConfirmation from './components/Declaration_RentIncomeConfirmation';
-import FormListItem from '../FormList/FormListItem';
-import { useRecoilState } from 'recoil';
-import declarationAtom from './atoms/declarationAtom';
-import candidateService from 'services/candidate/candidateService';
-import FilePreview from 'Components/FilePreview';
+import Declaration_RentIncomeDetails from './components/Declaration_RentIncomeDetails';
+import Declaration_ResponsibilityConfirmation from './components/Declaration_ResponsibilityConfirmation'; // Adicionando nova declaração
+import Declaration_RuralWorker from './components/Declaration_RuralWorker';
+import Declaration_RuralWorkerConfirmation from './components/Declaration_RuralWorkerConfirmation';
+import Declaration_SeparationConfirmation from './components/Declaration_SeparationConfirmation';
+import Declaration_SeparationStatus from './components/Declaration_SeparationStatus';
+import Declaration_SingleStatus from './components/Declaration_SingleStatus';
+import Declaration_StableUnion from './components/Declaration_StableUnion';
+import Declaration_StableUnionConfirmation from './components/Declaration_StableUnionConfirmation';
+import Declaration_VehicleOwnership from './components/Declaration_VehicleOwnership'; // Nova tela
+import Declaration_Witnesses from './components/Declaration_Witnesses.js';
+import Declaration_WorkCard from './components/Declaration_WorkCard';
+import Declaration_WorkCardConfirmation from './components/Declaration_WorkCardConfirmation';
+import Declaration_WorkCardUpload from './components/Declaration_WorkCardUpload';
 
 const SCREENS = {
     OVERVIEW: 'overview',
