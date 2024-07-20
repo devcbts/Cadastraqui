@@ -76,8 +76,8 @@ export default function SubscriptionStatus() {
                             key={index}
                             style={{ cursor: 'pointer', color: !!data?.find(e => e.name === name)?.value && '#499468' }}
                             onClick={() => navigate('/formulario-inscricao', { state: { step } })}
-                            height={50}
-                            width={50}
+                            height={30}
+                            width={30}
                             color='#1F4B73'
                         />
                     )
