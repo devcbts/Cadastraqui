@@ -37,7 +37,7 @@ export default async function getCandidateDashboard(
         }, 0) / (expense.length == 0 ? 1 : expense.length)).toFixed(2)
         const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapita(user.UserData.id);
 
-        return response.status(200).send({ subscriptions, announcements, familyIncome: incomePerCapita * (1 + members.length), avgExpense })
+        return response.status(200).send({ subscriptions, announcements, familyIncome: incomePerCapita, avgExpense })
 
     } catch (err) {
         return response.status(400).send(err)

@@ -646,6 +646,7 @@ exports.Prisma.ApplicationScalarFieldEnum = {
   perCapita: 'perCapita',
   position: 'position',
   number: 'number',
+  createdAt: 'createdAt',
   reponsible_id: 'reponsible_id'
 };
 

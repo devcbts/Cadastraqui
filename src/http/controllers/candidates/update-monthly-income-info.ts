@@ -201,6 +201,7 @@ export default async function updateMonthlyIncome(
                 income = await tsPrisma.familyMemberIncome.update({
                     where: { id },
                     data: {
+                        isUpdated: true,
                         startDate: rest.startDate ? new Date(rest.startDate) : undefined,
                         fantasyName: rest.fantasyName,
                         CNPJ: rest.CNPJ,
@@ -221,6 +222,7 @@ export default async function updateMonthlyIncome(
                 income = await tsPrisma.familyMemberIncome.create({
                     data: {
                         ...idField,
+                        isUpdated: true,
                         employmentType: incomeSource,
                         averageIncome: avgIncome.toString(),
                         startDate: rest.startDate ? new Date(rest.startDate) : undefined,
@@ -243,6 +245,12 @@ export default async function updateMonthlyIncome(
 
             }
 
+            if (monthlyIncomes?.length >= 6) {
+                await tsPrisma.familyMemberIncome.updateMany({
+                    where: { ...idField, employmentType: incomeSource },
+                    data: { isUpdated: true }
+                })
+            }
             return response.status(200).send({
                 incomeId: income.id,
                 monthlyIncomesId

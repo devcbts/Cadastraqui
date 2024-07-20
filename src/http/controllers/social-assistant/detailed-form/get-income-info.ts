@@ -66,7 +66,7 @@ export async function getIncomeInfoHDB(
       }
     })
     const averageIncome = await CalculateIncomePerCapitaHDB(candidateOrResponsible.UserData.id)
-
+    console.log(averageIncome)
     const incomeInfoResultsWithAverageIncome = incomeInfoResultsWithUrls.map((memberIncome) => {
       const averageMemberIncome = Object.keys(averageIncome.incomesPerMember).find((key) => key === memberIncome.id)
       return {

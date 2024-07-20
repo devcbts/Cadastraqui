@@ -183,18 +183,15 @@ export async function getCandidateResume(
                 legalResponsible: true
             }
         })
-        const medicationsWithoutDisease = await historyDatabase.medication.findMany({
-            where: { application_id, familyMemberDiseaseId: null },
-            include: { familyMember: true }
+        //Get all medications with no link with disease
+        const familyMemberMedications = await historyDatabase.medication.findMany({
+            where: { AND: [{ application_id }, { familyMemberDiseaseId: null }] },
+            include: {
+                candidate: true,
+                familyMember: true,
+                legalResponsible: true
+            }
         })
-        const medicationsWithoutDiseaseFormatted = medicationsWithoutDisease.map((medication) => {
-            return {
-                name: medication.medicationName,
-                obtainedPublicly: medication.obtainedPublicly,
-                familyMemberName: medication.familyMember?.fullName || identityDetails.fullName,
-            };
-        });
-        
         const familyMembersDiseases = diseases.map((disease) => {
             return {
                 id: disease.id,
@@ -207,7 +204,21 @@ export async function getCandidateResume(
                     }
                 })
             }
+        }).concat(familyMemberMedications.map((medication) => {
+            return {
+                id: medication.id,
+                name: medication.familyMember?.fullName || identityDetails.fullName,
+                disease: null,
+                medication: [{
+                    name: medication.medicationName,
+                    obtainedPublicy: medication.obtainedPublicly,
+                }]
+            }
+        })).sort((a, b) => {
+            // sort by name so it'll display all diseases/medications for one person at a time
+            return a.name < b.name ? -1 : 1
         })
+
 
         const expenses = await historyDatabase.expense.findMany({
             where: { application_id },
@@ -283,6 +294,7 @@ export async function getCandidateResume(
             entity: application.announcement.entity.socialReason,
             city: application.EducationLevel.entitySubsidiary ? application.EducationLevel.entitySubsidiary.city : application.announcement.entity.city,
             partial: application.ScholarshipPartial,
+            status: application.status
         }
 
 
@@ -306,12 +318,11 @@ export async function getCandidateResume(
 
         return reply.status(200).send({
             candidateInfo,
-            responsibleInfo,        
+            responsibleInfo,
             familyMembersInfo,
             housingInfo,
             vehicles,
             familyMembersDiseases,
-            medicationsWithoutDiseaseFormatted,
             importantInfo,
             documentsUrls: documentsFilteredByMember,
             applicationInfo: applicationFormated,

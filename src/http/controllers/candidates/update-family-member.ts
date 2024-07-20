@@ -80,7 +80,7 @@ export async function updateFamilyMemberInfo(
     monthlyAmount: z.string().optional().nullable(),
     incomeSource: z.array(IncomeSource).optional().nullable(),
     hasSevereDeseaseOrUsesMedication: z.boolean(),
-    hasBankAccount: z.boolean(),
+    hasBankAccount: z.boolean().nullish(),
   }).partial()
 
   const {

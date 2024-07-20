@@ -1,7 +1,7 @@
-import nodeSchedule from 'node-schedule';
-import { prisma } from '../lib/prisma';
 import { $Enums } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
+import nodeSchedule from 'node-schedule';
+import { prisma } from '../lib/prisma';
 
 export async function removeOutdatedIncome() {
     const deletedIncomes: { id: string; receivedIncome: boolean | null; date: Date | null; grossAmount: number | null; liquidAmount: number | null; proLabore: number | null; dividends: number | null; total: number | null; deductionValue: Decimal | null; publicPension: Decimal | null; incomeTax: Decimal | null; otherDeductions: Decimal | null; foodAllowanceValue: Decimal | null; transportAllowanceValue: Decimal | null; expenseReimbursementValue: Decimal | null; advancePaymentValue: Decimal | null; reversalValue: Decimal | null; compensationValue: Decimal | null; judicialPensionValue: Decimal | null; familyMember_id: string | null; candidate_id: string | null; incomeSource: $Enums.IncomeSource | null; legalResponsibleId: string | null; }[] = []; // Passo 1
@@ -62,8 +62,9 @@ export async function removeOutdatedIncome() {
     return deletedIncomes; // Passo 3
 }
 
-const job: nodeSchedule.Job = nodeSchedule.scheduleJob("0 0 1 * * * ", async () => {
+//Runs every day 1 of the month at 2 AM
+const RemoveOutdatedIncomes: nodeSchedule.Job = nodeSchedule.scheduleJob("0 0 2 1 * * ", async () => {
     const deletedIncomes = await removeOutdatedIncome();
 })
 
-export default job
+export default RemoveOutdatedIncomes

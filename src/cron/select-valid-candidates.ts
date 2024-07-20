@@ -1,6 +1,6 @@
-import { Application, Prisma, TiebreakerCriterias } from "@prisma/client"
-import { prisma } from "../lib/prisma"
+import { Application, Prisma, TiebreakerCriterias } from "@prisma/client";
 import nodeSchedule from 'node-schedule';
+import { prisma } from "../lib/prisma";
 // Change to promises to work in background
 const selectValidCandidates = async () => {
     console.log('Starting to sort candidates')
@@ -68,8 +68,8 @@ const selectValidCandidates = async () => {
         console.log(err)
     }
 }
-// Schedule the selectValidCandidates function to run every 5 minutes
-const Selectjob: nodeSchedule.Job = nodeSchedule.scheduleJob("*/15 * * * *", async () => {
+// Schedule the selectValidCandidates function to run every 15 minutes
+const Selectjob: nodeSchedule.Job = nodeSchedule.scheduleJob("0 */15 * * * *", async () => {
     const deletedIncomes = await selectValidCandidates();
 })
 export default Selectjob

@@ -1,7 +1,7 @@
 import { env } from '@/env'
 import { JwtPayload } from '@fastify/jwt'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import jwt from 'jsonwebtoken'
+import jwt, { TokenExpiredError } from 'jsonwebtoken'
 import { z } from 'zod'
 
 export async function refresh(request: FastifyRequest, reply: FastifyReply) {
@@ -29,7 +29,7 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
       {
         sign: {
           sub: user_id,
-          expiresIn: '3s',
+          expiresIn: '1h',
         },
       },
     )
@@ -48,6 +48,9 @@ export async function refresh(request: FastifyRequest, reply: FastifyReply) {
         newRefreshToken,
       })
   } catch (err: any) {
+    if (err instanceof TokenExpiredError) {
+      return reply.status(400).send({ err: 'Token expirado' })
+    }
     return reply.status(500).send({ err: err.message })
   }
 }
