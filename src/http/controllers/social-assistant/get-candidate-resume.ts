@@ -215,6 +215,7 @@ export async function getCandidateResume(
                 }]
             }
         })).sort((a, b) => {
+            // sort by name so it'll display all diseases/medications for one person at a time
             return a.name < b.name ? -1 : 1
         })
 
@@ -293,6 +294,7 @@ export async function getCandidateResume(
             entity: application.announcement.entity.socialReason,
             city: application.EducationLevel.entitySubsidiary ? application.EducationLevel.entitySubsidiary.city : application.announcement.entity.city,
             partial: application.ScholarshipPartial,
+            status: application.status
         }
 
 

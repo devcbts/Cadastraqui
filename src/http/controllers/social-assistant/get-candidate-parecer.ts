@@ -100,6 +100,7 @@ export async function getCandidateParecer(
         })
 
         const familyMembersInfo = familyMembers.map((familyMember) => {
+            console.log(familyMember.birthDate)
             return {
                 id: familyMember.id,
                 name: familyMember.fullName,
@@ -137,7 +138,7 @@ export async function getCandidateParecer(
 
         // Prepare the results, pairing the owner's id with the family member's name
         const vehicleInfoResults = vehicles.map(vehicle => {
-            const ownerNames = vehicle.owners_id.map(id => familyMemberNames[id]);
+            const ownerNames = vehicle.owners_id.map(id => familyMemberNames[id] ?? identityDetails.fullName);
             return {
                 ...vehicle,
                 ownerNames, // Array with the names of all owners
@@ -156,7 +157,7 @@ export async function getCandidateParecer(
             return {
                 id: disease.id,
                 name: disease.familyMember?.fullName || identityDetails.fullName,
-                disease: disease.disease,
+                disease: disease.diseases?.[0],
                 hasMedicalReport: disease.hasMedicalReport,
                 medications: disease.Medication
             }
@@ -174,6 +175,7 @@ export async function getCandidateParecer(
             return {
                 id: medication.id,
                 name: medication.familyMember?.fullName || identityDetails.fullName,
+                medicationName: medication.medicationName,
                 obtainedPublicly: medication.obtainedPublicly,
             };
         });
@@ -220,6 +222,7 @@ export async function getCandidateParecer(
             housingInfo,
             vehicleInfoResults,
             familyMembersDiseases,
+            familyMemberMedications,
             incomePerCapita,
             totalExpenses,
             majoracao,
