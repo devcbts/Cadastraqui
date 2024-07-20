@@ -60,7 +60,22 @@ export async function deleteMonthlyIncomeHDB(id: string, memberId: string) {
     const member = await prisma.familyMember.findUnique({
         where: { id: memberId }
     })
-    let candidateOrResponsibleId = member?.candidate_id || member?.legalResponsibleId || memberId;
+    const deletedMember = member ? '' : await prisma.deletedFamilyMembers.findUnique({
+        where: { familyMember_id: memberId }
+    })
+    let candidateOrResponsibleId;
+
+    if (member) {
+        candidateOrResponsibleId = member.candidate_id || member.legalResponsibleId;
+    }
+    
+    if (!candidateOrResponsibleId && deletedMember) {
+        candidateOrResponsibleId = (deletedMember as { id: string; familyMember_id: string; candidateOrResponsibleId: string; }).candidateOrResponsibleId;
+    }
+    
+    if (!candidateOrResponsibleId) {
+        candidateOrResponsibleId = memberId;
+    }
     const openApplications = await getOpenApplications(candidateOrResponsibleId);
     if (!openApplications) {
         return null;

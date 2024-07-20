@@ -47,6 +47,12 @@ export default async function deleteFamilyMember(
         await prisma.familyMember.delete({
             where: { id }
         })
+        await prisma.deletedFamilyMembers.create({
+            data: {
+                familyMember_id: id,
+                candidateOrResponsibleId: candidateOrReponsible.UserData.id,
+            }
+        })
         return response.status(204).send()
     }
     catch (err) {

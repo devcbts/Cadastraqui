@@ -788,7 +788,8 @@ model FamilyMemberToVehicle {
 
 model DeletedFamilyMembers {
   id            String     @id @default(uuid())
-  familyMember_id String
+  familyMember_id String @unique
+  candidateOrResponsibleId String
 
 }
 enum ROLE {
