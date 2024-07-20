@@ -7,7 +7,7 @@ import MemberHealthView from "../MemberHealthView";
 import HealthFiles from "../HealthFiles";
 import removeObjectFileExtension from "utils/remove-file-ext";
 
-export default function HealthList({ loading, data, onSelect, onAdd }) {
+export default function HealthList({ loading, data, onSelect, onAdd, onRadioChange }) {
     const [selectedMember, setSelectedMember] = useState(null)
     const handleSelect = (item) => {
         setSelectedMember(item)
@@ -40,7 +40,12 @@ export default function HealthList({ loading, data, onSelect, onAdd }) {
                     </FormList.List>
                 </FormList.Root>
                 : (!files
-                    ? <MemberHealthView member={selectedMember} onViewFiles={handleFileSelection} onSelect={onSelect} onAdd={onAdd} onBack={() => handleSelect(null)} />
+                    ? <MemberHealthView member={selectedMember}
+                        onChange={(v) => onRadioChange({ ...selectedMember, hasDiseaseOrMedication: v })}
+                        onViewFiles={handleFileSelection}
+                        onSelect={onSelect}
+                        onAdd={onAdd}
+                        onBack={() => handleSelect(null)} />
                     : <HealthFiles items={files} onBack={() => setFiles(null)} />)
             }
         </>
