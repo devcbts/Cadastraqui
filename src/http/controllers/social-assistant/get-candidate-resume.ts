@@ -183,6 +183,18 @@ export async function getCandidateResume(
                 legalResponsible: true
             }
         })
+        const medicationsWithoutDisease = await historyDatabase.medication.findMany({
+            where: { application_id, familyMemberDiseaseId: null },
+            include: { familyMember: true }
+        })
+        const medicationsWithoutDiseaseFormatted = medicationsWithoutDisease.map((medication) => {
+            return {
+                name: medication.medicationName,
+                obtainedPublicly: medication.obtainedPublicly,
+                familyMemberName: medication.familyMember?.fullName || identityDetails.fullName,
+            };
+        });
+        
         const familyMembersDiseases = diseases.map((disease) => {
             return {
                 id: disease.id,
@@ -299,6 +311,7 @@ export async function getCandidateResume(
             housingInfo,
             vehicles,
             familyMembersDiseases,
+            medicationsWithoutDiseaseFormatted,
             importantInfo,
             documentsUrls: documentsFilteredByMember,
             applicationInfo: applicationFormated,
