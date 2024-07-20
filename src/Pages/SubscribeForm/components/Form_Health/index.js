@@ -109,7 +109,11 @@ export default function FormHealth() {
     }, [refresh])
     return (
         <div className={commonStyles.container}>
-            {!hasSelectionOrIsAdding() && <HealthList loading={isLoading} data={members} onSelect={selectDisease} onAdd={addHealthInfo} />}
+            {!hasSelectionOrIsAdding() && <HealthList loading={isLoading} data={members} onSelect={selectDisease} onAdd={addHealthInfo}
+                onRadioChange={(m) => setMembers(prev => [...prev].map(e => {
+                    return e.id !== m.id ? e : m
+                }))}
+            />}
             {hasSelectionOrIsAdding() &&
                 <>
                     <Steps />

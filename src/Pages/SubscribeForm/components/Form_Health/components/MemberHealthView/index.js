@@ -7,7 +7,7 @@ import { useState } from 'react'
 import candidateService from 'services/candidate/candidateService'
 import DISEASES from 'utils/enums/diseases'
 import styles from './styles.module.scss'
-export default function MemberHealthView({ member, onViewFiles, onSelect, onAdd, edit = true, onBack }) {
+export default function MemberHealthView({ member, onViewFiles, onSelect, onAdd, edit = true, onBack, onChange = () => { } }) {
     const diseaseList = member?.healthInfo?.map(e => ({ disease: e.disease, data: e })).filter((e) => e.disease !== null)
     const medicationList = member?.healthInfo?.map(e => ({ medication: e.medication?.[0], data: e })).filter((e) => e.medication)
     // TODO: verify if current user/family member has any disease or medication (declare that it has something)
@@ -22,6 +22,7 @@ export default function MemberHealthView({ member, onViewFiles, onSelect, onAdd,
             } else {
                 await candidateService.updateFamilyMember(member.id, { hasSevereDeseaseOrUsesMedication: val })
             }
+            onChange(val)
         } catch (err) { }
     }
     return (
