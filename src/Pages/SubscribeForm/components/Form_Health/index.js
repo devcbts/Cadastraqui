@@ -43,8 +43,9 @@ export default function FormHealth() {
                 formData.append(`file_laudo${new Date().getTime()}`, data.file_medication)
                 await uploadService.uploadBySectionAndId({ section: 'medication', id: data.memberId, tableId: medicationId }, formData)
             }
-            NotificationService.success({ text: 'Informações cadastradas' })
-            setEnableEditing(true)
+
+            NotificationService.success({ text: 'Informações cadastradas' }).then(_ => setRefresh((prev) => !prev))
+            setData(null)
             setIsAdding(false)
         } catch (err) {
             NotificationService.error({ text: err.response.data.message })
@@ -66,7 +67,7 @@ export default function FormHealth() {
         onSave: handleSaveInformation
     })
 
-    const [enableEditing, setEnableEditing] = useState(false)
+    const [refresh, setRefresh] = useState(true)
     const [isAdding, setIsAdding] = useState(false)
 
     const selectDisease = (item) => {
@@ -104,7 +105,8 @@ export default function FormHealth() {
             setIsLoading(false)
         }
         fetchData()
-    }, [])
+
+    }, [refresh])
     return (
         <div className={commonStyles.container}>
             {!hasSelectionOrIsAdding() && <HealthList loading={isLoading} data={members} onSelect={selectDisease} onAdd={addHealthInfo} />}

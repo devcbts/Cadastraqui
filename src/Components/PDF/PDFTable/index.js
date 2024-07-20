@@ -20,7 +20,13 @@ export const pdfTableStyles = StyleSheet.create({
     },
     cell: {
         padding: '4px'
-    }
+    },
+    leftBorder: {
+        borderLeft: '1px solid black'
+    },
+    rightBorder: {
+        borderRight: '1px solid black'
+    },
 })
 
 export const chunkSubstr = (str, size) => {
@@ -41,6 +47,15 @@ Font.registerHyphenationCallback((word) => {
         return [word];
     }
 });
+// const getCurrentBorder = (index, max) => {
+//     if (index === 1) {
+//         return pdfTableStyles.rightBorder
+//     }
+//     if (index === max) {
+//         return pdfTableStyles.leftBorder
+//     }
+//     return { ...pdfTableStyles.leftBorder, ...pdfTableStyles.rightBorder }
+// }
 export default function PDFTable({ headers, data, title, text }) {
     return (
         <View>
@@ -48,13 +63,13 @@ export default function PDFTable({ headers, data, title, text }) {
                 <>
                     {title && <Text style={pdfStyles.text}>{title}</Text>}
                     <View style={pdfTableStyles.header}>
-                        {headers.map(e => (
+                        {headers.map((e, i) => (
                             <Text style={{ width: `${(100 / headers.length)}%` }} >{e}</Text>
                         ))}
                     </View>
                     {data?.map(e =>
                         <View style={pdfTableStyles.row}>
-                            {e.map(v =>
+                            {e.map((v, i) =>
                                 <View style={{ ...pdfTableStyles.cell, width: `${(100 / headers.length)}%` }}>
                                     <Text >{v}</Text>
                                 </View>

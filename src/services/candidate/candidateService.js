@@ -214,6 +214,7 @@ class CandidateService {
                 authorization: `Bearer ${token}`,
             },
         })
+        console.log(healthInfoMapper.fromPersistence(response.data.healthInfoResultsWithUrls))
         return healthInfoMapper.fromPersistence(response.data.healthInfoResultsWithUrls)
     }
 
@@ -381,6 +382,11 @@ class CandidateService {
             text: null,
             declarationExists: false
         })
+    }
+
+    async getHealthFiles(type, memberId, id) {
+        const response = await api.get(`/candidates/health-files/${type}/${memberId}/${id}`)
+        return response.data.urls
     }
 }
 
