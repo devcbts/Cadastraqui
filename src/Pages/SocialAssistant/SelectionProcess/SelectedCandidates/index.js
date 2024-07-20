@@ -1,20 +1,19 @@
+import { ReactComponent as Magnifier } from 'Assets/icons/magnifier.svg';
 import BackPageTitle from "Components/BackPageTitle";
 import ButtonBase from "Components/ButtonBase";
-import Table from "Components/Table";
-import { ReactComponent as Magnifier } from 'Assets/icons/magnifier.svg'
-import styles from './styles.module.scss'
-import { useNavigate, useParams } from "react-router";
-import { useEffect, useState } from "react";
-import socialAssistantService from "services/socialAssistant/socialAssistantService";
-import CRITERIAS from "utils/enums/criterias";
-import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
-import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer";
-import moneyInputMask from "Components/MoneyFormInput/money-input-mask";
-import SCHOOL_LEVELS from "utils/enums/school-levels";
 import Loader from "Components/Loader";
-import findLabel from "utils/enums/helpers/findLabel";
+import moneyInputMask from "Components/MoneyFormInput/money-input-mask";
+import Table from "Components/Table";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import socialAssistantService from "services/socialAssistant/socialAssistantService";
 import APPLICATION_STATUS from "utils/enums/application-status";
+import CRITERIAS from "utils/enums/criterias";
 import EDUCATION_TYPE from "utils/enums/education-type";
+import findLabel from "utils/enums/helpers/findLabel";
+import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer";
+import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
+import styles from './styles.module.scss';
 export default function SelectedCandidates() {
     const navigate = useNavigate()
     const { announcementId, courseId } = useParams()
@@ -40,21 +39,65 @@ export default function SelectedCandidates() {
     return (
         <div>
             <Loader loading={isLoading} />
-            <BackPageTitle title={'processo de seleção'} path={`/home/selecao/${announcementId}`} />
-            <h2>Lista de Candidatos Selecionados: Edital {application.announcement.announcementNumber}</h2>
+            <BackPageTitle title={'Processo de seleção'} path={`/home/selecao/${announcementId}`} />
+            <h2 className={styles.titleLista}>Lista de Candidatos Selecionados: Edital {application.announcement.announcementNumber}</h2>
             <div className={styles.informative}>
                 <div className={styles.row}>
-                    <span>Instituição: {application.entity?.socialReason}</span>
-                    <span>Tipo de Educação: {EDUCATION_TYPE.find(e => e.value === application.level.level)?.label}</span>
-                    <span>Vagas: {application.level?.verifiedScholarships}</span>
-                    <span>Inscritos: {application.candidates.length}</span>
+                    <div className={styles.spanInstituicao}>
+                        <span>Instituição: </span>
+                        <label>
+                            {application.entity?.socialReason}
+                        </label>
+                    </div>
+                    <div className={styles.divSpan}>
+                        <span className={styles.spanEdital}>
+                            Tipo de Educação:
+                        </span>
+                        <label>
+                            {EDUCATION_TYPE.find(e => e.value === application.level.level)?.label}
+                        </label>
+                        <span className={styles.spanTotalVagas}>
+                            Vagas:
+                        </span>
+                        <label>
+                            {application.level?.verifiedScholarships}
+                        </label>
+                        <span className={styles.spanVigEdital}>
+                            Inscritos:
+                        </span>
+                        <label>
+                            {application.candidates.length}
+                        </label>
+                    </div>
                 </div>
-                <span>Endereço: {getAddress()}</span>
-                <div className={styles.row}>
-                    <span>Ciclo/Ano/Série/Semestre/Curso: {application?.level?.availableCourses ?? application.level?.grade}</span>
-                    <span>Tipo de Bolsa: {findLabel(SCHOLARSHIP_OFFER, application.level?.scholarshipType) ?? findLabel(SCHOLARSHIP_TYPE, application.level?.higherEduScholarshipType)}</span>
+                <div className={styles.divEnd}>
+                    <span>Endereço:</span>
+                    <label>
+                        {getAddress()}
+                    </label>
                 </div>
-                <span>Critério do Rank / desempate: {application.announcement?.criteria?.map(e => CRITERIAS.find(c => c.value === e)?.label).join('; ')}</span>
+
+                <div className={styles.divCiclo}>
+                    <span>
+                        Ciclo/Ano/Série/Semestre/Curso:
+                    </span>
+                    <label>
+                        {application?.level?.availableCourses ?? application.level?.grade}
+                    </label>
+                    <span>
+                        Tipo de Bolsa:
+                    </span>
+                    <label>
+                        {findLabel(SCHOLARSHIP_OFFER, application.level?.scholarshipType) ?? findLabel(SCHOLARSHIP_TYPE, application.level?.higherEduScholarshipType)}
+                    </label>
+                </div>
+                <div className={styles.divCriterio}>
+                    <span>Critério do Rank / desempate:</span>
+                    <label>
+                        {application.announcement?.criteria?.map(e => CRITERIAS.find(c => c.value === e)?.label).join('; ')}
+                    </label>
+                </div>
+
             </div>
             <Table.Root headers={['rank', 'candidato', 'renda bruta média', 'condição', 'pendências', 'ficha', 'ação']}>
                 {

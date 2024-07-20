@@ -25,7 +25,7 @@ export default function StartSubscription() {
 
     return (
         <>
-            <BackPageTitle title={'inscrição em processo seletivo'} onClick={() => move('INITIAL')} />
+            <BackPageTitle title={'Inscrição em processo seletivo'} onClick={() => move('INITIAL')} />
             <div className={styles.card}>
                 <CardRoot>
                     <CardHead>

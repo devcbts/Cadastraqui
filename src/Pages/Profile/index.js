@@ -1,9 +1,9 @@
-import useLocalStorage from "hooks/useLocalStorage"
-import styles from './styles.module.scss'
-import { useMemo, useRef, useState } from "react"
-import FormPassword from "./components/FormPassword"
 import LGPD from "Components/LGPD"
+import useLocalStorage from "hooks/useLocalStorage"
+import { useState } from "react"
+import FormPassword from "./components/FormPassword"
 import ProfilePhoto from "./components/ProfilePhoto"
+import styles from './styles.module.scss'
 export default function Profile({ onPictureChange, dataForm }) {
     const { get: profilePic } = useLocalStorage("profilepic")
     const [editMode, setEditMode] = useState(false)

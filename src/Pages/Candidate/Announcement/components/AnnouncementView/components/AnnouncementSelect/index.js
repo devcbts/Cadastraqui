@@ -1,21 +1,20 @@
 import BackPageTitle from "Components/BackPageTitle";
+import ButtonBase from "Components/ButtonBase";
+import Card from "Components/Card";
+import Loader from "Components/Loader";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
-import AnnouncementContext from "../../context/announcementContext";
-import ButtonBase from "Components/ButtonBase";
-import styles from './styles.module.scss'
-import Logo from '../../../../../../../Assets/images/logo_primary.png'
-import Card from "Components/Card";
-import candidateService from "services/candidate/candidateService";
 import { useSearchParams } from "react-router-dom";
-import SHIFT from "utils/enums/shift-types";
-import EDUCATION_TYPE from "utils/enums/education-type";
-import Subscription from "../Subscription";
-import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
-import Loader from "Components/Loader";
+import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
+import EDUCATION_TYPE from "utils/enums/education-type";
 import findLabel from "utils/enums/helpers/findLabel";
 import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer";
+import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
+import Logo from '../../../../../../../Assets/images/logo_primary.png';
+import AnnouncementContext from "../../context/announcementContext";
+import Subscription from "../Subscription";
+import styles from './styles.module.scss';
 export default function AnnouncementSelect({ announcement }) {
     const { announcementId } = useParams()
     const { clear, step, move, setCourse, getCourse } = useContext(AnnouncementContext)
@@ -76,7 +75,7 @@ export default function AnnouncementSelect({ announcement }) {
                 ? (
                     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                         <Loader text="Carregando informações" loading={isLoading} />
-                        <BackPageTitle title={'curso selecionado'} onClick={clear} />
+                        <BackPageTitle title={'Curso selecionado'} onClick={clear} />
                         <div className={styles.content}>
                             {!isVisited && <div className={styles.save}>
                                 <ButtonBase label={'salvar edital'} onClick={handleSaveAnnouncement} />

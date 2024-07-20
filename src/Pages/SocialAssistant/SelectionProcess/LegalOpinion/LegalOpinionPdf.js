@@ -2,6 +2,7 @@ import { Text, Document, Page, View } from "@react-pdf/renderer";
 import PDFTable from "Components/PDF/PDFTable";
 import { pdfStyles, Strong } from "Pages/SubscribeForm/components/Form_Declarations/components/HabitationDeclarationPDF";
 import { pdfjs } from "react-pdf";
+import DISEASES from "utils/enums/diseases";
 import DOMICILE_TYPE from "utils/enums/domicile-type";
 import FAMILY_RELATIONSHIP from "utils/enums/family-relationship";
 import findLabel from "utils/enums/helpers/findLabel";
@@ -9,10 +10,11 @@ import MARITAL_STATUS from "utils/enums/marital-status";
 import NUMBER_ROOMS from "utils/enums/number-rooms";
 import PROPERTY_STATUS from "utils/enums/property-status";
 import TIME_LIVING_PROPERTY from "utils/enums/time-living-property";
+import VEHICLE_SITUATION from "utils/enums/vehicle-situation-type";
 import formatDate from "utils/format-date";
 import formatMoney from "utils/format-money";
 
-export default function LegalOpinionPdf({ data, candidate, house, disease, members, family }) {
+export default function LegalOpinionPdf({ data, candidate, house, disease, members, family, medications }) {
     pdfjs.GlobalWorkerOptions.workerSrc = new URL(
         'pdfjs-dist/build/pdf.worker.min.js',
         import.meta.url,
@@ -72,16 +74,38 @@ export default function LegalOpinionPdf({ data, candidate, house, disease, membe
                     </View>
 
 
-                    <PDFTable headers={['Proprietário', 'Modelo/Marca', 'Ano de fabricação', 'Situação']} data={data?.vehicleInfoResults.map((e) => {
-                        return [e.owner, e.modelAndBrand, e.manufacturingYear, e.situation]
-                    })} text={'O(s) integrantes não possuem veículo(s).'} />
-                    <Text style={pdfStyles.text}>Para subsistência do grupo familiar, a renda provêm de:</Text>
-                    <PDFTable headers={['Nome', 'CPF', 'Idade', 'Parentesco', 'Renda Média']} data={members?.map((e) => {
-                        return [e.name, e.cpf, e.age, findLabel(FAMILY_RELATIONSHIP, e.relationship), formatMoney(e.income)]
-                    })} />
+                    <PDFTable headers={['Proprietário(s)', 'Modelo/Marca', 'Ano de fabricação', 'Situação']} data={data?.vehicleInfoResults.map((e) => {
+                        return [e.ownerNames?.map(x => x).join(','), e.modelAndBrand, e.manufacturingYear, findLabel(VEHICLE_SITUATION, e.situation)]
+                    })}
+                        text={'O(s) integrantes não possuem veículo(s).'}
+                        title={'O(s) integrante(s) do grupo familiar possuem o(s) seguinte(s) veículo(s):'}
+                    />
+                    <PDFTable headers={['Nome', 'CPF', 'Idade', 'Parentesco', 'Ocupação', 'Renda Média']} data={members?.concat([candidate])?.map((e) => {
+                        return [e.name, e.cpf, e.age, findLabel(FAMILY_RELATIONSHIP, e.relationship) ?? '-', e.profession, formatMoney(e.income)]
+                    })}
+                        title={'Para subsistência do grupo familiar, a renda provêm de:'}
+                    />
                     <PDFTable headers={['Integrante', 'Doença', 'Possui relatório médico?']} data={disease?.map((e) => {
-                        return [e.name, e.cpf, e.age, findLabel(FAMILY_RELATIONSHIP, e.relationship), formatMoney(e.income)]
-                    })} />
+
+                        return [e.name, findLabel(DISEASES, e.disease), e.hasMedicalReport ? 'Sim' : 'Não']
+                    })}
+                        text={'Nenhum integrante do grupo familiar possui doença grave ou crônica que exija custeio elevado.'}
+                        title={'O(s) integrante(s) identificado(s) abaixo possuem a(s) seguinte(s) doença(s):'}
+                    />
+                    <PDFTable headers={['Integrante', 'Nome do(s) medicamento(s)', 'Obtém da rede pública?']} data={medications?.map((e) => {
+
+                        return [e.name, e.medicationName, e.obtainedPublicly ? 'Sim' : 'Não']
+                    })}
+                        text={'Nenhum integrante do grupo familiar faz uso de medicação de alto custo.'}
+                        title={'O(s) integrante(s) identificado(s) abaixo fazem uso do(s) seguinte(s) medicamento(s):'}
+                    />
+
+                    <View style={pdfStyles.signwrapper} wrap={false}>
+                        <View style={pdfStyles.sign}>
+                            <Text>____________________</Text>
+                            <Text style={{ fontSize: '10px' }}>assinatura</Text>
+                        </View>
+                    </View>
                     {/* <div className={styles.table}>
 
                     <h3>O(s) integrante(s) identificados abaixo fazem uso dos seguintes medicamentos:</h3>

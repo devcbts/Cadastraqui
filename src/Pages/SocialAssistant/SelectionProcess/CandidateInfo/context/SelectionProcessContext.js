@@ -33,6 +33,9 @@ export default function SelectionProcessContext({ children }) {
             try {
                 setIsLoading(true)
                 const information = await socialAssistantService.getCandidateResume(state?.applicationId)
+                if (information.applicationInfo.status === 'NotAnalysed') {
+                    socialAssistantService.updateApplication(state?.applicationId, { status: 'Pending' })
+                }
                 setSummary(information)
             } catch (err) { }
             setIsLoading(false)

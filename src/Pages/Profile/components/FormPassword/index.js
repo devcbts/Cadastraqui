@@ -1,12 +1,11 @@
-import InputForm from "Components/InputForm";
-import formPasswordSchema from "./schemas/form-password-schema";
-import useControlForm from "hooks/useControlForm";
-import commonStyles from '../../styles.module.scss'
-import ButtonBase from "Components/ButtonBase";
-import userService from "services/user/userService";
-import { NotificationService } from "services/notification";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import ButtonBase from "Components/ButtonBase";
+import InputForm from "Components/InputForm";
+import { useForm } from "react-hook-form";
+import { NotificationService } from "services/notification";
+import userService from "services/user/userService";
+import commonStyles from '../../styles.module.scss';
+import formPasswordSchema from "./schemas/form-password-schema";
 export default function FormPassword({ onCancel }) {
     const { control, getValues, formState: { isValid }, trigger } = useForm({
         mode: 'all',

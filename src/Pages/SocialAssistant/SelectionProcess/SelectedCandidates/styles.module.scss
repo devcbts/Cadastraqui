@@ -1,13 +1,110 @@
-.informative{
+.titleLista {
+    padding: 20px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.informative {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    margin: 32px 0px;
-    padding: 0px 32px;
-    .row{
+    margin: 10px 0px;
+    padding: 0px 10px;
+
+    .row {
         display: flex;
-        flex-direction: row;
-        gap: 20%;
+        flex-direction: column;
+        gap: 10px;
         text-align: center;
+    }
+}
+
+.spanInstituicao,
+.divCiclo,
+.divCriterio {
+    width: 100%;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+
+    span {
+        font-size: 15px;
+    }
+
+    label {
+        font-weight: 500;
+        font-size: 16px;
+    }
+
+}
+
+.divEnd {
+    width: 100%;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+
+    span {
+        font-size: 15px;
+    }
+
+    label {
+        font-weight: 500;
+        font-size: 20px;
+        text-wrap: wrap;
+    }
+
+}
+
+.divSpan,
+.divPeriodo {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+
+    span {
+        font-size: 15px;
+    }
+
+    label {
+        font-weight: 500;
+        font-size: 16px;
+    }
+}
+
+@media(max-width:700px) {
+    .divSpan {
+        span {
+            font-size: 14px;
+        }
+
+        label {
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+    }
+
+    .spanInstituicao,
+    .divCiclo,
+    .divCriterio,
+    .divEnd {
+        flex-direction: column;
+        font-weight: 500;
+        text-wrap: wrap;
+        text-align: justify;
+
+        span {
+            font-size: 14px;
+        }
+
+        label {
+            font-weight: 700;
+            font-size: 14px;
+            text-wrap: wrap;
+        }
     }
 }

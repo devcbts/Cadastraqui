@@ -1,35 +1,50 @@
-.container{
+.container {
     position: relative;
-    .content{
+
+    .content {
         display: flex;
         flex-direction: column;
         margin: 32px 24px 0px 24px;
-        .summary{
+
+        .summary {
             display: flex;
             flex-direction: column;
             gap: 4px;
             font-size: 12px;
         }
-        .table{
+
+        .table {
             margin-top: 24px;
             display: flex;
             flex-direction: column;
-            h3{
+
+            h3 {
                 font-size: 14px;
                 text-align: start;
             }
         }
     }
-    .options{
+
+    .options {
         position: absolute;
         right: 0;
         top: 0;
     }
-    .actions{
+
+    .actions {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
         margin-top: 64px;
     }
+}
+
+@media(max-width:600px) {
+    .container {
+        .options {
+            top: 41px
+        }
+    }
+
 }

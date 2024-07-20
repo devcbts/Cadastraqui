@@ -1,26 +1,39 @@
 @import '../../../../Assets/theme/global.module.scss';
-.header{
+
+.header {
     position: relative;
     width: 100%;
-   
-    
+
+
 }
-.titlewrapper{
+
+.titlewrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    img{
+
+    img {
         width: 100px;
         height: 100px;
         clip-path: circle();
     }
-    .edit{
-       
+
+    .edit {
+
         cursor: pointer;
         color: $primary;
         position: absolute;
-        transform: translate(50%,-50%);
-        top:50%;
+        transform: translate(50%, -50%);
+        top: 50%;
         right: 50%;
+    }
+}
+
+@media(max-width:600px) {
+    .titlewrapper {
+        img {
+            width: 70px;
+            height: 70px;
+        }
     }
 }

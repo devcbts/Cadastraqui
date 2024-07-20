@@ -1,10 +1,9 @@
 import Card from "Components/Card";
-import expenseSelectionSchema from "./schemas/expense-selection-schema";
-import styles from './styles.module.scss'
 import moneyInputMask from "Components/MoneyFormInput/money-input-mask";
-import stringToFloat from "utils/string-to-float";
-import { useRecoilValue } from "recoil";
 import monthAtom from "Components/MonthSelection/atoms/month-atom";
+import { useRecoilValue } from "recoil";
+import expenseSelectionSchema from "./schemas/expense-selection-schema";
+import styles from './styles.module.scss';
 
 const { default: MonthSelection } = require("Components/MonthSelection");
 const { forwardRef, useState, useEffect } = require("react");
@@ -31,13 +30,13 @@ const ExpenseSelection = forwardRef(({ data, viewMode = false }, ref) => {
             <h1>Despesas Mensais</h1>
             {!hasSelectedMonth && <div className={styles.cards}>
                 <Card.Root>
-                    <Card.Title text={'total das despesas'}></Card.Title>
+                    <Card.Title text={'último mês'}></Card.Title>
                     <Card.Content>
                         {total}
                     </Card.Content>
                 </Card.Root>
                 <Card.Root>
-                    <Card.Title text={'média das despesas'}></Card.Title>
+                    <Card.Title text={'média do trimestre'}></Card.Title>
                     <Card.Content>
                         {avg}
                     </Card.Content>

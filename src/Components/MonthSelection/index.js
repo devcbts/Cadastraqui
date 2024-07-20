@@ -1,15 +1,15 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
+import { ReactComponent as Remove } from 'Assets/icons/close.svg';
+import { ReactComponent as Pencil } from 'Assets/icons/pencil.svg';
 import ButtonBase from "Components/ButtonBase";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
 import useControlForm from "hooks/useControlForm";
 import { forwardRef, useEffect } from "react";
+import { Controller } from 'react-hook-form';
 import { useRecoilState } from "recoil";
 import monthAtom from "./atoms/month-atom";
 import styles from './styles.module.scss';
-import { Controller } from 'react-hook-form';
-import { ReactComponent as Pencil } from 'Assets/icons/pencil.svg'
-import { ReactComponent as Remove } from 'Assets/icons/close.svg'
 // quantity = months that user needs to fullfill in order to proceed saving information
 const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false, checkRegister = false }, ref) => {
     const { control, watch, setValue, getValues, trigger, formState: { errors } } = useControlForm({
@@ -121,7 +121,7 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
                     <p className={styles.text}>Agora realize o cadastro para cada um dos meses abaixo, inserindo as informações correspondentes.</p>
                     {
                         watchMonths.map((month, index) => (
-                            <div className={styles.wrapper}>
+                            <div key={index} className={styles.wrapper}>
                                 <div style={checkRegister ? { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '20px' } : {}} key={month.dateString}>
                                     <ButtonBase
                                         disabled={checkRegister ? month.skipMonth : false}

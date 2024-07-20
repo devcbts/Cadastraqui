@@ -1,28 +1,27 @@
 import BackPageTitle from "Components/BackPageTitle";
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router";
-import styles from './styles.module.scss'
-import BasicInformation from "./components/BasicInformation";
-import FamilyGroup from "./components/FamilyGroup";
-import SummaryData from "./components/SummaryData";
-import Course from "./components/Course";
-import Vehicle from "./components/Vehicle";
-import Health from "./components/Health";
-import Habitation from "./components/Habitation";
 import ButtonBase from "Components/ButtonBase";
-import socialAssistantService from "services/socialAssistant/socialAssistantService";
-import Loader from "Components/Loader";
-import Documents from "./components/Documents";
-import Scholarship from "./components/Scholarship";
-import Interview from "./components/Interview";
+import FilePreview from "Components/FilePreview";
 import FormCheckbox from "Components/FormCheckbox";
 import useControlForm from "hooks/useControlForm";
+import { useContext, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router";
+import { NotificationService } from "services/notification";
+import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import BasicInformation from "./components/BasicInformation";
+import Course from "./components/Course";
+import Documents from "./components/Documents";
+import FamilyGroup from "./components/FamilyGroup";
+import Habitation from "./components/Habitation";
+import Health from "./components/Health";
+import Interview from "./components/Interview";
+import Scholarship from "./components/Scholarship";
+import SummaryData from "./components/SummaryData";
 import UploadButton from "./components/UploadButton";
-import reportSchema from "./schemas/report-schema";
+import Vehicle from "./components/Vehicle";
 import Visit from "./components/Visit";
 import { selectionProcessContext } from "./context/SelectionProcessContext";
-import FilePreview from "Components/FilePreview";
-import { NotificationService } from "services/notification";
+import reportSchema from "./schemas/report-schema";
+import styles from './styles.module.scss';
 export default function CandidateInfo() {
     const { data, setData, summary, setSummary } = useContext(selectionProcessContext)
     const { state } = useLocation()
@@ -80,7 +79,7 @@ export default function CandidateInfo() {
 
     return (
         <div className={styles.container}>
-            <BackPageTitle title={'processo de seleção'} path={-1} />
+            <BackPageTitle title={'Processo de seleção'} path={-1} />
             <div className={styles.options}>
                 <ButtonBase label={'ficha completa'} onClick={() => navigate('/ficha-completa', { state })} />
             </div>

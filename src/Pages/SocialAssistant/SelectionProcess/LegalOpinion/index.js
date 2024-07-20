@@ -1,32 +1,31 @@
 import BackPageTitle from "Components/BackPageTitle";
-import Table from "Components/Table";
-import { useContext, useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router";
-import socialAssistantService from "services/socialAssistant/socialAssistantService";
-import styles from './styles.module.scss'
-import Vehicles from "./Vehicle";
-import FAMILY_RELATIONSHIP from "utils/enums/family-relationship";
-import MARITAL_STATUS from "utils/enums/marital-status";
-import findLabel from "utils/enums/helpers/findLabel";
-import TIME_LIVING_PROPERTY from "utils/enums/time-living-property";
-import DOMICILE_TYPE from "utils/enums/domicile-type";
-import PROPERTY_STATUS from "utils/enums/property-status";
-import NUMBER_ROOMS from "utils/enums/number-rooms";
+import ButtonBase from "Components/ButtonBase";
 import FilePreview from "Components/FilePreview";
 import FormCheckbox from "Components/FormCheckbox";
-import useControlForm from "hooks/useControlForm";
 import FormFilePicker from "Components/FormFilePicker";
-import legalOpinionSchema from "./schemas/legal-opinion-schema";
 import FormRadio from "Components/FormRadio";
-import ButtonBase from "Components/ButtonBase";
+import Table from "Components/Table";
+import useControlForm from "hooks/useControlForm";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
 import { NotificationService } from "services/notification";
+import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import DOMICILE_TYPE from "utils/enums/domicile-type";
+import FAMILY_RELATIONSHIP from "utils/enums/family-relationship";
+import findLabel from "utils/enums/helpers/findLabel";
+import MARITAL_STATUS from "utils/enums/marital-status";
+import NUMBER_ROOMS from "utils/enums/number-rooms";
+import PROPERTY_STATUS from "utils/enums/property-status";
+import TIME_LIVING_PROPERTY from "utils/enums/time-living-property";
 import formatMoney from "utils/format-money";
-import uploadService from "services/upload/uploadService";
 import { selectionProcessContext } from "../CandidateInfo/context/SelectionProcessContext";
 import formatDate from "utils/format-date";
 import { BlobProvider } from "@react-pdf/renderer";
 import LegalOpinionPdf from "./LegalOpinionPdf";
-
+import legalOpinionSchema from "./schemas/legal-opinion-schema";
+import styles from './styles.module.scss';
+import Vehicles from "./Vehicle";
+import { ReactComponent as Pdf } from 'Assets/icons/PDF.svg'
 export default function LegalOpinion() {
     const { state } = useLocation()
     const navigate = useNavigate()
@@ -95,7 +94,7 @@ export default function LegalOpinion() {
     }
     return (
         <div>
-            <BackPageTitle title={'processo de seleção'} onClick={handleBack} />
+            <BackPageTitle title={'Processo de seleção'} onClick={handleBack} />
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 64 }}>
                 <h1>Parecer final sobre a inscrição e perfil socioeconômico aferido</h1>
                 <div className={styles.content}>
@@ -243,11 +242,14 @@ export default function LegalOpinion() {
                             disease={disease}
                             house={house}
                             family={family}
+                            medications={data?.familyMemberMedications}
                         />}
                     >
                         {({ loading, url }) => {
 
-                            return (loading ? 'carregando pdf...' : <ButtonBase label={'PDF'} onClick={() => window.open(url, '_blank')} />)
+                            return (loading ? 'carregando pdf...' : <ButtonBase onClick={() => window.open(url, '_blank')} >
+                                <Pdf width={20} height={20} />
+                            </ButtonBase>)
                         }}
                     </BlobProvider>
                 </div>
