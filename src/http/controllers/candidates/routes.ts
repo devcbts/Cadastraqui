@@ -38,6 +38,7 @@ import { getExpensesInfo } from './get-expenses'
 import { getFamilyMemberHealthInfo } from './get-family-member-health-info'
 import { getFamilyMemberInfo } from './get-family-member-info'
 import { getFinancingInfo } from './get-financing-info'
+import { getHealthFiles } from './get-health-files'
 import { getHealthInfo } from './get-health-info'
 import { getHousingInfo } from './get-housing-info'
 import { getIdentityInfo } from './get-identity-info'
@@ -76,10 +77,10 @@ import { updateFinancingInfo } from './update-financing-info'
 import { updateHealthInfo } from './update-health-info'
 import { updateHousingInfo } from './update-housing-info'
 import { updateIdentityInfo } from './update-identity-info'
-import updateMonthlyIncome from './update-monthly-income-info'
 import updateIncomeSource from './update-income-source'
 import { updateLoanInfo } from './update-loan-info'
 import { updateMedicationInfo } from './update-medication-info'
+import updateMonthlyIncome from './update-monthly-income-info'
 import { updateRegistrationInfo } from './update-registration-info'
 import { updateVehicleInfo } from './update-vehicle-info'
 
@@ -170,6 +171,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.post('/health-info/:_id', { onRequest: [verifyJWT] }, registerHealthInfo)
   app.patch('/health-info/:_id', { onRequest: [verifyJWT] }, updateHealthInfo)
   app.delete('/health-info/:_id', { onRequest: [verifyJWT] }, deleteHealthInfo)
+  app.get('/health-files/:type/:memberId/:id', { onRequest: [verifyJWT] }, getHealthFiles)
 
   app.post(
     '/medication-info/:_id',
