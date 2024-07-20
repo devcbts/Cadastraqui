@@ -7,10 +7,10 @@ import { ReactComponent as List } from 'Assets/icons/list.svg';
 import { ReactComponent as Money } from 'Assets/icons/money.svg';
 import { ReactComponent as User } from 'Assets/icons/user.svg';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { Pie, PieChart } from 'recharts';
 import candidateService from 'services/candidate/candidateService';
 import styles from './styles.module.scss';
-import { useNavigate } from 'react-router';
 
 export default function SubscriptionStatus() {
     const [data, setData] = useState([])
@@ -53,7 +53,7 @@ export default function SubscriptionStatus() {
                             <Pie
                                 data={data}
                                 dataKey={"value"}
-                                innerRadius={40}
+                                innerRadius={38}
                                 outerRadius={50}
                                 paddingAngle={0}
                                 startAngle={90}
