@@ -37,6 +37,7 @@ import { registerAssistant } from './register'
 import { updateApplication } from './update-application'
 import updateAssistantProfile from './update-assistant-profile'
 import { updateSolicitationWithReport } from './update-solicitation-report'
+import { sendParecerDocumentToSign } from './send-parecer-document-to-sign'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -150,4 +151,6 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.post('/documents/solicitation/:type/:application_id', { onRequest: [verifyJWT] }, uploadSolicitationDocument)
   // Pegar CPF-CNPJ
   app.get('/candidateInfo/find-cpf-cnpj/:application_id', { onRequest: [verifyJWT] }, findCPF_CNPJ)
+
+  app.post('/post-pdf/:application_id', { onRequest: [verifyJWT] }, sendParecerDocumentToSign)
 }

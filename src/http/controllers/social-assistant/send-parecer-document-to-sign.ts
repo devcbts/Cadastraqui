@@ -18,10 +18,9 @@ export async function sendParecerDocumentToSign(
 ) {
     const parecerParams = z.object({
         application_id: z.string(),
-        announcement_id: z.string(),
     })
 
-    const { application_id, announcement_id } = parecerParams.parse(request.params)
+    const { application_id } = parecerParams.parse(request.params)
     try {
         const user_id = request.user.sub
         const isAssistant = await prisma.socialAssistant.findUnique({
@@ -82,13 +81,19 @@ export async function sendParecerDocumentToSign(
             message: `Documento do parecer do candidato ${application.candidate.name} na inscrição número ${application.number}, do edital ${application.announcement.announcementName} `,
             width_page: "1000",
             fields: [
-                [{ page: lastPage, type: "image", width: 200, height: 75, xPos: 600, yPos: 1200 }]
+                [{ page: lastPage, type: "image", width: 200, height: 75, xPos: 400, yPos: 600 }]
             ]
 
         }
         const sendEmail = await axios.post('https://app.plugsign.com.br/api/requests/documents', emailBody, {
             headers
         });
+
+        if (sendEmail.status !== 200) {
+            throw new Error("Erro ao enviar email para assinatura")
+        }
+
+        return reply.status(200).send({ message: "Documento enviado para assinatura com sucesso" })
 
     } catch (error) {
         if (error instanceof ForbiddenError) {
