@@ -1,39 +1,45 @@
 @import '../../../../../Assets/theme/global.module.scss';
+
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    button{
+
+    /* button {
         width: 220px !important;
-    }
-    .user{
+    } */
+
+    .user {
         font-size: 18px;
         color: $grey;
         margin: 4px 0px;
     }
 
-    .wrapper{
+    .wrapper {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         margin-bottom: 16px;
-        .error{
+
+        .error {
             color: $error;
             font-size: 16px;
             font-weight: 600;
         }
     }
-    
+
 }
-.month{
+
+.month {
     color: $primary;
     font-size: 20px;
     font-weight: 700;
     text-align: center;
     text-transform: capitalize;
 }
-.text{
+
+.text {
     color: $grey;
     font-size: 18px;
     font-weight: 600;
