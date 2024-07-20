@@ -10,6 +10,7 @@ export default function ExpenseMoneyInput({ name, control, }) {
                 <input
                     className={styles.container}
                     {...field}
+                    value={moneyInputMask(field.value)}
                     onChange={(e) => {
                         field.onChange(moneyInputMask(e.target.value))
                     }}
