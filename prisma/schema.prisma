@@ -785,6 +785,12 @@ model FamilyMemberToVehicle {
   @@map("_FamilyMemberToVehicle")
 }
 
+
+model DeletedFamilyMembers {
+  id            String     @id @default(uuid())
+  familyMember_id String
+
+}
 enum ROLE {
   ADMIN
   CANDIDATE

@@ -16,6 +16,8 @@ import { SCHOLARSHIP } from './enums/Scholarship'
 import { SHIFT } from './enums/Shift'
 import { SkinColor } from './enums/SkinColor'
 import { UF } from './enums/UF'
+import { calculateAge } from '@/utils/calculate-age'
+import { updateLegalDependent } from '../legal-responsible/update-legal-dependent'
 export async function updateFamilyMemberInfo(
   request: FastifyRequest,
   reply: FastifyReply,
@@ -149,18 +151,18 @@ export async function updateFamilyMemberInfo(
       throw new NotAllowedError()
     }
 
-    const candidate = await SelectCandidateResponsible(user_id)
+    const CandidateOrResponsible = await SelectCandidateResponsible(user_id)
 
-    if (!candidate) {
+    if (!CandidateOrResponsible) {
       throw new ResourceNotFoundError()
     }
-
+    const familyMember = await prisma.familyMember.findUnique({ where: { id: _id } })
     // Verifica se o familiar em especifico existe
-    if (!await prisma.familyMember.findUnique({ where: { id: _id } })) {
+    if (!familyMember) {
       throw new ResourceNotFoundError()
     }
 
-    const idField = candidate.IsResponsible ? { legalResponsibleId: candidate.UserData.id } : { candidate_id: candidate.UserData.id }
+    const idField = CandidateOrResponsible.IsResponsible ? { legalResponsibleId: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id }
     const dataToUpdate = {
       relationship,
       fullName,
@@ -218,7 +220,7 @@ export async function updateFamilyMemberInfo(
     }
 
     // Atualiza informações acerca do membro da família do candidato
-    await prisma.familyMember.update({
+    const memberUpdated = await prisma.familyMember.update({
       data: dataToUpdate,
       where: { id: _id }
     });
@@ -230,6 +232,12 @@ export async function updateFamilyMemberInfo(
         grupoFamiliar: true,
       }
     })
+    const age = calculateAge(new Date(memberUpdated.birthDate))
+
+    if (age < 18 && CandidateOrResponsible.IsResponsible) {
+      await updateLegalDependent(memberUpdated.fullName, memberUpdated.CPF, familyMember.CPF, memberUpdated.birthDate.toString(), CandidateOrResponsible.UserData.id)
+    }
+    
     return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
