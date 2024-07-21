@@ -92,7 +92,13 @@ export async function updateHousingInfo(
       data: dataToUpdate,
       where: {...idField },
     })
+    const idFieldRegistration = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
+    await prisma.finishedRegistration.upsert({
+      where: idFieldRegistration,
 
+      create: { moradia: true, ...idFieldRegistration },
+      update: { moradia: true },
+    })
     return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof ForbiddenError) {
