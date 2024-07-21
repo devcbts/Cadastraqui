@@ -57,7 +57,10 @@ class CandidateService {
                 authorization: `Bearer ${token}`,
             },
         })
-        return response.data.familyMembers?.map(e => familyMemberMapper.fromPersistence(e))
+        return {
+            members: response.data.familyMembers?.map(e => familyMemberMapper.fromPersistence(e)),
+            livesAlone: response.data.livesAlone
+        }
     }
     deleteFamilyMember(id) {
         const token = localStorage.getItem("token")

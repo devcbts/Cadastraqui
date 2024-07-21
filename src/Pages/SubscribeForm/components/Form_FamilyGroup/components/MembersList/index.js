@@ -2,21 +2,25 @@ import ButtonBase from "Components/ButtonBase";
 import MemberCard from "./components/MemberCard";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
 import styles from './styles.module.scss'
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Loader from "Components/Loader";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
 import FormList from "Pages/SubscribeForm/components/FormList";
+import CheckboxBase from "Components/CheckboxBase";
 export default function MembersList({ onSelect, onAdd }) {
     const [familyMembers, setFamilyMembers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [livesAlone, setLivesAlone] = useState(null)
+    const firstRender = useRef(true)
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
             try {
-                const members = await candidateService.getFamilyMembers()
-                if (members) {
-                    setFamilyMembers(members)
+                const familyGroup = await candidateService.getFamilyMembers()
+                if (familyGroup) {
+                    setFamilyMembers(familyGroup.members)
+                    setLivesAlone(familyGroup.livesAlone)
                 }
             } catch (err) {
 
@@ -26,6 +30,13 @@ export default function MembersList({ onSelect, onAdd }) {
         }
         fetchData()
     }, [])
+    useEffect(() => {
+        if (firstRender.current) {
+            return
+        }
+        candidateService.updateIdentityInfo({ livesAlone: livesAlone }).catch(_ => { })
+        candidateService.updateRegistrationProgress('grupoFamiliar', livesAlone)
+    }, [livesAlone])
     const handleDeleteMember = async (id) => {
         setIsLoading(true)
         try {
@@ -48,18 +59,28 @@ export default function MembersList({ onSelect, onAdd }) {
         const member = familyMembers.find(m => m.id === id)
         onSelect(member)
     }
+    const handleLivesAlone = (e) => {
+        firstRender.current = false
+        setLivesAlone(e.target.value === "true")
+    }
     return (
         <>
             <FormList.Root isLoading={isLoading} text={'Selecione um parente ou cadastre um novo'} title={'Integrantes do Grupo Familiar'}>
                 <FormList.List list={familyMembers} text='Você ainda não registrou nenhum membro para o grupo familiar, clique no botão abaixo para realizar o primeiro cadastro' render={(item) => (
                     <MemberCard name={item.fullName} onView={() => handleSelectMember(item.id)} onRemove={() => handleConfirmDelete(item.id)} />
-                )} />
+                )} >
+                    {(livesAlone || familyMembers.length === 0) ? <CheckboxBase
+                        onChange={handleLivesAlone}
+                        value={livesAlone}
+                        label={'Você mora sozinho?'}
+                    /> : null}
+                </FormList.List>
             </FormList.Root>
-            <ButtonBase
+            {!livesAlone && <ButtonBase
                 label="adicionar"
                 onClick={onAdd}
             />
-
+            }
         </>
     )
 }
