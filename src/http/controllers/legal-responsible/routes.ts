@@ -6,7 +6,6 @@ import { deleteLegalDependents } from './delete-legal-dependent'
 import { fetchLegalDependents } from './fetch-legal-dependents'
 import { getResponsibleInfo } from './get-resposible-info'
 import { registerLegalResponsible } from './register'
-import { updateLegalDependent } from './update-legal-dependent'
 import updateResponsible from './update-responsible'
 
 export async function legalResponsibleRoutes(app: FastifyInstance) {
@@ -27,9 +26,4 @@ export async function legalResponsibleRoutes(app: FastifyInstance) {
     deleteLegalDependents,
   )
 
-  app.patch(
-    '/legal-dependents/:_id',
-    { onRequest: [verifyJWT] },
-    updateLegalDependent,
-  )
 }
