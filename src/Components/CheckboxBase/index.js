@@ -1,12 +1,12 @@
 import { forwardRef } from "react";
-import styles from './styles.module.scss'
+import styles from './styles.module.scss';
 const CheckboxBase = forwardRef(({ label, error, value, ...props }, ref) => {
     const checkedStyles = props.value ? styles.checked : ''
     return (
         <div className={styles.container}>
             <label className={styles.label}>{label}</label>
             <div className={styles.row}>
-                <label className={[styles.option, styles.label].join(' ')}>
+                <label className={[styles.option].join(' ')}>
                     <input
                         className={styles.radio}
                         type="radio"
@@ -16,7 +16,7 @@ const CheckboxBase = forwardRef(({ label, error, value, ...props }, ref) => {
                         ref={ref}
                     /> Sim
                 </label>
-                <label className={[styles.option, styles.label].join(' ')}>
+                <label className={[styles.option].join(' ')}>
                     <input
                         className={styles.radio}
                         type="radio"
