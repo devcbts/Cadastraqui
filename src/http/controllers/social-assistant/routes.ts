@@ -38,6 +38,8 @@ import { updateApplication } from './update-application'
 import updateAssistantProfile from './update-assistant-profile'
 import { updateSolicitationWithReport } from './update-solicitation-report'
 import { sendParecerDocumentToSign } from './send-parecer-document-to-sign'
+import { resendParecerDocumentEmail } from './resend-parecer-email-to-sign'
+import { uploadParecerDocument } from './AWS-routes/upload-parecer-document'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -148,9 +150,11 @@ export async function assistantRoutes(app: FastifyInstance) {
   // Documentos da assistente
   app.post('/documents/majoracao/:application_id', { onRequest: [verifyJWT] }, uploadMarojacaoDocument)
   app.post('/documents/aditional/:application_id', { onRequest: [verifyJWT] }, uploadAdtionalInfo)
+  app.post('/documents/parecer/:application_id', { onRequest: [verifyJWT] }, uploadParecerDocument)
   app.post('/documents/solicitation/:type/:application_id', { onRequest: [verifyJWT] }, uploadSolicitationDocument)
   // Pegar CPF-CNPJ
   app.get('/candidateInfo/find-cpf-cnpj/:application_id', { onRequest: [verifyJWT] }, findCPF_CNPJ)
 
   app.post('/post-pdf/:application_id', { onRequest: [verifyJWT] }, sendParecerDocumentToSign)
+  app.post('/send-parecer-email/:application_id', { onRequest: [verifyJWT] }, resendParecerDocumentEmail)
 }

@@ -25,9 +25,4 @@ export async function legalResponsibleRoutes(app: FastifyInstance) {
     deleteLegalDependents,
   )
 
-  // app.patch(
-  //   '/legal-dependents/:_id',
-  //   { onRequest: [verifyJWT] },
-  //   updateLegalDependent,
-  // )
 }
