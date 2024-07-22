@@ -125,6 +125,7 @@ clientBackup.on('notification', async (msg) => {
             if (familyMember.operation == 'Delete') {
                 await deleteFamilyMemberHDB(familyMember.data.id, familyMember.data.candidate_id || familyMember.data.legalResponsibleId)
             }
+            await verifyHealthRegistration(familyMember.data.candidate_id || familyMember.data.legalResponsibleId)
         }
 
 
@@ -213,6 +214,7 @@ clientBackup.on('notification', async (msg) => {
                     await createIdentityDetailsHDB(identityDetails.data.id, identityDetails.data.candidate_id, identityDetails.data.legalResponsibleId, application.id)
                 }
             }
+            await verifyHealthRegistration(identityDetails.data.candidate_id || identityDetails.data.legalResponsibleId)
         }
         
         if (msg.channel == 'channel_medication') {
