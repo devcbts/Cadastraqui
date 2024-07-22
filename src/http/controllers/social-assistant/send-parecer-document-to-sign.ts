@@ -1,15 +1,13 @@
-import { ForbiddenError } from "@/errors/forbidden-error";
-import { NotAllowedError } from "@/errors/not-allowed-error";
-import { prisma } from "@/lib/prisma";
-import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
-import axios from 'axios';
-import FormData from 'form-data';
-import { FileNotFoundError } from "@/errors/file-not-found";
 import { env } from "@/env";
-import { PDFDocument } from 'pdf-lib';
+import { FileNotFoundError } from "@/errors/file-not-found";
+import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
-import fs from 'fs';
+import { prisma } from "@/lib/prisma";
+import axios from 'axios';
+import { FastifyReply, FastifyRequest } from "fastify";
+import FormData from 'form-data';
+import { PDFDocument } from 'pdf-lib';
+import { z } from "zod";
 
 
 
@@ -55,6 +53,8 @@ export async function sendParecerDocumentToSign(
         const fileBufferBase64 = fileBuffer.toString('base64');
         const formData = new FormData();
         formData.append('name', application_id);
+        // id 42394 is from 'parecer' folder
+        formData.append('folder', 42394);
         formData.append('file', fileBuffer, { filename: 'nome_do_arquivo.pdf', contentType: 'application/pdf' });
         const headers = {
             "Authorization": `Bearer ${env.PLUGSIGN_API_KEY}`,
@@ -64,14 +64,13 @@ export async function sendParecerDocumentToSign(
         try {
             const uploadDocument = await axios.post('https://app.plugsign.com.br/api/files/upload', formData, {
                 headers: headers,
-                timeout: 200000
+                timeout: 200000,
             });
-            console.log(uploadDocument.data.data);
-            if (uploadDocument.status !== 200 && !uploadDocument.data.data.document_key) {
+            if (uploadDocument.status !== 200 && !uploadDocument.data?.data?.document_key) {
                 console.log("Erro aqui");
                 throw new Error("Erro ao enviar arquivo para assinatura");
             }
-           
+
             const documentKey = <string>uploadDocument.data.data.document_key
 
             await prisma.application.update({
@@ -82,12 +81,13 @@ export async function sendParecerDocumentToSign(
             })
 
             const emailBody = {
-                email: [isAssistant.user.email],
+                email: [isAssistant.user.email, 'gabrielcampista307@gmail.com'],
                 document_key: documentKey,
                 message: `Documento do parecer do candidato ${application.candidate.name} na inscrição número ${application.number}, do edital ${application.announcement.announcementName} `,
                 width_page: "1000",
                 fields: [
-                    [{ page: lastPage, type: "image", width: 200, height: 75, xPos: 400, yPos: 600 }]
+                    [{ page: lastPage, type: "image", width: 200, height: 75, xPos: -999, yPos: -999 }],
+                    [{ page: lastPage, type: "image", width: 200, height: 75, xPos: -999, yPos: -999 }],
                 ]
 
             }

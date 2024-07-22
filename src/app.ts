@@ -12,6 +12,7 @@ import { adminRoutes } from './http/controllers/admin/routes';
 import { candidateRoutes } from './http/controllers/candidates/routes';
 import { entityRoutes } from './http/controllers/entities/routes';
 import { legalResponsibleRoutes } from './http/controllers/legal-responsible/routes';
+import { signatureRoutes } from './http/controllers/signature/routes';
 import { assistantRoutes } from './http/controllers/social-assistant/routes';
 import { authenticate } from './http/controllers/users/authenticate';
 import changePassword from './http/controllers/users/change_password';
@@ -67,10 +68,12 @@ app.register(legalResponsibleRoutes, { prefix: '/responsibles' })
 app.register(entityRoutes, { prefix: '/entities' })
 app.register(assistantRoutes, { prefix: '/assistant' })
 app.register(adminRoutes, { prefix: '/admin' })
+app.register(signatureRoutes, { prefix: '/sign' })
 app.post('/session', authenticate)
 app.post('/forgot_password', forgotPassword)
 app.post('/reset_password', resetPassword)
 app.post('/logout', logout)
+
 app.patch('/refresh', refresh)
 app.put('/change_password', { onRequest: [verifyJWT] }, changePassword)
 app.post(
