@@ -36,8 +36,8 @@ export default function Assistent_InactiveCompanyConfirmation({ onBack }) {
                     Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, possuo uma empresa inativa localizada no endereço <span>{inactiveCompanyDetails.address}</span>, nº <span>{inactiveCompanyDetails.number}</span>, complemento <span>{inactiveCompanyDetails.complement}</span>, bairro <span>{inactiveCompanyDetails.neighborhood}</span>, cidade <span>{inactiveCompanyDetails.city}</span>, UF <span>{inactiveCompanyDetails.uf}</span>, CEP <span>{inactiveCompanyDetails.cep}</span>.
                 </p>
             </div>
-            <p>Confirma a declaração?</p>
-            <div className={commonStyles.radioGroup}>
+            <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>
+            <div className={commonStyles.radioGroupInput}>
                 <label>
                     <input type="radio" name="confirmation" value="sim" disabled /> Sim
                 </label>

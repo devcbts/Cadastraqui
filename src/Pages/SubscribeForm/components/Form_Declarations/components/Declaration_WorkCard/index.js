@@ -26,8 +26,8 @@ export default function Declaration_WorkCard({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h3>{declarationData?.fullName}</h3>
-            <p>Você possui Carteira de trabalho? (a partir de 16 anos)</p>
-            <div className={commonStyles.radioGroup}>
+            <p className={commonStyles.declarationConfirm}>Você possui Carteira de trabalho? (a partir de 16 anos)</p>
+            <div className={commonStyles.radioGroupInput}>
                 <label>
                     <input type="radio" name="workCard" value="sim" onChange={() => setHasWorkCard(true)} checked={hasWorkCard} /> Sim
                 </label>

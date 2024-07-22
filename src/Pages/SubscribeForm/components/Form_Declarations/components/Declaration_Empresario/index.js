@@ -53,8 +53,8 @@ export default function Declaration_Empresario({ onBack, onSave }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE RENDA DE EMPRESÁRIO</h1>
             <h2>{declarationData.name}</h2>
-            <p>Você é sócio de alguma empresa?</p>
-            <div className={commonStyles.radioGroup}>
+            <p className={commonStyles.declarationConfirm}>Você é sócio de alguma empresa?</p>
+            <div className={commonStyles.radioGroupInput}>
                 <label>
                     <input type="radio" name="isPartner" value="sim" onChange={() => setIsPartner(true)} checked={isPartner} /> Sim
                 </label>

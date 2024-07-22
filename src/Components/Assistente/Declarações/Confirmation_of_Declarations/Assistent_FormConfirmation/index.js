@@ -37,8 +37,10 @@ export default function Assistent_Declaration_Form({ onBack, userId, declaration
                     Eu, <span>{declarationData.name}</span>, portador(a) da cédula de identidade RG nº <span>{declarationData.RG}</span>, órgão emissor <span>{declarationData.rgIssuingAuthority}</span>, UF do órgão emissor <span>{declarationData.rgIssuingState}</span> ou portador(a) da <span>{declarationData.documentType}</span>, número <span>{declarationData.documentNumber}</span>, validade <span>{declarationData.documentValidity}</span>, inscrito(a) no <span>CPF</span> nº <span>{declarationData.CPF}</span>, nacionalidade <span>{declarationData.nationalidade}</span>, estado civil <span>{declarationData.maritalStatus}</span>, profissão <span>{declarationData.profession}</span>, residente na <span>{declarationData.address}</span>, nº <span>{declarationData.addressNumber}</span>, complemento, <span>CEP: {declarationData.CEP}</span>, bairro {declarationData.neighborhood}, cidade <span>{declarationData.city}</span>, estado <span>{declarationData.UF}</span>, UF <span>{declarationData.UF}</span>, e-mail: <span>{declarationData.email}</span>, responsável legal por (quando for o caso, incluir os nomes dos menores de idade do grupo familiar), declaro para os devidos fins do processo seletivo realizado nos termos da Lei Complementar nº 187, de 16 de dezembro de 2021 que:
                 </p>
                 <div className={commonStyles.radioGroup}>
+
                     <label>Todas as informações estão corretas?</label>
-                    <div>
+
+                    <div className='divRadioButton'>
                         <input type="radio" id="yes" name="infoCorrect" value="yes" disabled />
                         <label htmlFor="yes">Sim</label>
                         <input type="radio" id="no" name="infoCorrect" value="no" disabled />

@@ -52,8 +52,8 @@ export default function Declaration_Autonomo({ onBack, onSave }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE AUTÔNOMO(A)/RENDA INFORMAL</h1>
             <h2>{declarationData.name}</h2>
-            <p>Você desenvolve alguma atividade sem vínculo empregatício?</p>
-            <div className={commonStyles.radioGroup}>
+            <p className={commonStyles.declarationConfirm}>Você desenvolve alguma atividade sem vínculo empregatício?</p>
+            <div className={commonStyles.radioGroupInput}>
                 <label>
                     <input type="radio" name="informalWork" value="sim" onChange={() => setInformalWork(true)} checked={informalWork} /> Sim
                 </label>

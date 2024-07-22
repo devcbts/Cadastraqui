@@ -29,8 +29,8 @@ export default function Declaration_RentedHouse({ onBack, onNext }) {
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE IMÓVEL ALUGADO - SEM CONTRATO DE ALUGUEL</h2>
             <h3>{declarationData?.name}</h3>
-            <p>Você mora em imóvel alugado sem contrato de aluguel?</p>
-            <div className={commonStyles.radioButtons}>
+            <p className={commonStyles.declarationConfirm}>Você mora em imóvel alugado sem contrato de aluguel?</p>
+            <div className={commonStyles.radioGroupInput}>
                 <label>
                     <input type="radio" name="rentedHouse" value="sim" onChange={() => setRentedHouse(true)} checked={rentedHouse} /> Sim
                 </label>

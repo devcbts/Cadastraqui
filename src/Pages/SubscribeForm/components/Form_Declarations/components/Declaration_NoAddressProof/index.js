@@ -112,8 +112,8 @@ export default function Declaration_NoAddressProof({ onBack, onNext }) {
                     a expressão da verdade e, ciente que a falsidade de informação sujeitará às penas da legislação pertinente, confirmo a presente
                     declaração para efeitos legais.
                 </p>
-                <p>Confirma a declaração?</p>
-                <div className={commonStyles.radioButtons}>
+                <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>
+                <div className={commonStyles.radioGroupInput}>
                     <label>
                         <input type="radio" name="confirmation" value="sim" onChange={() => setHasConfirmed(true)} checked={hasConfirmed} /> Sim
                     </label>

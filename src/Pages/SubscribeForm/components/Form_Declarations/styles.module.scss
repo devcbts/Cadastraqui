@@ -81,7 +81,7 @@ button:focus {
 .declarationContent {
     font-size: 14px;
     color: #333;
-    margin-bottom: 20px;
+    margin: 20px 0px;
     text-align: justify;
 }
 
@@ -97,7 +97,7 @@ button:focus {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .radioGroup label {
@@ -135,11 +135,30 @@ button:focus {
 
 /* Responsividade para dispositivos móveis */
 @media (max-width: 600px) {
+    .radioGroup {
+        flex-direction: column;
+
+        label {
+            font-size: 14px;
+        }
+    }
+
 
     .declarationForm,
     .navigationButtons,
     .declarationSection {
         padding: 15px;
+    }
+
+    .declarationContent {
+        padding: 10px 0px;
+    }
+
+    h1,
+    h2,
+    h3 {
+        padding: 5px 0px;
+        text-align: justify;
     }
 
     h1 {
@@ -154,9 +173,6 @@ button:focus {
         font-size: 14px;
     }
 
-    .navigationButtons {
-        flex-direction: column;
-    }
 
     button {
         width: 100%;
@@ -176,7 +192,8 @@ button:focus {
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: justify;
 }
 
 .declarationContent {
@@ -217,4 +234,47 @@ button:focus {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.radioGroupInput {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.declarationConfirm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #1F4B73;
+    font-weight: 500;
+    margin: 0px;
+}
+
+.LinkGerarRelatorio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    text-decoration: none;
+
+    button {
+        cursor: pointer;
+        font-weight: bold;
+    }
+}
+
+.formFilePicker {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    label {
+        margin: 5px 0px;
+    }
+
+    input {
+        margin: 10px 0px;
+    }
 }

@@ -14,9 +14,11 @@
 
         font-weight: 600;
         font-size: 16px;
-        /* color: $grey; */
         margin-bottom: 4px;
+        width: -moz-fit-content;
         width: fit-content;
+        min-width: fit-content;
+        min-width: -moz-fit-content;
         // text-transform: capitalize;
     }
 
@@ -84,6 +86,14 @@
             color: $error;
             font-size: 12px;
             font-weight: 800;
+        }
+    }
+}
+
+@media(max-width:420px) {
+    .container {
+        .label {
+            font-size: 14px;
         }
     }
 }

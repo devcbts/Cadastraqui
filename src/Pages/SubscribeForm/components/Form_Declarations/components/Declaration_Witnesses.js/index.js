@@ -319,7 +319,7 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
                 {isGeneratingPDF === "done" && (
                     <PDFDownloadLink
                         document={<MyDocument />}
-                        fileName="declaracoes.pdf"
+                        fileName={`declaracoes_${declarationData.name}.pdf`}
                     // style={{ textDecoration: 'none', padding: '10px', color: '#4a4a4a', backgroundColor: '#f2f2f2', border: '1px solid #4a4a4a', borderRadius: '4px' }}
                     >
                         {({ blob, url, loading, error }) =>

@@ -97,8 +97,8 @@ UF ${rentDetails.UF}, no valor mensal de ${rentDetails.rentAmount}, pago por ${r
                 <p>
                     Recebo aluguel do imóvel situado no Endereço <strong>{rentDetails.address}</strong>, nº <strong>{rentDetails.addressNumber}</strong>, complemento, CEP: <strong>{rentDetails.CEP}</strong>, bairro <strong>{rentDetails.neighborhood}</strong>, cidade <strong>{rentDetails.city}</strong>, Estado <strong>{rentDetails.UF}</strong>, no valor mensal de <strong>{rentDetails.rentAmount}</strong>, pago por <strong>{rentDetails.landlordName}</strong>, inscrito(a) no CPF nº <strong>{rentDetails.landlordCpf}</strong> (locatário(a)).
                 </p>
-                <p>Confirma a declaração?</p>
-                <div className={commonStyles.radioGroup}>
+                <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>
+                <div className={commonStyles.radioGroupInput}>
                     <label>
                         <input
                             type="radio"

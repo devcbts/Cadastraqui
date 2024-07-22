@@ -107,8 +107,8 @@ ${rentDetails.landlordCpf}. \
                     inscrito no CPF nº
                     <span> {rentDetails?.landlordCpf} </span>.
                 </p>
-                <p>Confirma a declaração?</p>
-                <div className={commonStyles.radioGroup}>
+                <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>
+                <div className={commonStyles.radioGroupInput}>
                     <label>
                         <input
                             type="radio"

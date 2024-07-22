@@ -94,8 +94,8 @@ export default function Declaration_ResponsibilityConfirmation({ onBack, onNext,
                 <p>
                     § 2º As bolsas de estudo poderão ser canceladas a qualquer tempo em caso de constatação de falsidade da informação prestada pelo bolsista ou por seus pais ou seu responsável, ou de inidoneidade de documento apresentado, sem prejuízo das demais sanções cíveis e penais cabíveis, sem que o ato do cancelamento resulte em prejuízo à entidade beneficente concedente, inclusive na apuração das proporções exigidas nesta Seção, salvo se comprovada negligência ou má-fé da entidade beneficente.
                 </p>
-                <p>Confirma a declaração?</p>
-                <div className={commonStyles.radioGroup}>
+                <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>
+                <div className={commonStyles.radioGroupInput}>
                     <label>
                         <input
                             type="radio"

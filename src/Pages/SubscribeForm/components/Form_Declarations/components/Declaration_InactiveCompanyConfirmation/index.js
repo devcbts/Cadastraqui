@@ -92,8 +92,8 @@ export default function Declaration_InactiveCompanyConfirmation({ onBack, onSave
                     Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, possuo uma empresa inativa localizada no endereço <span>{inactiveCompanyDetails.address}</span>, nº <span>{inactiveCompanyDetails.addressNumber}</span>, complemento <span>{inactiveCompanyDetails.complement}</span>, bairro <span>{inactiveCompanyDetails.neighborhood}</span>, cidade <span>{inactiveCompanyDetails.city}</span>, UF <span>{inactiveCompanyDetails.UF}</span>, CEP <span>{inactiveCompanyDetails.CEP}</span>.
                 </p>
             </div>
-            <p>Confirma a declaração?</p>
-            <div className={commonStyles.radioGroup}>
+            <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>
+            <div className={commonStyles.radioGroupInput}>
                 <label>
                     <input
                         type="radio"

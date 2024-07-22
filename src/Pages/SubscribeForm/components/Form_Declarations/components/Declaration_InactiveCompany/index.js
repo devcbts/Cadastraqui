@@ -81,8 +81,8 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE EMPRESA INATIVA</h1>
             <h2>{declarationData.name}</h2>
-            <p>Você possui alguma empresa inativa?</p>
-            <div className={commonStyles.radioGroup}>
+            <p className={commonStyles.declarationConfirm}>Você possui alguma empresa inativa?</p>
+            <div className={commonStyles.radioGroupInput}>
                 <label>
                     <input type="radio" name="hasInactiveCompany" value="sim" onChange={() => setHasInactiveCompany(true)} checked={hasInactiveCompany} /> Sim
                 </label>

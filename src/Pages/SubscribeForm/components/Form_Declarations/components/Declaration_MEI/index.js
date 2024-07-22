@@ -81,15 +81,7 @@ export default function Declaration_MEI({ onBack, onNext }) {
                 label={'Você possui o cadastro de Microempreendedor Individual?'}
                 value={mei}
             />
-            {/* <p>Você possui o cadastro de Microempreendedor Individual?</p>
-            <div className={commonStyles.radioGroup}>
-                <label>
-                    <input type="radio" name="mei" value="sim" onChange={() => setMei(true)} checked={mei} /> Sim
-                </label>
-                <label>
-                    <input type="radio" name="mei" value="nao" onChange={() => setMei(false)} checked={mei === false} /> Não
-                </label>
-            </div> */}
+
             {mei && (
                 <FormFilePicker
                     label={'Anexar Declaração Anual do Simples Nacional para o(a) Microempreendedor(a) Individual (DAS-SIMEI)'}
@@ -98,11 +90,6 @@ export default function Declaration_MEI({ onBack, onNext }) {
                     name={'file'}
 
                 />
-
-                // <>
-                //     <p>Anexar Declaração Anual do Simples Nacional para o(a) Microempreendedor(a) Individual (DAS-SIMEI).</p>
-                //     <input type="file" onChange={handleFileChange} accept='application/pdf' />
-                // </>
             )}
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>

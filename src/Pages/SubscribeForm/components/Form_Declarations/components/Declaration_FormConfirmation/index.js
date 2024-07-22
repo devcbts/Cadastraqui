@@ -1,14 +1,14 @@
 import ButtonBase from "Components/ButtonBase";
 import useAuth from 'hooks/useAuth';
 import { useState } from 'react';
-import commonStyles from '../../styles.module.scss';
+import { useRecoilState } from "recoil";
+import candidateService from "services/candidate/candidateService";
+import DOCUMENT_TYPE from "utils/enums/document-type";
 import findLabel from "utils/enums/helpers/findLabel";
 import MARITAL_STATUS from "utils/enums/marital-status";
-import { useRecoilState } from "recoil";
-import declarationAtom from "../../atoms/declarationAtom";
-import DOCUMENT_TYPE from "utils/enums/document-type";
 import formatDate from "utils/format-date";
-import candidateService from "services/candidate/candidateService";
+import declarationAtom from "../../atoms/declarationAtom";
+import commonStyles from '../../styles.module.scss';
 
 export default function Declaration_Form({ onEdit }) {
     const { auth } = useAuth();
@@ -112,7 +112,7 @@ declaro para os devidos fins do processo seletivo realizado nos termos da Lei Co
                             responsável legal por {declarationData.Candidate.map((e) => `${e.name}, `)}
                         </>
                     }
-                    declaro para os devidos fins do processo seletivo realizado nos termos da Lei
+                    &nbsp;declaro para os devidos fins do processo seletivo realizado nos termos da Lei
                     Complementar nº 187, de 16 de dezembro de 2021 que:
                 </p>
                 <div className={commonStyles.radioGroup}>

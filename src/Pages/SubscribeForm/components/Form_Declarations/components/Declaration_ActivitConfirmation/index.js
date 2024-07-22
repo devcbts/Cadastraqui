@@ -86,8 +86,8 @@ seja ela formal ou informal, não possuindo, portanto, nenhuma fonte de renda.\
             <p>
                 Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, residente e domiciliado(a) à <span>{identityDetails.address}</span>, nº <span>{identityDetails.addressNumber}</span>, complemento, CEP: <span>{identityDetails.CEP}</span>, bairro <span>{identityDetails.neighborhood}</span>, cidade <span>{identityDetails.city}</span>, UF <span>{identityDetails.UF}</span>, e-mail: <span>{identityDetails.email}</span>, declaro para os devidos fins e sob as penas da lei, que não exerço nenhuma atividade remunerada, seja ela formal ou informal, não possuindo, portanto, nenhuma fonte de renda.
             </p>
-            <p>Confirma a declaração?</p>
-            <div className={commonStyles.radioGroup}>
+            <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>
+            <div className={commonStyles.radioGroupInput}>
                 <label>
                     <input
                         type="radio"

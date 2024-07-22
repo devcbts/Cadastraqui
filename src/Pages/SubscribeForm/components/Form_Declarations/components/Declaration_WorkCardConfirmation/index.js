@@ -87,8 +87,8 @@ export default function Declaration_WorkCardConfirmation({ onBack, onNext, userI
             <h3>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
                 <p>{declarationData.name} até o presente momento não possui(em) Carteira de Trabalho e Previdência Social – CTPS e estou ciente de que a Carteira de Trabalho e Previdência Social (CTPS) é o documento que registra a vida profissional do trabalhador e garante o acesso aos direitos trabalhistas previstos em lei. Neste momento tomo ciência de que a carteira de trabalho atualmente é emitida de forma prioritária no formato digital e excepcionalmente no formato físico (fonte: <a href="https://www.gov.br/pt-br/servicos/obter-a-carteira-de-trabalho">https://www.gov.br/pt-br/servicos/obter-a-carteira-de-trabalho</a>).</p>
-                <p>Confirma a declaração?</p>
-                <div className={commonStyles.radioGroup}>
+                <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>
+                <div className={commonStyles.radioGroupInput}>
                     <label>
                         <input
                             type="radio"

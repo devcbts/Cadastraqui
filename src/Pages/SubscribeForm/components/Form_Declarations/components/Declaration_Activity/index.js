@@ -35,9 +35,9 @@ export default function Declaration_Activity({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE AUSÊNCIA DE RENDA (DESEMPREGADO(A) OU DO LAR)</h2>
-            <h3>{declarationData.name}</h3>
-            <p>Você faz alguma atividade laboral?</p>
-            <div className={commonStyles.radioGroup}>
+            <h2>{declarationData.name}</h2>
+            <p className={commonStyles.declarationConfirm}>Você faz alguma atividade laboral?</p>
+            <div className={commonStyles.radioGroupInput}>
                 <label>
                     <input type="radio" name="activity" value="sim" onChange={() => setActivity(true)} checked={activity} /> Sim
                 </label>

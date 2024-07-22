@@ -57,14 +57,22 @@ export default function Declaration_ContributionStatement({ onBack, onSave }) {
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h3>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
-                <FormFilePicker label={'Anexar extrato de contribuição (CNIS)'} control={control} name={"file"} accept={'application/pdf'} />
-                {/* <p>Anexar o Extrato de Contribuição (CNIS).</p> */}
-                {/* <div className={commonStyles.fileUpload}>
-                    <label htmlFor="fileUpload">Anexar arquivo</label>
-                    <input type="file" id="fileUpload" onChange={handleFileChange} accept='application/pdf' />
-                </div> */}
+                <div className={commonStyles.formFilePicker}>
+                    <FormFilePicker
+                        label={'Anexar extrato de contribuição (CNIS)'}
+                        control={control}
+                        name={"file"}
+                        accept={'application/pdf'}
+
+                    />
+                </div>
+
                 <h4>Não possui ainda o seu extrato de contribuição (CNIS)?</h4>
-                <Link target='_blank' to={'https://www.gov.br/pt-br/servicos/emitir-extrato-de-contribuicao-cnis'}>
+                <Link
+                    target='_blank'
+                    to={'https://www.gov.br/pt-br/servicos/emitir-extrato-de-contribuicao-cnis'}
+                    className={commonStyles.LinkGerarRelatorio}
+                >
                     <ButtonBase label="Gerar Relatório" />
                 </Link>
             </div>
