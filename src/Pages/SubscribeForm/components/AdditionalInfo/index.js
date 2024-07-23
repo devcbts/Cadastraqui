@@ -28,14 +28,14 @@ const AdditionalInfo = forwardRef(({ data }, ref) => {
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Informações Adicionais</h1>
-            <div>
+            <>
                 <InputForm name="socialName" label="nome social (quando houver)" control={control} />
                 <FormSelect name="gender" label="sexo" control={control} options={GENDER} value={watchGender} />
                 <InputForm name="profession" label="profissão" control={control} />
                 <InputForm name="nationality" label="nacionalidade" control={control} />
                 <InputForm name="natural_city" label="naturalidade" control={control} />
                 <FormSelect name="natural_UF" label="estado" control={control} options={STATES} value={watchState} />
-            </div>
+            </>
         </div>
 
     )

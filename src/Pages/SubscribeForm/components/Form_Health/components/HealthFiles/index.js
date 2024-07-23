@@ -83,9 +83,9 @@ export default function HealthFiles({ items, edit = true, onBack }) {
 
                 </FormList.List>
             </FormList.Root>
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '80%' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '80%', alignItems: 'center' }}>
                 {edit && <FormFilePicker accept={'application/pdf'} control={control} name={"file_exam"} />}
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', }}>
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: 'inherit' }}>
                     <ButtonBase onClick={onBack}>
                         <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                     </ButtonBase>

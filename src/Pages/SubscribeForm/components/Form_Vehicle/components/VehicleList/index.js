@@ -85,7 +85,7 @@ export default function VehicleList({ onSelect, onAdd, onDelete }) {
                     )}
                 </FormList.List>
             </FormList.Root>
-            {!vehicles.hasVehicles &&
+            {(!!vehicles?.vehicles?.length || !vehicles.hasVehicles) &&
                 <ButtonBase
                     label={"Novo veículo"}
                     onClick={onAdd}

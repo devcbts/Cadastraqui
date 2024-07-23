@@ -48,14 +48,14 @@ const MaritalStatus = forwardRef(({ data }, ref) => {
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Estado Civil</h1>
-            <div>
+            <>
                 <FormSelect name="maritalStatus" label="estado civil" control={control} options={MARITAL_STATUS} value={watchStatus} />
                 {!!watchStatus &&
                     <FormFilePicker name="file_statusCertificate" label={text} control={control} accept={'application/pdf'} />}
                 <FilePreview file={watchFile} url={data.url_statusCertificate} text={'visualizar documento'} />
 
 
-            </div>
+            </>
         </div>
     )
 })
