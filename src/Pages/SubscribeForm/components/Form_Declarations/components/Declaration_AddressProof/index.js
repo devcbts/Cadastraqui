@@ -36,8 +36,9 @@ export default function Declaration_AddressProof({ onBack, onNext }) {
             <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
             <h2>DECLARAÇÃO DE AUSÊNCIA DE COMPROVANTE DE ENDEREÇO EM NOME</h2>
             <h3>{declarationData.name}</h3>
-            <p>Você possui comprovante de endereço em seu nome?</p>
-            <div className={commonStyles.radioButtons}>
+            <p className={commonStyles.declarationConfirm}>Você possui comprovante de endereço em seu nome?</p>
+
+            <div className={commonStyles.radioGroupInput}>
                 <label>
                     <input type="radio" name="confirmation" value="sim" onChange={() => setHasAddressProof(true)} checked={hasAddressProof} /> Sim
                 </label>

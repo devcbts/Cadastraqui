@@ -126,8 +126,8 @@ export default function Declaration_SeparationConfirmation({ onBack, onNext, use
                     }
                     Até o presente momento não formalizei o encerramento de nossa relação por meio de divórcio.
                 </p>
-                <p>Confirma a declaração?</p>
-                <div className={commonStyles.radioGroup}>
+                <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>
+                <div className={commonStyles.radioGroupInput}>
                     <label>
                         <input
                             type="radio"

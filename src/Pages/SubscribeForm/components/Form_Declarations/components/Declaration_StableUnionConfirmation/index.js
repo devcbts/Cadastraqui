@@ -73,8 +73,8 @@ Nossa União Estável possui natureza pública, contínua e duradoura com o obje
             <h3>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
                 <p>Convivo em União Estável com {declarationData?.stableUnion.partnerName}, desde {formatDate(declarationData?.stableUnion.unionStartDate)} e que somos juridicamente capazes. Nossa União Estável possui natureza pública, contínua e duradoura com o objetivo de constituição de família, nos termos dos artigos 1723 e seguintes do Código Civil.</p>
-                <p>Confirma a declaração?</p>
-                <div className={commonStyles.radioGroup}>
+                <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>
+                <div className={commonStyles.radioGroupInput}>
                     <label>
                         <input
                             type="radio"

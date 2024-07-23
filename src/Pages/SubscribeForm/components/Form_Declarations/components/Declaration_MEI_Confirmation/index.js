@@ -116,8 +116,8 @@ Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações aci
                     }
 
                 </p>
-                <p>Confirma a declaração?</p>
-                <div className={commonStyles.radioGroup}>
+                <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>
+                <div className={commonStyles.radioGroupInput}>
                     <label>
                         <input
                             type="radio"

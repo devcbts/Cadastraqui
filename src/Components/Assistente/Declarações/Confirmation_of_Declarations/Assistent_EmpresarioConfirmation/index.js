@@ -31,8 +31,8 @@ export default function Assistent_EmpresarioConfirmation({ onBack }) {
                     Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, sou sócio de uma empresa e exerço a atividade: <span>{empresarioDetails.activity}</span>.
                 </p>
             </div>
-            <p>Confirma a declaração?</p>
-            <div className={commonStyles.radioGroup}>
+            <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>
+            <div className={commonStyles.radioGroupInput}>
                 <label>
                     <input type="radio" name="confirmation" value="sim" disabled /> Sim
                 </label>

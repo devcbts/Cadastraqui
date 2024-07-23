@@ -87,8 +87,8 @@ export default function Declaration_RentIncome({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE RECEBIMENTO DE ALUGUEL</h1>
             <h2>{declarationData.name}</h2>
-            <p>Você recebe rendimento de imóvel alugado?</p>
-            <div className={commonStyles.radioGroup}>
+            <p className={commonStyles.declarationConfirm}>Você recebe rendimento de imóvel alugado?</p>
+            <div className={commonStyles.radioGroupInput}>
                 <label>
                     <input
                         type="radio"

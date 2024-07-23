@@ -1,0 +1,37 @@
+@import '../../../../../Assets/theme/global.module.scss';
+
+.divRendaMediaFamiliar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+    justify-content: center;
+    padding: 20px 0px;
+
+}
+
+.titleRendaMediaFamiliar {
+    color: $primary;
+    font-size: 18px;
+}
+
+.valoresRendaMediaFamiliar {
+    border: 1px solid $primary;
+    padding: 4px 8px;
+    border-radius: 8px;
+    max-width: 150px;
+    width: 100%;
+    text-align: center;
+}
+
+@media(max-width: 600px) {
+    .divRendaMediaFamiliar {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 0px;
+    }
+
+    .titleRendaMediaFamiliar {
+        font-size: 16px;
+    }
+}

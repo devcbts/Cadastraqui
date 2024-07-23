@@ -1,13 +1,10 @@
 import ButtonBase from "Components/ButtonBase";
-import MemberCard from "./components/MemberCard";
-import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
-import styles from './styles.module.scss'
+import CheckboxBase from "Components/CheckboxBase";
+import FormList from "Pages/SubscribeForm/components/FormList";
 import { useEffect, useRef, useState } from "react";
-import Loader from "Components/Loader";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
-import FormList from "Pages/SubscribeForm/components/FormList";
-import CheckboxBase from "Components/CheckboxBase";
+import MemberCard from "./components/MemberCard";
 export default function MembersList({ onSelect, onAdd }) {
     const [familyMembers, setFamilyMembers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
@@ -66,6 +63,11 @@ export default function MembersList({ onSelect, onAdd }) {
     return (
         <>
             <FormList.Root isLoading={isLoading} text={'Selecione um parente ou cadastre um novo'} title={'Integrantes do Grupo Familiar'}>
+                {!livesAlone && <ButtonBase
+                    label="adicionar"
+                    onClick={onAdd}
+                />
+                }
                 <FormList.List list={familyMembers} text='Você ainda não registrou nenhum membro para o grupo familiar, clique no botão abaixo para realizar o primeiro cadastro' render={(item) => (
                     <MemberCard name={item.fullName} onView={() => handleSelectMember(item.id)} onRemove={() => handleConfirmDelete(item.id)} />
                 )} >
@@ -76,11 +78,6 @@ export default function MembersList({ onSelect, onAdd }) {
                     /> : null}
                 </FormList.List>
             </FormList.Root>
-            {!livesAlone && <ButtonBase
-                label="adicionar"
-                onClick={onAdd}
-            />
-            }
         </>
     )
 }

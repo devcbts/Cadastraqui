@@ -54,8 +54,8 @@ export default function Declaration_RuralWorker({ onBack, onNext }) {
         <div className={commonStyles.declarationForm}>
             <h1>DECLARAÇÃO DE TRABALHADOR(A) RURAL</h1>
             <h2>{declarationData.name}</h2>
-            <p>Você é trabalhador rural?</p>
-            <div className={commonStyles.radioGroup}>
+            <p className={commonStyles.declarationConfirm}>Você é trabalhador rural?</p>
+            <div className={commonStyles.radioGroupInput}>
                 <label>
                     <input type="radio" name="ruralWorker" value="sim" onChange={() => setRuralWorker(true)} checked={ruralWorker} /> Sim
                 </label>

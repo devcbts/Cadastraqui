@@ -1,15 +1,14 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 import ButtonBase from "Components/ButtonBase"
-import InputBase from "Components/InputBase"
 import RowTextAction from "Components/RowTextAction"
 import { useEffect, useState } from "react"
 import candidateService from "services/candidate/candidateService"
 import { NotificationService } from "services/notification"
 import FormBankAccount from "../../Form_BankAccount"
+import BankReport from '../../Form_BankAccount/components/BankReport'
 import FormList from "../../FormList"
 import FormListItem from "../../FormList/FormListItem"
 import styles from './styles.module.scss'
-import BankReport from '../../Form_BankAccount/components/BankReport'
 
 export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
     const { id, fullName } = member
@@ -54,10 +53,10 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
         <>
             {!showBankInfo && (
                 <FormList.Root title={"Renda Familiar"} isLoading={isLoading}>
-
-                    <div className={styles.containerRenda}>
-                        <h2>{fullName} </h2>
-                        <InputBase disabled label={'Renda média cadastrada'} value={incomeInfo?.data?.averageIncome} error={null} />
+                    <h2 className={styles.titleFullName}>{fullName} </h2>
+                    <div className={styles.divRendaMediaFamiliar}>
+                        <label className={styles.titleRendaMediaFamiliar}>Renda média cadastrada</label>
+                        <spam className={styles.valoresRendaMediaFamiliar}>{incomeInfo?.data?.averageIncome}</spam>
                     </div>
                     <div className={styles.containerTeste}>
                         {

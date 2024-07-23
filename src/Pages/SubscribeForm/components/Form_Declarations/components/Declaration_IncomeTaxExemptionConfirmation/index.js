@@ -100,8 +100,8 @@ serem verdadeiras todas as informações acima prestadas. \
                     Normativas (IN) da Receita Federal do Brasil (RFB). Esta declaração está em conformidade com a IN RFB n° 1548/2015 e a Lei n° 7.115/83.
                     Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas.
                 </p>
-                <p>Confirma a declaração?</p>
-                <div className={commonStyles.radioGroup}>
+                <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>
+                <div className={commonStyles.radioGroupInput}>
                     <label>
                         <input type="radio" name="confirmation" value="sim" onChange={() => { setConfirmation(true); setError('') }} /> Sim
                     </label>

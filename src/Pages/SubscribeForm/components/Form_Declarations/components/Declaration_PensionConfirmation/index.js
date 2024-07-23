@@ -149,8 +149,8 @@ inscrito(a) no CPF nº ${child.payerCpf}.`
                         <p>{`${String.fromCharCode(65 + lastUsedLetter++)}. Meu(s) filho(s) ${child.childName} recebe(m) pensão alimentícia(judicial) no valor total de ${child.amount} de ${child.payerName}, inscrito(a) no CPF nº ${child.payerCpf}.`}</p>
                     ))}
                 </>
-                <p>Confirma a declaração?</p>
-                <div className={commonStyles.radioGroup}>
+                <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>
+                <div className={commonStyles.radioGroupInput}>
                     <label>
                         <input
                             type="radio"

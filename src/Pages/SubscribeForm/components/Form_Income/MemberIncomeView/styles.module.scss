@@ -1,4 +1,50 @@
 @import '../../../../../Assets/theme/global.module.scss';
+
+@import '../../../../../Assets/theme/global.module.scss';
+
+.divRendaMediaFamiliar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+    justify-content: center;
+    padding: 20px 0px;
+
+}
+
+.titleFullName {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.titleRendaMediaFamiliar {
+    color: $primary;
+    font-size: 18px;
+}
+
+.valoresRendaMediaFamiliar {
+    border: 1px solid $primary;
+    padding: 4px 8px;
+    border-radius: 8px;
+    max-width: 150px;
+    width: 100%;
+    text-align: center;
+}
+
+@media(max-width: 600px) {
+    .divRendaMediaFamiliar {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 0px;
+    }
+
+    .titleRendaMediaFamiliar {
+        font-size: 16px;
+    }
+}
+
+
+
 .containerRenda {
     display: flex;
     flex-direction: column;
@@ -61,20 +107,24 @@
         align-items: center;
         flex-grow: 1;
     }
-    span{
+
+    span {
         padding: 4px;
         border-radius: 8px;
         font-weight: 700;
         color: white;
-        &[updated=true]{
+
+        &[updated=true] {
             background-color: $success;
             border: 2px solid $success;
-            }
-        &[updated=false]{
-        background-color: $error;
-        border: 2px solid $error;
+        }
+
+        &[updated=false] {
+            background-color: $error;
+            border: 2px solid $error;
         }
     }
+
     button {
         border-radius: 8px;
         border: 2px solid #E38A05;
