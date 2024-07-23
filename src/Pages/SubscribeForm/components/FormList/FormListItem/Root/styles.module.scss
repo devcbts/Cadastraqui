@@ -1,28 +1,42 @@
 @import '../../../../../../Assets/theme/global.module.scss';
-.container{
+
+.container {
     width: 100%;
+    max-width: 600px;
     border-radius: 8px;
-    border: 2px solid $lightgrey;
+    border: 1px solid $lightgrey;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 4px 16px;
-    @media(max-width:700px){
-        flex-direction: column;
+    padding: 4px 10px;
+
+    .label {
+        font-size: 14px;
+        font-weight: 400;
+        /* color: $grey; */
+        color: $primary;
+
     }
-    .label{
-        font-size: 16px;
-        font-weight: 700;
-        color: $grey;
-        @media(max-width:700px){
-            font-size: 14px;
-        }
-        @media(max-width:400px){
-            font-size: 12px;
-        }
-    }
-    & + &  {
+
+    &+& {
         margin-top: 12px;
+    }
+}
+
+@media(max-width:400px) {
+    .container {
+        .label {
+            font-size: 13px;
+        }
+    }
+
+}
+
+@media(max-width:700px) {
+    .container {
+        flex-direction: column;
+        gap: 5px;
+
     }
 }
