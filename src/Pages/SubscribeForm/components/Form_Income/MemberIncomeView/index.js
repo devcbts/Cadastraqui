@@ -1,6 +1,5 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 import ButtonBase from "Components/ButtonBase"
-import RowTextAction from "Components/RowTextAction"
 import { useEffect, useState } from "react"
 import candidateService from "services/candidate/candidateService"
 import { NotificationService } from "services/notification"
@@ -62,22 +61,45 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                         {
                             incomeInfo?.data?.hasBankAccount === null
                                 ? <>
-                                    <h3>Declaração e Comprovantes bancários</h3>
-                                    <ButtonBase label={'Cadastrar declaração'} onClick={() => setShowBankInfo('accounts')} />
+                                    <h3>Comprovantes bancários</h3>
+                                    <button
+                                        className={styles.buttonCadastrarDeclaracao}
+                                        onClick={() => setShowBankInfo('accounts')}
+                                    >
+                                        Cadastrar Declaração
+                                    </button>
+                                    {/* <ButtonBase label={'Cadastrar declaração'} onClick={() => setShowBankInfo('accounts')} /> */}
                                 </>
                                 : <>
-                                    <RowTextAction text={'Declaração e Comprovantes bancários'} onClick={() => setShowBankInfo('accounts')} label={'visualizar'} />
+                                    <h3>Comprovantes bancários</h3>
+                                    <button
+                                        className={styles.buttonCadastrarDeclaracao}
+                                        onClick={() => setShowBankInfo('accounts')}
+                                    >
+                                        Visualizar
+                                    </button>
+                                    {/* <RowTextAction text={'Declaração e Comprovantes bancários'} onClick={() => setShowBankInfo('accounts')} label={'visualizar'} /> */}
                                 </>
                         }
 
                         {
-                            <RowTextAction
+                            <>
+                                <h3>Relatório de contas e relacionamentos (CCS)</h3>
+                                <button
+                                    className={styles.buttonCadastrarDeclaracao}
+                                    onClick={() => setShowBankInfo('report')}
+                                >
+                                    Visualizar
+                                </button>
+                            </>
+
+                            /* <RowTextAction
                                 text={'Relatório de contas e relacionamentos (CCS)'}
                                 label={'visualizar'}
-                                /* onClick={handleReport} */
-                                onClick={() => setShowBankInfo('report')}
-                                className={styles.RowTextAction}
-                            />
+                                /* onClick={handleReport} 
+                            onClick = {() => setShowBankInfo('report')}
+                        className={styles.RowTextAction}
+                            /> */
                         }
 
                     </div>
