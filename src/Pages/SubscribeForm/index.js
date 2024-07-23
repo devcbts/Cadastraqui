@@ -8,7 +8,7 @@ import { ReactComponent as Money } from 'Assets/icons/money.svg';
 import { ReactComponent as User } from 'Assets/icons/user.svg';
 import FormStepper from "Components/FormStepper";
 import headerAtom from "Components/Header/atoms/header-atom";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import FormBasicInformation from "./components/Form_BasicInformation";
 import FormDeclarations from "./components/Form_Declarations";
@@ -25,7 +25,7 @@ export default function SubscribeForm() {
     const handleChangeCategory = (index) => {
         setActiveStep(index)
     }
-    const steps = [
+    const steps = useMemo(() => [
         { label: "Cadastrante", icon: User, component: FormBasicInformation },
         { label: "Grupo Familiar", icon: Family, component: FormFamilyGroup },
         { label: "Moradia", icon: House, component: FormHabitation },
@@ -35,9 +35,10 @@ export default function SubscribeForm() {
         { label: "Saúde", icon: Doctor, component: FormHealth },
         { label: "Declarações", icon: List, component: FormDeclarations },
         // { label: "_", icon: Edit },
-    ]
+    ], [])
     const setHeader = useSetRecoilState(headerAtom)
     useEffect(() => {
+
         setHeader({ sidebar: false })
         if (state?.step) {
             setActiveStep(state?.step)
@@ -45,7 +46,7 @@ export default function SubscribeForm() {
         return () => {
             setHeader({ sidebar: true })
         }
-    }, [setHeader])
+    }, [])
     return (
         <FormStepper.Root vertical activeStep={activeStep}>
             <FormStepper.Stepper>

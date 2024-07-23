@@ -23,9 +23,9 @@ const MemberSelection = forwardRef(({ data }, ref) => {
         const fetchData = async () => {
             setIsLoading(true)
             try {
-                const members = await candidateService.getFamilyMembers()
-                if (members) {
-                    setValue("members", members.map(member => ({ value: member.id, label: member.fullName })))
+                const familyGroup = await candidateService.getFamilyMembers()
+                if (familyGroup?.members) {
+                    setValue("members", familyGroup.members.map(member => ({ value: member.id, label: member.fullName })))
                 }
             } catch (err) {
 

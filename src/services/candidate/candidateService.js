@@ -217,7 +217,6 @@ class CandidateService {
                 authorization: `Bearer ${token}`,
             },
         })
-        console.log(healthInfoMapper.fromPersistence(response.data.healthInfoResultsWithUrls))
         return healthInfoMapper.fromPersistence(response.data.healthInfoResultsWithUrls)
     }
 

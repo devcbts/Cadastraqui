@@ -10,6 +10,7 @@ import { Controller } from 'react-hook-form';
 import { useRecoilState } from "recoil";
 import monthAtom from "./atoms/month-atom";
 import styles from './styles.module.scss';
+import { ReactComponent as Check } from 'Assets/icons/check.svg'
 // quantity = months that user needs to fullfill in order to proceed saving information
 const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false, checkRegister = false }, ref) => {
     const { control, watch, setValue, getValues, trigger, formState: { errors } } = useControlForm({
@@ -125,9 +126,16 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
                                 <div style={checkRegister ? { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '20px' } : {}} key={month.dateString}>
                                     <ButtonBase
                                         disabled={checkRegister ? month.skipMonth : false}
-                                        label={month.dateString}
+                                        // label={month.dateString}
                                         onClick={() => handleSelectMonth(month)}
-                                    />
+                                    >
+                                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10, maxWidth: '100%' }}>
+
+                                            {month.dateString}
+                                            {month.isUpdated && <Check />}
+                                        </div>
+
+                                    </ButtonBase>
                                     {(checkRegister && !viewMode) && <>
                                         <Controller name={`months.${index}.skipMonth`} control={control} render={({ field }) => {
                                             if (field.value) {

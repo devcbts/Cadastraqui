@@ -49,6 +49,7 @@ import Declaration_Witnesses from './components/Declaration_Witnesses.js';
 import Declaration_WorkCard from './components/Declaration_WorkCard';
 import Declaration_WorkCardConfirmation from './components/Declaration_WorkCardConfirmation';
 import Declaration_WorkCardUpload from './components/Declaration_WorkCardUpload';
+import Loader from "Components/Loader";
 
 const SCREENS = {
     OVERVIEW: 'overview',
@@ -105,11 +106,13 @@ export default function FormDeclarations() {
     const [partnerName, setPartnerName] = useState('');
     const [unionStartDate, setUnionStartDate] = useState('');
     const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     // const [declarationData, setDeclarationData] = useState(null);
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom)
     useEffect(() => {
         const fetchDeclaration = async () => {
             try {
+                setIsLoading(true)
                 const info = await candidateService.getInfoForDeclaration()
                 setData(info)
                 // const response = await api.get(`/candidates/declaration/Form/${auth.uid}`);
@@ -121,6 +124,7 @@ export default function FormDeclarations() {
             } catch (error) {
                 console.error('Erro ao buscar a declaração:', error);
             }
+            setIsLoading(false)
         };
         fetchDeclaration();
 
@@ -254,6 +258,7 @@ export default function FormDeclarations() {
 
     return (
         <div className={commonStyles.container}>
+            <Loader loading={isLoading} />
             {currentScreen === SCREENS.OVERVIEW && (
                 <div>
                     <h1>Declarações para fins de processo seletivo CEBAS</h1>
