@@ -6,7 +6,7 @@ import socialAssistantService from "services/socialAssistant/socialAssistantServ
 export const selectionProcessContext = createContext(null)
 
 export default function SelectionProcessContext({ children }) {
-    const { state } = useLocation()
+    const { state, pathname } = useLocation()
     const navigate = useNavigate()
     const [data, setData] = useState()
     const [isLoading, setIsLoading] = useState(true)
@@ -28,6 +28,7 @@ export default function SelectionProcessContext({ children }) {
         if (!state?.applicationId) {
             navigate(-1)
         }
+
         // TODO: load all user information to display on screen
         const fetchCandidateInfo = async () => {
             try {
@@ -40,7 +41,13 @@ export default function SelectionProcessContext({ children }) {
             } catch (err) { }
             setIsLoading(false)
         }
-        fetchCandidateInfo()
+        if (pathname.split('/').at(-1) === 'candidato') {
+
+            fetchCandidateInfo()
+        } else {
+
+            setIsLoading(false)
+        }
 
 
     }, [state])

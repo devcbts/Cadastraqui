@@ -98,7 +98,7 @@ export default function FormBasicInformation() {
             setIsLoading(false)
         }
         fetchData()
-    }, [setData])
+    }, [])
 
     return (
         <div className={commonStyles.container}>

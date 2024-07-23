@@ -154,7 +154,7 @@ export default function LegalOpinion() {
                         <h3>O(s) integrante(s) identificados abaixo fazem uso dos seguintes medicamentos:</h3>
                         <Table.Root headers={['integrante', 'nome do(s) medicamento(s)', 'Obtém medicamento(s) através da rede pública', 'Relação de medicamentos obtidos através da rede pública']}>
                             {
-                                disease?.filter(e => e.medications.length).map((item) => {
+                                data?.familyMemberMedications?.map((item) => {
                                     return (
                                         <Table.Row>
                                             <Table.Cell>{item.name}</Table.Cell>
@@ -245,9 +245,19 @@ export default function LegalOpinion() {
                             medications={data?.familyMemberMedications}
                         />}
                     >
-                        {({ loading, url }) => {
+                        {({ loading, url, blob }) => {
 
-                            return (loading ? 'carregando pdf...' : <ButtonBase onClick={() => window.open(url, '_blank')} >
+                            return (loading ? 'carregando pdf...' : <ButtonBase onClick={async () => {
+                                const formData = new FormData()
+                                formData.append('file', blob)
+                                try {
+
+                                    await socialAssistantService.sendLegalOpinionDocument(state?.applicationId, formData)
+                                } catch (err) {
+                                    console.log(err)
+                                }
+                                window.open(url, '_blank')
+                            }} >
                                 <Pdf width={20} height={20} />
                             </ButtonBase>)
                         }}

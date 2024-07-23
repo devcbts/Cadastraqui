@@ -119,7 +119,9 @@ class SocialAssistantService {
     async getDeclarations(applicationId) {
         const response = await api.get(`/assistant/candidateInfo/declaration/${applicationId}`)
         return response.data.declarations?.map(e => ({ ...e, urls: removeObjectFileExtension(e.url) }))
-
+    }
+    async sendLegalOpinionDocument(applicationId, data) {
+        return api.post(`/assistant/post-pdf/${applicationId}`, data)
     }
 }
 
