@@ -109,7 +109,7 @@
         }
 
         &[updated=false] {
-            background-color: $error;
+            background-color: white;
             border: 2px solid $error;
             color: $error;
         }
