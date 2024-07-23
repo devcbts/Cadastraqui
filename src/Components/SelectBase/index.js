@@ -1,9 +1,8 @@
-import ReactSelect from "react-select";
-import inputBaseStyles from '../InputBase/styles.module.scss'
-import styles from './styles.module.scss'
-import check from '../../Assets/icons/check.svg'
-import errorx from '../../Assets/icons/error.svg'
 import { forwardRef } from "react";
+import ReactSelect from "react-select";
+import check from '../../Assets/icons/check.svg';
+import errorx from '../../Assets/icons/error.svg';
+import inputBaseStyles from '../InputBase/styles.module.scss';
 
 const SelectBase = forwardRef(({ label, error, ...props }, ref) => {
     const borderStyle = error === null ? '#CFCFCF' : (error ? "#EF3E36" : "#499468")
@@ -19,12 +18,12 @@ const SelectBase = forwardRef(({ label, error, ...props }, ref) => {
                         isMulti={props.multiple}
                         styles={{
                             container: (style) => ({ ...style, outline: "none", paddingRight: "-2px" }),
-                            control: (style) => ({ ...style, border: `2px solid ${borderStyle}`, outline: "none", borderRadius: "8px", paddingRight: paddingStyle ? '28px' : '0' }),
+                            control: (style) => ({ ...style, border: `1px solid ${borderStyle}`, outline: "none", borderRadius: "8px", paddingRight: paddingStyle ? '28px' : '0' }),
                         }}
                         {...props}
                     />
-                    {(borderStyle === "#499468") && <img className={inputBaseStyles.icon} src={check}></img>}
-                    {(borderStyle === "#EF3E36") && <img className={inputBaseStyles.icon} src={errorx}></img>}
+                    {(borderStyle === "#499468") && <img className={inputBaseStyles.icon} src={check} alt="inputSelect"></img>}
+                    {(borderStyle === "#EF3E36") && <img className={inputBaseStyles.icon} src={errorx} alt="inputSelectError"></img>}
                 </div>
             </div>
 
