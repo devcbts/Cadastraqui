@@ -85,8 +85,9 @@ export default function Declaration_EmpresarioConfirmation({ onBack, onSave, use
 
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÃO DE RENDA DE EMPRESÁRIO</h1>
-            <h2>{declarationData.name}</h2>
+            <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÃO PARA FINS DE PROCESSO SELETIVO CEBAS</h2>
+            <h3 className={commonStyles.declarationFormSubTitle}>DECLARAÇÃO DE RENDA DE EMPRESÁRIO</h3>
+            <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
                 <p>
                     Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, sou sócio de uma empresa e exerço a atividade: <span>{empresarioDetails.activity}</span>.

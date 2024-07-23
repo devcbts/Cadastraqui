@@ -81,8 +81,9 @@ seja ela formal ou informal, não possuindo, portanto, nenhuma fonte de renda.\
 
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÃO DE AUSÊNCIA DE RENDA (DESEMPREGADO(A) OU DO LAR)</h1>
-            <h2>{declarationData.name}</h2>
+            <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h2>
+            <h3 className={commonStyles.declarationFormSubTitle}>DECLARAÇÃO DE AUSÊNCIA DE RENDA (DESEMPREGADO(A) OU DO LAR)</h3>
+            <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
             <p>
                 Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, residente e domiciliado(a) à <span>{identityDetails.address}</span>, nº <span>{identityDetails.addressNumber}</span>, complemento, CEP: <span>{identityDetails.CEP}</span>, bairro <span>{identityDetails.neighborhood}</span>, cidade <span>{identityDetails.city}</span>, UF <span>{identityDetails.UF}</span>, e-mail: <span>{identityDetails.email}</span>, declaro para os devidos fins e sob as penas da lei, que não exerço nenhuma atividade remunerada, seja ela formal ou informal, não possuindo, portanto, nenhuma fonte de renda.
             </p>

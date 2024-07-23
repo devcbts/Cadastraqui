@@ -87,8 +87,8 @@ declaro para os devidos fins do processo seletivo realizado nos termos da Lei Co
 
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
-            <h2>{identityDetails.fullName} </h2>
+            <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h2>
+            <h3 className={commonStyles.declarationFormNameTitle}>{identityDetails.fullName} </h3>
             <div className={commonStyles.declarationContent}>
                 <p>
                     Eu, <span>{identityDetails.fullName}</span>, portador(a) da cédula de identidade RG nº <span>{identityDetails.RG}</span>,

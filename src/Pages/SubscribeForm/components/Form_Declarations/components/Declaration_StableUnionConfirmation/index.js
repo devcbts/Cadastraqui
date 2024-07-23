@@ -68,9 +68,9 @@ Nossa União Estável possui natureza pública, contínua e duradoura com o obje
 
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
-            <h2>DECLARAÇÃO DE UNIÃO ESTÁVEL</h2>
-            <h3>{declarationData.name}</h3>
+            <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h2>
+            <h3 className={commonStyles.declarationFormSubTitle}>DECLARAÇÃO DE UNIÃO ESTÁVEL</h3>
+            <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
                 <p>Convivo em União Estável com {declarationData?.stableUnion.partnerName}, desde {formatDate(declarationData?.stableUnion.unionStartDate)} e que somos juridicamente capazes. Nossa União Estável possui natureza pública, contínua e duradoura com o objetivo de constituição de família, nos termos dos artigos 1723 e seguintes do Código Civil.</p>
                 <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>

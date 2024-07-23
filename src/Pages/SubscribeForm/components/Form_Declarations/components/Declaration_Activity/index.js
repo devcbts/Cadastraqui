@@ -33,9 +33,9 @@ export default function Declaration_Activity({ onBack, onNext }) {
 
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
-            <h2>DECLARAÇÃO DE AUSÊNCIA DE RENDA (DESEMPREGADO(A) OU DO LAR)</h2>
-            <h2>{declarationData.name}</h2>
+            <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h2>
+            <h3 className={commonStyles.declarationFormSubTitle}>DECLARAÇÃO DE AUSÊNCIA DE RENDA (DESEMPREGADO(A) OU DO LAR)</h3>
+            <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
             <p className={commonStyles.declarationConfirm}>Você faz alguma atividade laboral?</p>
             <div className={commonStyles.radioGroupInput}>
                 <label>

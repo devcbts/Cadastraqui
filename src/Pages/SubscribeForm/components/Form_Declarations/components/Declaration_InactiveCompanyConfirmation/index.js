@@ -85,8 +85,9 @@ export default function Declaration_InactiveCompanyConfirmation({ onBack, onSave
 
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÃO DE EMPRESA INATIVA</h1>
-            <h2>{declarationData.name}</h2>
+            <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h2>
+            <h3 className={commonStyles.declarationFormSubTitle}>DECLARAÇÃO DE EMPRESA INATIVA</h3>
+            <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
                 <p>
                     Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, possuo uma empresa inativa localizada no endereço <span>{inactiveCompanyDetails.address}</span>, nº <span>{inactiveCompanyDetails.addressNumber}</span>, complemento <span>{inactiveCompanyDetails.complement}</span>, bairro <span>{inactiveCompanyDetails.neighborhood}</span>, cidade <span>{inactiveCompanyDetails.city}</span>, UF <span>{inactiveCompanyDetails.UF}</span>, CEP <span>{inactiveCompanyDetails.CEP}</span>.

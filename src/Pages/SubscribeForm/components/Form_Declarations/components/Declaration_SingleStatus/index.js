@@ -40,9 +40,9 @@ export default function Declaration_SingleStatus({ onBack, onNext }) {
 
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
-            <h2>DECLARAÇÃO DE ESTADO CIVIL SOLTEIRO(A)</h2>
-            <h3>{declarationData.name}</h3>
+            <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h2>
+            <h3 className={commonStyles.declarationFormSubTitle}>DECLARAÇÃO DE ESTADO CIVIL SOLTEIRO(A)</h3>
+            <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
             <FormCheckbox
                 control={control}
                 label={'É solteiro e não mantém união estável?'}

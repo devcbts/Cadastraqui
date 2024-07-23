@@ -64,8 +64,10 @@ export default function Declaration_RentIncomeDetails({ onBack, onSave }) {
     const addressRef = useRef(null)
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÃO DE RECEBIMENTO DE ALUGUEL</h1>
-            <h2>{declarationData.name}</h2>
+            <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h2>
+            <h3 className={commonStyles.declarationFormSubTitle}>DECLARAÇÃO DE RECEBIMENTO DE ALUGUEL</h3>
+            <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
+
             <p>Preencha os dados do endereço do imóvel que você recebe aluguel:</p>
             <AddressData ref={addressRef} />
 
