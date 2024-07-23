@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   header: {
-    fontSize: 18,
+    fontSize: 16,
     marginBottom: 10,
   },
   text: {

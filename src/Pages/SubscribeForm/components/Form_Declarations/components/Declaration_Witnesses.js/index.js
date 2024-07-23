@@ -93,18 +93,20 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
         });
     };
 
+
     const styles = StyleSheet.create({
+
         page: {
             padding: 30,
             fontSize: 12,
-            fontFamily: 'Courier'
+            fontFamily: 'Times-Roman'
         },
         section: {
             marginBottom: 32,
         },
         declarationType: {
             textAlign: 'center',
-            fontSize: 14,
+            fontSize: 12,
             fontWeight: 'heavy',
             marginBottom: 16
         },
@@ -114,7 +116,7 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
             lineHeight: 1.5,
         },
         title: {
-            fontSize: 18,
+            fontSize: 14,
             fontWeight: 'bold',
             marginBottom: 20,
             textAlign: 'center', // Centraliza o texto
@@ -180,7 +182,7 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
                 </View>
                 <Text >{declarationData?.IdentityDetails?.city}, {new Date().toLocaleString('pt-br', { month: 'long', year: 'numeric', day: '2-digit' })}</Text>
                 <View style={styles.sign}>
-                    <Text>____________________</Text>
+                    <Text>__________________________________________________</Text>
                     <Text>Assinatura {declarationData?.name}</Text>
                 </View>
                 <View style={styles.footer} fixed>
