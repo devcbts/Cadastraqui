@@ -12,6 +12,7 @@ enum TiebreakerCriterias {
   CadUnico
   LeastFamilyIncome
   SeriousIllness
+  Distance
   Draw
 }
 
@@ -653,7 +654,7 @@ model Announcement {
   type2                String?
   sorted               Boolean?                 @default(false)
   interview            AnnouncementInterview?
-  criteria             TiebreakerCriterias[]    @default([CadUnico, LeastFamilyIncome, SeriousIllness, Draw])
+  criteria             TiebreakerCriterias[]    @default([CadUnico, LeastFamilyIncome, SeriousIllness, Draw, Distance])
   types1               scholarshipGrantedType[]
   entity               Entity                   @relation(fields: [entity_id], references: [id])
   entity_subsidiary    EntitySubsidiary[]
