@@ -8,6 +8,8 @@ import FilePreview from "Components/FilePreview";
 import { useLocation } from "react-router";
 import uploadService from "services/upload/uploadService";
 import { NotificationService } from "services/notification";
+import ButtonBase from "Components/ButtonBase";
+import socialAssistantService from "services/socialAssistant/socialAssistantService";
 export default function Interview({ data }) {
     const [openModal, setOpenModal] = useState(false)
     const { state } = useLocation()
@@ -27,6 +29,17 @@ export default function Interview({ data }) {
     useEffect(() => {
         setReport(data)
     }, [data])
+    const handleRequestInterview = async () => {
+        try {
+            await socialAssistantService.registerSolicitation(state?.applicationId, {
+                type: 'Interview',
+                description: 'Agendar entrevista'
+            })
+            NotificationService.success({ text: 'Solicitação de entrevista enviada' })
+        } catch (err) {
+            NotificationService.error({ text: err?.response?.data?.message })
+        }
+    }
     return (
         <div className={styles.table}>
             <NewReport open={openModal} onClose={() => setOpenModal(false)} onSubmit={handleSubmit} />
@@ -48,6 +61,10 @@ export default function Interview({ data }) {
                 </Table.Row>
 
             </Table.Root>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: '12px 0px' }}>
+
+                <ButtonBase label={'solicitar entrevista'} onClick={handleRequestInterview} />
+            </div>
         </div>
     )
 }

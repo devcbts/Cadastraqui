@@ -90,7 +90,7 @@ export default function Documents({ data, solicitations, }) {
                 <ButtonBase label={'solicitar documento'} onClick={handleAddDocument} />
 
                 {!!requests.length && (
-                    <div style={{ marginTop: '24px', width: '80%' }}>
+                    <div style={{ marginTop: '24px', width: '100%' }}>
                         {requests.map((request) => (
                             <FormListItem.Root text={request.description}>
                                 <FormListItem.Actions>
