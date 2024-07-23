@@ -66,7 +66,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                                         className={styles.buttonCadastrarDeclaracao}
                                         onClick={() => setShowBankInfo('accounts')}
                                     >
-                                        Cadastrar Declaração
+                                        Cadastrar
                                     </button>
                                     {/* <ButtonBase label={'Cadastrar declaração'} onClick={() => setShowBankInfo('accounts')} /> */}
                                 </>
