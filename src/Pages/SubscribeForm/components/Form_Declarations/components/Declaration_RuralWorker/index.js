@@ -52,8 +52,10 @@ export default function Declaration_RuralWorker({ onBack, onNext }) {
 
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÃO DE TRABALHADOR(A) RURAL</h1>
-            <h2>{declarationData.name}</h2>
+            <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h2>
+            <h3 className={commonStyles.declarationFormSubTitle}>DECLARAÇÃO DE TRABALHADOR(A) RURAL</h3>
+            <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
+
             <p className={commonStyles.declarationConfirm}>Você é trabalhador rural?</p>
             <div className={commonStyles.radioGroupInput}>
                 <label>

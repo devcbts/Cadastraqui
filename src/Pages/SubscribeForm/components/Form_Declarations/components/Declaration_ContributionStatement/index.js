@@ -54,9 +54,17 @@ export default function Declaration_ContributionStatement({ onBack, onSave }) {
     }
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
-            <h3>{declarationData.name}</h3>
+            <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h2>
+            <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
+                <h4>Não possui ainda o seu extrato de contribuição (CNIS)?</h4>
+                <Link
+                    target='_blank'
+                    to={'https://www.gov.br/pt-br/servicos/emitir-extrato-de-contribuicao-cnis'}
+                    className={commonStyles.LinkGerarRelatorio}
+                >
+                    <ButtonBase label="Gerar Relatório" />
+                </Link>
                 <div className={commonStyles.formFilePicker}>
                     <FormFilePicker
                         label={'Anexar extrato de contribuição (CNIS)'}
@@ -66,15 +74,6 @@ export default function Declaration_ContributionStatement({ onBack, onSave }) {
 
                     />
                 </div>
-
-                <h4>Não possui ainda o seu extrato de contribuição (CNIS)?</h4>
-                <Link
-                    target='_blank'
-                    to={'https://www.gov.br/pt-br/servicos/emitir-extrato-de-contribuicao-cnis'}
-                    className={commonStyles.LinkGerarRelatorio}
-                >
-                    <ButtonBase label="Gerar Relatório" />
-                </Link>
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>

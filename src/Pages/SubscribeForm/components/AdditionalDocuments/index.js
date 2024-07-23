@@ -34,7 +34,7 @@ const AdditionalDocuments = forwardRef(({ data }, ref) => {
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Documento Adicional</h1>
-            <div >
+            < >
                 <FormCheckbox name={"newDocument"} control={control} label={"deseja adicionar outro documento?"} />
                 {watchNewDocument &&
                     <>
@@ -43,7 +43,7 @@ const AdditionalDocuments = forwardRef(({ data }, ref) => {
                         <InputForm name={"documentValidity"} control={control} label={"data de validade do documento"} type="date" />
                     </>
                 }
-            </div>
+            </>
         </div>
     )
 })

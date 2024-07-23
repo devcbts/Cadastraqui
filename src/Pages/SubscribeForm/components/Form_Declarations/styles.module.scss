@@ -76,6 +76,24 @@ button:focus {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-bottom: 20px;
+
+    p {
+        margin-top: 10px;
+        margin-bottom: 50px;
+        line-height: 150%;
+    }
+}
+
+.declarationFormTitle {
+    margin-bottom: 10px;
+}
+
+.declarationFormSubTitle {
+    margin-bottom: 30px;
+}
+
+.declarationFormNameTitle {
+    margin-bottom: 30px;
 }
 
 .declarationContent {

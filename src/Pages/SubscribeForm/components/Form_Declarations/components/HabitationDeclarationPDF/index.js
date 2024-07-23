@@ -1,7 +1,5 @@
-import { Document, Line, Page, PDFViewer, StyleSheet, Svg, Text, View } from '@react-pdf/renderer'
-import { useEffect, useState } from 'react';
+import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import { pdfjs } from 'react-pdf';
-import candidateService from 'services/candidate/candidateService';
 
 export const pdfStyles = StyleSheet.create({
     page: {
@@ -97,10 +95,10 @@ export default function HabitationDeclarationPDF({
         <Document title={title}>
             <Page size={'A4'} style={pdfStyles.page}>
                 <View style={pdfStyles.header} >
-                    <Text style={pdfStyles.h1}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
+                    <Text style={pdfStyles.h2}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
                 </View>
                 <View style={pdfStyles.body} >
-                    <Text style={pdfStyles.h2} > {title} </Text>
+                    <Text style={pdfStyles.h3} > {title} </Text>
 
                     <Text style={pdfStyles.text}>
                         {children}
@@ -108,22 +106,22 @@ export default function HabitationDeclarationPDF({
                 </View>
                 <View style={pdfStyles.signwrapper}>
                     <View style={pdfStyles.sign}>
-                        <Text>____________________</Text>
+                        <Text>_____________________________________</Text>
                         <Text>{owner.ownerName}</Text>
-                        <Text>assinatura do(a) declarante</Text>
+                        <Text>Assinatura do(a) declarante</Text>
                     </View>
                     <View style={pdfStyles.signrow}>
                         <View style={pdfStyles.sign}>
-                            <Text>____________________</Text>
+                            <Text>_____________________________________</Text>
                             <Text>assinatura do(a) 1ª testemunha</Text>
-                            <Text>Nome: ____________________</Text>
-                            <Text>CPF: ____________________</Text>
+                            <Text>Nome: ______________________________</Text>
+                            <Text>CPF: _______________________________</Text>
                         </View>
                         <View style={pdfStyles.sign}>
-                            <Text>____________________</Text>
+                            <Text>_____________________________________</Text>
                             <Text>assinatura do(a) 2ª testemunha</Text>
-                            <Text>Nome: ____________________</Text>
-                            <Text>CPF: ____________________</Text>
+                            <Text>Nome: ______________________________</Text>
+                            <Text>CPF: _______________________________</Text>
                         </View>
                     </View>
 

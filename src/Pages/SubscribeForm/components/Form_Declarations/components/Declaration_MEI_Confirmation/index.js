@@ -95,8 +95,8 @@ Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações aci
 
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÃO DE RENDIMENTOS - MEI</h1>
-            <h2>{declarationData.name}</h2>
+            <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÃO DE RENDIMENTOS - MEI</h2>
+            <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
                 <p>
                     {

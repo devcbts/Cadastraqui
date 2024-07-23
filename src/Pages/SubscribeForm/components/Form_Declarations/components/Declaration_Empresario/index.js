@@ -51,8 +51,9 @@ export default function Declaration_Empresario({ onBack, onSave }) {
 
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÃO DE RENDA DE EMPRESÁRIO</h1>
-            <h2>{declarationData.name}</h2>
+            <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÃO PARA FINS DE PROCESSO SELETIVO CEBAS</h2>
+            <h3 className={commonStyles.declarationFormSubTitle}>DECLARAÇÃO DE RENDA DE EMPRESÁRIO</h3>
+            <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
             <p className={commonStyles.declarationConfirm}>Você é sócio de alguma empresa?</p>
             <div className={commonStyles.radioGroupInput}>
                 <label>

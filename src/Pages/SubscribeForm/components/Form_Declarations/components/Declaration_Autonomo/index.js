@@ -50,8 +50,9 @@ export default function Declaration_Autonomo({ onBack, onSave }) {
 
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÃO DE AUTÔNOMO(A)/RENDA INFORMAL</h1>
-            <h2>{declarationData.name}</h2>
+            <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h2>
+            <h3 className={commonStyles.declarationFormSubTitle}>DECLARAÇÃO DE AUTÔNOMO(A)/RENDA INFORMAL</h3>
+            <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
             <p className={commonStyles.declarationConfirm}>Você desenvolve alguma atividade sem vínculo empregatício?</p>
             <div className={commonStyles.radioGroupInput}>
                 <label>

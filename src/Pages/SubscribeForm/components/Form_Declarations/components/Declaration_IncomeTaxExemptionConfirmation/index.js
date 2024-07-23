@@ -84,9 +84,9 @@ serem verdadeiras todas as informações acima prestadas. \
 
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h1>
-            <h2>DECLARAÇÃO DE ISENTO DE IMPOSTO DE RENDA</h2>
-            <h3>{identityDetails.fullName}</h3>
+            <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h2>
+            <h3 className={commonStyles.declarationFormSubTitle}>DECLARAÇÃO DE ISENTO DE IMPOSTO DE RENDA</h3>
+            <h3 className={commonStyles.declarationFormNameTitle}>{identityDetails.fullName}</h3>
             <div className={commonStyles.declarationContent}>
                 <p>
                     Eu, <b>{identityDetails.fullName}</b>, portador(a) da cédula de identidade RG n° <b>{identityDetails.RG}</b>,

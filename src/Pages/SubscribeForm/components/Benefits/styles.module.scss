@@ -1,11 +1,12 @@
 .container {
     display: flex;
     flex-direction: column;
+    margin-top: 30px;
 
     .grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 24px 12px;
+        grid-template-columns: 1fr;
+        gap: 10px 10px;
     }
 }
 

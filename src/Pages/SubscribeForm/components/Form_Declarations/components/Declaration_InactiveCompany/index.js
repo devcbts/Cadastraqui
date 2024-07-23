@@ -79,8 +79,9 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
     }
     return (
         <div className={commonStyles.declarationForm}>
-            <h1>DECLARAÇÃO DE EMPRESA INATIVA</h1>
-            <h2>{declarationData.name}</h2>
+            <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h2>
+            <h3 className={commonStyles.declarationFormSubTitle}>DECLARAÇÃO DE EMPRESA INATIVA</h3>
+            <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
             <p className={commonStyles.declarationConfirm}>Você possui alguma empresa inativa?</p>
             <div className={commonStyles.radioGroupInput}>
                 <label>

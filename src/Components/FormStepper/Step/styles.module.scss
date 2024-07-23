@@ -43,13 +43,12 @@
             font-weight: 800;
             color: white;
             svg{
-                transition: color .7s ease !important;
+                transition: color .4s ease !important;
             }
             @media(max-width: 600px) {
                 height: 29px;
                 width: 29px;
             }
-            transition: all 3s ease !important;
             &.active {
                 background-color: $primary ;
 
@@ -91,7 +90,6 @@
                     border: 2px solid $primary;
                 }
             }
-            transition: all 3s;
         }
 
         .label {

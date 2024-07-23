@@ -22,7 +22,7 @@ const FamilyRelation = forwardRef(({ data }, ref) => {
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Parentesco</h1>
-            <div>
+            <>
                 <FormSelect
                     name="relationship"
                     control={control}
@@ -40,7 +40,7 @@ const FamilyRelation = forwardRef(({ data }, ref) => {
                         />
                     )
                 }
-            </div>
+            </>
 
         </div>
 
