@@ -247,7 +247,7 @@ export default async function updateMonthlyIncome(
 
             if (monthlyIncomes?.length >= 6) {
                 await tsPrisma.familyMemberIncome.updateMany({
-                    where: { ...idField, employmentType: incomeSource },
+                    where: { AND: [idField, { employmentType: incomeSource }] },
                     data: { isUpdated: true }
                 })
             }
