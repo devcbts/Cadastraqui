@@ -42,12 +42,14 @@
             font-size: 18px;
             font-weight: 800;
             color: white;
-
+            svg{
+                transition: color .7s ease !important;
+            }
             @media(max-width: 600px) {
                 height: 29px;
                 width: 29px;
             }
-
+            transition: all 3s ease !important;
             &.active {
                 background-color: $primary ;
 
@@ -89,7 +91,7 @@
                     border: 2px solid $primary;
                 }
             }
-
+            transition: all 3s;
         }
 
         .label {
@@ -113,6 +115,7 @@
                 display: none;
             }
         }
+
 
     }
 
@@ -171,12 +174,11 @@
                 font-size: 18px;
                 font-weight: 800;
                 color: white;
-
                 @media(max-width: 600px) {
                     height: 29px;
                     width: 29px;
                 }
-
+               
                 &.active {
                     background-color: $primary ;
 

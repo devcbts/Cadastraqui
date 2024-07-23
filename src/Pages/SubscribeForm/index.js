@@ -19,26 +19,29 @@ import FormHealth from "./components/Form_Health";
 import FormIncome from "./components/Form_Income";
 import FormVehicle from "./components/Form_Vehicle";
 import { useLocation } from 'react-router';
+import candidateService from 'services/candidate/candidateService';
 export default function SubscribeForm() {
     const [activeStep, setActiveStep] = useState(1)
+    const [completed, setCompleted] = useState([])
     const { state } = useLocation()
     const handleChangeCategory = (index) => {
         setActiveStep(index)
     }
-    const steps = useMemo(() => [
-        { label: "Cadastrante", icon: User, component: FormBasicInformation },
-        { label: "Grupo Familiar", icon: Family, component: FormFamilyGroup },
-        { label: "Moradia", icon: House, component: FormHabitation },
-        { label: "Veículo", icon: Car, component: FormVehicle },
-        { label: "Renda", icon: Currency, component: FormIncome },
-        { label: "Gastos", icon: Money, component: FormExpenses },
-        { label: "Saúde", icon: Doctor, component: FormHealth },
-        { label: "Declarações", icon: List, component: FormDeclarations },
-        // { label: "_", icon: Edit },
-    ], [])
+    const steps = useMemo(() =>
+        [
+            { label: "Cadastrante", icon: User, component: FormBasicInformation, section: 'cadastrante' },
+            { label: "Grupo Familiar", icon: Family, component: FormFamilyGroup, section: 'grupoFamiliar' },
+            { label: "Moradia", icon: House, component: FormHabitation, section: 'moradia' },
+            { label: "Veículo", icon: Car, component: FormVehicle, section: 'veiculos' },
+            { label: "Renda", icon: Currency, component: FormIncome, section: 'rendaMensal' },
+            { label: "Gastos", icon: Money, component: FormExpenses, section: 'despesas' },
+            { label: "Saúde", icon: Doctor, component: FormHealth, section: 'saude' },
+            { label: "Declarações", icon: List, component: FormDeclarations, section: 'declaracoes' },
+            // { label: "_", icon: Edit },
+        ]
+        , [])
     const setHeader = useSetRecoilState(headerAtom)
     useEffect(() => {
-
         setHeader({ sidebar: false })
         if (state?.step) {
             setActiveStep(state?.step)
@@ -47,13 +50,16 @@ export default function SubscribeForm() {
             setHeader({ sidebar: true })
         }
     }, [])
+    useEffect(() => {
+        candidateService.getProgress().then(setCompleted).catch(_ => { })
+    }, [activeStep])
     return (
         <FormStepper.Root vertical activeStep={activeStep}>
             <FormStepper.Stepper>
                 {steps.map((e, i) => {
                     const Icon = e.icon
                     return (
-                        <FormStepper.Step key={i} index={i + 1} label={e.label} onClick={() => handleChangeCategory(i + 1)}>
+                        <FormStepper.Step completed={completed[e.section]} key={e.section} index={i + 1} label={e.label} onClick={() => handleChangeCategory(i + 1)}>
                             <Icon />
                         </FormStepper.Step>
                     )

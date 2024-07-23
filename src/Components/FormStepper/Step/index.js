@@ -1,17 +1,22 @@
 import { useContext } from 'react'
 import styles from './styles.module.scss'
 import { StepContext } from '../context'
-export function FormStep({ index, label = '', onClick = null, children }) {
+export function FormStep({ index, label = '', onClick = null, children, completed = undefined }) {
     const { activeStep, vertical, reload } = useContext(StepContext)
     const activeStyle = activeStep === index ? styles.active : ''
-    const completedStyle = activeStep > index ? styles.completed : ''
+    const completedStyle = (completed === undefined && activeStep > index) || (!!completed)
+        ? styles.completed
+        : ''
     const verticalStyle = vertical ? styles.vertical : ''
     const clickStyle = onClick ? styles.clickable : ''
     const handleClick = () => {
-        if (activeStep === index) {
-            reload()
+        if (onClick) {
+
+            if (activeStep === index) {
+                reload()
+            }
+            onClick()
         }
-        onClick()
     }
     return (
         <div className={[styles.step, clickStyle].join(' ')} style={{ marginRight: vertical && 0 }} onClick={handleClick} role={onClick ? 'button' : 'div'}>
