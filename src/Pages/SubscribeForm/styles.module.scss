@@ -8,7 +8,11 @@
     margin: 0px auto;
     width: 90%;
     padding: 32px 0px;
-
+    fieldset{
+        display: inherit;
+        flex-direction: inherit;
+        width: inherit;
+    }
     .formcontainer {
         margin: auto;
         width: 100%;

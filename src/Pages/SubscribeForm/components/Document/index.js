@@ -31,7 +31,7 @@ const Document = forwardRef(({ data }, ref) => {
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Documento de Identificação</h1>
-            <div className={styles.container}>
+            <div className={commonStyles.container}>
                 <InputForm name={"RG"} control={control} label={"RG"} transform={(e) => formatRG(e.target.value)} />
                 <FormSelect name={"rgIssuingState"} control={control} label={"estado emissor do RG"} options={STATES} value={watchIssuingState} />
                 <InputForm name={"rgIssuingAuthority"} control={control} label={"órgão emissor do RG"} />
