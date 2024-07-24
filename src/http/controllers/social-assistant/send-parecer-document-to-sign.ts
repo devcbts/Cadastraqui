@@ -81,7 +81,7 @@ export async function sendParecerDocumentToSign(
             })
 
             const emailBody = {
-                email: [isAssistant.user.email, 'gabrielcampista307@gmail.com'],
+                email: [isAssistant.user.email],
                 document_key: documentKey,
                 message: `Documento do parecer do candidato ${application.candidate.name} na inscrição número ${application.number}, do edital ${application.announcement.announcementName} `,
                 width_page: "1000",

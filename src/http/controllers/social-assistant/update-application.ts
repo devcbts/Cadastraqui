@@ -2,7 +2,6 @@
 // Ele pode conceder uma bolsa e gerar um registro no histórico e um indice na tabela de bolsas concedidas
 // Ou ele pode escolher não conceder a bolsa e só gerar um registro no histórico de que o candidato teve seu pedido negado
 
-import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
@@ -27,7 +26,7 @@ export async function updateApplication(
         status: statusType.optional(),
         report: z.string().optional(),
         partial: z.boolean().optional(),
-        parecerAditionalInfo: z.string().optional(),
+        parecerAditionalInfo: z.string().nullish(),
     })
     const { application_id } = applicationParamsSchema.parse(request.params)
     const { status, report, partial, parecerAditionalInfo } = applicationUpdateSchema.parse(request.body)
@@ -46,29 +45,29 @@ export async function updateApplication(
 
         // Caso 1: gaveUp true
         await prisma.application.update({
-            where: {id: application_id},
-            data:{
+            where: { id: application_id },
+            data: {
                 status: status,
                 ScholarshipPartial: partial,
                 parecerAditionalInfo
-                
+
             }
         })
         if (status === 'Rejected') {
-            
+
             await prisma.applicationHistory.create({
-                data:{
+                data: {
                     application_id,
-                    description:'Inscrição indeferida',
+                    description: 'Inscrição indeferida',
                 }
             })
         }
         if (status === 'Approved') {
-            
+
             await prisma.applicationHistory.create({
-                data:{
+                data: {
                     application_id,
-                    description:'Inscrição deferida',
+                    description: 'Inscrição deferida',
                 }
             })
         }

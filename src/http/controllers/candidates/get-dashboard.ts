@@ -25,6 +25,14 @@ export default async function getCandidateDashboard(
                 FamilyMemberIncome: true
             }
         })
+        const applications = await prisma.application.findMany({
+            where: { OR: [{ candidate_id: user.UserData.id }, { responsible_id: user.UserData.id }] },
+            select: { id: true }
+        })
+        const pendencies = await prisma.applicationHistory.count({
+            where: { AND: [{ application_id: { in: applications.map(e => e.id) } }, { answered: false }, { solicitation: { not: null } }] }
+        })
+        console.log(pendencies)
         const expense = await prisma.expense.findMany({
             where: { OR: [{ candidate_id: user.UserData.id }, { legalResponsibleId: user.UserData.id }] },
             take: 3,
@@ -37,7 +45,7 @@ export default async function getCandidateDashboard(
         }, 0) / (expense.length == 0 ? 1 : expense.length)).toFixed(2)
         const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapita(user.UserData.id);
 
-        return response.status(200).send({ subscriptions, announcements, familyIncome: incomePerCapita, avgExpense })
+        return response.status(200).send({ subscriptions, announcements, familyIncome: incomePerCapita, avgExpense, pendencies })
 
     } catch (err) {
         return response.status(400).send(err)
