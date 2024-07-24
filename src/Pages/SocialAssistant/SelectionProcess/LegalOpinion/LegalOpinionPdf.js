@@ -14,7 +14,7 @@ import VEHICLE_SITUATION from "utils/enums/vehicle-situation-type";
 import formatDate from "utils/format-date";
 import formatMoney from "utils/format-money";
 
-export default function LegalOpinionPdf({ data, candidate, house, disease, members, family, medications }) {
+export default function LegalOpinionPdf({ data, candidate, house, disease, members, family, medications, partial, majoracao }) {
     pdfjs.GlobalWorkerOptions.workerSrc = new URL(
         'pdfjs-dist/build/pdf.worker.min.js',
         import.meta.url,
@@ -80,11 +80,7 @@ export default function LegalOpinionPdf({ data, candidate, house, disease, membe
                         text={'O(s) integrantes não possuem veículo(s).'}
                         title={'O(s) integrante(s) do grupo familiar possuem o(s) seguinte(s) veículo(s):'}
                     />
-                    <PDFTable headers={['Nome', 'CPF', 'Idade', 'Parentesco', 'Ocupação', 'Renda Média']} data={members?.concat([candidate])?.map((e) => {
-                        return [e.name, e.cpf, e.age, findLabel(FAMILY_RELATIONSHIP, e.relationship) ?? '-', e.profession, formatMoney(e.income)]
-                    })}
-                        title={'Para subsistência do grupo familiar, a renda provêm de:'}
-                    />
+
                     <PDFTable headers={['Integrante', 'Doença', 'Possui relatório médico?']} data={disease?.map((e) => {
 
                         return [e.name, findLabel(DISEASES, e.disease), e.hasMedicalReport ? 'Sim' : 'Não']
@@ -99,6 +95,35 @@ export default function LegalOpinionPdf({ data, candidate, house, disease, membe
                         text={'Nenhum integrante do grupo familiar faz uso de medicação de alto custo.'}
                         title={'O(s) integrante(s) identificado(s) abaixo fazem uso do(s) seguinte(s) medicamento(s):'}
                     />
+                    <PDFTable headers={['Nome', 'CPF', 'Idade', 'Parentesco', 'Ocupação', 'Renda Média']} data={members?.concat([candidate])?.map((e) => {
+                        return [e.name, e.cpf, e.age, findLabel(FAMILY_RELATIONSHIP, e.relationship) ?? '-', e.profession, formatMoney(e.income)]
+                    })}
+                        title={'Para subsistência do grupo familiar, a renda provêm de:'}
+                    />
+                    <Text style={pdfStyles.text}>
+                        A renda média familiar mensal aferida é de {formatMoney(data?.totalIncome)}
+                    </Text>
+                    <Text style={pdfStyles.text}>
+                    O total de recursos obtidos por cada membro que aufere renda foi somado e dividido pelo total de de pessoas que moram na mesma moradia
+                        e o resultado obtido foi {formatMoney(data?.incomePerCapita)}. Desta forma,a renda é compatível com o contido no 
+                        {!partial 
+                        ?"inciso I do § 1º do art. 19 da Lei Complementar nº 187, de 16 de dezembro de 2021, a qual permite a concessão ou renovação da bolsa de estudo integral."
+                        : "inciso II do § 1º do art. 19 da Lei Complementar nº 187, de 16 de dezembro de 2021, a qual permite a concessão ou renovação da bolsa de estudo parcial, com 50% (cinquenta por cento) de gratuidade."
+                        }
+                    </Text>
+                    <Text style={pdfStyles.text}>
+                    A soma das despesas apresentadas é {
+                    data?.hasGreaterIncome 
+                    ? "inferior à renda familiar bruta mensal." 
+                    : "superior à renda familiar bruta mensal superior, porém sem indicativo de que haja renda não declarada, com base em toda documentação juntada e análise realizada."}
+                    </Text>
+                    <Text style={pdfStyles.text}>
+                    Toda documentação relacionada a qualificação de todos os membros do grupo familiar, como também referente a moradia, veículos e doenças (quando aplicável), e especialmente relacionada as receitas e despesas foram recebidas e analisadas.
+                    </Text>
+                    <Text style={pdfStyles.text}>
+                    A faculdade contida no § 2º do art. 19, relacionada a majoração em até 20% (vinte por cento) do teto estabelecido (bolsa de estudo integral),
+                    ao se considerar aspectos de natureza social do beneficiário, de sua família ou de ambos, quando consubstanciados em relatório comprobatório
+                    devidamente assinado por assistente social com registro no respectivo órgão de classe foi {majoracao ? "aplicada" : "não foi aplicada"}.                    </Text>
 
                     <View style={pdfStyles.signwrapper} wrap={false}>
                         <View style={pdfStyles.sign}>
@@ -106,47 +131,7 @@ export default function LegalOpinionPdf({ data, candidate, house, disease, membe
                             <Text style={{ fontSize: '10px' }}>assinatura</Text>
                         </View>
                     </View>
-                    {/* <div className={styles.table}>
 
-                    <h3>O(s) integrante(s) identificados abaixo fazem uso dos seguintes medicamentos:</h3>
-                    <Table.Root headers={['integrante', 'nome do(s) medicamento(s)', 'Obtém medicamento(s) através da rede pública', 'Relação de medicamentos obtidos através da rede pública']}>
-                        {
-                            disease?.filter(e => e.medications.length).map((item) => {
-                                return (
-                                    <Table.Row>
-                                        <Table.Cell>{item.name}</Table.Cell>
-                                        <Table.Cell>{item.medications?.[0]?.medicationName}</Table.Cell>
-                                        <Table.Cell>{item.medications?.[0]?.obtainedPublicly ? 'Sim' : 'Não'}</Table.Cell>
-                                        <Table.Cell>{item.medications?.[0]?.specificMedicationPublicly}</Table.Cell>
-                                    </Table.Row>
-                                )
-                            })
-                        }
-                    </Table.Root>
-                </div>
-                <div className={styles.table}>
-
-                    <h3>Para subsistência do grupo familiar, a renda provêm de:</h3>
-                    <Table.Root headers={['nome', 'CPF', 'idade', 'parentesco', 'ocupação', 'renda média aferida']}>
-                        {
-                            members?.map((member) => {
-                                return (<Table.Row>
-                                    <Table.Cell>{member.name}</Table.Cell>
-                                    <Table.Cell>{member.cpf}</Table.Cell>
-                                    <Table.Cell>{member.age}</Table.Cell>
-                                    <Table.Cell>{findLabel(FAMILY_RELATIONSHIP, member.relationship)}</Table.Cell>
-                                    <Table.Cell>{member.profession}</Table.Cell>
-                                    <Table.Cell>{formatMoney(member.income)}</Table.Cell>
-                                </Table.Row>)
-                            })}
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell>Total</Table.Cell>
-                        <Table.Cell>{formatMoney(data?.totalIncome)}</Table.Cell>
-                    </Table.Root>
-                </div> */}
                 </View>
             </Page>
         </Document>

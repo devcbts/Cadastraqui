@@ -34,8 +34,9 @@ export default function FormRadio({ name, control, label, value, color }) {
                             type="radio"
                             checked={field.value === value}
                             style={{ accentColor: '#1F4B73' }}
+                            id={value}
                         />
-                        <span style={{ fontWeight: "600" }}>{label}</span>
+                        <label htmlFor={value} style={{ fontWeight: "600" }}>{label}</label>
                     </div>
                 )
             }}
