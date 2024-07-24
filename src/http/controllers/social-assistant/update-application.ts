@@ -26,10 +26,11 @@ export async function updateApplication(
     const applicationUpdateSchema = z.object({
         status: statusType.optional(),
         report: z.string().optional(),
-        partial: z.boolean().optional()
+        partial: z.boolean().optional(),
+        parecerAditionalInfo: z.string().optional(),
     })
     const { application_id } = applicationParamsSchema.parse(request.params)
-    const { status, report, partial } = applicationUpdateSchema.parse(request.body)
+    const { status, report, partial, parecerAditionalInfo } = applicationUpdateSchema.parse(request.body)
     try {
         const userType = request.user.role
         const userId = request.user.sub
@@ -48,7 +49,8 @@ export async function updateApplication(
             where: {id: application_id},
             data:{
                 status: status,
-                ScholarshipPartial: partial
+                ScholarshipPartial: partial,
+                parecerAditionalInfo
                 
             }
         })

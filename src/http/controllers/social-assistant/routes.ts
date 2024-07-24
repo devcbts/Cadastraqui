@@ -1,7 +1,6 @@
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { FastifyInstance } from 'fastify'
 import { addHistory } from './add-history'
-import { uploadAdtionalInfo } from './AWS-routes/upload-aditional-info'
 import { uploadMarojacaoDocument } from './AWS-routes/upload-majoracao-document'
 import { uploadSolicitationDocument } from './AWS-routes/upload-solicitation-document'
 import { calculateExpenses } from './calculate-expenses'
@@ -149,7 +148,6 @@ export async function assistantRoutes(app: FastifyInstance) {
 
   // Documentos da assistente
   app.post('/documents/majoracao/:application_id', { onRequest: [verifyJWT] }, uploadMarojacaoDocument)
-  app.post('/documents/aditional/:application_id', { onRequest: [verifyJWT] }, uploadAdtionalInfo)
   app.post('/documents/parecer/:application_id', { onRequest: [verifyJWT] }, uploadParecerDocument)
   app.post('/documents/solicitation/:type/:application_id', { onRequest: [verifyJWT] }, uploadSolicitationDocument)
   // Pegar CPF-CNPJ

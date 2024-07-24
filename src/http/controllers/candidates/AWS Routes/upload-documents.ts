@@ -4,6 +4,7 @@ import getOpenApplications from '@/HistDatabaseFunctions/find-open-applications'
 import { findAWSRouteHDB } from '@/HistDatabaseFunctions/Handle Application/find-AWS-Route'
 import { uploadFile } from '@/http/services/upload-file'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
+import verifyDeclarationRegistration from '@/utils/Trigger-Functions/verify-declaration-registration'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import fs from 'fs'
 import pump from 'pump'
@@ -67,6 +68,10 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             }
             if (fs.existsSync(part.filename)) {
                 fs.unlinkSync(part.filename)
+            }
+            if (documentType === "declaracoes") {
+                // Atualizar o status das declaraões
+                await verifyDeclarationRegistration(candidateOrResponsible.UserData.id)
             }
         }
 
