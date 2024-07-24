@@ -146,6 +146,7 @@ model SocialAssistant {
   Announcement      Announcement[]      @relation("AnnouncementToSocialAssistant")
   entity_subsidiary EntitySubsidiary[]  @relation("EntitySubsidiaryToSocialAssistant")
   InterviewSchedule InterviewSchedule[]
+  AssistantSchedule AssistantSchedule[]
 
   @@map("assistants")
 }
@@ -665,6 +666,7 @@ model Announcement {
   socialAssistant      SocialAssistant[]        @relation("AnnouncementToSocialAssistant")
   AnnouncementsSeen    AnnouncementsSeen[]
   InterviewSchedule    InterviewSchedule[]
+  AssistantSchedule    AssistantSchedule[]
 }
 
 model InterviewSchedule {
@@ -676,6 +678,20 @@ model InterviewSchedule {
   assistant_id    String
   candidate       Candidate       @relation(fields: [candidate_id], references: [id])
   candidate_id    String
+}
+
+model AssistantSchedule {
+  id              String          @id @default(uuid())
+  startDate       DateTime        @db.Date
+  endDate         DateTime        @db.Date
+  beginHour       DateTime        @db.Time(0)
+  interval        Int             @default(5)
+  endHour         DateTime        @db.Time(0)
+  duration        Int             @default(20)
+  announcement    Announcement    @relation(fields: [announcement_id], references: [id])
+  announcement_id String
+  assistant       SocialAssistant @relation(fields: [assistant_id], references: [id])
+  assistant_id    String
 }
 
 model AnnouncementsSeen {
@@ -738,7 +754,8 @@ model Application {
   InformedCNPJ         Boolean?
   ScholarshipPartial   Boolean?
   number               Int                  @default(1)
-  parecerDocumentKey   String? @unique
+  parecerDocumentKey   String?              @unique
+  parecerAditionalInfo String?
   createdAt            DateTime             @default(now())
   announcement         Announcement         @relation(fields: [announcement_id], references: [id], onDelete: Cascade)
   candidate            Candidate            @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
@@ -786,13 +803,12 @@ model FamilyMemberToVehicle {
   @@map("_FamilyMemberToVehicle")
 }
 
-
 model DeletedFamilyMembers {
-  id            String     @id @default(uuid())
-  familyMember_id String @unique
+  id                       String @id @default(uuid())
+  familyMember_id          String @unique
   candidateOrResponsibleId String
-
 }
+
 enum ROLE {
   ADMIN
   CANDIDATE
