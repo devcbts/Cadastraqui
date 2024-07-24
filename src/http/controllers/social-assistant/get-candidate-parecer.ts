@@ -216,6 +216,7 @@ export async function getCandidateParecer(
         const hasGreaterIncome = totalIncome > totalExpenses
         const majoracao = await getAssistantDocumentsPDF_HDB(application_id, 'majoracao')
         const aditional = await getAssistantDocumentsPDF_HDB(application_id, 'aditional')
+        const parecer = await getAssistantDocumentsPDF_HDB(application_id, 'parecer')
         return reply.status(200).send({
             candidateInfo,
             familyMembersInfo,
@@ -230,6 +231,7 @@ export async function getCandidateParecer(
             totalIncome,
             hasGreaterIncome,
             status: application.status,
+            parecer,
             application: { number: application.number, name: application.announcement.announcementName, createdAt: application.createdAt }
         })
     } catch (error: any) {

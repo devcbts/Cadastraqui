@@ -1,3 +1,4 @@
+import { prisma } from "@/lib/prisma";
 import { uploadToS3 } from "@/lib/S3";
 import axios from "axios";
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -42,9 +43,17 @@ export default async function updateSign(
                 switch (folder) {
                     case 'parecer':
                         // response is a binary data, must convert into readable file before sending to aws
+                        const application = await prisma.application.findUnique({
+                            where: {parecerDocumentKey: document_key}
+                        })
+                        if (!application) {
+                            break;
+                        }
                         const binaryData = await api.get(`/files/download/${document_key}`, { responseType: 'arraybuffer', responseEncoding: 'binary' })
+                        const route = `assistantDocuments/${application.id}/parecer/parecer.pdf`;
+
                         const file = Buffer.from(binaryData.data)
-                        await uploadToS3(file, 'parecerteste.pdf')
+                        await uploadToS3(file, route)
                         break;
                     default:
                         break;

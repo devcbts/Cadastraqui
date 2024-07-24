@@ -16,8 +16,9 @@ const selectValidCandidates = async () => {
             const currentCriteria = announcement.criteria
             const mapToFields = [
                 { field: 'CadUnico', value: TiebreakerCriterias.CadUnico, order: 'DESC' },
+                { field: 'distance', value: TiebreakerCriterias.Distance, order: 'DESC' },
                 { field: 'averageIncome', value: TiebreakerCriterias.LeastFamilyIncome, order: 'ASC' },
-                { field: 'hasSevereDesease', value: TiebreakerCriterias.SeriousIllness, order: 'ASC' },
+                { field: 'hasSevereDesease', value: TiebreakerCriterias.SeriousIllness, order: 'DESC' },
                 { field: 'RANDOM()', value: TiebreakerCriterias.Draw, order: '' },
             ]
             let fields = currentCriteria.map((e) => {
