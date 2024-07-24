@@ -215,7 +215,6 @@ export async function getCandidateParecer(
         }, 0)
         const hasGreaterIncome = totalIncome > totalExpenses
         const majoracao = await getAssistantDocumentsPDF_HDB(application_id, 'majoracao')
-        const aditional = await getAssistantDocumentsPDF_HDB(application_id, 'aditional')
         const parecer = await getAssistantDocumentsPDF_HDB(application_id, 'parecer')
         return reply.status(200).send({
             candidateInfo,
@@ -227,12 +226,11 @@ export async function getCandidateParecer(
             incomePerCapita,
             totalExpenses,
             majoracao,
-            aditional,
             totalIncome,
             hasGreaterIncome,
             status: application.status,
             parecer,
-            application: { number: application.number, name: application.announcement.announcementName, createdAt: application.createdAt }
+            application: { number: application.number, name: application.announcement.announcementName, createdAt: application.createdAt, aditionalInfo: application.parecerAditionalInfo }
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {
