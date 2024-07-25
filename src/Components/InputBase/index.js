@@ -1,7 +1,7 @@
 import styles from './styles.module.scss'
 import check from '../../Assets/icons/check.svg'
 import errorx from '../../Assets/icons/error.svg'
-import { forwardRef } from 'react'
+import React, { forwardRef } from 'react'
 import Tooltip from 'Components/Tooltip'
 const InputBase = forwardRef(({
     label,
@@ -10,6 +10,7 @@ const InputBase = forwardRef(({
     ...props
 }, ref) => {
     const borderStyle = error === null ? '' : (error ? styles.error : styles.pass)
+    const element = props.type === 'text-area' ? <textarea className={styles.textarea} /> : <input className={styles.input} />
     return (
         <div className={styles.container}>
             <div className={styles.inputwrapper}>
@@ -23,10 +24,18 @@ const InputBase = forwardRef(({
                     </label>
                 }
                 <div className={styles.inputbox}>
-                    <input className={[styles.input, borderStyle].join(' ')}  {...props} ref={ref} />
-                    {(borderStyle === styles.pass) && <img className={styles.icon} src={check}></img>}
-                    {(borderStyle === styles.error) && <img className={styles.icon} src={errorx}></img>}
+                    {React.cloneElement(element, {
+                        className: [element.props.className, borderStyle].join(' '), ref: ref, ...props
+                    })}
+                    {
+                        element.type === 'input' && <>
+                            {(borderStyle === styles.pass) && <img className={styles.icon} src={check}></img>}
+                            {(borderStyle === styles.error) && <img className={styles.icon} src={errorx}></img>}
+                        </>
+                    }
                 </div>
+
+
             </div>
             <div className={styles.errorwrapper}>
 

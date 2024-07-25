@@ -101,29 +101,33 @@ export default function LegalOpinionPdf({ data, candidate, house, disease, membe
                         title={'Para subsistência do grupo familiar, a renda provêm de:'}
                     />
                     <Text style={pdfStyles.text}>
-                        A renda média familiar mensal aferida é de {formatMoney(data?.totalIncome)}
+                        A renda bruta familiar mensal aferida é de {formatMoney(data?.totalIncome)}
                     </Text>
                     <Text style={pdfStyles.text}>
-                    O total de recursos obtidos por cada membro que aufere renda foi somado e dividido pelo total de de pessoas que moram na mesma moradia
-                        e o resultado obtido foi {formatMoney(data?.incomePerCapita)}. Desta forma,a renda é compatível com o contido no 
-                        {!partial 
-                        ?"inciso I do § 1º do art. 19 da Lei Complementar nº 187, de 16 de dezembro de 2021, a qual permite a concessão ou renovação da bolsa de estudo integral."
-                        : "inciso II do § 1º do art. 19 da Lei Complementar nº 187, de 16 de dezembro de 2021, a qual permite a concessão ou renovação da bolsa de estudo parcial, com 50% (cinquenta por cento) de gratuidade."
+                        O total de recursos obtidos por cada membro que aufere renda foi somado e dividido pelo total de de pessoas que moram na mesma moradia
+                        e o resultado obtido foi {formatMoney(data?.incomePerCapita)}. Desta forma,a renda é compatível com o contido no
+                        {!partial
+                            ? "inciso I do § 1º do art. 19 da Lei Complementar nº 187, de 16 de dezembro de 2021, a qual permite a concessão ou renovação da bolsa de estudo integral."
+                            : "inciso II do § 1º do art. 19 da Lei Complementar nº 187, de 16 de dezembro de 2021, a qual permite a concessão ou renovação da bolsa de estudo parcial, com 50% (cinquenta por cento) de gratuidade."
                         }
                     </Text>
                     <Text style={pdfStyles.text}>
-                    A soma das despesas apresentadas é {
-                    data?.hasGreaterIncome 
-                    ? "inferior à renda familiar bruta mensal." 
-                    : "superior à renda familiar bruta mensal superior, porém sem indicativo de que haja renda não declarada, com base em toda documentação juntada e análise realizada."}
+                        A soma das despesas apresentadas é {
+                            data?.hasGreaterIncome
+                                ? "inferior à renda familiar bruta mensal."
+                                : "superior à renda familiar bruta mensal superior, porém sem indicativo de que haja renda não declarada, com base em toda documentação juntada e análise realizada."}
                     </Text>
                     <Text style={pdfStyles.text}>
-                    Toda documentação relacionada a qualificação de todos os membros do grupo familiar, como também referente a moradia, veículos e doenças (quando aplicável), e especialmente relacionada as receitas e despesas foram recebidas e analisadas.
+                        Toda documentação relacionada a qualificação de todos os membros do grupo familiar, como também referente a moradia, veículos e doenças (quando aplicável), e especialmente relacionada as receitas e despesas foram recebidas e analisadas.
                     </Text>
                     <Text style={pdfStyles.text}>
-                    A faculdade contida no § 2º do art. 19, relacionada a majoração em até 20% (vinte por cento) do teto estabelecido (bolsa de estudo integral),
-                    ao se considerar aspectos de natureza social do beneficiário, de sua família ou de ambos, quando consubstanciados em relatório comprobatório
-                    devidamente assinado por assistente social com registro no respectivo órgão de classe foi {majoracao ? "aplicada" : "não foi aplicada"}.                    </Text>
+                        A faculdade contida no § 2º do art. 19, relacionada a majoração em até 20% (vinte por cento) do teto estabelecido (bolsa de estudo integral),
+                        ao se considerar aspectos de natureza social do beneficiário, de sua família ou de ambos, quando consubstanciados em relatório comprobatório
+                        devidamente assinado por assistente social com registro no respectivo órgão de classe foi {majoracao ? "aplicada" : "não foi aplicada"}.                    </Text>
+                    <Text style={pdfStyles.text}>
+                        Sobre a majoração de que trata o § 2º do art. 19 da Lei Complementar nº 187, de 16 de dezembro de 2021, importante ressaltar: {' '}
+                        {data?.additional ?? 'Não foram registradas informações adicionais.'}
+                    </Text>
 
                     <View style={pdfStyles.signwrapper} wrap={false}>
                         <View style={pdfStyles.sign}>

@@ -27,6 +27,7 @@ import styles from './styles.module.scss';
 import Vehicles from "./Vehicle";
 import { ReactComponent as Pdf } from 'Assets/icons/PDF.svg'
 import Loader from "Components/Loader";
+import InputForm from "Components/InputForm";
 export default function LegalOpinion() {
     const { state } = useLocation()
     const navigate = useNavigate()
@@ -76,19 +77,15 @@ export default function LegalOpinion() {
         try {
             const values = getValues()
 
-
-            if (values.additional && typeof values.additional !== 'string') {
-                const formData = new FormData()
-                formData.append("additional", values.additional)
-                await socialAssistantService.uploadAdditionalInfo(state?.applicationId, formData)
-            }
-
             const applicationData = {
                 status: values.status,
+                parecerAditionalInfo: values.hasAdditional ? values.additional : null
             }
             await socialAssistantService.updateApplication(state?.applicationId, applicationData)
+            setData((prev) => ({ ...prev, additional: values.hasAdditional ? values.additional : null }))
             NotificationService.success({ text: 'Parecer salvo' })
         } catch (err) {
+            NotificationService.error({ text: err?.response?.data?.message })
 
         }
     }
@@ -128,10 +125,16 @@ export default function LegalOpinion() {
 
                     <p>
                         O(A) candidato(a) possui a idade de
-                        <strong>{candidate?.age}</strong> anos e reside com:
-                        <strong>
-                            {family?.map(member => `${member.name} (${FAMILY_RELATIONSHIP.find(e => e.value === member.relationship)?.label})`)}
-                        </strong>
+                        <strong>{candidate?.age}</strong> anos e reside{' '}
+                        {family?.length === 0
+                            ? 'sozinho(a)'
+                            : <>
+                                com:{' '}
+                                <strong>
+                                    {family?.map(member => `${member.name} (${FAMILY_RELATIONSHIP.find(e => e.value === member.relationship)?.label})`).join(', ')}
+                                </strong>
+                            </>
+                        }
                         .
                     </p>
 
@@ -221,9 +224,7 @@ export default function LegalOpinion() {
                     <FormCheckbox control={control} name={"hasAdditional"} />
                     {
                         watch("hasAdditional") && (
-                            !watch("additional")
-                                ? <FormFilePicker control={control} name="additional" accept={"application/pdf"} />
-                                : <FilePreview url={data?.additional} text={'ver documento de informações adicionais'} />
+                            <InputForm label={'informações adicionais'} type="text-area" control={control} name={"additional"} />
 
                         )
                     }
@@ -259,10 +260,12 @@ export default function LegalOpinion() {
                                 try {
 
                                     await socialAssistantService.sendLegalOpinionDocument(state?.applicationId, formData)
+                                    NotificationService.success({ text: 'Arquivo enviado para ser assinado. Verifique seu email.' })
                                 } catch (err) {
-                                    console.log(err)
+                                    NotificationService.error({ text: 'Erro ao enviar arquivo para assinar. Tente novamente.' })
                                 }
-                                window.open(url, '_blank')
+                                // window.open(url, '_blank')
+
                             }} >
                                 <Pdf width={20} height={20} />
                             </ButtonBase>)
