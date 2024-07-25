@@ -72,6 +72,13 @@
             }
         }
 
+        .textarea{
+            @extend .input;
+            min-width: 100%;
+            max-width: 100vw;
+
+        }
+
         .icon {
             position: absolute;
             top: 0;

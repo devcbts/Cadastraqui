@@ -29,6 +29,8 @@ import AdminHome from "Pages/Admin/Home";
 import AdminEntityView from "Pages/Admin/EntityView";
 import PasswordRecovery from "Pages/PasswordRecovery";
 import RedirectWithParams from "Components/RedirectWithParams";
+import AssistantSchedule from "Pages/SocialAssistant/Schedule";
+import AssistantAnnouncementSchedule from "Pages/SocialAssistant/Schedule/components/AssistantAnnouncementSchedule";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -91,6 +93,10 @@ export default function AppRoutes() {
                         </Route>
                         <Route path="/ficha-completa" element={<CandidateView />}></Route>
                         <Route path="/profile" element={<SocialAssistantProfile />}></Route>
+                        <Route path="/agenda" element={<Outlet />}>
+                            <Route index element={<AssistantSchedule />} />
+                            <Route path=':announcementId' element={<AssistantAnnouncementSchedule />} />
+                        </Route>
                         <Route path="*" element={<Navigate to={'/home'} />} />
 
                     </Routes>

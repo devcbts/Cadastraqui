@@ -1,5 +1,6 @@
 @import '../../Assets/theme/global.module.scss';
 .container{
+    position: relative;
     padding: 24px;
     height: 30%;
     width: 30%;
@@ -14,18 +15,21 @@
         height: auto;
         width: 80%;
     }
-    .loader{
-      animation: spin 1.5s linear infinite;
-      width: 50%;
-      height: 50%;
-      margin-bottom: 12px;
-    }
+    
     .label{
+        margin-top: 12px;
         font-size: 32px;
         text-align: center;
     }
 }
 
+.loader{
+    position: relative;
+    animation: spin 1.5s linear infinite;
+    // width: 50%;
+    // height: 50%;
+    // margin-bottom: 12px;
+  }
 @keyframes spin {
     100%{
         transform: rotateZ(360deg);

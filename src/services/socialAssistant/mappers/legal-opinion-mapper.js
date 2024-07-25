@@ -5,7 +5,7 @@ class LegalOpinionMapper {
         return ({
             ...data,
             majoracao: removeObjectFileExtension(data?.majoracao)?.["url_majoracao"] ?? null,
-            additional: removeObjectFileExtension(data?.aditional)?.["url_aditional"] ?? null,
+            additional: data.application.aditionalInfo,
         })
     }
 }

@@ -9,7 +9,7 @@ import Loader from "Components/Loader"
 export default function HomeCandidate() {
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(true)
-    const [data, setData] = useState({ announcements: 0, subscriptions: 0 })
+    const [data, setData] = useState({ announcements: 0, subscriptions: 0, pendencies: 0 })
     useEffect(() => {
         const fetchDashboard = async () => {
             try {
@@ -37,7 +37,7 @@ export default function HomeCandidate() {
                         <Card.Root >
                             <Card.Title text={'solicitações'} />
                             <Card.Content>
-                                <h1>0</h1>
+                                <h1>{data.pendencies}</h1>
                             </Card.Content>
                         </Card.Root>
                         <Card.Root onClick={() => navigate('editais')}>

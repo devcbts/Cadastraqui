@@ -26,10 +26,13 @@ import legalOpinionSchema from "./schemas/legal-opinion-schema";
 import styles from './styles.module.scss';
 import Vehicles from "./Vehicle";
 import { ReactComponent as Pdf } from 'Assets/icons/PDF.svg'
+import Loader from "Components/Loader";
+import InputForm from "Components/InputForm";
 export default function LegalOpinion() {
     const { state } = useLocation()
     const navigate = useNavigate()
     const [data, setData] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
     const candidate = useMemo(() => data?.candidateInfo, [data])
     const family = useMemo(() => data?.familyMembersInfo, [data])
     const house = useMemo(() => data?.housingInfo, [data])
@@ -43,9 +46,11 @@ export default function LegalOpinion() {
         } else {
             const fetchLegalOpinion = async () => {
                 try {
+                    setIsLoading(true)
                     const information = await socialAssistantService.getLegalOpinion(state.applicationId)
                     setData(information)
                 } catch (err) { }
+                setIsLoading(false)
             }
             fetchLegalOpinion()
         }
@@ -62,7 +67,7 @@ export default function LegalOpinion() {
     })
     const disease = data?.familyMembersDiseases
     const members = data?.familyMembersInfo
-    const { data: submitData } = useContext(selectionProcessContext)
+    const { summary: submitData } = useContext(selectionProcessContext)
     const handleSubmit = async () => {
         if (!isValid) {
 
@@ -72,28 +77,21 @@ export default function LegalOpinion() {
         try {
             const values = getValues()
 
-            if (submitData?.majoracao) {
-                const formData = new FormData()
-                formData.append("majoracao", submitData.majoracao)
-                await socialAssistantService.uploadMajoracao(state?.applicationId, formData)
-            }
-            if (values.additional && typeof values.additional !== 'string') {
-                const formData = new FormData()
-                formData.append("additional", values.additional)
-                await socialAssistantService.uploadAdditionalInfo(state?.applicationId, formData)
-            }
-
             const applicationData = {
                 status: values.status,
+                parecerAditionalInfo: values.hasAdditional ? values.additional : null
             }
             await socialAssistantService.updateApplication(state?.applicationId, applicationData)
+            setData((prev) => ({ ...prev, additional: values.hasAdditional ? values.additional : null }))
             NotificationService.success({ text: 'Parecer salvo' })
         } catch (err) {
+            NotificationService.error({ text: err?.response?.data?.message })
 
         }
     }
     return (
         <div>
+            <Loader loading={isLoading} />
             <BackPageTitle title={'Processo de seleção'} onClick={handleBack} />
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 64 }}>
                 <h1>Parecer final sobre a inscrição e perfil socioeconômico aferido</h1>
@@ -127,10 +125,16 @@ export default function LegalOpinion() {
 
                     <p>
                         O(A) candidato(a) possui a idade de
-                        <strong>{candidate?.age}</strong> anos e reside com:
-                        <strong>
-                            {family?.map(member => `${member.name} (${FAMILY_RELATIONSHIP.find(e => e.value === member.relationship)?.label})`)}
-                        </strong>
+                        <strong>{candidate?.age}</strong> anos e reside{' '}
+                        {family?.length === 0
+                            ? 'sozinho(a)'
+                            : <>
+                                com:{' '}
+                                <strong>
+                                    {family?.map(member => `${member.name} (${FAMILY_RELATIONSHIP.find(e => e.value === member.relationship)?.label})`).join(', ')}
+                                </strong>
+                            </>
+                        }
                         .
                     </p>
 
@@ -172,7 +176,7 @@ export default function LegalOpinion() {
                         <h3>Para subsistência do grupo familiar, a renda provêm de:</h3>
                         <Table.Root headers={['nome', 'CPF', 'idade', 'parentesco', 'ocupação', 'renda média aferida']}>
                             {
-                                members?.map((member) => {
+                                members?.concat([candidate])?.map((member) => {
                                     return (<Table.Row>
                                         <Table.Cell>{member.name}</Table.Cell>
                                         <Table.Cell>{member.cpf}</Table.Cell>
@@ -193,8 +197,11 @@ export default function LegalOpinion() {
                     <p>
 
                         O total de recursos obtidos por cada membro que aufere renda foi somado e dividido pelo total de de pessoas que moram na mesma moradia
-                        e o resultado obtido foi {formatMoney(data?.incomePerCapita)}. Desta forma,a renda é compatível com o contido no inciso I do § 1º do art.
-                        19 da Lei Complementar nº 187, de 16 de dezembro de 2021, a qual permite a concessão ou renovação da bolsa de estudo {submitData?.partial ? "parcial" : "integral"}.
+                        e o resultado obtido foi {formatMoney(data?.incomePerCapita)}. Desta forma,a renda é compatível com o contido no
+                        {!submitData?.partial
+                            ? "inciso I do § 1º do art. 19 da Lei Complementar nº 187, de 16 de dezembro de 2021, a qual permite a concessão ou renovação da bolsa de estudo integral."
+                            : "inciso II do § 1º do art. 19 da Lei Complementar nº 187, de 16 de dezembro de 2021, a qual permite a concessão ou renovação da bolsa de estudo parcial, com 50% (cinquenta por cento) de gratuidade."
+                        }
                     </p>
                     <p>
 
@@ -217,9 +224,7 @@ export default function LegalOpinion() {
                     <FormCheckbox control={control} name={"hasAdditional"} />
                     {
                         watch("hasAdditional") && (
-                            !watch("additional")
-                                ? <FormFilePicker control={control} name="additional" accept={"application/pdf"} />
-                                : <FilePreview url={data?.additional} text={'ver documento de informações adicionais'} />
+                            <InputForm label={'informações adicionais'} type="text-area" control={control} name={"additional"} />
 
                         )
                     }
@@ -243,6 +248,8 @@ export default function LegalOpinion() {
                             house={house}
                             family={family}
                             medications={data?.familyMemberMedications}
+                            partial={submitData?.partial}
+                            majoracao={submitData?.majoracao}
                         />}
                     >
                         {({ loading, url, blob }) => {
@@ -253,10 +260,12 @@ export default function LegalOpinion() {
                                 try {
 
                                     await socialAssistantService.sendLegalOpinionDocument(state?.applicationId, formData)
+                                    NotificationService.success({ text: 'Arquivo enviado para ser assinado. Verifique seu email.' })
                                 } catch (err) {
-                                    console.log(err)
+                                    NotificationService.error({ text: 'Erro ao enviar arquivo para assinar. Tente novamente.' })
                                 }
-                                window.open(url, '_blank')
+                                // window.open(url, '_blank')
+
                             }} >
                                 <Pdf width={20} height={20} />
                             </ButtonBase>)

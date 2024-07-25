@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import styles from './styles.module.scss'
+import { ReactComponent as Loading } from 'Assets/icons/loading.svg'
+import Spinner from 'Components/Loader/Spinner'
+
 export default function ButtonBase({
     label,
     onClick,
@@ -10,9 +13,19 @@ export default function ButtonBase({
     const dangerStyle = danger ? styles.danger : ''
     const [isLoading, setLoading] = useState(false)
     const handleClick = async () => {
-        setLoading(true)
+        // Check if current called onClick is one of 'AsyncFunction'
+        if (!onClick) {
+            return
+        }
+        const { constructor: { name } } = onClick
+        if (name === 'AsyncFunction') {
+            setLoading(true)
+        }
         await onClick?.()
-        setLoading(false)
+        if (name === 'AsyncFunction') {
+            setLoading(false)
+        }
+
     }
     return (
         <button
@@ -21,7 +34,10 @@ export default function ButtonBase({
             onClick={!isLoading ? handleClick : null}
             {...props}
         >
-            {children ?? label}
+            {isLoading ? <Spinner size='20' />
+                : children ?? label
+            }
+
         </button>
     )
 }
