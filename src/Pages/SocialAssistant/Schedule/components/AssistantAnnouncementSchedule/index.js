@@ -22,6 +22,9 @@ export default function AssistantAnnouncementSchedule() {
             text: 'O candidato precisará reagendar o compromisso'
         })
     }
+    const handleViewCandidateSchedule = (scheduleId) => {
+        navigate(`../candidato/${scheduleId}`)
+    }
     return (
         <>
             <BackPageTitle title={'Agenda do edital'} onClick={handleBack} />
@@ -40,7 +43,7 @@ export default function AssistantAnnouncementSchedule() {
                                     <Table.Cell>Gabriel</Table.Cell>
                                     <Table.Cell>Entrevista</Table.Cell>
                                     <Table.Cell>
-                                        <ButtonBase label={'visualizar'} />
+                                        <ButtonBase label={'visualizar'} onClick={() => handleViewCandidateSchedule('1233')} />
                                     </Table.Cell>
                                 </Table.Row>
                             ))}

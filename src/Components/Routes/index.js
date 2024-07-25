@@ -31,6 +31,7 @@ import PasswordRecovery from "Pages/PasswordRecovery";
 import RedirectWithParams from "Components/RedirectWithParams";
 import AssistantSchedule from "Pages/SocialAssistant/Schedule";
 import AssistantAnnouncementSchedule from "Pages/SocialAssistant/Schedule/components/AssistantAnnouncementSchedule";
+import AssistantCandidateSchedule from "Pages/SocialAssistant/Schedule/components/AssistantCandidateSchedule";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -96,6 +97,7 @@ export default function AppRoutes() {
                         <Route path="/agenda" element={<Outlet />}>
                             <Route index element={<AssistantSchedule />} />
                             <Route path=':announcementId' element={<AssistantAnnouncementSchedule />} />
+                            <Route path="candidato/:scheduleId" element={<AssistantCandidateSchedule />} />
                         </Route>
                         <Route path="*" element={<Navigate to={'/home'} />} />
 
