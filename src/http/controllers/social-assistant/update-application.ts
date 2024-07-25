@@ -59,6 +59,8 @@ export async function updateApplication(
                 data: {
                     application_id,
                     description: 'Inscrição indeferida',
+                    createdBy: 'Assistant'
+
                 }
             })
         }
@@ -68,6 +70,8 @@ export async function updateApplication(
                 data: {
                     application_id,
                     description: 'Inscrição deferida',
+                    createdBy: 'Assistant'
+
                 }
             })
         }

@@ -1,4 +1,3 @@
-import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
 import { AnnouncementNotExists } from '@/errors/announcement-not-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
@@ -16,18 +15,18 @@ export async function getSolicitationDocumentsPDF(
     reply: FastifyReply,
 ) {
     const applicationParamsSchema = z.object({
-        solicitation_id : z.string(),
-        application_id : z.string(),    
+        solicitation_id: z.string(),
+        application_id: z.string(),
     })
 
-  
-    const {application_id,solicitation_id } = applicationParamsSchema.parse(request.params)
+
+    const { application_id, solicitation_id } = applicationParamsSchema.parse(request.params)
     try {
         const userType = request.user.role
         const userId = request.user.sub
 
         // Verifica se usuário é assistente
-       
+
 
         const assistant = await prisma.socialAssistant.findUnique({
             where: { user_id: userId },
@@ -40,8 +39,8 @@ export async function getSolicitationDocumentsPDF(
 
 
         // Encontrar a solicitação
-        const solicitation = await prisma.applicationHistory.findUnique({
-            where: {id: solicitation_id}
+        const solicitation = await prisma.requests.findUnique({
+            where: { id: solicitation_id }
         })
 
         if (!solicitation) {
@@ -51,7 +50,7 @@ export async function getSolicitationDocumentsPDF(
 
         // Encontrar a inscrição
         const application = await prisma.application.findUnique({
-            where: {id: application_id}
+            where: { id: application_id }
         })
 
         if (!application) {
@@ -70,12 +69,12 @@ export async function getSolicitationDocumentsPDF(
             }
 
             // Pegar os links na pasta que os documentos foram upados
-            
+
             const Folder = `SolicitationDocuments/${application.id}/${solicitation_id}`
 
             const urls = await GetUrls(Folder)
 
-            return reply.status(200).send({urls})
+            return reply.status(200).send({ urls })
 
         } else {
             throw new AnnouncementNotExists();

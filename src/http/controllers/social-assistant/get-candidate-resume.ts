@@ -303,8 +303,8 @@ export async function getCandidateResume(
         const interviewDocument = await getAssistantDocumentsPDF_HDB(application_id, 'Interview')
         const visitDocument = await getAssistantDocumentsPDF_HDB(application_id, 'Visit')
 
-        const solicitations = await prisma.applicationHistory.findMany({
-            where: { application_id, solicitation: { not: null } },
+        const solicitations = await prisma.requests.findMany({
+            where: { application_id },
         })
         const solicitationFolder = `SolicitationDocuments/${application.id}`
         const solicitationsUrls = await getSignedUrlsGroupedByFolder(solicitationFolder);

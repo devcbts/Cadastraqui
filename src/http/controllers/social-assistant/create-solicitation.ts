@@ -28,7 +28,7 @@ export async function createSolicitation(
             }
             return undefined
         }),
-        type: solicitationType.optional()
+        type: solicitationType
 
     })
     const { application_id } = applicationParamsSchema.parse(request.params)
@@ -54,11 +54,11 @@ export async function createSolicitation(
         // Se a solicitação for do tipo de documentos
         await prisma.$transaction(async (tsPrisma) => {
             const { deadLineTime, description, type } = solicitation
-            const dbSolicitation = await tsPrisma.applicationHistory.create({
+            const dbSolicitation = await tsPrisma.requests.create({
                 data: {
                     application_id,
                     description: description,
-                    solicitation: type,
+                    type: type,
                     deadLine: deadLineTime,
                 },
             })

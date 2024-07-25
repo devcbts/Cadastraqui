@@ -29,8 +29,8 @@ export default async function getCandidateDashboard(
             where: { OR: [{ candidate_id: user.UserData.id }, { responsible_id: user.UserData.id }] },
             select: { id: true }
         })
-        const pendencies = await prisma.applicationHistory.count({
-            where: { AND: [{ application_id: { in: applications.map(e => e.id) } }, { answered: false }, { solicitation: { not: null } }] }
+        const pendencies = await prisma.requests.count({
+            where: { AND: [{ application_id: { in: applications.map(e => e.id) } }, { answered: false }] }
         })
         console.log(pendencies)
         const expense = await prisma.expense.findMany({

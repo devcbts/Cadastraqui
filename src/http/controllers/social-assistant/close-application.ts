@@ -2,7 +2,6 @@
 // Ele pode conceder uma bolsa e gerar um registro no histórico e um indice na tabela de bolsas concedidas
 // Ou ele pode escolher não conceder a bolsa e só gerar um registro no histórico de que o candidato teve seu pedido negado
 
-import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
@@ -57,7 +56,8 @@ export async function closeApplication(
             await prisma.applicationHistory.create({
                 data: {
                     application_id,
-                    description: "Candidato desistiu da Bolsa de Estudo / Não efetuou a matricula"
+                    description: "Candidato desistiu da Bolsa de Estudo / Não efetuou a matricula",
+                    createdBy: "Assistant"
                 }
             })
 
@@ -77,7 +77,8 @@ export async function closeApplication(
                 await prisma.applicationHistory.create({
                     data: {
                         application_id,
-                        description: "Processo Indeferido"
+                        description: "Processo Indeferido",
+                        createdBy: 'Assistant'
                     }
                 })
 
@@ -96,7 +97,9 @@ export async function closeApplication(
                 await prisma.applicationHistory.create({
                     data: {
                         application_id,
-                        description: description
+                        description: description,
+                        createdBy: 'Assistant'
+
 
                     },
                 })

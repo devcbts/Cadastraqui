@@ -21,8 +21,8 @@ export default async function getSolicitations(
         }
         const idField = CandidateOrResponsible.IsResponsible ? { responsible_id: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id };
         if (application_id) {
-            const solicitations = await prisma.applicationHistory.findMany({
-                where: { application_id, solicitation: { not: null } }
+            const solicitations = await prisma.requests.findMany({
+                where: { application_id }
             });
             const Folder = `SolicitationDocuments/${application_id}`
 
@@ -31,7 +31,7 @@ export default async function getSolicitations(
                 const matchedUrls = Object.entries(urls).filter(([url]) => url.split("/")[2] === solicitation.id)
                 return {
                     id: solicitation.id,
-                    solicitation: solicitation.solicitation,
+                    solicitation: solicitation.type,
                     description: solicitation.description,
                     answered: solicitation.answered,
                     matchedUrls
@@ -40,10 +40,8 @@ export default async function getSolicitations(
             return reply.status(200).send({ solicitations: solicitationsFormated });
         }
 
-        const solicitations = await prisma.applicationHistory.findMany({
-            where: { solicitation: { not: null } },
-
-        });
+        // const solicitations = await prisma.requests.findMany({
+        // });
 
 
         const applications = await prisma.application.findMany({
@@ -59,13 +57,15 @@ export default async function getSolicitations(
                     include: {
                         entitySubsidiary: true
                     }
-                }
+                },
+                requests: true
             }
         })
 
         const applicationsFormated = applications.map((application) => {
-            const numberOfSolicitations = solicitations.filter((solicitation) => solicitation.application_id === application.id && solicitation.answered === false).length;
-            const status = numberOfSolicitations === 0 ? "Sem pendências" : solicitations.some(solicitation => solicitation.deadLine ? solicitation.deadLine < new Date() : '') ? "Urgência" : "Pendência";
+            const { requests } = application
+            const numberOfSolicitations = requests.filter((solicitation) => solicitation.application_id === application.id && solicitation.answered === false).length;
+            const status = numberOfSolicitations === 0 ? "Sem pendências" : requests.some(solicitation => solicitation.deadLine ? solicitation.deadLine < new Date() : '') ? "Urgência" : "Pendência";
             return {
                 id: application.id,
                 name: application.candidateName,

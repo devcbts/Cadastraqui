@@ -25,7 +25,7 @@ export async function uploadSolicitationDocument(
             throw new ForbiddenError();
         }
 
-        const solicitation = await prisma.applicationHistory.findUnique({ where: { id: solicitation_id } });
+        const solicitation = await prisma.requests.findUnique({ where: { id: solicitation_id } });
         if (!solicitation) {
             throw new ResourceNotFoundError();
         }
@@ -52,7 +52,7 @@ export async function uploadSolicitationDocument(
         if (!sended) {
             throw new NotAllowedError();
         }
-        await prisma.applicationHistory.update({
+        await prisma.requests.update({
             where: { id: solicitation_id },
             data: {
                 answered: true,
