@@ -7,7 +7,7 @@ export default function SocialAssistantSidebar() {
         <Sidebar.Root>
             <Sidebar.Item icon={Home} text={'processo seleção'} path={'/home'}></Sidebar.Item>
             <Sidebar.Item icon={Profile} text={'perfil'} path={'/profile'}></Sidebar.Item>
-            <Sidebar.Item icon={Schedule} text={'agenda'} path={'/agenda'}></Sidebar.Item>
+            {/* <Sidebar.Item icon={Schedule} text={'agenda'} path={'/agenda'}></Sidebar.Item> */}
         </Sidebar.Root>
     )
 }

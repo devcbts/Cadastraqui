@@ -123,6 +123,9 @@ class SocialAssistantService {
     async sendLegalOpinionDocument(applicationId, data) {
         return api.post(`/assistant/post-pdf/${applicationId}`, data)
     }
+    async enrollApplication(announcementId, applicationId) {
+        return api.post(`/assistant/${announcementId}/${applicationId}`)
+    }
 }
 
 export default new SocialAssistantService()
