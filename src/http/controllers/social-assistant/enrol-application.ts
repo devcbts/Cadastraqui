@@ -1,4 +1,3 @@
-import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -20,7 +19,7 @@ export async function enrollApplication(
     try {
         const userId = request.user.sub
 
-        
+
 
         const assistant = await prisma.socialAssistant.findUnique({
             where: { user_id: userId },
@@ -29,22 +28,28 @@ export async function enrollApplication(
         if (!assistant) {
             throw new NotAllowedError()
         }
-
+        const application = await prisma.application.findUnique({
+            where: { id: application_id }
+        })
+        if (application?.socialAssistant_id) {
+            throw new Error('Já existe um(a) assistente vinculado(a) à essa inscrição.')
+        }
+        console.log(application?.id)
         // atualizar inscrição
         await prisma.application.update({
-            data:{
+            where: { id: application_id },
+            data: {
                 socialAssistant_id: assistant.id,
                 SocialAssistantName: assistant.name
             },
-            where: {id: application_id}
         })
 
         // Criar novo report no histórico da inscrição
         await prisma.applicationHistory.create({
-            data:{
+            data: {
                 application_id,
-                description: "Sua inscrição está em processo de análise"
-
+                description: "Sua inscrição está em processo de análise",
+                createdBy: 'Assistant'
             }
         })
 

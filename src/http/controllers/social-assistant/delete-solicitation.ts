@@ -36,11 +36,11 @@ export async function deleteSolicitation(
         // Criar novo report no histórico da inscrição 
         // Se a solicitação for do tipo de documentos
         await prisma.$transaction(async (tsPrisma) => {
-            const solicitation = await tsPrisma.applicationHistory.findFirst({
+            const solicitation = await tsPrisma.requests.findFirst({
                 where: { AND: [{ application_id }, { id }] }
             })
             if (!solicitation?.answered) {
-                await tsPrisma.applicationHistory.delete({
+                await tsPrisma.requests.delete({
                     where: { id },
                 })
             } else {

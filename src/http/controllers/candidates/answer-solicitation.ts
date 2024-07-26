@@ -21,15 +21,15 @@ export async function answerSolicitation(
             throw new ForbiddenError();
         }
 
-        const solicitation = await prisma.applicationHistory.findUnique({
+        const solicitation = await prisma.requests.findUnique({
             where: { id: solicitation_id },
             include: {
-                application:true
+                application: true
             }
         });
 
         if (!solicitation) {
-            throw new  ResourceNotFoundError()
+            throw new ResourceNotFoundError()
         }
 
         // Check if the user is allowed to answer this solicitation
@@ -38,7 +38,7 @@ export async function answerSolicitation(
             throw new ForbiddenError();
         }
 
-        await prisma.applicationHistory.update({
+        await prisma.requests.update({
             where: { id: solicitation_id },
             data: {
                 answered: true,
@@ -50,7 +50,7 @@ export async function answerSolicitation(
         if (error instanceof ForbiddenError) {
             return reply.status(403).send({ message: error.message });
         }
-        if (error instanceof ResourceNotFoundError)  {
+        if (error instanceof ResourceNotFoundError) {
             return reply.status(404).send({ message: error.message });
         }
         // Handle other potential errors, such as database errors

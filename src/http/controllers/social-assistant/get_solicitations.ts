@@ -1,8 +1,6 @@
-import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
 import { AnnouncementNotExists } from '@/errors/announcement-not-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
-import { GetUrls } from '@/http/services/get-files'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -27,7 +25,7 @@ export async function getSolicitations(
         const userId = request.user.sub
 
         // Verifica se usuário é assistente
-        
+
 
         const assistant = await prisma.socialAssistant.findUnique({
             where: { user_id: userId },
@@ -68,23 +66,23 @@ export async function getSolicitations(
                 })
                 if (!solicitation) {
                     throw new ResourceNotFoundError()
-                
+
                 }
 
-                return reply.status(200).send({solicitation})
+                return reply.status(200).send({ solicitation })
             }
 
             else {
 
                 const solicitations = await prisma.applicationHistory.findMany({
-                    where: { application_id: application_id,  solicitation: { not: null }}
+                    where: { application_id: application_id }
                 })
 
                 if (!solicitations) {
                     throw new ResourceNotFoundError()
                 }
 
-                return reply.status(200).send({solicitations})
+                return reply.status(200).send({ solicitations })
             }
             // Envia todas as solicitações
 

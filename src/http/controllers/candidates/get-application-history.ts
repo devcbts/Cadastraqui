@@ -1,4 +1,3 @@
-import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
 import { AnnouncementNotExists } from '@/errors/announcement-not-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { prisma } from '@/lib/prisma'
@@ -12,55 +11,61 @@ export async function getApplicationHistory(
   const applicationParamsSchema = z.object({
     application_id: z.string().optional(),
   })
-  
+
 
   const { application_id } = applicationParamsSchema.parse(request.params)
 
   try {
     const userType = request.user.role
     const userId = request.user.sub
-    
+
     const candidate = await prisma.candidate.findUnique({
       where: { user_id: userId },
     })
-    
-    if (candidate) {
-      
-      
-
-      if (application_id) {
-        const applicationHistory = await prisma.applicationHistory.findMany({
-          where: {
-            application_id,
-
-          },
-          
-        })
-        const application = await prisma.application.findUnique({
-            where: {
-                id: application_id
-            },
-            include: {
-                announcement: true
-                
-            }
-        })
-        return reply.status(200).send({ applicationHistory, application })
-      } else {
-        const applications = await prisma.application.findMany({
-          where: { candidate_id: candidate.id },
-          include: {
-            announcement: true, // inclui detalhes do anúncio
-            EducationLevel: true,
-            SocialAssistant: true
-          }
-        })
-
-        return reply.status(200).send({ applications })
+    // const user = await SelectCandidateResponsible(userId)
+    const applicationHistory = await prisma.applicationHistory.findMany({
+      where: { application_id: application_id },
+      orderBy: {
+        createdAt: "desc"
       }
-    } 
-    }
-   catch (err: any) {
+    })
+    return reply.status(200).send({ applicationHistory })
+    // if (candidate) {
+
+
+
+    //   if (application_id) {
+    //     const applicationHistory = await prisma.applicationHistory.findMany({
+    //       where: {
+    //         application_id,
+    //       },
+
+    //     })
+    //     const application = await prisma.application.findUnique({
+    //       where: {
+    //         id: application_id
+    //       },
+    //       include: {
+    //         announcement: true
+
+    //       }
+    //     })
+    //     return reply.status(200).send({ applicationHistory, application })
+    //   } else {
+    //     const applications = await prisma.application.findMany({
+    //       where: { candidate_id: candidate.id },
+    //       include: {
+    //         announcement: true, // inclui detalhes do anúncio
+    //         EducationLevel: true,
+    //         SocialAssistant: true
+    //       }
+    //     })
+
+    //     return reply.status(200).send({ applications })
+    //   }
+    // }
+  }
+  catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
     }

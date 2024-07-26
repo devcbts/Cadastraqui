@@ -269,8 +269,8 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     subscribeAnnouncement,
   )
-  app.post(
-    '/application/see/:application_id?',
+  app.get(
+    '/application',
     { onRequest: [verifyJWT] },
     getApplications,
   )

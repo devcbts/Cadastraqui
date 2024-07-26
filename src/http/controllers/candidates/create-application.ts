@@ -56,7 +56,7 @@ export async function subscribeAnnouncement(
 
     }
 
-    
+
     if (announcement.closeDate! < new Date() || announcement.openDate! > new Date()) {
       throw new AnnouncementClosed()
 
@@ -120,11 +120,11 @@ export async function subscribeAnnouncement(
 
     if (!entityInfo) {
       throw new EntityNotExistsError()
-      
+
     }
     const candidateLocation = `${candidateInfo.address}, ${candidateInfo.addressNumber}, ${candidateInfo.neighborhood}, ${candidateInfo.city}, ${candidateInfo.UF}, ${candidateInfo.CEP}`
 
-    const entityLocation= entityInfo.address ? `${entityInfo.address}, ${entityInfo.addressNumber}, ${entityInfo.neighborhood}, ${entityInfo.city}, ${entityInfo.UF}, ${entityInfo.CEP}` : ''
+    const entityLocation = entityInfo.address ? `${entityInfo.address}, ${entityInfo.addressNumber}, ${entityInfo.neighborhood}, ${entityInfo.city}, ${entityInfo.UF}, ${entityInfo.CEP}` : ''
     const distance = await calculateDistance(candidateLocation, entityLocation)
     console.log(distance)
     const application = await prisma.application.create({
@@ -148,6 +148,7 @@ export async function subscribeAnnouncement(
       data: {
         application_id: application.id,
         description: 'Inscrição Criada',
+        createdBy: 'Candidate'
       },
     })
 
@@ -166,7 +167,7 @@ export async function subscribeAnnouncement(
     }
     if (err instanceof EntityNotExistsError) {
       return reply.status(404).send({ message: err.message })
-      
+
     }
     if (err instanceof ApplicationAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })

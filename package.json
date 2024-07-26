@@ -11,7 +11,8 @@
     "build": "tsc",
     "generate:backup": "prisma generate --schema=backup_prisma/backupSchema.prisma",
     "db:push": "prisma db push --schema=backup_prisma/backupSchema.prisma",
-    "db:sync": "dotenv -e .env.local -- npx prisma generate && dotenv -e .env.local --  npx prisma db push && dotenv -e .env.local -- npm run generate:backup && dotenv -e .env.local -- npm run db:push"
+    "db:sync": "dotenv -e .env.local -- npx prisma generate && dotenv -e .env.local --  npx prisma db push && dotenv -e .env.local -- npm run generate:backup && dotenv -e .env.local -- npm run db:push",
+    "db:sync:prod": "dotenv -e .env.production -- npx prisma generate && dotenv -e .env.production --  npx prisma db push && dotenv -e .env.production -- npm run generate:backup && dotenv -e .env.production -- npm run db:push"
   },
   "keywords": [],
   "author": "",
@@ -47,6 +48,7 @@
     "pg": "8.11.5",
     "pump": "3.0.0",
     "sass": "1.69.5",
+    "tunnelmole": "2.2.14",
     "zod": "3.22.2"
   },
   "devDependencies": {

@@ -771,6 +771,7 @@ model Application {
   EducationLevel       EducationLevel       @relation(fields: [educationLevel_id], references: [id])
   SocialAssistant      SocialAssistant?     @relation(fields: [socialAssistant_id], references: [id])
   applicationHistories ApplicationHistory[]
+  requests             Requests[]
   ScholarshipGranted   ScholarshipGranted?
   responsible_id       String?
   responsible          LegalResponsible?    @relation(fields: [responsible_id], references: [id])
@@ -779,16 +780,26 @@ model Application {
   @@unique([candidate_id, announcement_id])
 }
 
+model Requests {
+  id             String           @id @default(uuid())
+  application_id String
+  application    Application      @relation(fields: [application_id], references: [id], onDelete: Cascade)
+  answered       Boolean          @default(false)
+  type           SolicitationType
+  description    String
+  deadLine       DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now()) @updatedAt
+}
+
 model ApplicationHistory {
-  id             String            @id @default(uuid())
+  id             String           @id @default(uuid())
   application_id String
   description    String
-  solicitation   SolicitationType?
   report         String?
-  answered       Boolean?          @default(false)
-  deadLine       DateTime?
-  date           DateTime          @default(now())
-  application    Application       @relation(fields: [application_id], references: [id], onDelete: Cascade)
+  createdAt      DateTime         @default(now())
+  createdBy      HistoryRequester @default(System)
+  application    Application      @relation(fields: [application_id], references: [id], onDelete: Cascade)
 }
 
 model ScholarshipGranted {
@@ -1206,4 +1217,10 @@ enum Declaration_Type {
   StableUnion
   Status
   WorkCard
+}
+
+enum HistoryRequester {
+  Candidate
+  Assistant
+  System
 }

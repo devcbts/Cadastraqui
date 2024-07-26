@@ -1,7 +1,6 @@
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { verifyRole } from '@/http/middlewares/verify-role'
 import { FastifyInstance } from 'fastify'
-import { createLegalDependent } from './create-legal-dependent'
 import { deleteLegalDependents } from './delete-legal-dependent'
 import { fetchLegalDependents } from './fetch-legal-dependents'
 import { getResponsibleInfo } from './get-resposible-info'

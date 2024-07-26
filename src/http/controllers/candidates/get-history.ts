@@ -1,4 +1,3 @@
-import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
@@ -9,7 +8,7 @@ import { z } from 'zod'
 
 
 
-export async function addHistory(
+export async function getHistory(
     request: FastifyRequest,
     reply: FastifyReply,
 ) {
@@ -49,11 +48,11 @@ export async function addHistory(
         }
 
         const applicationhistories = await prisma.applicationHistory.findMany({
-            where: {application_id: application.id}
+            where: { application_id: application.id }
         })
 
 
-        return reply.status(200).send({applicationhistories})
+        return reply.status(200).send({ applicationhistories })
 
 
     } catch (err: any) {

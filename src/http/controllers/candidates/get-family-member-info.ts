@@ -39,6 +39,10 @@ export async function getFamilyMemberInfo(
     const familyMembers = await prisma.familyMember.findMany({
       where: idField,
     })
+    const user = await prisma.identityDetails.findFirst({
+      where: { OR: [{ candidate_id: candidateOrResponsible.UserData.id }, { responsible_id: candidateOrResponsible.UserData.id }] },
+      select: { livesAlone: true }
+    })
 
     const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'family-member')
     const familyMembersWithUrls = familyMembers.map((familyMember) => {
@@ -51,7 +55,7 @@ export async function getFamilyMemberInfo(
     // includeSelf on query = true means the candidate will be included on the result
     const { includeSelf } = JSON.parse(JSON.stringify(request.query)) as { includeSelf: string }
     const result = includeSelf === "true" ? [...familyMembersWithUrls, candidateOrResponsible.UserData] : familyMembersWithUrls
-    return reply.status(200).send({ familyMembers: result })
+    return reply.status(200).send({ familyMembers: result, livesAlone: user?.livesAlone })
 
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
