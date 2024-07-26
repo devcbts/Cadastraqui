@@ -390,6 +390,15 @@ class CandidateService {
         const response = await api.get(`/candidates/health-files/${type}/${memberId}/${id}`)
         return response.data.urls
     }
+
+    async getApplications() {
+        const response = await api.get('/candidates/application')
+        return response.data.applications
+    }
+    async getHistory(applicationId) {
+        const response = await api.get(`/candidates/application/history/${applicationId}`)
+        return response.data.applicationHistory
+    }
 }
 
 export default new CandidateService()

@@ -29,6 +29,10 @@ import AdminHome from "Pages/Admin/Home";
 import AdminEntityView from "Pages/Admin/EntityView";
 import PasswordRecovery from "Pages/PasswordRecovery";
 import RedirectWithParams from "Components/RedirectWithParams";
+import AssistantAnnouncementSchedule from "Pages/SocialAssistant/Schedule/components/AssistantAnnouncementSchedule";
+import AssistantCandidateSchedule from "Pages/SocialAssistant/Schedule/components/AssistantCandidateSchedule";
+import CandidateHistory from "Pages/Candidate/History";
+import ApplicationHistory from "Pages/Candidate/History/components/ApplicationHistory";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -57,12 +61,15 @@ export default function AppRoutes() {
                                 <Route path="" element={<AnnouncementCandidate />}></Route>
                                 <Route path=":announcementId" element={<AnnouncementView />}></Route>
                             </Route>
-
                         </Route>
                         <Route path="/edital/:announcementId" element={<AnnouncementView />}></Route>
                         <Route path="/solicitacoes" element={<Outlet />} >
                             <Route path="" element={<CandidateRequest />} />
                             <Route path=":applicationId" element={<CandidatePendency />} />
+                        </Route>
+                        <Route path="/historico" element={<Outlet />}>
+                            <Route index element={<CandidateHistory />} />
+                            <Route path={':applicationId'} element={<ApplicationHistory />} />
                         </Route>
                         <Route path="*" element={<Navigate to={'/home'} />} />
 
@@ -91,6 +98,11 @@ export default function AppRoutes() {
                         </Route>
                         <Route path="/ficha-completa" element={<CandidateView />}></Route>
                         <Route path="/profile" element={<SocialAssistantProfile />}></Route>
+                        {/* <Route path="/agenda" element={<Outlet />}>
+                            <Route index element={<AssistantSchedule />} />
+                            <Route path=':announcementId' element={<AssistantAnnouncementSchedule />} />
+                            <Route path="candidato/:scheduleId" element={<AssistantCandidateSchedule />} />
+                        </Route> */}
                         <Route path="*" element={<Navigate to={'/home'} />} />
 
                     </Routes>

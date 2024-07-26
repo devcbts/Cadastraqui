@@ -1,12 +1,4 @@
-$primary:#1F4B73;
-$background: #F5F5F5;
-$success: #499468;
-$error: #EF3E36;
-
-$primaryblack: #1D1D1B;
-
-$grey: #52525C;
-$lightgrey: #CFCFCF;
+@import './colors.module.scss';
 
 body,html {
     margin: 0;

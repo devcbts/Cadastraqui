@@ -1,4 +1,5 @@
 import { ReactComponent as Magnifier } from 'Assets/icons/magnifier.svg';
+import { ReactComponent as AddUser } from 'Assets/icons/add-user.svg';
 import BackPageTitle from "Components/BackPageTitle";
 import ButtonBase from "Components/ButtonBase";
 import Loader from "Components/Loader";
@@ -14,11 +15,14 @@ import findLabel from "utils/enums/helpers/findLabel";
 import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer";
 import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
 import styles from './styles.module.scss';
+import { NotificationService } from 'services/notification';
+import useAuth from 'hooks/useAuth';
 export default function SelectedCandidates() {
     const navigate = useNavigate()
     const { announcementId, courseId } = useParams()
     const [isLoading, setIsLoading] = useState(true)
     const [application, setApplication] = useState({ candidates: [], level: {}, announcement: {}, entity: {} })
+    const { auth } = useAuth()
     useEffect(() => {
         const fetchApplication = async () => {
             try {
@@ -35,6 +39,24 @@ export default function SelectedCandidates() {
             const { address, addressNumber, city, neighborhood, UF } = application.entity
             return `${address}, ${addressNumber}. ${neighborhood}, ${city}/${UF}`
         }
+    }
+    const handleEnrollApplication = (id) => {
+        NotificationService.confirm({
+            title: 'Vincular inscrição?',
+            text: 'Ao confirmar, você poderá analisar a ficha do candidato selecionado.',
+            onConfirm: async () => {
+                try {
+                    await socialAssistantService.enrollApplication(announcementId, id)
+                    setApplication((prev) => ({
+                        ...prev, candidates: [...prev.candidates].map((application => {
+                            return application.id === id ? { ...application, socialAssistant_id: auth?.uid } : application
+                        }))
+                    }))
+                } catch (err) {
+                    NotificationService.error({ text: err?.response?.data?.message })
+                }
+            }
+        })
     }
     return (
         <div>
@@ -103,7 +125,7 @@ export default function SelectedCandidates() {
                 {
                     application.candidates.map((candidate) => {
                         return (
-                            <Table.Row>
+                            <Table.Row key={candidate.id}>
                                 <Table.Cell divider>{candidate.position ?? '-'}</Table.Cell>
                                 <Table.Cell >{candidate.candidateName}</Table.Cell>
                                 <Table.Cell >{moneyInputMask(candidate.averageIncome?.toFixed(2)?.toString())}</Table.Cell>
@@ -111,14 +133,21 @@ export default function SelectedCandidates() {
                                 <Table.Cell >0</Table.Cell>
                                 <Table.Cell >{findLabel(APPLICATION_STATUS, candidate?.status)}</Table.Cell>
                                 <Table.Cell >
-                                    <ButtonBase onClick={() => navigate('candidato', {
-                                        state: {
-                                            candidateId: candidate.candidate_id,
-                                            applicationId: candidate.id
-                                        }
-                                    })}>
-                                        <Magnifier width={14} height={14} />
-                                    </ButtonBase>
+                                    {candidate.socialAssistant_id === auth?.uid
+
+                                        ? <ButtonBase onClick={() => navigate('candidato', {
+                                            state: {
+                                                candidateId: candidate.candidate_id,
+                                                applicationId: candidate.id
+                                            }
+                                        })}>
+                                            <Magnifier width={14} height={14} />
+                                        </ButtonBase>
+                                        : <ButtonBase onClick={() => handleEnrollApplication(candidate.id)}>
+
+                                            <AddUser width={14} height={14} />
+                                        </ButtonBase>
+                                    }
                                 </Table.Cell>
                             </Table.Row>
                         )

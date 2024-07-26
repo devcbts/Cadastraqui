@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-
+import 'Assets/theme/global.module.scss'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
