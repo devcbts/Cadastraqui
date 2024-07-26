@@ -28,14 +28,20 @@ export async function enrollApplication(
         if (!assistant) {
             throw new NotAllowedError()
         }
-
+        const application = await prisma.application.findUnique({
+            where: { id: application_id }
+        })
+        if (application?.socialAssistant_id) {
+            throw new Error('Já existe um(a) assistente vinculado(a) à essa inscrição.')
+        }
+        console.log(application?.id)
         // atualizar inscrição
         await prisma.application.update({
+            where: { id: application_id },
             data: {
                 socialAssistant_id: assistant.id,
                 SocialAssistantName: assistant.name
             },
-            where: { id: application_id }
         })
 
         // Criar novo report no histórico da inscrição

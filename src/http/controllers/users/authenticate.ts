@@ -19,7 +19,7 @@ export async function authenticate(
       where: {
         email,
       },
-      include: { Candidate: true, LegalResponsible: true }
+      include: { Candidate: true, LegalResponsible: true, SocialAssistant: true }
     })
 
     if (!user) {
@@ -31,7 +31,7 @@ export async function authenticate(
     if (!doesPasswordMatches) {
       throw new InvalidCredentialsError()
     }
-    const uid = user.Candidate ? user.Candidate.id : user.LegalResponsible?.id
+    const uid = user.Candidate?.id ?? user.LegalResponsible?.id ?? user.SocialAssistant?.id
     const token = await reply.jwtSign(
       {
         role: user.role,
