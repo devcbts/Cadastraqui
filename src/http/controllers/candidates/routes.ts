@@ -83,6 +83,7 @@ import { updateMedicationInfo } from './update-medication-info'
 import updateMonthlyIncome from './update-monthly-income-info'
 import { updateRegistrationInfo } from './update-registration-info'
 import { updateVehicleInfo } from './update-vehicle-info'
+import createInterviewSolicitation from './create-interview-solicitation'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT] }, uploadDocument)
@@ -291,6 +292,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     uploadSolicitationDocument,
   )
   app.get('/schedule/interview/:announcement_id/:assistant_id', getCandidateInterviewSchedule)
+  app.post('/schedule/interview/:announcement_id/:assistant_id/:application_id', { onRequest: [verifyJWT] }, createInterviewSolicitation)
 }
 
 

@@ -57,7 +57,6 @@ model Candidate {
   AnnouncementsSeen      AnnouncementsSeen[]
   FinishedRegistration   FinishedRegistration?
   finishedRegistrationId String?
-  InterviewSchedule      InterviewSchedule[]
 
   @@unique([id, responsible_id])
   @@map("candidates")
@@ -670,14 +669,24 @@ model Announcement {
 }
 
 model InterviewSchedule {
-  id              String          @id @default(uuid())
-  date            DateTime
-  announcement    Announcement    @relation(fields: [announcement_id], references: [id])
-  announcement_id String
-  assistant       SocialAssistant @relation(fields: [assistant_id], references: [id])
-  assistant_id    String
-  candidate       Candidate       @relation(fields: [candidate_id], references: [id])
-  candidate_id    String
+  id                            String          @id @default(uuid())
+  date                          DateTime
+  accepted                      Boolean?
+  rejectReason                  String?
+  newSugestedDate               DateTime?
+  rejectComentary               String?
+  InterviewRealized             Boolean?
+  InterviewNotRealizedReason    String?
+  InterviewNotRealizedComentary String?
+  interviewLink                 String?
+  interviewType                 InterviewType?
+  announcement                  Announcement    @relation(fields: [announcement_id], references: [id])
+  announcement_id               String
+  assistant                     SocialAssistant @relation(fields: [assistant_id], references: [id])
+  assistant_id                  String
+  application                   Application?     @relation(fields: [application_id], references: [id])
+  application_id                String?
+ 
 }
 
 model AssistantSchedule {
@@ -765,6 +774,7 @@ model Application {
   ScholarshipGranted   ScholarshipGranted?
   responsible_id       String?
   responsible          LegalResponsible?    @relation(fields: [responsible_id], references: [id])
+  InterviewSchedule    InterviewSchedule[]
 
   @@unique([candidate_id, announcement_id])
 }
@@ -1141,6 +1151,11 @@ enum ApplicationStatus {
 
 enum SolicitationType {
   Document
+  Interview
+  Visit
+}
+
+enum InterviewType {
   Interview
   Visit
 }

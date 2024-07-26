@@ -17,7 +17,6 @@ export default async function getCandidateInterviewSchedule(
             where: { AND: [{ id: announcement_id }, { socialAssistant: { some: { id: assistant_id } } }] },
             include: {
                 interview: true,
-                InterviewSchedule: true
             }
         })
         if (!announcement || !announcement.interview) {
@@ -26,34 +25,37 @@ export default async function getCandidateInterviewSchedule(
             }
             throw new Error("Este edital não permite entrevistas")
         }
-        const availableSchedule = () => {
-            const begin = announcement.interview!.startDate
-            const end = announcement.interview!.endDate
-            const { duration, interval, endHour } = announcement.interview!
-            let curr = begin;
-            const result = []
-            while (curr < end) {
-                let index = 0
-                let times = [announcement.interview!.beginHour]
-                let currTime = new Date(curr)
-                // get current date and hour
-                currTime.setHours(times[index].getHours())
-                currTime.setMinutes(times[index].getMinutes())
-                while (currTime.getHours() < endHour.getHours()) {
-                    currTime.setMinutes(currTime.getMinutes() + duration + interval)
-                    times.push(new Date(currTime))
-                }
-                result.push({
-                    date: new Date(curr),
-                    times: times.map(e => `${e.getUTCHours()}:${e.getUTCMinutes().toString().padStart(2, '0')}`)
-                })
+        const assistantSchedule = await prisma.assistantSchedule.findFirst({
+            where: {
+                AND: [{ announcement_id }, { assistant_id }, {
+                    endDate: {
 
-                index += 1
-                curr.setDate(curr.getDate() + 1)
+                        gte: new Date()
+                    }
+                }]
             }
-            return result[0]
+        })
+
+        if (!assistantSchedule) {
+            throw new Error("Não há horários disponíveis para esse assistente")
         }
-        console.log(availableSchedule())
+       
+        const availabeSchedules = await prisma.interviewSchedule.findMany({
+            where: {
+                assistant_id,
+                announcement_id,
+                date: {
+                    gte: new Date()
+
+                },
+                application_id: null
+            }
+        })
+
+
+       
+
+        return response.status(200).send(availabeSchedules)
     } catch (err) {
         console.log(err)
         return response.status(400).send({ message: err })

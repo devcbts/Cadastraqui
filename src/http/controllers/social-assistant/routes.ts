@@ -39,6 +39,7 @@ import { updateSolicitationWithReport } from './update-solicitation-report'
 import { sendParecerDocumentToSign } from './send-parecer-document-to-sign'
 import { resendParecerDocumentEmail } from './resend-parecer-email-to-sign'
 import { uploadParecerDocument } from './AWS-routes/upload-parecer-document'
+import createInterviewSchedule from './create-interview-schedule'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -155,4 +156,8 @@ export async function assistantRoutes(app: FastifyInstance) {
 
   app.post('/post-pdf/:application_id', { onRequest: [verifyJWT] }, sendParecerDocumentToSign)
   app.post('/send-parecer-email/:application_id', { onRequest: [verifyJWT] }, resendParecerDocumentEmail)
+
+
+  // Agenda
+  app.post('/schedule/:announcement_id', { onRequest: [verifyJWT] }, createInterviewSchedule)
 }
