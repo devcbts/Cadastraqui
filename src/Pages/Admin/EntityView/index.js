@@ -14,6 +14,7 @@ export default function AdminEntityView() {
             try {
                 setIsLoading(true)
                 const information = await adminService.getEntityById(entityId)
+                console.log(information);
                 setEntity(information)
             } catch (err) { }
             setIsLoading(false)
@@ -37,7 +38,7 @@ export default function AdminEntityView() {
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell>Endereço</Table.Cell>
-                        <Table.Cell>{entity?.address},{entity?.neighborhood}. {entity?.city}-{entity?.UF}</Table.Cell>
+                        <Table.Cell>{entity?.address}, {entity?.addressNumber}, bairro {entity?.neighborhood}, CEP {entity?.CEP}. {entity?.city}/{entity?.UF}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell>Telefone</Table.Cell>
