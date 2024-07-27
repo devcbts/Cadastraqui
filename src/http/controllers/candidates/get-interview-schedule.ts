@@ -7,53 +7,59 @@ export default async function getCandidateInterviewSchedule(
     response: FastifyReply
 ) {
     const params = z.object({
-        announcement_id: z.string(),
-        assistant_id: z.string()
+        application_id: z.string()
     })
 
     try {
-        const { announcement_id, assistant_id } = params.parse(request.params)
-        const announcement = await prisma.announcement.findFirst({
-            where: { AND: [{ id: announcement_id }, { socialAssistant: { some: { id: assistant_id } } }] },
+        const { application_id } = params.parse(request.params)
+        const application = await prisma.application.findUnique({
+            where: { id: application_id },
             include: {
-                interview: true,
+                SocialAssistant: true,
+                announcement: {
+                    include: {
+                        interview: true, AssistantSchedule: {
+                            where: {
+                                endDate: {
+                                    gte: new Date()
+                                }
+                            }
+                        }
+                    }
+                },
             }
         })
-        if (!announcement || !announcement.interview) {
-            if (!announcement) {
-                throw new Error("Edital não encontrado ou assistente não vinculado(a)")
+        if (!application || !application.announcement.interview) {
+            if (!application) {
+                throw new Error("Inscrição não encontrada ou assistente não vinculado(a)")
             }
             throw new Error("Este edital não permite entrevistas")
         }
-        const assistantSchedule = await prisma.assistantSchedule.findFirst({
-            where: {
-                AND: [{ announcement_id }, { assistant_id }, {
-                    endDate: {
-
-                        gte: new Date()
-                    }
-                }]
-            }
-        })
+        const assistantSchedule = application.announcement.AssistantSchedule
 
         if (!assistantSchedule) {
             throw new Error("Não há horários disponíveis para esse assistente")
         }
-       
+
         const availabeSchedules = await prisma.interviewSchedule.findMany({
             where: {
-                assistant_id,
-                announcement_id,
-                date: {
-                    gte: new Date()
+                AND: [
+                    { assistant_id: application.SocialAssistant?.id },
+                    { announcement_id: application.announcement.id },
+                    {
+                        date: {
+                            gte: new Date()
 
-                },
-                application_id: null
-            }
+                        }
+                    },
+                    {
+                        application_id: null
+                    }]
+            },
+            orderBy: { date: 'asc' }
         })
 
 
-       
 
         return response.status(200).send(availabeSchedules)
     } catch (err) {

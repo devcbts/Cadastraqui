@@ -670,7 +670,7 @@ model Announcement {
 
 model InterviewSchedule {
   id                            String          @id @default(uuid())
-  date                          DateTime
+  date                          DateTime        @db.Timestamptz()
   accepted                      Boolean?
   rejectReason                  String?
   newSugestedDate               DateTime?
@@ -684,9 +684,8 @@ model InterviewSchedule {
   announcement_id               String
   assistant                     SocialAssistant @relation(fields: [assistant_id], references: [id])
   assistant_id                  String
-  application                   Application?     @relation(fields: [application_id], references: [id])
+  application                   Application?    @relation(fields: [application_id], references: [id])
   application_id                String?
- 
 }
 
 model AssistantSchedule {
