@@ -153,6 +153,7 @@ model SocialAssistant {
 model Entity {
   id                         String             @id @default(uuid())
   name                       String?
+  phone                      String?
   socialReason               String
   logo                       String?
   CNPJ                       String             @unique
@@ -180,6 +181,7 @@ model EntitySubsidiary {
   socialReason               String
   CEP                        String
   address                    String
+  phone                      String?
   addressNumber              Int?
   city                       String?           @default("")
   neighborhood               String?           @default("")
@@ -673,9 +675,9 @@ model InterviewSchedule {
   date                          DateTime
   accepted                      Boolean?
   rejectReason                  String?
-  newSugestedDate               DateTime?
   rejectComentary               String?
   InterviewRealized             Boolean?
+  InterviewComentary            String?
   InterviewNotRealizedReason    String?
   InterviewNotRealizedComentary String?
   interviewLink                 String?
@@ -684,9 +686,8 @@ model InterviewSchedule {
   announcement_id               String
   assistant                     SocialAssistant @relation(fields: [assistant_id], references: [id])
   assistant_id                  String
-  application                   Application?     @relation(fields: [application_id], references: [id])
+  application                   Application?    @relation(fields: [application_id], references: [id])
   application_id                String?
- 
 }
 
 model AssistantSchedule {

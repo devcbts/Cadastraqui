@@ -30,7 +30,8 @@ export async function seeEntities(
         where: {id: entity_id},
         include: {
           Announcement: true,
-          SocialAssistant: true
+          SocialAssistant: true,
+          user: true
         }
       })
 
