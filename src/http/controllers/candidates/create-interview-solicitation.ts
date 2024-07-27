@@ -18,7 +18,7 @@ export default async function createInterviewSolicitation(request: FastifyReques
 
     const createInterviewSolicitationBody = z.object({
         date: z.string(),
-        interviewType : InterviewType
+        interviewType: InterviewType
 
     })
 
@@ -62,11 +62,22 @@ export default async function createInterviewSolicitation(request: FastifyReques
         }
 
         const ocupiedSchedule = await prisma.interviewSchedule.findFirst({
-            where: { announcement_id, assistant_id, application_id, date }
+            where: { announcement_id, assistant_id, date }
         })
         if (ocupiedSchedule) {
             throw new Error("Horário já ocupado")
         }
+        const candidateHasInterview = await prisma.interviewSchedule.findFirst({
+            where: {
+                application_id, announcement_id, assistant_id,
+                AND: [{ date: { lte: new Date() } }, { accepted: true }],
+            }
+        })
+        if (candidateHasInterview) {
+            throw new Error("Candidato já possui uma entrevista marcada")
+
+        }
+
         const interviewSchedule = await prisma.interviewSchedule.create({
             data: {
                 date: new Date(date),
