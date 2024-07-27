@@ -87,7 +87,6 @@ export async function sendParecerDocumentToSign(
                 width_page: "1000",
                 fields: [
                     [{ page: lastPage, type: "image", width: 200, height: 75, xPos: -999, yPos: -999 }],
-                    [{ page: lastPage, type: "image", width: 200, height: 75, xPos: -999, yPos: -999 }],
                 ]
 
             }

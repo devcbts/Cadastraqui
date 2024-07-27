@@ -91,8 +91,8 @@ export default async function createInterviewSchedule(request: FastifyRequest,
         }
 
         const availableTimesSchedule = () => {
-            const begin = new Date(startDate);
-            const end = new Date(endDate);
+            const begin = new Date(`${startDate}T00:00:00`);
+            const end = new Date(`${endDate}T00:00:00`);
 
             let curr = begin;
             const result = [];
@@ -126,8 +126,8 @@ export default async function createInterviewSchedule(request: FastifyRequest,
                 data: {
                     startDate: new Date(startDate),
                     endDate: new Date(endDate),
-                    beginHour: new Date(beginHour),
-                    endHour: new Date(endHour),
+                    beginHour: parseTimeToDate(beginHour),
+                    endHour: parseTimeToDate(endHour),
                     duration,
                     interval,
                     announcement_id: announcement_id,
@@ -138,11 +138,13 @@ export default async function createInterviewSchedule(request: FastifyRequest,
             // Criar todos os possíveis intervalos no banco de dados
             await Promise.all(availableTimes.map(async (freeTimeDay) => {
                 const date = new Date(freeTimeDay.date)
+
                 await Promise.all(freeTimeDay.times.map(async (time) => {
                     date.setHours(time.getHours(), time.getMinutes(), 0, 0)
+                    // need to create another date based on 'date' = date: new Date(date)
                     await tsPrisma.interviewSchedule.create({
                         data: {
-                            date,
+                            date: new Date(date),
                             assistant_id: socialAssistant.id,
                             announcement_id,
                         }

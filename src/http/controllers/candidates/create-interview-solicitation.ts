@@ -11,62 +11,69 @@ export default async function createInterviewSolicitation(request: FastifyReques
 ) {
     const InterviewType = z.enum(["Interview", "Visit"])
     const params = z.object({
-        announcement_id: z.string(),
-        assistant_id: z.string(),
-        application_id: z.string()
+        // announcement_id: z.string(),
+        schedule_id: z.string(),
     })
 
     const createInterviewSolicitationBody = z.object({
-        date: z.string(),
+        application_id: z.string(),
+        date: z.string().nullish(),
         interviewType: InterviewType
 
     })
 
-    const { announcement_id, assistant_id, application_id } = params.parse(request.params)
-    const { date, interviewType } = createInterviewSolicitationBody.parse(request.body)
+    const { schedule_id } = params.parse(request.params)
+    const { application_id, interviewType } = createInterviewSolicitationBody.parse(request.body)
     try {
-        const assistantSchedule = await prisma.assistantSchedule.findFirst({
-            where: {
-                AND: [{ announcement_id }, { assistant_id }, {
-                    endDate: {
-                        gte: new Date()
-                    }
-                }]
-            }
+        const schedule = await prisma.interviewSchedule.findUnique({
+            where: { id: schedule_id }
 
         })
-        if (!assistantSchedule) {
-            throw new Error("Não há horários disponíveis para esse assistente")
-
+        if (schedule?.application_id) {
+            throw new Error('Este horário já foi ocupado.')
         }
-        const application = await prisma.application.findUnique({
-            where: { id: application_id }
-        })
+        // const assistantSchedule = await prisma.assistantSchedule.findFirst({
+        //     where: {
+        //         AND: [{ announcement_id }, { assistant_id }, {
+        //             endDate: {
+        //                 gte: new Date()
+        //             }
+        //         }]
+        //     }
 
-        if (!application) {
-            throw new Error("Inscrição não existente")
+        // })
+        // if (!assistantSchedule) {
+        //     throw new Error("Não há horários disponíveis para esse assistente")
 
-        }
-        const announcement = await prisma.announcement.findUnique({
-            where: { id: announcement_id }
+        // }
+        // const application = await prisma.application.findUnique({
+        //     where: { id: application_id }
+        // })
 
-        })
-        if (!announcement) {
-            throw new AnnouncementNotExists()
+        // if (!application) {
+        //     throw new Error("Inscrição não existente")
 
-        }
+        // }
+        // const announcement = await prisma.announcement.findUnique({
+        //     where: { id: announcement_id }
 
-        if (new Date(date) < assistantSchedule.startDate || new Date(date) > assistantSchedule.endDate) {
-            throw new Error("Data fora do período permitido")
+        // })
+        // if (!announcement) {
+        //     throw new AnnouncementNotExists()
 
-        }
+        // }
 
-        const ocupiedSchedule = await prisma.interviewSchedule.findFirst({
-            where: { announcement_id, assistant_id, date }
-        })
-        if (ocupiedSchedule) {
-            throw new Error("Horário já ocupado")
-        }
+        // if (new Date(date) < assistantSchedule.startDate || new Date(date) > assistantSchedule.endDate) {
+        //     throw new Error("Data fora do período permitido")
+
+        // }
+
+        // const ocupiedSchedule = await prisma.interviewSchedule.findFirst({
+        //     where: { announcement_id, assistant_id, date }
+        // })
+        // if (ocupiedSchedule) {
+        //     throw new Error("Horário já ocupado")
+        // }
         const candidateHasInterview = await prisma.interviewSchedule.findFirst({
             where: {
                 application_id, announcement_id, assistant_id,
@@ -78,12 +85,13 @@ export default async function createInterviewSolicitation(request: FastifyReques
 
         }
 
-        const interviewSchedule = await prisma.interviewSchedule.create({
+        const interviewSchedule = await prisma.interviewSchedule.update({
+            where: { id: schedule_id },
             data: {
-                date: new Date(date),
-                assistant_id,
+                // date: new Date(date),
+                // assistant_id,
                 application_id,
-                announcement_id,
+                // announcement_id,
                 interviewType
             }
         })
