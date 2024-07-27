@@ -70,8 +70,31 @@ export async function subscribeAnnouncement(
       throw new ApplicationAlreadyExistsError()
     }
 
+    const idFielProgress = CandidateOrResponsible.IsResponsible ? { legalResponsibleId: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id }
+    const progress = await prisma.finishedRegistration.findUnique({
+      where: idFielProgress
+    })
+    if (!progress) {
+      throw new Error("Cadastro ainda não finalizado")
 
+    }
+    const booleanFields = [
+      'cadastrante',
+      'grupoFamiliar',
+      'moradia',
+      'veiculos',
+      'rendaMensal',
+      'despesas',
+      'saude',
+      'declaracoes',
+      'documentos'
+    ];
 
+    booleanFields.forEach(field => {
+      if (!(progress as any)[field]) {
+        throw new Error(`Cadastro ainda não finalizado`);
+      }
+    });
     const numberOfApplications = await prisma.application.count({
       where: { announcement_id },
     });
@@ -179,7 +202,10 @@ export async function subscribeAnnouncement(
     if (err instanceof AnnouncementClosed) {
       return reply.status(409).send({ message: err.message })
     }
+    if (err instanceof Error) {
+      return reply.status(412).send({ message: err.message })
 
+    }
     return reply.status(500).send({ message: err.message })
   }
 }
