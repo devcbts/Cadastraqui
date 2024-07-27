@@ -133,7 +133,7 @@ export default function SelectedCandidates() {
                                 <Table.Cell >0</Table.Cell>
                                 <Table.Cell >{findLabel(APPLICATION_STATUS, candidate?.status)}</Table.Cell>
                                 <Table.Cell >
-                                    {candidate.socialAssistant_id !== auth?.uid
+                                    {candidate.socialAssistant_id === auth?.uid
 
                                         ? <ButtonBase onClick={() => navigate('candidato', {
                                             state: {

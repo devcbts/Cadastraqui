@@ -99,11 +99,11 @@ export default function AppRoutes() {
                         </Route>
                         <Route path="/ficha-completa" element={<CandidateView />}></Route>
                         <Route path="/profile" element={<SocialAssistantProfile />}></Route>
-                        {/* <Route path="/agenda" element={<Outlet />}>
+                        <Route path="/agenda" element={<Outlet />}>
                             <Route index element={<AssistantSchedule />} />
                             <Route path=':announcementId' element={<AssistantAnnouncementSchedule />} />
                             <Route path="candidato/:scheduleId" element={<AssistantCandidateSchedule />} />
-                        </Route> */}
+                        </Route>
                         <Route path="*" element={<Navigate to={'/home'} />} />
 
                     </Routes>

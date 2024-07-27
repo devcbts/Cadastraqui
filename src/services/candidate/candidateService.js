@@ -12,6 +12,7 @@ import identityInfoMapper from "./mappers/identity-info-mapper";
 import incomeMapper from "./mappers/income-mapper";
 import progressMapper from "./mappers/progress-mapper";
 import vehicleMapper from "./mappers/vehicle-mapper";
+import scheduleMapper from "./mappers/schedule-mapper";
 
 class CandidateService {
     async getBasicInfo() {
@@ -398,6 +399,13 @@ class CandidateService {
     async getHistory(applicationId) {
         const response = await api.get(`/candidates/application/history/${applicationId}`)
         return response.data.applicationHistory
+    }
+    async getAvailableSchedule(applicationId) {
+        const response = await api.get(`/candidates/schedule/${applicationId}`)
+        return scheduleMapper.fromPersistence(response.data)
+    }
+    async createSchedule(scheduleId, { applicationId, interviewType }) {
+        return api.post(`/candidates/schedule/${scheduleId}`, { application_id: applicationId, interviewType })
     }
 }
 

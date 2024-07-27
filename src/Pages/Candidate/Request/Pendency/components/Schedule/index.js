@@ -1,28 +1,44 @@
 import BackPageTitle from "Components/BackPageTitle";
 import ButtonBase from "Components/ButtonBase";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
+import candidateService from "services/candidate/candidateService";
+import { NotificationService } from "services/notification";
 import formatDate from "utils/format-date";
 
 export default function Schedule() {
     const navigate = useNavigate()
     const { state } = useLocation()
+    const { applicationId } = useParams()
+    // times is composed by { id: '', time: '' }
     const [currentDate, setCurrentDate] = useState({ date: '', times: [] })
     const [scheduleTo, setScheduleTo] = useState(null)
+    const [dates, setDates] = useState([])
     useEffect(() => {
         // TODO: check current schedule status, if it's approved or not, finished or not
         // and display to user the current status and disable the schedule button
+        const fetchAvailableDates = async () => {
+            try {
+                const infotmation = await candidateService.getAvailableSchedule(applicationId)
+                setDates(infotmation)
+            } catch (err) {
+                NotificationService.error({ text: err?.response?.data?.message })
+            }
+        }
+        if (applicationId) fetchAvailableDates()
     }, [])
-    const dates = [
-        { date: '2020-10-10', times: ['19:00', '19:30', '20:00', '21:00', '21:30'] },
-        { date: '2022-10-10', times: ['16:00', '16:30', '21:00', '22:00', '22:30'] },
-        { date: '2023-10-10', times: ['13:00', '13:30', '20:00', '21:00', '21:30'] },
-        { date: '2023-10-10', times: ['13:00', '13:30', '20:00', '21:00', '21:30'] },
-        { date: '2023-10-10', times: ['13:00', '13:30', '20:00', '21:00', '21:30'] },
-        { date: '2023-10-10', times: ['13:00', '13:30', '20:00', '21:00', '21:30'] },
-        { date: '2023-10-10', times: ['13:00', '13:30', '20:00', '21:00', '21:30'] },
-        { date: '2023-10-10', times: ['13:00', '13:30', '20:00', '21:00', '21:30'] },
-    ]
+    const handleSchedule = async () => {
+        if (!scheduleTo.id) {
+            return
+        }
+        try {
+            await candidateService.createSchedule(scheduleTo.id, { applicationId, interviewType: state?.schedule })
+            navigate(-1)
+            NotificationService.success({ text: 'Agendamento concluído' })
+        } catch (err) {
+            NotificationService.error({ text: err?.response?.data?.message })
+        }
+    }
     return (
         < >
             <BackPageTitle title={state?.schedule === 'Interview' ? 'Agendar entrevista' : 'Agendar visita domiciliar'} onClick={() => navigate('')} />
@@ -49,8 +65,8 @@ export default function Schedule() {
                                 currentDate?.times?.map(e => (
                                     <div style={{ margin: 'auto' }}>
                                         <ButtonBase
-                                            label={e}
-                                            onClick={() => setScheduleTo({ date: currentDate.date, time: e })}
+                                            label={e.time}
+                                            onClick={() => setScheduleTo({ date: currentDate.date, time: e.time, id: e.id })}
                                         />
                                     </div>
                                 ))
@@ -64,7 +80,7 @@ export default function Schedule() {
                         : 'Selecione uma data e hora de agendamento'
                     }
                 </h3>
-                <ButtonBase label={'agendar'} />
+                <ButtonBase label={'agendar'} onClick={handleSchedule} />
             </div>
 
         </ >

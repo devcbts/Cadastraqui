@@ -48,7 +48,7 @@ export default function UserPendencies() {
     return (
         <div>
             <SendDocumentSolicitation data={selection} onClose={() => setSelection(null)} onConfirm={handleUploadSolicitation} />
-            <BackPageTitle title={'Solicitações'} path={-1} />
+            <BackPageTitle title={'Solicitações'} path={'/solicitacoes'} />
             <h3>Pendências</h3>
             <div style={{ display: 'flex', placeContent: 'center', width: '100%' }}>
                 <div style={{ display: 'flex', placeContent: 'center', width: '80%' }}>

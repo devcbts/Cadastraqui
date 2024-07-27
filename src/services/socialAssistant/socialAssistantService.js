@@ -126,6 +126,14 @@ class SocialAssistantService {
     async enrollApplication(announcementId, applicationId) {
         return api.post(`/assistant/${announcementId}/${applicationId}`)
     }
+
+    async getAnnouncementsScheduleSummary() {
+        const response = await api.get('/assistant/schedule/summary')
+        return response.data.announcements
+    }
+    async createSchedule(announcementId, values) {
+        return api.post(`/assistant/schedule/${announcementId}`, values)
+    }
 }
 
 export default new SocialAssistantService()
