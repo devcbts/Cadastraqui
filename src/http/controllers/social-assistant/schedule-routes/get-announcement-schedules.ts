@@ -1,7 +1,6 @@
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
-import { InterviewType } from "@prisma/client";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
@@ -61,7 +60,8 @@ export default async function getAnnouncementSchedule(request: FastifyRequest, r
 
         const scheduleGrouped: any = {};
         schedules.map((schedule) => {
-            const dateDayandMonthAndYear = `${schedule.date.getUTCDay()}/${schedule.date.getUTCMonth()}/${schedule.date.getUTCFullYear()}`;
+            // const dateDayandMonthAndYear = `${schedule.date.getUTCDay()}/${schedule.date.getUTCMonth()}/${schedule.date.getUTCFullYear()}`;
+            const dateDayandMonthAndYear = schedule.date.toISOString().split('T')[0];
             if (!scheduleGrouped[dateDayandMonthAndYear]) {
                 scheduleGrouped[dateDayandMonthAndYear] = [];
             }
