@@ -37,6 +37,7 @@ import { registerAssistant } from './register'
 import { resendParecerDocumentEmail } from './resend-parecer-email-to-sign'
 import createInterviewSchedule from './schedule-routes/create-interview-schedule'
 import getAnnouncementSchedule from './schedule-routes/get-announcement-schedules'
+import getAssistantSchedule from './schedule-routes/get-schedule'
 import rejectInterview from './schedule-routes/reject-interview'
 import updateInterviewSchedule from './schedule-routes/update-interview-schedule'
 import updateSingularInterview from './schedule-routes/update-singular-interview'
@@ -157,6 +158,7 @@ export async function assistantRoutes(app: FastifyInstance) {
 
 
   // Agenda
+  app.get('/schedule', { onRequest: [verifyJWT] }, getAssistantSchedule)
   app.get('/schedule/summary', { onRequest: [verifyJWT] }, getScheduleSummary)
   app.post('/schedule/:announcement_id', { onRequest: [verifyJWT] }, createInterviewSchedule)
   app.patch('/schedule/:schedule_id', { onRequest: [verifyJWT] }, updateInterviewSchedule)

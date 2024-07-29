@@ -38,6 +38,10 @@ export default async function updateSingularInterview(request: FastifyRequest, r
         if (!interview) {
             throw new ResourceNotFoundError()
         }
+        if (interview.InterviewRealized !== null) {
+            const desc = interview.InterviewRealized ? 'realizado' : 'não realizado'
+            throw new Error(`Não pode ser alterado. Já teve seu status definido como ${desc}`)
+        }
         // Se estivermos atualizando apenas o link
         if (updateSingularInterviewLink.safeParse(bodySchema).success) {
             const { link } = updateSingularInterviewLink.parse(request.body)

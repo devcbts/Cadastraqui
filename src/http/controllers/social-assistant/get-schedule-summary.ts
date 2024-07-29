@@ -26,7 +26,7 @@ export default async function getScheduleSummary(
             by: ["interviewType", "announcement_id"],
             _count: { interviewType: true },
             where: {
-                AND: [{ announcement_id: { in: assistant.Announcement.map(e => e.id) } }, { assistant_id: assistant.id }]
+                AND: [{ announcement_id: { in: assistant.Announcement.map(e => e.id) } }, { assistant_id: assistant.id }, { accepted: true }]
             }
         })
         const mappedData = assistant.Announcement.map((e) => {

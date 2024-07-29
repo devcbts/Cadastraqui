@@ -49,6 +49,9 @@ export default async function getAnnouncementSchedule(request: FastifyRequest, r
                 InterviewComentary: schedule.InterviewComentary,
                 InterviewNotRealizedReason: schedule.InterviewNotRealizedReason,
                 InterviewNotRealizedComentary: schedule.InterviewNotRealizedComentary,
+                finished: schedule.InterviewRealized !== null,
+                cancelled: schedule.accepted === false,
+
             }
             return reply.status(200).send({ schedule: scheduleInfo })
         }

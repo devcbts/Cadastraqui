@@ -13,7 +13,7 @@ export default async function rejectInterview(
     })
     const rejectInterviewBody = z.object({
         rejectReason: z.string(),
-        rejectComentary: z.string()
+        rejectComentary: z.string().nullish()
     })
     const { interview_id } = interviewParams.parse(request.params)
     const { rejectReason, rejectComentary } = rejectInterviewBody.parse(request.body)
@@ -50,7 +50,7 @@ export default async function rejectInterview(
         }
         if (error instanceof ResourceNotFoundError) {
             reply.code(404).send({ message: "Entrevista não encontrada" })
-            
+
         }
         reply.code(500).send({ message: "Internal server Error", error })
     }
