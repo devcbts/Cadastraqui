@@ -27,7 +27,7 @@ export default function AssistantScheduleView() {
                     style={{ color: 'black', height: '100%' }}
                     culture="pt-BR"
                     localizer={localizer}
-                    events={[{ start: new Date('2024-07-25'), title: 'Testando', end: dayjs().toDate(), resource: { description: 'evento teste', status: 'aprovado' } }]}
+                    events={[{ start: new Date('2024-07-29T00:00:00'), title: 'Testando', end: dayjs().toDate(), resource: { description: 'evento teste', status: 'aprovado' } }]}
                     defaultView="agenda"
                     titleAccessor={(e) => {
                         return `${e.resource.description} - ${e.resource.status}`

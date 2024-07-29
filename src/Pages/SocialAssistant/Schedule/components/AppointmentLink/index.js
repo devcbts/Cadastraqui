@@ -1,12 +1,12 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ReactComponent as Pencil } from 'Assets/icons/edit.svg'
 import { ReactComponent as Save } from 'Assets/icons/save.svg'
 import { ReactComponent as Close } from 'Assets/icons/close.svg'
 export default function AppointmentLink({ link, onSave }) {
     const [editing, setEditing] = useState(false)
-    const [currentLink, setCurrentLink] = useState(link)
+    const [currentLink, setCurrentLink] = useState()
     const handleSave = () => {
-        onSave && onSave()
+        onSave && onSave(currentLink)
         handleEditMode()
     }
     const handleEdit = (e) => {
@@ -19,6 +19,9 @@ export default function AppointmentLink({ link, onSave }) {
     const handleEditMode = () => {
         setEditing(prev => !prev)
     }
+    useEffect(() => {
+        setCurrentLink(link ?? undefined)
+    }, [link])
     return (
         <div style={{
             width: '100%', backgroundColor: '#1F4B73', padding: '8px 16px',
@@ -27,7 +30,7 @@ export default function AppointmentLink({ link, onSave }) {
         }}
         >
             <div style={{ display: 'flex', flexDirection: 'row', gap: '24px' }}>
-                <span>Link da reunião:</span>
+                <span>{!currentLink ? 'Adicione um link para a reunião' : 'Link da reunião:'}</span>
                 {editing
                     ? <input defaultValue={currentLink} onChange={handleEdit} />
                     : <a href={currentLink} target="_blank" style={{ color: 'white' }}>{currentLink}</a>

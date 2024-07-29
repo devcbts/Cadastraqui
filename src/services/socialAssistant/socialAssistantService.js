@@ -134,6 +134,15 @@ class SocialAssistantService {
     async createSchedule(announcementId, values) {
         return api.post(`/assistant/schedule/${announcementId}`, values)
     }
+    async updateSchedule(announcementId, values) {
+        return api.patch(`/assistant/schedule/${announcementId}`, values)
+    }
+    async getAnnouncementSchedule(announcementId, scheduleId = '') {
+        return api.get(`/assistant/schedule/${announcementId}/${scheduleId}`)
+    }
+    async updateInterview(scheduleId, data) {
+        return api.patch(`/assistant/schedule/interview/${scheduleId}`, data)
+    }
 }
 
 export default new SocialAssistantService()

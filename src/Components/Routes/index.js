@@ -72,6 +72,10 @@ export default function AppRoutes() {
                             <Route index element={<CandidateHistory />} />
                             <Route path={':applicationId'} element={<ApplicationHistory />} />
                         </Route>
+                        <Route path="/agenda" element={<Outlet />}>
+                            {/* <Route index element={<CandidateSchedule />} />
+                            <Route path=':scheduleId' element={<CandidateScheduleView />} /> */}
+                        </Route>
                         <Route path="*" element={<Navigate to={'/home'} />} />
 
                     </Routes>
@@ -101,8 +105,12 @@ export default function AppRoutes() {
                         <Route path="/profile" element={<SocialAssistantProfile />}></Route>
                         <Route path="/agenda" element={<Outlet />}>
                             <Route index element={<AssistantSchedule />} />
-                            <Route path=':announcementId' element={<AssistantAnnouncementSchedule />} />
-                            <Route path="candidato/:scheduleId" element={<AssistantCandidateSchedule />} />
+                            <Route path=':announcementId' element={<Outlet />} >
+                                <Route index element={<AssistantAnnouncementSchedule />} />
+
+                                <Route path="candidato/:scheduleId" element={<AssistantCandidateSchedule />} />
+                            </Route>
+
                         </Route>
                         <Route path="*" element={<Navigate to={'/home'} />} />
 

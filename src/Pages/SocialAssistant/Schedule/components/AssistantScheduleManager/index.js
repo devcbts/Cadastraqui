@@ -12,7 +12,7 @@ import socialAssistantService from "services/socialAssistant/socialAssistantServ
 
 export default function AssistantScheduleManager() {
     const [announcements, setAnnouncements] = useState([])
-    const [announcementSchedule, setAnnouncementSchedule] = useState(null)
+    const [announcementSchedule, setAnnouncementSchedule] = useState({ id: null, schedule: null })
     const navigate = useNavigate()
     const { state } = useLocation()
     const ref = useRef(null)
@@ -29,10 +29,7 @@ export default function AssistantScheduleManager() {
         }
         fetchAnnouncements()
     }, [])
-    const handleEditSchedule = async () => {
-        // TODO: call API to update current schedule date and time
 
-    }
     const handleCreateSchedule = async () => {
         if (!ref.current.validate()) {
             return
@@ -40,17 +37,24 @@ export default function AssistantScheduleManager() {
         // TODO: call API to create schedule, returning the id of row created (update state, so user can edit after if it needs)
         try {
             const values = ref.current.values()
-            await socialAssistantService.createSchedule(announcementSchedule, values)
-            // setAnnouncements((prev) => [...prev].map(e => {
-            //     return e.id === announcementSchedule ? { ...e, hasSchedule: true } : e
-            // }))
-            // setAnnouncementSchedule(null)
+            if (announcementSchedule.schedule) {
+                const id = announcementSchedule.schedule.id
+                await socialAssistantService.updateSchedule(id, values)
+
+            } else {
+                await socialAssistantService.createSchedule(announcementSchedule.id, values)
+
+                setAnnouncements((prev) => [...prev].map(e => {
+                    return e.id === announcementSchedule.id ? { ...e, hasSchedule: true, AssistantSchedule: [values] } : e
+                }))
+            }
+            setAnnouncementSchedule({ id: null, schedule: null })
             NotificationService.success({ text: 'Horário reservado para o edital' })
         } catch (err) {
             NotificationService.error({ text: err?.response?.data?.message })
         }
     }
-    const handleViewSchedule = (id = '123') => {
+    const handleViewSchedule = (id) => {
         navigate(id, { state })
     }
 
@@ -58,27 +62,25 @@ export default function AssistantScheduleManager() {
         <>
             <BackPageTitle title={'Gerenciar agenda'} onClick={() => navigate('')} />
             <Modal
-                open={!!announcementSchedule}
-                onCancel={() => setAnnouncementSchedule(null)}
+                open={!!announcementSchedule?.id}
+                onCancel={() => setAnnouncementSchedule({ id: null, schedule: null })}
                 onConfirm={handleCreateSchedule}
                 title={'Reservar horários'}
                 text={'reserve os horários da agenda para este edital'}
             >
-                <Interview ref={ref} />
+                <Interview ref={ref} data={announcementSchedule?.schedule} />
             </Modal>
             <div style={{ padding: '24px' }}>
-
                 <Table.Root headers={['edital', 'entrevistas', 'visitas', 'ações']}>
                     {
                         announcements.map(e => (
                             <Table.Row>
                                 <Table.Cell>{e.announcementName}</Table.Cell>
-                                <Table.Cell>20</Table.Cell>
-                                <Table.Cell>10</Table.Cell>
-
+                                <Table.Cell>{e.interviews}</Table.Cell>
+                                <Table.Cell>{e.visits}</Table.Cell>
                                 <Table.Cell>
-                                    {!e.hasSchedule && <ButtonBase label={'cadastrar'} onClick={() => setAnnouncementSchedule(e.id)} />}
-                                    <ButtonBase label={'visualizar'} onClick={handleViewSchedule} />
+                                    <ButtonBase label={e.hasSchedule ? 'editar' : 'cadastrar'} onClick={() => setAnnouncementSchedule({ id: e.id, schedule: e.AssistantSchedule?.[0] })} />
+                                    {e.hasSchedule && <ButtonBase label={'visualizar'} onClick={() => handleViewSchedule(e.id)} />}
                                 </Table.Cell>
                             </Table.Row>
                         ))
