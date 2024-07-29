@@ -671,9 +671,9 @@ model Announcement {
 }
 
 model InterviewSchedule {
-  id                            String          @id @default(uuid())
-  date                          DateTime        @db.Timestamptz()
-  accepted                      Boolean?
+  id                            String             @id @default(uuid())
+  date                          DateTime           @db.Timestamptz()
+  accepted                      Boolean @default(true)
   rejectReason                  String?
   rejectComentary               String?
   InterviewRealized             Boolean?
@@ -682,26 +682,29 @@ model InterviewSchedule {
   InterviewNotRealizedComentary String?
   interviewLink                 String?
   interviewType                 InterviewType?
-  announcement                  Announcement    @relation(fields: [announcement_id], references: [id])
+  announcement                  Announcement       @relation(fields: [announcement_id], references: [id])
   announcement_id               String
-  assistant                     SocialAssistant @relation(fields: [assistant_id], references: [id])
+  assistant                     SocialAssistant    @relation(fields: [assistant_id], references: [id])
   assistant_id                  String
-  application                   Application?    @relation(fields: [application_id], references: [id])
+  application                   Application?       @relation(fields: [application_id], references: [id])
   application_id                String?
+  assistantSchedule             AssistantSchedule? @relation(fields: [assistantSchedule_id], references: [id], onDelete: Cascade)
+  assistantSchedule_id          String?
 }
 
 model AssistantSchedule {
-  id              String          @id @default(uuid())
-  startDate       DateTime        @db.Date
-  endDate         DateTime        @db.Date
-  beginHour       DateTime        @db.Time(0)
-  interval        Int             @default(5)
-  endHour         DateTime        @db.Time(0)
-  duration        Int             @default(20)
-  announcement    Announcement    @relation(fields: [announcement_id], references: [id])
-  announcement_id String
-  assistant       SocialAssistant @relation(fields: [assistant_id], references: [id])
-  assistant_id    String
+  id                String              @id @default(uuid())
+  startDate         DateTime            @db.Date
+  endDate           DateTime            @db.Date
+  beginHour         DateTime            @db.Time(0)
+  interval          Int                 @default(5)
+  endHour           DateTime            @db.Time(0)
+  duration          Int                 @default(20)
+  announcement      Announcement        @relation(fields: [announcement_id], references: [id])
+  announcement_id   String
+  assistant         SocialAssistant     @relation(fields: [assistant_id], references: [id])
+  assistant_id      String
+  InterviewSchedule InterviewSchedule[]
 }
 
 model AnnouncementsSeen {

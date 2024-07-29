@@ -122,7 +122,7 @@ export default async function createInterviewSchedule(request: FastifyRequest,
         const availableTimes = availableTimesSchedule();
         await prisma.$transaction(async (tsPrisma) => {
             // Criar o intervalo na agenda da Assistente 
-            await tsPrisma.assistantSchedule.create({
+            const {id} = await tsPrisma.assistantSchedule.create({
                 data: {
                     startDate: new Date(startDate),
                     endDate: new Date(endDate),
@@ -147,6 +147,7 @@ export default async function createInterviewSchedule(request: FastifyRequest,
                             date: new Date(date),
                             assistant_id: socialAssistant.id,
                             announcement_id,
+                            assistantSchedule_id: id
                         }
                     })
                 }))

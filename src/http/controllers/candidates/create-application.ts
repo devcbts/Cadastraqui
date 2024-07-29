@@ -87,7 +87,6 @@ export async function subscribeAnnouncement(
       'despesas',
       'saude',
       'declaracoes',
-      'documentos'
     ];
 
     booleanFields.forEach(field => {
