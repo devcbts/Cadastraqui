@@ -32,8 +32,13 @@ export default async function createInterviewSolicitation(request: FastifyReques
             throw new Error('Este horário já foi ocupado.')
         }
        
-       
-
+       const ocupiedSchedules = await prisma.interviewSchedule.findMany({
+        where: {application_id, OR: [{AND :[{accepted: true}, {date: {gte: new Date()}}]}, {InterviewRealized: true}]},
+       })
+       if (ocupiedSchedules.length > 0) {
+           throw new Error('Candidato já possui uma entrevista marcada ou já realizou entrevista nesse edital')
+        
+       }
         const interviewSchedule = await prisma.interviewSchedule.update({
             where: { id: schedule_id },
             data: {
