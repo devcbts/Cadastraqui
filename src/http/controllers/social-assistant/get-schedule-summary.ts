@@ -12,7 +12,9 @@ export default async function getScheduleSummary(
             include: {
                 Announcement: {
                     include: {
-                        AssistantSchedule: true
+                        AssistantSchedule: {
+                            where: { assistant: { user_id: sub } }
+                        }
                     }
                 }
             }
@@ -24,12 +26,17 @@ export default async function getScheduleSummary(
             by: ["interviewType", "announcement_id"],
             _count: { interviewType: true },
             where: {
-                AND: [{ announcement_id: { in: assistant.Announcement.map(e => e.id) } }, { assistant_id: assistant.id }]
+                AND: [{ announcement_id: { in: assistant.Announcement.map(e => e.id) } }, { assistant_id: assistant.id }, { accepted: true }]
             }
         })
         const mappedData = assistant.Announcement.map((e) => {
+            const interviewTypes = count.filter(i => i.announcement_id === e.id)
+            const interviews = interviewTypes.find(i => i.interviewType === 'Interview')?._count.interviewType ?? 0
+            const visits = interviewTypes.find(i => i.interviewType === 'Visit')?._count.interviewType ?? 0
             return ({
                 ...e,
+                interviews,
+                visits,
                 hasSchedule: e.AssistantSchedule.length !== 0
             })
         })

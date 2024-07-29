@@ -54,6 +54,16 @@ export async function createSolicitation(
         // Se a solicitação for do tipo de documentos
         await prisma.$transaction(async (tsPrisma) => {
             const { deadLineTime, description, type } = solicitation
+            if (solicitation.type === 'Interview' || solicitation.type === `Visit`) {
+                const solicitationExists = await tsPrisma.requests.findFirst({
+                    where: {
+                        AND: [{ application_id }, { type }]
+                    }
+                })
+                if (solicitationExists) {
+                    throw new Error('Já existe uma solicitação deste tipo para esta inscrição')
+                }
+            }
             const dbSolicitation = await tsPrisma.requests.create({
                 data: {
                     application_id,
