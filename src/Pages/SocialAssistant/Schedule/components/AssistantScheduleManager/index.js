@@ -74,7 +74,7 @@ export default function AssistantScheduleManager() {
                 <Table.Root headers={['edital', 'entrevistas', 'visitas', 'ações']}>
                     {
                         announcements.map(e => (
-                            <Table.Row>
+                            <Table.Row key={e.id}>
                                 <Table.Cell>{e.announcementName}</Table.Cell>
                                 <Table.Cell>{e.interviews}</Table.Cell>
                                 <Table.Cell>{e.visits}</Table.Cell>

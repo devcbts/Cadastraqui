@@ -6,7 +6,7 @@ import useControlForm from "hooks/useControlForm";
 import { z } from "zod";
 
 export default function UndoneScheduleModal({
-    open, onConfirm, onClose
+    open, onConfirm, onClose, title
 }) {
     const { control, watch, reset, formState: { isValid }, trigger, getValues } = useControlForm({
         schema: z.object({
@@ -30,7 +30,7 @@ export default function UndoneScheduleModal({
         onClose()
     }
     return (
-        <Modal title={'Não realizada'} open={open} onConfirm={handleConfirm} onCancel={handleClose}>
+        <Modal title={title} open={open} onConfirm={handleConfirm} onCancel={handleClose}>
             <InputForm control={control} name="reason" label={'motivo'}
             // value={watch("reason")} options={[{ label: 'teste', value: 'teste' }]} 
             />

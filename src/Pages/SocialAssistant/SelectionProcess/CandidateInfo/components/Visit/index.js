@@ -8,6 +8,8 @@ import FilePreview from "Components/FilePreview";
 import { formatDate } from "utils/get-date-formatted";
 import uploadService from "services/upload/uploadService";
 import { NotificationService } from "services/notification";
+import ButtonBase from "Components/ButtonBase";
+import socialAssistantService from "services/socialAssistant/socialAssistantService";
 export default function Visit({ data, }) {
     const [openModal, setOpenModal] = useState(false)
     const [report, setReport] = useState()
@@ -27,6 +29,17 @@ export default function Visit({ data, }) {
     useEffect(() => {
         setReport(data)
     }, [data])
+    const handleRequestVisit = async () => {
+        try {
+            await socialAssistantService.registerSolicitation(state?.applicationId, {
+                type: 'Visit',
+                description: 'Agendar visita domiciliar'
+            })
+            NotificationService.success({ text: 'Solicitação de visita domiciliar enviada' })
+        } catch (err) {
+            NotificationService.error({ text: err?.response?.data?.message })
+        }
+    }
     return (
         <div className={styles.table}>
             <NewReport open={openModal} onClose={() => setOpenModal(false)} onSubmit={handleSubmit} />
@@ -49,6 +62,10 @@ export default function Visit({ data, }) {
                 </Table.Row>
 
             </Table.Root>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: '12px 0px' }}>
+
+                <ButtonBase label={'solicitar visita domiciliar'} onClick={handleRequestVisit} />
+            </div>
         </div>
     )
 }

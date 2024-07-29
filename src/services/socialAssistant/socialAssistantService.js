@@ -143,6 +143,12 @@ class SocialAssistantService {
     async updateInterview(scheduleId, data) {
         return api.patch(`/assistant/schedule/interview/${scheduleId}`, data)
     }
+    async getSchedule() {
+        return api.get(`/assistant/schedule`)
+    }
+    async rejectAppointment(scheduleId, data) {
+        return api.post(`/assistant/schedule/not-accept/${scheduleId}`, data)
+    }
 }
 
 export default new SocialAssistantService()

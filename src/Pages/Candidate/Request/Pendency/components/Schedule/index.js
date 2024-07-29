@@ -28,7 +28,7 @@ export default function Schedule() {
         if (applicationId) fetchAvailableDates()
     }, [])
     const handleSchedule = async () => {
-        if (!scheduleTo.id) {
+        if (!scheduleTo?.id) {
             return
         }
         try {

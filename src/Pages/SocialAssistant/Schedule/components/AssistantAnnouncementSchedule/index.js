@@ -10,6 +10,7 @@ import socialAssistantService from "services/socialAssistant/socialAssistantServ
 import REQUEST_TYPE from "utils/enums/request-type";
 import Loader from "Components/Loader";
 import formatDate from "utils/format-date";
+import UndoneScheduleModal from "../AssistantCandidateSchedule/UndoneScheduleModal";
 export default function AssistantAnnouncementSchedule() {
     const navigate = useNavigate()
     const { state } = useLocation()
@@ -17,16 +18,30 @@ export default function AssistantAnnouncementSchedule() {
     const [currentDate, setCurrentDate] = useState(new Date())
     const [isLoading, setIsLoading] = useState(true)
     const [schedule, setSchedule] = useState()
+    const [rejectionId, setRejectionId] = useState(null)
     const handleBack = () => {
         if (state?.scheduleView) {
             return navigate('/agenda', { state: { scheduleView: 'manager' } })
         }
         return navigate('/agenda')
     }
-    const handleReject = () => {
+    const handleReject = (values) => {
         NotificationService.confirm({
-            title: 'Recusar agendamento?',
-            text: 'O candidato precisará reagendar o compromisso'
+            title: 'Cancelar agendamento?',
+            text: 'O candidato precisará reagendar o compromisso',
+            onConfirm: async () => {
+                try {
+                    await socialAssistantService.rejectAppointment(rejectionId, {
+                        rejectReason: values.reason,
+                        rejectComentary: values.comment
+                    })
+                    setRejectionId(null)
+                    setSchedule(prev => ({ ...prev, [currentDate]: prev?.[currentDate]?.filter(e => e.id !== rejectionId) }))
+                    NotificationService.success({ text: 'Compromisso cancelado' })
+                } catch (err) {
+                    NotificationService.error({ text: err?.response?.data?.message })
+                }
+            }
         })
     }
     const handleViewCandidateSchedule = (scheduleId) => {
@@ -50,6 +65,7 @@ export default function AssistantAnnouncementSchedule() {
     return (
         <>
             <Loader loading={isLoading} />
+            <UndoneScheduleModal title={'Cancelamento'} open={!!rejectionId} onClose={() => setRejectionId(null)} onConfirm={handleReject} />
             <BackPageTitle title={'Agenda do edital'} onClick={handleBack} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', padding: '24px', height: '100%' }}>
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '32px', minHeight: '300px', maxHeight: '40%' }}>
@@ -63,13 +79,13 @@ export default function AssistantAnnouncementSchedule() {
                         ? <span>Nenhuma entrevista/visita marcada para este dia ({formatDate(currentDate, { utc: true })})</span>
                         : (<Table.Root headers={['horário', 'candidato', 'tipo', 'ação']}>
                             {schedule?.[currentDate]?.map(e => (
-                                <Table.Row>
+                                <Table.Row key={e.id}>
                                     <Table.Cell divider>{e.hour}</Table.Cell>
                                     <Table.Cell>{e.candidateName}</Table.Cell>
                                     <Table.Cell>{REQUEST_TYPE[e.interviewType]}</Table.Cell>
                                     <Table.Cell>
                                         <ButtonBase label={'visualizar'} onClick={() => handleViewCandidateSchedule(e.id)} />
-                                        <ButtonBase label={'recusar'} danger onClick={handleReject} />
+                                        {!e.finished && <ButtonBase label={'recusar'} danger onClick={() => setRejectionId(e.id)} />}
                                     </Table.Cell>
                                 </Table.Row>
                             ))}

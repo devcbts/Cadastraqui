@@ -9,7 +9,7 @@ export default function formatDate(date = '', { showTime, utc } = { showTime: fa
             hour: '2-digit',
             minute: '2-digit',
         }),
-        timeZone: utc ? "UTC" : Intl.DateTimeFormat().resolvedOptions().timeZone,
+        timeZone: utc ? "UTC" : "America/Sao_Paulo",
     });
     if (!date) return ''
     return formatter.format(new Date(date))

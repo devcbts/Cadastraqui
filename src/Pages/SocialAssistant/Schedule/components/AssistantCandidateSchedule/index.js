@@ -2,7 +2,7 @@ import BackPageTitle from "Components/BackPageTitle"
 import ButtonBase from "Components/ButtonBase"
 import InputBase from "Components/InputBase"
 import Table from "Components/Table"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useParams } from "react-router"
 import AppointmentLink from "../AppointmentLink"
 import UndoneScheduleModal from "./UndoneScheduleModal"
@@ -17,7 +17,15 @@ export default function AssistantCandidateSchedule() {
     const [status, setStatus] = useState(null)
     const [schedule, setSchedule] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
-
+    const notEditable = useMemo(() => {
+        if (schedule?.cancelled) {
+            return 'CANCELLED'
+        }
+        if (schedule?.finished) {
+            return 'FINISHED'
+        }
+        return null
+    }, [schedule])
     const debounce = useDebouncedCallback(
         (v) => handleSaveComment(v),
         1000
@@ -61,36 +69,41 @@ export default function AssistantCandidateSchedule() {
             }
             await socialAssistantService.updateInterview(scheduleId, data)
             NotificationService.success({ text: 'Status alterado' })
+            setSchedule(prev => ({ ...prev, finished: true }))
         } catch (err) {
-            NotificationService.error({ text: 'Erro ao alterar o status' })
+            NotificationService.error({ text: err?.response?.data?.message })
         }
     }
     return (
         <>
             <Loader loading={isLoading} />
             <BackPageTitle title={'Detalhes do agendamento'} path={-1} />
-            <UndoneScheduleModal open={status === 'undone'} onConfirm={handleInterviewStatus} onClose={() => setStatus(null)} />
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '32px', height: '100%' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                    <Table.Root headers={['nome', 'horário', 'tipo']}>
-                        <Table.Row>
-                            <Table.Cell>{schedule?.candidateName}</Table.Cell>
-                            <Table.Cell>{schedule?.hour}</Table.Cell>
-                            <Table.Cell>{REQUEST_TYPE[schedule?.interviewType]}</Table.Cell>
-                        </Table.Row>
-                    </Table.Root>
-                    <AppointmentLink link={schedule?.interviewLink} onSave={handleSaveLink} />
+            <UndoneScheduleModal title={'Não realizada'} open={status === 'undone'} onConfirm={handleInterviewStatus} onClose={() => setStatus(null)} />
+            <fieldset style={{ all: 'inherit' }} disabled={notEditable}>
+
+                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '32px', height: '100%' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                        <Table.Root headers={['nome', 'horário', 'tipo']}>
+                            <Table.Row>
+                                <Table.Cell>{schedule?.candidateName}</Table.Cell>
+                                <Table.Cell>{schedule?.hour}</Table.Cell>
+                                <Table.Cell>{REQUEST_TYPE[schedule?.interviewType]}</Table.Cell>
+                            </Table.Row>
+                        </Table.Root>
+                        {schedule?.interviewType === 'Interview' && <AppointmentLink link={schedule?.interviewLink} onSave={handleSaveLink} />}
+                    </div>
+                    <InputBase type="text-area" label={'comentário'} value={schedule?.InterviewComentary} onChange={(e) => debounce(e.target.value)} error={null} />
+                    {notEditable && <span>Este agendamento foi {notEditable === 'CANCELLED' ? 'CANCELADO' : 'FINALIZADO'}</span>}
+                    <div style={{ display: 'flex', flexDirection: 'row', gap: '32px', justifyContent: 'center' }}>
+                        <ButtonBase label={'não realizada'} onClick={() => setStatus('undone')} danger />
+                        <ButtonBase label={'realizada'} onClick={() => {
+                            setStatus('done')
+                            handleInterviewStatus()
+                        }
+                        } />
+                    </div>
                 </div>
-                <InputBase type="text-area" label={'comentário'} value={schedule?.InterviewComentary} onChange={(e) => debounce(e.target.value)} error={null} />
-                <div style={{ display: 'flex', flexDirection: 'row', gap: '32px', justifyContent: 'center' }}>
-                    <ButtonBase label={'não realizada'} onClick={() => setStatus('undone')} danger />
-                    <ButtonBase label={'realizada'} onClick={() => {
-                        setStatus('done')
-                        handleInterviewStatus()
-                    }
-                    } />
-                </div>
-            </div>
+            </fieldset >
         </>
     )
 }
