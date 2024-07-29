@@ -6,7 +6,6 @@ import { uploadParecerDocument } from './AWS-routes/upload-parecer-document'
 import { uploadSolicitationDocument } from './AWS-routes/upload-solicitation-document'
 import { calculateExpenses } from './calculate-expenses'
 import { closeApplication } from './close-application'
-import createInterviewSchedule from './schedule-routes/create-interview-schedule'
 import { createSolicitation } from './create-solicitation'
 import { deleteSolicitation } from './delete-solicitation'
 import { getBankingInfoHDB } from './detailed-form/get-banking-info'
@@ -36,13 +35,16 @@ import { getSolicitationDocumentsPDF } from './get-solicitation-response'
 import { getSolicitations } from './get_solicitations'
 import { registerAssistant } from './register'
 import { resendParecerDocumentEmail } from './resend-parecer-email-to-sign'
+import createInterviewSchedule from './schedule-routes/create-interview-schedule'
+import getAnnouncementSchedule from './schedule-routes/get-announcement-schedules'
+import getAssistantSchedule from './schedule-routes/get-schedule'
+import rejectInterview from './schedule-routes/reject-interview'
+import updateInterviewSchedule from './schedule-routes/update-interview-schedule'
+import updateSingularInterview from './schedule-routes/update-singular-interview'
 import { sendParecerDocumentToSign } from './send-parecer-document-to-sign'
 import { updateApplication } from './update-application'
 import updateAssistantProfile from './update-assistant-profile'
 import { updateSolicitationWithReport } from './update-solicitation-report'
-import rejectInterview from './schedule-routes/reject-interview'
-import updateSingularInterview from './schedule-routes/update-singular-interview'
-import getAnnouncementSchedule from './schedule-routes/get-announcement-schedules'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -59,7 +61,7 @@ export async function assistantRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     enrollApplication,
   )
- 
+
   // Adicionar histórico na inscrição
   app.post('/history/:application_id', { onRequest: [verifyJWT] }, addHistory)
   // Pegar documentos do candidato
@@ -156,9 +158,11 @@ export async function assistantRoutes(app: FastifyInstance) {
 
 
   // Agenda
+  app.get('/schedule', { onRequest: [verifyJWT] }, getAssistantSchedule)
   app.get('/schedule/summary', { onRequest: [verifyJWT] }, getScheduleSummary)
   app.post('/schedule/:announcement_id', { onRequest: [verifyJWT] }, createInterviewSchedule)
+  app.patch('/schedule/:schedule_id', { onRequest: [verifyJWT] }, updateInterviewSchedule)
   app.post('/schedule/not-accept/:interview_id', { onRequest: [verifyJWT] }, rejectInterview)
-  app.patch('/schedule/:interview_id', { onRequest: [verifyJWT] }, updateSingularInterview)
+  app.patch('/schedule/interview/:interview_id', { onRequest: [verifyJWT] }, updateSingularInterview)
   app.get('/schedule/:announcement_id/:schedule_id?', { onRequest: [verifyJWT] }, getAnnouncementSchedule)
 }

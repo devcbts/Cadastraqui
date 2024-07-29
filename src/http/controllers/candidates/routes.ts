@@ -8,7 +8,6 @@ import { uploadDocument } from './AWS Routes/upload-documents'
 import { uploadCandidateProfilePicture } from './AWS Routes/upload-profile-picture'
 import { uploadSolicitationDocument } from './AWS Routes/upload-solicitation-documents'
 import { subscribeAnnouncement } from './create-application'
-import createInterviewSolicitation from './Interview Routes/create-interview-solicitation'
 import getActivity from './Declaration Get Routes/get-activity'
 import getAddressProof from './Declaration Get Routes/get-address-proof'
 import getDeclarationForm from './Declaration Get Routes/get-declaration-form'
@@ -44,7 +43,6 @@ import { getHealthInfo } from './get-health-info'
 import { getHousingInfo } from './get-housing-info'
 import { getIdentityInfo } from './get-identity-info'
 import { getIncomeInfo } from './get-income-info'
-import getCandidateInterviewSchedule from './Interview Routes/get-interview-schedule'
 import { getLoanInfo } from './get-loan-info'
 import { getMonthlyIncomeBySource } from './get-monthly-income'
 import { getOpenAnnouncements } from './get-open-announcements'
@@ -53,6 +51,9 @@ import { getRegistrato } from './get-registrato'
 import getSolicitations from './get-solicitations'
 import { getBasicInfoFormated } from './get-user-basic-info-formated'
 import { getVehicleInfo } from './get-vehicle-info'
+import createInterviewSolicitation from './Interview Routes/create-interview-solicitation'
+import getCandidateInterviews from './Interview Routes/get-candidate-interviews'
+import getCandidateInterviewSchedule from './Interview Routes/get-interview-schedule'
 import { registerCandidate } from './register'
 import { registerBankingInfo } from './register-banking-info'
 import { registerCreditCardInfo } from './register-credit-card-info'
@@ -84,7 +85,6 @@ import { updateMedicationInfo } from './update-medication-info'
 import updateMonthlyIncome from './update-monthly-income-info'
 import { updateRegistrationInfo } from './update-registration-info'
 import { updateVehicleInfo } from './update-vehicle-info'
-import getCandidateInterviews from './Interview Routes/get-candidate-interviews'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT] }, uploadDocument)
@@ -294,7 +294,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   )
   app.get('/schedule/:application_id', getCandidateInterviewSchedule)
   app.post('/schedule/:schedule_id', { onRequest: [verifyJWT] }, createInterviewSolicitation)
-  app.get('/schedule/:candidate_id/:interview_id?', { onRequest: [verifyJWT] }, getCandidateInterviews)
+  app.get('/schedule/interview/:candidate_id/:interview_id?', { onRequest: [verifyJWT] }, getCandidateInterviews)
 }
 
 

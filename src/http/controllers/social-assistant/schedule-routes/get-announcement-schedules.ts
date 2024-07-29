@@ -1,7 +1,6 @@
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
-import { InterviewType } from "@prisma/client";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
@@ -50,6 +49,9 @@ export default async function getAnnouncementSchedule(request: FastifyRequest, r
                 InterviewComentary: schedule.InterviewComentary,
                 InterviewNotRealizedReason: schedule.InterviewNotRealizedReason,
                 InterviewNotRealizedComentary: schedule.InterviewNotRealizedComentary,
+                finished: schedule.InterviewRealized !== null,
+                cancelled: schedule.accepted === false,
+
             }
             return reply.status(200).send({ schedule: scheduleInfo })
         }
@@ -61,7 +63,8 @@ export default async function getAnnouncementSchedule(request: FastifyRequest, r
 
         const scheduleGrouped: any = {};
         schedules.map((schedule) => {
-            const dateDayandMonthAndYear = `${schedule.date.getUTCDay()}/${schedule.date.getUTCMonth()}/${schedule.date.getUTCFullYear()}`;
+            // const dateDayandMonthAndYear = `${schedule.date.getUTCDay()}/${schedule.date.getUTCMonth()}/${schedule.date.getUTCFullYear()}`;
+            const dateDayandMonthAndYear = schedule.date.toISOString().split('T')[0];
             if (!scheduleGrouped[dateDayandMonthAndYear]) {
                 scheduleGrouped[dateDayandMonthAndYear] = [];
             }
@@ -72,7 +75,8 @@ export default async function getAnnouncementSchedule(request: FastifyRequest, r
                 hour: `${schedule.date.getUTCHours()} : ${schedule.date.getUTCMinutes().toString().padStart(2, '0')}`,
                 candidateName: schedule.application?.candidateName,
                 applicationNumber: schedule.application?.number,
-                interviewType: schedule.interviewType
+                interviewType: schedule.interviewType,
+                finished: schedule.InterviewRealized !== null || schedule.accepted === false
             }
             scheduleGrouped[dateDayandMonthAndYear].push(infoToPush);
             return scheduleGrouped;

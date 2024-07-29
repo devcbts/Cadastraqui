@@ -1,5 +1,6 @@
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { prisma } from "@/lib/prisma";
+import { AssistantSchedule } from "@prisma/client";
 import { FastifyReply, FastifyRequest } from "fastify";
 import z from 'zod';
 
@@ -120,9 +121,10 @@ export default async function createInterviewSchedule(request: FastifyRequest,
             return result;
         }
         const availableTimes = availableTimesSchedule();
+        let schedule: AssistantSchedule | null = null;
         await prisma.$transaction(async (tsPrisma) => {
             // Criar o intervalo na agenda da Assistente 
-            const {id} = await tsPrisma.assistantSchedule.create({
+            schedule = await tsPrisma.assistantSchedule.create({
                 data: {
                     startDate: new Date(startDate),
                     endDate: new Date(endDate),
@@ -147,7 +149,7 @@ export default async function createInterviewSchedule(request: FastifyRequest,
                             date: new Date(date),
                             assistant_id: socialAssistant.id,
                             announcement_id,
-                            assistantSchedule_id: id
+                            assistantSchedule_id: schedule!.id
                         }
                     })
                 }))
@@ -156,7 +158,7 @@ export default async function createInterviewSchedule(request: FastifyRequest,
         }
         )
 
-        return reply.status(201).send({ message: "Agenda de entrevista criada com sucesso" })
+        return reply.status(201).send({ message: "Agenda de entrevista criada com sucesso", schedule })
     } catch (err: any) {
         if (err instanceof ForbiddenError) {
             return reply.status(403).send({ message: err.message })

@@ -9,7 +9,7 @@ export default async function updateInterviewSchedule(request: FastifyRequest,
 ) {
     const params = z.object({
         schedule_id: z.string(),
-        
+
     })
 
     const updateInterviewBody = z.object({
@@ -92,8 +92,8 @@ export default async function updateInterviewSchedule(request: FastifyRequest,
                     lte: new Date(endDate),
                     gte: new Date(startDate),
                 },
-                id: { not: schedule.id}
-                
+                id: { not: schedule.id }
+
             }
         })
 
@@ -137,11 +137,12 @@ export default async function updateInterviewSchedule(request: FastifyRequest,
             // Isso irá deletar o schedule antigo e criar um novo (e os horários disponíveis associados a ele)
             await tsPrisma.assistantSchedule.delete({
                 where: {
-                    id: schedule.id}
+                    id: schedule.id
+                }
 
             })
             // Criar o intervalo na agenda da Assistente 
-            await tsPrisma.assistantSchedule.create({
+            const { id } = await tsPrisma.assistantSchedule.create({
                 data: {
                     startDate: new Date(startDate),
                     endDate: new Date(endDate),
@@ -166,6 +167,7 @@ export default async function updateInterviewSchedule(request: FastifyRequest,
                             date: new Date(date),
                             assistant_id: socialAssistant.id,
                             announcement_id: schedule.announcement.id,
+                            assistantSchedule_id: id
                         }
                     })
                 }))
