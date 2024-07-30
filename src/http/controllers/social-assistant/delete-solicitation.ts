@@ -18,20 +18,7 @@ export async function deleteSolicitation(
 
     const { application_id, id } = applicationParamsSchema.parse(request.params)
     try {
-        const userType = request.user.role
-        const userId = request.user.sub
-
-        if (userType !== 'ASSISTANT') {
-            throw new NotAllowedError()
-        }
-
-        const assistant = await prisma.socialAssistant.findUnique({
-            where: { user_id: userId },
-        })
-
-        if (!assistant) {
-            throw new ResourceNotFoundError()
-        }
+       
 
         // Criar novo report no histórico da inscrição 
         // Se a solicitação for do tipo de documentos

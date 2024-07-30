@@ -7,10 +7,11 @@ import { z } from "zod";
 
 export default async function getCandidateInterviews(request: FastifyRequest, reply: FastifyReply) {
     const params = z.object({
-        candidate_id: z.string(),
+        candidate_id: z.string().optional(),
         interview_id: z.string().optional()
     })
     const { candidate_id, interview_id } = params.parse(request.params)
+    console.log(candidate_id, interview_id)
     try {
         const user_id = request.user.sub
         const candidateOrResponsible = await SelectCandidateResponsible(user_id)

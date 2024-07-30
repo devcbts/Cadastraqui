@@ -28,7 +28,6 @@ export default async function rejectInterview(
 
         const interview = await prisma.interviewSchedule.findUnique({
             where: { id: interview_id, date: { gte: new Date() }, assistant_id: assistant.id },
-
         })
         if (!interview) {
             throw new ResourceNotFoundError()
@@ -42,6 +41,17 @@ export default async function rejectInterview(
                 rejectComentary
             }
         })
+        const solicitation = await prisma.requests.findFirst({
+            where: { AND: [{ application_id: interview.application_id! }, { type: interview.interviewType! }] }
+        })
+        if (solicitation) {
+            await prisma.requests.update({
+                where: { id: solicitation.id },
+                data: {
+                    answered: false
+                }
+            })
+        }
         return reply.code(200).send({ message: "Entrevista rejeitada com sucesso" })
     } catch (error) {
         if (error instanceof ForbiddenError) {

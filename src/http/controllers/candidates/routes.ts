@@ -294,7 +294,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   )
   app.get('/schedule/:application_id', getCandidateInterviewSchedule)
   app.post('/schedule/:schedule_id', { onRequest: [verifyJWT] }, createInterviewSolicitation)
-  app.get('/schedule/interview/:candidate_id/:interview_id?', { onRequest: [verifyJWT] }, getCandidateInterviews)
+  app.get('/interview/:interview_id?', { onRequest: [verifyJWT] }, getCandidateInterviews)
 }
 
 

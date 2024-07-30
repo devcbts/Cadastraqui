@@ -45,6 +45,7 @@ import { sendParecerDocumentToSign } from './send-parecer-document-to-sign'
 import { updateApplication } from './update-application'
 import updateAssistantProfile from './update-assistant-profile'
 import { updateSolicitationWithReport } from './update-solicitation-report'
+import verifyAssistantEnroll from '@/http/middlewares/verify-assistant-enroll'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -84,28 +85,28 @@ export async function assistantRoutes(app: FastifyInstance) {
   )
   app.post(
     '/solicitation/:application_id',
-    { onRequest: [verifyJWT] },
+    { onRequest: [verifyJWT,verifyAssistantEnroll] },
     createSolicitation,
   )
   app.delete(
     '/solicitation/:application_id/:id',
-    { onRequest: [verifyJWT] },
+    { onRequest: [verifyJWT,verifyAssistantEnroll] },
     deleteSolicitation,
   )
   app.patch('/solicitation/:solicitation_id',
-    { onRequest: [verifyJWT] },
+    { onRequest: [verifyJWT,verifyAssistantEnroll] },
     updateSolicitationWithReport
   )
 
   // Fechar inscrição
   app.post(
     '/close/:announcement_id/:application_id',
-    { onRequest: [verifyJWT] },
+    { onRequest: [verifyJWT, verifyAssistantEnroll] },
     closeApplication,
   )
   app.patch(
     '/application/:application_id',
-    { onRequest: [verifyJWT] },
+    { onRequest: [verifyJWT,verifyAssistantEnroll] },
     updateApplication,
   )
 
@@ -147,14 +148,14 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/candidateInfo/declaration/:application_id', { onRequest: [verifyJWT] }, getDeclarationsPDF)
 
   // Documentos da assistente
-  app.post('/documents/majoracao/:application_id', { onRequest: [verifyJWT] }, uploadMarojacaoDocument)
-  app.post('/documents/parecer/:application_id', { onRequest: [verifyJWT] }, uploadParecerDocument)
-  app.post('/documents/solicitation/:type/:application_id', { onRequest: [verifyJWT] }, uploadSolicitationDocument)
+  app.post('/documents/majoracao/:application_id', { onRequest: [verifyJWT,verifyAssistantEnroll] }, uploadMarojacaoDocument)
+  app.post('/documents/parecer/:application_id', { onRequest: [verifyJWT, verifyAssistantEnroll] }, uploadParecerDocument)
+  app.post('/documents/solicitation/:type/:application_id', { onRequest: [verifyJWT, verifyAssistantEnroll] }, uploadSolicitationDocument)
   // Pegar CPF-CNPJ
-  app.get('/candidateInfo/find-cpf-cnpj/:application_id', { onRequest: [verifyJWT] }, findCPF_CNPJ)
+  app.get('/candidateInfo/find-cpf-cnpj/:application_id', { onRequest: [verifyJWT,verifyAssistantEnroll] }, findCPF_CNPJ)
 
-  app.post('/post-pdf/:application_id', { onRequest: [verifyJWT] }, sendParecerDocumentToSign)
-  app.post('/send-parecer-email/:application_id', { onRequest: [verifyJWT] }, resendParecerDocumentEmail)
+  app.post('/post-pdf/:application_id', { onRequest: [verifyJWT, verifyAssistantEnroll] }, sendParecerDocumentToSign)
+  app.post('/send-parecer-email/:application_id', { onRequest: [verifyJWT,verifyAssistantEnroll] }, resendParecerDocumentEmail)
 
 
   // Agenda

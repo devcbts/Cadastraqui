@@ -317,6 +317,13 @@ export async function getCandidateResume(
             }
         })
 
+        const interviews = await prisma.interviewSchedule.findMany({
+            where: { application_id, InterviewRealized: true },
+            distinct: ['interviewType'],
+        });
+        
+        
+        
         return reply.status(200).send({
             candidateInfo,
             responsibleInfo,
@@ -330,7 +337,8 @@ export async function getCandidateResume(
             majoracao: majoracao,
             interviewDocument: interviewDocument,
             visitDocument: visitDocument,
-            solicitations: solicitationsFiltered
+            solicitations: solicitationsFiltered,
+            interviews
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {

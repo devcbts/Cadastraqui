@@ -108,7 +108,7 @@ export async function updateIdentityDetailsHDB(id: string) {
 
                 await tsPrisma.application.update({
                     where: { id: application.id },
-                    data: { distance }
+                    data: { distance, CadUnico: identityDetails.CadUnico }
                 });
             });
         }
