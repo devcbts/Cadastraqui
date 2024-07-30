@@ -6,10 +6,16 @@ import { useRecoilState } from 'recoil';
 import candidateService from 'services/candidate/candidateService';
 import declarationAtom from '../../atoms/declarationAtom';
 import commonStyles from '../../styles.module.scss';
+import InputForm from 'Components/InputForm';
+import useControlForm from 'hooks/useControlForm';
+import { z } from 'zod';
+import { formatCNPJ } from 'utils/format-cnpj';
 
 export default function Declaration_InactiveCompany({ onBack, onSave }) {
     const [hasInactiveCompany, setHasInactiveCompany] = useState(null);
     const [companyDetails, setCompanyDetails] = useState({
+        socialReason: '',
+        CNPJ: '',
         CEP: '',
         address: '',
         neighborhood: '',
@@ -18,6 +24,20 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
         UF: '',
         complement: '',
     });
+    const { control, formState: { isValid }, trigger, getValues } = useControlForm({
+        schema: z.object({
+            socialReason: z.string().refine((v) => !hasInactiveCompany ? true : v, 'Razão social obrigatória'),
+            CNPJ: z.string().refine((v) => !hasInactiveCompany ? true : v, 'CNPJ obrigatório'),
+        }),
+        defaultValues: {
+            socialReason: '',
+            CNPJ: ''
+        },
+        initialData: {
+            socialReason: companyDetails.socialReason,
+            CNPJ: companyDetails.CNPJ
+        }
+    })
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
 
     useEffect(() => {
@@ -33,7 +53,8 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
         if (!hasInactiveCompany) {
             candidateService.deleteDeclaration({ userId: declarationData.id, type: 'InactiveCompany' })
         }
-        if (!addressRef.current?.validate() && addressRef.current) {
+        if (!addressRef.current?.validate() && addressRef.current && !isValid) {
+            trigger()
             return
         }
         const values = addressRef.current?.values()
@@ -41,7 +62,7 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
             ...prev,
             inactiveCompanyDetails: {
                 hasInactiveCompany,
-                companyDetails: hasInactiveCompany ? values : {
+                companyDetails: hasInactiveCompany ? { ...values, ...getValues() } : {
                     CEP: '',
                     address: '',
                     neighborhood: '',
@@ -93,6 +114,10 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
             </div>
             {hasInactiveCompany && (
                 <div className={commonStyles.additionalFields}>
+                    <div style={{ display: 'flex', flexDirection: 'row', gap: '24px' }}>
+                        <InputForm label={'razão social'} control={control} name="socialReason" />
+                        <InputForm label={'CNPJ'} control={control} name="CNPJ" transform={(e) => formatCNPJ(e.target.value)} />
+                    </div>
                     <AddressData ref={addressRef} data={companyDetails} />
                     {/* <div className={commonStyles.inputGroup}>
                         <label htmlFor="cep">CEP</label>

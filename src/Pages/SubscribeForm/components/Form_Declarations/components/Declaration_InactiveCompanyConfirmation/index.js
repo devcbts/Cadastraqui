@@ -44,7 +44,7 @@ export default function Declaration_InactiveCompanyConfirmation({ onBack, onSave
         }
 
         const text = `
-            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, possuo uma empresa inativa localizada no endereço ${inactiveCompanyDetails.address}, nº ${inactiveCompanyDetails.addressNumber}, complemento ${inactiveCompanyDetails.complement}, bairro ${inactiveCompanyDetails.neighborhood}, cidade ${inactiveCompanyDetails.city}, UF ${inactiveCompanyDetails.UF}, CEP ${inactiveCompanyDetails.CEP}.
+            Eu, ${declarationData.name}, portador(a) do CPF nº ${declarationData.CPF}, possuo uma empresa inativa cuja razão social é ${inactiveCompanyDetails.socialReason}, inscrita sob o CNPJ ${inactiveCompanyDetails.CNPJ}, localizada no endereço ${inactiveCompanyDetails.address}, nº ${inactiveCompanyDetails.addressNumber}, complemento ${inactiveCompanyDetails.complement}, bairro ${inactiveCompanyDetails.neighborhood}, cidade ${inactiveCompanyDetails.city}, UF ${inactiveCompanyDetails.UF}, CEP ${inactiveCompanyDetails.CEP}.
         `;
 
         const payload = {
@@ -90,7 +90,7 @@ export default function Declaration_InactiveCompanyConfirmation({ onBack, onSave
             <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
                 <p>
-                    Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, possuo uma empresa inativa localizada no endereço <span>{inactiveCompanyDetails.address}</span>, nº <span>{inactiveCompanyDetails.addressNumber}</span>, complemento <span>{inactiveCompanyDetails.complement}</span>, bairro <span>{inactiveCompanyDetails.neighborhood}</span>, cidade <span>{inactiveCompanyDetails.city}</span>, UF <span>{inactiveCompanyDetails.UF}</span>, CEP <span>{inactiveCompanyDetails.CEP}</span>.
+                    Eu, <span>{declarationData.name}</span>, portador(a) do CPF nº <span>{declarationData.CPF}</span>, possuo uma empresa inativa, cuja razão social é <span>{inactiveCompanyDetails.socialReason}</span>, inscrita sob o CNPJ <span>{inactiveCompanyDetails.CNPJ}</span> localizada no endereço <span>{inactiveCompanyDetails.address}</span>, nº <span>{inactiveCompanyDetails.addressNumber}</span>, complemento <span>{inactiveCompanyDetails.complement}</span>, bairro <span>{inactiveCompanyDetails.neighborhood}</span>, cidade <span>{inactiveCompanyDetails.city}</span>, UF <span>{inactiveCompanyDetails.UF}</span>, CEP <span>{inactiveCompanyDetails.CEP}</span>.
                 </p>
             </div>
             <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>

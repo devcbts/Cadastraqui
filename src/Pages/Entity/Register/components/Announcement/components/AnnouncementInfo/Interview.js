@@ -19,7 +19,7 @@ const Interview = forwardRef(({ data, onChange }, ref) => {
     }, ref)
     useEffect(() => {
         const values = getValues()
-        onChange(values)
+        onChange && onChange(values)
     }, [watch()])
     return (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>

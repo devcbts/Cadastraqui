@@ -48,7 +48,7 @@ export default function UserPendencies() {
     return (
         <div>
             <SendDocumentSolicitation data={selection} onClose={() => setSelection(null)} onConfirm={handleUploadSolicitation} />
-            <BackPageTitle title={'Solicitações'} path={-1} />
+            <BackPageTitle title={'Solicitações'} path={'/solicitacoes'} />
             <h3>Pendências</h3>
             <div style={{ display: 'flex', placeContent: 'center', width: '100%' }}>
                 <div style={{ display: 'flex', placeContent: 'center', width: '80%' }}>
@@ -68,12 +68,12 @@ export default function UserPendencies() {
                                             </FormListItem.Actions>
                                         </FormListItem.Root>
                                     )
-                                } else if (item.solicitation === 'Interview') {
+                                } else if (item.solicitation === 'Interview' || item.solicitation === 'Visit') {
                                     return (
                                         <FormListItem.Root text={item.description}>
                                             <FormListItem.Actions>
                                                 {!item.answered
-                                                    ? <ButtonBase label={'agendar'} onClick={() => navigate('', { state: { schedule: 'Interview' } })} />
+                                                    ? <ButtonBase label={'agendar'} onClick={() => navigate('', { state: { schedule: item.solicitation } })} />
                                                     : <span>Enviada</span>
                                                 }
                                             </FormListItem.Actions>

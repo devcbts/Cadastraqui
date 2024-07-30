@@ -13,7 +13,7 @@ export default function HistoryCard({
         }}>
             <h4>{HISTORY_REQUESTER[history.createdBy]}</h4>
             <span style={{ fontSize: '14px' }}>{history.description}</span>
-            <span>{formatDate(history.createdAt, true)}</span>
+            <span>{formatDate(history.createdAt, { showTime: true })}</span>
         </div>
     )
 }
