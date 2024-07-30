@@ -4,28 +4,20 @@ import InputBase from "Components/InputBase"
 import Table from "Components/Table"
 import { useEffect, useMemo, useState } from "react"
 import { useParams } from "react-router"
-import AppointmentLink from "../AppointmentLink"
 import UndoneScheduleModal from "./UndoneScheduleModal"
 import { NotificationService } from "services/notification"
 import socialAssistantService from "services/socialAssistant/socialAssistantService"
 import REQUEST_TYPE from "utils/enums/request-type"
 import { useDebouncedCallback } from "use-debounce"
 import Loader from "Components/Loader"
+import AppointmentDetails from "Components/Schedule/AppointmentDetails"
 
 export default function AssistantCandidateSchedule() {
     const { announcementId, scheduleId } = useParams()
     const [status, setStatus] = useState(null)
     const [schedule, setSchedule] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
-    const notEditable = useMemo(() => {
-        if (schedule?.cancelled) {
-            return 'CANCELLED'
-        }
-        if (schedule?.finished) {
-            return 'FINISHED'
-        }
-        return null
-    }, [schedule])
+
     const debounce = useDebouncedCallback(
         (v) => handleSaveComment(v),
         1000
@@ -79,10 +71,22 @@ export default function AssistantCandidateSchedule() {
             <Loader loading={isLoading} />
             <BackPageTitle title={'Detalhes do agendamento'} path={-1} />
             <UndoneScheduleModal title={'Não realizada'} open={status === 'undone'} onConfirm={handleInterviewStatus} onClose={() => setStatus(null)} />
-            <fieldset style={{ all: 'inherit' }} disabled={notEditable}>
 
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '32px', height: '100%' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <AppointmentDetails
+                schedule={schedule}
+                onChangeCommentary={debounce}
+                onSaveLink={handleSaveLink}
+            >
+                <div style={{ display: 'flex', flexDirection: 'row', gap: '32px', justifyContent: 'center' }}>
+                    <ButtonBase label={'não realizada'} onClick={() => setStatus('undone')} danger />
+                    <ButtonBase label={'realizada'} onClick={() => {
+                        setStatus('done')
+                        handleInterviewStatus()
+                    }
+                    } />
+                </div>
+            </AppointmentDetails>
+            {/* <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                         <Table.Root headers={['nome', 'horário', 'tipo']}>
                             <Table.Row>
                                 <Table.Cell>{schedule?.candidateName}</Table.Cell>
@@ -90,20 +94,11 @@ export default function AssistantCandidateSchedule() {
                                 <Table.Cell>{REQUEST_TYPE[schedule?.interviewType]}</Table.Cell>
                             </Table.Row>
                         </Table.Root>
-                        {schedule?.interviewType === 'Interview' && <AppointmentLink link={schedule?.interviewLink} onSave={handleSaveLink} />}
                     </div>
+                    {schedule?.interviewType === 'Interview' && <AppointmentLink link={schedule?.interviewLink} onSave={handleSaveLink} />}
                     <InputBase type="text-area" label={'comentário'} value={schedule?.InterviewComentary} onChange={(e) => debounce(e.target.value)} error={null} />
-                    {notEditable && <span>Este agendamento foi {notEditable === 'CANCELLED' ? 'CANCELADO' : 'FINALIZADO'}</span>}
-                    <div style={{ display: 'flex', flexDirection: 'row', gap: '32px', justifyContent: 'center' }}>
-                        <ButtonBase label={'não realizada'} onClick={() => setStatus('undone')} danger />
-                        <ButtonBase label={'realizada'} onClick={() => {
-                            setStatus('done')
-                            handleInterviewStatus()
-                        }
-                        } />
-                    </div>
-                </div>
-            </fieldset >
+                    {notEditable && <span>Este agendamento foi {notEditable === 'CANCELLED' ? 'CANCELADO' : 'FINALIZADO'}</span>} */}
+
         </>
     )
 }

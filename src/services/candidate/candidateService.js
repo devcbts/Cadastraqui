@@ -407,6 +407,14 @@ class CandidateService {
     async createSchedule(scheduleId, { applicationId, interviewType }) {
         return api.post(`/candidates/schedule/${scheduleId}`, { application_id: applicationId, interviewType })
     }
+    async getSchedules() {
+        const response = await api.get(`/candidates/interview`)
+        return response.data.interviews
+    }
+    async getScheduleById(scheduleId) {
+        const response = await api.get(`/candidates/interview/${scheduleId}`)
+        return response.data.interview
+    }
 }
 
 export default new CandidateService()

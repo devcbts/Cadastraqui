@@ -76,7 +76,7 @@ export default function AppRoutes() {
                         </Route>
                         <Route path="/agenda" element={<Outlet />}>
                             <Route index element={<CandidateSchedule />} />
-                            {/* <Route path=':scheduleId' element={<CandidateScheduleView />} /> */}
+                            <Route path=':scheduleId' element={<CandidateScheduleView />} />
                         </Route>
                         <Route path="*" element={<Navigate to={'/home'} />} />
 

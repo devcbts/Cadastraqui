@@ -30,13 +30,13 @@ export default function AppointmentLink({ link, onSave }) {
         }}
         >
             <div style={{ display: 'flex', flexDirection: 'row', gap: '24px' }}>
-                <span>{!currentLink ? 'Adicione um link para a reunião' : 'Link da reunião:'}</span>
+                <span>{!currentLink ? 'Sem link para este agendamento' : 'Link da reunião:'}</span>
                 {editing
                     ? <input defaultValue={currentLink} onChange={handleEdit} />
                     : <a href={currentLink} target="_blank" style={{ color: 'white' }}>{currentLink}</a>
                 }
             </div>
-            <div>
+            {onSave && <div>
                 {editing
                     ? <div style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'inherit' }}>
                         <Close style={{ color: 'white', cursor: 'pointer' }} height={20} width={20} onClick={handleCancel} />
@@ -44,7 +44,7 @@ export default function AppointmentLink({ link, onSave }) {
                     </div>
                     : <Pencil style={{ color: 'white', cursor: 'pointer' }} height={20} width={20} onClick={handleEditMode} />
                 }
-            </div>
+            </div>}
         </div>
     )
 }

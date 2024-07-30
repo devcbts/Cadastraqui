@@ -25,7 +25,12 @@ export default function BigCalendar({
             localizer={localizer}
             events={events}
             defaultView="month"
-            messages={{ day: 'Dia', month: 'Mês', week: 'Semana', today: 'Hoje', next: 'Próximo', previous: 'Anterior', event: 'Evento', time: 'Horário', date: 'Data', noEventsInRange: 'Sem agendamentos neste intervalo' }}
+            messages={{
+                day: 'Dia', month: 'Mês', week: 'Semana', today: 'Hoje',
+                next: 'Próximo', previous: 'Anterior', event: 'Evento', time: 'Horário',
+                date: 'Data', noEventsInRange: 'Sem agendamentos neste intervalo',
+                showMore: (n) => `+2 compromissos`
+            }}
             onSelectEvent={onSelectEvent}
             onNavigate={onNavigate}
             {...props}
