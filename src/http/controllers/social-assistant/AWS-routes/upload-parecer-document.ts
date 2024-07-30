@@ -17,15 +17,7 @@ export async function uploadParecerDocument(
     const { application_id } = uploadParamsSchema.parse(request.params);
 
     try {
-        const user_id = request.user.sub;
-
-        const assistant = await prisma.socialAssistant.findUnique({ where: { user_id } });
-        if (!assistant) {
-            throw new ForbiddenError();
-        }
-
-
-
+     
 
 
         const data = await request.file();

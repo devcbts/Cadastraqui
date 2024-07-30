@@ -31,17 +31,7 @@ export async function updateSolicitationWithReport(
     const { report } = solicitationBodySchema.parse(request.body)
 
     try {
-        const userId = request.user.sub
-
-        const assistant = await prisma.socialAssistant.findUnique({
-            where: { user_id: userId },
-        })
-
-        if (!assistant) {
-            throw new ResourceNotFoundError()
-        }
-
-
+    
         // Caso 1: gaveUp true
         await prisma.applicationHistory.update({
             where: {id: solicitation_id},

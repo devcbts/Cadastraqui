@@ -24,14 +24,7 @@ export async function uploadSolicitationDocument(
     const { application_id, type } = uploadParamsSchema.parse(request.params);
 
     try {
-        const user_id = request.user.sub;
-
-        const assistant = await prisma.socialAssistant.findUnique({ where: { user_id } });
-        if (!assistant) {
-            throw new ForbiddenError();
-        }
-
-
+      
 
 
 

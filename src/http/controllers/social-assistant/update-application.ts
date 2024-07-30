@@ -31,16 +31,7 @@ export async function updateApplication(
     const { application_id } = applicationParamsSchema.parse(request.params)
     const { status, report, partial, parecerAditionalInfo } = applicationUpdateSchema.parse(request.body)
     try {
-        const userType = request.user.role
-        const userId = request.user.sub
-
-        const assistant = await prisma.socialAssistant.findUnique({
-            where: { user_id: userId },
-        })
-
-        if (!assistant) {
-            throw new ResourceNotFoundError()
-        }
+       
 
 
         // Caso 1: gaveUp true
