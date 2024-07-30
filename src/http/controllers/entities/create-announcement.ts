@@ -85,7 +85,7 @@ export async function CreateAnnoucment(
     })
 
     let subsidiaries = 0
-    
+
     if (!entityMatrix) {
       throw new EntityNotExistsError()
     }
