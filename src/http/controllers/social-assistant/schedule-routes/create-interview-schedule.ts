@@ -1,6 +1,7 @@
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { prisma } from "@/lib/prisma";
 import { AssistantSchedule } from "@prisma/client";
+import { toDate } from "date-fns-tz";
 import { FastifyReply, FastifyRequest } from "fastify";
 import z from 'zod';
 
@@ -94,7 +95,6 @@ export default async function createInterviewSchedule(request: FastifyRequest,
         const availableTimesSchedule = () => {
             const begin = new Date(`${startDate}T00:00:00`);
             const end = new Date(`${endDate}T00:00:00`);
-
             let curr = begin;
             const result = [];
             while (curr < end) {
@@ -123,6 +123,7 @@ export default async function createInterviewSchedule(request: FastifyRequest,
         const availableTimes = availableTimesSchedule();
         let schedule: AssistantSchedule | null = null;
         await prisma.$transaction(async (tsPrisma) => {
+            console.log(parseTimeToDate(beginHour))
             // Criar o intervalo na agenda da Assistente 
             schedule = await tsPrisma.assistantSchedule.create({
                 data: {
@@ -180,9 +181,9 @@ function parseTimeToDate(time: string): Date {
     const date = new Date();
     date.setHours(hours);
     date.setMinutes(minutes);
-    date.setSeconds(0);
-    date.setMilliseconds(0);
-    return date;
+    date.setSeconds(0)
+    date.setMilliseconds(0)
+    return toDate(date, { timeZone: 'America/Sao_Paulo' });
 }
 
 function toNumber(value: string): number {

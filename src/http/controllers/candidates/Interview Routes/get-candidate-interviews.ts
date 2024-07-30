@@ -2,6 +2,7 @@ import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
 import { SelectCandidateResponsible } from "@/utils/select-candidate-responsible";
+import { format } from "date-fns-tz";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
@@ -33,7 +34,7 @@ export default async function getCandidateInterviews(request: FastifyRequest, re
             const interviewInfo = {
                 id: interview.id,
                 date: interview.date,
-                hour: `${interview.date.getHours()} : ${interview.date.getMinutes().toString().padStart(2, '0')}`,
+                hour: format(interview.date, 'HH:mm', { timeZone: 'America/Sao_Paulo' }),
                 interviewType: interview.interviewType,
                 candidateName: interview.application.candidateName,
                 status: interview.InterviewRealized ? "Realizada" : interview.accepted ? "Aceito" : "Recusado",
@@ -61,8 +62,8 @@ export default async function getCandidateInterviews(request: FastifyRequest, re
                 id: schedule.id,
                 date: schedule.date,
                 endDate,
-                hour: `${schedule.date.getHours()}:${schedule.date.getMinutes().toString().padStart(2, '0')}`,
-                interviewType: schedule.interviewType === "Interview" ? "Entrevista" : "Visita Domiciliar",
+                hour: format(schedule.date, 'HH:mm', { timeZone: 'America/Sao_Paulo' }),
+                interviewType: schedule.interviewType,
                 status: schedule.InterviewRealized ? "Realizada" : schedule.accepted ? "Aceito" : "Recusado",
                 candidateName: schedule.application?.candidate.name // Inclui o nome do candidato
             };

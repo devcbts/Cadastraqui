@@ -403,7 +403,7 @@ model FamilyMemberIncome {
   employmentType EmploymentType
   averageIncome  String
   main_id        String?
-  isUpdated             Boolean?
+  isUpdated      Boolean?
 
   admissionDate         DateTime?
   position              String?
