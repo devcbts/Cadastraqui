@@ -43,7 +43,6 @@ import { getHealthInfo } from './get-health-info'
 import { getHousingInfo } from './get-housing-info'
 import { getIdentityInfo } from './get-identity-info'
 import { getIncomeInfo } from './get-income-info'
-import getCandidateInterviewSchedule from './get-interview-schedule'
 import { getLoanInfo } from './get-loan-info'
 import { getMonthlyIncomeBySource } from './get-monthly-income'
 import { getOpenAnnouncements } from './get-open-announcements'
@@ -52,6 +51,9 @@ import { getRegistrato } from './get-registrato'
 import getSolicitations from './get-solicitations'
 import { getBasicInfoFormated } from './get-user-basic-info-formated'
 import { getVehicleInfo } from './get-vehicle-info'
+import createInterviewSolicitation from './Interview Routes/create-interview-solicitation'
+import getCandidateInterviews from './Interview Routes/get-candidate-interviews'
+import getCandidateInterviewSchedule from './Interview Routes/get-interview-schedule'
 import { registerCandidate } from './register'
 import { registerBankingInfo } from './register-banking-info'
 import { registerCreditCardInfo } from './register-credit-card-info'
@@ -290,7 +292,9 @@ export async function candidateRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     uploadSolicitationDocument,
   )
-  app.get('/schedule/interview/:announcement_id/:assistant_id', getCandidateInterviewSchedule)
+  app.get('/schedule/:application_id', getCandidateInterviewSchedule)
+  app.post('/schedule/:schedule_id', { onRequest: [verifyJWT] }, createInterviewSolicitation)
+  app.get('/interview/:interview_id?', { onRequest: [verifyJWT] }, getCandidateInterviews)
 }
 
 

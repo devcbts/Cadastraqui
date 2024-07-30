@@ -34,26 +34,23 @@ export async function createSolicitation(
     const { application_id } = applicationParamsSchema.parse(request.params)
     const solicitation = applicationBodySchema.parse(request.body)
     try {
-        const userType = request.user.role
-        const userId = request.user.sub
-
-        if (userType !== 'ASSISTANT') {
-            throw new NotAllowedError()
-        }
-
-        const assistant = await prisma.socialAssistant.findUnique({
-            where: { user_id: userId },
-        })
-
-        if (!assistant) {
-            throw new ResourceNotFoundError()
-        }
+     
 
         // Criar novo report no histórico da inscrição 
         let id;
         // Se a solicitação for do tipo de documentos
         await prisma.$transaction(async (tsPrisma) => {
             const { deadLineTime, description, type } = solicitation
+            if (solicitation.type === 'Interview' || solicitation.type === `Visit`) {
+                const solicitationExists = await tsPrisma.requests.findFirst({
+                    where: {
+                        AND: [{ application_id }, { type }]
+                    }
+                })
+                if (solicitationExists) {
+                    throw new Error('Já existe uma solicitação deste tipo para esta inscrição')
+                }
+            }
             const dbSolicitation = await tsPrisma.requests.create({
                 data: {
                     application_id,
@@ -63,34 +60,7 @@ export async function createSolicitation(
                 },
             })
             id = dbSolicitation.id
-            // await Promise.all(
-            //     solicitations.map(async (item) => {
-            //         const { deadLineTime, description, solicitation, id } = item
-            //         if (deadLineTime) {
-            //             // const deadLineDate = new Date()
-            //             // const deadLine = new Date(deadLineDate.setDate(deadLineDate.getDate() + deadLineTime))
-            //             await tsPrisma.applicationHistory.create({
-            //                 data: {
-            //                     application_id,
-            //                     description: description,
-            //                     solicitation: solicitation,
-            //                     deadLine: deadLineTime
-            //                 },
-            //             })
-            //         }
-            //         // if id is not null, that means that solicitation already exists
-            //         if (!id) {
-            //             await tsPrisma.applicationHistory.create({
-            //                 data: {
-            //                     application_id,
-            //                     description: description,
-            //                     solicitation: solicitation
-            //                 },
-            //             })
-            //         }
-            //     })
-            // )
-
+           
         })
 
 

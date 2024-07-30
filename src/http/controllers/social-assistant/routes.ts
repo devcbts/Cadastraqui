@@ -2,6 +2,7 @@ import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { FastifyInstance } from 'fastify'
 import { addHistory } from './add-history'
 import { uploadMarojacaoDocument } from './AWS-routes/upload-majoracao-document'
+import { uploadParecerDocument } from './AWS-routes/upload-parecer-document'
 import { uploadSolicitationDocument } from './AWS-routes/upload-solicitation-document'
 import { calculateExpenses } from './calculate-expenses'
 import { closeApplication } from './close-application'
@@ -28,17 +29,23 @@ import { getCandidateParecer } from './get-candidate-parecer'
 import { getCandidateResume } from './get-candidate-resume'
 import getCandidatesApplications from './get-candidates-applications'
 import { getDocumentsPDF } from './get-pdf-documents'
+import getScheduleSummary from './get-schedule-summary'
 import { getBasicAssistantInfo } from './get-social-assistant-information'
 import { getSolicitationDocumentsPDF } from './get-solicitation-response'
 import { getSolicitations } from './get_solicitations'
-import { rankCandidatesIncome } from './rank-candidates-income'
 import { registerAssistant } from './register'
+import { resendParecerDocumentEmail } from './resend-parecer-email-to-sign'
+import createInterviewSchedule from './schedule-routes/create-interview-schedule'
+import getAnnouncementSchedule from './schedule-routes/get-announcement-schedules'
+import getAssistantSchedule from './schedule-routes/get-schedule'
+import rejectInterview from './schedule-routes/reject-interview'
+import updateInterviewSchedule from './schedule-routes/update-interview-schedule'
+import updateSingularInterview from './schedule-routes/update-singular-interview'
+import { sendParecerDocumentToSign } from './send-parecer-document-to-sign'
 import { updateApplication } from './update-application'
 import updateAssistantProfile from './update-assistant-profile'
 import { updateSolicitationWithReport } from './update-solicitation-report'
-import { sendParecerDocumentToSign } from './send-parecer-document-to-sign'
-import { resendParecerDocumentEmail } from './resend-parecer-email-to-sign'
-import { uploadParecerDocument } from './AWS-routes/upload-parecer-document'
+import verifyAssistantEnroll from '@/http/middlewares/verify-assistant-enroll'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -54,12 +61,6 @@ export async function assistantRoutes(app: FastifyInstance) {
     '/:announcement_id/:application_id',
     { onRequest: [verifyJWT] },
     enrollApplication,
-  )
-  // Rankear os candidatos por menor renda
-  app.get(
-    '/rank-income/:announcement_id',
-    { onRequest: [verifyJWT] },
-    rankCandidatesIncome,
   )
 
   // Adicionar histórico na inscrição
@@ -84,28 +85,28 @@ export async function assistantRoutes(app: FastifyInstance) {
   )
   app.post(
     '/solicitation/:application_id',
-    { onRequest: [verifyJWT] },
+    { onRequest: [verifyJWT,verifyAssistantEnroll] },
     createSolicitation,
   )
   app.delete(
     '/solicitation/:application_id/:id',
-    { onRequest: [verifyJWT] },
+    { onRequest: [verifyJWT,verifyAssistantEnroll] },
     deleteSolicitation,
   )
   app.patch('/solicitation/:solicitation_id',
-    { onRequest: [verifyJWT] },
+    { onRequest: [verifyJWT,verifyAssistantEnroll] },
     updateSolicitationWithReport
   )
 
   // Fechar inscrição
   app.post(
     '/close/:announcement_id/:application_id',
-    { onRequest: [verifyJWT] },
+    { onRequest: [verifyJWT, verifyAssistantEnroll] },
     closeApplication,
   )
   app.patch(
     '/application/:application_id',
-    { onRequest: [verifyJWT] },
+    { onRequest: [verifyJWT,verifyAssistantEnroll] },
     updateApplication,
   )
 
@@ -147,12 +148,22 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/candidateInfo/declaration/:application_id', { onRequest: [verifyJWT] }, getDeclarationsPDF)
 
   // Documentos da assistente
-  app.post('/documents/majoracao/:application_id', { onRequest: [verifyJWT] }, uploadMarojacaoDocument)
-  app.post('/documents/parecer/:application_id', { onRequest: [verifyJWT] }, uploadParecerDocument)
-  app.post('/documents/solicitation/:type/:application_id', { onRequest: [verifyJWT] }, uploadSolicitationDocument)
+  app.post('/documents/majoracao/:application_id', { onRequest: [verifyJWT,verifyAssistantEnroll] }, uploadMarojacaoDocument)
+  app.post('/documents/parecer/:application_id', { onRequest: [verifyJWT, verifyAssistantEnroll] }, uploadParecerDocument)
+  app.post('/documents/solicitation/:type/:application_id', { onRequest: [verifyJWT, verifyAssistantEnroll] }, uploadSolicitationDocument)
   // Pegar CPF-CNPJ
-  app.get('/candidateInfo/find-cpf-cnpj/:application_id', { onRequest: [verifyJWT] }, findCPF_CNPJ)
+  app.get('/candidateInfo/find-cpf-cnpj/:application_id', { onRequest: [verifyJWT,verifyAssistantEnroll] }, findCPF_CNPJ)
 
-  app.post('/post-pdf/:application_id', { onRequest: [verifyJWT] }, sendParecerDocumentToSign)
-  app.post('/send-parecer-email/:application_id', { onRequest: [verifyJWT] }, resendParecerDocumentEmail)
+  app.post('/post-pdf/:application_id', { onRequest: [verifyJWT, verifyAssistantEnroll] }, sendParecerDocumentToSign)
+  app.post('/send-parecer-email/:application_id', { onRequest: [verifyJWT,verifyAssistantEnroll] }, resendParecerDocumentEmail)
+
+
+  // Agenda
+  app.get('/schedule', { onRequest: [verifyJWT] }, getAssistantSchedule)
+  app.get('/schedule/summary', { onRequest: [verifyJWT] }, getScheduleSummary)
+  app.post('/schedule/:announcement_id', { onRequest: [verifyJWT] }, createInterviewSchedule)
+  app.patch('/schedule/:schedule_id', { onRequest: [verifyJWT] }, updateInterviewSchedule)
+  app.post('/schedule/not-accept/:interview_id', { onRequest: [verifyJWT] }, rejectInterview)
+  app.patch('/schedule/interview/:interview_id', { onRequest: [verifyJWT] }, updateSingularInterview)
+  app.get('/schedule/:announcement_id/:schedule_id?', { onRequest: [verifyJWT] }, getAnnouncementSchedule)
 }

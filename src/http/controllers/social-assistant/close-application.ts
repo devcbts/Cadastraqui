@@ -35,21 +35,7 @@ export async function closeApplication(
     const { application_id, announcement_id } = applicationParamsSchema.parse(request.params)
     const { description, gaveUp, granted, ScholarshipCode, types } = applicationBodySchema.parse(request.body)
     try {
-        const userType = request.user.role
-        const userId = request.user.sub
-
-        if (userType !== 'ASSISTANT') {
-            throw new NotAllowedError()
-        }
-
-        const assistant = await prisma.socialAssistant.findUnique({
-            where: { user_id: userId },
-        })
-
-        if (!assistant) {
-            throw new ResourceNotFoundError()
-        }
-
+        
 
         // Caso 1: gaveUp true
         if (gaveUp) {

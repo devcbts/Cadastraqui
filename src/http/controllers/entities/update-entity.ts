@@ -14,6 +14,7 @@ export async function updateEntity(
     CEP: z.string().optional(),
     address: z.string().optional(),
     educationalInstitutionCode: z.string().optional(),
+    phone : z.string().optional(),
   })
 
   const updateParamsSchema = z.object({

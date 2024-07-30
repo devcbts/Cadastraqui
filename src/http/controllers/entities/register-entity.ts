@@ -18,6 +18,7 @@ export async function registerEntity(
     email: z.string().email(),
     password: z.string().min(6),
     role: z.enum([ROLE.ENTITY]).default("ENTITY"),
+    phone: z.string(),
     CNPJ: z.string(),
     socialReason: z.string(),
     CEP: z.string(),
@@ -41,6 +42,7 @@ export async function registerEntity(
     city,
     neighborhood,
     UF,
+    phone,
     educationalInstitutionCode,
   } = registerBodySchema.parse(request.body)
 
@@ -90,6 +92,7 @@ export async function registerEntity(
         UF,
         neighborhood,
         educationalInstitutionCode,
+        phone
       },
     })
 

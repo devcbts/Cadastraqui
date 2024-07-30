@@ -57,7 +57,6 @@ model Candidate {
   AnnouncementsSeen      AnnouncementsSeen[]
   FinishedRegistration   FinishedRegistration?
   finishedRegistrationId String?
-  InterviewSchedule      InterviewSchedule[]
 
   @@unique([id, responsible_id])
   @@map("candidates")
@@ -154,6 +153,7 @@ model SocialAssistant {
 model Entity {
   id                         String             @id @default(uuid())
   name                       String?
+  phone                      String?
   socialReason               String
   logo                       String?
   CNPJ                       String             @unique
@@ -181,6 +181,7 @@ model EntitySubsidiary {
   socialReason               String
   CEP                        String
   address                    String
+  phone                      String?
   addressNumber              Int?
   city                       String?           @default("")
   neighborhood               String?           @default("")
@@ -670,28 +671,40 @@ model Announcement {
 }
 
 model InterviewSchedule {
-  id              String          @id @default(uuid())
-  date            DateTime
-  announcement    Announcement    @relation(fields: [announcement_id], references: [id])
-  announcement_id String
-  assistant       SocialAssistant @relation(fields: [assistant_id], references: [id])
-  assistant_id    String
-  candidate       Candidate       @relation(fields: [candidate_id], references: [id])
-  candidate_id    String
+  id                            String             @id @default(uuid())
+  date                          DateTime           @db.Timestamp()
+  accepted                      Boolean            @default(true)
+  rejectReason                  String?
+  rejectComentary               String?
+  InterviewRealized             Boolean?
+  InterviewComentary            String?
+  InterviewNotRealizedReason    String?
+  InterviewNotRealizedComentary String?
+  interviewLink                 String?
+  interviewType                 InterviewType?
+  announcement                  Announcement       @relation(fields: [announcement_id], references: [id])
+  announcement_id               String
+  assistant                     SocialAssistant    @relation(fields: [assistant_id], references: [id])
+  assistant_id                  String
+  application                   Application?       @relation(fields: [application_id], references: [id])
+  application_id                String?
+  assistantSchedule             AssistantSchedule? @relation(fields: [assistantSchedule_id], references: [id], onDelete: Cascade)
+  assistantSchedule_id          String?
 }
 
 model AssistantSchedule {
-  id              String          @id @default(uuid())
-  startDate       DateTime        @db.Date
-  endDate         DateTime        @db.Date
-  beginHour       DateTime        @db.Time(0)
-  interval        Int             @default(5)
-  endHour         DateTime        @db.Time(0)
-  duration        Int             @default(20)
-  announcement    Announcement    @relation(fields: [announcement_id], references: [id])
-  announcement_id String
-  assistant       SocialAssistant @relation(fields: [assistant_id], references: [id])
-  assistant_id    String
+  id                String              @id @default(uuid())
+  startDate         DateTime            @db.Date
+  endDate           DateTime            @db.Date
+  beginHour         DateTime            @db.Time(0)
+  interval          Int                 @default(5)
+  endHour           DateTime            @db.Time(0)
+  duration          Int                 @default(20)
+  announcement      Announcement        @relation(fields: [announcement_id], references: [id])
+  announcement_id   String
+  assistant         SocialAssistant     @relation(fields: [assistant_id], references: [id])
+  assistant_id      String
+  InterviewSchedule InterviewSchedule[]
 }
 
 model AnnouncementsSeen {
@@ -766,6 +779,7 @@ model Application {
   ScholarshipGranted   ScholarshipGranted?
   responsible_id       String?
   responsible          LegalResponsible?    @relation(fields: [responsible_id], references: [id])
+  InterviewSchedule    InterviewSchedule[]
 
   @@unique([candidate_id, announcement_id])
 }
@@ -1152,6 +1166,11 @@ enum ApplicationStatus {
 
 enum SolicitationType {
   Document
+  Interview
+  Visit
+}
+
+enum InterviewType {
   Interview
   Visit
 }
