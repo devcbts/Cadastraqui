@@ -33,7 +33,7 @@ export default async function createInterviewSolicitation(request: FastifyReques
         }
        
        const ocupiedSchedules = await prisma.interviewSchedule.findMany({
-        where: {application_id, OR: [{AND :[{accepted: true}, {date: {gte: new Date()}}]}, {InterviewRealized: true}]},
+        where: {application_id, interviewType,OR: [{AND :[{accepted: true}, {date: {gte: new Date()}}]}, {InterviewRealized: true}]},
        })
        if (ocupiedSchedules.length > 0) {
            throw new Error('Candidato já possui uma entrevista marcada ou já realizou entrevista nesse edital')
