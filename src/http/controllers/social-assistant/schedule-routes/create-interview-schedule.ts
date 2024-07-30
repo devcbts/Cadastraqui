@@ -1,7 +1,7 @@
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { prisma } from "@/lib/prisma";
 import { AssistantSchedule } from "@prisma/client";
-import { toDate } from "date-fns-tz";
+import { fromZonedTime } from "date-fns-tz";
 import { FastifyReply, FastifyRequest } from "fastify";
 import z from 'zod';
 
@@ -48,29 +48,29 @@ export default async function createInterviewSchedule(request: FastifyRequest,
 
         }
 
-        if (new Date(startDate) < announcement.interview.startDate || new Date(endDate) > announcement.interview.endDate) {
-            throw new Error("Data de início ou fim da entrevista fora do período permitido")
+        // if (new Date(startDate) < announcement.interview.startDate || new Date(endDate) > announcement.interview.endDate) {
+        //     throw new Error("Data de início ou fim da entrevista fora do período permitido")
 
-        }
-        if (new Date(beginHour) < announcement.interview.beginHour || new Date(endHour) > announcement.interview.endHour) {
-            throw new Error("Horário de início ou fim da entrevista fora do período permitido")
+        // }
+        // if (new Date(beginHour) < announcement.interview.beginHour || new Date(endHour) > announcement.interview.endHour) {
+        //     throw new Error("Horário de início ou fim da entrevista fora do período permitido")
 
-        }
+        // }
 
-        if (new Date(startDate) > new Date(endDate)) {
-            throw new Error("Data de início da entrevista não pode ser maior que a data de fim")
+        // if (new Date(startDate) > new Date(endDate)) {
+        //     throw new Error("Data de início da entrevista não pode ser maior que a data de fim")
 
-        }
+        // }
 
-        if (new Date(beginHour) > new Date(endHour)) {
-            throw new Error("Horário de início da entrevista não pode ser maior que o horário de fim")
+        // if (new Date(beginHour) > new Date(endHour)) {
+        //     throw new Error("Horário de início da entrevista não pode ser maior que o horário de fim")
 
-        }
+        // }
 
-        if (interval < announcement.interview.interval || duration > announcement.interview.duration) {
-            throw new Error("Intervalo ou duração da entrevista fora do permitido")
+        // if (interval < announcement.interview.interval || duration > announcement.interview.duration) {
+        //     throw new Error("Intervalo ou duração da entrevista fora do permitido")
 
-        }
+        // }
         // Verificações para evitar sobrepoisção entre datas
 
         const interviewSchedules = await prisma.assistantSchedule.findMany({
@@ -123,7 +123,6 @@ export default async function createInterviewSchedule(request: FastifyRequest,
         const availableTimes = availableTimesSchedule();
         let schedule: AssistantSchedule | null = null;
         await prisma.$transaction(async (tsPrisma) => {
-            console.log(parseTimeToDate(beginHour))
             // Criar o intervalo na agenda da Assistente 
             schedule = await tsPrisma.assistantSchedule.create({
                 data: {
@@ -178,12 +177,19 @@ export default async function createInterviewSchedule(request: FastifyRequest,
 
 function parseTimeToDate(time: string): Date {
     const [hours, minutes] = time.split(':').map(toNumber);
+    const timeZone = 'America/Sao_Paulo'
     const date = new Date();
     date.setHours(hours);
     date.setMinutes(minutes);
     date.setSeconds(0)
     date.setMilliseconds(0)
-    return toDate(date, { timeZone: 'America/Sao_Paulo' });
+    // to save on UTC with user's input, we need to convert from the current timezone (fixed)
+    // to UTC.
+    // So if user's input is 13:00, it'll save on db based on the timezone passed
+    // the date returned will be on UTC, so the further steps won't need any conversion
+    // example: in => '13:00' timezone-> 'america/sao_paulo' out=> '16:00'
+    //          in => '13:00' timezone-> 'europe/moscow' out=> '10:00'
+    return fromZonedTime(date, timeZone);
 }
 
 function toNumber(value: string): number {
