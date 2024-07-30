@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
+import REQUEST_TYPE from "utils/enums/request-type";
 
 export default function CandidateSchedule() {
     const [isLoading, setIsLoading] = useState(true)
@@ -19,7 +20,7 @@ export default function CandidateSchedule() {
                     return ({
                         start: toDate(e.date),
                         end: toDate(e.endDate),
-                        title: `${e.interviewType} - ${e.candidateName}`,
+                        title: `${REQUEST_TYPE[e.interviewType]} - ${e.candidateName}`,
                         resource: e
                     })
                 }))

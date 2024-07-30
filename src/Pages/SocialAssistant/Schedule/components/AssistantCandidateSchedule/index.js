@@ -86,18 +86,7 @@ export default function AssistantCandidateSchedule() {
                     } />
                 </div>
             </AppointmentDetails>
-            {/* <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                        <Table.Root headers={['nome', 'horário', 'tipo']}>
-                            <Table.Row>
-                                <Table.Cell>{schedule?.candidateName}</Table.Cell>
-                                <Table.Cell>{schedule?.hour}</Table.Cell>
-                                <Table.Cell>{REQUEST_TYPE[schedule?.interviewType]}</Table.Cell>
-                            </Table.Row>
-                        </Table.Root>
-                    </div>
-                    {schedule?.interviewType === 'Interview' && <AppointmentLink link={schedule?.interviewLink} onSave={handleSaveLink} />}
-                    <InputBase type="text-area" label={'comentário'} value={schedule?.InterviewComentary} onChange={(e) => debounce(e.target.value)} error={null} />
-                    {notEditable && <span>Este agendamento foi {notEditable === 'CANCELLED' ? 'CANCELADO' : 'FINALIZADO'}</span>} */}
+
 
         </>
     )

@@ -8,15 +8,18 @@ import { NotificationService } from "services/notification";
 
 export default function CandidateScheduleView() {
     const { scheduleId } = useParams()
+    const [isLoading, setIsLoading] = useState(true)
     const [schedule, setSchedule] = useState(null)
     useEffect(() => {
         const fetchInterview = async () => {
             try {
+                setIsLoading(true)
                 const information = await candidateService.getScheduleById(scheduleId)
                 setSchedule(information)
             } catch (err) {
                 NotificationService.error({ text: err?.response?.data?.message })
             }
+            setIsLoading(false)
         }
         fetchInterview()
     }, [])
