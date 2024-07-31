@@ -33,8 +33,9 @@ export async function createSolicitation(
     })
     const { application_id } = applicationParamsSchema.parse(request.params)
     const solicitation = applicationBodySchema.parse(request.body)
+    const { sub } = request.user
     try {
-     
+
 
         // Criar novo report no histórico da inscrição 
         let id;
@@ -50,6 +51,14 @@ export async function createSolicitation(
                 if (solicitationExists) {
                     throw new Error('Já existe uma solicitação deste tipo para esta inscrição')
                 }
+
+                const application = await tsPrisma.application.findUnique({
+                    where: { id: application_id },
+                    include: { announcement: { include: { AssistantSchedule: { where: { assistant: { user_id: sub } } } } } }
+                })
+                if (application?.announcement.AssistantSchedule.length === 0) {
+                    throw new Error('Reserve os horários para este edital na seção de Agenda antes de solicitar um agendamento.')
+                }
             }
             const dbSolicitation = await tsPrisma.requests.create({
                 data: {
@@ -60,7 +69,7 @@ export async function createSolicitation(
                 },
             })
             id = dbSolicitation.id
-           
+
         })
 
 
