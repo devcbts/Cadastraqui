@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getSignedUrlForFile } from "@/lib/S3";
 import { SelectCandidateResponsible } from "@/utils/select-candidate-responsible";
+import verifyDeclarationRegistration from "@/utils/Trigger-Functions/verify-declaration-registration";
 import { FastifyReply, FastifyRequest } from "fastify";
 
 export default async function getUserInformationForDeclaration(
@@ -14,6 +15,7 @@ export default async function getUserInformationForDeclaration(
         if (!user) {
             throw new Error('Usuário não encontrado')
         }
+        await verifyDeclarationRegistration(user.UserData.id)
         let result: any;
         const url = await getSignedUrlForFile(`CandidateDocuments/${user.UserData.id}/declaracoes/${user.UserData.id}/declaracoes.pdf`)
         console.log(url)
