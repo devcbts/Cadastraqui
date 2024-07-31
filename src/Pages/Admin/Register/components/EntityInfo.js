@@ -7,6 +7,7 @@ import useControlForm from "hooks/useControlForm"
 import { formatCNPJ } from "utils/format-cnpj"
 import entityInfoSchema from "./schemas/entity-info-schema"
 import styles from './styles.module.scss'
+import { formatTelephone } from "utils/format-telephone"
 
 export default function EntityInfo({ data, onPageChange }) {
     const { control, formState: { isValid }, trigger, getValues, watch, setValue } = useControlForm({
@@ -17,6 +18,7 @@ export default function EntityInfo({ data, onPageChange }) {
             password: "",
             CNPJ: "",
             socialReason: "",
+            phone: "",
             educationalInstitutionCode: "",
             logo: null
         },
@@ -34,6 +36,7 @@ export default function EntityInfo({ data, onPageChange }) {
     useCnpj((cnpj) => {
         setValue("socialReason", cnpj?.name)
         setValue("email", cnpj?.emails?.[0])
+        setValue("phone", cnpj?.phones?.[0])
         setValue("CEP", cnpj?.CEP)
     }, watch("CNPJ"))
     return (
@@ -43,6 +46,7 @@ export default function EntityInfo({ data, onPageChange }) {
                 <InputForm control={control} name="CNPJ" label={"CNPJ"} transform={(e) => formatCNPJ(e.target.value)} />
                 <InputForm control={control} name="name" label={"nome da instituição"} />
                 <InputForm control={control} name="email" label={"email institucional"} />
+                <InputForm control={control} name="phone" label={"telefone"} transform={(e) => formatTelephone(e.target.value)} />
                 <InputForm control={control} name="socialReason" label={"razão social"} />
                 <InputForm control={control} name="educationalInstitutionCode" label={"código institucional"} />
                 <InputForm control={control} name="password" label={"senha"} type="password" />

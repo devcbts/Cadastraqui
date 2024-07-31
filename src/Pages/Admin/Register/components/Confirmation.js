@@ -19,6 +19,7 @@ export default function Confirmation({ data, onPageChange, onSubmit }) {
                 <InputBase value={data?.CNPJ} name="CNPJ" label={"CNPJ"} error={null} />
                 <InputBase value={data?.name} name="name" label={"nome da instituição"} error={null} />
                 <InputBase value={data?.email} name="email" label={"email institucional"} error={null} />
+                <InputBase value={data?.phone} name="phone" label={"telefone"} error={null} />
                 <InputBase value={data?.socialReason} name="socialReason" label={"razão social"} error={null} />
                 <InputBase value={data?.educationalInstitutionCode} name="educationalInstitutionCode" label={"código institucional"} error={null} />
 

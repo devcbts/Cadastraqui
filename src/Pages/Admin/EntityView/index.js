@@ -30,7 +30,7 @@ export default function AdminEntityView() {
                 <Table.Root headers={['', '']}>
                     <Table.Row>
                         <Table.Cell>Email</Table.Cell>
-                        <Table.Cell>{entity?.email}</Table.Cell>
+                        <Table.Cell>{entity?.user.email}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell>CNPJ</Table.Cell>
