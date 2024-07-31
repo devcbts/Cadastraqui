@@ -46,6 +46,7 @@ import { updateApplication } from './update-application'
 import updateAssistantProfile from './update-assistant-profile'
 import { updateSolicitationWithReport } from './update-solicitation-report'
 import verifyAssistantEnroll from '@/http/middlewares/verify-assistant-enroll'
+import getAssistantDashboard from './get-dashboard'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -166,4 +167,6 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.post('/schedule/not-accept/:interview_id', { onRequest: [verifyJWT] }, rejectInterview)
   app.patch('/schedule/interview/:interview_id', { onRequest: [verifyJWT] }, updateSingularInterview)
   app.get('/schedule/:announcement_id/:schedule_id?', { onRequest: [verifyJWT] }, getAnnouncementSchedule)
+
+  app.get('/dashboard', { onRequest: [verifyJWT] }, getAssistantDashboard)
 }
