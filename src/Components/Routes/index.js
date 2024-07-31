@@ -33,6 +33,9 @@ import AssistantAnnouncementSchedule from "Pages/SocialAssistant/Schedule/compon
 import AssistantCandidateSchedule from "Pages/SocialAssistant/Schedule/components/AssistantCandidateSchedule";
 import CandidateHistory from "Pages/Candidate/History";
 import ApplicationHistory from "Pages/Candidate/History/components/ApplicationHistory";
+import CandidateScheduleView from "Pages/Candidate/Schedule/components/CandidateScheduleView";
+import CandidateSchedule from "Pages/Candidate/Schedule";
+import AssistantSchedule from "Pages/SocialAssistant/Schedule";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -71,6 +74,10 @@ export default function AppRoutes() {
                             <Route index element={<CandidateHistory />} />
                             <Route path={':applicationId'} element={<ApplicationHistory />} />
                         </Route>
+                        <Route path="/agenda" element={<Outlet />}>
+                            <Route index element={<CandidateSchedule />} />
+                            <Route path=':scheduleId' element={<CandidateScheduleView />} />
+                        </Route>
                         <Route path="*" element={<Navigate to={'/home'} />} />
 
                     </Routes>
@@ -98,11 +105,15 @@ export default function AppRoutes() {
                         </Route>
                         <Route path="/ficha-completa" element={<CandidateView />}></Route>
                         <Route path="/profile" element={<SocialAssistantProfile />}></Route>
-                        {/* <Route path="/agenda" element={<Outlet />}>
+                        <Route path="/agenda" element={<Outlet />}>
                             <Route index element={<AssistantSchedule />} />
-                            <Route path=':announcementId' element={<AssistantAnnouncementSchedule />} />
-                            <Route path="candidato/:scheduleId" element={<AssistantCandidateSchedule />} />
-                        </Route> */}
+                            <Route path=':announcementId' element={<Outlet />} >
+                                <Route index element={<AssistantAnnouncementSchedule />} />
+
+                                <Route path="candidato/:scheduleId" element={<AssistantCandidateSchedule />} />
+                            </Route>
+
+                        </Route>
                         <Route path="*" element={<Navigate to={'/home'} />} />
 
                     </Routes>

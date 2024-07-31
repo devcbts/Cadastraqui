@@ -126,6 +126,29 @@ class SocialAssistantService {
     async enrollApplication(announcementId, applicationId) {
         return api.post(`/assistant/${announcementId}/${applicationId}`)
     }
+
+    async getAnnouncementsScheduleSummary() {
+        const response = await api.get('/assistant/schedule/summary')
+        return response.data.announcements
+    }
+    async createSchedule(announcementId, values) {
+        return api.post(`/assistant/schedule/${announcementId}`, values)
+    }
+    async updateSchedule(announcementId, values) {
+        return api.patch(`/assistant/schedule/${announcementId}`, values)
+    }
+    async getAnnouncementSchedule(announcementId, scheduleId = '') {
+        return api.get(`/assistant/schedule/${announcementId}/${scheduleId}`)
+    }
+    async updateInterview(scheduleId, data) {
+        return api.patch(`/assistant/schedule/interview/${scheduleId}`, data)
+    }
+    async getSchedule() {
+        return api.get(`/assistant/schedule`)
+    }
+    async rejectAppointment(scheduleId, data) {
+        return api.post(`/assistant/schedule/not-accept/${scheduleId}`, data)
+    }
 }
 
 export default new SocialAssistantService()

@@ -28,6 +28,7 @@ import Vehicles from "./Vehicle";
 import { ReactComponent as Pdf } from 'Assets/icons/PDF.svg'
 import Loader from "Components/Loader";
 import InputForm from "Components/InputForm";
+import removeObjectFileExtension from "utils/remove-file-ext";
 export default function LegalOpinion() {
     const { state } = useLocation()
     const navigate = useNavigate()
@@ -239,40 +240,43 @@ export default function LegalOpinion() {
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '32px' }}>
 
                     <ButtonBase label={'concluir'} onClick={handleSubmit} />
-                    <BlobProvider document={
-                        <LegalOpinionPdf
-                            candidate={candidate}
-                            data={data}
-                            members={members}
-                            disease={disease}
-                            house={house}
-                            family={family}
-                            medications={data?.familyMemberMedications}
-                            partial={submitData?.partial}
-                            majoracao={submitData?.majoracao}
-                        />}
-                    >
-                        {({ loading, url, blob }) => {
+                    {data?.parecer
+                        ? <FilePreview file={data?.file_parecer} url={removeObjectFileExtension(data?.parecer)['url_parecer']} text={'visualizar parecer'} />
+                        : <BlobProvider document={
+                            <LegalOpinionPdf
+                                candidate={candidate}
+                                data={data}
+                                members={members}
+                                disease={disease}
+                                house={house}
+                                family={family}
+                                medications={data?.familyMemberMedications}
+                                partial={submitData?.partial}
+                                majoracao={submitData?.majoracao}
+                            />}
+                        >
+                            {({ loading, url, blob }) => {
 
-                            return (loading ? 'carregando pdf...' : <ButtonBase onClick={async () => {
-                                const formData = new FormData()
-                                formData.append('file', blob)
-                                try {
+                                return (loading ? 'carregando pdf...' : <ButtonBase onClick={async () => {
+                                    const formData = new FormData()
+                                    formData.append('file', blob)
+                                    try {
 
-                                    await socialAssistantService.sendLegalOpinionDocument(state?.applicationId, formData)
-                                    NotificationService.success({ text: 'Arquivo enviado para ser assinado. Verifique seu email.' })
-                                } catch (err) {
-                                    NotificationService.error({ text: 'Erro ao enviar arquivo para assinar. Tente novamente.' })
-                                }
-                                // window.open(url, '_blank')
+                                        await socialAssistantService.sendLegalOpinionDocument(state?.applicationId, formData)
+                                        setData((prev) => ({ ...prev, file_parecer: blob }))
+                                        NotificationService.success({ text: 'Arquivo enviado para ser assinado. Verifique seu email.' })
+                                    } catch (err) {
+                                        NotificationService.error({ text: 'Erro ao enviar arquivo para assinar. Tente novamente.' })
+                                    }
+                                    // window.open(url, '_blank')
 
-                            }} >
-                                <Pdf width={20} height={20} />
-                            </ButtonBase>)
-                        }}
-                    </BlobProvider>
+                                }} >
+                                    <Pdf width={20} height={20} />
+                                </ButtonBase>)
+                            }}
+                        </BlobProvider>}
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

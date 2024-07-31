@@ -34,7 +34,7 @@ export default function HomeCandidate() {
                                 <h1>{data.subscriptions}</h1>
                             </Card.Content>
                         </Card.Root>
-                        <Card.Root >
+                        <Card.Root onClick={() => navigate('/solicitacoes')}>
                             <Card.Title text={'solicitações'} />
                             <Card.Content>
                                 <h1>{data.pendencies}</h1>

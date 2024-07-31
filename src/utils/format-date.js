@@ -1,16 +1,15 @@
-export default function formatDate(date = '', showTime = false) {
+export default function formatDate(date = '', { showTime, utc } = { showTime: false, utc: false }) {
     // If showtime is true, it adds an offset of tz
 
     const formatter = new Intl.DateTimeFormat('pt-BR', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
-        timeZone: 'UTC',
         ...(showTime && {
             hour: '2-digit',
             minute: '2-digit',
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         }),
+        timeZone: utc ? "UTC" : "America/Sao_Paulo",
     });
     if (!date) return ''
     return formatter.format(new Date(date))

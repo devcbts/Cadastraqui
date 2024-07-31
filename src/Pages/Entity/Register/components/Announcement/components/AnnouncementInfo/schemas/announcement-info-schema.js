@@ -1,5 +1,6 @@
+import { getDate } from 'date-fns'
+import { fromZonedTime, toZonedTime } from 'date-fns-tz'
 const { z } = require("zod")
-
 const announcementInfoSchema = z.object({
     announcementType: z.string().min(1, 'Tipo de edital obrigatório'),
     educationLevel: z.string().min(1, 'Tipo de educação obrigatório'),
@@ -26,6 +27,12 @@ const announcementInfoSchema = z.object({
     if (data.closeDate < data.openDate) {
         ctx.addIssue({
             message: 'Término de inscrições deve ser maior que o início',
+            path: ['closeDate']
+        })
+    }
+    if (new Date(data.closeDate.split('-')).getDate() <= 10) {
+        ctx.addIssue({
+            message: 'Término de inscrições deve ser após o dia 10 do mês',
             path: ['closeDate']
         })
     }

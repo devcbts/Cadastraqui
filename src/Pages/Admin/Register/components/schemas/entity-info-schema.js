@@ -7,6 +7,7 @@ const entityInfoSchema = z.object({
     CNPJ: z.string().min(1, 'CNPJ obrigatório'),
     socialReason: z.string().min(1, 'Razão social obrigatória'),
     // role: z.enum([ROLE.ENTITY]),
+    phone: z.string().min(1, 'Telefone obrigatório'),
     educationalInstitutionCode: z.string().optional(),
     logo: z.instanceof(File, 'Arquivo obrigatório').refine((data) => data !== null, 'Logotipo da instituição obrigatória')
 })
