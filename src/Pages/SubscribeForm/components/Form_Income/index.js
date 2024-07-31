@@ -145,6 +145,7 @@ export default function FormIncome() {
         setIsAdding(true)
         setData({ member })
     }
+
     return (
         <div className={commonStyles.container}>
             {!hasSelectionOrIsAdding() && <IncomeList onSelect={handleSpecificSelection} onAdd={handleAdd} />}

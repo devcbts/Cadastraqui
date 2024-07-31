@@ -5,6 +5,7 @@ import FormList from "../../FormList";
 import FormListItem from "../../FormList/FormListItem";
 import MemberIncomeView from "../MemberIncomeView";
 import styles from './styles.module.scss';
+import { NotificationService } from "services/notification";
 
 export default function IncomeList({ onSelect, onAdd }) {
     const [isLoading, setIsLoading] = useState(true)
@@ -25,6 +26,7 @@ export default function IncomeList({ onSelect, onAdd }) {
         }
         fetchData()
     }, [])
+
     return (
         <>
             {!selectedMember && <FormList.Root title={"Renda Familiar"} isLoading={isLoading} >

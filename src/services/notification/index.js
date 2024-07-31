@@ -33,6 +33,15 @@ class NotificationService {
             customClass: this.styles
         })
     }
+    async warn({ title = "Atenção", text }) {
+        return Swal.fire({
+            title,
+            text,
+            icon: "warning",
+            iconColor: "amber",
+            customClass: this.styles
+        })
+    }
 
     async confirm({ title, text, cancel = "Cancelar", confirm = "Confirmar", onConfirm, onCancel = () => { } }) {
         const { isConfirmed, isDenied } = await Swal.fire({

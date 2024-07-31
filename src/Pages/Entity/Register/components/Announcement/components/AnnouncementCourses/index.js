@@ -20,7 +20,7 @@ import EDUCATION_TYPE from "utils/enums/education-type"
 export default function AnnouncementCourses({ entity, data, onPageChange }) {
     // can be 'HigherEducation' or 'BasicEducation'
     const isBasicEducation = data?.educationLevel === 'BasicEducation'
-    const { control, formState: { isValid }, trigger, getValues, watch, reset } = useControlForm({
+    const { control, formState: { isValid }, trigger, getValues, watch, reset, resetField } = useControlForm({
         schema: announcementCoursesSchema(isBasicEducation),
         defaultValues: {
             level: data?.educationLevel,
@@ -50,7 +50,8 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
         //     mappedData.entity_subsidiary_id = entity.id
         // }
         setCourses((prev) => ([...prev, mappedData]))
-        reset()
+        reset({})
+        resetField("entity_subsidiary_id")
     }
 
     const entitiesOptions = useMemo(() => {

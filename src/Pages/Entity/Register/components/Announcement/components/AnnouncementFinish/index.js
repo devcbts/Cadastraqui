@@ -41,7 +41,7 @@ export default function AnnouncementFinish({ data, onPageChange, onSubmit }) {
                 <FilePreview file={watch("file")} text={'ver documento anexado'} />
                 <InputForm
                     control={control}
-                    label={'descrição'}
+                    label={'descrição (opcional)'}
                     name="description"
                 />
             </div>

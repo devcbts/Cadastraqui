@@ -36,7 +36,7 @@ export default function FormRadio({ name, control, label, value, color }) {
                             style={{ accentColor: '#1F4B73' }}
                             id={value}
                         />
-                        <label htmlFor={value} style={{ fontWeight: "600" }}>{label}</label>
+                        <span htmlFor={value} style={{ fontWeight: "600" }}>{label}</span>
                     </div>
                 )
             }}

@@ -25,6 +25,9 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
 
                     setIncomeInfo(incomes)
                 }
+                NotificationService.warn({
+                    text: 'Realize o cadastro das informações bancárias'
+                })
             } catch (err) {
 
             }
