@@ -30,43 +30,54 @@ export default function SocialAssistantAnnouncement() {
         <>
             <Loader loading={isLoading} />
             <BackPageTitle title={'Processo de seleção'} path={'/home'} />
-            <div className={styles.informative}>
-                <div className={styles.row}>
-                    <div className={styles.spanInstituicao}>
-                        <span>Instituição: </span>
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '24px' }}>
+
+                <div className={styles.informative}>
+                    <div className={styles.row}>
+                        <div className={styles.spanInstituicao}>
+                            <span>Instituição: </span>
+                            <label>
+                                {process.announcement?.entity?.socialReason}
+                            </label>
+                        </div>
+                        <div className={styles.divSpan}>
+                            <span className={styles.spanEdital}>
+                                Edital:
+                            </span>
+                            <label>
+                                {process.announcement.announcementNumber}
+                            </label>
+                            <span className={styles.spanTotalVagas}>
+                                Total de vagas:
+                            </span>
+                            <label>
+                                {process.announcement.verifiedScholarships}
+                            </label>
+                            <span className={styles.spanVigEdital}>
+                                Vigência do Edital:
+                            </span>
+                            <label>
+                                {formatDate(process.announcement.announcementDate)}
+                            </label>
+                        </div>
+                    </div>
+                    <div className={styles.divPeriodo}>
+                        <span className={styles.spanPerInsc}>
+                            Período de Inscrição:</span>
                         <label>
-                            {process.announcement?.entity?.socialReason}
+                            {formatDate(process.announcement.openDate)} à {formatDate(process.announcement.closeDate)}
                         </label>
                     </div>
-                    <div className={styles.divSpan}>
-                        <span className={styles.spanEdital}>
-                            Edital:
-                        </span>
+                    <div className={styles.divPeriodo}>
+                        <span className={styles.spanPerInsc}>
+                            Período de Avaliação:</span>
                         <label>
-                            {process.announcement.announcementNumber}
-                        </label>
-                        <span className={styles.spanTotalVagas}>
-                            Total de vagas:
-                        </span>
-                        <label>
-                            {process.announcement.verifiedScholarships}
-                        </label>
-                        <span className={styles.spanVigEdital}>
-                            Vigência do Edital:
-                        </span>
-                        <label>
-                            {formatDate(process.announcement.announcementDate)}
+                            {formatDate(process.announcement.closeDate)} à {formatDate(process.announcement.announcementDate)}
                         </label>
                     </div>
                 </div>
-                <div className={styles.divPeriodo}>
-                    <span className={styles.spanPerInsc}>
-                        Período de Inscrição:</span>
-                    <label>
-                        {formatDate(process.announcement.openDate)} à {formatDate(process.announcement.closeDate)}
-                    </label>
-                </div>
-                {/* <span>Período de Avaliação: 21/05/2024 à 20/06/2024</span> */}
+                <ButtonBase label={'visualizar PDF'} />
+
             </div>
             <Table.Root headers={['matriz ou filial/cidade', 'tipo de educação', 'ciclo/ano/série/curso', 'turno', 'ação', 'rel. fim']}>
                 {
