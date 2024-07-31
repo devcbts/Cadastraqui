@@ -38,7 +38,7 @@ export default async function getUserInformationForDeclaration(
                 const fm = await prisma.familyMember.findFirst({
                     where: { AND: [{ legalResponsibleId: result.id }, { fullName: candidate.fullName }] }
                 })
-                const url = await getSignedUrlForFile(`CandidateDocuments/${user.UserData.id}/declaracoes/${fm?.id}/declaracoes.pdf`)
+                const url = await getSignedUrlForFile(`CandidateDocuments/${user.UserData.id}/declaracoes/${candidate.id}/declaracoes.pdf`)
                 let identity: any = fm
                 if (result.IdentityDetails) {
                     const { address, addressNumber, neighborhood, city, UF, CEP } = result.IdentityDetails
