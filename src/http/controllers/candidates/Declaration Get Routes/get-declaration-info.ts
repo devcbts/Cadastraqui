@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getSignedUrlForFile } from "@/lib/S3";
 import { SelectCandidateResponsible } from "@/utils/select-candidate-responsible";
+import verifyDeclarationRegistration from "@/utils/Trigger-Functions/verify-declaration-registration";
 import { FastifyReply, FastifyRequest } from "fastify";
 
 export default async function getUserInformationForDeclaration(
@@ -14,6 +15,7 @@ export default async function getUserInformationForDeclaration(
         if (!user) {
             throw new Error('Usuário não encontrado')
         }
+        await verifyDeclarationRegistration(user.UserData.id)
         let result: any;
         const url = await getSignedUrlForFile(`CandidateDocuments/${user.UserData.id}/declaracoes/${user.UserData.id}/declaracoes.pdf`)
         console.log(url)
@@ -38,7 +40,7 @@ export default async function getUserInformationForDeclaration(
                 const fm = await prisma.familyMember.findFirst({
                     where: { AND: [{ legalResponsibleId: result.id }, { fullName: candidate.fullName }] }
                 })
-                const url = await getSignedUrlForFile(`CandidateDocuments/${user.UserData.id}/declaracoes/${fm?.id}/declaracoes.pdf`)
+                const url = await getSignedUrlForFile(`CandidateDocuments/${user.UserData.id}/declaracoes/${candidate.id}/declaracoes.pdf`)
                 let identity: any = fm
                 if (result.IdentityDetails) {
                     const { address, addressNumber, neighborhood, city, UF, CEP } = result.IdentityDetails

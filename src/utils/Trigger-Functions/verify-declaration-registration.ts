@@ -11,20 +11,15 @@ export default async function verifyDeclarationRegistration(candidateOrResponsib
         throw new ForbiddenError()
     }
     const idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsibleId } : { candidate_id: candidateOrResponsibleId }
-    const familyMembers = await prisma.familyMember.findMany({
-        where: idField,
-        select: {birthDate: true, id: true, legalResponsibleId: true}
+    const candidates = await prisma.candidate.findMany({
+        where: {responsible_id: candidateOrResponsible.UserData.id},
     })
     
 
-    const familyMemberIds = familyMembers
-    .filter(familyMember => calculateAge(new Date(familyMember.birthDate)) < 18 && familyMember.legalResponsibleId != null)
-    .map(familyMember => familyMember.id);
-    familyMemberIds.push(candidateOrResponsibleId);
-
+   
     let update = true;
-    for (const familyMemberId of familyMemberIds) {
-        const route = `declaracoes/${familyMemberId}`;
+    for (const candidate of candidates) {
+        const route = `declaracoes/${candidate.id}`;
         const findDeclaration = await getSectionDocumentsPDF(candidateOrResponsibleId, route)
         if (!findDeclaration || Object.keys(findDeclaration).length === 0) {
             update = false;

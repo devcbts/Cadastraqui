@@ -35,7 +35,8 @@ export async function getCandidateResume(
         'expenses',
         'loan',
         'financing',
-        'credit-card']
+        'credit-card',
+    'declaracoes']
     try {
         const user_id = request.user.sub;
 
