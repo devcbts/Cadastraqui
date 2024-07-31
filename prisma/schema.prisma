@@ -672,8 +672,8 @@ model Announcement {
 
 model InterviewSchedule {
   id                            String             @id @default(uuid())
-  date                          DateTime           @db.Timestamptz()
-  accepted                      Boolean @default(true)
+  date                          DateTime           @db.Timestamp()
+  accepted                      Boolean            @default(true)
   rejectReason                  String?
   rejectComentary               String?
   InterviewRealized             Boolean?

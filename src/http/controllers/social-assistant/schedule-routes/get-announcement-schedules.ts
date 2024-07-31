@@ -1,6 +1,7 @@
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
+import { format } from "date-fns-tz";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
@@ -41,7 +42,7 @@ export default async function getAnnouncementSchedule(request: FastifyRequest, r
             const scheduleInfo = {
                 id: schedule.id,
                 date: schedule.date,
-                hour: `${schedule.date.getUTCHours()} : ${schedule.date.getUTCMinutes().toString().padStart(2, '0')}`,
+                hour: format(schedule.date, 'HH:mm', { timeZone: 'America/Sao_Paulo' }),
                 candidateName: schedule.application?.candidateName,
                 applicationNumber: schedule.application?.number,
                 interviewType: schedule.interviewType,
@@ -72,10 +73,11 @@ export default async function getAnnouncementSchedule(request: FastifyRequest, r
             const infoToPush = {
                 id: schedule.id,
                 date: schedule.date,
-                hour: `${schedule.date.getUTCHours()} : ${schedule.date.getUTCMinutes().toString().padStart(2, '0')}`,
+                hour: format(schedule.date, 'HH:mm', { timeZone: 'America/Sao_Paulo' }),
                 candidateName: schedule.application?.candidateName,
                 applicationNumber: schedule.application?.number,
-                interviewType: schedule.interviewType
+                interviewType: schedule.interviewType,
+                finished: schedule.InterviewRealized !== null || schedule.accepted === false
             }
             scheduleGrouped[dateDayandMonthAndYear].push(infoToPush);
             return scheduleGrouped;
