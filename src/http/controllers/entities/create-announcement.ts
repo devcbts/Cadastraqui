@@ -2,6 +2,7 @@ import { announcementAlreadyExists } from '@/errors/announcement-already-exists-
 import { EntityNotExistsError } from '@/errors/entity-not-exists-error'
 import { prisma } from '@/lib/prisma'
 import { Announcement } from '@prisma/client'
+import { fromZonedTime } from 'date-fns-tz'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import createAnnouncementEducationLevel from './utils/create-announcement-education-level'
@@ -27,15 +28,15 @@ export async function CreateAnnoucment(
       beginHour: z.string().transform(v => {
         const [hour, min] = v.split(':')
         const curr = new Date()
-        curr.setUTCHours(parseInt(hour), parseInt(min), 0)
-        return curr
+        curr.setHours(parseInt(hour), parseInt(min), 0, 0)
+        return fromZonedTime(curr, 'America/Sao_Paulo')
       }),
       endHour: z.string().transform(v => {
         const [hour, min] = v.split(':')
         const curr = new Date()
         console.log(hour, min)
-        curr.setUTCHours(parseInt(hour), parseInt(min), 0)
-        return curr
+        curr.setUTCHours(parseInt(hour), parseInt(min), 0, 0)
+        return fromZonedTime(curr, 'America/Sao_Paulo')
       }),
       interval: z.number().int().default(5)
     }).nullish(),
