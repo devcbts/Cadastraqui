@@ -10,11 +10,12 @@ import socialAssistantService from "services/socialAssistant/socialAssistantServ
 import EDUCATION_TYPE from "utils/enums/education-type";
 import formatDate from "utils/format-date";
 import styles from './styles.module.scss';
+import { Link } from 'react-router-dom';
 export default function SocialAssistantAnnouncement() {
     const navigate = useNavigate()
     const { announcementId } = useParams()
     const [isLoading, setIsLoading] = useState(true)
-    const [process, setProcess] = useState({ announcement: {}, educationLevels: [] })
+    const [process, setProcess] = useState({ announcement: {}, educationLevels: [], url: '' })
     useEffect(() => {
         const fetchAnnouncement = async () => {
             try {
@@ -76,7 +77,9 @@ export default function SocialAssistantAnnouncement() {
                         </label>
                     </div>
                 </div>
-                <ButtonBase label={'visualizar PDF'} />
+                <Link to={process.url} target='_blank'>
+                    <ButtonBase label={'visualizar PDF'} />
+                </Link>
 
             </div>
             <Table.Root headers={['matriz ou filial/cidade', 'tipo de educação', 'ciclo/ano/série/curso', 'turno', 'ação', 'rel. fim']}>
