@@ -2,7 +2,7 @@ import useControlForm from "hooks/useControlForm"
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 import BackPageTitle from "Components/BackPageTitle"
 import ButtonBase from "Components/ButtonBase"
-import { useFieldArray } from "react-hook-form"
+import { useFieldArray, useWatch } from "react-hook-form"
 import Table from "Components/Table"
 import announcementCoursesSchema from "./schemas/announcement-courses-schema"
 import { useCallback, useEffect, useMemo, useState } from "react"
@@ -19,9 +19,8 @@ import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type"
 import EDUCATION_TYPE from "utils/enums/education-type"
 export default function AnnouncementCourses({ entity, data, onPageChange }) {
     // can be 'HigherEducation' or 'BasicEducation'
-    const isBasicEducation = data?.educationLevel === 'BasicEducation'
     const { control, formState: { isValid }, trigger, getValues, watch, reset, resetField } = useControlForm({
-        schema: announcementCoursesSchema(isBasicEducation),
+        schema: announcementCoursesSchema,
         defaultValues: {
             level: data?.educationLevel,
             basicEduType: null,
@@ -33,10 +32,15 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
             verifiedScholarships: 0,
             shift: "",
             grade: null,
-            semester: undefined,
+            semester: 0,
             entity_subsidiary_id: undefined,
+        },
+        initialData: {
+            level: data?.educationLevel
         }
     })
+    const isBasicEducation = watch("level") === "BasicEducation"
+
     const [courses, setCourses] = useState(data?.educationalLevels ?? [])
     const [totalScholarships, setTotalScholarships] = useState(0)
     const handleAddCourse = () => {
@@ -50,8 +54,7 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
         //     mappedData.entity_subsidiary_id = entity.id
         // }
         setCourses((prev) => ([...prev, mappedData]))
-        reset({})
-        resetField("entity_subsidiary_id")
+        reset()
     }
 
     const entitiesOptions = useMemo(() => {
@@ -93,8 +96,8 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
                 <FormSelect label={'matriz ou filial'} control={control} name="entity_subsidiary_id" options={entitiesOptions} value={watch("entity_subsidiary_id")} />
                 {
                     isBasicEducation
-                        ? <FormSelect label={'tipo de educação básica'} control={control} name="basicEduType" options={SCHOOL_LEVELS} value={watch("basicEduType")} />
-                        : <FormSelect label={'tipo de curso oferecido'} control={control} name="offeredCourseType" options={OFFERED_COURSES_TYPE} value={watch("offeredCourseType")} />
+                        ? <FormSelect label={'tipo de educação básica'} control={control} name="basicEduType" options={SCHOOL_LEVELS} value={watch("basicEduType", undefined)} />
+                        : <FormSelect label={'tipo de curso oferecido'} control={control} name="offeredCourseType" options={OFFERED_COURSES_TYPE} value={watch("offeredCourseType", null)} />
                 }
                 {
                     !isBasicEducation &&

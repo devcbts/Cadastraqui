@@ -11,10 +11,10 @@ export default function EntityAnnouncement() {
     const [announcements, setAnnouncements] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const navigate = useNavigate()
-    const [filter, setFilter] = useState({ value: 'open', label: 'Abertos' })
+    const [filter, setFilter] = useState({ value: 'open', label: 'Vigentes' })
     const filterTypes = [
         { value: 'scheduled', label: 'Pré-agendados' },
-        { value: 'open', label: 'Abertos' },
+        { value: 'open', label: 'Vigentes' },
         { value: 'subscription', label: 'Fase de inscrição' },
         { value: 'finished', label: 'Finalizados' },
     ]

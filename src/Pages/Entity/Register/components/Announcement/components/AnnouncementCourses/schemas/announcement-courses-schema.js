@@ -1,6 +1,6 @@
 const { z } = require("zod");
 
-const announcementCoursesSchema = (isBasicEducation) => z.object({
+const announcementCoursesSchema = z.object({
     level: z.string(),
     basicEduType: z.string().nullish(),
     scholarshipType: z.string().nullish(),
@@ -16,7 +16,7 @@ const announcementCoursesSchema = (isBasicEducation) => z.object({
     courses: z.array(z.any()).nullish()
 })
     .superRefine((data, ctx) => {
-        if (isBasicEducation) {
+        if (data.level === 'BasicEducation') {
             if (!data.basicEduType) {
                 ctx.addIssue({
                     message: 'Tipo de educação básica obrigatório',
