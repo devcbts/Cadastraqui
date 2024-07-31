@@ -159,13 +159,13 @@ export async function CreateAnnoucment(
         await createAnnouncementEducationLevel({ dbClient: tprisma, data: { ...data, announcementId: announcement.id, entitySubsidiaryId: education.entity_subsidiary_id } })
       }))
 
+      if (hasInterview && announcementInterview) {
+        await tprisma.announcementInterview.create({ data: { ...announcementInterview, announcement_id: announcement!.id } })
+      }
+      return reply.status(201).send({ announcement: announcement })
     })
 
-    if (hasInterview && announcementInterview) {
-      await prisma.announcementInterview.create({ data: { ...announcementInterview, announcement_id: announcement!.id } })
-    }
 
-    return reply.status(201).send({ announcement: announcement! })
 
   } catch (err: any) {
     if (err instanceof announcementAlreadyExists) {
