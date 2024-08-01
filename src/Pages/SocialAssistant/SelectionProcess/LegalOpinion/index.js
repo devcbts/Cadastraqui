@@ -157,15 +157,17 @@ export default function LegalOpinion() {
                     <div className={styles.table}>
 
                         <h3>O(s) integrante(s) identificados abaixo fazem uso dos seguintes medicamentos:</h3>
-                        <Table.Root headers={['integrante', 'nome do(s) medicamento(s)', 'Obtém medicamento(s) através da rede pública', 'Relação de medicamentos obtidos através da rede pública']}>
+                        <Table.Root headers={['integrante', 'nome do(s) medicamento(s)', 'Obtém medicamento(s) através da rede pública',
+                            // 'Relação de medicamentos obtidos através da rede pública'
+                        ]}>
                             {
                                 data?.familyMemberMedications?.map((item) => {
                                     return (
                                         <Table.Row>
                                             <Table.Cell>{item.name}</Table.Cell>
-                                            <Table.Cell>{item.medications?.[0]?.medicationName}</Table.Cell>
-                                            <Table.Cell>{item.medications?.[0]?.obtainedPublicly ? 'Sim' : 'Não'}</Table.Cell>
-                                            <Table.Cell>{item.medications?.[0]?.specificMedicationPublicly}</Table.Cell>
+                                            <Table.Cell>{item?.medicationName}</Table.Cell>
+                                            <Table.Cell>{item.obtainedPublicly ? 'Sim' : 'Não'}</Table.Cell>
+                                            {/* <Table.Cell>{item.medications?.[0]?.specificMedicationPublicly}</Table.Cell> */}
                                         </Table.Row>
                                     )
                                 })

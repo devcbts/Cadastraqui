@@ -53,15 +53,29 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
             NotificationService.error({ text: 'Erro ao excluir renda' })
         }
     }
+    const handleBankDeclaration = () => {
+        setIncomeInfo(prev => ({ ...prev, data: { ...prev.data, hasBankAccount: !prev.data.hasBankAccount } }))
+
+    }
     useEffect(() => {
         if (!isMounted.current) {
             return
         }
-        if (incomeInfo?.data?.isUser) {
-            candidateService.updateIdentityInfo({ hasBankAccount: incomeInfo?.data?.hasBankAccount }).catch(_ => { })
-        } else {
-            candidateService.updateFamilyMember(id, { hasBankAccount: incomeInfo?.data?.hasBankAccount }).catch(_ => { })
+        const updateBankDeclaration = async () => {
+
+            try {
+
+                if (incomeInfo?.data?.isUser) {
+                    await candidateService.updateIdentityInfo({ hasBankAccount: incomeInfo?.data?.hasBankAccount })
+                } else {
+                    await candidateService.updateFamilyMember(id, { hasBankAccount: incomeInfo?.data?.hasBankAccount })
+                }
+            } catch (err) {
+                NotificationService.error({ text: 'Não foi possível atualizar esta informação' })
+                handleBankDeclaration()
+            }
         }
+        updateBankDeclaration()
     }, [incomeInfo?.data?.hasBankAccount])
     return (
         <>
@@ -119,13 +133,13 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                         }
                         {incomeInfo?.data?.userBanks !== 0
                             ? <label>Possuo <strong>{incomeInfo?.data?.userBanks}</strong> conta(s) bancária(s)</label>
-                            : <label >
+                            : <div style={{ display: 'flex', flexDirection: 'row', gap: '4px' }} >
                                 <input type='checkbox' checked={!incomeInfo?.data?.hasBankAccount} onClick={() => {
-                                    setIncomeInfo(prev => ({ ...prev, data: { ...prev.data, hasBankAccount: !prev.data.hasBankAccount } }))
+                                    handleBankDeclaration()
                                     isMounted.current = true
                                 }} />
                                 Não sou titular de nenhuma conta corrente ou poupança em quaisquer instituições financeiras
-                            </label>}
+                            </div>}
                     </div>
                     <div className={styles.containerRendaCadastrada}>
                         <h3>Rendas Cadastradas</h3>

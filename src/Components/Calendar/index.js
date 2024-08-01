@@ -20,7 +20,7 @@ export default function BigCalendar({
     })
     return (
         <Calendar
-            style={{ color: 'black', height: '100%' }}
+            style={{ color: 'black', height: '100%', }}
             culture="pt-BR"
             localizer={localizer}
             events={events}

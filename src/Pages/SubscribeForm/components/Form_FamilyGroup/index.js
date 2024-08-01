@@ -39,7 +39,7 @@ export default function FormFamilyGroup() {
             setActiveStep(1)
             NotificationService.success({ text: 'Parente cadastrado' })
         } catch (err) {
-            NotificationService.error({ text: err.response.data.message })
+            NotificationService.error({ text: err?.response?.data?.message })
         }
         setIsLoading(false)
     }
@@ -49,7 +49,7 @@ export default function FormFamilyGroup() {
             await uploadMemberDocument(data, data.id)
             NotificationService.success({ text: 'Informações alteradas' })
         } catch (err) {
-            NotificationService.error({ text: err.response.data.message })
+            NotificationService.error({ text: err?.response?.data?.message })
         }
     }
 

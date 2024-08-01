@@ -58,7 +58,7 @@ export default function SocialAssistantAnnouncement() {
                                 Vigência do Edital:
                             </span>
                             <label>
-                                {formatDate(process.announcement.announcementDate)}
+                                {formatDate(process.announcement.announcementBegin)} à {formatDate(process.announcement.announcementDate)}
                             </label>
                         </div>
                     </div>
@@ -69,13 +69,16 @@ export default function SocialAssistantAnnouncement() {
                             {formatDate(process.announcement.openDate)} à {formatDate(process.announcement.closeDate)}
                         </label>
                     </div>
-                    <div className={styles.divPeriodo}>
-                        <span className={styles.spanPerInsc}>
-                            Período de Avaliação:</span>
-                        <label>
-                            {formatDate(process.announcement.closeDate)} à {formatDate(process.announcement.announcementDate)}
-                        </label>
-                    </div>
+                    {
+                        process?.announcement?.interview !== null &&
+                        <div className={styles.divPeriodo}>
+                            <span className={styles.spanPerInsc}>
+                                Período de Avaliação:</span>
+                            <label>
+                                {formatDate(process?.announcement?.interview?.startDate)} à {formatDate(process?.announcement?.interview?.endDate)}
+                            </label>
+                        </div>
+                    }
                 </div>
                 <Link to={process.url} target='_blank'>
                     <ButtonBase label={'visualizar PDF'} />
