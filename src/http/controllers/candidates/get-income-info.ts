@@ -23,7 +23,7 @@ export async function getIncomeInfo(
     // get all family members linked with user
     const familyMembers = await prisma.familyMember.findMany({
       where: idField,
-      include: { FamilyMemberIncome: true }
+      include: { FamilyMemberIncome: true, BankAccount: true }
     })
 
     // async function fetchData(familyMembers: FamilyMember[]) {
@@ -34,8 +34,8 @@ export async function getIncomeInfo(
         //   where: { familyMember_id: familyMember.id },
         // })
 
-
-        incomeInfoResults.push({ name: familyMember.fullName, id: familyMember.id, incomes: familyMember.FamilyMemberIncome, hasBankAccount: familyMember.hasBankAccount })
+        const userBanks = familyMember.BankAccount.length
+        incomeInfoResults.push({ name: familyMember.fullName, id: familyMember.id, incomes: familyMember.FamilyMemberIncome, hasBankAccount: familyMember.hasBankAccount, userBanks, isUser: false })
       } catch (error) {
         throw new ResourceNotFoundError()
       }
@@ -48,12 +48,12 @@ export async function getIncomeInfo(
     })
     const userIdentity = await prisma.identityDetails.findFirst({
       where: { OR: [{ candidate_id: candidateOrResponsible.UserData.id }, { responsible_id: candidateOrResponsible.UserData.id }] },
-      select: { hasBankAccount: true }
+      select: { hasBankAccount: true, candidate: { select: { _count: { select: { BankAccount: true } } } }, responsible: { select: { _count: { select: { BankAccount: true } } } } }
     })
     const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'income')
-
+    const userBanks = candidateOrResponsible.IsResponsible ? userIdentity?.responsible?._count.BankAccount : userIdentity?.candidate?._count.BankAccount
     // let incomeInfoResults = await fetchData(familyMembers)
-    incomeInfoResults.push({ name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, incomes: candidateIncome, hasBankAccount: userIdentity?.hasBankAccount })
+    incomeInfoResults.push({ name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, incomes: candidateIncome, hasBankAccount: userIdentity?.hasBankAccount, userBanks, isUser: true })
     const incomeInfoResultsWithUrls = incomeInfoResults.map((familyMember) => {
       const incomesWithUrls = familyMember.incomes.map((income) => {
         const incomeDocuments = Object.entries(urls).filter(([url]) => url.split("/")[4] === income.id)
