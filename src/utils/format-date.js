@@ -1,4 +1,4 @@
-export default function formatDate(date = '', { showTime, utc } = { showTime: false, utc: false }) {
+export default function formatDate(date = '', { showTime, utc } = { showTime: false, utc: true }) {
     // If showtime is true, it adds an offset of tz
 
     const formatter = new Intl.DateTimeFormat('pt-BR', {

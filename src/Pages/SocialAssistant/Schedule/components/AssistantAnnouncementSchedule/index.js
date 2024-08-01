@@ -76,7 +76,7 @@ export default function AssistantAnnouncementSchedule() {
                 </div>
                 <div style={{ overflowY: 'scroll', height: '100%' }}>
                     {!schedule?.[currentDate]?.length
-                        ? <span>Nenhuma entrevista/visita marcada para este dia ({formatDate(currentDate, { utc: true })})</span>
+                        ? <span>Nenhuma entrevista/visita marcada para este dia ({formatDate(currentDate)})</span>
                         : (<Table.Root headers={['horário', 'candidato', 'tipo', 'ação']}>
                             {schedule?.[currentDate]?.map(e => (
                                 <Table.Row key={e.id}>

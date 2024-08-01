@@ -43,8 +43,8 @@ export default function EntityAnnouncementView() {
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     <span>Período de inscrição: {formatDate(announcement?.openDate)} à {formatDate(announcement?.closeDate)}</span>
+                    <span>Período de avaliação: {formatDate(announcement?.closeDate)} à {formatDate(announcement?.announcementDate)}</span>
                     <span>Vigência do edital: {formatDate(announcement?.announcementDate)}</span>
-                    <span>Período de avaliação: {formatDate(announcement?.announcementBegin)} à {formatDate(announcement?.announcementDate)}</span>
                     <span>Total de vagas: {announcement?.verifiedScholarships}</span>
                 </div>
                 <Card.Root>
