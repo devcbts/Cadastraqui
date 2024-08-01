@@ -80,8 +80,8 @@ export async function registerFamilyMemberInfo(
     percentageOfScholarship: z.string().optional(),
     monthlyAmount: z.string().optional(),
     incomeSource: z.array(IncomeSource).optional(),
-    hasSevereDeseaseOrUsesMedication: z.boolean().default(false),
-    hasBankAccount: z.boolean().default(false),
+    hasSevereDeseaseOrUsesMedication: z.boolean().nullish(),
+    hasBankAccount: z.boolean().nullish(),
   })
   console.log('====================================')
   console.log(request.body)
