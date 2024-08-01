@@ -80,8 +80,8 @@ export async function registerIdentityInfo(
     UF: STATES,
     neighborhood: z.string().nullish(),
     city: z.string().nullish(),
-    hasSevereDeseaseOrUsesMedication: z.boolean().default(false),
-    hasBankAccount: z.boolean().default(false),
+    hasSevereDeseaseOrUsesMedication: z.boolean().nullish(),
+    hasBankAccount: z.boolean().nullish(),
   })
 
   const {

@@ -1,9 +1,11 @@
-import { NotAllowedError } from '@/errors/not-allowed-error'
+import { ForbiddenError } from '@/errors/forbidden-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import { calculateAge } from '@/utils/calculate-age'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { updateLegalDependent } from '../legal-responsible/update-legal-dependent'
 import { DOCUMENT_TYPE } from './enums/Document_Type'
 import { Education_Type } from './enums/Education_Type'
 import { GENDER } from './enums/Gender'
@@ -16,9 +18,6 @@ import { SCHOLARSHIP } from './enums/Scholarship'
 import { SHIFT } from './enums/Shift'
 import { SkinColor } from './enums/SkinColor'
 import { UF } from './enums/UF'
-import { calculateAge } from '@/utils/calculate-age'
-import { updateLegalDependent } from '../legal-responsible/update-legal-dependent'
-import { ForbiddenError } from '@/errors/forbidden-error'
 export async function updateFamilyMemberInfo(
   request: FastifyRequest,
   reply: FastifyReply,
@@ -82,7 +81,7 @@ export async function updateFamilyMemberInfo(
     percentageOfScholarship: z.string().optional().nullable(),
     monthlyAmount: z.string().optional().nullable(),
     incomeSource: z.array(IncomeSource).optional().nullable(),
-    hasSevereDeseaseOrUsesMedication: z.boolean(),
+    hasSevereDeseaseOrUsesMedication: z.boolean().nullish(),
     hasBankAccount: z.boolean().nullish(),
   }).partial()
 
@@ -148,7 +147,7 @@ export async function updateFamilyMemberInfo(
 
     const { _id } = fetchFamilyMemberParamsSchema.parse(request.params)
 
-    
+
 
     const CandidateOrResponsible = await SelectCandidateResponsible(user_id)
 
@@ -259,7 +258,7 @@ export async function updateFamilyMemberInfo(
     if (age < 18 && CandidateOrResponsible.IsResponsible) {
       await updateLegalDependent(memberUpdated.fullName, memberUpdated.CPF, familyMember.CPF, memberUpdated.birthDate.toString(), CandidateOrResponsible.UserData.id)
     }
-    
+
     return reply.status(201).send()
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {

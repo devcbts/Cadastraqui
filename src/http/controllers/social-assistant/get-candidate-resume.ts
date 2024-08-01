@@ -36,7 +36,7 @@ export async function getCandidateResume(
         'loan',
         'financing',
         'credit-card',
-    'declaracoes']
+        'declaracoes']
     try {
         const user_id = request.user.sub;
 
@@ -228,6 +228,9 @@ export async function getCandidateResume(
                 totalExpense: true,
 
 
+            },
+            orderBy: {
+                date: 'desc'
             }
         })
 
@@ -236,7 +239,8 @@ export async function getCandidateResume(
         const importantInfo = {
             cadUnico: identityDetails.CadUnico,
             familyIncome: incomePerCapita * (familyMembers.length + 1),
-            familyExpenses: expenses ? expenses.reduce((acc, expense) => acc + expense.totalExpense!, 0) / (expenses.length) : 0,
+            // familyExpenses: expenses ? expenses.reduce((acc, expense) => acc + expense.totalExpense!, 0) / (expenses.length) : 0,
+            familyExpenses: expenses?.[0]?.totalExpense,
             hasSevereDisease: application.hasSevereDesease,
             housingSituation: housingInfo?.propertyStatus,
             vehiclesCount: vehicles.length,
@@ -322,9 +326,9 @@ export async function getCandidateResume(
             where: { application_id, InterviewRealized: true },
             distinct: ['interviewType'],
         });
-        
-        
-        
+
+
+
         return reply.status(200).send({
             candidateInfo,
             responsibleInfo,
