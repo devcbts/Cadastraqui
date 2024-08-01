@@ -67,7 +67,15 @@ export async function verifyIncomeBankRegistration(CandidateOrResponsibleId: str
             update = false;
         }
     }
+    if (identityDetails.hasBankAccount === null) {
+        update = false;
+    }
 
+    familyMembers.forEach(familyMember => {
+        if (familyMember.hasBankAccount === null) {
+            update = false;
+        }
+    });
     await prisma.finishedRegistration.upsert({
         where: idField,
         create: { rendaMensal: update, ...idField },

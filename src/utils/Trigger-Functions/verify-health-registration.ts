@@ -68,6 +68,15 @@ export async function verifyHealthRegistration(CandidateOrResponsibleId: string)
         }
         
     }
+    if (identityDetails.hasSevereDeseaseOrUsesMedication === null) {
+        update = false;
+    }
+
+    familyMembers.forEach(familyMember => {
+        if (familyMember.hasSevereDeseaseOrUsesMedication === null) {
+            update = false;
+        }
+    });
 
     await prisma.finishedRegistration.upsert({
         where: idField,
