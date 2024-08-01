@@ -26,9 +26,11 @@ export default function Members() {
         }
         fetchData()
     }, [])
-    const handleRemove = async (role, id) => {
+    const handleRemove = async (member) => {
+        const { role, id, name } = member
         NotificationService.confirm({
             title: 'Excluir colaborador?',
+            text: `Você está excluindo ${name}`,
             onConfirm: async () => {
                 try {
                     if (role === 'assistente') {
@@ -70,7 +72,7 @@ export default function Members() {
                             <Table.Cell>{member.role}</Table.Cell>
                             <Table.Cell>
                                 <ButtonBase label={'editar'} onClick={() => setSelection(member)} />
-                                <ButtonBase label={'excluir'} danger onClick={() => handleRemove(member.role, member.id)} />
+                                <ButtonBase label={'excluir'} danger onClick={() => handleRemove(member)} />
                             </Table.Cell>
                         </Table.Row>
                     ))

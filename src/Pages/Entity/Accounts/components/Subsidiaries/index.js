@@ -17,9 +17,11 @@ export default function Subsidiaries() {
         }
         fetchData()
     }, [])
-    const handleDelete = async (id) => {
+    const handleDelete = async (subsidiary) => {
+        const { id, socialReason } = subsidiary
         NotificationService.confirm({
             title: 'Excluir filial?',
+            text: `Você está excluindo ${socialReason}`,
             onConfirm: async () => {
                 try {
 
@@ -58,7 +60,7 @@ export default function Subsidiaries() {
                                 <Table.Cell>{completeAddress}</Table.Cell>
                                 <Table.Cell>
                                     <ButtonBase label={'editar'} onClick={() => setSelection(subsidiary)} />
-                                    <ButtonBase label={'excluir'} danger onClick={() => handleDelete(subsidiary.id)} />
+                                    <ButtonBase label={'excluir'} danger onClick={() => handleDelete(subsidiary)} />
                                 </Table.Cell>
                             </Table.Row>
                         )

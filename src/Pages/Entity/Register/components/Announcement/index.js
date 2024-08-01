@@ -34,6 +34,7 @@ export default function Announcement() {
     }, [])
     const handleSubmit = async (data) => {
         try {
+            setIsLoading(true)
             const announcement = await entityService.createAnnouncement(data)
             if (announcement) {
                 const formData = new FormData()
@@ -46,6 +47,7 @@ export default function Announcement() {
         } catch (err) {
             NotificationService.error({ text: err?.response?.data?.message })
         }
+        setIsLoading(false)
     }
     return (
         <>
