@@ -35,7 +35,8 @@ export async function fetchAnnouncements(
           Application: true,
           entity: true,
           educationLevels: { include: { entitySubsidiary: true } },
-          socialAssistant: true
+          socialAssistant: true,
+          interview: true
         }
       })
       if (announcement) {
