@@ -47,17 +47,17 @@ export default function MemberBankAccountView({ id, onSelect, onBack, onAdd }) {
     const handleReport = () => {
         setIsReportOpen(prev => !prev)
     }
-    useEffect(() => {
-        if (!isMounted.current) {
-            isMounted.current = true
-            return
-        }
-        if (bankingInfo.isUser) {
-            candidateService.updateIdentityInfo({ hasBankAccount: bankingInfo.hasBankAccount }).catch(_ => { })
-        } else {
-            candidateService.updateFamilyMember(id, { hasBankAccount: bankingInfo.hasBankAccount }).catch(_ => { })
-        }
-    }, [bankingInfo?.hasBankAccount])
+    // useEffect(() => {
+    //     if (!isMounted.current) {
+    //         isMounted.current = true
+    //         return
+    //     }
+    //     if (bankingInfo.isUser) {
+    //         candidateService.updateIdentityInfo({ hasBankAccount: bankingInfo.hasBankAccount }).catch(_ => { })
+    //     } else {
+    //         candidateService.updateFamilyMember(id, { hasBankAccount: bankingInfo.hasBankAccount }).catch(_ => { })
+    //     }
+    // }, [bankingInfo?.hasBankAccount])
     return (
         <>
             {isReportOpen ?
@@ -79,11 +79,11 @@ export default function MemberBankAccountView({ id, onSelect, onBack, onAdd }) {
                                 </FormListItem.Root>
                             )
                         }}>
-                            {bankingInfo?.accounts?.length === 0 && <CheckboxBase
+                            {/* {bankingInfo?.accounts?.length === 0 && <CheckboxBase
                                 label={'Você possui alguma conta em banco?'}
                                 value={bankingInfo.hasBankAccount}
                                 onChange={(e) => setBankingInfo(prev => ({ ...prev, hasBankAccount: e.target.value === "true" }))}
-                            />}
+                            />} */}
                         </FormList.List>
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
 

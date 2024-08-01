@@ -159,7 +159,7 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
                     <Text style={styles.declarationText}>
                         {declarationData?.BankAccount.length === 0
 
-                            ? 'Afirmo que não sou titular de nenhuma conta corrente oo conta poupança em quaisquer instituições financeiras.'
+                            ? 'Afirmo que não sou titular de nenhuma conta corrente ou conta poupança em quaisquer instituições financeiras.'
                             : `
                             Afirmo que sou titular nas seguintes contas:
                             ${declarationData.BankAccount?.map((e, index) => {

@@ -1,6 +1,6 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'
 import ButtonBase from "Components/ButtonBase"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import candidateService from "services/candidate/candidateService"
 import { NotificationService } from "services/notification"
 import FormBankAccount from "../../Form_BankAccount"
@@ -8,6 +8,7 @@ import BankReport from '../../Form_BankAccount/components/BankReport'
 import FormList from "../../FormList"
 import FormListItem from "../../FormList/FormListItem"
 import styles from './styles.module.scss'
+import CheckboxBase from 'Components/CheckboxBase'
 
 export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
     const { id, fullName } = member
@@ -15,26 +16,27 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
     // MonthlyIncome stores an array with registered months
     // info stores the current additional information for each occupation (position)
     const [incomeInfo, setIncomeInfo] = useState({ monthlyIncome: [], info: [], data: {} })
-    const [showBankInfo, setShowBankInfo] = useState(false)
+    const [showBankInfo, setShowBankInfo] = useState(null)
+    const isMounted = useRef(false)
+
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
             try {
                 const incomes = await candidateService.getMemberIncomeInfo(id)
                 if (incomes) {
-
                     setIncomeInfo(incomes)
                 }
                 NotificationService.warn({
-                    text: 'Realize o cadastro das informações bancárias'
+                    text: 'Verifique o cadastro das informações bancárias'
                 })
             } catch (err) {
 
             }
             setIsLoading(false)
         }
-        fetchData()
-    }, [id])
+        if (!showBankInfo) fetchData()
+    }, [id, showBankInfo])
     // const handleShowBankInfo = () => {
     //     setShowBankInfo(true)
     // }
@@ -51,6 +53,16 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
             NotificationService.error({ text: 'Erro ao excluir renda' })
         }
     }
+    useEffect(() => {
+        if (!isMounted.current) {
+            return
+        }
+        if (incomeInfo?.data?.isUser) {
+            candidateService.updateIdentityInfo({ hasBankAccount: incomeInfo?.data?.hasBankAccount }).catch(_ => { })
+        } else {
+            candidateService.updateFamilyMember(id, { hasBankAccount: incomeInfo?.data?.hasBankAccount }).catch(_ => { })
+        }
+    }, [incomeInfo?.data?.hasBankAccount])
     return (
         <>
             {!showBankInfo && (
@@ -62,18 +74,8 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                     </div>
                     <div className={styles.containerTeste}>
                         {
-                            incomeInfo?.data?.hasBankAccount === null
+                            incomeInfo?.data?.hasBankAccount === true
                                 ? <>
-                                    <h3>Comprovantes bancários</h3>
-                                    <button
-                                        className={styles.buttonCadastrarDeclaracao}
-                                        onClick={() => setShowBankInfo('accounts')}
-                                    >
-                                        Cadastrar
-                                    </button>
-                                    {/* <ButtonBase label={'Cadastrar declaração'} onClick={() => setShowBankInfo('accounts')} /> */}
-                                </>
-                                : <>
                                     <h3>Comprovantes bancários</h3>
                                     <button
                                         className={styles.buttonCadastrarDeclaracao}
@@ -81,8 +83,19 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                                     >
                                         Visualizar
                                     </button>
-                                    {/* <RowTextAction text={'Declaração e Comprovantes bancários'} onClick={() => setShowBankInfo('accounts')} label={'visualizar'} /> */}
+                                    {/* <ButtonBase label={'Cadastrar declaração'} onClick={() => setShowBankInfo('accounts')} /> */}
                                 </>
+                                : null
+                            // (<>
+                            //     <h3>Comprovantes bancários a</h3>
+                            //     <button
+                            //         className={styles.buttonCadastrarDeclaracao}
+                            //         onClick={() => setShowBankInfo('accounts')}
+                            //     >
+                            //         Cadastrar
+                            //     </button>
+                            //     {/* <RowTextAction text={'Declaração e Comprovantes bancários'} onClick={() => setShowBankInfo('accounts')} label={'visualizar'} /> */}
+                            // </>)
                         }
 
                         {
@@ -104,7 +117,15 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                         className={styles.RowTextAction}
                             /> */
                         }
-
+                        {incomeInfo?.data?.userBanks !== 0
+                            ? <label>Possuo <strong>{incomeInfo?.data?.userBanks}</strong> conta(s) bancária(s)</label>
+                            : <label >
+                                <input type='checkbox' checked={!incomeInfo?.data?.hasBankAccount} onClick={() => {
+                                    setIncomeInfo(prev => ({ ...prev, data: { ...prev.data, hasBankAccount: !prev.data.hasBankAccount } }))
+                                    isMounted.current = true
+                                }} />
+                                Não sou titular de nenhuma conta corrente ou poupança em quaisquer instituições financeiras
+                            </label>}
                     </div>
                     <div className={styles.containerRendaCadastrada}>
                         <h3>Rendas Cadastradas</h3>
