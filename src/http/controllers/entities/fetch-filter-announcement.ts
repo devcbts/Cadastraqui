@@ -14,7 +14,7 @@ export async function fetchFilterAnnouncements(
   })
   const querySchema = z.object({
 
-    filter: z.enum(['open', 'subscription', 'finished']).optional()
+    filter: z.enum(['scheduled', 'open', 'subscription', 'finished']).optional()
   })
 
   const { page_number } = fetchParamsSchema.parse(request.params)
@@ -39,6 +39,10 @@ export async function fetchFilterAnnouncements(
     if (filter) {
       const today = new Date()
       switch (filter) {
+        case 'scheduled':
+          filterParams = [{ announcementBegin: { gt: today } }]
+
+          break
         case 'open':
           filterParams = [{ announcementBegin: { lte: today } }, { announcementDate: { gt: today } }]
           break

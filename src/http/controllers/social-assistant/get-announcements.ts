@@ -1,6 +1,7 @@
 import { AnnouncementNotExists } from '@/errors/announcement-not-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
+import { GetUrl } from '@/http/services/get-file'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -98,6 +99,8 @@ export async function getAnnouncements(
       if (!announcement) {
         throw new ResourceNotFoundError()
       }
+      const Folder = `Announcements/${announcement.entity_id}/${announcement_id}.pdf`;
+      const url = await GetUrl(Folder);
       const educationLevels = announcement.educationLevels
       const entityAndSubsidiaries = [announcement.entity, ...announcement.entity_subsidiary]
       const educationLevelsFiltered = entityAndSubsidiaries.map((entity) => {
@@ -125,7 +128,7 @@ export async function getAnnouncements(
         }))
         return { ...entity, matchedEducationLevels: returnObj }
       })
-      return reply.status(200).send({ announcement: announcement, educationLevels: educationLevelsFiltered })
+      return reply.status(200).send({ announcement: announcement, educationLevels: educationLevelsFiltered, url })
     }
 
   } catch (err: any) {
