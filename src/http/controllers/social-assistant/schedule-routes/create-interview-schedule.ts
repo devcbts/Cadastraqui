@@ -17,7 +17,7 @@ export default async function createInterviewSchedule(request: FastifyRequest,
         endDate: z.string(),
         beginHour: z.string(),
         duration: z.number().min(1, { message: "Duração deve ser maior que 0" }),
-        interval: z.number().min(1, { message: "Intervalo deve ser maior que 0" }),
+        interval: z.number(),
         endHour: z.string(),
     })
 

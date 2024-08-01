@@ -22,7 +22,7 @@ export default async function getAnnouncementSchedule(request: FastifyRequest, r
         }
         const announcement = await prisma.announcement.findUnique({
             where: { id: announcement_id, socialAssistant: { some: { id: assistant.id } } },
-            include: { interview: true }
+            include: { interview: true, AssistantSchedule: { where: { assistant_id: assistant.id } } }
         })
 
         if (!announcement) {
@@ -82,8 +82,11 @@ export default async function getAnnouncementSchedule(request: FastifyRequest, r
             scheduleGrouped[dateDayandMonthAndYear].push(infoToPush);
             return scheduleGrouped;
         });
-
-        return reply.status(200).send({ schedules: scheduleGrouped })
+        const reservedDays = {
+            start: announcement.AssistantSchedule?.[0]?.startDate,
+            end: announcement.AssistantSchedule?.[0]?.endDate,
+        }
+        return reply.status(200).send({ schedules: scheduleGrouped, reservedDays })
 
     } catch (error) {
         if (error instanceof ForbiddenError) {

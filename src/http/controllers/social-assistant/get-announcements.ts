@@ -28,9 +28,14 @@ export async function getAnnouncements(
     // Verifica se existe o processo seletivo
     let announcement
     if (!announcement_id) {
-      const { filter } = request.query as { filter: 'subscription' | 'validation' | 'finished' }
+      const { filter } = request.query as { filter: 'scheduled' | 'subscription' | 'validation' | 'finished' }
       const getFilter = () => {
         const currentDate = new Date()
+        if (filter === 'scheduled') {
+          return [
+            { announcementBegin: { gt: currentDate } }
+          ]
+        }
         if (filter === 'subscription') {
           return [
             { openDate: { lt: currentDate } },

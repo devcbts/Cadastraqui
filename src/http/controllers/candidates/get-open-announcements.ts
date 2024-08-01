@@ -50,7 +50,10 @@ export async function getOpenAnnouncements(
           educationLevels: true,
           entity: {
             include: {
-              EntitySubsidiary: true
+              user: { select: { email: true } },
+              EntitySubsidiary: {
+                include: { user: { select: { email: true } } }
+              },
             }
           },
         }
