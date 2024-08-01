@@ -11,7 +11,7 @@ import { ReactComponent as Doctor } from 'Assets/icons/doctor.svg'
 import { ReactComponent as List } from 'Assets/icons/list.svg'
 import FormStepper from "Components/FormStepper"
 import headerAtom from "Components/Header/atoms/header-atom"
-import { useLocation } from "react-router"
+import { useLocation, useNavigate } from "react-router"
 import ViewFamilyGroup from "./components/View_FamilyGroup"
 import ViewHabitation from "./components/View_Habitation"
 import ViewVehicle from "./components/View_Vehicle"
@@ -19,10 +19,12 @@ import ViewIncome from "./components/View_Income"
 import ViewExpenses from "./components/View_Expenses"
 import ViewHealth from "./components/View_Health"
 import ViewDeclarations from "./components/View_Declarations"
+import ButtonBase from "Components/ButtonBase"
 export default function CandidateView() {
     const [activeStep, setActiveStep] = useState(1)
     const location = useLocation()
     const { state } = location
+    const navigate = useNavigate()
     const handleChangeCategory = (index) => {
         setActiveStep(index)
     }
@@ -46,28 +48,36 @@ export default function CandidateView() {
         }
     }, [])
     return (
-        <FormStepper.Root vertical activeStep={activeStep}>
-            <FormStepper.Stepper>
-                {steps.map((e, i) => {
-                    const Icon = e.icon
-                    return (
-                        <FormStepper.Step key={i} index={i + 1} label={e.label} onClick={() => handleChangeCategory(i + 1)}>
-                            <Icon />
-                        </FormStepper.Step>
-                    )
-                })}
-            </FormStepper.Stepper>
-            {
-                steps.map((e, i) => {
-                    const Component = e.component
-                    return (
-                        <FormStepper.View key={e.label} index={i + 1}>
-                            <Component candidateId={state?.candidateId} applicationId={state?.applicationId} />
-                        </FormStepper.View>
-                    )
-                })
-            }
+        <>
+            <FormStepper.Root vertical activeStep={activeStep}>
+                <FormStepper.Stepper>
+                    <div style={{}}>
 
-        </FormStepper.Root>
+                        <ButtonBase label={'processo de seleção'} onClick={() => navigate(-1)} />
+                    </div>
+                    {steps.map((e, i) => {
+                        const Icon = e.icon
+                        return (
+                            <FormStepper.Step key={i} index={i + 1} label={e.label} onClick={() => handleChangeCategory(i + 1)}>
+                                <Icon />
+                            </FormStepper.Step>
+                        )
+                    })}
+                </FormStepper.Stepper>
+
+                {
+
+                    steps.map((e, i) => {
+                        const Component = e.component
+                        return (
+                            <FormStepper.View key={e.label} index={i + 1}>
+                                <Component candidateId={state?.candidateId} applicationId={state?.applicationId} />
+                            </FormStepper.View>
+                        )
+                    })
+                }
+
+            </FormStepper.Root>
+        </>
     )
 }

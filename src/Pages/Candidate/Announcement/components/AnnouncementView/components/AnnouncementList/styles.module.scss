@@ -8,6 +8,7 @@
         justify-content: center;
         align-items: center;
         .logo{
+            object-fit: scale-down;
             width: 100px;
             height: 100px;
             clip-path: circle();

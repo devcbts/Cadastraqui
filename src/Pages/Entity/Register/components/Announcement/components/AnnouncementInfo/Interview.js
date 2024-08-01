@@ -27,7 +27,6 @@ const Interview = forwardRef(({ data, onChange }, ref) => {
             isMounted.current = true
             return
         }
-        console.log('executou')
         const values = getValues()
         if (onChange) {
             onChange(values)
@@ -40,7 +39,7 @@ const Interview = forwardRef(({ data, onChange }, ref) => {
             <FormSelect control={control} name={"duration"} label={'duração'} options={[20, 30, 45, 60].map(e => ({ value: e, label: e }))} value={watch.duration} />
             <InputForm control={control} name={"beginHour"} label={'horário de início'} type="time" />
             <InputForm control={control} name={"endHour"} label={'horário de término'} type="time" />
-            <FormSelect control={control} name={"interval"} label={'intervalo'} options={[5, 10].map(e => ({ value: e, label: e }))} value={watch.interval}
+            <FormSelect control={control} name={"interval"} label={'intervalo'} options={[0, 5, 10].map(e => ({ value: e, label: e }))} value={watch.interval}
             />
         </div>
     )

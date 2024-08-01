@@ -50,7 +50,7 @@ export default function EntityInfo({ data, onPageChange }) {
                 <InputForm control={control} name="socialReason" label={"razão social"} />
                 <InputForm control={control} name="educationalInstitutionCode" label={"código institucional"} />
                 <InputForm control={control} name="password" label={"senha"} type="password" />
-                <FormFilePicker control={control} name="logo" label={"logotipo"} accept={'application/pdf'} />
+                <FormFilePicker control={control} name="logo" label={"logotipo"} accept={'image/*'} />
                 <FilePreview file={watch("file")} />
             </div>
             <ButtonBase label={'próximo'} onClick={handleSubmit} />

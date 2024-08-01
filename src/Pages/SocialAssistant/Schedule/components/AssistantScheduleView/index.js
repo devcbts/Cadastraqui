@@ -37,14 +37,14 @@ export default function AssistantScheduleView() {
                     onSelectEvent={(info) => {
                         navigate(`${info.resource.announcement_id}/candidato/${info.resource.id}`)
                     }}
-                    onNavigate={(date, view, action) => {
-                        if (action === 'NEXT' && isFirstDayOfMonth(date)) {
-                            console.log('primeiro')
-                        }
-                        if (action === 'PREV' && isLastDayOfMonth(date)) {
-                            console.log('ultimo')
-                        }
-                    }}
+                // onNavigate={(date, view, action) => {
+                //     if (action === 'NEXT' && isFirstDayOfMonth(date)) {
+                //         console.log('primeiro')
+                //     }
+                //     if (action === 'PREV' && isLastDayOfMonth(date)) {
+                //         console.log('ultimo')
+                //     }
+                // }}
 
                 />
             </div>

@@ -35,7 +35,6 @@ export default function AnnouncementInfo({ data, onPageChange }) {
         control
     })
     const handleInterview = (data) => {
-        console.log(data)
         setValue('announcementInterview', data)
     }
     const handleSubmit = () => {
@@ -49,9 +48,7 @@ export default function AnnouncementInfo({ data, onPageChange }) {
         const data = getValues()
         onPageChange(1, data)
     }
-    useEffect(() => {
-        console.log(data?.announcementInterview)
-    }, [watch])
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
             <h1>Informações Cadastrais</h1>

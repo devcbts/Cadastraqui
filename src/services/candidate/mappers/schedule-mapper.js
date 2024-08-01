@@ -6,7 +6,6 @@ class ScheduleMapper {
     fromPersistence(data) {
         const datesAndTimes = data?.reduce((acc, curr) => {
             const timezonedDate = toZonedTime(curr.date, 'America/Sao_Paulo')
-            console.log(timezonedDate, curr.date)
             const [day, month, year, hour, minute] = [getDate(timezonedDate), getMonth(timezonedDate) + 1, getYear(timezonedDate), getHours(timezonedDate), getMinutes(timezonedDate)]
             let dateEntry = acc.find(entry => {
                 const currDate = toDate(entry.date)
@@ -22,7 +21,6 @@ class ScheduleMapper {
             dateEntry.times.push(time);
             return acc
         }, [])
-        console.log(datesAndTimes)
         return datesAndTimes
     }
 }

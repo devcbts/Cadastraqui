@@ -35,13 +35,11 @@ export const CardRoot = styled.div`
   border-radius: 10px;
   border-bottom: 5px solid red;
   width: 303px;
-  height: 100px;
   box-shadow: 0px 0px 10px 1px rgb(241 10 149 / 20%);
   @media (max-width: 600px) {
     margin: 10px auto;
   }
 `;
-
 export const CardHead = styled.div`
   display: flex;
   justify-content: center;
@@ -54,6 +52,6 @@ export const CardTitle = styled.h1`
 export const CardContent = styled.div`
   width: 100%;
   padding: 0px 8px;
-  font-size: 9px;
+  font-size: 12px;
   text-align: justify;
 `;

@@ -11,6 +11,7 @@ import REQUEST_TYPE from "utils/enums/request-type";
 import Loader from "Components/Loader";
 import formatDate from "utils/format-date";
 import UndoneScheduleModal from "../AssistantCandidateSchedule/UndoneScheduleModal";
+import styles from './styles.module.scss'
 export default function AssistantAnnouncementSchedule() {
     const navigate = useNavigate()
     const { state } = useLocation()
@@ -18,6 +19,7 @@ export default function AssistantAnnouncementSchedule() {
     const [currentDate, setCurrentDate] = useState(new Date())
     const [isLoading, setIsLoading] = useState(true)
     const [schedule, setSchedule] = useState()
+    const [days, setDays] = useState({ start: null, end: null })
     const [rejectionId, setRejectionId] = useState(null)
     const handleBack = () => {
         if (state?.scheduleView) {
@@ -53,8 +55,8 @@ export default function AssistantAnnouncementSchedule() {
             try {
                 setIsLoading(true)
                 const information = await socialAssistantService.getAnnouncementSchedule(announcementId)
-                console.log(information)
                 setSchedule(information.data.schedules)
+                setDays(information.data.reservedDays)
             } catch (err) {
                 NotificationService.error({ text: err?.response?.data?.message })
             }
@@ -70,7 +72,11 @@ export default function AssistantAnnouncementSchedule() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', padding: '24px', height: '100%' }}>
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '32px', minHeight: '300px', maxHeight: '40%' }}>
                     <Calendar
+                        tileClassName={({ date }) => {
+                            return (date.toISOString() >= days.start && date.toISOString() <= days.end) ? styles.tile : ''
+                        }}
                         minDate={new Date()}
+                        defaultActiveStartDate={days?.start && new Date(days?.start)}
                         onClickDay={(date) => setCurrentDate(date?.toISOString().split('T')[0])}
                     />
                 </div>

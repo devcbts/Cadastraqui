@@ -11,8 +11,8 @@ export default function Habitation({ data }) {
                 <Table.Row>
                     <Table.Cell>{DOMICILE_TYPE.find(e => e.value === data?.domicileType)?.label}</Table.Cell>
                     <Table.Cell>{PROPERTY_STATUS.find(e => e.value === data?.propertyStatus)?.label}</Table.Cell>
-                    <Table.Cell>{data?.numberOfBedrooms}</Table.Cell>
                     <Table.Cell>{NUMBER_ROOMS.find(e => e.value === data?.numberOfRooms)?.label}</Table.Cell>
+                    <Table.Cell>{data?.numberOfBedrooms}</Table.Cell>
                 </Table.Row>
             </Table.Root>
         </div>

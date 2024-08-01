@@ -14,7 +14,6 @@ export default function AdminEntityView() {
             try {
                 setIsLoading(true)
                 const information = await adminService.getEntityById(entityId)
-                console.log(information);
                 setEntity(information)
             } catch (err) { }
             setIsLoading(false)

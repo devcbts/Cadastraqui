@@ -10,16 +10,18 @@ import socialAssistantService from "services/socialAssistant/socialAssistantServ
 import Loader from "Components/Loader";
 export default function SelectionProcess() {
     const navigate = useNavigate()
-    const [selection, setSelection] = useState({ label: 'Fase de inscrição', value: 'subscription' })
+    const [selection, setSelection] = useState({ value: 'scheduled', label: 'Pré-agendados' })
     const [announcements, setAnnouncements] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const handleSelection = (value) => {
         setSelection(value)
     }
     const filter = useMemo(() => {
-        return [{ label: 'Fase de inscrição', value: 'subscription' },
-        { label: 'Fase de avaliação', value: 'validation' },
-        { label: 'Finalizados', value: 'finished' }]
+        return [
+            { value: 'scheduled', label: 'Pré-agendados' },
+            { label: 'Fase de inscrição', value: 'subscription' },
+            { label: 'Fase de avaliação', value: 'validation' },
+            { label: 'Finalizados', value: 'finished' }]
     }, [])
     useEffect(() => {
         const fetchAnnouncements = async () => {

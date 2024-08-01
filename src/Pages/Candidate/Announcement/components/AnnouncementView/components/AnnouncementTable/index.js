@@ -3,7 +3,7 @@ import Table from "Components/Table";
 
 export default function AnnouncementTable({ title, rowData, onClick }) {
     return (
-        <div>
+        <div style={{ marginBottom: '24px' }}>
             <span>{title}</span>
             <Table.Root headers={['curso/série', 'vagas', 'critérios', 'ações']}>
                 {

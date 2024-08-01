@@ -7,7 +7,7 @@ export default function SummaryData({ data }) {
     return (
         <div className={styles.table}>
             <h3>Resumo de dados relevantes</h3>
-            <Table.Root headers={['cad. único', 'renda média bruta familiar', 'médias das despesas familiar', 'situação do imóvel', 'quantidade de veículos',]}>
+            <Table.Root headers={['cad. único', 'renda média bruta familiar', 'despesas do último mês', 'situação do imóvel', 'quantidade de veículos',]}>
                 <Table.Row>
                     <Table.Cell>{data.cadUnico ? 'Sim' : 'Não'}</Table.Cell>
                     <Table.Cell>{formatMoney(data.familyIncome)}</Table.Cell>
