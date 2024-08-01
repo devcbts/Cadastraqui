@@ -48,8 +48,11 @@ export async function getOpenAnnouncements(
         where: { id: announcement_id, announcementDate: { gte: new Date() } },
         include: {
           educationLevels: true,
-          entity: true,
-          entity_subsidiary: true,
+          entity: {
+            include: {
+              EntitySubsidiary: true
+            }
+          },
         }
       })
       console.log(announcement)
@@ -58,9 +61,8 @@ export async function getOpenAnnouncements(
       }
       const Route = `ProfilePictures/${announcement.entity.id}`
       const logo = await GetUrl(Route)
-
       const educationLevels = announcement.educationLevels
-      const entityAndSubsidiaries = [announcement.entity, ...announcement.entity_subsidiary]
+      const entityAndSubsidiaries = [announcement.entity, ...announcement.entity.EntitySubsidiary]
       const educationLevelsFiltered = entityAndSubsidiaries.map((entity) => {
         const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === entity.id)
         if (entity.id = announcement.entity.id) {
