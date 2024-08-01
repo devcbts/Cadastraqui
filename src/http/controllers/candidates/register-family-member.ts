@@ -253,6 +253,10 @@ export async function registerFamilyMemberInfo(
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
     }
+    if (err instanceof Error) {
+      return reply.status(412).send({ message: err.message })
+      
+    }
 
     return reply.status(500).send({ message: err.message })
   }

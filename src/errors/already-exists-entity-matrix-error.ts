@@ -1,5 +1,5 @@
 export class EntityMatrixAlreadyExistsError extends Error {
   constructor() {
-    super('Entity Matrix already exists to this Entity.')
+    super('Já existe uma matriz associada a essa entidade.')
   }
 }

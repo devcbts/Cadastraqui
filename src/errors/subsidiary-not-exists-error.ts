@@ -1,5 +1,5 @@
 export class SubsidiaryNotExistsError extends Error {
   constructor() {
-    super('Subsidiary not exists.')
+    super('Subsidiária não existe.')
   }
 }

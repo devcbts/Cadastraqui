@@ -1,5 +1,5 @@
 export class SubsidiaryDirectorAlreadyExistsError extends Error {
   constructor() {
-    super('Subsidiary Director already exists.')
+    super('Diretor da subsidiária já cadastrado.')
   }
 }

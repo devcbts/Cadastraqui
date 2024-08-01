@@ -18,6 +18,7 @@ import { SkinColor } from './enums/SkinColor'
 import { UF } from './enums/UF'
 import { calculateAge } from '@/utils/calculate-age'
 import { updateLegalDependent } from '../legal-responsible/update-legal-dependent'
+import { ForbiddenError } from '@/errors/forbidden-error'
 export async function updateFamilyMemberInfo(
   request: FastifyRequest,
   reply: FastifyReply,
@@ -147,14 +148,12 @@ export async function updateFamilyMemberInfo(
 
     const { _id } = fetchFamilyMemberParamsSchema.parse(request.params)
 
-    if (!user_id) {
-      throw new NotAllowedError()
-    }
+    
 
     const CandidateOrResponsible = await SelectCandidateResponsible(user_id)
 
     if (!CandidateOrResponsible) {
-      throw new ResourceNotFoundError()
+      throw new ForbiddenError()
     }
     const familyMember = await prisma.familyMember.findUnique({ where: { id: _id } })
     // Verifica se o familiar em especifico existe
@@ -218,7 +217,30 @@ export async function updateFamilyMemberInfo(
       ...(monthlyAmount && { monthlyAmount }),
       ...(incomeSource && { incomeSource }),
     }
-
+    if (
+      await prisma.familyMember.findFirst({
+        where: {
+          AND: [
+            { CPF },
+            idField
+          ]
+        },
+      })
+    ) {
+      throw new Error('CPF já existe para outro membro familiar')
+    }
+    if (
+      await prisma.familyMember.findFirst({
+        where: {
+          AND: [
+            { RG },
+            idField
+          ]
+        },
+      })
+    ) {
+      throw new Error('RG já existe para outro membro familiar')
+    }
     // Atualiza informações acerca do membro da família do candidato
     const memberUpdated = await prisma.familyMember.update({
       data: dataToUpdate,
@@ -243,7 +265,12 @@ export async function updateFamilyMemberInfo(
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
     }
-
+    if (err instanceof Error) {
+      return reply.status(412).send({ message: err.message })
+    }
+    if (err instanceof ForbiddenError) {
+      return reply.status(403).send({ message: err.message })
+    }
 
     return reply.status(500).send({ message: err.message })
   }

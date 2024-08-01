@@ -305,7 +305,17 @@ export async function updateIdentityInfo(
       hasMedicalReport
 
     }
-
+    if (await prisma.identityDetails.findFirst({
+      where: { CPF  }
+    })) {
+      throw new Error('CPF já cadastrado no sistema')
+    } 
+    if (await prisma.identityDetails.findFirst({
+      where: { RG }
+    })) {
+      throw new Error('RG já cadastrado no sistema')
+      
+    }
     if (candidate) {
 
       const candidateIdentifyInfo = await prisma.identityDetails.findUnique({
@@ -362,7 +372,9 @@ export async function updateIdentityInfo(
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
     }
-
+    if (err instanceof Error) {
+      return reply.status(412).send({ message: err.message })
+    }
     return reply.status(500).send({ message: err.message })
   }
 }

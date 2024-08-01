@@ -1,6 +1,6 @@
 export class ApplicationAlreadyExistsError extends Error {
     constructor() {
-      super('Application already exists for this candidate.')
+      super('Inscrição já existente para esse candidato.')
     }
   }
   

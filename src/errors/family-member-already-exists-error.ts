@@ -1,5 +1,5 @@
 export class FamilyMemberAlreadyExistsError extends Error {
   constructor() {
-    super('Family Member already exists with this CPF or RG.')
+    super('Cadastrante ou Membro da Família já cadastrado com esse RG ou CPF.')
   }
 }
