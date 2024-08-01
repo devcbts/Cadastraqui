@@ -1,6 +1,6 @@
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { prisma } from "@/lib/prisma";
-import { AssistantSchedule } from "@prisma/client";
+import { getHours, getMinutes } from "date-fns";
 import { fromZonedTime } from "date-fns-tz";
 import { FastifyReply, FastifyRequest } from "fastify";
 import z from 'zod';
@@ -47,12 +47,11 @@ export default async function createInterviewSchedule(request: FastifyRequest,
             throw new Error("Este edital não permite entrevistas")
 
         }
-
         if (new Date(startDate) < announcement.interview.startDate || new Date(endDate) > announcement.interview.endDate) {
             throw new Error("Data de início ou fim da entrevista fora do período permitido")
 
         }
-        if (new Date(beginHour) < announcement.interview.beginHour || new Date(endHour) > announcement.interview.endHour) {
+        if (compareHours(parseTimeToDate(beginHour), announcement.interview.beginHour) === -1 || compareHours(parseTimeToDate(endHour), announcement.interview.endHour) === 1) {
             throw new Error("Horário de início ou fim da entrevista fora do período permitido")
 
         }
@@ -121,10 +120,10 @@ export default async function createInterviewSchedule(request: FastifyRequest,
             return result;
         }
         const availableTimes = availableTimesSchedule();
-        let schedule: AssistantSchedule | null = null;
+        let id;
         await prisma.$transaction(async (tsPrisma) => {
             // Criar o intervalo na agenda da Assistente 
-            schedule = await tsPrisma.assistantSchedule.create({
+            const schedule = await tsPrisma.assistantSchedule.create({
                 data: {
                     startDate: new Date(startDate),
                     endDate: new Date(endDate),
@@ -149,7 +148,7 @@ export default async function createInterviewSchedule(request: FastifyRequest,
                             date: new Date(date),
                             assistant_id: socialAssistant.id,
                             announcement_id,
-                            assistantSchedule_id: schedule!.id
+                            assistantSchedule_id: schedule.id
                         }
                     })
                 }))
@@ -158,7 +157,7 @@ export default async function createInterviewSchedule(request: FastifyRequest,
         }
         )
 
-        return reply.status(201).send({ message: "Agenda de entrevista criada com sucesso", schedule })
+        return reply.status(201).send({ message: "Agenda de entrevista criada com sucesso", id })
     } catch (err: any) {
         if (err instanceof ForbiddenError) {
             return reply.status(403).send({ message: err.message })
@@ -172,12 +171,33 @@ export default async function createInterviewSchedule(request: FastifyRequest,
     }
 }
 
+function compareHours(dateA: Date | string, dateB: Date | string) {
+    const [h_a, m_a] = [getHours(dateA), getMinutes(dateA)]
+    const [h_b, m_b] = [getHours(dateB), getMinutes(dateB)]
+    if (h_a > h_b) {
+        return 1
+    }
+    if (h_a < h_b) {
+        return -1
+    }
+    if (h_a === h_b) {
+        if (m_a > m_b) {
+            return 1
+        }
+        if (m_a < m_b) {
+            return -1
+        }
+        if (m_a === m_b) {
+            return 0
+        }
+    }
 
-
+}
 
 function parseTimeToDate(time: string): Date {
     const [hours, minutes] = time.split(':').map(toNumber);
     const timeZone = 'America/Sao_Paulo'
+    // create date at time 0, since we'll compare just the hour/minute values
     const date = new Date();
     date.setHours(hours);
     date.setMinutes(minutes);
