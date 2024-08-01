@@ -37,17 +37,18 @@ export default function AssistantScheduleManager() {
         // TODO: call API to create schedule, returning the id of row created (update state, so user can edit after if it needs)
         try {
             const values = ref.current.values()
+            let newId
             if (announcementSchedule.schedule) {
                 const id = announcementSchedule.schedule.id
-                await socialAssistantService.updateSchedule(id, values)
+                newId = await socialAssistantService.updateSchedule(id, values)
 
             } else {
-                await socialAssistantService.createSchedule(announcementSchedule.id, values)
+                newId = await socialAssistantService.createSchedule(announcementSchedule.id, values)
 
-                setAnnouncements((prev) => [...prev].map(e => {
-                    return e.id === announcementSchedule.id ? { ...e, hasSchedule: true, AssistantSchedule: [values] } : e
-                }))
             }
+            setAnnouncements((prev) => [...prev].map(e => {
+                return e.id === announcementSchedule.id ? { ...e, hasSchedule: true, AssistantSchedule: [{ id: newId, ...values }] } : e
+            }))
             setAnnouncementSchedule({ id: null, schedule: null })
             NotificationService.success({ text: 'Horário reservado para o edital' })
         } catch (err) {

@@ -132,10 +132,12 @@ class SocialAssistantService {
         return response.data.announcements
     }
     async createSchedule(announcementId, values) {
-        return api.post(`/assistant/schedule/${announcementId}`, values)
+        const response = await api.post(`/assistant/schedule/${announcementId}`, values)
+        return response.data.id
     }
     async updateSchedule(announcementId, values) {
-        return api.patch(`/assistant/schedule/${announcementId}`, values)
+        const response = await api.patch(`/assistant/schedule/${announcementId}`, values)
+        return response.data.id
     }
     async getAnnouncementSchedule(announcementId, scheduleId = '') {
         return api.get(`/assistant/schedule/${announcementId}/${scheduleId}`)
