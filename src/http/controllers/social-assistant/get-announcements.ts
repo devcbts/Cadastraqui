@@ -98,6 +98,7 @@ export async function getAnnouncements(
           educationLevels: true,
           entity: true,
           entity_subsidiary: true,
+          interview: true
         }
       })
 

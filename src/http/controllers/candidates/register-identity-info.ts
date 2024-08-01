@@ -159,17 +159,17 @@ export async function registerIdentityInfo(
     if (candidateIdentifyInfo) {
       throw new AlreadyExistsError()
     }
-    if (await prisma.identityDetails.findFirst({
-      where: { CPF : candidateOrResponsible.UserData.CPF }
-    })) {
-      throw new Error('CPF já cadastrado no sistema')
-    } 
-    if (await prisma.identityDetails.findFirst({
-      where: { RG }
-    })) {
-      throw new Error('RG já cadastrado no sistema')
-      
-    }
+    // if (await prisma.identityDetails.findFirst({
+    //   where: { CPF : candidateOrResponsible.UserData.CPF }
+    // })) {
+    //   throw new Error('CPF já cadastrado no sistema')
+    // } 
+    // if (await prisma.identityDetails.findFirst({
+    //   where: { RG }
+    // })) {
+    //   throw new Error('RG já cadastrado no sistema')
+
+    // }
 
     // Armazena informações acerca da identificação no banco de dados
     const { id } = await prisma.identityDetails.create({
@@ -255,7 +255,7 @@ export async function registerIdentityInfo(
     }
     if (err instanceof Error) {
       return reply.status(412).send({ message: err.message })
-      
+
     }
 
     return reply.status(500).send({ message: err.message })

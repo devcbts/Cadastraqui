@@ -148,24 +148,24 @@ export async function registerFamilyMemberInfo(
     const idField = (candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id })
 
     // Verifica se já existe um familiar com o RG ou CPF associados ao candidato
-    if (
+    if (CPF &&
       await prisma.familyMember.findFirst({
         where: {
           AND: [
             { CPF },
-            idField
+            { NOT: idField }
           ]
         },
       })
     ) {
       throw new Error('CPF já existe para outro membro familiar')
     }
-    if (
+    if (RG &&
       await prisma.familyMember.findFirst({
         where: {
           AND: [
             { RG },
-            idField
+            { NOT: idField }
           ]
         },
       })
@@ -255,7 +255,7 @@ export async function registerFamilyMemberInfo(
     }
     if (err instanceof Error) {
       return reply.status(412).send({ message: err.message })
-      
+
     }
 
     return reply.status(500).send({ message: err.message })
