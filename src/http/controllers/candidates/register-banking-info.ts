@@ -60,7 +60,27 @@ export async function registerBankingInfo(
                 ...idField,
             },
         })
-
+        if (id) {
+            if (familyMember) {
+                await prisma.familyMember.update({
+                    where: { id: idField.familyMember_id },
+                    data: {
+                        hasBankAccount: true
+                    }
+                })
+            } else {
+                await prisma.identityDetails.update({
+                    where: candidateOrResponsible.IsResponsible ? {
+                        responsible_id: candidateOrResponsible.UserData.id
+                    } : {
+                        candidate_id: candidateOrResponsible.UserData.id
+                    },
+                    data: {
+                        hasBankAccount: true
+                    }
+                })
+            }
+        }
         return reply.status(201).send({ id })
     } catch (err: any) {
         if (err instanceof ResourceNotFoundError) {
