@@ -61,7 +61,7 @@ export default function SelectedCandidates() {
     return (
         <div>
             <Loader loading={isLoading} />
-            <BackPageTitle title={'Processo de seleção'} path={`/home/selecao/${announcementId}`} />
+            <BackPageTitle title={'Processo de seleção'} path={`/processos/selecao/${announcementId}`} />
             <h2 className={styles.titleLista}>Lista de Candidatos Selecionados: Edital {application.announcement.announcementNumber}</h2>
             <div className={styles.informative}>
                 <div className={styles.row}>

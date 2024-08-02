@@ -36,6 +36,7 @@ import ApplicationHistory from "Pages/Candidate/History/components/ApplicationHi
 import CandidateScheduleView from "Pages/Candidate/Schedule/components/CandidateScheduleView";
 import CandidateSchedule from "Pages/Candidate/Schedule";
 import AssistantSchedule from "Pages/SocialAssistant/Schedule";
+import AssistantHome from "Pages/SocialAssistant/Home";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -87,7 +88,8 @@ export default function AppRoutes() {
                 <HeaderWrapper>
 
                     <Routes>
-                        <Route path="/home" element={<Outlet />} >
+                        <Route path="/home" element={<AssistantHome />} />
+                        <Route path="/processos" element={<Outlet />} >
                             <Route path="" element={<SelectionProcess />}></Route>
                             <Route path="selecao/:announcementId" element={<Outlet />} >
                                 <Route path="" element={<SocialAssistantAnnouncement />}></Route>
