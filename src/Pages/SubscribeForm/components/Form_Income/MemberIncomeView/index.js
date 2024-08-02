@@ -88,7 +88,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                     </div>
                     <div className={styles.containerTeste}>
                         {
-                            incomeInfo?.data?.hasBankAccount === true
+                            (incomeInfo?.data?.hasBankAccount === null || incomeInfo?.data?.hasBankAccount === true)
                                 ? <>
                                     <h3>Comprovantes bancários</h3>
                                     <button
@@ -134,7 +134,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                         {incomeInfo?.data?.userBanks !== 0
                             ? <label>Possuo <strong>{incomeInfo?.data?.userBanks}</strong> conta(s) bancária(s)</label>
                             : <div style={{ display: 'flex', flexDirection: 'row', gap: '4px' }} >
-                                <input type='checkbox' checked={!incomeInfo?.data?.hasBankAccount} onClick={() => {
+                                <input type='checkbox' checked={incomeInfo?.data?.hasBankAccount !== null && !incomeInfo?.data?.hasBankAccount} onClick={() => {
                                     handleBankDeclaration()
                                     isMounted.current = true
                                 }} />

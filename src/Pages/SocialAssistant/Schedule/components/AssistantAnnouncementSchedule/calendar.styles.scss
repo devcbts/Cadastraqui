@@ -1,0 +1,78 @@
+@import '../../../../../Assets/theme/colors.module.scss';
+.react-calendar{
+    padding: 8px;
+    border: 1px solid $primary !important;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex-grow: 1;
+    height: fit-content;
+    max-width: max(25%,400px);
+    button{
+        display: flex;
+        justify-content: center;
+        width: fit-content;
+        border: none;
+        background-color: transparent;
+        color: $primary;
+        &:disabled{
+            background-color: rgba($lightgrey,.6);
+            color: $grey;
+            &:hover{
+                cursor: not-allowed;
+            }
+        }
+        &:hover{
+            background-color: $lightgrey;
+            color: white;
+        }
+    }
+    .react-calendar__navigation{
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+        .react-calendar__navigation__label {
+            display: flex;
+            justify-content: center;
+            font-weight: 600;
+            text-transform: uppercase;
+            text-align: center;
+          }
+          .react-calendar__navigation__arrow {
+            clip-path: circle();
+            display: flex;
+            justify-content: center;
+            flex-grow: 0.333;
+          }
+    }
+    .react-calendar__month-view__days {
+        display: grid !important;
+        grid-template-columns: repeat(7,14.2%);
+
+        .react-calendar__tile {
+            clip-path: circle();
+            place-self: center;
+            max-width: initial !important;
+        }
+      }
+    .react-calendar__month-view__weekdays {
+        text-align: center;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+    }
+    .react-calendar__tile--range {
+        background-color: $success !important;
+        color: white;
+        // box-shadow: 0 0 6px 2px black;
+    }
+    .react-calendar__month-view__days__day--neighboringMonth {
+        opacity: 0.5;
+    }
+    .react-calendar__year-view__months{
+        button{
+            display: flex;
+            justify-content: center;
+        }
+    }
+}

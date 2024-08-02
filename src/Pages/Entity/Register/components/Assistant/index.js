@@ -4,6 +4,7 @@ import useControlForm from "hooks/useControlForm"
 import entityService from "services/entity/entityService"
 import { NotificationService } from "services/notification"
 import assistantSchema from "./schemas/assistant-schema"
+import { formatTelephone } from "utils/format-telephone"
 
 export default function Assistant() {
     const { control, formState: { isValid }, trigger, reset, getValues } = useControlForm({
@@ -38,13 +39,13 @@ export default function Assistant() {
             <div style={{ width: 'max(290px, 50%)' }}>
                 <InputForm control={control} label={'nome'} name={"name"} />
                 <InputForm control={control} label={'email'} name={"email"} />
-                <InputForm control={control} label={'celular'} name={"phone"} />
+                <InputForm control={control} label={'celular'} name={"phone"} transform={(e) => formatTelephone(e.target.value)} />
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '20px', }}>
                     <InputForm control={control} label={'CPF'} name={"CPF"} />
                     <InputForm control={control} label={'RG'} name={"RG"} />
                 </div>
                 <InputForm control={control} label={'CRESS'} name={"CRESS"} />
-                <InputForm control={control} label={'password'} name={"password"} type="password" />
+                <InputForm control={control} label={'senha'} name={"password"} type="password" />
 
             </div>
             <ButtonBase label={'cadastrar'} onClick={handleSubmit} />
