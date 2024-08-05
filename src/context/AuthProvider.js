@@ -35,11 +35,19 @@ export default function AuthProvider({ children }) {
         }
     }
     const logout = async () => {
-        try {
-            remove()
-            navigate('/')
-            setAuth(null)
-        } catch (err) { }
+        NotificationService.confirm({
+            title: 'Sair',
+            text: 'Deseja finalizar sua sessão?',
+            onConfirm: async () => {
+
+                try {
+
+                    remove()
+                    navigate('/')
+                    setAuth(null)
+                } catch (err) { }
+            }
+        })
     }
     useEffect(() => {
 

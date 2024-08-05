@@ -88,16 +88,17 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                     </div>
                     <div className={styles.containerTeste}>
                         {
-                            (incomeInfo?.data?.hasBankAccount === null || incomeInfo?.data?.hasBankAccount === true) ? <>
-                                <h3>Comprovantes bancários</h3>
-                                <button
-                                    className={styles.buttonCadastrarDeclaracao}
-                                    onClick={() => setShowBankInfo('accounts')}
-                                >
-                                    Visualizar
-                                </button>
-                                {/* <ButtonBase label={'Cadastrar declaração'} onClick={() => setShowBankInfo('accounts')} /> */}
-                            </>
+                            (incomeInfo?.data?.hasBankAccount === null || incomeInfo?.data?.hasBankAccount === true)
+                                ? <>
+                                    <h3>Comprovantes bancários</h3>
+                                    <button
+                                        className={styles.buttonCadastrarDeclaracao}
+                                        onClick={() => setShowBankInfo('accounts')}
+                                    >
+                                        Visualizar
+                                    </button>
+                                    {/* <ButtonBase label={'Cadastrar declaração'} onClick={() => setShowBankInfo('accounts')} /> */}
+                                </>
                                 : null
                             // (<>
                             //     <h3>Comprovantes bancários a</h3>

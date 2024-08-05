@@ -49,7 +49,8 @@ export default function ViewIncome({ candidateId, applicationId }) {
             setRenderItems([IncomeSelection
                 , <IncomeFile
                     label={currentIncomeSource === "Student" ? "declaração que comprove frequência escolar" : null}
-                />])
+                />
+            ])
         }
 
         else {

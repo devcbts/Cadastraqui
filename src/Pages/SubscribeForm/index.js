@@ -60,7 +60,7 @@ export default function SubscribeForm() {
                     const Icon = e.icon
                     return (
                         <FormStepper.Step completed={completed[e.section]} key={e.section} index={i + 1} label={e.label} onClick={() => handleChangeCategory(i + 1)}>
-                            <Icon />
+                            <Icon style={{ clipPath: 'circle()' }} />
                         </FormStepper.Step>
                     )
                 })}

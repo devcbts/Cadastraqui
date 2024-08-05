@@ -3,7 +3,6 @@ import AuthProvider from 'context/AuthProvider';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
 import 'Assets/theme/global.module.scss'
 

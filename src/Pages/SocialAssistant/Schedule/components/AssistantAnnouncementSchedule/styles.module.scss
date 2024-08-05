@@ -1,9 +1,9 @@
 @import '../../../../../Assets/theme/colors.module.scss';
 .tile {
-    background-color: $primary;
-    color: white;
+    background-color: $primary !important;
+    color: white !important;
     &:hover{
-        background-color: $lightgrey;
-        color: black;
+        background-color: $lightgrey !important;
+        color: black !important;
     }
 }

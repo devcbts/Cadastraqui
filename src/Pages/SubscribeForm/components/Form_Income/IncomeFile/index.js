@@ -18,10 +18,10 @@ const IncomeFile = forwardRef(({ data, label, required }, ref) => {
         initialData: data
     }, ref)
     return (
-        <>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', alignItems: 'center' }}>
             <FormFilePicker control={control} name={"file_document"} label={label ?? 'comprovante mensal de receitas brutas'} accept={"application/pdf"} />
             <FilePreview url={watch("url_document")} file={watch("file_document")} text={'ver documento'} />
-        </>
+        </div>
 
     )
 })

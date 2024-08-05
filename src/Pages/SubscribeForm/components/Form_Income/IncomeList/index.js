@@ -7,10 +7,11 @@ import MemberIncomeView from "../MemberIncomeView";
 import styles from './styles.module.scss';
 import { NotificationService } from "services/notification";
 
-export default function IncomeList({ onSelect, onAdd }) {
+export default function IncomeList({ onSelect, onAdd, initialMember }) {
+
     const [isLoading, setIsLoading] = useState(true)
     const [members, setMembers] = useState([])
-    const [selectedMember, setSelectedMember] = useState(null)
+    const [selectedMember, setSelectedMember] = useState(initialMember)
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
@@ -24,9 +25,13 @@ export default function IncomeList({ onSelect, onAdd }) {
             }
             setIsLoading(false)
         }
-        fetchData()
-    }, [])
-
+        if (selectedMember === null) fetchData()
+    }, [selectedMember])
+    useEffect(() => {
+        if (initialMember) {
+            setSelectedMember({ fullName: initialMember?.name, id: initialMember?.id, isUpdated: initialMember?.isUpdated })
+        }
+    }, [initialMember])
     return (
         <>
             {!selectedMember && <FormList.Root title={"Renda Familiar"} isLoading={isLoading} >
