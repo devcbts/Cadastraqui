@@ -35,18 +35,36 @@ export async function deleteIncomeInfo(
         if (user_owner !== member_id) {
             throw new ForbiddenError()
         }
+        
         const income = await prisma.familyMemberIncome.delete({
             where: {
               id: income_id,
             },
         })
-        await prisma.monthlyIncome.deleteMany({
-            where:{
+        
+
+        const deletedMonthlyIncomes =await prisma.monthlyIncome.findMany({
+            where: {
                 incomeSource: income.employmentType,
-                OR:[{familyMember_id:member_id},{candidate_id:member_id},{legalResponsibleId:member_id}]
+                OR: [
+                    { familyMember_id: member_id },
+                    { candidate_id: member_id },
+                    { legalResponsibleId: member_id }
+                ]
             }
-        })
-        return reply.status(204).send()
+        });
+        
+        await prisma.monthlyIncome.deleteMany({
+            where: {
+                incomeSource: income.employmentType,
+                OR: [
+                    { familyMember_id: member_id },
+                    { candidate_id: member_id },
+                    { legalResponsibleId: member_id }
+                ]
+            }
+        });
+        return reply.status(204).send({deletedMonthlyIncomes})
     } catch (err: any) {
         if (err instanceof ResourceNotFoundError) {
             return reply.status(404).send({ message: err.message })
