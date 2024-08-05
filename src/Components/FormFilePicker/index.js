@@ -1,5 +1,6 @@
 import { Controller } from "react-hook-form";
 import FilePickerBase from "../FilePickerBase";
+import { NotificationService } from "services/notification";
 
 export default function FormFilePicker({ name, label, control, accept }) {
     const showErrorBorder = (isDirty, error) => {
@@ -29,6 +30,14 @@ export default function FormFilePicker({ name, label, control, accept }) {
                         {...rest}
                         accept={accept}
                         onChange={(e) => {
+                            const file = e.target.files?.[0]
+                            if (!file) {
+                                return
+                            }
+                            if (file.size >= 15_000_000) {
+                                NotificationService.error({ text: 'Arquivo deve ser menor que 15MB' })
+                                return
+                            }
                             field.onChange(e.target.files[0])
                         }}
                     />

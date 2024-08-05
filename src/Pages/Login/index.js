@@ -12,6 +12,7 @@ import { NotificationService } from 'services/notification'
 import userService from 'services/user/userService'
 import loginSchema from './schemas/login-schema'
 import styles from './styles.module.scss'
+import { api } from 'services/axios'
 export default function Login() {
     const { login } = useAuth()
     const { state } = useLocation()
