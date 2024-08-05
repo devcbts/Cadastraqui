@@ -5,7 +5,7 @@ import { findAWSRouteHDB } from '@/HistDatabaseFunctions/Handle Application/find
 import { uploadFile } from '@/http/services/upload-file'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import verifyDeclarationRegistration from '@/utils/Trigger-Functions/verify-declaration-registration'
-import { FastifyReply, FastifyRequest } from 'fastify'
+import fastify, { FastifyReply, FastifyRequest } from 'fastify'
 import fs from 'fs'
 import pump from 'pump'
 import { z } from 'zod'
@@ -29,7 +29,7 @@ const section = z.enum(["identity",
     "credit-card",
     "declaracoes"
 ])
-
+const MAX_FILE_SIZE = 1024 * 1024 * 10;
 export async function uploadDocument(request: FastifyRequest, reply: FastifyReply) {
     const requestParamsSchema = z.object({
         documentType: section,
@@ -46,46 +46,59 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             throw new NotAllowedError();
         }
 
-        const parts = request.files()
-        for await (const part of parts) {
-            pump(part.file, fs.createWriteStream(part.filename))
-
-            const fileBuffer = await part.toBuffer();
-            const route = `CandidateDocuments/${candidateOrResponsible.UserData.id}/${documentType}/${member_id}/${table_id ? table_id + '/' : ''}${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;
-            const sended = await uploadFile(fileBuffer, route);
-            if (!sended) {
-                throw new NotAllowedError();
+        const parts = request.files({ limits: { fileSize: MAX_FILE_SIZE } });
+        for await (const file of parts) {
+             pump(file.file, fs.createWriteStream(file.filename))
+             if (file.file.truncated) {
+                 console.log('file is truncated');
+                 fs.unlinkSync(file.filename);
+                 throw new Error('Arquivo excedente ao limite de 10MB');
+                 
             }
 
-            const findOpenApplications = await getOpenApplications(candidateOrResponsible.UserData.id);
-            for (const application of findOpenApplications) {
-                const routeHDB = await findAWSRouteHDB(candidateOrResponsible.UserData.id, documentType, member_id, table_id, application.id);
-                const finalRoute = `${routeHDB}${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;
-                const sended = await uploadFile(fileBuffer, finalRoute);
+        }
+            for await (const part of parts) {
+                pump(part.file, fs.createWriteStream(part.filename))
+
+                const fileBuffer = await part.toBuffer();
+                const route = `CandidateDocuments/${candidateOrResponsible.UserData.id}/${documentType}/${member_id}/${table_id ? table_id + '/' : ''}${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;
+                const sended = await uploadFile(fileBuffer, route);
                 if (!sended) {
                     throw new NotAllowedError();
                 }
+
+                const findOpenApplications = await getOpenApplications(candidateOrResponsible.UserData.id);
+                for (const application of findOpenApplications) {
+                    const routeHDB = await findAWSRouteHDB(candidateOrResponsible.UserData.id, documentType, member_id, table_id, application.id);
+                    const finalRoute = `${routeHDB}${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;
+                    const sended = await uploadFile(fileBuffer, finalRoute);
+                    if (!sended) {
+                        throw new NotAllowedError();
+                    }
+                }
+                if (fs.existsSync(part.filename)) {
+                    fs.unlinkSync(part.filename)
+                }
+                if (documentType === "declaracoes") {
+                    // Atualizar o status das declaraões
+                    await verifyDeclarationRegistration(candidateOrResponsible.UserData.id)
+                }
             }
-            if (fs.existsSync(part.filename)) {
-                fs.unlinkSync(part.filename)
+
+
+
+
+            reply.status(201).send();
+        } catch (error) {
+            if (error instanceof NotAllowedError) {
+                return reply.status(401).send({ error });
+            } if (error instanceof ResourceNotFoundError) {
+                return reply.status(404).send({ error });
             }
-            if (documentType === "declaracoes") {
-                // Atualizar o status das declaraões
-                await verifyDeclarationRegistration(candidateOrResponsible.UserData.id)
+            if (error instanceof Error) {
+                return reply.status(413).send({ error });
             }
+
+            return reply.status(400).send({ error });
         }
-
-
-
-
-        reply.status(201).send();
-    } catch (error) {
-        if (error instanceof NotAllowedError) {
-            return reply.status(401).send({ error });
-        } if (error instanceof ResourceNotFoundError) {
-            return reply.status(404).send({ error });
-        }
-        console.log(error)
-        return reply.status(400).send({ error });
     }
-}
