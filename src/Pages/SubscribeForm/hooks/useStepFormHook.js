@@ -24,6 +24,7 @@ export default function useStepFormHook({
     const next = async () => {
 
         const values = getCurrentRef().values()
+
         const parsedValues = await getCurrentRef().beforeSubmit?.()
         if (isFormValid()) {
             setParsedData((prev) => ({ ...prev, ...parsedValues }))
@@ -33,6 +34,8 @@ export default function useStepFormHook({
                     // pass data and overwrite properties with parsedData (in case data contains needed fields)
                     // second argument is the unparsed data
                     await onSave({ ...data, ...parsedData, ...parsedValues }, { ...data, ...values })
+                    setParsedData(null)
+                    // setData(null)
                     break;
                 default:
                     setActiveStep((prevState) => prevState + 1)
@@ -52,6 +55,7 @@ export default function useStepFormHook({
         await onEdit(dataToUpdate, parsedValues)
     }
     const Steps = useCallback(() => {
+        console.log('mudei aqui')
         return (
             <FormStepper.Root activeStep={activeStep}>
                 {showStepper && <FormStepper.Stepper >
@@ -62,7 +66,7 @@ export default function useStepFormHook({
                 {render.map((e, index) => {
                     const Component = e
                     return (
-                        <FormStepper.View index={index + 1}>
+                        <FormStepper.View index={index + 1} >
                             {
                                 // is react.isvalid element (Component is JSX <Element /> can clone)
                                 // else Component is ref 'Element' need to create

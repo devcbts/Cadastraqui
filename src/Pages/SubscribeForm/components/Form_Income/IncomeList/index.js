@@ -29,7 +29,7 @@ export default function IncomeList({ onSelect, onAdd, initialMember }) {
     }, [selectedMember])
     useEffect(() => {
         if (initialMember) {
-            setSelectedMember({ fullName: initialMember?.name, id: initialMember?.id, isUpdated: initialMember?.isUpdated })
+            setSelectedMember(initialMember)
         }
     }, [initialMember])
     return (

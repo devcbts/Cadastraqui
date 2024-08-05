@@ -33,7 +33,8 @@ export default function FormIncome() {
 
     //     }
     // }
-    const handleSaveInformation = async (data) => {
+    const handleSaveInformation = async (data, _data) => {
+        const { member: modifiedMember } = _data
         const { member, incomeSource } = data
         // If we're selecting income source, move to the next page instead of execute onSave on first page
         if (activeStep === 1) {
@@ -80,7 +81,7 @@ export default function FormIncome() {
                 setData(null)
                 setIsAdding(false)
                 setActiveStep(1)
-                setCurrentMember(member)
+                setCurrentMember(modifiedMember)
             })
         } catch (err) {
             NotificationService.error({ text: err?.response?.data?.message })

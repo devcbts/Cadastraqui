@@ -54,7 +54,10 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
         }
     }
     const handleBankDeclaration = () => {
-        setIncomeInfo(prev => ({ ...prev, data: { ...prev.data, hasBankAccount: !prev.data.hasBankAccount } }))
+        setIncomeInfo(prev => {
+            const value = prev.data.hasBankAccount === null ? false : !prev.data.hasBankAccount
+            return ({ ...prev, data: { ...prev.data, hasBankAccount: value } })
+        })
 
     }
     useEffect(() => {
@@ -134,7 +137,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                         {incomeInfo?.data?.userBanks !== 0
                             ? <label>Possuo <strong>{incomeInfo?.data?.userBanks}</strong> conta(s) bancária(s)</label>
                             : <div style={{ display: 'flex', flexDirection: 'row', gap: '4px' }} >
-                                <input type='checkbox' checked={incomeInfo?.data?.hasBankAccount !== null && !incomeInfo?.data?.hasBankAccount} onClick={() => {
+                                <input type='checkbox' defaultChecked={incomeInfo?.data?.hasBankAccount !== null && !incomeInfo?.data?.hasBankAccount} onChange={() => {
                                     handleBankDeclaration()
                                     isMounted.current = true
                                 }} />
