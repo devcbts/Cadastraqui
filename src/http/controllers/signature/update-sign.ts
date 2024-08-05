@@ -28,7 +28,7 @@ export default async function updateSign(
             signing_key,
             status,
             webhook_type
-        } = schema.parse(request.body)
+        } = schema.parse(JSON.parse(request.body as string))
         if (status === 'Signed') {
             // if status === signed, get the current document (file) url and send it to S3 server
             // first step - get file folder (it'll be used as param to save on aws)
@@ -44,7 +44,7 @@ export default async function updateSign(
                     case 'parecer':
                         // response is a binary data, must convert into readable file before sending to aws
                         const application = await prisma.application.findUnique({
-                            where: {parecerDocumentKey: document_key}
+                            where: { parecerDocumentKey: document_key }
                         })
                         if (!application) {
                             break;
