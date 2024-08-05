@@ -30,7 +30,7 @@ export default function SocialAssistantAnnouncement() {
     return (
         <>
             <Loader loading={isLoading} />
-            <BackPageTitle title={'Processo de seleção'} path={'/home'} />
+            <BackPageTitle title={'Processo de seleção'} path={'/processos'} />
             <div style={{ display: 'flex', flexDirection: 'row', gap: '24px' }}>
 
                 <div className={styles.informative}>

@@ -45,7 +45,7 @@ export default function SubscriptionStatus() {
             <div className={styles.chartwrapper}>
                 <h1>Preenchimento do Cadastro</h1>
                 <div className={styles.chartdisplay}>
-                    <span>Complete seu cadastro, para se inscrever e começar a desfrutar de todos os benefícios de uma educação de qualidade!</span>
+                    <span>Complete seu cadastro para se inscrever e começar a desfrutar de todos os benefícios de uma educação de qualidade!</span>
                     <div style={{ position: 'relative' }}>
 
                         <span style={{ position: 'absolute', top: '50%', right: '50%', transform: 'translate(50%,-50%)' }}> {percentage}%</span>
@@ -74,7 +74,7 @@ export default function SubscriptionStatus() {
                     return (
                         <Component
                             key={index}
-                            style={{ cursor: 'pointer', color: !!data?.find(e => e.name === name)?.value && '#499468' }}
+                            style={{ cursor: 'pointer', color: !!data?.find(e => e.name === name)?.value && '#499468', clipPath: 'circle()' }}
                             onClick={() => navigate('/formulario-inscricao', { state: { step } })}
                             height={30}
                             width={30}

@@ -151,6 +151,10 @@ class SocialAssistantService {
     async rejectAppointment(scheduleId, data) {
         return api.post(`/assistant/schedule/not-accept/${scheduleId}`, data)
     }
+    async getDashboard() {
+        const response = await api.get(`/assistant/dashboard`)
+        return response.data
+    }
 }
 
 export default new SocialAssistantService()

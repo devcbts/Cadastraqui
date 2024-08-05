@@ -1,7 +1,7 @@
 import BackPageTitle from "Components/BackPageTitle";
 import Calendar from "react-calendar";
 import { useLocation, useNavigate, useParams } from "react-router";
-import 'react-calendar/dist/Calendar.css';
+// import 'react-calendar/dist/Calendar.css';
 import Table from "Components/Table";
 import ButtonBase from "Components/ButtonBase";
 import { NotificationService } from "services/notification";
@@ -12,6 +12,9 @@ import Loader from "Components/Loader";
 import formatDate from "utils/format-date";
 import UndoneScheduleModal from "../AssistantCandidateSchedule/UndoneScheduleModal";
 import styles from './styles.module.scss'
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale/pt-BR";
+import './calendar.styles.scss'
 export default function AssistantAnnouncementSchedule() {
     const navigate = useNavigate()
     const { state } = useLocation()
@@ -73,8 +76,13 @@ export default function AssistantAnnouncementSchedule() {
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '32px', minHeight: '300px', maxHeight: '40%' }}>
                     <Calendar
                         tileClassName={({ date }) => {
+                            console.log(date)
                             return (date.toISOString() >= days.start && date.toISOString() <= days.end) ? styles.tile : ''
                         }}
+                        next2Label={null}
+                        prev2Label={null}
+                        navigationLabel={({ date }) => format(date, 'LLLL yyyy', { locale: ptBR })}
+
                         minDate={new Date()}
                         defaultActiveStartDate={days?.start && new Date(days?.start)}
                         onClickDay={(date) => setCurrentDate(date?.toISOString().split('T')[0])}

@@ -59,7 +59,7 @@ export default function CandidateView() {
                         const Icon = e.icon
                         return (
                             <FormStepper.Step key={i} index={i + 1} label={e.label} onClick={() => handleChangeCategory(i + 1)}>
-                                <Icon />
+                                <Icon style={{ clipPath: 'circle()' }} />
                             </FormStepper.Step>
                         )
                     })}

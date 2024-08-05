@@ -75,6 +75,7 @@ export default function FormIncome() {
                 setData(null)
                 setIsAdding(false)
                 setActiveStep(1)
+                setCurrentMember(member)
             })
         } catch (err) {
             NotificationService.error({ text: err?.response?.data?.message })
@@ -113,16 +114,19 @@ export default function FormIncome() {
         }
         else if (['Volunteer', 'Student'].includes(currentIncomeSource)) {
             setRenderItems([IncomeSelection
-                , <IncomeFile
+                ,
+
+                <IncomeFile
                     label={currentIncomeSource === "Student" ? "declaração que comprove frequência escolar" : null}
-                />])
+                />
+            ])
         } else {
             setRenderItems([IncomeSelection])
         }
     }, [data?.incomeSource])
 
     const [isAdding, setIsAdding] = useState(false)
-
+    const [currentMember, setCurrentMember] = useState(null)
     const hasSelectionOrIsAdding = () => {
         return data || isAdding
     }
@@ -144,11 +148,12 @@ export default function FormIncome() {
     const handleAdd = ({ member = null }) => {
         setIsAdding(true)
         setData({ member })
+        setCurrentMember(null)
     }
 
     return (
         <div className={commonStyles.container}>
-            {!hasSelectionOrIsAdding() && <IncomeList onSelect={handleSpecificSelection} onAdd={handleAdd} />}
+            {!hasSelectionOrIsAdding() && <IncomeList onSelect={handleSpecificSelection} onAdd={handleAdd} initialMember={currentMember} />}
             {hasSelectionOrIsAdding() && <>
                 <Steps />
                 {!hasIncomeSelected && <div className={commonStyles.actions}>
