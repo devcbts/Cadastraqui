@@ -44,6 +44,11 @@ export default function FormIncome() {
         try {
             let formData;
             const { incomeId, monthlyIncomesId } = await candidateService.updateIncome(member.id, data)
+            setData((prev) => ({
+                ...prev,
+                months: prev.months?.map((e, i) => ({ ...e, id: monthlyIncomesId[i] })),
+                incomes: prev.incomes?.map((e, i) => ({ ...e, id: monthlyIncomesId[i] }))
+            }))
             // if incomes  ===  null or []
             // save to 'income' folder
             if (data.file_document) {
