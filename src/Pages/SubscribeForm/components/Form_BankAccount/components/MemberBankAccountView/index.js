@@ -89,7 +89,7 @@ export default function MemberBankAccountView({ id, onSelect, onBack, onAdd }) {
 
                             <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
 
-                            {bankingInfo.hasBankAccount && <ButtonBase label={"cadastrar conta"} onClick={() => onAdd()} />}
+                            <ButtonBase label={"cadastrar conta"} onClick={() => onAdd()} />
                         </div>
                     </FormList.Root>
                 </>

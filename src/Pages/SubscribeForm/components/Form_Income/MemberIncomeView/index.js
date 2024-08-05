@@ -88,17 +88,16 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                     </div>
                     <div className={styles.containerTeste}>
                         {
-                            incomeInfo?.data?.hasBankAccount === true
-                                ? <>
-                                    <h3>Comprovantes bancários</h3>
-                                    <button
-                                        className={styles.buttonCadastrarDeclaracao}
-                                        onClick={() => setShowBankInfo('accounts')}
-                                    >
-                                        Visualizar
-                                    </button>
-                                    {/* <ButtonBase label={'Cadastrar declaração'} onClick={() => setShowBankInfo('accounts')} /> */}
-                                </>
+                            (incomeInfo?.data?.hasBankAccount === null || incomeInfo?.data?.hasBankAccount === true) ? <>
+                                <h3>Comprovantes bancários</h3>
+                                <button
+                                    className={styles.buttonCadastrarDeclaracao}
+                                    onClick={() => setShowBankInfo('accounts')}
+                                >
+                                    Visualizar
+                                </button>
+                                {/* <ButtonBase label={'Cadastrar declaração'} onClick={() => setShowBankInfo('accounts')} /> */}
+                            </>
                                 : null
                             // (<>
                             //     <h3>Comprovantes bancários a</h3>
@@ -134,7 +133,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                         {incomeInfo?.data?.userBanks !== 0
                             ? <label>Possuo <strong>{incomeInfo?.data?.userBanks}</strong> conta(s) bancária(s)</label>
                             : <div style={{ display: 'flex', flexDirection: 'row', gap: '4px' }} >
-                                <input type='checkbox' checked={!incomeInfo?.data?.hasBankAccount} onClick={() => {
+                                <input type='checkbox' checked={incomeInfo?.data?.hasBankAccount !== null && !incomeInfo?.data?.hasBankAccount} onClick={() => {
                                     handleBankDeclaration()
                                     isMounted.current = true
                                 }} />
