@@ -199,6 +199,7 @@ export async function registerFamilyMemberInfo(
       hasSevereDeseaseOrUsesMedication,
       hasBankAccount,
       specialNeedsType,
+      specialNeeds,
       ...idField,
       // Campos opcionais são adicionados condicionalmente
       ...(otherRelationship && { otherRelationship }),
@@ -255,7 +256,7 @@ export async function registerFamilyMemberInfo(
     }
     if (err instanceof Error) {
       return reply.status(412).send({ message: err.message })
-      
+
     }
 
     return reply.status(500).send({ message: err.message })
