@@ -11,27 +11,34 @@ export default async function verifyDeclarationRegistration(candidateOrResponsib
         throw new ForbiddenError()
     }
     const idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsibleId } : { candidate_id: candidateOrResponsibleId }
-    const candidates = await prisma.candidate.findMany({
-        where: {responsible_id: candidateOrResponsible.UserData.id},
+    const familyMembers = await prisma.familyMember.findMany({
+        where: { ...idField, },
     })
-    
 
-   
+
+
     let update = true;
-    for (const candidate of candidates) {
-        const route = `declaracoes/${candidate.id}`;
-        const findDeclaration = await getSectionDocumentsPDF(candidateOrResponsibleId, route)
-        if (!findDeclaration || Object.keys(findDeclaration).length === 0) {
-            update = false;
-            break;
+    for (const member of familyMembers) {
+        if (calculateAge(member.birthDate) >= 18) {
+
+            const route = `declaracoes/${member.id}`;
+            const findDeclaration = await getSectionDocumentsPDF(candidateOrResponsibleId, route)
+            if (!findDeclaration || Object.keys(findDeclaration).length === 0) {
+                update = false;
+                break;
+            }
         }
     }
-
+    const route = `declaracoes/${candidateOrResponsibleId}`;
+    const findDeclaration = await getSectionDocumentsPDF(candidateOrResponsibleId, route)
+    if (!findDeclaration || Object.keys(findDeclaration).length === 0) {
+        update = false;
+    }
     await prisma.finishedRegistration.upsert({
-        where:idField,
+        where: idField,
         update: { declaracoes: update },
         create: {
-           ...idField, declaracoes: update
+            ...idField, declaracoes: update
         }
     })
 }
