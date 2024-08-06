@@ -216,29 +216,35 @@ export async function updateFamilyMemberInfo(
       ...(monthlyAmount && { monthlyAmount }),
       ...(incomeSource && { incomeSource }),
     }
-    if (
-      await prisma.familyMember.findFirst({
+    if (CPF) {
+
+      const cpfExists = await prisma.familyMember.findFirst({
         where: {
           AND: [
             { CPF },
-            idField
+            { NOT: idField }
           ]
         },
       })
-    ) {
-      throw new Error('CPF já existe para outro membro familiar')
+      if (cpfExists) {
+        throw new Error('CPF já existe para outro membro familiar')
+      }
     }
-    if (
-      await prisma.familyMember.findFirst({
+
+    if (RG) {
+
+      const rgExists = await prisma.familyMember.findFirst({
         where: {
           AND: [
             { RG },
-            idField
+            { NOT: idField }
           ]
         },
       })
-    ) {
-      throw new Error('RG já existe para outro membro familiar')
+
+      if (rgExists) {
+        throw new Error('RG já existe para outro membro familiar')
+      }
     }
     // Atualiza informações acerca do membro da família do candidato
     const memberUpdated = await prisma.familyMember.update({
