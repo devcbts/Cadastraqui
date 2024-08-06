@@ -265,7 +265,7 @@ export default function FormDeclarations() {
                     <div className={commonStyles.declarationSection}>
                         <div className={commonStyles.declarationItem}>
                             {data ? (
-                                Array.from([...data?.Candidate ?? [], data]).map(e => (
+                                Array.from([...data?.FamilyMember ?? [], data]).map(e => (
 
                                     <FormListItem.Root text={e.name} key={e.id}>
 

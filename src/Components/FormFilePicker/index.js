@@ -34,8 +34,8 @@ export default function FormFilePicker({ name, label, control, accept }) {
                             if (!file) {
                                 return
                             }
-                            if (file.size >= 15_000_000) {
-                                NotificationService.error({ text: 'Arquivo deve ser menor que 15MB' })
+                            if (file.size >= 10 * 1024 * 1024) {
+                                NotificationService.error({ text: 'Arquivo deve ser menor que 10MB' })
                                 return
                             }
                             field.onChange(e.target.files[0])

@@ -48,7 +48,7 @@ export default function Declaration_ContributionStatement({ onBack, onSave }) {
             await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData.id }, formData)
             NotificationService.success({ text: 'Documento enviado' }).then((_) => onSave())
         } catch (err) {
-            NotificationService.success({ text: 'Erro ao enviar documento. Tente novamente' })
+            NotificationService.error({ text: 'Erro ao enviar documento. Tente novamente' })
 
         }
     }
