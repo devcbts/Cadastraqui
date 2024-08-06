@@ -306,12 +306,12 @@ export async function updateIdentityInfo(
 
     }
     if (await prisma.identityDetails.findFirst({
-      where: { CPF  }
+      where: { CPF, candidate_id: { not: candidate?.id }  , responsible_id: { not: responsible?.id } }
     })) {
       throw new Error('CPF já cadastrado no sistema')
     } 
     if (await prisma.identityDetails.findFirst({
-      where: { RG }
+      where: { RG , candidate_id: { not: candidate?.id }  , responsible_id: { not: responsible?.id } }
     })) {
       throw new Error('RG já cadastrado no sistema')
       
