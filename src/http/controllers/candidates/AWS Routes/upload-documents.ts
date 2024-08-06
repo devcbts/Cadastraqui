@@ -29,7 +29,7 @@ const section = z.enum(["identity",
     "credit-card",
     "declaracoes"
 ])
-const MAX_FILE_SIZE = 1024 * 1024 * 15;
+const MAX_FILE_SIZE = 1024 * 1024 * 10;
 export async function uploadDocument(request: FastifyRequest, reply: FastifyReply) {
     const requestParamsSchema = z.object({
         documentType: section,
@@ -45,21 +45,23 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
         if (!candidateOrResponsible) {
             throw new NotAllowedError();
         }
-
         const parts = request.files({ limits: { fileSize: MAX_FILE_SIZE } });
-        for await (const file of parts) {
-            pump(file.file, fs.createWriteStream(file.filename))
-            if (file.file.truncated) {
-                console.log('file is truncated');
-                fs.unlinkSync(file.filename);
-                throw new Error('Arquivo excedente ao limite de 10MB');
 
-            }
+        // for await (const file of parts) {
+        //     if (file.file.truncated) {
+        //         throw new Error('Arquivo excedente ao limite de 10MB');
+        //     }
+        //     pump(file.file, fs.createWriteStream(file.filename))
+        //     if (fs.existsSync(file.filename)) {
+        //         fs.unlinkSync(file.fieldname);
+        //     }
 
-        }
+        // }
         for await (const part of parts) {
+            if (part.file.truncated) {
+                throw new Error('Arquivo excedente ao limite de 10MB');
+            }
             pump(part.file, fs.createWriteStream(part.filename))
-
             const fileBuffer = await part.toBuffer();
             const route = `CandidateDocuments/${candidateOrResponsible.UserData.id}/${documentType}/${member_id}/${table_id ? table_id + '/' : ''}${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;
             const sended = await uploadFile(fileBuffer, route);
