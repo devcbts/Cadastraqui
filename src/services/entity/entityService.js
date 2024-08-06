@@ -27,7 +27,7 @@ class EntityService {
         const response = await api.post("/entities/announcement", mappedData)
         return response.data.announcement
     }
-    async getFilteredAnnouncements({ filter }) {
+    async getFilteredAnnouncements({ filter } = { filter: null }) {
         const response = await api.get(`/entities/announcement/search${filter ? `?filter=${filter}` : ``}`)
         return response.data.announcements
     }
@@ -85,6 +85,10 @@ class EntityService {
     async getDashboard() {
         const response = await api.get('/entities/dashboard')
         return response.data
+    }
+    async getAnnouncementCourse(courseId) {
+        const response = await api.get(`/entities/courses/${courseId}`)
+        return response.data.course
     }
 }
 

@@ -37,6 +37,9 @@ import CandidateScheduleView from "Pages/Candidate/Schedule/components/Candidate
 import CandidateSchedule from "Pages/Candidate/Schedule";
 import AssistantSchedule from "Pages/SocialAssistant/Schedule";
 import AssistantHome from "Pages/SocialAssistant/Home";
+import EntityApplicants from "Pages/Entity/Applicants";
+import EntityAnnouncementCourses from "Pages/Entity/Applicants/components/AnnouncementCourses";
+import EntityAnnouncementApplicants from "Pages/Entity/Applicants/components/AnnouncementApplicants";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -131,9 +134,16 @@ export default function AppRoutes() {
                             <Route path="" element={<EntityAnnouncement />} />
                             <Route path=":announcementId" element={<EntityAnnouncementView />} />
                         </Route>
+                        <Route path="/matriculados" element={<Outlet />} >
+                            <Route index element={<EntityApplicants />} />
+                            <Route path=":announcementId" element={<Outlet />} >
+                                <Route index element={<EntityAnnouncementCourses />} />
+                                <Route path=":courseId" element={<EntityAnnouncementApplicants />} />
+                            </Route>
+                        </Route>
                         <Route path="/profile" element={<EntityProfile />} />
                         <Route path="/contas" element={<EntityAccounts />} />
-                        <Route path="*" element={<Navigate to={'/cadastro'} />} />
+                        <Route path="*" element={<Navigate to={'/home'} />} />
 
                     </Routes>
 
@@ -148,7 +158,7 @@ export default function AppRoutes() {
                             <Route path=":entityId" element={<AdminEntityView />} />
                         </Route>
                         <Route path="/cadastro" element={<AdminRegister />} />
-                        <Route path="*" element={<Navigate to={'/cadastro'} />} />
+                        <Route path="*" element={<Navigate to={'/home'} />} />
                     </Routes>
                 </HeaderWrapper>
             </RoleRoutes>
