@@ -199,6 +199,7 @@ export async function registerFamilyMemberInfo(
       hasSevereDeseaseOrUsesMedication,
       hasBankAccount,
       specialNeedsType,
+      specialNeeds,
       ...idField,
       // Campos opcionais são adicionados condicionalmente
       ...(otherRelationship && { otherRelationship }),
