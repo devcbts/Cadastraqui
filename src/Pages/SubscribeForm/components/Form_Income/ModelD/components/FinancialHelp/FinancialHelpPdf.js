@@ -31,7 +31,7 @@ export default function FinancialHelpPdf({
                     <Text style={pdfStyles.h2}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
                 </View>
                 <View style={pdfStyles.body} >
-                    <Text style={pdfStyles.h3} >declaração de ajuda financeira de terceiros </Text>
+                    <Text style={{ ...pdfStyles.header, ...pdfStyles.h3 }} > Declaração de Ajuda Financeira de Terceiros </Text>
 
                     <Text style={pdfStyles.text}>
                         Eu, <Strong>{owner?.ownerName}</Strong>, portador(a) da cédula de identidade RG nº <Strong>{owner?.RG}</Strong>, órgão emissor <Strong>{owner?.documentIssuing}</Strong>,
