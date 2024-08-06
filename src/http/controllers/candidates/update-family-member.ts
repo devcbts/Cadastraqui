@@ -188,6 +188,7 @@ export async function updateFamilyMemberInfo(
       hasSevereDeseaseOrUsesMedication,
       hasBankAccount,
       specialNeedsType,
+      specialNeeds,
       ...idField,
       // Campos opcionais são adicionados condicionalmente
       ...(otherRelationship && { otherRelationship }),
