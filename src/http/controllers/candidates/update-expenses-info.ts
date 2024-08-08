@@ -51,6 +51,25 @@ export async function updateExpensesInfo(request: FastifyRequest, reply: Fastify
         otherExpensesValue: z.optional(z.array(z.number())),
         otherExpensesDescription: z.optional(z.array(z.string())),
         totalExpense: z.optional(z.number()).nullable(),
+        justifywaterSewage: z.string().nullish(),
+        justifyelectricity: z.string().nullish(),
+        justifylandlinePhone: z.string().nullish(),
+        justifyfood: z.string().nullish(),
+        justifyrent: z.string().nullish(),
+        justifycondominium: z.string().nullish(),
+        justifycableTV: z.string().nullish(),
+        justifystreamingServices: z.string().nullish(),
+        justifyfuel: z.string().nullish(),
+        justifyannualIPVA: z.string().nullish(),
+        justifyannualIPTU: z.string().nullish(),
+        justifyfinancing: z.string().nullish(),
+        justifyannualIR: z.string().nullish(),
+        justifyschoolTransport: z.string().nullish(),
+        justifycreditCard: z.string().nullish(),
+        justifyinternet: z.string().nullish(),
+        justifycourses: z.string().nullish(),
+        justifyhealthPlan: z.string().nullish(),
+        justifymedicationExpenses: z.string().nullish(),
     });
 
     const validatedData = ExpensesUpdateSchema.parse(request.body);
@@ -67,7 +86,7 @@ export async function updateExpensesInfo(request: FastifyRequest, reply: Fastify
             where: { id: validatedData.id },
         });
 
-      
+
 
         // Atualiza as informações de despesas
         await prisma.expense.update({

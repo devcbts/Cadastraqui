@@ -305,16 +305,21 @@ export async function updateIdentityInfo(
       hasMedicalReport
 
     }
-    if (await prisma.identityDetails.findFirst({
-      where: { CPF, candidate_id: { not: candidate?.id }  , responsible_id: { not: responsible?.id } }
+    if (CPF && await prisma.identityDetails.findFirst({
+      where: { AND: [{ CPF }, { NOT: !!candidate ? { candidate_id: candidate.id } : { responsible_id: responsible!.id } }] }
     })) {
       throw new Error('CPF já cadastrado no sistema')
-    } 
-    if (await prisma.identityDetails.findFirst({
-      where: { RG , candidate_id: { not: candidate?.id }  , responsible_id: { not: responsible?.id } }
+    }
+    if (RG && await prisma.identityDetails.findFirst({
+      where: { AND: [{ RG }, { NOT: !!candidate ? { candidate_id: candidate.id } : { responsible_id: responsible!.id } }] }
     })) {
+      console.log(
+        await prisma.identityDetails.findFirst({
+          where: { AND: [{ RG }, { NOT: !!candidate ? { candidate_id: candidate.id } : { responsible_id: responsible!.id } }] }
+        })
+      )
       throw new Error('RG já cadastrado no sistema')
-      
+
     }
     if (candidate) {
 
