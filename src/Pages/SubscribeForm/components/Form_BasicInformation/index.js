@@ -17,6 +17,7 @@ import Document from "../Document";
 import MaritalStatus from "../MaritalStatus";
 import PersonalData from "../PersonalData";
 import PersonalInformation from "../PersonalInformation";
+import ResidenceProof from '../AddressData/ResidenceProof';
 export default function FormBasicInformation() {
     const { auth } = useAuth()
     const uploadDocuments = async (userId, data) => {
@@ -61,6 +62,7 @@ export default function FormBasicInformation() {
         render: [
             PersonalData,
             AddressData,
+            ResidenceProof,
             AdditionalInfo,
             MaritalStatus,
             PersonalInformation,
