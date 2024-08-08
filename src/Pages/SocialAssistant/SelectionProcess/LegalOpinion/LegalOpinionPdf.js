@@ -1,4 +1,4 @@
-import { Text, Document, Page, View } from "@react-pdf/renderer";
+import { Document, Page, Text, View } from "@react-pdf/renderer";
 import PDFTable from "Components/PDF/PDFTable";
 import { pdfStyles, Strong } from "Pages/SubscribeForm/components/Form_Declarations/components/HabitationDeclarationPDF";
 import { pdfjs } from "react-pdf";
@@ -131,7 +131,7 @@ export default function LegalOpinionPdf({ data, candidate, house, disease, membe
 
                     <View style={pdfStyles.signwrapper} wrap={false}>
                         <View style={pdfStyles.sign}>
-                            <Text>____________________</Text>
+                            <Text>________________________________________</Text>
                             <Text style={{ fontSize: '10px' }}>assinatura</Text>
                         </View>
                     </View>

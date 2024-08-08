@@ -1,8 +1,8 @@
-import styles from './styles.module.scss'
+import Tooltip from 'Components/Tooltip'
+import React, { forwardRef } from 'react'
 import check from '../../Assets/icons/check.svg'
 import errorx from '../../Assets/icons/error.svg'
-import React, { forwardRef } from 'react'
-import Tooltip from 'Components/Tooltip'
+import styles from './styles.module.scss'
 const InputBase = forwardRef(({
     label,
     error,

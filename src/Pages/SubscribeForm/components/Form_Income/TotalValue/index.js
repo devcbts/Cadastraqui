@@ -1,6 +1,5 @@
-import { forwardRef, useImperativeHandle, } from "react";
 import InputBase from "Components/InputBase";
-import { formatCurrency } from "utils/format-currency";
+import { forwardRef, useImperativeHandle, } from "react";
 import stringToFloat from "utils/string-to-float";
 
 
@@ -19,14 +18,15 @@ const TotalValue = forwardRef(({ data }, ref) => {
             if (data.hasOwnProperty(e) && condition(e)) {
                 sum -= stringToFloat(data[e])
             }
-
         })
+
         return Number(sum).toLocaleString("pt-br", { style: "currency", currency: "BRL" })
     }
+
     const getGrossValue = () => {
         if (stringToFloat(data.grossAmount)) return Number(stringToFloat(data.grossAmount)).toLocaleString("pt-br", { style: "currency", currency: "BRL" })
         if (stringToFloat(data.dividends) && stringToFloat(data.proLabore)) return Number(stringToFloat(data.dividends) + stringToFloat(data.proLabore)).toLocaleString("pt-br", { style: "currency", currency: "BRL" })
-        return 0
+        return 0;
     }
     useImperativeHandle(ref, () => ({
         validate: () => {

@@ -1,15 +1,11 @@
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import InputForm from "Components/InputForm";
-import { zodResolver } from "@hookform/resolvers/zod";
-import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
-import { useForm } from "react-hook-form";
-import maritalStatusSchema from "./schemas/marital-status-schema";
-import MARITAL_STATUS from "utils/enums/marital-status";
-import FormSelect from "Components/FormSelect";
-import FormFilePicker from "Components/FormFilePicker";
-import useControlForm from "hooks/useControlForm";
 import FilePreview from "Components/FilePreview";
-import findLabel from "utils/enums/helpers/findLabel";
+import FormFilePicker from "Components/FormFilePicker";
+import FormSelect from "Components/FormSelect";
+import useControlForm from "hooks/useControlForm";
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
+import { forwardRef, useEffect, useState } from "react";
+import MARITAL_STATUS from "utils/enums/marital-status";
+import maritalStatusSchema from "./schemas/marital-status-schema";
 const MaritalStatus = forwardRef(({ data }, ref) => {
     const { control, watch } = useControlForm({
         schema: maritalStatusSchema,
@@ -48,12 +44,22 @@ const MaritalStatus = forwardRef(({ data }, ref) => {
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Estado Civil</h1>
+            {!!data?.name &&
+                <h4 className={commonStyles.subTitle}>{data?.name}</h4>
+            }
+            {
+                !!data?.fullName &&
+                <h4 className={commonStyles.subTitle}>{data?.fullName}</h4>
+            }
             <>
                 <FormSelect name="maritalStatus" label="estado civil" control={control} options={MARITAL_STATUS} value={watchStatus} />
                 {!!watchStatus &&
-                    <FormFilePicker name="file_statusCertificate" label={text} control={control} accept={'application/pdf'} />}
+                    <FormFilePicker name="file_statusCertificate" label={text} control={control} accept={'application/pdf'} />
+                }
+                {!!watchStatus &&
+                    <h6 className={commonStyles.aviso}>*Tamanho máximo de 10Mb</h6>
+                }
                 <FilePreview file={watchFile} url={data.url_statusCertificate} text={'visualizar documento'} />
-
 
             </>
         </div>

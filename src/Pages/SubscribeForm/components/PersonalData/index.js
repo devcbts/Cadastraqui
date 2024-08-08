@@ -24,6 +24,7 @@ const PersonalData = forwardRef(({ data, tooltips }, ref) => {
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Dados Pessoais</h1>
+            <h4 className={commonStyles.subTitle}>{data?.fullName}</h4>
             <InputForm name="fullName" label="nome completo" control={control} />
             <InputForm name="CPF" label="CPF" control={control} transform={(e) => formatCPF(e.target.value)} />
             <InputForm name="birthDate" label="data de nascimento" type="date" control={control} />

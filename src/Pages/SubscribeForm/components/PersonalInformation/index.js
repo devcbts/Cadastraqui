@@ -1,16 +1,14 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { forwardRef, useImperativeHandle } from "react";
-import { useForm } from "react-hook-form";
-import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
-import InputForm from "Components/InputForm";
-import personalInformationSchema from "./schemas/personal-information-schema";
+import FormCheckbox from "Components/FormCheckbox";
 import FormSelect from "Components/FormSelect";
+import InputForm from "Components/InputForm";
+import useControlForm from "hooks/useControlForm";
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
+import { forwardRef } from "react";
+import RELIGION from "utils/enums/religion";
 import SCHOLARSHIP from "utils/enums/scholarship";
 import SKINCOLOR from "utils/enums/skin-color";
-import styles from './styles.module.scss'
-import FormCheckbox from "Components/FormCheckbox";
-import RELIGION from "utils/enums/religion";
-import useControlForm from "hooks/useControlForm";
+import personalInformationSchema from "./schemas/personal-information-schema";
+import styles from './styles.module.scss';
 const PersonalInformation = forwardRef(({ data }, ref) => {
     const { control, watch } = useControlForm({
         schema: personalInformationSchema,
@@ -33,6 +31,13 @@ const PersonalInformation = forwardRef(({ data }, ref) => {
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Informações Pessoais</h1>
+            {!!data?.name &&
+                <h4 className={commonStyles.subTitle}>{data?.name}</h4>
+            }
+            {
+                !!data?.fullName &&
+                <h4 className={commonStyles.subTitle}>{data?.fullName}</h4>
+            }
             <div className={styles.grid}>
                 <FormSelect name="skinColor" label="cor de pele" control={control} options={SKINCOLOR} value={watchSkinColor} />
                 <FormSelect name="educationLevel" label="escolaridade" control={control} options={SCHOLARSHIP} value={watchScholarship} />

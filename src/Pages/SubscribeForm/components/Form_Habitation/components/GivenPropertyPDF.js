@@ -1,8 +1,8 @@
+import { Document, Page, Text, View, } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
-import HabitationDeclarationPDF, { pdfStyles, Strong } from "../../Form_Declarations/components/HabitationDeclarationPDF";
-import candidateService from "services/candidate/candidateService";
-import { Text, View, Document, Page, } from "@react-pdf/renderer";
 import { pdfjs } from "react-pdf";
+import candidateService from "services/candidate/candidateService";
+import { pdfStyles, Strong } from "../../Form_Declarations/components/HabitationDeclarationPDF";
 
 export default function GivenPropertyPDF({
     owner
@@ -44,22 +44,22 @@ export default function GivenPropertyPDF({
                 </View>
                 <View style={pdfStyles.signwrapper}>
                     <View style={pdfStyles.sign}>
-                        <Text>____________________</Text>
+                        <Text>________________________________________</Text>
                         <Text>{owner?.ownerName}</Text>
                         <Text>assinatura do(a) declarante</Text>
                     </View>
                     <View style={pdfStyles.signrow}>
                         <View style={pdfStyles.sign}>
-                            <Text>____________________</Text>
+                            <Text>________________________________________</Text>
                             <Text>assinatura do(a) 1ª testemunha</Text>
-                            <Text>Nome: ____________________</Text>
-                            <Text>CPF: ____________________</Text>
+                            <Text>Nome: ________________________________________</Text>
+                            <Text>CPF: ________________________________________</Text>
                         </View>
                         <View style={pdfStyles.sign}>
-                            <Text>____________________</Text>
+                            <Text>________________________________________</Text>
                             <Text>assinatura do(a) 2ª testemunha</Text>
-                            <Text>Nome: ____________________</Text>
-                            <Text>CPF: ____________________</Text>
+                            <Text>Nome: ________________________________________</Text>
+                            <Text>CPF: ________________________________________</Text>
                         </View>
                     </View>
 

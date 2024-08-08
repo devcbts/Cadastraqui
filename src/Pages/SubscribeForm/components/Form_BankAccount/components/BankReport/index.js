@@ -68,6 +68,7 @@ export default function BankReport({ id, onBack }) {
                 <h1>Relatório de Contas e Relacionamentos (CCS)</h1>
                 <div style={{ width: '100%' }}>
                     <FormFilePicker accept={"application/pdf"} control={control} label={'Arquivo'} name={'file_bankReport'} />
+                    <h6 className={styles.aviso}>*Tamanho máximo de 10Mb</h6>
                     {watch('date') && <Table.Root headers={['data', 'status', 'ações']}>
                         <Table.Row>
                             <Table.Cell>{watch('date')?.toLocaleString('pt-br', { month: 'long', year: 'numeric' })}</Table.Cell>
@@ -81,8 +82,8 @@ export default function BankReport({ id, onBack }) {
                     </Table.Root>}
                     {/* <FilePreview file={watchFile} url={getValues("url_bankReport")} text={'visualizar documento'} /> */}
                 </div>
-                <Tooltip tooltip={'Não possui ainda o seu relatório de contas e relacionamento do mês atual?'}>
-                    <a href="https://www.bcb.gov.br/meubc/registrato" target="_blank">
+                <Tooltip tooltip={'Não possui ainda o seu relatório de contas e relacionamento do mês atual? Clique em Gerar relatório'}>
+                    <a href="https://www.bcb.gov.br/meubc/registrato" target="_blank" rel="noreferrer">
                         <ButtonBase label={'gerar relatório'} />
                     </a>
                 </Tooltip>
