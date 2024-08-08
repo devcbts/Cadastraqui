@@ -11,10 +11,12 @@ import InputForm from 'Components/InputForm'
 import ExpenseInput from './components/ExpenseInput'
 import moneyInputMask from 'Components/MoneyFormInput/money-input-mask'
 import getTotalExpense from '../utils/getTotalExpense'
-const { forwardRef, useEffect } = require("react")
+const { forwardRef, useEffect, useState } = require("react")
 const Expenses = forwardRef(({ data }, ref) => {
-    const { control, getValues, setValue, watch: watchValue } = useControlForm({
-        schema: expenseSchema,
+    const [checkeds, setCheckeds] = useState([])
+
+    const { control, getValues, setValue, watch: watchValue, resetField } = useControlForm({
+        schema: expenseSchema(checkeds),
         defaultValues: {
             waterSewage: '',
             electricity: '',
@@ -35,6 +37,25 @@ const Expenses = forwardRef(({ data }, ref) => {
             courses: '',
             healthPlan: '',
             medicationExpenses: '',
+            justifywaterSewage: '',
+            justifyelectricity: '',
+            justifylandlinePhone: '',
+            justifyfood: '',
+            justifyrent: '',
+            justifycondominium: '',
+            justifycableTV: '',
+            justifystreamingServices: '',
+            justifyfuel: '',
+            justifyannualIPVA: '',
+            justifyannualIPTU: '',
+            justifyfinancing: '',
+            justifyannualIR: '',
+            justifyschoolTransport: '',
+            justifycreditCard: '',
+            justifyinternet: '',
+            justifycourses: '',
+            justifyhealthPlan: '',
+            justifymedicationExpenses: '',
             additionalExpenses: [],
             totalExpense: ''
         },
@@ -44,6 +65,7 @@ const Expenses = forwardRef(({ data }, ref) => {
         const { totalExpense, ...rest } = getValues()
         // avoid infinite loop on rendering
         const fields = Object.keys(rest).reduce((acc, e) => {
+            if (e.startsWith('justify')) { return acc }
             acc[`${e}`] = getValues(`${e}`)
             return acc
         }, {})
@@ -73,6 +95,17 @@ const Expenses = forwardRef(({ data }, ref) => {
 
         setValue('totalExpense', getTotalExpense(watchExceptTotal()))
     }, [watch])
+    const handleCheckExpense = (field) => {
+        // if value is already on list
+        if (checkeds.includes(field)) {
+            resetField(`justify${field}`, { defaultValue: '' })
+            setCheckeds(prev => [...prev].filter(e => e !== field))
+        } else {
+            setValue(field, '0')
+            setCheckeds(prev => [...prev, field])
+        }
+
+    }
     return (
         <div className={styles.container}>
             <Card.Root >
@@ -81,7 +114,7 @@ const Expenses = forwardRef(({ data }, ref) => {
                     {watchValue('totalExpense')}
                 </Card.Content>
             </Card.Root>
-            <Table.Root headers={['descrição', 'valor']}>
+            <Table.Root headers={['descrição', 'valor', 'não se aplica', 'justificativa']}>
                 {expenseDescriptionAndField.map((e) => {
                     return (
                         <Table.Row key={e.field}>
@@ -89,7 +122,13 @@ const Expenses = forwardRef(({ data }, ref) => {
                                 {e.description}
                             </Table.Cell>
                             <Table.Cell>
-                                <ExpenseMoneyInput control={control} name={e.field} />
+                                <ExpenseMoneyInput control={control} name={e.field} disabled={checkeds?.includes(e.field)} />
+                            </Table.Cell>
+                            <Table.Cell>
+                                <input type='checkbox' defaultChecked={data?.[`justify${e.field}`]} onChange={(_) => handleCheckExpense(e.field)} />
+                            </Table.Cell>
+                            <Table.Cell>
+                                <InputForm control={control} name={`justify${e.field}`} disabled={!checkeds?.includes(e.field)} />
                             </Table.Cell>
                         </Table.Row>
                     )
