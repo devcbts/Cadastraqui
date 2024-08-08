@@ -14,12 +14,14 @@ class IdentityInfoMapper {
         if (identityInfo?.documentValidity) {
             documentValidity = identityInfo.documentValidity.split('T')?.[0]
         }
+        const deleteFolder = Object.keys(data?.urls)?.[0]
         const urls = removeObjectFileExtension(data.urls)
         const hasResidenceProof = !!Object.keys(urls).includes("url_residenceProof")
         return {
             ...identityInfo, CPF: formatCPF(identityInfo.CPF),
             birthDate: identityInfo.birthDate?.split('T')?.[0],
             ...urls,
+            deleteFolder,
             hasResidenceProof,
             documentValidity
         }

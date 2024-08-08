@@ -23,7 +23,11 @@ export default function FormBasicInformation() {
     const uploadDocuments = async (userId, data) => {
         const formData = createFileForm(data)
         try {
-            await uploadService.uploadBySectionAndId({ section: 'identity', id: userId }, formData)
+            const deleteFolder = await uploadService.uploadBySectionAndId({ section: 'identity', id: userId }, formData)
+
+            if (deleteFolder !== basicInfoData?.deleteFolder) {
+                setData(prev => ({ ...prev, deleteFolder }))
+            }
         } catch (err) {
             await NotificationService.error({ text: 'Erro ao enviar arquivos' })
         }
@@ -57,7 +61,7 @@ export default function FormBasicInformation() {
         pages: { previous, next },
         actions: { handleEdit },
         max,
-        state: { activeStep, data, setData }
+        state: { activeStep, basicInfoData, setData }
     } = useStepFormHook({
         render: [
             PersonalData,

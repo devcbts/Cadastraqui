@@ -1,14 +1,15 @@
 const { api } = require("services/axios")
 
 class UploadService {
-    uploadBySectionAndId({ section, id, tableId = '' }, data) {
+    async uploadBySectionAndId({ section, id, tableId = '' }, data) {
         if (!data) return
         const token = localStorage.getItem('token')
-        return api.post(`/candidates/upload/${section}/${id}/${tableId}`, data, {
+        const response = await api.post(`/candidates/upload/${section}/${id}/${tableId}`, data, {
             headers: {
                 authorization: `Bearer ${token}`
             }
         })
+        return response.data.deleteUrl
     }
     uploadSolicitation({ type, applicationId }, data) {
         return api.post(`/assistant/documents/solicitation/${type}/${applicationId}`, data)

@@ -22,6 +22,7 @@ export default function InputForm({ name, label, control, transform = (e) => e, 
         <Controller
             name={name}
             control={control}
+            defaultValue={'abnc'}
             render={({ field, fieldState: { isDirty, error, invalid } }) => {
                 return (
                     <InputBase
