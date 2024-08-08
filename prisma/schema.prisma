@@ -730,17 +730,17 @@ model Timeline {
 
 model EducationLevel {
   id                       String                          @id @default(uuid())
-  level                    LevelType
-  basicEduType             BasicEducationType?
-  scholarshipType          ScholarshipOfferType?
-  higherEduScholarshipType HigherEducationScholarshipType?
-  offeredCourseType        OfferedCourseType?
-  availableCourses         String?
-  offeredVacancies         Int?
-  verifiedScholarships     Int?
+  level                    LevelType // Nível de escolaridade
+  basicEduType             BasicEducationType? // Tipo de educação básica
+  scholarshipType          ScholarshipOfferType? // tipo de bolsa de educação básica
+  higherEduScholarshipType HigherEducationScholarshipType?   // tipo de bolsa de educação superior
+  offeredCourseType        OfferedCourseType? // tipo de graduação
+  availableCourses         String? // Curso disponível (caso tenha que escrever)
+  offeredVacancies         Int? // Completamente inútil
+  verifiedScholarships     Int? // Número de vagas
   shift                    SHIFT?
-  semester                 Int?
-  grade                    String?
+  semester                 Int? // para educação superior
+  grade                    String? // para educação básica
   announcementId           String
   Application              Application[]
   announcement             Announcement                    @relation(fields: [announcementId], references: [id], onDelete: Cascade)
