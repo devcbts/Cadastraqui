@@ -8,7 +8,6 @@ import BankReport from '../../Form_BankAccount/components/BankReport'
 import FormList from "../../FormList"
 import FormListItem from "../../FormList/FormListItem"
 import styles from './styles.module.scss'
-import CheckboxBase from 'Components/CheckboxBase'
 
 export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
     const { id, fullName } = member
@@ -28,7 +27,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                     setIncomeInfo(incomes)
                 }
                 NotificationService.warn({
-                    text: 'Verifique o cadastro das informações bancárias'
+                    text: 'Importante! Precisa cadastrar suas contas bancárias e enviar os extratos mensais. Também é obrigatório enviar mensalmente o Relatório de contas e relacionamentos (CCS).'
                 })
             } catch (err) {
 
@@ -93,7 +92,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                         {
                             (incomeInfo?.data?.hasBankAccount === null || incomeInfo?.data?.hasBankAccount === true)
                                 ? <>
-                                    <h3>Comprovantes bancários</h3>
+                                    <h3>Contas bancários</h3>
                                     <button
                                         className={styles.buttonCadastrarDeclaracao}
                                         onClick={() => setShowBankInfo('accounts')}

@@ -1,12 +1,12 @@
 import BackPageTitle from "Components/BackPageTitle";
 import ButtonBase from "Components/ButtonBase";
+import FilePreview from "Components/FilePreview";
+import FormFilePicker from "Components/FormFilePicker";
 import FormSelect from "Components/FormSelect";
+import InputForm from "Components/InputForm";
 import useControlForm from "hooks/useControlForm";
 import CRITERIAS from "utils/enums/criterias";
 import announcementFinishSchema from "./schemas/announcement-finish-schema";
-import FormFilePicker from "Components/FormFilePicker";
-import FilePreview from "Components/FilePreview";
-import InputForm from "Components/InputForm";
 
 export default function AnnouncementFinish({ data, onPageChange, onSubmit }) {
     const { control, watch, formState: { isValid }, trigger, getValues } = useControlForm({

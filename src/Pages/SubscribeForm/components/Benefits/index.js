@@ -31,6 +31,13 @@ const Benefits = forwardRef(({ data }, ref) => {
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Benefícios e Programas</h1>
+            {!!data?.name &&
+                <h4 className={commonStyles.subTitle}>{data?.name}</h4>
+            }
+            {
+                !!data?.fullName &&
+                <h4 className={commonStyles.subTitle}>{data?.fullName}</h4>
+            }
             <div className={styles.container}>
                 <FormCheckbox name={"CadUnico"} control={control} label={"Inscrito no cadastro único?"} />
 

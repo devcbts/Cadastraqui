@@ -208,7 +208,7 @@ export default function LegalOpinion() {
                     </p>
                     <p>
 
-                        A soma das despesas apresentadas é {data?.hasGreaterIncome ? "inferior" : "superior"} à renda familiar bruta mensal com base em toda documentação juntada e análise realizada.
+                        A soma das despesas apresentadas é {data?.hasGreaterIncome ? "inferior" : "superior"} à renda familiar bruta mensal com base em toda documentação juntada e análise realizada, cuja relação dos documentos anexados segue abaixo:
                     </p>
                     <p>
                         A faculdade contida no § 2º do art. 19, relacionada a majoração em até 20% (vinte por cento) do teto estabelecido (bolsa de estudo integral),
