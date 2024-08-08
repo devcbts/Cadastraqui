@@ -451,52 +451,71 @@ model BankAccount {
 }
 
 model Expense {
-  id                       String            @id @default(uuid())
-  date                     DateTime          @default(now())
-  waterSewage              Float?
-  electricity              Float?
-  landlinePhone            Float?
-  mobilePhone              Float?
-  food                     Float?
-  rent                     Float?
-  garageRent               Float?
-  condominium              Float?
-  cableTV                  Float?
-  streamingServices        Float?
-  fuel                     Float?
-  annualIPVA               Float?
-  annualIPTU               Float?
-  annualITR                Float?
-  annualIR                 Float?
-  INSS                     Float?
-  publicTransport          Float?
-  schoolTransport          Float?
-  internet                 Float?
-  courses                  Float?
-  healthPlan               Float?
-  dentalPlan               Float?
-  medicationExpenses       Float?
-  totalExpense             Float?
-  candidate_id             String?
-  installmentCountIPTU     Int?
-  installmentCountIPVA     Int?
-  installmentCountIR       Int?
-  installmentCountITR      Int?
-  installmentValueIPTU     Float?
-  installmentValueIPVA     Float?
-  installmentValueIR       Float?
-  installmentValueITR      Float?
-  financing                Float?
-  creditCard               Float?
-  optedForInstallmentIPTU  Boolean?
-  optedForInstallmentIPVA  Boolean?
-  optedForInstallmentIR    Boolean?
-  optedForInstallmentITR   Boolean?
-  otherExpensesDescription String[]
-  otherExpensesValue       Float[]
-  candidate                Candidate?        @relation(fields: [candidate_id], references: [id])
-  LegalResponsible         LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
-  legalResponsibleId       String?
+  id                        String            @id @default(uuid())
+  date                      DateTime          @default(now())
+  waterSewage               Float?
+  electricity               Float?
+  landlinePhone             Float?
+  mobilePhone               Float?
+  food                      Float?
+  rent                      Float?
+  garageRent                Float?
+  condominium               Float?
+  cableTV                   Float?
+  streamingServices         Float?
+  fuel                      Float?
+  annualIPVA                Float?
+  annualIPTU                Float?
+  annualITR                 Float?
+  annualIR                  Float?
+  INSS                      Float?
+  publicTransport           Float?
+  schoolTransport           Float?
+  internet                  Float?
+  courses                   Float?
+  healthPlan                Float?
+  dentalPlan                Float?
+  medicationExpenses        Float?
+  totalExpense              Float?
+  candidate_id              String?
+  installmentCountIPTU      Int?
+  installmentCountIPVA      Int?
+  installmentCountIR        Int?
+  installmentCountITR       Int?
+  installmentValueIPTU      Float?
+  installmentValueIPVA      Float?
+  installmentValueIR        Float?
+  installmentValueITR       Float?
+  financing                 Float?
+  creditCard                Float?
+  optedForInstallmentIPTU   Boolean?
+  optedForInstallmentIPVA   Boolean?
+  optedForInstallmentIR     Boolean?
+  optedForInstallmentITR    Boolean?
+  justifywaterSewage        String?
+  justifyelectricity        String?
+  justifylandlinePhone      String?
+  justifyfood               String?
+  justifyrent               String?
+  justifycondominium        String?
+  justifycableTV            String?
+  justifystreamingServices  String?
+  justifyfuel               String?
+  justifyannualIPVA         String?
+  justifyannualIPTU         String?
+  justifyfinancing          String?
+  justifyannualIR           String?
+  justifyschoolTransport    String?
+  justifycreditCard         String?
+  justifyinternet           String?
+  justifycourses            String?
+  justifyhealthPlan         String?
+  justifymedicationExpenses String?
+  otherExpensesDescription  String[]
+  otherExpensesValue        Float[]
+  candidate                 Candidate?        @relation(fields: [candidate_id], references: [id])
+  LegalResponsible          LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId        String?
 }
 
 model Loan {

@@ -23208,6 +23208,25 @@ export namespace Prisma {
     optedForInstallmentIPVA: boolean | null
     optedForInstallmentIR: boolean | null
     optedForInstallmentITR: boolean | null
+    justifywaterSewage: string | null
+    justifyelectricity: string | null
+    justifylandlinePhone: string | null
+    justifyfood: string | null
+    justifyrent: string | null
+    justifycondominium: string | null
+    justifycableTV: string | null
+    justifystreamingServices: string | null
+    justifyfuel: string | null
+    justifyannualIPVA: string | null
+    justifyannualIPTU: string | null
+    justifyfinancing: string | null
+    justifyannualIR: string | null
+    justifyschoolTransport: string | null
+    justifycreditCard: string | null
+    justifyinternet: string | null
+    justifycourses: string | null
+    justifyhealthPlan: string | null
+    justifymedicationExpenses: string | null
     legalResponsibleId: string | null
     application_id: string | null
   }
@@ -23255,6 +23274,25 @@ export namespace Prisma {
     optedForInstallmentIPVA: boolean | null
     optedForInstallmentIR: boolean | null
     optedForInstallmentITR: boolean | null
+    justifywaterSewage: string | null
+    justifyelectricity: string | null
+    justifylandlinePhone: string | null
+    justifyfood: string | null
+    justifyrent: string | null
+    justifycondominium: string | null
+    justifycableTV: string | null
+    justifystreamingServices: string | null
+    justifyfuel: string | null
+    justifyannualIPVA: string | null
+    justifyannualIPTU: string | null
+    justifyfinancing: string | null
+    justifyannualIR: string | null
+    justifyschoolTransport: string | null
+    justifycreditCard: string | null
+    justifyinternet: string | null
+    justifycourses: string | null
+    justifyhealthPlan: string | null
+    justifymedicationExpenses: string | null
     legalResponsibleId: string | null
     application_id: string | null
   }
@@ -23302,6 +23340,25 @@ export namespace Prisma {
     optedForInstallmentIPVA: number
     optedForInstallmentIR: number
     optedForInstallmentITR: number
+    justifywaterSewage: number
+    justifyelectricity: number
+    justifylandlinePhone: number
+    justifyfood: number
+    justifyrent: number
+    justifycondominium: number
+    justifycableTV: number
+    justifystreamingServices: number
+    justifyfuel: number
+    justifyannualIPVA: number
+    justifyannualIPTU: number
+    justifyfinancing: number
+    justifyannualIR: number
+    justifyschoolTransport: number
+    justifycreditCard: number
+    justifyinternet: number
+    justifycourses: number
+    justifyhealthPlan: number
+    justifymedicationExpenses: number
     otherExpensesDescription: number
     otherExpensesValue: number
     legalResponsibleId: number
@@ -23429,6 +23486,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: true
     optedForInstallmentIR?: true
     optedForInstallmentITR?: true
+    justifywaterSewage?: true
+    justifyelectricity?: true
+    justifylandlinePhone?: true
+    justifyfood?: true
+    justifyrent?: true
+    justifycondominium?: true
+    justifycableTV?: true
+    justifystreamingServices?: true
+    justifyfuel?: true
+    justifyannualIPVA?: true
+    justifyannualIPTU?: true
+    justifyfinancing?: true
+    justifyannualIR?: true
+    justifyschoolTransport?: true
+    justifycreditCard?: true
+    justifyinternet?: true
+    justifycourses?: true
+    justifyhealthPlan?: true
+    justifymedicationExpenses?: true
     legalResponsibleId?: true
     application_id?: true
   }
@@ -23476,6 +23552,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: true
     optedForInstallmentIR?: true
     optedForInstallmentITR?: true
+    justifywaterSewage?: true
+    justifyelectricity?: true
+    justifylandlinePhone?: true
+    justifyfood?: true
+    justifyrent?: true
+    justifycondominium?: true
+    justifycableTV?: true
+    justifystreamingServices?: true
+    justifyfuel?: true
+    justifyannualIPVA?: true
+    justifyannualIPTU?: true
+    justifyfinancing?: true
+    justifyannualIR?: true
+    justifyschoolTransport?: true
+    justifycreditCard?: true
+    justifyinternet?: true
+    justifycourses?: true
+    justifyhealthPlan?: true
+    justifymedicationExpenses?: true
     legalResponsibleId?: true
     application_id?: true
   }
@@ -23523,6 +23618,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: true
     optedForInstallmentIR?: true
     optedForInstallmentITR?: true
+    justifywaterSewage?: true
+    justifyelectricity?: true
+    justifylandlinePhone?: true
+    justifyfood?: true
+    justifyrent?: true
+    justifycondominium?: true
+    justifycableTV?: true
+    justifystreamingServices?: true
+    justifyfuel?: true
+    justifyannualIPVA?: true
+    justifyannualIPTU?: true
+    justifyfinancing?: true
+    justifyannualIR?: true
+    justifyschoolTransport?: true
+    justifycreditCard?: true
+    justifyinternet?: true
+    justifycourses?: true
+    justifyhealthPlan?: true
+    justifymedicationExpenses?: true
     otherExpensesDescription?: true
     otherExpensesValue?: true
     legalResponsibleId?: true
@@ -23659,6 +23773,25 @@ export namespace Prisma {
     optedForInstallmentIPVA: boolean | null
     optedForInstallmentIR: boolean | null
     optedForInstallmentITR: boolean | null
+    justifywaterSewage: string | null
+    justifyelectricity: string | null
+    justifylandlinePhone: string | null
+    justifyfood: string | null
+    justifyrent: string | null
+    justifycondominium: string | null
+    justifycableTV: string | null
+    justifystreamingServices: string | null
+    justifyfuel: string | null
+    justifyannualIPVA: string | null
+    justifyannualIPTU: string | null
+    justifyfinancing: string | null
+    justifyannualIR: string | null
+    justifyschoolTransport: string | null
+    justifycreditCard: string | null
+    justifyinternet: string | null
+    justifycourses: string | null
+    justifyhealthPlan: string | null
+    justifymedicationExpenses: string | null
     otherExpensesDescription: string[]
     otherExpensesValue: number[]
     legalResponsibleId: string | null
@@ -23727,6 +23860,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: boolean
     optedForInstallmentIR?: boolean
     optedForInstallmentITR?: boolean
+    justifywaterSewage?: boolean
+    justifyelectricity?: boolean
+    justifylandlinePhone?: boolean
+    justifyfood?: boolean
+    justifyrent?: boolean
+    justifycondominium?: boolean
+    justifycableTV?: boolean
+    justifystreamingServices?: boolean
+    justifyfuel?: boolean
+    justifyannualIPVA?: boolean
+    justifyannualIPTU?: boolean
+    justifyfinancing?: boolean
+    justifyannualIR?: boolean
+    justifyschoolTransport?: boolean
+    justifycreditCard?: boolean
+    justifyinternet?: boolean
+    justifycourses?: boolean
+    justifyhealthPlan?: boolean
+    justifymedicationExpenses?: boolean
     otherExpensesDescription?: boolean
     otherExpensesValue?: boolean
     legalResponsibleId?: boolean
@@ -23778,6 +23930,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: boolean
     optedForInstallmentIR?: boolean
     optedForInstallmentITR?: boolean
+    justifywaterSewage?: boolean
+    justifyelectricity?: boolean
+    justifylandlinePhone?: boolean
+    justifyfood?: boolean
+    justifyrent?: boolean
+    justifycondominium?: boolean
+    justifycableTV?: boolean
+    justifystreamingServices?: boolean
+    justifyfuel?: boolean
+    justifyannualIPVA?: boolean
+    justifyannualIPTU?: boolean
+    justifyfinancing?: boolean
+    justifyannualIR?: boolean
+    justifyschoolTransport?: boolean
+    justifycreditCard?: boolean
+    justifyinternet?: boolean
+    justifycourses?: boolean
+    justifyhealthPlan?: boolean
+    justifymedicationExpenses?: boolean
     otherExpensesDescription?: boolean
     otherExpensesValue?: boolean
     legalResponsibleId?: boolean
@@ -23839,6 +24010,25 @@ export namespace Prisma {
       optedForInstallmentIPVA: boolean | null
       optedForInstallmentIR: boolean | null
       optedForInstallmentITR: boolean | null
+      justifywaterSewage: string | null
+      justifyelectricity: string | null
+      justifylandlinePhone: string | null
+      justifyfood: string | null
+      justifyrent: string | null
+      justifycondominium: string | null
+      justifycableTV: string | null
+      justifystreamingServices: string | null
+      justifyfuel: string | null
+      justifyannualIPVA: string | null
+      justifyannualIPTU: string | null
+      justifyfinancing: string | null
+      justifyannualIR: string | null
+      justifyschoolTransport: string | null
+      justifycreditCard: string | null
+      justifyinternet: string | null
+      justifycourses: string | null
+      justifyhealthPlan: string | null
+      justifymedicationExpenses: string | null
       otherExpensesDescription: string[]
       otherExpensesValue: number[]
       legalResponsibleId: string | null
@@ -24282,6 +24472,25 @@ export namespace Prisma {
     readonly optedForInstallmentIPVA: FieldRef<"Expense", 'Boolean'>
     readonly optedForInstallmentIR: FieldRef<"Expense", 'Boolean'>
     readonly optedForInstallmentITR: FieldRef<"Expense", 'Boolean'>
+    readonly justifywaterSewage: FieldRef<"Expense", 'String'>
+    readonly justifyelectricity: FieldRef<"Expense", 'String'>
+    readonly justifylandlinePhone: FieldRef<"Expense", 'String'>
+    readonly justifyfood: FieldRef<"Expense", 'String'>
+    readonly justifyrent: FieldRef<"Expense", 'String'>
+    readonly justifycondominium: FieldRef<"Expense", 'String'>
+    readonly justifycableTV: FieldRef<"Expense", 'String'>
+    readonly justifystreamingServices: FieldRef<"Expense", 'String'>
+    readonly justifyfuel: FieldRef<"Expense", 'String'>
+    readonly justifyannualIPVA: FieldRef<"Expense", 'String'>
+    readonly justifyannualIPTU: FieldRef<"Expense", 'String'>
+    readonly justifyfinancing: FieldRef<"Expense", 'String'>
+    readonly justifyannualIR: FieldRef<"Expense", 'String'>
+    readonly justifyschoolTransport: FieldRef<"Expense", 'String'>
+    readonly justifycreditCard: FieldRef<"Expense", 'String'>
+    readonly justifyinternet: FieldRef<"Expense", 'String'>
+    readonly justifycourses: FieldRef<"Expense", 'String'>
+    readonly justifyhealthPlan: FieldRef<"Expense", 'String'>
+    readonly justifymedicationExpenses: FieldRef<"Expense", 'String'>
     readonly otherExpensesDescription: FieldRef<"Expense", 'String[]'>
     readonly otherExpensesValue: FieldRef<"Expense", 'Float[]'>
     readonly legalResponsibleId: FieldRef<"Expense", 'String'>
@@ -40800,6 +41009,25 @@ export namespace Prisma {
     optedForInstallmentIPVA: 'optedForInstallmentIPVA',
     optedForInstallmentIR: 'optedForInstallmentIR',
     optedForInstallmentITR: 'optedForInstallmentITR',
+    justifywaterSewage: 'justifywaterSewage',
+    justifyelectricity: 'justifyelectricity',
+    justifylandlinePhone: 'justifylandlinePhone',
+    justifyfood: 'justifyfood',
+    justifyrent: 'justifyrent',
+    justifycondominium: 'justifycondominium',
+    justifycableTV: 'justifycableTV',
+    justifystreamingServices: 'justifystreamingServices',
+    justifyfuel: 'justifyfuel',
+    justifyannualIPVA: 'justifyannualIPVA',
+    justifyannualIPTU: 'justifyannualIPTU',
+    justifyfinancing: 'justifyfinancing',
+    justifyannualIR: 'justifyannualIR',
+    justifyschoolTransport: 'justifyschoolTransport',
+    justifycreditCard: 'justifycreditCard',
+    justifyinternet: 'justifyinternet',
+    justifycourses: 'justifycourses',
+    justifyhealthPlan: 'justifyhealthPlan',
+    justifymedicationExpenses: 'justifymedicationExpenses',
     otherExpensesDescription: 'otherExpensesDescription',
     otherExpensesValue: 'otherExpensesValue',
     legalResponsibleId: 'legalResponsibleId',
@@ -43809,6 +44037,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: BoolNullableFilter<"Expense"> | boolean | null
     optedForInstallmentIR?: BoolNullableFilter<"Expense"> | boolean | null
     optedForInstallmentITR?: BoolNullableFilter<"Expense"> | boolean | null
+    justifywaterSewage?: StringNullableFilter<"Expense"> | string | null
+    justifyelectricity?: StringNullableFilter<"Expense"> | string | null
+    justifylandlinePhone?: StringNullableFilter<"Expense"> | string | null
+    justifyfood?: StringNullableFilter<"Expense"> | string | null
+    justifyrent?: StringNullableFilter<"Expense"> | string | null
+    justifycondominium?: StringNullableFilter<"Expense"> | string | null
+    justifycableTV?: StringNullableFilter<"Expense"> | string | null
+    justifystreamingServices?: StringNullableFilter<"Expense"> | string | null
+    justifyfuel?: StringNullableFilter<"Expense"> | string | null
+    justifyannualIPVA?: StringNullableFilter<"Expense"> | string | null
+    justifyannualIPTU?: StringNullableFilter<"Expense"> | string | null
+    justifyfinancing?: StringNullableFilter<"Expense"> | string | null
+    justifyannualIR?: StringNullableFilter<"Expense"> | string | null
+    justifyschoolTransport?: StringNullableFilter<"Expense"> | string | null
+    justifycreditCard?: StringNullableFilter<"Expense"> | string | null
+    justifyinternet?: StringNullableFilter<"Expense"> | string | null
+    justifycourses?: StringNullableFilter<"Expense"> | string | null
+    justifyhealthPlan?: StringNullableFilter<"Expense"> | string | null
+    justifymedicationExpenses?: StringNullableFilter<"Expense"> | string | null
     otherExpensesDescription?: StringNullableListFilter<"Expense">
     otherExpensesValue?: FloatNullableListFilter<"Expense">
     legalResponsibleId?: StringNullableFilter<"Expense"> | string | null
@@ -43860,6 +44107,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: SortOrderInput | SortOrder
     optedForInstallmentIR?: SortOrderInput | SortOrder
     optedForInstallmentITR?: SortOrderInput | SortOrder
+    justifywaterSewage?: SortOrderInput | SortOrder
+    justifyelectricity?: SortOrderInput | SortOrder
+    justifylandlinePhone?: SortOrderInput | SortOrder
+    justifyfood?: SortOrderInput | SortOrder
+    justifyrent?: SortOrderInput | SortOrder
+    justifycondominium?: SortOrderInput | SortOrder
+    justifycableTV?: SortOrderInput | SortOrder
+    justifystreamingServices?: SortOrderInput | SortOrder
+    justifyfuel?: SortOrderInput | SortOrder
+    justifyannualIPVA?: SortOrderInput | SortOrder
+    justifyannualIPTU?: SortOrderInput | SortOrder
+    justifyfinancing?: SortOrderInput | SortOrder
+    justifyannualIR?: SortOrderInput | SortOrder
+    justifyschoolTransport?: SortOrderInput | SortOrder
+    justifycreditCard?: SortOrderInput | SortOrder
+    justifyinternet?: SortOrderInput | SortOrder
+    justifycourses?: SortOrderInput | SortOrder
+    justifyhealthPlan?: SortOrderInput | SortOrder
+    justifymedicationExpenses?: SortOrderInput | SortOrder
     otherExpensesDescription?: SortOrder
     otherExpensesValue?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
@@ -43915,6 +44181,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: BoolNullableFilter<"Expense"> | boolean | null
     optedForInstallmentIR?: BoolNullableFilter<"Expense"> | boolean | null
     optedForInstallmentITR?: BoolNullableFilter<"Expense"> | boolean | null
+    justifywaterSewage?: StringNullableFilter<"Expense"> | string | null
+    justifyelectricity?: StringNullableFilter<"Expense"> | string | null
+    justifylandlinePhone?: StringNullableFilter<"Expense"> | string | null
+    justifyfood?: StringNullableFilter<"Expense"> | string | null
+    justifyrent?: StringNullableFilter<"Expense"> | string | null
+    justifycondominium?: StringNullableFilter<"Expense"> | string | null
+    justifycableTV?: StringNullableFilter<"Expense"> | string | null
+    justifystreamingServices?: StringNullableFilter<"Expense"> | string | null
+    justifyfuel?: StringNullableFilter<"Expense"> | string | null
+    justifyannualIPVA?: StringNullableFilter<"Expense"> | string | null
+    justifyannualIPTU?: StringNullableFilter<"Expense"> | string | null
+    justifyfinancing?: StringNullableFilter<"Expense"> | string | null
+    justifyannualIR?: StringNullableFilter<"Expense"> | string | null
+    justifyschoolTransport?: StringNullableFilter<"Expense"> | string | null
+    justifycreditCard?: StringNullableFilter<"Expense"> | string | null
+    justifyinternet?: StringNullableFilter<"Expense"> | string | null
+    justifycourses?: StringNullableFilter<"Expense"> | string | null
+    justifyhealthPlan?: StringNullableFilter<"Expense"> | string | null
+    justifymedicationExpenses?: StringNullableFilter<"Expense"> | string | null
     otherExpensesDescription?: StringNullableListFilter<"Expense">
     otherExpensesValue?: FloatNullableListFilter<"Expense">
     legalResponsibleId?: StringNullableFilter<"Expense"> | string | null
@@ -43966,6 +44251,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: SortOrderInput | SortOrder
     optedForInstallmentIR?: SortOrderInput | SortOrder
     optedForInstallmentITR?: SortOrderInput | SortOrder
+    justifywaterSewage?: SortOrderInput | SortOrder
+    justifyelectricity?: SortOrderInput | SortOrder
+    justifylandlinePhone?: SortOrderInput | SortOrder
+    justifyfood?: SortOrderInput | SortOrder
+    justifyrent?: SortOrderInput | SortOrder
+    justifycondominium?: SortOrderInput | SortOrder
+    justifycableTV?: SortOrderInput | SortOrder
+    justifystreamingServices?: SortOrderInput | SortOrder
+    justifyfuel?: SortOrderInput | SortOrder
+    justifyannualIPVA?: SortOrderInput | SortOrder
+    justifyannualIPTU?: SortOrderInput | SortOrder
+    justifyfinancing?: SortOrderInput | SortOrder
+    justifyannualIR?: SortOrderInput | SortOrder
+    justifyschoolTransport?: SortOrderInput | SortOrder
+    justifycreditCard?: SortOrderInput | SortOrder
+    justifyinternet?: SortOrderInput | SortOrder
+    justifycourses?: SortOrderInput | SortOrder
+    justifyhealthPlan?: SortOrderInput | SortOrder
+    justifymedicationExpenses?: SortOrderInput | SortOrder
     otherExpensesDescription?: SortOrder
     otherExpensesValue?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
@@ -44023,6 +44327,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: BoolNullableWithAggregatesFilter<"Expense"> | boolean | null
     optedForInstallmentIR?: BoolNullableWithAggregatesFilter<"Expense"> | boolean | null
     optedForInstallmentITR?: BoolNullableWithAggregatesFilter<"Expense"> | boolean | null
+    justifywaterSewage?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifyelectricity?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifylandlinePhone?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifyfood?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifyrent?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifycondominium?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifycableTV?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifystreamingServices?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifyfuel?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifyannualIPVA?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifyannualIPTU?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifyfinancing?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifyannualIR?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifyschoolTransport?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifycreditCard?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifyinternet?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifycourses?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifyhealthPlan?: StringNullableWithAggregatesFilter<"Expense"> | string | null
+    justifymedicationExpenses?: StringNullableWithAggregatesFilter<"Expense"> | string | null
     otherExpensesDescription?: StringNullableListFilter<"Expense">
     otherExpensesValue?: FloatNullableListFilter<"Expense">
     legalResponsibleId?: StringNullableWithAggregatesFilter<"Expense"> | string | null
@@ -47892,6 +48215,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
     optedForInstallmentITR?: boolean | null
+    justifywaterSewage?: string | null
+    justifyelectricity?: string | null
+    justifylandlinePhone?: string | null
+    justifyfood?: string | null
+    justifyrent?: string | null
+    justifycondominium?: string | null
+    justifycableTV?: string | null
+    justifystreamingServices?: string | null
+    justifyfuel?: string | null
+    justifyannualIPVA?: string | null
+    justifyannualIPTU?: string | null
+    justifyfinancing?: string | null
+    justifyannualIR?: string | null
+    justifyschoolTransport?: string | null
+    justifycreditCard?: string | null
+    justifyinternet?: string | null
+    justifycourses?: string | null
+    justifyhealthPlan?: string | null
+    justifymedicationExpenses?: string | null
     otherExpensesDescription?: ExpenseCreateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     application_id: string
@@ -47942,6 +48284,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
     optedForInstallmentITR?: boolean | null
+    justifywaterSewage?: string | null
+    justifyelectricity?: string | null
+    justifylandlinePhone?: string | null
+    justifyfood?: string | null
+    justifyrent?: string | null
+    justifycondominium?: string | null
+    justifycableTV?: string | null
+    justifystreamingServices?: string | null
+    justifyfuel?: string | null
+    justifyannualIPVA?: string | null
+    justifyannualIPTU?: string | null
+    justifyfinancing?: string | null
+    justifyannualIR?: string | null
+    justifyschoolTransport?: string | null
+    justifycreditCard?: string | null
+    justifyinternet?: string | null
+    justifycourses?: string | null
+    justifyhealthPlan?: string | null
+    justifymedicationExpenses?: string | null
     otherExpensesDescription?: ExpenseCreateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     legalResponsibleId?: string | null
@@ -47990,6 +48351,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentITR?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    justifywaterSewage?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyelectricity?: NullableStringFieldUpdateOperationsInput | string | null
+    justifylandlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfood?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyrent?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycondominium?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycableTV?: NullableStringFieldUpdateOperationsInput | string | null
+    justifystreamingServices?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfuel?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPVA?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPTU?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfinancing?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIR?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyschoolTransport?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycreditCard?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyinternet?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycourses?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyhealthPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    justifymedicationExpenses?: NullableStringFieldUpdateOperationsInput | string | null
     otherExpensesDescription?: ExpenseUpdateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     application_id?: StringFieldUpdateOperationsInput | string
@@ -48040,6 +48420,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentITR?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    justifywaterSewage?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyelectricity?: NullableStringFieldUpdateOperationsInput | string | null
+    justifylandlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfood?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyrent?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycondominium?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycableTV?: NullableStringFieldUpdateOperationsInput | string | null
+    justifystreamingServices?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfuel?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPVA?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPTU?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfinancing?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIR?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyschoolTransport?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycreditCard?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyinternet?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycourses?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyhealthPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    justifymedicationExpenses?: NullableStringFieldUpdateOperationsInput | string | null
     otherExpensesDescription?: ExpenseUpdateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -48089,6 +48488,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
     optedForInstallmentITR?: boolean | null
+    justifywaterSewage?: string | null
+    justifyelectricity?: string | null
+    justifylandlinePhone?: string | null
+    justifyfood?: string | null
+    justifyrent?: string | null
+    justifycondominium?: string | null
+    justifycableTV?: string | null
+    justifystreamingServices?: string | null
+    justifyfuel?: string | null
+    justifyannualIPVA?: string | null
+    justifyannualIPTU?: string | null
+    justifyfinancing?: string | null
+    justifyannualIR?: string | null
+    justifyschoolTransport?: string | null
+    justifycreditCard?: string | null
+    justifyinternet?: string | null
+    justifycourses?: string | null
+    justifyhealthPlan?: string | null
+    justifymedicationExpenses?: string | null
     otherExpensesDescription?: ExpenseCreateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     legalResponsibleId?: string | null
@@ -48137,6 +48555,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentITR?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    justifywaterSewage?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyelectricity?: NullableStringFieldUpdateOperationsInput | string | null
+    justifylandlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfood?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyrent?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycondominium?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycableTV?: NullableStringFieldUpdateOperationsInput | string | null
+    justifystreamingServices?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfuel?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPVA?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPTU?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfinancing?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIR?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyschoolTransport?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycreditCard?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyinternet?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycourses?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyhealthPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    justifymedicationExpenses?: NullableStringFieldUpdateOperationsInput | string | null
     otherExpensesDescription?: ExpenseUpdateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     application_id?: StringFieldUpdateOperationsInput | string
@@ -48185,6 +48622,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentITR?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    justifywaterSewage?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyelectricity?: NullableStringFieldUpdateOperationsInput | string | null
+    justifylandlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfood?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyrent?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycondominium?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycableTV?: NullableStringFieldUpdateOperationsInput | string | null
+    justifystreamingServices?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfuel?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPVA?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPTU?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfinancing?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIR?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyschoolTransport?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycreditCard?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyinternet?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycourses?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyhealthPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    justifymedicationExpenses?: NullableStringFieldUpdateOperationsInput | string | null
     otherExpensesDescription?: ExpenseUpdateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -51683,6 +52139,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: SortOrder
     optedForInstallmentIR?: SortOrder
     optedForInstallmentITR?: SortOrder
+    justifywaterSewage?: SortOrder
+    justifyelectricity?: SortOrder
+    justifylandlinePhone?: SortOrder
+    justifyfood?: SortOrder
+    justifyrent?: SortOrder
+    justifycondominium?: SortOrder
+    justifycableTV?: SortOrder
+    justifystreamingServices?: SortOrder
+    justifyfuel?: SortOrder
+    justifyannualIPVA?: SortOrder
+    justifyannualIPTU?: SortOrder
+    justifyfinancing?: SortOrder
+    justifyannualIR?: SortOrder
+    justifyschoolTransport?: SortOrder
+    justifycreditCard?: SortOrder
+    justifyinternet?: SortOrder
+    justifycourses?: SortOrder
+    justifyhealthPlan?: SortOrder
+    justifymedicationExpenses?: SortOrder
     otherExpensesDescription?: SortOrder
     otherExpensesValue?: SortOrder
     legalResponsibleId?: SortOrder
@@ -51770,6 +52245,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: SortOrder
     optedForInstallmentIR?: SortOrder
     optedForInstallmentITR?: SortOrder
+    justifywaterSewage?: SortOrder
+    justifyelectricity?: SortOrder
+    justifylandlinePhone?: SortOrder
+    justifyfood?: SortOrder
+    justifyrent?: SortOrder
+    justifycondominium?: SortOrder
+    justifycableTV?: SortOrder
+    justifystreamingServices?: SortOrder
+    justifyfuel?: SortOrder
+    justifyannualIPVA?: SortOrder
+    justifyannualIPTU?: SortOrder
+    justifyfinancing?: SortOrder
+    justifyannualIR?: SortOrder
+    justifyschoolTransport?: SortOrder
+    justifycreditCard?: SortOrder
+    justifyinternet?: SortOrder
+    justifycourses?: SortOrder
+    justifyhealthPlan?: SortOrder
+    justifymedicationExpenses?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
   }
@@ -51817,6 +52311,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: SortOrder
     optedForInstallmentIR?: SortOrder
     optedForInstallmentITR?: SortOrder
+    justifywaterSewage?: SortOrder
+    justifyelectricity?: SortOrder
+    justifylandlinePhone?: SortOrder
+    justifyfood?: SortOrder
+    justifyrent?: SortOrder
+    justifycondominium?: SortOrder
+    justifycableTV?: SortOrder
+    justifystreamingServices?: SortOrder
+    justifyfuel?: SortOrder
+    justifyannualIPVA?: SortOrder
+    justifyannualIPTU?: SortOrder
+    justifyfinancing?: SortOrder
+    justifyannualIR?: SortOrder
+    justifyschoolTransport?: SortOrder
+    justifycreditCard?: SortOrder
+    justifyinternet?: SortOrder
+    justifycourses?: SortOrder
+    justifyhealthPlan?: SortOrder
+    justifymedicationExpenses?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
   }
@@ -58100,6 +58613,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
     optedForInstallmentITR?: boolean | null
+    justifywaterSewage?: string | null
+    justifyelectricity?: string | null
+    justifylandlinePhone?: string | null
+    justifyfood?: string | null
+    justifyrent?: string | null
+    justifycondominium?: string | null
+    justifycableTV?: string | null
+    justifystreamingServices?: string | null
+    justifyfuel?: string | null
+    justifyannualIPVA?: string | null
+    justifyannualIPTU?: string | null
+    justifyfinancing?: string | null
+    justifyannualIR?: string | null
+    justifyschoolTransport?: string | null
+    justifycreditCard?: string | null
+    justifyinternet?: string | null
+    justifycourses?: string | null
+    justifyhealthPlan?: string | null
+    justifymedicationExpenses?: string | null
     otherExpensesDescription?: ExpenseCreateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     application_id: string
@@ -58148,6 +58680,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
     optedForInstallmentITR?: boolean | null
+    justifywaterSewage?: string | null
+    justifyelectricity?: string | null
+    justifylandlinePhone?: string | null
+    justifyfood?: string | null
+    justifyrent?: string | null
+    justifycondominium?: string | null
+    justifycableTV?: string | null
+    justifystreamingServices?: string | null
+    justifyfuel?: string | null
+    justifyannualIPVA?: string | null
+    justifyannualIPTU?: string | null
+    justifyfinancing?: string | null
+    justifyannualIR?: string | null
+    justifyschoolTransport?: string | null
+    justifycreditCard?: string | null
+    justifyinternet?: string | null
+    justifycourses?: string | null
+    justifyhealthPlan?: string | null
+    justifymedicationExpenses?: string | null
     otherExpensesDescription?: ExpenseCreateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     legalResponsibleId?: string | null
@@ -59101,6 +59652,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: BoolNullableFilter<"Expense"> | boolean | null
     optedForInstallmentIR?: BoolNullableFilter<"Expense"> | boolean | null
     optedForInstallmentITR?: BoolNullableFilter<"Expense"> | boolean | null
+    justifywaterSewage?: StringNullableFilter<"Expense"> | string | null
+    justifyelectricity?: StringNullableFilter<"Expense"> | string | null
+    justifylandlinePhone?: StringNullableFilter<"Expense"> | string | null
+    justifyfood?: StringNullableFilter<"Expense"> | string | null
+    justifyrent?: StringNullableFilter<"Expense"> | string | null
+    justifycondominium?: StringNullableFilter<"Expense"> | string | null
+    justifycableTV?: StringNullableFilter<"Expense"> | string | null
+    justifystreamingServices?: StringNullableFilter<"Expense"> | string | null
+    justifyfuel?: StringNullableFilter<"Expense"> | string | null
+    justifyannualIPVA?: StringNullableFilter<"Expense"> | string | null
+    justifyannualIPTU?: StringNullableFilter<"Expense"> | string | null
+    justifyfinancing?: StringNullableFilter<"Expense"> | string | null
+    justifyannualIR?: StringNullableFilter<"Expense"> | string | null
+    justifyschoolTransport?: StringNullableFilter<"Expense"> | string | null
+    justifycreditCard?: StringNullableFilter<"Expense"> | string | null
+    justifyinternet?: StringNullableFilter<"Expense"> | string | null
+    justifycourses?: StringNullableFilter<"Expense"> | string | null
+    justifyhealthPlan?: StringNullableFilter<"Expense"> | string | null
+    justifymedicationExpenses?: StringNullableFilter<"Expense"> | string | null
     otherExpensesDescription?: StringNullableListFilter<"Expense">
     otherExpensesValue?: FloatNullableListFilter<"Expense">
     legalResponsibleId?: StringNullableFilter<"Expense"> | string | null
@@ -60506,6 +61076,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
     optedForInstallmentITR?: boolean | null
+    justifywaterSewage?: string | null
+    justifyelectricity?: string | null
+    justifylandlinePhone?: string | null
+    justifyfood?: string | null
+    justifyrent?: string | null
+    justifycondominium?: string | null
+    justifycableTV?: string | null
+    justifystreamingServices?: string | null
+    justifyfuel?: string | null
+    justifyannualIPVA?: string | null
+    justifyannualIPTU?: string | null
+    justifyfinancing?: string | null
+    justifyannualIR?: string | null
+    justifyschoolTransport?: string | null
+    justifycreditCard?: string | null
+    justifyinternet?: string | null
+    justifycourses?: string | null
+    justifyhealthPlan?: string | null
+    justifymedicationExpenses?: string | null
     otherExpensesDescription?: ExpenseCreateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     application_id: string
@@ -60555,6 +61144,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
     optedForInstallmentITR?: boolean | null
+    justifywaterSewage?: string | null
+    justifyelectricity?: string | null
+    justifylandlinePhone?: string | null
+    justifyfood?: string | null
+    justifyrent?: string | null
+    justifycondominium?: string | null
+    justifycableTV?: string | null
+    justifystreamingServices?: string | null
+    justifyfuel?: string | null
+    justifyannualIPVA?: string | null
+    justifyannualIPTU?: string | null
+    justifyfinancing?: string | null
+    justifyannualIR?: string | null
+    justifyschoolTransport?: string | null
+    justifycreditCard?: string | null
+    justifyinternet?: string | null
+    justifycourses?: string | null
+    justifyhealthPlan?: string | null
+    justifymedicationExpenses?: string | null
     otherExpensesDescription?: ExpenseCreateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     application_id: string
@@ -73355,6 +73963,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
     optedForInstallmentITR?: boolean | null
+    justifywaterSewage?: string | null
+    justifyelectricity?: string | null
+    justifylandlinePhone?: string | null
+    justifyfood?: string | null
+    justifyrent?: string | null
+    justifycondominium?: string | null
+    justifycableTV?: string | null
+    justifystreamingServices?: string | null
+    justifyfuel?: string | null
+    justifyannualIPVA?: string | null
+    justifyannualIPTU?: string | null
+    justifyfinancing?: string | null
+    justifyannualIR?: string | null
+    justifyschoolTransport?: string | null
+    justifycreditCard?: string | null
+    justifyinternet?: string | null
+    justifycourses?: string | null
+    justifyhealthPlan?: string | null
+    justifymedicationExpenses?: string | null
     otherExpensesDescription?: ExpenseCreateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     legalResponsibleId?: string | null
@@ -73787,6 +74414,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentITR?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    justifywaterSewage?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyelectricity?: NullableStringFieldUpdateOperationsInput | string | null
+    justifylandlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfood?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyrent?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycondominium?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycableTV?: NullableStringFieldUpdateOperationsInput | string | null
+    justifystreamingServices?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfuel?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPVA?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPTU?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfinancing?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIR?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyschoolTransport?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycreditCard?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyinternet?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycourses?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyhealthPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    justifymedicationExpenses?: NullableStringFieldUpdateOperationsInput | string | null
     otherExpensesDescription?: ExpenseUpdateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     application_id?: StringFieldUpdateOperationsInput | string
@@ -73835,6 +74481,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentITR?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    justifywaterSewage?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyelectricity?: NullableStringFieldUpdateOperationsInput | string | null
+    justifylandlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfood?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyrent?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycondominium?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycableTV?: NullableStringFieldUpdateOperationsInput | string | null
+    justifystreamingServices?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfuel?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPVA?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPTU?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfinancing?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIR?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyschoolTransport?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycreditCard?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyinternet?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycourses?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyhealthPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    justifymedicationExpenses?: NullableStringFieldUpdateOperationsInput | string | null
     otherExpensesDescription?: ExpenseUpdateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -73883,6 +74548,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentITR?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    justifywaterSewage?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyelectricity?: NullableStringFieldUpdateOperationsInput | string | null
+    justifylandlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfood?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyrent?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycondominium?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycableTV?: NullableStringFieldUpdateOperationsInput | string | null
+    justifystreamingServices?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfuel?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPVA?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPTU?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfinancing?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIR?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyschoolTransport?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycreditCard?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyinternet?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycourses?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyhealthPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    justifymedicationExpenses?: NullableStringFieldUpdateOperationsInput | string | null
     otherExpensesDescription?: ExpenseUpdateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -74970,6 +75654,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: boolean | null
     optedForInstallmentIR?: boolean | null
     optedForInstallmentITR?: boolean | null
+    justifywaterSewage?: string | null
+    justifyelectricity?: string | null
+    justifylandlinePhone?: string | null
+    justifyfood?: string | null
+    justifyrent?: string | null
+    justifycondominium?: string | null
+    justifycableTV?: string | null
+    justifystreamingServices?: string | null
+    justifyfuel?: string | null
+    justifyannualIPVA?: string | null
+    justifyannualIPTU?: string | null
+    justifyfinancing?: string | null
+    justifyannualIR?: string | null
+    justifyschoolTransport?: string | null
+    justifycreditCard?: string | null
+    justifyinternet?: string | null
+    justifycourses?: string | null
+    justifyhealthPlan?: string | null
+    justifymedicationExpenses?: string | null
     otherExpensesDescription?: ExpenseCreateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     application_id: string
@@ -75722,6 +76425,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentITR?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    justifywaterSewage?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyelectricity?: NullableStringFieldUpdateOperationsInput | string | null
+    justifylandlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfood?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyrent?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycondominium?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycableTV?: NullableStringFieldUpdateOperationsInput | string | null
+    justifystreamingServices?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfuel?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPVA?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPTU?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfinancing?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIR?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyschoolTransport?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycreditCard?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyinternet?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycourses?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyhealthPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    justifymedicationExpenses?: NullableStringFieldUpdateOperationsInput | string | null
     otherExpensesDescription?: ExpenseUpdateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     application_id?: StringFieldUpdateOperationsInput | string
@@ -75771,6 +76493,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentITR?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    justifywaterSewage?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyelectricity?: NullableStringFieldUpdateOperationsInput | string | null
+    justifylandlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfood?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyrent?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycondominium?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycableTV?: NullableStringFieldUpdateOperationsInput | string | null
+    justifystreamingServices?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfuel?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPVA?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPTU?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfinancing?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIR?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyschoolTransport?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycreditCard?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyinternet?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycourses?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyhealthPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    justifymedicationExpenses?: NullableStringFieldUpdateOperationsInput | string | null
     otherExpensesDescription?: ExpenseUpdateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     application_id?: StringFieldUpdateOperationsInput | string
@@ -75819,6 +76560,25 @@ export namespace Prisma {
     optedForInstallmentIPVA?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentIR?: NullableBoolFieldUpdateOperationsInput | boolean | null
     optedForInstallmentITR?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    justifywaterSewage?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyelectricity?: NullableStringFieldUpdateOperationsInput | string | null
+    justifylandlinePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfood?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyrent?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycondominium?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycableTV?: NullableStringFieldUpdateOperationsInput | string | null
+    justifystreamingServices?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfuel?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPVA?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIPTU?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyfinancing?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyannualIR?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyschoolTransport?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycreditCard?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyinternet?: NullableStringFieldUpdateOperationsInput | string | null
+    justifycourses?: NullableStringFieldUpdateOperationsInput | string | null
+    justifyhealthPlan?: NullableStringFieldUpdateOperationsInput | string | null
+    justifymedicationExpenses?: NullableStringFieldUpdateOperationsInput | string | null
     otherExpensesDescription?: ExpenseUpdateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     application_id?: StringFieldUpdateOperationsInput | string

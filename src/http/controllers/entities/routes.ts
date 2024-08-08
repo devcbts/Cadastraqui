@@ -16,6 +16,7 @@ import { fetchClosedAnnouncements } from './fetch-closed-announcements'
 import { fetchDirectors } from './fetch-directors'
 import { fetchFilterAnnouncements } from './fetch-filter-announcement'
 import { fetchSubsidiarys } from './fetch-subsidiarys'
+import getAnnouncementCourse from './get-announcement-course'
 import { getApplications } from './get-applications'
 import getEntityDashboard from './get-dashboard'
 import { getEntityInfo } from './get-entity-info'
@@ -143,6 +144,8 @@ export async function entityRoutes(app: FastifyInstance) {
   )
   app.delete('/announcement/:announcement_id', { onRequest: [verifyJWT] }, deleteAnnouncement)
 
+  //Courses
+  app.get('/courses/:education_level_id', { onRequest: [verifyJWT] }, getAnnouncementCourse)
   //Outros
   app.post('/profilePicture', { onRequest: [verifyJWT] }, uploadEntityProfilePicture)
   app.get('/profilePicture/:_id?', { onRequest: [verifyJWT] }, getEntityProfilePicture)

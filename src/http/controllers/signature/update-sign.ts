@@ -44,7 +44,7 @@ export default async function updateSign(
                     case 'parecer':
                         // response is a binary data, must convert into readable file before sending to aws
                         const application = await prisma.application.findUnique({
-                            where: {parecerDocumentKey: document_key}
+                            where: { parecerDocumentKey: document_key }
                         })
                         if (!application) {
                             break;
