@@ -57,6 +57,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
         //     }
 
         // }
+        let deleteUrl = '';
         for await (const part of parts) {
             if (part.file.truncated) {
                 throw new Error('Arquivo excedente ao limite de 10MB');
@@ -65,6 +66,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             const fileBuffer = await part.toBuffer();
             const route = `CandidateDocuments/${candidateOrResponsible.UserData.id}/${documentType}/${member_id}/${table_id ? table_id + '/' : ''}${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;
             const sended = await uploadFile(fileBuffer, route);
+            console.log(sended, 'ENVIADOOOOO')
             if (!sended) {
                 throw new NotAllowedError();
             }
@@ -85,12 +87,13 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
                 // Atualizar o status das declaraões
                 await verifyDeclarationRegistration(candidateOrResponsible.UserData.id)
             }
+            deleteUrl = route
         }
 
 
 
-
-        reply.status(201).send();
+        const folder = deleteUrl?.slice(0, deleteUrl?.lastIndexOf('/'));
+        reply.status(201).send({ deleteUrl: folder });
     } catch (error) {
         if (error instanceof NotAllowedError) {
             return reply.status(401).send({ error });
