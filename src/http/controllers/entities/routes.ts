@@ -155,5 +155,5 @@ export async function entityRoutes(app: FastifyInstance) {
     getApplications,
   )
 
-  app.post('announcement/csv', { onRequest: [verifyJWT] }, uploadCSVFileToAnnouncement)
+  app.post('/announcement/csv', { onRequest: [verifyJWT] }, uploadCSVFileToAnnouncement)
 }
