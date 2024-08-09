@@ -106,6 +106,13 @@ const Expenses = forwardRef(({ data }, ref) => {
         }
 
     }
+    useEffect(() => {
+        expenseDescriptionAndField.forEach(e => {
+            if (data?.[`justify${e.field}`]) {
+                setCheckeds(prev => [...prev, e.field])
+            }
+        })
+    }, [data])
     return (
         <div className={styles.container}>
             <Card.Root >
@@ -127,9 +134,9 @@ const Expenses = forwardRef(({ data }, ref) => {
                             <Table.Cell>
                                 <input type='checkbox' defaultChecked={data?.[`justify${e.field}`]} onChange={(_) => handleCheckExpense(e.field)} />
                             </Table.Cell>
-                            <Table.Cell>
+                            {checkeds?.includes(e.field) && <Table.Cell>
                                 <InputForm control={control} name={`justify${e.field}`} disabled={!checkeds?.includes(e.field)} />
-                            </Table.Cell>
+                            </Table.Cell>}
                         </Table.Row>
                     )
                 })}
