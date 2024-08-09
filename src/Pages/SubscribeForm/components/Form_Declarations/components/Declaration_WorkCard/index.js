@@ -25,6 +25,7 @@ export default function Declaration_WorkCard({ onBack, onNext }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h2>
+            <h3 className={commonStyles.declarationFormSubTitle}>DECLARAÇÃO DE POSSUIDOR OU NÃO DE CARTEIRA DE TRABALHO</h3>
             <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
             <p className={commonStyles.declarationConfirm}>Você possui Carteira de trabalho? (a partir de 16 anos)</p>
             <div className={commonStyles.radioGroupInput}>

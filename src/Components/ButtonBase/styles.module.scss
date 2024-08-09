@@ -10,9 +10,10 @@
     text-transform: capitalize;
     color: $primary;
     border: 2px solid $primary;
-    border-radius: 5px;
+    border-radius: 8px;
     transition: background-color .2s ease-in;
     width: fit-content;
+
     &:hover {
         border: 2px solid white;
 

@@ -1,5 +1,6 @@
 @import '../../../../Assets/theme/colors.module.scss';
-.container{
+
+.container {
     position: relative;
     background-color: $primary;
     height: 80px;
@@ -10,21 +11,33 @@
     padding: 0px 40px;
     margin: 0;
     border-bottom: 2px solid white;
-    .logo{
+
+    .logo {
         -webkit-user-drag: none;
         margin: auto;
-        width: 300px;
+        width: auto;
         height: 70px;
-        @media(max-width: 600px){
-            width: 210px;
-            height: 49px;
-        }
     }
-    .hamburger{
+
+    .hamburger {
         color: white;
         cursor: pointer;
         -webkit-user-drag: none;
         width: 50px;
         height: 50%;
+        margin-right: 7%;
+    }
+}
+
+@media(max-width: 600px) {
+    .container {
+        .logo {
+            width: auto;
+            height: 50px;
+        }
+
+        .hamburger {
+            margin-right: 0%;
+        }
     }
 }

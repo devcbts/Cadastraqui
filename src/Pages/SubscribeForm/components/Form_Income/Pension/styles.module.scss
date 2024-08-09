@@ -1,10 +1,12 @@
 @import '../../../../../Assets/theme/colors.module.scss';
-.text{
-    color: $grey;
-    text-align: center;
+
+.text {
+    color: $primary;
+    text-align: justify;
     font-size: 16px;
     font-weight: 600;
-    span{
+
+    span {
         font-size: 16px;
         font-weight: 700;
         color: $error;

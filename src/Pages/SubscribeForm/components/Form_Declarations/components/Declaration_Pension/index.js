@@ -80,27 +80,7 @@ export default function Declaration_Pension({ onBack, onNext }) {
                     name={"receivesPension"}
                     value={watch("receivesPension")}
                 />
-                {/* <label>A - Você recebe pensão alimentícia?</label>
-                <div className={commonStyles.radioGroup}>
-                    <input
-                        type="radio"
-                        id="yes"
-                        name="pension"
-                        value="yes"
-                        onChange={handleRadioChange}
-                        checked={receivesPension}
-                    />
-                    <label htmlFor="yes">Sim</label>
-                    <input
-                        type="radio"
-                        id="no"
-                        name="pension"
-                        value="no"
-                        onChange={handleRadioChange}
-                        checked={receivesPension === false}
-                    />
-                    <label htmlFor="no">Não</label>
-                </div> */}
+
                 {watch("receivesPension") && (
                     <div className={commonStyles.additionalFields}>
                         <InputForm control={control} label={'Nome do pagador'} name="payerName" />
@@ -114,14 +94,12 @@ export default function Declaration_Pension({ onBack, onNext }) {
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}
-
                 />
-                <ButtonBase
+                {/* <ButtonBase
                     onClick={handleSave}
-
                 >
                     <Arrow width="30px" />
-                </ButtonBase>
+                </ButtonBase> */}
             </div>
         </div>
     );

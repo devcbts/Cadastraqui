@@ -1,38 +1,52 @@
 @import '../../Assets/theme/colors.module.scss';
 
-.wrapper{
+.wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-bottom: 16px;
-    button{
+
+    button {
         min-width: 250px;
     }
-    .error{
+
+    .error {
         color: $error;
         font-size: 16px;
         font-weight: 600;
     }
 }
 
-.month{
+.month {
     color: $primary;
     font-size: 20px;
     font-weight: 700;
     text-align: center;
-    text-transform: capitalize;
+    margin-bottom: 20px;
+    /* text-transform: capitalize; */
 }
-.text{
+
+.div_text {
+    display: flex;
+    width: 100%;
+    margin: 20px auto;
+    justify-content: center;
+}
+
+.text {
     text-align: justify;
-    width: 50%;
+    width: 60%;
     color: $grey;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
-    margin: 15px auto;
-    @media(max-width: 600px) {
+    margin-bottom: 20px;
+}
+
+@media(max-width: 600px) {
+    .text {
         font-size: 14px;
-        width: 250px;
+        width: 260px;
         display: flex;
         margin: 15px auto;
     }

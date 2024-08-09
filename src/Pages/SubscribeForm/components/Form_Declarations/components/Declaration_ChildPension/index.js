@@ -138,27 +138,7 @@ export default function Declaration_ChildPension({ onBack, onNext, onNoPension }
                     value={watch("childReceivesPension")}
                     label={'B - Algum filho recebe pensão alimentícia?'}
                 />
-                {/* <label>B - Algum filho recebe pensão alimentícia?</label>
-                <div className={commonStyles.radioGroup}>
-                    <input
-                        type="radio"
-                        id="childYes"
-                        name="childPension"
-                        value="yes"
-                        onChange={handleRadioChange}
-                        checked={childReceivesPension === true}
-                    />
-                    <label htmlFor="childYes">Sim</label>
-                    <input
-                        type="radio"
-                        id="childNo"
-                        name="childPension"
-                        value="no"
-                        onChange={handleRadioChange}
-                        checked={childReceivesPension === false}
-                    />
-                    <label htmlFor="childNo">Não</label>
-                </div> */}
+
                 {watch("childReceivesPension") && (
                     <div className={commonStyles.additionalFields}>
                         <FormSelect control={control} name={'childPensionRecipients'} label={'Selecione todos que recebem pensão'}
@@ -169,50 +149,7 @@ export default function Declaration_ChildPension({ onBack, onNext, onNoPension }
                         <InputForm control={control} label={'Nome do pagador'} name="payerName" />
                         <InputForm control={control} label={'CPF do pagador'} name="payerCpf" transform={(e) => formatCPF(e.target.value)} />
                         <MoneyFormInput control={control} label={'Valor da pensão'} name="amount" />
-                        {/* <div className={commonStyles.inputGroup}>
-                            <label htmlFor="childPensionRecipients">Selecione todos que recebem pensão</label>
-                            <input
-                                type="text"
-                                id="childPensionRecipients"
-                                name="childPensionRecipients"
-                                value={childPensionRecipients}
-                                onChange={(e) => setChildPensionRecipients(e.target.value)}
-                                placeholder="Carlos da Silva, Fulana da Silva"
-                            />
-                        </div> */}
-                        {/* <div className={commonStyles.inputGroup}>
-                            <label htmlFor="payerName">Nome do Pagador da Pensão</label>
-                            <input
-                                type="text"
-                                id="payerName"
-                                name="payerName"
-                                value={payerName}
-                                onChange={(e) => setPayerName(e.target.value)}
-                                placeholder="Joana de Gizman Londres"
-                            />
-                        </div> */}
-                        {/* <div className={commonStyles.inputGroup}>
-                            <label htmlFor="payerCpf">CPF do Pagador da Pensão</label>
-                            <input
-                                type="text"
-                                id="payerCpf"
-                                name="payerCpf"
-                                value={payerCpf}
-                                onChange={(e) => setPayerCpf(formatCPF(e.target.value))}
-                                placeholder="524.321.789-09"
-                            />
-                        </div> */}
-                        {/* <div className={commonStyles.inputGroup}>
-                            <label htmlFor="amount">Valor</label>
-                            <input
-                                type="text"
-                                id="amount"
-                                name="amount"
-                                value={amount}
-                                onChange={(e) => setAmount(formatCurrency(e.target.value))}
-                                placeholder="550,00"
-                            />
-                        </div> */}
+
                     </div>
                 )}
             </div>
@@ -221,14 +158,12 @@ export default function Declaration_ChildPension({ onBack, onNext, onNoPension }
                 <ButtonBase
                     label="Salvar"
                     onClick={handleNext}
-
                 />
-                <ButtonBase
+                {/* <ButtonBase
                     onClick={handleNext}
-
                 >
                     <Arrow width="30px" />
-                </ButtonBase>
+                </ButtonBase> */}
             </div>
         </div>
     );

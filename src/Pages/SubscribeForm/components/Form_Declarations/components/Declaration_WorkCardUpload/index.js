@@ -55,13 +55,14 @@ export default function Declaration_WorkCardUpload({ onBack, onSave }) {
     return (
         <div className={commonStyles.declarationForm}>
             <h2 className={commonStyles.declarationFormTitle}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</h2>
-            {/* <h2>DECLARAÇÃO QUE INTEGRANTE DO GRUPO FAMILIAR POSSUI CARTEIRA DE TRABALHO</h2> */}
+            <h3 className={commonStyles.declarationFormSubTitle}>RELATÓRIO DIGITAL DE CARTEIRA DE TRABALHO E PREVIDÊNCIA SOCIAL</h3>
             <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
             <p>Relatório digital da Carteira de Trabalho e Previdência Social contendo todos os dados pessoais e todos os contratos de trabalho.</p>
             <div className={commonStyles.fileUpload}>
                 <label htmlFor="fileUpload">Anexar arquivo</label>
                 <input type="file" id="fileUpload" onChange={handleFileChange} accept='application/pdf' />
             </div>
+            <h6 className={commonStyles.aviso}>*Tamanho máximo de 10Mb</h6>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase

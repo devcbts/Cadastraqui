@@ -76,6 +76,9 @@
 
 @media(max-width: 450px) {
     .container {
+        padding: 0px;
+        width: auto;
+
         .formcontainer {
             margin: 1px 1px;
             width: 90%;
@@ -87,7 +90,7 @@
 @media(max-width: 600px) {
     .container {
         padding: 20px 5px;
-        width: 95%;
+        width: 90%;
 
         h1 {
             font-size: 20px;
