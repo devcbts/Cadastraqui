@@ -64,7 +64,10 @@ export async function createSubsidiary(
       const nondigits = /\D/g
       const entitycnpjdigits = entitycnpj.replace(nondigits, '')
       const subcnpjdigits = subcnpj.replace(nondigits, '')
-      return entitycnpjdigits.substring(0, 8) === subcnpjdigits.substring(0, 8)
+      return (
+        entitycnpjdigits.substring(0, 8) === subcnpjdigits.substring(0, 8)
+        && subcnpjdigits.substring(8, 12) !== '0001'
+      )
     }
     if (!compareCnpjFields(entity.CNPJ, CNPJ)) {
       return reply.status(400).send({ message: 'CNPJ para filial inválido' })
