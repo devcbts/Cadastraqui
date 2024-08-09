@@ -246,12 +246,7 @@ export async function getCandidateResume(
             vehiclesCount: vehicles.length,
             distance: application.distance,
         }
-        const getDocumentsUrls = async (sections: string[], application_id: string) => {
-            const documentsPromises = sections.map(section =>
-                getSectionDocumentsPDF_HDB(application_id, section).then(document => ({ [section]: document }))
-            );
-            return Promise.all(documentsPromises);
-        };
+
         const documentsUrls = await getDocumentsUrls(section, application_id)
         const membersNames = familyMembers.map((member) => {
             return {
@@ -355,3 +350,11 @@ export async function getCandidateResume(
         return reply.status(500).send({ message: error.message })
     }
 }
+
+
+export const getDocumentsUrls = async (sections: string[], application_id: string) => {
+    const documentsPromises = sections.map(section =>
+        getSectionDocumentsPDF_HDB(application_id, section).then(document => ({ [section]: document }))
+    );
+    return Promise.all(documentsPromises);
+};

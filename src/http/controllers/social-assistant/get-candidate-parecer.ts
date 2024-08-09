@@ -7,6 +7,7 @@ import { CalculateIncomePerCapitaHDB } from "@/utils/Trigger-Functions/calculate
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { getAssistantDocumentsPDF_HDB } from "./AWS-routes/get-assistant-documents-by-section";
+import { getDocumentsUrls } from "./get-candidate-resume";
 
 export async function getCandidateParecer(
     request: FastifyRequest,
@@ -216,6 +217,45 @@ export async function getCandidateParecer(
         const hasGreaterIncome = totalIncome > totalExpenses
         const majoracao = await getAssistantDocumentsPDF_HDB(application_id, 'majoracao')
         const parecer = await getAssistantDocumentsPDF_HDB(application_id, 'parecer')
+
+
+        const documentsUrls = await getDocumentsUrls(section, application_id)
+        const membersNames = familyMembers.map((member) => {
+            return {
+
+                id: member.id,
+                name: member.fullName
+            }
+        }
+        )
+        membersNames.push({ id: candidateHDB.id, name: identityDetails.fullName })
+
+        const documentsFilteredByMember = membersNames.map(member => {
+            const groupedDocuments: { [key: string]: { [fileName: string]: string[] } } = {};
+
+            documentsUrls.forEach((sectionUrls) => {
+                Object.entries(sectionUrls).forEach(([section, urls]) => {
+                    Object.entries(urls).forEach(([path, fileName]) => {
+                        const parts = path.split('/');
+                        if (parts[3] === member.id) {
+                            if (!groupedDocuments[section]) {
+                                groupedDocuments[section] = {};
+                            }
+                            Object.entries(fileName).forEach(([Name, url]) => {
+
+                                if (!groupedDocuments[section][Name]) {
+                                    groupedDocuments[section][Name] = [];
+                                }
+                                groupedDocuments[section][Name].push(url);
+                            })
+                        }
+                    });
+                });
+
+            });
+            return { member: member.name, documents: groupedDocuments };
+        })
+
         return reply.status(200).send({
             candidateInfo,
             familyMembersInfo,
@@ -230,7 +270,8 @@ export async function getCandidateParecer(
             hasGreaterIncome,
             status: application.status,
             parecer,
-            application: { number: application.number, name: application.announcement.announcementName, createdAt: application.createdAt, aditionalInfo: application.parecerAditionalInfo }
+            application: { number: application.number, name: application.announcement.announcementName, createdAt: application.createdAt, aditionalInfo: application.parecerAditionalInfo },
+            documentsUrls: documentsFilteredByMember
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {
