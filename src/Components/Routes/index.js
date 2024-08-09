@@ -134,13 +134,13 @@ export default function AppRoutes() {
                             <Route path="" element={<EntityAnnouncement />} />
                             <Route path=":announcementId" element={<EntityAnnouncementView />} />
                         </Route>
-                        <Route path="/matriculados" element={<Outlet />} >
+                        {/* <Route path="/matriculados" element={<Outlet />} >
                             <Route index element={<EntityApplicants />} />
                             <Route path=":announcementId" element={<Outlet />} >
                                 <Route index element={<EntityAnnouncementCourses />} />
                                 <Route path=":courseId" element={<EntityAnnouncementApplicants />} />
                             </Route>
-                        </Route>
+                        </Route> */}
                         <Route path="/profile" element={<EntityProfile />} />
                         <Route path="/contas" element={<EntityAccounts />} />
                         <Route path="*" element={<Navigate to={'/home'} />} />
