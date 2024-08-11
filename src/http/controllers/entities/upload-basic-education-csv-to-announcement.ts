@@ -43,7 +43,7 @@ const scholarshipTypeMapping: { [key: string]: ScholarshipOfferType } = {
     "Trabalhadores da Entidade Parcial": ScholarshipOfferType.EntityWorkersPartial,
     "Trabalhadores da Entidade Integral": ScholarshipOfferType.EntityWorkers
 };
-export default async function uploadCSVFileToAnnouncement(
+export default async function uploadBasicEducationCSVFileToAnnouncement(
     request: FastifyRequest,
     reply: FastifyReply
 ) {
