@@ -135,7 +135,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                         }
                         {incomeInfo?.data?.userBanks !== 0
                             ? <label>Possuo <strong>{incomeInfo?.data?.userBanks}</strong> conta(s) bancária(s)</label>
-                            : <div style={{ display: 'flex', flexDirection: 'row', gap: '4px' }} >
+                            : <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', marginTop: '20px', fontSize: '13px' }} >
                                 <input type='checkbox' defaultChecked={incomeInfo?.data?.hasBankAccount !== null && !incomeInfo?.data?.hasBankAccount} onChange={() => {
                                     handleBankDeclaration()
                                     isMounted.current = true

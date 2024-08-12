@@ -102,27 +102,7 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
             {confirmation === false && (
                 <>
                     <FormFilePicker accept={'application/pdf'} control={control} name={"file"} label={'última declaração completa de imposto de renda e recibo'} />
-                    {/* <div className={commonStyles.inputGroup}>
-                        <label htmlFor="year">Exercício</label>
-                        <input
-                            type="text"
-                            id="year"
-                            name="year"
-                            value={year}
-                            onChange={(e) => setYear(e.target.value)}
-                            placeholder="Selecione o ano"
-                        />
-                    </div>
-                    <div className={commonStyles.inputGroup}>
-                        <label htmlFor="fileUpload">Última Declaração Completa de imposto de renda e Recibo</label>
-                        <input
-                            type="file"
-                            id="fileUpload"
-                            name="fileUpload"
-                            onChange={handleFileChange}
-                            accept='application/pdf'
-                        />
-                    </div> */}
+                    <h6 className={commonStyles.aviso}>*Tamanho máximo de 10Mb</h6>
                 </>
             )}
             <div className={commonStyles.navigationButtons}>

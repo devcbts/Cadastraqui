@@ -31,7 +31,7 @@ export default function Declaration_PensionConfirmation({ onBack, onNext }) {
         }
 
         if (hasAddressProof === 'nao') {
-            setError('Por favor, verifique os dados de cadastro.');
+            setError('Por favor, verifique as informações e refaça o seu registro ou atualize os dados fornecidos');
             return;
         }
 

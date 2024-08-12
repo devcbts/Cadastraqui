@@ -57,7 +57,7 @@ export default function Declaration_Activity({ onBack, onNext }) {
                         opacity: activity === null ? 0.6 : 1
                     }}
                 />
-                <ButtonBase
+                {/* <ButtonBase
                     onClick={handleSave}
                     disabled={activity === null}
                     style={{
@@ -67,7 +67,7 @@ export default function Declaration_Activity({ onBack, onNext }) {
                     }}
                 >
                     <Arrow width="30px" />
-                </ButtonBase>
+                </ButtonBase> */}
             </div>
         </div>
     );

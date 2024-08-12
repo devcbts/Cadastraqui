@@ -43,24 +43,12 @@ export default function Declaration_RentedHouse({ onBack, onNext }) {
                 <ButtonBase
                     label="Salvar"
                     onClick={handleSave}
-                // disabled={rentedHouse === null}
-                // style={{
-                //     borderColor: rentedHouse === null ? '#ccc' : '#1F4B73',
-                //     cursor: rentedHouse === null ? 'not-allowed' : 'pointer',
-                //     opacity: rentedHouse === null ? 0.6 : 1
-                // }}
                 />
-                <ButtonBase
+                {/* <ButtonBase
                     onClick={handleSave}
-                // disabled={rentedHouse === null}
-                // style={{
-                //     borderColor: rentedHouse === null ? '#ccc' : '#1F4B73',
-                //     cursor: rentedHouse === null ? 'not-allowed' : 'pointer',
-                //     opacity: rentedHouse === null ? 0.6 : 1
-                // }}
                 >
                     <Arrow width="30px" />
-                </ButtonBase>
+                </ButtonBase> */}
             </div>
         </div>
     );

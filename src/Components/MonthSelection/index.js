@@ -1,4 +1,5 @@
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg';
+import { ReactComponent as Check } from 'Assets/icons/check.svg';
 import { ReactComponent as Remove } from 'Assets/icons/close.svg';
 import { ReactComponent as Pencil } from 'Assets/icons/pencil.svg';
 import ButtonBase from "Components/ButtonBase";
@@ -10,7 +11,6 @@ import { Controller } from 'react-hook-form';
 import { useRecoilState } from "recoil";
 import monthAtom from "./atoms/month-atom";
 import styles from './styles.module.scss';
-import { ReactComponent as Check } from 'Assets/icons/check.svg'
 // quantity = months that user needs to fullfill in order to proceed saving information
 const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false, checkRegister = false }, ref) => {
     const { control, watch, setValue, getValues, trigger, formState: { errors } } = useControlForm({
@@ -119,7 +119,10 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
         <>
             {!monthSelected &&
                 <>
-                    <p className={styles.text}>Agora realize o cadastro para cada um dos meses abaixo, inserindo as informações correspondentes.</p>
+                    <div className={styles.div_text}>
+                        <p className={styles.text}>Agora realize o cadastro para cada um dos meses abaixo, inserindo as informações correspondentes.</p>
+                    </div>
+
                     {
                         watchMonths.map((month, index) => (
                             <div key={index} className={styles.wrapper}>
