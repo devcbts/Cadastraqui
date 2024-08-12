@@ -16,7 +16,7 @@ import styles from './styles.module.scss';
 export default function SubscriptionForm() {
     const { move, getCourse, id, announcement } = useContext(AnnouncementContext)
     const [applicants, setApplicants] = useState([])
-    const { control, formState: { isValid }, getValues, trigger } = useControlForm({
+    const { control, formState: { isValid }, getValues, trigger, watch } = useControlForm({
         schema: subscribeFormSchema,
         defaultValues: {
             id: ""
@@ -59,7 +59,7 @@ export default function SubscriptionForm() {
                     {
                         auth?.role === "CANDIDATE"
                             ? <InputBase value={applicants?.name} readOnly error={null} />
-                            : <FormSelect control={control} name={"id"} options={applicants} label={'candidato(a)'} />}
+                            : <FormSelect control={control} name={"id"} options={applicants} label={'candidato(a)'} value={watch("id")} />}
                     <div className={styles.formcolumns}>
                         <InputBase label="cidade" value={getCourse?.city} readOnly error={null} />
                         <InputBase label="instituição" value={announcement?.entity?.socialReason} readOnly error={null} />
