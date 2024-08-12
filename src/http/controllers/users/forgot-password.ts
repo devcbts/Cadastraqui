@@ -17,7 +17,7 @@ export async function forgotPassword(req: FastifyRequest, reply: FastifyReply) {
       throw new UserNotExistsError()
     }
 
-    const token = await reply.jwtSign({ token: user.id }, { sign: { expiresIn: '1h' } })
+    const token = await reply.jwtSign({ token: user.id }, { sign: { expiresIn: '3h' } })
     const { messageId } = await sendPasswordRecoveryMail({ token, email })
     if (messageId) {
       return reply.status(204).send()
