@@ -164,6 +164,7 @@ model Entity {
   UF                         COUNTRY?
   city                       String             @default("")
   educationalInstitutionCode String?
+  emec                       String?
   user_id                    String             @unique
   Announcement               Announcement[]
   EntityDirector             EntityDirector[]
@@ -752,7 +753,7 @@ model EducationLevel {
   level                    LevelType // Nível de escolaridade
   basicEduType             BasicEducationType? // Tipo de educação básica
   scholarshipType          ScholarshipOfferType? // tipo de bolsa de educação básica
-  higherEduScholarshipType HigherEducationScholarshipType?   // tipo de bolsa de educação superior
+  higherEduScholarshipType HigherEducationScholarshipType? // tipo de bolsa de educação superior
   offeredCourseType        OfferedCourseType? // tipo de graduação
   availableCourses         String? // Curso disponível (caso tenha que escrever)
   offeredVacancies         Int? // Completamente inútil

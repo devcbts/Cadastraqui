@@ -9,6 +9,8 @@ export default async function updateEntityProfile(
     const updateEntityProfileSchema = z.object({
         name: z.string().optional(),
         email: z.string().email().optional(),
+        educationalInstitutionCode: z.string().optional(),
+        emec: z.string().optional(),
         socialReason: z.string().optional(),
         CNPJ: z.string().optional(),
         CEP: z.string().optional(),

@@ -10763,6 +10763,7 @@ export namespace Prisma {
     UF: $Enums.COUNTRY | null
     city: string | null
     educationalInstitutionCode: string | null
+    emec: string | null
     user_id: string | null
   }
 
@@ -10779,6 +10780,7 @@ export namespace Prisma {
     UF: $Enums.COUNTRY | null
     city: string | null
     educationalInstitutionCode: string | null
+    emec: string | null
     user_id: string | null
   }
 
@@ -10795,6 +10797,7 @@ export namespace Prisma {
     UF: number
     city: number
     educationalInstitutionCode: number
+    emec: number
     user_id: number
     _all: number
   }
@@ -10821,6 +10824,7 @@ export namespace Prisma {
     UF?: true
     city?: true
     educationalInstitutionCode?: true
+    emec?: true
     user_id?: true
   }
 
@@ -10837,6 +10841,7 @@ export namespace Prisma {
     UF?: true
     city?: true
     educationalInstitutionCode?: true
+    emec?: true
     user_id?: true
   }
 
@@ -10853,6 +10858,7 @@ export namespace Prisma {
     UF?: true
     city?: true
     educationalInstitutionCode?: true
+    emec?: true
     user_id?: true
     _all?: true
   }
@@ -10956,6 +10962,7 @@ export namespace Prisma {
     UF: $Enums.COUNTRY | null
     city: string
     educationalInstitutionCode: string | null
+    emec: string | null
     user_id: string
     _count: EntityCountAggregateOutputType | null
     _avg: EntityAvgAggregateOutputType | null
@@ -10991,6 +10998,7 @@ export namespace Prisma {
     UF?: boolean
     city?: boolean
     educationalInstitutionCode?: boolean
+    emec?: boolean
     user_id?: boolean
     Announcement?: boolean | Entity$AnnouncementArgs<ExtArgs>
     EntityDirector?: boolean | Entity$EntityDirectorArgs<ExtArgs>
@@ -11013,6 +11021,7 @@ export namespace Prisma {
     UF?: boolean
     city?: boolean
     educationalInstitutionCode?: boolean
+    emec?: boolean
     user_id?: boolean
   }
 
@@ -11048,6 +11057,7 @@ export namespace Prisma {
       UF: $Enums.COUNTRY | null
       city: string
       educationalInstitutionCode: string | null
+      emec: string | null
       user_id: string
     }, ExtArgs["result"]["entity"]>
     composites: {}
@@ -11464,6 +11474,7 @@ export namespace Prisma {
     readonly UF: FieldRef<"Entity", 'COUNTRY'>
     readonly city: FieldRef<"Entity", 'String'>
     readonly educationalInstitutionCode: FieldRef<"Entity", 'String'>
+    readonly emec: FieldRef<"Entity", 'String'>
     readonly user_id: FieldRef<"Entity", 'String'>
   }
     
@@ -40687,6 +40698,7 @@ export namespace Prisma {
     UF: 'UF',
     city: 'city',
     educationalInstitutionCode: 'educationalInstitutionCode',
+    emec: 'emec',
     user_id: 'user_id'
   };
 
@@ -42431,6 +42443,7 @@ export namespace Prisma {
     UF?: EnumCOUNTRYNullableFilter<"Entity"> | $Enums.COUNTRY | null
     city?: StringFilter<"Entity"> | string
     educationalInstitutionCode?: StringNullableFilter<"Entity"> | string | null
+    emec?: StringNullableFilter<"Entity"> | string | null
     user_id?: StringFilter<"Entity"> | string
     Announcement?: AnnouncementListRelationFilter
     EntityDirector?: EntityDirectorListRelationFilter
@@ -42452,6 +42465,7 @@ export namespace Prisma {
     UF?: SortOrderInput | SortOrder
     city?: SortOrder
     educationalInstitutionCode?: SortOrderInput | SortOrder
+    emec?: SortOrderInput | SortOrder
     user_id?: SortOrder
     Announcement?: AnnouncementOrderByRelationAggregateInput
     EntityDirector?: EntityDirectorOrderByRelationAggregateInput
@@ -42477,6 +42491,7 @@ export namespace Prisma {
     UF?: EnumCOUNTRYNullableFilter<"Entity"> | $Enums.COUNTRY | null
     city?: StringFilter<"Entity"> | string
     educationalInstitutionCode?: StringNullableFilter<"Entity"> | string | null
+    emec?: StringNullableFilter<"Entity"> | string | null
     Announcement?: AnnouncementListRelationFilter
     EntityDirector?: EntityDirectorListRelationFilter
     EntitySubsidiary?: EntitySubsidiaryListRelationFilter
@@ -42497,6 +42512,7 @@ export namespace Prisma {
     UF?: SortOrderInput | SortOrder
     city?: SortOrder
     educationalInstitutionCode?: SortOrderInput | SortOrder
+    emec?: SortOrderInput | SortOrder
     user_id?: SortOrder
     _count?: EntityCountOrderByAggregateInput
     _avg?: EntityAvgOrderByAggregateInput
@@ -42521,6 +42537,7 @@ export namespace Prisma {
     UF?: EnumCOUNTRYNullableWithAggregatesFilter<"Entity"> | $Enums.COUNTRY | null
     city?: StringWithAggregatesFilter<"Entity"> | string
     educationalInstitutionCode?: StringNullableWithAggregatesFilter<"Entity"> | string | null
+    emec?: StringNullableWithAggregatesFilter<"Entity"> | string | null
     user_id?: StringWithAggregatesFilter<"Entity"> | string
   }
 
@@ -46295,6 +46312,7 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     city?: string
     educationalInstitutionCode?: string | null
+    emec?: string | null
     Announcement?: AnnouncementCreateNestedManyWithoutEntityInput
     EntityDirector?: EntityDirectorCreateNestedManyWithoutEntityInput
     EntitySubsidiary?: EntitySubsidiaryCreateNestedManyWithoutEntityInput
@@ -46315,6 +46333,7 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     city?: string
     educationalInstitutionCode?: string | null
+    emec?: string | null
     user_id: string
     Announcement?: AnnouncementUncheckedCreateNestedManyWithoutEntityInput
     EntityDirector?: EntityDirectorUncheckedCreateNestedManyWithoutEntityInput
@@ -46335,6 +46354,7 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     city?: StringFieldUpdateOperationsInput | string
     educationalInstitutionCode?: NullableStringFieldUpdateOperationsInput | string | null
+    emec?: NullableStringFieldUpdateOperationsInput | string | null
     Announcement?: AnnouncementUpdateManyWithoutEntityNestedInput
     EntityDirector?: EntityDirectorUpdateManyWithoutEntityNestedInput
     EntitySubsidiary?: EntitySubsidiaryUpdateManyWithoutEntityNestedInput
@@ -46355,6 +46375,7 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     city?: StringFieldUpdateOperationsInput | string
     educationalInstitutionCode?: NullableStringFieldUpdateOperationsInput | string | null
+    emec?: NullableStringFieldUpdateOperationsInput | string | null
     user_id?: StringFieldUpdateOperationsInput | string
     Announcement?: AnnouncementUncheckedUpdateManyWithoutEntityNestedInput
     EntityDirector?: EntityDirectorUncheckedUpdateManyWithoutEntityNestedInput
@@ -46375,6 +46396,7 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     city?: string
     educationalInstitutionCode?: string | null
+    emec?: string | null
     user_id: string
   }
 
@@ -46391,6 +46413,7 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     city?: StringFieldUpdateOperationsInput | string
     educationalInstitutionCode?: NullableStringFieldUpdateOperationsInput | string | null
+    emec?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EntityUncheckedUpdateManyInput = {
@@ -46406,6 +46429,7 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     city?: StringFieldUpdateOperationsInput | string
     educationalInstitutionCode?: NullableStringFieldUpdateOperationsInput | string | null
+    emec?: NullableStringFieldUpdateOperationsInput | string | null
     user_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -50687,6 +50711,7 @@ export namespace Prisma {
     UF?: SortOrder
     city?: SortOrder
     educationalInstitutionCode?: SortOrder
+    emec?: SortOrder
     user_id?: SortOrder
   }
 
@@ -50707,6 +50732,7 @@ export namespace Prisma {
     UF?: SortOrder
     city?: SortOrder
     educationalInstitutionCode?: SortOrder
+    emec?: SortOrder
     user_id?: SortOrder
   }
 
@@ -50723,6 +50749,7 @@ export namespace Prisma {
     UF?: SortOrder
     city?: SortOrder
     educationalInstitutionCode?: SortOrder
+    emec?: SortOrder
     user_id?: SortOrder
   }
 
@@ -60416,6 +60443,7 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     city?: string
     educationalInstitutionCode?: string | null
+    emec?: string | null
     Announcement?: AnnouncementCreateNestedManyWithoutEntityInput
     EntityDirector?: EntityDirectorCreateNestedManyWithoutEntityInput
     EntitySubsidiary?: EntitySubsidiaryCreateNestedManyWithoutEntityInput
@@ -60435,6 +60463,7 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     city?: string
     educationalInstitutionCode?: string | null
+    emec?: string | null
     Announcement?: AnnouncementUncheckedCreateNestedManyWithoutEntityInput
     EntityDirector?: EntityDirectorUncheckedCreateNestedManyWithoutEntityInput
     EntitySubsidiary?: EntitySubsidiaryUncheckedCreateNestedManyWithoutEntityInput
@@ -60585,6 +60614,7 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     city?: StringFieldUpdateOperationsInput | string
     educationalInstitutionCode?: NullableStringFieldUpdateOperationsInput | string | null
+    emec?: NullableStringFieldUpdateOperationsInput | string | null
     Announcement?: AnnouncementUpdateManyWithoutEntityNestedInput
     EntityDirector?: EntityDirectorUpdateManyWithoutEntityNestedInput
     EntitySubsidiary?: EntitySubsidiaryUpdateManyWithoutEntityNestedInput
@@ -60604,6 +60634,7 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     city?: StringFieldUpdateOperationsInput | string
     educationalInstitutionCode?: NullableStringFieldUpdateOperationsInput | string | null
+    emec?: NullableStringFieldUpdateOperationsInput | string | null
     Announcement?: AnnouncementUncheckedUpdateManyWithoutEntityNestedInput
     EntityDirector?: EntityDirectorUncheckedUpdateManyWithoutEntityNestedInput
     EntitySubsidiary?: EntitySubsidiaryUncheckedUpdateManyWithoutEntityNestedInput
@@ -61992,6 +62023,7 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     city?: string
     educationalInstitutionCode?: string | null
+    emec?: string | null
     Announcement?: AnnouncementCreateNestedManyWithoutEntityInput
     EntityDirector?: EntityDirectorCreateNestedManyWithoutEntityInput
     EntitySubsidiary?: EntitySubsidiaryCreateNestedManyWithoutEntityInput
@@ -62011,6 +62043,7 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     city?: string
     educationalInstitutionCode?: string | null
+    emec?: string | null
     user_id: string
     Announcement?: AnnouncementUncheckedCreateNestedManyWithoutEntityInput
     EntityDirector?: EntityDirectorUncheckedCreateNestedManyWithoutEntityInput
@@ -62195,6 +62228,7 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     city?: StringFieldUpdateOperationsInput | string
     educationalInstitutionCode?: NullableStringFieldUpdateOperationsInput | string | null
+    emec?: NullableStringFieldUpdateOperationsInput | string | null
     Announcement?: AnnouncementUpdateManyWithoutEntityNestedInput
     EntityDirector?: EntityDirectorUpdateManyWithoutEntityNestedInput
     EntitySubsidiary?: EntitySubsidiaryUpdateManyWithoutEntityNestedInput
@@ -62214,6 +62248,7 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     city?: StringFieldUpdateOperationsInput | string
     educationalInstitutionCode?: NullableStringFieldUpdateOperationsInput | string | null
+    emec?: NullableStringFieldUpdateOperationsInput | string | null
     user_id?: StringFieldUpdateOperationsInput | string
     Announcement?: AnnouncementUncheckedUpdateManyWithoutEntityNestedInput
     EntityDirector?: EntityDirectorUncheckedUpdateManyWithoutEntityNestedInput
@@ -62766,6 +62801,7 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     city?: string
     educationalInstitutionCode?: string | null
+    emec?: string | null
     Announcement?: AnnouncementCreateNestedManyWithoutEntityInput
     EntityDirector?: EntityDirectorCreateNestedManyWithoutEntityInput
     SocialAssistant?: SocialAssistantCreateNestedManyWithoutEntityInput
@@ -62785,6 +62821,7 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     city?: string
     educationalInstitutionCode?: string | null
+    emec?: string | null
     user_id: string
     Announcement?: AnnouncementUncheckedCreateNestedManyWithoutEntityInput
     EntityDirector?: EntityDirectorUncheckedCreateNestedManyWithoutEntityInput
@@ -62956,6 +62993,7 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     city?: StringFieldUpdateOperationsInput | string
     educationalInstitutionCode?: NullableStringFieldUpdateOperationsInput | string | null
+    emec?: NullableStringFieldUpdateOperationsInput | string | null
     Announcement?: AnnouncementUpdateManyWithoutEntityNestedInput
     EntityDirector?: EntityDirectorUpdateManyWithoutEntityNestedInput
     SocialAssistant?: SocialAssistantUpdateManyWithoutEntityNestedInput
@@ -62975,6 +63013,7 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     city?: StringFieldUpdateOperationsInput | string
     educationalInstitutionCode?: NullableStringFieldUpdateOperationsInput | string | null
+    emec?: NullableStringFieldUpdateOperationsInput | string | null
     user_id?: StringFieldUpdateOperationsInput | string
     Announcement?: AnnouncementUncheckedUpdateManyWithoutEntityNestedInput
     EntityDirector?: EntityDirectorUncheckedUpdateManyWithoutEntityNestedInput
@@ -63081,6 +63120,7 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     city?: string
     educationalInstitutionCode?: string | null
+    emec?: string | null
     Announcement?: AnnouncementCreateNestedManyWithoutEntityInput
     EntitySubsidiary?: EntitySubsidiaryCreateNestedManyWithoutEntityInput
     SocialAssistant?: SocialAssistantCreateNestedManyWithoutEntityInput
@@ -63100,6 +63140,7 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     city?: string
     educationalInstitutionCode?: string | null
+    emec?: string | null
     user_id: string
     Announcement?: AnnouncementUncheckedCreateNestedManyWithoutEntityInput
     EntitySubsidiary?: EntitySubsidiaryUncheckedCreateNestedManyWithoutEntityInput
@@ -63207,6 +63248,7 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     city?: StringFieldUpdateOperationsInput | string
     educationalInstitutionCode?: NullableStringFieldUpdateOperationsInput | string | null
+    emec?: NullableStringFieldUpdateOperationsInput | string | null
     Announcement?: AnnouncementUpdateManyWithoutEntityNestedInput
     EntitySubsidiary?: EntitySubsidiaryUpdateManyWithoutEntityNestedInput
     SocialAssistant?: SocialAssistantUpdateManyWithoutEntityNestedInput
@@ -63226,6 +63268,7 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     city?: StringFieldUpdateOperationsInput | string
     educationalInstitutionCode?: NullableStringFieldUpdateOperationsInput | string | null
+    emec?: NullableStringFieldUpdateOperationsInput | string | null
     user_id?: StringFieldUpdateOperationsInput | string
     Announcement?: AnnouncementUncheckedUpdateManyWithoutEntityNestedInput
     EntitySubsidiary?: EntitySubsidiaryUncheckedUpdateManyWithoutEntityNestedInput
@@ -71646,6 +71689,7 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     city?: string
     educationalInstitutionCode?: string | null
+    emec?: string | null
     EntityDirector?: EntityDirectorCreateNestedManyWithoutEntityInput
     EntitySubsidiary?: EntitySubsidiaryCreateNestedManyWithoutEntityInput
     SocialAssistant?: SocialAssistantCreateNestedManyWithoutEntityInput
@@ -71665,6 +71709,7 @@ export namespace Prisma {
     UF?: $Enums.COUNTRY | null
     city?: string
     educationalInstitutionCode?: string | null
+    emec?: string | null
     user_id: string
     EntityDirector?: EntityDirectorUncheckedCreateNestedManyWithoutEntityInput
     EntitySubsidiary?: EntitySubsidiaryUncheckedCreateNestedManyWithoutEntityInput
@@ -71947,6 +71992,7 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     city?: StringFieldUpdateOperationsInput | string
     educationalInstitutionCode?: NullableStringFieldUpdateOperationsInput | string | null
+    emec?: NullableStringFieldUpdateOperationsInput | string | null
     EntityDirector?: EntityDirectorUpdateManyWithoutEntityNestedInput
     EntitySubsidiary?: EntitySubsidiaryUpdateManyWithoutEntityNestedInput
     SocialAssistant?: SocialAssistantUpdateManyWithoutEntityNestedInput
@@ -71966,6 +72012,7 @@ export namespace Prisma {
     UF?: NullableEnumCOUNTRYFieldUpdateOperationsInput | $Enums.COUNTRY | null
     city?: StringFieldUpdateOperationsInput | string
     educationalInstitutionCode?: NullableStringFieldUpdateOperationsInput | string | null
+    emec?: NullableStringFieldUpdateOperationsInput | string | null
     user_id?: StringFieldUpdateOperationsInput | string
     EntityDirector?: EntityDirectorUncheckedUpdateManyWithoutEntityNestedInput
     EntitySubsidiary?: EntitySubsidiaryUncheckedUpdateManyWithoutEntityNestedInput

@@ -168,6 +168,7 @@ model Entity {
   UF                         COUNTRY?
   city                       String             @default("")
   educationalInstitutionCode String?
+  emec                       String?
   user_id                    String             @unique
   Announcement               Announcement[]
   EntityDirector             EntityDirector[]

@@ -184,6 +184,7 @@ exports.Prisma.EntityScalarFieldEnum = {
   UF: 'UF',
   city: 'city',
   educationalInstitutionCode: 'educationalInstitutionCode',
+  emec: 'emec',
   user_id: 'user_id'
 };
 
