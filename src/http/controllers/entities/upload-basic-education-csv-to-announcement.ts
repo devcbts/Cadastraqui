@@ -6,10 +6,11 @@ import { BasicEducationType, ScholarshipOfferType, SHIFT } from "@prisma/client"
 import csv from 'csv-parser';
 import { FastifyReply, FastifyRequest } from "fastify";
 import fs from 'fs';
+import { decodeStream, encodeStream } from "iconv-lite";
+import { detect } from 'jschardet';
 import pump from "pump";
 import tmp from 'tmp';
 import { EntityNotExistsErrorWithCNPJ } from '../../../errors/entity-not-exists-with-cnpj';
-
 
 interface CSVData {
     "CNPJ (Matriz ou Filial)": string;
@@ -75,11 +76,22 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
                 }
             });
         });
+        const detectEncoding = (filePath: any) => {
+            return new Promise((resolve, reject) => {
+                const buffer = fs.readFileSync(filePath);
+                const detection = detect(buffer);
+                resolve(detection.encoding);
+            });
+        };
 
+        const detectedEncoding = await detectEncoding(tempFile.name);
+        const encoding = detectedEncoding === 'windows-1251' ? 'latin1' : (detectedEncoding as string || 'utf8');
         const results: CSVData[] = [];
         await new Promise((resolve, reject) => {
             fs.createReadStream(tempFile.name)
-                .pipe(csv())
+            .pipe(decodeStream(encoding))
+            .pipe(encodeStream('utf8'))
+            .pipe(csv({ separator: detectedEncoding === "UTF-8" ? ',' : ';' }))
                 .on('data', (data: CSVData) => {
                     // Process the data as needed
                     results.push(data);
