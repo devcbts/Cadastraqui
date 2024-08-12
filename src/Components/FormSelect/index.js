@@ -29,7 +29,7 @@ export default function FormSelect({ name, label, control, options = [], value, 
                     options={options}
                     {...field}
                     multiple={multiple}
-                    value={multiple ? value.map(e => options.find(v => v.value === e)) : options.find(e => e.value === value) ?? ''}
+                    value={multiple ? value.map(e => options.find(v => v.value === e)) : (options.find(e => e.value === value) ?? '')}
                     onChange={(e) => {
 
                         if (multiple) {

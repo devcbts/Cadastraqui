@@ -8,6 +8,7 @@ import { forwardRef } from "react";
 import STATES from "utils/enums/states";
 import { formatRG } from "utils/format-rg";
 import documentSchema from "./schemas/document-schema";
+import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
 
 const Document = forwardRef(({ data }, ref) => {
     const { control, watch } = useControlForm({
@@ -17,7 +18,10 @@ const Document = forwardRef(({ data }, ref) => {
             rgIssuingState: "",
             rgIssuingAuthority: "",
             file_idDocument: null,
-            url_idDocument: null
+            url_idDocument: null,
+            metadata_idDocument: {
+                type: METADATA_FILE_TYPE.DOCUMENT.ID
+            }
         },
         initialData: data
     }, ref)

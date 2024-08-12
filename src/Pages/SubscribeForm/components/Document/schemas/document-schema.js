@@ -1,3 +1,4 @@
+import metadataSchema from "utils/file/metadata-schema";
 import { z } from "zod";
 
 const documentSchema = z.object({
@@ -6,6 +7,7 @@ const documentSchema = z.object({
     rgIssuingAuthority: z.string().min(1, 'Órgão emissor obrigatório'),
     file_idDocument: z.instanceof(File).nullish(),
     url_idDocument: z.string().nullish(),
+    metadata_idDocument: metadataSchema
 }).superRefine((data, ctx) => {
     if (!data.file_idDocument && !data.url_idDocument) {
         ctx.addIssue({

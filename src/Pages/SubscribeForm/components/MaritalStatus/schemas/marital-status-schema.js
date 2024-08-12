@@ -1,9 +1,11 @@
+import metadataSchema from "utils/file/metadata-schema";
 import { z } from "zod";
 
 const maritalStatusSchema = z.object({
     maritalStatus: z.string().min(1, 'Estado civil obrigatório'),
     file_statusCertificate: z.instanceof(File).nullish(),
     url_statusCertificate: z.string().nullish(),
+    metadata_statusCertificate: metadataSchema
 })
 // .refine(data => {
 //     return (data.file_statusCertificate || data.url_statusCertificate)

@@ -6,6 +6,8 @@ import useControlForm from "hooks/useControlForm";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
+import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
+import metadataSchema from "utils/file/metadata-schema";
 
 import { z } from "zod";
 
@@ -17,12 +19,16 @@ const ResidenceProof = forwardRef(({ data }, ref) => {
             file_residenceProof: null,
             url_residenceProof: null,
             hasResidenceProof: null,
+            metadata_residenceProof: {
+                type: METADATA_FILE_TYPE.RESIDENCE.RESIDENCE
+            }
             // deleteFolder: ''
         },
         schema: z.object({
             file_residenceProof: z.instanceof(File).nullish(),
             url_residenceProof: z.string().nullish(),
             hasResidenceProof: z.boolean().nullish(),
+            metadata_residenceProof: metadataSchema
             // deleteFolder: z.string().nullish()
         }).superRefine((v, ctx) => {
             if (v.hasResidenceProof && (!v.file_residenceProof && !v.url_residenceProof)) {
