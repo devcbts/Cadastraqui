@@ -3,7 +3,7 @@ import FilePreview from "Components/FilePreview";
 import FormCheckbox from "Components/FormCheckbox";
 import FormFilePicker from "Components/FormFilePicker";
 import useControlForm from "hooks/useControlForm";
-import commonStyles from 'Pages/SubscribeForm/styles.module.scss'
+import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
 
@@ -57,6 +57,10 @@ const ResidenceProof = forwardRef(({ data }, ref) => {
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Comprovante de endereço</h1>
+            {
+                !!data?.fullName &&
+                <h4 className={commonStyles.subTitle}>{data?.fullName}</h4>
+            }
             <FormCheckbox label={'possui comprovante de residência?'} name={'hasResidenceProof'} control={control} />
             {
                 watch('hasResidenceProof') && (

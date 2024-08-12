@@ -32,14 +32,11 @@ const AdditionalDocuments = forwardRef(({ data }, ref) => {
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Documento Adicional</h1>
-            {!!data?.name &&
-                <h4 className={commonStyles.subTitle}>{data?.name}</h4>
-            }
             {!!data?.fullName &&
                 <h4 className={commonStyles.subTitle}>{data?.fullName}</h4>
             }
 
-            < >
+            <>
                 <FormCheckbox name={"newDocument"} control={control} label={"deseja adicionar outro documento?"} />
                 {watchNewDocument &&
                     <>
