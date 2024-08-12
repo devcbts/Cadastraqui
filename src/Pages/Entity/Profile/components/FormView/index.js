@@ -19,6 +19,7 @@ export default function FormView({ data, onEdit }) {
             email: "",
             name: "",
             socialReason: "",
+            emec: "",
             CNPJ: "",
             CEP: "",
             address: "",
@@ -63,6 +64,7 @@ export default function FormView({ data, onEdit }) {
                 <InputForm control={control} name="socialReason" label={"razão social"} />
                 <InputForm control={control} name="name" label={"nome fantasia (se houver)"} />
                 <InputForm control={control} name="email" label={"email"} />
+                <InputForm control={control} name="emec" label={"código E-MEC"} />
                 <InputForm control={control} name="CNPJ" label={"CNPJ"} transform={(e) => formatCNPJ(e.target.value)} />
                 <InputForm control={control} name="CEP" label={"CEP"} transform={(e) => formatCEP(e.target.value)} />
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>

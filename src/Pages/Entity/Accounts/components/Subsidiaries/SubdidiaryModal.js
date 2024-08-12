@@ -59,7 +59,7 @@ export default function SubsidiaryModal({ data, onClose }) {
                 <InputForm control={control} name="city" label="Cidade" />
                 <FormSelect control={control} name="UF" label="UF" options={STATES} value={watch("UF")} />
                 <InputForm control={control} name="socialReason" label="Razão Social" />
-                <InputForm control={control} name="educationalInstitutionCode" label="código e-MAC/educacenso" />
+                <InputForm control={control} name="educationalInstitutionCode" label="código e-MEC/educacenso" />
             </div>
         </Modal>
     )
