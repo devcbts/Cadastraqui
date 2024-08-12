@@ -1,14 +1,14 @@
-import { APIError } from "@/errors/api-error";
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
-import { BasicEducationType, ScholarshipOfferType, SHIFT } from "@prisma/client";
-import csv from 'csv-parser';
 import { FastifyReply, FastifyRequest } from "fastify";
-import fs from 'fs';
+import csv from 'csv-parser';
+import fs, { cp } from 'fs';
 import pump from "pump";
 import tmp from 'tmp';
+import { EntityNotExistsError } from "@/errors/entity-not-exists-error";
 import { EntityNotExistsErrorWithCNPJ } from '../../../errors/entity-not-exists-with-cnpj';
+import { HigherEducationScholarshipType, OfferedCourseType, SHIFT } from "@prisma/client";
 
 
 interface CSVData {
@@ -18,12 +18,13 @@ interface CSVData {
     "Turno": string;
     "Tipo de Bolsa": string;
     "Número de Vagas": string;
+    "Semestre": string;
 }
-const educationTypeMapping: { [key: string]: string } = {
-    "Pré-Escola": BasicEducationType.Preschool,
-    "Fundamental I e II": BasicEducationType.Elementary,
-    "Ensino Médio": BasicEducationType.HighSchool,
-    "Educação Profissional": BasicEducationType.ProfessionalEducation
+const educationTypeMapping: { [key: string]: OfferedCourseType } = {
+    "Graduação - Bacharelado": OfferedCourseType.UndergraduateBachelor,
+    "Graduação - Licenciatura":OfferedCourseType.UndergraduateLicense,
+    "Graduação - Tecnólogo": OfferedCourseType.UndergraduateTechnologist,
+    "Pós-Graduação Stricto Sensu": OfferedCourseType.Postgraduate
 };
 
 const shiftMapping: { [key: string]: string } = {
@@ -33,18 +34,18 @@ const shiftMapping: { [key: string]: string } = {
     "Integral": SHIFT.Integral
 }
 
-const scholarshipTypeMapping: { [key: string]: ScholarshipOfferType } = {
-    "Bolsa Lei 187 Parcial": ScholarshipOfferType.Law187ScholarshipPartial,
-    "Bolsa Lei 187 Integral": ScholarshipOfferType.Law187Scholarship,
-    "Estudante com Deficiência Parcial": ScholarshipOfferType.StudentWithDisabilityPartial,
-    "Estudante com Deficiência Integral": ScholarshipOfferType.StudentWithDisability,
-    "Tempo Integral (Parcial)": ScholarshipOfferType.FullTimePartial,
-    "Tempo Integral (Integral)": ScholarshipOfferType.FullTime,
-    "Trabalhadores da Entidade Parcial": ScholarshipOfferType.EntityWorkersPartial,
-    "Trabalhadores da Entidade Integral": ScholarshipOfferType.EntityWorkers
+const scholarshipTypeMapping: { [key: string]: HigherEducationScholarshipType } = {
+    "PROUNI Integral": HigherEducationScholarshipType.PROUNIFull,
+    "PROUNI Parcial": HigherEducationScholarshipType.PROUNIPartial,
+    "Governo Estadual": HigherEducationScholarshipType.StateGovernment,
+    "Governo Municipal": HigherEducationScholarshipType.CityGovernment,
+    "Entidades Externas": HigherEducationScholarshipType.ExternalEntities,
+    "Instituição de Ensino Superior Parcial": HigherEducationScholarshipType.HigherEduInstitutionPartial,
+    "Instituição de Ensino Superior Integral": HigherEducationScholarshipType.HigherEduInstitutionFull,
+    "Trabalhadores da Instituição de Ensino Superior": HigherEducationScholarshipType.HigherEduInstitutionWorkers,
+    "Pós-Graduação Stricto Sensu": HigherEducationScholarshipType.PostgraduateStrictoSensu
 };
-
-export default async function uploadCSVFileToAnnouncement(
+export default async function uploadHigherEducationCSVFileToAnnouncement(
     request: FastifyRequest,
     reply: FastifyReply
 ) {
@@ -102,7 +103,7 @@ export default async function uploadCSVFileToAnnouncement(
 
         const uniqueCNPJs = Array.from(new Set(results.map(result => result["CNPJ (Matriz ou Filial)"])));
 
-        const entities = await Promise.all(uniqueCNPJs.map(async (cnpj) => {
+        const entities = await  Promise.all(uniqueCNPJs.map(async (cnpj) => {
             let entityOrSubsidiary
 
             entityOrSubsidiary = await prisma.entity.findUnique({
@@ -110,7 +111,7 @@ export default async function uploadCSVFileToAnnouncement(
                     CNPJ: cnpj,
                     id: entity.id
                 }
-
+                
             }) || await prisma.entitySubsidiary.findUnique({
                 where: {
                     CNPJ: cnpj,
@@ -122,40 +123,34 @@ export default async function uploadCSVFileToAnnouncement(
             }
             return entityOrSubsidiary;
         }))
-        if (results.some(e => {
-            const value = parseInt(e["Número de Vagas"])
-            return isNaN(value) || value <= 0
-        })) {
-            throw new APIError('Não podem haver vagas iguais à zero.')
-        }
-        const csvDataFormated = results.map((result: CSVData) => {
-            const matchedEntity = entities.find(entity => entity.CNPJ === result["CNPJ (Matriz ou Filial)"]);
-            return {
-                // cnpj: result["CNPJ (Matriz ou Filial)"],
-                basicEduType: educationTypeMapping[result["Tipo de Educação"]],
-                availableCourses: result["Ciclo/Ano/Série/Curso"],
-                shift: result["Turno"],
-                scholarshipType: scholarshipTypeMapping[result["Tipo de Bolsa"]],
-                verifiedScholarships: parseInt(result["Número de Vagas"]),
-                entity_subsidiary_id: matchedEntity?.id === entity.id ? null : matchedEntity?.id
-            };
-        });
+    
 
-        return reply.status(200).send({ csvDataFormated });
+    const csvDataFormated = results.map((result: CSVData) => {
+        const matchedEntity = entities.find(entity => entity.CNPJ === result["CNPJ (Matriz ou Filial)"]);
+        return {
+            cnpj: result["CNPJ (Matriz ou Filial)"],
+            basicEdutype: educationTypeMapping[result["Tipo de Educação"]],
+            availableCourses: result["Ciclo/Ano/Série/Curso"],
+            shift: result["Turno"],
+            scholarshipType: scholarshipTypeMapping[result["Tipo de Bolsa"]],
+            verifiedScholarships: result["Número de Vagas"],
+            entity_id: matchedEntity?.id,
+            semester: result["Semestre"]
+        };
+    });
 
-    } catch (error) {
-        if (error instanceof ForbiddenError) {
-            return reply.status(403).send({ message: error.message });
-        }
-        if (error instanceof ResourceNotFoundError) {
-            return reply.status(404).send({ message: error.message });
-        }
-        if (error instanceof EntityNotExistsErrorWithCNPJ) {
-            return reply.status(404).send({ message: error.message });
-        }
-        if (error instanceof APIError) {
-            return reply.status(400).send({ message: error.message });
-        }
-        return reply.status(500).send({ message: 'Internal server error.' });
+    return reply.status(200).send({ csvDataFormated });
+
+} catch (error) {
+    if (error instanceof ForbiddenError) {
+        return reply.status(403).send({ message: error.message });
     }
+    if (error instanceof ResourceNotFoundError) {
+        return reply.status(404).send({ message: error.message });
+    }
+    if (error instanceof EntityNotExistsErrorWithCNPJ) {
+        return reply.status(404).send({ message: error.message});
+    }
+    return reply.status(500).send({ message: 'Internal server error.' });
+}
 }
