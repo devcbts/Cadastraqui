@@ -18,7 +18,7 @@ export default function Members() {
                 ])
                 const mappedArr = assistants
                     .map((e) => ({ ...e, role: 'assistente' }))
-                    .concat(directors.map((e) => ({ ...e, role: 'diretor' })))
+                    .concat(directors.map((e) => ({ ...e, role: 'responsável' })))
                 setMembers(mappedArr)
             } catch (err) {
 

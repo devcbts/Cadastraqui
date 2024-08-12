@@ -27,7 +27,7 @@ export default function Responsible() {
             const data = getValues()
             await entityService.registerResponsible(data)
             reset()
-            NotificationService.success({ text: 'Diretor criado' })
+            NotificationService.success({ text: 'Responsável criado' })
         } catch (err) {
             NotificationService.error({ text: err?.response?.data?.message })
         }

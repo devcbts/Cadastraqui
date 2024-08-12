@@ -26,7 +26,7 @@ export default function DirectorModal({ onClose, data, onUpdate }) {
         try {
             const values = getValues()
             await entityService.updateDirector(data.id, values)
-            NotificationService.success({ text: 'Diretor atualizado' })
+            NotificationService.success({ text: 'Responsável atualizado' })
             onUpdate({ ...data, ...values })
             onClose()
         } catch (err) {
