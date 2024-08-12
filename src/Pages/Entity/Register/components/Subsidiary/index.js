@@ -21,6 +21,7 @@ export default function Subsidiary() {
             CNPJ: "",
             educationalInstitutionCode: "",
             socialReason: "",
+            name: "",
             address: "",
             addressNumber: "",
             city: "",
@@ -67,6 +68,7 @@ export default function Subsidiary() {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px', }}>
                     <InputForm control={control} name={"CNPJ"} label={"CNPJ"} transform={(e) => formatCNPJ(e.target.value)} />
                     <InputForm control={control} name={"socialReason"} label={"razão social"} />
+                    <InputForm control={control} name={"name"} label={"nome fantasia (se houver)"} />
                     <InputForm control={control} name={"CEP"} label={"CEP"} transform={(e) => formatCEP(e.target.value)} />
                     <InputForm control={control} name={"address"} label={"rua"} />
                     <InputForm control={control} name={"neighborhood"} label={"bairro"} />
