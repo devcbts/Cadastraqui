@@ -2,6 +2,7 @@ import InputForm from "Components/InputForm";
 import moneyInputMask from "./money-input-mask";
 import { Controller } from "react-hook-form";
 import InputBase from "Components/InputBase";
+import stringToFloat from "utils/string-to-float";
 
 export default function MoneyFormInput({ label, name, control, ...props }) {
     const showErrorBorder = (isDirty, error) => {
@@ -23,18 +24,20 @@ export default function MoneyFormInput({ label, name, control, ...props }) {
             name={name}
             control={control}
             render={({ field, fieldState: { isDirty, error } }) => {
-                return <InputBase
-                    label={label}
-                    name={name}
-                    control={control}
-                    {...field}
-                    {...props}
-                    error={showErrorBorder(isDirty, error)}
-                    value={!field.value ? moneyInputMask(0) : moneyInputMask(field.value)}
-                    transform={(e) => {
-                        return moneyInputMask(e.target.value)
-                    }}
-                />
+                return (
+                    <InputBase
+                        label={label}
+                        name={name}
+                        control={control}
+                        {...field}
+                        {...props}
+                        error={showErrorBorder(isDirty, error)}
+                        value={moneyInputMask(field.value)}
+                        onChange={(e) => {
+                            return field.onChange(moneyInputMask(e.target.value))
+                        }}
+                    />
+                )
             }}
         >
 
