@@ -90,6 +90,14 @@ class EntityService {
         const response = await api.get(`/entities/courses/${courseId}`)
         return response.data.course
     }
+    async uploadAnnouncementCsvBasic(data) {
+        const response = await api.post('/entities/announcement/csv/basic', data)
+        return response.data.csvDataFormated
+    }
+    async uploadAnnouncementCsvHigher(data) {
+        const response = await api.post('/entities/announcement/csv/higher', data)
+        return response.data.csvDataFormated
+    }
 }
 
 export default new EntityService()

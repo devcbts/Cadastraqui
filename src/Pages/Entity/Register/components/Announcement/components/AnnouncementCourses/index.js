@@ -5,7 +5,7 @@ import ButtonBase from "Components/ButtonBase"
 import { useFieldArray, useWatch } from "react-hook-form"
 import Table from "Components/Table"
 import announcementCoursesSchema from "./schemas/announcement-courses-schema"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import FormSelect from "Components/FormSelect"
 import SCHOOL_LEVELS from "utils/enums/school-levels"
 import SHIFT from "utils/enums/shift-types"
@@ -17,9 +17,15 @@ import OFFERED_COURSES_TYPE from "utils/enums/offered-courses"
 import cursos from 'objects/cursos.json'
 import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type"
 import EDUCATION_TYPE from "utils/enums/education-type"
+import { NotificationService } from "services/notification"
+import { api } from "services/axios"
+import entityService from "services/entity/entityService"
+import { Link } from "react-router-dom"
+import basicTemplate from 'Assets/templates/Vagas_Basico_Cadastraqui.xlsx'
+import higherTemplate from "Assets/templates/Vagas_Superior_Cadastraqui.xlsx"
 export default function AnnouncementCourses({ entity, data, onPageChange }) {
     // can be 'HigherEducation' or 'BasicEducation'
-    const { control, formState: { isValid }, trigger, getValues, watch, reset, resetField } = useControlForm({
+    const { control, formState: { isValid }, trigger, getValues, watch, reset } = useControlForm({
         schema: announcementCoursesSchema,
         defaultValues: {
             level: data?.educationLevel,
@@ -89,9 +95,45 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
         setCourses((prev) => (prev.filter((e) => e._identifier !== identifier)))
 
     }
+    const fileRef = useRef(null)
+    const handleUploadCsv = async (e) => {
+        const { files } = e.target
+        const file = files?.[0]
+        if (!file) { return }
+        console.log(file)
+        try {
+            const formData = new FormData()
+            formData.append("file", file)
+            let information
+            if (isBasicEducation) {
+                information = await entityService.uploadAnnouncementCsvBasic(formData)
+            } else {
+                information = await entityService.uploadAnnouncementCsvHigher(formData)
+            }
+            setCourses((prev) => ([...prev, ...information?.map((e, i) => ({
+                ...e,
+                level: data?.educationLevel,
+                _identifier: new Date().getTime() + i
+            }))]))
+
+        } catch (err) {
+            NotificationService.error({ text: err?.response?.data?.message })
+        }
+    }
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
             <BackPageTitle title={'Cadastrar Curso'} onClick={() => onPageChange(-1)} />
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center' }}>
+                Preencher por planilha ({findLabel(EDUCATION_TYPE, data?.educationLevel)})
+                <a
+                    download={isBasicEducation ? 'Modelo_Basico' : 'Modelo_Superior'}
+                    href={isBasicEducation ? basicTemplate : higherTemplate} >
+                    <ButtonBase label={'baixar modelo'} />
+                </a>
+                <input hidden ref={fileRef} onChange={handleUploadCsv} type="file" accept=".csv" />
+                <ButtonBase label={'enviar'} onClick={() => fileRef.current?.click()} />
+            </div>
             <div style={{ width: 'max(400px, 50%)', display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>
                 <FormSelect label={'matriz ou filial'} control={control} name="entity_subsidiary_id" options={entitiesOptions} value={watch("entity_subsidiary_id")} />
                 {
@@ -141,7 +183,7 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
                 <Table.Root headers={['matriz ou filial', 'vagas', 'tipo de educação', 'ciclo/ano/série/semestre/curso', 'turno', 'tipo de bolsa', 'ação']}>
                     {
                         courses.map(course => (
-                            <Table.Row>
+                            <Table.Row key={course._identifier}>
                                 <Table.Cell>{findLabel(entitiesOptions, course.entity_subsidiary_id)}</Table.Cell>
                                 <Table.Cell>{course.verifiedScholarships}</Table.Cell>
                                 {/* <Table.Cell>{isBasicEducation ? findLabel(SCHOOL_LEVELS, course.basicEduType) : findLabel(EDUCATION_TYPE, course.level)}</Table.Cell> */}
