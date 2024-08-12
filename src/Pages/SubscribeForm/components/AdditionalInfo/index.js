@@ -23,16 +23,24 @@ const AdditionalInfo = forwardRef(({ data }, ref) => {
     const watchGender = watch("gender")
     const watchState = watch("natural_UF")
 
+    let fullName = ''
+    if (data?.fullName && data?.fullName !== '') {
+        fullName = data?.fullName;
+    } else if (data?.name) {
+        fullName = data?.name;
+    }
+
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Informações Adicionais</h1>
-            {!!data?.name &&
+            <h4 className={commonStyles.subTitle}>{fullName}</h4>
+            {/* {!!data?.name &&
                 <h4 className={commonStyles.subTitle}>{data?.name}</h4>
             }
             {
                 !!data?.fullName &&
                 <h4 className={commonStyles.subTitle}>{data?.fullName}</h4>
-            }
+            } */}
             <>
                 <InputForm name="socialName" label="nome social (quando houver)" control={control} />
                 <FormSelect name="gender" label="sexo" control={control} options={GENDER} value={watchGender} />

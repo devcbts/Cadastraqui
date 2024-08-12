@@ -28,16 +28,16 @@ const PersonalInformation = forwardRef(({ data }, ref) => {
     const watchReligion = watch("religion")
     const watchNeeds = watch("specialNeeds")
 
+    let fullName = ''
+    if (data?.fullName && data?.fullName !== '') {
+        fullName = data?.fullName;
+    } else if (data?.name) {
+        fullName = data?.name;
+    }
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Informações Pessoais</h1>
-            {!!data?.name &&
-                <h4 className={commonStyles.subTitle}>{data?.name}</h4>
-            }
-            {
-                !!data?.fullName &&
-                <h4 className={commonStyles.subTitle}>{data?.fullName}</h4>
-            }
+            <h4 className={commonStyles.subTitle}>{fullName}</h4>
             <div className={styles.grid}>
                 <FormSelect name="skinColor" label="cor de pele" control={control} options={SKINCOLOR} value={watchSkinColor} />
                 <FormSelect name="educationLevel" label="escolaridade" control={control} options={SCHOLARSHIP} value={watchScholarship} />

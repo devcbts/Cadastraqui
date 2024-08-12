@@ -1,13 +1,13 @@
-import Modal from "Components/Modal";
-import useControlForm from "hooks/useControlForm";
-import subsidiaryModalSchema from "./schemas/subsidiary-modal-schema";
-import InputForm from "Components/InputForm";
 import FormSelect from "Components/FormSelect";
-import STATES from "utils/enums/states";
-import entityService from "services/entity/entityService";
+import InputForm from "Components/InputForm";
+import Modal from "Components/Modal";
 import useCep from "hooks/useCep";
+import useControlForm from "hooks/useControlForm";
+import entityService from "services/entity/entityService";
 import { NotificationService } from "services/notification";
+import STATES from "utils/enums/states";
 import { formatCEP } from "utils/format-cep";
+import subsidiaryModalSchema from "./schemas/subsidiary-modal-schema";
 
 export default function SubsidiaryModal({ data, onClose }) {
     const { control, formState: { isValid }, trigger, getValues, watch, setValue } = useControlForm({
