@@ -8,7 +8,8 @@ export default function LoginInfo({ data, onBack, onSubmit }) {
         schema: loginInfoSchema,
         defaultValues: {
             email: '',
-            password: ''
+            password: '',
+            passwordConfirmation: ''
         },
         initialData: data
     })
@@ -28,6 +29,7 @@ export default function LoginInfo({ data, onBack, onSubmit }) {
             <div className={styles.inputs}>
                 <InputForm control={control} name="email" label="email" />
                 <InputForm control={control} name="password" label="senha" type="password" />
+                <InputForm control={control} name="passwordConfirmation" label="confirme a senha" type="password" />
 
             </div>
             <div className={styles.actions}>

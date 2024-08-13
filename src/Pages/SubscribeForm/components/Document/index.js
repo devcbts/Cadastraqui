@@ -37,7 +37,7 @@ const Document = forwardRef(({ data }, ref) => {
                 <h4 className={commonStyles.subTitle}>{data?.fullName}</h4>
             }
             <div className={commonStyles.container}>
-                <InputForm name={"RG"} control={control} label={"RG"} transform={(e) => formatRG(e.target.value)} />
+                <InputForm name={"RG"} control={control} label={"RG/RNE"} transform={(e) => formatRG(e.target.value)} />
                 <FormSelect name={"rgIssuingState"} control={control} label={"estado emissor do RG"} options={STATES} value={watchIssuingState} />
                 <InputForm name={"rgIssuingAuthority"} control={control} label={"órgão emissor do RG"} />
                 <FormFilePicker name={"file_idDocument"} control={control} label={"documento de identificação"} accept={'application/pdf'} />
