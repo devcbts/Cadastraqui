@@ -9,6 +9,7 @@ const INCOME_SOURCE = [
     { value: "SelfEmployed", label: "Autônomo" },
     { value: "Retired", label: "Aposentado" },
     { value: "Pensioner", label: "Pensionista" },
+    { value: "IncomeTransfer", label: "Programas de Transferência de Renda" },
     { value: "Apprentice", label: "Aprendiz" },
     { value: "Volunteer", label: "Voluntário" },
     { value: "RentalIncome", label: "Renda de Aluguel" },

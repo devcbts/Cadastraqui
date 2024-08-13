@@ -1,5 +1,5 @@
 // ModelB refers to the following professions/occupations
-//PrivateEmployee,PublicEmployee,DomesticEmployee,Retired,Pensioner,Apprentice,TemporaryDisabilityBenefit
+//PrivateEmployee,PublicEmployee,DomesticEmployee,Retired,Pensioner,IncomeTransfer,Apprentice,TemporaryDisabilityBenefit
 
 import { forwardRef } from "react";
 import MonthSelection from "../MonthSelection";
