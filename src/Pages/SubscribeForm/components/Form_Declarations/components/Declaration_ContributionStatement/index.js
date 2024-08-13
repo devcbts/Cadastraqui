@@ -74,7 +74,6 @@ export default function Declaration_ContributionStatement({ onBack, onSave }) {
 
                     />
                 </div>
-                <h6 className={commonStyles.aviso}>*Tamanho máximo de 10Mb</h6>
             </div>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>

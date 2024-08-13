@@ -66,9 +66,7 @@ const MaritalStatus = forwardRef(({ data }, ref) => {
                 {!!watchStatus &&
                     <FormFilePicker name="file_statusCertificate" label={text} control={control} accept={'application/pdf'} />
                 }
-                {!!watchStatus &&
-                    <h6 className={commonStyles.aviso}>*Tamanho máximo de 10Mb</h6>
-                }
+
                 <FilePreview file={watchFile} url={data.url_statusCertificate} text={'visualizar documento'} />
 
             </>

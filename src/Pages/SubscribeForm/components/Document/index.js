@@ -41,7 +41,7 @@ const Document = forwardRef(({ data }, ref) => {
                 <FormSelect name={"rgIssuingState"} control={control} label={"estado emissor do RG"} options={STATES} value={watchIssuingState} />
                 <InputForm name={"rgIssuingAuthority"} control={control} label={"órgão emissor do RG"} />
                 <FormFilePicker name={"file_idDocument"} control={control} label={"documento de identificação"} accept={'application/pdf'} />
-                <h6 className={commonStyles.aviso}>*Tamanho máximo de 10Mb</h6>
+
                 <FilePreview file={watchFile} url={data.url_idDocument} text={'visualizar documento'} />
             </div>
         </div>

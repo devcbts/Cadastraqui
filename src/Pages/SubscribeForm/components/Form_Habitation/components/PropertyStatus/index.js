@@ -61,7 +61,6 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
                         <RowTextAction text={'Gerar declaração de imóvel cedido'} label={'gerar'} onClick={handlePropertyOwnerForm} />
                     )}
                     <FormFilePicker name={'file_document'} control={control} accept={'application/pdf'} label={'documento'} />
-                    <h6 className={commonStyles.aviso}>*Tamanho máximo de 10Mb</h6>
 
                     <FilePreview file={watchFile} url={data?.url_document} text={'visualizar documento'} />
                 </>
@@ -71,7 +70,6 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
                 <>
                     <FormSelect name="contractType" label="tipo de contrato" control={control} options={CONTRACT_TYPE} value={watchContractType} />
                     <FormFilePicker name={'file_document'} control={control} accept={'application/pdf'} label={'contrato de aluguel'} />
-                    <h6 className={commonStyles.aviso}>*Tamanho máximo de 10Mb</h6>
                     <FilePreview file={watchFile} url={data?.url_document} text={'visualizar contrato'} />
 
                 </>

@@ -17,7 +17,6 @@ const Statement = forwardRef(({ data }, ref) => {
     return (
         <>
             <FormFilePicker control={control} accept={"application/pdf"} label={'extrato'} name={"file_statement"} />
-            <h6 style={{ color: '#b60321', }}>*Tamanho máximo de 10Mb</h6>
             <FilePreview file={watchFile} url={data?.url_statement} text={"ver extrato"} />
         </>
     )

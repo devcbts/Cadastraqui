@@ -1,6 +1,6 @@
 import { forwardRef, useRef } from "react";
 import InputBase from "../InputBase";
-
+import styles from './styles.module.scss'
 const FilePickerBase = forwardRef(({ label, error, ...props }, ref) => {
     const inputRef = useRef(null)
     return (
@@ -15,6 +15,7 @@ const FilePickerBase = forwardRef(({ label, error, ...props }, ref) => {
                 readOnly
                 data-type="file"
             />
+            <h6 className={styles.aviso}>*Tamanho máximo de 10Mb</h6>
         </>
     )
 })

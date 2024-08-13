@@ -62,7 +62,6 @@ export default function Declaration_WorkCardUpload({ onBack, onSave }) {
                 <label htmlFor="fileUpload">Anexar arquivo</label>
                 <input type="file" id="fileUpload" onChange={handleFileChange} accept='application/pdf' />
             </div>
-            <h6 className={commonStyles.aviso}>*Tamanho máximo de 10Mb</h6>
             <div className={commonStyles.navigationButtons}>
                 <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                 <ButtonBase

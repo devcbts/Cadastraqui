@@ -306,7 +306,6 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
                 <Tooltip tooltip={'Clique em "Gerar declarações" e anexe o documento assinado'}>
                     <FormFilePicker label={'Anexar declaração'} accept={'application/pdf'} control={control} name={"file"} />
                 </Tooltip>
-                <h6 className={commonStyles.aviso}>*Tamanho máximo de 10Mb</h6>
                 {/* <div>
                     <label>Anexar declaração</label>
                     <input type='file' accept='application/pdf' onChange={handleFileChange} />

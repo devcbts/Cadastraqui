@@ -102,7 +102,6 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
             {confirmation === false && (
                 <>
                     <FormFilePicker accept={'application/pdf'} control={control} name={"file"} label={'última declaração completa de imposto de renda e recibo'} />
-                    <h6 className={commonStyles.aviso}>*Tamanho máximo de 10Mb</h6>
                 </>
             )}
             <div className={commonStyles.navigationButtons}>
