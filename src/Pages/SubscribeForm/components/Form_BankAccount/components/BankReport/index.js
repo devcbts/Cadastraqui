@@ -43,7 +43,7 @@ export default function BankReport({ id, onBack }) {
             const value = getValues('file_bankReport')
             const date = new Date()
             const formData = new FormData()
-            formData.append(`file_${date.getMonth() + 1}-${date.getFullYear()}`, value)
+            formData.append(`file_${date.getMonth() + 1}-${date.getFullYear()}-registrato`, value)
 
             await uploadService.uploadBySectionAndId({ section: 'registrato', id }, formData)
             NotificationService.success({ text: 'Registrato enviado com sucesso' })

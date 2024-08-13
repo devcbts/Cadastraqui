@@ -28,7 +28,7 @@ const bankMonthSelectionSchema = z.object({
         const currMonth = month.date.getMonth() + 1
         const currYear = month.date.getFullYear()
         if (!month.url_statement) {
-            acc[`file_${currMonth}-${currYear}`] = month.file_statement
+            acc[`file_${currMonth}-${currYear}-extrato`] = month.file_statement
         }
         return acc
     }, {})
