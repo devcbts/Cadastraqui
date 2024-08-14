@@ -1,70 +1,87 @@
 import { Application, Prisma, TiebreakerCriterias } from "@prisma/client";
 import nodeSchedule from 'node-schedule';
 import { prisma } from "../lib/prisma";
+import dateToTimezone from "../utils/date-to-timezone";
 // Change to promises to work in background
 const selectValidCandidates = async () => {
     console.log('Starting to sort candidates')
     try {
-        const announcementsToValidate = await prisma.announcement.findMany({
-            where: {
-                closeDate: { lte: new Date() },
-                sorted: false
-            }
-        })
-        // Add some field on 'Application' table to define the current candidate position
-        announcementsToValidate.forEach(async (announcement) => {
-            const currentCriteria = announcement.criteria
-            const mapToFields = [
-                { field: 'CadUnico', value: TiebreakerCriterias.CadUnico, order: 'DESC' },
-                { field: 'distance', value: TiebreakerCriterias.Distance, order: 'DESC' },
-                { field: 'averageIncome', value: TiebreakerCriterias.LeastFamilyIncome, order: 'ASC' },
-                { field: 'hasSevereDesease', value: TiebreakerCriterias.SeriousIllness, order: 'DESC' },
-                { field: 'RANDOM()', value: TiebreakerCriterias.Draw, order: '' },
-            ]
-            let fields = currentCriteria.map((e) => {
-                const currField = mapToFields.find((v) => v.value === e)
-                if (currField?.field === "RANDOM()") {
-                    return `${currField?.field}`
+        await prisma.$transaction(async (tsPrisma) => {
+
+            const announcementsToValidate = await tsPrisma.announcement.findMany({
+                where: {
+                    AND: [
+                        { closeDate: { lte: dateToTimezone(new Date()) } },
+                        { sorted: false }
+                    ]
+                },
+                include: {
+                    educationLevels: true
                 }
-                return `"${currField?.field}" ${currField?.order}`.trim()
             })
-            //Find where DRAW is
-            const drawIndex = fields.findIndex(e => e.includes('RANDOM()'))
-            if (drawIndex !== -1) {
-                // Remove any other priority after 'draw'
-                fields.splice(drawIndex + 1, fields.length - 1)
-            }
-            const orderByExp = fields.join(', ')
+            // Add some field on 'Application' table to define the current candidate position
+            for (const announcement of announcementsToValidate) {
+                for (const level of announcement.educationLevels) {
 
-            const applications = await prisma.$queryRaw`
-                SELECT * FROM "Application" 
-                WHERE "announcement_id" = ${announcement.id} AND "position" IS NULL
-                ORDER BY ${Prisma.raw(orderByExp)};
-        ` as Application[]
 
-            await prisma.$transaction(async (prisma) => {
-                await Promise.all(applications.map(async (application, index) => {
-                    await prisma.application.update({
-                        where: {
-                            id: application!.id
-                        },
-                        data: {
-                            position: index + 1
+                    const currentCriteria = announcement.criteria
+                    const mapToFields = [
+                        { field: 'CadUnico', value: TiebreakerCriterias.CadUnico, order: 'DESC' },
+                        { field: 'distance', value: TiebreakerCriterias.Distance, order: 'DESC' },
+                        { field: 'averageIncome', value: TiebreakerCriterias.LeastFamilyIncome, order: 'ASC' },
+                        { field: 'hasSevereDesease', value: TiebreakerCriterias.SeriousIllness, order: 'DESC' },
+                        { field: 'RANDOM()', value: TiebreakerCriterias.Draw, order: '' },
+                    ]
+                    let fields = currentCriteria.map((e) => {
+                        const currField = mapToFields.find((v) => v.value === e)
+                        if (currField?.field === "RANDOM()") {
+                            return `${currField?.field}`
                         }
-                    });
-                }));
+                        return `"${currField?.field}" ${currField?.order}`.trim()
+                    })
+                    //Find where DRAW is
+                    const drawIndex = fields.findIndex(e => e.includes('RANDOM()'))
+                    if (drawIndex !== -1) {
+                        // Remove any other priority after 'draw'
+                        fields.splice(drawIndex + 1, fields.length - 1)
+                    }
+                    const orderByExp = fields.join(', ')
 
-                await prisma.announcement.update({
+                    const applications = await tsPrisma.$queryRaw`
+                SELECT * FROM "Application" 
+                WHERE "announcement_id" = ${announcement.id} AND "educationLevel_id" = ${level.id} AND "position" IS NULL
+                ORDER BY ${Prisma.raw(orderByExp)};
+                ` as Application[]
+
+                    await Promise.all(applications.map(async (application, index) => {
+                        const currentPosition = index + 1
+                        const currentStatus = announcement.waitingList ? (currentPosition > level.verifiedScholarships! ? 'Titular' : 'Lista de espera') : null
+                        console.log(currentStatus, application.candidateName)
+                        await tsPrisma.application.update({
+                            where: {
+                                id: application!.id
+                            },
+                            data: {
+                                position: currentPosition,
+
+                            }
+                        });
+                    }));
+
+
+                    // });
+
+                    console.log('Candidates sorted successfully')
+                }
+                await tsPrisma.announcement.update({
                     where: { id: announcement.id },
                     data: {
                         sorted: true
                     }
                 });
-            });
-
-            console.log('Candidates sorted successfully')
+            }
+            console.log("finalizado")
         })
-        console.log("finalizado")
     } catch (err) {
         console.log(err)
     }
