@@ -802,7 +802,7 @@ model Application {
   responsible          LegalResponsible?           @relation(fields: [responsible_id], references: [id])
   InterviewSchedule    InterviewSchedule[]
 
-  @@unique([candidate_id, announcement_id])
+  @@unique([candidate_id, announcement_id, educationLevel_id])
 }
 
 model Requests {

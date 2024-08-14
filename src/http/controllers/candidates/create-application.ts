@@ -64,7 +64,7 @@ export async function subscribeAnnouncement(
 
 
     const applicationExists = await prisma.application.findFirst({
-      where: { candidate_id: candidate.id, announcement_id },
+      where: { AND: [{ candidate_id: candidate.id }, { announcement_id }, { educationLevel_id: educationLevel_id }] },
     })
     if (applicationExists) {
       throw new ApplicationAlreadyExistsError()

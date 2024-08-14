@@ -784,7 +784,7 @@ model Application {
   reponsible_id        String?
   responsible          LegalResponsible?    @relation(fields: [reponsible_id], references: [id])
 
-  @@unique([candidate_id, announcement_id])
+  @@unique([candidate_id, announcement_id, educationLevel_id])
 }
 
 model ApplicationHistory {
