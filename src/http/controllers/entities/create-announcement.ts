@@ -43,8 +43,14 @@ export async function CreateAnnoucment(
     hasInterview: z.boolean(),
     announcementNumber: z.string().optional(),
     openDate: z.string().pipe(z.coerce.date()),
-    closeDate: z.string().pipe(z.coerce.date()),
-    announcementDate: z.string(),
+    closeDate: z.string().transform(v => {
+      const d = new Date(`${v}T23:59:59`)
+      return d
+    }),
+    announcementDate: z.string().transform(v => {
+      const d = new Date(`${v}T23:59:59`)
+      return d
+    }),
     announcementBegin: z.string(),
     announcementName: z.string(),
     description: z.string().optional(),
@@ -102,6 +108,7 @@ export async function CreateAnnoucment(
     })
     let announcement: Announcement;
     await prisma.$transaction(async (tprisma) => {
+
       if (!subsidiaries) {
 
 
@@ -118,7 +125,7 @@ export async function CreateAnnoucment(
             criteria,
             entity_id: entityMatrix.id,
             announcementNumber: `${countAnnouncement + 1}/${openDate.getFullYear()}`,
-            announcementDate: new Date(announcementDate),
+            announcementDate: announcementDate,
             announcementBegin: new Date(announcementBegin),
             announcementName,
             description,
@@ -146,7 +153,7 @@ export async function CreateAnnoucment(
             },
             criteria,
             announcementNumber: `${countAnnouncement + 1}/${openDate.getFullYear()}`,
-            announcementDate: new Date(announcementDate),
+            announcementDate: announcementDate,
             announcementBegin: new Date(announcementBegin),
             announcementName,
             description,

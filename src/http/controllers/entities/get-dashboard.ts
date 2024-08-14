@@ -74,6 +74,7 @@ export default async function getEntityDashboard(
         const entities_ids: (string | null)[] = entity.EntitySubsidiary.map(e => e.id)
         // add 'null' id to represent the current entity
         entities_ids.push(null)
+        console.log('entities', entities_ids)
         const unitVacancies = entities_ids.map((id) => {
             // get all education by entity of each announcement
             const applicationByEntity: any[] = []
@@ -87,6 +88,7 @@ export default async function getEntityDashboard(
                 }, 0)
                 if (educationalLevels.length) {
                     const { entitySubsidiary } = educationalLevels?.[0]
+                    console.log('SUBS', entitySubsidiary)
                     educationalLevels.forEach(level => {
                         if (level.grade) {
                             applicationByCourse.push({ course: level.grade, applicants: level._count.Application })

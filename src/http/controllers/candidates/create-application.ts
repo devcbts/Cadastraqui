@@ -7,6 +7,7 @@ import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import findAllDiseases from '@/HistDatabaseFunctions/Handle Application/find-all-diseases'
 import { prisma } from '@/lib/prisma'
+import dateToTimezone from '@/utils/date-to-timezone'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { CalculateIncomePerCapita } from '@/utils/Trigger-Functions/calculate-income-per-capita'
 import calculateDistance from '@/utils/Trigger-Functions/search-distance'
@@ -28,7 +29,6 @@ export async function subscribeAnnouncement(
   )
   try {
     const userId = request.user.sub
-    console.log('3')
     const CandidateOrResponsible = await SelectCandidateResponsible(userId)
     if (!CandidateOrResponsible) {
       throw new NotAllowedError()
@@ -55,9 +55,9 @@ export async function subscribeAnnouncement(
       throw new ResourceNotFoundError()
 
     }
-
-
-    if (announcement.closeDate! < new Date() || announcement.openDate! > new Date()) {
+    const today = dateToTimezone(new Date())
+    console.log(announcement.closeDate!, today)
+    if (announcement.closeDate! < today || announcement.openDate! > today) {
       throw new AnnouncementClosed()
 
     }
