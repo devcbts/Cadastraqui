@@ -45433,7 +45433,7 @@ export namespace Prisma {
 
   export type ApplicationWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    candidate_id_announcement_id_educationLevel_id?: ApplicationCandidate_idAnnouncement_idEducationLevel_idCompoundUniqueInput
+    candidate_id_announcement_id?: ApplicationCandidate_idAnnouncement_idCompoundUniqueInput
     AND?: ApplicationWhereInput | ApplicationWhereInput[]
     OR?: ApplicationWhereInput[]
     NOT?: ApplicationWhereInput | ApplicationWhereInput[]
@@ -45459,7 +45459,7 @@ export namespace Prisma {
     applicationHistories?: ApplicationHistoryListRelationFilter
     ScholarshipGranted?: XOR<ScholarshipGrantedNullableRelationFilter, ScholarshipGrantedWhereInput> | null
     responsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
-  }, "id" | "candidate_id_announcement_id_educationLevel_id">
+  }, "id" | "candidate_id_announcement_id">
 
   export type ApplicationOrderByWithAggregationInput = {
     id?: SortOrder
@@ -53223,10 +53223,9 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type ApplicationCandidate_idAnnouncement_idEducationLevel_idCompoundUniqueInput = {
+  export type ApplicationCandidate_idAnnouncement_idCompoundUniqueInput = {
     candidate_id: string
     announcement_id: string
-    educationLevel_id: string
   }
 
   export type ApplicationCountOrderByAggregateInput = {

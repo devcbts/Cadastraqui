@@ -49,7 +49,9 @@ const selectValidCandidates = async () => {
 
                     const applications = await tsPrisma.$queryRaw`
                 SELECT * FROM "Application" 
-                WHERE "announcement_id" = ${announcement.id} AND "educationLevel_id" = ${level.id} AND "position" IS NULL
+                WHERE "announcement_id" = ${announcement.id} 
+                -- AND "educationLevel_id" = ${level.id} 
+                AND "position" IS NULL
                 ORDER BY ${Prisma.raw(orderByExp)};
                 ` as Application[]
 
