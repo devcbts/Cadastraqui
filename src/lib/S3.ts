@@ -1,5 +1,6 @@
 import { env } from '@/env'
 import * as AWS from 'aws-sdk'
+import { PutObjectRequest } from 'aws-sdk/clients/s3'
 
 const region = env.AWS_BUCKET_REGION
 const accessKeyId = env.AWS_ACCESS_KEY_ID
@@ -12,11 +13,12 @@ const s3 = new AWS.S3({
   secretAccessKey,
 })
 // Função genérica para upload de arquivo no S3
-export async function uploadToS3(fileInfo: Buffer, fileName: string) {
-  const params = {
+export async function uploadToS3(fileInfo: Buffer, fileName: string, metadata: object = {}) {
+  const params: PutObjectRequest = {
     Bucket: bucketName!,
     Body: fileInfo,
     Key: fileName,
+    Metadata: { ...metadata }
   }
   try {
     const response = await s3.upload(params).promise()
@@ -58,7 +60,50 @@ export async function downloadFromS3(
     throw error
   }
 }
+export async function getAwsFileFromFolder(
+  folder: string
+) {
+  const params = {
+    Bucket: bucketName!,
+    Prefix: folder + `/`, // Ajustado para a pasta do candidato
+  }
+  try {
+    const objects = await s3.listObjectsV2(params).promise()
+    const response: {
+      fileKey: string,
+      fileUrl: string,
+      fileName: string,
+      fileMetadata: any
+    }[] = []
+    // const urlsByFolder: { [folder: string]: { [fileName: string]: string } } = {}
+    for (const obj of objects.Contents || []) {
+      if (!obj.Key!.endsWith('/')) { // Ignora 'pastas'
+        const splitKey = obj.Key!.split('/');
+        const folderPath = splitKey.slice(0, -1).join('/') // Remove o nome do arquivo para obter o caminho da pasta
+        const fileName = "url_" + splitKey[splitKey.length - 1]; // Get the file name
+        const url = s3.getSignedUrl('getObject', {
+          Bucket: process.env.AWS_BUCKET_NAME!,
+          Key: obj.Key!,
+          Expires: 3600, // O URL será válido por 1 hora
+        })
+        const metadata = (await s3.headObject({ Key: obj.Key!, Bucket: process.env.AWS_BUCKET_NAME! }).promise()).Metadata
+        console.log(metadata)
+        response.push({
+          fileKey: obj.Key!,
+          fileMetadata: metadata,
+          fileUrl: url,
+          fileName: fileName
+        })
+      }
+    }
 
+    return response
+  } catch (error: any) {
+    console.error('Error fetching signed URLs:', error)
+    throw error
+  }
+
+}
 // Função para pegar os links dos arquivos em uma determinada pasta
 export async function getSignedUrlsFromUserFolder(
   userFolder: string,
@@ -133,7 +178,7 @@ export async function getSignedUrlsGroupedByFolder(
           Key: obj.Key!,
           Expires: 3600, // O URL será válido por 1 hora
         })
-
+        console.log((await s3.headObject({ Key: obj.Key!, Bucket: process.env.AWS_BUCKET_NAME! }).promise()).Metadata)
         if (!urlsByFolder[folderPath]) {
           urlsByFolder[folderPath] = {}
         }
@@ -203,7 +248,8 @@ export async function copyFilesToAnotherFolder(sourceFolder: string, destination
         await s3.copyObject({
           CopySource: copySource,
           Bucket: bucketName!,
-          Key: destinationKey
+          Key: destinationKey,
+          MetadataDirective: 'COPY'
         }).promise();
       }
     }

@@ -7,7 +7,7 @@ export default async function calculateDistance(origin: string, destination: str
 
     try {
         const response = await axios.get(url);
-        const distance = response.data.rows[0].elements[0].distance.value;
+        const distance = response.data?.rows[0]?.elements[0]?.distance?.value;
         return distance;
     } catch (error) {
         console.error('Error calculating distance:', error);
