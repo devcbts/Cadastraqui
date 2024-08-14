@@ -1149,7 +1149,7 @@ enum ApplicationStatus {
   Approved
   Rejected
   Pending
-  WaitingList
+  NotAnalysed
 }
 
 enum SolicitationType {

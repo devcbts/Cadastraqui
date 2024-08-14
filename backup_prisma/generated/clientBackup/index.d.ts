@@ -659,7 +659,7 @@ export const ApplicationStatus: {
   Approved: 'Approved',
   Rejected: 'Rejected',
   Pending: 'Pending',
-  WaitingList: 'WaitingList'
+  NotAnalysed: 'NotAnalysed'
 };
 
 export type ApplicationStatus = (typeof ApplicationStatus)[keyof typeof ApplicationStatus]

@@ -769,10 +769,11 @@ model EducationLevel {
 }
 
 model Application {
-  id                   String               @id @default(uuid())
+  id                   String                      @id @default(uuid())
   candidate_id         String
   announcement_id      String
   status               ApplicationStatus
+  candidateStatus      CandidateApplicationStatus?
   socialAssistant_id   String?
   educationLevel_id    String
   candidateName        String?
@@ -782,23 +783,23 @@ model Application {
   averageIncome        Float?
   perCapita            Float?
   position             Int?
-  distance             Float                @default(100)
+  distance             Float                       @default(100)
   CPFCNPJ              Boolean?
   InformedCNPJ         Boolean?
   ScholarshipPartial   Boolean?
-  number               Int                  @default(1)
-  parecerDocumentKey   String?              @unique
+  number               Int                         @default(1)
+  parecerDocumentKey   String?                     @unique
   parecerAditionalInfo String?
-  createdAt            DateTime             @default(now())
-  announcement         Announcement         @relation(fields: [announcement_id], references: [id], onDelete: Cascade)
-  candidate            Candidate            @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
-  EducationLevel       EducationLevel       @relation(fields: [educationLevel_id], references: [id])
-  SocialAssistant      SocialAssistant?     @relation(fields: [socialAssistant_id], references: [id])
+  createdAt            DateTime                    @default(now())
+  announcement         Announcement                @relation(fields: [announcement_id], references: [id], onDelete: Cascade)
+  candidate            Candidate                   @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  EducationLevel       EducationLevel              @relation(fields: [educationLevel_id], references: [id])
+  SocialAssistant      SocialAssistant?            @relation(fields: [socialAssistant_id], references: [id])
   applicationHistories ApplicationHistory[]
   requests             Requests[]
   ScholarshipGranted   ScholarshipGranted?
   responsible_id       String?
-  responsible          LegalResponsible?    @relation(fields: [responsible_id], references: [id])
+  responsible          LegalResponsible?           @relation(fields: [responsible_id], references: [id])
   InterviewSchedule    InterviewSchedule[]
 
   @@unique([candidate_id, announcement_id])
@@ -1180,8 +1181,12 @@ enum ApplicationStatus {
   Approved
   Rejected
   Pending
-  WaitingList
   NotAnalysed
+}
+
+enum CandidateApplicationStatus {
+  Holder
+  WaitingList
 }
 
 enum SolicitationType {

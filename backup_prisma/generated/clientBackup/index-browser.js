@@ -1092,7 +1092,7 @@ exports.ApplicationStatus = exports.$Enums.ApplicationStatus = {
   Approved: 'Approved',
   Rejected: 'Rejected',
   Pending: 'Pending',
-  WaitingList: 'WaitingList'
+  NotAnalysed: 'NotAnalysed'
 };
 
 exports.SolicitationType = exports.$Enums.SolicitationType = {

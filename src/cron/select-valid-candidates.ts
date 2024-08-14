@@ -1,4 +1,4 @@
-import { Application, Prisma, TiebreakerCriterias } from "@prisma/client";
+import { Application, CandidateApplicationStatus, Prisma, TiebreakerCriterias } from "@prisma/client";
 import nodeSchedule from 'node-schedule';
 import { prisma } from "../lib/prisma";
 import dateToTimezone from "../utils/date-to-timezone";
@@ -55,7 +55,11 @@ const selectValidCandidates = async () => {
 
                     await Promise.all(applications.map(async (application, index) => {
                         const currentPosition = index + 1
-                        const currentStatus = announcement.waitingList ? (currentPosition > level.verifiedScholarships! ? 'Titular' : 'Lista de espera') : null
+                        const currentStatus = announcement.waitingList
+                            ? (currentPosition > level.verifiedScholarships!
+                                ? CandidateApplicationStatus.WaitingList
+                                : CandidateApplicationStatus.Holder)
+                            : null
                         console.log(currentStatus, application.candidateName)
                         await tsPrisma.application.update({
                             where: {
@@ -63,7 +67,7 @@ const selectValidCandidates = async () => {
                             },
                             data: {
                                 position: currentPosition,
-
+                                candidateStatus: currentStatus
                             }
                         });
                     }));
