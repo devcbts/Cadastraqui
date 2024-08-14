@@ -55,11 +55,12 @@ const selectValidCandidates = async () => {
 
                     await Promise.all(applications.map(async (application, index) => {
                         const currentPosition = index + 1
-                        const currentStatus = announcement.waitingList
-                            ? (currentPosition > level.verifiedScholarships!
-                                ? CandidateApplicationStatus.WaitingList
-                                : CandidateApplicationStatus.Holder)
-                            : null
+                        const currentStatus =
+                            (currentPosition <= level.verifiedScholarships!)
+                                ? CandidateApplicationStatus.Holder
+                                : (announcement.waitingList
+                                    ? CandidateApplicationStatus.WaitingList
+                                    : null)
                         console.log(currentStatus, application.candidateName)
                         await tsPrisma.application.update({
                             where: {
