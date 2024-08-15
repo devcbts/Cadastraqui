@@ -9,8 +9,8 @@ export async function createRegistratoHDB (id: string, candidate_id: string | nu
     });
     const newFamilyMemberId = familyMemberMapping?.newId;
     
-    const route = `CandidateDocuments/${candidate_id || legalResponsibleId || ''}/registrato/${(id)}/`;
-    const RouteHDB = await findAWSRouteHDB(candidate_id || legalResponsibleId || '' , 'registrato', (id), '', application_id);
+    const route = `CandidateDocuments/${candidate_id || legalResponsibleId || ''}/registrato/${id}/`;
+    const RouteHDB = await findAWSRouteHDB(legalResponsibleId || candidate_id || '' , 'registrato', id, '', application_id);
     await copyFilesToAnotherFolder(route, RouteHDB)
 
     

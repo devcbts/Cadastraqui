@@ -72,7 +72,10 @@ export async function getCandidateParecer(
             throw new ResourceNotFoundError()
         }
         const candidateOrResponsible = await SelectCandidateResponsibleHDB(application_id)
-        const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapitaHDB(candidateOrResponsible?.UserData.id)
+        if (!candidateOrResponsible) {
+            throw new ResourceNotFoundError()
+        }
+        const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapitaHDB(candidateOrResponsible.UserData.id)
         console.log(incomesPerMember)
         const candidateInfo = {
             id: candidateHDB.id,
@@ -228,7 +231,7 @@ export async function getCandidateParecer(
             }
         }
         )
-        membersNames.push({ id: candidateHDB.id, name: identityDetails.fullName })
+        membersNames.push({ id: candidateOrResponsible.UserData.id, name: identityDetails.fullName })
 
         const documentsFilteredByMember = membersNames.map(member => {
             const groupedDocuments: { [key: string]: { [fileName: string]: string[] } } = {};

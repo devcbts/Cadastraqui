@@ -47,16 +47,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
         }
         const parts = request.files({ limits: { fileSize: MAX_FILE_SIZE } });
 
-        // for await (const file of parts) {
-        //     if (file.file.truncated) {
-        //         throw new Error('Arquivo excedente ao limite de 10MB');
-        //     }
-        //     pump(file.file, fs.createWriteStream(file.filename))
-        //     if (fs.existsSync(file.filename)) {
-        //         fs.unlinkSync(file.fieldname);
-        //     }
 
-        // }
         let deleteUrl = '';
         for await (const part of parts) {
             if (part.file.truncated) {

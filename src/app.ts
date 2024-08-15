@@ -28,6 +28,7 @@ import getUserAddress from './http/services/get-address';
 import getCnpj from './http/services/get-cnpj';
 import { multerConfig } from './lib/multer';
 import './lib/pg-listener';
+import { userRoutes } from './http/controllers/users/routes';
 export const app = fastify()
 app.register(fastifyMultipart, {
   limits: {
@@ -69,6 +70,7 @@ app.register(entityRoutes, { prefix: '/entities' })
 app.register(assistantRoutes, { prefix: '/assistant' })
 app.register(adminRoutes, { prefix: '/admin' })
 app.register(signatureRoutes, { prefix: '/sign' })
+app.register(userRoutes , { prefix: '/user' })
 app.post('/session', authenticate)
 app.post('/forgot_password', forgotPassword)
 app.post('/reset_password', resetPassword)
