@@ -125,7 +125,7 @@ export default function AppRoutes() {
 
                 </HeaderWrapper>
             </RoleRoutes>
-            <RoleRoutes role="ENTITY">
+            <RoleRoutes role={"ENTITY"}>
                 <HeaderWrapper>
                     <Routes>
                         <Route path="/home" element={<EntityHome />} />

@@ -11,6 +11,7 @@ import styles from '../../../../SocialAssistant/SelectionProcess/SelectedCandida
 import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
 import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer";
 import EDUCATION_TYPE from "utils/enums/education-type";
+import CANDIDATE_APPLICATION_STATUS from "utils/enums/candidate-application-status";
 export default function EntityAnnouncementApplicants() {
     const { courseId } = useParams()
     const [isLoading, setIsLoading] = useState(true)
@@ -88,7 +89,7 @@ export default function EntityAnnouncementApplicants() {
                             <Table.Cell divider>{e.position ?? '-'}</Table.Cell>
                             <Table.Cell>{e.candidateName}</Table.Cell>
                             <Table.Cell>{formatMoney(e.averageIncome)}</Table.Cell>
-                            <Table.Cell>{e.candidateStatus}</Table.Cell>
+                            <Table.Cell>{CANDIDATE_APPLICATION_STATUS[e.candidateStatus]}</Table.Cell>
                             <Table.Cell>{findLabel(APPLICATION_STATUS, e.status)}</Table.Cell>
                         </Table.Row>
                     ))
