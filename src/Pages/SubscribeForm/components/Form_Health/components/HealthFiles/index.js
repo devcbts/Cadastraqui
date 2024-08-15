@@ -14,6 +14,7 @@ import { useRecoilState } from 'recoil'
 import Loader from 'Components/Loader'
 import removeObjectFileExtension from 'utils/remove-file-ext'
 import METADATA_FILE_TYPE from 'utils/file/metadata-file-type'
+import METADATA_FILE_CATEGORY from 'utils/file/metadata-file-category'
 export default function HealthFiles({ items, edit = true, onBack }) {
     const { control, getValues, formState: { isValid }, trigger, resetField } = useControlForm({
         schema: healthFileSchema,
@@ -46,7 +47,9 @@ export default function HealthFiles({ items, edit = true, onBack }) {
             const name = new Date().getTime()
             const metadata = {
                 [`metadata_laudo${name}`]: {
-                    type: METADATA_FILE_TYPE.HEALTH.EXAM
+                    type: METADATA_FILE_TYPE.HEALTH.EXAM,
+                    category: items.type === 'health' ? METADATA_FILE_CATEGORY.Disease : METADATA_FILE_CATEGORY.Medication,
+
                 }
             }
             const value = getValues("file_exam")

@@ -6,6 +6,7 @@ import useControlForm from "hooks/useControlForm";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
+import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category";
 import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
 import metadataSchema from "utils/file/metadata-schema";
 
@@ -20,7 +21,8 @@ const ResidenceProof = forwardRef(({ data }, ref) => {
             url_residenceProof: null,
             hasResidenceProof: null,
             metadata_residenceProof: {
-                type: METADATA_FILE_TYPE.RESIDENCE.RESIDENCE
+                type: METADATA_FILE_TYPE.RESIDENCE.RESIDENCE,
+                category: METADATA_FILE_CATEGORY.Identity
             }
             // deleteFolder: ''
         },

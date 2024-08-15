@@ -10,6 +10,7 @@ import HealthDisease from "./components/HealthDisease";
 import HealthList from "./components/HealthList";
 import HealthMedication from "./components/HealthMedication";
 import METADATA_FILE_TYPE from 'utils/file/metadata-file-type';
+import METADATA_FILE_CATEGORY from 'utils/file/metadata-file-category';
 export default function FormHealth() {
     const [isLoading, setIsLoading] = useState(true)
     // const handleEditInformation = async (data) => {
@@ -35,7 +36,8 @@ export default function FormHealth() {
                 const name = new Date().getTime()
                 const metadata = {
                     [`metadata_laudo${name}`]: {
-                        type: METADATA_FILE_TYPE.HEALTH.EXAM
+                        type: METADATA_FILE_TYPE.HEALTH.EXAM,
+                        category: METADATA_FILE_CATEGORY.Disease,
                     }
                 }
                 const formData = new FormData()
@@ -50,7 +52,8 @@ export default function FormHealth() {
                 const name = new Date().getTime()
                 const metadata = {
                     [`metadata_laudo${name}`]: {
-                        type: METADATA_FILE_TYPE.HEALTH.EXAM
+                        type: METADATA_FILE_TYPE.HEALTH.EXAM,
+                        category: METADATA_FILE_CATEGORY.Medication,
                     }
                 }
                 const formData = new FormData()

@@ -1,3 +1,4 @@
+import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category";
 import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
 import metadataSchema from "utils/file/metadata-schema";
 
@@ -35,6 +36,7 @@ const bankMonthSelectionSchema = z.object({
             acc[`file_${currMonth}-${currYear}-extrato`] = month.file_statement
             acc[`metadata_${currMonth}-${currYear}-extrato`] = {
                 type: METADATA_FILE_TYPE.BANK.STATEMENT,
+                category: METADATA_FILE_CATEGORY.Statement,
                 date: `${currYear}-${currMonth.toString().padStart(2, '0')}-01T00:00:00`
             }
         }

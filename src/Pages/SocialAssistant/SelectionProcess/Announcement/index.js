@@ -58,7 +58,7 @@ export default function SocialAssistantAnnouncement() {
                                 Vigência do Edital:
                             </span>
                             <label>
-                                {formatDate(process.announcement.announcementBegin)} à {formatDate(process.announcement.announcementDate)}
+                                {formatDate(process.announcement.announcementBegin)} à {formatDate(process.announcement.announcementDate, { utc: false })}
                             </label>
                         </div>
                     </div>
@@ -66,7 +66,7 @@ export default function SocialAssistantAnnouncement() {
                         <span className={styles.spanPerInsc}>
                             Período de Inscrição:</span>
                         <label>
-                            {formatDate(process.announcement.openDate)} à {formatDate(process.announcement.closeDate)}
+                            {formatDate(process.announcement.openDate)} à {formatDate(process.announcement.closeDate, { utc: false })}
                         </label>
                     </div>
                     {

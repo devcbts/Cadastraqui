@@ -7,6 +7,7 @@ import { forwardRef, useEffect, useState } from "react";
 import MARITAL_STATUS from "utils/enums/marital-status";
 import maritalStatusSchema from "./schemas/marital-status-schema";
 import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
+import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category";
 const MaritalStatus = forwardRef(({ data }, ref) => {
     const { control, watch, setValue } = useControlForm({
         schema: maritalStatusSchema,
@@ -26,23 +27,23 @@ const MaritalStatus = forwardRef(({ data }, ref) => {
         switch (watchStatus) {
             case 'Married':
                 setText('Certidão de casamento')
-                setValue("metadata_statusCertificate", { type: METADATA_FILE_TYPE.MARITAL.MARRIED })
+                setValue("metadata_statusCertificate", { type: METADATA_FILE_TYPE.MARITAL.MARRIED, category: METADATA_FILE_CATEGORY.Identity })
                 break
             case 'Single':
                 setText('Certidão de nascimento')
-                setValue("metadata_statusCertificate", { type: METADATA_FILE_TYPE.MARITAL.SINGLE })
+                setValue("metadata_statusCertificate", { type: METADATA_FILE_TYPE.MARITAL.SINGLE, category: METADATA_FILE_CATEGORY.Identity })
                 break
             case "Separated" || "Divorced":
                 setText('Certidão de casamento com averbação de divórcio')
-                setValue("metadata_statusCertificate", { type: METADATA_FILE_TYPE.MARITAL.DIVORCED })
+                setValue("metadata_statusCertificate", { type: METADATA_FILE_TYPE.MARITAL.DIVORCED, category: METADATA_FILE_CATEGORY.Identity })
                 break
             case "Widowed":
                 setText('Certidão de casamento com anotação de viuvez')
-                setValue("metadata_statusCertificate", { type: METADATA_FILE_TYPE.MARITAL.WIDOW })
+                setValue("metadata_statusCertificate", { type: METADATA_FILE_TYPE.MARITAL.WIDOW, category: METADATA_FILE_CATEGORY.Identity })
                 break
             case "StableUnion":
                 setText('Declaração de união estável')
-                setValue("metadata_statusCertificate", { type: METADATA_FILE_TYPE.MARITAL.STABLE })
+                setValue("metadata_statusCertificate", { type: METADATA_FILE_TYPE.MARITAL.STABLE, category: METADATA_FILE_CATEGORY.Identity })
 
                 break
 

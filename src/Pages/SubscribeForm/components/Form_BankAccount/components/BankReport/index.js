@@ -13,6 +13,7 @@ import uploadService from "services/upload/uploadService";
 import bankReportSchema from "./schemas/bank-report-schema";
 import styles from './styles.module.scss';
 import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
+import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category";
 export default function BankReport({ id, onBack }) {
     const [isLoading, setIsLoading] = useState(true)
     const { control, getValues, formState: { isValid }, trigger, watch, setValue } = useControlForm({
@@ -47,6 +48,7 @@ export default function BankReport({ id, onBack }) {
             const metadata = {
                 [`metadata_${date.getMonth() + 1}-${date.getFullYear()}-registrato`]: {
                     type: METADATA_FILE_TYPE.BANK.REGISTRATO,
+                    category: METADATA_FILE_CATEGORY.Registrato,
                     date: `${date.getFullYear()}-${date.getMonth() + 1}-01T00:00:00`
                 }
             }
