@@ -229,18 +229,24 @@ export async function getCandidateParecer(
         }
         )
         membersNames.push({ id: candidateHDB.responsible_id ?? candidateHDB.id, name: identityDetails.fullName })
-        console.log(membersNames)
-        const documentsFilteredByMember = documentsUrls.map(folder => {
-            const documents: any[] = []
+        let memberDocuments: { [key: string]: any[] } = {};
+        documentsUrls.forEach(folder => {
+            console.log('PASTA', folder)
             folder.forEach(file => {
                 membersNames.forEach(member => {
                     if (member.id === file.fileKey.split('/')[3]) {
-                        documents.push({ ...member, ...file })
+                        if (memberDocuments[member.name]) {
+                            memberDocuments[member.name].push({ ...member, ...file })
+                        } else {
+                            memberDocuments[member.name] = []
+                            memberDocuments[member.name].push({ ...member, ...file })
+                        }
                     }
                 })
             })
-            return documents
+            return memberDocuments
         })
+        const documentsFilteredByMember = Object.entries(memberDocuments).map((e) => ({ [e[0]]: e[1] }))
         // const documentsFilteredByMember = membersNames.map(member => {
         //     const groupedDocuments: { [key: string]: { [fileName: string]: string[] } } = {};
 
@@ -282,7 +288,7 @@ export async function getCandidateParecer(
             status: application.status,
             parecer,
             application: { number: application.number, name: application.announcement.announcementName, createdAt: application.createdAt, aditionalInfo: application.parecerAditionalInfo },
-            documentsUrls: documentsFilteredByMember
+            memberDocuments: documentsFilteredByMember
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {

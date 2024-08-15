@@ -102,7 +102,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             for (const application of findOpenApplications) {
                 const routeHDB = await findAWSRouteHDB(candidateOrResponsible.UserData.id, documentType, member_id, table_id, application.id);
                 const finalRoute = `${routeHDB}${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;
-                const sended = await uploadFile(fileBuffer, finalRoute);
+                const sended = await uploadFile(fileBuffer, finalRoute, part.metadata);
                 if (!sended) {
                     throw new NotAllowedError();
                 }
