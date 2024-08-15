@@ -105,7 +105,7 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
                     });
                     resolve(null);
                 })
-                .on('error', (err) => {
+                .on('error', (err: any) => {
                     reject(err);
                 });
         });

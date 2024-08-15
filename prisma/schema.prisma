@@ -75,6 +75,8 @@ model User {
   Candidate        Candidate?
   Entity           Entity?
   LegalResponsible LegalResponsible?
+  createdCalls     Call[]            @relation("Creator")
+  repliedCalls     Call[]            @relation("Replyer")
 
   @@map("users")
 }
@@ -752,7 +754,7 @@ model EducationLevel {
   level                    LevelType // Nível de escolaridade
   basicEduType             BasicEducationType? // Tipo de educação básica
   scholarshipType          ScholarshipOfferType? // tipo de bolsa de educação básica
-  higherEduScholarshipType HigherEducationScholarshipType?   // tipo de bolsa de educação superior
+  higherEduScholarshipType HigherEducationScholarshipType? // tipo de bolsa de educação superior
   offeredCourseType        OfferedCourseType? // tipo de graduação
   availableCourses         String? // Curso disponível (caso tenha que escrever)
   offeredVacancies         Int? // Completamente inútil
@@ -851,6 +853,30 @@ model DeletedFamilyMembers {
   id                       String @id @default(uuid())
   familyMember_id          String @unique
   candidateOrResponsibleId String
+}
+
+model Call {
+  id          Int            @id @default(autoincrement())
+  socialName  String
+  callSubject String
+  creator_id  String
+  replyer_id  String?
+  status      CallStatus     @default(OPEN)
+  Messages    CallMessages[]
+  CreatedAt   DateTime       @default(now())
+  UpdatedAt   DateTime       @updatedAt
+  creator     User           @relation("Creator", fields: [creator_id], references: [id])
+  replyer     User?          @relation("Replyer", fields: [replyer_id], references: [id])
+}
+
+model CallMessages {
+  id        String   @id @default(uuid())
+  message   String
+  filePath  String?
+  call      Call     @relation(fields: [call_id], references: [id])
+  call_id   Int
+  user_id   String
+  CreatedAt DateTime @default(now())
 }
 
 enum ROLE {
@@ -1246,4 +1272,10 @@ enum HistoryRequester {
   Candidate
   Assistant
   System
+}
+
+enum CallStatus {
+  OPEN
+  CLOSED
+  INPROGRESS
 }

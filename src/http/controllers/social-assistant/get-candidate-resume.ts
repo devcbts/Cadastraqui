@@ -256,7 +256,8 @@ export async function getCandidateResume(
             }
         }
         )
-        membersNames.push({ id: candidateHDB.id, name: identityDetails.fullName })
+
+        membersNames.push({ id: candidateOrResponsibleHDB.UserData.id, name: identityDetails.fullName })
 
         const documentsFilteredByMember = membersNames.map(member => {
             const groupedDocuments: { [key: string]: { [fileName: string]: string[] } } = {};
