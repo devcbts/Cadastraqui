@@ -29,6 +29,7 @@ import { ReactComponent as Pdf } from 'Assets/icons/PDF.svg'
 import Loader from "Components/Loader";
 import InputForm from "Components/InputForm";
 import removeObjectFileExtension from "utils/remove-file-ext";
+import mapMetadatas from "utils/file/map-metadatas";
 export default function LegalOpinion() {
     const { state } = useLocation()
     const navigate = useNavigate()
@@ -89,6 +90,13 @@ export default function LegalOpinion() {
             NotificationService.error({ text: err?.response?.data?.message })
 
         }
+    }
+    const handleDocumentRelation = (data) => {
+        return data?.map((e, i) => {
+            const files = Object.values(e)[0]
+            const name = Object.keys(e)?.[0]
+            return `${i + 1}. ${name} - ${files.map(mapMetadatas).filter(v => v).join(', ')}`
+        })
     }
     return (
         <div>
@@ -210,6 +218,11 @@ export default function LegalOpinion() {
 
                         A soma das despesas apresentadas é {data?.hasGreaterIncome ? "inferior" : "superior"} à renda familiar bruta mensal com base em toda documentação juntada e análise realizada, cuja relação dos documentos anexados segue abaixo:
                     </p>
+                    {
+                        handleDocumentRelation(data?.memberDocuments)?.map(e => (
+                            <p>{e}</p>
+                        ))
+                    }
                     <p>
                         A faculdade contida no § 2º do art. 19, relacionada a majoração em até 20% (vinte por cento) do teto estabelecido (bolsa de estudo integral),
                         ao se considerar aspectos de natureza social do beneficiário, de sua família ou de ambos, quando consubstanciados em relatório comprobatório

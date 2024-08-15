@@ -45,11 +45,14 @@ export default function HealthFiles({ items, edit = true, onBack }) {
         }
         try {
             const name = new Date().getTime()
+            const additionalInfo = items.type === 'health'
+                ? { disease: items.originalName }
+                : { medication: items.name }
             const metadata = {
                 [`metadata_laudo${name}`]: {
                     type: METADATA_FILE_TYPE.HEALTH.EXAM,
                     category: items.type === 'health' ? METADATA_FILE_CATEGORY.Disease : METADATA_FILE_CATEGORY.Medication,
-
+                    ...additionalInfo
                 }
             }
             const value = getValues("file_exam")

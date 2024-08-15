@@ -46,7 +46,7 @@ export default function MemberHealthView({ member, onViewFiles, onSelect, onAdd,
                                     <FormList.List list={diseaseList} text={"nenhuma doença cadastrada"} render={(item) => (
                                         <FormListItem.Root text={DISEASES.find(e => e.value === item.disease?.diseases[0]).label}>
                                             <FormListItem.Actions>
-                                                <ButtonBase label={'laudos'} onClick={() => onViewFiles("health", { id: item.disease.id, name: DISEASES.find(e => e.value === item.disease?.diseases[0]).label, urls: item.data.urlsHealth })} />
+                                                <ButtonBase label={'laudos'} onClick={() => onViewFiles("health", { id: item.disease.id, originalName: item.disease?.diseases[0], name: DISEASES.find(e => e.value === item.disease?.diseases[0]).label, urls: item.data.urlsHealth })} />
                                                 <ButtonBase label={'visualizar'}
                                                     onClick={() => onSelect({ ...item.data, ...item.data.disease, ...item.data.medication?.[0], disease: item.disease?.diseases[0], id: member.id })} />
                                             </FormListItem.Actions>
@@ -60,7 +60,7 @@ export default function MemberHealthView({ member, onViewFiles, onSelect, onAdd,
                                     <FormList.List list={medicationList} text={"nenhum medicamento cadastrado"} render={(item) => (
                                         <FormListItem.Root text={item.medication.medicationName}>
                                             <FormListItem.Actions>
-                                                <ButtonBase label={'laudos'} onClick={() => onViewFiles("medication", { id: item.medication.id, name: item.medication.name, urls: item.data.urlsmedication })} />
+                                                <ButtonBase label={'laudos'} onClick={() => onViewFiles("medication", { id: item.medication.id, name: item.medication.medicationName, urls: item.data.urlsmedication })} />
                                                 <ButtonBase label={'visualizar'} onClick={() => onSelect({ ...item.data, ...item.data.disease, ...item.medication, disease: item.data.disease?.diseases[0], id: member.id })} />
                                             </FormListItem.Actions>
 

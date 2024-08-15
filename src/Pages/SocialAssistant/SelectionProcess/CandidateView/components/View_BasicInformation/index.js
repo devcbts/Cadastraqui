@@ -4,6 +4,7 @@ import Loader from "Components/Loader";
 import AdditionalDocuments from "Pages/SubscribeForm/components/AdditionalDocuments";
 import AdditionalInfo from "Pages/SubscribeForm/components/AdditionalInfo";
 import AddressData from "Pages/SubscribeForm/components/AddressData";
+import ResidenceProof from 'Pages/SubscribeForm/components/AddressData/ResidenceProof';
 import Benefits from "Pages/SubscribeForm/components/Benefits";
 import Document from "Pages/SubscribeForm/components/Document";
 import MaritalStatus from "Pages/SubscribeForm/components/MaritalStatus";
@@ -24,6 +25,7 @@ export default function ViewBasicInformation({ candidateId, applicationId }) {
         render: [
             PersonalData,
             AddressData,
+            ResidenceProof,
             AdditionalInfo,
             MaritalStatus,
             PersonalInformation,

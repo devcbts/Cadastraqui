@@ -38,6 +38,7 @@ export default function FormHealth() {
                     [`metadata_laudo${name}`]: {
                         type: METADATA_FILE_TYPE.HEALTH.EXAM,
                         category: METADATA_FILE_CATEGORY.Disease,
+                        disease: data.disease
                     }
                 }
                 const formData = new FormData()
@@ -54,6 +55,7 @@ export default function FormHealth() {
                     [`metadata_laudo${name}`]: {
                         type: METADATA_FILE_TYPE.HEALTH.EXAM,
                         category: METADATA_FILE_CATEGORY.Medication,
+                        medication: data.medicationName
                     }
                 }
                 const formData = new FormData()
