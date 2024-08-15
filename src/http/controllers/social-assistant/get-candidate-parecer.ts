@@ -77,27 +77,6 @@ export async function getCandidateParecer(
         }
         const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapitaHDB(candidateOrResponsible.UserData.id)
         console.log(incomesPerMember)
-        const candidateInfo = {
-            id: candidateHDB.id,
-            name: identityDetails.fullName,
-            cpf: identityDetails.CPF,
-            nationality: identityDetails.nationality,
-            maritalStatus: identityDetails.maritalStatus,
-            email: identityDetails.email,
-            RG: identityDetails.RG,
-            rgIssuingState: identityDetails.rgIssuingState,
-            rgIssuingAuthority: identityDetails.rgIssuingAuthority,
-            age: calculateAge(identityDetails.birthDate),
-            profession: identityDetails.profession,
-            income: incomesPerMember[candidateHDB.id],
-            address: identityDetails.address,
-            addressNumber: identityDetails.addressNumber,
-            city: identityDetails.city,
-            CEP: identityDetails.CEP,
-            UF: identityDetails.UF,
-            neighborhood: identityDetails.neighborhood,
-
-        }
 
         const familyMembers = await historyDatabase.familyMember.findMany({
             where: { application_id }
@@ -138,6 +117,68 @@ export async function getCandidateParecer(
             return map;
         }, {} as { [id: string]: string });
         familyMemberNames[candidate.id] = candidate.name;
+
+
+        let candidateInfo
+        if (candidateOrResponsible.IsResponsible) {
+            const candidateFamilyMember = familyMembers.find((familyMember) => familyMember.CPF === candidateHDB.CPF)
+            if (!candidateFamilyMember) {
+                candidateInfo = {}
+            } else {
+
+                candidateInfo = {
+                    id: candidateHDB.id,
+                    number: application.number,
+                    name: candidateFamilyMember.fullName,
+                    cpf: candidateFamilyMember.CPF,
+                    age: calculateAge(candidateFamilyMember.birthDate),
+                    profession: candidateFamilyMember.profession,
+                    income: incomesPerMember[candidateFamilyMember.id],
+                    email: candidateFamilyMember.email,
+                    nationality: candidateFamilyMember.nationality,
+                    address: identityDetails.address,
+                    addressNumber: identityDetails.addressNumber,
+                    city: identityDetails.city,
+                    CEP: identityDetails.CEP,
+                    UF: identityDetails.UF,
+                    neighborhood: identityDetails.neighborhood,
+                    RG: candidateFamilyMember.RG,
+                    rgIssuingState: candidateFamilyMember.rgIssuingState,
+                    rgIssuingAuthority: candidateFamilyMember.rgIssuingAuthority,
+                    maritalStatus: candidateFamilyMember.maritalStatus,
+
+
+
+                }
+            }
+        } else {
+
+
+            candidateInfo = {
+                id: candidateHDB.id,
+                number: application.number,
+
+                name: identityDetails.fullName,
+                cpf: identityDetails.CPF,
+                nationality: identityDetails.nationality,
+                maritalStatus: identityDetails.maritalStatus,
+                email: identityDetails.email,
+                RG: identityDetails.RG,
+                rgIssuingState: identityDetails.rgIssuingState,
+                rgIssuingAuthority: identityDetails.rgIssuingAuthority,
+                age: calculateAge(identityDetails.birthDate),
+                profession: identityDetails.profession,
+                income: incomesPerMember[candidateHDB.id],
+                address: identityDetails.address,
+                addressNumber: identityDetails.addressNumber,
+                city: identityDetails.city,
+                CEP: identityDetails.CEP,
+                UF: identityDetails.UF,
+                neighborhood: identityDetails.neighborhood,
+
+            }
+
+        }
 
 
         // Prepare the results, pairing the owner's id with the family member's name
