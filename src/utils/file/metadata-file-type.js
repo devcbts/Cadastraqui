@@ -19,9 +19,12 @@ const METADATA_FILE_TYPE = {
     RESIDENCE: {
         RESIDENCE: 'RESIDENCE'
     },
-    BANK:{
+    BANK: {
         STATEMENT: 'STATEMENT',
         REGISTRATO: 'REGISTRATO'
+    },
+    HEALTH: {
+        EXAM: 'EXAM'
     }
 }
 

@@ -13,6 +13,7 @@ import healthFileSchema from "./schemas/health-files-schema"
 import { useRecoilState } from 'recoil'
 import Loader from 'Components/Loader'
 import removeObjectFileExtension from 'utils/remove-file-ext'
+import METADATA_FILE_TYPE from 'utils/file/metadata-file-type'
 export default function HealthFiles({ items, edit = true, onBack }) {
     const { control, getValues, formState: { isValid }, trigger, resetField } = useControlForm({
         schema: healthFileSchema,
@@ -42,12 +43,19 @@ export default function HealthFiles({ items, edit = true, onBack }) {
             return
         }
         try {
+            const name = new Date().getTime()
+            const metadata = {
+                [`metadata_laudo${name}`]: {
+                    type: METADATA_FILE_TYPE.HEALTH.EXAM
+                }
+            }
             const value = getValues("file_exam")
             const formData = new FormData()
-            const fileName = `file_laudo${new Date().getTime()}`
-            formData.append(fileName, value)
+            formData.append(`file_metadatas`, JSON.stringify(metadata))
+            formData.append(`file_laudo${name}`, value)
+
             await uploadService.uploadBySectionAndId({ section: items?.type, id: items?.memberId, tableId: items?.id }, formData)
-            setAllFiles((prev) => ({ ...prev, urls: { ...prev?.urls, [fileName]: URL.createObjectURL(value) } }))
+            setAllFiles((prev) => ({ ...prev, urls: { ...prev?.urls, [`file_laudo${name}`]: URL.createObjectURL(value) } }))
             resetField("file_exam")
         } catch (err) {
             NotificationService.error({ text: 'Erro ao realizar o upload do arquivo' })

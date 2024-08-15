@@ -88,7 +88,7 @@ export default function EntityAnnouncementApplicants() {
                             <Table.Cell divider>{e.position ?? '-'}</Table.Cell>
                             <Table.Cell>{e.candidateName}</Table.Cell>
                             <Table.Cell>{formatMoney(e.averageIncome)}</Table.Cell>
-                            <Table.Cell>Titular</Table.Cell>
+                            <Table.Cell>{e.candidateStatus}</Table.Cell>
                             <Table.Cell>{findLabel(APPLICATION_STATUS, e.status)}</Table.Cell>
                         </Table.Row>
                     ))

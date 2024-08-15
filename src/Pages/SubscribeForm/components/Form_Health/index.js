@@ -9,6 +9,7 @@ import uploadService from "services/upload/uploadService";
 import HealthDisease from "./components/HealthDisease";
 import HealthList from "./components/HealthList";
 import HealthMedication from "./components/HealthMedication";
+import METADATA_FILE_TYPE from 'utils/file/metadata-file-type';
 export default function FormHealth() {
     const [isLoading, setIsLoading] = useState(true)
     // const handleEditInformation = async (data) => {
@@ -31,16 +32,30 @@ export default function FormHealth() {
             }
 
             if (data.file_disease && diseaseId) {
+                const name = new Date().getTime()
+                const metadata = {
+                    [`metadata_laudo${name}`]: {
+                        type: METADATA_FILE_TYPE.HEALTH.EXAM
+                    }
+                }
                 const formData = new FormData()
-                formData.append(`file_laudo${new Date().getTime()}`, data.file_disease)
+                formData.append(`file_metadatas`, JSON.stringify(metadata))
+                formData.append(`file_laudo${name}`, data.file_disease)
                 await uploadService.uploadBySectionAndId({ section: 'health', id: data.memberId, tableId: diseaseId }, formData)
             }
             if (data.controlledMedication) {
                 medicationId = await candidateService.registerMedicationInfo(memberId, { ...rest, familyMemberDiseaseId: diseaseId })
             }
             if (data.file_medication && medicationId) {
+                const name = new Date().getTime()
+                const metadata = {
+                    [`metadata_laudo${name}`]: {
+                        type: METADATA_FILE_TYPE.HEALTH.EXAM
+                    }
+                }
                 const formData = new FormData()
-                formData.append(`file_laudo${new Date().getTime()}`, data.file_medication)
+                formData.append(`file_metadatas`, JSON.stringify(metadata))
+                formData.append(`file_laudo${name}`, data.file_medication)
                 await uploadService.uploadBySectionAndId({ section: 'medication', id: data.memberId, tableId: medicationId }, formData)
             }
 

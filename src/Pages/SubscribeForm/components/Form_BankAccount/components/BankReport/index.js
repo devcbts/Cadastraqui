@@ -12,6 +12,7 @@ import { NotificationService } from "services/notification";
 import uploadService from "services/upload/uploadService";
 import bankReportSchema from "./schemas/bank-report-schema";
 import styles from './styles.module.scss';
+import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
 export default function BankReport({ id, onBack }) {
     const [isLoading, setIsLoading] = useState(true)
     const { control, getValues, formState: { isValid }, trigger, watch, setValue } = useControlForm({
@@ -19,7 +20,7 @@ export default function BankReport({ id, onBack }) {
         defaultValues: {
             file_bankReport: null,
             date: null,
-            url_bankReport: null
+            url_bankReport: null,
         },
     })
     useEffect(() => {
@@ -43,6 +44,13 @@ export default function BankReport({ id, onBack }) {
             const value = getValues('file_bankReport')
             const date = new Date()
             const formData = new FormData()
+            const metadata = {
+                [`metadata_${date.getMonth() + 1}-${date.getFullYear()}-registrato`]: {
+                    type: METADATA_FILE_TYPE.BANK.REGISTRATO,
+                    date: `${date.getFullYear()}-${date.getMonth() + 1}-01T00:00:00`
+                }
+            }
+            formData.append("file_metadatas", JSON.stringify(metadata))
             formData.append(`file_${date.getMonth() + 1}-${date.getFullYear()}-registrato`, value)
 
             await uploadService.uploadBySectionAndId({ section: 'registrato', id }, formData)

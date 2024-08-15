@@ -64,7 +64,7 @@ export default function Members() {
                 : <DirectorModal data={selection} onClose={handleClose} onUpdate={handleUpdate} />
             }
             <h3>Status dos colaboradores</h3>
-            <Table.Root headers={['nome', 'status', 'ações']}>
+            <Table.Root headers={['nome', 'função', 'ações']}>
                 {
                     members.map((member) => (
                         <Table.Row>

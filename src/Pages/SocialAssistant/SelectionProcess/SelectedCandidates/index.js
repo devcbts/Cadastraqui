@@ -17,6 +17,7 @@ import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
 import styles from './styles.module.scss';
 import { NotificationService } from 'services/notification';
 import useAuth from 'hooks/useAuth';
+import CANDIDATE_APPLICATION_STATUS from 'utils/enums/candidate-application-status';
 export default function SelectedCandidates() {
     const navigate = useNavigate()
     const { announcementId, courseId } = useParams()
@@ -129,7 +130,7 @@ export default function SelectedCandidates() {
                                 <Table.Cell divider>{candidate.position ?? '-'}</Table.Cell>
                                 <Table.Cell >{candidate.candidateName}</Table.Cell>
                                 <Table.Cell >{moneyInputMask(candidate.averageIncome?.toFixed(2)?.toString())}</Table.Cell>
-                                <Table.Cell >Titular</Table.Cell>
+                                <Table.Cell >{CANDIDATE_APPLICATION_STATUS[candidate.candidateStatus]}</Table.Cell>
                                 <Table.Cell >0</Table.Cell>
                                 <Table.Cell >{findLabel(APPLICATION_STATUS, candidate?.status)}</Table.Cell>
                                 <Table.Cell >

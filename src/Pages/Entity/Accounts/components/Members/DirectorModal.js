@@ -42,7 +42,7 @@ export default function DirectorModal({ onClose, data, onUpdate }) {
             open={!!data}
             onCancel={handleClose}
             onConfirm={handleUpdate}
-            title={'Editar assistente'}
+            title={'Editar responsável'}
         >
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>
                 <InputForm control={control} name="name" label="nome" />
