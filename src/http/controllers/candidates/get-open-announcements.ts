@@ -45,7 +45,10 @@ export async function getOpenAnnouncements(
     }
     else {
       const announcement = await prisma.announcement.findUnique({
-        where: { id: announcement_id, announcementDate: { gte: new Date() } },
+        where: {
+          id: announcement_id,
+          // announcementDate: { gte: new Date() }
+        },
         include: {
           educationLevels: true,
           entity: {

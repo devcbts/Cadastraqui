@@ -12,23 +12,23 @@ export default async function getEntityDashboard(
         const entity = await prisma.entity.findUnique({
             where: { user_id: sub },
             include: {
-                EntitySubsidiary: true,
-                // EntitySubsidiary: {
-                //     include: {
-                //         EducationLevel: {
-                //             select: { _count: { select: { Application: true } } }
-                //         },
-                //         Announcement: {
-                //             include: {
-                //                 _count: {
-                //                     select: {
-                //                         Application: true,
-                //                     }
-                //                 }
-                //             }
-                //         }
-                //     }
-                // },
+                // EntitySubsidiary: true,
+                EntitySubsidiary: {
+                    include: {
+                        // EducationLevel: {
+                        //     select: { _count: { select: { Application: true } } }
+                        // },
+                        Announcement: {
+                            include: {
+                                _count: {
+                                    select: {
+                                        Application: true,
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 Announcement: {
                     include: {
                         educationLevels: {
@@ -71,17 +71,17 @@ export default async function getEntityDashboard(
 
 
         //Sum each educationalLevel application for each announcement, sorted by its entity
-        const entities_ids: (string | null)[] = entity.EntitySubsidiary.map(e => e.id)
+        const entities_ids: ({ name: string, id: string | null })[] = entity.EntitySubsidiary.map(e => ({ name: e.socialReason, id: e.id }))
         // add 'null' id to represent the current entity
-        entities_ids.push(null)
-        const unitVacancies = entities_ids.map((id) => {
+        entities_ids.push({ name: entity.socialReason, id: null })
+        const unitVacancies = entities_ids.map((unit) => {
             // get all education by entity of each announcement
             const applicationByEntity: any[] = []
             const applicationByCourse: any[] = []
             // aux to keep track of all available courses of the announcement
             const currentAvailableCourses: string[] = []
             announcements.forEach((announcement) => {
-                const educationalLevels = announcement.educationLevels.filter(l => l.entitySubsidiaryId === id)
+                const educationalLevels = announcement.educationLevels.filter(l => l.entitySubsidiaryId === unit.id)
                 const appl = educationalLevels.reduce((acc: any, level) => {
                     return acc += level._count.Application
                 }, 0)
@@ -95,12 +95,13 @@ export default async function getEntityDashboard(
                             }
                         }
                     })
-                    const name = entitySubsidiary ? entitySubsidiary?.socialReason : entity?.socialReason
-                    applicationByEntity.push({ id: entitySubsidiary?.id ?? null, name, applicants: appl })
                 }
+                // const name = entitySubsidiary ? entitySubsidiary?.socialReason : entity?.socialReason
+                applicationByEntity.push({ id: unit.id, name: unit.name, applicants: appl })
+                // }
             })
             // sum all participants from all education levels of all entity's announcements
-            const entities = applicationByEntity.filter(e => e.id === id).reduce((acc, item) => {
+            const entities = applicationByEntity.filter(e => e.id === unit.id).reduce((acc, item) => {
                 acc.name = item.name;
                 acc.applicants += item.applicants;
                 return acc;

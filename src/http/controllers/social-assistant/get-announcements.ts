@@ -96,7 +96,11 @@ export async function getAnnouncements(
         where: { id: announcement_id },
         include: {
           educationLevels: true,
-          entity: true,
+          entity: {
+            include: {
+              EntitySubsidiary: true
+            }
+          },
           entity_subsidiary: true,
           interview: true
         }
@@ -108,10 +112,10 @@ export async function getAnnouncements(
       const Folder = `Announcements/${announcement.entity_id}/${announcement_id}.pdf`;
       const url = await GetUrl(Folder);
       const educationLevels = announcement.educationLevels
-      const entityAndSubsidiaries = [announcement.entity, ...announcement.entity_subsidiary]
+      const entityAndSubsidiaries = [announcement.entity, ...announcement.entity.EntitySubsidiary]
       const educationLevelsFiltered = entityAndSubsidiaries.map((entity) => {
         const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === entity.id)
-        if (entity.id == announcement.entity_id) {
+        if (entity.id === announcement.entity_id) {
           const matchedEducationLevels = educationLevels.filter((educationLevel) => educationLevel.entitySubsidiaryId === null)
           const returnObj = matchedEducationLevels.map((e) => ({
             id: e.id,

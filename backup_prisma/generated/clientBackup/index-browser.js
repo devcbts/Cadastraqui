@@ -184,6 +184,7 @@ exports.Prisma.EntityScalarFieldEnum = {
   UF: 'UF',
   city: 'city',
   educationalInstitutionCode: 'educationalInstitutionCode',
+  emec: 'emec',
   user_id: 'user_id'
 };
 
@@ -1091,7 +1092,7 @@ exports.ApplicationStatus = exports.$Enums.ApplicationStatus = {
   Approved: 'Approved',
   Rejected: 'Rejected',
   Pending: 'Pending',
-  WaitingList: 'WaitingList'
+  NotAnalysed: 'NotAnalysed'
 };
 
 exports.SolicitationType = exports.$Enums.SolicitationType = {

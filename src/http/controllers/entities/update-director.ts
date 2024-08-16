@@ -9,6 +9,7 @@ export async function updateDirector(
 ) {
   const updateDataSchema = z.object({
     name: z.string().optional(),
+    email: z.string().optional(),
     phone: z.string().optional(),
     CPF: z.string().optional(),
   })
@@ -28,10 +29,13 @@ export async function updateDirector(
     if (!director) {
       throw new ResourceNotFoundError()
     }
-
+    const { email, ...rest } = updatedData
     await prisma.entityDirector.update({
       where: { id: _id },
-      data: updatedData,
+      data: {
+        user: { update: { email: email } },
+        ...rest
+      },
     })
 
     return reply.status(204).send()

@@ -30,15 +30,16 @@ export async function fetchDirectors(
       return reply.status(200).send({ directors })
     } else {
       const entity = await prisma.entity.findUnique({
-        where: {user_id}
+        where: { user_id }
       })
       if (!entity) {
         throw new NotAllowedError()
       }
       const directors = await prisma.entityDirector.findMany({
         where: { entity_id: entity.id },
+        include: { user: { select: { email: true } } }
       })
-      return reply.status(200).send({ directors })
+      return reply.status(200).send({ directors: directors.map(e => ({ ...e, email: e.user.email })) })
     }
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {

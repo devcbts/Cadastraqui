@@ -5,9 +5,9 @@ import { findAWSRouteHDB } from '@/HistDatabaseFunctions/Handle Application/find
 import { uploadFile } from '@/http/services/upload-file'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import verifyDeclarationRegistration from '@/utils/Trigger-Functions/verify-declaration-registration'
+import { MultipartFile } from '@fastify/multipart'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import fs from 'fs'
-import pump from 'pump'
 import { z } from 'zod'
 
 
@@ -45,19 +45,55 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
         if (!candidateOrResponsible) {
             throw new NotAllowedError();
         }
-        const parts = request.files({ limits: { fileSize: MAX_FILE_SIZE } });
+        const parts = request.parts({ limits: { fileSize: MAX_FILE_SIZE } });
+        // for await (const file of parts) {
+        //     if (file.file.truncated) {
+        //         throw new Error('Arquivo excedente ao limite de 10MB');
+        //     }
+        //     pump(file.file, fs.createWriteStream(file.filename))
+        //     if (fs.existsSync(file.filename)) {
+        //         fs.unlinkSync(file.fieldname);
+        //     }
 
-
-        let deleteUrl = '';
+        // }
+        const files: (MultipartFile & { fileBuffer: any, metadata: object })[] = []
+        let metadatas: any = {};
+        // get all metadata and files separated
         for await (const part of parts) {
-            if (part.file.truncated) {
-                throw new Error('Arquivo excedente ao limite de 10MB');
+            if (part.fieldname === 'file_metadatas' && part.type === "field") {
+                metadatas = JSON.parse(part.value as string)
             }
-            pump(part.file, fs.createWriteStream(part.filename))
-            const fileBuffer = await part.toBuffer();
+            if (part.type === "file") {
+                // read the file before sending to AWS, need to ensure the data needed for file store isn't lost during the process
+                const chunks: any[] = [];
+                let fileSize = 0;
+
+                part.file.on('data', (chunk) => {
+                    fileSize += chunk.length;
+                    chunks.push(chunk);
+                });
+                part.file.on('end', async () => {
+                    if (fileSize >= MAX_FILE_SIZE) {
+                        // if it exceeds 10Mb, throw an error before manipulating it
+                        throw new Error('Arquivo excedente ao limite de 10MB');
+                    }
+                    const fileBuffer = Buffer.concat(chunks)
+                    // // if part is file, save to files array to consume after
+                    files.push({
+                        ...part,
+                        fileBuffer,
+                        metadata: metadatas?.[`metadata_${part.fieldname.split('_')[1]}`] ?? {}
+                    })
+                })
+            }
+        }
+        let deleteUrl = '';
+        for (const part of files) {
+
+            // pump(part.file, fs.createWriteStream(part.filename))
+            const fileBuffer = part.fileBuffer;
             const route = `CandidateDocuments/${candidateOrResponsible.UserData.id}/${documentType}/${member_id}/${table_id ? table_id + '/' : ''}${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;
-            const sended = await uploadFile(fileBuffer, route);
-            console.log(sended, 'ENVIADOOOOO')
+            const sended = await uploadFile(fileBuffer, route, part.metadata);
             if (!sended) {
                 throw new NotAllowedError();
             }
@@ -66,7 +102,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             for (const application of findOpenApplications) {
                 const routeHDB = await findAWSRouteHDB(candidateOrResponsible.UserData.id, documentType, member_id, table_id, application.id);
                 const finalRoute = `${routeHDB}${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;
-                const sended = await uploadFile(fileBuffer, finalRoute);
+                const sended = await uploadFile(fileBuffer, finalRoute, part.metadata);
                 if (!sended) {
                     throw new NotAllowedError();
                 }

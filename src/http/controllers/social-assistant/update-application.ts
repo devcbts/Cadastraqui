@@ -20,7 +20,7 @@ export async function updateApplication(
         application_id: z.string(),
 
     })
-    const statusType = z.enum(["Approved", "Rejected", "Pending", "WaitingList"])
+    const statusType = z.enum(["Approved", "Rejected", "Pending"])
 
     const applicationUpdateSchema = z.object({
         status: statusType.optional(),
@@ -31,7 +31,7 @@ export async function updateApplication(
     const { application_id } = applicationParamsSchema.parse(request.params)
     const { status, report, partial, parecerAditionalInfo } = applicationUpdateSchema.parse(request.body)
     try {
-       
+
 
 
         // Caso 1: gaveUp true

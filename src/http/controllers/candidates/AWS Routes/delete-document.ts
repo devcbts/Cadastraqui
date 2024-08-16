@@ -23,7 +23,7 @@ export async function deleteDocument(request: FastifyRequest, reply: FastifyRepl
             throw new NotAllowedError();
         }
         const section = path.split('/')[2]
-        const fileName = path.split('/')[-1]
+        const fileName = path.split('/').pop()
         const memberId = path.split('/')[3]
         let tableId = path.split('/')[4]
         if (fileName === tableId) {
@@ -39,6 +39,7 @@ export async function deleteDocument(request: FastifyRequest, reply: FastifyRepl
         for (const application of findOpenApplications) {
             const routeHDB = await findAWSRouteHDB(candidateOrResponsible.UserData.id, section, memberId, tableId, application.id);
             const finalRoute = `${routeHDB}${fileName}`;
+            console.log('ESTOU DELETANDO O ARQUIVO', path, path?.split('/')[-1])
             await deleteFile(finalRoute)
 
         }

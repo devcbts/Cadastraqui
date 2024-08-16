@@ -1,13 +1,13 @@
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { historyDatabase, prisma } from "@/lib/prisma";
+import { getAwsFileFromFolder } from "@/lib/S3";
 import { calculateAge } from "@/utils/calculate-age";
 import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsibleHDB";
 import { CalculateIncomePerCapitaHDB } from "@/utils/Trigger-Functions/calculate-income-per-capita-HDB";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { getAssistantDocumentsPDF_HDB } from "./AWS-routes/get-assistant-documents-by-section";
-import { getDocumentsUrls } from "./get-candidate-resume";
 
 export async function getCandidateParecer(
     request: FastifyRequest,
@@ -82,8 +82,7 @@ export async function getCandidateParecer(
             where: { application_id }
         })
 
-        const familyMembersInfo = familyMembers.map((familyMember) => {
-            console.log(familyMember.birthDate)
+        let familyMembersInfo = familyMembers.map((familyMember) => {
             return {
                 id: familyMember.id,
                 name: familyMember.fullName,
@@ -102,7 +101,7 @@ export async function getCandidateParecer(
                 age: calculateAge(identityDetails.birthDate),
                 profession: identityDetails.profession,
                 relationship: null!,
-                income: incomesPerMember[candidateHDB.id]
+                income: incomesPerMember[candidateHDB.responsible_id!]
             })
         }
         const housingInfo = await historyDatabase.housing.findUnique({
@@ -135,6 +134,7 @@ export async function getCandidateParecer(
             if (!candidateFamilyMember) {
                 candidateInfo = {}
             } else {
+                familyMembersInfo = familyMembersInfo.filter(e => e.id !== candidateFamilyMember.id)
 
                 candidateInfo = {
                     id: candidateHDB.id,
@@ -156,7 +156,7 @@ export async function getCandidateParecer(
                     rgIssuingState: candidateFamilyMember.rgIssuingState,
                     rgIssuingAuthority: candidateFamilyMember.rgIssuingAuthority,
                     maritalStatus: candidateFamilyMember.maritalStatus,
-
+                    relationship: candidateFamilyMember.relationship
 
 
                 }
@@ -273,7 +273,7 @@ export async function getCandidateParecer(
         const parecer = await getAssistantDocumentsPDF_HDB(application_id, 'parecer')
 
 
-        const documentsUrls = await getDocumentsUrls(section, application_id)
+        const documentsUrls = await Promise.all(section.map(async sec => await getAwsFileFromFolder(`applicationDocuments/${application_id}/${sec}`)))
         const membersNames = familyMembers.map((member) => {
             return {
 
@@ -282,33 +282,49 @@ export async function getCandidateParecer(
             }
         }
         )
-        membersNames.push({ id: candidateOrResponsible.UserData.id, name: identityDetails.fullName })
-
-        const documentsFilteredByMember = membersNames.map(member => {
-            const groupedDocuments: { [key: string]: { [fileName: string]: string[] } } = {};
-
-            documentsUrls.forEach((sectionUrls) => {
-                Object.entries(sectionUrls).forEach(([section, urls]) => {
-                    Object.entries(urls).forEach(([path, fileName]) => {
-                        const parts = path.split('/');
-                        if (parts[3] === member.id) {
-                            if (!groupedDocuments[section]) {
-                                groupedDocuments[section] = {};
-                            }
-                            Object.entries(fileName).forEach(([Name, url]) => {
-
-                                if (!groupedDocuments[section][Name]) {
-                                    groupedDocuments[section][Name] = [];
-                                }
-                                groupedDocuments[section][Name].push(url);
-                            })
+        membersNames.push({ id: candidateHDB.responsible_id ?? candidateHDB.id, name: identityDetails.fullName })
+        let memberDocuments: { [key: string]: any[] } = {};
+        documentsUrls.forEach(folder => {
+            folder.forEach(file => {
+                membersNames.forEach(member => {
+                    if (member.id === file.fileKey.split('/')[3]) {
+                        if (memberDocuments[member.name]) {
+                            memberDocuments[member.name].push({ ...member, ...file })
+                        } else {
+                            memberDocuments[member.name] = []
+                            memberDocuments[member.name].push({ ...member, ...file })
                         }
-                    });
-                });
-
-            });
-            return { member: member.name, documents: groupedDocuments };
+                    }
+                })
+            })
+            return memberDocuments
         })
+        const documentsFilteredByMember = Object.entries(memberDocuments).map((e) => ({ [e[0]]: e[1] }))
+        // const documentsFilteredByMember = membersNames.map(member => {
+        //     const groupedDocuments: { [key: string]: { [fileName: string]: string[] } } = {};
+
+        //     documentsUrls.forEach((sectionUrls) => {
+        //         Object.entries(sectionUrls).forEach(([section, urls]) => {
+        //             Object.entries(urls).forEach(([path, fileName]) => {
+        //                 const parts = path.split('/');
+        //                 if (parts[3] === member.id) {
+        //                     if (!groupedDocuments[section]) {
+        //                         groupedDocuments[section] = {};
+        //                     }
+        //                     Object.entries(fileName).forEach(([Name, url]) => {
+
+        //                         if (!groupedDocuments[section][Name]) {
+        //                             groupedDocuments[section][Name] = [];
+        //                         }
+        //                         groupedDocuments[section][Name].push(url);
+        //                     })
+        //                 }
+        //             });
+        //         });
+
+        //     });
+        //     return { member: member.name, documents: groupedDocuments };
+        // })
 
         return reply.status(200).send({
             candidateInfo,
@@ -325,7 +341,7 @@ export async function getCandidateParecer(
             status: application.status,
             parecer,
             application: { number: application.number, name: application.announcement.announcementName, createdAt: application.createdAt, aditionalInfo: application.parecerAditionalInfo },
-            documentsUrls: documentsFilteredByMember
+            memberDocuments: documentsFilteredByMember
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {

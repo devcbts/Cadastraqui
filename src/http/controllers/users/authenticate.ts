@@ -48,7 +48,7 @@ export async function authenticate(
         uid,
       },
       {
-        sign: { sub: user.id, expiresIn: '1h' },
+        sign: { sub: user.id, expiresIn: '3h' },
       },
     )
     const user_role = user.role
