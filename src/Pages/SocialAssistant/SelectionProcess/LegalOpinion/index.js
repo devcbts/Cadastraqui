@@ -140,7 +140,7 @@ export default function LegalOpinion() {
                             : <>
                                 com:{' '}
                                 <strong>
-                                    {family?.map(member => `${member.name} (${FAMILY_RELATIONSHIP.find(e => e.value === member.relationship)?.label})`).join(', ')}
+                                    {family?.map(member => `${member.name} ${member.relationship ? `(${FAMILY_RELATIONSHIP.find(e => e.value === member.relationship)?.label})` : ''}`).join(', ')}
                                 </strong>
                             </>
                         }
