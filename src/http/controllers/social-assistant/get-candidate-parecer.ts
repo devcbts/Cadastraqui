@@ -94,7 +94,17 @@ export async function getCandidateParecer(
                 income: incomesPerMember[familyMember.id]
             }
         })
-
+        if (candidateOrResponsible.IsResponsible) {
+            familyMembersInfo.push({
+                id: candidateHDB.id,
+                name: identityDetails.fullName,
+                cpf: identityDetails.CPF ?? '',
+                age: calculateAge(identityDetails.birthDate),
+                profession: identityDetails.profession,
+                relationship: null!,
+                income: incomesPerMember[candidateHDB.id]
+            })
+        }
         const housingInfo = await historyDatabase.housing.findUnique({
             where: { application_id },
         })
