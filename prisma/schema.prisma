@@ -374,6 +374,8 @@ model Vehicle {
   hasInsurance          Boolean                 @default(false)
   insuranceValue        Float?
   usage                 VehicleUsage
+  plate                 String?
+  document              String?
   owners_id             String[]
   candidate_id          String?
   candidate             Candidate?              @relation(fields: [candidate_id], references: [id])

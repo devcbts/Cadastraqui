@@ -18444,6 +18444,8 @@ export namespace Prisma {
     insuranceValue: number | null
     usage: $Enums.VehicleUsage | null
     candidate_id: string | null
+    plate: string | null
+    document: string | null
     legalResponsibleId: string | null
     application_id: string | null
   }
@@ -18461,6 +18463,8 @@ export namespace Prisma {
     insuranceValue: number | null
     usage: $Enums.VehicleUsage | null
     candidate_id: string | null
+    plate: string | null
+    document: string | null
     legalResponsibleId: string | null
     application_id: string | null
   }
@@ -18479,6 +18483,8 @@ export namespace Prisma {
     usage: number
     candidate_id: number
     owners_id: number
+    plate: number
+    document: number
     legalResponsibleId: number
     application_id: number
     _all: number
@@ -18512,6 +18518,8 @@ export namespace Prisma {
     insuranceValue?: true
     usage?: true
     candidate_id?: true
+    plate?: true
+    document?: true
     legalResponsibleId?: true
     application_id?: true
   }
@@ -18529,6 +18537,8 @@ export namespace Prisma {
     insuranceValue?: true
     usage?: true
     candidate_id?: true
+    plate?: true
+    document?: true
     legalResponsibleId?: true
     application_id?: true
   }
@@ -18547,6 +18557,8 @@ export namespace Prisma {
     usage?: true
     candidate_id?: true
     owners_id?: true
+    plate?: true
+    document?: true
     legalResponsibleId?: true
     application_id?: true
     _all?: true
@@ -18652,6 +18664,8 @@ export namespace Prisma {
     usage: $Enums.VehicleUsage
     candidate_id: string | null
     owners_id: string[]
+    plate: string | null
+    document: string | null
     legalResponsibleId: string | null
     application_id: string
     _count: VehicleCountAggregateOutputType | null
@@ -18689,6 +18703,8 @@ export namespace Prisma {
     usage?: boolean
     candidate_id?: boolean
     owners_id?: boolean
+    plate?: boolean
+    document?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
     candidate?: boolean | Vehicle$candidateArgs<ExtArgs>
@@ -18711,6 +18727,8 @@ export namespace Prisma {
     usage?: boolean
     candidate_id?: boolean
     owners_id?: boolean
+    plate?: boolean
+    document?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
   }
@@ -18744,6 +18762,8 @@ export namespace Prisma {
       usage: $Enums.VehicleUsage
       candidate_id: string | null
       owners_id: string[]
+      plate: string | null
+      document: string | null
       legalResponsibleId: string | null
       application_id: string
     }, ExtArgs["result"]["vehicle"]>
@@ -19158,6 +19178,8 @@ export namespace Prisma {
     readonly usage: FieldRef<"Vehicle", 'VehicleUsage'>
     readonly candidate_id: FieldRef<"Vehicle", 'String'>
     readonly owners_id: FieldRef<"Vehicle", 'String[]'>
+    readonly plate: FieldRef<"Vehicle", 'String'>
+    readonly document: FieldRef<"Vehicle", 'String'>
     readonly legalResponsibleId: FieldRef<"Vehicle", 'String'>
     readonly application_id: FieldRef<"Vehicle", 'String'>
   }
@@ -40894,6 +40916,8 @@ export namespace Prisma {
     usage: 'usage',
     candidate_id: 'candidate_id',
     owners_id: 'owners_id',
+    plate: 'plate',
+    document: 'document',
     legalResponsibleId: 'legalResponsibleId',
     application_id: 'application_id'
   };
@@ -43502,6 +43526,8 @@ export namespace Prisma {
     usage?: EnumVehicleUsageFilter<"Vehicle"> | $Enums.VehicleUsage
     candidate_id?: StringNullableFilter<"Vehicle"> | string | null
     owners_id?: StringNullableListFilter<"Vehicle">
+    plate?: StringNullableFilter<"Vehicle"> | string | null
+    document?: StringNullableFilter<"Vehicle"> | string | null
     legalResponsibleId?: StringNullableFilter<"Vehicle"> | string | null
     application_id?: StringFilter<"Vehicle"> | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
@@ -43523,6 +43549,8 @@ export namespace Prisma {
     usage?: SortOrder
     candidate_id?: SortOrderInput | SortOrder
     owners_id?: SortOrder
+    plate?: SortOrderInput | SortOrder
+    document?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
     candidate?: CandidateOrderByWithRelationInput
@@ -43548,6 +43576,8 @@ export namespace Prisma {
     usage?: EnumVehicleUsageFilter<"Vehicle"> | $Enums.VehicleUsage
     candidate_id?: StringNullableFilter<"Vehicle"> | string | null
     owners_id?: StringNullableListFilter<"Vehicle">
+    plate?: StringNullableFilter<"Vehicle"> | string | null
+    document?: StringNullableFilter<"Vehicle"> | string | null
     legalResponsibleId?: StringNullableFilter<"Vehicle"> | string | null
     application_id?: StringFilter<"Vehicle"> | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
@@ -43569,6 +43599,8 @@ export namespace Prisma {
     usage?: SortOrder
     candidate_id?: SortOrderInput | SortOrder
     owners_id?: SortOrder
+    plate?: SortOrderInput | SortOrder
+    document?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
     _count?: VehicleCountOrderByAggregateInput
@@ -43595,6 +43627,8 @@ export namespace Prisma {
     usage?: EnumVehicleUsageWithAggregatesFilter<"Vehicle"> | $Enums.VehicleUsage
     candidate_id?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
     owners_id?: StringNullableListFilter<"Vehicle">
+    plate?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
+    document?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
     legalResponsibleId?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
     application_id?: StringWithAggregatesFilter<"Vehicle"> | string
   }
@@ -47615,6 +47649,8 @@ export namespace Prisma {
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
     owners_id?: VehicleCreateowners_idInput | string[]
+    plate?: string | null
+    document?: string | null
     application_id: string
     candidate?: CandidateCreateNestedOneWithoutVehicleInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleCreateNestedManyWithoutVehicleInput
@@ -47635,6 +47671,8 @@ export namespace Prisma {
     usage: $Enums.VehicleUsage
     candidate_id?: string | null
     owners_id?: VehicleCreateowners_idInput | string[]
+    plate?: string | null
+    document?: string | null
     legalResponsibleId?: string | null
     application_id: string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutVehicleInput
@@ -47653,6 +47691,8 @@ export namespace Prisma {
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     owners_id?: VehicleUpdateowners_idInput | string[]
+    plate?: NullableStringFieldUpdateOperationsInput | string | null
+    document?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     candidate?: CandidateUpdateOneWithoutVehicleNestedInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleUpdateManyWithoutVehicleNestedInput
@@ -47673,6 +47713,8 @@ export namespace Prisma {
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     owners_id?: VehicleUpdateowners_idInput | string[]
+    plate?: NullableStringFieldUpdateOperationsInput | string | null
+    document?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutVehicleNestedInput
@@ -47692,6 +47734,8 @@ export namespace Prisma {
     usage: $Enums.VehicleUsage
     candidate_id?: string | null
     owners_id?: VehicleCreateowners_idInput | string[]
+    plate?: string | null
+    document?: string | null
     legalResponsibleId?: string | null
     application_id: string
   }
@@ -47709,6 +47753,8 @@ export namespace Prisma {
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     owners_id?: VehicleUpdateowners_idInput | string[]
+    plate?: NullableStringFieldUpdateOperationsInput | string | null
+    document?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -47726,6 +47772,8 @@ export namespace Prisma {
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     owners_id?: VehicleUpdateowners_idInput | string[]
+    plate?: NullableStringFieldUpdateOperationsInput | string | null
+    document?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
   }
@@ -51665,6 +51713,8 @@ export namespace Prisma {
     usage?: SortOrder
     candidate_id?: SortOrder
     owners_id?: SortOrder
+    plate?: SortOrder
+    document?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
   }
@@ -51689,6 +51739,8 @@ export namespace Prisma {
     insuranceValue?: SortOrder
     usage?: SortOrder
     candidate_id?: SortOrder
+    plate?: SortOrder
+    document?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
   }
@@ -51706,6 +51758,8 @@ export namespace Prisma {
     insuranceValue?: SortOrder
     usage?: SortOrder
     candidate_id?: SortOrder
+    plate?: SortOrder
+    document?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
   }
@@ -59055,6 +59109,8 @@ export namespace Prisma {
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
     owners_id?: VehicleCreateowners_idInput | string[]
+    plate?: string | null
+    document?: string | null
     application_id: string
     FamilyMemberToVehicle?: FamilyMemberToVehicleCreateNestedManyWithoutVehicleInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutVehicleInput
@@ -59073,6 +59129,8 @@ export namespace Prisma {
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
     owners_id?: VehicleCreateowners_idInput | string[]
+    plate?: string | null
+    document?: string | null
     legalResponsibleId?: string | null
     application_id: string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutVehicleInput
@@ -59962,6 +60020,8 @@ export namespace Prisma {
     usage?: EnumVehicleUsageFilter<"Vehicle"> | $Enums.VehicleUsage
     candidate_id?: StringNullableFilter<"Vehicle"> | string | null
     owners_id?: StringNullableListFilter<"Vehicle">
+    plate?: StringNullableFilter<"Vehicle"> | string | null
+    document?: StringNullableFilter<"Vehicle"> | string | null
     legalResponsibleId?: StringNullableFilter<"Vehicle"> | string | null
     application_id?: StringFilter<"Vehicle"> | string
   }
@@ -61328,6 +61388,8 @@ export namespace Prisma {
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
     owners_id?: VehicleCreateowners_idInput | string[]
+    plate?: string | null
+    document?: string | null
     application_id: string
     candidate?: CandidateCreateNestedOneWithoutVehicleInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleCreateNestedManyWithoutVehicleInput
@@ -61347,6 +61409,8 @@ export namespace Prisma {
     usage: $Enums.VehicleUsage
     candidate_id?: string | null
     owners_id?: VehicleCreateowners_idInput | string[]
+    plate?: string | null
+    document?: string | null
     application_id: string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutVehicleInput
   }
@@ -73716,6 +73780,8 @@ export namespace Prisma {
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
     owners_id?: VehicleCreateowners_idInput | string[]
+    plate?: string | null
+    document?: string | null
     application_id: string
     candidate?: CandidateCreateNestedOneWithoutVehicleInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutVehicleInput
@@ -73735,6 +73801,8 @@ export namespace Prisma {
     usage: $Enums.VehicleUsage
     candidate_id?: string | null
     owners_id?: VehicleCreateowners_idInput | string[]
+    plate?: string | null
+    document?: string | null
     legalResponsibleId?: string | null
     application_id: string
   }
@@ -73913,6 +73981,8 @@ export namespace Prisma {
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     owners_id?: VehicleUpdateowners_idInput | string[]
+    plate?: NullableStringFieldUpdateOperationsInput | string | null
+    document?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     candidate?: CandidateUpdateOneWithoutVehicleNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutVehicleNestedInput
@@ -73932,6 +74002,8 @@ export namespace Prisma {
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     owners_id?: VehicleUpdateowners_idInput | string[]
+    plate?: NullableStringFieldUpdateOperationsInput | string | null
+    document?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
   }
@@ -74173,6 +74245,8 @@ export namespace Prisma {
     insuranceValue?: number | null
     usage: $Enums.VehicleUsage
     owners_id?: VehicleCreateowners_idInput | string[]
+    plate?: string | null
+    document?: string | null
     legalResponsibleId?: string | null
     application_id: string
   }
@@ -75008,6 +75082,8 @@ export namespace Prisma {
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     owners_id?: VehicleUpdateowners_idInput | string[]
+    plate?: NullableStringFieldUpdateOperationsInput | string | null
+    document?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUpdateManyWithoutVehicleNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutVehicleNestedInput
@@ -75026,6 +75102,8 @@ export namespace Prisma {
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     owners_id?: VehicleUpdateowners_idInput | string[]
+    plate?: NullableStringFieldUpdateOperationsInput | string | null
+    document?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutVehicleNestedInput
@@ -75044,6 +75122,8 @@ export namespace Prisma {
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     owners_id?: VehicleUpdateowners_idInput | string[]
+    plate?: NullableStringFieldUpdateOperationsInput | string | null
+    document?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
   }
@@ -75777,6 +75857,8 @@ export namespace Prisma {
     usage: $Enums.VehicleUsage
     candidate_id?: string | null
     owners_id?: VehicleCreateowners_idInput | string[]
+    plate?: string | null
+    document?: string | null
     application_id: string
   }
 
@@ -76758,6 +76840,8 @@ export namespace Prisma {
     insuranceValue?: NullableFloatFieldUpdateOperationsInput | number | null
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     owners_id?: VehicleUpdateowners_idInput | string[]
+    plate?: NullableStringFieldUpdateOperationsInput | string | null
+    document?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     candidate?: CandidateUpdateOneWithoutVehicleNestedInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleUpdateManyWithoutVehicleNestedInput
@@ -76777,6 +76861,8 @@ export namespace Prisma {
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     owners_id?: VehicleUpdateowners_idInput | string[]
+    plate?: NullableStringFieldUpdateOperationsInput | string | null
+    document?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutVehicleNestedInput
   }
@@ -76795,6 +76881,8 @@ export namespace Prisma {
     usage?: EnumVehicleUsageFieldUpdateOperationsInput | $Enums.VehicleUsage
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     owners_id?: VehicleUpdateowners_idInput | string[]
+    plate?: NullableStringFieldUpdateOperationsInput | string | null
+    document?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
   }
 
