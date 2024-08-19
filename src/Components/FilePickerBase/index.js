@@ -4,7 +4,7 @@ import styles from './styles.module.scss'
 const FilePickerBase = forwardRef(({ label, error, ...props }, ref) => {
     const inputRef = useRef(null)
     return (
-        <>
+        <div style={{ all: 'inherit' }}>
             <input type="file" hidden ref={inputRef} {...props} />
             <InputBase
                 label={label}
@@ -16,7 +16,7 @@ const FilePickerBase = forwardRef(({ label, error, ...props }, ref) => {
                 data-type="file"
             />
             <h6 className={styles.aviso}>*Tamanho máximo de 10Mb</h6>
-        </>
+        </div>
     )
 })
 

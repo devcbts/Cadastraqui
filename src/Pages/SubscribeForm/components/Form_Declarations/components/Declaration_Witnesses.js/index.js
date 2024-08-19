@@ -235,6 +235,7 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
             formData.append("file_declaracoes", file)
             await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData.id }, formData)
             NotificationService.success({ text: 'Declaração enviada' })
+            onNext()
         } catch (err) { }
         // try {
 
