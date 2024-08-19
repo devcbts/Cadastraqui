@@ -4,7 +4,7 @@ import LinkedCalls from "./components/LinkedCalls"
 import ButtonBase from "Components/ButtonBase"
 
 export default function SAC() {
-    const [filter, setFilter] = useSearchParams()
+    const [filter, setFilter] = useSearchParams({ filter: 'open' })
     const handleChangePage = () => {
         if (filter.get("filter") === "open") {
             setFilter({

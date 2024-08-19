@@ -128,11 +128,7 @@ export default function AppRoutes() {
                             </Route>
 
                         </Route>
-                        <Route path="/sac" element={<Outlet />}>
-                            <Route index element={<SAC />} />
-                            {/* <Route path="novo" element={<CandidateCreateSAC />} /> */}
-                            <Route path=":id" element={<ChatSAC />} />
-                        </Route>
+
                         <Route path="*" element={<Navigate to={'/home'} />} />
 
                     </Routes>
@@ -172,6 +168,10 @@ export default function AppRoutes() {
                             <Route path=":entityId" element={<AdminEntityView />} />
                         </Route>
                         <Route path="/cadastro" element={<AdminRegister />} />
+                        <Route path="/sac" element={<Outlet />}>
+                            <Route index element={<SAC />} />
+                            <Route path=":id" element={<ChatSAC />} />
+                        </Route>
                         <Route path="*" element={<Navigate to={'/home'} />} />
                     </Routes>
                 </HeaderWrapper>
