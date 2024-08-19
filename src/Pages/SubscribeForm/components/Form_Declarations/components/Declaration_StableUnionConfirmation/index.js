@@ -32,7 +32,7 @@ export default function Declaration_StableUnionConfirmation({ onBack, onNext, pa
         }
 
         const text = `
-            Convivo em União Estável com ${declarationData?.stableUnion.partnerName}, desde ${formatDate(declarationData?.stableUnion.unionStartDate)} e que somos juridicamente capazes.\
+            Convivo em União Estável com ${declarationData?.stableUnion.partnerName}, CPF ${declarationData?.stableUnion.CPF}, desde ${formatDate(declarationData?.stableUnion.unionStartDate)} e que somos juridicamente capazes.\
 Nossa União Estável possui natureza pública, contínua e duradoura com o objetivo de constituição de família, nos termos dos artigos 1723 e seguintes do Código Civil.
         `;
 
@@ -72,7 +72,7 @@ Nossa União Estável possui natureza pública, contínua e duradoura com o obje
             <h3 className={commonStyles.declarationFormSubTitle}>DECLARAÇÃO DE UNIÃO ESTÁVEL</h3>
             <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
             <div className={commonStyles.declarationContent}>
-                <p>Convivo em União Estável com {declarationData?.stableUnion.partnerName}, desde {formatDate(declarationData?.stableUnion.unionStartDate)} e que somos juridicamente capazes. Nossa União Estável possui natureza pública, contínua e duradoura com o objetivo de constituição de família, nos termos dos artigos 1723 e seguintes do Código Civil.</p>
+                <p>Convivo em União Estável com {declarationData?.stableUnion.partnerName}, CPF {declarationData?.stableUnion.CPF}, desde {formatDate(declarationData?.stableUnion.unionStartDate)} e que somos juridicamente capazes. Nossa União Estável possui natureza pública, contínua e duradoura com o objetivo de constituição de família, nos termos dos artigos 1723 e seguintes do Código Civil.</p>
                 <p className={commonStyles.declarationConfirm}>Confirma a declaração?</p>
                 <div className={commonStyles.radioGroupInput}>
                     <label>

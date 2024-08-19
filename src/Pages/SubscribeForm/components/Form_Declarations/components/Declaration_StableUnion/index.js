@@ -8,6 +8,7 @@ import candidateService from 'services/candidate/candidateService';
 import declarationAtom from '../../atoms/declarationAtom';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import stableUnionSchema from './stable-union-schema';
+import { formatCPF } from 'utils/format-cpf';
 
 export default function Declaration_StableUnion({ onBack, onSave }) {
     // const [confirmation, setConfirmation] = useState(null);
@@ -19,7 +20,8 @@ export default function Declaration_StableUnion({ onBack, onSave }) {
         defaultValues: {
             confirmation: null,
             partnerName: '',
-            unionStartDate: ''
+            unionStartDate: '',
+            CPF: ''
         },
         initialData: declarationData?.stableUnion
     })
@@ -87,6 +89,7 @@ export default function Declaration_StableUnion({ onBack, onSave }) {
                 <div className={commonStyles.additionalFields}>
                     <InputForm control={control} label={'nome do(a) parceiro(a)'} name={"partnerName"} />
                     <InputForm control={control} label={'data de início da união estável'} name={"unionStartDate"} type="date" />
+                    <InputForm control={control} label={'CPF'} name={"CPF"} transform={(e) => formatCPF(e.target.value)} />
                     {/* <div className={commonStyles.inputGroup}>
                         <label htmlFor="partnerName">Nome do Parceiro</label>
                         <input
