@@ -5,6 +5,10 @@ import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
 import { forwardRef, useEffect } from "react";
 import benefitsSchema from "./schemas/benefits-schema";
 import styles from './styles.module.scss';
+import FormFilePicker from "Components/FormFilePicker";
+import ButtonBase from "Components/ButtonBase";
+import { Link } from "react-router-dom";
+import FilePreview from "Components/FilePreview";
 const Benefits = forwardRef(({ data }, ref) => {
     const { control, watch, resetField } = useControlForm({
         schema: benefitsSchema,
@@ -15,6 +19,8 @@ const Benefits = forwardRef(({ data }, ref) => {
             benefitedFromCebasScholarship_basic: null,
             benefitedFromCebasScholarship_professional: null,
             CadUnico: null,
+            file_registerProof: null,
+            metadata_registerProof: null
         },
         initialData: data
     }, ref)
@@ -43,6 +49,11 @@ const Benefits = forwardRef(({ data }, ref) => {
                         <>
                             <InputForm name={"NIS"} control={control} label={"Número de Identificação Social (NIS)"} />
                             <InputForm name={"enrolledGovernmentProgram"} control={control} label={"inscrito em qual programa governamental?"} />
+                            <FormFilePicker name={"file_registerProof"} control={control} label={'comprovante de cadastramento'} accept={'application/pdf'} />
+                            <FilePreview url={data?.url_registerProof} file={watch("file_registerProof")} text={'ver comprovante'} />
+                            <Link target="_blank" to={"https://www.mds.gov.br/consultacidadao"}>
+                                <ButtonBase label={'gerar comprovante'} />
+                            </Link>
                         </>
                     }
                     <FormCheckbox name={"attendedPublicHighSchool"} control={control} label={"estudou em escola pública?"} />

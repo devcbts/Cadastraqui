@@ -14,7 +14,8 @@ const METADATA_TYPE_MAPPER = {
     RESIDENCE: 'Comprovante de residência',
     STATEMENT: 'Extrato bancário',
     REGISTRATO: 'Registrato',
-    EXAM: 'Exame/laudo'
+    EXAM: 'Exame/laudo',
+    REGISTERPROOF: 'Comprovante de cadastramento'
 }
 
 export default METADATA_TYPE_MAPPER

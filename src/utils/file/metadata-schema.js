@@ -5,5 +5,6 @@ const metadataSchema = z.object({
 })
     .catchall(z.any())
     .partial()
+    .nullish()
 
 export default metadataSchema
