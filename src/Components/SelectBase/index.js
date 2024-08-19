@@ -1,18 +1,20 @@
-import { forwardRef } from "react";
+import { forwardRef, useId } from "react";
 import ReactSelect from "react-select";
 import check from '../../Assets/icons/check.svg';
 import errorx from '../../Assets/icons/error.svg';
 import inputBaseStyles from '../InputBase/styles.module.scss';
 
 const SelectBase = forwardRef(({ label, error, ...props }, ref) => {
+    const id = useId()
     const borderStyle = error === null ? '#CFCFCF' : (error ? "#EF3E36" : "#499468")
     const paddingStyle = error !== null
     return (
         <div className={inputBaseStyles.container}>
             <div className={inputBaseStyles.inputwrapper}>
-                <label className={inputBaseStyles.label} >{label}</label>
+                <label className={inputBaseStyles.label} htmlFor={`${id}-${label}`} >{label}</label>
                 <div className={inputBaseStyles.inputbox}>
                     <ReactSelect
+                        inputId={`${id}-${label}`}
                         ref={ref}
                         placeholder="Selecione"
                         isMulti={props.multiple}

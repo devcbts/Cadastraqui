@@ -2,7 +2,7 @@ import metadataSchema from "utils/file/metadata-schema";
 import { z } from "zod";
 
 const documentSchema = z.object({
-    RG: z.string().min(1, 'RG obrigatório'),
+    RG: z.string().min(1, 'Documento obrigatório'),
     rgIssuingState: z.string().min(1, 'Estado emissor obrigatório'),
     rgIssuingAuthority: z.string().min(1, 'Órgão emissor obrigatório'),
     file_idDocument: z.instanceof(File).nullish(),
