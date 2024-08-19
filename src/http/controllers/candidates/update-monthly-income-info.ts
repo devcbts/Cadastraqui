@@ -195,7 +195,7 @@ export default async function updateMonthlyIncome(
                 return acc + (current.liquidAmount || 0);
             }, 0);
 
-            const avgIncome = validIncomes.length > 0 ? totalAmount / quantity : 0;
+            const avgIncome = incomes && validIncomes.length > 0 ? (totalAmount / quantity) : 0;
             let income;
             if (id) {
                 income = await tsPrisma.familyMemberIncome.update({

@@ -164,7 +164,7 @@ export async function updateFamilyMemberInfo(
     const dataToUpdate = {
       relationship,
       fullName,
-      birthDate: new Date(birthDate ?? Date.now()),
+      ...(birthDate && { birthDate: new Date(birthDate) }),
       gender,
       nationality,
       natural_city,
