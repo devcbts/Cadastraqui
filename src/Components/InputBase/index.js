@@ -19,9 +19,11 @@ const InputBase = forwardRef(({
                         {label}
                     </label>
                 </Tooltip>
-                    : <label className={styles.label} >
-                        {label}
-                    </label>
+                    : (label && (
+                        <label className={styles.label} >
+                            {label}
+                        </label>
+                    ))
                 }
                 <div className={styles.inputbox}>
                     {React.cloneElement(element, {

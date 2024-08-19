@@ -40,6 +40,10 @@ import AssistantHome from "Pages/SocialAssistant/Home";
 import EntityApplicants from "Pages/Entity/Applicants";
 import EntityAnnouncementCourses from "Pages/Entity/Applicants/components/AnnouncementCourses";
 import EntityAnnouncementApplicants from "Pages/Entity/Applicants/components/AnnouncementApplicants";
+import CandidateSAC from "Pages/Candidate/SAC";
+import CandidateCreateSAC from "Pages/Candidate/SAC/components/CreateSAC";
+import ChatSAC from "Pages/SAC/components/Chat";
+import SAC from "Pages/SAC";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -82,6 +86,11 @@ export default function AppRoutes() {
                             <Route index element={<CandidateSchedule />} />
                             <Route path=':scheduleId' element={<CandidateScheduleView />} />
                         </Route>
+                        <Route path="/sac" element={<Outlet />}>
+                            <Route index element={<CandidateSAC />} />
+                            <Route path="novo" element={<CandidateCreateSAC />} />
+                            <Route path=":id" element={<ChatSAC />} />
+                        </Route>
                         <Route path="*" element={<Navigate to={'/home'} />} />
 
                     </Routes>
@@ -118,6 +127,11 @@ export default function AppRoutes() {
                                 <Route path="candidato/:scheduleId" element={<AssistantCandidateSchedule />} />
                             </Route>
 
+                        </Route>
+                        <Route path="/sac" element={<Outlet />}>
+                            <Route index element={<SAC />} />
+                            {/* <Route path="novo" element={<CandidateCreateSAC />} /> */}
+                            <Route path=":id" element={<ChatSAC />} />
                         </Route>
                         <Route path="*" element={<Navigate to={'/home'} />} />
 
