@@ -19,7 +19,16 @@ export function FormStep({ index, label = '', onClick = null, children, complete
         }
     }
     return (
-        <div className={[styles.step, clickStyle].join(' ')} style={{ marginRight: vertical && 0 }} onClick={handleClick} role={onClick ? 'button' : 'div'}>
+        <div className={[styles.step, clickStyle].join(' ')}
+            style={{ marginRight: vertical && 0 }}
+            onClick={handleClick}
+            role={onClick ? 'button' : 'div'}
+            tabIndex={onClick ? 0 : null}
+            aria-label={label}
+            onKeyDown={(e) => {
+                if (e.code === "Enter") { handleClick() }
+            }}
+        >
             <div className={[styles.contentwrapper, verticalStyle].join(' ')}>
                 <div className={[styles.container, activeStyle, completedStyle].join(' ')}>
                     {children}

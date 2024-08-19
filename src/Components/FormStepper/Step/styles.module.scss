@@ -23,7 +23,11 @@
             opacity: .8;
         }
     }
-
+    &:focus-visible{
+        outline: none;
+        border: 2px solid $primary;
+        border-radius: 8px;
+    }
     .contentwrapper {
         display: flex;
         flex-direction: column;
