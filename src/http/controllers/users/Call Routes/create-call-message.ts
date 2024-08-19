@@ -1,33 +1,32 @@
-import { ResourceNotFoundError } from "@/errors/resource-not-found-error"
 import { UserNotExistsError } from "@/errors/users-not-exists-error"
 import { prisma } from "@/lib/prisma"
 import { FastifyReply, FastifyRequest } from "fastify"
 import { z } from "zod"
 
 export default async function createCallMessage(request: FastifyRequest, reply: FastifyReply) {
-    const createCallMessageBody = z.object({  
+    const createCallMessageBody = z.object({
         message: z.string()
-    })  
-    const createCallMessageParams = z.object({
-        call_id: z.number()
     })
-    const {  message } = createCallMessageBody.parse(request.body)
-    const {call_id } = createCallMessageParams.parse(request.params)
+    const createCallMessageParams = z.object({
+        call_id: z.string()
+    })
+    const { message } = createCallMessageBody.parse(request.body)
+    const { call_id } = createCallMessageParams.parse(request.params)
     try {
         const user_id = request.user.sub
-            
+
         const userExists = await prisma.user.findUnique({
-            where: {id: user_id}
+            where: { id: user_id }
         })
         if (!userExists) {
-           throw new UserNotExistsError()
+            throw new UserNotExistsError()
         }
 
         const callExists = await prisma.call.findUnique({
-            where: {id: call_id, creator_id: user_id, status: {not: 'CLOSED'}}
+            where: { id: call_id, OR: [{ creator_id: user_id }, { replyer_id: user_id }], status: { not: 'CLOSED' } }
         })
         if (!callExists) {
-            throw new Error("Chamado não foi encontrado, ou já foi fechado")            
+            throw new Error("Chamado não foi encontrado, ou já foi fechado")
         }
         const callMessage = await prisma.callMessages.create({
             data: {
@@ -37,7 +36,7 @@ export default async function createCallMessage(request: FastifyRequest, reply: 
             }
         })
 
-        return reply.status(201).send({callMessage})
+        return reply.status(201).send({ callMessage })
     } catch (error: any) {
         if (error instanceof UserNotExistsError) {
             return reply.status(404).send({ message: error.message })

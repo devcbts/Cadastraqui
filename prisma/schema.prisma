@@ -858,11 +858,12 @@ model DeletedFamilyMembers {
 }
 
 model Call {
-  id          Int            @id @default(autoincrement())
+  id          String         @id @default(uuid())
   socialName  String
   callSubject String
   creator_id  String
   replyer_id  String?
+  number      Int            @default(autoincrement())
   status      CallStatus     @default(OPEN)
   Messages    CallMessages[]
   CreatedAt   DateTime       @default(now())
@@ -876,7 +877,7 @@ model CallMessages {
   message   String
   filePath  String?
   call      Call     @relation(fields: [call_id], references: [id])
-  call_id   Int
+  call_id   String
   user_id   String
   CreatedAt DateTime @default(now())
 }
