@@ -34,16 +34,5 @@ const benefitsSchema = z.object({
         }
     }
 })
-    .transform(e => {
-        if (e.file_registerProof) {
-            return {
-                ...e,
-                metadata_registerProof: {
-                    type: METADATA_FILE_TYPE.DOCUMENT.REGISTERPROOF
-                }
-            }
-        }
-        return e
-    })
 
 export default benefitsSchema

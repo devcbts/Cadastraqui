@@ -20,6 +20,8 @@ const VehicleData = forwardRef(({ data }, ref) => {
             modelAndBrand: '',
             manufacturingYear: '',
             usage: '',
+            plate: '',
+            document: '',
             owners_id: [],
             // Variable to avoid unnecessary fetch of family members (NOT TO BE USED ON FORM)
             members: []
@@ -63,6 +65,8 @@ const VehicleData = forwardRef(({ data }, ref) => {
             <FormSelect name="owners_id" label="proprietários" control={control} options={watchMembers} value={watchOwners} multiple />
             <FormSelect name="vehicleType" label="tipo de veículo" control={control} options={VEHICLE_TYPE} value={watchVehicleType} />
             <InputForm control={control} name="modelAndBrand" label="marca e modelo" />
+            <InputForm control={control} name="plate" label="Placa" />
+            <InputForm control={control} name="document" label="Renavam" />
             <InputForm control={control} name="manufacturingYear" label="ano de fabricação" transform={(e) => {
                 if (!isNaN(parseInt(e.target.value))) {
                     return parseInt(e.target.value, 10)

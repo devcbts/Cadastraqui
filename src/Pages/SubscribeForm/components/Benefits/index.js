@@ -9,6 +9,7 @@ import FormFilePicker from "Components/FormFilePicker";
 import ButtonBase from "Components/ButtonBase";
 import { Link } from "react-router-dom";
 import FilePreview from "Components/FilePreview";
+import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
 const Benefits = forwardRef(({ data }, ref) => {
     const { control, watch, resetField } = useControlForm({
         schema: benefitsSchema,
@@ -20,7 +21,9 @@ const Benefits = forwardRef(({ data }, ref) => {
             benefitedFromCebasScholarship_professional: null,
             CadUnico: null,
             file_registerProof: null,
-            metadata_registerProof: null
+            metadata_registerProof: {
+                type: METADATA_FILE_TYPE.DOCUMENT.REGISTERPROOF
+            }
         },
         initialData: data
     }, ref)
