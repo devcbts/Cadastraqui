@@ -9,7 +9,7 @@ export default async function createCallMessage(request: FastifyRequest, reply: 
         message: z.string()
     })
     const createCallMessageParams = z.object({
-        call_id: z.number()
+        call_id: z.string()
     })
     const { message } = createCallMessageBody.parse(request.body)
     const { call_id } = createCallMessageParams.parse(request.params)

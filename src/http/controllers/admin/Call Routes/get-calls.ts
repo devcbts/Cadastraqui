@@ -5,7 +5,7 @@ import { z } from "zod";
 
 export default async function getCalls(request: FastifyRequest, reply: FastifyReply) {
     const getCallsParams = z.object({
-        call_id: z.number().optional(),
+        call_id: z.string().optional(),
     });
 
     const getCallBody = z.object({
