@@ -18,7 +18,7 @@ export default function Login() {
     const { state } = useLocation()
     const navigate = useNavigate()
     const [loading, setLoading] = useState(null)
-    const { control, getValues, formState: { isValid }, trigger } = useControlForm({
+    const { control, getValues, formState: { isValid }, trigger, getFieldState } = useControlForm({
         schema: loginSchema,
         defaultValues: {
             email: '',
@@ -45,8 +45,10 @@ export default function Login() {
 
     }
     const handleForgotPassword = async () => {
+
         const { email } = getValues()
-        if (!email) {
+        const isEmailInvalid = getFieldState("email").invalid
+        if (!email || isEmailInvalid) {
             NotificationService.error({ text: 'Preencha o campo de email' })
             return
         }
@@ -80,7 +82,13 @@ export default function Login() {
                     <div className={styles.inputs}>
                         <InputForm label="email" control={control} name="email" type="email" />
                         <InputForm label="senha" control={control} name="password" type="password" />
-                        <p onClick={handleForgotPassword}>Esqueceu sua senha?</p>
+                        <p tabIndex={0} role='link' onClick={handleForgotPassword}
+                            onKeyDown={(e) => {
+                                if (e.code === "Enter") {
+                                    handleForgotPassword()
+                                }
+                            }}
+                        >Esqueceu sua senha?</p>
                         <ButtonBase label={'login'} onClick={handleLogin} />
                     </div>
                     <Link to={'/registrar'} state={state}>

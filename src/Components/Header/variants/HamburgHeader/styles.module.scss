@@ -26,6 +26,10 @@
         width: 50px;
         height: 50%;
         margin-right: 7%;
+        &:focus-visible{
+            // outline: none;
+            border-color: white;
+        }
     }
 }
 

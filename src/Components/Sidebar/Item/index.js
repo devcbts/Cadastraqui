@@ -11,7 +11,7 @@ export default function SidebarItem({ icon: Icon, text, path, onClick }) {
         return onClick()
     }
     return (
-        <button className={[styles.container, isActive].join(' ')} onClick={handleClick}>
+        <button tabIndex={0} aria-label={text} className={[styles.container, isActive].join(' ')} onClick={handleClick}>
             <Icon />
             <span className={styles.text}>{text}</span>
         </button>

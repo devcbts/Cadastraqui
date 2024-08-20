@@ -11,10 +11,19 @@ export default function HamburgHeader({ children }) {
         setMenuOpen((prev) => !prev)
     }
     const MenuIcon = isMenuOpen ? Close : Hamburger
+    const label = isMenuOpen ? 'fechar menu lateral' : 'abrir menu lateral'
     return (
         <div>
             <header className={styles.container}>
-                <MenuIcon className={styles.hamburger} alt='menu' onClick={handleMenuChange}></MenuIcon>
+                <MenuIcon role='button' tabIndex={0} className={styles.hamburger} alt='menu lateral' onClick={handleMenuChange}
+                    aria-label={label}
+                    onKeyDown={(e) => {
+                        if (e.code === "Enter") {
+
+                            handleMenuChange()
+                        }
+                    }}
+                ></MenuIcon>
                 <img className={styles.logo} alt='logo' src={LogoWhite}></img>
             </header>
             {isMenuOpen && children}
