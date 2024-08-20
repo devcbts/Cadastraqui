@@ -22,7 +22,11 @@ const METADATA_FILE_TYPE = {
     },
     BANK: {
         STATEMENT: 'STATEMENT',
-        REGISTRATO: 'REGISTRATO'
+        REGISTRATO: 'REGISTRATO',
+        PROLABORE: 'PROLABORE',
+        DIVIDENDS: 'DIVIDENDS',
+        DECORE: 'DECORE',
+        INCOMEPROOF: 'INCOMEPROOF'
     },
     HEALTH: {
         EXAM: 'EXAM'

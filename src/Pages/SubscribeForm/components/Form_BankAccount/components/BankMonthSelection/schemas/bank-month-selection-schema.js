@@ -36,7 +36,7 @@ const bankMonthSelectionSchema = z.object({
             acc[`file_${currMonth}-${currYear}-extrato`] = month.file_statement
             acc[`metadata_${currMonth}-${currYear}-extrato`] = {
                 type: METADATA_FILE_TYPE.BANK.STATEMENT,
-                category: METADATA_FILE_CATEGORY.Statement,
+                category: METADATA_FILE_CATEGORY.Finance,
                 date: `${currYear}-${currMonth.toString().padStart(2, '0')}-01T00:00:00`
             }
         }

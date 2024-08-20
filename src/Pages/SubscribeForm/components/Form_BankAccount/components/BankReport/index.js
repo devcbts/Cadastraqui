@@ -22,6 +22,9 @@ export default function BankReport({ id, onBack }) {
             file_bankReport: null,
             date: null,
             url_bankReport: null,
+            metadata_bankReport: {
+                type: METADATA_FILE_TYPE.BANK.REGISTRATO
+            }
         },
     })
     useEffect(() => {
@@ -48,7 +51,7 @@ export default function BankReport({ id, onBack }) {
             const metadata = {
                 [`metadata_${date.getMonth() + 1}-${date.getFullYear()}-registrato`]: {
                     type: METADATA_FILE_TYPE.BANK.REGISTRATO,
-                    category: METADATA_FILE_CATEGORY.Registrato,
+                    category: METADATA_FILE_CATEGORY.Finance,
                     date: `${date.getFullYear()}-${date.getMonth() + 1}-01T00:00:00`
                 }
             }

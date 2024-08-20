@@ -52,10 +52,9 @@ export default function FormIncome() {
             }))
             // if incomes  ===  null or []
             // save to 'income' folder
-            if (data.file_document) {
-                formData = createFileForm(data)
-                await uploadService.uploadBySectionAndId({ section: 'income', id: member.id, tableId: incomeId }, formData)
-            }
+            formData = createFileForm(data)
+            await uploadService.uploadBySectionAndId({ section: 'income', id: member.id, tableId: incomeId }, formData)
+
             if (data.incomes) {
                 await Promise.all(data.incomes.map(async (e, index) => {
                     const formData = createFileForm(e)

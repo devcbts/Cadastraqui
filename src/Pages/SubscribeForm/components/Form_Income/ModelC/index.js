@@ -9,6 +9,7 @@ import TotalValue from "../TotalValue";
 import Dividends from "../Dividends";
 import IncomeMonthSelection from "../MonthSelection";
 import IncomeFile from "../IncomeFile";
+import MultiIncomeFile from "../MultiIncomeFile";
 
 const IncomeFormModelC = forwardRef(({ data, viewMode }, ref) => {
     return (
@@ -18,7 +19,7 @@ const IncomeFormModelC = forwardRef(({ data, viewMode }, ref) => {
             render={[
                 Dividends,
                 Pension,
-                IncomeFile,
+                MultiIncomeFile,
                 TotalValue
             ]}
             viewMode={viewMode}

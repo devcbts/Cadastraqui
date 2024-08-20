@@ -15,7 +15,10 @@ const METADATA_TYPE_MAPPER = {
     STATEMENT: 'Extrato bancário',
     REGISTRATO: 'Registrato',
     EXAM: 'Exame/laudo',
-    REGISTERPROOF: 'Comprovante de cadastramento'
+    REGISTERPROOF: 'Comprovante de cadastramento',
+    PROLABORE: 'Pró-labore',
+    DIVIDENDS: 'Dividendos',
+    DECORE: 'Decore',
 }
 
 export default METADATA_TYPE_MAPPER

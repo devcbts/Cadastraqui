@@ -9,7 +9,15 @@ const { forwardRef, useEffect, useMemo } = require("react");
 const IncomeFile = forwardRef(({ data, label, required }, ref) => {
     const { control, watch, setValue } = useControlForm({
         schema: z.object({
-            file_document: required ? z.instanceof(File, 'Arquivo obrigatório') : z.instanceof(File).nullish()
+            file_document: required ? z.instanceof(File, 'Arquivo obrigatório') : z.instanceof(File).nullish(),
+            url_document: z.string().nullish()
+        }).superRefine((data, ctx) => {
+            if (required && !data.file_document && !data.url_document) {
+                ctx.addIssue({
+                    message: 'Documento obrigatório',
+                    path: ['file_document']
+                })
+            }
         }),
         defaultValues: {
             file_document: null,

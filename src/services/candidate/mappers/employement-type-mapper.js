@@ -17,15 +17,17 @@ class EmployementTypeMapper {
         }
         const mappedData = incomeInfoResults?.map((e) => ({
             ...e,
-            months: e.incomes.map((i) => ({
-                ...i,
-                CNPJ: formatCPFCNPJ(i.CNPJ),
-                parcelValue: i.parcelValue ? Number(i.parcelValue).toLocaleString('pt-br', { style: "currency", currency: "brl" }) : null,
-                firstParcelDate: i.firstParcelDate?.split('T')[0],
-                admissionDate: i.admissionDate?.split('T')[0],
-                startDate: i.startDate?.split('T')[0],
-                url_document: Object.values(removeObjectFileExtension(i?.urls))?.[0],
-            })),
+            months: e.incomes.map((i) => {
+                return ({
+                    ...i,
+                    CNPJ: formatCPFCNPJ(i.CNPJ),
+                    parcelValue: i.parcelValue ? Number(i.parcelValue).toLocaleString('pt-br', { style: "currency", currency: "brl" }) : null,
+                    firstParcelDate: i.firstParcelDate?.split('T')[0],
+                    admissionDate: i.admissionDate?.split('T')[0],
+                    startDate: i.startDate?.split('T')[0],
+                    ...removeObjectFileExtension(i?.urls),
+                })
+            }),
             averageIncome: new Number(e.averageIncome).toLocaleString('pt-br', { style: 'currency', currency: 'brl' }),
         }))
         const mappedIncome = new Number(averageIncome).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })

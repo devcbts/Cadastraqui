@@ -15,9 +15,9 @@ export default function mapMetadatas(file) {
             return `${type} ${fileMetadata?.disease ? `(${findLabel(DISEASES, fileMetadata?.disease)})` : ''}`
         case METADATA_FILE_CATEGORY.Medication:
             return `${type} ${fileMetadata?.medication ? `(${fileMetadata?.medication})` : ''}`
-        case METADATA_FILE_CATEGORY.Statement:
-            return `${type} ${fileMetadata?.date ? `(${new Date(fileMetadata?.date).toLocaleString('pt-BR', { month: 'long', year: 'numeric' })})` : ''}`
-        case METADATA_FILE_CATEGORY.Registrato:
+        // case METADATA_FILE_CATEGORY.Statement:
+        //     return `${type} ${fileMetadata?.date ? `(${new Date(fileMetadata?.date).toLocaleString('pt-BR', { month: 'long', year: 'numeric' })})` : ''}`
+        case METADATA_FILE_CATEGORY.Finance:
             return `${type} ${fileMetadata?.date ? `(${new Date(fileMetadata?.date).toLocaleString('pt-BR', { month: 'long', year: 'numeric' })})` : ''}`
 
         default:

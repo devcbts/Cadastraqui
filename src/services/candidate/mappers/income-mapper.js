@@ -25,7 +25,11 @@ class IncomeMapper {
                         acc[`has${objKey}`] = !!Number(objValue)
                     } else {
                         if (objKey === 'urls') {
-                            acc['url_document'] = Object.values(removeObjectFileExtension(objValue))?.[0]
+                            acc = { ...acc, ...removeObjectFileExtension(objValue) }
+                            const hasSingleDocument = Object.entries(removeObjectFileExtension(objValue)).find(([e]) => e.includes('rendimentos'))
+                            if (hasSingleDocument) {
+                                acc['url_document'] = hasSingleDocument[1]
+                            }
                         } else {
                             acc[objKey] = objValue
                         }
