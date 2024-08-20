@@ -56,18 +56,22 @@ export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: F
     
     const urlsMonthlyIncome = await getSectionDocumentsPDF(IsUser.UserData.id, `monthly-income/${_id}`)
 
+    const urlsIncome = await getSectionDocumentsPDF(IsUser.UserData.id, 'income')
+
     const incomeBySource = memberIncomes.map(income => {
       const source = income.employmentType ? income.employmentType : 'Unknown';
       const monthlyIncomes = income.MonthlyIncomes.map(monthlyIncome => {
-        const incomeDocuments = Object.entries(urlsMonthlyIncome).filter(([url]) => url.split("/")[4] === monthlyIncome.id);
+        const monthlyIncomeDocuments = Object.entries(urlsMonthlyIncome).filter(([url]) => url.split("/")[4] === monthlyIncome.id);
         return {
           ...monthlyIncome,
-          urls: Object.fromEntries(incomeDocuments),
+          urls: Object.fromEntries(monthlyIncomeDocuments),
         };
       });
-    
+      const IncomeDocuments = Object.entries(urlsIncome).filter(([url]) => url.split("/")[4] === income.id);
+
       return {
         incomeSource: source,
+        urls: Object.fromEntries(IncomeDocuments),
         monthlyIncomes: monthlyIncomes,
       };
     });
