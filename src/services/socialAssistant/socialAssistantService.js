@@ -104,10 +104,15 @@ class SocialAssistantService {
     async getRegistrato(applicationId, id) {
         const response = await api.get(`/assistant/candidateInfo/registrato/${applicationId}/${id}`)
         const data = removeObjectFileExtension(response.data)
-        const [date, url] = Object.entries(data)[0]
+        // get the newest registrato (TODO: remove the last one when new is uploaded)
+        const [date, url] = Object.entries(data)?.filter(e => e[0].includes('registrato')).sort((a, b) => a < b)[0]
+        const [pdate, purl] = Object.entries(data)?.filter(e => e[0].includes('pix')).sort((a, b) => a < b)[0]
         const [month, year] = date.split('_')[1].split('-')
+        const [pmonth, pyear] = pdate.split('_')[1].split('-')
         const registrato_date = new Date(`${month}-01-${year}`)
-        return { url, date: registrato_date }
+        const pix_date = new Date(`${pmonth}-01-${pyear}`)
+        return [{ url, date: registrato_date, type: 'registrato' }, { url: purl, date: pix_date, type: 'chave pix' }]
+
     }
     async registerSolicitation(applicationId, solicitation) {
         const response = await api.post(`/assistant/solicitation/${applicationId}`, solicitation)

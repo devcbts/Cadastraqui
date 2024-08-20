@@ -20,20 +20,20 @@ export default function BankReport({ id, onBack }) {
         schema: bankReportSchema,
         defaultValues: {
             file_bankReport: null,
-            date: null,
             url_bankReport: null,
-            metadata_bankReport: {
-                type: METADATA_FILE_TYPE.BANK.REGISTRATO
-            }
+            metadata_bankReport: null,
+            file_pixKey: null,
+            url_pixKey: null,
+            metadata_pixKey: null
         },
     })
+    const [data, setData] = useState([])
     useEffect(() => {
         const fetchRegistrato = async () => {
             try {
                 setIsLoading(true)
                 const registrato = await candidateService.getRegistrato(id)
-                setValue('date', registrato.date)
-                setValue('url_bankReport', registrato.url)
+                setData(registrato)
             } catch (err) { }
             setIsLoading(false)
         }
@@ -45,7 +45,8 @@ export default function BankReport({ id, onBack }) {
             return
         }
         try {
-            const value = getValues('file_bankReport')
+            const report = getValues('file_bankReport')
+            const pix = getValues('file_pixKey')
             const date = new Date()
             const formData = new FormData()
             const metadata = {
@@ -53,21 +54,28 @@ export default function BankReport({ id, onBack }) {
                     type: METADATA_FILE_TYPE.BANK.REGISTRATO,
                     category: METADATA_FILE_CATEGORY.Finance,
                     date: `${date.getFullYear()}-${date.getMonth() + 1}-01T00:00:00`
+                },
+                [`metadata_${date.getMonth() + 1}-${date.getFullYear()}-pix`]: {
+                    type: METADATA_FILE_TYPE.BANK.PIX,
+                    category: METADATA_FILE_CATEGORY.Finance,
+                    date: `${date.getFullYear()}-${date.getMonth() + 1}-01T00:00:00`
                 }
             }
             formData.append("file_metadatas", JSON.stringify(metadata))
-            formData.append(`file_${date.getMonth() + 1}-${date.getFullYear()}-registrato`, value)
+            formData.append(`file_${date.getMonth() + 1}-${date.getFullYear()}-registrato`, report)
+            formData.append(`file_${date.getMonth() + 1}-${date.getFullYear()}-pix`, pix)
 
             await uploadService.uploadBySectionAndId({ section: 'registrato', id }, formData)
-            NotificationService.success({ text: 'Registrato enviado com sucesso' })
+            NotificationService.success({ text: 'Documentos enviados com sucesso' })
         } catch (err) {
-            NotificationService.error({ text: 'Erro ao enviar o registrato, tente novamente' })
+            NotificationService.error({ text: 'Erro ao enviar documentos, tente novamente' })
         }
     }
-    const getStatus = () => {
+    const getStatus = (date) => {
+        if (!date) return ''
         const currDate = new Date()
         currDate.setDate(1)
-        const compareDate = watch('date')
+        const compareDate = date
         const days = currDate.getMonth() - compareDate.getMonth() +
             (12 * (currDate.getFullYear() - compareDate.getFullYear()))
 
@@ -81,16 +89,23 @@ export default function BankReport({ id, onBack }) {
                 <h1>Relatório de Contas e Relacionamentos (CCS)</h1>
                 <div style={{ width: '100%' }}>
                     <FormFilePicker accept={"application/pdf"} control={control} label={'Arquivo'} name={'file_bankReport'} />
-                    {watch('date') && <Table.Root headers={['data', 'status', 'ações']}>
-                        <Table.Row>
-                            <Table.Cell>{watch('date')?.toLocaleString('pt-br', { month: 'long', year: 'numeric' })}</Table.Cell>
-                            <Table.Cell>{getStatus()}</Table.Cell>
-                            <Table.Cell>
-                                <Link to={watch('url_bankReport')} target="_blank">
-                                    <ButtonBase label={'visualizar'} />
-                                </Link>
-                            </Table.Cell>
-                        </Table.Row>
+                    <h1>Chaves PIX</h1>
+                    <FormFilePicker accept={"application/pdf"} control={control} label={'Arquivo'} name={'file_pixKey'} />
+                    {<Table.Root headers={['data', 'status', 'tipo', 'ações']}>
+                        {
+                            data.map(e => (
+                                <Table.Row>
+                                    <Table.Cell>{e.date?.toLocaleString('pt-br', { month: 'long', year: 'numeric' })}</Table.Cell>
+                                    <Table.Cell>{getStatus(e.date)}</Table.Cell>
+                                    <Table.Cell>{e.type}</Table.Cell>
+                                    <Table.Cell>
+                                        <Link to={e.url} target="_blank">
+                                            <ButtonBase label={'visualizar'} />
+                                        </Link>
+                                    </Table.Cell>
+                                </Table.Row>
+                            ))
+                        }
                     </Table.Root>}
                     {/* <FilePreview file={watchFile} url={getValues("url_bankReport")} text={'visualizar documento'} /> */}
                 </div>

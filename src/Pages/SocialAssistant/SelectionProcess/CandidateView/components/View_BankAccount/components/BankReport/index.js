@@ -9,20 +9,21 @@ import styles from './styles.module.scss';
 
 export default function BankReport({ applicationId, id, onBack }) {
     // { date: '', url: '' }
-    const [data, setData] = useState(null)
+    const [data, setData] = useState([])
     useEffect(() => {
         const fetchRegistrato = async () => {
             try {
                 const registrato = await socialAssistantService.getRegistrato(applicationId, id)
-                setData({ date: registrato.date, url: registrato.url })
+                setData(registrato)
             } catch (err) { }
         }
         fetchRegistrato()
     }, [id])
-    const getStatus = () => {
+    const getStatus = (date) => {
+        if (!date) return ''
         const currDate = new Date()
         currDate.setDate(1)
-        const compareDate = data.date
+        const compareDate = date
         const days = currDate.getMonth() - compareDate.getMonth() +
             (12 * (currDate.getFullYear() - compareDate.getFullYear()))
 
@@ -33,16 +34,18 @@ export default function BankReport({ applicationId, id, onBack }) {
             <h1>{new Date().toLocaleString('pt-br', { year: 'numeric', month: 'long' }).toUpperCase()}</h1>
             <div className={styles.report}>
                 <h1>Relatório de Contas e Relacionamentos (CCS)</h1>
-                {data && < Table.Root headers={['data', 'status', 'ações']}>
-                    <Table.Row>
-                        <Table.Cell>{data.date?.toLocaleString('pt-br', { month: 'long', year: 'numeric' })}</Table.Cell>
-                        <Table.Cell>{getStatus()}</Table.Cell>
-                        <Table.Cell>
-                            <Link to={data.url} target="_blank">
-                                <ButtonBase label={'visualizar'} />
-                            </Link>
-                        </Table.Cell>
-                    </Table.Row>
+                {< Table.Root headers={['data', 'status', 'ações']}>
+                    {
+                        data.map(e => (<Table.Row>
+                            <Table.Cell>{e.date?.toLocaleString('pt-br', { month: 'long', year: 'numeric' })}</Table.Cell>
+                            <Table.Cell>{getStatus(e.date)}</Table.Cell>
+                            <Table.Cell>
+                                <Link to={data.url} target="_blank">
+                                    <ButtonBase label={'visualizar'} />
+                                </Link>
+                            </Table.Cell>
+                        </Table.Row>))
+                    }
                 </Table.Root>
                 }
             </div >
