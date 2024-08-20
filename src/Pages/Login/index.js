@@ -13,6 +13,7 @@ import userService from 'services/user/userService'
 import loginSchema from './schemas/login-schema'
 import styles from './styles.module.scss'
 import { api } from 'services/axios'
+import UnauthenticatedHeader from 'Components/Header/variants/UnauthenticatedHeader'
 export default function Login() {
     const { login } = useAuth()
     const { state } = useLocation()
@@ -64,9 +65,7 @@ export default function Login() {
     return (
         <div>
             <Loader loading={!!loading} text={loading} />
-            <header style={{ height: '80px', backgroundColor: '#1F4B73', display: 'flex', flexDirection: 'row', justifyContent: 'start', padding: '0 40px', alignItems: 'center' }}>
-                <img className={styles.logo} src={Logo} alt='Logo' />
-            </header>
+            <UnauthenticatedHeader />
             <div className={styles.content}>
                 <div className={styles.brand}>
                     <IconLogo />
