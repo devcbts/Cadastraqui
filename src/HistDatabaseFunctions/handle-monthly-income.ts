@@ -11,15 +11,21 @@ export async function createMonthlyIncomeHDB(id: string, candidate_id: string | 
         return null;
 
     }
-    const { id: oldId, familyMember_id: oldFamilyMemberId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId, ...monthlyIncomeData } = monthlyIncome;
+    const { id: oldId, familyMember_id: oldFamilyMemberId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId, income_id: income_id , ...monthlyIncomeData } = monthlyIncome;
     const familyMemberMapping = await historyDatabase.idMapping.findFirst({
         where: { mainId: (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, application_id }
     });
     const newFamilyMemberId = familyMemberMapping?.newId;
     const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (monthlyIncome.legalResponsibleId ? { legalResponsibleId: newFamilyMemberId } : { candidate_id: newFamilyMemberId });
 
+    const incomeMapping = await historyDatabase.idMapping.findFirst({
+        where: { mainId: income_id ?? undefined, application_id }
+    })
+
+    const newIncomeId = incomeMapping?.newId;
+
     const createMonthlyIncome = await historyDatabase.monthlyIncome.create({
-        data: { main_id: monthlyIncome.id, ...monthlyIncomeData, ...idField, application_id }
+        data: { main_id: monthlyIncome.id, ...monthlyIncomeData, ...idField,income_id:newIncomeId, application_id }
     });
     const idRoute = legalResponsibleId ? legalResponsibleId : candidate_id;
     if (!idRoute) {

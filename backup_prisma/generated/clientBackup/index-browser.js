@@ -127,7 +127,8 @@ exports.Prisma.CandidateScalarFieldEnum = {
   profilePicture: 'profilePicture',
   email: 'email',
   finishedapplication: 'finishedapplication',
-  application_id: 'application_id'
+  application_id: 'application_id',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.UserScalarFieldEnum = {
@@ -136,7 +137,8 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   role: 'role',
   createdAt: 'createdAt',
-  profilePicture: 'profilePicture'
+  profilePicture: 'profilePicture',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.LegalResponsibleScalarFieldEnum = {
@@ -157,7 +159,8 @@ exports.Prisma.LegalResponsibleScalarFieldEnum = {
   hasScholarship: 'hasScholarship',
   monthlyAmount: 'monthlyAmount',
   percentageOfScholarship: 'percentageOfScholarship',
-  application_id: 'application_id'
+  application_id: 'application_id',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SocialAssistantScalarFieldEnum = {
@@ -273,7 +276,9 @@ exports.Prisma.IdentityDetailsScalarFieldEnum = {
   nameOfScholarshipCourse_professional: 'nameOfScholarshipCourse_professional',
   candidate_id: 'candidate_id',
   responsible_id: 'responsible_id',
-  application_id: 'application_id'
+  application_id: 'application_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.FamilyMemberScalarFieldEnum = {
@@ -330,7 +335,9 @@ exports.Prisma.FamilyMemberScalarFieldEnum = {
   hasBankAccount: 'hasBankAccount',
   incomeSource: 'incomeSource',
   legalResponsibleId: 'legalResponsibleId',
-  application_id: 'application_id'
+  application_id: 'application_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.HousingScalarFieldEnum = {
@@ -345,7 +352,9 @@ exports.Prisma.HousingScalarFieldEnum = {
   numberOfBedrooms: 'numberOfBedrooms',
   candidate_id: 'candidate_id',
   responsible_id: 'responsible_id',
-  application_id: 'application_id'
+  application_id: 'application_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.VehicleScalarFieldEnum = {
@@ -363,7 +372,9 @@ exports.Prisma.VehicleScalarFieldEnum = {
   candidate_id: 'candidate_id',
   owners_id: 'owners_id',
   legalResponsibleId: 'legalResponsibleId',
-  application_id: 'application_id'
+  application_id: 'application_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.FamilyMemberIncomeScalarFieldEnum = {
@@ -390,7 +401,9 @@ exports.Prisma.FamilyMemberIncomeScalarFieldEnum = {
   quantity: 'quantity',
   candidate_id: 'candidate_id',
   application_id: 'application_id',
-  legalResponsibleId: 'legalResponsibleId'
+  legalResponsibleId: 'legalResponsibleId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.MonthlyIncomeScalarFieldEnum = {
@@ -418,7 +431,10 @@ exports.Prisma.MonthlyIncomeScalarFieldEnum = {
   candidate_id: 'candidate_id',
   incomeSource: 'incomeSource',
   application_id: 'application_id',
-  legalResponsibleId: 'legalResponsibleId'
+  legalResponsibleId: 'legalResponsibleId',
+  income_id: 'income_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.BankAccountScalarFieldEnum = {
@@ -431,7 +447,9 @@ exports.Prisma.BankAccountScalarFieldEnum = {
   familyMember_id: 'familyMember_id',
   candidate_id: 'candidate_id',
   legalResponsibleId: 'legalResponsibleId',
-  application_id: 'application_id'
+  application_id: 'application_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ExpenseScalarFieldEnum = {
@@ -499,7 +517,9 @@ exports.Prisma.ExpenseScalarFieldEnum = {
   otherExpensesDescription: 'otherExpensesDescription',
   otherExpensesValue: 'otherExpensesValue',
   legalResponsibleId: 'legalResponsibleId',
-  application_id: 'application_id'
+  application_id: 'application_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.LoanScalarFieldEnum = {
@@ -513,7 +533,9 @@ exports.Prisma.LoanScalarFieldEnum = {
   familyMember_id: 'familyMember_id',
   candidate_id: 'candidate_id',
   legalResponsibleId: 'legalResponsibleId',
-  application_id: 'application_id'
+  application_id: 'application_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.FinancingScalarFieldEnum = {
@@ -529,7 +551,9 @@ exports.Prisma.FinancingScalarFieldEnum = {
   otherFinancing: 'otherFinancing',
   financingType: 'financingType',
   legalResponsibleId: 'legalResponsibleId',
-  application_id: 'application_id'
+  application_id: 'application_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.CreditCardScalarFieldEnum = {
@@ -544,7 +568,9 @@ exports.Prisma.CreditCardScalarFieldEnum = {
   familyMember_id: 'familyMember_id',
   candidate_id: 'candidate_id',
   legalResponsibleId: 'legalResponsibleId',
-  application_id: 'application_id'
+  application_id: 'application_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.OtherExpenseScalarFieldEnum = {
@@ -555,7 +581,9 @@ exports.Prisma.OtherExpenseScalarFieldEnum = {
   familyMember_id: 'familyMember_id',
   candidate_id: 'candidate_id',
   legalResponsibleId: 'legalResponsibleId',
-  application_id: 'application_id'
+  application_id: 'application_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.FamilyMemberDiseaseScalarFieldEnum = {
@@ -568,7 +596,9 @@ exports.Prisma.FamilyMemberDiseaseScalarFieldEnum = {
   familyMember_id: 'familyMember_id',
   candidate_id: 'candidate_id',
   legalResponsibleId: 'legalResponsibleId',
-  application_id: 'application_id'
+  application_id: 'application_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.MedicationScalarFieldEnum = {
@@ -581,7 +611,9 @@ exports.Prisma.MedicationScalarFieldEnum = {
   candidate_id: 'candidate_id',
   legalResponsibleId: 'legalResponsibleId',
   application_id: 'application_id',
-  familyMemberDiseaseId: 'familyMemberDiseaseId'
+  familyMemberDiseaseId: 'familyMemberDiseaseId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.DeclarationsScalarFieldEnum = {
@@ -591,7 +623,9 @@ exports.Prisma.DeclarationsScalarFieldEnum = {
   familyMember_id: 'familyMember_id',
   candidate_id: 'candidate_id',
   legalResponsibleId: 'legalResponsibleId',
-  application_id: 'application_id'
+  application_id: 'application_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.AnnouncementInterviewScalarFieldEnum = {
