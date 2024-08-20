@@ -43,7 +43,7 @@ export async function verifyHealthRegistration(CandidateOrResponsibleId: string)
             })
         ]);
         // Se não houver nenhum registro para o familiar, o registro de saúde não estará completo
-        if (!hasData[0] || !hasData[1]) {
+        if (!hasData[0] && !hasData[1]) {
             update = false;
             
         }
@@ -62,7 +62,7 @@ export async function verifyHealthRegistration(CandidateOrResponsibleId: string)
                 }
             })
         ]);
-        if (!hasData[0] || !hasData[1]) {
+        if (!hasData[0] && !hasData[1]) {
             update = false;
             
         }
