@@ -24,6 +24,7 @@ export default function FormPassword({ onCancel }) {
             const { oldPassword, newPassword } = getValues()
             await userService.changePassword({ oldPass: oldPassword, newPass: newPassword })
             NotificationService.success({ text: 'Senha alterada com sucesso' })
+            onCancel()
         } catch (err) {
             NotificationService.error({ text: err.response?.data?.message })
         }
