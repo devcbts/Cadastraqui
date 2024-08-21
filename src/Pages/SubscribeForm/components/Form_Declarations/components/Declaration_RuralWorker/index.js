@@ -31,7 +31,10 @@ export default function Declaration_RuralWorker({ onBack, onNext }) {
         if (ruralWorker !== null) {
             localStorage.setItem('ruralWorkerDetails', JSON.stringify({ ruralWorker, activity }));
             if (!ruralWorker) {
-                candidateService.deleteDeclaration({ userId: declarationData.id, type: 'RuralWorker' }).catch(err => { })
+                candidateService.deleteDeclaration({
+                    userId: declarationData.id, type: 'RuralWorker', text: `
+                    Eu, ${declarationData.name}, inscrito(a) no CPF ${declarationData.CPF}, declaro não exercer qualquer atividade rural.
+                    `  }).catch(err => { })
                 onNext(false); // Navega para AUTONOMO
             } else {
                 onNext(true); // Navega para a próxima tela com a atividade

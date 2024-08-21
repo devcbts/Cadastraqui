@@ -4,7 +4,7 @@ import styles from './styles.module.scss'
 const FilePickerBase = forwardRef(({ label, error, ...props }, ref) => {
     const inputRef = useRef(null)
     return (
-        <div style={{ width: 'inherit', maxWidth: 'inherit', display: 'flex', flexDirection: 'column', }}>
+        <div style={{ width: '100%', display: 'flex', flexDirection: 'column', }}>
             <input type="file" hidden ref={inputRef} {...props} />
             <InputBase
                 label={label}

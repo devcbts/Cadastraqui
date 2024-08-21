@@ -355,7 +355,7 @@ class CandidateService {
     async registerDeclaration({ section, id, data }) {
         return api.post(`/candidates/declaration/${section}/${id}`, data)
     }
-    async deleteDeclaration({ userId, type } = {
+    async deleteDeclaration({ userId, type, text } = {
         userId: '',
         type: "Form" ||
             "Activity" ||
@@ -381,11 +381,12 @@ class CandidateService {
             "SingleStatus" ||
             "StableUnion" ||
             "Status" ||
-            "WorkCard"
+            "WorkCard",
+        text: null
     }
     ) {
         await api.post(`/candidates/declaration/${type}/${userId}`, {
-            text: null,
+            text,
             declarationExists: false
         })
     }

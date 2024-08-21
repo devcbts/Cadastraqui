@@ -10,11 +10,13 @@ import PROPERTY_STATUS from "utils/enums/property-status";
 import GivenPropertyPDF from "../GivenPropertyPDF";
 import PropertyOwner from "../PropertyOwner";
 import propertyStatusSchema from "./schemas/property-status-schema";
+import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
+import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category";
 
 const { forwardRef, useEffect, useState } = require("react");
 
 const PropertyStatus = forwardRef(({ data }, ref) => {
-    const { control, watch, resetField } = useControlForm({
+    const { control, watch, resetField, setValue } = useControlForm({
         schema: propertyStatusSchema,
         defaultValues: {
             propertyStatus: '',
@@ -22,6 +24,7 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
             contractType: null,
             file_document: null,
             url_document: null,
+            metadata_document: null,
         },
         initialData: data
     }, ref)
@@ -32,11 +35,19 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
     const declarationNeeded = ["ProvidedByFamily", "ProvidedOtherWay"].includes(watchPropertyStatus)
     const hasContractType = watchPropertyStatus === "Rented"
     useEffect(() => {
-        if (!hasGrantorName) {
-            resetField("grantorName", { defaultValue: null })
-        }
-        if (!hasContractType) {
+        if (hasGrantorName) {
+            setValue("metadata_document", {
+                type: METADATA_FILE_TYPE.RESIDENCE.GIVENPROPERTY,
+                category: METADATA_FILE_CATEGORY.Residence
+            })
             resetField("contractType", { defaultValue: null })
+        }
+        if (hasContractType) {
+            setValue("metadata_document", {
+                type: METADATA_FILE_TYPE.RESIDENCE.RENTCONTRACT,
+                category: METADATA_FILE_CATEGORY.Residence
+            })
+            resetField("grantorName", { defaultValue: null })
         }
     }, [hasContractType, hasGrantorName, resetField, watchPropertyStatus])
     const watchFile = watch("file_document")

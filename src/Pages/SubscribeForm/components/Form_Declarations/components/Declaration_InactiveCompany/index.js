@@ -51,7 +51,12 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
 
     const handleSave = () => {
         if (!hasInactiveCompany) {
-            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'InactiveCompany' })
+            candidateService.deleteDeclaration({
+                userId: declarationData.id, type: 'InactiveCompany',
+                text: `
+                Eu, ${declarationData.name}, inscrito(a) no CPF ${declarationData.CPF}, declaro não possuir qualquer empresa inativa.
+                `
+            })
         }
         if (!addressRef.current?.validate() && addressRef.current && !isValid) {
             trigger()

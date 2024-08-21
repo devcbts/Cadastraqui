@@ -15,6 +15,7 @@ const SelectBase = forwardRef(({ label, error, ...props }, ref) => {
                 <div className={inputBaseStyles.inputbox}>
                     <ReactSelect
                         inputId={`${id}-${label}`}
+                        noOptionsMessage={() => 'Nenhuma opção'}
                         ref={ref}
                         placeholder="Selecione"
                         isMulti={props.multiple}

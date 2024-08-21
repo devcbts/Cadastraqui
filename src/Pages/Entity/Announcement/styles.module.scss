@@ -1,9 +1,10 @@
 .selection{
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     align-items: center;
     gap: 24px;
     width: 60%;
+    
     @media(max-width:1300px){
         width: 70%;
         font-size: 14px;
@@ -16,5 +17,7 @@
     }
     >div{
         flex-grow: 1;
+        flex-basis: content;
+        max-width: 300px;
     }
 }

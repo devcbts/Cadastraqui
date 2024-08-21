@@ -25,7 +25,10 @@ export default function Declaration_RentIncome({ onBack, onNext }) {
         }
 
         if (receivesRent === false) {
-            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'RentIncome' })
+            candidateService.deleteDeclaration({
+                userId: declarationData.id, type: 'RentIncome', text: `
+                Eu, ${declarationData.name}, inscrito(a) no CPF ${declarationData.CPF}, declaro não receber rendimentos de imóvel alugado.
+                ` })
             onNext(false); // Navega para VEHICLE_OWNERSHIP
             return;
         }

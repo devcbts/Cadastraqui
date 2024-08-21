@@ -10,6 +10,7 @@ import LoginInfo from './components/LoginInfo'
 import Personal from './components/PersonalInfo'
 import UserType from './components/UserType'
 import styles from './styles.module.scss'
+import UnauthenticatedHeader from 'Components/Header/variants/UnauthenticatedHeader'
 export default function Register() {
     const [current, setCurrent] = useState(0)
     const { state } = useLocation()
@@ -51,9 +52,7 @@ export default function Register() {
     return (
         <div>
             <Loader loading={isLoading} />
-            <header style={{ height: '80px', backgroundColor: '#1F4B73', display: 'flex', flexDirection: 'row', justifyContent: 'start', padding: '0 40px', alignItems: 'center' }}>
-                <img className={styles.logo} src={Logo} alt='logo' />
-            </header>
+            <UnauthenticatedHeader />
             <div className={styles.content}>
                 <div className={styles.brand}>
                     <IconLogo />

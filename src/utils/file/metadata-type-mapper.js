@@ -19,6 +19,11 @@ const METADATA_TYPE_MAPPER = {
     PROLABORE: 'Pró-labore',
     DIVIDENDS: 'Dividendos',
     DECORE: 'Decore',
+    CNIS: 'CNIS',
+    IR: 'Imposto de Renda',
+    MEI: 'Cadastro MEI',
+    WORKCARD: 'Carteira de trabalho',
+    DECLARATIONS: 'Declarações'
 }
 
 export default METADATA_TYPE_MAPPER

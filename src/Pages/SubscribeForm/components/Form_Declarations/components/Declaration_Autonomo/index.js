@@ -29,7 +29,12 @@ export default function Declaration_Autonomo({ onBack, onSave }) {
             }
         }))
         if (!informalWork) {
-            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'Autonomo' })
+            candidateService.deleteDeclaration({
+                userId: declarationData.id, type: 'Autonomo',
+                text: `
+                Eu, ${declarationData.name}, inscrito(a) no CPF ${declarationData.CPF}, declaro não exercer nenhuma atividade sem vínculo empregatício.
+                `
+            })
         }
         if (informalWork !== null) {
             localStorage.setItem('autonomoDetails', JSON.stringify({ informalWork, activity }));

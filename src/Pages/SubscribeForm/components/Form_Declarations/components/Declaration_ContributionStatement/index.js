@@ -9,6 +9,8 @@ import uploadService from 'services/upload/uploadService';
 import { z } from 'zod';
 import declarationAtom from '../../atoms/declarationAtom';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import METADATA_FILE_TYPE from 'utils/file/metadata-file-type';
+import METADATA_FILE_CATEGORY from 'utils/file/metadata-file-category';
 
 export default function Declaration_ContributionStatement({ onBack, onSave }) {
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
@@ -44,7 +46,16 @@ export default function Declaration_ContributionStatement({ onBack, onSave }) {
         try {
             const file = getValues("file")
             const formData = new FormData()
+            const metadata = {
+                metadata_CNIS: {
+                    type: METADATA_FILE_TYPE.DECLARATIONS.CNIS,
+                    category: METADATA_FILE_CATEGORY.Declarations,
+                },
+
+            }
+            formData.append("file_metadatas", JSON.stringify(metadata))
             formData.append("file_CNIS", file)
+
             await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData.id }, formData)
             NotificationService.success({ text: 'Documento enviado' }).then((_) => onSave())
         } catch (err) {

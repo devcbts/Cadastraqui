@@ -14,7 +14,7 @@
     transition: background-color .2s ease-in;
     width: fit-content;
 
-    &:hover, &:focus {
+    &:hover, &:focus-visible {
         border: 2px solid white;
 
         svg {
@@ -30,7 +30,7 @@
         background-color: $error;
         color: white;
 
-        &:hover {
+        &:hover, &:focus-visible {
             color: $error;
             background-color: white;
         }

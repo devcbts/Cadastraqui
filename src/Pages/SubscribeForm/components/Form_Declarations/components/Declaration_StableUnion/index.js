@@ -49,7 +49,10 @@ export default function Declaration_StableUnion({ onBack, onSave }) {
         const values = getValues()
         setDeclarationData((prev) => ({ ...prev, stableUnion: values }))
         if (!confirmation) {
-            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'StableUnion' }).catch(err => { })
+            candidateService.deleteDeclaration({
+                userId: declarationData.id, type: 'StableUnion', text: `
+                Eu, ${declarationData.name}, inscrito(a) no CPF ${declarationData.CPF}, declaro não conviver em união estável.
+                ` }).catch(err => { })
         }
         onSave(confirmation);
     };

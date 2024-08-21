@@ -10,6 +10,8 @@ import uploadService from 'services/upload/uploadService';
 import declarationAtom from '../../atoms/declarationAtom';
 import commonStyles from '../../styles.module.scss';
 import declarationMeiSchema from './declaration-mei-schema';
+import METADATA_FILE_TYPE from 'utils/file/metadata-file-type';
+import METADATA_FILE_CATEGORY from 'utils/file/metadata-file-category';
 
 export default function Declaration_MEI({ onBack, onNext }) {
     // const [mei, setMei] = useState(null);
@@ -41,6 +43,14 @@ export default function Declaration_MEI({ onBack, onNext }) {
             try {
                 const formData = new FormData()
                 const file = getValues('file')
+                const metadata = {
+                    metadata_MEI: {
+                        type: METADATA_FILE_TYPE.DECLARATIONS.MEI,
+                        category: METADATA_FILE_CATEGORY.Declarations,
+                    },
+
+                }
+                formData.append("file_metadatas", JSON.stringify(metadata))
                 formData.append("file_MEI", file)
                 await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData.id }, formData)
                 // localStorage.setItem('meiDetails', JSON.stringify({ file: file.name }));
@@ -50,7 +60,10 @@ export default function Declaration_MEI({ onBack, onNext }) {
             }
         }
         if (!mei) {
-            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'MEI' }).catch(err => { })
+            candidateService.deleteDeclaration({
+                userId: declarationData.id, type: 'MEI', text: `
+                Eu, ${declarationData.name}, inscrito(a) no CPF ${declarationData.CPF}, declaro não possuir cadastro de microempreendedor individual (MEI).
+                `  }).catch(err => { })
             onNext(mei)
         }
     };

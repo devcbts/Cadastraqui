@@ -18,11 +18,14 @@ const METADATA_FILE_TYPE = {
         REGISTERPROOF: 'REGISTERPROOF'
     },
     RESIDENCE: {
-        RESIDENCE: 'RESIDENCE'
+        RESIDENCE: 'RESIDENCE',
+        RENTCONTRACT: 'RENTCONTRACT',
+        GIVENPROPERTY: 'GIVENPROPERTY'
     },
     BANK: {
         STATEMENT: 'STATEMENT',
         REGISTRATO: 'REGISTRATO',
+        PIX: 'PIX',
         PROLABORE: 'PROLABORE',
         DIVIDENDS: 'DIVIDENDS',
         DECORE: 'DECORE',
@@ -30,6 +33,13 @@ const METADATA_FILE_TYPE = {
     },
     HEALTH: {
         EXAM: 'EXAM'
+    },
+    DECLARATIONS: {
+        CNIS: 'CNIS',
+        IR: 'IR',
+        MEI: 'MEI',
+        WORKCARD: 'WORKCARD',
+        DECLARATIONS: 'DECLARATIONS'
     }
 }
 

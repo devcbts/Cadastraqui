@@ -20,7 +20,10 @@ export default function Declaration_Activity({ onBack, onNext }) {
     const handleSave = () => {
         setDeclarationData((prev) => ({ ...prev, activity }))
         if (activity) {
-            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'Activity' })
+            candidateService.deleteDeclaration({
+                userId: declarationData.id, type: 'Activity', text: `
+                Eu, ${declarationData.name}, inscrito(a) no CPF ${declarationData.CPF}, declaro não exercer nenhuma atividade laboral.
+                ` })
         }
         if (activity !== null) {
             onNext(activity);
