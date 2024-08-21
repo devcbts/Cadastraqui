@@ -15,6 +15,8 @@ import findLabel from 'utils/enums/helpers/findLabel';
 import { z } from 'zod';
 import declarationAtom from '../../atoms/declarationAtom';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import METADATA_FILE_TYPE from 'utils/file/metadata-file-type';
+import METADATA_FILE_CATEGORY from 'utils/file/metadata-file-category';
 
 export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     const { auth } = useAuth();
@@ -232,6 +234,14 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
 
             const formData = new FormData()
             const file = getValues("file")
+            const metadata = {
+                metadata_declaracoes: {
+                    type: METADATA_FILE_TYPE.DECLARATIONS.DECLARATIONS,
+                    category: METADATA_FILE_CATEGORY.Declarations,
+                },
+
+            }
+            formData.append("file_metadatas", JSON.stringify(metadata))
             formData.append("file_declaracoes", file)
             await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData.id }, formData)
             NotificationService.success({ text: 'Declaração enviada' })

@@ -8,6 +8,8 @@ import { NotificationService } from 'services/notification';
 import uploadService from 'services/upload/uploadService';
 import declarationAtom from '../../atoms/declarationAtom';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import METADATA_FILE_TYPE from 'utils/file/metadata-file-type';
+import METADATA_FILE_CATEGORY from 'utils/file/metadata-file-category';
 
 export default function Declaration_WorkCardUpload({ onBack, onSave }) {
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
@@ -43,6 +45,14 @@ export default function Declaration_WorkCardUpload({ onBack, onSave }) {
         }
         try {
             const formData = new FormData()
+            const metadata = {
+                'metadata_carteira-de-trabalho': {
+                    type: METADATA_FILE_TYPE.DECLARATIONS.WORKCARD,
+                    category: METADATA_FILE_CATEGORY.Declarations,
+                },
+
+            }
+            formData.append("file_metadatas", JSON.stringify(metadata))
             formData.append("file_carteira-de-trabalho", file)
             await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData.id }, formData)
             candidateService.deleteDeclaration({ userId: declarationData.id, type: 'WorkCard' }).catch(err => { })

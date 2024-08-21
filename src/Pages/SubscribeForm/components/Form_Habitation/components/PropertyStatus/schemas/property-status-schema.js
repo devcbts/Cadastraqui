@@ -1,3 +1,5 @@
+import metadataSchema from "utils/file/metadata-schema";
+
 const { z } = require("zod");
 
 const propertyStatusSchema = z.object({
@@ -5,6 +7,7 @@ const propertyStatusSchema = z.object({
     grantorName: z.string().nullish(),
     contractType: z.string().nullish(),
     file_document: z.instanceof(File).nullish(),
+    metadata_document: metadataSchema,
     url_document: z.string().nullish(),
 }).superRefine((data, ctx) => {
     if (["ProvidedByEmployer", "ProvidedByFamily", "ProvidedOtherWay"].includes(data.propertyStatus) && !data.grantorName) {
