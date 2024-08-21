@@ -50,7 +50,10 @@ export default function Declaration_MEI({ onBack, onNext }) {
             }
         }
         if (!mei) {
-            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'MEI' }).catch(err => { })
+            candidateService.deleteDeclaration({
+                userId: declarationData.id, type: 'MEI', text: `
+                Eu, ${declarationData.name}, inscrito(a) no CPF ${declarationData.CPF}, declaro não possuir cadastro de microempreendedor individual (MEI).
+                `  }).catch(err => { })
             onNext(mei)
         }
     };

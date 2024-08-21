@@ -20,7 +20,12 @@ export default function Declaration_AddressProof({ onBack, onNext }) {
     const handleSave = () => {
         setDeclarationData((prev) => ({ ...prev, hasAddressProof }))
         if (hasAddressProof) {
-            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'NoAddressProof' }).catch(err => { })
+            candidateService.deleteDeclaration({
+                userId: declarationData.id, type: 'NoAddressProof',
+                text: `
+                Eu, ${declarationData.name}, inscrito(a) no CPF ${declarationData.CPF}, declaro não possuir comprovante de residência.
+                `
+            }).catch(err => { })
         }
         if (hasAddressProof !== null) {
             onNext(hasAddressProof);

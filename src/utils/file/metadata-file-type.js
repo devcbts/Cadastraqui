@@ -23,6 +23,7 @@ const METADATA_FILE_TYPE = {
     BANK: {
         STATEMENT: 'STATEMENT',
         REGISTRATO: 'REGISTRATO',
+        PIX: 'PIX',
         PROLABORE: 'PROLABORE',
         DIVIDENDS: 'DIVIDENDS',
         DECORE: 'DECORE',

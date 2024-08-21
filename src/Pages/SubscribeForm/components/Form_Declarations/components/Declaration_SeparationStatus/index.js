@@ -55,7 +55,10 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
         if (confirmation !== null) {
             localStorage.setItem('separationDetails', JSON.stringify(personDetails));
             if (!confirmation) {
-                candidateService.deleteDeclaration({ userId: declarationData?.id, type: 'NoAddressProof' }).catch(err => { })
+                candidateService.deleteDeclaration({
+                    userId: declarationData?.id, type: 'NoAddressProof', text: `
+                    Eu, ${declarationData.name}, inscrito(a) no CPF ${declarationData.CPF}, declaro não ser separado.
+                    `  }).catch(err => { })
                 onNext(null); // Navega para INCOME_TAX_EXEMPTION
             } else {
                 onNext(personDetails.knowsCurrentAddress);
@@ -89,7 +92,7 @@ export default function Declaration_SeparationStatus({ onBack, onNext }) {
             <h3 className={commonStyles.declarationFormNameTitle}>{declarationData.name}</h3>
             <FormCheckbox
                 control={control}
-                label={'você é separado de fato, porém ainda não formalizou o encerramento por meio do divórcio?'}
+                label={'você é separado de fato, porém ainda não formalizou ou encerramento por meio do divórcio?'}
                 name="confirmation"
                 value={confirmation}
             />

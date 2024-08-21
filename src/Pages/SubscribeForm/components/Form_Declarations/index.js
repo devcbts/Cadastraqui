@@ -320,7 +320,7 @@ export default function FormDeclarations() {
                 <Declaration_NoAddressProof
                     onBack={() => handleNavigate(SCREENS.ADDRESS_PROOF)}
                     // onNext={handleNavigateToRentedHouse}
-                    onNext={() => handleNavigate(SCREENS.RENTED_HOUSE)}
+                    onNext={() => handleNavigate(SCREENS.WORK_CARD)}
                 />
             )}
             {currentScreen === SCREENS.RENTED_HOUSE && (
@@ -343,7 +343,7 @@ export default function FormDeclarations() {
             )}
             {currentScreen === SCREENS.WORK_CARD && (
                 <Declaration_WorkCard
-                    onBack={() => handleNavigate(SCREENS.RENTED_HOUSE)}
+                    onBack={() => handleNavigate(SCREENS.ADDRESS_PROOF)}
                     onNext={(hasWorkCard) => handleNavigate(hasWorkCard ? SCREENS.WORK_CARD_UPLOAD : SCREENS.WORK_CARD_CONFIRMATION)}
                 />
             )}

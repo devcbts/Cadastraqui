@@ -29,7 +29,12 @@ export default function Declaration_Empresario({ onBack, onSave }) {
             }
         }))
         if (!isPartner) {
-            candidateService.deleteDeclaration({ userId: declarationData.id, type: 'Empresario' })
+            candidateService.deleteDeclaration({
+                userId: declarationData.id, type: 'Empresario',
+                text: `
+                Eu, ${declarationData.name}, inscrito(a) no CPF ${declarationData.CPF}, declaro não ser sócio de qualquer empresa.
+                `
+            })
 
         }
         if (isPartner !== null) {

@@ -3,6 +3,8 @@ import useControlForm from "hooks/useControlForm";
 import commonStyles from '../../../styles.module.scss'
 import { z } from "zod";
 import FilePreview from "Components/FilePreview";
+import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
+import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category";
 
 const { forwardRef, useEffect, useMemo } = require("react");
 
@@ -10,7 +12,8 @@ const IncomeFile = forwardRef(({ data, label, required }, ref) => {
     const { control, watch, setValue } = useControlForm({
         schema: z.object({
             file_document: required ? z.instanceof(File, 'Arquivo obrigatório') : z.instanceof(File).nullish(),
-            url_document: z.string().nullish()
+            url_document: z.string().nullish(),
+
         }).superRefine((data, ctx) => {
             if (required && !data.file_document && !data.url_document) {
                 ctx.addIssue({

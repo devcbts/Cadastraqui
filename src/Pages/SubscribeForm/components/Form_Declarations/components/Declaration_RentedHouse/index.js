@@ -19,7 +19,10 @@ export default function Declaration_RentedHouse({ onBack, onNext }) {
     const handleSave = async () => {
         setDeclarationData((prev) => ({ ...prev, rent: rentedHouse ? { ...prev.rent, rentedHouse } : { rentedHouse } }))
         if (!rentedHouse) {
-            await candidateService.deleteDeclaration({ userId: declarationData?.id, type: 'Rent' }).catch(_ => { })
+            await candidateService.deleteDeclaration({
+                userId: declarationData?.id, type: 'Rent', text: `
+                Eu, ${declarationData.name}, inscrito(a) no CPF ${declarationData.CPF}, declaro não residir em imóvel sem contrato de aluguel.
+                `  }).catch(_ => { })
         }
         onNext(rentedHouse);
     };
