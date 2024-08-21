@@ -4698,6 +4698,40 @@ export namespace Prisma {
 
 
   /**
+   * Count Type FamilyMemberIncomeCountOutputType
+   */
+
+  export type FamilyMemberIncomeCountOutputType = {
+    MonthlyIncomes: number
+  }
+
+  export type FamilyMemberIncomeCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    MonthlyIncomes?: boolean | FamilyMemberIncomeCountOutputTypeCountMonthlyIncomesArgs
+  }
+
+  // Custom InputTypes
+
+  /**
+   * FamilyMemberIncomeCountOutputType without action
+   */
+  export type FamilyMemberIncomeCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FamilyMemberIncomeCountOutputType
+     */
+    select?: FamilyMemberIncomeCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * FamilyMemberIncomeCountOutputType without action
+   */
+  export type FamilyMemberIncomeCountOutputTypeCountMonthlyIncomesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: MonthlyIncomeWhereInput
+  }
+
+
+
+  /**
    * Count Type FamilyMemberDiseaseCountOutputType
    */
 
@@ -5770,6 +5804,7 @@ export namespace Prisma {
     email: string | null
     finishedapplication: boolean | null
     application_id: string | null
+    updatedAt: Date | null
   }
 
   export type CandidateMaxAggregateOutputType = {
@@ -5786,6 +5821,7 @@ export namespace Prisma {
     email: string | null
     finishedapplication: boolean | null
     application_id: string | null
+    updatedAt: Date | null
   }
 
   export type CandidateCountAggregateOutputType = {
@@ -5802,6 +5838,7 @@ export namespace Prisma {
     email: number
     finishedapplication: number
     application_id: number
+    updatedAt: number
     _all: number
   }
 
@@ -5820,6 +5857,7 @@ export namespace Prisma {
     email?: true
     finishedapplication?: true
     application_id?: true
+    updatedAt?: true
   }
 
   export type CandidateMaxAggregateInputType = {
@@ -5836,6 +5874,7 @@ export namespace Prisma {
     email?: true
     finishedapplication?: true
     application_id?: true
+    updatedAt?: true
   }
 
   export type CandidateCountAggregateInputType = {
@@ -5852,6 +5891,7 @@ export namespace Prisma {
     email?: true
     finishedapplication?: true
     application_id?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -5941,6 +5981,7 @@ export namespace Prisma {
     email: string | null
     finishedapplication: boolean
     application_id: string | null
+    updatedAt: Date
     _count: CandidateCountAggregateOutputType | null
     _min: CandidateMinAggregateOutputType | null
     _max: CandidateMaxAggregateOutputType | null
@@ -5974,6 +6015,7 @@ export namespace Prisma {
     email?: boolean
     finishedapplication?: boolean
     application_id?: boolean
+    updatedAt?: boolean
     Application?: boolean | Candidate$ApplicationArgs<ExtArgs>
     CreditCard?: boolean | Candidate$CreditCardArgs<ExtArgs>
     Expense?: boolean | Candidate$ExpenseArgs<ExtArgs>
@@ -6008,6 +6050,7 @@ export namespace Prisma {
     email?: boolean
     finishedapplication?: boolean
     application_id?: boolean
+    updatedAt?: boolean
   }
 
   export type CandidateInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -6067,6 +6110,7 @@ export namespace Prisma {
       email: string | null
       finishedapplication: boolean
       application_id: string | null
+      updatedAt: Date
     }, ExtArgs["result"]["candidate"]>
     composites: {}
   }
@@ -6507,6 +6551,7 @@ export namespace Prisma {
     readonly email: FieldRef<"Candidate", 'String'>
     readonly finishedapplication: FieldRef<"Candidate", 'Boolean'>
     readonly application_id: FieldRef<"Candidate", 'String'>
+    readonly updatedAt: FieldRef<"Candidate", 'DateTime'>
   }
     
 
@@ -7203,6 +7248,7 @@ export namespace Prisma {
     role: $Enums.ROLE | null
     createdAt: Date | null
     profilePicture: string | null
+    updatedAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -7212,6 +7258,7 @@ export namespace Prisma {
     role: $Enums.ROLE | null
     createdAt: Date | null
     profilePicture: string | null
+    updatedAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -7221,6 +7268,7 @@ export namespace Prisma {
     role: number
     createdAt: number
     profilePicture: number
+    updatedAt: number
     _all: number
   }
 
@@ -7232,6 +7280,7 @@ export namespace Prisma {
     role?: true
     createdAt?: true
     profilePicture?: true
+    updatedAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -7241,6 +7290,7 @@ export namespace Prisma {
     role?: true
     createdAt?: true
     profilePicture?: true
+    updatedAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -7250,6 +7300,7 @@ export namespace Prisma {
     role?: true
     createdAt?: true
     profilePicture?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -7332,6 +7383,7 @@ export namespace Prisma {
     role: $Enums.ROLE
     createdAt: Date
     profilePicture: string | null
+    updatedAt: Date
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -7358,6 +7410,7 @@ export namespace Prisma {
     role?: boolean
     createdAt?: boolean
     profilePicture?: boolean
+    updatedAt?: boolean
     EntityDirector?: boolean | User$EntityDirectorArgs<ExtArgs>
     EntitySubsidiary?: boolean | User$EntitySubsidiaryArgs<ExtArgs>
     SocialAssistant?: boolean | User$SocialAssistantArgs<ExtArgs>
@@ -7371,6 +7424,7 @@ export namespace Prisma {
     role?: boolean
     createdAt?: boolean
     profilePicture?: boolean
+    updatedAt?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -7396,6 +7450,7 @@ export namespace Prisma {
       role: $Enums.ROLE
       createdAt: Date
       profilePicture: string | null
+      updatedAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -7803,6 +7858,7 @@ export namespace Prisma {
     readonly role: FieldRef<"User", 'ROLE'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly profilePicture: FieldRef<"User", 'String'>
+    readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -8223,6 +8279,7 @@ export namespace Prisma {
     monthlyAmount: string | null
     percentageOfScholarship: string | null
     application_id: string | null
+    updatedAt: Date | null
   }
 
   export type LegalResponsibleMaxAggregateOutputType = {
@@ -8244,6 +8301,7 @@ export namespace Prisma {
     monthlyAmount: string | null
     percentageOfScholarship: string | null
     application_id: string | null
+    updatedAt: Date | null
   }
 
   export type LegalResponsibleCountAggregateOutputType = {
@@ -8265,6 +8323,7 @@ export namespace Prisma {
     monthlyAmount: number
     percentageOfScholarship: number
     application_id: number
+    updatedAt: number
     _all: number
   }
 
@@ -8288,6 +8347,7 @@ export namespace Prisma {
     monthlyAmount?: true
     percentageOfScholarship?: true
     application_id?: true
+    updatedAt?: true
   }
 
   export type LegalResponsibleMaxAggregateInputType = {
@@ -8309,6 +8369,7 @@ export namespace Prisma {
     monthlyAmount?: true
     percentageOfScholarship?: true
     application_id?: true
+    updatedAt?: true
   }
 
   export type LegalResponsibleCountAggregateInputType = {
@@ -8330,6 +8391,7 @@ export namespace Prisma {
     monthlyAmount?: true
     percentageOfScholarship?: true
     application_id?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -8424,6 +8486,7 @@ export namespace Prisma {
     monthlyAmount: string | null
     percentageOfScholarship: string | null
     application_id: string | null
+    updatedAt: Date
     _count: LegalResponsibleCountAggregateOutputType | null
     _min: LegalResponsibleMinAggregateOutputType | null
     _max: LegalResponsibleMaxAggregateOutputType | null
@@ -8462,6 +8525,7 @@ export namespace Prisma {
     monthlyAmount?: boolean
     percentageOfScholarship?: boolean
     application_id?: boolean
+    updatedAt?: boolean
     IdentityDetails?: boolean | LegalResponsible$IdentityDetailsArgs<ExtArgs>
     Candidate?: boolean | LegalResponsible$CandidateArgs<ExtArgs>
     Housing?: boolean | LegalResponsible$HousingArgs<ExtArgs>
@@ -8501,6 +8565,7 @@ export namespace Prisma {
     monthlyAmount?: boolean
     percentageOfScholarship?: boolean
     application_id?: boolean
+    updatedAt?: boolean
   }
 
   export type LegalResponsibleInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -8565,6 +8630,7 @@ export namespace Prisma {
       monthlyAmount: string | null
       percentageOfScholarship: string | null
       application_id: string | null
+      updatedAt: Date
     }, ExtArgs["result"]["legalResponsible"]>
     composites: {}
   }
@@ -9010,6 +9076,7 @@ export namespace Prisma {
     readonly monthlyAmount: FieldRef<"LegalResponsible", 'String'>
     readonly percentageOfScholarship: FieldRef<"LegalResponsible", 'String'>
     readonly application_id: FieldRef<"LegalResponsible", 'String'>
+    readonly updatedAt: FieldRef<"LegalResponsible", 'DateTime'>
   }
     
 
@@ -14088,6 +14155,8 @@ export namespace Prisma {
     candidate_id: string | null
     responsible_id: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type IdentityDetailsMaxAggregateOutputType = {
@@ -14148,6 +14217,8 @@ export namespace Prisma {
     candidate_id: string | null
     responsible_id: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type IdentityDetailsCountAggregateOutputType = {
@@ -14210,6 +14281,8 @@ export namespace Prisma {
     candidate_id: number
     responsible_id: number
     application_id: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -14272,6 +14345,8 @@ export namespace Prisma {
     candidate_id?: true
     responsible_id?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type IdentityDetailsMaxAggregateInputType = {
@@ -14332,6 +14407,8 @@ export namespace Prisma {
     candidate_id?: true
     responsible_id?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type IdentityDetailsCountAggregateInputType = {
@@ -14394,6 +14471,8 @@ export namespace Prisma {
     candidate_id?: true
     responsible_id?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -14529,6 +14608,8 @@ export namespace Prisma {
     candidate_id: string | null
     responsible_id: string | null
     application_id: string
+    createdAt: Date
+    updatedAt: Date
     _count: IdentityDetailsCountAggregateOutputType | null
     _min: IdentityDetailsMinAggregateOutputType | null
     _max: IdentityDetailsMaxAggregateOutputType | null
@@ -14608,6 +14689,8 @@ export namespace Prisma {
     candidate_id?: boolean
     responsible_id?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     candidate?: boolean | IdentityDetails$candidateArgs<ExtArgs>
     responsible?: boolean | IdentityDetails$responsibleArgs<ExtArgs>
   }, ExtArgs["result"]["identityDetails"]>
@@ -14672,6 +14755,8 @@ export namespace Prisma {
     candidate_id?: boolean
     responsible_id?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type IdentityDetailsInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -14746,6 +14831,8 @@ export namespace Prisma {
       candidate_id: string | null
       responsible_id: string | null
       application_id: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["identityDetails"]>
     composites: {}
   }
@@ -15202,6 +15289,8 @@ export namespace Prisma {
     readonly candidate_id: FieldRef<"IdentityDetails", 'String'>
     readonly responsible_id: FieldRef<"IdentityDetails", 'String'>
     readonly application_id: FieldRef<"IdentityDetails", 'String'>
+    readonly createdAt: FieldRef<"IdentityDetails", 'DateTime'>
+    readonly updatedAt: FieldRef<"IdentityDetails", 'DateTime'>
   }
     
 
@@ -15625,6 +15714,8 @@ export namespace Prisma {
     hasBankAccount: boolean | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type FamilyMemberMaxAggregateOutputType = {
@@ -15681,6 +15772,8 @@ export namespace Prisma {
     hasBankAccount: boolean | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type FamilyMemberCountAggregateOutputType = {
@@ -15738,6 +15831,8 @@ export namespace Prisma {
     incomeSource: number
     legalResponsibleId: number
     application_id: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -15796,6 +15891,8 @@ export namespace Prisma {
     hasBankAccount?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type FamilyMemberMaxAggregateInputType = {
@@ -15852,6 +15949,8 @@ export namespace Prisma {
     hasBankAccount?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type FamilyMemberCountAggregateInputType = {
@@ -15909,6 +16008,8 @@ export namespace Prisma {
     incomeSource?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -16039,6 +16140,8 @@ export namespace Prisma {
     incomeSource: $Enums.IncomeSource[]
     legalResponsibleId: string | null
     application_id: string
+    createdAt: Date
+    updatedAt: Date
     _count: FamilyMemberCountAggregateOutputType | null
     _min: FamilyMemberMinAggregateOutputType | null
     _max: FamilyMemberMaxAggregateOutputType | null
@@ -16113,6 +16216,8 @@ export namespace Prisma {
     incomeSource?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     CreditCard?: boolean | FamilyMember$CreditCardArgs<ExtArgs>
     FamilyMemberIncome?: boolean | FamilyMember$FamilyMemberIncomeArgs<ExtArgs>
     Financing?: boolean | FamilyMember$FinancingArgs<ExtArgs>
@@ -16184,6 +16289,8 @@ export namespace Prisma {
     incomeSource?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type FamilyMemberInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -16276,6 +16383,8 @@ export namespace Prisma {
       incomeSource: $Enums.IncomeSource[]
       legalResponsibleId: string | null
       application_id: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["familyMember"]>
     composites: {}
   }
@@ -16749,6 +16858,8 @@ export namespace Prisma {
     readonly incomeSource: FieldRef<"FamilyMember", 'IncomeSource[]'>
     readonly legalResponsibleId: FieldRef<"FamilyMember", 'String'>
     readonly application_id: FieldRef<"FamilyMember", 'String'>
+    readonly createdAt: FieldRef<"FamilyMember", 'DateTime'>
+    readonly updatedAt: FieldRef<"FamilyMember", 'DateTime'>
   }
     
 
@@ -17372,6 +17483,8 @@ export namespace Prisma {
     candidate_id: string | null
     responsible_id: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type HousingMaxAggregateOutputType = {
@@ -17387,6 +17500,8 @@ export namespace Prisma {
     candidate_id: string | null
     responsible_id: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type HousingCountAggregateOutputType = {
@@ -17402,6 +17517,8 @@ export namespace Prisma {
     candidate_id: number
     responsible_id: number
     application_id: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -17427,6 +17544,8 @@ export namespace Prisma {
     candidate_id?: true
     responsible_id?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type HousingMaxAggregateInputType = {
@@ -17442,6 +17561,8 @@ export namespace Prisma {
     candidate_id?: true
     responsible_id?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type HousingCountAggregateInputType = {
@@ -17457,6 +17578,8 @@ export namespace Prisma {
     candidate_id?: true
     responsible_id?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -17559,6 +17682,8 @@ export namespace Prisma {
     candidate_id: string | null
     responsible_id: string | null
     application_id: string
+    createdAt: Date
+    updatedAt: Date
     _count: HousingCountAggregateOutputType | null
     _avg: HousingAvgAggregateOutputType | null
     _sum: HousingSumAggregateOutputType | null
@@ -17593,6 +17718,8 @@ export namespace Prisma {
     candidate_id?: boolean
     responsible_id?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     candidate?: boolean | Housing$candidateArgs<ExtArgs>
     responsible?: boolean | Housing$responsibleArgs<ExtArgs>
   }, ExtArgs["result"]["housing"]>
@@ -17610,6 +17737,8 @@ export namespace Prisma {
     candidate_id?: boolean
     responsible_id?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type HousingInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -17637,6 +17766,8 @@ export namespace Prisma {
       candidate_id: string | null
       responsible_id: string | null
       application_id: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["housing"]>
     composites: {}
   }
@@ -18046,6 +18177,8 @@ export namespace Prisma {
     readonly candidate_id: FieldRef<"Housing", 'String'>
     readonly responsible_id: FieldRef<"Housing", 'String'>
     readonly application_id: FieldRef<"Housing", 'String'>
+    readonly createdAt: FieldRef<"Housing", 'DateTime'>
+    readonly updatedAt: FieldRef<"Housing", 'DateTime'>
   }
     
 
@@ -18448,6 +18581,8 @@ export namespace Prisma {
     document: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type VehicleMaxAggregateOutputType = {
@@ -18467,6 +18602,8 @@ export namespace Prisma {
     document: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type VehicleCountAggregateOutputType = {
@@ -18487,6 +18624,8 @@ export namespace Prisma {
     document: number
     legalResponsibleId: number
     application_id: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -18522,6 +18661,8 @@ export namespace Prisma {
     document?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type VehicleMaxAggregateInputType = {
@@ -18541,6 +18682,8 @@ export namespace Prisma {
     document?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type VehicleCountAggregateInputType = {
@@ -18561,6 +18704,8 @@ export namespace Prisma {
     document?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -18668,6 +18813,8 @@ export namespace Prisma {
     document: string | null
     legalResponsibleId: string | null
     application_id: string
+    createdAt: Date
+    updatedAt: Date
     _count: VehicleCountAggregateOutputType | null
     _avg: VehicleAvgAggregateOutputType | null
     _sum: VehicleSumAggregateOutputType | null
@@ -18707,6 +18854,8 @@ export namespace Prisma {
     document?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     candidate?: boolean | Vehicle$candidateArgs<ExtArgs>
     FamilyMemberToVehicle?: boolean | Vehicle$FamilyMemberToVehicleArgs<ExtArgs>
     LegalResponsible?: boolean | Vehicle$LegalResponsibleArgs<ExtArgs>
@@ -18731,6 +18880,8 @@ export namespace Prisma {
     document?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type VehicleInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -18766,6 +18917,8 @@ export namespace Prisma {
       document: string | null
       legalResponsibleId: string | null
       application_id: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["vehicle"]>
     composites: {}
   }
@@ -19182,6 +19335,8 @@ export namespace Prisma {
     readonly document: FieldRef<"Vehicle", 'String'>
     readonly legalResponsibleId: FieldRef<"Vehicle", 'String'>
     readonly application_id: FieldRef<"Vehicle", 'String'>
+    readonly createdAt: FieldRef<"Vehicle", 'DateTime'>
+    readonly updatedAt: FieldRef<"Vehicle", 'DateTime'>
   }
     
 
@@ -19611,6 +19766,8 @@ export namespace Prisma {
     candidate_id: string | null
     application_id: string | null
     legalResponsibleId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type FamilyMemberIncomeMaxAggregateOutputType = {
@@ -19638,6 +19795,8 @@ export namespace Prisma {
     candidate_id: string | null
     application_id: string | null
     legalResponsibleId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type FamilyMemberIncomeCountAggregateOutputType = {
@@ -19665,6 +19824,8 @@ export namespace Prisma {
     candidate_id: number
     application_id: number
     legalResponsibleId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -19706,6 +19867,8 @@ export namespace Prisma {
     candidate_id?: true
     application_id?: true
     legalResponsibleId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type FamilyMemberIncomeMaxAggregateInputType = {
@@ -19733,6 +19896,8 @@ export namespace Prisma {
     candidate_id?: true
     application_id?: true
     legalResponsibleId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type FamilyMemberIncomeCountAggregateInputType = {
@@ -19760,6 +19925,8 @@ export namespace Prisma {
     candidate_id?: true
     application_id?: true
     legalResponsibleId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -19874,6 +20041,8 @@ export namespace Prisma {
     candidate_id: string | null
     application_id: string
     legalResponsibleId: string | null
+    createdAt: Date
+    updatedAt: Date
     _count: FamilyMemberIncomeCountAggregateOutputType | null
     _avg: FamilyMemberIncomeAvgAggregateOutputType | null
     _sum: FamilyMemberIncomeSumAggregateOutputType | null
@@ -19920,9 +20089,13 @@ export namespace Prisma {
     candidate_id?: boolean
     application_id?: boolean
     legalResponsibleId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     familyMember?: boolean | FamilyMemberIncome$familyMemberArgs<ExtArgs>
     candidate?: boolean | FamilyMemberIncome$candidateArgs<ExtArgs>
     LegalResponsible?: boolean | FamilyMemberIncome$LegalResponsibleArgs<ExtArgs>
+    MonthlyIncomes?: boolean | FamilyMemberIncome$MonthlyIncomesArgs<ExtArgs>
+    _count?: boolean | FamilyMemberIncomeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["familyMemberIncome"]>
 
   export type FamilyMemberIncomeSelectScalar = {
@@ -19950,12 +20123,16 @@ export namespace Prisma {
     candidate_id?: boolean
     application_id?: boolean
     legalResponsibleId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type FamilyMemberIncomeInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     familyMember?: boolean | FamilyMemberIncome$familyMemberArgs<ExtArgs>
     candidate?: boolean | FamilyMemberIncome$candidateArgs<ExtArgs>
     LegalResponsible?: boolean | FamilyMemberIncome$LegalResponsibleArgs<ExtArgs>
+    MonthlyIncomes?: boolean | FamilyMemberIncome$MonthlyIncomesArgs<ExtArgs>
+    _count?: boolean | FamilyMemberIncomeCountOutputTypeDefaultArgs<ExtArgs>
   }
 
 
@@ -19965,6 +20142,7 @@ export namespace Prisma {
       familyMember: Prisma.$FamilyMemberPayload<ExtArgs> | null
       candidate: Prisma.$CandidatePayload<ExtArgs> | null
       LegalResponsible: Prisma.$LegalResponsiblePayload<ExtArgs> | null
+      MonthlyIncomes: Prisma.$MonthlyIncomePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetResult<{
       id: string
@@ -19991,6 +20169,8 @@ export namespace Prisma {
       candidate_id: string | null
       application_id: string
       legalResponsibleId: string | null
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["familyMemberIncome"]>
     composites: {}
   }
@@ -20362,6 +20542,8 @@ export namespace Prisma {
 
     LegalResponsible<T extends FamilyMemberIncome$LegalResponsibleArgs<ExtArgs> = {}>(args?: Subset<T, FamilyMemberIncome$LegalResponsibleArgs<ExtArgs>>): Prisma__LegalResponsibleClient<$Result.GetResult<Prisma.$LegalResponsiblePayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
+    MonthlyIncomes<T extends FamilyMemberIncome$MonthlyIncomesArgs<ExtArgs> = {}>(args?: Subset<T, FamilyMemberIncome$MonthlyIncomesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MonthlyIncomePayload<ExtArgs>, T, 'findMany'> | Null>;
+
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20414,6 +20596,8 @@ export namespace Prisma {
     readonly candidate_id: FieldRef<"FamilyMemberIncome", 'String'>
     readonly application_id: FieldRef<"FamilyMemberIncome", 'String'>
     readonly legalResponsibleId: FieldRef<"FamilyMemberIncome", 'String'>
+    readonly createdAt: FieldRef<"FamilyMemberIncome", 'DateTime'>
+    readonly updatedAt: FieldRef<"FamilyMemberIncome", 'DateTime'>
   }
     
 
@@ -20774,6 +20958,27 @@ export namespace Prisma {
 
 
   /**
+   * FamilyMemberIncome.MonthlyIncomes
+   */
+  export type FamilyMemberIncome$MonthlyIncomesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MonthlyIncome
+     */
+    select?: MonthlyIncomeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MonthlyIncomeInclude<ExtArgs> | null
+    where?: MonthlyIncomeWhereInput
+    orderBy?: MonthlyIncomeOrderByWithRelationInput | MonthlyIncomeOrderByWithRelationInput[]
+    cursor?: MonthlyIncomeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MonthlyIncomeScalarFieldEnum | MonthlyIncomeScalarFieldEnum[]
+  }
+
+
+  /**
    * FamilyMemberIncome without action
    */
   export type FamilyMemberIncomeDefaultArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -20865,6 +21070,9 @@ export namespace Prisma {
     incomeSource: $Enums.IncomeSource | null
     application_id: string | null
     legalResponsibleId: string | null
+    income_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type MonthlyIncomeMaxAggregateOutputType = {
@@ -20893,6 +21101,9 @@ export namespace Prisma {
     incomeSource: $Enums.IncomeSource | null
     application_id: string | null
     legalResponsibleId: string | null
+    income_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type MonthlyIncomeCountAggregateOutputType = {
@@ -20921,6 +21132,9 @@ export namespace Prisma {
     incomeSource: number
     application_id: number
     legalResponsibleId: number
+    income_id: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -20989,6 +21203,9 @@ export namespace Prisma {
     incomeSource?: true
     application_id?: true
     legalResponsibleId?: true
+    income_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type MonthlyIncomeMaxAggregateInputType = {
@@ -21017,6 +21234,9 @@ export namespace Prisma {
     incomeSource?: true
     application_id?: true
     legalResponsibleId?: true
+    income_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type MonthlyIncomeCountAggregateInputType = {
@@ -21045,6 +21265,9 @@ export namespace Prisma {
     incomeSource?: true
     application_id?: true
     legalResponsibleId?: true
+    income_id?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -21160,6 +21383,9 @@ export namespace Prisma {
     incomeSource: $Enums.IncomeSource
     application_id: string
     legalResponsibleId: string | null
+    income_id: string | null
+    createdAt: Date
+    updatedAt: Date
     _count: MonthlyIncomeCountAggregateOutputType | null
     _avg: MonthlyIncomeAvgAggregateOutputType | null
     _sum: MonthlyIncomeSumAggregateOutputType | null
@@ -21207,9 +21433,13 @@ export namespace Prisma {
     incomeSource?: boolean
     application_id?: boolean
     legalResponsibleId?: boolean
+    income_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     familyMember?: boolean | MonthlyIncome$familyMemberArgs<ExtArgs>
     candidate?: boolean | MonthlyIncome$candidateArgs<ExtArgs>
     LegalResponsible?: boolean | MonthlyIncome$LegalResponsibleArgs<ExtArgs>
+    income?: boolean | MonthlyIncome$incomeArgs<ExtArgs>
   }, ExtArgs["result"]["monthlyIncome"]>
 
   export type MonthlyIncomeSelectScalar = {
@@ -21238,12 +21468,16 @@ export namespace Prisma {
     incomeSource?: boolean
     application_id?: boolean
     legalResponsibleId?: boolean
+    income_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type MonthlyIncomeInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     familyMember?: boolean | MonthlyIncome$familyMemberArgs<ExtArgs>
     candidate?: boolean | MonthlyIncome$candidateArgs<ExtArgs>
     LegalResponsible?: boolean | MonthlyIncome$LegalResponsibleArgs<ExtArgs>
+    income?: boolean | MonthlyIncome$incomeArgs<ExtArgs>
   }
 
 
@@ -21253,6 +21487,7 @@ export namespace Prisma {
       familyMember: Prisma.$FamilyMemberPayload<ExtArgs> | null
       candidate: Prisma.$CandidatePayload<ExtArgs> | null
       LegalResponsible: Prisma.$LegalResponsiblePayload<ExtArgs> | null
+      income: Prisma.$FamilyMemberIncomePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetResult<{
       id: string
@@ -21280,6 +21515,9 @@ export namespace Prisma {
       incomeSource: $Enums.IncomeSource
       application_id: string
       legalResponsibleId: string | null
+      income_id: string | null
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["monthlyIncome"]>
     composites: {}
   }
@@ -21651,6 +21889,8 @@ export namespace Prisma {
 
     LegalResponsible<T extends MonthlyIncome$LegalResponsibleArgs<ExtArgs> = {}>(args?: Subset<T, MonthlyIncome$LegalResponsibleArgs<ExtArgs>>): Prisma__LegalResponsibleClient<$Result.GetResult<Prisma.$LegalResponsiblePayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
+    income<T extends MonthlyIncome$incomeArgs<ExtArgs> = {}>(args?: Subset<T, MonthlyIncome$incomeArgs<ExtArgs>>): Prisma__FamilyMemberIncomeClient<$Result.GetResult<Prisma.$FamilyMemberIncomePayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -21704,6 +21944,9 @@ export namespace Prisma {
     readonly incomeSource: FieldRef<"MonthlyIncome", 'IncomeSource'>
     readonly application_id: FieldRef<"MonthlyIncome", 'String'>
     readonly legalResponsibleId: FieldRef<"MonthlyIncome", 'String'>
+    readonly income_id: FieldRef<"MonthlyIncome", 'String'>
+    readonly createdAt: FieldRef<"MonthlyIncome", 'DateTime'>
+    readonly updatedAt: FieldRef<"MonthlyIncome", 'DateTime'>
   }
     
 
@@ -22064,6 +22307,22 @@ export namespace Prisma {
 
 
   /**
+   * MonthlyIncome.income
+   */
+  export type MonthlyIncome$incomeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FamilyMemberIncome
+     */
+    select?: FamilyMemberIncomeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: FamilyMemberIncomeInclude<ExtArgs> | null
+    where?: FamilyMemberIncomeWhereInput
+  }
+
+
+  /**
    * MonthlyIncome without action
    */
   export type MonthlyIncomeDefaultArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -22100,6 +22359,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type BankAccountMaxAggregateOutputType = {
@@ -22113,6 +22374,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type BankAccountCountAggregateOutputType = {
@@ -22126,6 +22389,8 @@ export namespace Prisma {
     candidate_id: number
     legalResponsibleId: number
     application_id: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -22141,6 +22406,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type BankAccountMaxAggregateInputType = {
@@ -22154,6 +22421,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type BankAccountCountAggregateInputType = {
@@ -22167,6 +22436,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -22253,6 +22524,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string
+    createdAt: Date
+    updatedAt: Date
     _count: BankAccountCountAggregateOutputType | null
     _min: BankAccountMinAggregateOutputType | null
     _max: BankAccountMaxAggregateOutputType | null
@@ -22283,6 +22556,8 @@ export namespace Prisma {
     candidate_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     familyMember?: boolean | BankAccount$familyMemberArgs<ExtArgs>
     candidate?: boolean | BankAccount$candidateArgs<ExtArgs>
     LegalResponsible?: boolean | BankAccount$LegalResponsibleArgs<ExtArgs>
@@ -22299,6 +22574,8 @@ export namespace Prisma {
     candidate_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type BankAccountInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -22326,6 +22603,8 @@ export namespace Prisma {
       candidate_id: string | null
       legalResponsibleId: string | null
       application_id: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["bankAccount"]>
     composites: {}
   }
@@ -22735,6 +23014,8 @@ export namespace Prisma {
     readonly candidate_id: FieldRef<"BankAccount", 'String'>
     readonly legalResponsibleId: FieldRef<"BankAccount", 'String'>
     readonly application_id: FieldRef<"BankAccount", 'String'>
+    readonly createdAt: FieldRef<"BankAccount", 'DateTime'>
+    readonly updatedAt: FieldRef<"BankAccount", 'DateTime'>
   }
     
 
@@ -23262,6 +23543,8 @@ export namespace Prisma {
     justifymedicationExpenses: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ExpenseMaxAggregateOutputType = {
@@ -23328,6 +23611,8 @@ export namespace Prisma {
     justifymedicationExpenses: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ExpenseCountAggregateOutputType = {
@@ -23396,6 +23681,8 @@ export namespace Prisma {
     otherExpensesValue: number
     legalResponsibleId: number
     application_id: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -23540,6 +23827,8 @@ export namespace Prisma {
     justifymedicationExpenses?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type ExpenseMaxAggregateInputType = {
@@ -23606,6 +23895,8 @@ export namespace Prisma {
     justifymedicationExpenses?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type ExpenseCountAggregateInputType = {
@@ -23674,6 +23965,8 @@ export namespace Prisma {
     otherExpensesValue?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -23829,6 +24122,8 @@ export namespace Prisma {
     otherExpensesValue: number[]
     legalResponsibleId: string | null
     application_id: string
+    createdAt: Date
+    updatedAt: Date
     _count: ExpenseCountAggregateOutputType | null
     _avg: ExpenseAvgAggregateOutputType | null
     _sum: ExpenseSumAggregateOutputType | null
@@ -23916,6 +24211,8 @@ export namespace Prisma {
     otherExpensesValue?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     candidate?: boolean | Expense$candidateArgs<ExtArgs>
     LegalResponsible?: boolean | Expense$LegalResponsibleArgs<ExtArgs>
   }, ExtArgs["result"]["expense"]>
@@ -23986,6 +24283,8 @@ export namespace Prisma {
     otherExpensesValue?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type ExpenseInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -24066,6 +24365,8 @@ export namespace Prisma {
       otherExpensesValue: number[]
       legalResponsibleId: string | null
       application_id: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["expense"]>
     composites: {}
   }
@@ -24528,6 +24829,8 @@ export namespace Prisma {
     readonly otherExpensesValue: FieldRef<"Expense", 'Float[]'>
     readonly legalResponsibleId: FieldRef<"Expense", 'String'>
     readonly application_id: FieldRef<"Expense", 'String'>
+    readonly createdAt: FieldRef<"Expense", 'DateTime'>
+    readonly updatedAt: FieldRef<"Expense", 'DateTime'>
   }
     
 
@@ -24923,6 +25226,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type LoanMaxAggregateOutputType = {
@@ -24937,6 +25242,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type LoanCountAggregateOutputType = {
@@ -24951,6 +25258,8 @@ export namespace Prisma {
     candidate_id: number
     legalResponsibleId: number
     application_id: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -24979,6 +25288,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type LoanMaxAggregateInputType = {
@@ -24993,6 +25304,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type LoanCountAggregateInputType = {
@@ -25007,6 +25320,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -25108,6 +25423,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string
+    createdAt: Date
+    updatedAt: Date
     _count: LoanCountAggregateOutputType | null
     _avg: LoanAvgAggregateOutputType | null
     _sum: LoanSumAggregateOutputType | null
@@ -25141,6 +25458,8 @@ export namespace Prisma {
     candidate_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     candidate?: boolean | Loan$candidateArgs<ExtArgs>
     familyMember?: boolean | Loan$familyMemberArgs<ExtArgs>
     LegalResponsible?: boolean | Loan$LegalResponsibleArgs<ExtArgs>
@@ -25158,6 +25477,8 @@ export namespace Prisma {
     candidate_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type LoanInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -25186,6 +25507,8 @@ export namespace Prisma {
       candidate_id: string | null
       legalResponsibleId: string | null
       application_id: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["loan"]>
     composites: {}
   }
@@ -25596,6 +25919,8 @@ export namespace Prisma {
     readonly candidate_id: FieldRef<"Loan", 'String'>
     readonly legalResponsibleId: FieldRef<"Loan", 'String'>
     readonly application_id: FieldRef<"Loan", 'String'>
+    readonly createdAt: FieldRef<"Loan", 'DateTime'>
+    readonly updatedAt: FieldRef<"Loan", 'DateTime'>
   }
     
 
@@ -26009,6 +26334,8 @@ export namespace Prisma {
     financingType: $Enums.FinancingType | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type FinancingMaxAggregateOutputType = {
@@ -26025,6 +26352,8 @@ export namespace Prisma {
     financingType: $Enums.FinancingType | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type FinancingCountAggregateOutputType = {
@@ -26041,6 +26370,8 @@ export namespace Prisma {
     financingType: number
     legalResponsibleId: number
     application_id: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -26071,6 +26402,8 @@ export namespace Prisma {
     financingType?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type FinancingMaxAggregateInputType = {
@@ -26087,6 +26420,8 @@ export namespace Prisma {
     financingType?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type FinancingCountAggregateInputType = {
@@ -26103,6 +26438,8 @@ export namespace Prisma {
     financingType?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -26206,6 +26543,8 @@ export namespace Prisma {
     financingType: $Enums.FinancingType
     legalResponsibleId: string | null
     application_id: string
+    createdAt: Date
+    updatedAt: Date
     _count: FinancingCountAggregateOutputType | null
     _avg: FinancingAvgAggregateOutputType | null
     _sum: FinancingSumAggregateOutputType | null
@@ -26241,6 +26580,8 @@ export namespace Prisma {
     financingType?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     candidate?: boolean | Financing$candidateArgs<ExtArgs>
     familyMember?: boolean | Financing$familyMemberArgs<ExtArgs>
     LegalResponsible?: boolean | Financing$LegalResponsibleArgs<ExtArgs>
@@ -26260,6 +26601,8 @@ export namespace Prisma {
     financingType?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type FinancingInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -26290,6 +26633,8 @@ export namespace Prisma {
       financingType: $Enums.FinancingType
       legalResponsibleId: string | null
       application_id: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["financing"]>
     composites: {}
   }
@@ -26702,6 +27047,8 @@ export namespace Prisma {
     readonly financingType: FieldRef<"Financing", 'FinancingType'>
     readonly legalResponsibleId: FieldRef<"Financing", 'String'>
     readonly application_id: FieldRef<"Financing", 'String'>
+    readonly createdAt: FieldRef<"Financing", 'DateTime'>
+    readonly updatedAt: FieldRef<"Financing", 'DateTime'>
   }
     
 
@@ -27112,6 +27459,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type CreditCardMaxAggregateOutputType = {
@@ -27127,6 +27476,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type CreditCardCountAggregateOutputType = {
@@ -27142,6 +27493,8 @@ export namespace Prisma {
     candidate_id: number
     legalResponsibleId: number
     application_id: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -27169,6 +27522,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type CreditCardMaxAggregateInputType = {
@@ -27184,6 +27539,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type CreditCardCountAggregateInputType = {
@@ -27199,6 +27556,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -27301,6 +27660,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string
+    createdAt: Date
+    updatedAt: Date
     _count: CreditCardCountAggregateOutputType | null
     _avg: CreditCardAvgAggregateOutputType | null
     _sum: CreditCardSumAggregateOutputType | null
@@ -27335,6 +27696,8 @@ export namespace Prisma {
     candidate_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     candidate?: boolean | CreditCard$candidateArgs<ExtArgs>
     familyMember?: boolean | CreditCard$familyMemberArgs<ExtArgs>
     LegalResponsible?: boolean | CreditCard$LegalResponsibleArgs<ExtArgs>
@@ -27353,6 +27716,8 @@ export namespace Prisma {
     candidate_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type CreditCardInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -27382,6 +27747,8 @@ export namespace Prisma {
       candidate_id: string | null
       legalResponsibleId: string | null
       application_id: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["creditCard"]>
     composites: {}
   }
@@ -27793,6 +28160,8 @@ export namespace Prisma {
     readonly candidate_id: FieldRef<"CreditCard", 'String'>
     readonly legalResponsibleId: FieldRef<"CreditCard", 'String'>
     readonly application_id: FieldRef<"CreditCard", 'String'>
+    readonly createdAt: FieldRef<"CreditCard", 'DateTime'>
+    readonly updatedAt: FieldRef<"CreditCard", 'DateTime'>
   }
     
 
@@ -28197,6 +28566,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type OtherExpenseMaxAggregateOutputType = {
@@ -28208,6 +28579,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type OtherExpenseCountAggregateOutputType = {
@@ -28219,6 +28592,8 @@ export namespace Prisma {
     candidate_id: number
     legalResponsibleId: number
     application_id: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -28240,6 +28615,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type OtherExpenseMaxAggregateInputType = {
@@ -28251,6 +28628,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type OtherExpenseCountAggregateInputType = {
@@ -28262,6 +28641,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -28360,6 +28741,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string
+    createdAt: Date
+    updatedAt: Date
     _count: OtherExpenseCountAggregateOutputType | null
     _avg: OtherExpenseAvgAggregateOutputType | null
     _sum: OtherExpenseSumAggregateOutputType | null
@@ -28390,6 +28773,8 @@ export namespace Prisma {
     candidate_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     candidate?: boolean | OtherExpense$candidateArgs<ExtArgs>
     familyMember?: boolean | OtherExpense$familyMemberArgs<ExtArgs>
     LegalResponsible?: boolean | OtherExpense$LegalResponsibleArgs<ExtArgs>
@@ -28404,6 +28789,8 @@ export namespace Prisma {
     candidate_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type OtherExpenseInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -28429,6 +28816,8 @@ export namespace Prisma {
       candidate_id: string | null
       legalResponsibleId: string | null
       application_id: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["otherExpense"]>
     composites: {}
   }
@@ -28836,6 +29225,8 @@ export namespace Prisma {
     readonly candidate_id: FieldRef<"OtherExpense", 'String'>
     readonly legalResponsibleId: FieldRef<"OtherExpense", 'String'>
     readonly application_id: FieldRef<"OtherExpense", 'String'>
+    readonly createdAt: FieldRef<"OtherExpense", 'DateTime'>
+    readonly updatedAt: FieldRef<"OtherExpense", 'DateTime'>
   }
     
 
@@ -29231,6 +29622,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type FamilyMemberDiseaseMaxAggregateOutputType = {
@@ -29243,6 +29636,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type FamilyMemberDiseaseCountAggregateOutputType = {
@@ -29256,6 +29651,8 @@ export namespace Prisma {
     candidate_id: number
     legalResponsibleId: number
     application_id: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -29270,6 +29667,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type FamilyMemberDiseaseMaxAggregateInputType = {
@@ -29282,6 +29681,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type FamilyMemberDiseaseCountAggregateInputType = {
@@ -29295,6 +29696,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -29381,6 +29784,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string
+    createdAt: Date
+    updatedAt: Date
     _count: FamilyMemberDiseaseCountAggregateOutputType | null
     _min: FamilyMemberDiseaseMinAggregateOutputType | null
     _max: FamilyMemberDiseaseMaxAggregateOutputType | null
@@ -29411,6 +29816,8 @@ export namespace Prisma {
     candidate_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     familyMember?: boolean | FamilyMemberDisease$familyMemberArgs<ExtArgs>
     candidate?: boolean | FamilyMemberDisease$candidateArgs<ExtArgs>
     legalResponsible?: boolean | FamilyMemberDisease$legalResponsibleArgs<ExtArgs>
@@ -29429,6 +29836,8 @@ export namespace Prisma {
     candidate_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type FamilyMemberDiseaseInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -29459,6 +29868,8 @@ export namespace Prisma {
       candidate_id: string | null
       legalResponsibleId: string | null
       application_id: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["familyMemberDisease"]>
     composites: {}
   }
@@ -29870,6 +30281,8 @@ export namespace Prisma {
     readonly candidate_id: FieldRef<"FamilyMemberDisease", 'String'>
     readonly legalResponsibleId: FieldRef<"FamilyMemberDisease", 'String'>
     readonly application_id: FieldRef<"FamilyMemberDisease", 'String'>
+    readonly createdAt: FieldRef<"FamilyMemberDisease", 'DateTime'>
+    readonly updatedAt: FieldRef<"FamilyMemberDisease", 'DateTime'>
   }
     
 
@@ -30287,6 +30700,8 @@ export namespace Prisma {
     legalResponsibleId: string | null
     application_id: string | null
     familyMemberDiseaseId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type MedicationMaxAggregateOutputType = {
@@ -30300,6 +30715,8 @@ export namespace Prisma {
     legalResponsibleId: string | null
     application_id: string | null
     familyMemberDiseaseId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type MedicationCountAggregateOutputType = {
@@ -30313,6 +30730,8 @@ export namespace Prisma {
     legalResponsibleId: number
     application_id: number
     familyMemberDiseaseId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -30328,6 +30747,8 @@ export namespace Prisma {
     legalResponsibleId?: true
     application_id?: true
     familyMemberDiseaseId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type MedicationMaxAggregateInputType = {
@@ -30341,6 +30762,8 @@ export namespace Prisma {
     legalResponsibleId?: true
     application_id?: true
     familyMemberDiseaseId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type MedicationCountAggregateInputType = {
@@ -30354,6 +30777,8 @@ export namespace Prisma {
     legalResponsibleId?: true
     application_id?: true
     familyMemberDiseaseId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -30440,6 +30865,8 @@ export namespace Prisma {
     legalResponsibleId: string | null
     application_id: string
     familyMemberDiseaseId: string | null
+    createdAt: Date
+    updatedAt: Date
     _count: MedicationCountAggregateOutputType | null
     _min: MedicationMinAggregateOutputType | null
     _max: MedicationMaxAggregateOutputType | null
@@ -30470,6 +30897,8 @@ export namespace Prisma {
     legalResponsibleId?: boolean
     application_id?: boolean
     familyMemberDiseaseId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     familyMember?: boolean | Medication$familyMemberArgs<ExtArgs>
     candidate?: boolean | Medication$candidateArgs<ExtArgs>
     legalResponsible?: boolean | Medication$legalResponsibleArgs<ExtArgs>
@@ -30487,6 +30916,8 @@ export namespace Prisma {
     legalResponsibleId?: boolean
     application_id?: boolean
     familyMemberDiseaseId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type MedicationInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -30516,6 +30947,8 @@ export namespace Prisma {
       legalResponsibleId: string | null
       application_id: string
       familyMemberDiseaseId: string | null
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["medication"]>
     composites: {}
   }
@@ -30927,6 +31360,8 @@ export namespace Prisma {
     readonly legalResponsibleId: FieldRef<"Medication", 'String'>
     readonly application_id: FieldRef<"Medication", 'String'>
     readonly familyMemberDiseaseId: FieldRef<"Medication", 'String'>
+    readonly createdAt: FieldRef<"Medication", 'DateTime'>
+    readonly updatedAt: FieldRef<"Medication", 'DateTime'>
   }
     
 
@@ -31336,6 +31771,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type DeclarationsMaxAggregateOutputType = {
@@ -31346,6 +31783,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type DeclarationsCountAggregateOutputType = {
@@ -31356,6 +31795,8 @@ export namespace Prisma {
     candidate_id: number
     legalResponsibleId: number
     application_id: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -31368,6 +31809,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type DeclarationsMaxAggregateInputType = {
@@ -31378,6 +31821,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type DeclarationsCountAggregateInputType = {
@@ -31388,6 +31833,8 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -31471,6 +31918,8 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string
+    createdAt: Date
+    updatedAt: Date
     _count: DeclarationsCountAggregateOutputType | null
     _min: DeclarationsMinAggregateOutputType | null
     _max: DeclarationsMaxAggregateOutputType | null
@@ -31498,6 +31947,8 @@ export namespace Prisma {
     candidate_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     candidate?: boolean | Declarations$candidateArgs<ExtArgs>
     familyMember?: boolean | Declarations$familyMemberArgs<ExtArgs>
     LegalResponsible?: boolean | Declarations$LegalResponsibleArgs<ExtArgs>
@@ -31511,6 +31962,8 @@ export namespace Prisma {
     candidate_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type DeclarationsInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -31535,6 +31988,8 @@ export namespace Prisma {
       candidate_id: string | null
       legalResponsibleId: string | null
       application_id: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["declarations"]>
     composites: {}
   }
@@ -31941,6 +32396,8 @@ export namespace Prisma {
     readonly candidate_id: FieldRef<"Declarations", 'String'>
     readonly legalResponsibleId: FieldRef<"Declarations", 'String'>
     readonly application_id: FieldRef<"Declarations", 'String'>
+    readonly createdAt: FieldRef<"Declarations", 'DateTime'>
+    readonly updatedAt: FieldRef<"Declarations", 'DateTime'>
   }
     
 
@@ -40651,7 +41108,8 @@ export namespace Prisma {
     profilePicture: 'profilePicture',
     email: 'email',
     finishedapplication: 'finishedapplication',
-    application_id: 'application_id'
+    application_id: 'application_id',
+    updatedAt: 'updatedAt'
   };
 
   export type CandidateScalarFieldEnum = (typeof CandidateScalarFieldEnum)[keyof typeof CandidateScalarFieldEnum]
@@ -40663,7 +41121,8 @@ export namespace Prisma {
     password: 'password',
     role: 'role',
     createdAt: 'createdAt',
-    profilePicture: 'profilePicture'
+    profilePicture: 'profilePicture',
+    updatedAt: 'updatedAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -40687,7 +41146,8 @@ export namespace Prisma {
     hasScholarship: 'hasScholarship',
     monthlyAmount: 'monthlyAmount',
     percentageOfScholarship: 'percentageOfScholarship',
-    application_id: 'application_id'
+    application_id: 'application_id',
+    updatedAt: 'updatedAt'
   };
 
   export type LegalResponsibleScalarFieldEnum = (typeof LegalResponsibleScalarFieldEnum)[keyof typeof LegalResponsibleScalarFieldEnum]
@@ -40818,7 +41278,9 @@ export namespace Prisma {
     nameOfScholarshipCourse_professional: 'nameOfScholarshipCourse_professional',
     candidate_id: 'candidate_id',
     responsible_id: 'responsible_id',
-    application_id: 'application_id'
+    application_id: 'application_id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type IdentityDetailsScalarFieldEnum = (typeof IdentityDetailsScalarFieldEnum)[keyof typeof IdentityDetailsScalarFieldEnum]
@@ -40878,7 +41340,9 @@ export namespace Prisma {
     hasBankAccount: 'hasBankAccount',
     incomeSource: 'incomeSource',
     legalResponsibleId: 'legalResponsibleId',
-    application_id: 'application_id'
+    application_id: 'application_id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type FamilyMemberScalarFieldEnum = (typeof FamilyMemberScalarFieldEnum)[keyof typeof FamilyMemberScalarFieldEnum]
@@ -40896,7 +41360,9 @@ export namespace Prisma {
     numberOfBedrooms: 'numberOfBedrooms',
     candidate_id: 'candidate_id',
     responsible_id: 'responsible_id',
-    application_id: 'application_id'
+    application_id: 'application_id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type HousingScalarFieldEnum = (typeof HousingScalarFieldEnum)[keyof typeof HousingScalarFieldEnum]
@@ -40919,7 +41385,9 @@ export namespace Prisma {
     plate: 'plate',
     document: 'document',
     legalResponsibleId: 'legalResponsibleId',
-    application_id: 'application_id'
+    application_id: 'application_id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type VehicleScalarFieldEnum = (typeof VehicleScalarFieldEnum)[keyof typeof VehicleScalarFieldEnum]
@@ -40949,7 +41417,9 @@ export namespace Prisma {
     quantity: 'quantity',
     candidate_id: 'candidate_id',
     application_id: 'application_id',
-    legalResponsibleId: 'legalResponsibleId'
+    legalResponsibleId: 'legalResponsibleId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type FamilyMemberIncomeScalarFieldEnum = (typeof FamilyMemberIncomeScalarFieldEnum)[keyof typeof FamilyMemberIncomeScalarFieldEnum]
@@ -40980,7 +41450,10 @@ export namespace Prisma {
     candidate_id: 'candidate_id',
     incomeSource: 'incomeSource',
     application_id: 'application_id',
-    legalResponsibleId: 'legalResponsibleId'
+    legalResponsibleId: 'legalResponsibleId',
+    income_id: 'income_id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type MonthlyIncomeScalarFieldEnum = (typeof MonthlyIncomeScalarFieldEnum)[keyof typeof MonthlyIncomeScalarFieldEnum]
@@ -40996,7 +41469,9 @@ export namespace Prisma {
     familyMember_id: 'familyMember_id',
     candidate_id: 'candidate_id',
     legalResponsibleId: 'legalResponsibleId',
-    application_id: 'application_id'
+    application_id: 'application_id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type BankAccountScalarFieldEnum = (typeof BankAccountScalarFieldEnum)[keyof typeof BankAccountScalarFieldEnum]
@@ -41067,7 +41542,9 @@ export namespace Prisma {
     otherExpensesDescription: 'otherExpensesDescription',
     otherExpensesValue: 'otherExpensesValue',
     legalResponsibleId: 'legalResponsibleId',
-    application_id: 'application_id'
+    application_id: 'application_id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
@@ -41084,7 +41561,9 @@ export namespace Prisma {
     familyMember_id: 'familyMember_id',
     candidate_id: 'candidate_id',
     legalResponsibleId: 'legalResponsibleId',
-    application_id: 'application_id'
+    application_id: 'application_id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type LoanScalarFieldEnum = (typeof LoanScalarFieldEnum)[keyof typeof LoanScalarFieldEnum]
@@ -41103,7 +41582,9 @@ export namespace Prisma {
     otherFinancing: 'otherFinancing',
     financingType: 'financingType',
     legalResponsibleId: 'legalResponsibleId',
-    application_id: 'application_id'
+    application_id: 'application_id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type FinancingScalarFieldEnum = (typeof FinancingScalarFieldEnum)[keyof typeof FinancingScalarFieldEnum]
@@ -41121,7 +41602,9 @@ export namespace Prisma {
     familyMember_id: 'familyMember_id',
     candidate_id: 'candidate_id',
     legalResponsibleId: 'legalResponsibleId',
-    application_id: 'application_id'
+    application_id: 'application_id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type CreditCardScalarFieldEnum = (typeof CreditCardScalarFieldEnum)[keyof typeof CreditCardScalarFieldEnum]
@@ -41135,7 +41618,9 @@ export namespace Prisma {
     familyMember_id: 'familyMember_id',
     candidate_id: 'candidate_id',
     legalResponsibleId: 'legalResponsibleId',
-    application_id: 'application_id'
+    application_id: 'application_id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type OtherExpenseScalarFieldEnum = (typeof OtherExpenseScalarFieldEnum)[keyof typeof OtherExpenseScalarFieldEnum]
@@ -41151,7 +41636,9 @@ export namespace Prisma {
     familyMember_id: 'familyMember_id',
     candidate_id: 'candidate_id',
     legalResponsibleId: 'legalResponsibleId',
-    application_id: 'application_id'
+    application_id: 'application_id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type FamilyMemberDiseaseScalarFieldEnum = (typeof FamilyMemberDiseaseScalarFieldEnum)[keyof typeof FamilyMemberDiseaseScalarFieldEnum]
@@ -41167,7 +41654,9 @@ export namespace Prisma {
     candidate_id: 'candidate_id',
     legalResponsibleId: 'legalResponsibleId',
     application_id: 'application_id',
-    familyMemberDiseaseId: 'familyMemberDiseaseId'
+    familyMemberDiseaseId: 'familyMemberDiseaseId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type MedicationScalarFieldEnum = (typeof MedicationScalarFieldEnum)[keyof typeof MedicationScalarFieldEnum]
@@ -41180,7 +41669,9 @@ export namespace Prisma {
     familyMember_id: 'familyMember_id',
     candidate_id: 'candidate_id',
     legalResponsibleId: 'legalResponsibleId',
-    application_id: 'application_id'
+    application_id: 'application_id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type DeclarationsScalarFieldEnum = (typeof DeclarationsScalarFieldEnum)[keyof typeof DeclarationsScalarFieldEnum]
@@ -42004,6 +42495,7 @@ export namespace Prisma {
     email?: StringNullableFilter<"Candidate"> | string | null
     finishedapplication?: BoolFilter<"Candidate"> | boolean
     application_id?: StringNullableFilter<"Candidate"> | string | null
+    updatedAt?: DateTimeFilter<"Candidate"> | Date | string
     Application?: ApplicationListRelationFilter
     CreditCard?: CreditCardListRelationFilter
     Expense?: ExpenseListRelationFilter
@@ -42037,6 +42529,7 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     finishedapplication?: SortOrder
     application_id?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
     Application?: ApplicationOrderByRelationAggregateInput
     CreditCard?: CreditCardOrderByRelationAggregateInput
     Expense?: ExpenseOrderByRelationAggregateInput
@@ -42074,6 +42567,7 @@ export namespace Prisma {
     profilePicture?: StringNullableFilter<"Candidate"> | string | null
     email?: StringNullableFilter<"Candidate"> | string | null
     finishedapplication?: BoolFilter<"Candidate"> | boolean
+    updatedAt?: DateTimeFilter<"Candidate"> | Date | string
     Application?: ApplicationListRelationFilter
     CreditCard?: CreditCardListRelationFilter
     Expense?: ExpenseListRelationFilter
@@ -42107,6 +42601,7 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     finishedapplication?: SortOrder
     application_id?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
     _count?: CandidateCountOrderByAggregateInput
     _max?: CandidateMaxOrderByAggregateInput
     _min?: CandidateMinOrderByAggregateInput
@@ -42129,6 +42624,7 @@ export namespace Prisma {
     email?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
     finishedapplication?: BoolWithAggregatesFilter<"Candidate"> | boolean
     application_id?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"Candidate"> | Date | string
   }
 
   export type UserWhereInput = {
@@ -42141,6 +42637,7 @@ export namespace Prisma {
     role?: EnumROLEFilter<"User"> | $Enums.ROLE
     createdAt?: DateTimeFilter<"User"> | Date | string
     profilePicture?: StringNullableFilter<"User"> | string | null
+    updatedAt?: DateTimeFilter<"User"> | Date | string
     EntityDirector?: XOR<EntityDirectorNullableRelationFilter, EntityDirectorWhereInput> | null
     EntitySubsidiary?: XOR<EntitySubsidiaryNullableRelationFilter, EntitySubsidiaryWhereInput> | null
     SocialAssistant?: XOR<SocialAssistantNullableRelationFilter, SocialAssistantWhereInput> | null
@@ -42154,6 +42651,7 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     profilePicture?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
     EntityDirector?: EntityDirectorOrderByWithRelationInput
     EntitySubsidiary?: EntitySubsidiaryOrderByWithRelationInput
     SocialAssistant?: SocialAssistantOrderByWithRelationInput
@@ -42170,6 +42668,7 @@ export namespace Prisma {
     role?: EnumROLEFilter<"User"> | $Enums.ROLE
     createdAt?: DateTimeFilter<"User"> | Date | string
     profilePicture?: StringNullableFilter<"User"> | string | null
+    updatedAt?: DateTimeFilter<"User"> | Date | string
     EntityDirector?: XOR<EntityDirectorNullableRelationFilter, EntityDirectorWhereInput> | null
     EntitySubsidiary?: XOR<EntitySubsidiaryNullableRelationFilter, EntitySubsidiaryWhereInput> | null
     SocialAssistant?: XOR<SocialAssistantNullableRelationFilter, SocialAssistantWhereInput> | null
@@ -42183,6 +42682,7 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     profilePicture?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -42198,6 +42698,7 @@ export namespace Prisma {
     role?: EnumROLEWithAggregatesFilter<"User"> | $Enums.ROLE
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     profilePicture?: StringNullableWithAggregatesFilter<"User"> | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
   export type LegalResponsibleWhereInput = {
@@ -42222,6 +42723,7 @@ export namespace Prisma {
     monthlyAmount?: StringNullableFilter<"LegalResponsible"> | string | null
     percentageOfScholarship?: StringNullableFilter<"LegalResponsible"> | string | null
     application_id?: StringNullableFilter<"LegalResponsible"> | string | null
+    updatedAt?: DateTimeFilter<"LegalResponsible"> | Date | string
     IdentityDetails?: IdentityDetailsListRelationFilter
     Candidate?: CandidateListRelationFilter
     Housing?: HousingListRelationFilter
@@ -42260,6 +42762,7 @@ export namespace Prisma {
     monthlyAmount?: SortOrderInput | SortOrder
     percentageOfScholarship?: SortOrderInput | SortOrder
     application_id?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
     IdentityDetails?: IdentityDetailsOrderByRelationAggregateInput
     Candidate?: CandidateOrderByRelationAggregateInput
     Housing?: HousingOrderByRelationAggregateInput
@@ -42302,6 +42805,7 @@ export namespace Prisma {
     hasScholarship?: BoolNullableFilter<"LegalResponsible"> | boolean | null
     monthlyAmount?: StringNullableFilter<"LegalResponsible"> | string | null
     percentageOfScholarship?: StringNullableFilter<"LegalResponsible"> | string | null
+    updatedAt?: DateTimeFilter<"LegalResponsible"> | Date | string
     IdentityDetails?: IdentityDetailsListRelationFilter
     Candidate?: CandidateListRelationFilter
     Housing?: HousingListRelationFilter
@@ -42340,6 +42844,7 @@ export namespace Prisma {
     monthlyAmount?: SortOrderInput | SortOrder
     percentageOfScholarship?: SortOrderInput | SortOrder
     application_id?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
     _count?: LegalResponsibleCountOrderByAggregateInput
     _max?: LegalResponsibleMaxOrderByAggregateInput
     _min?: LegalResponsibleMinOrderByAggregateInput
@@ -42367,6 +42872,7 @@ export namespace Prisma {
     monthlyAmount?: StringNullableWithAggregatesFilter<"LegalResponsible"> | string | null
     percentageOfScholarship?: StringNullableWithAggregatesFilter<"LegalResponsible"> | string | null
     application_id?: StringNullableWithAggregatesFilter<"LegalResponsible"> | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"LegalResponsible"> | Date | string
   }
 
   export type SocialAssistantWhereInput = {
@@ -42811,6 +43317,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"IdentityDetails"> | string | null
     responsible_id?: StringNullableFilter<"IdentityDetails"> | string | null
     application_id?: StringFilter<"IdentityDetails"> | string
+    createdAt?: DateTimeFilter<"IdentityDetails"> | Date | string
+    updatedAt?: DateTimeFilter<"IdentityDetails"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     responsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
   }
@@ -42875,6 +43383,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     responsible_id?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     candidate?: CandidateOrderByWithRelationInput
     responsible?: LegalResponsibleOrderByWithRelationInput
   }
@@ -42942,6 +43452,8 @@ export namespace Prisma {
     nameOfScholarshipCourse_professional?: StringNullableFilter<"IdentityDetails"> | string | null
     candidate_id?: StringNullableFilter<"IdentityDetails"> | string | null
     responsible_id?: StringNullableFilter<"IdentityDetails"> | string | null
+    createdAt?: DateTimeFilter<"IdentityDetails"> | Date | string
+    updatedAt?: DateTimeFilter<"IdentityDetails"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     responsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
   }, "id" | "application_id">
@@ -43006,6 +43518,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     responsible_id?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: IdentityDetailsCountOrderByAggregateInput
     _max?: IdentityDetailsMaxOrderByAggregateInput
     _min?: IdentityDetailsMinOrderByAggregateInput
@@ -43074,6 +43588,8 @@ export namespace Prisma {
     candidate_id?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     responsible_id?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     application_id?: StringWithAggregatesFilter<"IdentityDetails"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"IdentityDetails"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"IdentityDetails"> | Date | string
   }
 
   export type FamilyMemberWhereInput = {
@@ -43134,6 +43650,8 @@ export namespace Prisma {
     incomeSource?: EnumIncomeSourceNullableListFilter<"FamilyMember">
     legalResponsibleId?: StringNullableFilter<"FamilyMember"> | string | null
     application_id?: StringFilter<"FamilyMember"> | string
+    createdAt?: DateTimeFilter<"FamilyMember"> | Date | string
+    updatedAt?: DateTimeFilter<"FamilyMember"> | Date | string
     CreditCard?: CreditCardListRelationFilter
     FamilyMemberIncome?: FamilyMemberIncomeListRelationFilter
     Financing?: FinancingListRelationFilter
@@ -43204,6 +43722,8 @@ export namespace Prisma {
     incomeSource?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     CreditCard?: CreditCardOrderByRelationAggregateInput
     FamilyMemberIncome?: FamilyMemberIncomeOrderByRelationAggregateInput
     Financing?: FinancingOrderByRelationAggregateInput
@@ -43278,6 +43798,8 @@ export namespace Prisma {
     incomeSource?: EnumIncomeSourceNullableListFilter<"FamilyMember">
     legalResponsibleId?: StringNullableFilter<"FamilyMember"> | string | null
     application_id?: StringFilter<"FamilyMember"> | string
+    createdAt?: DateTimeFilter<"FamilyMember"> | Date | string
+    updatedAt?: DateTimeFilter<"FamilyMember"> | Date | string
     CreditCard?: CreditCardListRelationFilter
     FamilyMemberIncome?: FamilyMemberIncomeListRelationFilter
     Financing?: FinancingListRelationFilter
@@ -43348,6 +43870,8 @@ export namespace Prisma {
     incomeSource?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: FamilyMemberCountOrderByAggregateInput
     _max?: FamilyMemberMaxOrderByAggregateInput
     _min?: FamilyMemberMinOrderByAggregateInput
@@ -43411,6 +43935,8 @@ export namespace Prisma {
     incomeSource?: EnumIncomeSourceNullableListFilter<"FamilyMember">
     legalResponsibleId?: StringNullableWithAggregatesFilter<"FamilyMember"> | string | null
     application_id?: StringWithAggregatesFilter<"FamilyMember"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"FamilyMember"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"FamilyMember"> | Date | string
   }
 
   export type HousingWhereInput = {
@@ -43429,6 +43955,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"Housing"> | string | null
     responsible_id?: StringNullableFilter<"Housing"> | string | null
     application_id?: StringFilter<"Housing"> | string
+    createdAt?: DateTimeFilter<"Housing"> | Date | string
+    updatedAt?: DateTimeFilter<"Housing"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     responsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
   }
@@ -43446,6 +43974,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     responsible_id?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     candidate?: CandidateOrderByWithRelationInput
     responsible?: LegalResponsibleOrderByWithRelationInput
   }
@@ -43467,6 +43997,8 @@ export namespace Prisma {
     numberOfBedrooms?: IntFilter<"Housing"> | number
     candidate_id?: StringNullableFilter<"Housing"> | string | null
     responsible_id?: StringNullableFilter<"Housing"> | string | null
+    createdAt?: DateTimeFilter<"Housing"> | Date | string
+    updatedAt?: DateTimeFilter<"Housing"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     responsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
   }, "id" | "application_id" | "application_id_main_id">
@@ -43484,6 +44016,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     responsible_id?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: HousingCountOrderByAggregateInput
     _avg?: HousingAvgOrderByAggregateInput
     _max?: HousingMaxOrderByAggregateInput
@@ -43507,6 +44041,8 @@ export namespace Prisma {
     candidate_id?: StringNullableWithAggregatesFilter<"Housing"> | string | null
     responsible_id?: StringNullableWithAggregatesFilter<"Housing"> | string | null
     application_id?: StringWithAggregatesFilter<"Housing"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Housing"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Housing"> | Date | string
   }
 
   export type VehicleWhereInput = {
@@ -43530,6 +44066,8 @@ export namespace Prisma {
     document?: StringNullableFilter<"Vehicle"> | string | null
     legalResponsibleId?: StringNullableFilter<"Vehicle"> | string | null
     application_id?: StringFilter<"Vehicle"> | string
+    createdAt?: DateTimeFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     FamilyMemberToVehicle?: FamilyMemberToVehicleListRelationFilter
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -43553,6 +44091,8 @@ export namespace Prisma {
     document?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     candidate?: CandidateOrderByWithRelationInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleOrderByRelationAggregateInput
     LegalResponsible?: LegalResponsibleOrderByWithRelationInput
@@ -43580,6 +44120,8 @@ export namespace Prisma {
     document?: StringNullableFilter<"Vehicle"> | string | null
     legalResponsibleId?: StringNullableFilter<"Vehicle"> | string | null
     application_id?: StringFilter<"Vehicle"> | string
+    createdAt?: DateTimeFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     FamilyMemberToVehicle?: FamilyMemberToVehicleListRelationFilter
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -43603,6 +44145,8 @@ export namespace Prisma {
     document?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: VehicleCountOrderByAggregateInput
     _avg?: VehicleAvgOrderByAggregateInput
     _max?: VehicleMaxOrderByAggregateInput
@@ -43631,6 +44175,8 @@ export namespace Prisma {
     document?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
     legalResponsibleId?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
     application_id?: StringWithAggregatesFilter<"Vehicle"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
   }
 
   export type FamilyMemberIncomeWhereInput = {
@@ -43661,9 +44207,12 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"FamilyMemberIncome"> | string | null
     application_id?: StringFilter<"FamilyMemberIncome"> | string
     legalResponsibleId?: StringNullableFilter<"FamilyMemberIncome"> | string | null
+    createdAt?: DateTimeFilter<"FamilyMemberIncome"> | Date | string
+    updatedAt?: DateTimeFilter<"FamilyMemberIncome"> | Date | string
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
+    MonthlyIncomes?: MonthlyIncomeListRelationFilter
   }
 
   export type FamilyMemberIncomeOrderByWithRelationInput = {
@@ -43691,9 +44240,12 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     application_id?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     familyMember?: FamilyMemberOrderByWithRelationInput
     candidate?: CandidateOrderByWithRelationInput
     LegalResponsible?: LegalResponsibleOrderByWithRelationInput
+    MonthlyIncomes?: MonthlyIncomeOrderByRelationAggregateInput
   }
 
   export type FamilyMemberIncomeWhereUniqueInput = Prisma.AtLeast<{
@@ -43725,9 +44277,12 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"FamilyMemberIncome"> | string | null
     application_id?: StringFilter<"FamilyMemberIncome"> | string
     legalResponsibleId?: StringNullableFilter<"FamilyMemberIncome"> | string | null
+    createdAt?: DateTimeFilter<"FamilyMemberIncome"> | Date | string
+    updatedAt?: DateTimeFilter<"FamilyMemberIncome"> | Date | string
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
+    MonthlyIncomes?: MonthlyIncomeListRelationFilter
   }, "id" | "application_id_main_id">
 
   export type FamilyMemberIncomeOrderByWithAggregationInput = {
@@ -43755,6 +44310,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     application_id?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: FamilyMemberIncomeCountOrderByAggregateInput
     _avg?: FamilyMemberIncomeAvgOrderByAggregateInput
     _max?: FamilyMemberIncomeMaxOrderByAggregateInput
@@ -43790,6 +44347,8 @@ export namespace Prisma {
     candidate_id?: StringNullableWithAggregatesFilter<"FamilyMemberIncome"> | string | null
     application_id?: StringWithAggregatesFilter<"FamilyMemberIncome"> | string
     legalResponsibleId?: StringNullableWithAggregatesFilter<"FamilyMemberIncome"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"FamilyMemberIncome"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"FamilyMemberIncome"> | Date | string
   }
 
   export type MonthlyIncomeWhereInput = {
@@ -43821,9 +44380,13 @@ export namespace Prisma {
     incomeSource?: EnumIncomeSourceFilter<"MonthlyIncome"> | $Enums.IncomeSource
     application_id?: StringFilter<"MonthlyIncome"> | string
     legalResponsibleId?: StringNullableFilter<"MonthlyIncome"> | string | null
+    income_id?: StringNullableFilter<"MonthlyIncome"> | string | null
+    createdAt?: DateTimeFilter<"MonthlyIncome"> | Date | string
+    updatedAt?: DateTimeFilter<"MonthlyIncome"> | Date | string
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
+    income?: XOR<FamilyMemberIncomeNullableRelationFilter, FamilyMemberIncomeWhereInput> | null
   }
 
   export type MonthlyIncomeOrderByWithRelationInput = {
@@ -43852,9 +44415,13 @@ export namespace Prisma {
     incomeSource?: SortOrder
     application_id?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
+    income_id?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     familyMember?: FamilyMemberOrderByWithRelationInput
     candidate?: CandidateOrderByWithRelationInput
     LegalResponsible?: LegalResponsibleOrderByWithRelationInput
+    income?: FamilyMemberIncomeOrderByWithRelationInput
   }
 
   export type MonthlyIncomeWhereUniqueInput = Prisma.AtLeast<{
@@ -43887,9 +44454,13 @@ export namespace Prisma {
     incomeSource?: EnumIncomeSourceFilter<"MonthlyIncome"> | $Enums.IncomeSource
     application_id?: StringFilter<"MonthlyIncome"> | string
     legalResponsibleId?: StringNullableFilter<"MonthlyIncome"> | string | null
+    income_id?: StringNullableFilter<"MonthlyIncome"> | string | null
+    createdAt?: DateTimeFilter<"MonthlyIncome"> | Date | string
+    updatedAt?: DateTimeFilter<"MonthlyIncome"> | Date | string
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
+    income?: XOR<FamilyMemberIncomeNullableRelationFilter, FamilyMemberIncomeWhereInput> | null
   }, "id" | "application_id_main_id">
 
   export type MonthlyIncomeOrderByWithAggregationInput = {
@@ -43918,6 +44489,9 @@ export namespace Prisma {
     incomeSource?: SortOrder
     application_id?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
+    income_id?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: MonthlyIncomeCountOrderByAggregateInput
     _avg?: MonthlyIncomeAvgOrderByAggregateInput
     _max?: MonthlyIncomeMaxOrderByAggregateInput
@@ -43954,6 +44528,9 @@ export namespace Prisma {
     incomeSource?: EnumIncomeSourceWithAggregatesFilter<"MonthlyIncome"> | $Enums.IncomeSource
     application_id?: StringWithAggregatesFilter<"MonthlyIncome"> | string
     legalResponsibleId?: StringNullableWithAggregatesFilter<"MonthlyIncome"> | string | null
+    income_id?: StringNullableWithAggregatesFilter<"MonthlyIncome"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"MonthlyIncome"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MonthlyIncome"> | Date | string
   }
 
   export type BankAccountWhereInput = {
@@ -43970,6 +44547,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"BankAccount"> | string | null
     legalResponsibleId?: StringNullableFilter<"BankAccount"> | string | null
     application_id?: StringFilter<"BankAccount"> | string
+    createdAt?: DateTimeFilter<"BankAccount"> | Date | string
+    updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -43986,6 +44565,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     familyMember?: FamilyMemberOrderByWithRelationInput
     candidate?: CandidateOrderByWithRelationInput
     LegalResponsible?: LegalResponsibleOrderByWithRelationInput
@@ -44005,6 +44586,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"BankAccount"> | string | null
     legalResponsibleId?: StringNullableFilter<"BankAccount"> | string | null
     application_id?: StringFilter<"BankAccount"> | string
+    createdAt?: DateTimeFilter<"BankAccount"> | Date | string
+    updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -44021,6 +44604,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: BankAccountCountOrderByAggregateInput
     _max?: BankAccountMaxOrderByAggregateInput
     _min?: BankAccountMinOrderByAggregateInput
@@ -44040,6 +44625,8 @@ export namespace Prisma {
     candidate_id?: StringNullableWithAggregatesFilter<"BankAccount"> | string | null
     legalResponsibleId?: StringNullableWithAggregatesFilter<"BankAccount"> | string | null
     application_id?: StringWithAggregatesFilter<"BankAccount"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"BankAccount"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BankAccount"> | Date | string
   }
 
   export type ExpenseWhereInput = {
@@ -44111,6 +44698,8 @@ export namespace Prisma {
     otherExpensesValue?: FloatNullableListFilter<"Expense">
     legalResponsibleId?: StringNullableFilter<"Expense"> | string | null
     application_id?: StringFilter<"Expense"> | string
+    createdAt?: DateTimeFilter<"Expense"> | Date | string
+    updatedAt?: DateTimeFilter<"Expense"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
   }
@@ -44181,6 +44770,8 @@ export namespace Prisma {
     otherExpensesValue?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     candidate?: CandidateOrderByWithRelationInput
     LegalResponsible?: LegalResponsibleOrderByWithRelationInput
   }
@@ -44255,6 +44846,8 @@ export namespace Prisma {
     otherExpensesValue?: FloatNullableListFilter<"Expense">
     legalResponsibleId?: StringNullableFilter<"Expense"> | string | null
     application_id?: StringFilter<"Expense"> | string
+    createdAt?: DateTimeFilter<"Expense"> | Date | string
+    updatedAt?: DateTimeFilter<"Expense"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
   }, "id" | "application_id_main_id">
@@ -44325,6 +44918,8 @@ export namespace Prisma {
     otherExpensesValue?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: ExpenseCountOrderByAggregateInput
     _avg?: ExpenseAvgOrderByAggregateInput
     _max?: ExpenseMaxOrderByAggregateInput
@@ -44401,6 +44996,8 @@ export namespace Prisma {
     otherExpensesValue?: FloatNullableListFilter<"Expense">
     legalResponsibleId?: StringNullableWithAggregatesFilter<"Expense"> | string | null
     application_id?: StringWithAggregatesFilter<"Expense"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Expense"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Expense"> | Date | string
   }
 
   export type LoanWhereInput = {
@@ -44418,6 +45015,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"Loan"> | string | null
     legalResponsibleId?: StringNullableFilter<"Loan"> | string | null
     application_id?: StringFilter<"Loan"> | string
+    createdAt?: DateTimeFilter<"Loan"> | Date | string
+    updatedAt?: DateTimeFilter<"Loan"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -44435,6 +45034,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     candidate?: CandidateOrderByWithRelationInput
     familyMember?: FamilyMemberOrderByWithRelationInput
     LegalResponsible?: LegalResponsibleOrderByWithRelationInput
@@ -44456,6 +45057,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"Loan"> | string | null
     legalResponsibleId?: StringNullableFilter<"Loan"> | string | null
     application_id?: StringFilter<"Loan"> | string
+    createdAt?: DateTimeFilter<"Loan"> | Date | string
+    updatedAt?: DateTimeFilter<"Loan"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -44473,6 +45076,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: LoanCountOrderByAggregateInput
     _avg?: LoanAvgOrderByAggregateInput
     _max?: LoanMaxOrderByAggregateInput
@@ -44495,6 +45100,8 @@ export namespace Prisma {
     candidate_id?: StringNullableWithAggregatesFilter<"Loan"> | string | null
     legalResponsibleId?: StringNullableWithAggregatesFilter<"Loan"> | string | null
     application_id?: StringWithAggregatesFilter<"Loan"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
   }
 
   export type FinancingWhereInput = {
@@ -44514,6 +45121,8 @@ export namespace Prisma {
     financingType?: EnumFinancingTypeFilter<"Financing"> | $Enums.FinancingType
     legalResponsibleId?: StringNullableFilter<"Financing"> | string | null
     application_id?: StringFilter<"Financing"> | string
+    createdAt?: DateTimeFilter<"Financing"> | Date | string
+    updatedAt?: DateTimeFilter<"Financing"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -44533,6 +45142,8 @@ export namespace Prisma {
     financingType?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     candidate?: CandidateOrderByWithRelationInput
     familyMember?: FamilyMemberOrderByWithRelationInput
     LegalResponsible?: LegalResponsibleOrderByWithRelationInput
@@ -44556,6 +45167,8 @@ export namespace Prisma {
     financingType?: EnumFinancingTypeFilter<"Financing"> | $Enums.FinancingType
     legalResponsibleId?: StringNullableFilter<"Financing"> | string | null
     application_id?: StringFilter<"Financing"> | string
+    createdAt?: DateTimeFilter<"Financing"> | Date | string
+    updatedAt?: DateTimeFilter<"Financing"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -44575,6 +45188,8 @@ export namespace Prisma {
     financingType?: SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: FinancingCountOrderByAggregateInput
     _avg?: FinancingAvgOrderByAggregateInput
     _max?: FinancingMaxOrderByAggregateInput
@@ -44599,6 +45214,8 @@ export namespace Prisma {
     financingType?: EnumFinancingTypeWithAggregatesFilter<"Financing"> | $Enums.FinancingType
     legalResponsibleId?: StringNullableWithAggregatesFilter<"Financing"> | string | null
     application_id?: StringWithAggregatesFilter<"Financing"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Financing"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Financing"> | Date | string
   }
 
   export type CreditCardWhereInput = {
@@ -44617,6 +45234,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"CreditCard"> | string | null
     legalResponsibleId?: StringNullableFilter<"CreditCard"> | string | null
     application_id?: StringFilter<"CreditCard"> | string
+    createdAt?: DateTimeFilter<"CreditCard"> | Date | string
+    updatedAt?: DateTimeFilter<"CreditCard"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -44635,6 +45254,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     candidate?: CandidateOrderByWithRelationInput
     familyMember?: FamilyMemberOrderByWithRelationInput
     LegalResponsible?: LegalResponsibleOrderByWithRelationInput
@@ -44657,6 +45278,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"CreditCard"> | string | null
     legalResponsibleId?: StringNullableFilter<"CreditCard"> | string | null
     application_id?: StringFilter<"CreditCard"> | string
+    createdAt?: DateTimeFilter<"CreditCard"> | Date | string
+    updatedAt?: DateTimeFilter<"CreditCard"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -44675,6 +45298,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: CreditCardCountOrderByAggregateInput
     _avg?: CreditCardAvgOrderByAggregateInput
     _max?: CreditCardMaxOrderByAggregateInput
@@ -44698,6 +45323,8 @@ export namespace Prisma {
     candidate_id?: StringNullableWithAggregatesFilter<"CreditCard"> | string | null
     legalResponsibleId?: StringNullableWithAggregatesFilter<"CreditCard"> | string | null
     application_id?: StringWithAggregatesFilter<"CreditCard"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"CreditCard"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CreditCard"> | Date | string
   }
 
   export type OtherExpenseWhereInput = {
@@ -44712,6 +45339,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"OtherExpense"> | string | null
     legalResponsibleId?: StringNullableFilter<"OtherExpense"> | string | null
     application_id?: StringFilter<"OtherExpense"> | string
+    createdAt?: DateTimeFilter<"OtherExpense"> | Date | string
+    updatedAt?: DateTimeFilter<"OtherExpense"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -44726,6 +45355,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     candidate?: CandidateOrderByWithRelationInput
     familyMember?: FamilyMemberOrderByWithRelationInput
     LegalResponsible?: LegalResponsibleOrderByWithRelationInput
@@ -44744,6 +45375,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"OtherExpense"> | string | null
     legalResponsibleId?: StringNullableFilter<"OtherExpense"> | string | null
     application_id?: StringFilter<"OtherExpense"> | string
+    createdAt?: DateTimeFilter<"OtherExpense"> | Date | string
+    updatedAt?: DateTimeFilter<"OtherExpense"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -44758,6 +45391,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: OtherExpenseCountOrderByAggregateInput
     _avg?: OtherExpenseAvgOrderByAggregateInput
     _max?: OtherExpenseMaxOrderByAggregateInput
@@ -44777,6 +45412,8 @@ export namespace Prisma {
     candidate_id?: StringNullableWithAggregatesFilter<"OtherExpense"> | string | null
     legalResponsibleId?: StringNullableWithAggregatesFilter<"OtherExpense"> | string | null
     application_id?: StringWithAggregatesFilter<"OtherExpense"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"OtherExpense"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"OtherExpense"> | Date | string
   }
 
   export type FamilyMemberDiseaseWhereInput = {
@@ -44793,6 +45430,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"FamilyMemberDisease"> | string | null
     legalResponsibleId?: StringNullableFilter<"FamilyMemberDisease"> | string | null
     application_id?: StringFilter<"FamilyMemberDisease"> | string
+    createdAt?: DateTimeFilter<"FamilyMemberDisease"> | Date | string
+    updatedAt?: DateTimeFilter<"FamilyMemberDisease"> | Date | string
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     legalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -44810,6 +45449,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     familyMember?: FamilyMemberOrderByWithRelationInput
     candidate?: CandidateOrderByWithRelationInput
     legalResponsible?: LegalResponsibleOrderByWithRelationInput
@@ -44831,6 +45472,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"FamilyMemberDisease"> | string | null
     legalResponsibleId?: StringNullableFilter<"FamilyMemberDisease"> | string | null
     application_id?: StringFilter<"FamilyMemberDisease"> | string
+    createdAt?: DateTimeFilter<"FamilyMemberDisease"> | Date | string
+    updatedAt?: DateTimeFilter<"FamilyMemberDisease"> | Date | string
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     legalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -44848,6 +45491,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: FamilyMemberDiseaseCountOrderByAggregateInput
     _max?: FamilyMemberDiseaseMaxOrderByAggregateInput
     _min?: FamilyMemberDiseaseMinOrderByAggregateInput
@@ -44867,6 +45512,8 @@ export namespace Prisma {
     candidate_id?: StringNullableWithAggregatesFilter<"FamilyMemberDisease"> | string | null
     legalResponsibleId?: StringNullableWithAggregatesFilter<"FamilyMemberDisease"> | string | null
     application_id?: StringWithAggregatesFilter<"FamilyMemberDisease"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"FamilyMemberDisease"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"FamilyMemberDisease"> | Date | string
   }
 
   export type MedicationWhereInput = {
@@ -44883,6 +45530,8 @@ export namespace Prisma {
     legalResponsibleId?: StringNullableFilter<"Medication"> | string | null
     application_id?: StringFilter<"Medication"> | string
     familyMemberDiseaseId?: StringNullableFilter<"Medication"> | string | null
+    createdAt?: DateTimeFilter<"Medication"> | Date | string
+    updatedAt?: DateTimeFilter<"Medication"> | Date | string
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     legalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -44900,6 +45549,8 @@ export namespace Prisma {
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
     familyMemberDiseaseId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     familyMember?: FamilyMemberOrderByWithRelationInput
     candidate?: CandidateOrderByWithRelationInput
     legalResponsible?: LegalResponsibleOrderByWithRelationInput
@@ -44921,6 +45572,8 @@ export namespace Prisma {
     legalResponsibleId?: StringNullableFilter<"Medication"> | string | null
     application_id?: StringFilter<"Medication"> | string
     familyMemberDiseaseId?: StringNullableFilter<"Medication"> | string | null
+    createdAt?: DateTimeFilter<"Medication"> | Date | string
+    updatedAt?: DateTimeFilter<"Medication"> | Date | string
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     legalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -44938,6 +45591,8 @@ export namespace Prisma {
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
     familyMemberDiseaseId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: MedicationCountOrderByAggregateInput
     _max?: MedicationMaxOrderByAggregateInput
     _min?: MedicationMinOrderByAggregateInput
@@ -44957,6 +45612,8 @@ export namespace Prisma {
     legalResponsibleId?: StringNullableWithAggregatesFilter<"Medication"> | string | null
     application_id?: StringWithAggregatesFilter<"Medication"> | string
     familyMemberDiseaseId?: StringNullableWithAggregatesFilter<"Medication"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Medication"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Medication"> | Date | string
   }
 
   export type DeclarationsWhereInput = {
@@ -44970,6 +45627,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"Declarations"> | string | null
     legalResponsibleId?: StringNullableFilter<"Declarations"> | string | null
     application_id?: StringFilter<"Declarations"> | string
+    createdAt?: DateTimeFilter<"Declarations"> | Date | string
+    updatedAt?: DateTimeFilter<"Declarations"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -44983,6 +45642,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     candidate?: CandidateOrderByWithRelationInput
     familyMember?: FamilyMemberOrderByWithRelationInput
     LegalResponsible?: LegalResponsibleOrderByWithRelationInput
@@ -44999,6 +45660,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"Declarations"> | string | null
     legalResponsibleId?: StringNullableFilter<"Declarations"> | string | null
     application_id?: StringFilter<"Declarations"> | string
+    createdAt?: DateTimeFilter<"Declarations"> | Date | string
+    updatedAt?: DateTimeFilter<"Declarations"> | Date | string
     candidate?: XOR<CandidateNullableRelationFilter, CandidateWhereInput> | null
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
     LegalResponsible?: XOR<LegalResponsibleNullableRelationFilter, LegalResponsibleWhereInput> | null
@@ -45012,6 +45675,8 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: DeclarationsCountOrderByAggregateInput
     _max?: DeclarationsMaxOrderByAggregateInput
     _min?: DeclarationsMinOrderByAggregateInput
@@ -45028,6 +45693,8 @@ export namespace Prisma {
     candidate_id?: StringNullableWithAggregatesFilter<"Declarations"> | string | null
     legalResponsibleId?: StringNullableWithAggregatesFilter<"Declarations"> | string | null
     application_id?: StringWithAggregatesFilter<"Declarations"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Declarations"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Declarations"> | Date | string
   }
 
   export type AnnouncementInterviewWhereInput = {
@@ -45790,6 +46457,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
@@ -45823,6 +46491,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
@@ -45854,6 +46523,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
@@ -45887,6 +46557,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
@@ -45919,6 +46590,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
   }
 
   export type CandidateUpdateManyMutationInput = {
@@ -45934,6 +46606,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CandidateUncheckedUpdateManyInput = {
@@ -45950,6 +46623,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateInput = {
@@ -45959,6 +46633,7 @@ export namespace Prisma {
     role?: $Enums.ROLE
     createdAt?: Date | string
     profilePicture?: string | null
+    updatedAt?: Date | string
     EntityDirector?: EntityDirectorCreateNestedOneWithoutUserInput
     EntitySubsidiary?: EntitySubsidiaryCreateNestedOneWithoutUserInput
     SocialAssistant?: SocialAssistantCreateNestedOneWithoutUserInput
@@ -45972,6 +46647,7 @@ export namespace Prisma {
     role?: $Enums.ROLE
     createdAt?: Date | string
     profilePicture?: string | null
+    updatedAt?: Date | string
     EntityDirector?: EntityDirectorUncheckedCreateNestedOneWithoutUserInput
     EntitySubsidiary?: EntitySubsidiaryUncheckedCreateNestedOneWithoutUserInput
     SocialAssistant?: SocialAssistantUncheckedCreateNestedOneWithoutUserInput
@@ -45985,6 +46661,7 @@ export namespace Prisma {
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     EntityDirector?: EntityDirectorUpdateOneWithoutUserNestedInput
     EntitySubsidiary?: EntitySubsidiaryUpdateOneWithoutUserNestedInput
     SocialAssistant?: SocialAssistantUpdateOneWithoutUserNestedInput
@@ -45998,6 +46675,7 @@ export namespace Prisma {
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     EntityDirector?: EntityDirectorUncheckedUpdateOneWithoutUserNestedInput
     EntitySubsidiary?: EntitySubsidiaryUncheckedUpdateOneWithoutUserNestedInput
     SocialAssistant?: SocialAssistantUncheckedUpdateOneWithoutUserNestedInput
@@ -46011,6 +46689,7 @@ export namespace Prisma {
     role?: $Enums.ROLE
     createdAt?: Date | string
     profilePicture?: string | null
+    updatedAt?: Date | string
   }
 
   export type UserUpdateManyMutationInput = {
@@ -46020,6 +46699,7 @@ export namespace Prisma {
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -46029,6 +46709,7 @@ export namespace Prisma {
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LegalResponsibleCreateInput = {
@@ -46050,6 +46731,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
@@ -46088,6 +46770,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
@@ -46126,6 +46809,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
@@ -46164,6 +46848,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
@@ -46202,6 +46887,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
   }
 
   export type LegalResponsibleUpdateManyMutationInput = {
@@ -46223,6 +46909,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LegalResponsibleUncheckedUpdateManyInput = {
@@ -46244,6 +46931,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SocialAssistantCreateInput = {
@@ -46718,6 +47406,8 @@ export namespace Prisma {
     institutionCNPJ_professional?: string | null
     nameOfScholarshipCourse_professional?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutIdentityDetailsInput
     responsible?: LegalResponsibleCreateNestedOneWithoutIdentityDetailsInput
   }
@@ -46782,6 +47472,8 @@ export namespace Prisma {
     candidate_id?: string | null
     responsible_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type IdentityDetailsUpdateInput = {
@@ -46842,6 +47534,8 @@ export namespace Prisma {
     institutionCNPJ_professional?: NullableStringFieldUpdateOperationsInput | string | null
     nameOfScholarshipCourse_professional?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutIdentityDetailsNestedInput
     responsible?: LegalResponsibleUpdateOneWithoutIdentityDetailsNestedInput
   }
@@ -46906,6 +47600,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     responsible_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IdentityDetailsCreateManyInput = {
@@ -46968,6 +47664,8 @@ export namespace Prisma {
     candidate_id?: string | null
     responsible_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type IdentityDetailsUpdateManyMutationInput = {
@@ -47028,6 +47726,8 @@ export namespace Prisma {
     institutionCNPJ_professional?: NullableStringFieldUpdateOperationsInput | string | null
     nameOfScholarshipCourse_professional?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IdentityDetailsUncheckedUpdateManyInput = {
@@ -47090,6 +47790,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     responsible_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FamilyMemberCreateInput = {
@@ -47145,6 +47847,8 @@ export namespace Prisma {
     hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingCreateNestedManyWithoutFamilyMemberInput
@@ -47215,6 +47919,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingUncheckedCreateNestedManyWithoutFamilyMemberInput
@@ -47281,6 +47987,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUpdateManyWithoutFamilyMemberNestedInput
@@ -47351,6 +48059,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUncheckedUpdateManyWithoutFamilyMemberNestedInput
@@ -47419,6 +48129,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FamilyMemberUpdateManyMutationInput = {
@@ -47474,6 +48186,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FamilyMemberUncheckedUpdateManyInput = {
@@ -47531,6 +48245,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HousingCreateInput = {
@@ -47544,6 +48260,8 @@ export namespace Prisma {
     numberOfRooms: $Enums.NumberOfRooms
     numberOfBedrooms: number
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutHousingInput
     responsible?: LegalResponsibleCreateNestedOneWithoutHousingInput
   }
@@ -47561,6 +48279,8 @@ export namespace Prisma {
     candidate_id?: string | null
     responsible_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HousingUpdateInput = {
@@ -47574,6 +48294,8 @@ export namespace Prisma {
     numberOfRooms?: EnumNumberOfRoomsFieldUpdateOperationsInput | $Enums.NumberOfRooms
     numberOfBedrooms?: IntFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutHousingNestedInput
     responsible?: LegalResponsibleUpdateOneWithoutHousingNestedInput
   }
@@ -47591,6 +48313,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     responsible_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HousingCreateManyInput = {
@@ -47606,6 +48330,8 @@ export namespace Prisma {
     candidate_id?: string | null
     responsible_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HousingUpdateManyMutationInput = {
@@ -47619,6 +48345,8 @@ export namespace Prisma {
     numberOfRooms?: EnumNumberOfRoomsFieldUpdateOperationsInput | $Enums.NumberOfRooms
     numberOfBedrooms?: IntFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HousingUncheckedUpdateManyInput = {
@@ -47634,6 +48362,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     responsible_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VehicleCreateInput = {
@@ -47652,6 +48382,8 @@ export namespace Prisma {
     plate?: string | null
     document?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutVehicleInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleCreateNestedManyWithoutVehicleInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutVehicleInput
@@ -47675,6 +48407,8 @@ export namespace Prisma {
     document?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutVehicleInput
   }
 
@@ -47694,6 +48428,8 @@ export namespace Prisma {
     plate?: NullableStringFieldUpdateOperationsInput | string | null
     document?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutVehicleNestedInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleUpdateManyWithoutVehicleNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutVehicleNestedInput
@@ -47717,6 +48453,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutVehicleNestedInput
   }
 
@@ -47738,6 +48476,8 @@ export namespace Prisma {
     document?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type VehicleUpdateManyMutationInput = {
@@ -47756,6 +48496,8 @@ export namespace Prisma {
     plate?: NullableStringFieldUpdateOperationsInput | string | null
     document?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VehicleUncheckedUpdateManyInput = {
@@ -47776,6 +48518,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FamilyMemberIncomeCreateInput = {
@@ -47800,9 +48544,12 @@ export namespace Prisma {
     parcelValue?: number | null
     quantity?: number
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutFamilyMemberIncomeInput
     candidate?: CandidateCreateNestedOneWithoutFamilyMemberIncomeInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamilyMemberIncomeInput
+    MonthlyIncomes?: MonthlyIncomeCreateNestedManyWithoutIncomeInput
   }
 
   export type FamilyMemberIncomeUncheckedCreateInput = {
@@ -47830,6 +48577,9 @@ export namespace Prisma {
     candidate_id?: string | null
     application_id: string
     legalResponsibleId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    MonthlyIncomes?: MonthlyIncomeUncheckedCreateNestedManyWithoutIncomeInput
   }
 
   export type FamilyMemberIncomeUpdateInput = {
@@ -47854,9 +48604,12 @@ export namespace Prisma {
     parcelValue?: NullableFloatFieldUpdateOperationsInput | number | null
     quantity?: IntFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutFamilyMemberIncomeNestedInput
     candidate?: CandidateUpdateOneWithoutFamilyMemberIncomeNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFamilyMemberIncomeNestedInput
+    MonthlyIncomes?: MonthlyIncomeUpdateManyWithoutIncomeNestedInput
   }
 
   export type FamilyMemberIncomeUncheckedUpdateInput = {
@@ -47884,6 +48637,9 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    MonthlyIncomes?: MonthlyIncomeUncheckedUpdateManyWithoutIncomeNestedInput
   }
 
   export type FamilyMemberIncomeCreateManyInput = {
@@ -47911,6 +48667,8 @@ export namespace Prisma {
     candidate_id?: string | null
     application_id: string
     legalResponsibleId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FamilyMemberIncomeUpdateManyMutationInput = {
@@ -47935,6 +48693,8 @@ export namespace Prisma {
     parcelValue?: NullableFloatFieldUpdateOperationsInput | number | null
     quantity?: IntFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FamilyMemberIncomeUncheckedUpdateManyInput = {
@@ -47962,6 +48722,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MonthlyIncomeCreateInput = {
@@ -47987,9 +48749,12 @@ export namespace Prisma {
     judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
     incomeSource: $Enums.IncomeSource
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutMonthlyIncomeInput
     candidate?: CandidateCreateNestedOneWithoutMonthlyIncomeInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutMonthlyIncomeInput
+    income?: FamilyMemberIncomeCreateNestedOneWithoutMonthlyIncomesInput
   }
 
   export type MonthlyIncomeUncheckedCreateInput = {
@@ -48018,6 +48783,9 @@ export namespace Prisma {
     incomeSource: $Enums.IncomeSource
     application_id: string
     legalResponsibleId?: string | null
+    income_id?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MonthlyIncomeUpdateInput = {
@@ -48043,9 +48811,12 @@ export namespace Prisma {
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutMonthlyIncomeNestedInput
     candidate?: CandidateUpdateOneWithoutMonthlyIncomeNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutMonthlyIncomeNestedInput
+    income?: FamilyMemberIncomeUpdateOneWithoutMonthlyIncomesNestedInput
   }
 
   export type MonthlyIncomeUncheckedUpdateInput = {
@@ -48074,6 +48845,9 @@ export namespace Prisma {
     incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    income_id?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MonthlyIncomeCreateManyInput = {
@@ -48102,6 +48876,9 @@ export namespace Prisma {
     incomeSource: $Enums.IncomeSource
     application_id: string
     legalResponsibleId?: string | null
+    income_id?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MonthlyIncomeUpdateManyMutationInput = {
@@ -48127,6 +48904,8 @@ export namespace Prisma {
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MonthlyIncomeUncheckedUpdateManyInput = {
@@ -48155,6 +48934,9 @@ export namespace Prisma {
     incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    income_id?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BankAccountCreateInput = {
@@ -48165,6 +48947,8 @@ export namespace Prisma {
     accountNumber: string
     accountType: $Enums.AccountType
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutBankAccountInput
     candidate?: CandidateCreateNestedOneWithoutBankAccountInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutBankAccountInput
@@ -48181,6 +48965,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type BankAccountUpdateInput = {
@@ -48191,6 +48977,8 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutBankAccountNestedInput
     candidate?: CandidateUpdateOneWithoutBankAccountNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutBankAccountNestedInput
@@ -48207,6 +48995,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BankAccountCreateManyInput = {
@@ -48220,6 +49010,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type BankAccountUpdateManyMutationInput = {
@@ -48230,6 +49022,8 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BankAccountUncheckedUpdateManyInput = {
@@ -48243,6 +49037,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ExpenseCreateInput = {
@@ -48309,6 +49105,8 @@ export namespace Prisma {
     otherExpensesDescription?: ExpenseCreateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutExpenseInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutExpenseInput
   }
@@ -48379,6 +49177,8 @@ export namespace Prisma {
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ExpenseUpdateInput = {
@@ -48445,6 +49245,8 @@ export namespace Prisma {
     otherExpensesDescription?: ExpenseUpdateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutExpenseNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutExpenseNestedInput
   }
@@ -48515,6 +49317,8 @@ export namespace Prisma {
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ExpenseCreateManyInput = {
@@ -48583,6 +49387,8 @@ export namespace Prisma {
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ExpenseUpdateManyMutationInput = {
@@ -48649,6 +49455,8 @@ export namespace Prisma {
     otherExpensesDescription?: ExpenseUpdateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ExpenseUncheckedUpdateManyInput = {
@@ -48717,6 +49525,8 @@ export namespace Prisma {
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LoanCreateInput = {
@@ -48728,6 +49538,8 @@ export namespace Prisma {
     paidInstallments: number
     bankName: string
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutLoanInput
     familyMember?: FamilyMemberCreateNestedOneWithoutLoanInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutLoanInput
@@ -48745,6 +49557,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type LoanUpdateInput = {
@@ -48756,6 +49570,8 @@ export namespace Prisma {
     paidInstallments?: IntFieldUpdateOperationsInput | number
     bankName?: StringFieldUpdateOperationsInput | string
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutLoanNestedInput
     familyMember?: FamilyMemberUpdateOneWithoutLoanNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutLoanNestedInput
@@ -48773,6 +49589,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LoanCreateManyInput = {
@@ -48787,6 +49605,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type LoanUpdateManyMutationInput = {
@@ -48798,6 +49618,8 @@ export namespace Prisma {
     paidInstallments?: IntFieldUpdateOperationsInput | number
     bankName?: StringFieldUpdateOperationsInput | string
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LoanUncheckedUpdateManyInput = {
@@ -48812,6 +49634,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FinancingCreateInput = {
@@ -48825,6 +49649,8 @@ export namespace Prisma {
     otherFinancing?: string | null
     financingType: $Enums.FinancingType
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutFinancingInput
     familyMember?: FamilyMemberCreateNestedOneWithoutFinancingInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFinancingInput
@@ -48844,6 +49670,8 @@ export namespace Prisma {
     financingType: $Enums.FinancingType
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FinancingUpdateInput = {
@@ -48857,6 +49685,8 @@ export namespace Prisma {
     otherFinancing?: NullableStringFieldUpdateOperationsInput | string | null
     financingType?: EnumFinancingTypeFieldUpdateOperationsInput | $Enums.FinancingType
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutFinancingNestedInput
     familyMember?: FamilyMemberUpdateOneWithoutFinancingNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFinancingNestedInput
@@ -48876,6 +49706,8 @@ export namespace Prisma {
     financingType?: EnumFinancingTypeFieldUpdateOperationsInput | $Enums.FinancingType
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FinancingCreateManyInput = {
@@ -48892,6 +49724,8 @@ export namespace Prisma {
     financingType: $Enums.FinancingType
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FinancingUpdateManyMutationInput = {
@@ -48905,6 +49739,8 @@ export namespace Prisma {
     otherFinancing?: NullableStringFieldUpdateOperationsInput | string | null
     financingType?: EnumFinancingTypeFieldUpdateOperationsInput | $Enums.FinancingType
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FinancingUncheckedUpdateManyInput = {
@@ -48921,6 +49757,8 @@ export namespace Prisma {
     financingType?: EnumFinancingTypeFieldUpdateOperationsInput | $Enums.FinancingType
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CreditCardCreateInput = {
@@ -48933,6 +49771,8 @@ export namespace Prisma {
     cardFlag: string
     invoiceValue: number
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutCreditCardInput
     familyMember?: FamilyMemberCreateNestedOneWithoutCreditCardInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutCreditCardInput
@@ -48951,6 +49791,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CreditCardUpdateInput = {
@@ -48963,6 +49805,8 @@ export namespace Prisma {
     cardFlag?: StringFieldUpdateOperationsInput | string
     invoiceValue?: FloatFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutCreditCardNestedInput
     familyMember?: FamilyMemberUpdateOneWithoutCreditCardNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutCreditCardNestedInput
@@ -48981,6 +49825,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CreditCardCreateManyInput = {
@@ -48996,6 +49842,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CreditCardUpdateManyMutationInput = {
@@ -49008,6 +49856,8 @@ export namespace Prisma {
     cardFlag?: StringFieldUpdateOperationsInput | string
     invoiceValue?: FloatFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CreditCardUncheckedUpdateManyInput = {
@@ -49023,6 +49873,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OtherExpenseCreateInput = {
@@ -49031,6 +49883,8 @@ export namespace Prisma {
     description: string
     value: number
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutOtherExpenseInput
     familyMember?: FamilyMemberCreateNestedOneWithoutOtherExpenseInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutOtherExpenseInput
@@ -49045,6 +49899,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type OtherExpenseUpdateInput = {
@@ -49053,6 +49909,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     value?: FloatFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutOtherExpenseNestedInput
     familyMember?: FamilyMemberUpdateOneWithoutOtherExpenseNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutOtherExpenseNestedInput
@@ -49067,6 +49925,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OtherExpenseCreateManyInput = {
@@ -49078,6 +49938,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type OtherExpenseUpdateManyMutationInput = {
@@ -49086,6 +49948,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     value?: FloatFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OtherExpenseUncheckedUpdateManyInput = {
@@ -49097,6 +49961,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FamilyMemberDiseaseCreateInput = {
@@ -49107,6 +49973,8 @@ export namespace Prisma {
     specificDisease?: string | null
     hasMedicalReport: boolean
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutFamilyMemberDiseaseInput
     candidate?: CandidateCreateNestedOneWithoutFamilyMemberDiseaseInput
     legalResponsible?: LegalResponsibleCreateNestedOneWithoutFamilyMemberDiseaseInput
@@ -49124,6 +49992,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberDiseaseInput
   }
 
@@ -49135,6 +50005,8 @@ export namespace Prisma {
     specificDisease?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: BoolFieldUpdateOperationsInput | boolean
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutFamilyMemberDiseaseNestedInput
     candidate?: CandidateUpdateOneWithoutFamilyMemberDiseaseNestedInput
     legalResponsible?: LegalResponsibleUpdateOneWithoutFamilyMemberDiseaseNestedInput
@@ -49152,6 +50024,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberDiseaseNestedInput
   }
 
@@ -49166,6 +50040,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FamilyMemberDiseaseUpdateManyMutationInput = {
@@ -49176,6 +50052,8 @@ export namespace Prisma {
     specificDisease?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: BoolFieldUpdateOperationsInput | boolean
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FamilyMemberDiseaseUncheckedUpdateManyInput = {
@@ -49189,6 +50067,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MedicationCreateInput = {
@@ -49198,6 +50078,8 @@ export namespace Prisma {
     obtainedPublicly: boolean
     specificMedicationPublicly?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutMedicationInput
     candidate?: CandidateCreateNestedOneWithoutMedicationInput
     legalResponsible?: LegalResponsibleCreateNestedOneWithoutMedicationInput
@@ -49215,6 +50097,8 @@ export namespace Prisma {
     legalResponsibleId?: string | null
     application_id: string
     familyMemberDiseaseId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MedicationUpdateInput = {
@@ -49224,6 +50108,8 @@ export namespace Prisma {
     obtainedPublicly?: BoolFieldUpdateOperationsInput | boolean
     specificMedicationPublicly?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutMedicationNestedInput
     candidate?: CandidateUpdateOneWithoutMedicationNestedInput
     legalResponsible?: LegalResponsibleUpdateOneWithoutMedicationNestedInput
@@ -49241,6 +50127,8 @@ export namespace Prisma {
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     familyMemberDiseaseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MedicationCreateManyInput = {
@@ -49254,6 +50142,8 @@ export namespace Prisma {
     legalResponsibleId?: string | null
     application_id: string
     familyMemberDiseaseId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MedicationUpdateManyMutationInput = {
@@ -49263,6 +50153,8 @@ export namespace Prisma {
     obtainedPublicly?: BoolFieldUpdateOperationsInput | boolean
     specificMedicationPublicly?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MedicationUncheckedUpdateManyInput = {
@@ -49276,6 +50168,8 @@ export namespace Prisma {
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     familyMemberDiseaseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DeclarationsCreateInput = {
@@ -49283,6 +50177,8 @@ export namespace Prisma {
     declarationType: $Enums.Declaration_Type
     text: string
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutDeclarationsInput
     familyMember?: FamilyMemberCreateNestedOneWithoutDeclarationsInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutDeclarationsInput
@@ -49296,6 +50192,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DeclarationsUpdateInput = {
@@ -49303,6 +50201,8 @@ export namespace Prisma {
     declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
     text?: StringFieldUpdateOperationsInput | string
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutDeclarationsNestedInput
     familyMember?: FamilyMemberUpdateOneWithoutDeclarationsNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutDeclarationsNestedInput
@@ -49316,6 +50216,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DeclarationsCreateManyInput = {
@@ -49326,6 +50228,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DeclarationsUpdateManyMutationInput = {
@@ -49333,6 +50237,8 @@ export namespace Prisma {
     declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
     text?: StringFieldUpdateOperationsInput | string
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DeclarationsUncheckedUpdateManyInput = {
@@ -49343,6 +50249,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AnnouncementInterviewCreateInput = {
@@ -50372,6 +51280,7 @@ export namespace Prisma {
     email?: SortOrder
     finishedapplication?: SortOrder
     application_id?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CandidateMaxOrderByAggregateInput = {
@@ -50388,6 +51297,7 @@ export namespace Prisma {
     email?: SortOrder
     finishedapplication?: SortOrder
     application_id?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CandidateMinOrderByAggregateInput = {
@@ -50404,6 +51314,7 @@ export namespace Prisma {
     email?: SortOrder
     finishedapplication?: SortOrder
     application_id?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -50483,6 +51394,7 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     profilePicture?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -50492,6 +51404,7 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     profilePicture?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -50501,6 +51414,7 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     profilePicture?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type BoolNullableFilter<$PrismaModel = never> = {
@@ -50563,6 +51477,7 @@ export namespace Prisma {
     monthlyAmount?: SortOrder
     percentageOfScholarship?: SortOrder
     application_id?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type LegalResponsibleMaxOrderByAggregateInput = {
@@ -50584,6 +51499,7 @@ export namespace Prisma {
     monthlyAmount?: SortOrder
     percentageOfScholarship?: SortOrder
     application_id?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type LegalResponsibleMinOrderByAggregateInput = {
@@ -50605,6 +51521,7 @@ export namespace Prisma {
     monthlyAmount?: SortOrder
     percentageOfScholarship?: SortOrder
     application_id?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -51075,6 +51992,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     responsible_id?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type IdentityDetailsMaxOrderByAggregateInput = {
@@ -51135,6 +52054,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     responsible_id?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type IdentityDetailsMinOrderByAggregateInput = {
@@ -51195,6 +52116,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     responsible_id?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EnumGENDERWithAggregatesFilter<$PrismaModel = never> = {
@@ -51368,6 +52291,8 @@ export namespace Prisma {
     incomeSource?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type FamilyMemberMaxOrderByAggregateInput = {
@@ -51424,6 +52349,8 @@ export namespace Prisma {
     hasBankAccount?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type FamilyMemberMinOrderByAggregateInput = {
@@ -51480,6 +52407,8 @@ export namespace Prisma {
     hasBankAccount?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EnumRelationshipWithAggregatesFilter<$PrismaModel = never> = {
@@ -51556,6 +52485,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     responsible_id?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type HousingAvgOrderByAggregateInput = {
@@ -51575,6 +52506,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     responsible_id?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type HousingMinOrderByAggregateInput = {
@@ -51590,6 +52523,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     responsible_id?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type HousingSumOrderByAggregateInput = {
@@ -51717,6 +52652,8 @@ export namespace Prisma {
     document?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type VehicleAvgOrderByAggregateInput = {
@@ -51743,6 +52680,8 @@ export namespace Prisma {
     document?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type VehicleMinOrderByAggregateInput = {
@@ -51762,6 +52701,8 @@ export namespace Prisma {
     document?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type VehicleSumOrderByAggregateInput = {
@@ -51859,6 +52800,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     application_id?: SortOrder
     legalResponsibleId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type FamilyMemberIncomeAvgOrderByAggregateInput = {
@@ -51892,6 +52835,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     application_id?: SortOrder
     legalResponsibleId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type FamilyMemberIncomeMinOrderByAggregateInput = {
@@ -51919,6 +52864,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     application_id?: SortOrder
     legalResponsibleId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type FamilyMemberIncomeSumOrderByAggregateInput = {
@@ -51955,6 +52902,11 @@ export namespace Prisma {
     not?: NestedEnumIncomeSourceFilter<$PrismaModel> | $Enums.IncomeSource
   }
 
+  export type FamilyMemberIncomeNullableRelationFilter = {
+    is?: FamilyMemberIncomeWhereInput | null
+    isNot?: FamilyMemberIncomeWhereInput | null
+  }
+
   export type MonthlyIncomeApplication_idMain_idCompoundUniqueInput = {
     application_id: string
     main_id: string
@@ -51986,6 +52938,9 @@ export namespace Prisma {
     incomeSource?: SortOrder
     application_id?: SortOrder
     legalResponsibleId?: SortOrder
+    income_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type MonthlyIncomeAvgOrderByAggregateInput = {
@@ -52033,6 +52988,9 @@ export namespace Prisma {
     incomeSource?: SortOrder
     application_id?: SortOrder
     legalResponsibleId?: SortOrder
+    income_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type MonthlyIncomeMinOrderByAggregateInput = {
@@ -52061,6 +53019,9 @@ export namespace Prisma {
     incomeSource?: SortOrder
     application_id?: SortOrder
     legalResponsibleId?: SortOrder
+    income_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type MonthlyIncomeSumOrderByAggregateInput = {
@@ -52126,6 +53087,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type BankAccountMaxOrderByAggregateInput = {
@@ -52139,6 +53102,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type BankAccountMinOrderByAggregateInput = {
@@ -52152,6 +53117,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EnumAccountTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -52243,6 +53210,8 @@ export namespace Prisma {
     otherExpensesValue?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ExpenseAvgOrderByAggregateInput = {
@@ -52347,6 +53316,8 @@ export namespace Prisma {
     justifymedicationExpenses?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ExpenseMinOrderByAggregateInput = {
@@ -52413,6 +53384,8 @@ export namespace Prisma {
     justifymedicationExpenses?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ExpenseSumOrderByAggregateInput = {
@@ -52481,6 +53454,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type LoanAvgOrderByAggregateInput = {
@@ -52501,6 +53476,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type LoanMinOrderByAggregateInput = {
@@ -52515,6 +53492,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type LoanSumOrderByAggregateInput = {
@@ -52565,6 +53544,8 @@ export namespace Prisma {
     financingType?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type FinancingAvgOrderByAggregateInput = {
@@ -52587,6 +53568,8 @@ export namespace Prisma {
     financingType?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type FinancingMinOrderByAggregateInput = {
@@ -52603,6 +53586,8 @@ export namespace Prisma {
     financingType?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type FinancingSumOrderByAggregateInput = {
@@ -52639,6 +53624,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CreditCardAvgOrderByAggregateInput = {
@@ -52659,6 +53646,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CreditCardMinOrderByAggregateInput = {
@@ -52674,6 +53663,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CreditCardSumOrderByAggregateInput = {
@@ -52695,6 +53686,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type OtherExpenseAvgOrderByAggregateInput = {
@@ -52710,6 +53703,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type OtherExpenseMinOrderByAggregateInput = {
@@ -52721,6 +53716,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type OtherExpenseSumOrderByAggregateInput = {
@@ -52758,6 +53755,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type FamilyMemberDiseaseMaxOrderByAggregateInput = {
@@ -52770,6 +53769,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type FamilyMemberDiseaseMinOrderByAggregateInput = {
@@ -52782,6 +53783,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EnumDiseaseNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -52815,6 +53818,8 @@ export namespace Prisma {
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
     familyMemberDiseaseId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type MedicationMaxOrderByAggregateInput = {
@@ -52828,6 +53833,8 @@ export namespace Prisma {
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
     familyMemberDiseaseId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type MedicationMinOrderByAggregateInput = {
@@ -52841,6 +53848,8 @@ export namespace Prisma {
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
     familyMemberDiseaseId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EnumDeclaration_TypeFilter<$PrismaModel = never> = {
@@ -52858,6 +53867,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type DeclarationsMaxOrderByAggregateInput = {
@@ -52868,6 +53879,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type DeclarationsMinOrderByAggregateInput = {
@@ -52878,6 +53891,8 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EnumDeclaration_TypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -56393,6 +57408,20 @@ export namespace Prisma {
     connect?: LegalResponsibleWhereUniqueInput
   }
 
+  export type MonthlyIncomeCreateNestedManyWithoutIncomeInput = {
+    create?: XOR<MonthlyIncomeCreateWithoutIncomeInput, MonthlyIncomeUncheckedCreateWithoutIncomeInput> | MonthlyIncomeCreateWithoutIncomeInput[] | MonthlyIncomeUncheckedCreateWithoutIncomeInput[]
+    connectOrCreate?: MonthlyIncomeCreateOrConnectWithoutIncomeInput | MonthlyIncomeCreateOrConnectWithoutIncomeInput[]
+    createMany?: MonthlyIncomeCreateManyIncomeInputEnvelope
+    connect?: MonthlyIncomeWhereUniqueInput | MonthlyIncomeWhereUniqueInput[]
+  }
+
+  export type MonthlyIncomeUncheckedCreateNestedManyWithoutIncomeInput = {
+    create?: XOR<MonthlyIncomeCreateWithoutIncomeInput, MonthlyIncomeUncheckedCreateWithoutIncomeInput> | MonthlyIncomeCreateWithoutIncomeInput[] | MonthlyIncomeUncheckedCreateWithoutIncomeInput[]
+    connectOrCreate?: MonthlyIncomeCreateOrConnectWithoutIncomeInput | MonthlyIncomeCreateOrConnectWithoutIncomeInput[]
+    createMany?: MonthlyIncomeCreateManyIncomeInputEnvelope
+    connect?: MonthlyIncomeWhereUniqueInput | MonthlyIncomeWhereUniqueInput[]
+  }
+
   export type EnumEmploymentTypeFieldUpdateOperationsInput = {
     set?: $Enums.EmploymentType
   }
@@ -56427,6 +57456,34 @@ export namespace Prisma {
     update?: XOR<XOR<LegalResponsibleUpdateToOneWithWhereWithoutFamilyMemberIncomeInput, LegalResponsibleUpdateWithoutFamilyMemberIncomeInput>, LegalResponsibleUncheckedUpdateWithoutFamilyMemberIncomeInput>
   }
 
+  export type MonthlyIncomeUpdateManyWithoutIncomeNestedInput = {
+    create?: XOR<MonthlyIncomeCreateWithoutIncomeInput, MonthlyIncomeUncheckedCreateWithoutIncomeInput> | MonthlyIncomeCreateWithoutIncomeInput[] | MonthlyIncomeUncheckedCreateWithoutIncomeInput[]
+    connectOrCreate?: MonthlyIncomeCreateOrConnectWithoutIncomeInput | MonthlyIncomeCreateOrConnectWithoutIncomeInput[]
+    upsert?: MonthlyIncomeUpsertWithWhereUniqueWithoutIncomeInput | MonthlyIncomeUpsertWithWhereUniqueWithoutIncomeInput[]
+    createMany?: MonthlyIncomeCreateManyIncomeInputEnvelope
+    set?: MonthlyIncomeWhereUniqueInput | MonthlyIncomeWhereUniqueInput[]
+    disconnect?: MonthlyIncomeWhereUniqueInput | MonthlyIncomeWhereUniqueInput[]
+    delete?: MonthlyIncomeWhereUniqueInput | MonthlyIncomeWhereUniqueInput[]
+    connect?: MonthlyIncomeWhereUniqueInput | MonthlyIncomeWhereUniqueInput[]
+    update?: MonthlyIncomeUpdateWithWhereUniqueWithoutIncomeInput | MonthlyIncomeUpdateWithWhereUniqueWithoutIncomeInput[]
+    updateMany?: MonthlyIncomeUpdateManyWithWhereWithoutIncomeInput | MonthlyIncomeUpdateManyWithWhereWithoutIncomeInput[]
+    deleteMany?: MonthlyIncomeScalarWhereInput | MonthlyIncomeScalarWhereInput[]
+  }
+
+  export type MonthlyIncomeUncheckedUpdateManyWithoutIncomeNestedInput = {
+    create?: XOR<MonthlyIncomeCreateWithoutIncomeInput, MonthlyIncomeUncheckedCreateWithoutIncomeInput> | MonthlyIncomeCreateWithoutIncomeInput[] | MonthlyIncomeUncheckedCreateWithoutIncomeInput[]
+    connectOrCreate?: MonthlyIncomeCreateOrConnectWithoutIncomeInput | MonthlyIncomeCreateOrConnectWithoutIncomeInput[]
+    upsert?: MonthlyIncomeUpsertWithWhereUniqueWithoutIncomeInput | MonthlyIncomeUpsertWithWhereUniqueWithoutIncomeInput[]
+    createMany?: MonthlyIncomeCreateManyIncomeInputEnvelope
+    set?: MonthlyIncomeWhereUniqueInput | MonthlyIncomeWhereUniqueInput[]
+    disconnect?: MonthlyIncomeWhereUniqueInput | MonthlyIncomeWhereUniqueInput[]
+    delete?: MonthlyIncomeWhereUniqueInput | MonthlyIncomeWhereUniqueInput[]
+    connect?: MonthlyIncomeWhereUniqueInput | MonthlyIncomeWhereUniqueInput[]
+    update?: MonthlyIncomeUpdateWithWhereUniqueWithoutIncomeInput | MonthlyIncomeUpdateWithWhereUniqueWithoutIncomeInput[]
+    updateMany?: MonthlyIncomeUpdateManyWithWhereWithoutIncomeInput | MonthlyIncomeUpdateManyWithWhereWithoutIncomeInput[]
+    deleteMany?: MonthlyIncomeScalarWhereInput | MonthlyIncomeScalarWhereInput[]
+  }
+
   export type FamilyMemberCreateNestedOneWithoutMonthlyIncomeInput = {
     create?: XOR<FamilyMemberCreateWithoutMonthlyIncomeInput, FamilyMemberUncheckedCreateWithoutMonthlyIncomeInput>
     connectOrCreate?: FamilyMemberCreateOrConnectWithoutMonthlyIncomeInput
@@ -56443,6 +57500,12 @@ export namespace Prisma {
     create?: XOR<LegalResponsibleCreateWithoutMonthlyIncomeInput, LegalResponsibleUncheckedCreateWithoutMonthlyIncomeInput>
     connectOrCreate?: LegalResponsibleCreateOrConnectWithoutMonthlyIncomeInput
     connect?: LegalResponsibleWhereUniqueInput
+  }
+
+  export type FamilyMemberIncomeCreateNestedOneWithoutMonthlyIncomesInput = {
+    create?: XOR<FamilyMemberIncomeCreateWithoutMonthlyIncomesInput, FamilyMemberIncomeUncheckedCreateWithoutMonthlyIncomesInput>
+    connectOrCreate?: FamilyMemberIncomeCreateOrConnectWithoutMonthlyIncomesInput
+    connect?: FamilyMemberIncomeWhereUniqueInput
   }
 
   export type NullableDecimalFieldUpdateOperationsInput = {
@@ -56485,6 +57548,16 @@ export namespace Prisma {
     delete?: LegalResponsibleWhereInput | boolean
     connect?: LegalResponsibleWhereUniqueInput
     update?: XOR<XOR<LegalResponsibleUpdateToOneWithWhereWithoutMonthlyIncomeInput, LegalResponsibleUpdateWithoutMonthlyIncomeInput>, LegalResponsibleUncheckedUpdateWithoutMonthlyIncomeInput>
+  }
+
+  export type FamilyMemberIncomeUpdateOneWithoutMonthlyIncomesNestedInput = {
+    create?: XOR<FamilyMemberIncomeCreateWithoutMonthlyIncomesInput, FamilyMemberIncomeUncheckedCreateWithoutMonthlyIncomesInput>
+    connectOrCreate?: FamilyMemberIncomeCreateOrConnectWithoutMonthlyIncomesInput
+    upsert?: FamilyMemberIncomeUpsertWithoutMonthlyIncomesInput
+    disconnect?: FamilyMemberIncomeWhereInput | boolean
+    delete?: FamilyMemberIncomeWhereInput | boolean
+    connect?: FamilyMemberIncomeWhereUniqueInput
+    update?: XOR<XOR<FamilyMemberIncomeUpdateToOneWithWhereWithoutMonthlyIncomesInput, FamilyMemberIncomeUpdateWithoutMonthlyIncomesInput>, FamilyMemberIncomeUncheckedUpdateWithoutMonthlyIncomesInput>
   }
 
   export type FamilyMemberCreateNestedOneWithoutBankAccountInput = {
@@ -58624,6 +59697,8 @@ export namespace Prisma {
     cardFlag: string
     invoiceValue: number
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutCreditCardInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutCreditCardInput
   }
@@ -58640,6 +59715,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CreditCardCreateOrConnectWithoutCandidateInput = {
@@ -58716,6 +59793,8 @@ export namespace Prisma {
     otherExpensesDescription?: ExpenseCreateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutExpenseInput
   }
 
@@ -58784,6 +59863,8 @@ export namespace Prisma {
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ExpenseCreateOrConnectWithoutCandidateInput = {
@@ -58807,6 +59888,8 @@ export namespace Prisma {
     otherFinancing?: string | null
     financingType: $Enums.FinancingType
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutFinancingInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFinancingInput
   }
@@ -58824,6 +59907,8 @@ export namespace Prisma {
     financingType: $Enums.FinancingType
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FinancingCreateOrConnectWithoutCandidateInput = {
@@ -58894,6 +59979,8 @@ export namespace Prisma {
     institutionCNPJ_professional?: string | null
     nameOfScholarshipCourse_professional?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     responsible?: LegalResponsibleCreateNestedOneWithoutIdentityDetailsInput
   }
 
@@ -58956,6 +60043,8 @@ export namespace Prisma {
     nameOfScholarshipCourse_professional?: string | null
     responsible_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type IdentityDetailsCreateOrConnectWithoutCandidateInput = {
@@ -58990,8 +60079,11 @@ export namespace Prisma {
     parcelValue?: number | null
     quantity?: number
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutFamilyMemberIncomeInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamilyMemberIncomeInput
+    MonthlyIncomes?: MonthlyIncomeCreateNestedManyWithoutIncomeInput
   }
 
   export type FamilyMemberIncomeUncheckedCreateWithoutCandidateInput = {
@@ -59018,6 +60110,9 @@ export namespace Prisma {
     quantity?: number
     application_id: string
     legalResponsibleId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    MonthlyIncomes?: MonthlyIncomeUncheckedCreateNestedManyWithoutIncomeInput
   }
 
   export type FamilyMemberIncomeCreateOrConnectWithoutCandidateInput = {
@@ -59039,6 +60134,8 @@ export namespace Prisma {
     paidInstallments: number
     bankName: string
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutLoanInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutLoanInput
   }
@@ -59054,6 +60151,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type LoanCreateOrConnectWithoutCandidateInput = {
@@ -59072,6 +60171,8 @@ export namespace Prisma {
     description: string
     value: number
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutOtherExpenseInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutOtherExpenseInput
   }
@@ -59084,6 +60185,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type OtherExpenseCreateOrConnectWithoutCandidateInput = {
@@ -59112,6 +60215,8 @@ export namespace Prisma {
     plate?: string | null
     document?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     FamilyMemberToVehicle?: FamilyMemberToVehicleCreateNestedManyWithoutVehicleInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutVehicleInput
   }
@@ -59133,6 +60238,8 @@ export namespace Prisma {
     document?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutVehicleInput
   }
 
@@ -59165,6 +60272,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
     FamillyMember?: FamilyMemberCreateNestedManyWithoutLegalResponsibleInput
@@ -59202,6 +60310,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
     FamillyMember?: FamilyMemberUncheckedCreateNestedManyWithoutLegalResponsibleInput
@@ -59278,6 +60387,8 @@ export namespace Prisma {
     hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingCreateNestedManyWithoutFamilyMemberInput
@@ -59346,6 +60457,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingUncheckedCreateNestedManyWithoutFamilyMemberInput
@@ -59380,6 +60493,8 @@ export namespace Prisma {
     numberOfRooms: $Enums.NumberOfRooms
     numberOfBedrooms: number
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     responsible?: LegalResponsibleCreateNestedOneWithoutHousingInput
   }
 
@@ -59395,6 +60510,8 @@ export namespace Prisma {
     numberOfBedrooms: number
     responsible_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HousingCreateOrConnectWithoutCandidateInput = {
@@ -59430,8 +60547,11 @@ export namespace Prisma {
     judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
     incomeSource: $Enums.IncomeSource
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutMonthlyIncomeInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutMonthlyIncomeInput
+    income?: FamilyMemberIncomeCreateNestedOneWithoutMonthlyIncomesInput
   }
 
   export type MonthlyIncomeUncheckedCreateWithoutCandidateInput = {
@@ -59459,6 +60579,9 @@ export namespace Prisma {
     incomeSource: $Enums.IncomeSource
     application_id: string
     legalResponsibleId?: string | null
+    income_id?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MonthlyIncomeCreateOrConnectWithoutCandidateInput = {
@@ -59479,6 +60602,8 @@ export namespace Prisma {
     specificDisease?: string | null
     hasMedicalReport: boolean
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutFamilyMemberDiseaseInput
     legalResponsible?: LegalResponsibleCreateNestedOneWithoutFamilyMemberDiseaseInput
     Medication?: MedicationCreateNestedManyWithoutFamilyMemberDiseaseInput
@@ -59494,6 +60619,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberDiseaseInput
   }
 
@@ -59514,6 +60641,8 @@ export namespace Prisma {
     obtainedPublicly: boolean
     specificMedicationPublicly?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutMedicationInput
     legalResponsible?: LegalResponsibleCreateNestedOneWithoutMedicationInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedOneWithoutMedicationInput
@@ -59529,6 +60658,8 @@ export namespace Prisma {
     legalResponsibleId?: string | null
     application_id: string
     familyMemberDiseaseId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MedicationCreateOrConnectWithoutCandidateInput = {
@@ -59549,6 +60680,8 @@ export namespace Prisma {
     accountNumber: string
     accountType: $Enums.AccountType
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutBankAccountInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutBankAccountInput
   }
@@ -59563,6 +60696,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type BankAccountCreateOrConnectWithoutCandidateInput = {
@@ -59580,6 +60715,8 @@ export namespace Prisma {
     declarationType: $Enums.Declaration_Type
     text: string
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutDeclarationsInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutDeclarationsInput
   }
@@ -59591,6 +60728,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DeclarationsCreateOrConnectWithoutCandidateInput = {
@@ -59673,6 +60812,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"CreditCard"> | string | null
     legalResponsibleId?: StringNullableFilter<"CreditCard"> | string | null
     application_id?: StringFilter<"CreditCard"> | string
+    createdAt?: DateTimeFilter<"CreditCard"> | Date | string
+    updatedAt?: DateTimeFilter<"CreditCard"> | Date | string
   }
 
   export type ExpenseUpsertWithWhereUniqueWithoutCandidateInput = {
@@ -59760,6 +60901,8 @@ export namespace Prisma {
     otherExpensesValue?: FloatNullableListFilter<"Expense">
     legalResponsibleId?: StringNullableFilter<"Expense"> | string | null
     application_id?: StringFilter<"Expense"> | string
+    createdAt?: DateTimeFilter<"Expense"> | Date | string
+    updatedAt?: DateTimeFilter<"Expense"> | Date | string
   }
 
   export type FinancingUpsertWithWhereUniqueWithoutCandidateInput = {
@@ -59795,6 +60938,8 @@ export namespace Prisma {
     financingType?: EnumFinancingTypeFilter<"Financing"> | $Enums.FinancingType
     legalResponsibleId?: StringNullableFilter<"Financing"> | string | null
     application_id?: StringFilter<"Financing"> | string
+    createdAt?: DateTimeFilter<"Financing"> | Date | string
+    updatedAt?: DateTimeFilter<"Financing"> | Date | string
   }
 
   export type IdentityDetailsUpsertWithWhereUniqueWithoutCandidateInput = {
@@ -59876,6 +61021,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"IdentityDetails"> | string | null
     responsible_id?: StringNullableFilter<"IdentityDetails"> | string | null
     application_id?: StringFilter<"IdentityDetails"> | string
+    createdAt?: DateTimeFilter<"IdentityDetails"> | Date | string
+    updatedAt?: DateTimeFilter<"IdentityDetails"> | Date | string
   }
 
   export type FamilyMemberIncomeUpsertWithWhereUniqueWithoutCandidateInput = {
@@ -59922,6 +61069,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"FamilyMemberIncome"> | string | null
     application_id?: StringFilter<"FamilyMemberIncome"> | string
     legalResponsibleId?: StringNullableFilter<"FamilyMemberIncome"> | string | null
+    createdAt?: DateTimeFilter<"FamilyMemberIncome"> | Date | string
+    updatedAt?: DateTimeFilter<"FamilyMemberIncome"> | Date | string
   }
 
   export type LoanUpsertWithWhereUniqueWithoutCandidateInput = {
@@ -59955,6 +61104,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"Loan"> | string | null
     legalResponsibleId?: StringNullableFilter<"Loan"> | string | null
     application_id?: StringFilter<"Loan"> | string
+    createdAt?: DateTimeFilter<"Loan"> | Date | string
+    updatedAt?: DateTimeFilter<"Loan"> | Date | string
   }
 
   export type OtherExpenseUpsertWithWhereUniqueWithoutCandidateInput = {
@@ -59985,6 +61136,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"OtherExpense"> | string | null
     legalResponsibleId?: StringNullableFilter<"OtherExpense"> | string | null
     application_id?: StringFilter<"OtherExpense"> | string
+    createdAt?: DateTimeFilter<"OtherExpense"> | Date | string
+    updatedAt?: DateTimeFilter<"OtherExpense"> | Date | string
   }
 
   export type VehicleUpsertWithWhereUniqueWithoutCandidateInput = {
@@ -60024,6 +61177,8 @@ export namespace Prisma {
     document?: StringNullableFilter<"Vehicle"> | string | null
     legalResponsibleId?: StringNullableFilter<"Vehicle"> | string | null
     application_id?: StringFilter<"Vehicle"> | string
+    createdAt?: DateTimeFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
   }
 
   export type LegalResponsibleUpsertWithoutCandidateInput = {
@@ -60056,6 +61211,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
     FamillyMember?: FamilyMemberUpdateManyWithoutLegalResponsibleNestedInput
@@ -60093,6 +61249,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
     FamillyMember?: FamilyMemberUncheckedUpdateManyWithoutLegalResponsibleNestedInput
@@ -60185,6 +61342,8 @@ export namespace Prisma {
     incomeSource?: EnumIncomeSourceNullableListFilter<"FamilyMember">
     legalResponsibleId?: StringNullableFilter<"FamilyMember"> | string | null
     application_id?: StringFilter<"FamilyMember"> | string
+    createdAt?: DateTimeFilter<"FamilyMember"> | Date | string
+    updatedAt?: DateTimeFilter<"FamilyMember"> | Date | string
   }
 
   export type HousingUpsertWithWhereUniqueWithoutCandidateInput = {
@@ -60219,6 +61378,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"Housing"> | string | null
     responsible_id?: StringNullableFilter<"Housing"> | string | null
     application_id?: StringFilter<"Housing"> | string
+    createdAt?: DateTimeFilter<"Housing"> | Date | string
+    updatedAt?: DateTimeFilter<"Housing"> | Date | string
   }
 
   export type MonthlyIncomeUpsertWithWhereUniqueWithoutCandidateInput = {
@@ -60266,6 +61427,9 @@ export namespace Prisma {
     incomeSource?: EnumIncomeSourceFilter<"MonthlyIncome"> | $Enums.IncomeSource
     application_id?: StringFilter<"MonthlyIncome"> | string
     legalResponsibleId?: StringNullableFilter<"MonthlyIncome"> | string | null
+    income_id?: StringNullableFilter<"MonthlyIncome"> | string | null
+    createdAt?: DateTimeFilter<"MonthlyIncome"> | Date | string
+    updatedAt?: DateTimeFilter<"MonthlyIncome"> | Date | string
   }
 
   export type FamilyMemberDiseaseUpsertWithWhereUniqueWithoutCandidateInput = {
@@ -60298,6 +61462,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"FamilyMemberDisease"> | string | null
     legalResponsibleId?: StringNullableFilter<"FamilyMemberDisease"> | string | null
     application_id?: StringFilter<"FamilyMemberDisease"> | string
+    createdAt?: DateTimeFilter<"FamilyMemberDisease"> | Date | string
+    updatedAt?: DateTimeFilter<"FamilyMemberDisease"> | Date | string
   }
 
   export type MedicationUpsertWithWhereUniqueWithoutCandidateInput = {
@@ -60330,6 +61496,8 @@ export namespace Prisma {
     legalResponsibleId?: StringNullableFilter<"Medication"> | string | null
     application_id?: StringFilter<"Medication"> | string
     familyMemberDiseaseId?: StringNullableFilter<"Medication"> | string | null
+    createdAt?: DateTimeFilter<"Medication"> | Date | string
+    updatedAt?: DateTimeFilter<"Medication"> | Date | string
   }
 
   export type BankAccountUpsertWithWhereUniqueWithoutCandidateInput = {
@@ -60362,6 +61530,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"BankAccount"> | string | null
     legalResponsibleId?: StringNullableFilter<"BankAccount"> | string | null
     application_id?: StringFilter<"BankAccount"> | string
+    createdAt?: DateTimeFilter<"BankAccount"> | Date | string
+    updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
   }
 
   export type DeclarationsUpsertWithWhereUniqueWithoutCandidateInput = {
@@ -60391,6 +61561,8 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"Declarations"> | string | null
     legalResponsibleId?: StringNullableFilter<"Declarations"> | string | null
     application_id?: StringFilter<"Declarations"> | string
+    createdAt?: DateTimeFilter<"Declarations"> | Date | string
+    updatedAt?: DateTimeFilter<"Declarations"> | Date | string
   }
 
   export type EntityDirectorCreateWithoutUserInput = {
@@ -60759,6 +61931,8 @@ export namespace Prisma {
     institutionCNPJ_professional?: string | null
     nameOfScholarshipCourse_professional?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutIdentityDetailsInput
   }
 
@@ -60821,6 +61995,8 @@ export namespace Prisma {
     nameOfScholarshipCourse_professional?: string | null
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type IdentityDetailsCreateOrConnectWithoutResponsibleInput = {
@@ -60846,6 +62022,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
@@ -60877,6 +62054,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
@@ -60916,6 +62094,8 @@ export namespace Prisma {
     numberOfRooms: $Enums.NumberOfRooms
     numberOfBedrooms: number
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutHousingInput
   }
 
@@ -60931,6 +62111,8 @@ export namespace Prisma {
     numberOfBedrooms: number
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HousingCreateOrConnectWithoutResponsibleInput = {
@@ -60996,6 +62178,8 @@ export namespace Prisma {
     hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingCreateNestedManyWithoutFamilyMemberInput
@@ -61064,6 +62248,8 @@ export namespace Prisma {
     hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingUncheckedCreateNestedManyWithoutFamilyMemberInput
@@ -61097,6 +62283,8 @@ export namespace Prisma {
     cardFlag: string
     invoiceValue: number
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutCreditCardInput
     familyMember?: FamilyMemberCreateNestedOneWithoutCreditCardInput
   }
@@ -61113,6 +62301,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CreditCardCreateOrConnectWithoutLegalResponsibleInput = {
@@ -61189,6 +62379,8 @@ export namespace Prisma {
     otherExpensesDescription?: ExpenseCreateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutExpenseInput
   }
 
@@ -61257,6 +62449,8 @@ export namespace Prisma {
     otherExpensesDescription?: ExpenseCreateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ExpenseCreateOrConnectWithoutLegalResponsibleInput = {
@@ -61280,6 +62474,8 @@ export namespace Prisma {
     otherFinancing?: string | null
     financingType: $Enums.FinancingType
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutFinancingInput
     familyMember?: FamilyMemberCreateNestedOneWithoutFinancingInput
   }
@@ -61297,6 +62493,8 @@ export namespace Prisma {
     otherFinancing?: string | null
     financingType: $Enums.FinancingType
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FinancingCreateOrConnectWithoutLegalResponsibleInput = {
@@ -61318,6 +62516,8 @@ export namespace Prisma {
     paidInstallments: number
     bankName: string
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutLoanInput
     familyMember?: FamilyMemberCreateNestedOneWithoutLoanInput
   }
@@ -61333,6 +62533,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type LoanCreateOrConnectWithoutLegalResponsibleInput = {
@@ -61351,6 +62553,8 @@ export namespace Prisma {
     description: string
     value: number
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutOtherExpenseInput
     familyMember?: FamilyMemberCreateNestedOneWithoutOtherExpenseInput
   }
@@ -61363,6 +62567,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type OtherExpenseCreateOrConnectWithoutLegalResponsibleInput = {
@@ -61391,6 +62597,8 @@ export namespace Prisma {
     plate?: string | null
     document?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutVehicleInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleCreateNestedManyWithoutVehicleInput
   }
@@ -61412,6 +62620,8 @@ export namespace Prisma {
     plate?: string | null
     document?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedCreateNestedManyWithoutVehicleInput
   }
 
@@ -61433,6 +62643,8 @@ export namespace Prisma {
     specificDisease?: string | null
     hasMedicalReport: boolean
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutFamilyMemberDiseaseInput
     candidate?: CandidateCreateNestedOneWithoutFamilyMemberDiseaseInput
     Medication?: MedicationCreateNestedManyWithoutFamilyMemberDiseaseInput
@@ -61448,6 +62660,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberDiseaseInput
   }
 
@@ -61468,6 +62682,8 @@ export namespace Prisma {
     obtainedPublicly: boolean
     specificMedicationPublicly?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutMedicationInput
     candidate?: CandidateCreateNestedOneWithoutMedicationInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedOneWithoutMedicationInput
@@ -61483,6 +62699,8 @@ export namespace Prisma {
     candidate_id?: string | null
     application_id: string
     familyMemberDiseaseId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MedicationCreateOrConnectWithoutLegalResponsibleInput = {
@@ -61567,8 +62785,11 @@ export namespace Prisma {
     parcelValue?: number | null
     quantity?: number
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutFamilyMemberIncomeInput
     candidate?: CandidateCreateNestedOneWithoutFamilyMemberIncomeInput
+    MonthlyIncomes?: MonthlyIncomeCreateNestedManyWithoutIncomeInput
   }
 
   export type FamilyMemberIncomeUncheckedCreateWithoutLegalResponsibleInput = {
@@ -61595,6 +62816,9 @@ export namespace Prisma {
     quantity?: number
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    MonthlyIncomes?: MonthlyIncomeUncheckedCreateNestedManyWithoutIncomeInput
   }
 
   export type FamilyMemberIncomeCreateOrConnectWithoutLegalResponsibleInput = {
@@ -61630,8 +62854,11 @@ export namespace Prisma {
     judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
     incomeSource: $Enums.IncomeSource
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutMonthlyIncomeInput
     candidate?: CandidateCreateNestedOneWithoutMonthlyIncomeInput
+    income?: FamilyMemberIncomeCreateNestedOneWithoutMonthlyIncomesInput
   }
 
   export type MonthlyIncomeUncheckedCreateWithoutLegalResponsibleInput = {
@@ -61659,6 +62886,9 @@ export namespace Prisma {
     candidate_id?: string | null
     incomeSource: $Enums.IncomeSource
     application_id: string
+    income_id?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MonthlyIncomeCreateOrConnectWithoutLegalResponsibleInput = {
@@ -61679,6 +62909,8 @@ export namespace Prisma {
     accountNumber: string
     accountType: $Enums.AccountType
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutBankAccountInput
     candidate?: CandidateCreateNestedOneWithoutBankAccountInput
   }
@@ -61693,6 +62925,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type BankAccountCreateOrConnectWithoutLegalResponsibleInput = {
@@ -61710,6 +62944,8 @@ export namespace Prisma {
     declarationType: $Enums.Declaration_Type
     text: string
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutDeclarationsInput
     familyMember?: FamilyMemberCreateNestedOneWithoutDeclarationsInput
   }
@@ -61721,6 +62957,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DeclarationsCreateOrConnectWithoutLegalResponsibleInput = {
@@ -61782,6 +63020,7 @@ export namespace Prisma {
     email?: StringNullableFilter<"Candidate"> | string | null
     finishedapplication?: BoolFilter<"Candidate"> | boolean
     application_id?: StringNullableFilter<"Candidate"> | string | null
+    updatedAt?: DateTimeFilter<"Candidate"> | Date | string
   }
 
   export type HousingUpsertWithWhereUniqueWithoutResponsibleInput = {
@@ -62126,6 +63365,7 @@ export namespace Prisma {
     role?: $Enums.ROLE
     createdAt?: Date | string
     profilePicture?: string | null
+    updatedAt?: Date | string
     EntityDirector?: EntityDirectorCreateNestedOneWithoutUserInput
     EntitySubsidiary?: EntitySubsidiaryCreateNestedOneWithoutUserInput
     Entity?: EntityCreateNestedOneWithoutUserInput
@@ -62138,6 +63378,7 @@ export namespace Prisma {
     role?: $Enums.ROLE
     createdAt?: Date | string
     profilePicture?: string | null
+    updatedAt?: Date | string
     EntityDirector?: EntityDirectorUncheckedCreateNestedOneWithoutUserInput
     EntitySubsidiary?: EntitySubsidiaryUncheckedCreateNestedOneWithoutUserInput
     Entity?: EntityUncheckedCreateNestedOneWithoutUserInput
@@ -62337,6 +63578,7 @@ export namespace Prisma {
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     EntityDirector?: EntityDirectorUpdateOneWithoutUserNestedInput
     EntitySubsidiary?: EntitySubsidiaryUpdateOneWithoutUserNestedInput
     Entity?: EntityUpdateOneWithoutUserNestedInput
@@ -62349,6 +63591,7 @@ export namespace Prisma {
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     EntityDirector?: EntityDirectorUncheckedUpdateOneWithoutUserNestedInput
     EntitySubsidiary?: EntitySubsidiaryUncheckedUpdateOneWithoutUserNestedInput
     Entity?: EntityUncheckedUpdateOneWithoutUserNestedInput
@@ -62615,6 +63858,7 @@ export namespace Prisma {
     role?: $Enums.ROLE
     createdAt?: Date | string
     profilePicture?: string | null
+    updatedAt?: Date | string
     EntityDirector?: EntityDirectorCreateNestedOneWithoutUserInput
     EntitySubsidiary?: EntitySubsidiaryCreateNestedOneWithoutUserInput
     SocialAssistant?: SocialAssistantCreateNestedOneWithoutUserInput
@@ -62627,6 +63871,7 @@ export namespace Prisma {
     role?: $Enums.ROLE
     createdAt?: Date | string
     profilePicture?: string | null
+    updatedAt?: Date | string
     EntityDirector?: EntityDirectorUncheckedCreateNestedOneWithoutUserInput
     EntitySubsidiary?: EntitySubsidiaryUncheckedCreateNestedOneWithoutUserInput
     SocialAssistant?: SocialAssistantUncheckedCreateNestedOneWithoutUserInput
@@ -62746,6 +63991,7 @@ export namespace Prisma {
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     EntityDirector?: EntityDirectorUpdateOneWithoutUserNestedInput
     EntitySubsidiary?: EntitySubsidiaryUpdateOneWithoutUserNestedInput
     SocialAssistant?: SocialAssistantUpdateOneWithoutUserNestedInput
@@ -62758,6 +64004,7 @@ export namespace Prisma {
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     EntityDirector?: EntityDirectorUncheckedUpdateOneWithoutUserNestedInput
     EntitySubsidiary?: EntitySubsidiaryUncheckedUpdateOneWithoutUserNestedInput
     SocialAssistant?: SocialAssistantUncheckedUpdateOneWithoutUserNestedInput
@@ -62904,6 +64151,7 @@ export namespace Prisma {
     role?: $Enums.ROLE
     createdAt?: Date | string
     profilePicture?: string | null
+    updatedAt?: Date | string
     EntityDirector?: EntityDirectorCreateNestedOneWithoutUserInput
     SocialAssistant?: SocialAssistantCreateNestedOneWithoutUserInput
     Entity?: EntityCreateNestedOneWithoutUserInput
@@ -62916,6 +64164,7 @@ export namespace Prisma {
     role?: $Enums.ROLE
     createdAt?: Date | string
     profilePicture?: string | null
+    updatedAt?: Date | string
     EntityDirector?: EntityDirectorUncheckedCreateNestedOneWithoutUserInput
     SocialAssistant?: SocialAssistantUncheckedCreateNestedOneWithoutUserInput
     Entity?: EntityUncheckedCreateNestedOneWithoutUserInput
@@ -63102,6 +64351,7 @@ export namespace Prisma {
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     EntityDirector?: EntityDirectorUpdateOneWithoutUserNestedInput
     SocialAssistant?: SocialAssistantUpdateOneWithoutUserNestedInput
     Entity?: EntityUpdateOneWithoutUserNestedInput
@@ -63114,6 +64364,7 @@ export namespace Prisma {
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     EntityDirector?: EntityDirectorUncheckedUpdateOneWithoutUserNestedInput
     SocialAssistant?: SocialAssistantUncheckedUpdateOneWithoutUserNestedInput
     Entity?: EntityUncheckedUpdateOneWithoutUserNestedInput
@@ -63266,6 +64517,7 @@ export namespace Prisma {
     role?: $Enums.ROLE
     createdAt?: Date | string
     profilePicture?: string | null
+    updatedAt?: Date | string
     EntitySubsidiary?: EntitySubsidiaryCreateNestedOneWithoutUserInput
     SocialAssistant?: SocialAssistantCreateNestedOneWithoutUserInput
     Entity?: EntityCreateNestedOneWithoutUserInput
@@ -63278,6 +64530,7 @@ export namespace Prisma {
     role?: $Enums.ROLE
     createdAt?: Date | string
     profilePicture?: string | null
+    updatedAt?: Date | string
     EntitySubsidiary?: EntitySubsidiaryUncheckedCreateNestedOneWithoutUserInput
     SocialAssistant?: SocialAssistantUncheckedCreateNestedOneWithoutUserInput
     Entity?: EntityUncheckedCreateNestedOneWithoutUserInput
@@ -63406,6 +64659,7 @@ export namespace Prisma {
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     EntitySubsidiary?: EntitySubsidiaryUpdateOneWithoutUserNestedInput
     SocialAssistant?: SocialAssistantUpdateOneWithoutUserNestedInput
     Entity?: EntityUpdateOneWithoutUserNestedInput
@@ -63418,6 +64672,7 @@ export namespace Prisma {
     role?: EnumROLEFieldUpdateOperationsInput | $Enums.ROLE
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profilePicture?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     EntitySubsidiary?: EntitySubsidiaryUncheckedUpdateOneWithoutUserNestedInput
     SocialAssistant?: SocialAssistantUncheckedUpdateOneWithoutUserNestedInput
     Entity?: EntityUncheckedUpdateOneWithoutUserNestedInput
@@ -63436,6 +64691,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
@@ -63468,6 +64724,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
@@ -63509,6 +64766,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
     FamillyMember?: FamilyMemberCreateNestedManyWithoutLegalResponsibleInput
@@ -63546,6 +64804,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
     FamillyMember?: FamilyMemberUncheckedCreateNestedManyWithoutLegalResponsibleInput
@@ -63593,6 +64852,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
@@ -63625,6 +64885,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
@@ -63672,6 +64933,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
     FamillyMember?: FamilyMemberUpdateManyWithoutLegalResponsibleNestedInput
@@ -63709,6 +64971,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
     FamillyMember?: FamilyMemberUncheckedUpdateManyWithoutLegalResponsibleNestedInput
@@ -63737,6 +65000,8 @@ export namespace Prisma {
     cardFlag: string
     invoiceValue: number
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutCreditCardInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutCreditCardInput
   }
@@ -63753,6 +65018,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CreditCardCreateOrConnectWithoutFamilyMemberInput = {
@@ -63787,8 +65054,11 @@ export namespace Prisma {
     parcelValue?: number | null
     quantity?: number
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutFamilyMemberIncomeInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamilyMemberIncomeInput
+    MonthlyIncomes?: MonthlyIncomeCreateNestedManyWithoutIncomeInput
   }
 
   export type FamilyMemberIncomeUncheckedCreateWithoutFamilyMemberInput = {
@@ -63815,6 +65085,9 @@ export namespace Prisma {
     candidate_id?: string | null
     application_id: string
     legalResponsibleId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    MonthlyIncomes?: MonthlyIncomeUncheckedCreateNestedManyWithoutIncomeInput
   }
 
   export type FamilyMemberIncomeCreateOrConnectWithoutFamilyMemberInput = {
@@ -63838,6 +65111,8 @@ export namespace Prisma {
     otherFinancing?: string | null
     financingType: $Enums.FinancingType
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutFinancingInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFinancingInput
   }
@@ -63855,6 +65130,8 @@ export namespace Prisma {
     financingType: $Enums.FinancingType
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FinancingCreateOrConnectWithoutFamilyMemberInput = {
@@ -63876,6 +65153,8 @@ export namespace Prisma {
     paidInstallments: number
     bankName: string
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutLoanInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutLoanInput
   }
@@ -63891,6 +65170,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type LoanCreateOrConnectWithoutFamilyMemberInput = {
@@ -63926,8 +65207,11 @@ export namespace Prisma {
     judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
     incomeSource: $Enums.IncomeSource
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutMonthlyIncomeInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutMonthlyIncomeInput
+    income?: FamilyMemberIncomeCreateNestedOneWithoutMonthlyIncomesInput
   }
 
   export type MonthlyIncomeUncheckedCreateWithoutFamilyMemberInput = {
@@ -63955,6 +65239,9 @@ export namespace Prisma {
     incomeSource: $Enums.IncomeSource
     application_id: string
     legalResponsibleId?: string | null
+    income_id?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MonthlyIncomeCreateOrConnectWithoutFamilyMemberInput = {
@@ -63973,6 +65260,8 @@ export namespace Prisma {
     description: string
     value: number
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutOtherExpenseInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutOtherExpenseInput
   }
@@ -63985,6 +65274,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type OtherExpenseCreateOrConnectWithoutFamilyMemberInput = {
@@ -64027,6 +65318,8 @@ export namespace Prisma {
     specificDisease?: string | null
     hasMedicalReport: boolean
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutFamilyMemberDiseaseInput
     legalResponsible?: LegalResponsibleCreateNestedOneWithoutFamilyMemberDiseaseInput
     Medication?: MedicationCreateNestedManyWithoutFamilyMemberDiseaseInput
@@ -64042,6 +65335,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     Medication?: MedicationUncheckedCreateNestedManyWithoutFamilyMemberDiseaseInput
   }
 
@@ -64068,6 +65363,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
@@ -64100,6 +65396,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
@@ -64129,6 +65426,8 @@ export namespace Prisma {
     obtainedPublicly: boolean
     specificMedicationPublicly?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutMedicationInput
     legalResponsible?: LegalResponsibleCreateNestedOneWithoutMedicationInput
     FamilyMemberDisease?: FamilyMemberDiseaseCreateNestedOneWithoutMedicationInput
@@ -64144,6 +65443,8 @@ export namespace Prisma {
     legalResponsibleId?: string | null
     application_id: string
     familyMemberDiseaseId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MedicationCreateOrConnectWithoutFamilyMemberInput = {
@@ -64175,6 +65476,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
@@ -64212,6 +65514,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
@@ -64243,6 +65546,8 @@ export namespace Prisma {
     accountNumber: string
     accountType: $Enums.AccountType
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutBankAccountInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutBankAccountInput
   }
@@ -64257,6 +65562,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type BankAccountCreateOrConnectWithoutFamilyMemberInput = {
@@ -64274,6 +65581,8 @@ export namespace Prisma {
     declarationType: $Enums.Declaration_Type
     text: string
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutDeclarationsInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutDeclarationsInput
   }
@@ -64285,6 +65594,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DeclarationsCreateOrConnectWithoutFamilyMemberInput = {
@@ -64459,6 +65770,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
@@ -64491,6 +65803,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
@@ -64554,6 +65867,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
@@ -64591,6 +65905,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
@@ -64654,6 +65969,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
@@ -64686,6 +66002,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
@@ -64727,6 +66044,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     FamillyMember?: FamilyMemberCreateNestedManyWithoutLegalResponsibleInput
@@ -64764,6 +66082,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     FamillyMember?: FamilyMemberUncheckedCreateNestedManyWithoutLegalResponsibleInput
@@ -64811,6 +66130,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
@@ -64843,6 +66163,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
@@ -64890,6 +66211,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     FamillyMember?: FamilyMemberUpdateManyWithoutLegalResponsibleNestedInput
@@ -64927,6 +66249,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     FamillyMember?: FamilyMemberUncheckedUpdateManyWithoutLegalResponsibleNestedInput
@@ -64958,6 +66281,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
@@ -64990,6 +66314,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
@@ -65053,6 +66378,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
@@ -65090,6 +66416,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
@@ -65137,6 +66464,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
@@ -65169,6 +66497,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
@@ -65232,6 +66561,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
@@ -65269,6 +66599,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
@@ -65340,6 +66671,8 @@ export namespace Prisma {
     hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingCreateNestedManyWithoutFamilyMemberInput
     Loan?: LoanCreateNestedManyWithoutFamilyMemberInput
@@ -65409,6 +66742,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingUncheckedCreateNestedManyWithoutFamilyMemberInput
     Loan?: LoanUncheckedCreateNestedManyWithoutFamilyMemberInput
@@ -65439,6 +66774,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
@@ -65471,6 +66807,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
@@ -65512,6 +66849,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
@@ -65549,6 +66887,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
@@ -65570,6 +66909,76 @@ export namespace Prisma {
   export type LegalResponsibleCreateOrConnectWithoutFamilyMemberIncomeInput = {
     where: LegalResponsibleWhereUniqueInput
     create: XOR<LegalResponsibleCreateWithoutFamilyMemberIncomeInput, LegalResponsibleUncheckedCreateWithoutFamilyMemberIncomeInput>
+  }
+
+  export type MonthlyIncomeCreateWithoutIncomeInput = {
+    id?: string
+    receivedIncome?: boolean | null
+    date?: Date | string | null
+    main_id?: string | null
+    grossAmount?: number | null
+    liquidAmount?: number | null
+    proLabore?: number | null
+    dividends?: number | null
+    total?: number | null
+    deductionValue?: Decimal | DecimalJsLike | number | string | null
+    publicPension?: Decimal | DecimalJsLike | number | string | null
+    incomeTax?: Decimal | DecimalJsLike | number | string | null
+    otherDeductions?: Decimal | DecimalJsLike | number | string | null
+    foodAllowanceValue?: Decimal | DecimalJsLike | number | string | null
+    transportAllowanceValue?: Decimal | DecimalJsLike | number | string | null
+    expenseReimbursementValue?: Decimal | DecimalJsLike | number | string | null
+    advancePaymentValue?: Decimal | DecimalJsLike | number | string | null
+    reversalValue?: Decimal | DecimalJsLike | number | string | null
+    compensationValue?: Decimal | DecimalJsLike | number | string | null
+    judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
+    incomeSource: $Enums.IncomeSource
+    application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    familyMember?: FamilyMemberCreateNestedOneWithoutMonthlyIncomeInput
+    candidate?: CandidateCreateNestedOneWithoutMonthlyIncomeInput
+    LegalResponsible?: LegalResponsibleCreateNestedOneWithoutMonthlyIncomeInput
+  }
+
+  export type MonthlyIncomeUncheckedCreateWithoutIncomeInput = {
+    id?: string
+    receivedIncome?: boolean | null
+    date?: Date | string | null
+    main_id?: string | null
+    grossAmount?: number | null
+    liquidAmount?: number | null
+    proLabore?: number | null
+    dividends?: number | null
+    total?: number | null
+    deductionValue?: Decimal | DecimalJsLike | number | string | null
+    publicPension?: Decimal | DecimalJsLike | number | string | null
+    incomeTax?: Decimal | DecimalJsLike | number | string | null
+    otherDeductions?: Decimal | DecimalJsLike | number | string | null
+    foodAllowanceValue?: Decimal | DecimalJsLike | number | string | null
+    transportAllowanceValue?: Decimal | DecimalJsLike | number | string | null
+    expenseReimbursementValue?: Decimal | DecimalJsLike | number | string | null
+    advancePaymentValue?: Decimal | DecimalJsLike | number | string | null
+    reversalValue?: Decimal | DecimalJsLike | number | string | null
+    compensationValue?: Decimal | DecimalJsLike | number | string | null
+    judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
+    familyMember_id?: string | null
+    candidate_id?: string | null
+    incomeSource: $Enums.IncomeSource
+    application_id: string
+    legalResponsibleId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MonthlyIncomeCreateOrConnectWithoutIncomeInput = {
+    where: MonthlyIncomeWhereUniqueInput
+    create: XOR<MonthlyIncomeCreateWithoutIncomeInput, MonthlyIncomeUncheckedCreateWithoutIncomeInput>
+  }
+
+  export type MonthlyIncomeCreateManyIncomeInputEnvelope = {
+    data: MonthlyIncomeCreateManyIncomeInput | MonthlyIncomeCreateManyIncomeInput[]
+    skipDuplicates?: boolean
   }
 
   export type FamilyMemberUpsertWithoutFamilyMemberIncomeInput = {
@@ -65636,6 +67045,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUpdateManyWithoutFamilyMemberNestedInput
     Loan?: LoanUpdateManyWithoutFamilyMemberNestedInput
@@ -65705,6 +67116,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Loan?: LoanUncheckedUpdateManyWithoutFamilyMemberNestedInput
@@ -65741,6 +67154,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
@@ -65773,6 +67187,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
@@ -65820,6 +67235,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
@@ -65857,6 +67273,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
@@ -65873,6 +67290,22 @@ export namespace Prisma {
     MonthlyIncome?: MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+  }
+
+  export type MonthlyIncomeUpsertWithWhereUniqueWithoutIncomeInput = {
+    where: MonthlyIncomeWhereUniqueInput
+    update: XOR<MonthlyIncomeUpdateWithoutIncomeInput, MonthlyIncomeUncheckedUpdateWithoutIncomeInput>
+    create: XOR<MonthlyIncomeCreateWithoutIncomeInput, MonthlyIncomeUncheckedCreateWithoutIncomeInput>
+  }
+
+  export type MonthlyIncomeUpdateWithWhereUniqueWithoutIncomeInput = {
+    where: MonthlyIncomeWhereUniqueInput
+    data: XOR<MonthlyIncomeUpdateWithoutIncomeInput, MonthlyIncomeUncheckedUpdateWithoutIncomeInput>
+  }
+
+  export type MonthlyIncomeUpdateManyWithWhereWithoutIncomeInput = {
+    where: MonthlyIncomeScalarWhereInput
+    data: XOR<MonthlyIncomeUpdateManyMutationInput, MonthlyIncomeUncheckedUpdateManyWithoutIncomeInput>
   }
 
   export type FamilyMemberCreateWithoutMonthlyIncomeInput = {
@@ -65928,6 +67361,8 @@ export namespace Prisma {
     hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingCreateNestedManyWithoutFamilyMemberInput
@@ -65997,6 +67432,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingUncheckedCreateNestedManyWithoutFamilyMemberInput
@@ -66027,6 +67464,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
@@ -66059,6 +67497,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
@@ -66100,6 +67539,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
@@ -66137,6 +67577,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
@@ -66158,6 +67599,69 @@ export namespace Prisma {
   export type LegalResponsibleCreateOrConnectWithoutMonthlyIncomeInput = {
     where: LegalResponsibleWhereUniqueInput
     create: XOR<LegalResponsibleCreateWithoutMonthlyIncomeInput, LegalResponsibleUncheckedCreateWithoutMonthlyIncomeInput>
+  }
+
+  export type FamilyMemberIncomeCreateWithoutMonthlyIncomesInput = {
+    id?: string
+    employmentType: $Enums.EmploymentType
+    averageIncome: string
+    main_id?: string | null
+    isUpdated?: boolean | null
+    admissionDate?: Date | string | null
+    position?: string | null
+    payingSource?: string | null
+    payingSourcePhone?: string | null
+    startDate?: Date | string | null
+    CNPJ?: string | null
+    financialAssistantCPF?: string | null
+    socialReason?: string | null
+    fantasyName?: string | null
+    CPNJ?: string | null
+    receivesUnemployment?: boolean | null
+    parcels?: number | null
+    firstParcelDate?: Date | string | null
+    parcelValue?: number | null
+    quantity?: number
+    application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    familyMember?: FamilyMemberCreateNestedOneWithoutFamilyMemberIncomeInput
+    candidate?: CandidateCreateNestedOneWithoutFamilyMemberIncomeInput
+    LegalResponsible?: LegalResponsibleCreateNestedOneWithoutFamilyMemberIncomeInput
+  }
+
+  export type FamilyMemberIncomeUncheckedCreateWithoutMonthlyIncomesInput = {
+    id?: string
+    employmentType: $Enums.EmploymentType
+    averageIncome: string
+    main_id?: string | null
+    isUpdated?: boolean | null
+    admissionDate?: Date | string | null
+    position?: string | null
+    payingSource?: string | null
+    payingSourcePhone?: string | null
+    startDate?: Date | string | null
+    CNPJ?: string | null
+    financialAssistantCPF?: string | null
+    socialReason?: string | null
+    fantasyName?: string | null
+    CPNJ?: string | null
+    receivesUnemployment?: boolean | null
+    parcels?: number | null
+    firstParcelDate?: Date | string | null
+    parcelValue?: number | null
+    familyMember_id?: string | null
+    quantity?: number
+    candidate_id?: string | null
+    application_id: string
+    legalResponsibleId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FamilyMemberIncomeCreateOrConnectWithoutMonthlyIncomesInput = {
+    where: FamilyMemberIncomeWhereUniqueInput
+    create: XOR<FamilyMemberIncomeCreateWithoutMonthlyIncomesInput, FamilyMemberIncomeUncheckedCreateWithoutMonthlyIncomesInput>
   }
 
   export type FamilyMemberUpsertWithoutMonthlyIncomeInput = {
@@ -66224,6 +67728,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUpdateManyWithoutFamilyMemberNestedInput
@@ -66293,6 +67799,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUncheckedUpdateManyWithoutFamilyMemberNestedInput
@@ -66329,6 +67837,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
@@ -66361,6 +67870,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
@@ -66408,6 +67918,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
@@ -66445,6 +67956,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
@@ -66461,6 +67973,75 @@ export namespace Prisma {
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     BankAccount?: BankAccountUncheckedUpdateManyWithoutLegalResponsibleNestedInput
     Declarations?: DeclarationsUncheckedUpdateManyWithoutLegalResponsibleNestedInput
+  }
+
+  export type FamilyMemberIncomeUpsertWithoutMonthlyIncomesInput = {
+    update: XOR<FamilyMemberIncomeUpdateWithoutMonthlyIncomesInput, FamilyMemberIncomeUncheckedUpdateWithoutMonthlyIncomesInput>
+    create: XOR<FamilyMemberIncomeCreateWithoutMonthlyIncomesInput, FamilyMemberIncomeUncheckedCreateWithoutMonthlyIncomesInput>
+    where?: FamilyMemberIncomeWhereInput
+  }
+
+  export type FamilyMemberIncomeUpdateToOneWithWhereWithoutMonthlyIncomesInput = {
+    where?: FamilyMemberIncomeWhereInput
+    data: XOR<FamilyMemberIncomeUpdateWithoutMonthlyIncomesInput, FamilyMemberIncomeUncheckedUpdateWithoutMonthlyIncomesInput>
+  }
+
+  export type FamilyMemberIncomeUpdateWithoutMonthlyIncomesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
+    averageIncome?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    payingSource?: NullableStringFieldUpdateOperationsInput | string | null
+    payingSourcePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    CNPJ?: NullableStringFieldUpdateOperationsInput | string | null
+    financialAssistantCPF?: NullableStringFieldUpdateOperationsInput | string | null
+    socialReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fantasyName?: NullableStringFieldUpdateOperationsInput | string | null
+    CPNJ?: NullableStringFieldUpdateOperationsInput | string | null
+    receivesUnemployment?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    parcels?: NullableIntFieldUpdateOperationsInput | number | null
+    firstParcelDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parcelValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    familyMember?: FamilyMemberUpdateOneWithoutFamilyMemberIncomeNestedInput
+    candidate?: CandidateUpdateOneWithoutFamilyMemberIncomeNestedInput
+    LegalResponsible?: LegalResponsibleUpdateOneWithoutFamilyMemberIncomeNestedInput
+  }
+
+  export type FamilyMemberIncomeUncheckedUpdateWithoutMonthlyIncomesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
+    averageIncome?: StringFieldUpdateOperationsInput | string
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    isUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    admissionDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    payingSource?: NullableStringFieldUpdateOperationsInput | string | null
+    payingSourcePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    CNPJ?: NullableStringFieldUpdateOperationsInput | string | null
+    financialAssistantCPF?: NullableStringFieldUpdateOperationsInput | string | null
+    socialReason?: NullableStringFieldUpdateOperationsInput | string | null
+    fantasyName?: NullableStringFieldUpdateOperationsInput | string | null
+    CPNJ?: NullableStringFieldUpdateOperationsInput | string | null
+    receivesUnemployment?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    parcels?: NullableIntFieldUpdateOperationsInput | number | null
+    firstParcelDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parcelValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    application_id?: StringFieldUpdateOperationsInput | string
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FamilyMemberCreateWithoutBankAccountInput = {
@@ -66516,6 +68097,8 @@ export namespace Prisma {
     hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingCreateNestedManyWithoutFamilyMemberInput
@@ -66585,6 +68168,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingUncheckedCreateNestedManyWithoutFamilyMemberInput
@@ -66615,6 +68200,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
@@ -66647,6 +68233,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
@@ -66688,6 +68275,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
@@ -66725,6 +68313,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
@@ -66812,6 +68401,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUpdateManyWithoutFamilyMemberNestedInput
@@ -66881,6 +68472,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUncheckedUpdateManyWithoutFamilyMemberNestedInput
@@ -66917,6 +68510,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
@@ -66949,6 +68543,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
@@ -66996,6 +68591,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
@@ -67033,6 +68629,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
@@ -67064,6 +68661,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Financing?: FinancingCreateNestedManyWithoutCandidateInput
@@ -67096,6 +68694,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Financing?: FinancingUncheckedCreateNestedManyWithoutCandidateInput
@@ -67137,6 +68736,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
@@ -67174,6 +68774,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
@@ -67221,6 +68822,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Financing?: FinancingUpdateManyWithoutCandidateNestedInput
@@ -67253,6 +68855,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Financing?: FinancingUncheckedUpdateManyWithoutCandidateNestedInput
@@ -67300,6 +68903,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
@@ -67337,6 +68941,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
@@ -67368,6 +68973,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
@@ -67400,6 +69006,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
@@ -67475,6 +69082,8 @@ export namespace Prisma {
     hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingCreateNestedManyWithoutFamilyMemberInput
@@ -67544,6 +69153,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingUncheckedCreateNestedManyWithoutFamilyMemberInput
@@ -67580,6 +69191,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
@@ -67617,6 +69229,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
@@ -67664,6 +69277,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
@@ -67696,6 +69310,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
@@ -67777,6 +69392,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUpdateManyWithoutFamilyMemberNestedInput
@@ -67846,6 +69463,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUncheckedUpdateManyWithoutFamilyMemberNestedInput
@@ -67888,6 +69507,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
@@ -67925,6 +69545,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
@@ -67956,6 +69577,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
@@ -67988,6 +69610,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
@@ -68063,6 +69686,8 @@ export namespace Prisma {
     hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutFamilyMemberInput
     Loan?: LoanCreateNestedManyWithoutFamilyMemberInput
@@ -68132,6 +69757,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
     Loan?: LoanUncheckedCreateNestedManyWithoutFamilyMemberInput
@@ -68168,6 +69795,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
@@ -68205,6 +69833,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
@@ -68252,6 +69881,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
@@ -68284,6 +69914,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
@@ -68365,6 +69996,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutFamilyMemberNestedInput
     Loan?: LoanUpdateManyWithoutFamilyMemberNestedInput
@@ -68434,6 +70067,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Loan?: LoanUncheckedUpdateManyWithoutFamilyMemberNestedInput
@@ -68476,6 +70111,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
@@ -68513,6 +70149,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
@@ -68544,6 +70181,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
     Financing?: FinancingCreateNestedManyWithoutCandidateInput
@@ -68576,6 +70214,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
     Financing?: FinancingUncheckedCreateNestedManyWithoutCandidateInput
@@ -68651,6 +70290,8 @@ export namespace Prisma {
     hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingCreateNestedManyWithoutFamilyMemberInput
     Loan?: LoanCreateNestedManyWithoutFamilyMemberInput
@@ -68720,6 +70361,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingUncheckedCreateNestedManyWithoutFamilyMemberInput
     Loan?: LoanUncheckedCreateNestedManyWithoutFamilyMemberInput
@@ -68756,6 +70399,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
@@ -68793,6 +70437,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
@@ -68840,6 +70485,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
     Financing?: FinancingUpdateManyWithoutCandidateNestedInput
@@ -68872,6 +70518,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
     Financing?: FinancingUncheckedUpdateManyWithoutCandidateNestedInput
@@ -68953,6 +70600,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUpdateManyWithoutFamilyMemberNestedInput
     Loan?: LoanUpdateManyWithoutFamilyMemberNestedInput
@@ -69022,6 +70671,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Loan?: LoanUncheckedUpdateManyWithoutFamilyMemberNestedInput
@@ -69064,6 +70715,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
@@ -69101,6 +70753,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
@@ -69132,6 +70785,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
@@ -69164,6 +70818,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
@@ -69239,6 +70894,8 @@ export namespace Prisma {
     hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingCreateNestedManyWithoutFamilyMemberInput
@@ -69308,6 +70965,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingUncheckedCreateNestedManyWithoutFamilyMemberInput
@@ -69344,6 +71003,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
@@ -69381,6 +71041,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
@@ -69428,6 +71089,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
@@ -69460,6 +71122,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
@@ -69541,6 +71204,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUpdateManyWithoutFamilyMemberNestedInput
@@ -69610,6 +71275,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUncheckedUpdateManyWithoutFamilyMemberNestedInput
@@ -69652,6 +71319,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
@@ -69689,6 +71357,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
@@ -69760,6 +71429,8 @@ export namespace Prisma {
     hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingCreateNestedManyWithoutFamilyMemberInput
@@ -69829,6 +71500,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingUncheckedCreateNestedManyWithoutFamilyMemberInput
@@ -69859,6 +71532,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
@@ -69891,6 +71565,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
@@ -69932,6 +71607,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
@@ -69969,6 +71645,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
@@ -69999,6 +71676,8 @@ export namespace Prisma {
     obtainedPublicly: boolean
     specificMedicationPublicly?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutMedicationInput
     candidate?: CandidateCreateNestedOneWithoutMedicationInput
     legalResponsible?: LegalResponsibleCreateNestedOneWithoutMedicationInput
@@ -70014,6 +71693,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MedicationCreateOrConnectWithoutFamilyMemberDiseaseInput = {
@@ -70090,6 +71771,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUpdateManyWithoutFamilyMemberNestedInput
@@ -70159,6 +71842,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUncheckedUpdateManyWithoutFamilyMemberNestedInput
@@ -70195,6 +71880,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
@@ -70227,6 +71913,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
@@ -70274,6 +71961,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
@@ -70311,6 +71999,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
@@ -70398,6 +72087,8 @@ export namespace Prisma {
     hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingCreateNestedManyWithoutFamilyMemberInput
@@ -70467,6 +72158,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingUncheckedCreateNestedManyWithoutFamilyMemberInput
@@ -70497,6 +72190,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
@@ -70529,6 +72223,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
@@ -70570,6 +72265,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
@@ -70607,6 +72303,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
@@ -70638,6 +72335,8 @@ export namespace Prisma {
     specificDisease?: string | null
     hasMedicalReport: boolean
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutFamilyMemberDiseaseInput
     candidate?: CandidateCreateNestedOneWithoutFamilyMemberDiseaseInput
     legalResponsible?: LegalResponsibleCreateNestedOneWithoutFamilyMemberDiseaseInput
@@ -70654,6 +72353,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FamilyMemberDiseaseCreateOrConnectWithoutMedicationInput = {
@@ -70725,6 +72426,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUpdateManyWithoutFamilyMemberNestedInput
@@ -70794,6 +72497,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUncheckedUpdateManyWithoutFamilyMemberNestedInput
@@ -70830,6 +72535,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
@@ -70862,6 +72568,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
@@ -70909,6 +72616,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
@@ -70946,6 +72654,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
@@ -70983,6 +72692,8 @@ export namespace Prisma {
     specificDisease?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: BoolFieldUpdateOperationsInput | boolean
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutFamilyMemberDiseaseNestedInput
     candidate?: CandidateUpdateOneWithoutFamilyMemberDiseaseNestedInput
     legalResponsible?: LegalResponsibleUpdateOneWithoutFamilyMemberDiseaseNestedInput
@@ -70999,6 +72710,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CandidateCreateWithoutDeclarationsInput = {
@@ -71014,6 +72727,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
@@ -71046,6 +72760,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     Application?: ApplicationUncheckedCreateNestedManyWithoutCandidateInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
@@ -71121,6 +72836,8 @@ export namespace Prisma {
     hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingCreateNestedManyWithoutFamilyMemberInput
@@ -71190,6 +72907,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingUncheckedCreateNestedManyWithoutFamilyMemberInput
@@ -71226,6 +72945,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
@@ -71263,6 +72983,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
@@ -71310,6 +73031,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
@@ -71342,6 +73064,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
@@ -71423,6 +73146,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUpdateManyWithoutFamilyMemberNestedInput
@@ -71492,6 +73217,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUncheckedUpdateManyWithoutFamilyMemberNestedInput
@@ -71534,6 +73261,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
@@ -71571,6 +73299,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
@@ -72690,6 +74419,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     CreditCard?: CreditCardCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseCreateNestedManyWithoutCandidateInput
     Financing?: FinancingCreateNestedManyWithoutCandidateInput
@@ -72722,6 +74452,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutCandidateInput
     Expense?: ExpenseUncheckedCreateNestedManyWithoutCandidateInput
     Financing?: FinancingUncheckedCreateNestedManyWithoutCandidateInput
@@ -72884,6 +74615,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateCreateNestedManyWithoutResponsibleInput
     Housing?: HousingCreateNestedManyWithoutResponsibleInput
@@ -72921,6 +74653,7 @@ export namespace Prisma {
     monthlyAmount?: string | null
     percentageOfScholarship?: string | null
     application_id?: string | null
+    updatedAt?: Date | string
     IdentityDetails?: IdentityDetailsUncheckedCreateNestedManyWithoutResponsibleInput
     Candidate?: CandidateUncheckedCreateNestedManyWithoutResponsibleInput
     Housing?: HousingUncheckedCreateNestedManyWithoutResponsibleInput
@@ -73035,6 +74768,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
     Financing?: FinancingUpdateManyWithoutCandidateNestedInput
@@ -73067,6 +74801,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
     Financing?: FinancingUncheckedUpdateManyWithoutCandidateNestedInput
@@ -73253,6 +74988,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUpdateManyWithoutResponsibleNestedInput
@@ -73290,6 +75026,7 @@ export namespace Prisma {
     monthlyAmount?: NullableStringFieldUpdateOperationsInput | string | null
     percentageOfScholarship?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     IdentityDetails?: IdentityDetailsUncheckedUpdateManyWithoutResponsibleNestedInput
     Candidate?: CandidateUncheckedUpdateManyWithoutResponsibleNestedInput
     Housing?: HousingUncheckedUpdateManyWithoutResponsibleNestedInput
@@ -73681,6 +75418,8 @@ export namespace Prisma {
     hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingCreateNestedManyWithoutFamilyMemberInput
@@ -73750,6 +75489,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutFamilyMemberInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedCreateNestedManyWithoutFamilyMemberInput
     Financing?: FinancingUncheckedCreateNestedManyWithoutFamilyMemberInput
@@ -73783,6 +75524,8 @@ export namespace Prisma {
     plate?: string | null
     document?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutVehicleInput
     LegalResponsible?: LegalResponsibleCreateNestedOneWithoutVehicleInput
   }
@@ -73805,6 +75548,8 @@ export namespace Prisma {
     document?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type VehicleCreateOrConnectWithoutFamilyMemberToVehicleInput = {
@@ -73876,6 +75621,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUpdateManyWithoutFamilyMemberNestedInput
@@ -73945,6 +75692,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUncheckedUpdateManyWithoutFamilyMemberNestedInput
@@ -73984,6 +75733,8 @@ export namespace Prisma {
     plate?: NullableStringFieldUpdateOperationsInput | string | null
     document?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutVehicleNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutVehicleNestedInput
   }
@@ -74006,6 +75757,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ApplicationCreateManyCandidateInput = {
@@ -74038,6 +75791,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ExpenseCreateManyCandidateInput = {
@@ -74105,6 +75860,8 @@ export namespace Prisma {
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FinancingCreateManyCandidateInput = {
@@ -74120,6 +75877,8 @@ export namespace Prisma {
     financingType: $Enums.FinancingType
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type IdentityDetailsCreateManyCandidateInput = {
@@ -74181,6 +75940,8 @@ export namespace Prisma {
     nameOfScholarshipCourse_professional?: string | null
     responsible_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FamilyMemberIncomeCreateManyCandidateInput = {
@@ -74207,6 +75968,8 @@ export namespace Prisma {
     quantity?: number
     application_id: string
     legalResponsibleId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type LoanCreateManyCandidateInput = {
@@ -74220,6 +75983,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type OtherExpenseCreateManyCandidateInput = {
@@ -74230,6 +75995,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type VehicleCreateManyCandidateInput = {
@@ -74249,6 +76016,8 @@ export namespace Prisma {
     document?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FamilyMemberCreateManyCandidateInput = {
@@ -74305,6 +76074,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HousingCreateManyCandidateInput = {
@@ -74319,6 +76090,8 @@ export namespace Prisma {
     numberOfBedrooms: number
     responsible_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MonthlyIncomeCreateManyCandidateInput = {
@@ -74346,6 +76119,9 @@ export namespace Prisma {
     incomeSource: $Enums.IncomeSource
     application_id: string
     legalResponsibleId?: string | null
+    income_id?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FamilyMemberDiseaseCreateManyCandidateInput = {
@@ -74358,6 +76134,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MedicationCreateManyCandidateInput = {
@@ -74370,6 +76148,8 @@ export namespace Prisma {
     legalResponsibleId?: string | null
     application_id: string
     familyMemberDiseaseId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type BankAccountCreateManyCandidateInput = {
@@ -74382,6 +76162,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DeclarationsCreateManyCandidateInput = {
@@ -74391,6 +76173,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ApplicationUpdateWithoutCandidateInput = {
@@ -74461,6 +76245,8 @@ export namespace Prisma {
     cardFlag?: StringFieldUpdateOperationsInput | string
     invoiceValue?: FloatFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutCreditCardNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutCreditCardNestedInput
   }
@@ -74477,6 +76263,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CreditCardUncheckedUpdateManyWithoutCandidateInput = {
@@ -74491,6 +76279,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ExpenseUpdateWithoutCandidateInput = {
@@ -74557,6 +76347,8 @@ export namespace Prisma {
     otherExpensesDescription?: ExpenseUpdateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     LegalResponsible?: LegalResponsibleUpdateOneWithoutExpenseNestedInput
   }
 
@@ -74625,6 +76417,8 @@ export namespace Prisma {
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ExpenseUncheckedUpdateManyWithoutCandidateInput = {
@@ -74692,6 +76486,8 @@ export namespace Prisma {
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FinancingUpdateWithoutCandidateInput = {
@@ -74705,6 +76501,8 @@ export namespace Prisma {
     otherFinancing?: NullableStringFieldUpdateOperationsInput | string | null
     financingType?: EnumFinancingTypeFieldUpdateOperationsInput | $Enums.FinancingType
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutFinancingNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFinancingNestedInput
   }
@@ -74722,6 +76520,8 @@ export namespace Prisma {
     financingType?: EnumFinancingTypeFieldUpdateOperationsInput | $Enums.FinancingType
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FinancingUncheckedUpdateManyWithoutCandidateInput = {
@@ -74737,6 +76537,8 @@ export namespace Prisma {
     financingType?: EnumFinancingTypeFieldUpdateOperationsInput | $Enums.FinancingType
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IdentityDetailsUpdateWithoutCandidateInput = {
@@ -74797,6 +76599,8 @@ export namespace Prisma {
     institutionCNPJ_professional?: NullableStringFieldUpdateOperationsInput | string | null
     nameOfScholarshipCourse_professional?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     responsible?: LegalResponsibleUpdateOneWithoutIdentityDetailsNestedInput
   }
 
@@ -74859,6 +76663,8 @@ export namespace Prisma {
     nameOfScholarshipCourse_professional?: NullableStringFieldUpdateOperationsInput | string | null
     responsible_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IdentityDetailsUncheckedUpdateManyWithoutCandidateInput = {
@@ -74920,6 +76726,8 @@ export namespace Prisma {
     nameOfScholarshipCourse_professional?: NullableStringFieldUpdateOperationsInput | string | null
     responsible_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FamilyMemberIncomeUpdateWithoutCandidateInput = {
@@ -74944,8 +76752,11 @@ export namespace Prisma {
     parcelValue?: NullableFloatFieldUpdateOperationsInput | number | null
     quantity?: IntFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutFamilyMemberIncomeNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFamilyMemberIncomeNestedInput
+    MonthlyIncomes?: MonthlyIncomeUpdateManyWithoutIncomeNestedInput
   }
 
   export type FamilyMemberIncomeUncheckedUpdateWithoutCandidateInput = {
@@ -74972,6 +76783,9 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    MonthlyIncomes?: MonthlyIncomeUncheckedUpdateManyWithoutIncomeNestedInput
   }
 
   export type FamilyMemberIncomeUncheckedUpdateManyWithoutCandidateInput = {
@@ -74998,6 +76812,8 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LoanUpdateWithoutCandidateInput = {
@@ -75009,6 +76825,8 @@ export namespace Prisma {
     paidInstallments?: IntFieldUpdateOperationsInput | number
     bankName?: StringFieldUpdateOperationsInput | string
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutLoanNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutLoanNestedInput
   }
@@ -75024,6 +76842,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LoanUncheckedUpdateManyWithoutCandidateInput = {
@@ -75037,6 +76857,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OtherExpenseUpdateWithoutCandidateInput = {
@@ -75045,6 +76867,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     value?: FloatFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutOtherExpenseNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutOtherExpenseNestedInput
   }
@@ -75057,6 +76881,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OtherExpenseUncheckedUpdateManyWithoutCandidateInput = {
@@ -75067,6 +76893,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VehicleUpdateWithoutCandidateInput = {
@@ -75085,6 +76913,8 @@ export namespace Prisma {
     plate?: NullableStringFieldUpdateOperationsInput | string | null
     document?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUpdateManyWithoutVehicleNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutVehicleNestedInput
   }
@@ -75106,6 +76936,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutVehicleNestedInput
   }
 
@@ -75126,6 +76958,8 @@ export namespace Prisma {
     document?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FamilyMemberUpdateWithoutCandidateInput = {
@@ -75181,6 +77015,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUpdateManyWithoutFamilyMemberNestedInput
@@ -75249,6 +77085,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUncheckedUpdateManyWithoutFamilyMemberNestedInput
@@ -75316,6 +77154,8 @@ export namespace Prisma {
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HousingUpdateWithoutCandidateInput = {
@@ -75329,6 +77169,8 @@ export namespace Prisma {
     numberOfRooms?: EnumNumberOfRoomsFieldUpdateOperationsInput | $Enums.NumberOfRooms
     numberOfBedrooms?: IntFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     responsible?: LegalResponsibleUpdateOneWithoutHousingNestedInput
   }
 
@@ -75344,6 +77186,8 @@ export namespace Prisma {
     numberOfBedrooms?: IntFieldUpdateOperationsInput | number
     responsible_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HousingUncheckedUpdateManyWithoutCandidateInput = {
@@ -75358,6 +77202,8 @@ export namespace Prisma {
     numberOfBedrooms?: IntFieldUpdateOperationsInput | number
     responsible_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MonthlyIncomeUpdateWithoutCandidateInput = {
@@ -75383,8 +77229,11 @@ export namespace Prisma {
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutMonthlyIncomeNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutMonthlyIncomeNestedInput
+    income?: FamilyMemberIncomeUpdateOneWithoutMonthlyIncomesNestedInput
   }
 
   export type MonthlyIncomeUncheckedUpdateWithoutCandidateInput = {
@@ -75412,6 +77261,9 @@ export namespace Prisma {
     incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    income_id?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MonthlyIncomeUncheckedUpdateManyWithoutCandidateInput = {
@@ -75439,6 +77291,9 @@ export namespace Prisma {
     incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    income_id?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FamilyMemberDiseaseUpdateWithoutCandidateInput = {
@@ -75449,6 +77304,8 @@ export namespace Prisma {
     specificDisease?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: BoolFieldUpdateOperationsInput | boolean
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutFamilyMemberDiseaseNestedInput
     legalResponsible?: LegalResponsibleUpdateOneWithoutFamilyMemberDiseaseNestedInput
     Medication?: MedicationUpdateManyWithoutFamilyMemberDiseaseNestedInput
@@ -75464,6 +77321,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberDiseaseNestedInput
   }
 
@@ -75477,6 +77336,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MedicationUpdateWithoutCandidateInput = {
@@ -75486,6 +77347,8 @@ export namespace Prisma {
     obtainedPublicly?: BoolFieldUpdateOperationsInput | boolean
     specificMedicationPublicly?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutMedicationNestedInput
     legalResponsible?: LegalResponsibleUpdateOneWithoutMedicationNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateOneWithoutMedicationNestedInput
@@ -75501,6 +77364,8 @@ export namespace Prisma {
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     familyMemberDiseaseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MedicationUncheckedUpdateManyWithoutCandidateInput = {
@@ -75513,6 +77378,8 @@ export namespace Prisma {
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     familyMemberDiseaseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BankAccountUpdateWithoutCandidateInput = {
@@ -75523,6 +77390,8 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutBankAccountNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutBankAccountNestedInput
   }
@@ -75537,6 +77406,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BankAccountUncheckedUpdateManyWithoutCandidateInput = {
@@ -75549,6 +77420,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DeclarationsUpdateWithoutCandidateInput = {
@@ -75556,6 +77429,8 @@ export namespace Prisma {
     declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
     text?: StringFieldUpdateOperationsInput | string
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutDeclarationsNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutDeclarationsNestedInput
   }
@@ -75567,6 +77442,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DeclarationsUncheckedUpdateManyWithoutCandidateInput = {
@@ -75576,6 +77453,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IdentityDetailsCreateManyResponsibleInput = {
@@ -75637,6 +77516,8 @@ export namespace Prisma {
     nameOfScholarshipCourse_professional?: string | null
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CandidateCreateManyResponsibleInput = {
@@ -75652,6 +77533,7 @@ export namespace Prisma {
     email?: string | null
     finishedapplication?: boolean
     application_id?: string | null
+    updatedAt?: Date | string
   }
 
   export type HousingCreateManyResponsibleInput = {
@@ -75666,6 +77548,8 @@ export namespace Prisma {
     numberOfBedrooms: number
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FamilyMemberCreateManyLegalResponsibleInput = {
@@ -75722,6 +77606,8 @@ export namespace Prisma {
     hasBankAccount?: boolean | null
     incomeSource?: FamilyMemberCreateincomeSourceInput | $Enums.IncomeSource[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CreditCardCreateManyLegalResponsibleInput = {
@@ -75736,6 +77622,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ExpenseCreateManyLegalResponsibleInput = {
@@ -75803,6 +77691,8 @@ export namespace Prisma {
     otherExpensesDescription?: ExpenseCreateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseCreateotherExpensesValueInput | number[]
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FinancingCreateManyLegalResponsibleInput = {
@@ -75818,6 +77708,8 @@ export namespace Prisma {
     otherFinancing?: string | null
     financingType: $Enums.FinancingType
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type LoanCreateManyLegalResponsibleInput = {
@@ -75831,6 +77723,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type OtherExpenseCreateManyLegalResponsibleInput = {
@@ -75841,6 +77735,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type VehicleCreateManyLegalResponsibleInput = {
@@ -75860,6 +77756,8 @@ export namespace Prisma {
     plate?: string | null
     document?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FamilyMemberDiseaseCreateManyLegalResponsibleInput = {
@@ -75872,6 +77770,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MedicationCreateManyLegalResponsibleInput = {
@@ -75884,6 +77784,8 @@ export namespace Prisma {
     candidate_id?: string | null
     application_id: string
     familyMemberDiseaseId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ApplicationCreateManyResponsibleInput = {
@@ -75928,6 +77830,8 @@ export namespace Prisma {
     quantity?: number
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MonthlyIncomeCreateManyLegalResponsibleInput = {
@@ -75955,6 +77859,9 @@ export namespace Prisma {
     candidate_id?: string | null
     incomeSource: $Enums.IncomeSource
     application_id: string
+    income_id?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type BankAccountCreateManyLegalResponsibleInput = {
@@ -75967,6 +77874,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DeclarationsCreateManyLegalResponsibleInput = {
@@ -75976,6 +77885,8 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type IdentityDetailsUpdateWithoutResponsibleInput = {
@@ -76036,6 +77947,8 @@ export namespace Prisma {
     institutionCNPJ_professional?: NullableStringFieldUpdateOperationsInput | string | null
     nameOfScholarshipCourse_professional?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutIdentityDetailsNestedInput
   }
 
@@ -76098,6 +78011,8 @@ export namespace Prisma {
     nameOfScholarshipCourse_professional?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IdentityDetailsUncheckedUpdateManyWithoutResponsibleInput = {
@@ -76159,6 +78074,8 @@ export namespace Prisma {
     nameOfScholarshipCourse_professional?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CandidateUpdateWithoutResponsibleInput = {
@@ -76174,6 +78091,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUpdateManyWithoutCandidateNestedInput
@@ -76205,6 +78123,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Application?: ApplicationUncheckedUpdateManyWithoutCandidateNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutCandidateNestedInput
     Expense?: ExpenseUncheckedUpdateManyWithoutCandidateNestedInput
@@ -76236,6 +78155,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     finishedapplication?: BoolFieldUpdateOperationsInput | boolean
     application_id?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HousingUpdateWithoutResponsibleInput = {
@@ -76249,6 +78169,8 @@ export namespace Prisma {
     numberOfRooms?: EnumNumberOfRoomsFieldUpdateOperationsInput | $Enums.NumberOfRooms
     numberOfBedrooms?: IntFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutHousingNestedInput
   }
 
@@ -76264,6 +78186,8 @@ export namespace Prisma {
     numberOfBedrooms?: IntFieldUpdateOperationsInput | number
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HousingUncheckedUpdateManyWithoutResponsibleInput = {
@@ -76278,6 +78202,8 @@ export namespace Prisma {
     numberOfBedrooms?: IntFieldUpdateOperationsInput | number
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FamilyMemberUpdateWithoutLegalResponsibleInput = {
@@ -76333,6 +78259,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUpdateManyWithoutFamilyMemberNestedInput
@@ -76401,6 +78329,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     CreditCard?: CreditCardUncheckedUpdateManyWithoutFamilyMemberNestedInput
     FamilyMemberIncome?: FamilyMemberIncomeUncheckedUpdateManyWithoutFamilyMemberNestedInput
     Financing?: FinancingUncheckedUpdateManyWithoutFamilyMemberNestedInput
@@ -76468,6 +78398,8 @@ export namespace Prisma {
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
     incomeSource?: FamilyMemberUpdateincomeSourceInput | $Enums.IncomeSource[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CreditCardUpdateWithoutLegalResponsibleInput = {
@@ -76480,6 +78412,8 @@ export namespace Prisma {
     cardFlag?: StringFieldUpdateOperationsInput | string
     invoiceValue?: FloatFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutCreditCardNestedInput
     familyMember?: FamilyMemberUpdateOneWithoutCreditCardNestedInput
   }
@@ -76496,6 +78430,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CreditCardUncheckedUpdateManyWithoutLegalResponsibleInput = {
@@ -76510,6 +78446,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ExpenseUpdateWithoutLegalResponsibleInput = {
@@ -76576,6 +78514,8 @@ export namespace Prisma {
     otherExpensesDescription?: ExpenseUpdateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutExpenseNestedInput
   }
 
@@ -76644,6 +78584,8 @@ export namespace Prisma {
     otherExpensesDescription?: ExpenseUpdateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ExpenseUncheckedUpdateManyWithoutLegalResponsibleInput = {
@@ -76711,6 +78653,8 @@ export namespace Prisma {
     otherExpensesDescription?: ExpenseUpdateotherExpensesDescriptionInput | string[]
     otherExpensesValue?: ExpenseUpdateotherExpensesValueInput | number[]
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FinancingUpdateWithoutLegalResponsibleInput = {
@@ -76724,6 +78668,8 @@ export namespace Prisma {
     otherFinancing?: NullableStringFieldUpdateOperationsInput | string | null
     financingType?: EnumFinancingTypeFieldUpdateOperationsInput | $Enums.FinancingType
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutFinancingNestedInput
     familyMember?: FamilyMemberUpdateOneWithoutFinancingNestedInput
   }
@@ -76741,6 +78687,8 @@ export namespace Prisma {
     otherFinancing?: NullableStringFieldUpdateOperationsInput | string | null
     financingType?: EnumFinancingTypeFieldUpdateOperationsInput | $Enums.FinancingType
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FinancingUncheckedUpdateManyWithoutLegalResponsibleInput = {
@@ -76756,6 +78704,8 @@ export namespace Prisma {
     otherFinancing?: NullableStringFieldUpdateOperationsInput | string | null
     financingType?: EnumFinancingTypeFieldUpdateOperationsInput | $Enums.FinancingType
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LoanUpdateWithoutLegalResponsibleInput = {
@@ -76767,6 +78717,8 @@ export namespace Prisma {
     paidInstallments?: IntFieldUpdateOperationsInput | number
     bankName?: StringFieldUpdateOperationsInput | string
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutLoanNestedInput
     familyMember?: FamilyMemberUpdateOneWithoutLoanNestedInput
   }
@@ -76782,6 +78734,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LoanUncheckedUpdateManyWithoutLegalResponsibleInput = {
@@ -76795,6 +78749,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OtherExpenseUpdateWithoutLegalResponsibleInput = {
@@ -76803,6 +78759,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     value?: FloatFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutOtherExpenseNestedInput
     familyMember?: FamilyMemberUpdateOneWithoutOtherExpenseNestedInput
   }
@@ -76815,6 +78773,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OtherExpenseUncheckedUpdateManyWithoutLegalResponsibleInput = {
@@ -76825,6 +78785,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VehicleUpdateWithoutLegalResponsibleInput = {
@@ -76843,6 +78805,8 @@ export namespace Prisma {
     plate?: NullableStringFieldUpdateOperationsInput | string | null
     document?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutVehicleNestedInput
     FamilyMemberToVehicle?: FamilyMemberToVehicleUpdateManyWithoutVehicleNestedInput
   }
@@ -76864,6 +78828,8 @@ export namespace Prisma {
     plate?: NullableStringFieldUpdateOperationsInput | string | null
     document?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     FamilyMemberToVehicle?: FamilyMemberToVehicleUncheckedUpdateManyWithoutVehicleNestedInput
   }
 
@@ -76884,6 +78850,8 @@ export namespace Prisma {
     plate?: NullableStringFieldUpdateOperationsInput | string | null
     document?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FamilyMemberDiseaseUpdateWithoutLegalResponsibleInput = {
@@ -76894,6 +78862,8 @@ export namespace Prisma {
     specificDisease?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: BoolFieldUpdateOperationsInput | boolean
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutFamilyMemberDiseaseNestedInput
     candidate?: CandidateUpdateOneWithoutFamilyMemberDiseaseNestedInput
     Medication?: MedicationUpdateManyWithoutFamilyMemberDiseaseNestedInput
@@ -76909,6 +78879,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberDiseaseNestedInput
   }
 
@@ -76922,6 +78894,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MedicationUpdateWithoutLegalResponsibleInput = {
@@ -76931,6 +78905,8 @@ export namespace Prisma {
     obtainedPublicly?: BoolFieldUpdateOperationsInput | boolean
     specificMedicationPublicly?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutMedicationNestedInput
     candidate?: CandidateUpdateOneWithoutMedicationNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateOneWithoutMedicationNestedInput
@@ -76946,6 +78922,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     familyMemberDiseaseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MedicationUncheckedUpdateManyWithoutLegalResponsibleInput = {
@@ -76958,6 +78936,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     familyMemberDiseaseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ApplicationUpdateWithoutResponsibleInput = {
@@ -77040,8 +79020,11 @@ export namespace Prisma {
     parcelValue?: NullableFloatFieldUpdateOperationsInput | number | null
     quantity?: IntFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutFamilyMemberIncomeNestedInput
     candidate?: CandidateUpdateOneWithoutFamilyMemberIncomeNestedInput
+    MonthlyIncomes?: MonthlyIncomeUpdateManyWithoutIncomeNestedInput
   }
 
   export type FamilyMemberIncomeUncheckedUpdateWithoutLegalResponsibleInput = {
@@ -77068,6 +79051,9 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    MonthlyIncomes?: MonthlyIncomeUncheckedUpdateManyWithoutIncomeNestedInput
   }
 
   export type FamilyMemberIncomeUncheckedUpdateManyWithoutLegalResponsibleInput = {
@@ -77094,6 +79080,8 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MonthlyIncomeUpdateWithoutLegalResponsibleInput = {
@@ -77119,8 +79107,11 @@ export namespace Prisma {
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutMonthlyIncomeNestedInput
     candidate?: CandidateUpdateOneWithoutMonthlyIncomeNestedInput
+    income?: FamilyMemberIncomeUpdateOneWithoutMonthlyIncomesNestedInput
   }
 
   export type MonthlyIncomeUncheckedUpdateWithoutLegalResponsibleInput = {
@@ -77148,6 +79139,9 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
+    income_id?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MonthlyIncomeUncheckedUpdateManyWithoutLegalResponsibleInput = {
@@ -77175,6 +79169,9 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
+    income_id?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BankAccountUpdateWithoutLegalResponsibleInput = {
@@ -77185,6 +79182,8 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutBankAccountNestedInput
     candidate?: CandidateUpdateOneWithoutBankAccountNestedInput
   }
@@ -77199,6 +79198,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BankAccountUncheckedUpdateManyWithoutLegalResponsibleInput = {
@@ -77211,6 +79212,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DeclarationsUpdateWithoutLegalResponsibleInput = {
@@ -77218,6 +79221,8 @@ export namespace Prisma {
     declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
     text?: StringFieldUpdateOperationsInput | string
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutDeclarationsNestedInput
     familyMember?: FamilyMemberUpdateOneWithoutDeclarationsNestedInput
   }
@@ -77229,6 +79234,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DeclarationsUncheckedUpdateManyWithoutLegalResponsibleInput = {
@@ -77238,6 +79245,8 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ApplicationCreateManySocialAssistantInput = {
@@ -77925,6 +79934,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FamilyMemberIncomeCreateManyFamilyMemberInput = {
@@ -77951,6 +79962,8 @@ export namespace Prisma {
     candidate_id?: string | null
     application_id: string
     legalResponsibleId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FinancingCreateManyFamilyMemberInput = {
@@ -77966,6 +79979,8 @@ export namespace Prisma {
     financingType: $Enums.FinancingType
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type LoanCreateManyFamilyMemberInput = {
@@ -77979,6 +79994,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MonthlyIncomeCreateManyFamilyMemberInput = {
@@ -78006,6 +80023,9 @@ export namespace Prisma {
     incomeSource: $Enums.IncomeSource
     application_id: string
     legalResponsibleId?: string | null
+    income_id?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type OtherExpenseCreateManyFamilyMemberInput = {
@@ -78016,6 +80036,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FamilyMemberToVehicleCreateManyFamilyMembersInput = {
@@ -78034,6 +80056,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MedicationCreateManyFamilyMemberInput = {
@@ -78046,6 +80070,8 @@ export namespace Prisma {
     legalResponsibleId?: string | null
     application_id: string
     familyMemberDiseaseId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type BankAccountCreateManyFamilyMemberInput = {
@@ -78058,6 +80084,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DeclarationsCreateManyFamilyMemberInput = {
@@ -78067,6 +80095,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CreditCardUpdateWithoutFamilyMemberInput = {
@@ -78079,6 +80109,8 @@ export namespace Prisma {
     cardFlag?: StringFieldUpdateOperationsInput | string
     invoiceValue?: FloatFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutCreditCardNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutCreditCardNestedInput
   }
@@ -78095,6 +80127,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CreditCardUncheckedUpdateManyWithoutFamilyMemberInput = {
@@ -78109,6 +80143,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FamilyMemberIncomeUpdateWithoutFamilyMemberInput = {
@@ -78133,8 +80169,11 @@ export namespace Prisma {
     parcelValue?: NullableFloatFieldUpdateOperationsInput | number | null
     quantity?: IntFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutFamilyMemberIncomeNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFamilyMemberIncomeNestedInput
+    MonthlyIncomes?: MonthlyIncomeUpdateManyWithoutIncomeNestedInput
   }
 
   export type FamilyMemberIncomeUncheckedUpdateWithoutFamilyMemberInput = {
@@ -78161,6 +80200,9 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    MonthlyIncomes?: MonthlyIncomeUncheckedUpdateManyWithoutIncomeNestedInput
   }
 
   export type FamilyMemberIncomeUncheckedUpdateManyWithoutFamilyMemberInput = {
@@ -78187,6 +80229,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FinancingUpdateWithoutFamilyMemberInput = {
@@ -78200,6 +80244,8 @@ export namespace Prisma {
     otherFinancing?: NullableStringFieldUpdateOperationsInput | string | null
     financingType?: EnumFinancingTypeFieldUpdateOperationsInput | $Enums.FinancingType
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutFinancingNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutFinancingNestedInput
   }
@@ -78217,6 +80263,8 @@ export namespace Prisma {
     financingType?: EnumFinancingTypeFieldUpdateOperationsInput | $Enums.FinancingType
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FinancingUncheckedUpdateManyWithoutFamilyMemberInput = {
@@ -78232,6 +80280,8 @@ export namespace Prisma {
     financingType?: EnumFinancingTypeFieldUpdateOperationsInput | $Enums.FinancingType
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LoanUpdateWithoutFamilyMemberInput = {
@@ -78243,6 +80293,8 @@ export namespace Prisma {
     paidInstallments?: IntFieldUpdateOperationsInput | number
     bankName?: StringFieldUpdateOperationsInput | string
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutLoanNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutLoanNestedInput
   }
@@ -78258,6 +80310,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LoanUncheckedUpdateManyWithoutFamilyMemberInput = {
@@ -78271,6 +80325,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MonthlyIncomeUpdateWithoutFamilyMemberInput = {
@@ -78296,8 +80352,11 @@ export namespace Prisma {
     judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutMonthlyIncomeNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutMonthlyIncomeNestedInput
+    income?: FamilyMemberIncomeUpdateOneWithoutMonthlyIncomesNestedInput
   }
 
   export type MonthlyIncomeUncheckedUpdateWithoutFamilyMemberInput = {
@@ -78325,6 +80384,9 @@ export namespace Prisma {
     incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    income_id?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MonthlyIncomeUncheckedUpdateManyWithoutFamilyMemberInput = {
@@ -78352,6 +80414,9 @@ export namespace Prisma {
     incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
     application_id?: StringFieldUpdateOperationsInput | string
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    income_id?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OtherExpenseUpdateWithoutFamilyMemberInput = {
@@ -78360,6 +80425,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     value?: FloatFieldUpdateOperationsInput | number
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutOtherExpenseNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutOtherExpenseNestedInput
   }
@@ -78372,6 +80439,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OtherExpenseUncheckedUpdateManyWithoutFamilyMemberInput = {
@@ -78382,6 +80451,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FamilyMemberToVehicleUpdateWithoutFamilyMembersInput = {
@@ -78410,6 +80481,8 @@ export namespace Prisma {
     specificDisease?: NullableStringFieldUpdateOperationsInput | string | null
     hasMedicalReport?: BoolFieldUpdateOperationsInput | boolean
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutFamilyMemberDiseaseNestedInput
     legalResponsible?: LegalResponsibleUpdateOneWithoutFamilyMemberDiseaseNestedInput
     Medication?: MedicationUpdateManyWithoutFamilyMemberDiseaseNestedInput
@@ -78425,6 +80498,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Medication?: MedicationUncheckedUpdateManyWithoutFamilyMemberDiseaseNestedInput
   }
 
@@ -78438,6 +80513,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MedicationUpdateWithoutFamilyMemberInput = {
@@ -78447,6 +80524,8 @@ export namespace Prisma {
     obtainedPublicly?: BoolFieldUpdateOperationsInput | boolean
     specificMedicationPublicly?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutMedicationNestedInput
     legalResponsible?: LegalResponsibleUpdateOneWithoutMedicationNestedInput
     FamilyMemberDisease?: FamilyMemberDiseaseUpdateOneWithoutMedicationNestedInput
@@ -78462,6 +80541,8 @@ export namespace Prisma {
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     familyMemberDiseaseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MedicationUncheckedUpdateManyWithoutFamilyMemberInput = {
@@ -78474,6 +80555,8 @@ export namespace Prisma {
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     familyMemberDiseaseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BankAccountUpdateWithoutFamilyMemberInput = {
@@ -78484,6 +80567,8 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutBankAccountNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutBankAccountNestedInput
   }
@@ -78498,6 +80583,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BankAccountUncheckedUpdateManyWithoutFamilyMemberInput = {
@@ -78510,6 +80597,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DeclarationsUpdateWithoutFamilyMemberInput = {
@@ -78517,6 +80606,8 @@ export namespace Prisma {
     declarationType?: EnumDeclaration_TypeFieldUpdateOperationsInput | $Enums.Declaration_Type
     text?: StringFieldUpdateOperationsInput | string
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutDeclarationsNestedInput
     LegalResponsible?: LegalResponsibleUpdateOneWithoutDeclarationsNestedInput
   }
@@ -78528,6 +80619,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DeclarationsUncheckedUpdateManyWithoutFamilyMemberInput = {
@@ -78537,6 +80630,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FamilyMemberToVehicleCreateManyVehicleInput = {
@@ -78563,6 +80658,126 @@ export namespace Prisma {
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type MonthlyIncomeCreateManyIncomeInput = {
+    id?: string
+    receivedIncome?: boolean | null
+    date?: Date | string | null
+    main_id?: string | null
+    grossAmount?: number | null
+    liquidAmount?: number | null
+    proLabore?: number | null
+    dividends?: number | null
+    total?: number | null
+    deductionValue?: Decimal | DecimalJsLike | number | string | null
+    publicPension?: Decimal | DecimalJsLike | number | string | null
+    incomeTax?: Decimal | DecimalJsLike | number | string | null
+    otherDeductions?: Decimal | DecimalJsLike | number | string | null
+    foodAllowanceValue?: Decimal | DecimalJsLike | number | string | null
+    transportAllowanceValue?: Decimal | DecimalJsLike | number | string | null
+    expenseReimbursementValue?: Decimal | DecimalJsLike | number | string | null
+    advancePaymentValue?: Decimal | DecimalJsLike | number | string | null
+    reversalValue?: Decimal | DecimalJsLike | number | string | null
+    compensationValue?: Decimal | DecimalJsLike | number | string | null
+    judicialPensionValue?: Decimal | DecimalJsLike | number | string | null
+    familyMember_id?: string | null
+    candidate_id?: string | null
+    incomeSource: $Enums.IncomeSource
+    application_id: string
+    legalResponsibleId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MonthlyIncomeUpdateWithoutIncomeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    liquidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    proLabore?: NullableFloatFieldUpdateOperationsInput | number | null
+    dividends?: NullableFloatFieldUpdateOperationsInput | number | null
+    total?: NullableFloatFieldUpdateOperationsInput | number | null
+    deductionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    publicPension?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    incomeTax?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    otherDeductions?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    foodAllowanceValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    transportAllowanceValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    expenseReimbursementValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    advancePaymentValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    reversalValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    compensationValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
+    application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    familyMember?: FamilyMemberUpdateOneWithoutMonthlyIncomeNestedInput
+    candidate?: CandidateUpdateOneWithoutMonthlyIncomeNestedInput
+    LegalResponsible?: LegalResponsibleUpdateOneWithoutMonthlyIncomeNestedInput
+  }
+
+  export type MonthlyIncomeUncheckedUpdateWithoutIncomeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    liquidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    proLabore?: NullableFloatFieldUpdateOperationsInput | number | null
+    dividends?: NullableFloatFieldUpdateOperationsInput | number | null
+    total?: NullableFloatFieldUpdateOperationsInput | number | null
+    deductionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    publicPension?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    incomeTax?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    otherDeductions?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    foodAllowanceValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    transportAllowanceValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    expenseReimbursementValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    advancePaymentValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    reversalValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    compensationValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
+    application_id?: StringFieldUpdateOperationsInput | string
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MonthlyIncomeUncheckedUpdateManyWithoutIncomeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    receivedIncome?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    main_id?: NullableStringFieldUpdateOperationsInput | string | null
+    grossAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    liquidAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    proLabore?: NullableFloatFieldUpdateOperationsInput | number | null
+    dividends?: NullableFloatFieldUpdateOperationsInput | number | null
+    total?: NullableFloatFieldUpdateOperationsInput | number | null
+    deductionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    publicPension?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    incomeTax?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    otherDeductions?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    foodAllowanceValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    transportAllowanceValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    expenseReimbursementValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    advancePaymentValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    reversalValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    compensationValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    judicialPensionValue?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
+    candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
+    incomeSource?: EnumIncomeSourceFieldUpdateOperationsInput | $Enums.IncomeSource
+    application_id?: StringFieldUpdateOperationsInput | string
+    legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MedicationCreateManyFamilyMemberDiseaseInput = {
     id?: string
     main_id?: string | null
@@ -78573,6 +80788,8 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MedicationUpdateWithoutFamilyMemberDiseaseInput = {
@@ -78582,6 +80799,8 @@ export namespace Prisma {
     obtainedPublicly?: BoolFieldUpdateOperationsInput | boolean
     specificMedicationPublicly?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutMedicationNestedInput
     candidate?: CandidateUpdateOneWithoutMedicationNestedInput
     legalResponsible?: LegalResponsibleUpdateOneWithoutMedicationNestedInput
@@ -78597,6 +80816,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MedicationUncheckedUpdateManyWithoutFamilyMemberDiseaseInput = {
@@ -78609,6 +80830,8 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ApplicationCreateManyAnnouncementInput = {
@@ -79053,6 +81276,10 @@ export namespace Prisma {
      * @deprecated Use VehicleCountOutputTypeDefaultArgs instead
      */
     export type VehicleCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = VehicleCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use FamilyMemberIncomeCountOutputTypeDefaultArgs instead
+     */
+    export type FamilyMemberIncomeCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = FamilyMemberIncomeCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use FamilyMemberDiseaseCountOutputTypeDefaultArgs instead
      */

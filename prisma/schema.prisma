@@ -57,6 +57,7 @@ model Candidate {
   AnnouncementsSeen      AnnouncementsSeen[]
   FinishedRegistration   FinishedRegistration?
   finishedRegistrationId String?
+  updatedAt              DateTime              @default(now()) @updatedAt
 
   @@unique([id, responsible_id])
   @@map("candidates")
@@ -77,6 +78,7 @@ model User {
   LegalResponsible LegalResponsible?
   createdCalls     Call[]            @relation("Creator")
   repliedCalls     Call[]            @relation("Replyer")
+  updatedAt        DateTime          @default(now()) @updatedAt
 
   @@map("users")
 }
@@ -127,6 +129,7 @@ model LegalResponsible {
   AnnouncementsSeen               AnnouncementsSeen[]
   FinishedRegistration            FinishedRegistration?
   finishedRegistrationId          String?
+  updatedAt                       DateTime              @default(now()) @updatedAt
 
   @@unique([id, user_id])
   @@map("responsibles")
@@ -148,6 +151,8 @@ model SocialAssistant {
   entity_subsidiary EntitySubsidiary[]  @relation("EntitySubsidiaryToSocialAssistant")
   InterviewSchedule InterviewSchedule[]
   AssistantSchedule AssistantSchedule[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @default(now()) @updatedAt
 
   @@map("assistants")
 }
@@ -173,6 +178,8 @@ model Entity {
   EntitySubsidiary           EntitySubsidiary[]
   SocialAssistant            SocialAssistant[]
   user                       User               @relation(fields: [user_id], references: [id])
+  createdAt                  DateTime           @default(now())
+  updatedAt                  DateTime           @default(now()) @updatedAt
 
   @@map("entities")
 }
@@ -198,6 +205,8 @@ model EntitySubsidiary {
   user                       User              @relation(fields: [user_id], references: [id])
   SocialAssistant            SocialAssistant[] @relation("EntitySubsidiaryToSocialAssistant")
   EducationLevel             EducationLevel[]
+  createdAt                  DateTime          @default(now())
+  updatedAt                  DateTime          @default(now()) @updatedAt
 }
 
 model EntityDirector {
@@ -211,6 +220,8 @@ model EntityDirector {
   entity               Entity?           @relation(fields: [entity_id], references: [id])
   entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
   user                 User              @relation(fields: [user_id], references: [id])
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @default(now()) @updatedAt
 }
 
 model IdentityDetails {
@@ -274,6 +285,8 @@ model IdentityDetails {
   responsible_id                             String?           @unique
   candidate                                  Candidate?        @relation(fields: [candidate_id], references: [id])
   responsible                                LegalResponsible? @relation(fields: [responsible_id], references: [id])
+  createdAt                                  DateTime          @default(now())
+  updatedAt                                  DateTime          @default(now()) @updatedAt
 }
 
 model FamilyMember {
@@ -343,6 +356,9 @@ model FamilyMember {
   hasSevereDeseaseOrUsesMedication           Boolean?
   hasBankAccount                             Boolean?
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
   @@map("familyMembers")
 }
 
@@ -359,6 +375,9 @@ model Housing {
   responsible_id       String?              @unique
   candidate            Candidate?           @relation(fields: [candidate_id], references: [id])
   responsible          LegalResponsible?    @relation(fields: [responsible_id], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@map("housing")
 }
@@ -382,6 +401,9 @@ model Vehicle {
   FamilyMemberToVehicle FamilyMemberToVehicle[]
   LegalResponsible      LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model FamilyMemberIncome {
@@ -410,12 +432,16 @@ model FamilyMemberIncome {
   candidate_id          String?
   LegalResponsible      LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId    String?
+
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @default(now()) @updatedAt
+  MonthlyIncomes MonthlyIncome[]
 }
 
 model MonthlyIncome {
-  id                        String            @id @default(uuid())
-  receivedIncome            Boolean?          @default(true)
-  date                      DateTime?         @default(now())
+  id                        String              @id @default(uuid())
+  receivedIncome            Boolean?            @default(true)
+  date                      DateTime?           @default(now())
   grossAmount               Float?
   liquidAmount              Float?
   proLabore                 Float?
@@ -433,12 +459,16 @@ model MonthlyIncome {
   compensationValue         Decimal?
   judicialPensionValue      Decimal?
   familyMember_id           String?
-  familyMember              FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
-  candidate                 Candidate?        @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
+  familyMember              FamilyMember?       @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
+  candidate                 Candidate?          @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id              String?
   incomeSource              IncomeSource
-  LegalResponsible          LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
+  LegalResponsible          LegalResponsible?   @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId        String?
+  income_id                 String?
+  income                    FamilyMemberIncome? @relation(fields: [income_id], references: [id] , onDelete: Cascade)
+  createdAt                 DateTime            @default(now())
+  updatedAt                 DateTime            @default(now()) @updatedAt
 }
 
 model BankAccount {
@@ -453,6 +483,9 @@ model BankAccount {
   candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Expense {
@@ -521,6 +554,9 @@ model Expense {
   candidate                 Candidate?        @relation(fields: [candidate_id], references: [id])
   LegalResponsible          LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Loan {
@@ -536,6 +572,9 @@ model Loan {
   familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Financing {
@@ -553,6 +592,9 @@ model Financing {
   familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model CreditCard {
@@ -569,6 +611,9 @@ model CreditCard {
   familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model OtherExpense {
@@ -581,6 +626,9 @@ model OtherExpense {
   familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id])
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model FamilyMemberDisease {
@@ -596,6 +644,8 @@ model FamilyMemberDisease {
   legalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
   legalResponsibleId String?
   medications        Medication[]
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @default(now()) @updatedAt
 
   @@map("familyMemberDiseases")
 }
@@ -614,6 +664,9 @@ model Medication {
   FamilyMemberDisease        FamilyMemberDisease? @relation(fields: [familyMemberDiseaseId], references: [id], onDelete: Cascade)
   familyMemberDiseaseId      String?
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
   @@map("medications")
 }
 
@@ -628,6 +681,9 @@ model Declarations {
   familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
   legalResponsibleId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model FinishedRegistration {
@@ -646,6 +702,9 @@ model FinishedRegistration {
   legalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?           @unique
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
   @@map("registration")
 }
 
@@ -658,6 +717,9 @@ model AnnouncementInterview {
   duration        Int          @default(20)
   announcement    Announcement @relation(fields: [announcement_id], references: [id])
   announcement_id String       @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Announcement {
@@ -692,6 +754,9 @@ model Announcement {
   AnnouncementsSeen    AnnouncementsSeen[]
   InterviewSchedule    InterviewSchedule[]
   AssistantSchedule    AssistantSchedule[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model InterviewSchedule {
@@ -714,6 +779,9 @@ model InterviewSchedule {
   application_id                String?
   assistantSchedule             AssistantSchedule? @relation(fields: [assistantSchedule_id], references: [id], onDelete: Cascade)
   assistantSchedule_id          String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model AssistantSchedule {
@@ -729,6 +797,9 @@ model AssistantSchedule {
   assistant         SocialAssistant     @relation(fields: [assistant_id], references: [id])
   assistant_id      String
   InterviewSchedule InterviewSchedule[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model AnnouncementsSeen {
@@ -740,6 +811,9 @@ model AnnouncementsSeen {
   responsible_id  String?
   responsible     LegalResponsible? @relation(fields: [responsible_id], references: [id])
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
   @@map("announcementsSeen")
 }
 
@@ -750,6 +824,9 @@ model Timeline {
   deadline       DateTime
   announcementId String
   announcement   Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model EducationLevel {
@@ -770,6 +847,9 @@ model EducationLevel {
   announcement             Announcement                    @relation(fields: [announcementId], references: [id], onDelete: Cascade)
   entitySubsidiary         EntitySubsidiary?               @relation(fields: [entitySubsidiaryId], references: [id])
   entitySubsidiaryId       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Application {
@@ -806,6 +886,8 @@ model Application {
   responsible          LegalResponsible?           @relation(fields: [responsible_id], references: [id])
   InterviewSchedule    InterviewSchedule[]
 
+  updatedAt DateTime @default(now()) @updatedAt
+
   @@unique([candidate_id, announcement_id])
 }
 
@@ -829,6 +911,7 @@ model ApplicationHistory {
   createdAt      DateTime         @default(now())
   createdBy      HistoryRequester @default(System)
   application    Application      @relation(fields: [application_id], references: [id], onDelete: Cascade)
+  updatedAt      DateTime         @default(now()) @updatedAt
 }
 
 model ScholarshipGranted {
@@ -840,6 +923,8 @@ model ScholarshipGranted {
   announcement_id String
   announmentent   Announcement             @relation(fields: [announcement_id], references: [id])
   application     Application              @relation(fields: [application_id], references: [id])
+  createdAt       DateTime                 @default(now())
+  updatedAt       DateTime                 @default(now()) @updatedAt
 }
 
 model FamilyMemberToVehicle {
@@ -857,6 +942,9 @@ model DeletedFamilyMembers {
   id                       String @id @default(uuid())
   familyMember_id          String @unique
   candidateOrResponsibleId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Call {
@@ -869,7 +957,7 @@ model Call {
   status      CallStatus     @default(OPEN)
   Messages    CallMessages[]
   CreatedAt   DateTime       @default(now())
-  UpdatedAt   DateTime       @updatedAt
+  UpdatedAt   DateTime       @default(now()) @updatedAt
   creator     User           @relation("Creator", fields: [creator_id], references: [id])
   replyer     User?          @relation("Replyer", fields: [replyer_id], references: [id])
 }
@@ -882,6 +970,8 @@ model CallMessages {
   call_id   String
   user_id   String
   CreatedAt DateTime @default(now())
+
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 enum ROLE {

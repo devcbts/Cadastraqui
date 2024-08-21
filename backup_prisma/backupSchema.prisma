@@ -67,6 +67,7 @@ model Candidate {
   application_id      String?               @unique
   BankAccount         BankAccount[]
   Declarations        Declarations[]
+  updatedAt           DateTime              @default(now()) @updatedAt
 
   @@unique([id, responsible_id])
   @@map("candidates")
@@ -83,6 +84,7 @@ model User {
   EntitySubsidiary EntitySubsidiary?
   SocialAssistant  SocialAssistant?
   Entity           Entity?
+  updatedAt        DateTime          @default(now()) @updatedAt
 
   @@map("users")
 }
@@ -132,6 +134,7 @@ model LegalResponsible {
   application_id                  String?               @unique
   BankAccount                     BankAccount[]
   Declarations                    Declarations[]
+  updatedAt                       DateTime              @default(now()) @updatedAt
 
   @@unique([id, user_id])
   @@map("responsibles")
@@ -277,6 +280,9 @@ model IdentityDetails {
   candidate                                  Candidate?        @relation(fields: [candidate_id], references: [id])
   responsible                                LegalResponsible? @relation(fields: [responsible_id], references: [id])
   application_id                             String            @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model FamilyMember {
@@ -348,6 +354,8 @@ model FamilyMember {
   application_id                             String
   BankAccount                                BankAccount[]
   Declarations                               Declarations[]
+  createdAt                                  DateTime                @default(now())
+  updatedAt                                  DateTime                @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
   @@map("familyMembers")
@@ -369,6 +377,8 @@ model Housing {
   candidate            Candidate?           @relation(fields: [candidate_id], references: [id])
   responsible          LegalResponsible?    @relation(fields: [responsible_id], references: [id])
   application_id       String               @unique
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
   @@map("housing")
@@ -396,6 +406,8 @@ model Vehicle {
   LegalResponsible      LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId    String?
   application_id        String
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
 }
@@ -429,6 +441,10 @@ model FamilyMemberIncome {
   application_id        String
   LegalResponsible      LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId    String?
+
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @default(now()) @updatedAt
+  MonthlyIncomes MonthlyIncome[]
 
   @@unique([application_id, main_id])
 }
@@ -464,6 +480,11 @@ model MonthlyIncome {
   LegalResponsible          LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId        String?
 
+  income_id String?
+  income    FamilyMemberIncome? @relation(fields: [income_id], references: [id], onDelete: Cascade)
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @default(now()) @updatedAt
+
   @@unique([application_id, main_id])
 }
 
@@ -481,6 +502,9 @@ model BankAccount {
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?
   application_id     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Expense {
@@ -552,6 +576,9 @@ model Expense {
   legalResponsibleId        String?
   application_id            String
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
   @@unique([application_id, main_id])
 }
 
@@ -571,6 +598,9 @@ model Loan {
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?
   application_id     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
 }
@@ -594,6 +624,9 @@ model Financing {
   legalResponsibleId String?
   application_id     String
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
   @@unique([application_id, main_id])
 }
 
@@ -615,6 +648,9 @@ model CreditCard {
   legalResponsibleId String?
   application_id     String
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
   @@unique([application_id, main_id])
 }
 
@@ -631,6 +667,8 @@ model OtherExpense {
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?
   application_id     String
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
 }
@@ -651,6 +689,9 @@ model FamilyMemberDisease {
   legalResponsibleId String?
   application_id     String
   Medication         Medication[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
   @@map("familyMemberDiseases")
@@ -673,6 +714,9 @@ model Medication {
   FamilyMemberDisease        FamilyMemberDisease? @relation(fields: [familyMemberDiseaseId], references: [id], onDelete: Cascade)
   familyMemberDiseaseId      String?
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
   @@unique([application_id, main_id])
   @@map("medications")
 }
@@ -688,6 +732,9 @@ model Declarations {
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
   legalResponsibleId String?
   application_id     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model AnnouncementInterview {

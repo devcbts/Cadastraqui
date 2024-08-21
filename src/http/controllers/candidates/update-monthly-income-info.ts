@@ -216,7 +216,12 @@ export default async function updateMonthlyIncome(
                         parcels: rest.parcels,
                         firstParcelDate: rest.firstParcelDate ? new Date(rest.firstParcelDate) : undefined,
                         parcelValue: rest.parcelValue,
+                        MonthlyIncomes: {
+                            connect: monthlyIncomesId.map(id => ({ id }))
+                        }
                     },
+
+
                 })
             } else {
                 income = await tsPrisma.familyMemberIncome.create({
@@ -239,8 +244,11 @@ export default async function updateMonthlyIncome(
                         parcels: rest.parcels,
                         firstParcelDate: rest.firstParcelDate ? new Date(rest.firstParcelDate) : undefined,
                         parcelValue: rest.parcelValue,
-
+                        MonthlyIncomes: {
+                            connect: monthlyIncomesId.map(id => ({ id }))
+                        }
                     }
+
                 })
 
             }

@@ -48,45 +48,33 @@ export async function getMonthlyIncomeBySource(request: FastifyRequest, reply: F
 
     const idField = CandidateOrResponsible ? CandidateOrResponsible.IsResponsible ? { legalResponsibleId: CandidateOrResponsible.UserData.id } : { candidate_id: CandidateOrResponsible.UserData.id } : { familyMember_id: _id };
     let result = {};
-    const monthlyIncomes = await prisma.monthlyIncome.findMany({
+   
+    const memberIncomes = await prisma.familyMemberIncome.findMany({
       where: idField,
+      include: { MonthlyIncomes: true }
     });
-    if (monthlyIncomes.length === 0) {
-      const isUnemployed = await prisma.familyMemberIncome.findMany({
-        where: idField
-      })
-      console.log(isUnemployed)
-      if (isUnemployed.length) {
-        const types = isUnemployed.reduce((acc: any, e) => {
-          acc[e.employmentType] = []
-          return acc
-        }, {})
-        result = {
-          ...result,
-          ...types
-        }
-        return reply.status(200).send({ incomeBySource: result })
-      }
-    }
-    type IncomeBySourceAccumulator = Record<string, typeof monthlyIncomes | any>;
+    
+    const urlsMonthlyIncome = await getSectionDocumentsPDF(IsUser.UserData.id, `monthly-income/${_id}`)
 
+    const urlsIncome = await getSectionDocumentsPDF(IsUser.UserData.id, 'income')
 
-    const urls = await getSectionDocumentsPDF(IsUser.UserData.id, `monthly-income/${_id}`)
+    const incomeBySource = memberIncomes.map(income => {
+      const source = income.employmentType ? income.employmentType : 'Unknown';
+      const monthlyIncomes = income.MonthlyIncomes.map(monthlyIncome => {
+        const monthlyIncomeDocuments = Object.entries(urlsMonthlyIncome).filter(([url]) => url.split("/")[4] === monthlyIncome.id);
+        return {
+          ...monthlyIncome,
+          urls: Object.fromEntries(monthlyIncomeDocuments),
+        };
+      });
+      const IncomeDocuments = Object.entries(urlsIncome).filter(([url]) => url.split("/")[4] === income.id);
 
-    const incomeBySource = monthlyIncomes.reduce<IncomeBySourceAccumulator>((acc, income) => {
-      const source = income.incomeSource ? income.incomeSource : 'Unknown';
-      acc[source] = acc[source] || [];
-
-      const incomeDocuments = Object.entries(urls).filter(([url]) => url.split("/")[4] === income.id)
-      const incomeWithUrls = {
-        ...income,
-        urls: Object.fromEntries(incomeDocuments),
-      }
-
-      acc[source].push(incomeWithUrls);
-      return acc;
-    }, {});
-
+      return {
+        incomeSource: source,
+        urls: Object.fromEntries(IncomeDocuments),
+        monthlyIncomes: monthlyIncomes,
+      };
+    });
     return reply.status(200).send({ incomeBySource });
   } catch (err: any) {
     if (err instanceof ForbiddenError) {

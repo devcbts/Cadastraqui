@@ -4,7 +4,7 @@ import { z } from "zod";
 
 export default async function closeCall(request: FastifyRequest, reply: FastifyReply) {
     const closeCallParams = z.object({
-        call_id: z.number()
+        call_id: z.string()
     })
     const { call_id } = closeCallParams.parse(request.params)
     try {
