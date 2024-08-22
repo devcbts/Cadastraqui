@@ -100,7 +100,6 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
         const { files } = e.target
         const file = files?.[0]
         if (!file) { return }
-        console.log(file)
         try {
             const formData = new FormData()
             formData.append("file", file)

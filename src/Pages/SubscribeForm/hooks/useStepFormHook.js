@@ -55,7 +55,6 @@ export default function useStepFormHook({
         await onEdit(dataToUpdate, parsedValues)
     }
     const Steps = useCallback(() => {
-        console.log('mudei aqui')
         return (
             <FormStepper.Root activeStep={activeStep}>
                 {showStepper && <FormStepper.Stepper >

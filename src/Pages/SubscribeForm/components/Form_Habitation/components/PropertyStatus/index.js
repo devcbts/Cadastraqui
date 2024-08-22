@@ -12,6 +12,7 @@ import PropertyOwner from "../PropertyOwner";
 import propertyStatusSchema from "./schemas/property-status-schema";
 import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
 import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category";
+import VerbalContractPDF from "../VerbalContractPDF";
 
 const { forwardRef, useEffect, useState } = require("react");
 
@@ -32,7 +33,7 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
     const watchPropertyStatus = watch("propertyStatus")
     const watchContractType = watch("contractType")
     const hasGrantorName = ["ProvidedByEmployer", "ProvidedByFamily", "ProvidedOtherWay"].includes(watchPropertyStatus)
-    const declarationNeeded = ["ProvidedByFamily", "ProvidedOtherWay"].includes(watchPropertyStatus)
+    const declarationNeeded = ["ProvidedByFamily", "ProvidedOtherWay", ""].includes(watchPropertyStatus)
     const hasContractType = watchPropertyStatus === "Rented"
     useEffect(() => {
         if (hasGrantorName) {
@@ -52,15 +53,24 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
     }, [hasContractType, hasGrantorName, resetField, watchPropertyStatus])
     const watchFile = watch("file_document")
     const [ownerForm, setOwnerForm] = useState(false)
-    const handlePropertyOwnerForm = () => {
-        setOwnerForm((prev) => !prev)
+    const handlePropertyOwnerForm = (type = '') => {
+        setOwnerForm((prev) => {
+            if (prev) {
+                return ''
+            }
+            return type
+        })
     }
     return (
         <div className={commonStyles.formcontainer}>
             <PropertyOwner show={ownerForm} onClose={handlePropertyOwnerForm} pdf={(data) => {
                 if (!ownerForm) return <></>
-
-                return <GivenPropertyPDF owner={data} />
+                if (ownerForm === 'given') {
+                    return <GivenPropertyPDF owner={data} />
+                }
+                if (ownerForm === 'verbal') {
+                    return <VerbalContractPDF owner={data} />
+                }
             }} />
             <h1 className={commonStyles.title}>Status da Propriedade</h1>
             <FormSelect name="propertyStatus" label="status" control={control} options={PROPERTY_STATUS} value={watchPropertyStatus} />
@@ -69,7 +79,7 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
                 <>
                     <InputForm control={control} name="grantorName" label="nome do cedente" />
                     {declarationNeeded && (
-                        <RowTextAction text={'Gerar declaração de imóvel cedido'} label={'gerar'} onClick={handlePropertyOwnerForm} />
+                        <RowTextAction text={'Gerar declaração de imóvel cedido'} label={'gerar'} onClick={() => handlePropertyOwnerForm('given')} />
                     )}
                     <FormFilePicker name={'file_document'} control={control} accept={'application/pdf'} label={'documento'} />
 
@@ -80,6 +90,9 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
                 watchPropertyStatus === "Rented" &&
                 <>
                     <FormSelect name="contractType" label="tipo de contrato" control={control} options={CONTRACT_TYPE} value={watchContractType} />
+                    {watchContractType === "Verbal" && (
+                        <RowTextAction text={'Gerar declaração de contrato verbal'} label={'gerar'} onClick={() => handlePropertyOwnerForm('verbal')} />
+                    )}
                     <FormFilePicker name={'file_document'} control={control} accept={'application/pdf'} label={'contrato de aluguel'} />
                     <FilePreview file={watchFile} url={data?.url_document} text={'visualizar contrato'} />
 

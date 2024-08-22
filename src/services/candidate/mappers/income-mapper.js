@@ -14,7 +14,6 @@ class IncomeMapper {
             "advancePaymentValue", "reversalValue", "compensationValue", "judicialPensionValue", "proLabore", "dividends", "parcelValue", "deductionValue",
             "parcels", "parcelValue"
         ];
-        console.log(data)
         const mappedData = data.map((obj) => ({
             income: INCOME_SOURCE.find((e) => e.value === obj.incomeSource),
             // list: data[key].map(e => ({ ...e, url_document: Object.values(removeObjectFileExtension(e.urls))?.[0] }))
@@ -41,7 +40,6 @@ class IncomeMapper {
                 return obj
             })
         }))
-        console.log('mapped', mappedData)
         return mappedData
     }
 }

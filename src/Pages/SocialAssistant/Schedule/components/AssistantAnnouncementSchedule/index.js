@@ -76,7 +76,6 @@ export default function AssistantAnnouncementSchedule() {
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '32px', minHeight: '300px', maxHeight: '40%' }}>
                     <Calendar
                         tileClassName={({ date }) => {
-                            console.log(date)
                             return (date.toISOString() >= days.start && date.toISOString() <= days.end) ? styles.tile : ''
                         }}
                         next2Label={null}

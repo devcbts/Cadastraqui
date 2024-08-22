@@ -21,7 +21,6 @@ export default function HealthList({ loading, data, onSelect, onAdd, onRadioChan
         const deleteUrl = Object.keys(obj.urls)[0]
         const urls = removeObjectFileExtension(obj.urls)
         // obj contains {name, urls}
-        console.log('DATA', obj)
         setFiles({ type, memberId: selectedMember.id, ...{ ...obj, urls, deleteUrl } })
     }
 
