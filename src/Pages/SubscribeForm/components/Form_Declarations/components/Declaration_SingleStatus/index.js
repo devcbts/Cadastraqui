@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 import { z } from 'zod';
 import declarationAtom from '../../atoms/declarationAtom';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
+import candidateService from 'services/candidate/candidateService';
 
 export default function Declaration_SingleStatus({ onBack, onNext }) {
     // const [confirmation, setConfirmation] = useState(null);
@@ -17,7 +18,7 @@ export default function Declaration_SingleStatus({ onBack, onNext }) {
         },
         initialData: declarationData?.single
     })
-    const confirmation = watch("confirmation")
+    // const confirmation = watch("confirmation")
     // useEffect(() => {
     //     if (declarationData.single) {
     //         setConfirmation(declarationData.single.confirmation)
@@ -25,13 +26,22 @@ export default function Declaration_SingleStatus({ onBack, onNext }) {
 
     // }, []);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!isValid) {
             trigger()
             return
         }
-        setDeclarationData(prev => ({ ...prev, single: getValues() }))
-        onNext(confirmation);
+        try {
+            const { confirmation } = getValues()
+            const text = `Eu, ${declarationData.name}, inscrito(a) no CPF ${declarationData.CPF} declaro que ${confirmation ? 'sou' : 'não sou'} solteiro(a).`
+            const payload = {
+                declarationExists: confirmation,
+                text
+            };
+            await candidateService.registerDeclaration(({ section: 'SingleStatus', id: declarationData.id, data: payload }))
+            setDeclarationData(prev => ({ ...prev, single: getValues() }))
+            onNext(confirmation);
+        } catch (err) { }
     };
 
     if (!declarationData) {
