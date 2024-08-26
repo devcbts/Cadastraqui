@@ -200,7 +200,6 @@ model EntitySubsidiary {
   entity_id                  String
   user_id                    String            @unique
   Announcement               Announcement[]
-  EntityDirector             EntityDirector[]
   entity                     Entity            @relation(fields: [entity_id], references: [id])
   user                       User              @relation(fields: [user_id], references: [id])
   SocialAssistant            SocialAssistant[] @relation("EntitySubsidiaryToSocialAssistant")
@@ -210,18 +209,16 @@ model EntitySubsidiary {
 }
 
 model EntityDirector {
-  id                   String            @id @default(uuid())
+  id                   String   @id @default(uuid())
   name                 String
-  CPF                  String            @unique
+  CPF                  String   @unique
   phone                String
-  user_id              String            @unique
-  entity_subsidiary_id String?
-  entity_id            String?
-  entity               Entity?           @relation(fields: [entity_id], references: [id])
-  entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
-  user                 User              @relation(fields: [user_id], references: [id])
-  createdAt            DateTime          @default(now())
-  updatedAt            DateTime          @default(now()) @updatedAt
+  user_id              String   @unique
+  entity_id            String
+  entity               Entity   @relation(fields: [entity_id], references: [id])
+  user                 User     @relation(fields: [user_id], references: [id])
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @default(now()) @updatedAt
 }
 
 model IdentityDetails {
@@ -431,8 +428,8 @@ model FamilyMemberIncome {
   LegalResponsible      LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId    String?
 
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @default(now()) @updatedAt
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @default(now()) @updatedAt
   MonthlyIncomes MonthlyIncome[]
 }
 
@@ -464,7 +461,7 @@ model MonthlyIncome {
   LegalResponsible          LegalResponsible?   @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId        String?
   income_id                 String?
-  income                    FamilyMemberIncome? @relation(fields: [income_id], references: [id] , onDelete: Cascade)
+  income                    FamilyMemberIncome? @relation(fields: [income_id], references: [id], onDelete: Cascade)
   createdAt                 DateTime            @default(now())
   updatedAt                 DateTime            @default(now()) @updatedAt
 }

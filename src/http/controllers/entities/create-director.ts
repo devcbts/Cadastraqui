@@ -23,16 +23,13 @@ export async function createDirector(
     CPF: z.string(),
   })
 
-  const registerParamsSchema = z.object({
-    _id: z.string().optional(),
-  })
+
 
   const { name, email, password, CPF, phone } = registerBodySchema.parse(
     request.body,
   )
   console.log(phone)
 
-  const { _id } = registerParamsSchema.parse(request.params)
   try {
     // Verifica se já existe algum usuário com o email fornecido
     const userWithSameEmail = await prisma.user.findUnique({
@@ -50,37 +47,6 @@ export async function createDirector(
       throw new DirectorAlreadyExistsError()
     }
 
-    if (_id && _id !== '') {
-      const subsidiary = await prisma.entitySubsidiary.findUnique({
-        where: { id: _id },
-      })
-
-      if (!subsidiary) {
-        throw new ResourceNotFoundError()
-      }
-
-      const password_hash = await hash(password, 6)
-      const user = await prisma.user.create({
-        data: {
-          email,
-          password: password_hash,
-          role: 'ENTITY_DIRECTOR',
-        },
-      })
-
-      // Cria o diretor associado a filial
-      await prisma.entityDirector.create({
-        data: {
-          user_id: user.id,
-          name,
-          CPF,
-          phone,
-          entity_subsidiary_id: _id,
-        },
-      })
-
-      return reply.status(201).send()
-    } else {
       const entity = await prisma.entity.findUnique({
         where: { user_id: request.user.sub },
       })
@@ -110,7 +76,7 @@ export async function createDirector(
       })
 
       return reply.status(201).send()
-    }
+    
   } catch (err: any) {
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })

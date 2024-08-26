@@ -2,6 +2,7 @@ import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import SelectEntityOrDirector from './utils/select-entity-or-director'
 
 export async function getSocialAssistants(
   request: FastifyRequest,
@@ -9,21 +10,10 @@ export async function getSocialAssistants(
 ) {
   console.log('Chegou na função')
   try {
-    const userId = request.user.sub
-    console.log("Cheguei aqui")
-    if (!userId) {
-      throw new NotAllowedError()
-    }
+    const user_id = request.user.sub
+    const role = request.user.role
 
-    const entity = await prisma.entity.findUnique({
-      where: {
-        user_id: userId
-      }
-    })
-
-    if (!entity) {
-      throw new ResourceNotFoundError();
-    }
+    const entity = await SelectEntityOrDirector(user_id, role)
 
     // Busca no banco de dados todos os assistentes sociais associados à entidade
     const socialAssistants = await prisma.socialAssistant.findMany({

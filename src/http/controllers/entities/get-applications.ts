@@ -4,6 +4,7 @@ import { NotAllowedError } from '@/errors/not-allowed-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import SelectEntityOrDirector from './utils/select-entity-or-director'
 
 
 
@@ -20,24 +21,13 @@ export async function getApplications(
     const { announcement_id } = applicationParamsSchema.parse(request.params)
     try {
         const userId = request.user.sub
+        const role = request.user.role
 
-
-        const entity = await prisma.entity.findUnique({
-            where: { user_id: userId },
-        })
-
-       const entitySubsidiary = await prisma.entity.findUnique({
-        where: {user_id: userId}
-       })
-
-
-       if (!entity || !entitySubsidiary) {
-        throw new NotAllowedError();
-       }
+        const entity = await SelectEntityOrDirector(userId, role)
 
        // verifica se existe o processo seletivo
         const announcement = await prisma.announcement.findUnique({
-            where: { id: announcement_id }
+            where: { id: announcement_id, entity_id: entity.id }
         })
 
         if (announcement) {

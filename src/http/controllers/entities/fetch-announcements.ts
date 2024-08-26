@@ -4,6 +4,7 @@ import { GetUrl } from '@/http/services/get-file'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import SelectEntityOrDirector from './utils/select-entity-or-director'
 
 export async function fetchAnnouncements(
   request: FastifyRequest,
@@ -16,18 +17,10 @@ export async function fetchAnnouncements(
 
   const { announcement_id } = fetchParamsSchema.parse(request.params)
   try {
-    const userId = request.user.sub
-    if (!userId) {
-      throw new NotAllowedError()
-    }
-
-    const entity = await prisma.entity.findUnique({
-      where: { user_id: userId },
-    })
-
-    if (!entity) {
-      throw new ResourceNotFoundError()
-    }
+    const user_id = request.user.sub
+    const role = request.user.role
+    const entity = await SelectEntityOrDirector(user_id, role, { includeUser: false })
+   
     if (announcement_id) {
       let pdf = null;
       const announcement = await prisma.announcement.findUnique({

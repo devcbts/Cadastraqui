@@ -4,6 +4,7 @@ import { uploadFile } from '@/http/services/upload-file'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import SelectEntityOrDirector from './utils/select-entity-or-director'
 export async function uploadAnnouncementPdf(
     request: FastifyRequest,
     reply: FastifyReply,
@@ -16,16 +17,9 @@ export async function uploadAnnouncementPdf(
 
     try {
         const user_id = request.user.sub
-        // Verifica se existe um candidato associado ao user_id
         const role = request.user.role
-        if (role !== 'ENTITY') {
-            throw new NotAllowedError()
-        }
 
-        const entity = await prisma.entity.findUnique({ where: { user_id } })
-        if (!entity) {
-            throw new ResourceNotFoundError()
-        }
+        const entity = await SelectEntityOrDirector(user_id, role)
 
         const data = await request.file();
         if (!data) {

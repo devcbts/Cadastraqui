@@ -3,6 +3,7 @@ import { NotAllowedError } from '@/errors/not-allowed-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import SelectEntityOrDirector from './utils/select-entity-or-director'
 
 export async function fetchSubsidiarys(
   request: FastifyRequest,
@@ -14,19 +15,10 @@ export async function fetchSubsidiarys(
 
   const { _id } = fetchSubsidiaryParamsSchema.parse(request.params)
   try {
-    const userId = request.user.sub
+    const user_id = request.user.sub
+    const role = request.user.role
 
-    if (!userId) {
-      throw new NotAllowedError()
-    }
-
-    const entity = await prisma.entity.findUnique({
-      where: { user_id: userId },
-    })
-
-    if (!entity) {
-      throw new EntityNotExistsError()
-    }
+    const entity = await SelectEntityOrDirector(user_id, role)
 
     let entitySubsidiarys
     if (!_id) {

@@ -1,3 +1,4 @@
+import { AnnouncementNotExists } from "@/errors/announcement-not-exists-error";
 import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
 import z from 'zod';
@@ -16,6 +17,9 @@ export default async function removeAssistantFromAnnouncement(
             where: { id: announcement_id },
             include: { socialAssistant: true }
         })
+        if (!announcement) {
+           throw new AnnouncementNotExists()
+        }
         const isAssistantLinked = announcement?.socialAssistant.find((e) => e.id === assistant_id)
         if (!isAssistantLinked) {
             return response.status(400).send({ message: 'Assistente não está vinculado ao edital' })
@@ -34,5 +38,9 @@ export default async function removeAssistantFromAnnouncement(
         })
         response.status(204).send()
     } catch (err: any) {
+        if (err instanceof AnnouncementNotExists) {
+            return response.status(404).send({ message: err.message })
+        }
+        return response.status(500).send({ message: err.message })
     }
 }

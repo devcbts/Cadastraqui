@@ -1,6 +1,7 @@
 import { NotAllowedError } from "@/errors/not-allowed-error";
 import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
+import SelectEntityOrDirector from "./utils/select-entity-or-director";
 
 export default async function getEntityDashboard(
     request: FastifyRequest,
@@ -9,8 +10,9 @@ export default async function getEntityDashboard(
     try {
         const { sub } = request.user
         // Get all subsidiaries and count its courses (EducationLevel) and the application count for the entity
+        const entityOrDirector = await SelectEntityOrDirector(sub, request.user.role) 
         const entity = await prisma.entity.findUnique({
-            where: { user_id: sub },
+            where: { id: entityOrDirector.id },
             include: {
                 // EntitySubsidiary: true,
                 EntitySubsidiary: {

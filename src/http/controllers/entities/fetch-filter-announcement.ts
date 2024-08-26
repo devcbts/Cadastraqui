@@ -3,6 +3,7 @@ import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import SelectEntityOrDirector from './utils/select-entity-or-director'
 
 export async function fetchFilterAnnouncements(
   request: FastifyRequest,
@@ -22,14 +23,10 @@ export async function fetchFilterAnnouncements(
   const { filter } = querySchema.parse(request.query)
   console.log('passei aq')
   try {
-    const userId = request.user.sub
-    if (!userId) {
-      throw new NotAllowedError()
-    }
+    const user_id = request.user.sub
+    const role = request.user.role
 
-    const entity = await prisma.entity.findUnique({
-      where: { user_id: userId },
-    })
+    const entity = await SelectEntityOrDirector(user_id, role)
 
     if (!entity) {
       throw new ResourceNotFoundError()

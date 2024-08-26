@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
+import SelectEntityOrDirector from "./utils/select-entity-or-director";
 
 export default async function getAnnouncementCourse(
     request: FastifyRequest,
@@ -11,10 +12,8 @@ export default async function getAnnouncementCourse(
     })
     try {
         const { education_level_id } = schema.parse(request.params)
-        const { sub } = request.user
-        const entity = await prisma.entity.findFirst({
-            where: { user_id: sub }
-        })
+        const { sub, role } = request.user
+        const entity = await SelectEntityOrDirector(sub, role)
         if (!entity) {
             throw new Error('Entidade não encontrada')
         }

@@ -16,7 +16,7 @@ export async function deleteAssistant(
 
   try {
     const user_id = request.user.sub
-
+    
     const entity = await prisma.entity.findUnique({
         where: {user_id}
     })

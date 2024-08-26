@@ -6,6 +6,7 @@ import { fromZonedTime } from 'date-fns-tz'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import createAnnouncementEducationLevel from './utils/create-announcement-education-level'
+import SelectEntityOrDirector from './utils/select-entity-or-director'
 
 export async function CreateAnnoucment(
   request: FastifyRequest,
@@ -86,11 +87,8 @@ export async function CreateAnnoucment(
 
   try {
     const user_id = request.user.sub
-
-    const entityMatrix = await prisma.entity.findUnique({
-      where: { user_id: user_id },
-    })
-
+    const role = request.user.role
+    const entityMatrix = await SelectEntityOrDirector(user_id,role, { includeUser: false })
     let subsidiaries = 0
 
     if (!entityMatrix) {

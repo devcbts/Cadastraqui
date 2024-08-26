@@ -34,10 +34,7 @@ export async function deleteSubsidiary(
     }
 
     // Falta deletar os usuários relacionados com os diretores excluídos
-    await prisma.entityDirector.deleteMany({
-      where: { entity_subsidiary_id: _id },
-    })
-
+    
     await prisma.entitySubsidiary.delete({ where: { id: _id } })
 
     await prisma.user.delete({ where: { id: subsidiary.user_id } })

@@ -1,24 +1,14 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import SelectEntityOrDirector from './utils/select-entity-or-director'
 
 export async function getEntityInfo(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
   try {
-    const entityId = request.user.sub
-    if (!entityId) {
-      throw new NotAllowedError()
-    }
-
-    const entity = await prisma.entity.findUnique({
-      where: { user_id: entityId },
-      include: {
-        EntitySubsidiary: true,
-        user: true
-      }
-    })
+      const entity = await SelectEntityOrDirector(request.user.sub, request.user.role,{includeUser: true})
 
     return reply.status(200).send({ entity: { ...entity, ...entity?.user } })
   } catch (err: any) {

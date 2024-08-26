@@ -3,6 +3,7 @@ import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import SelectEntityOrDirector from './utils/select-entity-or-director'
 
 export async function fetchDirectors(
   request: FastifyRequest,
@@ -15,32 +16,16 @@ export async function fetchDirectors(
   const { _id } = getDirectorParamsSchema.parse(request.params)
 
   try {
-    const user_id = request.user.sub;
-    if (_id || _id !== '') {
-      const subsidiary = await prisma.entitySubsidiary.findUnique({
-        where: { id: _id },
-      })
+    const user_id = request.user.sub
+    const role = request.user.role
 
-      if (!subsidiary) {
-        throw new ResourceNotFoundError()
-      }
-      const directors = await prisma.entityDirector.findMany({
-        where: { entity_subsidiary_id: _id },
-      })
-      return reply.status(200).send({ directors })
-    } else {
-      const entity = await prisma.entity.findUnique({
-        where: { user_id }
-      })
-      if (!entity) {
-        throw new NotAllowedError()
-      }
-      const directors = await prisma.entityDirector.findMany({
-        where: { entity_id: entity.id },
-        include: { user: { select: { email: true } } }
-      })
-      return reply.status(200).send({ directors: directors.map(e => ({ ...e, email: e.user.email })) })
-    }
+    const entity = await SelectEntityOrDirector(user_id, role)
+    const directors = await prisma.entityDirector.findMany({
+      where: { entity_id: entity.id },
+      include: { user: { select: { email: true } } }
+    })
+    return reply.status(200).send({ directors: directors.map(e => ({ ...e, email: e.user.email })) })
+
   } catch (err: any) {
     if (err instanceof ResourceNotFoundError) {
       reply.status(404).send({ message: err.message })

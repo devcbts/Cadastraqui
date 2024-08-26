@@ -11,6 +11,7 @@ import { detect } from 'jschardet';
 import pump from "pump";
 import tmp from 'tmp';
 import { EntityNotExistsErrorWithCNPJ } from '../../../errors/entity-not-exists-with-cnpj';
+import SelectEntityOrDirector from "./utils/select-entity-or-director";
 
 interface CSVData {
     "CNPJ (Matriz ou Filial)": string;
@@ -49,15 +50,11 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
     reply: FastifyReply
 ) {
     try {
-        const user_id = request.user.sub;
-        const entity = await prisma.entity.findUnique({
-            where: {
-                user_id
-            }
-        });
-        if (!entity) {
-            throw new ForbiddenError();
-        }
+        const user_id = request.user.sub
+        const role = request.user.role
+
+        const entity = await SelectEntityOrDirector(user_id, role)
+       
         const csvFile = await request.file();
         if (!csvFile) {
             throw new ResourceNotFoundError();
@@ -89,9 +86,9 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
         const results: CSVData[] = [];
         await new Promise((resolve, reject) => {
             fs.createReadStream(tempFile.name)
-            .pipe(decodeStream(encoding))
-            .pipe(encodeStream('utf8'))
-            .pipe(csv({ separator: detectedEncoding === "UTF-8" ? ',' : ';' }))
+                .pipe(decodeStream(encoding))
+                .pipe(encodeStream('utf8'))
+                .pipe(csv({ separator: detectedEncoding === "UTF-8" ? ',' : ';' }))
                 .on('data', (data: CSVData) => {
                     // Process the data as needed
                     results.push(data);

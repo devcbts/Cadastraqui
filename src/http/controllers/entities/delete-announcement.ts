@@ -3,6 +3,7 @@ import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import SelectEntityOrDirector from './utils/select-entity-or-director'
 
 export async function deleteAnnouncement(
   request: FastifyRequest,
@@ -16,14 +17,9 @@ export async function deleteAnnouncement(
 
   try {
     const user_id = request.user.sub
+    const role = request.user.role
 
-    const entity = await prisma.entity.findUnique({
-        where: {user_id}
-    })
-    if (!entity) {
-        throw new NotAllowedError()
-    }
-
+    const entity = await SelectEntityOrDirector(user_id, role)
     const announcement = await prisma.announcement.findUnique({
       where: { id: announcement_id },
     })

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
+import SelectEntityOrDirector from "./utils/select-entity-or-director";
 
 export default async function updateSocialAssistant(
     request: FastifyRequest,
@@ -19,9 +20,12 @@ export default async function updateSocialAssistant(
     const { assistant_id, ...parsedSchema } = bodySchema.parse(request.body)
     try {
         // check assistant and entity
-        const { sub } = request.user
+        const user_id = request.user.sub
+        const role = request.user.role
+    
+        const entity = await SelectEntityOrDirector(user_id, role)
         const a = await prisma.entity.findUnique({
-            where: { user_id: sub },
+            where: { id: entity.id },
             include: {
                 SocialAssistant: {
                     where: {
