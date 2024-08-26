@@ -10,7 +10,7 @@ import updateResponsible from './update-responsible'
 export async function legalResponsibleRoutes(app: FastifyInstance) {
   app.post('/', registerLegalResponsible)
   app.get('/', { onRequest: [verifyJWT] }, getResponsibleInfo)
-  app.patch('/update-profile', { onRequest: [verifyJWT, verifyRole("RESPONSIBLE")] }, updateResponsible)
+  app.patch('/update-profile', { onRequest: [verifyJWT, verifyRole(["RESPONSIBLE"])] }, updateResponsible)
 
   /** Legal Responsible Routes */
 
