@@ -10,8 +10,8 @@ import closeCall from './Call Routes/close-call'
 
 export async function adminRoutes(app: FastifyInstance) {
   app.post('/', registerAdmin)
-  app.get('/entidades/:entity_id?', {onRequest: [verifyJWT, verifyRole("ADMIN")]}, seeEntities)
-  app.get('/call/:call_id?', {onRequest: [verifyJWT, verifyRole("ADMIN")]}, getCalls)
-  app.post('/call/:call_id', {onRequest: [verifyJWT, verifyRole("ADMIN")]}, createCallMessage)
-  app.patch('/call/:call_id', {onRequest: [verifyJWT, verifyRole("ADMIN")]}, closeCall)
+  app.get('/entidades/:entity_id?', {onRequest: [verifyJWT, verifyRole(["ADMIN"])]}, seeEntities)
+  app.get('/call/:call_id?', {onRequest: [verifyJWT, verifyRole(["ADMIN"])]}, getCalls)
+  app.post('/call/:call_id', {onRequest: [verifyJWT, verifyRole(["ADMIN"])]}, createCallMessage)
+  app.patch('/call/:call_id', {onRequest: [verifyJWT, verifyRole(["ADMIN"])]}, closeCall)
 }

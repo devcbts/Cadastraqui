@@ -41,21 +41,21 @@ export async function entityRoutes(app: FastifyInstance) {
    *  Concluídas: post, get, delete, update, Verificação de ROLE -> ADMIN
    *   Faltam:
    */
-  app.post('/', { onRequest: [verifyJWT, verifyRole('ADMIN')] }, registerEntity) // Adicionar middlewares
+  app.post('/', { onRequest: [verifyJWT, verifyRole(['ADMIN'])] }, registerEntity) // Adicionar middlewares
   app.get('/', { onRequest: [verifyJWT] }, getEntityInfo)
   app.delete(
     '/:_id?',
-    { onRequest: [verifyJWT, verifyRole('ADMIN')] },
+    { onRequest: [verifyJWT, verifyRole(['ADMIN'])] },
     deleteEntity,
   )
   app.patch(
     '/:_id',
-    { onRequest: [verifyJWT, verifyRole('ADMIN')] },
+    { onRequest: [verifyJWT, verifyRole(['ADMIN'])] },
     updateEntity,
   )
   app.patch(
     '/update-profile',
-    { onRequest: [verifyJWT, verifyRole('ENTITY')] },
+    { onRequest: [verifyJWT, verifyRole(['ENTITY'])] },
     updateEntityProfile,
   )
 
