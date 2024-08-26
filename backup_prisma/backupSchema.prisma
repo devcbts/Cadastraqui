@@ -390,16 +390,17 @@ model Vehicle {
   modelAndBrand String
   main_id       String?
 
-  manufacturingYear Int
-  situation         VehicleSituation
-  financedMonths    Int?
-  monthsToPayOff    Int?
-  hasInsurance      Boolean          @default(false)
-  insuranceValue    Float?
-  usage             VehicleUsage
-  candidate_id      String?
-  owners_id         String[]
-
+  manufacturingYear     Int
+  situation             VehicleSituation
+  financedMonths        Int?
+  monthsToPayOff        Int?
+  hasInsurance          Boolean                 @default(false)
+  insuranceValue        Float?
+  usage                 VehicleUsage
+  candidate_id          String?
+  owners_id             String[]
+  plate                 String?
+  document              String?
   candidate             Candidate?              @relation(fields: [candidate_id], references: [id])
   FamilyMemberToVehicle FamilyMemberToVehicle[]
   LegalResponsible      LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])

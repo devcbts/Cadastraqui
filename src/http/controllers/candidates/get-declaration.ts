@@ -54,7 +54,7 @@ export async function getDeclaration(
                 where: {
                     AND: [
                         { OR: [{ familyMember_id: _id }, { candidate_id: _id }, { legalResponsibleId: _id }] },
-                        { declarationExists: true }
+                        { text: { not: null } }
                     ]
                 },
 

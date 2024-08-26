@@ -371,6 +371,8 @@ exports.Prisma.VehicleScalarFieldEnum = {
   usage: 'usage',
   candidate_id: 'candidate_id',
   owners_id: 'owners_id',
+  plate: 'plate',
+  document: 'document',
   legalResponsibleId: 'legalResponsibleId',
   application_id: 'application_id',
   createdAt: 'createdAt',
