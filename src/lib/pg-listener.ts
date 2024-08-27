@@ -35,25 +35,41 @@ import { verifyIncomeBankRegistration } from "@/utils/Trigger-Functions/verify-i
 import { Client } from 'pg';
 import { prisma } from './prisma';
 const clientBackup = new Client(env.DATABASE_URL);
-clientBackup.connect();
+const connectClient = async () => {
+    try {
+        await clientBackup.connect();
+        console.log('Connected to the database');
 
-clientBackup.query('LISTEN channel_application');
-clientBackup.query('LISTEN "channel_housing"');
-clientBackup.query('LISTEN "channel_candidate"');
-clientBackup.query('LISTEN "channel_creditCard"');
-clientBackup.query('LISTEN "channel_expense"');
-clientBackup.query('LISTEN "channel_familyMember"');
-clientBackup.query('LISTEN "channel_familyMemberDisease"');
-clientBackup.query('LISTEN "channel_familyMemberIncome"');
-clientBackup.query('LISTEN "channel_financing"');
-clientBackup.query('LISTEN "channel_identityDetails"');
-clientBackup.query('LISTEN "channel_loan"');
-clientBackup.query('LISTEN "channel_medication"');
-clientBackup.query('LISTEN "channel_monthlyIncome"');
-clientBackup.query('LISTEN "channel_otherExpense"');
-clientBackup.query('LISTEN "channel_responsible"');
-clientBackup.query('LISTEN "channel_vehicle"');
-clientBackup.query('LISTEN "channel_bankaccount"');
+        clientBackup.query('LISTEN channel_application');
+        clientBackup.query('LISTEN "channel_housing"');
+        clientBackup.query('LISTEN "channel_candidate"');
+        clientBackup.query('LISTEN "channel_creditCard"');
+        clientBackup.query('LISTEN "channel_expense"');
+        clientBackup.query('LISTEN "channel_familyMember"');
+        clientBackup.query('LISTEN "channel_familyMemberDisease"');
+        clientBackup.query('LISTEN "channel_familyMemberIncome"');
+        clientBackup.query('LISTEN "channel_financing"');
+        clientBackup.query('LISTEN "channel_identityDetails"');
+        clientBackup.query('LISTEN "channel_loan"');
+        clientBackup.query('LISTEN "channel_medication"');
+        clientBackup.query('LISTEN "channel_monthlyIncome"');
+        clientBackup.query('LISTEN "channel_otherExpense"');
+        clientBackup.query('LISTEN "channel_responsible"');
+        clientBackup.query('LISTEN "channel_vehicle"');
+        clientBackup.query('LISTEN "channel_bankaccount"');
+    } catch (err) {
+        console.error('Failed to connect to the database', err);
+        setTimeout(connectClient, 5000); // Retry connection after 5 seconds
+    }
+};
+
+clientBackup.on('error', (err) => {
+    console.error('Database connection error', err);
+    clientBackup.end();
+    setTimeout(connectClient, 5000); // Retry connection after 5 seconds
+});
+
+connectClient();
 
 clientBackup.on('notification', async (msg) => {
     console.log('Received notification:', msg.payload);
@@ -153,9 +169,9 @@ clientBackup.on('notification', async (msg) => {
             if (!disease) {
                 const memberId = familyMemberDisease.data.familyMember_id || familyMemberDisease.data.candidate_id || familyMemberDisease.data.legalResponsibleId
                 if (familyMemberDisease.operation == 'Delete') {
-                    await deleteFamilyMemberDiseaseHDB(familyMemberDisease.data.id, memberId )
+                    await deleteFamilyMemberDiseaseHDB(familyMemberDisease.data.id, memberId)
                 }
-                
+
             }
             else {
 
@@ -168,7 +184,7 @@ clientBackup.on('notification', async (msg) => {
                         await createFamilyMemberDiseaseHDB(familyMemberDisease.data.id, (disease.candidate_id || disease.familyMember?.candidate_id || null), (disease.legalResponsibleId || disease.familyMember?.legalResponsibleId || null), application.id)
                     }
                 }
-                 
+
                 await verifyHealthRegistration((disease.candidate_id || disease.legalResponsibleId || disease.familyMember?.candidate_id || disease.familyMember?.legalResponsibleId)!)
             }
         }
@@ -204,7 +220,7 @@ clientBackup.on('notification', async (msg) => {
             await verifyIncomeBankRegistration(candidateOrResponsible!)
         }
 
-      
+
         if (msg.channel == 'channel_identityDetails') {
             const identityDetails = JSON.parse(msg.payload!);
             if (identityDetails.operation == 'Update') {
@@ -220,7 +236,7 @@ clientBackup.on('notification', async (msg) => {
             await verifyIncomeBankRegistration(identityDetails.data.candidate_id || identityDetails.data.legalResponsibleId)
 
         }
-        
+
         if (msg.channel == 'channel_medication') {
             const medication = JSON.parse(msg.payload!);
             const Medication = await prisma.medication.findUnique({
@@ -371,8 +387,8 @@ clientBackup.on('notification', async (msg) => {
             for (const expense of findExpense!) {
                 await createExpenseHDB(expense.id, candidate_id, responsible_id, application_id)
             }
-           
-          
+
+
             // Para familyMemberDisease
             for (const familyMemberDisease of findFamilyMemberDisease!) {
                 await createFamilyMemberDiseaseHDB(familyMemberDisease.id, candidate_id, responsible_id, application_id)
