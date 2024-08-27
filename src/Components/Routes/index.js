@@ -44,6 +44,10 @@ import CandidateSAC from "Pages/Candidate/SAC";
 import CandidateCreateSAC from "Pages/Candidate/SAC/components/CreateSAC";
 import ChatSAC from "Pages/SAC/components/Chat";
 import SAC from "Pages/SAC";
+import AssistantManagement from "Pages/SocialAssistant/Management";
+import AssistantManagementAnnouncements from "Pages/SocialAssistant/Management/components/Announcements";
+import AssistantManagerSelectedAnnouncement from "Pages/SocialAssistant/Management/components/SelectedAnnouncement";
+import AssistantManagerSelectedCourse from "Pages/SocialAssistant/Management/components/SelectedCourse";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -127,6 +131,17 @@ export default function AppRoutes() {
                                 <Route path="candidato/:scheduleId" element={<AssistantCandidateSchedule />} />
                             </Route>
 
+                        </Route>
+                        <Route path="/gerencial" element={<Outlet />}>
+                            <Route index element={<AssistantManagement />} />
+                            <Route path="editais" element={<Outlet />} >
+                                <Route index element={<AssistantManagementAnnouncements />} />
+                                <Route path=":announcementId" element={<Outlet />} >
+                                    <Route index element={<AssistantManagerSelectedAnnouncement />} />
+                                    <Route path=":courseId" element={<AssistantManagerSelectedCourse />} />
+                                    <Route path="relatorios" element={<AssistantManagerSelectedCourse />} />
+                                </Route>
+                            </Route>
                         </Route>
 
                         <Route path="*" element={<Navigate to={'/home'} />} />
