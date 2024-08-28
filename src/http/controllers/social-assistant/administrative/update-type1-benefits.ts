@@ -1,8 +1,8 @@
+import { EducationLevelNotFoundError } from "@/errors/education-level-not-found-error";
 import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { type1Benefits } from '../enums/type1Benefits';
-import { EducationLevelNotFoundError } from "@/errors/education-level-not-found-error";
 
 export default async function updateType1Benefits(request: FastifyRequest,
     reply: FastifyReply
@@ -33,8 +33,8 @@ export default async function updateType1Benefits(request: FastifyRequest,
         await prisma.$transaction(async (tsPrisma) => {
 
             for (const benefit of benefits) {
-              await  tsPrisma.type1Benefit.upsert({
-                    where: {educationLevel_id_benefitType: {educationLevel_id, benefitType: benefit.type}},
+                await tsPrisma.type1Benefit.upsert({
+                    where: { educationLevel_id_benefitType: { educationLevel_id, benefitType: benefit.type } },
                     create: {
                         value: benefit.value,
                         educationLevel_id: educationLevel_id,

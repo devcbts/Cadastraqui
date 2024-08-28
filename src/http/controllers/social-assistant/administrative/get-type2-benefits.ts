@@ -1,4 +1,3 @@
-import { ForbiddenError } from "@/errors/forbidden-error";
 import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
@@ -14,16 +13,18 @@ export default async function getType2Benefits(
     const { scholarship_id } = requestParamsSchema.parse(request.params)
     try {
 
-        const type2Benefits = await prisma.type2Benefit.findMany({
+        const scholarshipWithTypeTwoBenefits = await prisma.scholarshipGranted.findFirst({
             where: {
-                scholarshipGrantedId: scholarship_id
+                id: scholarship_id
+            },
+            include: {
+                type2Benefits: true
             }
-        }) 
-      
+        })
 
-        return reply.status(200).send({type2Benefits})
+        return reply.status(200).send({ type2Benefits: scholarshipWithTypeTwoBenefits })
     } catch (error) {
-       
+
         return reply.status(500).send({ message: 'Internal server error', error })
     }
 }

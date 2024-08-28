@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
-export default async function getScholarshipsByLevel (request: FastifyRequest , reply: FastifyReply){
+export default async function getScholarshipsByLevel(request: FastifyRequest, reply: FastifyReply) {
     const requestParamsSchema = z.object({
         educationLevel_id: z.string(),
     })
@@ -12,14 +12,22 @@ export default async function getScholarshipsByLevel (request: FastifyRequest , 
 
         const scholarships = await prisma.scholarshipGranted.findMany({
             where: {
-                application: { educationLevel_id}
+                application: { educationLevel_id }
+            },
+            include: {
+                application: {
+                    select: {
+                        candidateStatus: true,
+                        position: true
+                    }
+                }
             }
-        }) 
-      
+        })
 
-        return reply.status(200).send({scholarships})
+
+        return reply.status(200).send({ scholarships })
     } catch (error) {
-       
+
         return reply.status(500).send({ message: 'Internal server error', error })
     }
 }

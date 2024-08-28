@@ -1,6 +1,14 @@
+import verifyAssistantAnnouncement from '@/http/middlewares/assistant/verify-assistant-announcement'
+import verifyAssistantEnroll from '@/http/middlewares/verify-assistant-enroll'
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { FastifyInstance } from 'fastify'
 import { addHistory } from './add-history'
+import getScholarshipsByLevel from './administrative/get-sholarships-by-level'
+import getType1Benefits from './administrative/get-type1-benefits'
+import getType2Benefits from './administrative/get-type2-benefits'
+import updateScholarshipGranted from './administrative/update-scholarship-granted'
+import updateType1Benefits from './administrative/update-type1-benefits'
+import updateType2Benefits from './administrative/update-type2-benetifts'
 import { uploadMarojacaoDocument } from './AWS-routes/upload-majoracao-document'
 import { uploadParecerDocument } from './AWS-routes/upload-parecer-document'
 import { uploadSolicitationDocument } from './AWS-routes/upload-solicitation-document'
@@ -27,6 +35,7 @@ import { getCandidateIncome } from './get-candidate-income'
 import { getCandidateParecer } from './get-candidate-parecer'
 import { getCandidateResume } from './get-candidate-resume'
 import getCandidatesApplications from './get-candidates-applications'
+import getAssistantDashboard from './get-dashboard'
 import { getDocumentsPDF } from './get-pdf-documents'
 import getScheduleSummary from './get-schedule-summary'
 import { getBasicAssistantInfo } from './get-social-assistant-information'
@@ -44,15 +53,6 @@ import { sendParecerDocumentToSign } from './send-parecer-document-to-sign'
 import { updateApplication } from './update-application'
 import updateAssistantProfile from './update-assistant-profile'
 import { updateSolicitationWithReport } from './update-solicitation-report'
-import verifyAssistantEnroll from '@/http/middlewares/verify-assistant-enroll'
-import getAssistantDashboard from './get-dashboard'
-import verifyAssistantAnnouncement from '@/http/middlewares/assistant/verify-assistant-announcement'
-import getScholarshipsByLevel from './administrative/get-sholarships-by-level'
-import getType1Benefits from './administrative/get-type1-benefits'
-import updateType1Benefits from './administrative/update-type1-benefits'
-import updateScholarshipGranted from './administrative/update-scholarship-granted'
-import getType2Benefits from './administrative/get-type2-benefits'
-import updateType2Benefits from './administrative/update-type2-benetifts'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -92,23 +92,23 @@ export async function assistantRoutes(app: FastifyInstance) {
   )
   app.post(
     '/solicitation/:application_id',
-    { onRequest: [verifyJWT,verifyAssistantEnroll] },
+    { onRequest: [verifyJWT, verifyAssistantEnroll] },
     createSolicitation,
   )
   app.delete(
     '/solicitation/:application_id/:id',
-    { onRequest: [verifyJWT,verifyAssistantEnroll] },
+    { onRequest: [verifyJWT, verifyAssistantEnroll] },
     deleteSolicitation,
   )
   app.patch('/solicitation/:solicitation_id',
-    { onRequest: [verifyJWT,verifyAssistantEnroll] },
+    { onRequest: [verifyJWT, verifyAssistantEnroll] },
     updateSolicitationWithReport
   )
 
 
   app.patch(
     '/application/:application_id',
-    { onRequest: [verifyJWT,verifyAssistantEnroll] },
+    { onRequest: [verifyJWT, verifyAssistantEnroll] },
     updateApplication,
   )
 
@@ -150,14 +150,14 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/candidateInfo/declaration/:application_id', { onRequest: [verifyJWT] }, getDeclarationsPDF)
 
   // Documentos da assistente
-  app.post('/documents/majoracao/:application_id', { onRequest: [verifyJWT,verifyAssistantEnroll] }, uploadMarojacaoDocument)
+  app.post('/documents/majoracao/:application_id', { onRequest: [verifyJWT, verifyAssistantEnroll] }, uploadMarojacaoDocument)
   app.post('/documents/parecer/:application_id', { onRequest: [verifyJWT, verifyAssistantEnroll] }, uploadParecerDocument)
   app.post('/documents/solicitation/:type/:application_id', { onRequest: [verifyJWT, verifyAssistantEnroll] }, uploadSolicitationDocument)
   // Pegar CPF-CNPJ
-  app.get('/candidateInfo/find-cpf-cnpj/:application_id', { onRequest: [verifyJWT,verifyAssistantEnroll] }, findCPF_CNPJ)
+  app.get('/candidateInfo/find-cpf-cnpj/:application_id', { onRequest: [verifyJWT, verifyAssistantEnroll] }, findCPF_CNPJ)
 
   app.post('/post-pdf/:application_id', { onRequest: [verifyJWT, verifyAssistantEnroll] }, sendParecerDocumentToSign)
-  app.post('/send-parecer-email/:application_id', { onRequest: [verifyJWT,verifyAssistantEnroll] }, resendParecerDocumentEmail)
+  app.post('/send-parecer-email/:application_id', { onRequest: [verifyJWT, verifyAssistantEnroll] }, resendParecerDocumentEmail)
 
 
   // Agenda
@@ -178,8 +178,8 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/administrative/type1/:educationLevel_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getType1Benefits)
   app.post('/administrative/type1/:educationLevel_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, updateType1Benefits)
   app.post('/administrative/scholarships/:scholarship_id', { onRequest: [verifyJWT] }, updateScholarshipGranted)
-  app.get('/administrative/type2/:educationLevel_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getType2Benefits)
-  app.post('/administrative/type2/:educationLevel_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, updateType2Benefits)
+  app.get('/administrative/type2/:scholarship_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getType2Benefits)
+  app.post('/administrative/type2/:scholarship_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, updateType2Benefits)
 
 
 }
