@@ -178,7 +178,7 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/administrative/type1/:educationLevel_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getType1Benefits)
   app.post('/administrative/type1/:educationLevel_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, updateType1Benefits)
   app.post('/administrative/scholarships/:scholarship_id', { onRequest: [verifyJWT] }, updateScholarshipGranted)
-  app.get('/administrative/type2/:scholarship_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getType2Benefits)
+  app.get('/administrative/type2/:scholarship_id/:candidate_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getType2Benefits)
   app.post('/administrative/type2/:scholarship_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, updateType2Benefits)
 
 
