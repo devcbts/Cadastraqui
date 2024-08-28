@@ -33,7 +33,6 @@ export async function updateApplication(
     try {
 
 
-
         // Caso 1: gaveUp true
         await prisma.application.update({
             where: { id: application_id },
@@ -57,13 +56,28 @@ export async function updateApplication(
         }
         if (status === 'Approved') {
 
-            await prisma.applicationHistory.create({
-                data: {
-                    application_id,
-                    description: 'Inscrição deferida',
-                    createdBy: 'Assistant'
+            await prisma.$transaction(async (tsPrisma) => {
 
-                }
+                const application = await tsPrisma.application.findUniqueOrThrow({
+                    where: { id: application_id },
+                    include: { candidate: true}
+                })
+                await tsPrisma.applicationHistory.create({
+                    data: {
+                        application_id,
+                        description: 'Inscrição deferida',
+                        createdBy: 'Assistant'
+
+                    }
+                })
+                await tsPrisma.scholarshipGranted.create({
+                    data: {
+                        application_id,
+                        announcement_id: application.announcement_id,
+                        candidateName: application.candidate.name,
+                        candidateCPF: application.candidate.CPF,
+                    }
+                })
             })
         }
         return reply.status(201).send({ message: "Ação realizada com sucesso" })

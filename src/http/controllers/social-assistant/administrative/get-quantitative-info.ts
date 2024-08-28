@@ -63,7 +63,7 @@ export default async function getQuantitativeInfo(
         const candidatesAwaitingInterview = educationLevel.Application.filter((application) => {
             return application.InterviewSchedule.some((interview) => interview.InterviewRealized === true); ;
         })
-
+        
     } catch (error : any) {
         if (error instanceof ForbiddenError) {
             return reply.code(403).send({ error: error.message });

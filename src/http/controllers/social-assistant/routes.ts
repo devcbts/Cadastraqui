@@ -5,7 +5,6 @@ import { uploadMarojacaoDocument } from './AWS-routes/upload-majoracao-document'
 import { uploadParecerDocument } from './AWS-routes/upload-parecer-document'
 import { uploadSolicitationDocument } from './AWS-routes/upload-solicitation-document'
 import { calculateExpenses } from './calculate-expenses'
-import { closeApplication } from './close-application'
 import { createSolicitation } from './create-solicitation'
 import { deleteSolicitation } from './delete-solicitation'
 import { getBankingInfoHDB } from './detailed-form/get-banking-info'
@@ -47,6 +46,13 @@ import updateAssistantProfile from './update-assistant-profile'
 import { updateSolicitationWithReport } from './update-solicitation-report'
 import verifyAssistantEnroll from '@/http/middlewares/verify-assistant-enroll'
 import getAssistantDashboard from './get-dashboard'
+import verifyAssistantAnnouncement from '@/http/middlewares/assistant/verify-assistant-announcement'
+import getScholarshipsByLevel from './administrative/get-sholarships-by-level'
+import getType1Benefits from './administrative/get-type1-benefits'
+import updateType1Benefits from './administrative/update-type1-benefits'
+import updateScholarshipGranted from './administrative/update-scholarship-granted'
+import getType2Benefits from './administrative/get-type2-benefits'
+import updateType2Benefits from './administrative/update-type2-benetifts'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -99,12 +105,7 @@ export async function assistantRoutes(app: FastifyInstance) {
     updateSolicitationWithReport
   )
 
-  // Fechar inscrição
-  app.post(
-    '/close/:announcement_id/:application_id',
-    { onRequest: [verifyJWT, verifyAssistantEnroll] },
-    closeApplication,
-  )
+
   app.patch(
     '/application/:application_id',
     { onRequest: [verifyJWT,verifyAssistantEnroll] },
@@ -169,4 +170,16 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/schedule/:announcement_id/:schedule_id?', { onRequest: [verifyJWT] }, getAnnouncementSchedule)
 
   app.get('/dashboard', { onRequest: [verifyJWT] }, getAssistantDashboard)
+
+
+  // Gerencial administrativo
+
+  app.get('/administrative/scholarships/:educationLevel_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getScholarshipsByLevel)
+  app.get('/administrative/type1/:educationLevel_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getType1Benefits)
+  app.post('/administrative/type1/:educationLevel_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, updateType1Benefits)
+  app.post('/administrative/scholarships/:scholarship_id', { onRequest: [verifyJWT] }, updateScholarshipGranted)
+  app.get('/administrative/type2/:educationLevel_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getType2Benefits)
+  app.post('/administrative/type2/:educationLevel_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, updateType2Benefits)
+
+
 }

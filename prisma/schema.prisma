@@ -209,16 +209,16 @@ model EntitySubsidiary {
 }
 
 model EntityDirector {
-  id                   String   @id @default(uuid())
-  name                 String
-  CPF                  String   @unique
-  phone                String
-  user_id              String   @unique
-  entity_id            String
-  entity               Entity   @relation(fields: [entity_id], references: [id])
-  user                 User     @relation(fields: [user_id], references: [id])
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @default(now()) @updatedAt
+  id        String   @id @default(uuid())
+  name      String
+  CPF       String   @unique
+  phone     String
+  user_id   String   @unique
+  entity_id String
+  entity    Entity   @relation(fields: [entity_id], references: [id])
+  user      User     @relation(fields: [user_id], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model IdentityDetails {
@@ -720,34 +720,34 @@ model AnnouncementInterview {
 }
 
 model Announcement {
-  id                   String                   @id @default(uuid())
+  id                   String                 @id @default(uuid())
   entityChanged        Boolean?
   branchChanged        Boolean?
   announcementType     AnnouncementType
   announcementNumber   String?
   announcementDate     DateTime?
-  announcementBegin    DateTime?                @default(now())
+  announcementBegin    DateTime?              @default(now())
   openDate             DateTime?
   closeDate            DateTime?
-  waitingList          Boolean?                 @default(false)
+  waitingList          Boolean?               @default(false)
   offeredVacancies     Int?
-  verifiedScholarships Int                      @default(0)
+  verifiedScholarships Int                    @default(0)
   description          String?
   entity_id            String
   announcementName     String?
   announcementLogo     String?
   type2                String?
-  sorted               Boolean?                 @default(false)
+  sorted               Boolean?               @default(false)
   interview            AnnouncementInterview?
-  criteria             TiebreakerCriterias[]    @default([CadUnico, LeastFamilyIncome, SeriousIllness, Draw, Distance])
-  types1               scholarshipGrantedType[]
-  entity               Entity                   @relation(fields: [entity_id], references: [id])
+  criteria             TiebreakerCriterias[]  @default([CadUnico, LeastFamilyIncome, SeriousIllness, Draw, Distance])
+  types1               type1Benefits[]
+  entity               Entity                 @relation(fields: [entity_id], references: [id])
   entity_subsidiary    EntitySubsidiary[]
   Application          Application[]
   educationLevels      EducationLevel[]
   ScholarshipGranted   ScholarshipGranted[]
   timelines            Timeline[]
-  socialAssistant      SocialAssistant[]        @relation("AnnouncementToSocialAssistant")
+  socialAssistant      SocialAssistant[]      @relation("AnnouncementToSocialAssistant")
   AnnouncementsSeen    AnnouncementsSeen[]
   InterviewSchedule    InterviewSchedule[]
   AssistantSchedule    AssistantSchedule[]
@@ -844,9 +844,33 @@ model EducationLevel {
   announcement             Announcement                    @relation(fields: [announcementId], references: [id], onDelete: Cascade)
   entitySubsidiary         EntitySubsidiary?               @relation(fields: [entitySubsidiaryId], references: [id])
   entitySubsidiaryId       String?
+  type1Benefit             type1Benefits[]
+  createdAt                DateTime                        @default(now())
+  updatedAt                DateTime                        @default(now()) @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  Type1Benefit Type1Benefit[] @relation("Type1Benefits")
+}
+
+model Type1Benefit {
+  id                String          @id @default(uuid())
+  educationLevel_id String?
+  educationLevel    EducationLevel? @relation("Type1Benefits", fields: [educationLevel_id], references: [id], onDelete: Cascade)
+  benefitType       type1Benefits // tipo de bolsa fornecida
+  value             Float
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @default(now()) @updatedAt
+
+  @@unique([educationLevel_id, benefitType])
+}
+
+model Type2Benefit {
+  id                   String              @id @default(uuid())
+  value                Float
+  description          String
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @default(now()) @updatedAt
+  ScholarshipGranted   ScholarshipGranted? @relation(fields: [scholarshipGrantedId], references: [id])
+  scholarshipGrantedId String?             @unique
 }
 
 model Application {
@@ -912,16 +936,24 @@ model ApplicationHistory {
 }
 
 model ScholarshipGranted {
-  id              String                   @id @default(uuid())
-  gaveUp          Boolean
-  ScholarshipCode String?
-  types           scholarshipGrantedType[]
-  application_id  String                   @unique
-  announcement_id String
-  announmentent   Announcement             @relation(fields: [announcement_id], references: [id])
-  application     Application              @relation(fields: [application_id], references: [id])
-  createdAt       DateTime                 @default(now())
-  updatedAt       DateTime                 @default(now()) @updatedAt
+  id                    String          @id @default(uuid())
+  gaveUp                Boolean         @default(false)
+  ScholarshipCode       String?
+  candidateName         String
+  candidateCPF          String 
+  types1Benefits        type1Benefits[]
+  type1TermAccepted         Boolean         @default(false)
+  type1DocumentReceived Boolean         @default(false)
+
+  type2Benefits         Type2Benefit[]
+  type2TermAccepted         Boolean        @default(false)
+  type2DocumentReceived Boolean        @default(false)
+  application_id        String         @unique
+  announcement_id       String
+  announmentent         Announcement   @relation(fields: [announcement_id], references: [id])
+  application           Application    @relation(fields: [application_id], references: [id])
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @default(now()) @updatedAt
 }
 
 model FamilyMemberToVehicle {
@@ -1302,6 +1334,7 @@ enum ApplicationStatus {
 
 enum CandidateApplicationStatus {
   Holder
+  Reserve
   WaitingList
 }
 
@@ -1316,7 +1349,7 @@ enum InterviewType {
   Visit
 }
 
-enum scholarshipGrantedType {
+enum type1Benefits {
   UNIFORM
   TRANSPORT
   FOOD
