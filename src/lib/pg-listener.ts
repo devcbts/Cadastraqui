@@ -35,12 +35,8 @@ import { verifyIncomeBankRegistration } from "@/utils/Trigger-Functions/verify-i
 import { Client } from 'pg';
 import { prisma } from './prisma';
 
-const createClient = () => {
-    return new Client(env.DATABASE_URL);
-}
-let clientBackup = createClient();
+const clientBackup = new Client(env.DATABASE_URL);
 const connectClient = async () => {
-    clientBackup = createClient();
     try {
         await clientBackup.connect();
         console.log('Connected to the database');
@@ -64,16 +60,11 @@ const connectClient = async () => {
         clientBackup.query('LISTEN "channel_bankaccount"');
     } catch (err) {
         console.error('Failed to connect to the database', err);
+        await clientBackup.end();
         setTimeout(connectClient, 5000); // Retry connection after 5 seconds
     }
 };
 connectClient();
-
-clientBackup.on('error', (err) => {
-    console.error('Database connection error', err);
-    clientBackup.end();
-    setTimeout(connectClient, 5000); // Retry connection after 5 seconds
-});
 
 
 clientBackup.on('notification', async (msg) => {
