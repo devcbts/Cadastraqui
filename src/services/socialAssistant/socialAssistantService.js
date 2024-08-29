@@ -160,6 +160,27 @@ class SocialAssistantService {
         const response = await api.get(`/assistant/dashboard`)
         return response.data
     }
+    async getGrantedScholarshipsByCourse(courseId) {
+        const response = await api.get(`/assistant/administrative/scholarships/${courseId}`)
+        return response.data.scholarships
+    }
+    async getTypeTwoBenefitsByScholarship(scholarshipId) {
+        const response = await api.get(`/assistant/administrative/type2/${scholarshipId}`)
+        return { typeTwoInfotmation: response.data.type2Benefits, family: response.data.formatedMembers }
+    }
+    async getTypeOneBenefitsByCourse(courseId) {
+        const response = await api.get(`/assistant/administrative/type1/${courseId}`)
+        return { typeOneInformation: response.data.type1Benefits }
+    }
+    updateScholarshipGranted(scholarshipId, data) {
+        return api.post(`/assistant/administrative/scholarships/${scholarshipId}`, data)
+    }
+    updateTypeTwoBenefits(scholarshipId, data) {
+        return api.post(`/assistant/administrative/type2/${scholarshipId}`, data)
+    }
+    updateTypeOneBenefits(educationLevelId, data) {
+        return api.post(`/assistant/administrative/type1/${educationLevelId}`, data)
+    }
 }
 
 export default new SocialAssistantService()

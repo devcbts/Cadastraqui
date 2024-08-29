@@ -6,7 +6,61 @@ import CheckboxBase from "Components/CheckboxBase";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import TypeOneResponsiblePDF from "./PDF/Responsible";
 import RowActionInput from "../../RowActionInput";
+import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router";
+import moneyInputMask from "Components/MoneyFormInput/money-input-mask";
+import TYPE_ONE_BENEFITS from "utils/enums/type-one-benefits";
+import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import stringToFloat from "utils/string-to-float";
+import { formatCurrency } from "utils/format-currency";
+import { NotificationService } from "services/notification";
 export default function BenefitsTypeOne() {
+    const { state } = useLocation()
+    const { courseId } = state
+    const [students, setStudents] = useState([])
+    const [typeOneBenefit, setTypeOneBenefit] = useState([])
+    useEffect(() => {
+        const fetchScholarshipGranted = async () => {
+            try {
+                const information = await Promise.all([
+                    socialAssistantService.getGrantedScholarshipsByCourse(courseId),
+                    socialAssistantService.getTypeOneBenefitsByCourse(courseId),
+                ])
+                setStudents(information[0])
+                setTypeOneBenefit(information[1].typeOneInformation)
+            } catch (err) {
+                NotificationService.error({ text: err?.response?.data?.message })
+            }
+        }
+        fetchScholarshipGranted()
+    }, [courseId])
+    const handleUpdateScholarshipGranted = async ({ id, code, type1TermAccepted }) => {
+        try {
+            await socialAssistantService.updateScholarshipGranted(id, { ScholarshipCode: code, type1TermAccepted })
+            NotificationService.success({ text: 'Alteração realizada' })
+
+        } catch (err) {
+            NotificationService.error({ text: err?.response?.data?.message })
+
+        }
+    }
+    const handleChangeTypeOneBenefit = async () => {
+        try {
+            await socialAssistantService.updateTypeOneBenefits(courseId, typeOneBenefit.map(e => ({ ...e, type: e.benefitType })))
+            NotificationService.success({ text: 'Valores alterados' })
+        } catch (err) {
+            NotificationService.error({ text: err?.response?.data?.message })
+
+        }
+    }
+    // ref to store initial values on first change of typeOneBenefit, to update inputs with correct defaultValue
+    const defaultTypeOneValues = useRef([])
+    useEffect(() => {
+        if (defaultTypeOneValues.current.length > 0) {
+            return
+        }
+        defaultTypeOneValues.current = typeOneBenefit
+    }, [typeOneBenefit])
     return (
         <div>
             <h2 style={{ textAlign: 'center' }}>Benefícios Tipo 1</h2>
@@ -15,31 +69,78 @@ export default function BenefitsTypeOne() {
                 <RowActionInput
                     label="Valores da ação de apoio"
                     inputProps={{
-                        readOnly: true
+                        readOnly: true, isMoney: true,
+                        value: formatCurrency(typeOneBenefit.reduce((acc, curr) => acc + curr.value, 0).toFixed(2)),
+                        disabled: true
                     }}
                     buttonProps={{
-                        label: 'salvar'
+                        label: 'salvar',
+                        onClick: async () => {
+                            await handleChangeTypeOneBenefit()
+                        }
                     }}
                 />
+                {
+                    TYPE_ONE_BENEFITS.filter(e => state?.announcement?.announcement?.types1.includes(e.value)).map((e) => (
+                        <RowActionInput
+                            key={e.value}
+                            label={e.label}
+                            inputProps={{
+                                isMoney: true,
+                                defaultValue: defaultTypeOneValues.current?.find(v => v.benefitType === e.value)?.value ?? moneyInputMask(0),
+                                onChange: (v) => {
+                                    setTypeOneBenefit((prev) => {
+                                        const value = stringToFloat(v)
+                                        if (prev.find(b => b.benefitType === e.value)) {
+                                            return [...prev].map((benefit) => {
+                                                if (benefit.benefitType === e.value) {
+                                                    return ({ ...benefit, value })
+                                                }
+                                                return benefit
+                                            })
+                                        } else {
+                                            return [...prev, { benefitType: e.value, value }]
+                                        }
+                                    })
+                                }
+                            }}
 
+                            buttonProps={{
+                                showButton: false
+                            }}
+                        />
+
+                    ))
+                }
             </div>
             <Table.Root headers={['rank', 'candidato', 'CPF', 'Cód. Ident. bolsista (censo)', 'termo', 'autorizar termo?']}>
-                <Table.Row>
-                    <Table.Cell divider>1</Table.Cell>
-                    <Table.Cell >candidato nome</Table.Cell>
-                    <Table.Cell >cpf</Table.Cell>
-                    <Table.Cell >
-                        <RowActionInput buttonProps={{ label: 'salvar' }} />
-                    </Table.Cell>
-                    <Table.Cell >
-                        <PDFDownloadLink document={<TypeOneResponsiblePDF />}>
-                            <Document height={30} width={30} cursor={'pointer'} />
-                        </PDFDownloadLink>
-                    </Table.Cell>
-                    <Table.Cell >
-                        <input type="checkbox" disabled={true} />
-                    </Table.Cell>
-                </Table.Row>
+                {
+                    students.map(student => (
+                        <Table.Row>
+                            <Table.Cell divider>{student.application.position}</Table.Cell>
+                            <Table.Cell >{student.candidateName}</Table.Cell>
+                            <Table.Cell >{student.candidateCPF}</Table.Cell>
+                            <Table.Cell >
+                                <RowActionInput buttonProps={{
+                                    label: 'salvar', onClick: async (v) => {
+                                        await handleUpdateScholarshipGranted({ id: student.id, code: v })
+                                    }
+                                }} inputProps={{ defaultValue: student.ScholarshipCode }} />
+                            </Table.Cell>
+                            <Table.Cell >
+                                <PDFDownloadLink document={<TypeOneResponsiblePDF />}>
+                                    <Document height={30} width={30} cursor={'pointer'} />
+                                </PDFDownloadLink>
+                            </Table.Cell>
+                            <Table.Cell >
+                                <input type="checkbox" defaultChecked={student.type1TermAccepted} onChange={async (e) => {
+                                    const { checked } = e.target
+                                    await handleUpdateScholarshipGranted({ id: student.id, type1TermAccepted: checked })
+                                }} />
+                            </Table.Cell>
+                        </Table.Row>
+                    ))
+                }
             </Table.Root>
         </div>
     )

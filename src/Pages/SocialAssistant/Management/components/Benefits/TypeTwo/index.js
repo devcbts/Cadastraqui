@@ -10,14 +10,14 @@ export default function BenefitsTypeTwo() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
 
                 <label>Cód. instituição no censo: 123123123</label>
-                <label>Especificação da ação de apoio: 123123123</label>
+                {/* <label>Especificação da ação de apoio: 123123123</label> */}
             </div>
             {
-                !state?.candidateId &&
+                !state?.scholarshipId &&
                 <AllCandidatesBenefitsTypeTwo />
             }
             {
-                state?.candidateId &&
+                state?.scholarshipId &&
                 <SelectedCandidateBenefitsTypeTwo />
             }
         </div>
