@@ -31,7 +31,8 @@ export default function MembersList({ onSelect, onAdd }) {
         if (firstRender.current) {
             return
         }
-        candidateService.updateIdentityInfo({ livesAlone: livesAlone }).catch(_ => { })
+        candidateService.updateIdentityInfo({ livesAlone: livesAlone }).then(_ => NotificationService.success({ text: 'Informação alterada', type: "toast" })
+        ).catch(_ => { })
         candidateService.updateRegistrationProgress('grupoFamiliar', livesAlone)
     }, [livesAlone])
     const handleDeleteMember = async (id) => {
