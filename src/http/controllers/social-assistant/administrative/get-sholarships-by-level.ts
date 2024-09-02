@@ -17,6 +17,7 @@ export default async function getScholarshipsByLevel(request: FastifyRequest, re
             include: {
                 application: {
                     select: {
+                        id: true,
                         candidateStatus: true,
                         position: true
                     }

@@ -6,6 +6,7 @@ import finishCall from './Call Routes/finish-call'
 import getCalls from './Call Routes/get-calls'
 import getOpenCalls from './Call Routes/get-open-calls'
 import linkOpenCall from './Call Routes/link-open-call'
+import getBenefitsInformation from './get-benefits-information'
 
 
 export async function userRoutes(app: FastifyInstance) {
@@ -15,4 +16,6 @@ export async function userRoutes(app: FastifyInstance) {
     app.put('/call/link', { onRequest: [verifyJWT] }, linkOpenCall)
     app.put('/call/finish', { onRequest: [verifyJWT] }, finishCall)
     app.post('/call', { onRequest: [verifyJWT] }, createCall)
+
+    app.get('/benefits/:application_id', { onRequest: [verifyJWT] }, getBenefitsInformation)
 }
