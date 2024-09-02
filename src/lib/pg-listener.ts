@@ -34,6 +34,7 @@ import { verifyHealthRegistration } from "@/utils/Trigger-Functions/verify-healt
 import { verifyIncomeBankRegistration } from "@/utils/Trigger-Functions/verify-income-bank-registration";
 import { Client } from 'pg';
 import { prisma } from './prisma';
+import { IdentityDetails } from '../../backup_prisma/generated/clientBackup/index';
 
 const clientBackup = new Client(env.DATABASE_URL);
 const connectClient = async () => {
@@ -218,18 +219,18 @@ clientBackup.on('notification', async (msg) => {
 
 
         if (msg.channel == 'channel_identityDetails') {
-            const identityDetails = JSON.parse(msg.payload!);
+            const identityDetails : {operation: string, data: IdentityDetails} = JSON.parse(msg.payload!);
             if (identityDetails.operation == 'Update') {
                 await updateIdentityDetailsHDB(identityDetails.data.id)
             }
             else if (identityDetails.operation == 'Insert') {
-                const openApplications = await getOpenApplications(identityDetails.data.candidate_id || identityDetails.data.legalResponsibleId);
+                const openApplications = await getOpenApplications(identityDetails.data.candidate_id ?? identityDetails.data.responsible_id ?? '');
                 for (const application of openApplications) {
-                    await createIdentityDetailsHDB(identityDetails.data.id, identityDetails.data.candidate_id, identityDetails.data.legalResponsibleId, application.id)
+                    await createIdentityDetailsHDB(identityDetails.data.id, identityDetails.data.candidate_id, identityDetails.data.responsible_id, application.id)
                 }
             }
-            await verifyHealthRegistration(identityDetails.data.candidate_id || identityDetails.data.legalResponsibleId)
-            await verifyIncomeBankRegistration(identityDetails.data.candidate_id || identityDetails.data.legalResponsibleId)
+            await verifyHealthRegistration(identityDetails.data.candidate_id ?? identityDetails.data.responsible_id ?? '')
+            await verifyIncomeBankRegistration(identityDetails.data.candidate_id ?? identityDetails.data.responsible_id ?? '')
 
         }
 

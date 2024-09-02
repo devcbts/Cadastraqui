@@ -940,13 +940,13 @@ model ScholarshipGranted {
   gaveUp                Boolean         @default(false)
   ScholarshipCode       String?
   candidateName         String
-  candidateCPF          String 
+  candidateCPF          String
   types1Benefits        type1Benefits[]
-  type1TermAccepted         Boolean         @default(false)
+  type1TermAccepted     Boolean         @default(false)
   type1DocumentReceived Boolean         @default(false)
 
   type2Benefits         Type2Benefit[]
-  type2TermAccepted         Boolean        @default(false)
+  type2TermAccepted     Boolean        @default(false)
   type2DocumentReceived Boolean        @default(false)
   application_id        String         @unique
   announcement_id       String
