@@ -34,6 +34,7 @@ export default async function getSolicitations(
                     solicitation: solicitation.type,
                     description: solicitation.description,
                     answered: solicitation.answered,
+                    applicationId: solicitation.application_id,
                     matchedUrls
                 }
             })

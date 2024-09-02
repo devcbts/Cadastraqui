@@ -668,7 +668,9 @@ export type ApplicationStatus = (typeof ApplicationStatus)[keyof typeof Applicat
 export const SolicitationType: {
   Document: 'Document',
   Interview: 'Interview',
-  Visit: 'Visit'
+  Visit: 'Visit',
+  BenefitOne: 'BenefitOne',
+  BenefitTwo: 'BenefitTwo'
 };
 
 export type SolicitationType = (typeof SolicitationType)[keyof typeof SolicitationType]

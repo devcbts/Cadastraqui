@@ -442,8 +442,8 @@ model FamilyMemberIncome {
   LegalResponsible      LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId    String?
 
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @default(now()) @updatedAt
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @default(now()) @updatedAt
   MonthlyIncomes MonthlyIncome[]
 
   @@unique([application_id, main_id])
@@ -1204,6 +1204,8 @@ enum SolicitationType {
   Document
   Interview
   Visit
+  BenefitOne
+  BenefitTwo
 }
 
 enum scholarshipGrantedType {

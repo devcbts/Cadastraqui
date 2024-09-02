@@ -1342,6 +1342,8 @@ enum SolicitationType {
   Document
   Interview
   Visit
+  BenefitOne
+  BenefitTwo
 }
 
 enum InterviewType {

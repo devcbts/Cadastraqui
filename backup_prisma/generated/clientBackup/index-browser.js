@@ -1134,7 +1134,9 @@ exports.ApplicationStatus = exports.$Enums.ApplicationStatus = {
 exports.SolicitationType = exports.$Enums.SolicitationType = {
   Document: 'Document',
   Interview: 'Interview',
-  Visit: 'Visit'
+  Visit: 'Visit',
+  BenefitOne: 'BenefitOne',
+  BenefitTwo: 'BenefitTwo'
 };
 
 exports.Prisma.ModelName = {
