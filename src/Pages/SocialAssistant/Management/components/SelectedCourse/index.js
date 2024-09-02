@@ -17,7 +17,7 @@ export default function AssistantManagerSelectedCourse() {
     return (
         <>
             <BackPageTitle title={'Gerencial Administrativo'} path={-1} />
-            <div style={{ padding: '32px 24px 0px 24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flexGrow: 1 }}>
+            <div style={{ padding: '32px 24px 0px 24px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', flexGrow: 1, gap: '32px' }}>
 
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '16px', flexWrap: 'wrap' }}>
                     <label style={{ flexBasis: '30%' }}>Instituição: {'nome aqui'}</label>
@@ -54,14 +54,14 @@ export default function AssistantManagerSelectedCourse() {
                     />
 
                 </div>
-                <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '20%' }}>
+                {/* <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '20%' }}>
                     <ButtonBase >
                         <Excel height={30} width={30} />
                     </ButtonBase>
                     <ButtonBase >
                         <PDF height={30} width={30} />
                     </ButtonBase>
-                </div>
+                </div> */}
             </div>
         </>
     )

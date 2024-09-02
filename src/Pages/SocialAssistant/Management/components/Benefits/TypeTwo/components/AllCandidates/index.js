@@ -32,14 +32,14 @@ export default function AllCandidatesBenefitsTypeTwo() {
             <Table.Root headers={['rank', 'candidato', 'condição', 'ação']}>
                 {
                     students.map(e => {
-                        const { candidateStatus, position } = e.application
+                        const { candidateStatus, position, id } = e.application
                         return (
                             <Table.Row key={e.id}>
                                 <Table.Cell divider>{position}</Table.Cell>
                                 <Table.Cell >{e.candidateName}</Table.Cell>
                                 <Table.Cell>{CANDIDATE_APPLICATION_STATUS[candidateStatus]}</Table.Cell>
                                 <Table.Cell>
-                                    <ButtonBase onClick={() => navigate('', { state: { ...state, scholarshipId: e.id } })}>
+                                    <ButtonBase onClick={() => navigate('', { state: { ...state, scholarshipId: e.id, applicationId: id } })}>
                                         <Magnifier width={15} height={15} />
                                     </ButtonBase>
                                 </Table.Cell>

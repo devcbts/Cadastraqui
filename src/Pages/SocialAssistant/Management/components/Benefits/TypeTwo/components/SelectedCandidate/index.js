@@ -11,6 +11,9 @@ import Loader from "Components/Loader";
 import moneyInputMask from "Components/MoneyFormInput/money-input-mask";
 import findLabel from "utils/enums/helpers/findLabel";
 import FAMILY_RELATIONSHIP from "utils/enums/family-relationship";
+import useBenefitsPDF from "../../../useBenefitsPDFInformation";
+import { BlobProvider } from "@react-pdf/renderer";
+import TypeTwoBenefitsPDF from "../../PDF";
 export default function SelectedCandidateBenefitsTypeTwo() {
     const { state } = useLocation()
     const { scholarshipId } = state
@@ -40,8 +43,8 @@ export default function SelectedCandidateBenefitsTypeTwo() {
     const typeTwoInfo = useMemo(() => {
         if (!benefit.typeTwoInfotmation) return {}
         const { value, description } = benefit.typeTwoInfotmation.type2Benefits?.[0] ?? {}
-        const { type2TermAccepted } = benefit.typeTwoInfotmation ?? {}
-        return ({ value, description, type2TermAccepted })
+        const { type2TermAccepted, application_id } = benefit.typeTwoInfotmation ?? {}
+        return ({ value, description, type2TermAccepted, applicationId: application_id })
     }, [benefit])
     const handleUpdateScholarship = async ({
         ScholarshipCode,
@@ -68,6 +71,10 @@ export default function SelectedCandidateBenefitsTypeTwo() {
         }
     }
     const [typeTwoDescription, setTypeTwoDescription] = useState('')
+    const benefitInfo = useBenefitsPDF(typeTwoInfo.applicationId)
+    const handleOpenDocument = (url) => {
+        window.open(url, '_blank')
+    }
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: 'max(600px,60%)' }}>
             <Loader loading={isLoading} />
@@ -117,7 +124,13 @@ export default function SelectedCandidateBenefitsTypeTwo() {
 
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '8px', alignItems: 'center' }}>
                     <label>Termo de benefícios</label>
-                    <Document height={30} width={30} cursor={'pointer'} />
+                    <BlobProvider document={<TypeTwoBenefitsPDF benefit={benefitInfo} />}>
+                        {({ url, loading }) => {
+                            return loading
+                                ? 'aguarde...'
+                                : <Document height={30} width={30} cursor={'pointer'} onClick={() => handleOpenDocument(url)} />
+                        }}
+                    </BlobProvider>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '8px', alignItems: 'center' }}>
                     <label>Autorizar termo?</label>

@@ -10,7 +10,7 @@ export default function RowActionInput({
         error: null,
         readOnly: false,
         defaultValue: '',
-        isMoney: true
+        isMoney: false
     },
     buttonProps = {
         onClick: (inputValue = '') => { },

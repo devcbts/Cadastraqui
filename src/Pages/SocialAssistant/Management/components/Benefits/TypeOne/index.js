@@ -3,10 +3,10 @@ import InputBase from "Components/InputBase";
 import Table from "Components/Table";
 import { ReactComponent as Document } from 'Assets/icons/document.svg'
 import CheckboxBase from "Components/CheckboxBase";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { BlobProvider, PDFDownloadLink, usePDF } from "@react-pdf/renderer";
 import TypeOneResponsiblePDF from "./PDF/Responsible";
 import RowActionInput from "../../RowActionInput";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router";
 import moneyInputMask from "Components/MoneyFormInput/money-input-mask";
 import TYPE_ONE_BENEFITS from "utils/enums/type-one-benefits";
@@ -14,6 +14,8 @@ import socialAssistantService from "services/socialAssistant/socialAssistantServ
 import stringToFloat from "utils/string-to-float";
 import { formatCurrency } from "utils/format-currency";
 import { NotificationService } from "services/notification";
+import useBenefitsPDF from "../useBenefitsPDFInformation";
+import TypeOneBenefitsPDF from "./PDF";
 export default function BenefitsTypeOne() {
     const { state } = useLocation()
     const { courseId } = state
@@ -37,6 +39,12 @@ export default function BenefitsTypeOne() {
     const handleUpdateScholarshipGranted = async ({ id, code, type1TermAccepted }) => {
         try {
             await socialAssistantService.updateScholarshipGranted(id, { ScholarshipCode: code, type1TermAccepted })
+            setStudents((prev) => [...prev].map(e => {
+                if (e.id === id) {
+                    return ({ ...e, ScholarshipCode: code ?? e.ScholarshipCode, type1TermAccepted: type1TermAccepted ?? e.type1TermAccepted })
+                }
+                return e
+            }))
             NotificationService.success({ text: 'Alteração realizada' })
 
         } catch (err) {
@@ -61,6 +69,34 @@ export default function BenefitsTypeOne() {
         }
         defaultTypeOneValues.current = typeOneBenefit
     }, [typeOneBenefit])
+
+    const [currentDocument, setCurrentDocument] = useState({ id: null, url: null })
+    // const [document, update] = usePDF()
+    // useBenefitsPDF((benefit) => {
+    //     update(<TypeOneBenefitsPDF benefit={benefit} />)
+    // }, currentDocument)
+
+    // useEffect(() => {
+    //     if (document.blob && currentDocument) {
+    //         const url = URL.createObjectURL(document.blob)
+    //         window.open(url, '_blank')
+    //         setCurrentDocument(null)
+    //         update()
+    //     }
+    // }, [document])
+    const benefit = useBenefitsPDF(currentDocument.id)
+    useEffect(() => {
+        console.log(currentDocument, benefit)
+        if (!benefit) { return }
+        if (currentDocument.url && currentDocument.id) {
+            setTimeout(() => {
+                window.open(currentDocument.url, '_blank')
+                setCurrentDocument({ id: null, url: null })
+
+            }
+                , 0)
+        }
+    }, [currentDocument, benefit])
     return (
         <div>
             <h2 style={{ textAlign: 'center' }}>Benefícios Tipo 1</h2>
@@ -116,7 +152,7 @@ export default function BenefitsTypeOne() {
             <Table.Root headers={['rank', 'candidato', 'CPF', 'Cód. Ident. bolsista (censo)', 'termo', 'autorizar termo?']}>
                 {
                     students.map(student => (
-                        <Table.Row>
+                        <Table.Row key={student.id}>
                             <Table.Cell divider>{student.application.position}</Table.Cell>
                             <Table.Cell >{student.candidateName}</Table.Cell>
                             <Table.Cell >{student.candidateCPF}</Table.Cell>
@@ -128,9 +164,22 @@ export default function BenefitsTypeOne() {
                                 }} inputProps={{ defaultValue: student.ScholarshipCode }} />
                             </Table.Cell>
                             <Table.Cell >
-                                <PDFDownloadLink document={<TypeOneResponsiblePDF />}>
-                                    <Document height={30} width={30} cursor={'pointer'} />
-                                </PDFDownloadLink>
+                                <BlobProvider document={
+                                    student.application.id === currentDocument?.id
+                                        ? <TypeOneBenefitsPDF key={student.application.id} benefit={benefit} />
+                                        : <></>
+                                }>
+                                    {({ url, loading }) => {
+                                        return (loading && !url) ? 'aguarde...' : <Document height={30} width={30} cursor={'pointer'} onClick={() =>
+                                            setCurrentDocument({
+                                                id: student.application.id, url: url
+                                            })} />
+                                    }}
+                                </BlobProvider>
+
+                                {/* {student.ScholarshipCode &&
+                                    <Document height={30} width={30} cursor={'pointer'} onClick={() => setCurrentDocument(student.application.id)} />
+                                } */}
                             </Table.Cell>
                             <Table.Cell >
                                 <input type="checkbox" defaultChecked={student.type1TermAccepted} onChange={async (e) => {
