@@ -54,6 +54,11 @@ export async function getAnnouncements(
             { announcementDate: { lt: currentDate } },
           ]
         }
+        if (filter === 'validationFinished') {
+          return [
+            { interview: { endDate: { gt: currentDate } } }
+          ]
+        }
       }
       announcement = await prisma.announcement.findMany({
         where: {
