@@ -181,6 +181,10 @@ class SocialAssistantService {
     updateTypeOneBenefits(educationLevelId, data) {
         return api.post(`/assistant/administrative/type1/${educationLevelId}`, data)
     }
+    async getAdminCourseInfo(courseId) {
+        const response = await api.get(`/assistant/administrative/general/course/${courseId}`)
+        return response.data
+    }
 }
 
 export default new SocialAssistantService()

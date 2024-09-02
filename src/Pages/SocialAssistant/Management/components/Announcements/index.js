@@ -23,7 +23,8 @@ export default function AssistantManagementAnnouncements() {
         const fetchAnnouncements = async () => {
             try {
                 setIsLoading(true)
-                const information = await socialAssistantService.getAllAnnouncements(selection.value)
+                const query = !state?.isUnit ? selection.value : 'validationFinished'
+                const information = await socialAssistantService.getAllAnnouncements(query)
                 setAnnouncements(information)
             } catch (err) { }
             setIsLoading(false)
@@ -63,7 +64,7 @@ export default function AssistantManagementAnnouncements() {
                             ))
                         }
                     </Table.Root>
-                    : <h3>Nenhum edital encontrado na cateogria "{selection.label}"</h3>
+                    : <h3>Nenhum edital encontrado na cateogria "{!state?.isUnit ? selection.label : 'Avaliação finalizada'}"</h3>
                 }
             </div>
         </>
