@@ -185,6 +185,11 @@ class SocialAssistantService {
         const response = await api.get(`/assistant/administrative/general/course/${courseId}`)
         return response.data
     }
+    async getPartialReport(announcementId, entityId, format = "CSV", { filename = "relatorio" }) {
+        const config = format === "CSV" ? { responseType: "blob", filename: filename } : {}
+        const response = await api.get(`/assistant/administrative/report/partial/${announcementId}/${entityId}?format=${format}`, config)
+        return response.data
+    }
 }
 
 export default new SocialAssistantService()

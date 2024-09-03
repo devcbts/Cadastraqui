@@ -1,7 +1,7 @@
 import ButtonBase from "Components/ButtonBase";
 import InputBase from "Components/InputBase";
 import moneyInputMask from "Components/MoneyFormInput/money-input-mask";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import stringToFloat from "utils/string-to-float";
 
 export default function RowActionInput({
@@ -13,21 +13,20 @@ export default function RowActionInput({
         isMoney: false
     },
     buttonProps = {
-        onClick: (inputValue = '') => { },
+        onClick: null,
         label: '',
-        showButton: true
     }
 }) {
 
     const { error = null } = inputProps
-    const { showButton = true } = buttonProps
+    const { onClick } = buttonProps
     const [currentValue, setCurrentValue] = useState(inputProps.defaultValue)
     useEffect(() => {
 
-        // inputProps.isMoney ?
-        //     setCurrentValue(moneyInputMask(inputProps.defaultValue))
-        //     : 
-        setCurrentValue(inputProps.defaultValue)
+        inputProps.isMoney ?
+            setCurrentValue(moneyInputMask(inputProps.defaultValue))
+            :
+            setCurrentValue(inputProps.defaultValue)
     }, [inputProps.defaultValue])
     return (
         <div style={{ display: 'flex', flexDirection: 'row', gap: '24px', alignItems: 'baseline' }}>
@@ -41,9 +40,11 @@ export default function RowActionInput({
                         setCurrentValue(newValue)
                         inputProps?.onChange?.(newValue)
                     }} />
-                {showButton && <ButtonBase {...buttonProps} onClick={() => {
-                    buttonProps.onClick(inputProps.isMoney ? stringToFloat(currentValue) : currentValue)
-                }} />}
+                {!!onClick && <ButtonBase {...buttonProps}
+                    disabled={!currentValue}
+                    onClick={() => {
+                        onClick(inputProps.isMoney ? stringToFloat(currentValue) : currentValue)
+                    }} />}
             </div>
         </div>
     )

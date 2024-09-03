@@ -16,14 +16,17 @@ import { formatCurrency } from "utils/format-currency";
 import { NotificationService } from "services/notification";
 import useBenefitsPDF from "../useBenefitsPDFInformation";
 import TypeOneBenefitsPDF from "./PDF";
+import Loader from "Components/Loader";
 export default function BenefitsTypeOne() {
     const { state } = useLocation()
     const { courseId } = state
     const [students, setStudents] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
     const [typeOneBenefit, setTypeOneBenefit] = useState([])
     useEffect(() => {
         const fetchScholarshipGranted = async () => {
             try {
+                setIsLoading(true)
                 const information = await Promise.all([
                     socialAssistantService.getGrantedScholarshipsByCourse(courseId),
                     socialAssistantService.getTypeOneBenefitsByCourse(courseId),
@@ -33,6 +36,7 @@ export default function BenefitsTypeOne() {
             } catch (err) {
                 NotificationService.error({ text: err?.response?.data?.message })
             }
+            setIsLoading(false)
         }
         fetchScholarshipGranted()
     }, [courseId])
@@ -62,12 +66,12 @@ export default function BenefitsTypeOne() {
         }
     }
     // ref to store initial values on first change of typeOneBenefit, to update inputs with correct defaultValue
-    const defaultTypeOneValues = useRef([])
+    const [defaultTypeOneValues, setDefaultTypeOneValues] = useState([])
     useEffect(() => {
-        if (defaultTypeOneValues.current.length > 0) {
+        if (defaultTypeOneValues.length > 0) {
             return
         }
-        defaultTypeOneValues.current = typeOneBenefit
+        setDefaultTypeOneValues(typeOneBenefit)
     }, [typeOneBenefit])
 
     const [currentDocument, setCurrentDocument] = useState({ id: null, url: null })
@@ -98,6 +102,7 @@ export default function BenefitsTypeOne() {
     }, [currentDocument, benefit])
     return (
         <div>
+            <Loader loading={isLoading} />
             <h2 style={{ textAlign: 'center' }}>Benefícios Tipo 1</h2>
             <label>Cód. instituição no censo: 123123123</label>
             <div style={{ display: "flex", flexDirection: 'column', marginTop: '12px' }}>
@@ -122,7 +127,7 @@ export default function BenefitsTypeOne() {
                             label={e.label}
                             inputProps={{
                                 isMoney: true,
-                                defaultValue: defaultTypeOneValues.current?.find(v => v.benefitType === e.value)?.value ?? moneyInputMask(0),
+                                defaultValue: defaultTypeOneValues?.find(v => v.benefitType === e.value)?.value ?? moneyInputMask(0),
                                 onChange: (v) => {
                                     setTypeOneBenefit((prev) => {
                                         const value = stringToFloat(v)
@@ -138,10 +143,6 @@ export default function BenefitsTypeOne() {
                                         }
                                     })
                                 }
-                            }}
-
-                            buttonProps={{
-                                showButton: false
                             }}
                         />
 
