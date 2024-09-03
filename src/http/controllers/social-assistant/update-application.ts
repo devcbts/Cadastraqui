@@ -5,6 +5,7 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import callNextCandidate from '@/utils/administrative Functions/call-next-candidate'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -32,36 +33,38 @@ export async function updateApplication(
     const { status, report, partial, parecerAditionalInfo } = applicationUpdateSchema.parse(request.body)
     try {
 
+        await prisma.$transaction(async (tsPrisma) => {
 
-        // Caso 1: gaveUp true
-        await prisma.application.update({
-            where: { id: application_id },
-            data: {
-                status: status,
-                ScholarshipPartial: partial,
-                parecerAditionalInfo
-
-            }
-        })
-        if (status === 'Rejected') {
-
-            await prisma.applicationHistory.create({
+            const application = await tsPrisma.application.findUniqueOrThrow({
+                where: { id: application_id },
+                include: { candidate: true }
+            })
+            await tsPrisma.application.update({
+                where: { id: application_id },
                 data: {
-                    application_id,
-                    description: 'Inscrição indeferida',
-                    createdBy: 'Assistant'
+                    status: status,
+                    ScholarshipPartial: partial,
+                    parecerAditionalInfo
 
                 }
             })
-        }
-        if (status === 'Approved') {
+            if (status === 'Rejected') {
 
-            await prisma.$transaction(async (tsPrisma) => {
+                await tsPrisma.applicationHistory.create({
+                    data: {
+                        application_id,
+                        description: 'Inscrição indeferida',
+                        createdBy: 'Assistant'
 
-                const application = await tsPrisma.application.findUniqueOrThrow({
-                    where: { id: application_id },
-                    include: { candidate: true}
+                    }
                 })
+                // Call Next Candidate in WaitingList
+                await callNextCandidate(application.educationLevel_id, tsPrisma)
+
+            }
+            if (status === 'Approved') {
+
+
                 await tsPrisma.applicationHistory.create({
                     data: {
                         application_id,
@@ -78,8 +81,9 @@ export async function updateApplication(
                         candidateCPF: application.candidate.CPF,
                     }
                 })
-            })
-        }
+            }
+
+        })
         return reply.status(201).send({ message: "Ação realizada com sucesso" })
 
     } catch (err: any) {
