@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    align-items: baseline;
+    
+    .actions{
+        display: flex; 
+        flex-direction: row; 
+        gap: 24px; 
+        align-items: baseline;
+    }
+
+    & + .container {
+        .text{
+            width: 20%;
+            // padding-right: 100px;
+        }
+    }
+}
+
+@media (max-width:768px) {
+    .text{
+       font-size: 12px;
+    }
+}

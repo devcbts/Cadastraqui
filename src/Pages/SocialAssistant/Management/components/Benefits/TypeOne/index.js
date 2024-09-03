@@ -104,7 +104,7 @@ export default function BenefitsTypeOne() {
         <div>
             <Loader loading={isLoading} />
             <h2 style={{ textAlign: 'center' }}>Benefícios Tipo 1</h2>
-            <label>Cód. instituição no censo: 123123123</label>
+            <label>Cód. instituição no censo: </label>
             <div style={{ display: "flex", flexDirection: 'column', marginTop: '12px' }}>
                 <RowActionInput
                     label="Valores da ação de apoio"

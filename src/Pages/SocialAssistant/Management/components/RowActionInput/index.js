@@ -1,9 +1,9 @@
 import ButtonBase from "Components/ButtonBase";
 import InputBase from "Components/InputBase";
 import moneyInputMask from "Components/MoneyFormInput/money-input-mask";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import stringToFloat from "utils/string-to-float";
-
+import styles from './styles.module.scss'
 export default function RowActionInput({
     label = '',
     inputProps = {
@@ -29,9 +29,9 @@ export default function RowActionInput({
             setCurrentValue(inputProps.defaultValue)
     }, [inputProps.defaultValue])
     return (
-        <div style={{ display: 'flex', flexDirection: 'row', gap: '24px', alignItems: 'baseline' }}>
-            {label && <h4>{label}</h4>}
-            <div style={{ display: 'flex', flexDirection: 'row', gap: '24px', alignItems: 'baseline', }}>
+        <div className={styles.container}>
+            {label && <h4 className={styles.text}>{label}</h4>}
+            <div className={styles.actions}>
                 <InputBase {...inputProps} error={error}
                     value={inputProps.value ?? currentValue}
                     onChange={(e) => {
