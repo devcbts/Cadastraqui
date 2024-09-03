@@ -11,6 +11,7 @@ const envSchema = z.object({
   CPF_CNPJ_KEY : z.string(),
   MAPS_KEY: z.string(),
   PLUGSIGN_API_KEY: z.string(),
+  PORTAL_TRANSPARENCIA_KEY: z.string()
 })
 // Validação das variáveis de ambiente
 const _env = envSchema.safeParse(process.env)

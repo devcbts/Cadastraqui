@@ -85,6 +85,7 @@ import { updateMedicationInfo } from './update-medication-info'
 import updateMonthlyIncome from './update-monthly-income-info'
 import { updateRegistrationInfo } from './update-registration-info'
 import { updateVehicleInfo } from './update-vehicle-info'
+import searchBolsaFamiliaByNis from '@/utils/search-bolsa-familia-by-nis'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT] }, uploadDocument)
@@ -295,6 +296,8 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.get('/schedule/:application_id', getCandidateInterviewSchedule)
   app.post('/schedule/:schedule_id', { onRequest: [verifyJWT] }, createInterviewSolicitation)
   app.get('/interview/:interview_id?', { onRequest: [verifyJWT] }, getCandidateInterviews)
+
+  app.get('/nis/:nis', { onRequest: [verifyJWT] }, searchBolsaFamiliaByNis)
 }
 
 
