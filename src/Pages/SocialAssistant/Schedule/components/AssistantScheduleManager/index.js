@@ -9,10 +9,11 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { NotificationService } from "services/notification";
 import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import createScheduleSchema from "./create-schedule-schema";
 
 export default function AssistantScheduleManager() {
     const [announcements, setAnnouncements] = useState([])
-    const [announcementSchedule, setAnnouncementSchedule] = useState({ id: null, schedule: null })
+    const [announcementSchedule, setAnnouncementSchedule] = useState({ id: null, schedule: null, boundaries: null })
     const navigate = useNavigate()
     const { state } = useLocation()
     const ref = useRef(null)
@@ -22,6 +23,7 @@ export default function AssistantScheduleManager() {
         const fetchAnnouncements = async () => {
             try {
                 const information = await socialAssistantService.getAnnouncementsScheduleSummary()
+                console.log(information)
                 setAnnouncements(information)
             } catch (err) {
                 NotificationService.error({ text: 'Erro ao carregar editais' })
@@ -69,7 +71,7 @@ export default function AssistantScheduleManager() {
                 title={'Reservar horários'}
                 text={'reserve os horários da agenda para este edital'}
             >
-                <Interview ref={ref} data={announcementSchedule?.schedule} />
+                <Interview ref={ref} data={announcementSchedule?.schedule} schema={createScheduleSchema({ minDate: announcementSchedule?.boundaries?.startDate, maxDate: announcementSchedule?.boundaries?.endDate })} />
             </Modal>
             <div style={{ padding: '24px' }}>
                 <Table.Root headers={['edital', 'entrevistas', 'visitas', 'ações']}>
@@ -80,7 +82,7 @@ export default function AssistantScheduleManager() {
                                 <Table.Cell>{e.interviews}</Table.Cell>
                                 <Table.Cell>{e.visits}</Table.Cell>
                                 <Table.Cell>
-                                    <ButtonBase label={e.hasSchedule ? 'editar' : 'cadastrar'} onClick={() => setAnnouncementSchedule({ id: e.id, schedule: e.AssistantSchedule?.[0] })} />
+                                    <ButtonBase label={e.hasSchedule ? 'editar' : 'cadastrar'} onClick={() => setAnnouncementSchedule({ id: e.id, schedule: e.AssistantSchedule?.[0], boundaries: e.interview })} />
                                     {e.hasSchedule && <ButtonBase label={'visualizar'} onClick={() => handleViewSchedule(e.id)} />}
                                 </Table.Cell>
                             </Table.Row>
