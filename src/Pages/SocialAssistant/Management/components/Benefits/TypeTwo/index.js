@@ -9,7 +9,7 @@ export default function BenefitsTypeTwo() {
             <h2 style={{ textAlign: 'center' }}>Benefícios Tipo 2</h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
 
-                <label>Cód. instituição no censo: 123123123</label>
+                <label>Cód. instituição no censo: </label>
                 {/* <label>Especificação da ação de apoio: 123123123</label> */}
             </div>
             {

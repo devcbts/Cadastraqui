@@ -54,7 +54,7 @@ export default function SelectedCandidateBenefitsTypeTwo() {
             await socialAssistantService.updateScholarshipGranted(scholarshipId, {
                 ScholarshipCode, type2TermAccepted
             })
-            NotificationService.success({ text: 'Informação alterada' })
+            NotificationService.success({ text: 'Informação alterada', type: "toast" })
         } catch (err) {
         }
     }

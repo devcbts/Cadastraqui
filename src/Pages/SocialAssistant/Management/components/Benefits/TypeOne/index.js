@@ -45,7 +45,7 @@ export default function BenefitsTypeOne() {
                 }
                 return e
             }))
-            NotificationService.success({ text: 'Alteração realizada' })
+            NotificationService.success({ text: 'Alteração realizada', type: "toast" })
 
         } catch (err) {
             NotificationService.error({ text: err?.response?.data?.message })
@@ -55,7 +55,7 @@ export default function BenefitsTypeOne() {
     const handleChangeTypeOneBenefit = async () => {
         try {
             await socialAssistantService.updateTypeOneBenefits(courseId, typeOneBenefit.map(e => ({ ...e, type: e.benefitType })))
-            NotificationService.success({ text: 'Valores alterados' })
+            NotificationService.success({ text: 'Valores alterados', type: "toast" })
         } catch (err) {
             NotificationService.error({ text: err?.response?.data?.message })
 
@@ -86,7 +86,6 @@ export default function BenefitsTypeOne() {
     // }, [document])
     const benefit = useBenefitsPDF(currentDocument.id)
     useEffect(() => {
-        console.log(currentDocument, benefit)
         if (!benefit) { return }
         if (currentDocument.url && currentDocument.id) {
             setTimeout(() => {
