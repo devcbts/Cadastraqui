@@ -11,12 +11,13 @@ export default function AssistantManagerBenefits() {
     const { state } = useLocation()
     const { announcement = null } = state
     const navigate = useNavigate()
-    const handleChangeBenefit = (type, id) => {
+    const handleChangeBenefit = (type, id, entity) => {
         navigate('', {
             state: {
                 ...state,
                 benefit: type,
-                courseId: id
+                courseId: id,
+                entity
             }
         })
     }
@@ -26,8 +27,8 @@ export default function AssistantManagerBenefits() {
                 !state?.benefit && (
                     <div style={{ display: 'flex', flexDirection: 'column', padding: '24px', width: 'max(40%,400px)' }}>
                         <RowActionInput label="Cod. instituição no censo"
-                            inputProps={{ placeholder: 'Digite um código' }}
-                            buttonProps={{ label: 'salvar' }}
+                            inputProps={{ defaultValue: announcement?.announcement?.entity?.emec, disabled: true }}
+
                         />
                         <div style={{ marginTop: '24px' }}>
                             <h3 style={{ textAlign: 'center' }}>Relação nominal de bolsistas</h3>
@@ -41,8 +42,8 @@ export default function AssistantManagerBenefits() {
                                             <Table.Cell>{course.entity}</Table.Cell>
                                             <Table.Cell>{course?.availableCourses ?? course?.grade}</Table.Cell>
                                             <Table.Cell>
-                                                {announcement?.announcement.types1?.length && <One height={30} width={30} cursor={'pointer'} onClick={() => handleChangeBenefit('one', course.id)} />}
-                                                {announcement?.announcement.type2 && <Two height={30} width={30} cursor={'pointer'} onClick={() => handleChangeBenefit('two', course.id)} />}
+                                                {announcement?.announcement.types1?.length > 0 && <One height={30} width={30} cursor={'pointer'} onClick={() => handleChangeBenefit('one', course.id, e)} />}
+                                                {announcement?.announcement.type2 && <Two height={30} width={30} cursor={'pointer'} onClick={() => handleChangeBenefit('two', course.id, e)} />}
                                             </Table.Cell>
                                         </Table.Row>)
                                         )

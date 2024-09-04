@@ -25,7 +25,7 @@ export default function TypeTwoCandidatePDF({
                 <View style={pdfStyles.body}>
                     <Text style={pdfStyles.text}>
                         A Entidade Beneficente {benefit?.entity?.socialReason}, inscrita no CNPJ da sob o nº {benefit?.entity?.CNPJ}
-                        {benefit?.EducationLevel?.entitySubsidiary ? `mantenedora da Instituição de Ensino ${benefit?.EducationLevel?.socialReason} e código no Educacenso/e-MEC nº ${benefit?.EducationLevel?.entitySubsidiary.educationalCode}` : ''}, denominada <Strong>CONCEDENTE</Strong>, e
+                        {benefit?.EducationLevel?.entitySubsidiary ? `mantenedora da Instituição de Ensino ${benefit?.EducationLevel?.socialReason} e código no Educacenso/e-MEC nº ${benefit?.EducationLevel?.entitySubsidiary.educationalInstitutionCode}` : ''}, denominada <Strong>CONCEDENTE</Strong>, e
                     </Text>
                     {benefit?.family?.map(member => (
                         <Text style={pdfStyles.text}>

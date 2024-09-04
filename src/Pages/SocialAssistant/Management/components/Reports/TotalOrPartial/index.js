@@ -2,11 +2,11 @@ import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as Excel } from 'Assets/icons/excel.svg'
 import { ReactComponent as PDF } from 'Assets/icons/PDF.svg'
 import { useLocation } from "react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { NotificationService } from "services/notification";
 import socialAssistantService from "services/socialAssistant/socialAssistantService";
-import { BlobProvider, pdf, PDFDownloadLink, usePDF } from "@react-pdf/renderer";
-import PartialReport from "./PDF/PartialReport";
+import { pdf } from "@react-pdf/renderer";
+import AdministrativeAnnouncementReport from "./PDF/AdministrativeAnnouncementReport";
 export default function TotalOrPartialReport() {
     const { state } = useLocation()
     const announcement = useMemo(() => state?.announcement?.announcement, [state])
@@ -17,9 +17,23 @@ export default function TotalOrPartialReport() {
             const filename = `relatorio_parcial_${name}`
             const information = await socialAssistantService.getPartialReport(announcement.id, id, type, { filename })
             if (type === "PDF") {
-                const blob = await pdf(<PartialReport scholarships={information.scholarshipsInfos} />).toBlob()
+                const blob = await pdf(<AdministrativeAnnouncementReport title={"Relatório Parcial"} scholarships={information.scholarshipsInfos} />).toBlob()
                 const url = URL.createObjectURL(blob)
                 setPdf({ id, url })
+                handleOpenDocument(url)
+            }
+
+        } catch (err) {
+            NotificationService.error({ text: err?.response?.data?.message })
+        }
+    }
+    const handleGetGeneralReport = async ({ type = "CSV" }) => {
+        try {
+            const filename = `relatorio_geral`
+            const information = await socialAssistantService.getFullReport(announcement.id, type, { filename })
+            if (type === "PDF") {
+                const blob = await pdf(<AdministrativeAnnouncementReport title={"Relatório Geral"} scholarships={information.scholarshipsInfos} />).toBlob()
+                const url = URL.createObjectURL(blob)
                 handleOpenDocument(url)
             }
 
@@ -37,10 +51,10 @@ export default function TotalOrPartialReport() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 <h2 style={{ textAlign: 'center' }}>Relatório geral</h2>
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '24px' }}>
-                    <ButtonBase >
+                    <ButtonBase onClick={() => handleGetGeneralReport({ type: "CSV" })}>
                         <Excel width={30} height={30} />
                     </ButtonBase>
-                    <ButtonBase >
+                    <ButtonBase onClick={() => handleGetGeneralReport({ type: "PDF" })}>
                         <PDF width={30} height={30} />
                     </ButtonBase>
                 </div>

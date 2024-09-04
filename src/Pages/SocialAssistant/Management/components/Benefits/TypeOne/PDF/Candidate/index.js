@@ -23,7 +23,7 @@ export default function TypeOneCandidatePDF({ benefit }) {
                 <View style={pdfStyles.body}>
                     <Text style={pdfStyles.text}>
                         A Entidade Beneficente {benefit?.entity?.socialReason}, inscrita no CNPJ da sob o nº {benefit?.entity?.CNPJ}
-                        {benefit?.EducationLevel?.entitySubsidiary ? `mantenedora da Instituição de Ensino ${benefit?.EducationLevel?.socialReason} e código no Educacenso/e-MEC nº ${benefit?.EducationLevel?.entitySubsidiary.educationalCode}` : ''}, denominada <Strong>CONCEDENTE</Strong>, e
+                        {benefit?.EducationLevel?.entitySubsidiary ? `mantenedora da Instituição de Ensino ${benefit?.EducationLevel?.socialReason} e código no Educacenso/e-MEC nº ${benefit?.EducationLevel?.entitySubsidiary.educationalInstitutionCode}` : ''}, denominada <Strong>CONCEDENTE</Strong>, e
 
                         O(a) <Strong>BENEFICIÁRIO(a)</Strong> {benefit?.candidate?.name},
                         inscrito(a) no CPF sob o nº {benefit?.candidate?.CPF}

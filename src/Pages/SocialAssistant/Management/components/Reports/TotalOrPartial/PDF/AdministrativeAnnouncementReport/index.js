@@ -8,15 +8,16 @@ import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer";
 import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
 import SCHOOL_LEVELS from "utils/enums/school-levels";
 
-export default function PartialReport({
-    scholarships
+export default function AdministrativeAnnouncementReport({
+    scholarships,
+    title
 }) {
     return (
         <Document>
 
             <Page size={"A4"} style={pdfStyles.page} >
                 <View style={pdfStyles.header}>
-                    <Text style={pdfStyles.h1}>Relatório Parcial</Text>
+                    <Text style={pdfStyles.h1}>{title}</Text>
                 </View>
                 <View style={pdfStyles.body}>
 
