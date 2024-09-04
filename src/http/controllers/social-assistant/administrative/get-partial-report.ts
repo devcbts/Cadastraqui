@@ -1,27 +1,27 @@
 import { prisma } from "@/lib/prisma";
 import { BasicEducationType, HigherEducationScholarshipType, LevelType, OfferedCourseType, ScholarshipOfferType } from "@prisma/client";
-import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
-import * as fs from 'fs';
 import * as csvWriter from 'csv-writer';
+import { FastifyReply, FastifyRequest } from "fastify";
+import * as fs from 'fs';
 import path from "path";
+import { z } from "zod";
 import formatDate from '../../../../utils/format-date';
 
 
 
 const levelTranslation = {
-    [LevelType.BasicEducation] : 'Educação Básica',
-    [LevelType.HigherEducation] : 'Educação Superior'
+    [LevelType.BasicEducation]: 'Educação Básica',
+    [LevelType.HigherEducation]: 'Educação Superior'
 }
 
 const courseTypeTranslation = {
-    [BasicEducationType.Preschool] : "Pré - Escola",
+    [BasicEducationType.Preschool]: "Pré - Escola",
     [BasicEducationType.Elementary]: 'Fundamental I e II',
     [BasicEducationType.HighSchool]: "Ensino Médio",
     [BasicEducationType.ProfessionalEducation]: "Ensino Profissional",
 
 
-    [OfferedCourseType.Postgraduate] : "Pós Graduação",
+    [OfferedCourseType.Postgraduate]: "Pós Graduação",
     [OfferedCourseType.UndergraduateBachelor]: "Bacharelado",
     [OfferedCourseType.UndergraduateLicense]: "Licenciatura",
     [OfferedCourseType.UndergraduateTechnologist]: "Tecnólogo"
@@ -30,14 +30,14 @@ const courseTypeTranslation = {
 
 const scholarshipOfferTranslation = {
     [HigherEducationScholarshipType.CityGovernment]: "Governo Municipal",
-    [HigherEducationScholarshipType.CityGovernmentPartial] : "Governo Municipal Parcial",
-    [HigherEducationScholarshipType.ExternalEntities] : "Entidades Externas",
-    [HigherEducationScholarshipType.HigherEduInstitutionFull] : "Instituições de Ensino Superior",
+    [HigherEducationScholarshipType.CityGovernmentPartial]: "Governo Municipal Parcial",
+    [HigherEducationScholarshipType.ExternalEntities]: "Entidades Externas",
+    [HigherEducationScholarshipType.HigherEduInstitutionFull]: "Instituições de Ensino Superior",
     [HigherEducationScholarshipType.HigherEduInstitutionPartial]: "Instituições de Ensino Superior Parcial",
     [HigherEducationScholarshipType.HigherEduInstitutionWorkers]: "Trabalhadores da Instituição de Ensino Superior",
     [HigherEducationScholarshipType.HigherEduInstitutionWorkersPartial]: "Trabalhadores da Instituição de Ensino Superior Parcial",
-    [HigherEducationScholarshipType.PROUNIFull] : "PROUNI Integral", 
-    [HigherEducationScholarshipType.PROUNIPartial] : "PROUNI Parcial",
+    [HigherEducationScholarshipType.PROUNIFull]: "PROUNI Integral",
+    [HigherEducationScholarshipType.PROUNIPartial]: "PROUNI Parcial",
     [HigherEducationScholarshipType.PostgraduateStrictoSensu]: "Pós Graduação Stricto Sensu",
     [HigherEducationScholarshipType.PostgraduateStrictoSensuPartial]: "Pós Graduação Stricto Sensu Parcial",
     [HigherEducationScholarshipType.StateGovernment]: "Governo Estadual",
@@ -51,7 +51,7 @@ const scholarshipOfferTranslation = {
     [ScholarshipOfferType.Law187ScholarshipPartial]: "Bolsa Lei 187 Parcial",
     [ScholarshipOfferType.StudentWithDisability]: "Estudante com Deficiência",
     [ScholarshipOfferType.StudentWithDisabilityPartial]: "Estudante com Deficiência (Parcial)",
-    
+
 }
 
 
@@ -135,12 +135,12 @@ export default async function getPartialReport(
                 return {
                     level: scholarship.application.EducationLevel.level,
                     courseType: scholarship.application.EducationLevel.basicEduType || scholarship.application.EducationLevel.offeredCourseType,
-                    course: scholarship.application.EducationLevel.availableCourses,
+                    course: scholarship.application.EducationLevel.availableCourses ?? scholarship.application.EducationLevel.grade,
                     candidateName: scholarship.application.candidate.name,
                     candidateBirthDate: formatDate(scholarship.application.candidate.birthDate.toString()),
                     candidateCPF: scholarship.application.candidate.CPF,
                     responsibleCPF: scholarship.application.responsible?.CPF,
-                    ScholarshipOfferType: scholarship.application.EducationLevel.higherEduScholarshipType || scholarship.application.EducationLevel.basicEduType,
+                    ScholarshipOfferType: scholarship.application.EducationLevel.higherEduScholarshipType || scholarship.application.EducationLevel.scholarshipType,
                     partiaPercentage: scholarship.application.ScholarshipPartial,
                     ScholarshipCode: scholarship.ScholarshipCode
                 }
@@ -151,11 +151,11 @@ export default async function getPartialReport(
 
 
         if (format == 'CSV') {
-            
+
             const scholarshipsInfos = scholarships.map((scholarship) => {
                 return {
                     level: levelTranslation[scholarship.application.EducationLevel.level],
-                    courseType: `${courseTypeTranslation[(scholarship.application.EducationLevel.basicEduType || scholarship.application.EducationLevel.offeredCourseType)!]} - ${scholarship.application.EducationLevel.availableCourses} `,
+                    courseType: `${courseTypeTranslation[(scholarship.application.EducationLevel.basicEduType || scholarship.application.EducationLevel.offeredCourseType)!]} - ${scholarship.application.EducationLevel.availableCourses ?? scholarship.application.EducationLevel.grade} `,
                     candidateName: scholarship.application.candidate.name,
                     candidateBirthDate: formatDate(scholarship.application.candidate.birthDate.toString()),
                     ScholarshipCode: scholarship.ScholarshipCode,

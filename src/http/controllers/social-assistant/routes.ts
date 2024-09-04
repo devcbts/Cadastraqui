@@ -3,6 +3,8 @@ import verifyAssistantEnroll from '@/http/middlewares/verify-assistant-enroll'
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import { FastifyInstance } from 'fastify'
 import { addHistory } from './add-history'
+import getCourseInfo from './administrative/get-course-info'
+import getPartialReport from './administrative/get-partial-report'
 import getScholarshipsByLevel from './administrative/get-sholarships-by-level'
 import getType1Benefits from './administrative/get-type1-benefits'
 import getType2Benefits from './administrative/get-type2-benefits'
@@ -53,7 +55,6 @@ import { sendParecerDocumentToSign } from './send-parecer-document-to-sign'
 import { updateApplication } from './update-application'
 import updateAssistantProfile from './update-assistant-profile'
 import { updateSolicitationWithReport } from './update-solicitation-report'
-import getPartialReport from './administrative/get-partial-report'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -181,6 +182,7 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.post('/administrative/scholarships/:scholarship_id', { onRequest: [verifyJWT] }, updateScholarshipGranted)
   app.get('/administrative/type2/:scholarship_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getType2Benefits)
   app.post('/administrative/type2/:scholarship_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, updateType2Benefits)
-  app.get('/administrative/report/partial/:announcement_id/:entity_id', { onRequest: [verifyJWT,verifyAssistantAnnouncement] }, getPartialReport)
+  app.get('/administrative/report/partial/:announcement_id/:entity_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getPartialReport)
+  app.get('/administrative/general/course/:educationLevel_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getCourseInfo)
 
 }

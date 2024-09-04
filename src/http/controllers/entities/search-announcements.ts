@@ -16,10 +16,11 @@ export default async function searchAnnouncements(
         filter: z.string().optional(),
         open: z.boolean().default(true),
         page: z.number().default(1),
-        itemCount: z.number().default(10)
+        itemCount: z.number().default(30)
     })
     try {
         const { id, filter, page, itemCount, open } = searchAnnouncementSchema.parse(request.body)
+        console.log(itemCount)
         const currentDate = new Date()
         const announcements = await prisma.announcement.findMany({
             where: {

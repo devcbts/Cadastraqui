@@ -53,7 +53,7 @@ export async function fetchFilterAnnouncements(
     }
 
     const currentDate = new Date()
-    const pageSize = 10; // number of records per page
+    const pageSize = 30; // number of records per page
     const pageNumber = page_number || 1; // page number
     console.log(currentDate)
     const announcements = await prisma.announcement.findMany({

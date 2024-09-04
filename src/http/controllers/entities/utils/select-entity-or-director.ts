@@ -15,7 +15,8 @@ export default async function SelectEntityOrDirector(user_id: string, role: ROLE
         const entity = await prisma.entity.findUnique({
             where: { user_id },
             include: {
-                user: options.includeUser ? true : false
+                user: options.includeUser ? true : false,
+                EntitySubsidiary: true
             }
         })
         if (!entity) {

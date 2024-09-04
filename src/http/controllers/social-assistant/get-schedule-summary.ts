@@ -11,10 +11,13 @@ export default async function getScheduleSummary(
             where: { user_id: sub },
             include: {
                 Announcement: {
+                    where: { interview: { isNot: null } },
                     include: {
+
                         AssistantSchedule: {
-                            where: { assistant: { user_id: sub } }
-                        }
+                            where: { assistant: { user_id: sub } },
+                        },
+                        interview: true
                     }
                 }
             }
@@ -37,7 +40,8 @@ export default async function getScheduleSummary(
                 ...e,
                 interviews,
                 visits,
-                hasSchedule: e.AssistantSchedule.length !== 0
+                hasSchedule: e.AssistantSchedule.length !== 0,
+
             })
         })
         return response.status(200).send({ announcements: mappedData })
