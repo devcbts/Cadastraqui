@@ -191,7 +191,15 @@ export default async function getPartialReport(
             await writer.writeRecords(scholarshipsInfos);
             const filePath = path.resolve('scholarships.csv');
             const fileStream = fs.createReadStream(filePath);
-
+            fileStream.on('end', () => {
+                fs.unlink(filePath, (err) => {
+                    if (err) {
+                        console.error('Erro ao deletar o arquivo:', err);
+                    } else {
+                        console.log('Arquivo deletado com sucesso');
+                    }
+                });
+            });
             reply.header('Content-Type', 'text/csv');
             reply.header('Content-Disposition', 'attachment; filename="scholarships.csv"');
             return reply.status(200).send(fileStream);

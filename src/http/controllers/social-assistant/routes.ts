@@ -55,6 +55,7 @@ import updateAssistantProfile from './update-assistant-profile'
 import { updateSolicitationWithReport } from './update-solicitation-report'
 import getPartialReport from './administrative/get-partial-report'
 import getFullReport from './administrative/get-full-report'
+import getNominalReport from './administrative/get-nominal-report'
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -185,4 +186,5 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/administrative/report/partial/:announcement_id/:entity_id', { onRequest: [verifyJWT,verifyAssistantAnnouncement] }, getPartialReport)
 
   app.get('/administrative/report/full/:announcement_id', { onRequest: [verifyJWT,verifyAssistantAnnouncement] }, getFullReport)
+  app.get('/administrative/report/nominal/:announcement_id/:entity_id', { onRequest: [verifyJWT,verifyAssistantAnnouncement] }, getNominalReport)
 }
