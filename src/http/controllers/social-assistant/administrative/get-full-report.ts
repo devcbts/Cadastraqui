@@ -55,7 +55,7 @@ const scholarshipOfferTranslation = {
 }
 
 
-export default async function getPartialReport(
+export default async function getFullReport(
     request: FastifyRequest,
     reply: FastifyReply
 ) {
