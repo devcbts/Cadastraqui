@@ -181,7 +181,7 @@ export default async function getNominalReport(
 
             // Write the scholarshipsInfos data to the CSV file
             await writer.writeRecords(scholarshipsInfos);
-            const filePath = path.resolve('scholarships.csv');
+            const filePath = path.resolve('nominal-report.csv');
             const fileStream = fs.createReadStream(filePath);
 
             fileStream.on('end', () => {
