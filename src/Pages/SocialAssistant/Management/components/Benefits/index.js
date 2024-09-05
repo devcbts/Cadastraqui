@@ -31,7 +31,7 @@ export default function AssistantManagerBenefits() {
 
                         />
                         <div style={{ marginTop: '24px' }}>
-                            <h3 style={{ textAlign: 'center' }}>Relação nominal de bolsistas</h3>
+                            <h3 style={{ textAlign: 'center' }}>Benefícios Tipos 1 e 2</h3>
                             <Table.Root headers={['unidade/cidade', 'curso', 'tipo de benefício']}>
                                 {
                                     announcement?.educationLevels?.map((e) => {
