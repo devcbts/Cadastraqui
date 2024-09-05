@@ -8,9 +8,10 @@ import { NotificationService } from "services/notification"
 import assistantProfileSchema from "./schemas/assistant-profile-schema"
 import socialAssistantService from "services/socialAssistant/socialAssistantService"
 import styles from './styles.module.scss'
+import { formatCPF } from "utils/format-cpf"
 export default function FormView({ data, onEdit }) {
     const [editMode, setEditMode] = useState(false)
-    const { control, getValues, reset } = useControlForm({
+    const { control, getValues, reset, formState: { isValid }, trigger } = useControlForm({
         schema: assistantProfileSchema,
         defaultValues: {
             name: "",
@@ -22,6 +23,7 @@ export default function FormView({ data, onEdit }) {
         initialData: data
     })
     const handleSave = async () => {
+
         try {
             const values = getValues()
             await socialAssistantService.updateProfile(values)
@@ -39,7 +41,7 @@ export default function FormView({ data, onEdit }) {
         <div>
             <fieldset disabled={!editMode}>
                 <InputForm control={control} name="name" label={'nome completo'} />
-                <InputForm control={control} name="CPF" label={'CPF'} />
+                <InputForm control={control} name="CPF" label={'CPF'} transform={(e) => formatCPF(e.target.value)} />
                 <InputForm control={control} name="CRESS" label={'CRESS'} />
                 <InputForm control={control} name="phone" label={'telefone'} />
                 <InputForm control={control} name="email" label={'email'} />
@@ -48,10 +50,14 @@ export default function FormView({ data, onEdit }) {
             <div className={styles.actions}>
                 {editMode && <ButtonBase label={'cancelar'} onClick={handleCancel} />}
                 <ButtonBase label={editMode ? 'salvar' : 'editar'} onClick={async () => {
-                    setEditMode(!editMode)
                     if (editMode) {
+                        if (!isValid) {
+                            trigger()
+                            return
+                        }
                         await handleSave()
                     }
+                    setEditMode(!editMode)
                 }} />
                 {!editMode && <ButtonBase label={'alterar senha'} onClick={onEdit} />}
             </div>
