@@ -9,6 +9,7 @@
     border-top-right-radius: 8px;
     padding: 100px 40px 40px 40px;
     box-shadow: 2px 2px 5px $grey;
+    float: right;
     @media(max-width: 870px){
         width: 150px;
         padding: 100px 10px 40px 10px;

@@ -10,7 +10,7 @@ import { z } from "zod";
 
 export default function CandidateCreateSAC() {
     const navigate = useNavigate()
-    const { control, getValues } = useControlForm({
+    const { control, getValues, formState: { isValid }, trigger } = useControlForm({
         defaultValues: {
             name: '',
             subject: '',
@@ -25,6 +25,10 @@ export default function CandidateCreateSAC() {
         })
     })
     const handleCreateSAC = async () => {
+        if (!isValid) {
+            trigger()
+            return
+        }
         try {
             const { name, subject, image, message } = getValues()
             await callService.createCall({
