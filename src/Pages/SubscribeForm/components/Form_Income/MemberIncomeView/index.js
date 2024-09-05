@@ -72,6 +72,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                 } else {
                     await candidateService.updateFamilyMember(id, { hasBankAccount: incomeInfo?.data?.hasBankAccount })
                 }
+                NotificationService.success({ text: 'Informação atualizada', type: 'toast' })
             } catch (err) {
                 NotificationService.error({ text: 'Não foi possível atualizar esta informação' })
                 handleBankDeclaration()
@@ -92,7 +93,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                         {
                             (incomeInfo?.data?.hasBankAccount === null || incomeInfo?.data?.hasBankAccount === true)
                                 ? <>
-                                    <h3>Contas bancários</h3>
+                                    <h3>Contas bancárias</h3>
                                     <button
                                         className={styles.buttonCadastrarDeclaracao}
                                         onClick={() => setShowBankInfo('accounts')}
