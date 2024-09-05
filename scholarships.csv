@@ -1,2 +1,3 @@
-Nível de ensino,Etapa/Curso,Nome do bolsista,Data de Nascimento,Código de identificação do bolsista no censo,CPF do bolsista,CPF do responsável (se houver),Tipo de bolsa de estudo,Porcentagem da bolsa
-
+Código da Instituição de ensino no Censo,Nível de ensino,Etapa/Curso,Nome do bolsista,Data de Nascimento,Código de identificação do bolsista no censo,CPF do bolsista,CPF do responsável (se houver),Tipo de bolsa de estudo,Porcentagem da bolsa
+123131232,Educação Básica,Fundamental I e II - null ,Filho do responsável,09/10/2020,9900123,234.144.230-73,234.144.230-73,Bolsa Lei 187,100%
+123131232,Educação Básica,Fundamental I e II - null ,abdaosidhasdiouh,30/04/1998,123,111.179.716-19,,Bolsa Lei 187,100%
