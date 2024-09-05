@@ -5,7 +5,6 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import * as fs from 'fs';
 import path from "path";
 import { z } from "zod";
-import formatDate from '../../../../utils/format-date';
 
 
 
@@ -55,76 +54,91 @@ const scholarshipOfferTranslation = {
 }
 
 
-export default async function getFullReport(
+export default async function getNominalReport(
     request: FastifyRequest,
     reply: FastifyReply
 ) {
     const partialReportParams = z.object({
         announcement_id: z.string(),
+        entity_id: z.string()
     })
 
     const partialReportFormat = z.object({
         format: z.enum(['PDF', 'CSV'])
     })
-    const { announcement_id } = partialReportParams.parse(request.params)
+    const { announcement_id, entity_id } = partialReportParams.parse(request.params)
     const { format } = partialReportFormat.parse(request.query)
     try {
 
-
-        const scholarships = await prisma.scholarshipGranted.findMany({
-            where: {
-                gaveUp: false,
-                application: {
-                    announcement_id
-                }
-            }, include: {
-                application: {
-                    include: {
-                        announcement: {
-                            include: {
-                                entity: {
-                                    select: {
-                                        emec: true
-                                    }
-                                }
-                            }
-                        },
-                        candidate: true,
-                        responsible: true,
-                        EducationLevel: {
-                            include: {
-                                entitySubsidiary: {
-                                    select: {
-                                        educationalInstitutionCode: true
-                                    }
-                                }
-                            }
-                        },
-
-                    }
-
-                }
-            },
-
+        const entityInfo = await prisma.entitySubsidiary.findUnique({
+            where: { id: entity_id },
+            include: {
+                user: true
+            }
+        }) || await prisma.entity.findUnique({
+            where: { id: entity_id }, include: {
+                user: true
+            }
         })
 
+        let scholarships;
+
+        if (entityInfo && entityInfo.user.role === 'ENTITY') { // Supondo que 'type' indica se é principal ou subsidiária
+            scholarships = await prisma.scholarshipGranted.findMany({
+                where: {
+                    gaveUp: false,
+                    application: {
+                        announcement_id,
+                        EducationLevel: {
+                            entitySubsidiaryId: null
+                        }
+                    }
+                },
+                include: {
+                    application: {
+                        include: {
+                            candidate: true,
+                            responsible: true,
+                            EducationLevel: true,
+                        }
+                    }
+                }
+            });
+        } else {
+            scholarships = await prisma.scholarshipGranted.findMany({
+                where: {
+                    gaveUp: false,
+                    application: {
+                        announcement_id,
+                        EducationLevel: {
+                            entitySubsidiaryId: entity_id
+                        }
+                    }
+                },
+                include: {
+                    application: {
+                        include: {
+                            candidate: true,
+                            responsible: true,
+                            EducationLevel: true
+                        }
+                    }
+                }
+            });
+        }
 
 
         if (format == 'PDF') {
 
             const scholarshipsInfos = scholarships.map((scholarship) => {
                 return {
-                    educationalCENSUSInstitutionCode: (scholarship.application.EducationLevel.entitySubsidiary ? scholarship.application.EducationLevel.entitySubsidiary.educationalInstitutionCode : scholarship.application.announcement.entity.emec),
+                    entityName: entityInfo?.name,
+                    entityCNPJ: entityInfo?.CNPJ,
+                    candidateName: scholarship.application.candidate.name,
                     level: scholarship.application.EducationLevel.level,
                     courseType: scholarship.application.EducationLevel.basicEduType || scholarship.application.EducationLevel.offeredCourseType,
                     course: scholarship.application.EducationLevel.availableCourses ?? scholarship.application.EducationLevel.grade,
-                    candidateName: scholarship.application.candidate.name,
-                    candidateBirthDate: formatDate(scholarship.application.candidate.birthDate.toString()),
-                    candidateCPF: scholarship.application.candidate.CPF,
-                    responsibleCPF: scholarship.application.responsible?.CPF,
-                    ScholarshipOfferType: scholarship.application.EducationLevel.higherEduScholarshipType || scholarship.application.EducationLevel.scholarshipType,
-                    partiaPercentage: scholarship.application.ScholarshipPartial,
-                    ScholarshipCode: scholarship.ScholarshipCode
+                    partialPercentage: scholarship.application.ScholarshipPartial ? "50%" : "100%",
 
                 }
             })
@@ -137,15 +151,11 @@ export default async function getFullReport(
 
             const scholarshipsInfos = scholarships.map((scholarship) => {
                 return {
-                    educationalCENSUSInstitutionCode: (scholarship.application.EducationLevel.entitySubsidiary ? scholarship.application.EducationLevel.entitySubsidiary.educationalInstitutionCode : scholarship.application.announcement.entity.emec),
+                    entityName: entityInfo?.name,
+                    entityCNPJ: entityInfo?.CNPJ,
+                    candidateName: scholarship.application.candidate.name,
                     level: levelTranslation[scholarship.application.EducationLevel.level],
                     courseType: `${courseTypeTranslation[(scholarship.application.EducationLevel.basicEduType || scholarship.application.EducationLevel.offeredCourseType)!]} - ${scholarship.application.EducationLevel.availableCourses ?? scholarship.application.EducationLevel.grade} `,
-                    candidateName: scholarship.application.candidate.name,
-                    candidateBirthDate: formatDate(scholarship.application.candidate.birthDate.toString()),
-                    ScholarshipCode: scholarship.ScholarshipCode,
-                    candidateCPF: scholarship.application.candidate.CPF,
-                    responsibleCPF: scholarship.application.responsible?.CPF,
-                    ScholarshipOfferType: scholarshipOfferTranslation[(scholarship.application.EducationLevel.higherEduScholarshipType || scholarship.application.EducationLevel.scholarshipType)!],
                     partialPercentage: scholarship.application.ScholarshipPartial ? "50%" : "100%",
                 }
             })
@@ -154,28 +164,25 @@ export default async function getFullReport(
 
             // Define the headers for the CSV file
             const headers = [
-                { id: 'educationalCENSUSInstitutionCode', title: 'Código da Instituição de ensino no Censo' },
+                { id: 'entityName', title: 'Nome da entidade' },
+                { id: 'entityCNPJ', title: 'CNPJ da entidade' },
+                { id: 'candidateName', title: 'Nome do bolsista' },
                 { id: 'level', title: 'Nível de ensino' },
                 { id: 'courseType', title: 'Etapa/Curso' },
-                { id: 'candidateName', title: 'Nome do bolsista' },
-                { id: 'candidateBirthDate', title: 'Data de Nascimento' },
-                { id: 'ScholarshipCode', title: 'Código de identificação do bolsista no censo' },
-                { id: 'candidateCPF', title: 'CPF do bolsista' },
-                { id: 'responsibleCPF', title: 'CPF do responsável (se houver)' },
-                { id: 'ScholarshipOfferType', title: 'Tipo de bolsa de estudo' },
                 { id: 'partialPercentage', title: 'Porcentagem da bolsa' },
             ];
 
             // Create a new CSV writer instance
             const writer = csvWriter.createObjectCsvWriter({
-                path: 'scholarships.csv',
+                path: 'nominal-report.csv',
                 header: headers,
             });
 
             // Write the scholarshipsInfos data to the CSV file
             await writer.writeRecords(scholarshipsInfos);
-            const filePath = path.resolve('scholarships.csv');
+            const filePath = path.resolve('nominal-report.csv');
             const fileStream = fs.createReadStream(filePath);
+
             fileStream.on('end', () => {
                 fs.unlink(filePath, (err) => {
                     if (err) {
@@ -185,8 +192,10 @@ export default async function getFullReport(
                     }
                 });
             });
+
+
             reply.header('Content-Type', 'text/csv');
-            reply.header('Content-Disposition', 'attachment; filename="scholarships.csv"');
+            reply.header('Content-Disposition', 'attachment; filename="nominal-report.csv"');
             return reply.status(200).send(fileStream);
         }
 

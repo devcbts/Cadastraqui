@@ -5,6 +5,7 @@ import { FastifyInstance } from 'fastify'
 import { addHistory } from './add-history'
 import getCourseInfo from './administrative/get-course-info'
 import getFullReport from './administrative/get-full-report'
+import getNominalReport from './administrative/get-nominal-report'
 import getPartialReport from './administrative/get-partial-report'
 import getScholarshipsByLevel from './administrative/get-sholarships-by-level'
 import getType1Benefits from './administrative/get-type1-benefits'
@@ -187,4 +188,5 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/administrative/general/course/:educationLevel_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getCourseInfo)
 
   app.get('/administrative/report/full/:announcement_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getFullReport)
+  app.get('/administrative/report/nominal/:announcement_id/:entity_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getNominalReport)
 }
