@@ -3,10 +3,10 @@ import InputBase from "Components/InputBase";
 import Table from "Components/Table";
 import { ReactComponent as Document } from 'Assets/icons/document.svg'
 import CheckboxBase from "Components/CheckboxBase";
-import { BlobProvider, PDFDownloadLink, usePDF } from "@react-pdf/renderer";
+import { BlobProvider, pdf, PDFDownloadLink, usePDF } from "@react-pdf/renderer";
 import TypeOneResponsiblePDF from "./PDF/Responsible";
 import RowActionInput from "../../RowActionInput";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router";
 import moneyInputMask from "Components/MoneyFormInput/money-input-mask";
 import TYPE_ONE_BENEFITS from "utils/enums/type-one-benefits";
@@ -74,7 +74,7 @@ export default function BenefitsTypeOne() {
         setDefaultTypeOneValues(typeOneBenefit)
     }, [typeOneBenefit])
 
-    const [currentDocument, setCurrentDocument] = useState({ id: null, url: null })
+    const [currentDocument, setCurrentDocument] = useState(null)
     // const [document, update] = usePDF()
     // useBenefitsPDF((benefit) => {
     //     update(<TypeOneBenefitsPDF benefit={benefit} />)
@@ -88,18 +88,16 @@ export default function BenefitsTypeOne() {
     //         update()
     //     }
     // }, [document])
-    const benefit = useBenefitsPDF(currentDocument.id)
+    const benefit = useBenefitsPDF(currentDocument)
+    const handleOpenDocument = useCallback(async () => {
+        const blob = await pdf(<TypeOneBenefitsPDF benefit={benefit} />).toBlob()
+        const url = URL.createObjectURL(blob)
+        window.open(url, '_blank')
+    }, [benefit])
     useEffect(() => {
-        if (!benefit) { return }
-        if (currentDocument.url && currentDocument.id) {
-            setTimeout(() => {
-                window.open(currentDocument.url, '_blank')
-                setCurrentDocument({ id: null, url: null })
-
-            }
-                , 0)
-        }
-    }, [currentDocument, benefit])
+        if (!benefit) return
+        handleOpenDocument()
+    }, [benefit])
     return (
         <div>
             <Loader loading={isLoading} />
@@ -164,22 +162,14 @@ export default function BenefitsTypeOne() {
                                 }} inputProps={{ defaultValue: student.ScholarshipCode }} />
                             </Table.Cell>
                             <Table.Cell >
-                                <BlobProvider document={
-                                    student.application.id === currentDocument?.id
-                                        ? <TypeOneBenefitsPDF key={student.application.id} benefit={benefit} />
-                                        : <></>
-                                }>
-                                    {({ url, loading }) => {
-                                        return (loading && !url) ? 'aguarde...' : <Document height={30} width={30} cursor={'pointer'} onClick={() =>
-                                            setCurrentDocument({
-                                                id: student.application.id, url: url
-                                            })} />
-                                    }}
-                                </BlobProvider>
+                                <Document height={30} width={30} cursor={'pointer'} onClick={async () =>
+                                    currentDocument !== student.application.id
+                                        ? setCurrentDocument(
+                                            student.application.id
+                                        )
+                                        : await handleOpenDocument()
+                                } />
 
-                                {/* {student.ScholarshipCode &&
-                                    <Document height={30} width={30} cursor={'pointer'} onClick={() => setCurrentDocument(student.application.id)} />
-                                } */}
                             </Table.Cell>
                             <Table.Cell >
                                 <input type="checkbox" defaultChecked={student.type1TermAccepted} onChange={async (e) => {
