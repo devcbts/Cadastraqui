@@ -8,6 +8,10 @@ import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
 import uploadService from "services/upload/uploadService";
 import SendDocumentSolicitation from "../../SendDocumentSolicitation";
+import { BlobProvider } from "@react-pdf/renderer";
+import TypeOneBenefitsPDF from "Pages/SocialAssistant/Management/components/Benefits/TypeOne/PDF";
+import TypeTwoBenefitsPDF from "Pages/SocialAssistant/Management/components/Benefits/TypeTwo/PDF";
+import useBenefitsPDF from "Pages/SocialAssistant/Management/components/Benefits/useBenefitsPDFInformation";
 
 export default function UserPendencies() {
     const { applicationId } = useParams()
@@ -45,6 +49,19 @@ export default function UserPendencies() {
             NotificationService.error({ text: err?.response?.data?.message })
         }
     }
+    const [appId, setAppId] = useState({ id: null, url: null })
+    const benefit = useBenefitsPDF(appId.id)
+    useEffect(() => {
+        if (!benefit) { return }
+        if (appId.url && appId.id) {
+            setTimeout(() => {
+                window.open(appId.url, '_blank')
+                setAppId({ id: null, url: null })
+
+            }
+                , 0)
+        }
+    }, [appId, benefit])
     return (
         <div>
             <SendDocumentSolicitation data={selection} onClose={() => setSelection(null)} onConfirm={handleUploadSolicitation} />
@@ -75,6 +92,30 @@ export default function UserPendencies() {
                                                 {!item.answered
                                                     ? <ButtonBase label={'agendar'} onClick={() => navigate('', { state: { schedule: item.solicitation } })} />
                                                     : <span>Enviada</span>
+                                                }
+                                            </FormListItem.Actions>
+                                        </FormListItem.Root>
+                                    )
+                                }
+                                else if (item.solicitation === 'BenefitOne' || item.solicitation === 'BenefitTwo') {
+                                    return (
+                                        <FormListItem.Root text={item.description}>
+                                            <FormListItem.Actions>
+                                                {
+                                                    <BlobProvider document={(
+                                                        item.solicitation === 'BenefitOne'
+                                                            ? <TypeOneBenefitsPDF benefit={benefit} />
+                                                            : <TypeTwoBenefitsPDF benefit={benefit} />
+                                                    )}>
+                                                        {
+                                                            ({ url, loading }) => {
+                                                                return (loading && !url)
+                                                                    ? 'aguarde...'
+                                                                    : <ButtonBase label={'Baixar'} onClick={() => setAppId({ id: item.applicationId, url })} />
+                                                            }
+                                                        }
+                                                    </BlobProvider>
+
                                                 }
                                             </FormListItem.Actions>
                                         </FormListItem.Root>

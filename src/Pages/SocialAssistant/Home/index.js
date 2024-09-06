@@ -34,7 +34,7 @@ export default function AssistantHome() {
                 </Card.Root>
                 <Card.Root >
                     <Card.Title text={'editais - fase de inscrição'} />
-                    <Card.Content> {data?.closedAnnoncements}</Card.Content>
+                    <Card.Content> {data?.applicationAnnouncements}</Card.Content>
                 </Card.Root>
                 <Card.Root >
                     <Card.Title text={'editais - fase de avaliação'} />

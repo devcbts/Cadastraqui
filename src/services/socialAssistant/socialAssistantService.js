@@ -160,6 +160,46 @@ class SocialAssistantService {
         const response = await api.get(`/assistant/dashboard`)
         return response.data
     }
+    async getGrantedScholarshipsByCourse(courseId) {
+        const response = await api.get(`/assistant/administrative/scholarships/${courseId}`)
+        return response.data.scholarships
+    }
+    async getTypeTwoBenefitsByScholarship(scholarshipId) {
+        const response = await api.get(`/assistant/administrative/type2/${scholarshipId}`)
+        return { typeTwoInfotmation: response.data.type2Benefits, family: response.data.formatedMembers }
+    }
+    async getTypeOneBenefitsByCourse(courseId) {
+        const response = await api.get(`/assistant/administrative/type1/${courseId}`)
+        return { typeOneInformation: response.data.type1Benefits }
+    }
+    updateScholarshipGranted(scholarshipId, data) {
+        return api.post(`/assistant/administrative/scholarships/${scholarshipId}`, data)
+    }
+    updateTypeTwoBenefits(scholarshipId, data) {
+        return api.post(`/assistant/administrative/type2/${scholarshipId}`, data)
+    }
+    updateTypeOneBenefits(educationLevelId, data) {
+        return api.post(`/assistant/administrative/type1/${educationLevelId}`, data)
+    }
+    async getAdminCourseInfo(courseId) {
+        const response = await api.get(`/assistant/administrative/general/course/${courseId}`)
+        return response.data
+    }
+    async getPartialReport(announcementId, entityId, format = "CSV", { filename = "relatorio" }) {
+        const config = format === "CSV" ? { responseType: "blob", filename: filename } : {}
+        const response = await api.get(`/assistant/administrative/report/partial/${announcementId}/${entityId}?format=${format}`, config)
+        return response.data
+    }
+    async getFullReport(announcementId, format = "CSV", { filename = "relatorio" }) {
+        const config = format === "CSV" ? { responseType: "blob", filename: filename } : {}
+        const response = await api.get(`/assistant/administrative/report/full/${announcementId}?format=${format}`, config)
+        return response.data
+    }
+    async getNominalReport(announcementId, entityId, format = "CSV", { filename = "relatorio" }) {
+        const config = format === "CSV" ? { responseType: "blob", filename: filename } : {}
+        const response = await api.get(`/assistant/administrative/report/nominal/${announcementId}/${entityId}?format=${format}`, config)
+        return response.data
+    }
 }
 
 export default new SocialAssistantService()

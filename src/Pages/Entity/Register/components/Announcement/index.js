@@ -27,8 +27,8 @@ export default function Announcement() {
                 setIsLoading(true)
                 const information = await entityService.getEntityInfo()
                 setEntity(information)
-                setIsLoading(false)
             } catch (err) { }
+            setIsLoading(false)
         }
         fetchEntity()
     }, [])

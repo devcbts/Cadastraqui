@@ -30,7 +30,7 @@ export const pdfStyles = StyleSheet.create({
         textAlign: 'justify'
     },
     strong: {
-        fontWeight: 'black',
+        fontWeight: 'heavy',
         fontSize: '10px',
         textTransform: 'uppercase'
     },

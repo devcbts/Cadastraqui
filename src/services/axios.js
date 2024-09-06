@@ -50,3 +50,24 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+api.interceptors.response.use(
+  (res) => {
+    if (res.config.responseType === "blob") {
+      const blob = new Blob([res.data], { type: res.headers['content-type'] });
+
+      // const contentDisposition = response.headers['content-disposition'];
+      let filename = res.config.filename ?? 'documento';
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+
+      window.URL.revokeObjectURL(link.href);
+    }
+    return res
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+)
