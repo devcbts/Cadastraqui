@@ -1,3 +1,7 @@
+import { NotAllowedError } from "@/errors/not-allowed-error";
+import getOpenApplications from "@/HistDatabaseFunctions/find-open-applications";
+import { findAWSRouteHDB } from "@/HistDatabaseFunctions/Handle Application/find-AWS-Route";
+import { uploadFile } from "@/http/services/upload-file";
 import { prisma } from "@/lib/prisma";
 import { uploadToS3 } from "@/lib/S3";
 import axios from "axios";
@@ -45,15 +49,54 @@ export default async function updateSign(
                         // response is a binary data, must convert into readable file before sending to aws
                         const application = await prisma.application.findUnique({
                             where: { parecerDocumentKey: document_key }
-                        })
+                        });
                         if (!application) {
                             break;
                         }
-                        const binaryData = await api.get(`/files/download/${document_key}`, { responseType: 'arraybuffer', responseEncoding: 'binary' })
-                        const route = `assistantDocuments/${application.id}/parecer/parecer.pdf`;
+                        const binaryDataParecer = await api.get(`/files/download/${document_key}`, { responseType: 'arraybuffer', responseEncoding: 'binary' });
+                        const routeParecer = `assistantDocuments/${application.id}/parecer/parecer.pdf`;
 
-                        const file = Buffer.from(binaryData.data)
-                        await uploadToS3(file, route)
+                        const fileParecer = Buffer.from(binaryDataParecer.data);
+                        await uploadToS3(fileParecer, routeParecer);
+                        break;
+                    case 'declaracoes':
+                        const declaration = await prisma.declarations.findUnique({
+                            where: { documentKey: document_key },
+                            include: {
+                                familyMember: {
+
+                                }, candidate: true, LegalResponsible: true
+                            }
+                        });
+                        if (!declaration) {
+                            break;
+                        }
+
+                        const memberId = declaration.familyMember?.id || declaration.candidate?.id || declaration.LegalResponsible?.id;
+                        const candidateOrResponsibleId = declaration.candidate_id || declaration.legalResponsibleId || declaration.familyMember?.candidate_id || declaration.familyMember?.legalResponsibleId;
+
+
+
+                        
+                        const binaryDataDeclaration = await api.get(`/files/download/${document_key}`, { responseType: 'arraybuffer', responseEncoding: 'binary' });
+                        const getDocumentInPlugSign = await api.get(`/docs`, { data: { document_key } });
+
+                        const DocumentInfoInPlugSign = getDocumentInPlugSign.data.data[0];
+
+                        const routeDeclaration = `CandidateDocuments/${candidateOrResponsibleId}/declaracoes/${memberId}/${DocumentInfoInPlugSign.name}.pdf`;
+
+                        const fileDeclaration = Buffer.from(binaryDataDeclaration.data);
+
+                        await uploadFile(fileDeclaration, routeDeclaration);
+                        const findOpenApplications = await getOpenApplications(candidateOrResponsibleId!);
+                        for (const application of findOpenApplications) {
+                            const routeHDB = await findAWSRouteHDB(candidateOrResponsibleId!, 'declaracoes', memberId!, '', application.id);
+                            const finalRoute = `${routeHDB}${DocumentInfoInPlugSign.name}.pdf`;
+                            const sended = await uploadFile(fileDeclaration, finalRoute);
+                            if (!sended) {
+                                throw new NotAllowedError();
+                            }
+                        }
                         break;
                     default:
                         break;
