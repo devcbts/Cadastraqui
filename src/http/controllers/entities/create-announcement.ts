@@ -57,7 +57,7 @@ export async function CreateAnnoucment(
     description: z.string().optional(),
     types1: z.array(scholarshipGrantedType).optional(),
     type2: z.string().optional(),
-    criteria: z.array(z.enum(["CadUnico", "LeastFamilyIncome", "SeriousIllness", "Draw"])),
+    criteria: z.array(z.enum(["CadUnico", "LeastFamilyIncome", "SeriousIllness", "Draw", "Distance"])),
     waitingList: z.boolean(),
     educationalLevels: z.array(z.any())
   })
@@ -88,7 +88,7 @@ export async function CreateAnnoucment(
   try {
     const user_id = request.user.sub
     const role = request.user.role
-    const entityMatrix = await SelectEntityOrDirector(user_id,role, { includeUser: false })
+    const entityMatrix = await SelectEntityOrDirector(user_id, role, { includeUser: false })
     let subsidiaries = 0
 
     if (!entityMatrix) {

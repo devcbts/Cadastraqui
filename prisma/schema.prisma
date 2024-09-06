@@ -678,9 +678,11 @@ model Declarations {
   familyMember       FamilyMember?     @relation(fields: [familyMember_id], references: [id], onDelete: Cascade)
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id], onDelete: Cascade)
   legalResponsibleId String?
+  documentKey        String?           @unique
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @default(now()) @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  @@unique([familyMember_id,candidate_id,legalResponsibleId, declarationType])
 }
 
 model FinishedRegistration {

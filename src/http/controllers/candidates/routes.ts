@@ -86,6 +86,8 @@ import updateMonthlyIncome from './update-monthly-income-info'
 import { updateRegistrationInfo } from './update-registration-info'
 import { updateVehicleInfo } from './update-vehicle-info'
 import searchBolsaFamiliaByNis from '@/utils/search-bolsa-familia-by-nis'
+import { sendMemberDocumentToSign } from './Signatures Routes/send-member-document-to-sign'
+import { resendMemberEmailDocumentToSign } from './Signatures Routes/resend-member-email-document-to-sign'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT] }, uploadDocument)
@@ -298,6 +300,8 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.get('/interview/:interview_id?', { onRequest: [verifyJWT] }, getCandidateInterviews)
 
   app.get('/nis/:nis', { onRequest: [verifyJWT] }, searchBolsaFamiliaByNis)
+  app.post('/post-pdf/:member_id/:type', { onRequest: [verifyJWT ] }, sendMemberDocumentToSign)
+  app.post('/send-parecer-email/:member_id/:declaration_id', { onRequest: [verifyJWT] }, resendMemberEmailDocumentToSign)
 }
 
 
