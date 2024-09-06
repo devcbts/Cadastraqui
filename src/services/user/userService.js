@@ -24,7 +24,10 @@ class UserService {
         const response = await api.post('/profilePicture', data)
         return response.data.url
     }
-
+    async getBenefitsInformation(applicationId) {
+        const response = api.get(`/user/benefits/${applicationId}`)
+        return (await response).data
+    }
 }
 
 const userServiceInstance = new UserService();

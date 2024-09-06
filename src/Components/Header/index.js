@@ -27,7 +27,7 @@ const HeaderWrapper = ({ children }) => {
             case "ADMIN":
                 return AdminSidebar
             default:
-                return Fragment
+                return null
         }
     }, [auth])
     return (

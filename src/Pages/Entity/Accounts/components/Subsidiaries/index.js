@@ -51,7 +51,7 @@ export default function Subsidiaries() {
             <h3>Filiais</h3>
             <Table.Root headers={['nome', 'endereço', 'ações']}>
                 {
-                    subsidiaries.map((subsidiary) => {
+                    subsidiaries?.map((subsidiary) => {
                         const { address, city, addressNumber } = subsidiary
                         const completeAddress = `${address}, ${addressNumber}. ${city}`
                         return (

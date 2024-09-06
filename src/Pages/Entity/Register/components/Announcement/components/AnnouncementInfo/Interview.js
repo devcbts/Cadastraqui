@@ -5,10 +5,10 @@ import interviewSchema from "./schemas/interview-schema"
 import FormSelect from "Components/FormSelect"
 import { useWatch } from "react-hook-form"
 
-const Interview = forwardRef(({ data, onChange }, ref) => {
+const Interview = forwardRef(({ data, onChange, schema }, ref) => {
     const isMounted = useRef(false)
     const { control, getValues } = useControlForm({
-        schema: interviewSchema,
+        schema: schema ?? interviewSchema,
         defaultValues: {
             startDate: "",
             endDate: "",

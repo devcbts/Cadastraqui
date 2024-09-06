@@ -9,11 +9,11 @@ export default function SidebarRoot({ children }) {
     const { sidebar } = useRecoilValue(headerAtom);
     const { logout } = useAuth();
     return (
-        <div className={[styles.container, !sidebar && styles.hide].join(' ')}>
+        <aside className={[styles.container, !sidebar && styles.hide].join(' ')}>
             <div>
                 {children}
             </div>
             <SidebarItem onClick={logout} icon={Exit} text={'sair'} />
-        </div>
+        </aside>
     );
 }

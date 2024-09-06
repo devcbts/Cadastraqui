@@ -1,6 +1,7 @@
 
 import Swal from "sweetalert2";
 import styles from './styles.module.scss'
+import { toast } from "react-toastify";
 class NotificationService {
     constructor() {
         this.styles = {
@@ -13,25 +14,35 @@ class NotificationService {
         }
     }
 
-    async success({ title = "Sucesso", text }) {
-        return Swal.fire({
-            title,
-            text,
-            icon: "success",
-            iconColor: "#499468",
-            customClass: this.styles
+    async success({ title = "Sucesso", text, type = "popup" }) {
+        if (type === "popup") {
 
-        })
+            return Swal.fire({
+                title,
+                text,
+                icon: "success",
+                iconColor: "#499468",
+                customClass: this.styles
+
+            })
+        } else if (type === "toast") {
+            return toast.success(text, { autoClose: 1000 })
+        }
     }
 
-    async error({ title = "Erro", text }) {
-        return Swal.fire({
-            title,
-            text,
-            icon: "error",
-            iconColor: "#EF3E36",
-            customClass: this.styles
-        })
+    async error({ title = "Erro", text, type = "popup" }) {
+        if (type === "popup") {
+            return Swal.fire({
+                title,
+                text,
+                icon: "error",
+                iconColor: "#EF3E36",
+                customClass: this.styles
+            })
+        }
+        else if (type === "toast") {
+            return toast.error(text, { autoClose: 1000 })
+        }
     }
     async warn({ title = "Atenção", text }) {
         return Swal.fire({
