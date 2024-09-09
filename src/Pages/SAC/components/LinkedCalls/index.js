@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import callService from "services/call/callService";
 import { NotificationService } from "services/notification";
+import { CALL_STATUS, CALL_STATUS_TRANSLATION } from "utils/enums/call-status";
 import formatDate from "utils/format-date";
 
 export default function LinkedCalls() {
@@ -31,7 +32,7 @@ export default function LinkedCalls() {
                     await callService.finishCall({ id })
                     NotificationService.success({ text: 'Chamado finalizado' })
                     setCalls((prev) => prev.map(call => {
-                        return call.id === id ? ({ ...call, status: 'CLOSED' }) : call
+                        return call.id === id ? ({ ...call, status: CALL_STATUS.CLOSED }) : call
                     }))
                 } catch (err) {
                     NotificationService.error({ text: err?.response?.data?.message })
@@ -52,10 +53,10 @@ export default function LinkedCalls() {
                                 <Table.Cell>{e.callSubject}</Table.Cell>
                                 <Table.Cell>{e.number}</Table.Cell>
                                 <Table.Cell>{formatDate(e.CreatedAt)}</Table.Cell>
-                                <Table.Cell>{e.status}</Table.Cell>
+                                <Table.Cell>{CALL_STATUS_TRANSLATION[e.status]}</Table.Cell>
                                 <Table.Cell>
                                     <ButtonBase label={'visualizar'} onClick={() => navigate(`${e.id}`)} />
-                                    {e.status !== "CLOSED" && <ButtonBase label={'finalizar'} onClick={() => handleFinishCall(e.id)} danger />}
+                                    {e.status !== CALL_STATUS.CLOSED && <ButtonBase label={'finalizar'} onClick={() => handleFinishCall(e.id)} danger />}
                                 </Table.Cell>
                             </Table.Row>
                         ))

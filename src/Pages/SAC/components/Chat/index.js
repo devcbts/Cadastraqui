@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import callService from "services/call/callService";
 import { NotificationService } from "services/notification";
+import { CALL_STATUS } from "utils/enums/call-status";
 
 export default function ChatSAC() {
     const { id } = useParams()
@@ -87,7 +88,7 @@ export default function ChatSAC() {
                         </div>
                     }
                     {
-                        call?.status !== "CLOSED" && <div style={{ display: 'flex', flexDirection: 'row', maxHeight: '100px', alignItems: 'baseline', gap: '16px' }}>
+                        call?.status !== CALL_STATUS.CLOSED && <div style={{ display: 'flex', flexDirection: 'row', maxHeight: '100px', alignItems: 'baseline', gap: '16px' }}>
                             <InputBase error={null} name={"message"} placeholder="Digite uma mensagem..." onChange={(e) => setMessage(e.target.value)} value={message} />
                             <ButtonBase label={'enviar'} onClick={handleSendMessage} disabled={!message} />
                         </div>}

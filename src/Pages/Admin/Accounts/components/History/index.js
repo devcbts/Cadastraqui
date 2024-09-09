@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router"
 import adminService from "services/admin/adminService"
 import { NotificationService } from "services/notification"
+import { CALL_STATUS_TRANSLATION } from "utils/enums/call-status"
 import formatDate from "utils/format-date"
 
 export default function AdminAccountHistory({ filter }) {
@@ -45,7 +46,7 @@ export default function AdminAccountHistory({ filter }) {
                                     <Table.Cell>{e.number}</Table.Cell>
                                     <Table.Cell>{formatDate(e.CreatedAt)}</Table.Cell>
                                     <Table.Cell>{e.callSubject}</Table.Cell>
-                                    <Table.Cell>{ }</Table.Cell>
+                                    <Table.Cell>{CALL_STATUS_TRANSLATION[e.status]}</Table.Cell>
                                 </Table.Row>
 
                             )
