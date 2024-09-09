@@ -1,9 +1,10 @@
 const moneyInputMask = (value = '') => {
-    let valueToParse = value?.toString();
+
+    let valueToParse = value?.toString() ?? '';
     if (!valueToParse) {
         valueToParse = '0';
     }
-    if (!valueToParse?.toString().includes('.') && !valueToParse?.toString().includes(',') && !value.toString().match(/[^\d-]/g)) {
+    if (!valueToParse?.toString().includes('.') && !valueToParse?.toString().includes(',') && !valueToParse.toString().match(/[^\d-]/g)) {
         valueToParse = Number(valueToParse.replace(/\D/, '')) * 100;
     }
     let parsedValue = parseFloat(valueToParse?.toString().replaceAll('.', '').replace(',', '.').replace(/[^\d-]/g, ''))
@@ -14,6 +15,7 @@ const moneyInputMask = (value = '') => {
         style: 'currency',
         currency: 'BRL',
     });
+
 }
 
 export default moneyInputMask
