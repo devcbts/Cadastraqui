@@ -23,6 +23,7 @@ const HeaderWrapper = ({ children }) => {
             case "ASSISTANT":
                 return SocialAssistantSidebar
             case "ENTITY":
+            case "ENTITY_DIRECTOR":
                 return EntitySidebar
             case "ADMIN":
                 return AdminSidebar

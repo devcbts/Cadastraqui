@@ -3,7 +3,7 @@ import styles from './styles.module.scss'
 export default function SidebarItem({ icon: Icon, text, path, onClick }) {
     const { pathname } = useLocation()
     const navigate = useNavigate()
-    const isActive = pathname.includes(path) ? styles.active : ''
+    const isActive = pathname.split('/').at(1) === path?.split('/').at(1) ? styles.active : ''
     const handleClick = () => {
         if (!onClick) {
             return navigate(path)

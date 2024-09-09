@@ -7,6 +7,7 @@ export default function AdminSidebar() {
         <Sidebar.Root>
             <Sidebar.Item icon={Home} text={'início'} path={'/home'}></Sidebar.Item>
             <Sidebar.Item icon={Add} text={'cadastro de entidade'} path={'/cadastro'}></Sidebar.Item>
+            <Sidebar.Item icon={Home} text={'gestão de contas'} path={'/contas'}></Sidebar.Item>
             <Sidebar.Item icon={Help} text={'SAC'} path={'/sac'}></Sidebar.Item>
         </Sidebar.Root>
     )

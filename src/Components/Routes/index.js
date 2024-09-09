@@ -48,6 +48,9 @@ import AssistantManagement from "Pages/SocialAssistant/Management";
 import AssistantManagementAnnouncements from "Pages/SocialAssistant/Management/components/Announcements";
 import AssistantManagerSelectedAnnouncement from "Pages/SocialAssistant/Management/components/SelectedAnnouncement";
 import AssistantManagerSelectedCourse from "Pages/SocialAssistant/Management/components/SelectedCourse";
+import AdminAccounts from "Pages/Admin/Accounts";
+import AdminAccountInfoView from "Pages/Admin/Accounts/components/InfoView";
+import AdminAccountHistory from "Pages/Admin/Accounts/components/History";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -186,6 +189,14 @@ export default function AppRoutes() {
                         <Route path="/sac" element={<Outlet />}>
                             <Route index element={<SAC />} />
                             <Route path=":id" element={<ChatSAC />} />
+                        </Route>
+                        <Route path="/contas" element={<Outlet />}>
+                            <Route index element={<AdminAccounts />} />
+                            <Route path=":userId" element={<Outlet />} >
+                                <Route index element={<AdminAccountInfoView />} />
+                                <Route path="sac" element={<AdminAccountHistory filter={'sac'} />} />
+                                <Route path="login" element={<AdminAccountHistory filter={'login'} />} />
+                            </Route>
                         </Route>
                         <Route path="*" element={<Navigate to={'/home'} />} />
                     </Routes>
