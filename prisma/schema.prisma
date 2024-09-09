@@ -78,6 +78,7 @@ model User {
   LegalResponsible LegalResponsible?
   createdCalls     Call[]            @relation("Creator")
   repliedCalls     Call[]            @relation("Replyer")
+  loginHistory     LoginHistory[]    @relation("User")
   updatedAt        DateTime          @default(now()) @updatedAt
 
   @@map("users")
@@ -682,7 +683,7 @@ model Declarations {
   createdAt          DateTime          @default(now())
   updatedAt          DateTime          @default(now()) @updatedAt
 
-  @@unique([familyMember_id,candidate_id,legalResponsibleId, declarationType])
+  @@unique([familyMember_id, candidate_id, legalResponsibleId, declarationType])
 }
 
 model FinishedRegistration {
@@ -1003,6 +1004,14 @@ model CallMessages {
   CreatedAt DateTime @default(now())
 
   updatedAt DateTime @default(now()) @updatedAt
+}
+
+model LoginHistory {
+  id        String   @id @default(uuid())
+  user_id   String
+  createdAt DateTime @default(now())
+  ip        String
+  user      User     @relation("User", fields: [user_id], references: [id])
 }
 
 enum ROLE {

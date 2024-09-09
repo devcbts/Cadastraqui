@@ -51,6 +51,13 @@ export async function authenticate(
         sign: { sub: user.id, expiresIn: '3h' },
       },
     )
+    // creates an instance on LoginHistory to keep track of user's access on the Application
+    await prisma.loginHistory.create({
+      data: {
+        user_id: user.id,
+        ip: request.socket.remoteAddress ?? ''
+      }
+    })
     const user_role = user.role
     return reply
       .setCookie('refreshToken', refreshToken, {
