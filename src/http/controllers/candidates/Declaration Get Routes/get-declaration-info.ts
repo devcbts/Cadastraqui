@@ -48,7 +48,7 @@ export default async function getUserInformationForDeclaration(
 
             const mappedCandidates = await Promise.all(result?.Candidate.map(async (candidate: any) => {
                 const fm = await prisma.familyMember.findFirst({
-                    where: { AND: [{ legalResponsibleId: result.id }, { fullName: candidate.fullName }] }
+                    where: { AND: [{ legalResponsibleId: result.id }, { CPF: candidate.CPF }] }
                 })
                 let identity: any = fm
                 if (result.IdentityDetails) {
