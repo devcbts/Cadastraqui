@@ -82,7 +82,7 @@ export default function AdminAccountInfoView() {
                         </Table.Row>
                         <Table.Row>
                             <Table.Cell>Último acesso </Table.Cell>
-                            <Table.Cell>{formatDate(account?.lastAccess)}</Table.Cell>
+                            <Table.Cell>{formatDate(account?.lastAccess, { showTime: true })}</Table.Cell>
                         </Table.Row>
                         <Table.Row>
                             <Table.Cell>Histórico de Login </Table.Cell>

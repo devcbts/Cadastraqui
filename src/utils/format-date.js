@@ -11,7 +11,6 @@ export default function formatDate(date = '', { showTime, utc } = { showTime: fa
         }),
         timeZone: utc ? "UTC" : "America/Sao_Paulo",
     });
-    console.log('DATA', date)
     if (!date) return ''
     return formatter.format(new Date(date))
 }

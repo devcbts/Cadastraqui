@@ -15,7 +15,7 @@ export default function AdminEntityAccounts() {
         const fetchEntities = async () => {
             try {
                 setIsLoading(true)
-                const information = await adminService.getEntities()
+                const information = await adminService.getAccounts({ filter: "entities" })
                 setEntities(information)
             } catch (err) { }
             setIsLoading(false)
@@ -33,7 +33,7 @@ export default function AdminEntityAccounts() {
                             <Table.Cell>{entity.socialReason}</Table.Cell>
                             <Table.Cell>{entity.CNPJ}</Table.Cell>
                             <Table.Cell>
-                                <ButtonBase label={'visualizar'} onClick={() => navigate(entity.user_id, { state })} />
+                                <ButtonBase label={'visualizar'} onClick={() => navigate(entity.id, { state })} />
                             </Table.Cell>
                         </Table.Row>
                     ))

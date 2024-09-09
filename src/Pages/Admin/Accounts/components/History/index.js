@@ -53,7 +53,7 @@ export default function AdminAccountHistory({ filter }) {
                             : (
                                 <Table.Row>
                                     <Table.Cell>{e.ip}</Table.Cell>
-                                    <Table.Cell>{formatDate(e.createdAt)}</Table.Cell>
+                                    <Table.Cell>{formatDate(e.createdAt, { showTime: true })}</Table.Cell>
 
                                 </Table.Row>
                             )
