@@ -35,6 +35,17 @@ export default function AdminAccountInfoView() {
             <Loader loading={isLoading} />
             <BackPageTitle path={-1} title={isEntity ? 'Visualizar instituição' : 'Visualizar conta'} />
             <div style={{ padding: '32px 24px', width: 'max(600px,40%)', display: 'flex', flexDirection: 'column', margin: '0 auto 0 auto', gap: '64px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px' }}>
+                    {
+                        account?.picture
+                            ? <img style={{ clipPath: 'circle()', height: '100px', width: '100px' }} src={account?.picture} alt="foto de perfil do usuário">
+                            </img>
+                            : <></>
+                    }
+                    <h4>
+                        {isEntity ? `Razão social: ${account?.details?.socialReason ?? ''}` : (`Usuário: ${account?.details?.name}` ?? '')}
+                    </h4>
+                </div>
                 <div style={{ textAlign: 'center' }}>
                     <h4>Dados da conta</h4>
                     <Table.Root headers={isEntity ? 4 : 1}>
@@ -74,7 +85,7 @@ export default function AdminAccountInfoView() {
                     </Table.Root>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                    <h4>Atividades do usuário</h4>
+                    <h4>Atividades da conta</h4>
                     <Table.Root headers={2}>
                         <Table.Row>
                             <Table.Cell>Número de acessos</Table.Cell>
