@@ -98,6 +98,18 @@ class EntityService {
         const response = await api.post('/entities/announcement/csv/higher', data)
         return response.data.csvDataFormated
     }
+    async getScholarshipsByCourse(id) {
+        const response = await api.get(`/entities/courses/scholarships/${id}`)
+        return response.data.scholarships
+    }
+    async getRegisteredByCourse(id) {
+        const response = await api.get(`/entities/courses/registered/${id}`)
+        return response.data.registered
+    }
+    updateScholarshipStatus(id, status) {
+        return api.put(`/entities/scholarships/${id}`, { status })
+
+    }
 }
 
 export default new EntityService()
