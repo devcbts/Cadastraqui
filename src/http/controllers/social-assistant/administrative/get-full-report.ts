@@ -73,7 +73,7 @@ export default async function getFullReport(
 
         const scholarships = await prisma.scholarshipGranted.findMany({
             where: {
-                gaveUp: false,
+                status: "REGISTERED",
                 application: {
                     announcement_id
                 }

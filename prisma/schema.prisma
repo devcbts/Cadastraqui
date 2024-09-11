@@ -940,24 +940,23 @@ model ApplicationHistory {
 }
 
 model ScholarshipGranted {
-  id                    String          @id @default(uuid())
-  gaveUp                Boolean         @default(false)
+  id                    String                   @id @default(uuid())
   ScholarshipCode       String?
   candidateName         String
   candidateCPF          String
   types1Benefits        type1Benefits[]
-  type1TermAccepted     Boolean         @default(false)
-  type1DocumentReceived Boolean         @default(false)
-
+  type1TermAccepted     Boolean                  @default(false)
+  type1DocumentReceived Boolean                  @default(false)
+  status                ScholarshipGrantedStatus @default(SELECTED)
   type2Benefits         Type2Benefit[]
-  type2TermAccepted     Boolean        @default(false)
-  type2DocumentReceived Boolean        @default(false)
-  application_id        String         @unique
+  type2TermAccepted     Boolean                  @default(false)
+  type2DocumentReceived Boolean                  @default(false)
+  application_id        String                   @unique
   announcement_id       String
-  announmentent         Announcement   @relation(fields: [announcement_id], references: [id])
-  application           Application    @relation(fields: [application_id], references: [id])
-  createdAt             DateTime       @default(now())
-  updatedAt             DateTime       @default(now()) @updatedAt
+  announmentent         Announcement             @relation(fields: [announcement_id], references: [id])
+  application           Application              @relation(fields: [application_id], references: [id])
+  createdAt             DateTime                 @default(now())
+  updatedAt             DateTime                 @default(now()) @updatedAt
 }
 
 model FamilyMemberToVehicle {
@@ -1018,6 +1017,13 @@ model LoginHistory {
   deviceType  String?
   browser     String?
   user        User     @relation("User", fields: [user_id], references: [id])
+}
+
+enum ScholarshipGrantedStatus {
+  SELECTED
+  GAVEUP
+  REGISTERED
+  NOT_REGISTERED
 }
 
 enum ROLE {
