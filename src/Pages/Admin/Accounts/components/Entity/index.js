@@ -5,6 +5,7 @@ import Table from "Components/Table";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import adminService from "services/admin/adminService";
+import { NotificationService } from "services/notification";
 
 export default function AdminEntityAccounts() {
     const [entities, setEntities] = useState([])
@@ -22,6 +23,17 @@ export default function AdminEntityAccounts() {
         }
         fetchEntities()
     }, [])
+    const handleChangeAccountStatus = async (id) => {
+        try {
+            await adminService.changeAccountActiveStatus(id)
+            setEntities((prev) => (
+                [...prev].map(e => e.id === id ? { ...e, isActive: !e.isActive } : e)
+            ))
+            NotificationService.success({ text: 'Status da conta alterado' })
+        } catch (err) {
+            NotificationService.error({ text: err?.response?.data?.message })
+        }
+    }
     return (
         <>
             <Loader loading={isLoading} />
@@ -34,6 +46,7 @@ export default function AdminEntityAccounts() {
                             <Table.Cell>{entity.CNPJ}</Table.Cell>
                             <Table.Cell>
                                 <ButtonBase label={'visualizar'} onClick={() => navigate(entity.id, { state })} />
+                                <ButtonBase label={!entity.isActive ? 'ativar' : 'inativar'} onClick={() => handleChangeAccountStatus(entity.id)} danger={entity.isActive} />
                             </Table.Cell>
                         </Table.Row>
                     ))

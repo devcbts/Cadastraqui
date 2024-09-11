@@ -27,6 +27,9 @@ class AdminService {
         const response = await api.get(`/admin/accounts?filter=${filter}`)
         return response.data.accounts
     }
+    async changeAccountActiveStatus(id) {
+        await api.put(`/admin/accounts/active/${id}`)
+    }
 }
 
 export default new AdminService()

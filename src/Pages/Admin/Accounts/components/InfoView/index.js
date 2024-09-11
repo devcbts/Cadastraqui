@@ -29,7 +29,15 @@ export default function AdminAccountInfoView() {
         }
         if (userId) fetchAccount()
     }, [userId])
-
+    const handleChangeAccountStatus = async (id) => {
+        try {
+            await adminService.changeAccountActiveStatus(id)
+            setAccount((prev) => ({ ...prev, isActive: !prev.isActive }))
+            NotificationService.success({ text: 'Status da conta alterado' })
+        } catch (err) {
+            NotificationService.error({ text: err?.response?.data?.message })
+        }
+    }
     return (
         <>
             <Loader loading={isLoading} />
@@ -81,6 +89,14 @@ export default function AdminAccountInfoView() {
                         <Table.Row>
                             <Table.Cell>Tipo de conta</Table.Cell>
                             <Table.Cell>{account?.role}</Table.Cell>
+                        </Table.Row>
+                        <Table.Row>
+                            <Table.Cell>Status da conta</Table.Cell>
+                            <Table.Cell>{account?.isActive ? 'Ativa' : 'Inativa'}
+                                <ButtonBase label={!account?.isActive ? 'ativar' : 'inativar'} onClick={() => handleChangeAccountStatus(account.id)}
+                                    danger={account?.isActive}
+                                />
+                            </Table.Cell>
                         </Table.Row>
                     </Table.Root>
                 </div>
