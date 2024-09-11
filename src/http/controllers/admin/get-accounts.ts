@@ -22,6 +22,7 @@ export default async function getAccounts(
                 where: { role: { in: ["RESPONSIBLE", "CANDIDATE"] } },
                 select: {
                     id: true,
+                    role: true,
                     Candidate: { select: { name: true } },
                     LegalResponsible: { select: { name: true } },
                     isActive: true

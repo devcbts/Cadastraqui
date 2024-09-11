@@ -1008,11 +1008,16 @@ model CallMessages {
 }
 
 model LoginHistory {
-  id        String   @id @default(uuid())
-  user_id   String
-  createdAt DateTime @default(now())
-  ip        String
-  user      User     @relation("User", fields: [user_id], references: [id])
+  id          String   @id @default(uuid())
+  user_id     String
+  createdAt   DateTime @default(now())
+  ip          String?
+  city        String?
+  country     String?
+  deviceModel String?
+  deviceType  String?
+  browser     String?
+  user        User     @relation("User", fields: [user_id], references: [id])
 }
 
 enum ROLE {
