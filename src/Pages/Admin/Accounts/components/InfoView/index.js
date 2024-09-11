@@ -37,6 +37,7 @@ export default function AdminAccountInfoView() {
         } catch (err) {
             NotificationService.error({ text: err?.response?.data?.message })
         }
+
     }
     return (
         <>

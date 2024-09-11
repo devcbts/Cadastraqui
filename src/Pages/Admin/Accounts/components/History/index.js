@@ -35,7 +35,7 @@ export default function AdminAccountHistory({ filter }) {
             <Table.Root headers={
                 isSAC
                     ? ['Número', 'Abertura', 'Chamado', 'Status']
-                    : ['IP', 'Data de acesso']
+                    : ['Local', 'Dispositivo', 'IP', 'Data de acesso']
             }>
 
                 {
@@ -52,6 +52,8 @@ export default function AdminAccountHistory({ filter }) {
                             )
                             : (
                                 <Table.Row>
+                                    <Table.Cell>{`${e.city}-${e.country}`}</Table.Cell>
+                                    <Table.Cell>{`${[e.deviceModel, e.deviceType, e.browser].filter(e => !!e).join(', ')}`}</Table.Cell>
                                     <Table.Cell>{e.ip}</Table.Cell>
                                     <Table.Cell>{formatDate(e.createdAt, { showTime: true })}</Table.Cell>
 

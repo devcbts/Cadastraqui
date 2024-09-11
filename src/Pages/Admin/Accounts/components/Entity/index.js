@@ -23,16 +23,24 @@ export default function AdminEntityAccounts() {
         }
         fetchEntities()
     }, [])
-    const handleChangeAccountStatus = async (id) => {
-        try {
-            await adminService.changeAccountActiveStatus(id)
-            setEntities((prev) => (
-                [...prev].map(e => e.id === id ? { ...e, isActive: !e.isActive } : e)
-            ))
-            NotificationService.success({ text: 'Status da conta alterado' })
-        } catch (err) {
-            NotificationService.error({ text: err?.response?.data?.message })
+    const handleChangeAccountStatus = (id) => {
+        const onConfirm = async () => {
+            try {
+                await adminService.changeAccountActiveStatus(id)
+                setEntities((prev) => (
+                    [...prev].map(e => e.id === id ? { ...e, isActive: !e.isActive } : e)
+                ))
+                NotificationService.success({ text: 'Status da conta alterado' })
+            } catch (err) {
+                NotificationService.error({ text: err?.response?.data?.message })
+            }
         }
+        const isActive = entities.find(e => e.id === id).isActive
+        NotificationService.confirm({
+            onConfirm,
+            title: `${isActive ? 'Inativar' : 'Ativar'} conta?`
+        })
+
     }
     return (
         <>
@@ -41,7 +49,7 @@ export default function AdminEntityAccounts() {
             <Table.Root headers={['razão social', 'cnpj', 'ações']}>
                 {
                     entities.map((entity) => (
-                        <Table.Row>
+                        <Table.Row key={entity.id}>
                             <Table.Cell>{entity.socialReason}</Table.Cell>
                             <Table.Cell>{entity.CNPJ}</Table.Cell>
                             <Table.Cell>

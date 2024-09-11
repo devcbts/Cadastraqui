@@ -13,7 +13,7 @@ export default function AdminUserAccounts() {
     const { state } = useLocation()
     const navigate = useNavigate()
     useEffect(() => {
-        const fetchEntities = async () => {
+        const fetchUsers = async () => {
             try {
                 setIsLoading(true)
                 const information = await adminService.getAccounts({ filter: "common" })
@@ -23,8 +23,27 @@ export default function AdminUserAccounts() {
             }
             setIsLoading(false)
         }
-        fetchEntities()
+        fetchUsers()
     }, [])
+    const handleChangeAccountStatus = (id) => {
+        const onConfirm = async () => {
+            try {
+                await adminService.changeAccountActiveStatus(id)
+                setUsers((prev) => (
+                    [...prev].map(e => e.id === id ? { ...e, isActive: !e.isActive } : e)
+                ))
+                NotificationService.success({ text: 'Status da conta alterado' })
+            } catch (err) {
+                NotificationService.error({ text: err?.response?.data?.message })
+            }
+        }
+        const isActive = users.find(e => e.id === id).isActive
+        NotificationService.confirm({
+            onConfirm,
+            title: `${isActive ? 'Inativar' : 'Ativar'} conta?`
+        })
+
+    }
     return (
         <>
             <Loader loading={isLoading} />
@@ -32,11 +51,12 @@ export default function AdminUserAccounts() {
             <Table.Root headers={['nome', 'tipo', 'ações']}>
                 {
                     users?.map((user) => (
-                        <Table.Row>
+                        <Table.Row key={user.id}>
                             <Table.Cell>{user.name}</Table.Cell>
                             <Table.Cell>{user.role}</Table.Cell>
                             <Table.Cell>
                                 <ButtonBase label={'visualizar'} onClick={() => navigate(user.id, { state })} />
+                                <ButtonBase label={!user.isActive ? 'ativar' : 'inativar'} onClick={() => handleChangeAccountStatus(user.id)} danger={user.isActive} />
                             </Table.Cell>
                         </Table.Row>
                     ))
