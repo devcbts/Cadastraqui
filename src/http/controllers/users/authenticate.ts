@@ -1,3 +1,4 @@
+import { APIError } from '@/errors/api-error'
 import { InvalidCredentialsError } from '@/errors/invalid-credentials-error'
 import { prisma } from '@/lib/prisma'
 import { compare } from 'bcryptjs'
@@ -25,7 +26,9 @@ export async function authenticate(
     if (!user) {
       throw new InvalidCredentialsError()
     }
-
+    if (!user.isActive) {
+      throw new APIError('Esta conta está inativada')
+    }
     const doesPasswordMatches = await compare(password, user.password)
 
     if (!doesPasswordMatches) {

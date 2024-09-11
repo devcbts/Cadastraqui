@@ -17,11 +17,13 @@ export default async function getAccountInformation(
         const user = await prisma.user.findUnique({
             where: { id: user_id },
             select: {
+                id: true,
                 role: true,
                 loginHistory: { orderBy: { createdAt: "desc" }, take: 1 },
                 _count: { select: { loginHistory: true } },
                 createdAt: true,
                 email: true,
+                isActive: true
 
             }
         })

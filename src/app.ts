@@ -21,6 +21,7 @@ import { getUserProfilePicture } from './http/controllers/users/get-profile-pict
 import { logout } from './http/controllers/users/logout';
 import { refresh } from './http/controllers/users/refresh';
 import { resetPassword } from './http/controllers/users/reset-password';
+import { userRoutes } from './http/controllers/users/routes';
 import { uploadUserProfilePicture } from './http/controllers/users/upload-profile-picture';
 import verifyPasswordRecoveryToken from './http/controllers/users/verify-password-recovery-token';
 import { verifyJWT } from './http/middlewares/verify-jwt';
@@ -28,7 +29,6 @@ import getUserAddress from './http/services/get-address';
 import getCnpj from './http/services/get-cnpj';
 import { multerConfig } from './lib/multer';
 import './lib/pg-listener';
-import { userRoutes } from './http/controllers/users/routes';
 export const app = fastify()
 app.register(fastifyMultipart, {
   limits: {
@@ -63,14 +63,13 @@ app.register(fastifyJwt, {
 })
 
 app.register(fastifyCookie)
-
 app.register(candidateRoutes, { prefix: '/candidates' })
 app.register(legalResponsibleRoutes, { prefix: '/responsibles' })
 app.register(entityRoutes, { prefix: '/entities' })
 app.register(assistantRoutes, { prefix: '/assistant' })
 app.register(adminRoutes, { prefix: '/admin' })
 app.register(signatureRoutes, { prefix: '/sign' })
-app.register(userRoutes , { prefix: '/user' })
+app.register(userRoutes, { prefix: '/user' })
 app.post('/session', authenticate)
 app.post('/forgot_password', forgotPassword)
 app.post('/reset_password', resetPassword)

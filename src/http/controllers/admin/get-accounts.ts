@@ -23,7 +23,8 @@ export default async function getAccounts(
                 select: {
                     id: true,
                     Candidate: { select: { name: true } },
-                    LegalResponsible: { select: { name: true } }
+                    LegalResponsible: { select: { name: true } },
+                    isActive: true
                 }
 
             })
@@ -36,7 +37,8 @@ export default async function getAccounts(
                 where: { role: { in: ["ENTITY"] } },
                 select: {
                     id: true,
-                    Entity: { select: { CNPJ: true, socialReason: true } }
+                    Entity: { select: { CNPJ: true, socialReason: true } },
+                    isActive: true
                 }
             })
             users = users.map(e => ({

@@ -50,7 +50,7 @@ export async function sendMemberDocumentToSign(
         const formData = new FormData();
         formData.append('name', file.fieldname); // Colocar aqui o nome do arquivo que vai pro S3
         // id XXXXX is from 'parecer' folder
-        formData.append('folder', 42394); // Substituir id pelo id da pasta no plugsign (criar uma pasta chamada declaracoes)
+        formData.append('folder', 53501); // Substituir id pelo id da pasta no plugsign (criar uma pasta chamada declaracoes)
         formData.append('file', fileBuffer, { filename: 'nome_do_arquivo.pdf', contentType: 'application/pdf' });
         const headers = {
             "Authorization": `Bearer ${env.PLUGSIGN_API_KEY}`,
