@@ -687,6 +687,15 @@ model Declarations {
   @@unique([familyMember_id, candidate_id, legalResponsibleId, declarationType])
 }
 
+model SignedDocuments {
+  documentKey String         @id @unique
+  path        String
+  emails      String[]
+  metadata    Json
+  status      DocumentStatus @default(Open)
+  createdAt   DateTime       @default(now())
+}
+
 model FinishedRegistration {
   id                 String            @id @default(uuid())
   cadastrante        Boolean           @default(false)
@@ -1432,4 +1441,11 @@ enum CallStatus {
   OPEN
   CLOSED
   INPROGRESS
+}
+
+enum DocumentStatus {
+  Open
+  Signed
+  Cancelled
+  Declined
 }

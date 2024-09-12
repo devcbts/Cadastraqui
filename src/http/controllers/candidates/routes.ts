@@ -300,8 +300,8 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.get('/interview/:interview_id?', { onRequest: [verifyJWT] }, getCandidateInterviews)
 
   app.get('/nis/:nis', { onRequest: [verifyJWT] }, searchBolsaFamiliaByNis)
-  app.post('/post-pdf/:member_id/:type', { onRequest: [verifyJWT ] }, sendMemberDocumentToSign)
-  app.post('/send-parecer-email/:member_id/:declaration_id', { onRequest: [verifyJWT] }, resendMemberEmailDocumentToSign)
+  app.post('/post-pdf/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT ] }, sendMemberDocumentToSign)
+  app.post('/send-document-email', { onRequest: [verifyJWT] }, resendMemberEmailDocumentToSign)
 }
 
 
