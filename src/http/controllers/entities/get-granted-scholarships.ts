@@ -1,6 +1,4 @@
-import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
-import { AnnouncementNotExists } from '@/errors/announcement-not-exists-error'
-import { NotAllowedError } from '@/errors/not-allowed-error'
+import { APIError } from '@/errors/api-error'
 import { prisma } from '@/lib/prisma'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -13,67 +11,29 @@ export async function getGrantedScholarships(
     request: FastifyRequest,
     reply: FastifyReply,
 ) {
-    const applicationParamsSchema = z.object({
-        application_id: z.string().optional(),
-        announcement_id: z.string()
+    const schema = z.object({
+        educationalLevel_id: z.string()
     })
 
-    const { application_id, announcement_id } = applicationParamsSchema.parse(request.params)
+    const { educationalLevel_id } = schema.parse(request.params)
     try {
-        const userType = request.user.role
-        const userId = request.user.sub
-
-        if (userType !== 'ASSISTANT') {
-            throw new NotAllowedError()
-        }
-
-        const assistant = await prisma.socialAssistant.findUnique({
-            where: { user_id: userId },
+        const course = await prisma.educationLevel.findUnique({
+            where: { id: educationalLevel_id }
         })
-
-        if (!assistant) {
-            throw new NotAllowedError()
+        if (!course) {
+            throw new APIError('Curso não encontrado')
         }
-
-        // verifica se existe o processo seletivo
-        const announcement = await prisma.announcement.findUnique({
-            where: { id: announcement_id }
+        const scholarships = await prisma.scholarshipGranted.findMany({
+            where: { application: { educationLevel_id: educationalLevel_id } }
         })
-
-        if (announcement) {
-            // verifica se o processo seletivo é da mesma entidade do assistente
-            if (announcement.entity_id !== assistant.entity_id) {
-                throw new NotAllowedError();
-            }
-
-            // Encontra uma ou mais inscrições
-            if (!application_id) {
-                const applications = await prisma.scholarshipGranted.findMany({
-                    where: { announcement_id: announcement_id }
-                })
-                
-                return reply.status(200).send({ applications })
-            } else {
-                const application = await prisma.scholarshipGranted.findUnique({
-                    where: { id: application_id }
-                })
-                return reply.status(200).send({ application })
-            }
-        } else {
-            throw new AnnouncementNotExists();
-        }
-
+        return reply.status(200).send({ scholarships })
 
 
     } catch (err: any) {
-        if (err instanceof NotAllowedError) {
-            return reply.status(404).send({ message: err.message })
-        }
-        if (err instanceof AnnouncementNotExists) {
-            return reply.status(404).send({ message: err.message })
+        if (err instanceof APIError) {
+            return reply.status(400).send({ message: err.message })
         }
 
-
-        return reply.status(500).send({ message: err.message })
+        return reply.status(500).send({ message: 'Erro interno no servidor' })
     }
 }

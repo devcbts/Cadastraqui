@@ -78,7 +78,9 @@ model User {
   LegalResponsible LegalResponsible?
   createdCalls     Call[]            @relation("Creator")
   repliedCalls     Call[]            @relation("Replyer")
+  loginHistory     LoginHistory[]    @relation("User")
   updatedAt        DateTime          @default(now()) @updatedAt
+  isActive         Boolean           @default(true)
 
   @@map("users")
 }
@@ -353,8 +355,8 @@ model FamilyMember {
   hasSevereDeseaseOrUsesMedication           Boolean?
   hasBankAccount                             Boolean?
 
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @default(now()) @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@map("familyMembers")
 }
@@ -686,12 +688,12 @@ model Declarations {
 }
 
 model SignedDocuments {
-  documentKey        String            @id @unique
-  path               String           
-  emails            String[]
-  metadata          Json
-  status             DocumentStatus   @default(Open)
-  createdAt          DateTime          @default(now())
+  documentKey String         @id @unique
+  path        String
+  emails      String[]
+  metadata    Json
+  status      DocumentStatus @default(Open)
+  createdAt   DateTime       @default(now())
 }
 
 model FinishedRegistration {
@@ -947,24 +949,23 @@ model ApplicationHistory {
 }
 
 model ScholarshipGranted {
-  id                    String          @id @default(uuid())
-  gaveUp                Boolean         @default(false)
+  id                    String                   @id @default(uuid())
   ScholarshipCode       String?
   candidateName         String
   candidateCPF          String
   types1Benefits        type1Benefits[]
-  type1TermAccepted     Boolean         @default(false)
-  type1DocumentReceived Boolean         @default(false)
-
+  type1TermAccepted     Boolean                  @default(false)
+  type1DocumentReceived Boolean                  @default(false)
+  status                ScholarshipGrantedStatus @default(SELECTED)
   type2Benefits         Type2Benefit[]
-  type2TermAccepted     Boolean        @default(false)
-  type2DocumentReceived Boolean        @default(false)
-  application_id        String         @unique
+  type2TermAccepted     Boolean                  @default(false)
+  type2DocumentReceived Boolean                  @default(false)
+  application_id        String                   @unique
   announcement_id       String
-  announmentent         Announcement   @relation(fields: [announcement_id], references: [id])
-  application           Application    @relation(fields: [application_id], references: [id])
-  createdAt             DateTime       @default(now())
-  updatedAt             DateTime       @default(now()) @updatedAt
+  announmentent         Announcement             @relation(fields: [announcement_id], references: [id])
+  application           Application              @relation(fields: [application_id], references: [id])
+  createdAt             DateTime                 @default(now())
+  updatedAt             DateTime                 @default(now()) @updatedAt
 }
 
 model FamilyMemberToVehicle {
@@ -1012,6 +1013,26 @@ model CallMessages {
   CreatedAt DateTime @default(now())
 
   updatedAt DateTime @default(now()) @updatedAt
+}
+
+model LoginHistory {
+  id          String   @id @default(uuid())
+  user_id     String
+  createdAt   DateTime @default(now())
+  ip          String?
+  city        String?
+  country     String?
+  deviceModel String?
+  deviceType  String?
+  browser     String?
+  user        User     @relation("User", fields: [user_id], references: [id])
+}
+
+enum ScholarshipGrantedStatus {
+  SELECTED
+  GAVEUP
+  REGISTERED
+  NOT_REGISTERED
 }
 
 enum ROLE {
@@ -1421,9 +1442,10 @@ enum CallStatus {
   CLOSED
   INPROGRESS
 }
+
 enum DocumentStatus {
   Open
-   Signed
-   Cancelled 
-   Declined
+  Signed
+  Cancelled
+  Declined
 }

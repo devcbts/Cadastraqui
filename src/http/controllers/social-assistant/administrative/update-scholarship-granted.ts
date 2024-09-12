@@ -1,6 +1,7 @@
 import { ScholarshipNotFoundError } from "@/errors/scholarship-not-found-error";
 import { prisma } from "@/lib/prisma";
 import callNextCandidate from "@/utils/administrative Functions/call-next-candidate";
+import { SCHOLARSHIP_GRANTED_STATUS } from "@/utils/enums/zod/scholarship-granted";
 import { SolicitationType } from "@prisma/client";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
@@ -14,12 +15,12 @@ export default async function updateScholarshipGranted(request: FastifyRequest, 
         type1DocumentReceived: z.boolean(),
         type2TermAccepted: z.boolean(),
         type2DocumentReceived: z.boolean(),
-        gaveUp: z.boolean(),
         ScholarshipCode: z.string(),
+        status: SCHOLARSHIP_GRANTED_STATUS
     }).partial()
 
     const { scholarship_id } = requestParamsSchema.parse(request.params)
-    const { type1TermAccepted, type1DocumentReceived, type2TermAccepted, type2DocumentReceived, gaveUp, ScholarshipCode } = scholarshipBodySchema.parse(request.body)
+    const { type1TermAccepted, type1DocumentReceived, type2TermAccepted, type2DocumentReceived, status, ScholarshipCode } = scholarshipBodySchema.parse(request.body)
     try {
         const user_id: string = request.user.sub;
         const scholarship = await prisma.scholarshipGranted.findUnique({
@@ -44,8 +45,8 @@ export default async function updateScholarshipGranted(request: FastifyRequest, 
                     type1DocumentReceived,
                     type2TermAccepted,
                     type2DocumentReceived,
-                    gaveUp,
-                    ScholarshipCode
+                    ScholarshipCode,
+                    status
                 }
             })
             if (type1TermAccepted || type2TermAccepted) {
@@ -73,16 +74,16 @@ export default async function updateScholarshipGranted(request: FastifyRequest, 
                     })
                 }
             }
-            if (gaveUp) {
+            if (status === "GAVEUP") {
 
                 // Update ScholarshipGranted
-                await tPrisma.scholarshipGranted.update({
-                    where: { id: scholarship_id },
-                    data: {
-                        gaveUp
+                // await tPrisma.scholarshipGranted.update({
+                //     where: { id: scholarship_id },
+                //     data: {
+                //         gaveUp
 
-                    }
-                })
+                //     }
+                // })
                 //Update Student application
 
                 await tPrisma.application.update({

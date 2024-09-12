@@ -12,7 +12,7 @@ export async function seeEntities(
   const requestParamsSchema = z.object({
     entity_id: z.string().optional()
   })
-  const {entity_id} = requestParamsSchema.parse(request.params)
+  const { entity_id } = requestParamsSchema.parse(request.params)
   try {
     const userId = request.user.sub
     const role = request.user.role
@@ -22,12 +22,12 @@ export async function seeEntities(
       throw new NotAllowedError()
     }
     if (role !== 'ADMIN') {
-        throw new NotAllowedError()
+      throw new NotAllowedError()
     }
-    
-    if(entity_id){
+
+    if (entity_id) {
       const entity = await prisma.entity.findUnique({
-        where: {id: entity_id},
+        where: { id: entity_id },
         include: {
           Announcement: true,
           SocialAssistant: true,
@@ -35,12 +35,12 @@ export async function seeEntities(
         }
       })
 
-      return reply.status(200).send({entity})
+      return reply.status(200).send({ entity })
     }
 
     const entities = await prisma.entity.findMany()
 
-    return reply.status(200).send({entities})
+    return reply.status(200).send({ entities })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })

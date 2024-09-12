@@ -20,7 +20,9 @@ import getAnnouncementCourse from './get-announcement-course'
 import { getApplications } from './get-applications'
 import getEntityDashboard from './get-dashboard'
 import { getEntityInfo } from './get-entity-info'
+import { getGrantedScholarships } from './get-granted-scholarships'
 import { getEntityProfilePicture } from './get-profile-picture'
+import getRegisteredStudentsByCourse from './get-registered-course-students'
 import { getSocialAssistants } from './get-social-assistants'
 import { registerEntity } from './register-entity'
 import removeAssistantFromAnnouncement from './remove-assistant-from-announcement'
@@ -29,12 +31,13 @@ import { updateAnnouncement } from './update-announcement'
 import { updateDirector } from './update-director'
 import { updateEntity } from './update-entity'
 import updateEntityProfile from './update-entity-profile'
+import updateScholarshipStatus from './update-scholarship-status'
 import updateSocialAssistant from './update-social-assistant'
 import { updateSubsidiary } from './update-subsidiary'
 import { uploadAnnouncementPdf } from './upload-announcement-pdf'
-import { uploadEntityProfilePicture } from './upload-profile-picture'
 import uploadBasicEducationCSVFileToAnnouncement from './upload-basic-education-csv-to-announcement'
 import uploadHigherEducationCSVFileToAnnouncement from './upload-higher-education-csv-to-announcement'
+import { uploadEntityProfilePicture } from './upload-profile-picture'
 
 export async function entityRoutes(app: FastifyInstance) {
   /** Admin Routes (Rotas acessadas na página do Admin)
@@ -158,5 +161,9 @@ export async function entityRoutes(app: FastifyInstance) {
 
   app.post('/announcement/csv/basic', { onRequest: [verifyJWT] }, uploadBasicEducationCSVFileToAnnouncement)
   app.post('/announcement/csv/higher', { onRequest: [verifyJWT] }, uploadHigherEducationCSVFileToAnnouncement)
+
+  app.get('/courses/scholarships/:educationalLevel_id', { onRequest: [verifyJWT] }, getGrantedScholarships)
+  app.put('/scholarships/:scholarship_id', { onRequest: [verifyJWT] }, updateScholarshipStatus)
+  app.get('/courses/registered/:educationalLevel_id', { onRequest: [verifyJWT] }, getRegisteredStudentsByCourse)
 
 }
