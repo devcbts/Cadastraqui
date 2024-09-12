@@ -12,7 +12,7 @@ import { z } from 'zod'
 
 
 
-const section = z.enum(["identity",
+export const section = z.enum(["identity",
     "housing",
     "family-member",
     "monthly-income",

@@ -10,19 +10,27 @@ import FormData from 'form-data';
 import { PDFDocument } from 'pdf-lib';
 import { z } from "zod";
 import { Declaration_Type } from "../enums/Declatarion_Type";
+import { section } from "../AWS Routes/upload-documents";
+import { MultipartFile } from "@fastify/multipart";
 
 
+const MAX_FILE_SIZE = 1024 * 1024 * 10;
 
 export async function sendMemberDocumentToSign(
     request: FastifyRequest,
     reply: FastifyReply,
 ) {
-    const parecerParams = z.object({
+    const documentParams = z.object({
+        documentType: section,
         member_id: z.string(),
-        type: Declaration_Type
+        table_id: z.string().nullable()
     })
 
-    const { member_id, type } = parecerParams.parse(request.params)
+    const emailBody = z.object({
+        emails: z.array(z.string().email()),
+    })
+    const { member_id, documentType, table_id } = documentParams.parse(request.params)
+    const { emails } = emailBody.parse(request.body)
     try {
         const user_id = request.user.sub
         const candidateOrResponsible = await SelectCandidateResponsible(user_id)
@@ -39,18 +47,57 @@ export async function sendMemberDocumentToSign(
         if (!member) {
             throw new ResourceNotFoundError()
         }
-        const idField = candidateOrResponsible.UserData.id === member_id ? { familyMember_id: member_id } : candidateOrResponsible.IsResponsible ? { legalResponsibleId: member_id } : { candidate_id: member_id }
 
-        const file = await request.file();
-        if (!file) {
-            throw new FileNotFoundError()
+        const parts = request.parts({ limits: { fileSize: MAX_FILE_SIZE } });
+
+        let file: MultipartFile & { fileBuffer: any, metadata: object } = {} as any;
+        let metadatas: any = {};
+
+        // Obter todos os metadados e o primeiro arquivo
+        for await (const part of parts) {
+            if (part.fieldname === 'file_metadatas' && part.type === "field") {
+                metadatas = JSON.parse(part.value as string);
+            }
+            if (part.type === "file") {
+                // Ler o arquivo antes de enviar para AWS, garantindo que os dados necessários para o armazenamento do arquivo não sejam perdidos durante o processo
+                const chunks: any[] = [];
+                let fileSize = 0;
+
+                part.file.on('data', (chunk) => {
+                    fileSize += chunk.length;
+                    chunks.push(chunk);
+                });
+
+                part.file.on('end', async () => {
+                    if (fileSize >= MAX_FILE_SIZE) {
+                        // Se exceder 10MB, lançar um erro antes de manipulá-lo
+                        throw new Error('Arquivo excede o limite de 10MB');
+                    }
+                    const fileBuffer = Buffer.concat(chunks);
+                    // Se a parte for um arquivo, salvar para a variável file e parar o loop
+                    file = {
+                        ...part,
+                        fileBuffer,
+                        metadata: metadatas?.[`metadata_${part.fieldname.split('_')[1]}`] ?? {}
+                    };
+                });
+
+                // Parar o loop após lidar com o primeiro arquivo
+                break;
+            }
         }
+
+        // Verificar se um arquivo foi encontrado e processado
+        if (!file) {
+            throw new Error('Nenhum arquivo foi encontrado');
+        }
+
         const fileBuffer = await file.toBuffer();
         const lastPage = await countPdfPages(fileBuffer)
         const formData = new FormData();
         formData.append('name', file.fieldname); // Colocar aqui o nome do arquivo que vai pro S3
         // id XXXXX is from 'parecer' folder
-        formData.append('folder', 42394); // Substituir id pelo id da pasta no plugsign (criar uma pasta chamada declaracoes)
+        formData.append('folder', 42394); // Substituir id pelo id da pasta no plugsign (criar uma pasta chamada 'documentos' e pegar o id dela)
         formData.append('file', fileBuffer, { filename: 'nome_do_arquivo.pdf', contentType: 'application/pdf' });
         const headers = {
             "Authorization": `Bearer ${env.PLUGSIGN_API_KEY}`,
@@ -70,18 +117,21 @@ export async function sendMemberDocumentToSign(
                 }
 
                 const documentKey = <string>uploadDocument.data.data.document_key
-                await tsPrisma.declarations.updateMany({
-                    where: {
-                        ...idField,
-                        declarationType: type
-                    },
+
+
+                // Determinar rota no AWS 
+                const route = `CandidateDocuments/${candidateOrResponsible.UserData.id}/${documentType}/${member_id}/${table_id ? table_id + '/' : ''}${file.fieldname.split('_')[1]}.${file.mimetype.split('/')[1]}`;
+                await tsPrisma.signedDocuments.create({
                     data: {
                         documentKey: documentKey,
+                        path: route,
+                        emails: [member.email, ...emails],
+                        metadata: file.metadata,
 
                     }
                 })
                 const emailBody = {
-                    email: [member.email],
+                    email: [member.email, ...emails],
                     document_key: documentKey,
                     message: `Documento para assinatura`,
                     width_page: "1000",

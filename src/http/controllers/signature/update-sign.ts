@@ -59,46 +59,44 @@ export default async function updateSign(
                         const fileParecer = Buffer.from(binaryDataParecer.data);
                         await uploadToS3(fileParecer, routeParecer);
                         break;
-                    case 'declaracoes':
-                        const declaration = await prisma.declarations.findUnique({
-                            where: { documentKey: document_key },
-                            include: {
-                                familyMember: {
-
-                                }, candidate: true, LegalResponsible: true
-                            }
-                        });
-                        if (!declaration) {
+                       
+                    default:
+                        const documentInAWS = await prisma.signedDocuments.findUnique({
+                            where: {documentKey: document_key}
+                        })
+                        if (!documentInAWS) {
                             break;
                         }
+                        await prisma.$transaction(async (tsPrisma) => {
+                            await tsPrisma.signedDocuments.update({
+                                where: { documentKey: document_key },
+                                data: {
+                                    status: status,
+                                }
+                            })
+                            const binaryDataParecer = await api.get(`/files/download/${document_key}`, { responseType: 'arraybuffer', responseEncoding: 'binary' });
+                            const metadata = documentInAWS.metadata as Object 
 
-                        const memberId = declaration.familyMember?.id || declaration.candidate?.id || declaration.LegalResponsible?.id;
-                        const candidateOrResponsibleId = declaration.candidate_id || declaration.legalResponsibleId || declaration.familyMember?.candidate_id || declaration.familyMember?.legalResponsibleId;
+                            await uploadFile(binaryDataParecer.data, documentInAWS.path,metadata)
+                            const [, candidateOrResponsibleId, section, memberId, tableIdOrFilename, maybeFilename] = documentInAWS.path.split("/");
 
-
-
+                            // Verificação condicional para ajustar tableId e filename
+                            let tableId = tableIdOrFilename;
+                            let filename = maybeFilename;
                         
-                        const binaryDataDeclaration = await api.get(`/files/download/${document_key}`, { responseType: 'arraybuffer', responseEncoding: 'binary' });
-                        const getDocumentInPlugSign = await api.get(`/docs`, { data: { document_key } });
-
-                        const DocumentInfoInPlugSign = getDocumentInPlugSign.data.data[0];
-
-                        const routeDeclaration = `CandidateDocuments/${candidateOrResponsibleId}/declaracoes/${memberId}/${DocumentInfoInPlugSign.name}.pdf`;
-
-                        const fileDeclaration = Buffer.from(binaryDataDeclaration.data);
-
-                        await uploadFile(fileDeclaration, routeDeclaration);
-                        const findOpenApplications = await getOpenApplications(candidateOrResponsibleId!);
-                        for (const application of findOpenApplications) {
-                            const routeHDB = await findAWSRouteHDB(candidateOrResponsibleId!, 'declaracoes', memberId!, '', application.id);
-                            const finalRoute = `${routeHDB}${DocumentInfoInPlugSign.name}.pdf`;
-                            const sended = await uploadFile(fileDeclaration, finalRoute);
-                            if (!sended) {
-                                throw new NotAllowedError();
+                            if (!filename) { // Caso não exista o filename, o tableIdOrFilename é o filename
+                                filename = tableIdOrFilename;
+                                tableId = '';
                             }
-                        }
-                        break;
-                    default:
+                            // Enviar o arquivo para as inscrições abertas
+                            const openApplications = await getOpenApplications(candidateOrResponsibleId)
+                            for (const application of openApplications) {
+                                const routeHDB = await findAWSRouteHDB(candidateOrResponsibleId, section, memberId, tableId, application.id);
+                                const finalRoute = `${routeHDB}${filename}`;
+                                const fileSigned = Buffer.from(binaryDataParecer.data);
+                                await uploadFile(fileSigned, finalRoute, metadata);
+                            }
+                        })
                         break;
                 }
 

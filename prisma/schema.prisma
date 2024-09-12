@@ -353,8 +353,8 @@ model FamilyMember {
   hasSevereDeseaseOrUsesMedication           Boolean?
   hasBankAccount                             Boolean?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @default(now()) @updatedAt
 
   @@map("familyMembers")
 }
@@ -682,7 +682,16 @@ model Declarations {
   createdAt          DateTime          @default(now())
   updatedAt          DateTime          @default(now()) @updatedAt
 
-  @@unique([familyMember_id,candidate_id,legalResponsibleId, declarationType])
+  @@unique([familyMember_id, candidate_id, legalResponsibleId, declarationType])
+}
+
+model SignedDocuments {
+  documentKey        String            @id @unique
+  path               String           
+  emails            String[]
+  metadata          Json
+  status             DocumentStatus   @default(Open)
+  createdAt          DateTime          @default(now())
 }
 
 model FinishedRegistration {
@@ -1411,4 +1420,10 @@ enum CallStatus {
   OPEN
   CLOSED
   INPROGRESS
+}
+enum DocumentStatus {
+  Open
+   Signed
+   Cancelled 
+   Declined
 }
