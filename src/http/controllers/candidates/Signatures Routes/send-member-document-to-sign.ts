@@ -37,7 +37,10 @@ export async function sendMemberDocumentToSign(
         if (!candidateOrResponsible) {
             throw new ForbiddenError()
         }
-        const member = candidateOrResponsible.UserData.id === member_id ? candidateOrResponsible.UserData : await prisma.familyMember.findUnique({
+        const idField = candidateOrResponsible.IsResponsible ? {responsible_id: candidateOrResponsible.UserData.id} : {candidate_id: candidateOrResponsible.UserData.id}
+        const member = candidateOrResponsible.UserData.id === member_id ? await prisma.identityDetails.findUniqueOrThrow({
+            where: idField
+        }) : await prisma.familyMember.findUniqueOrThrow({
 
             where: { id: member_id }
         }
@@ -125,7 +128,7 @@ export async function sendMemberDocumentToSign(
                     data: {
                         documentKey: documentKey,
                         path: route,
-                        emails: [member.email, ...emails],
+                        emails: [member.email ? member.email : '', ...emails],
                         metadata: file.metadata,
 
                     }
