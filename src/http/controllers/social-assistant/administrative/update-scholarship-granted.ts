@@ -76,14 +76,6 @@ export default async function updateScholarshipGranted(request: FastifyRequest, 
             }
             if (status === "GAVEUP") {
 
-                // Update ScholarshipGranted
-                // await tPrisma.scholarshipGranted.update({
-                //     where: { id: scholarship_id },
-                //     data: {
-                //         gaveUp
-
-                //     }
-                // })
                 //Update Student application
 
                 await tPrisma.application.update({

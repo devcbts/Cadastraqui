@@ -87,7 +87,6 @@ export default async function getPartialReport(
         if (entityInfo && entityInfo.user.role === 'ENTITY') { // Supondo que 'type' indica se é principal ou subsidiária
             scholarships = await prisma.scholarshipGranted.findMany({
                 where: {
-                    gaveUp: false,
                     application: {
                         announcement_id,
                         EducationLevel: {
@@ -108,7 +107,6 @@ export default async function getPartialReport(
         } else {
             scholarships = await prisma.scholarshipGranted.findMany({
                 where: {
-                    gaveUp: false,
                     application: {
                         announcement_id,
                         EducationLevel: {

@@ -73,14 +73,19 @@ export async function updateApplication(
 
                     }
                 })
-                await tsPrisma.scholarshipGranted.create({
-                    data: {
-                        application_id,
-                        announcement_id: application.announcement_id,
-                        candidateName: application.candidate.name,
-                        candidateCPF: application.candidate.CPF,
-                    }
-                })
+                // Caso o candidato tenha a ficha deferida e seja titular
+                if (application.candidateStatus === 'Holder') {
+
+
+                    await tsPrisma.scholarshipGranted.create({
+                        data: {
+                            application_id,
+                            announcement_id: application.announcement_id,
+                            candidateName: application.candidate.name,
+                            candidateCPF: application.candidate.CPF,
+                        }
+                    })
+                }
             }
 
         })
