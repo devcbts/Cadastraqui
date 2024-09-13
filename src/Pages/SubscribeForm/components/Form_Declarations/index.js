@@ -50,6 +50,7 @@ import Declaration_WorkCard from './components/Declaration_WorkCard';
 import Declaration_WorkCardConfirmation from './components/Declaration_WorkCardConfirmation';
 import Declaration_WorkCardUpload from './components/Declaration_WorkCardUpload';
 import Loader from "Components/Loader";
+import Declaration_PersonalData from "./components/Declaration_PersonalData";
 
 const SCREENS = {
     OVERVIEW: 'overview',
@@ -95,7 +96,8 @@ const SCREENS = {
     VEHICLE_OWNERSHIP: 'vehicleOwnership',
     FAMILY_INCOME_CHANGE: 'familyIncomeChange',
     RESPONSIBILITY_CONFIRMATION: 'responsibilityConfirmation',
-    WITNESSES: 'witnesses'
+    WITNESSES: 'witnesses',
+    PERSONAL_DATA: 'personalData'
 
 };
 
@@ -530,12 +532,18 @@ export default function FormDeclarations() {
             {currentScreen === SCREENS.VEHICLE_OWNERSHIP && (
                 <Declaration_VehicleOwnership
                     onBack={() => handleNavigate(SCREENS.RENT_INCOME)}
-                    onNext={(confirmation) => handleNavigate(confirmation ? SCREENS.FAMILY_INCOME_CHANGE : SCREENS.FAMILY_INCOME_CHANGE)}
+                    onNext={(confirmation) => handleNavigate(confirmation ? SCREENS.PERSONAL_DATA : SCREENS.PERSONAL_DATA)}
+                />
+            )}
+            {currentScreen === SCREENS.PERSONAL_DATA && (
+                <Declaration_PersonalData
+                    onBack={() => handleNavigate(SCREENS.VEHICLE_OWNERSHIP)}
+                    onNext={() => handleNavigate(SCREENS.FAMILY_INCOME_CHANGE)}
                 />
             )}
             {currentScreen === SCREENS.FAMILY_INCOME_CHANGE && (
                 <Declaration_FamilyIncomeChange
-                    onBack={() => handleNavigate(SCREENS.VEHICLE_OWNERSHIP)}
+                    onBack={() => handleNavigate(SCREENS.PERSONAL_DATA)}
                     onResponsibilityConfirmation={handleNavigateToResponsibilityConfirmation}
                 />
             )}

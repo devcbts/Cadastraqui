@@ -172,6 +172,14 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
                     </Text>
                 </View>
                 <View style={styles.section} wrap={false} >
+                    <Text style={styles.declarationType}>TERMO DE CONSENTIMENTO PARA TRATAMENTO DE DADOS PESSOAIS</Text>
+                    <Text style={styles.declarationText}>Declaro estar ciente de que o tratamento de meus dados pessoais é condição essencial para a participação no processo seletivo de concessão e/ou renovação de Bolsa de Estudo e por este termo declaro estar ciente e dou o meu consentimento para a realização do tratamento para as finalidades informadas no Edital, na forma da Lei nº 13.709, DE 14 DE AGOSTO DE 2018.
+
+                        “Art. 1o Esta Lei dispõe sobre o tratamento de dados pessoais, inclusive nos meios digitais, por pessoa natural ou por pessoa jurídica de direito público ou privado, com o objetivo de proteger os direitos fundamentais de liberdade e de privacidade e o livre desenvolvimento da personalidade da pessoa natural”.
+
+                        O processo seletivo realizado por meio da plataforma Cadastraqui se  baseia na confiabilidade, sigilo e arquivamento do documento e na instituição de ensino, do mesmo modo nos termos de seu edital.</Text>
+                </View>
+                <View style={styles.section} wrap={false} >
                     <Text style={styles.declarationType}>ALTERAÇÃO NO TAMANHO DO GRUPO FAMILIAR E/OU RENDA</Text>
                     <Text style={styles.declarationText}>Tenho ciência de que devo comunicar o(a) assistente social da entidade beneficente sobre nascimento ou falecimento de membro do meu grupo familiar, desde que morem na mesma residência, bem como sobre eventual rescisão de contrato de trabalho, encerramento de atividade que gere renda ou sobre início em novo emprego ou atividade que gere renda para um dos membros, pois altera a aferição realizada e o benefício em decorrência da nova renda familiar bruta mensal pode ser ampliado, reduzido ou mesmo cancelado, após análise por profissional de serviço social.</Text>
                 </View>
