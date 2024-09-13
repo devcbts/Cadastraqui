@@ -4,6 +4,7 @@ import { ReactComponent as Close } from 'Assets/icons/close.svg'
 import LogoWhite from '../../../../Assets/images/logo_white.png'
 import styles from './styles.module.scss'
 import useOutsideClick from 'hooks/useOutsideClick'
+import Tutorial from 'Components/Tutorial'
 export default function HamburgHeader({ children }) {
     // TODO: control sidebar effect
     const [isMenuOpen, setMenuOpen] = useState(false)
@@ -27,6 +28,7 @@ export default function HamburgHeader({ children }) {
                     }}
                 ></MenuIcon>
                 <img className={styles.logo} alt='logo' src={LogoWhite}></img>
+                <Tutorial />
             </header>
             {isMenuOpen && <div ref={ref}>{children}</div>}
         </div>
