@@ -1,4 +1,4 @@
-import { Document, PDFDownloadLink, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { BlobProvider, Document, PDFDownloadLink, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import { ReactComponent as Arrow } from 'Assets/icons/arrow.svg'; // Certifique-se de que o caminho está correto
 import ButtonBase from "Components/ButtonBase";
 import FormFilePicker from 'Components/FormFilePicker';
@@ -197,8 +197,8 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
         </Document>
     );
 
-    const handleRegisterDeclaration = async () => {
-        if (!isValid) {
+    const handleRegisterDeclaration = async ({ sign = null }) => {
+        if (!isValid && !sign) {
             trigger()
             return
         }
@@ -233,7 +233,7 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
         try {
 
             const formData = new FormData()
-            const file = getValues("file")
+            const file = sign ?? getValues("file")
             const metadata = {
                 metadata_declaracoes: {
                     type: METADATA_FILE_TYPE.DECLARATIONS.DECLARATIONS,
@@ -243,7 +243,11 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
             }
             formData.append("file_metadatas", JSON.stringify(metadata))
             formData.append("file_declaracoes", file)
-            await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData.id }, formData)
+            if (sign) {
+                await uploadService.uploadMemberDocumentToSign({ section: 'declaracoes', id: declarationData.id }, formData)
+            } else {
+                await uploadService.uploadBySectionAndId({ section: 'declaracoes', id: declarationData.id }, formData)
+            }
             NotificationService.success({ text: 'Declaração enviada' })
             onNext()
         } catch (err) { }
@@ -314,7 +318,7 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
                         onChange={(e) => setWitness2({ ...witness2, cpf: e.target.value })}
                     />
                 </div> */}
-                <Tooltip tooltip={'Clique em "Gerar declarações" e anexe o documento assinado'}>
+                <Tooltip tooltip={'Clique em "Gerar declarações" e anexe o documento assinado ou opte por assinar eletrônicamente'}>
                     <FormFilePicker label={'Anexar declaração'} accept={'application/pdf'} control={control} name={"file"} />
                 </Tooltip>
                 {/* <div>
@@ -330,15 +334,20 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
                     <p>Gerando PDF...</p>
                 )}
                 {isGeneratingPDF === "done" && (
-                    <PDFDownloadLink
+                    <BlobProvider
                         document={<MyDocument />}
                         fileName={`declaracoes_${declarationData.name}.pdf`}
                     // style={{ textDecoration: 'none', padding: '10px', color: '#4a4a4a', backgroundColor: '#f2f2f2', border: '1px solid #4a4a4a', borderRadius: '4px' }}
                     >
                         {({ blob, url, loading, error }) =>
-                            loading ? 'Gerando PDF...' : <ButtonBase label={"baixar PDF"} />
+                            loading ? 'Gerando PDF...' : <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                                <ButtonBase label={"baixar PDF"} onClick={() => {
+                                    window.open(url, '_blank')
+                                }} />
+                                <ButtonBase label={"enviar por email"} onClick={() => handleRegisterDeclaration({ sign: blob })} />
+                            </div>
                         }
-                    </PDFDownloadLink>
+                    </BlobProvider>
                 )}
             </div>
         </div>

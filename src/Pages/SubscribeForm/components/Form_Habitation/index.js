@@ -20,6 +20,13 @@ export default function FormHabitation() {
         const formData = createFileForm(data)
         try {
             await uploadService.uploadBySectionAndId({ section: 'housing', id: rowId }, formData)
+            if (data.sign_housing.email && data.sign_housing.file) {
+                const values = new FormData()
+                values.append("emails", JSON.stringify([data.sign_housing.email]))
+                values.append("file", data.sign_housing.file)
+                await uploadService.uploadMemberDocumentToSign({ section: 'housing', id: rowId }, values)
+
+            }
         } catch (err) {
 
         }

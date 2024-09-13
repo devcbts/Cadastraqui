@@ -17,6 +17,12 @@ class UploadService {
     uploadCandidateSolicitation(solicitationId, file) {
         return api.post(`/candidates/upload/${solicitationId}`, file)
     }
+    uploadMemberDocumentToSign({ section, id, tableId = '' }, data) {
+        if (!data) {
+            return
+        }
+        return api.post(`/candidates/post-pdf/${section}/${id}/${tableId}`, data)
+    }
 
 }
 

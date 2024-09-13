@@ -13,6 +13,7 @@ import propertyStatusSchema from "./schemas/property-status-schema";
 import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
 import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category";
 import VerbalContractPDF from "../VerbalContractPDF";
+import { NotificationService } from "services/notification";
 
 const { forwardRef, useEffect, useState } = require("react");
 
@@ -26,6 +27,10 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
             file_document: null,
             url_document: null,
             metadata_document: null,
+            sign_housing: {
+                email: '',
+                file: null
+            }
         },
         initialData: data
     }, ref)
@@ -37,6 +42,8 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
     const hasContractType = watchPropertyStatus === "Rented"
     useEffect(() => {
         if (hasGrantorName) {
+
+
             setValue("metadata_document", {
                 type: METADATA_FILE_TYPE.RESIDENCE.GIVENPROPERTY,
                 category: METADATA_FILE_CATEGORY.Residence
@@ -44,11 +51,20 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
             resetField("contractType", { defaultValue: null })
         }
         if (hasContractType) {
+
+
             setValue("metadata_document", {
                 type: METADATA_FILE_TYPE.RESIDENCE.RENTCONTRACT,
                 category: METADATA_FILE_CATEGORY.Residence
             })
             resetField("grantorName", { defaultValue: null })
+        }
+        if (!hasContractType && !hasGrantorName) {
+            setValue("sign_housing", {
+                defaultValue: {
+                    email: '', file: null
+                }
+            })
         }
     }, [hasContractType, hasGrantorName, resetField, watchPropertyStatus])
     const watchFile = watch("file_document")
@@ -61,17 +77,30 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
             return type
         })
     }
+    const handleConfirmEmailSend = (email, file) => {
+        NotificationService.confirm({
+            title: 'Enviar por email?',
+            text: `Um e-mail será enviado para ${email} para assinatura do documento`,
+            onConfirm: () => {
+                console.log(email, file, URL.createObjectURL(file))
+                setValue("sign_housing", { email, file })
+                setValue("url_document", URL.createObjectURL(file))
+            }
+        })
+    }
     return (
         <div className={commonStyles.formcontainer}>
-            <PropertyOwner show={ownerForm} onClose={handlePropertyOwnerForm} pdf={(data) => {
-                if (!ownerForm) return <></>
-                if (ownerForm === 'given') {
-                    return <GivenPropertyPDF owner={data} />
-                }
-                if (ownerForm === 'verbal') {
-                    return <VerbalContractPDF owner={data} />
-                }
-            }} />
+            <PropertyOwner show={ownerForm}
+                onSendToEmail={!ownerForm ? null : handleConfirmEmailSend}
+                onClose={handlePropertyOwnerForm} pdf={(data) => {
+                    if (!ownerForm) return <></>
+                    if (ownerForm === 'given') {
+                        return <GivenPropertyPDF owner={data} />
+                    }
+                    if (ownerForm === 'verbal') {
+                        return <VerbalContractPDF owner={data} />
+                    }
+                }} />
             <h1 className={commonStyles.title}>Status da Propriedade</h1>
             <FormSelect name="propertyStatus" label="status" control={control} options={PROPERTY_STATUS} value={watchPropertyStatus} />
             {
@@ -83,7 +112,7 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
                     )}
                     <FormFilePicker name={'file_document'} control={control} accept={'application/pdf'} label={'documento'} />
 
-                    <FilePreview file={watchFile} url={data?.url_document} text={'visualizar documento'} />
+                    <FilePreview file={watchFile} url={watch("url_document")} text={'visualizar documento'} />
                 </>
             }
             {
@@ -94,7 +123,7 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
                         <RowTextAction text={'Gerar declaração de contrato verbal'} label={'gerar'} onClick={() => handlePropertyOwnerForm('verbal')} />
                     )}
                     <FormFilePicker name={'file_document'} control={control} accept={'application/pdf'} label={'contrato de aluguel'} />
-                    <FilePreview file={watchFile} url={data?.url_document} text={'visualizar contrato'} />
+                    <FilePreview file={watchFile} url={watch("url_document")} text={'visualizar contrato'} />
 
                 </>
             }

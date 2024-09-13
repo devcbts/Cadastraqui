@@ -9,6 +9,10 @@ const propertyStatusSchema = z.object({
     file_document: z.instanceof(File).nullish(),
     metadata_document: metadataSchema,
     url_document: z.string().nullish(),
+    sign_housing: z.object({
+        email: z.string().nullish(),
+        file: z.instanceof(File).nullish()
+    }),
 }).superRefine((data, ctx) => {
     if (["ProvidedByEmployer", "ProvidedByFamily", "ProvidedOtherWay"].includes(data.propertyStatus) && !data.grantorName) {
         ctx.addIssue({

@@ -14,12 +14,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import propertyOwnerSchema from './schemas/property-owner-schema';
 import ReactPDF, { BlobProvider, Document, Page, PDFDownloadLink, Text, usePDF, View } from '@react-pdf/renderer';
 import HabitationDeclarationPDF from '../../../Form_Declarations/components/HabitationDeclarationPDF';
-export default function PropertyOwner({ show, onClose, pdf }) {
+export default function PropertyOwner({ show, onClose, pdf, onSendToEmail = null }) {
     const ownerRef = useRef(null)
     const [pdfState, setPdfState] = useState(null)
     const [pdfData, setPdfData] = useState({})
     const [document, setDocument] = usePDF(pdf(null))
-    const { control, watch, reset } = useControlForm({
+    const { control, watch, reset, getValues } = useControlForm({
         schema: propertyOwnerSchema,
         defaultValues: {
             ownerName: '',
@@ -67,6 +67,10 @@ export default function PropertyOwner({ show, onClose, pdf }) {
             setPdfData({ ...ownerRef.current?.values(), ...addressRef.current?.values() })
         }
     }, [pdfState])
+    const handleSendToEmail = () => {
+        const email = getValues("email")
+        return onSendToEmail(email, document.blob)
+    }
     if (!show) return null
     return (
         <Portal id="habitation">
@@ -99,7 +103,10 @@ export default function PropertyOwner({ show, onClose, pdf }) {
                                 : (
                                     <>
                                         <ButtonBase label={'alterar'} onClick={() => setPdfState(null)} />
-                                        <ButtonBase label={'baixar'} onClick={() => handlePDF()} />
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'center' }}>
+                                            <ButtonBase label={'baixar'} onClick={() => handlePDF()} />
+                                            {onSendToEmail && <ButtonBase label={'enviar por email'} onClick={handleSendToEmail} />}
+                                        </div>
                                         {/* <BlobProvider document={document}>
                                             {
                                                 ({ url, loading }) => {
