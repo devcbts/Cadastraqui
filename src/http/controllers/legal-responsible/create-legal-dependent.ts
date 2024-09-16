@@ -1,16 +1,17 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { UserAlreadyExistsError } from '@/errors/users-already-exists-error'
-import { prisma } from '@/lib/prisma'
+import { Prisma, PrismaClient } from '@prisma/client'
+import { DefaultArgs } from '@prisma/client/runtime/library'
 
 export async function createLegalDependent(
-  name: string, CPF: string, birthDate: string, responsible_id: string
+  name: string, CPF: string, birthDate: string, responsible_id: string, db: Omit<PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">
 ) {
 
   try {
-    const responsible = await prisma.legalResponsible.findUnique({
+    const responsible = await db.legalResponsible.findUnique({
       where: { id: responsible_id },
     })
-    const candidateWithSameCPF = await prisma.candidate.findUnique({
+    const candidateWithSameCPF = await db.candidate.findUnique({
       where: { CPF },
     })
 
@@ -22,7 +23,7 @@ export async function createLegalDependent(
       throw new UserAlreadyExistsError()
     }
 
-    await prisma.candidate.create({
+    await db.candidate.create({
       data: {
         CPF,
         birthDate: new Date(birthDate),
@@ -33,6 +34,6 @@ export async function createLegalDependent(
     })
 
   } catch (err: any) {
-    return err
+    throw err
   }
 }
