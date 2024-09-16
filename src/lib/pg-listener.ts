@@ -67,6 +67,11 @@ const connectClient = async () => {
 };
 connectClient();
 
+clientBackup.on("error", (err) => {
+    console.error('Error in database connection', err);
+    clientBackup.end();
+    setTimeout(connectClient, 5000); // Retry connection after 5 seconds
+})
 
 clientBackup.on('notification', async (msg) => {
     console.log('Received notification:', msg.payload);
