@@ -10,6 +10,8 @@ import InputBase from "Components/InputBase";
 import { zodResolver } from "@hookform/resolvers/zod";
 import incomeSelectionSchema from "./schemas/income-selection-schema";
 import useControlForm from "hooks/useControlForm";
+import useTutorial from "hooks/useTutorial";
+import INCOME_TUTORIALS from "utils/enums/tutorials/income";
 const IncomeSelection = forwardRef(({ data, viewMode }, ref) => {
     const { control, watch } = useControlForm({
         schema: incomeSelectionSchema,
@@ -21,7 +23,7 @@ const IncomeSelection = forwardRef(({ data, viewMode }, ref) => {
     }, ref)
 
     const watchIncome = watch("incomeSource")
-
+    useTutorial(INCOME_TUTORIALS.SELECTION[watchIncome])
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Fonte de Renda</h1>

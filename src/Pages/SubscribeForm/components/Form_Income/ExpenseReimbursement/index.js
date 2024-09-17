@@ -5,6 +5,8 @@ import { forwardRef, useEffect, useImperativeHandle } from "react";
 import FormCheckbox from "Components/FormCheckbox";
 import expenseReimbursementSchema from "./schemas/expense-reimbursement-schema";
 import useControlForm from "hooks/useControlForm";
+import useTutorial from "hooks/useTutorial";
+import INCOME_TUTORIALS from "utils/enums/tutorials/income";
 
 
 const ExpenseReimbursement = forwardRef(({ data }, ref) => {
@@ -24,6 +26,7 @@ const ExpenseReimbursement = forwardRef(({ data }, ref) => {
             resetField("expenseReimbursementValue", { defaultValue: '' })
         }
     }, [watchExpense])
+    useTutorial(INCOME_TUTORIALS.REIMBURSEMENT[data?.incomeSource])
     return (
         <>
             <FormCheckbox control={control} name={"hasexpenseReimbursementValue"} label={"você recebeu diárias e reembolsos de despesas?"} />

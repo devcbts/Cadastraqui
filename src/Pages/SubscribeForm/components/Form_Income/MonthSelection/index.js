@@ -12,9 +12,11 @@ import styles from './styles.module.scss'
 import INCOME_SOURCE from "utils/enums/income-source";
 import useControlForm from "hooks/useControlForm";
 import MonthSelection from "Components/MonthSelection";
+import useTutorial from "hooks/useTutorial";
+import INCOME_TUTORIALS from "utils/enums/tutorials/income";
 // quantity = months that user needs to fullfill in order to proceed saving information
 const IncomeMonthSelection = forwardRef(({ data, render = [], viewMode }, ref) => {
-
+    useTutorial(INCOME_TUTORIALS.MONTHS[data?.incomeSource])
     return (
         <div className={[commonStyles.formcontainer, styles.container].join(' ')}>
             <h1 className={commonStyles.title}>Cadastrar Renda</h1>

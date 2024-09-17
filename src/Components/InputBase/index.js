@@ -29,7 +29,9 @@ const InputBase = forwardRef(({
                 <div className={styles.inputbox}>
                     {React.cloneElement(element, {
                         id: `${id}-${label}`,
-                        className: [element.props.className, borderStyle].join(' '), ref: ref, ...props
+                        className: [element.props.className, borderStyle].join(' '), ref: ref,
+                        ...props
+
                     })}
                     {
                         element.type === 'input' && <>

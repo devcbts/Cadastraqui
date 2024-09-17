@@ -5,6 +5,8 @@ import { forwardRef, useEffect, useImperativeHandle } from "react";
 import FormCheckbox from "Components/FormCheckbox";
 import foodAllowanceSchema from "./schemas/food-allowance-schema";
 import useControlForm from "hooks/useControlForm";
+import useTutorial from "hooks/useTutorial";
+import INCOME_TUTORIALS from "utils/enums/tutorials/income";
 
 
 const FoodAllowance = forwardRef(({ data }, ref) => {
@@ -24,6 +26,8 @@ const FoodAllowance = forwardRef(({ data }, ref) => {
             resetField("foodAllowanceValue", { defaultValue: '' })
         }
     }, [watchFoodAllowance])
+    useTutorial(INCOME_TUTORIALS.FOOD[data?.incomeSource])
+
     return (
         <>
             <FormCheckbox control={control} name={"hasfoodAllowanceValue"} label={"você recebeu auxílio alimentação?"} />

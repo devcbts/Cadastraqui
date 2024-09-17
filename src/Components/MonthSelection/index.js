@@ -54,9 +54,9 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
                 })
                 // if TRUE return the current object formatted to display data string
                 if (!!monthDataIncome) {
-                    return { ...monthDataIncome, isUpdated: !monthDataIncome.skipMonth, dateString }
+                    return { ...monthDataIncome, isUpdated: !monthDataIncome.skipMonth, dateString, incomeSource: data?.incomeSource }
                 } else {
-                    return { ...e, isUpdated: false, dateString, date: currentDate, skipMonth: false }
+                    return { ...e, isUpdated: false, dateString, date: currentDate, skipMonth: false, incomeSource: data?.incomeSource }
                 }
 
             })

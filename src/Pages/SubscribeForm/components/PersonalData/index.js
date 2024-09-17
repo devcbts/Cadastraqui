@@ -7,7 +7,6 @@ import { formatCPF } from "utils/format-cpf"
 import { formatTelephone } from "utils/format-telephone"
 import { forwardRef } from "react"
 import useControlForm from "hooks/useControlForm"
-import useTutorial from "hooks/useTutorial"
 const PersonalData = forwardRef(({ data, tooltips }, ref) => {
     const { control } = useControlForm({
         schema: personalDataFormSchema,
@@ -20,7 +19,6 @@ const PersonalData = forwardRef(({ data, tooltips }, ref) => {
         },
         initialData: data
     }, ref)
-
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Dados Pessoais</h1>

@@ -6,6 +6,8 @@ import { useState } from "react";
 import YouTube from "react-youtube";
 import { useRecoilValue } from "recoil";
 import styles from './styles.module.scss'
+import { ReactComponent as Play } from 'Assets/icons/player-play.svg'
+import Tooltip from "Components/Tooltip";
 export default function Tutorial() {
     const value = useRecoilValue(tutorialAtom)
     const [openPalyer, setOpenPlayer] = useState(false)
@@ -13,15 +15,25 @@ export default function Tutorial() {
     if (!value) return null
     return (
         <div style={{ position: 'absolute', right: '24px' }}>
-            <ButtonBase label={'Tutorial'} onClick={() => { setOpenPlayer(true) }} />
-            {openPalyer &&
+
+            <div title={"Tutorial disponível"} className={styles.container} onClick={() => { setOpenPlayer(true) }} >
+                <div className={styles.tutorial}>
+                    <h4>
+                        TUTORIAL
+                    </h4>
+                    <Play className={styles.play} />
+                </div>
+            </div>
+            {
+                openPalyer &&
                 <Overlay>
                     <div ref={ref}>
                         <YouTube videoId={value} className={styles.player} onReady={(event) => {
                             event.target.playVideo()
                         }} />
                     </div>
-                </Overlay>}
-        </div>
+                </Overlay>
+            }
+        </div >
     )
 }

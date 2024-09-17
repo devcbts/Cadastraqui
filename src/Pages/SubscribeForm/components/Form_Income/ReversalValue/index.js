@@ -5,6 +5,8 @@ import { forwardRef, useEffect, useImperativeHandle } from "react";
 import FormCheckbox from "Components/FormCheckbox";
 import reversalValueSchema from "./schemas/reversal-value-schema";
 import useControlForm from "hooks/useControlForm";
+import useTutorial from "hooks/useTutorial";
+import INCOME_TUTORIALS from "utils/enums/tutorials/income";
 
 
 const ReversalValue = forwardRef(({ data }, ref) => {
@@ -18,7 +20,7 @@ const ReversalValue = forwardRef(({ data }, ref) => {
     }, ref)
 
     const watchReversal = watch("hasreversalValue")
-
+    useTutorial(INCOME_TUTORIALS.REVERSAL[data?.incomeSource])
     useEffect(() => {
         if (!watchReversal) {
             resetField("reversalValue", { defaultValue: '' })

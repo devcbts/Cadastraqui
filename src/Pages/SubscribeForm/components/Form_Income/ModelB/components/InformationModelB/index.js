@@ -9,6 +9,8 @@ import { formatTelephone } from "utils/format-telephone";
 import { formatCNPJ } from "utils/format-cnpj";
 import useControlForm from "hooks/useControlForm";
 import { formatCPF } from "utils/format-cpf";
+import useTutorial from "hooks/useTutorial";
+import INCOME_TUTORIALS from "utils/enums/tutorials/income";
 const InformationModelB = forwardRef(({ data, viewMode }, ref) => {
     const { control } = useControlForm({
         schema: modelBInformationSchema(data.incomeSource),
@@ -21,6 +23,8 @@ const InformationModelB = forwardRef(({ data, viewMode }, ref) => {
         },
         initialData: data
     }, ref)
+    useTutorial(INCOME_TUTORIALS.INFORMATION[data?.incomeSource])
+
     return (
         <div className={commonStyles.formcontainer}>
             <fieldset disabled={viewMode}>
