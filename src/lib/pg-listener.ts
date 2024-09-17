@@ -14,7 +14,7 @@ import { createBankAccountHDB, deleteBankAccountHDB, updateBankAccountHDB } from
 import { createCandidateHDB, updateCandidateHDB } from "@/HistDatabaseFunctions/handle-candidate";
 import { createCreditCardHDB, updateCreditCardHDB } from "@/HistDatabaseFunctions/handle-credit-card";
 import { createDeclarationHDB } from "@/HistDatabaseFunctions/handle-declaration";
-import { createExpenseHDB, updateExpenseHDB } from "@/HistDatabaseFunctions/handle-expenses";
+import { createExpenseHDB, deleteExpenseHDB, updateExpenseHDB } from "@/HistDatabaseFunctions/handle-expenses";
 import { createFamilyMemberHDB, deleteFamilyMemberHDB, updateFamilyMemberHDB } from "@/HistDatabaseFunctions/handle-family-member";
 import { createFamilyMemberDiseaseHDB, deleteFamilyMemberDiseaseHDB, updateFamilyMemberDiseaseHDB } from "@/HistDatabaseFunctions/handle-family-member-disease";
 import { createFamilyMemberIncomeHDB, deleteFamilyMemberIncomeHDB, updateFamilyMemberIncomeHDB } from "@/HistDatabaseFunctions/handle-family-member-income";
@@ -35,6 +35,7 @@ import { verifyIncomeBankRegistration } from "@/utils/Trigger-Functions/verify-i
 import { Client } from 'pg';
 import { prisma } from './prisma';
 import { IdentityDetails } from '../../backup_prisma/generated/clientBackup/index';
+import verifyExpenses from "@/utils/Trigger-Functions/verify-expenses";
 
 const clientBackup = new Client(env.DATABASE_URL);
 const connectClient = async () => {
@@ -103,18 +104,7 @@ clientBackup.on('notification', async (msg) => {
             }
         }
 
-        if (msg.channel == 'channel_creditCard') {
-            const creditCard = JSON.parse(msg.payload!);
-            if (creditCard.operation == 'Update') {
-                updateCreditCardHDB(creditCard.data.id)
-            }
-            else if (creditCard.operation == 'Insert') {
-                const openApplications = await getOpenApplications(creditCard.data.candidate_id || creditCard.data.legalResponsibleId);
-                for (const application of openApplications) {
-                    createCreditCardHDB(creditCard.data.id, creditCard.data.candidate_id, creditCard.data.legalResponsibleId, application.id)
-                }
-            }
-        }
+
 
         if (msg.channel == 'channel_expense') {
             const expense = JSON.parse(msg.payload!);
@@ -127,6 +117,11 @@ clientBackup.on('notification', async (msg) => {
                     await createExpenseHDB(expense.data.id, expense.data.candidate_id, expense.data.legalResponsibleId, application.id)
                 }
             }
+            else if (expense.operation == 'Delete') {
+                await deleteExpenseHDB(expense.data.id, expense.data.candidate_id || expense.data.legalResponsibleId)
+            }
+
+            await verifyExpenses(expense.data.candidate_id || expense.data.legalResponsibleId)
 
         }
         if (msg.channel == 'channel_familyMember') {
@@ -261,11 +256,7 @@ clientBackup.on('notification', async (msg) => {
         }
         if (msg.channel == 'channel_monthlyIncome') {
             const monthlyIncome = JSON.parse(msg.payload!);
-            const monthIncome = await prisma.monthlyIncome.findUnique({
-                where: { id: monthlyIncome.data.id },
-                include: { familyMember: true }
-
-            })
+           
             await CalculateMemberAverageIncome(monthlyIncome.data.candidate_id || monthlyIncome.data.familyMember_id || monthlyIncome.data.legalResponsibleId, monthlyIncome.data.incomeSource)
             if (monthlyIncome.operation == 'Update') {
                 await updateMonthlyIncomeHDB(monthlyIncome.data.id)
