@@ -7,23 +7,46 @@ import validateCEP from "../utils/validate-cep"
  * @param {*} value value to be observed and, when changed, trigger (or not) the callback
  */
 export default function useCep(callback, value) {
-    // Ignore when cep already starts completed (example: Editing screens)
-    const [ignoreWhenEqual, setIgnoreWhenEqual] = useState(value ?? "")
+
     const isMounted = useRef(null)
+    // keep track of the initial CEP value (IF IT EXISTS)
+    const wasInitialized = useRef(null)
     useEffect(() => {
-        if (!isMounted.current && validateCEP(ignoreWhenEqual)) {
-            setIgnoreWhenEqual("")
+        if (!isMounted.current) {
             isMounted.current = true
             return
         }
-        const updateAddress = async () => {
+        // if null, then it wasn't initialized yet
+        if (wasInitialized.current === null) {
+            // if validateCEP(value) equals true, then value is already correct and should NOT call API
             if (validateCEP(value)) {
-                const address = await getUserAddress(value?.replace(/\D/g, ''))
-                callback(address)
+                wasInitialized.current = value
+            } else {
+                // if validateCEP(value) equals false, it means it's first value change/should call API
+                wasInitialized.current = ''
             }
-
         }
-        updateAddress()
+        const updateAddress = async () => {
+            const address = await getUserAddress(value?.replace(/\D/g, ''))
+            callback(address)
+        }
+        if (validateCEP(value)) {
+            if (value !== wasInitialized.current) {
+                updateAddress()
+                wasInitialized.current = ''
+            }
+        }
     }, [value])
+    // useEffect(() => {
+
+    //     const updateAddress = async () => {
+    //         if (validateCEP(value)) {
+    //             const address = await getUserAddress(value?.replace(/\D/g, ''))
+    //             callback(address)
+    //         }
+
+    //     }
+    //     updateAddress()
+    // }, [value])
 
 }
