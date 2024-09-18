@@ -5,7 +5,7 @@ const { z } = require("zod");
 const expenseSchema = (values = []) => z.object({
     id: z.string().nullish(),
     date: z.date().or(z.string().transform(v => new Date(v))).default(new Date()),
-    isUpdated: z.boolean().default(false),
+    isUpdated: z.boolean().default(true),
     waterSewage: z.string().transform(stringToFloat).nullish(),
     electricity: z.string().transform(stringToFloat).nullish(),
     landlinePhone: z.string().transform(stringToFloat).nullish(),
