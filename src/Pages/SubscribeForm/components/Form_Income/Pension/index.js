@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import pensionSchema from "./schemas/pension-schema";
 import styles from './styles.module.scss'
 import useControlForm from "hooks/useControlForm";
+import useTutorial from "hooks/useTutorial";
+import INCOME_TUTORIALS from "utils/enums/tutorials/income";
 
 
 const Pension = forwardRef(({ data }, ref) => {
@@ -25,6 +27,7 @@ const Pension = forwardRef(({ data }, ref) => {
             resetField("judicialPensionValue", { defaultValue: null })
         }
     }, [watchPension])
+    useTutorial(INCOME_TUTORIALS.PENSION[data?.incomeSource])
     return (
         <>
             <p className={styles.text}>

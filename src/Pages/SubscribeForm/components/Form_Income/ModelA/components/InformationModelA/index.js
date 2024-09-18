@@ -6,7 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import modelAInformationSchema from "./schemas/model-a-information-schema";
 import INCOME_SOURCE from "utils/enums/income-source";
 import useControlForm from "hooks/useControlForm";
-const InformationModelA = forwardRef(({ data , viewMode}, ref) => {
+import useTutorial from "hooks/useTutorial";
+import INCOME_TUTORIALS from "utils/enums/tutorials/income";
+const InformationModelA = forwardRef(({ data, viewMode }, ref) => {
     const { control } = useControlForm({
         schema: modelAInformationSchema,
         defaultValues: {
@@ -15,13 +17,13 @@ const InformationModelA = forwardRef(({ data , viewMode}, ref) => {
         },
         initialData: data,
     }, ref)
-
+    useTutorial(INCOME_TUTORIALS.INFORMATION[data?.incomeSource])
     return (
         <div className={commonStyles.formcontainer}>
             <fieldset disabled={viewMode}>
-            <InputForm name={"startDate"} control={control} label={"date de início/admissão"} type="date" />
-            <InputForm name={"position"} control={control} label={"atividade exercida"} />
-        </fieldset>
+                <InputForm name={"startDate"} control={control} label={"date de início/admissão"} type="date" />
+                <InputForm name={"position"} control={control} label={"atividade exercida"} />
+            </fieldset>
         </div>
     )
 })

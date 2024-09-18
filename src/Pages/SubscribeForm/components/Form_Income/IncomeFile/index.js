@@ -5,6 +5,8 @@ import { z } from "zod";
 import FilePreview from "Components/FilePreview";
 import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
 import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category";
+import useTutorial from "hooks/useTutorial";
+import INCOME_TUTORIALS from "utils/enums/tutorials/income";
 
 const { forwardRef, useEffect, useMemo } = require("react");
 
@@ -28,6 +30,7 @@ const IncomeFile = forwardRef(({ data, label, required }, ref) => {
         },
         initialData: data
     }, ref)
+    useTutorial(INCOME_TUTORIALS.DOCUMENT[data?.incomeSource])
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', alignItems: 'center' }}>
             <FormFilePicker control={control} name={"file_document"} label={label ?? 'comprovante mensal de receitas brutas'} accept={"application/pdf"} />
