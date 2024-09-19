@@ -9,7 +9,10 @@ const INCOME_TUTORIALS = {
         PrivateEmployee: 'pwt9XpKSwv8',
         BusinessOwnerSimplifiedTax: 'WueBJCosPvU',
         InformalWorker: '97jBxkZaP1E',
-        TemporaryDisabilityBenefit: 'byo6FQ7kjyE'
+        TemporaryDisabilityBenefit: 'byo6FQ7kjyE',
+        LiberalProfessional: 'EiUlzAsIOfA',
+        Alimony: 'Mw_iyIMg14s',
+        PublicEmployee: '3ztrerrVze8'
     },
     INFORMATION: {
         Retired: 'bV_0QcKt9Bg',
@@ -20,7 +23,10 @@ const INCOME_TUTORIALS = {
         Unemployed: 'DtjXx8dd1cE',
         BusinessOwnerSimplifiedTax: 'I1OS4swIvE0',
         InformalWorker: 'Oz7dJUeuZJ4',
-        TemporaryDisabilityBenefit: 'reFAXF7Ls20'
+        TemporaryDisabilityBenefit: 'reFAXF7Ls20',
+        LiberalProfessional: 'YGUVO8y_0HA',
+        Alimony: 'PbSL9WvSNNM',
+        PublicEmployee: '2EK9hg72ZNk'
 
     },
     MONTHS: {
@@ -32,7 +38,10 @@ const INCOME_TUTORIALS = {
         PrivateEmployee: 'BPwiySLrGc8',
         BusinessOwnerSimplifiedTax: 'TySGMPOwQ9c',
         InformalWorker: '8u4LvNvgC7I',
-        TemporaryDisabilityBenefit: 'UHogqqqMKEo'
+        TemporaryDisabilityBenefit: 'UHogqqqMKEo',
+        LiberalProfessional: 'EOR54pAyr0M',
+        Alimony: 'cbd_u_4xjY0',
+        PublicEmployee: 'Ge-GwvUpVg8'
     },
     GROSS: {
         Retired: '1KteMYw66G8',
@@ -42,14 +51,18 @@ const INCOME_TUTORIALS = {
         DomesticEmployee: '5sl_8lGOLZc',
         PrivateEmployee: 'qmNEAk_18Bo',
         InformalWorker: 'bnHAkYS-J30',
-        TemporaryDisabilityBenefit: 'Z_77i19a4WU'
+        TemporaryDisabilityBenefit: 'Z_77i19a4WU',
+        LiberalProfessional: 'nqTSnsr8oKc',
+        Alimony: 'CVbqLle-Xfo',
+        PublicEmployee: 'IeiKeMGsjGc'
 
     },
     FOOD: {
         Retired: 'MsLXLVnMWjI',
         Apprentice: '7G0U6URl31Q',
         DomesticEmployee: '2A1p8R99zR4',
-        TemporaryDisabilityBenefit: 'looW62OalFg'
+        TemporaryDisabilityBenefit: 'looW62OalFg',
+        PublicEmployee: 'H5T-5kLvPQw'
 
     },
     TRANSPORT: {
@@ -57,7 +70,8 @@ const INCOME_TUTORIALS = {
         Apprentice: 'W_FrAbBE_Zg',
         DomesticEmployee: 'n1W0bDGbNa0',
         PrivateEmployee: 'bPqkCt44nGA',
-        TemporaryDisabilityBenefit: 'MtYE0ZZ23u4'
+        TemporaryDisabilityBenefit: 'MtYE0ZZ23u4',
+        PublicEmployee: 'U98k6OYcahY'
 
     },
     REIMBURSEMENT: {
@@ -65,7 +79,8 @@ const INCOME_TUTORIALS = {
         Apprentice: 'bExIm9elitw',
         DomesticEmployee: 'YEk8PwqipIo',
         PrivateEmployee: '7k96EWUoCHk',
-        TemporaryDisabilityBenefit: 'IOcO0_4FQkA'
+        TemporaryDisabilityBenefit: 'IOcO0_4FQkA',
+        PublicEmployee: 'rpt8ptIQP-I'
 
     },
     ADVANCED_PAYMENT: {
@@ -73,19 +88,22 @@ const INCOME_TUTORIALS = {
         Apprentice: 'h4JGfBf-64w',
         DomesticEmployee: '8c0USmPzTOw',
         PrivateEmployee: 'ix2p2E0UViY',
-        TemporaryDisabilityBenefit: 'o_uFLZGO_R4'
+        TemporaryDisabilityBenefit: 'o_uFLZGO_R4',
+        PublicEmployee: '239dL51GbAM'
 
     },
     REVERSAL: {
         Retired: 'xkuTsxdrdh0',
         Apprentice: 'OQr5emX1CaA',
         PrivateEmployee: 'ozWeJI_blNo',
+        PublicEmployee: 'jb-eMmuWQqo'
 
     },
     COMPENSATIONS: {
         Retired: 'ngk4JErtSA4',
         Apprentice: 'IkfHbBfFkrk',
         PrivateEmployee: 'MFPojhzmjDI',
+        PublicEmployee: '9onR6tad1HM'
 
     },
     PENSION: {
@@ -97,7 +115,9 @@ const INCOME_TUTORIALS = {
         PrivateEmployee: 'Y6zPjmkUlhE',
         BusinessOwnerSimplifiedTax: 'dQBRpLHrNEg',
         InformalWorker: 'QjbagOIWFSA',
-        TemporaryDisabilityBenefit: 'p0EbFlHNLnU'
+        TemporaryDisabilityBenefit: 'p0EbFlHNLnU',
+        LiberalProfessional: '-AqksbZ1jgs',
+        PublicEmployee: 'gWF-ywSAZYM'
     },
     DIVIDENDS: {
         BusinessOwnerSimplifiedTax: '-NKR_9-rgnY'
@@ -112,7 +132,10 @@ const INCOME_TUTORIALS = {
         PrivateEmployee: '5pYDKwN-e40',
         BusinessOwnerSimplifiedTax: 'CzC9ZM4RdsI',
         InformalWorker: 'j9mxCuWltpk',
-        TemporaryDisabilityBenefit: '1ELC3cT8luQ'
+        TemporaryDisabilityBenefit: '1ELC3cT8luQ',
+        LiberalProfessional: 'Cg680gGcDGs',
+        Alimony: '8vJ40tgRvso',
+        PublicEmployee: 'EX3wl311Cwg'
     },
     FINISH: {
         Retired: 'iDf8yyza1mg',
