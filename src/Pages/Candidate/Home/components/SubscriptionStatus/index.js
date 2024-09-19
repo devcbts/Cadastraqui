@@ -27,14 +27,14 @@ export default function SubscriptionStatus() {
         fetchProgress()
     }, [])
     const icons = [
-        { name: 'cadastrante', icon: User, percentage: 20 },
-        { name: 'grupoFamiliar', icon: Family, percentage: 20 },
-        { name: 'moradia', icon: House, percentage: 5 },
-        { name: 'veiculos', icon: Car, percentage: 5 },
-        { name: 'rendaMensal', icon: Currency, percentage: 20 },
-        { name: 'despesas', icon: Money, percentage: 10 },
-        { name: 'saude', icon: Doctor, percentage: 5 },
-        { name: 'declaracoes', icon: List, percentage: 15 },
+        { name: 'cadastrante', icon: User, percentage: 20, title: 'Cadastrante' },
+        { name: 'grupoFamiliar', icon: Family, percentage: 20, title: 'Grupo familiar' },
+        { name: 'moradia', icon: House, percentage: 5, title: 'Moradia' },
+        { name: 'veiculos', icon: Car, percentage: 5, title: 'Veículos' },
+        { name: 'rendaMensal', icon: Currency, percentage: 20, title: 'Renda' },
+        { name: 'despesas', icon: Money, percentage: 10, title: 'Despesas' },
+        { name: 'saude', icon: Doctor, percentage: 5, title: 'Saúde' },
+        { name: 'declaracoes', icon: List, percentage: 15, title: 'Declarações' },
     ]
     const percentage = data?.reduce((acc, e) => {
         return acc += Number((icons?.find(i => i.name === e.name)?.percentage ?? 0) * e.value)
@@ -68,12 +68,15 @@ export default function SubscriptionStatus() {
                 </div>
             </div>
             <div className={styles.sections}>
-                {icons.map(({ icon, name }, index) => {
+                {icons.map(({ icon, name, title }, index) => {
                     const Component = icon
                     const step = index + 1
                     return (
                         <Component
                             key={index}
+                            tabIndex={0}
+                            aria-label={title}
+                            title={`${title} - ${!!data?.find(e => e.name === name)?.value ? 'completo' : 'incompleto'}`}
                             style={{ cursor: 'pointer', color: !!data?.find(e => e.name === name)?.value && '#499468', clipPath: 'circle()' }}
                             onClick={() => navigate('/formulario-inscricao', { state: { step } })}
                             height={30}
