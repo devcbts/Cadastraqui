@@ -8,6 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import unemployementInsuranceSchema from "./schemas/unemployement-insurance-schema";
 import ButtonBase from "Components/ButtonBase";
 import useControlForm from "hooks/useControlForm";
+import useTutorial from "hooks/useTutorial";
+import INCOME_TUTORIALS from "utils/enums/tutorials/income";
 const UnemployementInsurance = forwardRef(({ data, viewMode }, ref) => {
     const { control, watch, resetField } = useControlForm({
         schema: unemployementInsuranceSchema,
@@ -29,6 +31,7 @@ const UnemployementInsurance = forwardRef(({ data, viewMode }, ref) => {
             resetField("parcelValue", { defaultValue: null })
         }
     }, [watchInsurance])
+    useTutorial(INCOME_TUTORIALS.INFORMATION[data?.incomeSource])
     return (
         <div className={commonStyles.formcontainer}>
             <h1 className={commonStyles.title}>Seguro Desemprego</h1>

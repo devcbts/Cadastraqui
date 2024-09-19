@@ -6,6 +6,8 @@ import useControlForm from "hooks/useControlForm";
 import InputBase from "Components/InputBase";
 import stringToFloat from "utils/string-to-float";
 import dividendsSchema from "./schemas/dividends-schema";
+import useTutorial from "hooks/useTutorial";
+import INCOME_TUTORIALS from "utils/enums/tutorials/income";
 
 
 const Dividends = forwardRef(({ data }, ref) => {
@@ -24,7 +26,7 @@ const Dividends = forwardRef(({ data }, ref) => {
         const sum = stringToFloat(watchProLabore) + stringToFloat(watchDividends)
         return Number(sum).toLocaleString('pt-br', { style: "currency", currency: "BRL" })
     }
-
+    useTutorial(INCOME_TUTORIALS.DIVIDENDS[data?.incomeSource])
     return (
         <>
             <MoneyFormInput control={control} name="proLabore" label={"valor do pró-labore"} />
