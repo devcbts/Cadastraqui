@@ -9,7 +9,7 @@ export default function UserHeader() {
     return (
         <header className={styles.container}>
             <img alt="Cadastraqui" src={Logo} draggable={false} />
-            <div className={styles.picture} onClick={() => navigate('profile')}>
+            <div className={styles.picture} onClick={() => navigate('profile')} title='Perfil'>
                 {
                     profilePicture
                         ? <img className={styles.profilepicture} src={profilePicture} />

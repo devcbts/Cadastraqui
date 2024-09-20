@@ -21,12 +21,12 @@ export default function SubscriptionStatus() {
         const fetchProgress = async () => {
             try {
                 const progress = await candidateService.getProgress()
-                setData(Object.entries(progress).map(([key, val]) => ({ name: key, value: val ? 1 : 0 })))
+                setData(Object.entries(progress).filter(([key]) => sections.some(e => e.name === key)).map(([key, val]) => ({ name: key, value: val ? 1 : 0 })))
             } catch (err) { }
         }
         fetchProgress()
     }, [])
-    const icons = [
+    const sections = [
         { name: 'cadastrante', icon: User, percentage: 20, title: 'Cadastrante' },
         { name: 'grupoFamiliar', icon: Family, percentage: 20, title: 'Grupo familiar' },
         { name: 'moradia', icon: House, percentage: 5, title: 'Moradia' },
@@ -37,7 +37,7 @@ export default function SubscriptionStatus() {
         { name: 'declaracoes', icon: List, percentage: 15, title: 'Declarações' },
     ]
     const percentage = data?.reduce((acc, e) => {
-        return acc += Number((icons?.find(i => i.name === e.name)?.percentage ?? 0) * e.value)
+        return acc += Number((sections?.find(i => i.name === e.name)?.percentage ?? 0) * e.value)
     }, 0)
     return (
         <div className={styles.container}>
@@ -49,8 +49,9 @@ export default function SubscriptionStatus() {
                     <div style={{ position: 'relative' }}>
 
                         <span style={{ position: 'absolute', top: '50%', right: '50%', transform: 'translate(50%,-50%)' }}> {percentage}%</span>
-                        <PieChart width={100} height={100} >
+                        <PieChart width={100} height={100} title={`O cadastro está ${percentage}% concluído`}>
                             <Pie
+
                                 data={data}
                                 dataKey={"value"}
                                 innerRadius={38}
@@ -68,7 +69,7 @@ export default function SubscriptionStatus() {
                 </div>
             </div>
             <div className={styles.sections}>
-                {icons.map(({ icon, name, title }, index) => {
+                {sections.map(({ icon, name, title }, index) => {
                     const Component = icon
                     const step = index + 1
                     return (
