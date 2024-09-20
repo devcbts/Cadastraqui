@@ -10,7 +10,8 @@ import LoginInfo from './components/LoginInfo'
 import Personal from './components/PersonalInfo'
 import UserType from './components/UserType'
 import styles from './styles.module.scss'
-import UnauthenticatedHeader from 'Components/Header/variants/UnauthenticatedHeader'
+import UnauthenticatedPage from 'Pages/Unauthenticated'
+import BrandLogo from 'Components/BrandLogo'
 export default function Register() {
     const [current, setCurrent] = useState(0)
     const { state } = useLocation()
@@ -50,17 +51,13 @@ export default function Register() {
         setCurrent((prev) => prev - 1)
     }
     return (
-        <div>
+        <UnauthenticatedPage>
             <Loader loading={isLoading} />
-            <UnauthenticatedHeader />
-            <div className={styles.content}>
-                <div className={styles.brand}>
-                    <IconLogo />
-                    <h1>
-                        Plataforma para processos de concessão e manutenção de bolsas de estudos para fins de CEBAS
-                    </h1>
+            <div style={{ display: 'flex', flexDirection: 'row', flexGrow: '1', gap: '64px', justifyContent: 'center' }}>
+                <BrandLogo >
                     <ButtonBase label={'já tem uma conta?'} onClick={() => navigate('/')} />
-                </div>
+                </BrandLogo>
+
                 {
                     [
                         <Personal data={data} onSubmit={handleSection} />,
@@ -71,6 +68,6 @@ export default function Register() {
 
                 }
             </div>
-        </div>
+        </UnauthenticatedPage>
     )
 }

@@ -9,8 +9,9 @@ body,html {
     "Droid Sans", "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: #1f4b73;
+    color: $primary;
 }
+
 fieldset{
     border: none;
 }

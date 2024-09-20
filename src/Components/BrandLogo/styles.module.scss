@@ -1,0 +1,30 @@
+.brand {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: justify;
+    max-width: 256px;
+
+    span {
+        font-weight: 700;
+        font-size: 18px;
+        color: #1f4b73;
+    }
+
+    button {
+        width: 180px;
+        height: 30px;
+        font-size: 12px;
+        margin-top: 20px;
+    }
+
+    svg {
+        width: 142px;
+        height: 150.5px;
+    }
+
+    @media (max-width:670px) {
+        display: none;
+    }
+}

@@ -3,8 +3,9 @@ import styles from '../../styles.module.scss'
 import InputForm from 'Components/InputForm';
 import ButtonBase from 'Components/ButtonBase';
 import loginInfoSchema from './schemas/login-info-schema';
+import Container from 'Components/Container';
 export default function LoginInfo({ data, onBack, onSubmit }) {
-    const { control, formState: { isValid }, trigger, getValues } = useControlForm({
+    const { control, getValues, handleSubmit } = useControlForm({
         schema: loginInfoSchema,
         defaultValues: {
             email: '',
@@ -13,31 +14,30 @@ export default function LoginInfo({ data, onBack, onSubmit }) {
         },
         initialData: data
     })
-    const handleSubmit = () => {
-        if (!isValid) {
-            trigger()
-            return
-        }
+    const handleNext = () => {
+
         onSubmit(getValues())
     }
     return (
-        <div className={styles.register}>
-            <div className={styles.title}>
-                <h1>Cadastro</h1>
-                <span>Informações de login</span>
-            </div>
-            <div className={styles.inputs}>
-                <InputForm control={control} name="email" label="email" />
-                <InputForm control={control} name="password" label="senha" type="password" />
-                <InputForm control={control} name="passwordConfirmation" label="confirme a senha" type="password" />
+        <Container title={'Cadastro'} desc={'Informações de login'}>
 
-            </div>
-            <div className={styles.actions}>
-                <ButtonBase label={'voltar'} onClick={() => onBack(getValues())} />
-                <ButtonBase label={'próximo'} onClick={handleSubmit} />
-            </div>
 
-        </div>
+            <form className={styles.inputs} onSubmit={handleSubmit(handleNext)}>
+                <div>
+
+                    <InputForm control={control} name="email" label="email" />
+                    <InputForm control={control} name="password" label="senha" type="password" />
+                    <InputForm control={control} name="passwordConfirmation" label="confirme a senha" type="password" />
+                </div>
+
+                <div className={styles.actions}>
+                    <ButtonBase label={'voltar'} onClick={() => onBack(getValues())} />
+                    <ButtonBase type="submit" label={'próximo'} />
+                </div>
+            </form>
+
+        </Container>
+
     )
 }
 

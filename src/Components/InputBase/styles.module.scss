@@ -70,6 +70,10 @@
                 background: url("../../Assets/icons/upload.svg") no-repeat;
                 background-position: calc(100% - 48px);
             }
+
+            &:focus{
+                border-color: $primary
+            }
         }
 
         .textarea{

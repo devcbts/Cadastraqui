@@ -1,123 +1,30 @@
 @import '../../Assets/theme/colors.module.scss';
 
-.logo {
-    -webkit-user-drag: none;
-    width: 307px;
-    height: 80px;
-
-    @media(max-width:390px) {
-        width: 230px;
-        height: 60px;
+.inputs {
+    label {
+        color: white !important;
     }
-}
-
-.content {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 20px;
-    width: 100%;
-    gap: 30px;
-
-    .brand {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: justify;
-        max-width: 256px;
-
-        h1 {
-            font-size: 18px;
-            color: #1f4b73;
-        }
-
-        button {
-            width: 180px;
-            height: 30px;
-            font-size: 12px;
-            margin-top: 20px;
-        }
-
-        svg {
-            width: 142px;
-            height: 150.5px;
-        }
-
-        @media (max-width:670px) {
-            display: none;
-        }
-
-        // @media (max-width:770px) {
-        //     width: 150px;
-
-        //     h1 {
-        //         font-size: 16px;
-        //     }
-
-        //     svg {
-        //         width: 122px;
-        //         height: 130.5px;
-        //     }
-
-        //     button {
-        //         width: 150px;
-        //         height: 30px;
-        //         font-size: 10px;
-        //     }
-        // }
-    }
-}
-
-.register {
     display: flex;
     flex-direction: column;
-    background-color: $primary;
-    border-radius: 8px;
-    padding: 20px 30px;
-    min-height: 65vh;
     justify-content: space-between;
-    max-width: min(100%, 400px);
-    flex-grow: .2;
-
-    @media (max-width:600px) {
-        padding: 10px 20px;
-        gap: 10px;
-        max-width: 100%;
-    }
-
-    .title {
-        text-align: center;
-
-        span {
-            color: white;
-        }
-
-        h1 {
-            color: white;
-            font-weight: bold;
-        }
-    }
-
-    .inputs {
-        label {
-            color: white !important;
-        }
-
-        display: flex;
-        flex-direction: column;
-
-    }
-
-    button {
-        place-self: center;
-    }
-
-    .actions {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
+    flex-grow: 1;
+    p {
+        place-self: end;
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
     }
 
 }
+
+button {
+    place-self: center;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+

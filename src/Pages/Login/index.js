@@ -14,12 +14,15 @@ import loginSchema from './schemas/login-schema'
 import styles from './styles.module.scss'
 import { api } from 'services/axios'
 import UnauthenticatedHeader from 'Components/Header/variants/UnauthenticatedHeader'
+import UnauthenticatedPage from 'Pages/Unauthenticated'
+import Container from 'Components/Container'
+import BrandLogo from 'Components/BrandLogo'
 export default function Login() {
     const { login } = useAuth()
     const { state } = useLocation()
     const navigate = useNavigate()
     const [loading, setLoading] = useState(null)
-    const { control, getValues, formState: { isValid }, trigger, getFieldState } = useControlForm({
+    const { control, getValues, getFieldState, handleSubmit } = useControlForm({
         schema: loginSchema,
         defaultValues: {
             email: '',
@@ -27,10 +30,6 @@ export default function Login() {
         }
     })
     const handleLogin = async () => {
-        if (!isValid) {
-            trigger()
-            return
-        }
         setLoading('Entrando...')
         const { email, password } = getValues()
         const pass = await login({ email, password })
@@ -63,38 +62,34 @@ export default function Login() {
         setLoading(null)
     }
     return (
-        <div>
+        <UnauthenticatedPage >
             <Loader loading={!!loading} text={loading} />
-            <UnauthenticatedHeader />
-            <div className={styles.content}>
-                <div className={styles.brand}>
-                    <IconLogo />
-                    <h2>
-                        Plataforma para processos de concessão e manutenção de bolsas de estudos para fins de CEBAS
-                    </h2>
-                </div>
-                <div className={styles.login}>
-                    <div className={styles.title}>
-                        <h1>Login</h1>
-                        <span>Digite seu email e senha para continuar</span>
+            <div style={{ display: 'flex', flexDirection: 'row', flexGrow: '1', gap: '64px', justifyContent: 'center' }}>
+                <BrandLogo />
+                <Container title={'Login'} desc={'Digite seu email e senha para continuar'}>
+                    <div style={{ display: 'flex', flexDirection: 'column', flexGrow: '1', justifyContent: 'space-between' }}>
+
+                        <form className={styles.inputs} onSubmit={handleSubmit(handleLogin)}>
+                            <div>
+                                <InputForm label="email" control={control} name="email" type="email" />
+                                <InputForm label="senha" control={control} name="password" type="password" />
+                            </div>
+                            <p tabIndex={0} role='link' onClick={handleForgotPassword}
+                                onKeyDown={(e) => {
+                                    if (e.code === "Enter") {
+                                        handleForgotPassword()
+                                    }
+                                }}
+                            >Esqueceu sua senha?</p>
+                            <ButtonBase type="submit" label={'login'} />
+                        </form>
+                        <Link to={'/registrar'} state={state}>
+                            Ainda não tem uma conta? Cadastre-se
+                        </Link>
                     </div>
-                    <div className={styles.inputs}>
-                        <InputForm label="email" control={control} name="email" type="email" />
-                        <InputForm label="senha" control={control} name="password" type="password" />
-                        <p tabIndex={0} role='link' onClick={handleForgotPassword}
-                            onKeyDown={(e) => {
-                                if (e.code === "Enter") {
-                                    handleForgotPassword()
-                                }
-                            }}
-                        >Esqueceu sua senha?</p>
-                        <ButtonBase label={'login'} onClick={handleLogin} />
-                    </div>
-                    <Link to={'/registrar'} state={state}>
-                        Ainda não tem uma conta? Cadastre-se
-                    </Link>
-                </div>
+                </Container>
+
             </div>
-        </div>
+        </UnauthenticatedPage>
     )
 }

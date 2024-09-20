@@ -33,6 +33,7 @@ export default function ButtonBase({
             className={[styles.button, dangerStyle].join(' ')}
             onClick={!isLoading ? handleClick : null}
             {...props}
+            type={props.type ?? "button"}
         >
             {isLoading ? <Spinner size='20' />
                 : children ?? label

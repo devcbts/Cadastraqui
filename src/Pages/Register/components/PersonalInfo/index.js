@@ -5,8 +5,9 @@ import ButtonBase from 'Components/ButtonBase';
 import personalRegisterSchema from './schemas/personal-register-schema';
 import { formatTelephone } from 'utils/format-telephone';
 import { formatCPF } from 'utils/format-cpf';
+import Container from 'Components/Container';
 export default function Personal({ data, onSubmit }) {
-    const { control, formState: { isValid }, trigger, getValues } = useControlForm({
+    const { control, getValues, handleSubmit } = useControlForm({
         schema: personalRegisterSchema,
         defaultValues: {
             name: '',
@@ -16,28 +17,23 @@ export default function Personal({ data, onSubmit }) {
         },
         initialData: data
     })
-    const handleSubmit = () => {
-        if (!isValid) {
-            trigger()
-            return
-        }
+    const handleNext = () => {
         onSubmit(getValues())
     }
     return (
-        <div className={styles.register}>
-            <div className={styles.title}>
-                <h1>Cadastro</h1>
-                <span>Informações pessoais</span>
-            </div>
-            <div className={styles.inputs}>
-                <InputForm control={control} name="name" label="nome completo" />
-                <InputForm control={control} name="CPF" label="CPF" transform={(e) => formatCPF(e.target.value)} />
-                <InputForm control={control} name="birthDate" label="data de nascimento" type="date" />
+        <Container title={'Cadastro'} desc={'Informações pessoais'}>
+            <form className={styles.inputs} onSubmit={handleSubmit(handleNext)}>
+                <div>
+                    <InputForm control={control} name="name" label="nome completo" />
+                    <InputForm control={control} name="CPF" label="CPF" transform={(e) => formatCPF(e.target.value)} />
+                    <InputForm control={control} name="birthDate" label="data de nascimento" type="date" />
+                </div>
                 {/* <InputForm control={control} name="phone" label="telefone" transform={(e) => formatTelephone(e.target.value)} /> */}
-            </div>
-            <ButtonBase label={'próximo'} onClick={handleSubmit} />
 
-        </div>
+                <ButtonBase type="submit" label={'próximo'} />
+            </form>
+
+        </Container>
     )
 }
 

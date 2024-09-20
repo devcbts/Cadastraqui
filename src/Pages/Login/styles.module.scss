@@ -1,117 +1,37 @@
 @import '../../Assets/theme/colors.module.scss';
 
-.logo {
-    -webkit-user-drag: none;
-    width: auto;
-    height: 70px;
-}
 
-.content {
+    
+.inputs {
+    label {
+        color: white !important;
+    }
+
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 20px;
-    width: 100%;
-    gap: 30px;
+    flex-direction: column;
+    gap: 24px;
 
-    .brand {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: justify;
-        max-width: 255px;
-
-
-        h2 {
-            font-size: 18px;
-            color: #1f4b73;
-        }
-
-        button {
-            width: 180px;
-            height: 30px;
-            font-size: 12px;
-            margin-top: 20px;
-        }
-
-        svg {
-            width: 142px;
-            height: 150.5px;
-            filter: drop-shadow(0px 4px 4px rgba(30, 76, 116, 0.5));
-        }
-
+    p {
+        place-self: end;
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
     }
 
-    .login {
-        display: flex;
-        flex-direction: column;
-        background-color: $primary;
-        border-radius: 8px;
-        padding: 20px 30px;
-        min-height: 65vh;
-        flex-grow: 1;
-        justify-content: space-between;
-        max-width: min(100%, 400px);
-
-        .title {
-            text-align: center;
-
-            span {
-                color: white;
-            }
-
-            h1 {
-                color: white;
-                font-weight: bold;
-            }
-        }
-
-        .inputs {
-            label {
-                color: white !important;
-            }
-
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-
-            p {
-                place-self: end;
-                color: white;
-                cursor: pointer;
-                font-size: 14px;
-                font-weight: 500;
-            }
-
-            button {
-                place-self: center;
-            }
-        }
-
-        a {
-            text-decoration: none;
-            font-size: 14px;
-            color: white;
-            place-self: center;
-            font-weight: 500;
-        }
+    button {
+        place-self: center;
     }
 }
 
-@media(max-width:390px) {
-    .login {
-        width: 230px;
-        height: 60px;
-    }
-
+a {
+    text-decoration: none;
+    font-size: 14px;
+    color: white;
+    place-self: center;
+    font-weight: 500;
 }
 
-@media (max-width:670px) {
-    .content {
-        .brand {
-            display: none;
-        }
-    }
+ 
 
-}
+
