@@ -34,8 +34,8 @@ async function removeOutdatedExpenses() {
 }
 
 //Runs every day 1 of the month at 2 AM, same as RemoveOutdatedIncomes
-const RemoveOutdatedExepenses: nodeSchedule.Job = nodeSchedule.scheduleJob("*/15 * * * * * ", async () => {
-    // const deletedIncomes = await removeOutdatedExpenses();
+const RemoveOutdatedExepenses: nodeSchedule.Job = nodeSchedule.scheduleJob("0 0 2 1 * * ", async () => {
+    const deletedIncomes = await removeOutdatedExpenses();
 })
 
 export default RemoveOutdatedExepenses

@@ -29,6 +29,8 @@ import getUserAddress from './http/services/get-address';
 import getCnpj from './http/services/get-cnpj';
 import { multerConfig } from './lib/multer';
 import './lib/pg-listener';
+import { prisma } from './lib/prisma';
+
 export const app = fastify()
 app.register(fastifyMultipart, {
   limits: {
@@ -49,6 +51,12 @@ app.addHook('onRequest', (request, reply, done) => {
   morgan('dev')(request.raw, reply.raw, done)
 })
 
+app.addHook('preHandler', async (req, _) => {
+  // get current user_id for audit logs
+
+  await prisma.$queryRawUnsafe(`SET req.userId = '${req.user?.sub ?? 'NOTDEFINED'}'`)
+
+})
 
 
 app.register(fastifyJwt, {
