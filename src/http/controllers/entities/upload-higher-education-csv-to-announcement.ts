@@ -142,7 +142,7 @@ export default async function uploadHigherEducationCSVFileToAnnouncement(
             const matchedEntity = entities.find(entity => entity.CNPJ === result["CNPJ (Matriz ou Filial)"]);
             return {
                 // cnpj: result["CNPJ (Matriz ou Filial)"],
-                offeredCourseType: educationTypeMapping[result["Tipo de Curso"]],
+                AllEducationType: educationTypeMapping[result["Tipo de Curso"]],
                 availableCourses: result["Ciclo/Ano/Série/Curso"],
                 shift: result["Turno"],
                 higherEduScholarshipType: scholarshipTypeMapping[result["Tipo de Bolsa"]],

@@ -98,7 +98,7 @@ export default async function getFullReport(
                                     select: {
                                         educationalInstitutionCode: true
                                     }
-                                }
+                                },
                             }
                         },
 
@@ -163,7 +163,7 @@ export default async function getFullReport(
                 { id: 'ScholarshipCode', title: 'Código de identificação do bolsista no censo' },
                 { id: 'candidateCPF', title: 'CPF do bolsista' },
                 { id: 'responsibleCPF', title: 'CPF do responsável (se houver)' },
-                { id: 'ScholarshipOfferType', title: 'Tipo de bolsa de estudo' },
+                { id: 'AllScholarshipsType', title: 'Tipo de bolsa de estudo' },
                 { id: 'partialPercentage', title: 'Porcentagem da bolsa' },
             ];
 

@@ -843,22 +843,22 @@ model Timeline {
 }
 
 model EducationLevel {
-  id                   String               @id @default(uuid())
+  id                   String              @id @default(uuid())
   level                LevelType // Nível de escolaridade
-  typeOfScholarship    AllScholarshipsType? // tipo de bolsa
-  course               Course?              @relation(fields: [courseId], references: [id])
-  courseId             Int?
-  verifiedScholarships Int? // Número de vagas
-  shift                SHIFT?
+  typeOfScholarship    AllScholarshipsType // tipo de bolsa
+  course               Course              @relation(fields: [courseId], references: [id])
+  courseId             Int
+  verifiedScholarships Int // Número de vagas
+  shift                SHIFT
   semester             Int? // para educação superior
   announcementId       String
   Application          Application[]
-  announcement         Announcement         @relation(fields: [announcementId], references: [id], onDelete: Cascade)
-  entitySubsidiary     EntitySubsidiary?    @relation(fields: [entitySubsidiaryId], references: [id])
+  announcement         Announcement        @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+  entitySubsidiary     EntitySubsidiary?   @relation(fields: [entitySubsidiaryId], references: [id])
   entitySubsidiaryId   String?
   type1Benefit         type1Benefits[]
-  createdAt            DateTime             @default(now())
-  updatedAt            DateTime             @default(now()) @updatedAt
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @default(now()) @updatedAt
 
   Type1Benefit Type1Benefit[] @relation("Type1Benefits")
 }

@@ -4,7 +4,6 @@ import { FastifyInstance } from 'fastify'
 import { addAssistantAnnouncement } from './add-social-assistant-to-announcement'
 import { CreateAnnoucment } from './create-announcement'
 import { createDirector } from './create-director'
-import { createEducationalLevel } from './create-educcation-level'
 import { createSubsidiary } from './create-subsidiary'
 import { deleteAnnouncement } from './delete-announcement'
 import { deleteAssistant } from './delete-assistant'
@@ -144,11 +143,7 @@ export async function entityRoutes(app: FastifyInstance) {
     '/announcement/find',
     searchAnnouncements,
   )
-  app.post(
-    '/education/:announcement_id',
-    { onRequest: [verifyJWT] },
-    createEducationalLevel,
-  )
+  
   app.delete('/announcement/:announcement_id', { onRequest: [verifyJWT] }, deleteAnnouncement)
 
   //Courses
