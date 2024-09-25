@@ -10,7 +10,7 @@ export default async function getEntityDashboard(
     try {
         const { sub } = request.user
         // Get all subsidiaries and count its courses (EducationLevel) and the application count for the entity
-        const entityOrDirector = await SelectEntityOrDirector(sub, request.user.role) 
+        const entityOrDirector = await SelectEntityOrDirector(sub, request.user.role)
         const entity = await prisma.entity.findUnique({
             where: { id: entityOrDirector.id },
             include: {
@@ -35,6 +35,7 @@ export default async function getEntityDashboard(
                     include: {
                         educationLevels: {
                             include: {
+                                course: true,
                                 entitySubsidiary: true,
                                 _count: {
                                     select: {
@@ -90,12 +91,12 @@ export default async function getEntityDashboard(
                 if (educationalLevels.length) {
                     const { entitySubsidiary } = educationalLevels?.[0]
                     educationalLevels.forEach(level => {
-                        if (level.grade) {
-                            applicationByCourse.push({ course: level.grade, applicants: level._count.Application })
-                            if (!currentAvailableCourses.includes(level.grade)) {
-                                currentAvailableCourses.push(level.grade)
-                            }
+
+                        applicationByCourse.push({ course: level.course.name, applicants: level._count.Application })
+                        if (!currentAvailableCourses.includes(level.course.name)) {
+                            currentAvailableCourses.push(level.course.name)
                         }
+
                     })
                 }
                 // const name = entitySubsidiary ? entitySubsidiary?.socialReason : entity?.socialReason

@@ -55,6 +55,7 @@ export async function getCandidateResume(
                 EducationLevel: {
                     include: {
                         entitySubsidiary: true,
+                        course: true
                     }
                 },
                 announcement: {
@@ -290,7 +291,7 @@ export async function getCandidateResume(
             id: application.id,
             number: application.number,
             announcement: application.announcement.announcementName,
-            course: application.EducationLevel.availableCourses ?? application.EducationLevel.grade,
+            course: application.EducationLevel.course.name,
             shift: application.EducationLevel.shift,
             entity: application.announcement.entity.socialReason,
             city: application.EducationLevel.entitySubsidiary ? application.EducationLevel.entitySubsidiary.city : application.announcement.entity.city,

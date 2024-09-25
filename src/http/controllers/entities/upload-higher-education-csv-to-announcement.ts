@@ -2,7 +2,7 @@ import { APIError } from "@/errors/api-error";
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
-import { HigherEducationScholarshipType, OfferedCourseType, SHIFT } from "@prisma/client";
+import {  AllEducationType, AllScholarshipsType, SHIFT } from "@prisma/client";
 import csv from 'csv-parser';
 import { FastifyReply, FastifyRequest } from "fastify";
 import fs from 'fs';
@@ -22,11 +22,11 @@ interface CSVData {
     "Número de Vagas": string;
     "Semestre": string;
 }
-const educationTypeMapping: { [key: string]: OfferedCourseType } = {
-    "Graduação - Bacharelado": OfferedCourseType.UndergraduateBachelor,
-    "Graduação - Licenciatura": OfferedCourseType.UndergraduateLicense,
-    "Graduação - Tecnólogo": OfferedCourseType.UndergraduateTechnologist,
-    "Pós-Graduação Stricto Sensu": OfferedCourseType.Postgraduate
+const educationTypeMapping: { [key: string]: AllEducationType } = {
+    "Graduação - Bacharelado": AllEducationType.UndergraduateBachelor,
+    "Graduação - Licenciatura": AllEducationType.UndergraduateLicense,
+    "Graduação - Tecnólogo": AllEducationType.UndergraduateTechnologist,
+    "Pós-Graduação Stricto Sensu": AllEducationType.Postgraduate
 };
 
 const shiftMapping: { [key: string]: string } = {
@@ -36,16 +36,16 @@ const shiftMapping: { [key: string]: string } = {
     "Integral": SHIFT.Integral
 }
 
-const scholarshipTypeMapping: { [key: string]: HigherEducationScholarshipType } = {
-    "PROUNI Integral": HigherEducationScholarshipType.PROUNIFull,
-    "PROUNI Parcial": HigherEducationScholarshipType.PROUNIPartial,
-    "Governo Estadual": HigherEducationScholarshipType.StateGovernment,
-    "Governo Municipal": HigherEducationScholarshipType.CityGovernment,
-    "Entidades Externas": HigherEducationScholarshipType.ExternalEntities,
-    "Instituição de Ensino Superior Parcial": HigherEducationScholarshipType.HigherEduInstitutionPartial,
-    "Instituição de Ensino Superior Integral": HigherEducationScholarshipType.HigherEduInstitutionFull,
-    "Trabalhadores da Instituição de Ensino Superior": HigherEducationScholarshipType.HigherEduInstitutionWorkers,
-    "Pós-Graduação Stricto Sensu": HigherEducationScholarshipType.PostgraduateStrictoSensu
+const scholarshipTypeMapping: { [key: string]: AllScholarshipsType } = {
+    "PROUNI Integral": AllScholarshipsType.PROUNIFull,
+    "PROUNI Parcial": AllScholarshipsType.PROUNIPartial,
+    "Governo Estadual": AllScholarshipsType.StateGovernment,
+    "Governo Municipal": AllScholarshipsType.CityGovernment,
+    "Entidades Externas": AllScholarshipsType.ExternalEntities,
+    "Instituição de Ensino Superior Parcial": AllScholarshipsType.HigherEduInstitutionPartial,
+    "Instituição de Ensino Superior Integral": AllScholarshipsType.HigherEduInstitutionFull,
+    "Trabalhadores da Instituição de Ensino Superior": AllScholarshipsType.HigherEduInstitutionWorkers,
+    "Pós-Graduação Stricto Sensu": AllScholarshipsType.PostgraduateStrictoSensu
 };
 export default async function uploadHigherEducationCSVFileToAnnouncement(
     request: FastifyRequest,
@@ -142,7 +142,7 @@ export default async function uploadHigherEducationCSVFileToAnnouncement(
             const matchedEntity = entities.find(entity => entity.CNPJ === result["CNPJ (Matriz ou Filial)"]);
             return {
                 // cnpj: result["CNPJ (Matriz ou Filial)"],
-                offeredCourseType: educationTypeMapping[result["Tipo de Curso"]],
+                AllEducationType: educationTypeMapping[result["Tipo de Curso"]],
                 availableCourses: result["Ciclo/Ano/Série/Curso"],
                 shift: result["Turno"],
                 higherEduScholarshipType: scholarshipTypeMapping[result["Tipo de Bolsa"]],
