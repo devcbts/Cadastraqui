@@ -27,6 +27,9 @@ import { getSocialAssistants } from './get-social-assistants'
 import { registerEntity } from './register-entity'
 import removeAssistantFromAnnouncement from './remove-assistant-from-announcement'
 import searchAnnouncements from './search-announcements'
+import getAllStudents from './students/get-all-students'
+import getStudentsDashboard from './students/get-students-dashboard'
+import registerNewStudents from './students/register-new-students'
 import { updateAnnouncement } from './update-announcement'
 import { updateDirector } from './update-director'
 import { updateEntity } from './update-entity'
@@ -166,4 +169,7 @@ export async function entityRoutes(app: FastifyInstance) {
   app.put('/scholarships/:scholarship_id', { onRequest: [verifyJWT] }, updateScholarshipStatus)
   app.get('/courses/registered/:educationalLevel_id', { onRequest: [verifyJWT] }, getRegisteredStudentsByCourse)
 
+  app.get('/students/dashboard', { onRequest: [verifyJWT] }, getStudentsDashboard)
+  app.post('/students/register', { onRequest: [verifyJWT] }, registerNewStudents)
+  app.get('/students/all', { onRequest: [verifyJWT] }, getAllStudents)
 }
