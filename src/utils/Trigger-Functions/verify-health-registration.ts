@@ -11,15 +11,16 @@ export async function verifyHealthRegistration(CandidateOrResponsibleId: string)
     const familyMembers = await prisma.familyMember.findMany({
         where: {
             ...idField,
-            hasSevereDeseaseOrUsesMedication: true
         }
     });
     const identityDetails = await prisma.identityDetails.findFirst({
-        where: {OR: [
-            { candidate_id: candidateOrResponsible.UserData.id },
-            { responsible_id: candidateOrResponsible.UserData.id }
-        
-        ]}
+        where: {
+            OR: [
+                { candidate_id: candidateOrResponsible.UserData.id },
+                { responsible_id: candidateOrResponsible.UserData.id }
+
+            ]
+        }
     })
     if (!identityDetails) {
         return null;
@@ -28,45 +29,50 @@ export async function verifyHealthRegistration(CandidateOrResponsibleId: string)
 
     let update = true;
 
-    familyMembers.forEach(async familyMember => {
+    for (const familyMember of familyMembers) {
 
-        const hasData = await prisma.$transaction([
-            prisma.familyMemberDisease.findFirst({
-                where: {
-                    familyMember_id: familyMember.id
-                }
-            }),
-            prisma.medication.findFirst({
-                where: {
-                    familyMember_id: familyMember.id
-                }
-            })
-        ]);
-        // Se não houver nenhum registro para o familiar, o registro de saúde não estará completo
-        if (!hasData[0] && !hasData[1]) {
-            update = false;
-            
+        if (familyMember.hasSevereDeseaseOrUsesMedication) {
+
+            const { disease, medication } = await prisma.$transaction(async (tsPrisma) => {
+                const disease = tsPrisma.familyMemberDisease.findFirst({
+                    where: {
+                        familyMember_id: familyMember.id
+                    }
+                })
+                const medication = tsPrisma.medication.findFirst({
+                    where: {
+                        familyMember_id: familyMember.id
+                    }
+                })
+                return { disease, medication }
+            });
+            // Se não houver nenhum registro para o familiar, o registro de saúde não estará completo
+            if (!disease && !medication) {
+                update = false;
+
+            }
         }
-    });
+        ;
+    }
     // Se o usuário declara que ele possui uma doença severa ou usa medicamento controlado, então a verificação também é valida para ele
     if (identityDetails.hasSevereDeseaseOrUsesMedication) {
-        const hasData = await prisma.$transaction([
-            prisma.familyMemberDisease.findFirst({
-                where: {
-                    ...idField
-                }
-            }),
-            prisma.medication.findFirst({
+        const { disease, medication } = await prisma.$transaction(async (tsPrisma) => {
+            const disease = tsPrisma.familyMemberDisease.findFirst({
                 where: {
                     ...idField
                 }
             })
-        ]);
-        if (!hasData[0] && !hasData[1]) {
+            const medication = tsPrisma.medication.findFirst({
+                where: {
+                    ...idField
+                }
+            })
+            return { disease, medication }
+        });
+        // Se não houver nenhum registro para o familiar, o registro de saúde não estará completo
+        if (!disease && !medication) {
             update = false;
-            
         }
-        
     }
     if (identityDetails.hasSevereDeseaseOrUsesMedication === null) {
         update = false;
@@ -82,9 +88,10 @@ export async function verifyHealthRegistration(CandidateOrResponsibleId: string)
         where: idField,
         create: { saude: update, ...idField },
         update: {
-          saude: update,
+            saude: update,
         }
-      })
+    })
+
 
 
 

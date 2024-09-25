@@ -340,7 +340,6 @@ export async function updateIdentityInfo(
         dataToUpdate[key as keyof typeof parsedData] = value
       }
     }
-    console.log(dataToUpdate)
     // Atualiza informações acerca da identificação no banco de dados
     if (candidate) {
 
@@ -355,7 +354,6 @@ export async function updateIdentityInfo(
         where: { responsible_id: responsible.id },
       })
     }
-    console.log(parsedData)
     const candidateOrResponsible = await SelectCandidateResponsible(user_id)
     if (!candidateOrResponsible) {
       throw new ForbiddenError()
