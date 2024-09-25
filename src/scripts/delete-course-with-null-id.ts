@@ -5,7 +5,7 @@ async function deleteEducationLevelsWithNullCourseId() {
         // Buscar todos os registros na tabela EducationLevel onde courseId é null
         const educationLevels = await prisma.educationLevel.findMany({
             where: {
-                courseId: null
+               // courseId: null
             },
             select: {
                 id: true
