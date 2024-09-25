@@ -19,7 +19,7 @@ export default function AssistantSchedule() {
             <>
                 <h1>Agenda</h1>
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '24px', padding: '64px 24px' }}>
-                    <MenuCard title={'gerenciar agenda'} description={'gerencie os horários para cada edital'} Icon={Gear} onClick={() => handleNavigate('manager')} />
+                    <MenuCard title={'gerenciar'} description={'gerencie os horários da agenda para cada edital'} Icon={Gear} onClick={() => handleNavigate('manager')} />
                     <MenuCard title={'agenda'} description={'tenha uma visão geral de seus horários'} Icon={Calendar} onClick={() => handleNavigate('agenda')} />
                 </div>
             </>

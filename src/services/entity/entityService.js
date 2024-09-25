@@ -108,7 +108,19 @@ class EntityService {
     }
     updateScholarshipStatus(id, status) {
         return api.put(`/entities/scholarships/${id}`, { status })
+    }
+    async getStudentsDashboard() {
+        const response = await api.get(`/entities/students/dashboard`)
+        return response.data
+    }
 
+    async registerNewStudents(file) {
+        const response = await api.post('/entities/students/register', file)
+        return response.data.students
+    }
+    async getAllStudents() {
+        const response = await api.get(`/entities/students/all`)
+        return response.data
     }
 }
 

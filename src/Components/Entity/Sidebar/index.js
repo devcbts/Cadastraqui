@@ -5,6 +5,7 @@ import { ReactComponent as Profile } from '../../../Assets/icons/profile.svg'
 import { ReactComponent as List } from '../../../Assets/icons/list.svg'
 import { ReactComponent as People } from '../../../Assets/icons/people.svg'
 import { ReactComponent as Book } from '../../../Assets/icons/book.svg'
+import { ReactComponent as Student } from '../../../Assets/icons/student.svg'
 export default function EntitySidebar() {
     return (
         <Sidebar.Root>
@@ -14,6 +15,7 @@ export default function EntitySidebar() {
             <Sidebar.Item icon={Book} text={'matriculados'} path={'/matriculados'}></Sidebar.Item>
             <Sidebar.Item icon={Profile} text={'perfil'} path={'/profile'}></Sidebar.Item>
             <Sidebar.Item icon={People} text={'contas'} path={'/contas'}></Sidebar.Item>
+            <Sidebar.Item icon={Student} text={'alunos'} path={'/alunos'}></Sidebar.Item>
         </Sidebar.Root>
     )
 }

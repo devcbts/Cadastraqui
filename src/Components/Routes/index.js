@@ -51,6 +51,10 @@ import AssistantManagerSelectedCourse from "Pages/SocialAssistant/Management/com
 import AdminAccounts from "Pages/Admin/Accounts";
 import AdminAccountInfoView from "Pages/Admin/Accounts/components/InfoView";
 import AdminAccountHistory from "Pages/Admin/Accounts/components/History";
+import EntityStudentManager from "Pages/Entity/Students/Manager";
+import EntityRegisterStudents from "Pages/Entity/Students/Register";
+import EntityDashboardStudents from "Pages/Entity/Students/Dashboard";
+import EntityStudentsList from "Pages/Entity/Students/Listing";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -171,6 +175,14 @@ export default function AppRoutes() {
                         </Route>
                         <Route path="/profile" element={<EntityProfile />} />
                         <Route path="/contas" element={<EntityAccounts />} />
+                        <Route path="/alunos" element={<Outlet />}>
+                            <Route index element={<EntityDashboardStudents />} />
+                            <Route path="gestao" element={<Outlet />} >
+                                <Route index element={<EntityStudentManager />} />
+                                <Route path="registro" element={<EntityRegisterStudents />} />
+                                <Route path="lista" element={<EntityStudentsList />} />
+                            </Route>
+                        </Route>
                         <Route path="*" element={<Navigate to={'/home'} />} />
 
                     </Routes>
