@@ -1,6 +1,6 @@
 import { prisma } from "../lib/prisma";
 
-async function updateEducationLevelScholarshipType() {
+/*async function updateEducationLevelScholarshipType() {
     try {
         // Buscar todos os registros na tabela EducationLevel
         const educationLevels = await prisma.educationLevel.findMany({
@@ -36,4 +36,4 @@ async function updateEducationLevelScholarshipType() {
 }
 
 // Executar o script
-updateEducationLevelScholarshipType();
+updateEducationLevelScholarshipType();*/

@@ -845,16 +845,12 @@ model Timeline {
 model EducationLevel {
   id                       String                          @id @default(uuid())
   level                    LevelType // Nível de escolaridade
-  basicEduType             BasicEducationType? // Tipo de educação básica
-  scholarshipType          ScholarshipOfferType? // tipo de bolsa de educação básica
-  higherEduScholarshipType HigherEducationScholarshipType? // tipo de bolsa de educação superior
-  offeredCourseType        OfferedCourseType? // tipo de graduação
-  availableCourses         String? // Curso disponível (caso tenha que escrever)
-  offeredVacancies         Int? // Completamente inútil
+  typeOfScholarship        AllScholarshipsType? // tipo de bolsa
+  course                   Course?                         @relation(fields: [courseId], references: [id])
+  courseId                 Int?
   verifiedScholarships     Int? // Número de vagas
   shift                    SHIFT?
   semester                 Int? // para educação superior
-  grade                    String? // para educação básica
   announcementId           String
   Application              Application[]
   announcement             Announcement                    @relation(fields: [announcementId], references: [id], onDelete: Cascade)
@@ -875,6 +871,8 @@ model Type1Benefit {
   value             Float
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @default(now()) @updatedAt
+  Student           Student?        @relation(fields: [studentId], references: [id])
+  studentId         String?
 
   @@unique([educationLevel_id, benefitType])
 }
@@ -887,6 +885,8 @@ model Type2Benefit {
   updatedAt            DateTime            @default(now()) @updatedAt
   ScholarshipGranted   ScholarshipGranted? @relation(fields: [scholarshipGrantedId], references: [id])
   scholarshipGrantedId String?             @unique
+  Student              Student?            @relation(fields: [studentId], references: [id])
+  studentId            String?
 }
 
 model Application {
@@ -1033,10 +1033,14 @@ model LoginHistory {
 
 // Tabela dos cursos genéricos
 model Course {
-  id           Int            @id @default(autoincrement())
-  name         String
-  Type         String
-  EntityCourse EntityCourse[]
+  id             Int              @id @default(autoincrement())
+  name           String // Nome do curso (1º ano / Engenharia Elétrica / Química / 5º ano )
+  normalizedName String //Nome normalizado
+  Type           AllEducationType // Tipo do curso (Pré-Escola,Ensino Fundamental,Ensino Médio, Técnico, Graduação,Licenciatura,Tecnólogo, Pós-Graduação)
+  EntityCourse   EntityCourse[]
+  EducationLevel EducationLevel[]
+
+  @@unique([normalizedName, Type])
 }
 
 //Cursos da entidade
@@ -1055,20 +1059,21 @@ model EntityCourse {
 }
 
 model Student {
-  id              String       @id @default(uuid())
+  id              String         @id @default(uuid())
   name            String
-  admissionDate DateTime
+  admissionDate   DateTime //Quando entrou na instituição
   scholarshipType String // Tipos de bolsa (todas possíveis)
-  grade          String? // Semestre caso exista
-  shift SHIFT
+  grade           String? // Semestre caso exista
+  shift           SHIFT
   candidate_id    String
-  candidate       Candidate    @relation(fields: [candidate_id], references: [id])
+  candidate       Candidate      @relation(fields: [candidate_id], references: [id])
   status          String // Será um enum (ATIVO, INATIVO, FORMADO)
   entityCourse_id String
-  entityCourse    EntityCourse @relation(fields: [entityCourse_id], references: [id])
-
-  announcement_id String
-  
+  entityCourse    EntityCourse   @relation(fields: [entityCourse_id], references: [id])
+  cameFromCSV     Boolean        @default(false)
+  type1Benefits   Type1Benefit[]
+  type2Benefits   Type2Benefit[]
+  announcement_id String?
 }
 
 enum ScholarshipGrantedStatus {
@@ -1365,6 +1370,7 @@ enum BasicEducationType {
   ProfessionalEducation
 }
 
+// Todas as bolsas de educação básica
 enum ScholarshipOfferType {
   Law187ScholarshipPartial
   Law187Scholarship
@@ -1376,6 +1382,7 @@ enum ScholarshipOfferType {
   EntityWorkers
 }
 
+// todas as bolsas de eduicação superior
 enum HigherEducationScholarshipType {
   PROUNIFull
   PROUNIPartial
@@ -1394,6 +1401,44 @@ enum HigherEducationScholarshipType {
 }
 
 enum OfferedCourseType {
+  UndergraduateBachelor
+  UndergraduateLicense
+  UndergraduateTechnologist
+  Postgraduate
+}
+
+// Todos os tipos de bolsa existentes
+enum AllScholarshipsType {
+  PROUNIFull
+  PROUNIPartial
+  StateGovernment
+  StateGovernmentPartial
+  CityGovernment
+  CityGovernmentPartial
+  ExternalEntities
+  ExternalEntitiesPartial
+  HigherEduInstitutionFull
+  HigherEduInstitutionPartial
+  HigherEduInstitutionWorkers
+  HigherEduInstitutionWorkersPartial
+  PostgraduateStrictoSensu
+  PostgraduateStrictoSensuPartial
+  Law187ScholarshipPartial
+  Law187Scholarship
+  StudentWithDisabilityPartial
+  StudentWithDisability
+  FullTimePartial
+  FullTime
+  EntityWorkersPartial
+  EntityWorkers
+}
+
+// todos os níveis de educação existentes
+enum AllEducationType {
+  Preschool
+  Elementary
+  HighSchool
+  ProfessionalEducation
   UndergraduateBachelor
   UndergraduateLicense
   UndergraduateTechnologist

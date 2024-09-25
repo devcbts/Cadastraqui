@@ -1,4 +1,3 @@
-import { AllEducationType } from "@prisma/client";
 import { prisma } from "../lib/prisma";
 
 // Função para normalizar o nome do curso
@@ -10,7 +9,7 @@ function normalizeName(name: string) {
         .replace(/\s+/g, ''); // Remove espaços
 }
 
-async function updateEducationLevelCourseId() {
+/*async function updateEducationLevelCourseId() {
     try {
         // Buscar todos os registros na tabela EducationLevel
         const educationLevels = await prisma.educationLevel.findMany({
@@ -58,3 +57,4 @@ async function updateEducationLevelCourseId() {
 
 // Executar o script
 updateEducationLevelCourseId();
+*/
