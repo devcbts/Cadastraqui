@@ -1045,7 +1045,7 @@ model AuditLog {
 model Course {
   id             Int              @id @default(autoincrement())
   name           String // Nome do curso (1º ano / Engenharia Elétrica / Química / 5º ano )
-  normalizedName String //Nome normalizado
+  normalizedName String //Nome normalizado 
   Type           AllEducationType // Tipo do curso (Pré-Escola,Ensino Fundamental,Ensino Médio, Técnico, Graduação,Licenciatura,Tecnólogo, Pós-Graduação)
   EntityCourse   EntityCourse[]
   EducationLevel EducationLevel[]

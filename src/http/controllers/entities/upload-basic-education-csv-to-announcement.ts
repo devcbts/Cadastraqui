@@ -2,7 +2,7 @@ import { APIError } from "@/errors/api-error";
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
-import { BasicEducationType, ScholarshipOfferType, SHIFT } from "@prisma/client";
+import { AllEducationType, AllScholarshipsType, SHIFT } from "@prisma/client";
 import csv from 'csv-parser';
 import { FastifyReply, FastifyRequest } from "fastify";
 import fs from 'fs';
@@ -22,10 +22,10 @@ interface CSVData {
     "Número de Vagas": string;
 }
 const educationTypeMapping: { [key: string]: string } = {
-    "Pré-Escola": BasicEducationType.Preschool,
-    "Fundamental I e II": BasicEducationType.Elementary,
-    "Ensino Médio": BasicEducationType.HighSchool,
-    "Educação Profissional": BasicEducationType.ProfessionalEducation
+    "Pré-Escola": AllEducationType.Preschool,
+    "Fundamental I e II": AllEducationType.Elementary,
+    "Ensino Médio": AllEducationType.HighSchool,
+    "Educação Profissional": AllEducationType.ProfessionalEducation
 };
 
 const shiftMapping: { [key: string]: string } = {
@@ -35,15 +35,15 @@ const shiftMapping: { [key: string]: string } = {
     "Integral": SHIFT.Integral
 }
 
-const scholarshipTypeMapping: { [key: string]: ScholarshipOfferType } = {
-    "Bolsa Lei 187 Parcial": ScholarshipOfferType.Law187ScholarshipPartial,
-    "Bolsa Lei 187 Integral": ScholarshipOfferType.Law187Scholarship,
-    "Estudante com Deficiência Parcial": ScholarshipOfferType.StudentWithDisabilityPartial,
-    "Estudante com Deficiência Integral": ScholarshipOfferType.StudentWithDisability,
-    "Tempo Integral (Parcial)": ScholarshipOfferType.FullTimePartial,
-    "Tempo Integral (Integral)": ScholarshipOfferType.FullTime,
-    "Trabalhadores da Entidade Parcial": ScholarshipOfferType.EntityWorkersPartial,
-    "Trabalhadores da Entidade Integral": ScholarshipOfferType.EntityWorkers
+const scholarshipTypeMapping: { [key: string]: AllScholarshipsType } = {
+    "Bolsa Lei 187 Parcial": AllScholarshipsType.Law187ScholarshipPartial,
+    "Bolsa Lei 187 Integral": AllScholarshipsType.Law187Scholarship,
+    "Estudante com Deficiência Parcial": AllScholarshipsType.StudentWithDisabilityPartial,
+    "Estudante com Deficiência Integral": AllScholarshipsType.StudentWithDisability,
+    "Tempo Integral (Parcial)": AllScholarshipsType.FullTimePartial,
+    "Tempo Integral (Integral)": AllScholarshipsType.FullTime,
+    "Trabalhadores da Entidade Parcial": AllScholarshipsType.EntityWorkersPartial,
+    "Trabalhadores da Entidade Integral": AllScholarshipsType.EntityWorkers
 };
 export default async function uploadBasicEducationCSVFileToAnnouncement(
     request: FastifyRequest,
@@ -54,7 +54,7 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
         const role = request.user.role
 
         const entity = await SelectEntityOrDirector(user_id, role)
-       
+
         const csvFile = await request.file();
         if (!csvFile) {
             throw new ResourceNotFoundError();

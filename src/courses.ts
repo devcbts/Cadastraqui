@@ -1,3 +1,4 @@
+import { AllEducationType } from "@prisma/client";
 import { prisma } from "./lib/prisma";
 
 // Função para normalizar o nome do curso
@@ -328,8 +329,8 @@ async function addCourses() {
                 await prisma.course.create({
                     data: {
                         name: name,
-                        // normalizedName: normalizedName,
-                        Type: type
+                        normalizedName: normalizedName,
+                        Type: type as AllEducationType
                     }
                 });
                 console.log(`Curso ${name} adicionado com sucesso!`);

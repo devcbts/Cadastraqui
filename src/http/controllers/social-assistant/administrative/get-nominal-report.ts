@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { BasicEducationType, HigherEducationScholarshipType, LevelType, OfferedCourseType, ScholarshipOfferType } from "@prisma/client";
+import { AllEducationType, AllScholarshipsType, LevelType } from "@prisma/client";
 import * as csvWriter from 'csv-writer';
 import { FastifyReply, FastifyRequest } from "fastify";
 import * as fs from 'fs';
@@ -14,42 +14,42 @@ const levelTranslation = {
 }
 
 const courseTypeTranslation = {
-    [BasicEducationType.Preschool]: "Pré - Escola",
-    [BasicEducationType.Elementary]: 'Fundamental I e II',
-    [BasicEducationType.HighSchool]: "Ensino Médio",
-    [BasicEducationType.ProfessionalEducation]: "Ensino Profissional",
+    [AllEducationType.Preschool]: "Pré - Escola",
+    [AllEducationType.Elementary]: 'Fundamental I e II',
+    [AllEducationType.HighSchool]: "Ensino Médio",
+    [AllEducationType.ProfessionalEducation]: "Ensino Profissional",
 
 
-    [OfferedCourseType.Postgraduate]: "Pós Graduação",
-    [OfferedCourseType.UndergraduateBachelor]: "Bacharelado",
-    [OfferedCourseType.UndergraduateLicense]: "Licenciatura",
-    [OfferedCourseType.UndergraduateTechnologist]: "Tecnólogo"
+    [AllEducationType.Postgraduate]: "Pós Graduação",
+    [AllEducationType.UndergraduateBachelor]: "Bacharelado",
+    [AllEducationType.UndergraduateLicense]: "Licenciatura",
+    [AllEducationType.UndergraduateTechnologist]: "Tecnólogo"
 }
 
 
 const scholarshipOfferTranslation = {
-    [HigherEducationScholarshipType.CityGovernment]: "Governo Municipal",
-    [HigherEducationScholarshipType.CityGovernmentPartial]: "Governo Municipal Parcial",
-    [HigherEducationScholarshipType.ExternalEntities]: "Entidades Externas",
-    [HigherEducationScholarshipType.HigherEduInstitutionFull]: "Instituições de Ensino Superior",
-    [HigherEducationScholarshipType.HigherEduInstitutionPartial]: "Instituições de Ensino Superior Parcial",
-    [HigherEducationScholarshipType.HigherEduInstitutionWorkers]: "Trabalhadores da Instituição de Ensino Superior",
-    [HigherEducationScholarshipType.HigherEduInstitutionWorkersPartial]: "Trabalhadores da Instituição de Ensino Superior Parcial",
-    [HigherEducationScholarshipType.PROUNIFull]: "PROUNI Integral",
-    [HigherEducationScholarshipType.PROUNIPartial]: "PROUNI Parcial",
-    [HigherEducationScholarshipType.PostgraduateStrictoSensu]: "Pós Graduação Stricto Sensu",
-    [HigherEducationScholarshipType.PostgraduateStrictoSensuPartial]: "Pós Graduação Stricto Sensu Parcial",
-    [HigherEducationScholarshipType.StateGovernment]: "Governo Estadual",
-    [HigherEducationScholarshipType.StateGovernmentPartial]: "Governo Estadual Parcial",
-    [HigherEducationScholarshipType.ExternalEntitiesPartial]: "Entidades Externas Parcial",
-    [ScholarshipOfferType.EntityWorkers]: "Trabalhadores da Entidade",
-    [ScholarshipOfferType.EntityWorkersPartial]: "Trabalhadores da Entidade Parcial",
-    [ScholarshipOfferType.FullTime]: "Tempo Integral",
-    [ScholarshipOfferType.FullTimePartial]: "Tempo Integral (Parcial)",
-    [ScholarshipOfferType.Law187Scholarship]: "Bolsa Lei 187",
-    [ScholarshipOfferType.Law187ScholarshipPartial]: "Bolsa Lei 187 Parcial",
-    [ScholarshipOfferType.StudentWithDisability]: "Estudante com Deficiência",
-    [ScholarshipOfferType.StudentWithDisabilityPartial]: "Estudante com Deficiência (Parcial)",
+    [AllScholarshipsType.CityGovernment]: "Governo Municipal",
+    [AllScholarshipsType.CityGovernmentPartial]: "Governo Municipal Parcial",
+    [AllScholarshipsType.ExternalEntities]: "Entidades Externas",
+    [AllScholarshipsType.HigherEduInstitutionFull]: "Instituições de Ensino Superior",
+    [AllScholarshipsType.HigherEduInstitutionPartial]: "Instituições de Ensino Superior Parcial",
+    [AllScholarshipsType.HigherEduInstitutionWorkers]: "Trabalhadores da Instituição de Ensino Superior",
+    [AllScholarshipsType.HigherEduInstitutionWorkersPartial]: "Trabalhadores da Instituição de Ensino Superior Parcial",
+    [AllScholarshipsType.PROUNIFull]: "PROUNI Integral",
+    [AllScholarshipsType.PROUNIPartial]: "PROUNI Parcial",
+    [AllScholarshipsType.PostgraduateStrictoSensu]: "Pós Graduação Stricto Sensu",
+    [AllScholarshipsType.PostgraduateStrictoSensuPartial]: "Pós Graduação Stricto Sensu Parcial",
+    [AllScholarshipsType.StateGovernment]: "Governo Estadual",
+    [AllScholarshipsType.StateGovernmentPartial]: "Governo Estadual Parcial",
+    [AllScholarshipsType.ExternalEntitiesPartial]: "Entidades Externas Parcial",
+    [AllScholarshipsType.EntityWorkers]: "Trabalhadores da Entidade",
+    [AllScholarshipsType.EntityWorkersPartial]: "Trabalhadores da Entidade Parcial",
+    [AllScholarshipsType.FullTime]: "Tempo Integral",
+    [AllScholarshipsType.FullTimePartial]: "Tempo Integral (Parcial)",
+    [AllScholarshipsType.Law187Scholarship]: "Bolsa Lei 187",
+    [AllScholarshipsType.Law187ScholarshipPartial]: "Bolsa Lei 187 Parcial",
+    [AllScholarshipsType.StudentWithDisability]: "Estudante com Deficiência",
+    [AllScholarshipsType.StudentWithDisabilityPartial]: "Estudante com Deficiência (Parcial)",
 
 }
 
@@ -99,7 +99,9 @@ export default async function getNominalReport(
                         include: {
                             candidate: true,
                             responsible: true,
-                            EducationLevel: true,
+                            EducationLevel: {
+                                include: { course: true }
+                            },
                         }
                     }
                 }
@@ -120,7 +122,9 @@ export default async function getNominalReport(
                         include: {
                             candidate: true,
                             responsible: true,
-                            EducationLevel: true
+                            EducationLevel: {
+                                include: { course: true }
+                            }
                         }
                     }
                 }
@@ -136,8 +140,8 @@ export default async function getNominalReport(
                     entityCNPJ: entityInfo?.CNPJ,
                     candidateName: scholarship.application.candidate.name,
                     level: scholarship.application.EducationLevel.level,
-                    courseType: scholarship.application.EducationLevel.basicEduType || scholarship.application.EducationLevel.offeredCourseType,
-                    course: scholarship.application.EducationLevel.availableCourses ?? scholarship.application.EducationLevel.grade,
+                    courseType: scholarship.application.EducationLevel.course?.Type,
+                    course: scholarship.application.EducationLevel.course?.name,
                     partialPercentage: scholarship.application.ScholarshipPartial ? "50%" : "100%",
 
                 }
@@ -155,7 +159,7 @@ export default async function getNominalReport(
                     entityCNPJ: entityInfo?.CNPJ,
                     candidateName: scholarship.application.candidate.name,
                     level: levelTranslation[scholarship.application.EducationLevel.level],
-                    courseType: `${courseTypeTranslation[(scholarship.application.EducationLevel.basicEduType || scholarship.application.EducationLevel.offeredCourseType)!]} - ${scholarship.application.EducationLevel.availableCourses ?? scholarship.application.EducationLevel.grade} `,
+                    courseType: `${courseTypeTranslation[(scholarship.application.EducationLevel.course?.Type)!]} - ${scholarship.application.EducationLevel.course?.name} `,
                     partialPercentage: scholarship.application.ScholarshipPartial ? "50%" : "100%",
                 }
             })

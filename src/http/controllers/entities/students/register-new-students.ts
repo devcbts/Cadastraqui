@@ -1,6 +1,7 @@
 import { APIError } from "@/errors/api-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
+import { AllEducationType } from "@prisma/client";
 import { hash } from "bcryptjs";
 import csv from 'csv-parser';
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -10,6 +11,7 @@ import { detect } from "jschardet";
 import pump from "pump";
 import tmp from 'tmp';
 import { z } from "zod";
+import { normalizeString } from "../utils/normalize-string";
 
 export default async function registerNewStudents(
     request: FastifyRequest,
@@ -19,11 +21,12 @@ export default async function registerNewStudents(
         Nome: z.string(),
         Curso: z.string(),
         Tipo: z.string(),
+        CourseType: z.string(),
         Email: z.string().email(),
         CPF: z.string(),
         Periodo: z.string(),
         Nascimento: z.string().transform(e => new Date(e)),
-        IdCurso: z.string().transform(e => parseInt(e)).nullish(),
+        // IdCurso: z.string().transform(e => parseInt(e)).nullish(),
         CNPJ: z.string()
     })
     type CSVData = z.infer<typeof csvSchema>
@@ -64,6 +67,8 @@ export default async function registerNewStudents(
                 .pipe(encodeStream('utf8'))
                 .pipe(csv({ separator: detectedEncoding === "UTF-8" ? ',' : ';' }))
                 .on('data', (data: CSVData) => {
+                    const isEmpty = Object.values(data).every(e => !e.toString())
+                    if (isEmpty) { return }
                     // Process the data as needed
                     const { error, data: parsedData, success } = csvSchema.safeParse(data)
                     if (error) {
@@ -129,17 +134,17 @@ export default async function registerNewStudents(
                         email: e.Email,
                     }
                 })
-                let course;
-                if (e.IdCurso !== null && e.IdCurso !== undefined) {
-
-                    course = await tPrisma.entityCourse.findFirst({
-                        where: { AND: [{ course_id: e.IdCurso }, { OR: [{ entity_id: e.entityId }, { entitySubsidiary_id: e.entityId }] }] }
-                    })
-                } else {
+                let course = await tPrisma.entityCourse.findFirst({
+                    where: { AND: [{ course: { AND: [{ normalizedName: normalizeString(e.Curso) }, { Type: e.CourseType as AllEducationType }] } }, { OR: [{ entity_id: e.entityId }, { entitySubsidiary_id: e.entityId }] }] }
+                })
+                // if (e.IdCurso !== null && e.IdCurso !== undefined) {
+                if (!course) {
                     const { id } = await tPrisma.course.create({
                         data: {
                             name: e.Curso,
-                            Type: e.Tipo
+                            normalizedName: normalizeString(e.Curso),
+                            Type: e.CourseType as AllEducationType,
+
                         }
                     })
                     course = await tPrisma.entityCourse.create({
