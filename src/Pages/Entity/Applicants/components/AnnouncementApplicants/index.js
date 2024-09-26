@@ -153,7 +153,7 @@ export default function EntityAnnouncementApplicants() {
                         Tipo de Bolsa:
                     </span>
                     <label>
-                        {findLabel(SCHOLARSHIP_OFFER, course.scholarshipType) ?? findLabel(SCHOLARSHIP_TYPE, course.higherEduScholarshipType)}
+                        {findLabel(SCHOLARSHIP_OFFER, course.typeOfScholarship) ?? findLabel(SCHOLARSHIP_TYPE, course.typeOfScholarship)}
                     </label>
                 </div>
 

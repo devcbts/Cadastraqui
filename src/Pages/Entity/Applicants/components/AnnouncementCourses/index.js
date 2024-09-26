@@ -37,7 +37,7 @@ export default function EntityAnnouncementCourses() {
                 {announcement?.educationLevels?.map(e => (
                     <Table.Row key={e.id}>
                         <Table.Cell>{e.entityName}</Table.Cell>
-                        <Table.Cell>{e.offeredCourseType ?? e.grade}</Table.Cell>
+                        <Table.Cell>{e.course?.name}</Table.Cell>
                         <Table.Cell>{findLabel(EDUCATION_TYPE, e.level)}</Table.Cell>
                         <Table.Cell>{e.shift}</Table.Cell>
                         <Table.Cell>

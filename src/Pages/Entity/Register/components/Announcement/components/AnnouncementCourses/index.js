@@ -23,21 +23,18 @@ import entityService from "services/entity/entityService"
 import { Link } from "react-router-dom"
 import basicTemplate from 'Assets/templates/Vagas_Basico_Cadastraqui.xlsx'
 import higherTemplate from "Assets/templates/Vagas_Superior_Cadastraqui.xlsx"
-export default function AnnouncementCourses({ entity, data, onPageChange }) {
+export default function AnnouncementCourses({ entity, allCourses, data, onPageChange }) {
     // can be 'HigherEducation' or 'BasicEducation'
-    const { control, formState: { isValid }, trigger, getValues, watch, reset } = useControlForm({
+    const { control, formState: { isValid }, setValue, trigger, getValues, watch, reset, resetField } = useControlForm({
         schema: announcementCoursesSchema,
         defaultValues: {
             level: data?.educationLevel,
-            basicEduType: null,
-            scholarshipType: null,
-            higherEduScholarshipType: null,
-            offeredCourseType: null,
-            availableCourses: null,
-            offeredVacancies: 0,
+            typeOfScholarship: null,
             verifiedScholarships: 0,
+            type: null,
+            name: '',
+            id: null,
             shift: "",
-            grade: null,
             semester: 0,
             entity_subsidiary_id: undefined,
         },
@@ -68,18 +65,7 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
         subs?.push({ label: entity?.socialReason, value: null })
         return subs
     }, [entity])
-    const gradeOptions = useMemo(() => {
-        return GRADE_LEVELS[watch("basicEduType")]?.map(grade => ({ value: grade, label: grade }))
-    }, [watch("basicEduType")])
 
-    const coursesList = useMemo(() => {
-        const value = watch("offeredCourseType")
-        let list;
-        if (value === 'UndergraduateBachelor') list = cursos.bacharelado
-        if (value === 'UndergraduateLicense') list = cursos.licenciatura
-        if (value === 'UndergraduateTechnologist') list = cursos.tecnologos
-        return list?.map(e => ({ label: e, value: e }))
-    }, [watch("offeredCourseType")])
 
     useEffect(() => {
         const total = courses.reduce((acc, value) => {
@@ -119,7 +105,13 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
             NotificationService.error({ text: err?.response?.data?.message })
         }
     }
+    const courseType = watch("type")
+    const courseId = watch("id")
+    const courseName = watch("name")
 
+    const handleChangeCourse = (id) => {
+        setValue("name", allCourses.find(e => e.id === id)?.name)
+    }
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
             <BackPageTitle title={'Cadastrar Curso'} onClick={() => onPageChange(-1)} />
@@ -135,32 +127,42 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
             </div>
             <div style={{ width: 'max(400px, 50%)', display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>
                 <FormSelect label={'matriz ou filial'} control={control} name="entity_subsidiary_id" options={entitiesOptions} value={watch("entity_subsidiary_id")} />
-                {
-                    isBasicEducation
-                        ? <FormSelect label={'tipo de educação básica'} control={control} name="basicEduType" options={SCHOOL_LEVELS} value={watch("basicEduType", undefined)} />
-                        : <FormSelect label={'tipo de curso oferecido'} control={control} name="offeredCourseType" options={OFFERED_COURSES_TYPE} value={watch("offeredCourseType", null)} />
-                }
-                {
-                    !isBasicEducation &&
-                    (
-                        watch("offeredCourseType") === 'Postgraduate'
-                            ? <InputForm control={control} label="curso" name="availableCourses" />
-                            : <FormSelect label={'curso'} control={control} name="availableCourses" options={coursesList} value={watch("availableCourses")} />
-                    )
-                }
-                {isBasicEducation && (
-                    watch("basicEduType") === "ProfessionalEducation"
-                        ? <InputForm control={control} label={'ciclo/ano/série/curso'} name="grade" />
-                        : <FormSelect label={'ciclo/ano/série/curso'} control={control} name="grade" options={gradeOptions} value={watch("grade")} />
-                )
-                }
-                <FormSelect label={'turno'} control={control} name="shift" options={SHIFT} value={watch("shift")} />
-                {
-                    isBasicEducation
-                        ? <FormSelect label={'tipo de bolsa'} control={control} name="scholarshipType" options={SCHOLARSHIP_OFFER} value={watch("scholarshipType")} />
-                        : <FormSelect label={'tipo de bolsa do ensino superior'} control={control} name="higherEduScholarshipType" options={SCHOLARSHIP_TYPE} value={watch("higherEduScholarshipType")} />
 
-                }
+                <FormSelect
+                    label={isBasicEducation ? 'tipo de educação básica' : 'tipo de curso oferecido'}
+                    name="type"
+                    control={control}
+                    options={isBasicEducation ? SCHOOL_LEVELS : OFFERED_COURSES_TYPE}
+                    value={courseType}
+                    onChange={() => {
+                        resetField("id")
+                        resetField("name")
+                    }}
+                />
+
+
+                {(courseType === 'Postgraduate' || courseType === "ProfessionalEducation")
+                    ? <InputForm control={control} label={isBasicEducation ? "ciclo/ano/série/curso" : "curso"} name="name" />
+                    : <FormSelect
+                        label={'curso'}
+                        control={control}
+                        name="id"
+                        options={allCourses.filter(e => e.Type === courseType).map(e => ({ value: e.id, label: e.name }))}
+                        value={courseId}
+                        onChange={handleChangeCourse}
+                    />}
+
+
+
+                <FormSelect label={'turno'} control={control} name="shift" options={SHIFT} value={watch("shift")} />
+
+                <FormSelect label={isBasicEducation ? 'tipo de bolsa' : 'tipo de bolsa do ensino superior'}
+                    control={control}
+                    name="typeOfScholarship"
+                    options={isBasicEducation ? SCHOLARSHIP_OFFER : SCHOLARSHIP_TYPE}
+                    value={watch("typeOfScholarship")} />
+
+
                 <InputForm label={'número de bolsas'} control={control} name="verifiedScholarships" transform={(e) => {
                     if (!isNaN(parseInt(e.target.value))) {
                         return parseInt(e.target.value, 10)
@@ -185,14 +187,11 @@ export default function AnnouncementCourses({ entity, data, onPageChange }) {
                             <Table.Row key={course._identifier}>
                                 <Table.Cell>{findLabel(entitiesOptions, course.entity_subsidiary_id)}</Table.Cell>
                                 <Table.Cell>{course.verifiedScholarships}</Table.Cell>
-                                {/* <Table.Cell>{isBasicEducation ? findLabel(SCHOOL_LEVELS, course.basicEduType) : findLabel(EDUCATION_TYPE, course.level)}</Table.Cell> */}
                                 <Table.Cell>{findLabel(EDUCATION_TYPE, course.level)}</Table.Cell>
-                                <Table.Cell>{course.grade ?? course.availableCourses}</Table.Cell>
+                                <Table.Cell>{course.name}</Table.Cell>
                                 <Table.Cell>{course.shift}</Table.Cell>
                                 <Table.Cell>{
-                                    isBasicEducation ?
-                                        findLabel(SCHOLARSHIP_OFFER, course.scholarshipType)
-                                        : findLabel(SCHOLARSHIP_TYPE, course.higherEduScholarshipType)
+                                    findLabel(SCHOLARSHIP_OFFER.concat(SCHOLARSHIP_TYPE), course.typeOfScholarship)
                                 }</Table.Cell>
                                 <Table.Cell>
                                     <ButtonBase label={'excluir'} onClick={() => { handleRemoveCourse(course._identifier) }} danger />

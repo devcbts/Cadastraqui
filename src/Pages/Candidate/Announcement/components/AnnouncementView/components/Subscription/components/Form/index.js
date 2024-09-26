@@ -65,12 +65,12 @@ export default function SubscriptionForm() {
                         <InputBase label="instituição" value={announcement?.entity?.socialReason} readOnly error={null} />
                         <InputBase label="edital" value={announcement?.announcementName} readOnly error={null} />
                         <InputBase label="matriz ou filial" value={getCourse?.socialReason} readOnly error={null} />
-                        <InputBase label="curso/série" value={getCourse?.course?.availableCourses ?? getCourse?.course?.grade} readOnly error={null} />
+                        <InputBase label="curso/série" value={getCourse?.course?.course?.name} readOnly error={null} />
                         <InputBase label="período" value={getCourse?.course?.shift} readOnly error={null} />
                         {/* <InputBase label="semestre" value={getCourse?.course?.semester} readOnly error={null} /> */}
                         <InputBase label="bolsa" value={
-                            findLabel(SCHOLARSHIP_TYPE, getCourse?.course?.higherEduScholarshipType) ??
-                            findLabel(SCHOLARSHIP_OFFER, getCourse?.course?.scholarshipType)
+                            findLabel(SCHOLARSHIP_TYPE, getCourse?.course?.typeOfScholarship) ??
+                            findLabel(SCHOLARSHIP_OFFER, getCourse?.course?.typeOfScholarship)
                         } readOnly error={null} />
                     </div>
                 </div>

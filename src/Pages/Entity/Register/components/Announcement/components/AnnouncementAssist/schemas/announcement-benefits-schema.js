@@ -3,13 +3,13 @@ const { z } = require("zod");
 const announcementBenefitsSchema = z.object({
     hasBenefits: z.boolean(),
     hasServices: z.boolean(),
-    type1: z.array(z.string()).optional(),
+    types1: z.array(z.string()).optional(),
     type2: z.string().nullish()
 }).superRefine((data, ctx) => {
-    if (data.hasBenefits && !data.type1.length) {
+    if (data.hasBenefits && !data.types1.length) {
         ctx.addIssue({
             message: 'Selecione ao menos um benefício',
-            path: ['type1']
+            path: ['types1']
         })
     }
     if (data.hasServices && !data.type2) {

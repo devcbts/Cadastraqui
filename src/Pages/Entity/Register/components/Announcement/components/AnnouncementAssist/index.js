@@ -14,7 +14,7 @@ export default function AnnouncementAssist({ data, onPageChange }) {
         defaultValues: {
             hasBenefits: null,
             hasServices: null,
-            type1: [],
+            types1: [],
             type2: ""
         },
         initialData: data
@@ -34,7 +34,7 @@ export default function AnnouncementAssist({ data, onPageChange }) {
                 <FormCheckbox control={control} name={"hasBenefits"} label={'a entidade concederá benefícios aos alunos?'} />
                 {
                     watch("hasBenefits") && (
-                        <FormSelect multiple control={control} name={"type1"} label="Seleção de benefícios" options={TYPE_ONE_BENEFITS} value={watch("type1")} />
+                        <FormSelect multiple control={control} name={"types1"} label="Seleção de benefícios" options={TYPE_ONE_BENEFITS} value={watch("types1")} />
                     )
                 }
                 <Term text={`

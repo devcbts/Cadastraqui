@@ -9,7 +9,7 @@ export default function AnnouncementTable({ title, rowData, onClick }) {
                 {
                     rowData?.map((data) => {
                         return (<Table.Row>
-                            <Table.Cell>{data?.availableCourses ?? data?.grade}</Table.Cell>
+                            <Table.Cell>{data?.course?.name}</Table.Cell>
                             <Table.Cell>{data?.verifiedScholarships}</Table.Cell>
                             <Table.Cell>{data?.criteria}</Table.Cell>
                             <Table.Cell>

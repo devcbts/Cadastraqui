@@ -7,11 +7,12 @@ import AnnouncementAssist from "./components/AnnouncementAssist"
 import AnnouncementFinish from "./components/AnnouncementFinish"
 import { NotificationService } from "services/notification"
 
-export default function Announcement() {
+export default function Announcement({ announcementType }) {
     const [page, setPage] = useState(1)
     const [data, setData] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [entity, setEntity] = useState(null)
+    const [courses, setCourses] = useState([])
     const handleDataChange = (data) => {
         setData((prev) => ({ ...prev, ...data }))
     }
@@ -24,13 +25,25 @@ export default function Announcement() {
     useEffect(() => {
         const fetchEntity = async () => {
             try {
-                setIsLoading(true)
                 const information = await entityService.getEntityInfo()
                 setEntity(information)
             } catch (err) { }
-            setIsLoading(false)
         }
-        fetchEntity()
+        const fetchCourses = async () => {
+            try {
+                const information = await entityService.getAllCourses()
+                setCourses(information)
+            } catch (err) { }
+        }
+        (async () => {
+            setIsLoading(true)
+            await Promise.all([
+                fetchCourses(),
+                fetchEntity()
+            ])
+            setIsLoading(false)
+        })()
+
     }, [])
     const handleSubmit = async (data) => {
         try {
@@ -52,8 +65,8 @@ export default function Announcement() {
     return (
         <>
             <Loader loading={isLoading} />
-            {page === 1 && <AnnouncementInfo data={data} onPageChange={handlePageChange} />}
-            {page === 2 && <AnnouncementCourses data={data} entity={entity} onPageChange={handlePageChange} />}
+            {page === 1 && <AnnouncementInfo announcementType={announcementType} data={data} onPageChange={handlePageChange} />}
+            {page === 2 && <AnnouncementCourses data={data} allCourses={courses} entity={entity} onPageChange={handlePageChange} />}
             {page === 3 && <AnnouncementAssist data={data} onPageChange={handlePageChange} />}
             {page === 4 && <AnnouncementFinish data={data} onPageChange={handlePageChange} onSubmit={handleSubmit} />}
         </>

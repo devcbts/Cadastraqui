@@ -1,7 +1,7 @@
 import { Controller } from "react-hook-form";
 import SelectBase from "../SelectBase";
 
-export default function FormSelect({ name, label, control, options = [], value, multiple = false }) {
+export default function FormSelect({ name, label, control, options = [], value, multiple = false, onChange = null }) {
 
 
     const showErrorBorder = (error, isDirty) => {
@@ -31,11 +31,15 @@ export default function FormSelect({ name, label, control, options = [], value, 
                     multiple={multiple}
                     value={multiple ? value.map(e => options.find(v => v.value === e)) : (options.find(e => e.value === value) ?? '')}
                     onChange={(e) => {
-
+                        let value;
                         if (multiple) {
-                            field.onChange(e.map(item => item.value))
+                            value = e.map(item => item.value)
                         } else {
-                            field.onChange(e.value)
+                            value = e.value
+                        }
+                        field.onChange(value)
+                        if (onChange) {
+                            onChange(value)
                         }
                     }}
                 />

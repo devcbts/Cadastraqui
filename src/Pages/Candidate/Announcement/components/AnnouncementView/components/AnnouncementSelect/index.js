@@ -93,7 +93,7 @@ export default function AnnouncementSelect({ announcement }) {
                                 <Card.Root width="230px">
                                     <Card.Title text={'curso/série pretendida'} />
                                     <Card.Content>
-                                        <span>{announcementCourse?.availableCourses ?? announcementCourse?.grade}</span>
+                                        <span>{announcementCourse?.course?.name}</span>
                                     </Card.Content>
                                 </Card.Root>
                                 <div className={styles.cards}>
@@ -125,8 +125,8 @@ export default function AnnouncementSelect({ announcement }) {
                                         <Card.Title text={'bolsa'} />
                                         <Card.Content>
                                             <span>{
-                                                findLabel(SCHOLARSHIP_TYPE, announcementCourse?.higherEduScholarshipType)
-                                                ?? findLabel(SCHOLARSHIP_OFFER, announcementCourse?.scholarshipType)
+                                                findLabel(SCHOLARSHIP_TYPE, announcementCourse?.typeOfScholarship)
+                                                ?? findLabel(SCHOLARSHIP_OFFER, announcementCourse?.typeOfScholarship)
                                             }</span>
                                         </Card.Content>
                                     </Card.Root>

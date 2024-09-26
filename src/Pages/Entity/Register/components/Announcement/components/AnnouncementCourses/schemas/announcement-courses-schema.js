@@ -2,58 +2,56 @@ const { z } = require("zod");
 
 const announcementCoursesSchema = z.object({
     level: z.string(),
-    basicEduType: z.string().nullish(),
-    scholarshipType: z.string().nullish(),
-    higherEduScholarshipType: z.string().nullish(),
-    offeredCourseType: z.string().nullish(),
-    availableCourses: z.string().nullish(),
-    offeredVacancies: z.number().default(0).nullish(),
+    name: z.string().nullish(),
+    id: z.number().nullish(),
+    type: z.string().nullish(),
+    typeOfScholarship: z.string().nullish(),
     verifiedScholarships: z.number({ invalid_type_error: 'Número de bolsas obrigatório' }).min(1, 'Não pode ser zero'),
     shift: z.string().min(1, 'Turno obrigatório'),
-    grade: z.string().nullish(),
     semester: z.number().nullish(),
     entity_subsidiary_id: z.string().nullish().refine((data) => data === null || !!data, { message: 'Matriz ou filial obrigatória' }),
     courses: z.array(z.any()).nullish()
 })
     .superRefine((data, ctx) => {
         if (data.level === 'BasicEducation') {
-            if (!data.basicEduType) {
+            if (!data.type) {
                 ctx.addIssue({
                     message: 'Tipo de educação básica obrigatório',
-                    path: ['basicEduType']
+                    path: ["type"]
                 })
             }
-            if (!data.grade) {
+            if (!data.name) {
                 ctx.addIssue({
                     message: 'Ciclo/ano/série/curso obrigatório',
-                    path: ['grade']
+                    path: ["name"]
                 })
             }
-            if (!data.scholarshipType) {
+            if (!data.typeOfScholarship) {
                 ctx.addIssue({
                     message: 'Tipo de bolsa obrigatório',
-                    path: ['scholarshipType']
+                    path: ['typeOfScholarship']
                 })
             }
         } else {
-            if (!data.higherEduScholarshipType) {
+            if (!data.typeOfScholarship) {
                 ctx.addIssue({
                     message: 'Tipo de bolsa do ensino superior obrigatório',
-                    path: ['higherEduScholarshipType']
+                    path: ['typeOfScholarship']
                 })
             }
-            if (!data.offeredCourseType) {
+            if (!data.type) {
                 ctx.addIssue({
                     message: 'Tipo de curso oferecido obrigatório',
-                    path: ['offeredCourseType']
+                    path: ["type"]
                 })
             }
-            if (!data.availableCourses) {
+            if (!data.name) {
                 ctx.addIssue({
                     message: 'Curso obrigatório',
-                    path: ['availableCourses']
+                    path: ["name"]
                 })
             }
+
             if (!data.semester) {
                 ctx.addIssue({
                     message: 'Semestre obrigatório',

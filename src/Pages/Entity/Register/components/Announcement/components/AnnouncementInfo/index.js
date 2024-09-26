@@ -9,16 +9,18 @@ import EDUCATION_TYPE from "utils/enums/education-type";
 import Interview from "./Interview";
 import announcementInfoSchema from "./schemas/announcement-info-schema";
 import { useWatch } from "react-hook-form";
+import InputBase from "Components/InputBase";
+import findLabel from "utils/enums/helpers/findLabel";
 // announcementDate - final announcement date
 // announcementBegin - announcement start date
 // openDate - subscription start
 // closeDate - subscription end
-export default function AnnouncementInfo({ data, onPageChange }) {
+export default function AnnouncementInfo({ data, announcementType = "ScholarshipGrant", onPageChange }) {
     const interviewRef = useRef(null)
     const { control, getValues, formState: { isValid }, trigger, setValue } = useControlForm({
         schema: announcementInfoSchema,
         defaultValues: {
-            announcementType: "",
+            announcementType: announcementType,
             educationLevel: "",
             openDate: "",
             closeDate: "",
@@ -53,7 +55,8 @@ export default function AnnouncementInfo({ data, onPageChange }) {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
             <h1>Informações Cadastrais</h1>
             <div style={{ width: 'max(290px, 50%)' }}>
-                <FormSelect control={control} name={"announcementType"} label={'tipo do edital'} options={ANNOUNCEMENT_TYPE} value={watch.announcementType} />
+                {/* <FormSelect control={control} name={"announcementType"} label={'tipo do edital'} options={ANNOUNCEMENT_TYPE} value={watch.announcementType} /> */}
+                <InputBase error={null} label={"tipo do edital"} value={findLabel(ANNOUNCEMENT_TYPE, announcementType)} disabled />
                 <FormSelect control={control} name={"educationLevel"} label={'nível de ensino'} options={EDUCATION_TYPE} value={watch.educationLevel} />
                 <InputForm control={control} name={"announcementName"} label={'nome do edital'} />
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>

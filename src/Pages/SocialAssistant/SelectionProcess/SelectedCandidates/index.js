@@ -111,7 +111,7 @@ export default function SelectedCandidates() {
                         Tipo de Bolsa:
                     </span>
                     <label>
-                        {findLabel(SCHOLARSHIP_OFFER, application.level?.scholarshipType) ?? findLabel(SCHOLARSHIP_TYPE, application.level?.higherEduScholarshipType)}
+                        {findLabel(SCHOLARSHIP_OFFER, application.level?.typeOfScholarship) ?? findLabel(SCHOLARSHIP_TYPE, application.level?.typeOfScholarship)}
                     </label>
                 </div>
                 <div className={styles.divCriterio}>
