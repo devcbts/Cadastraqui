@@ -76,7 +76,7 @@ export async function getAnnouncements(
         },
         include: {
           entity: true,
-          educationLevels: true,
+          educationLevels: { include: { course: true } },
         },
 
       })
@@ -132,7 +132,7 @@ export async function getAnnouncements(
             education: e.level,
             shift: e.shift,
             entity: entity.socialReason,
-            grade: e.course.name,
+            grade: e.course?.name,
           }))
           return { ...entity, matchedEducationLevels: returnObj }
         }
@@ -142,7 +142,7 @@ export async function getAnnouncements(
           education: e.level,
           shift: e.shift,
           entity: entity.socialReason,
-          grade: e.course.name,
+          grade: e.course?.name,
 
         }))
         return { ...entity, matchedEducationLevels: returnObj }

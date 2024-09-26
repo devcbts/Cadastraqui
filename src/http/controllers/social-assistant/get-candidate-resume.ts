@@ -291,7 +291,7 @@ export async function getCandidateResume(
             id: application.id,
             number: application.number,
             announcement: application.announcement.announcementName,
-            course: application.EducationLevel.course.name,
+            course: application.EducationLevel.course?.name,
             shift: application.EducationLevel.shift,
             entity: application.announcement.entity.socialReason,
             city: application.EducationLevel.entitySubsidiary ? application.EducationLevel.entitySubsidiary.city : application.announcement.entity.city,

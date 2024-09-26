@@ -1,4 +1,3 @@
-import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
 import { AnnouncementNotExists } from '@/errors/announcement-not-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { prisma } from '@/lib/prisma'
@@ -32,7 +31,7 @@ export async function getApplications(
     // verifica se existe o processo seletivo
     const announcement = await prisma.announcement.findUnique({
       where: { id: announcement_id },
-      include: { entity: true}
+      include: { entity: true }
     })
 
     if (announcement) {
@@ -51,17 +50,18 @@ export async function getApplications(
       } else {
         const application = await prisma.application.findUnique({
           where: { id: application_id },
-          include: { EducationLevel : {
-              include: {entitySubsidiary: true}
-          }
-        ,
-        candidate:{
           include: {
-            IdentityDetails: true,
-            
+            EducationLevel: {
+              include: { entitySubsidiary: true, course: true }
+            }
+            ,
+            candidate: {
+              include: {
+                IdentityDetails: true,
+
+              }
+            }
           }
-        }
-        }
         })
         return reply.status(200).send({ application, entity })
       }

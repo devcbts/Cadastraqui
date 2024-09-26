@@ -20,14 +20,14 @@ export async function fetchAnnouncements(
     const user_id = request.user.sub
     const role = request.user.role
     const entity = await SelectEntityOrDirector(user_id, role, { includeUser: false })
-   
+
     if (announcement_id) {
       let pdf = null;
       const announcement = await prisma.announcement.findUnique({
         where: { id: announcement_id }, include: {
           Application: true,
           entity: true,
-          educationLevels: { include: { entitySubsidiary: true } },
+          educationLevels: { include: { entitySubsidiary: true, course: true } },
           socialAssistant: true,
           interview: true
         }

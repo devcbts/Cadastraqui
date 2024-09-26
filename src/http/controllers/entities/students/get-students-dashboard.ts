@@ -55,7 +55,6 @@ export default async function getStudentsDashboard(
                 },
             })
             const units = [entity!.id].concat(subsidiaries_ids).reduce((acc: { count: number, name: string, id: number }[], curr) => {
-                console.log('abc', curr)
                 const studentsByUnit = entityCourses.reduce((course_acc, course_curr) => {
                     if (![course_curr.entity?.id, course_curr.entitySubsidiary?.id].includes(curr)) {
                         return course_acc
@@ -63,7 +62,7 @@ export default async function getStudentsDashboard(
                     return {
                         count: course_acc.count + course_curr._count.Student,
                         name: course_curr.entity?.socialReason ?? course_curr.entitySubsidiary!.socialReason,
-                        id: parseInt(curr)
+                        id: parseInt(curr.replace(/\D*/g, ''))
                     }
                 }, { count: 0, name: '', id: 0 })
                 if (studentsByUnit.count !== 0) {

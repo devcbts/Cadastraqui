@@ -1,7 +1,7 @@
 import { announcementAlreadyExists } from '@/errors/announcement-already-exists-error'
 import { EntityNotExistsError } from '@/errors/entity-not-exists-error'
 import { prisma } from '@/lib/prisma'
-import { Announcement } from '@prisma/client'
+import { AllScholarshipsType, Announcement, LevelType, SHIFT } from '@prisma/client'
 import { fromZonedTime } from 'date-fns-tz'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -59,7 +59,17 @@ export async function CreateAnnoucment(
     type2: z.string().optional(),
     criteria: z.array(z.enum(["CadUnico", "LeastFamilyIncome", "SeriousIllness", "Draw", "Distance"])),
     waitingList: z.boolean(),
-    educationalLevels: z.array(z.any())
+    educationalLevels: z.array(z.object({
+      name: z.string(),
+      id: z.number().nullish(),
+      type: z.string(),
+      typeOfScholarship: z.string(),
+      level: z.string(),
+      verifiedScholarships: z.number(),
+      shift: z.string(),
+      semester: z.number().nullish(),
+      entity_subsidiary_id: z.string().nullish(),
+    }))
   })
 
   const {
@@ -162,7 +172,22 @@ export async function CreateAnnoucment(
       }
       await Promise.all(educationalLevels.map(async (education) => {
         const { entity_subsidiary_id, ...data } = education
-        await createAnnouncementEducationLevel({ dbClient: tprisma, data: { ...data, announcementId: announcement.id, entitySubsidiaryId: education.entity_subsidiary_id } })
+        await createAnnouncementEducationLevel({
+          dbClient: tprisma,
+          data: {
+            courseId: data.id ?? null,
+            typeOfScholarship: data.typeOfScholarship as AllScholarshipsType,
+            level: data.level as LevelType,
+            verifiedScholarships: data.verifiedScholarships,
+            semester: data.semester ?? null,
+            shift: data.shift as SHIFT,
+            type1Benefit: announcement.types1,
+            announcementId: announcement.id,
+            courseName: data.name,
+            courseType: data.type,
+            entitySubsidiaryId: education.entity_subsidiary_id ?? null
+          }
+        })
       }))
 
       if (hasInterview && announcementInterview) {

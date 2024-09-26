@@ -15,6 +15,7 @@ import { fetchClosedAnnouncements } from './fetch-closed-announcements'
 import { fetchDirectors } from './fetch-directors'
 import { fetchFilterAnnouncements } from './fetch-filter-announcement'
 import { fetchSubsidiarys } from './fetch-subsidiarys'
+import getAllCourses from './get-all-courses'
 import getAnnouncementCourse from './get-announcement-course'
 import { getApplications } from './get-applications'
 import getEntityDashboard from './get-dashboard'
@@ -143,7 +144,7 @@ export async function entityRoutes(app: FastifyInstance) {
     '/announcement/find',
     searchAnnouncements,
   )
-  
+
   app.delete('/announcement/:announcement_id', { onRequest: [verifyJWT] }, deleteAnnouncement)
 
   //Courses
@@ -163,6 +164,8 @@ export async function entityRoutes(app: FastifyInstance) {
   app.get('/courses/scholarships/:educationalLevel_id', { onRequest: [verifyJWT] }, getGrantedScholarships)
   app.put('/scholarships/:scholarship_id', { onRequest: [verifyJWT] }, updateScholarshipStatus)
   app.get('/courses/registered/:educationalLevel_id', { onRequest: [verifyJWT] }, getRegisteredStudentsByCourse)
+
+  app.get('/courses/all', { onRequest: [verifyJWT] }, getAllCourses)
 
   app.get('/students/dashboard', { onRequest: [verifyJWT] }, getStudentsDashboard)
   app.post('/students/register', { onRequest: [verifyJWT] }, registerNewStudents)
