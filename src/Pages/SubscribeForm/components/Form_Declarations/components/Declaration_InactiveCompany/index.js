@@ -10,6 +10,9 @@ import InputForm from 'Components/InputForm';
 import useControlForm from 'hooks/useControlForm';
 import { z } from 'zod';
 import { formatCNPJ } from 'utils/format-cnpj';
+import useCnpj from 'hooks/useCnpj';
+import { useWatch } from 'react-hook-form';
+import useCep from 'hooks/useCep';
 
 export default function Declaration_InactiveCompany({ onBack, onSave }) {
     const [hasInactiveCompany, setHasInactiveCompany] = useState(null);
@@ -24,7 +27,7 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
         UF: '',
         complement: '',
     });
-    const { control, formState: { isValid }, trigger, getValues } = useControlForm({
+    const { control, formState: { isValid }, trigger, getValues, setValue } = useControlForm({
         schema: z.object({
             socialReason: z.string().refine((v) => !hasInactiveCompany ? true : v, 'Razão social obrigatória'),
             CNPJ: z.string().refine((v) => !hasInactiveCompany ? true : v, 'CNPJ obrigatório'),
@@ -100,6 +103,19 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
     // };
 
     const addressRef = useRef(null)
+    const watch = useWatch({
+        control
+    })
+    useCnpj((e) => {
+        setValue("socialReason", e.name)
+        setValue("CEP", e.CEP)
+    }, watch.CNPJ)
+    useCep((e) => {
+        setValue("city", e.city)
+        setValue("neighborhood", e.neighborhood)
+        setValue("UF", e.UF)
+        setValue("address", e.address)
+    }, watch.CEP)
     if (!declarationData) {
         return <p>Carregando...</p>;
     }
@@ -118,7 +134,7 @@ export default function Declaration_InactiveCompany({ onBack, onSave }) {
                 </label>
             </div>
             {hasInactiveCompany && (
-                <div className={commonStyles.additionalFields}>
+                <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '24px' }}>
                         <InputForm label={'razão social'} control={control} name="socialReason" />
                         <InputForm label={'CNPJ'} control={control} name="CNPJ" transform={(e) => formatCNPJ(e.target.value)} />

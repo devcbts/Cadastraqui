@@ -110,7 +110,7 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
                     {declarationNeeded && (
                         <RowTextAction text={'Gerar declaração de imóvel cedido'} label={'gerar'} onClick={() => handlePropertyOwnerForm('given')} />
                     )}
-                    <FormFilePicker name={'file_document'} control={control} accept={'application/pdf'} label={'documento'} />
+                    <FormFilePicker name={'file_document'} control={control} accept={'application/pdf'} label={'documento de registro'} />
 
                     <FilePreview file={watchFile} url={watch("url_document")} text={'visualizar documento'} />
                 </>

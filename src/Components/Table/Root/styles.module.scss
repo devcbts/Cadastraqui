@@ -10,7 +10,9 @@
     text-shadow: none;
     color: $primary;
     font-size: 12px;
-    text-transform: capitalize;
+    &::first-letter{
+        text-transform: capitalize;
+    }
     text-align: center;
     font-weight: 700;
     @media(max-width: 800px) {

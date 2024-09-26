@@ -109,7 +109,7 @@ export default function Declaration_IncomeTaxExemption({ onBack, onSave }) {
                     <input type="radio" name="incomeTaxExemption" value="nao" onChange={() => setConfirmation(false)} checked={confirmation === false} /> Não
                 </label>
                 </div> */}
-            {confirmation && <InputForm control={control} label={'exercício'} name={"year"} />}
+            {/* {confirmation && <InputForm control={control} label={'exercício'} name={"year"} />} */}
             {confirmation === false && (
                 <>
                     <FormFilePicker accept={'application/pdf'} control={control} name={"file"} label={'última declaração completa de imposto de renda e recibo'} />

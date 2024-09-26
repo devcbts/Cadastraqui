@@ -7,13 +7,17 @@
     font-size: 1rem;
     max-height: fit-content !important;
     background-color: white;
-    text-transform: capitalize;
     color: $primary;
     border: 2px solid $primary;
     border-radius: 8px;
     transition: background-color .2s ease-in;
     width: fit-content;
-
+    & span{
+       &::first-letter{
+        text-transform: uppercase;
+       }
+    }
+    
     &:hover, &:focus-visible {
         border: 2px solid white;
 

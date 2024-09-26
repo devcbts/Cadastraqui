@@ -1,5 +1,7 @@
 .title {
-    /* text-transform: capitalize; */
+    &::first-letter{
+        text-transform: capitalize;
+    }
     display: flex;
     flex-direction: row;
     align-items: center;

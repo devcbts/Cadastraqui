@@ -20,8 +20,32 @@ const SelectBase = forwardRef(({ label, error, ...props }, ref) => {
                         placeholder="Selecione"
                         isMulti={props.multiple}
                         styles={{
-                            container: (style) => ({ ...style, outline: "none", paddingRight: "-2px" }),
-                            control: (style) => ({ ...style, border: `1px solid ${borderStyle}`, outline: "none", borderRadius: "8px", paddingRight: paddingStyle ? '28px' : '0' }),
+                            option: (style, { isSelected }) => ({
+                                ...style, backgroundColor: isSelected ? "#1F4B73" : "",
+                                ":hover": {
+                                    backgroundColor: "#cfcfcf",
+                                    color: "#1F4B73"
+                                }
+                            }),
+                            container: (style) => ({ ...style, outline: "none", paddingRight: "-2px", }),
+
+                            control: (style) => ({
+                                display: 'flex',
+                                flexDirection: 'row',
+                                height: '35px',
+                                fontSize: '14px',
+                                ":focus-visible": {
+                                    border: `1px solid ${borderStyle}`,
+                                    outline: "none"
+                                },
+                                ":hover": {
+                                    border: `1px solid ${borderStyle}`,
+                                    outline: "none"
+
+                                },
+                                border: `1px solid ${borderStyle}`,
+                                outline: "none", borderRadius: "8px", paddingRight: paddingStyle ? '28px' : '0'
+                            }),
                         }}
                         {...props}
                     />
