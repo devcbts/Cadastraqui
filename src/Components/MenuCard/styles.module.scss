@@ -1,0 +1,76 @@
+@import '../../Assets/theme/global.module.scss';
+@mixin keyframes($name){
+    @keyframes #{$name} {
+        @content
+     }
+}
+@mixin animate($animation,$duration,$method,$mode){
+    animation: $animation $duration $method $mode;
+}
+
+.container{
+    position: relative;
+    height: 180px;
+    width: min(80%,180px); 
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex; 
+    flex-direction: column; 
+    background-color: $primary; 
+    color: white;
+    
+    .content{
+        position: relative;
+        padding: 16px; 
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly; 
+        align-items: center;
+        svg{
+            color: white;
+        }
+        overflow: hidden;
+        flex-grow: 1;
+    }
+    &:hover{
+        // opacity: .5;
+        .content{
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            svg{
+                height: 20px;
+                width: 20px;
+            }
+        }
+        .description{
+            @include animate(show-description,.7s,ease, forwards)
+        }
+
+       
+    }
+
+    .description{
+        visibility: hidden;
+        position: absolute;
+        transform: translateY(100%);
+        font-size: 14px;
+        bottom: 0;
+        border: 1px solid transparent;
+        padding: 12px 8px;
+        border-radius: 8px;
+        @include keyframes(show-description){
+            to{
+                border: 1px solid $primary;
+                transform: translateY(0);
+                background-color: white;
+                color: $primary;
+                position: relative;
+                visibility: visible;
+                height: fit-content;
+            }
+        }
+    }
+}
+
