@@ -33,16 +33,18 @@ export default function Responsible() {
         }
     }
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
+        <>
             <h1>Informações Cadastrais</h1>
-            <div style={{ width: 'max(290px, 50%)' }}>
-                <InputForm control={control} name="name" label="nome" />
-                <InputForm control={control} name="email" label="email" />
-                <InputForm control={control} name="phone" label="telefone" transform={(e) => formatTelephone(e.target.value)} />
-                <InputForm control={control} name="CPF" label="CPF" transform={(e) => formatCPF(e.target.value)} />
-                <InputForm control={control} name="password" label="senha" type="password" />
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
+                <div style={{ width: 'max(290px, 50%)' }}>
+                    <InputForm control={control} name="name" label="nome" />
+                    <InputForm control={control} name="email" label="email" />
+                    <InputForm control={control} name="phone" label="telefone" transform={(e) => formatTelephone(e.target.value)} />
+                    <InputForm control={control} name="CPF" label="CPF" transform={(e) => formatCPF(e.target.value)} />
+                    <InputForm control={control} name="password" label="senha" type="password" />
+                </div>
+                <ButtonBase label={'cadastrar'} onClick={handleSubmit} />
             </div>
-            <ButtonBase label={'cadastrar'} onClick={handleSubmit} />
-        </div>
+        </>
     )
 }

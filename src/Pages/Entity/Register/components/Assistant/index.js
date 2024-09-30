@@ -34,22 +34,25 @@ export default function Assistant() {
         }
     }
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
+        <>
             <h1>Informações Cadastrais</h1>
-            <div style={{ width: 'max(290px, 50%)' }}>
-                <InputForm control={control} label={'nome'} name={"name"} />
-                <InputForm control={control} label={'email'} name={"email"} />
-                <InputForm control={control} label={'celular'} name={"phone"} transform={(e) => formatTelephone(e.target.value)} />
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '20px', }}>
-                    <InputForm control={control} label={'CPF'} name={"CPF"} />
-                    <InputForm control={control} label={'RG'} name={"RG"} />
+
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
+                <div style={{ width: 'max(290px, 50%)' }}>
+                    <InputForm control={control} label={'nome'} name={"name"} />
+                    <InputForm control={control} label={'email'} name={"email"} />
+                    <InputForm control={control} label={'celular'} name={"phone"} transform={(e) => formatTelephone(e.target.value)} />
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '20px', }}>
+                        <InputForm control={control} label={'CPF'} name={"CPF"} />
+                        <InputForm control={control} label={'RG'} name={"RG"} />
+                    </div>
+                    <InputForm control={control} label={'CRESS'} name={"CRESS"} />
+                    <InputForm control={control} label={'senha'} name={"password"} type="password" />
+
                 </div>
-                <InputForm control={control} label={'CRESS'} name={"CRESS"} />
-                <InputForm control={control} label={'senha'} name={"password"} type="password" />
-
+                <ButtonBase label={'cadastrar'} onClick={handleSubmit} />
             </div>
-            <ButtonBase label={'cadastrar'} onClick={handleSubmit} />
-        </div>
 
+        </>
     )
 }

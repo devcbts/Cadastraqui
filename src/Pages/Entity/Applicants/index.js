@@ -26,7 +26,7 @@ export default function EntityApplicants() {
     return (
         <>
             <Loader loading={isLoading} />
-            <h1>Matriculados</h1>
+            <h1 style={{ marginBottom: '24px' }}>Matriculados</h1>
             <Table.Root headers={['edital', 'total de vagas', 'vigência', 'ação']}>
                 {announcements?.map(e => (
                     <Table.Row key={e.id}>

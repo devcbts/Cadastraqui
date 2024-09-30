@@ -7,6 +7,7 @@ import InputForm from "Components/InputForm";
 import useControlForm from "hooks/useControlForm";
 import CRITERIAS from "utils/enums/criterias";
 import announcementFinishSchema from "./schemas/announcement-finish-schema";
+import findLabel from "utils/enums/helpers/findLabel";
 
 export default function AnnouncementFinish({ data, onPageChange, onSubmit }) {
     const { control, watch, formState: { isValid }, trigger, getValues } = useControlForm({
@@ -27,25 +28,36 @@ export default function AnnouncementFinish({ data, onPageChange, onSubmit }) {
         onSubmit({ ...data, ...values })
     }
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
+        <>
             <BackPageTitle title={'Finalizar Cadastro'} onClick={() => onPageChange(-1)} />
-            <div>
-                <FormSelect
-                    multiple
-                    label={'Selecione a ordem de prioridade para avaliação dos candidatos'}
-                    name={"criteria"}
-                    control={control}
-                    options={CRITERIAS}
-                    value={watch("criteria")} />
-                <FormFilePicker control={control} name={"file"} accept={'application/pdf'} label={'PDF do Edital, Termo aditivo ou Comunicados'} />
-                <FilePreview file={watch("file")} text={'ver documento anexado'} />
-                <InputForm
-                    control={control}
-                    label={'descrição (opcional)'}
-                    name="description"
-                />
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
+                <div>
+                    <FormSelect
+                        multiple
+                        label={'Selecione a ordem de prioridade para avaliação dos candidatos'}
+                        name={"criteria"}
+                        control={control}
+                        options={CRITERIAS}
+                        value={watch("criteria")} />
+                    {
+                        watch("criteria").length !== 0 && (
+                            <ul>
+                                {watch("criteria").map((e, i) => (
+                                    <li>{`${i + 1}º - ${findLabel(CRITERIAS, e)}`}</li>
+                                ))}
+                            </ul>
+                        )
+                    }
+                    <FormFilePicker control={control} name={"file"} accept={'application/pdf'} label={'PDF do Edital, Termo aditivo ou Comunicados'} />
+                    <FilePreview file={watch("file")} text={'ver documento anexado'} />
+                    <InputForm
+                        control={control}
+                        label={'descrição (opcional)'}
+                        name="description"
+                    />
+                </div>
+                <ButtonBase label={'cadastrar'} onClick={handleSubmit} />
             </div>
-            <ButtonBase label={'cadastrar'} onClick={handleSubmit} />
-        </div>
+        </>
     )
 }

@@ -42,7 +42,7 @@ export default function EntityAnnouncement() {
                     {
                         announcements.map((announcement) => (
                             <Table.Row>
-                                <Table.Cell>{announcement.announcementName}</Table.Cell>
+                                <Table.Cell align="left">{announcement.announcementName}</Table.Cell>
                                 <Table.Cell>{announcement.verifiedScholarships}</Table.Cell>
                                 <Table.Cell>{formatDate(announcement.announcementDate)}</Table.Cell>
                                 <Table.Cell>
