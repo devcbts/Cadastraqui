@@ -40,15 +40,9 @@ export default function AssistantManagerAnnouncementReports() {
                     <div>
                         <h3>Relatórios</h3>
                         <div style={{ display: 'flex', flexDirection: 'row', gap: '24px', marginTop: '32px' }}>
-                            <Card.Root onClick={() => handleChangeReportType('default')}>
-                                <Card.Title text={'geral ou parcial'} />
-                            </Card.Root>
-                            <Card.Root onClick={() => handleChangeReportType('nominal')}>
-                                <Card.Title text={'nominal de bolsistas'} />
-                            </Card.Root>
-                            <Card.Root onClick={() => handleChangeReportType('benefits')}>
-                                <Card.Title text={'tipo de benefícios'} />
-                            </Card.Root>
+                            <Card onClick={() => handleChangeReportType('default')} title={'geral ou parcial'} />
+                            <Card onClick={() => handleChangeReportType('nominal')} title={'nominal de bolsistas'} />
+                            <Card onClick={() => handleChangeReportType('benefits')} title={'tipo de benefícios'} />
                         </div>
                     </div>
                 )

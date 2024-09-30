@@ -11,7 +11,7 @@ const SelectBase = forwardRef(({ label, error, ...props }, ref) => {
     return (
         <div className={inputBaseStyles.container}>
             <div className={inputBaseStyles.inputwrapper}>
-                <label className={inputBaseStyles.label} htmlFor={`${id}-${label}`} >{label}</label>
+                {label && <label className={inputBaseStyles.label} htmlFor={`${id}-${label}`} >{label}</label>}
                 <div className={inputBaseStyles.inputbox}>
                     <ReactSelect
                         inputId={`${id}-${label}`}
@@ -28,7 +28,7 @@ const SelectBase = forwardRef(({ label, error, ...props }, ref) => {
                                 }
                             }),
                             container: (style) => ({ ...style, outline: "none", paddingRight: "-2px", }),
-
+                            menu: (style) => ({ ...style, borderRadius: '12px', overflow: 'hidden' }),
                             control: (style) => ({
                                 display: 'flex',
                                 flexDirection: 'row',
@@ -43,6 +43,8 @@ const SelectBase = forwardRef(({ label, error, ...props }, ref) => {
                                     outline: "none"
 
                                 },
+
+                                ":active": { borderColor: '#1F4B73' },
                                 border: `1px solid ${borderStyle}`,
                                 outline: "none", borderRadius: "8px", paddingRight: paddingStyle ? '28px' : '0'
                             }),

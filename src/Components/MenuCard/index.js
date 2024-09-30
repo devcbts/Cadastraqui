@@ -9,7 +9,8 @@ export default function MenuCard({
         <div style={{
             height: '180px', width: 'min(80%,180px)', cursor: 'pointer',
             display: 'flex', flexDirection: 'column', backgroundColor: '#1F4B73', borderRadius: '8px',
-            color: 'white', padding: '16px', justifyContent: 'space-between', alignItems: 'center', ...style
+            color: 'white', padding: '16px', justifyContent: 'space-between', alignItems: 'center',
+            ...style
         }}
             onClick={onClick}
         >

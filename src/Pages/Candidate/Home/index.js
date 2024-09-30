@@ -28,50 +28,30 @@ export default function HomeCandidate() {
             <div className={styles.informative}>
                 <div className={styles.column}>
                     <div className={styles.row}>
-                        <Card.Root >
-                            <Card.Title text={'suas inscrições'} />
-                            <Card.Content>
-                                <h1>{data.subscriptions}</h1>
-                            </Card.Content>
-                        </Card.Root>
-                        <Card.Root onClick={() => navigate('/solicitacoes')}>
-                            <Card.Title text={'solicitações'} />
-                            <Card.Content>
-                                <h1>{data.pendencies}</h1>
-                            </Card.Content>
-                        </Card.Root>
-                        <Card.Root onClick={() => navigate('editais')}>
-                            <Card.Title text={'editais do candidato'} />
-                            <Card.Content>
-                                <h1>{data.announcements}</h1>
-                            </Card.Content>
-                        </Card.Root>
+                        <Card title={'suas inscrições'}>
+                            {data.subscriptions}
+                        </Card>
+                        <Card onClick={() => navigate('/solicitacoes')} title={'solicitações'}>
+                            {data.pendencies}
+
+                        </Card>
+                        <Card onClick={() => navigate('editais')} title={'editais do candidato'}>
+                            {data.announcements}
+                        </Card>
                     </div>
                     <div className={styles.row}>
-                        <Card.Root >
-                            <Card.Title text={'despesa média mensal'} />
-                            <Card.Content>
-                                <h3>{formatMoney(data.avgExpense)}</h3>
-                            </Card.Content>
-                        </Card.Root>
-                        <Card.Root >
-                            <Card.Title text={'renda média familiar mensal'} />
-                            <Card.Content>
-                                <h3>{formatMoney(data.familyIncome)}</h3>
-                            </Card.Content>
-                        </Card.Root>
-                        <Card.Root >
-                            <Card.Title text={'salário mínimo nacional'} />
-                            <Card.Content>
-                                <h3>{formatMoney(1412)}</h3>
-                            </Card.Content>
-                        </Card.Root>
-                        {/* <Card.Root width={230}>
-                            <Card.Title text={'elegível a bolsa'} />
-                            <Card.Content>
-                                <h3>Integral</h3>
-                            </Card.Content>
-                        </Card.Root> */}
+                        <Card title={'despesa média mensal'}>
+
+                            {formatMoney(data.avgExpense)}
+
+                        </Card>
+                        <Card title={'renda média familiar mensal'}>
+                            {formatMoney(data.familyIncome)}
+                        </Card>
+                        <Card title={'salário mínimo nacional'}>
+                            {formatMoney(1412)}
+                        </Card>
+
                     </div>
                 </div>
                 <SubscriptionStatus />

@@ -39,18 +39,17 @@ export default function SelectionProcess() {
             <Loader loading={isLoading} />
             <h1>Processo de Seleção</h1>
             <div className={styles.selection}>
-                <span>Editais com atuação</span>
+                <h3>Editais com atuação</h3>
                 <SelectBase options={filter} value={selection} onChange={handleSelection} error={null} />
             </div>
             {!!selection?.value && (
                 announcements.length ?
-                    (<div>
-                        <span>Editais - {selection.label}</span>
-                        <Table.Root headers={['entidade', 'edital', 'total de vagas', 'concluído?', 'ações']}>
+                    (<div style={{ marginTop: '24px' }}>
+                        <Table.Root title={`Editais - ${selection.label}`} headers={['entidade', 'edital', 'total de vagas', 'concluído?', 'ações']}>
                             {
                                 announcements.map((announcement) => (
                                     <Table.Row>
-                                        <Table.Cell>{announcement.entity}</Table.Cell>
+                                        <Table.Cell align="left">{announcement.entity}</Table.Cell>
                                         <Table.Cell>{announcement.name}</Table.Cell>
                                         <Table.Cell>{announcement.vacancies}</Table.Cell>
                                         <Table.Cell>{announcement.finished ? 'Sim' : 'Não'}</Table.Cell>

@@ -29,12 +29,8 @@ export default function AdminAccounts() {
                     <h1>Gestão de Contas</h1>
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '32px', margin: '24px' }}>
 
-                        <Card.Root onClick={() => handleChangeAccountType("entity")}>
-                            <Card.Header >Contas de instituições</Card.Header>
-                        </Card.Root>
-                        <Card.Root onClick={() => handleChangeAccountType("user")}>
-                            <Card.Header>Contas de usuários</Card.Header>
-                        </Card.Root>
+                        <Card onClick={() => handleChangeAccountType("entity")} title={'Contas de instituições'} />
+                        <Card onClick={() => handleChangeAccountType("user")} title={'Contas de usuários'} />
                     </div>
                 </>
             }

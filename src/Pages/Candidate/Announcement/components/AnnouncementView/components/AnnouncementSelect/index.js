@@ -90,46 +90,28 @@ export default function AnnouncementSelect({ announcement }) {
                                     <span>Endereço: {announcementCourse?.address} </span>
                                     <span>Email: {announcementCourse?.email}</span>
                                 </div>
-                                <Card.Root width="230px">
-                                    <Card.Title text={'curso/série pretendida'} />
-                                    <Card.Content>
-                                        <span>{announcementCourse?.availableCourses ?? announcementCourse?.grade}</span>
-                                    </Card.Content>
-                                </Card.Root>
+                                <Card title={'curso/série pretendida'}>
+
+                                    {announcementCourse?.availableCourses ?? announcementCourse?.grade}
+
+                                </Card>
                                 <div className={styles.cards}>
-                                    <Card.Root width="230px">
-                                        <Card.Title text={'vagas'} />
-                                        <Card.Content>
-                                            <span>{announcementCourse?.verifiedScholarships}</span>
-                                        </Card.Content>
-                                    </Card.Root>
-                                    {/* <Card.Root width="230px">
-                                        <Card.Title text={'semestre'} />
-                                        <Card.Content>
-                                            <span>{announcementCourse?.semester}</span>
-                                        </Card.Content>
-                                    </Card.Root> */}
-                                    <Card.Root width="230px">
-                                        <Card.Title text={'turno'} />
-                                        <Card.Content>
-                                            <span>{announcementCourse?.shift}</span>
-                                        </Card.Content>
-                                    </Card.Root>
-                                    <Card.Root width="230px">
-                                        <Card.Title text={'tipo de educação'} />
-                                        <Card.Content>
-                                            <span>{EDUCATION_TYPE.find(e => e.value === announcementCourse?.level)?.label}</span>
-                                        </Card.Content>
-                                    </Card.Root>
-                                    <Card.Root width="230px">
-                                        <Card.Title text={'bolsa'} />
-                                        <Card.Content>
-                                            <span>{
-                                                findLabel(SCHOLARSHIP_TYPE, announcementCourse?.higherEduScholarshipType)
-                                                ?? findLabel(SCHOLARSHIP_OFFER, announcementCourse?.scholarshipType)
-                                            }</span>
-                                        </Card.Content>
-                                    </Card.Root>
+                                    <Card title={'vagas'}>
+                                        {announcementCourse?.verifiedScholarships}
+                                    </Card>
+
+                                    <Card title={'turno'}>
+                                        {announcementCourse?.shift}
+                                    </Card>
+                                    <Card title={'tipo de educação'}>
+                                        {EDUCATION_TYPE.find(e => e.value === announcementCourse?.level)?.label}
+                                    </Card>
+                                    <Card title={'bolsa'}>
+                                        {
+                                            findLabel(SCHOLARSHIP_TYPE, announcementCourse?.higherEduScholarshipType)
+                                            ?? findLabel(SCHOLARSHIP_OFFER, announcementCourse?.scholarshipType)
+                                        }
+                                    </Card>
                                 </div>
                             </div>
                             <ButtonBase label={'inscrição'} onClick={() => move('START_SUB')} />

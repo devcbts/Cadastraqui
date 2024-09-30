@@ -9,11 +9,12 @@
         // font-size: 1em;
     }
     .selection{
+        margin-top: 24px;
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: baseline;
         gap: 24px;
-        width: 40%;
+        // width: 40%;
         @media(max-width:1300px){
             width: 70%;
             font-size: 14px;
@@ -23,9 +24,9 @@
             gap: 0px;
             width: 100%;
             font-size: 14px;
-        }
-        >div{
-            flex-grow: 1;
+        }   
+        :last-child{
+            max-width: 400px;
         }
     }
 }

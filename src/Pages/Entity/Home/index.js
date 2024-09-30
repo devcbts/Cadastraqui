@@ -21,24 +21,18 @@ export default function EntityHome() {
         <div>
             <h1>Início</h1>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', flexWrap: 'wrap', gap: '20px' }}>
-                <Card.Root width="clamp(160px,230px,20%)">
-                    <Card.Title text={'editais abertos'}></Card.Title>
-                    <Card.Content>
-                        {data?.announcements}
-                    </Card.Content>
-                </Card.Root>
-                <Card.Root width="clamp(160px,230px,20%)">
-                    <Card.Title text={'vagas abertas'}></Card.Title>
-                    <Card.Content>
-                        {data?.vacancies}
-                    </Card.Content>
-                </Card.Root>
-                <Card.Root width="clamp(160px,230px,20%)">
-                    <Card.Title text={'candidatos inscritos'}></Card.Title>
-                    <Card.Content>
-                        {data?.subscriptions}
-                    </Card.Content>
-                </Card.Root>
+                <Card title={'editais abertos'}>
+
+                    {data?.announcements}
+                </Card>
+                <Card title={'vagas abertas'}>
+
+                    {data?.vacancies}
+                </Card>
+                <Card title={'candidatos inscritos'}>
+
+                    {data?.subscriptions}
+                </Card>
             </div>
             <div>
                 <h3>Distribuição por unidade</h3>

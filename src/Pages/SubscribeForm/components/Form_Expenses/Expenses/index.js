@@ -115,13 +115,11 @@ const Expenses = forwardRef(({ data }, ref) => {
     }, [data])
     return (
         <div className={styles.container}>
-            <Card.Root >
-                <Card.Title text={'soma das despesas do mês'} />
-                <Card.Content>
-                    {watchValue('totalExpense')}
-                </Card.Content>
-            </Card.Root>
-            <Table.Root headers={['descrição', 'valor', 'não se aplica', 'justificativa']}>
+            <Card title={'soma das despesas do mês'}>
+
+                {watchValue('totalExpense')}
+            </Card>
+            <Table headers={['descrição', 'valor', 'não se aplica', 'justificativa']}>
                 {expenseDescriptionAndField.map((e) => {
                     return (
                         <Table.Row key={e.field}>
@@ -155,7 +153,7 @@ const Expenses = forwardRef(({ data }, ref) => {
                         </Table.Cell>
                     </Table.Row>
                 ))}
-            </Table.Root>
+            </Table>
 
         </div>
     )
