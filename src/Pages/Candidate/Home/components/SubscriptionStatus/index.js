@@ -63,7 +63,9 @@ export default function SubscriptionStatus() {
                     </PieChart>
 
                 </div>
-                <span>Situação do cadastro: {percentage < 100 ? 'Incompleto' : 'Completo'}</span>
+                <span>Situação do cadastro:
+                    <strong> {percentage < 100 ? 'Incompleto' : 'Completo'} </strong>
+                </span>
             </div>
             <div className={styles.registerinfo}>
                 <div className={styles.registerdesc}>

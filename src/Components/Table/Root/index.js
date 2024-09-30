@@ -2,7 +2,7 @@ import styles from './styles.module.scss'
 export default function TableRoot({ headers = [], title, children }) {
     return (
         <>
-            {title && <h3>{title}</h3>}
+            {title && <h3 className={styles.title}>{title}</h3>}
             <table className={styles.container}>
                 {
                     typeof headers !== 'number' &&

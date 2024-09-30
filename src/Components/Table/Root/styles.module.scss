@@ -21,6 +21,11 @@
    }
    
 }
+.title{
+    &::first-letter{
+        text-transform: capitalize;
+    }
+   }
 /* Estilo das células */
 td, th {
     padding: 8px;
