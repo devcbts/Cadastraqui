@@ -15,13 +15,13 @@ import findLabel from "utils/enums/helpers/findLabel";
 // announcementBegin - announcement start date
 // openDate - subscription start
 // closeDate - subscription end
-export default function AnnouncementInfo({ data, announcementType = "ScholarshipGrant", onPageChange }) {
+export default function AnnouncementInfo({ data, announcementType = "ScholarshipGrant", educationType, onPageChange }) {
     const interviewRef = useRef(null)
     const { control, getValues, formState: { isValid }, trigger, setValue } = useControlForm({
         schema: announcementInfoSchema,
         defaultValues: {
             announcementType: announcementType,
-            educationLevel: "",
+            educationLevel: educationType ?? "",
             openDate: "",
             closeDate: "",
             announcementDate: "",
@@ -57,7 +57,10 @@ export default function AnnouncementInfo({ data, announcementType = "Scholarship
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
                 <div style={{ width: 'max(290px, 50%)' }}>
                     <FormSelect control={control} name={"announcementType"} label={'tipo do edital'} options={ANNOUNCEMENT_TYPE} value={watch.announcementType} />
-                    <FormSelect control={control} name={"educationLevel"} label={'nível de ensino'} options={EDUCATION_TYPE} value={watch.educationLevel} />
+                    {
+                        !!educationType
+                            ? <InputBase label={'nível de ensino'} value={findLabel(EDUCATION_TYPE, educationType)} error={null} disabled />
+                            : <FormSelect control={control} name={"educationLevel"} label={'nível de ensino'} options={EDUCATION_TYPE} value={watch.educationLevel} />}
                     <InputForm control={control} name={"announcementName"} label={'nome do edital'} />
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>
                         <InputForm control={control} name={"announcementBegin"} label={'data de abertura do edital'} type="date" />

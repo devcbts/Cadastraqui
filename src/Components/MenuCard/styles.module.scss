@@ -46,7 +46,7 @@
             }
         }
         .description{
-            @include animate(show-description,.7s,ease-in-out, forwards)
+            @include animate(show-description,.3s,ease-in-out, forwards)
         }
 
        
@@ -66,11 +66,11 @@
         border: 1px solid $primary;
         font-weight: 500;
         text-align: center;
+        height: 60%;
         @include keyframes(show-description){
             to{
                 transform: translateY(0);
                 visibility: visible;
-                // height: 50%;
             }
         }
 

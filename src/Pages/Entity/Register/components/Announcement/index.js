@@ -7,7 +7,7 @@ import AnnouncementAssist from "./components/AnnouncementAssist"
 import AnnouncementFinish from "./components/AnnouncementFinish"
 import { NotificationService } from "services/notification"
 
-export default function Announcement({ announcementType }) {
+export default function Announcement({ announcementType, educationType = null }) {
     const [page, setPage] = useState(1)
     const [data, setData] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
@@ -65,7 +65,12 @@ export default function Announcement({ announcementType }) {
     return (
         <>
             <Loader loading={isLoading} />
-            {page === 1 && <AnnouncementInfo announcementType={announcementType} data={data} onPageChange={handlePageChange} />}
+            {page === 1 && <AnnouncementInfo
+                announcementType={announcementType}
+                educationType={educationType}
+                data={data}
+                onPageChange={handlePageChange}
+            />}
             {page === 2 && <AnnouncementCourses data={data} allCourses={courses} entity={entity} onPageChange={handlePageChange} />}
             {page === 3 && <AnnouncementAssist data={data} onPageChange={handlePageChange} />}
             {page === 4 && <AnnouncementFinish data={data} onPageChange={handlePageChange} onSubmit={handleSubmit} />}

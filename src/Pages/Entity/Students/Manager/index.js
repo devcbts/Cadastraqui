@@ -11,8 +11,8 @@ export default function EntityStudentManager() {
             <BackPageTitle path={'/alunos'} title={'Gestão de alunos'} />
             <div style={{ display: 'flex', flexDirection: 'row', gap: '24px', padding: '64px 24px' }}>
 
-                <MenuCard Icon={StudentList} title={'Listagem'} onClick={() => navigate('lista')} />
-                <MenuCard Icon={NewStudent} title={'Cadastrar'} onClick={() => navigate('registro')} />
+                <MenuCard Icon={StudentList} title={'alunos'} onClick={() => navigate('lista')} description={'Visualize uma lista de todos os alunos'} />
+                <MenuCard Icon={NewStudent} title={'cadastro'} onClick={() => navigate('registro')} description={'Realize o cadastro de novos alunos'} />
 
             </div>
         </>
