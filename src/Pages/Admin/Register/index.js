@@ -32,7 +32,7 @@ export default function AdminRegister() {
     return (
         <>
             <Loader loading={isLoading} />
-            <h1>Cadastro</h1>
+            {/* <h1>Cadastro</h1> */}
             {page === 1 && <EntityInfo data={data} onPageChange={handlePageChange} />}
             {page === 2 && <EntityAddress data={data} onPageChange={handlePageChange} />}
             {page === 3 && <Confirmation data={data} onPageChange={handlePageChange} onSubmit={handleSubmit} />}
