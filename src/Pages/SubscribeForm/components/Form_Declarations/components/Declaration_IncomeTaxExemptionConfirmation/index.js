@@ -16,6 +16,7 @@ export default function Declaration_IncomeTaxExemptionConfirmation({ onBack, onN
     const [declarationData, setDeclarationData] = useRecoilState(declarationAtom);
     const [error, setError] = useState('');
     const identityDetails = declarationData?.IdentityDetails
+    const year = new Date().getFullYear()
     useEffect(() => {
         if (declarationData.incomeTaxDetails) {
             setIncomeTaxDetails(declarationData.incomeTaxDetails)
@@ -43,7 +44,7 @@ UF do órgão emissor ${identityDetails.rgIssuingState}, CPF n° ${identityDetai
 estado civil ${findLabel(MARITAL_STATUS, identityDetails.maritalStatus)}, profissão ${identityDetails.profession}, residente na rua ${identityDetails.address}, \
 n° ${identityDetails.addressNumber}, complemento ${identityDetails.complement}, CEP: ${identityDetails.CEP}, bairro ${identityDetails.neighborhood}, \
 cidade ${identityDetails.city}, UF ${identityDetails.UF}, e-mail: ${identityDetails.email}, \
-DECLARO SER ISENTO(A) da apresentação da Declaração do Imposto de Renda Pessoa Física (DIRPF) no(s) exercício(s) ${incomeTaxDetails.year}. \
+DECLARO SER ISENTO(A) da apresentação da Declaração do Imposto de Renda Pessoa Física (DIRPF) no(s) exercício(s) ${year}. \
 por não incorrer em nenhuma das hipóteses de obrigatoriedade estabelecidas pelas Instruções Normativas (IN) da Receita Federal do Brasil (RFB). \
 Esta declaração está em conformidade com a IN RFB n° 1548/2015 e a Lei n° 7.115/83. Declaro ainda, sob as penas da lei, \
 serem verdadeiras todas as informações acima prestadas. \
@@ -96,7 +97,7 @@ serem verdadeiras todas as informações acima prestadas. \
                     complemento <b>{identityDetails.complement}</b>, CEP: <b>{identityDetails.CEP}</b>, bairro <b>{identityDetails.neighborhood}</b>,
                     cidade <b>{identityDetails.city}</b>, UF <b>{identityDetails.UF}</b>, e-mail: <b>{identityDetails.email}</b>,
                     DECLARO SER ISENTO(A) da apresentação da Declaração do Imposto de Renda Pessoa Física (DIRPF)
-                    no(s) exercício(s) <b>{incomeTaxDetails.year}</b> por não incorrer em nenhuma das hipóteses de obrigatoriedade estabelecidas pelas Instruções
+                    no(s) exercício(s) <b>{year}</b> por não incorrer em nenhuma das hipóteses de obrigatoriedade estabelecidas pelas Instruções
                     Normativas (IN) da Receita Federal do Brasil (RFB). Esta declaração está em conformidade com a IN RFB n° 1548/2015 e a Lei n° 7.115/83.
                     Declaro ainda, sob as penas da lei, serem verdadeiras todas as informações acima prestadas.
                 </p>

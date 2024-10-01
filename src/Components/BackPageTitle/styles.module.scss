@@ -1,5 +1,7 @@
 .title {
-    /* text-transform: capitalize; */
+    &::first-letter{
+        text-transform: capitalize;
+    }
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -8,13 +10,13 @@
     svg {
         cursor: pointer;
     }
-
+    margin-bottom: 24px;
     h1 {
         display: flex;
         align-items: center;
         justify-content: center;
         width: fit-content;
-        font-size: x-large;
+        // font-size: x-large;
 
     }
 }

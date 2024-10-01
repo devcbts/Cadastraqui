@@ -3,7 +3,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-
+    &::first-letter{
+        text-transform: capitalize;
+    }
     /* text-transform: capitalize; */
     button {
         scale: .8

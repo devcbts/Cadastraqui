@@ -15,7 +15,6 @@
 .inputwrapper {
     display: flex;
     flex-direction: column;
-
     @media(max-width:400px) {
         min-width: 250px;
     }
@@ -40,10 +39,11 @@
 
     .inputbox {
         position: relative;
-
+        
         .input {
             outline: none;
             padding: 6px 38px 6px 8px;
+            height: 35px;
             // padding: 6px 8px 6px 8px;
             border: 1px solid $lightgrey;
             border-radius: 8px;
@@ -52,7 +52,7 @@
             font-size: 14px;
             width: 100%;
             // max-width: 600px;
-
+            
             @media(max-width:400px) {
                 font-size: 12px;
             }

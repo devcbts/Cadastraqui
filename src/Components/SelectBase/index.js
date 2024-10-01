@@ -11,7 +11,7 @@ const SelectBase = forwardRef(({ label, error, ...props }, ref) => {
     return (
         <div className={inputBaseStyles.container}>
             <div className={inputBaseStyles.inputwrapper}>
-                <label className={inputBaseStyles.label} htmlFor={`${id}-${label}`} >{label}</label>
+                {label && <label className={inputBaseStyles.label} htmlFor={`${id}-${label}`} >{label}</label>}
                 <div className={inputBaseStyles.inputbox}>
                     <ReactSelect
                         inputId={`${id}-${label}`}
@@ -20,8 +20,34 @@ const SelectBase = forwardRef(({ label, error, ...props }, ref) => {
                         placeholder="Selecione"
                         isMulti={props.multiple}
                         styles={{
-                            container: (style) => ({ ...style, outline: "none", paddingRight: "-2px" }),
-                            control: (style) => ({ ...style, border: `1px solid ${borderStyle}`, outline: "none", borderRadius: "8px", paddingRight: paddingStyle ? '28px' : '0' }),
+                            option: (style, { isSelected }) => ({
+                                ...style, backgroundColor: isSelected ? "#1F4B73" : "",
+                                ":hover": {
+                                    backgroundColor: "#cfcfcf",
+                                    color: "#1F4B73"
+                                }
+                            }),
+                            container: (style) => ({ ...style, outline: "none", paddingRight: "-2px", }),
+                            menu: (style) => ({ ...style, borderRadius: '12px', overflow: 'hidden' }),
+                            control: (style) => ({
+                                display: 'flex',
+                                flexDirection: 'row',
+                                height: '35px',
+                                fontSize: '14px',
+                                ":focus-visible": {
+                                    border: `1px solid ${borderStyle}`,
+                                    outline: "none"
+                                },
+                                ":hover": {
+                                    border: `1px solid ${borderStyle}`,
+                                    outline: "none"
+
+                                },
+
+                                ":active": { borderColor: '#1F4B73' },
+                                border: `1px solid ${borderStyle}`,
+                                outline: "none", borderRadius: "8px", paddingRight: paddingStyle ? '28px' : '0'
+                            }),
                         }}
                         {...props}
                     />

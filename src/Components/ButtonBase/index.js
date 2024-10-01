@@ -36,7 +36,7 @@ export default function ButtonBase({
             type={props.type ?? "button"}
         >
             {isLoading ? <Spinner size='20' />
-                : children ?? label
+                : children ?? <span>{label}</span>
             }
 
         </button>

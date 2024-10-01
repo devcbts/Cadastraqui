@@ -4,7 +4,7 @@
     border-collapse: collapse;
     background: none !important;
     border: none;
-    text-align: center;
+    // text-align: center;
     color: $primary;
     font-size: 14px;
     font-weight: 500;
@@ -20,8 +20,8 @@
         flex-direction: row;
         gap: 4px;
         align-items: center;
-        justify-content: center;
-
+        // justify-content: center;
+        // flex-grow: 1;
         button {
             font-size: 12px;
             align-items: center;

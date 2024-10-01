@@ -1,6 +1,8 @@
 .container{
     text-align: center;
-    text-transform: capitalize;
+    &::first-letter{
+        text-transform: capitalize;
+    }
     span{
         font-size: 13px;
         text-wrap: nowrap;

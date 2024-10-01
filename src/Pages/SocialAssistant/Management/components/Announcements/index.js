@@ -36,26 +36,30 @@ export default function AssistantManagementAnnouncements() {
             <Loader loading={isLoading} />
             <BackPageTitle title={'Gerencial Administrativo'} path={'/gerencial'} />
             <div className={styles.container}>
-                {!state?.isUnit
-                    ? (
-                        <div className={styles.selection}>
-                            <h3>Filtrar por</h3>
-                            <SelectBase
-                                options={filter}
-                                value={selection}
-                                onChange={setSelection}
-                                error={null}
-                            />
-                        </div>
-                    )
-                    : <>Editais - Fase de avaliação finalizada</>
+                {(
+                    <div className={styles.selection}>
+                        {!state?.isUnit ?
+                            <>
+                                <h3>Filtrar por</h3>
+                                <SelectBase
+                                    options={filter}
+                                    value={selection}
+                                    onChange={setSelection}
+                                    error={null}
+                                />
+                            </>
+
+                            : <h3>Editais - Fase de avaliação finalizada</h3>
+                        }
+                    </div>
+                )
                 }
                 {announcements.length > 0
                     ? <Table.Root headers={['edital', 'entidade', 'ações']}>
                         {
                             announcements.map((e) => (
                                 <Table.Row>
-                                    <Table.Cell>{e.name}</Table.Cell>
+                                    <Table.Cell align="start">{e.name}</Table.Cell>
                                     <Table.Cell>{e.entity}</Table.Cell>
                                     <Table.Cell>
                                         <ButtonBase label={'visualizar'} onClick={() => navigate(e.id, { state })} />

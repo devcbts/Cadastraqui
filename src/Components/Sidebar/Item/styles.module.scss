@@ -8,6 +8,7 @@
     align-items: center;
     padding: 4px 5px;
     border-radius: 8px;
+    font-weight: 600;
     @media(max-width:600px){
         justify-content: center;
     }
@@ -23,7 +24,9 @@
     .text{
         text-align: start;
         margin-left: 24px;
-        text-transform: capitalize;
+        &::first-letter{
+            text-transform: capitalize;
+        }
         font-size: 16px;
         @media(max-width:879px){
             margin-left: 10px;

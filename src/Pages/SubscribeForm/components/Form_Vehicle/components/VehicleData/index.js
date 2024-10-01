@@ -66,7 +66,7 @@ const VehicleData = forwardRef(({ data }, ref) => {
             <FormSelect name="vehicleType" label="tipo de veículo" control={control} options={VEHICLE_TYPE} value={watchVehicleType} />
             <InputForm control={control} name="modelAndBrand" label="marca e modelo" />
             <InputForm control={control} name="plate" label="Placa" />
-            <InputForm control={control} name="document" label="Renavam" />
+            <InputForm control={control} name="document" label="Renavam" maxlength={11} />
             <InputForm control={control} name="manufacturingYear" label="ano de fabricação" transform={(e) => {
                 if (!isNaN(parseInt(e.target.value))) {
                     return parseInt(e.target.value, 10)

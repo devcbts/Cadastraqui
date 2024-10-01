@@ -23,9 +23,8 @@ export default function CandidateRequest() {
     return (
         <div>
             <Loader loading={isLoading} />
-            <h1>Solicitações</h1>
-            <h3>Candidaturas</h3>
-            <Table.Root headers={['inscrição', 'nome completo', 'entidade', 'edital', 'pendências', 'status', 'ações']}>
+            <h1 style={{ marginBottom: '24px' }}>Solicitações</h1>
+            <Table.Root title={'candidaturas'} headers={['inscrição', 'nome completo', 'entidade', 'edital', 'pendências', 'status', 'ações']}>
                 {data?.map((request) => {
                     return (
                         <Table.Row>

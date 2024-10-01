@@ -34,24 +34,16 @@ export default function EntityDashboardStudents() {
             <div style={{ display: 'flex', flexDirection: 'column', padding: '24px', gap: '64px' }}>
 
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                    <Card.Root >
-                        <Card.Title text={'total de bolsistas'} />
-                        <Card.Content >
-                            <h3>{data?.count}</h3>
-                        </Card.Content>
-                    </Card.Root>
-                    <Card.Root >
-                        <Card.Title text={'bolsas integrais'} />
-                        <Card.Content >
-                            <h3>{data?.scholarshipPartial}</h3>
-                        </Card.Content>
-                    </Card.Root>
-                    <Card.Root >
-                        <Card.Title text={'bolsas parciais'} />
-                        <Card.Content >
-                            <h3>{data?.scholarshipTotal}</h3>
-                        </Card.Content>
-                    </Card.Root>
+                    <Card title={'total de bolsistas'}>
+                        {data?.count}
+                    </Card>
+                    <Card title={'bolsas integrais'}>
+
+                        {data?.scholarshipPartial}
+                    </Card>
+                    <Card title={'bolsas parciais'}>
+                        {data?.scholarshipTotal}
+                    </Card>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '12px', }}>
                     <GraphCard title={'Distribuição por unidade'} >

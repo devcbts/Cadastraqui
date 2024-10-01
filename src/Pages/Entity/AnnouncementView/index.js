@@ -53,12 +53,9 @@ export default function EntityAnnouncementView() {
                     </span>
                     <span>Total de vagas: {announcement?.verifiedScholarships}</span>
                 </div>
-                <Card.Root>
-                    <Card.Title text={'candidatos inscritos'} />
-                    <Card.Content>
-                        <h1>{announcement?.Application.length}</h1>
-                    </Card.Content>
-                </Card.Root>
+                <Card title={'candidatos inscritos'}>
+                    {announcement?.Application.length}
+                </Card>
             </div>
             <SocialAssistantSelection assistants={announcement?.socialAssistant} announcementId={announcementId} />
             <Courses courses={announcement?.educationLevels} />

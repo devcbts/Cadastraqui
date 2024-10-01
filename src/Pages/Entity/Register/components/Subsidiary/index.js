@@ -62,24 +62,26 @@ export default function Subsidiary() {
 
     }, watchCnpj)
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
+        <>
             <h1>Informações Cadastrais</h1>
-            <div style={{ width: 'max(290px, 50%)' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px', }}>
-                    <InputForm control={control} name={"CNPJ"} label={"CNPJ"} transform={(e) => formatCNPJ(e.target.value)} />
-                    <InputForm control={control} name={"socialReason"} label={"razão social"} />
-                    <InputForm control={control} name={"name"} label={"nome fantasia (se houver)"} />
-                    <InputForm control={control} name={"CEP"} label={"CEP"} transform={(e) => formatCEP(e.target.value)} />
-                    <InputForm control={control} name={"address"} label={"rua"} />
-                    <InputForm control={control} name={"neighborhood"} label={"bairro"} />
-                    <InputForm control={control} name={"city"} label={"cidade"} />
-                    <FormSelect control={control} name={"UF"} label={"UF"} options={STATES} value={watchStates} />
-                    <InputForm control={control} name={"addressNumber"} label={"número"} />
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
+                <div style={{ width: 'max(290px, 50%)' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px', }}>
+                        <InputForm control={control} name={"CNPJ"} label={"CNPJ"} transform={(e) => formatCNPJ(e.target.value)} />
+                        <InputForm control={control} name={"socialReason"} label={"razão social"} />
+                        <InputForm control={control} name={"name"} label={"nome fantasia (se houver)"} />
+                        <InputForm control={control} name={"CEP"} label={"CEP"} transform={(e) => formatCEP(e.target.value)} />
+                        <InputForm control={control} name={"address"} label={"rua"} />
+                        <InputForm control={control} name={"neighborhood"} label={"bairro"} />
+                        <InputForm control={control} name={"city"} label={"cidade"} />
+                        <FormSelect control={control} name={"UF"} label={"UF"} options={STATES} value={watchStates} />
+                        <InputForm control={control} name={"addressNumber"} label={"número"} />
+                    </div>
+                    <InputForm control={control} name={"educationalInstitutionCode"} label={"código no educacenso/e-MEC"} />
+                    <InputForm control={control} name={"email"} label={"email institucional"} />
                 </div>
-                <InputForm control={control} name={"educationalInstitutionCode"} label={"código no educacenso/e-MEC"} />
-                <InputForm control={control} name={"email"} label={"email institucional"} />
+                <ButtonBase label={'cadastrar'} onClick={handleRegister} />
             </div>
-            <ButtonBase label={'cadastrar'} onClick={handleRegister} />
-        </div>
+        </>
     )
 }

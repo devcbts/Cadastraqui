@@ -41,53 +41,59 @@ export default function SubscriptionStatus() {
     }, 0)
     return (
         <div className={styles.container}>
-            <span>Situação do cadastro: {percentage < 100 ? 'Incompleto' : 'Completo'}</span>
-            <div className={styles.chartwrapper}>
-                <h1>Preenchimento do Cadastro</h1>
-                <div className={styles.chartdisplay}>
+            <div className={styles.progress}>
+
+                <div style={{ position: 'relative' }}>
+
+                    <span style={{ position: 'absolute', top: '50%', right: '50%', transform: 'translate(50%,-50%)' }}> {percentage}%</span>
+
+                    <PieChart width={100} height={100} title={`O cadastro está ${percentage}% concluído`} className={styles.graph}>
+                        <Pie
+                            data={data}
+                            dataKey={"value"}
+                            innerRadius={38}
+                            outerRadius={50}
+                            paddingAngle={0}
+                            startAngle={90}
+                            endAngle={(percentage * 3.6) + 90}
+                            fill='#1F4B73'
+                            direction={'right'}
+                        >
+                        </Pie>
+                    </PieChart>
+
+                </div>
+                <span>Situação do cadastro:
+                    <strong> {percentage < 100 ? 'Incompleto' : 'Completo'} </strong>
+                </span>
+            </div>
+            <div className={styles.registerinfo}>
+                <div className={styles.registerdesc}>
+                    <h1>Preenchimento do Cadastro</h1>
                     <span>Complete seu cadastro para se inscrever e começar a desfrutar de todos os benefícios de uma educação de qualidade!</span>
-                    <div style={{ position: 'relative' }}>
+                </div>
+                <div className={styles.sections}>
+                    {sections.map(({ icon, name, title }, index) => {
+                        const Component = icon
+                        const step = index + 1
+                        return (
+                            <Component
+                                key={index}
+                                tabIndex={0}
+                                aria-label={title}
+                                title={`${title} - ${!!data?.find(e => e.name === name)?.value ? 'completo' : 'incompleto'}`}
+                                style={{ cursor: 'pointer', color: !!data?.find(e => e.name === name)?.value && '#499468', clipPath: 'circle()' }}
+                                onClick={() => navigate('/formulario-inscricao', { state: { step } })}
+                                height={30}
+                                width={30}
+                                color='#1F4B73'
+                            />
+                        )
+                    })}
 
-                        <span style={{ position: 'absolute', top: '50%', right: '50%', transform: 'translate(50%,-50%)' }}> {percentage}%</span>
-                        <PieChart width={100} height={100} title={`O cadastro está ${percentage}% concluído`}>
-                            <Pie
-
-                                data={data}
-                                dataKey={"value"}
-                                innerRadius={38}
-                                outerRadius={50}
-                                paddingAngle={0}
-                                startAngle={90}
-                                endAngle={(percentage * 3.6) + 90}
-                                fill='#1F4B73'
-                                className={styles.chart}
-                                direction={'right'}
-                            >
-                            </Pie>
-                        </PieChart>
-                    </div>
                 </div>
             </div>
-            <div className={styles.sections}>
-                {sections.map(({ icon, name, title }, index) => {
-                    const Component = icon
-                    const step = index + 1
-                    return (
-                        <Component
-                            key={index}
-                            tabIndex={0}
-                            aria-label={title}
-                            title={`${title} - ${!!data?.find(e => e.name === name)?.value ? 'completo' : 'incompleto'}`}
-                            style={{ cursor: 'pointer', color: !!data?.find(e => e.name === name)?.value && '#499468', clipPath: 'circle()' }}
-                            onClick={() => navigate('/formulario-inscricao', { state: { step } })}
-                            height={30}
-                            width={30}
-                            color='#1F4B73'
-                        />
-                    )
-                })}
 
-            </div>
         </div>
     )
 }

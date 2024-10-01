@@ -11,10 +11,9 @@ export default function CardsRow({
 
                 {
                     cards.map(card => (
-                        <Card.Root>
-                            <Card.Title text={card.desc} />
-                            <Card.Content>{card.value}</Card.Content>
-                        </Card.Root>
+                        <Card title={card.desc}>
+                            {card.value}
+                        </Card>
                     ))
                 }
             </div>

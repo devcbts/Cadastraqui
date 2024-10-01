@@ -29,18 +29,14 @@ const ExpenseSelection = forwardRef(({ data, viewMode = false }, ref) => {
         <>
             <h1>Despesas Mensais</h1>
             {!hasSelectedMonth && <div className={styles.cards}>
-                <Card.Root>
-                    <Card.Title text={'último mês'}></Card.Title>
-                    <Card.Content>
-                        {total}
-                    </Card.Content>
-                </Card.Root>
-                <Card.Root>
-                    <Card.Title text={'média do trimestre'}></Card.Title>
-                    <Card.Content>
-                        {avg}
-                    </Card.Content>
-                </Card.Root>
+                <Card title={'último mês'}>
+
+                    {total}
+                </Card>
+                <Card title={'média do trimestre'}>
+
+                    {avg}
+                </Card>
             </div>}
             <MonthSelection
                 ref={ref}

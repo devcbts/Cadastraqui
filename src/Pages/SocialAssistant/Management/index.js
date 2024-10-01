@@ -12,12 +12,8 @@ export default function AssistantManagement() {
                 <h3>Relatórios</h3>
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '24px', marginTop: '32px' }}>
 
-                    <Card.Root onClick={() => navigate('editais')}>
-                        <Card.Title text={'Qualitativo e quantitativo'} />
-                    </Card.Root>
-                    <Card.Root onClick={() => navigate('editais', { state: { isUnit: true } })}>
-                        <Card.Title text={'Por campus/unidade'} />
-                    </Card.Root>
+                    <Card onClick={() => navigate('editais')} title={'Qualitativo e quantitativo'} />
+                    <Card onClick={() => navigate('editais', { state: { isUnit: true } })} title={'Por campus/unidade'} />
                 </div>
             </div>
         </ >

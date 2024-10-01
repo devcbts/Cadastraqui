@@ -3,9 +3,11 @@ import CardHeader from "./CardHeader";
 import CardRoot from "./CardRoot";
 import CardTitle from "./CardTitle";
 
-export default {
-    Root: CardRoot,
-    Header: CardHeader,
-    Title: CardTitle,
-    Content: CardContent,
-}
+// export default {
+//     Root: CardRoot,
+//     Header: CardHeader,
+//     Title: CardTitle,
+//     Content: CardContent,
+// }
+
+export default CardRoot
