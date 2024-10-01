@@ -14,7 +14,7 @@ export default function MenuCard({
                 {Icon && <Icon height={"40%"} width={"40%"} />}
                 <h3 style={{ textAlign: 'center' }}>{title}</h3>
             </div>
-            {description &&
+            {!!description &&
                 <div className={styles.description}>
                     {description}
                 </div>
