@@ -486,7 +486,7 @@ model BankAccount {
   candidate          Candidate?        @relation(fields: [candidate_id], references: [id])
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?
-
+  isUpdated          Boolean          @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
@@ -1066,7 +1066,7 @@ model Student {
   name            String
   admissionDate   DateTime //Quando entrou na instituição
   scholarshipType String // Tipos de bolsa (todas possíveis)
-  grade           String? // Semestre caso exista
+  semester        String? // Semestre caso exista
   shift           SHIFT
   candidate_id    String
   candidate       Candidate      @relation(fields: [candidate_id], references: [id])
@@ -1077,6 +1077,32 @@ model Student {
   type1Benefits   Type1Benefit[]
   type2Benefits   Type2Benefit[]
   announcement_id String?
+}
+
+model CandidateDocuments {
+  id        String                  @id @default(uuid())
+  status    CandidateDocumentStatus @default(UPDATED)
+  path      String                  @unique
+  metadata  Json
+  tableName String
+  tableId   String
+
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+
+  @@index([tableName, tableId], name: "tableName_tableId")
+}
+
+enum CandidateDocumentType {
+  PIX
+  REGISTRATO
+  STATEMENT
+}
+
+enum CandidateDocumentStatus {
+  UPDATED
+  PENDING
 }
 
 enum ScholarshipGrantedStatus {
