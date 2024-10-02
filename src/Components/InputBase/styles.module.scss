@@ -42,7 +42,7 @@
         
         .input {
             outline: none;
-            padding: 6px 38px 6px 8px;
+            padding: 6px 8px;
             height: 35px;
             // padding: 6px 8px 6px 8px;
             border: 1px solid $lightgrey;
@@ -58,10 +58,12 @@
             }
 
             &.error {
+                padding: 6px 38px 6px 8px;
                 border-color: $error !important;
             }
 
             &.pass {
+                padding: 6px 38px 6px 8px;
                 border-color: $success !important;
             }
 

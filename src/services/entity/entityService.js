@@ -126,6 +126,10 @@ class EntityService {
         const response = await api.get(`/entities/courses/all`)
         return response.data.courses
     }
+    async getRenewCourses() {
+        const response = await api.get(`/entities/students/renew/courses`)
+        return response.data.courses
+    }
 }
 
 export default new EntityService()

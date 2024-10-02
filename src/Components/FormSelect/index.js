@@ -39,7 +39,7 @@ export default function FormSelect({ name, label, control, options = [], value, 
                         }
                         field.onChange(value)
                         if (onChange) {
-                            onChange(value)
+                            onChange(value, e)
                         }
                     }}
                 />

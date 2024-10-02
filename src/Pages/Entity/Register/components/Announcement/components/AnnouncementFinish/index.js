@@ -9,7 +9,7 @@ import CRITERIAS from "utils/enums/criterias";
 import announcementFinishSchema from "./schemas/announcement-finish-schema";
 import findLabel from "utils/enums/helpers/findLabel";
 
-export default function AnnouncementFinish({ data, onPageChange, onSubmit }) {
+export default function AnnouncementFinish({ data, onPageChange, onSubmit, returnPage = true }) {
     const { control, watch, formState: { isValid }, trigger, getValues } = useControlForm({
         schema: announcementFinishSchema,
         defaultValues: {
@@ -29,7 +29,8 @@ export default function AnnouncementFinish({ data, onPageChange, onSubmit }) {
     }
     return (
         <>
-            <BackPageTitle title={'Finalizar Cadastro'} onClick={() => onPageChange(-1)} />
+            {returnPage && <BackPageTitle title={'Finalizar Cadastro'} onClick={() => onPageChange(-1)} />}
+            {!returnPage && <h1>Finalizar cadastro</h1>}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', }}>
                 <div>
                     <FormSelect

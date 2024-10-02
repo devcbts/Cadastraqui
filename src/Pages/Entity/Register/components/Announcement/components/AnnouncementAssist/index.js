@@ -8,7 +8,7 @@ import TYPE_ONE_BENEFITS from "utils/enums/type-one-benefits"
 import Term from "./Term"
 import announcementBenefitsSchema from "./schemas/announcement-benefits-schema"
 
-export default function AnnouncementAssist({ data, onPageChange }) {
+export default function AnnouncementAssist({ data, onPageChange, returnPage = true }) {
     const { control, watch, formState: { isValid }, getValues, trigger } = useControlForm({
         schema: announcementBenefitsSchema,
         defaultValues: {
@@ -29,7 +29,8 @@ export default function AnnouncementAssist({ data, onPageChange }) {
     }
     return (
         <>
-            <BackPageTitle title={'Ações de Apoio'} onClick={() => onPageChange(-1)} />
+            {returnPage && <BackPageTitle title={'Ações de apoio'} onClick={() => onPageChange(-1)} />}
+            {!returnPage && <h1>Ações de apoio</h1>}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
 
                 <div style={{ width: 'max(400px, 50%)', display: 'flex', flexDirection: 'column', gap: '20px' }}>

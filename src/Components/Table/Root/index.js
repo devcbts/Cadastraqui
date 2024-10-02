@@ -1,10 +1,10 @@
 import styles from './styles.module.scss'
 export default function TableRoot({ headers = [], title, children }) {
-    if (!children.length) {
-        return (
-            <span> Esta tabela ainda não possui dados </span>
-        )
-    }
+    // if (!children?.length) {
+    //     return (
+    //         <span> Esta tabela ainda não possui dados </span>
+    //     )
+    // }
     return (
         <>
             {title && <h3 className={styles.title}>{title}</h3>}
@@ -15,8 +15,8 @@ export default function TableRoot({ headers = [], title, children }) {
                     <thead>
                         <tr>
                             {
-                                headers.map((header) => (
-                                    <th key={header} className={styles.header}>{header}</th>
+                                headers.map((header, i) => (
+                                    <th key={i} className={styles.header}>{header}</th>
                                 ))
                             }
                         </tr>

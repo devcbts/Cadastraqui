@@ -7,6 +7,7 @@ const InputBase = forwardRef(({
     label,
     error,
     tooltip,
+    showIcon = true,
     ...props
 }, ref) => {
     const id = useId()
@@ -30,11 +31,12 @@ const InputBase = forwardRef(({
                     {React.cloneElement(element, {
                         id: `${id}-${label}`,
                         className: [element.props.className, borderStyle].join(' '), ref: ref,
+                        style: !showIcon ? { padding: ' 6px 8px 6px 8px' } : {},
                         ...props
 
                     })}
                     {
-                        element.type === 'input' && <>
+                        (element.type === 'input' && showIcon) && <>
                             {(borderStyle === styles.pass) && <img className={styles.icon} src={check}></img>}
                             {(borderStyle === styles.error) && <img className={styles.icon} src={errorx}></img>}
                         </>

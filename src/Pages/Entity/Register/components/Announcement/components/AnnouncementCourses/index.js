@@ -23,6 +23,7 @@ import entityService from "services/entity/entityService"
 import { Link } from "react-router-dom"
 import basicTemplate from 'Assets/templates/Vagas_Basico_Cadastraqui.xlsx'
 import higherTemplate from "Assets/templates/Vagas_Superior_Cadastraqui.xlsx"
+import CoursesResumeBoard from "../CoursesResumeBoard"
 export default function AnnouncementCourses({ entity, allCourses, data, onPageChange }) {
     // can be 'HigherEducation' or 'BasicEducation'
     const { control, formState: { isValid }, setValue, trigger, getValues, watch, reset, resetField } = useControlForm({
@@ -181,27 +182,19 @@ export default function AnnouncementCourses({ entity, allCourses, data, onPageCh
                 </div>
                 <ButtonBase label={'cadastrar vaga'} onClick={handleAddCourse} />
                 <div style={{ display: 'flex', flexDirection: 'column', placeContent: 'center' }}>
-                    <h1>Quadro resumo</h1>
-
-                    <Table.Root headers={['matriz ou filial', 'vagas', 'tipo de educação', 'ciclo/ano/série/semestre/curso', 'turno', 'tipo de bolsa', 'ação']}>
-                        {
-                            courses.map(course => (
-                                <Table.Row key={course._identifier}>
-                                    <Table.Cell>{findLabel(entitiesOptions, course.entity_subsidiary_id)}</Table.Cell>
-                                    <Table.Cell>{course.verifiedScholarships}</Table.Cell>
-                                    <Table.Cell>{findLabel(EDUCATION_TYPE, course.level)}</Table.Cell>
-                                    <Table.Cell>{course.name}</Table.Cell>
-                                    <Table.Cell>{course.shift}</Table.Cell>
-                                    <Table.Cell>{
-                                        findLabel(SCHOLARSHIP_OFFER.concat(SCHOLARSHIP_TYPE), course.typeOfScholarship)
-                                    }</Table.Cell>
-                                    <Table.Cell>
-                                        <ButtonBase label={'excluir'} onClick={() => { handleRemoveCourse(course._identifier) }} danger />
-                                    </Table.Cell>
-                                </Table.Row>
-                            ))
-                        }
-                    </Table.Root>
+                    <CoursesResumeBoard
+                        headers={['matriz ou filial', 'vagas', 'tipo de educação', 'ciclo/ano/série/semestre/curso', 'turno', 'tipo de bolsa']}
+                        onRemove={(course) => handleRemoveCourse(course.id)}
+                        courses={courses.map(e => ({
+                            id: e._identifier,
+                            1: findLabel(entitiesOptions, e.entity_subsidiary_id),
+                            2: e.verifiedScholarships,
+                            3: findLabel(EDUCATION_TYPE, e.level),
+                            4: e.name,
+                            5: e.shift,
+                            6: findLabel(SCHOLARSHIP_OFFER.concat(SCHOLARSHIP_TYPE), e.typeOfScholarship)
+                        }))}
+                    />
 
                     <ButtonBase label={'próximo'} onClick={handleSubmit} />
                 </div>

@@ -56,7 +56,8 @@ export default function AnnouncementInfo({ data, announcementType = "Scholarship
             <h1>Informações Cadastrais</h1>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
                 <div style={{ width: 'max(290px, 50%)' }}>
-                    <FormSelect control={control} name={"announcementType"} label={'tipo do edital'} options={ANNOUNCEMENT_TYPE} value={watch.announcementType} />
+                    {/* <FormSelect control={control} name={"announcementType"} label={'tipo do edital'} options={ANNOUNCEMENT_TYPE} value={watch.announcementType} /> */}
+                    <InputBase error={null} label={'tipo do edital'} value={findLabel(ANNOUNCEMENT_TYPE, announcementType)} disabled />
                     {
                         !!educationType
                             ? <InputBase label={'nível de ensino'} value={findLabel(EDUCATION_TYPE, educationType)} error={null} disabled />
