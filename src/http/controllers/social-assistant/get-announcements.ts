@@ -56,7 +56,7 @@ export async function getAnnouncements(
         }
         if (filter === 'validationFinished') {
           return [
-            { interview: { endDate: { gt: currentDate } } }
+            { interview: { endDate: { lt: currentDate } } }
           ]
         }
       }
