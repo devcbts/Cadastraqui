@@ -1,25 +1,27 @@
 import Card from "Components/Card";
+import Loader from "Components/Loader";
 import { useEffect, useState } from "react";
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import entityService from "services/entity/entityService";
 import toColor from "utils/number-to-color";
 
-const data = [
-    { name: 'Matriz 01', applicants: 150 }
-]
 export default function EntityHome() {
     const [data, setData] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
         const fetchData = async () => {
+            setIsLoading(true)
             try {
                 const information = await entityService.getDashboard()
                 setData(information)
             } catch (err) { }
+            setIsLoading(false)
         }
         fetchData()
     }, [])
     return (
         <div>
+            <Loader loading={isLoading} />
             <h1>Início</h1>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', flexWrap: 'wrap', gap: '20px' }}>
                 <Card title={'editais abertos'}>
@@ -36,18 +38,31 @@ export default function EntityHome() {
                 </Card>
             </div>
             <div style={{ marginTop: '64px' }}>
-                <h3>Distribuição por unidade</h3>
-                <div style={{ display: 'flex', justifyContent: 'center', width: "max(400px,100%)", height: "200px", alignItems: 'center' }}>
-                    <ResponsiveContainer width={"40%"}>
+                <h3>Distribuição de inscritos por unidade</h3>
+                <div style={{ display: 'flex', justifyContent: 'center', width: "max(400px,100%)", height: '250px', alignItems: 'center' }}>
+                    <ResponsiveContainer width={"80%"}  >
                         <BarChart
                             width={500}
-                            height={300}
+                            height={500}
                             data={data?.unit}
                         >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
+                            <Legend payload={data?.unit?.map(e => {
+                                return ({ value: e.name, color: toColor(e.id) })
+                            }) ?? []}
+                                layout="vertical"
+                                align="left"
+                                verticalAlign="top"
+                            />
+                            <CartesianGrid />
+                            <XAxis />
                             <YAxis />
-                            <Tooltip formatter={(value, name, props) => [value, "inscritos"]} />
+                            <Tooltip formatter={(value, name) => {
+                                return [value, "inscritos"]
+                            }}
+                                labelFormatter={(_, payload) => {
+                                    return payload?.[0]?.payload.name
+                                }}
+                            />
                             <Bar dataKey="applicants" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="black" />} >
                                 {
                                     data?.unit.map((entry, index) => {
@@ -62,11 +77,17 @@ export default function EntityHome() {
                 </div>
             </div>
             <div>
-                <h3>Distribuição por curso</h3>
+                <h3>Distribuição de inscritos por curso</h3>
                 <div style={{ display: 'flex', justifyContent: 'center', width: "max(400px,100%)", height: "200px", alignItems: 'center' }}>
-                    <ResponsiveContainer width={"40%"}>
+                    <ResponsiveContainer width={"80%"}>
                         <PieChart>
-
+                            <Legend payload={data?.courses?.map(e => {
+                                return ({ value: e.name, color: toColor(e.id) })
+                            }) ?? []}
+                                layout="vertical"
+                                align="left"
+                                verticalAlign="top"
+                            />
                             <Pie
                                 width={500}
                                 height={300}

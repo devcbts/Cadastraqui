@@ -99,7 +99,7 @@ export default function SocialAssistantSelection({ assistants = [], announcement
                 }}>
                 </FormList.List>
                 <div style={{ marginTop: '16px' }}>
-                    <ButtonBase label={'esconder seleção'} onClick={handleSelection} />
+                    <ButtonBase label={selection ? 'esconder seleção' : 'mostrar seleção'} onClick={handleSelection} />
                 </div>
                 {selection && (
                     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '12px' }}>

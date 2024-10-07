@@ -1,4 +1,5 @@
 .brand {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -6,16 +7,20 @@
     text-align: justify;
     max-width: 256px;
 
-    span {
+    >span {
         font-weight: 700;
         font-size: 18px;
         color: #1f4b73;
     }
 
-    button {
+    >button {
+        position: absolute;
+        top: 75%;
+        left: auto;
         width: 180px;
         height: 30px;
-        font-size: 12px;
+        font-size: 14px;
+        font-weight: bold;
         margin-top: 20px;
     }
 

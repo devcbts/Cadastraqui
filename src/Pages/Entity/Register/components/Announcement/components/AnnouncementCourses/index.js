@@ -192,7 +192,7 @@ export default function AnnouncementCourses({ entity, allCourses, data, onPageCh
                             3: findLabel(EDUCATION_TYPE, e.level),
                             4: e.name,
                             5: e.shift,
-                            6: findLabel(SCHOLARSHIP_OFFER.concat(SCHOLARSHIP_TYPE), e.typeOfScholarship)
+                            6: findLabel(SCHOLARSHIP_OFFER.concat(SCHOLARSHIP_TYPE), e.typeOfScholarship) ?? e.typeOfScholarship
                         }))}
                     />
 

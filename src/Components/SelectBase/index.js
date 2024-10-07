@@ -4,7 +4,7 @@ import check from '../../Assets/icons/check.svg';
 import errorx from '../../Assets/icons/error.svg';
 import inputBaseStyles from '../InputBase/styles.module.scss';
 
-const SelectBase = forwardRef(({ label, error, ...props }, ref) => {
+const SelectBase = forwardRef(({ label, error, search = true, ...props }, ref) => {
     const id = useId()
     const borderStyle = error === null ? '#CFCFCF' : (error ? "#EF3E36" : "#499468")
     const paddingStyle = error !== null
@@ -19,9 +19,16 @@ const SelectBase = forwardRef(({ label, error, ...props }, ref) => {
                         ref={ref}
                         placeholder="Selecione"
                         isMulti={props.multiple}
+                        isSearchable={search}
                         styles={{
-                            option: (style, { isSelected }) => ({
-                                ...style, backgroundColor: isSelected ? "#1F4B73" : "",
+                            option: (style, { isSelected, isFocused }) => ({
+                                ...style,
+                                backgroundColor: isFocused ? "#cfcfcf" : (
+                                    isSelected ? "#1F4B73" : ""
+                                ),
+                                ":selection": {
+                                    backgroundColor: 'red'
+                                },
                                 ":hover": {
                                     backgroundColor: "#cfcfcf",
                                     color: "#1F4B73"

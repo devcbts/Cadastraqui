@@ -10,7 +10,8 @@ class NotificationService {
             icon: styles.icon,
             cancelButton: styles.cancel,
             title: styles.title,
-            actions: styles.actions
+            actions: styles.actions,
+            closeButton: styles.close
         }
     }
 
@@ -18,6 +19,7 @@ class NotificationService {
         if (type === "popup") {
 
             return Swal.fire({
+                showCloseButton: true,
                 title,
                 text,
                 icon: "success",
@@ -33,6 +35,7 @@ class NotificationService {
     async error({ title = "Erro", text, type = "popup" }) {
         if (type === "popup") {
             return Swal.fire({
+                showCloseButton: true,
                 title,
                 text,
                 icon: "error",
@@ -46,6 +49,7 @@ class NotificationService {
     }
     async warn({ title = "Atenção", text }) {
         return Swal.fire({
+            showCloseButton: true,
             title,
             text,
             icon: "warning",
@@ -56,6 +60,7 @@ class NotificationService {
 
     async confirm({ title, text, cancel = "Cancelar", confirm = "Confirmar", onConfirm, onCancel = () => { } }) {
         const { isConfirmed, isDenied } = await Swal.fire({
+            showCloseButton: true,
             title,
             text,
             showCancelButton: true,

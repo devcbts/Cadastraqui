@@ -14,7 +14,7 @@ export default function SidebarRoot({ children }) {
                 <div>
                     {children}
                 </div>
-                <SidebarItem onClick={logout} icon={Exit} text={'sair'} />
+                <SidebarItem onClick={logout} icon={Exit} text={'sair'} className={styles.logout} />
             </nav>
         </aside>
     );

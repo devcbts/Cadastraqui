@@ -2,7 +2,7 @@ import EDUCATION_TYPE from "utils/enums/education-type";
 import findLabel from "utils/enums/helpers/findLabel";
 import SelectTable from "../SelectTable";
 import SHIFT from "utils/enums/shift-types";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ButtonBase from "Components/ButtonBase";
 import SelectBase from "Components/SelectBase";
 import InputBase from "Components/InputBase";
@@ -42,11 +42,25 @@ export default function EntityStudentsRenewProcessCoursesSelect({ data, courses,
 
     const handleSubmit = () => {
         console.log(selectedCourses)
-        if (selectedCourses.length === 0) {
-            return NotificationService.error({ text: 'Selecione ao menos um curso' })
-        }
+        // if (selectedCourses.length === 0) {
+        //     return NotificationService.error({ text: 'Selecione ao menos um curso' })
+        // }
         onSubmit({ filters, selectedCourses, verifiedScholarships })
     }
+    const getCurrentFormState = useMemo(() => {
+        if (selectedCourses.length === 0) {
+            return false
+        }
+        const scholarshipValidation = (e) => !!e.scholarshipType && !!Number(e.verifiedScholarships)
+        const semesterValidation = (e) => !!Number(e.semester)
+        return selectedCourses.every(e => {
+            if (isBasicEducation) {
+                return scholarshipValidation(e)
+            } else {
+                return semesterValidation(e) && scholarshipValidation(e)
+            }
+        })
+    }, [selectedCourses])
     return (
         <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flexGrow: '1' }}>
             <h3>{findLabel(EDUCATION_TYPE, data?.educationType)}</h3>
@@ -91,7 +105,8 @@ export default function EntityStudentsRenewProcessCoursesSelect({ data, courses,
                             courseId: raw.course_id,
                             course: course,
                             type: raw.type,
-                            semester: e?.["input-semester"] ?? ""
+                            semester: e?.["input-semester"] ?? "",
+                            entity: raw.isMatrixCourse ? null : raw.entity,
                         })
                     })
                     setSelectedCourses(selectedData)
@@ -126,7 +141,7 @@ export default function EntityStudentsRenewProcessCoursesSelect({ data, courses,
                     {verifiedScholarships}
                 </h3>
             </div>
-            <ButtonBase label={'Próximo'} onClick={handleSubmit} />
+            {getCurrentFormState && <ButtonBase label={'Próximo'} onClick={handleSubmit} />}
         </div>
     )
 }
