@@ -33,7 +33,7 @@ export default function EntityAnnouncementView() {
     return (
         <div>
             <Loader loading={isLoading} />
-            <BackPageTitle title={"Edital"} path={-1} />
+            <BackPageTitle title={`Edital  - ${announcement?.announcementName ?? ''}`} path={-1} />
             <div style={{ display: 'flex', flexDirection: 'row', gap: '20px', margin: '16px 0px' }}>
                 <ButtonBase label={'copiar link'} onClick={handleLinkCopy} />
                 <Link to={announcement?.pdf} target="_blank">

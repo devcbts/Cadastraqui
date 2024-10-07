@@ -36,3 +36,9 @@
     flex-wrap: wrap;
 }
 
+.close{
+    color: $primary;
+    &:hover{
+        color: $error;
+    }
+}

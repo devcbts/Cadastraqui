@@ -19,6 +19,19 @@
         width: 50px;
         padding: 50px 5px 50px 5px;
     }
+    .logout{
+        // color: $error;
+        // svg{
+        //     color: $error;
+        // }
+        &:hover{
+            background-color: $error;
+            color: white;
+            svg{
+                color:white;
+            }
+        }
+    }
 }
 
 .hide{

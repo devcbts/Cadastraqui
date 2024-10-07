@@ -9,6 +9,7 @@
     padding: 4px 5px;
     border-radius: 8px;
     font-weight: 600;
+    border-width: 2px;
     @media(max-width:600px){
         justify-content: center;
     }
@@ -39,6 +40,8 @@
     &.active, &:hover {
         color: $primary;
         background-color: white;
+        border: 2px solid white;
+
         svg{
             color: $primary;
         }

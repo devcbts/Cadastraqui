@@ -13,18 +13,19 @@
     transition: background-color .2s ease-in;
     width: fit-content;
     & span{
-       &::first-letter{
-        text-transform: uppercase;
-       }
+        &::first-letter{
+            text-transform: uppercase;
+        }
     }
     
     &:hover, &:focus-visible {
         border: 2px solid white;
-
+        outline: red;
         svg {
             color: white;
         }
-
+        // box-shadow: .5px .7px 1.2px .5px $lightgrey;
+        
         color: white;
         background-color: $primary;
     }

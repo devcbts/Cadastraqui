@@ -71,8 +71,10 @@ export default function EntityStudentsRenewProcess() {
             level: data.educationType,
             verifiedScholarships: parseInt(e.verifiedScholarships),
             typeOfScholarship: e.scholarshipType,
-            semester: parseInt(e.semester)
+            semester: parseInt(e.semester ?? 0),
+            entity_subsidiary_id: e.entity
         }))
+
         try {
             setIsLoading(true)
             const announcement = await entityService.createAnnouncement({ ...data, educationalLevels })

@@ -92,7 +92,7 @@ export default function AnnouncementSelect({ announcement }) {
                                 </div>
                                 <Card title={'curso/série pretendida'}>
 
-                                    {announcementCourse?.availableCourses ?? announcementCourse?.grade}
+                                    {announcementCourse?.course?.name}
 
                                 </Card>
                                 <div className={styles.cards}>
@@ -108,8 +108,7 @@ export default function AnnouncementSelect({ announcement }) {
                                     </Card>
                                     <Card title={'bolsa'}>
                                         {
-                                            findLabel(SCHOLARSHIP_TYPE, announcementCourse?.higherEduScholarshipType)
-                                            ?? findLabel(SCHOLARSHIP_OFFER, announcementCourse?.scholarshipType)
+                                            findLabel(SCHOLARSHIP_TYPE.concat(SCHOLARSHIP_OFFER), announcementCourse?.typeOfScholarship)
                                         }
                                     </Card>
                                 </div>

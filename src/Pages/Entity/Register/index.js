@@ -17,7 +17,7 @@ export default function EntitySelectRegister() {
         <>
             <h1>Cadastro</h1>
             <div style={{ maxWidth: 'max(200px,30%)' }}>
-                <SelectBase label="Selecione o que deseja cadastrar" options={options} value={selection} onChange={(v) => setSelection(v)} error={null} />
+                <SelectBase label="Selecione o que deseja cadastrar" options={options} value={selection} search={false} onChange={(v) => setSelection(v)} error={null} />
             </div>
             {selection?.value === "subsidiary" && <Subsidiary />}
             {selection?.value === "responsible" && <Responsible />}
