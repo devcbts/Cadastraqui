@@ -1,4 +1,3 @@
-import { ApplicationAlreadyExistsError } from '@/errors/already-exists-application-error'
 import { AnnouncementNotExists } from '@/errors/announcement-not-exists-error'
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { prisma } from '@/lib/prisma'
@@ -25,7 +24,7 @@ export async function getApplications(
 
         const entity = await SelectEntityOrDirector(userId, role)
 
-       // verifica se existe o processo seletivo
+        // verifica se existe o processo seletivo
         const announcement = await prisma.announcement.findUnique({
             where: { id: announcement_id, entity_id: entity.id }
         })
@@ -33,17 +32,18 @@ export async function getApplications(
         if (announcement) {
             // verifica se o processo seletivo é da mesma entidade do assistente
             const applications = await prisma.application.findMany({
-                where: {announcement_id: announcement_id},
-                include: {EducationLevel: true,
-                _count: true,
-            ScholarshipGranted:true,
-        }
+                where: { announcement_id: announcement_id },
+                include: {
+                    EducationLevel: { include: { course: true } },
+                    _count: true,
+                    ScholarshipGranted: true,
+                }
             })
 
             // Encontra uma ou mais inscrições
 
-          
-            return reply.status(200).send({applications})
+
+            return reply.status(200).send({ applications })
         } else {
             throw new AnnouncementNotExists();
         }

@@ -4,7 +4,6 @@ import { FastifyInstance } from 'fastify'
 import { addAssistantAnnouncement } from './add-social-assistant-to-announcement'
 import { CreateAnnoucment } from './create-announcement'
 import { createDirector } from './create-director'
-import { createEducationalLevel } from './create-educcation-level'
 import { createSubsidiary } from './create-subsidiary'
 import { deleteAnnouncement } from './delete-announcement'
 import { deleteAssistant } from './delete-assistant'
@@ -16,6 +15,7 @@ import { fetchClosedAnnouncements } from './fetch-closed-announcements'
 import { fetchDirectors } from './fetch-directors'
 import { fetchFilterAnnouncements } from './fetch-filter-announcement'
 import { fetchSubsidiarys } from './fetch-subsidiarys'
+import getAllCourses from './get-all-courses'
 import getAnnouncementCourse from './get-announcement-course'
 import { getApplications } from './get-applications'
 import getEntityDashboard from './get-dashboard'
@@ -27,6 +27,11 @@ import { getSocialAssistants } from './get-social-assistants'
 import { registerEntity } from './register-entity'
 import removeAssistantFromAnnouncement from './remove-assistant-from-announcement'
 import searchAnnouncements from './search-announcements'
+import getAllStudents from './students/get-all-students'
+import getRenewCourses from './students/get-renew-courses'
+import getRenewDashboard from './students/get-renew-dashboard'
+import getStudentsDashboard from './students/get-students-dashboard'
+import registerNewStudents from './students/register-new-students'
 import { updateAnnouncement } from './update-announcement'
 import { updateDirector } from './update-director'
 import { updateEntity } from './update-entity'
@@ -141,11 +146,7 @@ export async function entityRoutes(app: FastifyInstance) {
     '/announcement/find',
     searchAnnouncements,
   )
-  app.post(
-    '/education/:announcement_id',
-    { onRequest: [verifyJWT] },
-    createEducationalLevel,
-  )
+
   app.delete('/announcement/:announcement_id', { onRequest: [verifyJWT] }, deleteAnnouncement)
 
   //Courses
@@ -166,4 +167,11 @@ export async function entityRoutes(app: FastifyInstance) {
   app.put('/scholarships/:scholarship_id', { onRequest: [verifyJWT] }, updateScholarshipStatus)
   app.get('/courses/registered/:educationalLevel_id', { onRequest: [verifyJWT] }, getRegisteredStudentsByCourse)
 
+  app.get('/courses/all', { onRequest: [verifyJWT] }, getAllCourses)
+
+  app.get('/students/dashboard', { onRequest: [verifyJWT] }, getStudentsDashboard)
+  app.post('/students/register', { onRequest: [verifyJWT] }, registerNewStudents)
+  app.get('/students/all', { onRequest: [verifyJWT] }, getAllStudents)
+  app.get('/students/renew/dashbaord', { onRequest: [verifyJWT] }, getRenewDashboard)
+  app.get('/students/renew/courses', { onRequest: [verifyJWT] }, getRenewCourses)
 }

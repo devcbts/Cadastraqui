@@ -56,6 +56,7 @@ export default async function getSolicitations(
                 },
                 EducationLevel: {
                     include: {
+                        course: true,
                         entitySubsidiary: true
                     }
                 },

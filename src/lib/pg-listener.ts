@@ -2,17 +2,13 @@ import { env } from "process";
 
 import getOpenApplications from "@/HistDatabaseFunctions/find-open-applications";
 import findAllBankAccount from "@/HistDatabaseFunctions/Handle Application/find-all-bank-account";
-import findAllCreditCard from "@/HistDatabaseFunctions/Handle Application/find-all-credit-card";
 import findAllDiseases from "@/HistDatabaseFunctions/Handle Application/find-all-diseases";
 import findAllExpense from "@/HistDatabaseFunctions/Handle Application/find-all-expense";
-import findAllFinancing from "@/HistDatabaseFunctions/Handle Application/find-all-financing";
 import findAllIncome from "@/HistDatabaseFunctions/Handle Application/find-all-income";
-import findAllLoan from "@/HistDatabaseFunctions/Handle Application/find-all-loan";
 import findAllMedication from "@/HistDatabaseFunctions/Handle Application/find-all-medication";
 import findAllMonthlyIncome from "@/HistDatabaseFunctions/Handle Application/find-all-monthly-income";
 import { createBankAccountHDB, deleteBankAccountHDB, updateBankAccountHDB } from "@/HistDatabaseFunctions/handle-bank-account";
 import { createCandidateHDB, updateCandidateHDB } from "@/HistDatabaseFunctions/handle-candidate";
-import { createCreditCardHDB, updateCreditCardHDB } from "@/HistDatabaseFunctions/handle-credit-card";
 import { createDeclarationHDB } from "@/HistDatabaseFunctions/handle-declaration";
 import { createExpenseHDB, deleteExpenseHDB, updateExpenseHDB } from "@/HistDatabaseFunctions/handle-expenses";
 import { createFamilyMemberHDB, deleteFamilyMemberHDB, updateFamilyMemberHDB } from "@/HistDatabaseFunctions/handle-family-member";
@@ -20,22 +16,20 @@ import { createFamilyMemberDiseaseHDB, deleteFamilyMemberDiseaseHDB, updateFamil
 import { createFamilyMemberIncomeHDB, deleteFamilyMemberIncomeHDB, updateFamilyMemberIncomeHDB } from "@/HistDatabaseFunctions/handle-family-member-income";
 import { createHousingHDB, updateHousingHDB } from "@/HistDatabaseFunctions/handle-housing";
 import { createIdentityDetailsHDB, updateIdentityDetailsHDB } from "@/HistDatabaseFunctions/handle-identity-details";
-import { createLoanHDB, updateLoanHDB } from "@/HistDatabaseFunctions/handle-loan-info";
 import { createMedicationHDB, deleteMedicationHDB, updateMedicationHDB } from "@/HistDatabaseFunctions/handle-medication";
 import { createMonthlyIncomeHDB, deleteMonthlyIncomeHDB, updateMonthlyIncomeHDB } from "@/HistDatabaseFunctions/handle-monthly-income";
-import { createOtherExpenseHDB, updateOtherExpenseHDB } from "@/HistDatabaseFunctions/handle-other-expense";
 import { createRegistratoHDB } from "@/HistDatabaseFunctions/handle-registrato";
 import { createResponsibleHDB, updateResponsibleHDB } from "@/HistDatabaseFunctions/handle-responsible";
 import { createVehicleHDB, deleteVehicleHDB, updateVehicleHDB } from "@/HistDatabaseFunctions/handle-vehicle";
 import { ChooseCandidateResponsible } from "@/utils/choose-candidate-responsible";
 import { CalculateIncomePerCapita } from "@/utils/Trigger-Functions/calculate-income-per-capita";
 import { CalculateMemberAverageIncome } from "@/utils/Trigger-Functions/calculate-member-income";
+import verifyExpenses from "@/utils/Trigger-Functions/verify-expenses";
 import { verifyHealthRegistration } from "@/utils/Trigger-Functions/verify-health-registration";
 import { verifyIncomeBankRegistration } from "@/utils/Trigger-Functions/verify-income-bank-registration";
 import { Client } from 'pg';
-import { prisma } from './prisma';
 import { IdentityDetails } from '../../backup_prisma/generated/clientBackup/index';
-import verifyExpenses from "@/utils/Trigger-Functions/verify-expenses";
+import { prisma } from './prisma';
 
 const clientBackup = new Client(env.DATABASE_URL);
 const connectClient = async () => {
@@ -60,6 +54,7 @@ const connectClient = async () => {
         await clientBackup.query('LISTEN "channel_responsible"');
         await clientBackup.query('LISTEN "channel_vehicle"');
         await clientBackup.query('LISTEN "channel_bankaccount"');
+        await clientBackup.query('LISTEN "channel_audit"');
     } catch (err) {
         console.error('Failed to connect to the database', err);
         await clientBackup.end();
@@ -75,6 +70,7 @@ clientBackup.on("error", async (err) => {
 })
 
 clientBackup.on('notification', async (msg) => {
+    console.log('infos')
     console.log('Received notification:', msg.payload);
     try {
         if (msg.channel == 'channel_housing') {
@@ -219,7 +215,7 @@ clientBackup.on('notification', async (msg) => {
 
 
         if (msg.channel == 'channel_identityDetails') {
-            const identityDetails : {operation: string, data: IdentityDetails} = JSON.parse(msg.payload!);
+            const identityDetails: { operation: string, data: IdentityDetails } = JSON.parse(msg.payload!);
             if (identityDetails.operation == 'Update') {
                 await updateIdentityDetailsHDB(identityDetails.data.id)
             }
@@ -256,7 +252,7 @@ clientBackup.on('notification', async (msg) => {
         }
         if (msg.channel == 'channel_monthlyIncome') {
             const monthlyIncome = JSON.parse(msg.payload!);
-           
+
             await CalculateMemberAverageIncome(monthlyIncome.data.candidate_id || monthlyIncome.data.familyMember_id || monthlyIncome.data.legalResponsibleId, monthlyIncome.data.incomeSource)
             if (monthlyIncome.operation == 'Update') {
                 await updateMonthlyIncomeHDB(monthlyIncome.data.id)
@@ -406,6 +402,7 @@ clientBackup.on('notification', async (msg) => {
                 await createDeclarationHDB(familyMember.id, findUserDetails.UserData.id, application_id)
             }
         }
+
     } catch (error) {
         console.log(error)
     }

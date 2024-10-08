@@ -2,7 +2,7 @@ import { APIError } from "@/errors/api-error";
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
-import { BasicEducationType, ScholarshipOfferType, SHIFT } from "@prisma/client";
+import { AllEducationType, AllScholarshipsType, SHIFT } from "@prisma/client";
 import csv from 'csv-parser';
 import { FastifyReply, FastifyRequest } from "fastify";
 import fs from 'fs';
@@ -22,10 +22,10 @@ interface CSVData {
     "Número de Vagas": string;
 }
 const educationTypeMapping: { [key: string]: string } = {
-    "Pré-Escola": BasicEducationType.Preschool,
-    "Fundamental I e II": BasicEducationType.Elementary,
-    "Ensino Médio": BasicEducationType.HighSchool,
-    "Educação Profissional": BasicEducationType.ProfessionalEducation
+    "Pré-Escola": AllEducationType.Preschool,
+    "Fundamental I e II": AllEducationType.Elementary,
+    "Ensino Médio": AllEducationType.HighSchool,
+    "Educação Profissional": AllEducationType.ProfessionalEducation
 };
 
 const shiftMapping: { [key: string]: string } = {
@@ -35,15 +35,15 @@ const shiftMapping: { [key: string]: string } = {
     "Integral": SHIFT.Integral
 }
 
-const scholarshipTypeMapping: { [key: string]: ScholarshipOfferType } = {
-    "Bolsa Lei 187 Parcial": ScholarshipOfferType.Law187ScholarshipPartial,
-    "Bolsa Lei 187 Integral": ScholarshipOfferType.Law187Scholarship,
-    "Estudante com Deficiência Parcial": ScholarshipOfferType.StudentWithDisabilityPartial,
-    "Estudante com Deficiência Integral": ScholarshipOfferType.StudentWithDisability,
-    "Tempo Integral (Parcial)": ScholarshipOfferType.FullTimePartial,
-    "Tempo Integral (Integral)": ScholarshipOfferType.FullTime,
-    "Trabalhadores da Entidade Parcial": ScholarshipOfferType.EntityWorkersPartial,
-    "Trabalhadores da Entidade Integral": ScholarshipOfferType.EntityWorkers
+const scholarshipTypeMapping: { [key: string]: AllScholarshipsType } = {
+    "Bolsa Lei 187 Parcial": AllScholarshipsType.Law187ScholarshipPartial,
+    "Bolsa Lei 187 Integral": AllScholarshipsType.Law187Scholarship,
+    "Estudante com Deficiência Parcial": AllScholarshipsType.StudentWithDisabilityPartial,
+    "Estudante com Deficiência Integral": AllScholarshipsType.StudentWithDisability,
+    "Tempo Integral (Parcial)": AllScholarshipsType.FullTimePartial,
+    "Tempo Integral (Integral)": AllScholarshipsType.FullTime,
+    "Trabalhadores da Entidade Parcial": AllScholarshipsType.EntityWorkersPartial,
+    "Trabalhadores da Entidade Integral": AllScholarshipsType.EntityWorkers
 };
 export default async function uploadBasicEducationCSVFileToAnnouncement(
     request: FastifyRequest,
@@ -54,7 +54,7 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
         const role = request.user.role
 
         const entity = await SelectEntityOrDirector(user_id, role)
-       
+
         const csvFile = await request.file();
         if (!csvFile) {
             throw new ResourceNotFoundError();
@@ -81,14 +81,17 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
             });
         };
 
-        const detectedEncoding = await detectEncoding(tempFile.name);
-        const encoding = detectedEncoding === 'windows-1251' ? 'latin1' : (detectedEncoding as string || 'utf8');
+        const detectedEncoding = 'latin1';
+        // const encoding = detectedEncoding === 'windows-1251' ? 'latin1' : (detectedEncoding as string || 'utf8');
         const results: CSVData[] = [];
         await new Promise((resolve, reject) => {
             fs.createReadStream(tempFile.name)
-                .pipe(decodeStream(encoding))
+                .pipe(decodeStream(detectedEncoding))
                 .pipe(encodeStream('utf8'))
-                .pipe(csv({ separator: detectedEncoding === "UTF-8" ? ',' : ';' }))
+                .pipe(csv({
+                    separator: ';'
+                    // detectedEncoding === "UTF-8" ? ',' : ';'
+                }))
                 .on('data', (data: CSVData) => {
                     // Process the data as needed
                     results.push(data);
@@ -130,6 +133,7 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
             }
             return entityOrSubsidiary;
         }))
+        console.log(results)
         if (results.some(e => {
             const value = parseInt(e["Número de Vagas"])
             return isNaN(value) || value <= 0
@@ -140,10 +144,10 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
             const matchedEntity = entities.find(entity => entity.CNPJ === result["CNPJ (Matriz ou Filial)"]);
             return {
                 // cnpj: result["CNPJ (Matriz ou Filial)"],
-                basicEduType: educationTypeMapping[result["Tipo de Educação"]],
-                availableCourses: result["Ciclo/Ano/Série/Curso"],
+                type: educationTypeMapping[result["Tipo de Educação"]],
+                name: result["Ciclo/Ano/Série/Curso"],
                 shift: result["Turno"],
-                scholarshipType: scholarshipTypeMapping[result["Tipo de Bolsa"]],
+                typeOfScholarship: scholarshipTypeMapping[result["Tipo de Bolsa"]],
                 verifiedScholarships: parseInt(result["Número de Vagas"]),
                 entity_subsidiary_id: matchedEntity?.id === entity.id ? null : matchedEntity?.id
             };

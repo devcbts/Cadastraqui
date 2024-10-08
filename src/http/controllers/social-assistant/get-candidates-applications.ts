@@ -25,7 +25,7 @@ export default async function getCandidatesApplications(
         // find the entity linked with this educationlevel
         const item = await prisma.educationLevel.findUnique({
             where: { id: educationLevel_id },
-            include: { entitySubsidiary: true, announcement: { include: { entity: true } }, Application: { orderBy: [{ position: 'asc' }] } },
+            include: { course: true, entitySubsidiary: true, announcement: { include: { entity: true } }, Application: { orderBy: [{ position: 'asc' }] } },
 
         })
 

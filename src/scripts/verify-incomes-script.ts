@@ -5,10 +5,7 @@ async function verifyAllUsersMonthlyIncome() {
     try {
         // Buscar todos os candidatos
         const candidates = await prisma.candidate.findMany({
-            where: {
-                user: { isNot: null }
-                },
-                select: { id: true }
+            select: { id: true }
         });
 
         // Buscar todos os responsáveis legais

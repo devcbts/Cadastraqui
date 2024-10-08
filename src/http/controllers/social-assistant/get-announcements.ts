@@ -76,7 +76,7 @@ export async function getAnnouncements(
         },
         include: {
           entity: true,
-          educationLevels: true,
+          educationLevels: { include: { course: true } },
         },
 
       })
@@ -100,7 +100,11 @@ export async function getAnnouncements(
       const announcement = await prisma.announcement.findUnique({
         where: { id: announcement_id },
         include: {
-          educationLevels: true,
+          educationLevels: {
+            include: {
+              course: true
+            }
+          },
           entity: {
             include: {
               EntitySubsidiary: true
@@ -128,7 +132,7 @@ export async function getAnnouncements(
             education: e.level,
             shift: e.shift,
             entity: entity.socialReason,
-            grade: e.availableCourses || e.grade,
+            grade: e.course?.name,
           }))
           return { ...entity, matchedEducationLevels: returnObj }
         }
@@ -138,7 +142,7 @@ export async function getAnnouncements(
           education: e.level,
           shift: e.shift,
           entity: entity.socialReason,
-          grade: e.availableCourses || e.grade,
+          grade: e.course?.name,
 
         }))
         return { ...entity, matchedEducationLevels: returnObj }
