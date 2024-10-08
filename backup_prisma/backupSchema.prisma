@@ -502,7 +502,7 @@ model BankAccount {
   LegalResponsible   LegalResponsible? @relation(fields: [legalResponsibleId], references: [id])
   legalResponsibleId String?
   application_id     String
-  isUpdated          Boolean          @default(true)
+  isUpdated          Boolean           @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -870,6 +870,33 @@ model FamilyMemberToVehicle {
   @@unique([A, B], map: "_FamilyMemberToVehicle_AB_unique")
   @@index([B], map: "_FamilyMemberToVehicle_B_index")
   @@map("_FamilyMemberToVehicle")
+}
+
+model CandidateDocuments {
+  id                 String                  @id @default(uuid())
+  status             CandidateDocumentStatus @default(UPDATED)
+  path               String                  @unique
+  pathInMainDatabase String
+  metadata           Json
+  tableName          String
+  tableId            String
+  application_id     String
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+
+  @@index([tableName, tableId], name: "tableName_tableId")
+}
+
+enum CandidateDocumentType {
+  PIX
+  REGISTRATO
+  STATEMENT
+}
+
+enum CandidateDocumentStatus {
+  UPDATED
+  PENDING
 }
 
 enum ROLE {

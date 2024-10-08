@@ -168,6 +168,11 @@ export type ScholarshipGranted = $Result.DefaultSelection<Prisma.$ScholarshipGra
  * 
  */
 export type FamilyMemberToVehicle = $Result.DefaultSelection<Prisma.$FamilyMemberToVehiclePayload>
+/**
+ * Model CandidateDocuments
+ * 
+ */
+export type CandidateDocuments = $Result.DefaultSelection<Prisma.$CandidateDocumentsPayload>
 
 /**
  * Enums
@@ -675,6 +680,14 @@ export const SolicitationType: {
 
 export type SolicitationType = (typeof SolicitationType)[keyof typeof SolicitationType]
 
+
+export const CandidateDocumentStatus: {
+  UPDATED: 'UPDATED',
+  PENDING: 'PENDING'
+};
+
+export type CandidateDocumentStatus = (typeof CandidateDocumentStatus)[keyof typeof CandidateDocumentStatus]
+
 }
 
 export type ROLE = $Enums.ROLE
@@ -824,6 +837,10 @@ export const ApplicationStatus: typeof $Enums.ApplicationStatus
 export type SolicitationType = $Enums.SolicitationType
 
 export const SolicitationType: typeof $Enums.SolicitationType
+
+export type CandidateDocumentStatus = $Enums.CandidateDocumentStatus
+
+export const CandidateDocumentStatus: typeof $Enums.CandidateDocumentStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1256,6 +1273,16 @@ export class PrismaClient<
     * ```
     */
   get familyMemberToVehicle(): Prisma.FamilyMemberToVehicleDelegate<ExtArgs>;
+
+  /**
+   * `prisma.candidateDocuments`: Exposes CRUD operations for the **CandidateDocuments** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CandidateDocuments
+    * const candidateDocuments = await prisma.candidateDocuments.findMany()
+    * ```
+    */
+  get candidateDocuments(): Prisma.CandidateDocumentsDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -1756,7 +1783,8 @@ export namespace Prisma {
     Application: 'Application',
     ApplicationHistory: 'ApplicationHistory',
     ScholarshipGranted: 'ScholarshipGranted',
-    FamilyMemberToVehicle: 'FamilyMemberToVehicle'
+    FamilyMemberToVehicle: 'FamilyMemberToVehicle',
+    CandidateDocuments: 'CandidateDocuments'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1773,7 +1801,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'idMapping' | 'candidate' | 'user' | 'legalResponsible' | 'socialAssistant' | 'entity' | 'entitySubsidiary' | 'entityDirector' | 'identityDetails' | 'familyMember' | 'housing' | 'vehicle' | 'familyMemberIncome' | 'monthlyIncome' | 'bankAccount' | 'expense' | 'loan' | 'financing' | 'creditCard' | 'otherExpense' | 'familyMemberDisease' | 'medication' | 'declarations' | 'announcementInterview' | 'announcement' | 'timeline' | 'educationLevel' | 'application' | 'applicationHistory' | 'scholarshipGranted' | 'familyMemberToVehicle'
+      modelProps: 'idMapping' | 'candidate' | 'user' | 'legalResponsible' | 'socialAssistant' | 'entity' | 'entitySubsidiary' | 'entityDirector' | 'identityDetails' | 'familyMember' | 'housing' | 'vehicle' | 'familyMemberIncome' | 'monthlyIncome' | 'bankAccount' | 'expense' | 'loan' | 'financing' | 'creditCard' | 'otherExpense' | 'familyMemberDisease' | 'medication' | 'declarations' | 'announcementInterview' | 'announcement' | 'timeline' | 'educationLevel' | 'application' | 'applicationHistory' | 'scholarshipGranted' | 'familyMemberToVehicle' | 'candidateDocuments'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -3820,6 +3848,72 @@ export namespace Prisma {
           count: {
             args: Prisma.FamilyMemberToVehicleCountArgs<ExtArgs>,
             result: $Utils.Optional<FamilyMemberToVehicleCountAggregateOutputType> | number
+          }
+        }
+      }
+      CandidateDocuments: {
+        payload: Prisma.$CandidateDocumentsPayload<ExtArgs>
+        fields: Prisma.CandidateDocumentsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CandidateDocumentsFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CandidateDocumentsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CandidateDocumentsFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CandidateDocumentsPayload>
+          }
+          findFirst: {
+            args: Prisma.CandidateDocumentsFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CandidateDocumentsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CandidateDocumentsFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CandidateDocumentsPayload>
+          }
+          findMany: {
+            args: Prisma.CandidateDocumentsFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CandidateDocumentsPayload>[]
+          }
+          create: {
+            args: Prisma.CandidateDocumentsCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CandidateDocumentsPayload>
+          }
+          createMany: {
+            args: Prisma.CandidateDocumentsCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.CandidateDocumentsDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CandidateDocumentsPayload>
+          }
+          update: {
+            args: Prisma.CandidateDocumentsUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CandidateDocumentsPayload>
+          }
+          deleteMany: {
+            args: Prisma.CandidateDocumentsDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CandidateDocumentsUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.CandidateDocumentsUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CandidateDocumentsPayload>
+          }
+          aggregate: {
+            args: Prisma.CandidateDocumentsAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateCandidateDocuments>
+          }
+          groupBy: {
+            args: Prisma.CandidateDocumentsGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<CandidateDocumentsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CandidateDocumentsCountArgs<ExtArgs>,
+            result: $Utils.Optional<CandidateDocumentsCountAggregateOutputType> | number
           }
         }
       }
@@ -22361,6 +22455,7 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    isUpdated: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -22376,6 +22471,7 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string | null
+    isUpdated: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -22391,6 +22487,7 @@ export namespace Prisma {
     candidate_id: number
     legalResponsibleId: number
     application_id: number
+    isUpdated: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -22408,6 +22505,7 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    isUpdated?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -22423,6 +22521,7 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    isUpdated?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -22438,6 +22537,7 @@ export namespace Prisma {
     candidate_id?: true
     legalResponsibleId?: true
     application_id?: true
+    isUpdated?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -22526,6 +22626,7 @@ export namespace Prisma {
     candidate_id: string | null
     legalResponsibleId: string | null
     application_id: string
+    isUpdated: boolean
     createdAt: Date
     updatedAt: Date
     _count: BankAccountCountAggregateOutputType | null
@@ -22558,6 +22659,7 @@ export namespace Prisma {
     candidate_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    isUpdated?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     familyMember?: boolean | BankAccount$familyMemberArgs<ExtArgs>
@@ -22576,6 +22678,7 @@ export namespace Prisma {
     candidate_id?: boolean
     legalResponsibleId?: boolean
     application_id?: boolean
+    isUpdated?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -22605,6 +22708,7 @@ export namespace Prisma {
       candidate_id: string | null
       legalResponsibleId: string | null
       application_id: string
+      isUpdated: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["bankAccount"]>
@@ -23016,6 +23120,7 @@ export namespace Prisma {
     readonly candidate_id: FieldRef<"BankAccount", 'String'>
     readonly legalResponsibleId: FieldRef<"BankAccount", 'String'>
     readonly application_id: FieldRef<"BankAccount", 'String'>
+    readonly isUpdated: FieldRef<"BankAccount", 'Boolean'>
     readonly createdAt: FieldRef<"BankAccount", 'DateTime'>
     readonly updatedAt: FieldRef<"BankAccount", 'DateTime'>
   }
@@ -41074,6 +41179,938 @@ export namespace Prisma {
 
 
   /**
+   * Model CandidateDocuments
+   */
+
+  export type AggregateCandidateDocuments = {
+    _count: CandidateDocumentsCountAggregateOutputType | null
+    _min: CandidateDocumentsMinAggregateOutputType | null
+    _max: CandidateDocumentsMaxAggregateOutputType | null
+  }
+
+  export type CandidateDocumentsMinAggregateOutputType = {
+    id: string | null
+    status: $Enums.CandidateDocumentStatus | null
+    path: string | null
+    pathInMainDatabase: string | null
+    tableName: string | null
+    tableId: string | null
+    application_id: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CandidateDocumentsMaxAggregateOutputType = {
+    id: string | null
+    status: $Enums.CandidateDocumentStatus | null
+    path: string | null
+    pathInMainDatabase: string | null
+    tableName: string | null
+    tableId: string | null
+    application_id: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CandidateDocumentsCountAggregateOutputType = {
+    id: number
+    status: number
+    path: number
+    pathInMainDatabase: number
+    metadata: number
+    tableName: number
+    tableId: number
+    application_id: number
+    expiresAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CandidateDocumentsMinAggregateInputType = {
+    id?: true
+    status?: true
+    path?: true
+    pathInMainDatabase?: true
+    tableName?: true
+    tableId?: true
+    application_id?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CandidateDocumentsMaxAggregateInputType = {
+    id?: true
+    status?: true
+    path?: true
+    pathInMainDatabase?: true
+    tableName?: true
+    tableId?: true
+    application_id?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CandidateDocumentsCountAggregateInputType = {
+    id?: true
+    status?: true
+    path?: true
+    pathInMainDatabase?: true
+    metadata?: true
+    tableName?: true
+    tableId?: true
+    application_id?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CandidateDocumentsAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CandidateDocuments to aggregate.
+     */
+    where?: CandidateDocumentsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CandidateDocuments to fetch.
+     */
+    orderBy?: CandidateDocumentsOrderByWithRelationInput | CandidateDocumentsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CandidateDocumentsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CandidateDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CandidateDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CandidateDocuments
+    **/
+    _count?: true | CandidateDocumentsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CandidateDocumentsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CandidateDocumentsMaxAggregateInputType
+  }
+
+  export type GetCandidateDocumentsAggregateType<T extends CandidateDocumentsAggregateArgs> = {
+        [P in keyof T & keyof AggregateCandidateDocuments]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCandidateDocuments[P]>
+      : GetScalarType<T[P], AggregateCandidateDocuments[P]>
+  }
+
+
+
+
+  export type CandidateDocumentsGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: CandidateDocumentsWhereInput
+    orderBy?: CandidateDocumentsOrderByWithAggregationInput | CandidateDocumentsOrderByWithAggregationInput[]
+    by: CandidateDocumentsScalarFieldEnum[] | CandidateDocumentsScalarFieldEnum
+    having?: CandidateDocumentsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CandidateDocumentsCountAggregateInputType | true
+    _min?: CandidateDocumentsMinAggregateInputType
+    _max?: CandidateDocumentsMaxAggregateInputType
+  }
+
+  export type CandidateDocumentsGroupByOutputType = {
+    id: string
+    status: $Enums.CandidateDocumentStatus
+    path: string
+    pathInMainDatabase: string
+    metadata: JsonValue
+    tableName: string
+    tableId: string
+    application_id: string
+    expiresAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: CandidateDocumentsCountAggregateOutputType | null
+    _min: CandidateDocumentsMinAggregateOutputType | null
+    _max: CandidateDocumentsMaxAggregateOutputType | null
+  }
+
+  type GetCandidateDocumentsGroupByPayload<T extends CandidateDocumentsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CandidateDocumentsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CandidateDocumentsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CandidateDocumentsGroupByOutputType[P]>
+            : GetScalarType<T[P], CandidateDocumentsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CandidateDocumentsSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    status?: boolean
+    path?: boolean
+    pathInMainDatabase?: boolean
+    metadata?: boolean
+    tableName?: boolean
+    tableId?: boolean
+    application_id?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["candidateDocuments"]>
+
+  export type CandidateDocumentsSelectScalar = {
+    id?: boolean
+    status?: boolean
+    path?: boolean
+    pathInMainDatabase?: boolean
+    metadata?: boolean
+    tableName?: boolean
+    tableId?: boolean
+    application_id?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+
+  export type $CandidateDocumentsPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    name: "CandidateDocuments"
+    objects: {}
+    scalars: $Extensions.GetResult<{
+      id: string
+      status: $Enums.CandidateDocumentStatus
+      path: string
+      pathInMainDatabase: string
+      metadata: Prisma.JsonValue
+      tableName: string
+      tableId: string
+      application_id: string
+      expiresAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["candidateDocuments"]>
+    composites: {}
+  }
+
+
+  type CandidateDocumentsGetPayload<S extends boolean | null | undefined | CandidateDocumentsDefaultArgs> = $Result.GetResult<Prisma.$CandidateDocumentsPayload, S>
+
+  type CandidateDocumentsCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
+    Omit<CandidateDocumentsFindManyArgs, 'select' | 'include'> & {
+      select?: CandidateDocumentsCountAggregateInputType | true
+    }
+
+  export interface CandidateDocumentsDelegate<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CandidateDocuments'], meta: { name: 'CandidateDocuments' } }
+    /**
+     * Find zero or one CandidateDocuments that matches the filter.
+     * @param {CandidateDocumentsFindUniqueArgs} args - Arguments to find a CandidateDocuments
+     * @example
+     * // Get one CandidateDocuments
+     * const candidateDocuments = await prisma.candidateDocuments.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends CandidateDocumentsFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, CandidateDocumentsFindUniqueArgs<ExtArgs>>
+    ): Prisma__CandidateDocumentsClient<$Result.GetResult<Prisma.$CandidateDocumentsPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one CandidateDocuments that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {CandidateDocumentsFindUniqueOrThrowArgs} args - Arguments to find a CandidateDocuments
+     * @example
+     * // Get one CandidateDocuments
+     * const candidateDocuments = await prisma.candidateDocuments.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends CandidateDocumentsFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, CandidateDocumentsFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__CandidateDocumentsClient<$Result.GetResult<Prisma.$CandidateDocumentsPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first CandidateDocuments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateDocumentsFindFirstArgs} args - Arguments to find a CandidateDocuments
+     * @example
+     * // Get one CandidateDocuments
+     * const candidateDocuments = await prisma.candidateDocuments.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends CandidateDocumentsFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, CandidateDocumentsFindFirstArgs<ExtArgs>>
+    ): Prisma__CandidateDocumentsClient<$Result.GetResult<Prisma.$CandidateDocumentsPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first CandidateDocuments that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateDocumentsFindFirstOrThrowArgs} args - Arguments to find a CandidateDocuments
+     * @example
+     * // Get one CandidateDocuments
+     * const candidateDocuments = await prisma.candidateDocuments.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends CandidateDocumentsFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, CandidateDocumentsFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__CandidateDocumentsClient<$Result.GetResult<Prisma.$CandidateDocumentsPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more CandidateDocuments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateDocumentsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CandidateDocuments
+     * const candidateDocuments = await prisma.candidateDocuments.findMany()
+     * 
+     * // Get first 10 CandidateDocuments
+     * const candidateDocuments = await prisma.candidateDocuments.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const candidateDocumentsWithIdOnly = await prisma.candidateDocuments.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends CandidateDocumentsFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, CandidateDocumentsFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CandidateDocumentsPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a CandidateDocuments.
+     * @param {CandidateDocumentsCreateArgs} args - Arguments to create a CandidateDocuments.
+     * @example
+     * // Create one CandidateDocuments
+     * const CandidateDocuments = await prisma.candidateDocuments.create({
+     *   data: {
+     *     // ... data to create a CandidateDocuments
+     *   }
+     * })
+     * 
+    **/
+    create<T extends CandidateDocumentsCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, CandidateDocumentsCreateArgs<ExtArgs>>
+    ): Prisma__CandidateDocumentsClient<$Result.GetResult<Prisma.$CandidateDocumentsPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many CandidateDocuments.
+     *     @param {CandidateDocumentsCreateManyArgs} args - Arguments to create many CandidateDocuments.
+     *     @example
+     *     // Create many CandidateDocuments
+     *     const candidateDocuments = await prisma.candidateDocuments.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends CandidateDocumentsCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, CandidateDocumentsCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a CandidateDocuments.
+     * @param {CandidateDocumentsDeleteArgs} args - Arguments to delete one CandidateDocuments.
+     * @example
+     * // Delete one CandidateDocuments
+     * const CandidateDocuments = await prisma.candidateDocuments.delete({
+     *   where: {
+     *     // ... filter to delete one CandidateDocuments
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends CandidateDocumentsDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, CandidateDocumentsDeleteArgs<ExtArgs>>
+    ): Prisma__CandidateDocumentsClient<$Result.GetResult<Prisma.$CandidateDocumentsPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one CandidateDocuments.
+     * @param {CandidateDocumentsUpdateArgs} args - Arguments to update one CandidateDocuments.
+     * @example
+     * // Update one CandidateDocuments
+     * const candidateDocuments = await prisma.candidateDocuments.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends CandidateDocumentsUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, CandidateDocumentsUpdateArgs<ExtArgs>>
+    ): Prisma__CandidateDocumentsClient<$Result.GetResult<Prisma.$CandidateDocumentsPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more CandidateDocuments.
+     * @param {CandidateDocumentsDeleteManyArgs} args - Arguments to filter CandidateDocuments to delete.
+     * @example
+     * // Delete a few CandidateDocuments
+     * const { count } = await prisma.candidateDocuments.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends CandidateDocumentsDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, CandidateDocumentsDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CandidateDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateDocumentsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CandidateDocuments
+     * const candidateDocuments = await prisma.candidateDocuments.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends CandidateDocumentsUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, CandidateDocumentsUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CandidateDocuments.
+     * @param {CandidateDocumentsUpsertArgs} args - Arguments to update or create a CandidateDocuments.
+     * @example
+     * // Update or create a CandidateDocuments
+     * const candidateDocuments = await prisma.candidateDocuments.upsert({
+     *   create: {
+     *     // ... data to create a CandidateDocuments
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CandidateDocuments we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends CandidateDocumentsUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, CandidateDocumentsUpsertArgs<ExtArgs>>
+    ): Prisma__CandidateDocumentsClient<$Result.GetResult<Prisma.$CandidateDocumentsPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of CandidateDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateDocumentsCountArgs} args - Arguments to filter CandidateDocuments to count.
+     * @example
+     * // Count the number of CandidateDocuments
+     * const count = await prisma.candidateDocuments.count({
+     *   where: {
+     *     // ... the filter for the CandidateDocuments we want to count
+     *   }
+     * })
+    **/
+    count<T extends CandidateDocumentsCountArgs>(
+      args?: Subset<T, CandidateDocumentsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CandidateDocumentsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CandidateDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateDocumentsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CandidateDocumentsAggregateArgs>(args: Subset<T, CandidateDocumentsAggregateArgs>): Prisma.PrismaPromise<GetCandidateDocumentsAggregateType<T>>
+
+    /**
+     * Group by CandidateDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateDocumentsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CandidateDocumentsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CandidateDocumentsGroupByArgs['orderBy'] }
+        : { orderBy?: CandidateDocumentsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CandidateDocumentsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCandidateDocumentsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CandidateDocuments model
+   */
+  readonly fields: CandidateDocumentsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CandidateDocuments.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CandidateDocumentsClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the CandidateDocuments model
+   */ 
+  interface CandidateDocumentsFieldRefs {
+    readonly id: FieldRef<"CandidateDocuments", 'String'>
+    readonly status: FieldRef<"CandidateDocuments", 'CandidateDocumentStatus'>
+    readonly path: FieldRef<"CandidateDocuments", 'String'>
+    readonly pathInMainDatabase: FieldRef<"CandidateDocuments", 'String'>
+    readonly metadata: FieldRef<"CandidateDocuments", 'Json'>
+    readonly tableName: FieldRef<"CandidateDocuments", 'String'>
+    readonly tableId: FieldRef<"CandidateDocuments", 'String'>
+    readonly application_id: FieldRef<"CandidateDocuments", 'String'>
+    readonly expiresAt: FieldRef<"CandidateDocuments", 'DateTime'>
+    readonly createdAt: FieldRef<"CandidateDocuments", 'DateTime'>
+    readonly updatedAt: FieldRef<"CandidateDocuments", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * CandidateDocuments findUnique
+   */
+  export type CandidateDocumentsFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateDocuments
+     */
+    select?: CandidateDocumentsSelect<ExtArgs> | null
+    /**
+     * Filter, which CandidateDocuments to fetch.
+     */
+    where: CandidateDocumentsWhereUniqueInput
+  }
+
+
+  /**
+   * CandidateDocuments findUniqueOrThrow
+   */
+  export type CandidateDocumentsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateDocuments
+     */
+    select?: CandidateDocumentsSelect<ExtArgs> | null
+    /**
+     * Filter, which CandidateDocuments to fetch.
+     */
+    where: CandidateDocumentsWhereUniqueInput
+  }
+
+
+  /**
+   * CandidateDocuments findFirst
+   */
+  export type CandidateDocumentsFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateDocuments
+     */
+    select?: CandidateDocumentsSelect<ExtArgs> | null
+    /**
+     * Filter, which CandidateDocuments to fetch.
+     */
+    where?: CandidateDocumentsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CandidateDocuments to fetch.
+     */
+    orderBy?: CandidateDocumentsOrderByWithRelationInput | CandidateDocumentsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CandidateDocuments.
+     */
+    cursor?: CandidateDocumentsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CandidateDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CandidateDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CandidateDocuments.
+     */
+    distinct?: CandidateDocumentsScalarFieldEnum | CandidateDocumentsScalarFieldEnum[]
+  }
+
+
+  /**
+   * CandidateDocuments findFirstOrThrow
+   */
+  export type CandidateDocumentsFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateDocuments
+     */
+    select?: CandidateDocumentsSelect<ExtArgs> | null
+    /**
+     * Filter, which CandidateDocuments to fetch.
+     */
+    where?: CandidateDocumentsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CandidateDocuments to fetch.
+     */
+    orderBy?: CandidateDocumentsOrderByWithRelationInput | CandidateDocumentsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CandidateDocuments.
+     */
+    cursor?: CandidateDocumentsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CandidateDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CandidateDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CandidateDocuments.
+     */
+    distinct?: CandidateDocumentsScalarFieldEnum | CandidateDocumentsScalarFieldEnum[]
+  }
+
+
+  /**
+   * CandidateDocuments findMany
+   */
+  export type CandidateDocumentsFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateDocuments
+     */
+    select?: CandidateDocumentsSelect<ExtArgs> | null
+    /**
+     * Filter, which CandidateDocuments to fetch.
+     */
+    where?: CandidateDocumentsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CandidateDocuments to fetch.
+     */
+    orderBy?: CandidateDocumentsOrderByWithRelationInput | CandidateDocumentsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CandidateDocuments.
+     */
+    cursor?: CandidateDocumentsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CandidateDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CandidateDocuments.
+     */
+    skip?: number
+    distinct?: CandidateDocumentsScalarFieldEnum | CandidateDocumentsScalarFieldEnum[]
+  }
+
+
+  /**
+   * CandidateDocuments create
+   */
+  export type CandidateDocumentsCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateDocuments
+     */
+    select?: CandidateDocumentsSelect<ExtArgs> | null
+    /**
+     * The data needed to create a CandidateDocuments.
+     */
+    data: XOR<CandidateDocumentsCreateInput, CandidateDocumentsUncheckedCreateInput>
+  }
+
+
+  /**
+   * CandidateDocuments createMany
+   */
+  export type CandidateDocumentsCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CandidateDocuments.
+     */
+    data: CandidateDocumentsCreateManyInput | CandidateDocumentsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * CandidateDocuments update
+   */
+  export type CandidateDocumentsUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateDocuments
+     */
+    select?: CandidateDocumentsSelect<ExtArgs> | null
+    /**
+     * The data needed to update a CandidateDocuments.
+     */
+    data: XOR<CandidateDocumentsUpdateInput, CandidateDocumentsUncheckedUpdateInput>
+    /**
+     * Choose, which CandidateDocuments to update.
+     */
+    where: CandidateDocumentsWhereUniqueInput
+  }
+
+
+  /**
+   * CandidateDocuments updateMany
+   */
+  export type CandidateDocumentsUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CandidateDocuments.
+     */
+    data: XOR<CandidateDocumentsUpdateManyMutationInput, CandidateDocumentsUncheckedUpdateManyInput>
+    /**
+     * Filter which CandidateDocuments to update
+     */
+    where?: CandidateDocumentsWhereInput
+  }
+
+
+  /**
+   * CandidateDocuments upsert
+   */
+  export type CandidateDocumentsUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateDocuments
+     */
+    select?: CandidateDocumentsSelect<ExtArgs> | null
+    /**
+     * The filter to search for the CandidateDocuments to update in case it exists.
+     */
+    where: CandidateDocumentsWhereUniqueInput
+    /**
+     * In case the CandidateDocuments found by the `where` argument doesn't exist, create a new CandidateDocuments with this data.
+     */
+    create: XOR<CandidateDocumentsCreateInput, CandidateDocumentsUncheckedCreateInput>
+    /**
+     * In case the CandidateDocuments was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CandidateDocumentsUpdateInput, CandidateDocumentsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * CandidateDocuments delete
+   */
+  export type CandidateDocumentsDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateDocuments
+     */
+    select?: CandidateDocumentsSelect<ExtArgs> | null
+    /**
+     * Filter which CandidateDocuments to delete.
+     */
+    where: CandidateDocumentsWhereUniqueInput
+  }
+
+
+  /**
+   * CandidateDocuments deleteMany
+   */
+  export type CandidateDocumentsDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CandidateDocuments to delete
+     */
+    where?: CandidateDocumentsWhereInput
+  }
+
+
+  /**
+   * CandidateDocuments without action
+   */
+  export type CandidateDocumentsDefaultArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateDocuments
+     */
+    select?: CandidateDocumentsSelect<ExtArgs> | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -41472,6 +42509,7 @@ export namespace Prisma {
     candidate_id: 'candidate_id',
     legalResponsibleId: 'legalResponsibleId',
     application_id: 'application_id',
+    isUpdated: 'isUpdated',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -41806,12 +42844,36 @@ export namespace Prisma {
   export type FamilyMemberToVehicleScalarFieldEnum = (typeof FamilyMemberToVehicleScalarFieldEnum)[keyof typeof FamilyMemberToVehicleScalarFieldEnum]
 
 
+  export const CandidateDocumentsScalarFieldEnum: {
+    id: 'id',
+    status: 'status',
+    path: 'path',
+    pathInMainDatabase: 'pathInMainDatabase',
+    metadata: 'metadata',
+    tableName: 'tableName',
+    tableId: 'tableId',
+    application_id: 'application_id',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CandidateDocumentsScalarFieldEnum = (typeof CandidateDocumentsScalarFieldEnum)[keyof typeof CandidateDocumentsScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -41828,6 +42890,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -42427,6 +43498,27 @@ export namespace Prisma {
    * Reference to a field of type 'SolicitationType[]'
    */
   export type ListEnumSolicitationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SolicitationType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'CandidateDocumentStatus'
+   */
+  export type EnumCandidateDocumentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CandidateDocumentStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'CandidateDocumentStatus[]'
+   */
+  export type ListEnumCandidateDocumentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CandidateDocumentStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
   /**
    * Deep Input Types
@@ -44549,6 +45641,7 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"BankAccount"> | string | null
     legalResponsibleId?: StringNullableFilter<"BankAccount"> | string | null
     application_id?: StringFilter<"BankAccount"> | string
+    isUpdated?: BoolFilter<"BankAccount"> | boolean
     createdAt?: DateTimeFilter<"BankAccount"> | Date | string
     updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
@@ -44567,6 +45660,7 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    isUpdated?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     familyMember?: FamilyMemberOrderByWithRelationInput
@@ -44588,6 +45682,7 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"BankAccount"> | string | null
     legalResponsibleId?: StringNullableFilter<"BankAccount"> | string | null
     application_id?: StringFilter<"BankAccount"> | string
+    isUpdated?: BoolFilter<"BankAccount"> | boolean
     createdAt?: DateTimeFilter<"BankAccount"> | Date | string
     updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
     familyMember?: XOR<FamilyMemberNullableRelationFilter, FamilyMemberWhereInput> | null
@@ -44606,6 +45701,7 @@ export namespace Prisma {
     candidate_id?: SortOrderInput | SortOrder
     legalResponsibleId?: SortOrderInput | SortOrder
     application_id?: SortOrder
+    isUpdated?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: BankAccountCountOrderByAggregateInput
@@ -44627,6 +45723,7 @@ export namespace Prisma {
     candidate_id?: StringNullableWithAggregatesFilter<"BankAccount"> | string | null
     legalResponsibleId?: StringNullableWithAggregatesFilter<"BankAccount"> | string | null
     application_id?: StringWithAggregatesFilter<"BankAccount"> | string
+    isUpdated?: BoolWithAggregatesFilter<"BankAccount"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"BankAccount"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BankAccount"> | Date | string
   }
@@ -46395,6 +47492,88 @@ export namespace Prisma {
     B?: StringWithAggregatesFilter<"FamilyMemberToVehicle"> | string
     application_id?: StringWithAggregatesFilter<"FamilyMemberToVehicle"> | string
     main_id?: StringNullableWithAggregatesFilter<"FamilyMemberToVehicle"> | string | null
+  }
+
+  export type CandidateDocumentsWhereInput = {
+    AND?: CandidateDocumentsWhereInput | CandidateDocumentsWhereInput[]
+    OR?: CandidateDocumentsWhereInput[]
+    NOT?: CandidateDocumentsWhereInput | CandidateDocumentsWhereInput[]
+    id?: StringFilter<"CandidateDocuments"> | string
+    status?: EnumCandidateDocumentStatusFilter<"CandidateDocuments"> | $Enums.CandidateDocumentStatus
+    path?: StringFilter<"CandidateDocuments"> | string
+    pathInMainDatabase?: StringFilter<"CandidateDocuments"> | string
+    metadata?: JsonFilter<"CandidateDocuments">
+    tableName?: StringFilter<"CandidateDocuments"> | string
+    tableId?: StringFilter<"CandidateDocuments"> | string
+    application_id?: StringFilter<"CandidateDocuments"> | string
+    expiresAt?: DateTimeNullableFilter<"CandidateDocuments"> | Date | string | null
+    createdAt?: DateTimeFilter<"CandidateDocuments"> | Date | string
+    updatedAt?: DateTimeFilter<"CandidateDocuments"> | Date | string
+  }
+
+  export type CandidateDocumentsOrderByWithRelationInput = {
+    id?: SortOrder
+    status?: SortOrder
+    path?: SortOrder
+    pathInMainDatabase?: SortOrder
+    metadata?: SortOrder
+    tableName?: SortOrder
+    tableId?: SortOrder
+    application_id?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CandidateDocumentsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    path?: string
+    AND?: CandidateDocumentsWhereInput | CandidateDocumentsWhereInput[]
+    OR?: CandidateDocumentsWhereInput[]
+    NOT?: CandidateDocumentsWhereInput | CandidateDocumentsWhereInput[]
+    status?: EnumCandidateDocumentStatusFilter<"CandidateDocuments"> | $Enums.CandidateDocumentStatus
+    pathInMainDatabase?: StringFilter<"CandidateDocuments"> | string
+    metadata?: JsonFilter<"CandidateDocuments">
+    tableName?: StringFilter<"CandidateDocuments"> | string
+    tableId?: StringFilter<"CandidateDocuments"> | string
+    application_id?: StringFilter<"CandidateDocuments"> | string
+    expiresAt?: DateTimeNullableFilter<"CandidateDocuments"> | Date | string | null
+    createdAt?: DateTimeFilter<"CandidateDocuments"> | Date | string
+    updatedAt?: DateTimeFilter<"CandidateDocuments"> | Date | string
+  }, "id" | "path">
+
+  export type CandidateDocumentsOrderByWithAggregationInput = {
+    id?: SortOrder
+    status?: SortOrder
+    path?: SortOrder
+    pathInMainDatabase?: SortOrder
+    metadata?: SortOrder
+    tableName?: SortOrder
+    tableId?: SortOrder
+    application_id?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CandidateDocumentsCountOrderByAggregateInput
+    _max?: CandidateDocumentsMaxOrderByAggregateInput
+    _min?: CandidateDocumentsMinOrderByAggregateInput
+  }
+
+  export type CandidateDocumentsScalarWhereWithAggregatesInput = {
+    AND?: CandidateDocumentsScalarWhereWithAggregatesInput | CandidateDocumentsScalarWhereWithAggregatesInput[]
+    OR?: CandidateDocumentsScalarWhereWithAggregatesInput[]
+    NOT?: CandidateDocumentsScalarWhereWithAggregatesInput | CandidateDocumentsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CandidateDocuments"> | string
+    status?: EnumCandidateDocumentStatusWithAggregatesFilter<"CandidateDocuments"> | $Enums.CandidateDocumentStatus
+    path?: StringWithAggregatesFilter<"CandidateDocuments"> | string
+    pathInMainDatabase?: StringWithAggregatesFilter<"CandidateDocuments"> | string
+    metadata?: JsonWithAggregatesFilter<"CandidateDocuments">
+    tableName?: StringWithAggregatesFilter<"CandidateDocuments"> | string
+    tableId?: StringWithAggregatesFilter<"CandidateDocuments"> | string
+    application_id?: StringWithAggregatesFilter<"CandidateDocuments"> | string
+    expiresAt?: DateTimeNullableWithAggregatesFilter<"CandidateDocuments"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CandidateDocuments"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CandidateDocuments"> | Date | string
   }
 
   export type IdMappingCreateInput = {
@@ -48949,6 +50128,7 @@ export namespace Prisma {
     accountNumber: string
     accountType: $Enums.AccountType
     application_id: string
+    isUpdated?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutBankAccountInput
@@ -48967,6 +50147,7 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    isUpdated?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -48979,6 +50160,7 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     application_id?: StringFieldUpdateOperationsInput | string
+    isUpdated?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutBankAccountNestedInput
@@ -48997,6 +50179,7 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    isUpdated?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -49012,6 +50195,7 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    isUpdated?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -49024,6 +50208,7 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     application_id?: StringFieldUpdateOperationsInput | string
+    isUpdated?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -49039,6 +50224,7 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    isUpdated?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -50999,6 +52185,104 @@ export namespace Prisma {
     B?: StringFieldUpdateOperationsInput | string
     application_id?: StringFieldUpdateOperationsInput | string
     main_id?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CandidateDocumentsCreateInput = {
+    id?: string
+    status?: $Enums.CandidateDocumentStatus
+    path: string
+    pathInMainDatabase: string
+    metadata: JsonNullValueInput | InputJsonValue
+    tableName: string
+    tableId: string
+    application_id: string
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CandidateDocumentsUncheckedCreateInput = {
+    id?: string
+    status?: $Enums.CandidateDocumentStatus
+    path: string
+    pathInMainDatabase: string
+    metadata: JsonNullValueInput | InputJsonValue
+    tableName: string
+    tableId: string
+    application_id: string
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CandidateDocumentsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumCandidateDocumentStatusFieldUpdateOperationsInput | $Enums.CandidateDocumentStatus
+    path?: StringFieldUpdateOperationsInput | string
+    pathInMainDatabase?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    tableName?: StringFieldUpdateOperationsInput | string
+    tableId?: StringFieldUpdateOperationsInput | string
+    application_id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateDocumentsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumCandidateDocumentStatusFieldUpdateOperationsInput | $Enums.CandidateDocumentStatus
+    path?: StringFieldUpdateOperationsInput | string
+    pathInMainDatabase?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    tableName?: StringFieldUpdateOperationsInput | string
+    tableId?: StringFieldUpdateOperationsInput | string
+    application_id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateDocumentsCreateManyInput = {
+    id?: string
+    status?: $Enums.CandidateDocumentStatus
+    path: string
+    pathInMainDatabase: string
+    metadata: JsonNullValueInput | InputJsonValue
+    tableName: string
+    tableId: string
+    application_id: string
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CandidateDocumentsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumCandidateDocumentStatusFieldUpdateOperationsInput | $Enums.CandidateDocumentStatus
+    path?: StringFieldUpdateOperationsInput | string
+    pathInMainDatabase?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    tableName?: StringFieldUpdateOperationsInput | string
+    tableId?: StringFieldUpdateOperationsInput | string
+    application_id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateDocumentsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumCandidateDocumentStatusFieldUpdateOperationsInput | $Enums.CandidateDocumentStatus
+    path?: StringFieldUpdateOperationsInput | string
+    pathInMainDatabase?: StringFieldUpdateOperationsInput | string
+    metadata?: JsonNullValueInput | InputJsonValue
+    tableName?: StringFieldUpdateOperationsInput | string
+    tableId?: StringFieldUpdateOperationsInput | string
+    application_id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -53089,6 +54373,7 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    isUpdated?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -53104,6 +54389,7 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    isUpdated?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -53119,6 +54405,7 @@ export namespace Prisma {
     candidate_id?: SortOrder
     legalResponsibleId?: SortOrder
     application_id?: SortOrder
+    isUpdated?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -54494,6 +55781,110 @@ export namespace Prisma {
     B?: SortOrder
     application_id?: SortOrder
     main_id?: SortOrder
+  }
+
+  export type EnumCandidateDocumentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CandidateDocumentStatus | EnumCandidateDocumentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CandidateDocumentStatus[] | ListEnumCandidateDocumentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CandidateDocumentStatus[] | ListEnumCandidateDocumentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCandidateDocumentStatusFilter<$PrismaModel> | $Enums.CandidateDocumentStatus
+  }
+  export type JsonFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type CandidateDocumentsCountOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+    path?: SortOrder
+    pathInMainDatabase?: SortOrder
+    metadata?: SortOrder
+    tableName?: SortOrder
+    tableId?: SortOrder
+    application_id?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CandidateDocumentsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+    path?: SortOrder
+    pathInMainDatabase?: SortOrder
+    tableName?: SortOrder
+    tableId?: SortOrder
+    application_id?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CandidateDocumentsMinOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+    path?: SortOrder
+    pathInMainDatabase?: SortOrder
+    tableName?: SortOrder
+    tableId?: SortOrder
+    application_id?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumCandidateDocumentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CandidateDocumentStatus | EnumCandidateDocumentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CandidateDocumentStatus[] | ListEnumCandidateDocumentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CandidateDocumentStatus[] | ListEnumCandidateDocumentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCandidateDocumentStatusWithAggregatesFilter<$PrismaModel> | $Enums.CandidateDocumentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCandidateDocumentStatusFilter<$PrismaModel>
+    _max?: NestedEnumCandidateDocumentStatusFilter<$PrismaModel>
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -58754,6 +60145,10 @@ export namespace Prisma {
     update?: XOR<XOR<VehicleUpdateToOneWithWhereWithoutFamilyMemberToVehicleInput, VehicleUpdateWithoutFamilyMemberToVehicleInput>, VehicleUncheckedUpdateWithoutFamilyMemberToVehicleInput>
   }
 
+  export type EnumCandidateDocumentStatusFieldUpdateOperationsInput = {
+    set?: $Enums.CandidateDocumentStatus
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -59637,6 +61032,45 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumSolicitationTypeNullableFilter<$PrismaModel>
     _max?: NestedEnumSolicitationTypeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCandidateDocumentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CandidateDocumentStatus | EnumCandidateDocumentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CandidateDocumentStatus[] | ListEnumCandidateDocumentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CandidateDocumentStatus[] | ListEnumCandidateDocumentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCandidateDocumentStatusFilter<$PrismaModel> | $Enums.CandidateDocumentStatus
+  }
+
+  export type NestedEnumCandidateDocumentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CandidateDocumentStatus | EnumCandidateDocumentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CandidateDocumentStatus[] | ListEnumCandidateDocumentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CandidateDocumentStatus[] | ListEnumCandidateDocumentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCandidateDocumentStatusWithAggregatesFilter<$PrismaModel> | $Enums.CandidateDocumentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCandidateDocumentStatusFilter<$PrismaModel>
+    _max?: NestedEnumCandidateDocumentStatusFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type ApplicationCreateWithoutCandidateInput = {
@@ -60682,6 +62116,7 @@ export namespace Prisma {
     accountNumber: string
     accountType: $Enums.AccountType
     application_id: string
+    isUpdated?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutBankAccountInput
@@ -60698,6 +62133,7 @@ export namespace Prisma {
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    isUpdated?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -61532,6 +62968,7 @@ export namespace Prisma {
     candidate_id?: StringNullableFilter<"BankAccount"> | string | null
     legalResponsibleId?: StringNullableFilter<"BankAccount"> | string | null
     application_id?: StringFilter<"BankAccount"> | string
+    isUpdated?: BoolFilter<"BankAccount"> | boolean
     createdAt?: DateTimeFilter<"BankAccount"> | Date | string
     updatedAt?: DateTimeFilter<"BankAccount"> | Date | string
   }
@@ -62911,6 +64348,7 @@ export namespace Prisma {
     accountNumber: string
     accountType: $Enums.AccountType
     application_id: string
+    isUpdated?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     familyMember?: FamilyMemberCreateNestedOneWithoutBankAccountInput
@@ -62927,6 +64365,7 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    isUpdated?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -65548,6 +66987,7 @@ export namespace Prisma {
     accountNumber: string
     accountType: $Enums.AccountType
     application_id: string
+    isUpdated?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     candidate?: CandidateCreateNestedOneWithoutBankAccountInput
@@ -65564,6 +67004,7 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    isUpdated?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -76164,6 +77605,7 @@ export namespace Prisma {
     familyMember_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    isUpdated?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -77392,6 +78834,7 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     application_id?: StringFieldUpdateOperationsInput | string
+    isUpdated?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutBankAccountNestedInput
@@ -77408,6 +78851,7 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    isUpdated?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -77422,6 +78866,7 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    isUpdated?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -77876,6 +79321,7 @@ export namespace Prisma {
     familyMember_id?: string | null
     candidate_id?: string | null
     application_id: string
+    isUpdated?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -79184,6 +80630,7 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     application_id?: StringFieldUpdateOperationsInput | string
+    isUpdated?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     familyMember?: FamilyMemberUpdateOneWithoutBankAccountNestedInput
@@ -79200,6 +80647,7 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    isUpdated?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -79214,6 +80662,7 @@ export namespace Prisma {
     familyMember_id?: NullableStringFieldUpdateOperationsInput | string | null
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    isUpdated?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -80086,6 +81535,7 @@ export namespace Prisma {
     candidate_id?: string | null
     legalResponsibleId?: string | null
     application_id: string
+    isUpdated?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -80569,6 +82019,7 @@ export namespace Prisma {
     accountNumber?: StringFieldUpdateOperationsInput | string
     accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
     application_id?: StringFieldUpdateOperationsInput | string
+    isUpdated?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     candidate?: CandidateUpdateOneWithoutBankAccountNestedInput
@@ -80585,6 +82036,7 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    isUpdated?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -80599,6 +82051,7 @@ export namespace Prisma {
     candidate_id?: NullableStringFieldUpdateOperationsInput | string | null
     legalResponsibleId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
+    isUpdated?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -81422,6 +82875,10 @@ export namespace Prisma {
      * @deprecated Use FamilyMemberToVehicleDefaultArgs instead
      */
     export type FamilyMemberToVehicleArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = FamilyMemberToVehicleDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CandidateDocumentsDefaultArgs instead
+     */
+    export type CandidateDocumentsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = CandidateDocumentsDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

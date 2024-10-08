@@ -1,5 +1,5 @@
 import nodeSchedule from 'node-schedule';
-import { prisma } from '../lib/prisma';
+import { historyDatabase, prisma } from '../lib/prisma';
 import { deleteFromS3 } from '@/lib/S3';
 
 async function removeOutdatedDocuments() {
@@ -19,7 +19,7 @@ async function removeOutdatedDocuments() {
                 // Atualizar o status das declarações
 
                 await prisma.$transaction(async (tsPrisma) => {
-                
+
                     await tsPrisma.candidateDocuments.delete({
                         where: {
                             id: document.id
@@ -33,7 +33,24 @@ async function removeOutdatedDocuments() {
                             isUpdated: false
                         }
                     });
+
                     await deleteFromS3(document.path);
+                    await historyDatabase.$transaction(async (tsBackupPrisma) => {
+                        await tsBackupPrisma.candidateDocuments.deleteMany({
+                            where: {
+                                pathInMainDatabase: document.path
+                            }
+                        })
+                        await tsBackupPrisma.bankAccount.updateMany({
+                            where: {
+                                main_id: document.tableId
+                            },
+                            data: {
+                                isUpdated: false
+                            }
+                        });
+
+                    })
                 })
             }
 
