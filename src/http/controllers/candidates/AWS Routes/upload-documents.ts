@@ -11,7 +11,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import fs from 'fs'
 import { z } from 'zod'
 import createCandidateDocument from '../Documents Functions/create-candidate-document'
-import createCandidateDocumentHDB from '@/HistDatabaseFunctions/Handle Documents/create-candidate-document'
+import {createCandidateDocumentHDB} from '@/HistDatabaseFunctions/Handle Documents/handle-candidate-document'
 
 
 

@@ -2,6 +2,8 @@ import { historyDatabase, prisma } from "@/lib/prisma";
 import getOpenApplications from "./find-open-applications";
 import { findAWSRouteHDB } from "./Handle Application/find-AWS-Route";
 import { copyFilesToAnotherFolder, deleteFromS3Folder } from "@/lib/S3";
+import getCandidateDocument from "@/http/controllers/candidates/Documents Functions/get-candidate-document";
+import {createCandidateDocumentHDB} from "./Handle Documents/handle-candidate-document";
 
 export async function createBankAccountHDB(id: string, candidate_id: string | null, legalResponsibleId: string | null, application_id: string) {
     const bankAccount = await prisma.bankAccount.findUnique({
@@ -25,6 +27,15 @@ export async function createBankAccountHDB(id: string, candidate_id: string | nu
     }
     const route = `CandidateDocuments/${idRoute}/statement/${(oldCandidateId || oldResponsibleId || '')}/${bankAccount.id}/`;
     const RouteHDB = await findAWSRouteHDB(idRoute, 'statement', (oldCandidateId || oldResponsibleId || oldFamilyMemberId)!, bankAccount.id, application_id);
+    const copyFiles = await getCandidateDocument("statement", bankAccount.id);
+
+    await historyDatabase.$transaction(async (tsPrismaHDB) => {
+        for (const file of copyFiles) {
+            const metadata = file.metadata ?? {}; // Provide a default value if metadata is null
+
+            await createCandidateDocumentHDB(tsPrismaHDB, RouteHDB, route, metadata, 'statement', bankAccount.id, null, application_id);
+        }
+    });
     await copyFilesToAnotherFolder(route, RouteHDB);
 }
 
@@ -78,6 +89,8 @@ export async function deleteBankAccountHDB(id: string, memberId: string) {
     if (!openApplications) {
         return null;
     }
+
+
     const route = `CandidateDocuments/${candidateOrResponsibleId}/statement/${(memberId)}/${id}/`;
     await deleteFromS3Folder(route)
 
@@ -86,6 +99,9 @@ export async function deleteBankAccountHDB(id: string, memberId: string) {
         await deleteFromS3Folder(RouteHDB);
         const deleteBankAccount = await historyDatabase.bankAccount.deleteMany({
             where: { main_id: id, application_id: application.id }
+        })
+        await historyDatabase.candidateDocuments.deleteMany({
+            where: { tableId: id, application_id: application.id }
         })
     }
 }

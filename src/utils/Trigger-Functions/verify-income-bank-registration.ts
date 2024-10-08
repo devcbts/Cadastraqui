@@ -1,30 +1,34 @@
 import { prisma } from "../../lib/prisma";
+import { calculateAge } from "../calculate-age";
 import { SelectCandidateResponsible } from "../select-candidate-responsible";
 
-export async function verifyIncomeBankRegistration(CandidateOrResponsibleId: string) {
-    const candidateOrResponsible = await SelectCandidateResponsible(CandidateOrResponsibleId);
-    if (!candidateOrResponsible) {
-        return null;
-    }
-    const idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id };
-    const familyMembers = await prisma.familyMember.findMany({
-        where: {
-            ...idField,
-        }
+export async function verifyIncomeBankRegistration(id: string) {
+    // Verificar se o ID pertence a um familyMember
+    const familyMember = await prisma.familyMember.findUnique({
+        where: { id }
     });
-    const identityDetails = await prisma.identityDetails.findFirst({
-        where: {OR: [
-            { candidate_id: candidateOrResponsible.UserData.id },
-            { responsible_id: candidateOrResponsible.UserData.id }
-        ]}
-    })
-    if (!identityDetails) {
-        return null;
+
+    let idField;
+    let isResponsible = false;
+
+    if (familyMember) {
+        idField = { familyMember_id: id };
+    } else {
+        // Verificar se o ID pertence a um candidateOrResponsible
+        const candidateOrResponsible = await SelectCandidateResponsible(id);
+
+        if (!candidateOrResponsible) {
+            return null;
+        }
+
+        idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: id } : { candidate_id: id };
+        isResponsible = candidateOrResponsible.IsResponsible;
     }
+
 
     let update = true;
 
-    for (const familyMember of familyMembers) {
+    if (familyMember) {
         const hasIncome = await prisma.familyMemberIncome.findMany({
             where: {
                 familyMember_id: familyMember.id
@@ -35,52 +39,111 @@ export async function verifyIncomeBankRegistration(CandidateOrResponsibleId: str
         }
 
         if (familyMember.hasBankAccount) {
-            const hasBankAccount = await prisma.bankAccount.findFirst({
+            const hasBankAccount = await prisma.bankAccount.findMany({
                 where: {
                     familyMember_id: familyMember.id
                 }
             });
-            if (!hasBankAccount) {
+            if (hasBankAccount.some(bankAccount => bankAccount.isUpdated === false)) {
                 update = false;
             }
         }
 
-       
-    }
-
-    const hasIncome = await prisma.familyMemberIncome.findMany({
-        where: {
-           ...idField
+        if (familyMember.hasBankAccount === null) {
+            update = false;
         }
-    });
-    if (hasIncome.some(income => income.isUpdated === false)) {
-        update = false;
-    }
+        if (calculateAge(familyMember.birthDate) >= 18) {
+            const pix = await prisma.candidateDocuments.findFirst({
+                where: {
+                    tableName: 'pix',
+                    tableId: familyMember.id
+                }
+            })
+            const registrato = await prisma.candidateDocuments.findFirst({
+                where: {
+                    tableName: 'registrato',
+                    tableId: familyMember.id
+                }
+            })
+            if (!pix || pix?.status === 'PENDING' || registrato?.status === 'PENDING' || !registrato) {
+                update = false;
+            }
+        }
+        await prisma.familyMember.update({
+            where: {
+                id
+            },
+            data: {
+                isIncomeUpdated: update
+            }
+        })
+    } else {
+        const identityDetails = await prisma.identityDetails.findFirst({
+            where: {
+                OR: [
+                    { candidate_id: id },
+                    { responsible_id: id }
+                ]
+            }
+        });
 
-    if (identityDetails.hasBankAccount) {
-        const hasBankAccount = await prisma.bankAccount.findFirst({
+        if (!identityDetails) {
+            return null;
+        }
+        const hasIncome = await prisma.familyMemberIncome.findMany({
             where: {
                 ...idField
             }
         });
-        if (!hasBankAccount) {
+        if (hasIncome.some(income => income.isUpdated === false)) {
             update = false;
         }
-    }
-    if (identityDetails.hasBankAccount === null) {
-        update = false;
+
+       
+
+        if (identityDetails.hasBankAccount) {
+            const hasBankAccount = await prisma.bankAccount.findMany({
+                where: {
+                    ...idField
+                }
+            });
+            if (hasBankAccount.some(bankAccount => bankAccount.isUpdated === false)) {
+                update = false;
+            }
+        }
+
+        if (identityDetails.hasBankAccount === null) {
+            update = false;
+        }
+
+
+        // faz a busca dos documentos de pix e registrato
+        const pix = await prisma.candidateDocuments.findFirst({
+            where: {
+                tableName: 'pix',
+                tableId: id
+            }
+        })
+        const registrato = await prisma.candidateDocuments.findFirst({
+            where: {
+                tableName: 'registrato',
+                tableId: id
+            }
+        })
+        if (!pix || pix?.status === 'PENDING' || registrato?.status === 'PENDING' || !registrato) {
+            update = false;
+        }
+        await prisma.identityDetails.update({
+            where: {
+                id: identityDetails.id
+            },
+            data: {
+                isIncomeUpdated: update
+            }
+        })
+
+
     }
 
-    familyMembers.forEach(familyMember => {
-        if (familyMember.hasBankAccount === null) {
-            update = false;
-        }
-    });
-    await prisma.finishedRegistration.upsert({
-        where: idField,
-        create: { rendaMensal: update, ...idField },
-        update: {
-          rendaMensal: update,
-        }
-    });
+
 }
