@@ -26,8 +26,8 @@ export async function verifyIncomeBankRegistration(id: string) {
     }
 
 
-    let update = true;
-
+    let update;
+    update = true;
     if (familyMember) {
         const hasIncome = await prisma.familyMemberIncome.findMany({
             where: {
@@ -38,6 +38,7 @@ export async function verifyIncomeBankRegistration(id: string) {
             update = false;
         }
 
+        
         if (familyMember.hasBankAccount) {
             const hasBankAccount = await prisma.bankAccount.findMany({
                 where: {
@@ -49,9 +50,7 @@ export async function verifyIncomeBankRegistration(id: string) {
             }
         }
 
-        if (familyMember.hasBankAccount === null) {
-            update = false;
-        }
+
         if (calculateAge(familyMember.birthDate) >= 18) {
             const pix = await prisma.candidateDocuments.findFirst({
                 where: {
@@ -65,10 +64,20 @@ export async function verifyIncomeBankRegistration(id: string) {
                     tableId: familyMember.id
                 }
             })
-            if (!pix || pix?.status === 'PENDING' || registrato?.status === 'PENDING' || !registrato) {
+            if (pix?.status === 'PENDING' || registrato?.status === 'PENDING') {
                 update = false;
             }
+            if (!pix || !registrato) {
+                update = null;
+            }
         }
+        if (familyMember.hasBankAccount === null) {
+            update = null;
+        }
+        if (!hasIncome){
+            update = null;
+        }
+
         await prisma.familyMember.update({
             where: {
                 id
@@ -99,7 +108,7 @@ export async function verifyIncomeBankRegistration(id: string) {
             update = false;
         }
 
-       
+
 
         if (identityDetails.hasBankAccount) {
             const hasBankAccount = await prisma.bankAccount.findMany({
@@ -110,10 +119,6 @@ export async function verifyIncomeBankRegistration(id: string) {
             if (hasBankAccount.some(bankAccount => bankAccount.isUpdated === false)) {
                 update = false;
             }
-        }
-
-        if (identityDetails.hasBankAccount === null) {
-            update = false;
         }
 
 
@@ -130,8 +135,18 @@ export async function verifyIncomeBankRegistration(id: string) {
                 tableId: id
             }
         })
-        if (!pix || pix?.status === 'PENDING' || registrato?.status === 'PENDING' || !registrato) {
+        if (pix?.status === 'PENDING' || registrato?.status === 'PENDING') {
             update = false;
+        }
+        if (!pix || !registrato) {
+            update = null;
+        }
+        
+        if (identityDetails.hasBankAccount === null) {
+            update = null;
+        }
+        if (!hasIncome){
+            update = null;
         }
         await prisma.identityDetails.update({
             where: {
