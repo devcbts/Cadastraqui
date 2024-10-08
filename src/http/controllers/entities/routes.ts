@@ -28,6 +28,8 @@ import { registerEntity } from './register-entity'
 import removeAssistantFromAnnouncement from './remove-assistant-from-announcement'
 import searchAnnouncements from './search-announcements'
 import getAllStudents from './students/get-all-students'
+import getRenewCourses from './students/get-renew-courses'
+import getRenewDashboard from './students/get-renew-dashboard'
 import getStudentsDashboard from './students/get-students-dashboard'
 import registerNewStudents from './students/register-new-students'
 import { updateAnnouncement } from './update-announcement'
@@ -170,4 +172,6 @@ export async function entityRoutes(app: FastifyInstance) {
   app.get('/students/dashboard', { onRequest: [verifyJWT] }, getStudentsDashboard)
   app.post('/students/register', { onRequest: [verifyJWT] }, registerNewStudents)
   app.get('/students/all', { onRequest: [verifyJWT] }, getAllStudents)
+  app.get('/students/renew/dashbaord', { onRequest: [verifyJWT] }, getRenewDashboard)
+  app.get('/students/renew/courses', { onRequest: [verifyJWT] }, getRenewCourses)
 }

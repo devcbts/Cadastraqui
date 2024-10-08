@@ -29,21 +29,29 @@ export default async function getEntityDashboard(
                 },
 
                 Announcement: {
+                    where: { announcementDate: { gte: new Date() } },
                     include: {
-                        // educationLevels: {
-                        //     include: {
-                        //         course: true,
-                        //         entitySubsidiary: true,
-                        //         _count: {
-                        //             select: {
-                        //                 Application: true
-                        //             }
-                        //         }
-                        //     },
-                        // },
+                        educationLevels: {
+                            where: { announcement: { announcementDate: { gte: new Date() } } },
+                            include: {
+                                course: true,
+                                _count: {
+                                    select: {
+                                        Application: true
+                                        // { where: { candidateStatus: null } }
+                                    }
+                                }
+                            },
+                        },
                         _count: {
                             select: {
-                                Application: { where: { candidateStatus: null } }
+                                Application: {
+                                    where: {
+                                        AND: [{ announcement: { announcementDate: { gte: new Date() } } },
+                                            // { candidateStatus: null }
+                                        ]
+                                    }
+                                }
                             }
                         }
                     }
@@ -60,27 +68,38 @@ export default async function getEntityDashboard(
         subscriptions - sum of all applications made to the current announcement
         unitVacancies - sum of all applications to a specific subsidiary
          */
-        const announcements = entity.Announcement.filter((e => e.announcementDate! > new Date()))
+        const announcements = entity.Announcement
+        // .filter((e => e.announcementDate! > new Date()))
         const vacancies = announcements.reduce((acc, announcement) => {
             return acc += announcement.verifiedScholarships
         }, 0)
+        console.log(announcements.length)
         const subscriptions = announcements.reduce((acc, announcement) => {
             return acc += announcement._count.Application
         }, 0)
 
 
-
+        console.log('LENGTH', entity.EntitySubsidiary.map(e => e.Announcement.length))
         //Sum each educationalLevel application for each announcement, sorted by its entity
         const entities_info: ({ name: string, id: string })[] = entity.EntitySubsidiary.map(e => ({ name: e.socialReason, id: e.id }))
         // add 'null' id to represent the current entity
         entities_info.push({ name: entity.socialReason, id: entity.id })
         const announcements_ids = entity.Announcement.map(e => e.id).concat(entity.EntitySubsidiary.map(e => e.id))
+        const education_levels = entity.Announcement.reduce((acc: any[], curr) => {
+            acc.push(...curr.educationLevels.map(e => ({ count: e._count.Application, entity: e.entitySubsidiaryId })))
+            return acc
+        }, [])
         const unitVacancies = entities_info.reduce((acc: { name: string, id: number, applicants: number }[], curr) => {
             const curr_entity = (entity.id === curr.id ? entity : entity.EntitySubsidiary.find(e => e.id === curr.id))!
-            const total = curr_entity!.Announcement.reduce((an_acc, an_curr) => {
-                return an_acc += an_curr._count.Application
+            // const total = curr_entity!.Announcement.reduce((an_acc, an_curr) => {
+            //     return an_acc += an_curr._count.Application
+            // }, 0)
+            const total = education_levels.reduce((acc, curr) => {
+                if (curr.entity === curr_entity.id || (entity.id === curr.id && curr.entity === null)) {
+                    return acc += curr.count
+                }
+                return acc
             }, 0)
-            console.log(curr_entity.socialReason, total)
             acc.push({
                 name: curr_entity.socialReason,
                 id: parseInt(curr_entity.CNPJ.replace(/\D*/g, '')),
@@ -92,7 +111,14 @@ export default async function getEntityDashboard(
             where: {
                 AND:
                     [{ announcementId: { in: announcements_ids } },
-                    { announcement: { announcementDate: { gt: new Date() } } }]
+                    { announcement: { announcementDate: { gte: new Date() } } },
+                    {
+                        Application: {
+                            some: {},
+                            // every: { candidateStatus: null } 
+                        }
+                    }
+                    ]
             },
             select: {
                 course: {
@@ -108,12 +134,19 @@ export default async function getEntityDashboard(
             }
 
         })
+        console.log(courses.map(e => e.course))
         const courses_names = await prisma.course.findMany({
             where: { id: { in: courses.map(e => e.course.id) } },
         })
         const coursesApplicants = courses.reduce((acc: { id: number, name: string, applicants: number }[], curr) => {
             const course = courses_names.find(e => e.id === curr.course.id)
             if (!course) {
+                return acc
+            }
+            const hasOnAcc = acc.find(e => e.id === curr.course.id)
+            if (hasOnAcc) {
+                // course already exists on acc
+                hasOnAcc.applicants += curr._count.Application
                 return acc
             }
             acc.push({

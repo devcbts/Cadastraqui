@@ -175,6 +175,7 @@ export async function CreateAnnoucment(
         await createAnnouncementEducationLevel({
           dbClient: tprisma,
           data: {
+            entityId: !!education.entity_subsidiary_id ? null : entityMatrix.id,
             courseId: data.id ?? null,
             typeOfScholarship: data.typeOfScholarship as AllScholarshipsType,
             level: data.level as LevelType,

@@ -1,13 +1,15 @@
+import { normalizeString } from "@/http/controllers/entities/utils/normalize-string";
+import { prisma } from "@/lib/prisma";
 import { AllEducationType } from "@prisma/client";
-import { prisma } from "../lib/prisma";
+
 // Função para normalizar o nome do curso
-function normalizeName(name: string) {
-    return name
-        .normalize('NFD') // Normaliza para decompor caracteres acentuados
-        .replace(/[\u0300-\u036f]/g, '') // Remove os acentos
-        .toLowerCase() // Converte para minúsculas
-        .replace(/\s+/g, ''); // Remove espaços
-}
+// function normalizeName(name: string) {
+//     return name
+//         .normalize('NFD') // Normaliza para decompor caracteres acentuados
+//         .replace(/[\u0300-\u036f]/g, '') // Remove os acentos
+//         .toLowerCase() // Converte para minúsculas
+//         .replace(/\s+/g, ''); // Remove espaços
+// }
 
 async function addCourses() {
     try {
@@ -188,6 +190,9 @@ async function addCourses() {
                 "Segunda licenciatura",
                 "Teatro"
             ],
+            Preschool: ['Berçário - (0 a 11 meses)', 'G1 - (1 ano)', 'G2 - (2 anos)', 'G3 - (3 anos)', 'G4 - (4 anos)', 'G5 - (5 anos)'],
+            Elementary: ['1º ano', '2º ano', '3º ano', '4º ano', '5º ano', '6º ano', '7º ano', '8º ano', '9º ano'],
+            HighSchool: ['1ª série', '2ª série', '3ª série'],
             UndergraduateTechnologist: [
                 "Acupuntura",
                 "Agrimensura",
@@ -324,7 +329,7 @@ async function addCourses() {
         // Normalizar os nomes dos cursos e adicionar à tabela Course
         for (const [type, courseNames] of Object.entries(courseHigh)) {
             for (const name of courseNames) {
-                const normalizedName = normalizeName(name);
+                const normalizedName = normalizeString(name);
                 await prisma.course.create({
                     data: {
                         name: name,
@@ -332,11 +337,11 @@ async function addCourses() {
                         Type: type as AllEducationType
                     }
                 });
-                console.log(`Curso ${name} adicionado com sucesso!`);
+                // console.log(`Curso ${name} adicionado com sucesso!`);
             }
         }
 
-        console.log("Todos os cursos foram adicionados com sucesso.");
+        // console.log("Todos os cursos foram adicionados com sucesso.");
     } catch (error) {
         console.error("Erro ao adicionar cursos:", error);
     } finally {
@@ -346,5 +351,3 @@ async function addCourses() {
 
 // Executar o script
 addCourses();
-
-

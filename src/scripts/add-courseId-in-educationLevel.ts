@@ -1,28 +1,31 @@
-import { prisma } from "../lib/prisma";
 
 // Função para normalizar o nome do curso
-function normalizeName(name: string) {
+function normalizeString(name: string) {
     return name
         .normalize('NFD') // Normaliza para decompor caracteres acentuados
         .replace(/[\u0300-\u036f]/g, '') // Remove os acentos
+        .replace(/[^a-zA-Z0-9\s]/g, '')
         .toLowerCase() // Converte para minúsculas
         .replace(/\s+/g, ''); // Remove espaços
 }
 
-/*async function updateEducationLevelCourseId() {
+import { AllEducationType } from "@prisma/client";
+import { prisma } from "../lib/prisma";
+
+async function updateEducationLevelCourseId() {
     try {
         // Buscar todos os registros na tabela EducationLevel
         const educationLevels = await prisma.educationLevel.findMany({
-            where : {
-                OR: [{offeredCourseType: {not: null}}, {basicEduType: {not: null}}]
-            }
+            // where : {
+            //     OR: [{offeredCourseType: {not: null}}, {basicEduType: {not: null}}]
+            // }
         });
 
         for (const educationLevel of educationLevels) {
-            const { basicEduType, offeredCourseType, availableCourses,grade } = educationLevel;
+            const { basicEduType, offeredCourseType, availableCourses, grade } = educationLevel;
 
             if (availableCourses || grade) {
-                const normalizedCourseName = normalizeName((availableCourses || grade)!);
+                const normalizedCourseName = normalizeString((availableCourses || grade)!);
 
                 // Buscar o curso na tabela Course
                 const course = await prisma.course.findUnique({
@@ -57,4 +60,3 @@ function normalizeName(name: string) {
 
 // Executar o script
 updateEducationLevelCourseId();
-*/
