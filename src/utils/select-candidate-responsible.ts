@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "../lib/prisma";
 
 //This function is similar to ChooseCandidateResponsible, but it diferentiates the candidate from the responsible by the id
 export async function SelectCandidateResponsible(identifier: string): Promise<{ IsResponsible: boolean, UserData: any } | null> {

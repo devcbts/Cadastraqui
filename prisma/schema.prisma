@@ -58,6 +58,7 @@ model Candidate {
   FinishedRegistration   FinishedRegistration?
   finishedRegistrationId String?
   updatedAt              DateTime              @default(now()) @updatedAt
+  Student                Student[]
 
   @@unique([id, responsible_id])
   @@map("candidates")
@@ -182,6 +183,7 @@ model Entity {
   user                       User               @relation(fields: [user_id], references: [id])
   createdAt                  DateTime           @default(now())
   updatedAt                  DateTime           @default(now()) @updatedAt
+  EntityCourse               EntityCourse[]
 
   @@map("entities")
 }
@@ -208,6 +210,7 @@ model EntitySubsidiary {
   EducationLevel             EducationLevel[]
   createdAt                  DateTime          @default(now())
   updatedAt                  DateTime          @default(now()) @updatedAt
+  EntityCourse               EntityCourse[]
 }
 
 model EntityDirector {
@@ -1026,6 +1029,46 @@ model LoginHistory {
   deviceType  String?
   browser     String?
   user        User     @relation("User", fields: [user_id], references: [id])
+}
+
+// Tabela dos cursos genéricos
+model Course {
+  id           Int            @id @default(autoincrement())
+  name         String
+  Type         String
+  EntityCourse EntityCourse[]
+}
+
+//Cursos da entidade
+model EntityCourse {
+  id                  String  @id @default(uuid())
+  entity_id           String?
+  entitySubsidiary_id String?
+
+  course_id        Int
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @default(now()) @updatedAt
+  entitySubsidiary EntitySubsidiary? @relation(fields: [entitySubsidiary_id], references: [id])
+  entity           Entity?           @relation(fields: [entity_id], references: [id])
+  course           Course            @relation(fields: [course_id], references: [id])
+  Student          Student[]
+}
+
+model Student {
+  id              String       @id @default(uuid())
+  name            String
+  admissionDate DateTime
+  scholarshipType String // Tipos de bolsa (todas possíveis)
+  grade          String? // Semestre caso exista
+  shift SHIFT
+  candidate_id    String
+  candidate       Candidate    @relation(fields: [candidate_id], references: [id])
+  status          String // Será um enum (ATIVO, INATIVO, FORMADO)
+  entityCourse_id String
+  entityCourse    EntityCourse @relation(fields: [entityCourse_id], references: [id])
+
+  announcement_id String
+  
 }
 
 enum ScholarshipGrantedStatus {

@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "../../lib/prisma";
 import { SelectCandidateResponsible } from "../select-candidate-responsible";
 
 export async function verifyIncomeBankRegistration(CandidateOrResponsibleId: string) {
@@ -25,12 +25,12 @@ export async function verifyIncomeBankRegistration(CandidateOrResponsibleId: str
     let update = true;
 
     for (const familyMember of familyMembers) {
-        const hasIncome = await prisma.familyMemberIncome.findFirst({
+        const hasIncome = await prisma.familyMemberIncome.findMany({
             where: {
                 familyMember_id: familyMember.id
             }
         });
-        if (!hasIncome) {
+        if (hasIncome.some(income => income.isUpdated === false)) {
             update = false;
         }
 
@@ -48,12 +48,12 @@ export async function verifyIncomeBankRegistration(CandidateOrResponsibleId: str
        
     }
 
-    const hasIncome = await prisma.familyMemberIncome.findFirst({
+    const hasIncome = await prisma.familyMemberIncome.findMany({
         where: {
            ...idField
         }
     });
-    if (!hasIncome) {
+    if (hasIncome.some(income => income.isUpdated === false)) {
         update = false;
     }
 

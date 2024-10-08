@@ -14,7 +14,7 @@ import { createBankAccountHDB, deleteBankAccountHDB, updateBankAccountHDB } from
 import { createCandidateHDB, updateCandidateHDB } from "@/HistDatabaseFunctions/handle-candidate";
 import { createCreditCardHDB, updateCreditCardHDB } from "@/HistDatabaseFunctions/handle-credit-card";
 import { createDeclarationHDB } from "@/HistDatabaseFunctions/handle-declaration";
-import { createExpenseHDB, updateExpenseHDB } from "@/HistDatabaseFunctions/handle-expenses";
+import { createExpenseHDB, deleteExpenseHDB, updateExpenseHDB } from "@/HistDatabaseFunctions/handle-expenses";
 import { createFamilyMemberHDB, deleteFamilyMemberHDB, updateFamilyMemberHDB } from "@/HistDatabaseFunctions/handle-family-member";
 import { createFamilyMemberDiseaseHDB, deleteFamilyMemberDiseaseHDB, updateFamilyMemberDiseaseHDB } from "@/HistDatabaseFunctions/handle-family-member-disease";
 import { createFamilyMemberIncomeHDB, deleteFamilyMemberIncomeHDB, updateFamilyMemberIncomeHDB } from "@/HistDatabaseFunctions/handle-family-member-income";
@@ -35,6 +35,7 @@ import { verifyIncomeBankRegistration } from "@/utils/Trigger-Functions/verify-i
 import { Client } from 'pg';
 import { prisma } from './prisma';
 import { IdentityDetails } from '../../backup_prisma/generated/clientBackup/index';
+import verifyExpenses from "@/utils/Trigger-Functions/verify-expenses";
 
 const clientBackup = new Client(env.DATABASE_URL);
 const connectClient = async () => {
@@ -42,23 +43,23 @@ const connectClient = async () => {
         await clientBackup.connect();
         console.log('Connected to the database');
 
-        clientBackup.query('LISTEN channel_application');
-        clientBackup.query('LISTEN "channel_housing"');
-        clientBackup.query('LISTEN "channel_candidate"');
-        clientBackup.query('LISTEN "channel_creditCard"');
-        clientBackup.query('LISTEN "channel_expense"');
-        clientBackup.query('LISTEN "channel_familyMember"');
-        clientBackup.query('LISTEN "channel_familyMemberDisease"');
-        clientBackup.query('LISTEN "channel_familyMemberIncome"');
-        clientBackup.query('LISTEN "channel_financing"');
-        clientBackup.query('LISTEN "channel_identityDetails"');
-        clientBackup.query('LISTEN "channel_loan"');
-        clientBackup.query('LISTEN "channel_medication"');
-        clientBackup.query('LISTEN "channel_monthlyIncome"');
-        clientBackup.query('LISTEN "channel_otherExpense"');
-        clientBackup.query('LISTEN "channel_responsible"');
-        clientBackup.query('LISTEN "channel_vehicle"');
-        clientBackup.query('LISTEN "channel_bankaccount"');
+        await clientBackup.query('LISTEN channel_application');
+        await clientBackup.query('LISTEN "channel_housing"');
+        await clientBackup.query('LISTEN "channel_candidate"');
+        await clientBackup.query('LISTEN "channel_creditCard"');
+        await clientBackup.query('LISTEN "channel_expense"');
+        await clientBackup.query('LISTEN "channel_familyMember"');
+        await clientBackup.query('LISTEN "channel_familyMemberDisease"');
+        await clientBackup.query('LISTEN "channel_familyMemberIncome"');
+        await clientBackup.query('LISTEN "channel_financing"');
+        await clientBackup.query('LISTEN "channel_identityDetails"');
+        await clientBackup.query('LISTEN "channel_loan"');
+        await clientBackup.query('LISTEN "channel_medication"');
+        await clientBackup.query('LISTEN "channel_monthlyIncome"');
+        await clientBackup.query('LISTEN "channel_otherExpense"');
+        await clientBackup.query('LISTEN "channel_responsible"');
+        await clientBackup.query('LISTEN "channel_vehicle"');
+        await clientBackup.query('LISTEN "channel_bankaccount"');
     } catch (err) {
         console.error('Failed to connect to the database', err);
         await clientBackup.end();
@@ -67,6 +68,11 @@ const connectClient = async () => {
 };
 connectClient();
 
+clientBackup.on("error", async (err) => {
+    console.error('Error in database connection', err);
+    await clientBackup.end();
+    setTimeout(connectClient, 5000); // Retry connection after 5 seconds
+})
 
 clientBackup.on('notification', async (msg) => {
     console.log('Received notification:', msg.payload);
@@ -98,18 +104,7 @@ clientBackup.on('notification', async (msg) => {
             }
         }
 
-        if (msg.channel == 'channel_creditCard') {
-            const creditCard = JSON.parse(msg.payload!);
-            if (creditCard.operation == 'Update') {
-                updateCreditCardHDB(creditCard.data.id)
-            }
-            else if (creditCard.operation == 'Insert') {
-                const openApplications = await getOpenApplications(creditCard.data.candidate_id || creditCard.data.legalResponsibleId);
-                for (const application of openApplications) {
-                    createCreditCardHDB(creditCard.data.id, creditCard.data.candidate_id, creditCard.data.legalResponsibleId, application.id)
-                }
-            }
-        }
+
 
         if (msg.channel == 'channel_expense') {
             const expense = JSON.parse(msg.payload!);
@@ -122,6 +117,11 @@ clientBackup.on('notification', async (msg) => {
                     await createExpenseHDB(expense.data.id, expense.data.candidate_id, expense.data.legalResponsibleId, application.id)
                 }
             }
+            else if (expense.operation == 'Delete') {
+                await deleteExpenseHDB(expense.data.id, expense.data.candidate_id || expense.data.legalResponsibleId)
+            }
+
+            await verifyExpenses(expense.data.candidate_id || expense.data.legalResponsibleId)
 
         }
         if (msg.channel == 'channel_familyMember') {
@@ -256,11 +256,7 @@ clientBackup.on('notification', async (msg) => {
         }
         if (msg.channel == 'channel_monthlyIncome') {
             const monthlyIncome = JSON.parse(msg.payload!);
-            const monthIncome = await prisma.monthlyIncome.findUnique({
-                where: { id: monthlyIncome.data.id },
-                include: { familyMember: true }
-
-            })
+           
             await CalculateMemberAverageIncome(monthlyIncome.data.candidate_id || monthlyIncome.data.familyMember_id || monthlyIncome.data.legalResponsibleId, monthlyIncome.data.incomeSource)
             if (monthlyIncome.operation == 'Update') {
                 await updateMonthlyIncomeHDB(monthlyIncome.data.id)
