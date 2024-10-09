@@ -50,7 +50,7 @@ export async function getOpenAnnouncements(
           // announcementDate: { gte: new Date() }
         },
         include: {
-          educationLevels: true,
+          educationLevels: { include: { course: true } },
           entity: {
             include: {
               user: { select: { email: true } },

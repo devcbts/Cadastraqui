@@ -35,7 +35,7 @@ const shiftMapping: { [key: string]: string } = {
     "Integral": SHIFT.Integral
 }
 
-const scholarshipTypeMapping: { [key: string]: string } = {
+const scholarshipTypeMapping: { [key: string]: AllScholarshipsType } = {
     "Bolsa Lei 187 Parcial": AllScholarshipsType.Law187ScholarshipPartial,
     "Bolsa Lei 187 Integral": AllScholarshipsType.Law187Scholarship,
     "Estudante com Deficiência Parcial": AllScholarshipsType.StudentWithDisabilityPartial,
@@ -54,7 +54,7 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
         const role = request.user.role
 
         const entity = await SelectEntityOrDirector(user_id, role)
-       
+
         const csvFile = await request.file();
         if (!csvFile) {
             throw new ResourceNotFoundError();
@@ -81,14 +81,17 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
             });
         };
 
-        const detectedEncoding = await detectEncoding(tempFile.name);
-        const encoding = detectedEncoding === 'windows-1251' ? 'latin1' : (detectedEncoding as string || 'utf8');
+        const detectedEncoding = 'latin1';
+        // const encoding = detectedEncoding === 'windows-1251' ? 'latin1' : (detectedEncoding as string || 'utf8');
         const results: CSVData[] = [];
         await new Promise((resolve, reject) => {
             fs.createReadStream(tempFile.name)
-                .pipe(decodeStream(encoding))
+                .pipe(decodeStream(detectedEncoding))
                 .pipe(encodeStream('utf8'))
-                .pipe(csv({ separator: detectedEncoding === "UTF-8" ? ',' : ';' }))
+                .pipe(csv({
+                    separator: ';'
+                    // detectedEncoding === "UTF-8" ? ',' : ';'
+                }))
                 .on('data', (data: CSVData) => {
                     // Process the data as needed
                     results.push(data);
@@ -130,6 +133,7 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
             }
             return entityOrSubsidiary;
         }))
+        console.log(results)
         if (results.some(e => {
             const value = parseInt(e["Número de Vagas"])
             return isNaN(value) || value <= 0
@@ -140,10 +144,10 @@ export default async function uploadBasicEducationCSVFileToAnnouncement(
             const matchedEntity = entities.find(entity => entity.CNPJ === result["CNPJ (Matriz ou Filial)"]);
             return {
                 // cnpj: result["CNPJ (Matriz ou Filial)"],
-                basicEduType: educationTypeMapping[result["Tipo de Educação"]],
-                availableCourses: result["Ciclo/Ano/Série/Curso"],
+                type: educationTypeMapping[result["Tipo de Educação"]],
+                name: result["Ciclo/Ano/Série/Curso"],
                 shift: result["Turno"],
-                scholarshipType: scholarshipTypeMapping[result["Tipo de Bolsa"]],
+                typeOfScholarship: scholarshipTypeMapping[result["Tipo de Bolsa"]],
                 verifiedScholarships: parseInt(result["Número de Vagas"]),
                 entity_subsidiary_id: matchedEntity?.id === entity.id ? null : matchedEntity?.id
             };

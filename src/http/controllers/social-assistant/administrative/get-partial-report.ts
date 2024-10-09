@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import {AllEducationType, AllScholarshipsType, LevelType } from "@prisma/client";
+import { AllEducationType, AllScholarshipsType, LevelType, } from "@prisma/client";
 import * as csvWriter from 'csv-writer';
 import { FastifyReply, FastifyRequest } from "fastify";
 import * as fs from 'fs';
@@ -100,9 +100,7 @@ export default async function getPartialReport(
                             candidate: true,
                             responsible: true,
                             EducationLevel: {
-                                include: {
-                                    course: true
-                                }
+                                include: { course: true }
                             },
                         }
                     }
@@ -124,15 +122,12 @@ export default async function getPartialReport(
                             candidate: true,
                             responsible: true,
                             EducationLevel: {
-                                include: {
-                                    course: true
-                                }
-                            },
+                                include: { course: true }
                             }
                         }
                     }
                 }
-            );
+            })
         }
 
 
@@ -141,8 +136,8 @@ export default async function getPartialReport(
             const scholarshipsInfos = scholarships.map((scholarship) => {
                 return {
                     level: scholarship.application.EducationLevel.level,
-                    courseType: scholarship.application.EducationLevel.course.Type,
-                    course: scholarship.application.EducationLevel.course.name,
+                    courseType: scholarship.application.EducationLevel.course?.Type,
+                    course: scholarship.application.EducationLevel.course?.name,
                     candidateName: scholarship.application.candidate.name,
                     candidateBirthDate: formatDate(scholarship.application.candidate.birthDate.toString()),
                     candidateCPF: scholarship.application.candidate.CPF,
@@ -162,13 +157,13 @@ export default async function getPartialReport(
             const scholarshipsInfos = scholarships.map((scholarship) => {
                 return {
                     level: levelTranslation[scholarship.application.EducationLevel.level],
-                    courseType: `${courseTypeTranslation[scholarship.application.EducationLevel.course.Type]} - ${scholarship.application.EducationLevel.course.name} `,
+                    courseType: `${courseTypeTranslation[(scholarship.application.EducationLevel.course?.Type)!]} - ${scholarship.application.EducationLevel.course?.name} `,
                     candidateName: scholarship.application.candidate.name,
                     candidateBirthDate: formatDate(scholarship.application.candidate.birthDate.toString()),
                     ScholarshipCode: scholarship.ScholarshipCode,
                     candidateCPF: scholarship.application.candidate.CPF,
                     responsibleCPF: scholarship.application.responsible?.CPF,
-                    ScholarshipOfferType: scholarshipOfferTranslation[scholarship.application.EducationLevel.typeOfScholarship],
+                    ScholarshipOfferType: scholarshipOfferTranslation[(scholarship.application.EducationLevel.typeOfScholarship)!],
                     partialPercentage: scholarship.application.ScholarshipPartial ? "50%" : "100%",
                 }
             })

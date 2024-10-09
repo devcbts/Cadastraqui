@@ -43,6 +43,7 @@
     "fastify-cors": "3.0.3",
     "fastify-multer": "2.0.3",
     "fastify-multipart": "5.4.0",
+    "fastify-request-context": "2.3.0",
     "fastify-static": "4.7.0",
     "geoip-lite": "1.4.10",
     "iconv-lite": "0.6.3",

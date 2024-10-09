@@ -14,12 +14,8 @@ export default async function getEntityDashboard(
         const entity = await prisma.entity.findUnique({
             where: { id: entityOrDirector.id },
             include: {
-                // EntitySubsidiary: true,
                 EntitySubsidiary: {
                     include: {
-                        // EducationLevel: {
-                        //     select: { _count: { select: { Application: true } } }
-                        // },
                         Announcement: {
                             include: {
                                 _count: {
@@ -31,22 +27,31 @@ export default async function getEntityDashboard(
                         }
                     }
                 },
+
                 Announcement: {
+                    where: { announcementDate: { gte: new Date() } },
                     include: {
                         educationLevels: {
+                            where: { announcement: { announcementDate: { gte: new Date() } } },
                             include: {
                                 course: true,
-                                entitySubsidiary: true,
                                 _count: {
                                     select: {
                                         Application: true
+                                        // { where: { candidateStatus: null } }
                                     }
                                 }
                             },
                         },
                         _count: {
                             select: {
-                                Application: true
+                                Application: {
+                                    where: {
+                                        AND: [{ announcement: { announcementDate: { gte: new Date() } } },
+                                            // { candidateStatus: null }
+                                        ]
+                                    }
+                                }
                             }
                         }
                     }
@@ -63,70 +68,102 @@ export default async function getEntityDashboard(
         subscriptions - sum of all applications made to the current announcement
         unitVacancies - sum of all applications to a specific subsidiary
          */
-        const announcements = entity.Announcement.filter((e => e.announcementDate! > new Date()))
+        const announcements = entity.Announcement
+        // .filter((e => e.announcementDate! > new Date()))
         const vacancies = announcements.reduce((acc, announcement) => {
             return acc += announcement.verifiedScholarships
         }, 0)
+        console.log(announcements.length)
         const subscriptions = announcements.reduce((acc, announcement) => {
             return acc += announcement._count.Application
         }, 0)
 
 
-
+        console.log('LENGTH', entity.EntitySubsidiary.map(e => e.Announcement.length))
         //Sum each educationalLevel application for each announcement, sorted by its entity
-        const entities_ids: ({ name: string, id: string | null })[] = entity.EntitySubsidiary.map(e => ({ name: e.socialReason, id: e.id }))
+        const entities_info: ({ name: string, id: string })[] = entity.EntitySubsidiary.map(e => ({ name: e.socialReason, id: e.id }))
         // add 'null' id to represent the current entity
-        entities_ids.push({ name: entity.socialReason, id: null })
-        const unitVacancies = entities_ids.map((unit) => {
-            // get all education by entity of each announcement
-            const applicationByEntity: any[] = []
-            const applicationByCourse: any[] = []
-            // aux to keep track of all available courses of the announcement
-            const currentAvailableCourses: string[] = []
-            announcements.forEach((announcement) => {
-                const educationalLevels = announcement.educationLevels.filter(l => l.entitySubsidiaryId === unit.id)
-                const appl = educationalLevels.reduce((acc: any, level) => {
-                    return acc += level._count.Application
-                }, 0)
-                if (educationalLevels.length) {
-                    const { entitySubsidiary } = educationalLevels?.[0]
-                    educationalLevels.forEach(level => {
-
-                        applicationByCourse.push({ course: level.course.name, applicants: level._count.Application })
-                        if (!currentAvailableCourses.includes(level.course.name)) {
-                            currentAvailableCourses.push(level.course.name)
-                        }
-
-                    })
+        entities_info.push({ name: entity.socialReason, id: entity.id })
+        const announcements_ids = entity.Announcement.map(e => e.id).concat(entity.EntitySubsidiary.map(e => e.id))
+        const education_levels = entity.Announcement.reduce((acc: any[], curr) => {
+            acc.push(...curr.educationLevels.map(e => ({ count: e._count.Application, entity: e.entitySubsidiaryId })))
+            return acc
+        }, [])
+        const unitVacancies = entities_info.reduce((acc: { name: string, id: number, applicants: number }[], curr) => {
+            const curr_entity = (entity.id === curr.id ? entity : entity.EntitySubsidiary.find(e => e.id === curr.id))!
+            // const total = curr_entity!.Announcement.reduce((an_acc, an_curr) => {
+            //     return an_acc += an_curr._count.Application
+            // }, 0)
+            const total = education_levels.reduce((acc, curr) => {
+                if (curr.entity === curr_entity.id || (entity.id === curr.id && curr.entity === null)) {
+                    return acc += curr.count
                 }
-                // const name = entitySubsidiary ? entitySubsidiary?.socialReason : entity?.socialReason
-                applicationByEntity.push({ id: unit.id, name: unit.name, applicants: appl })
-                // }
+                return acc
+            }, 0)
+            acc.push({
+                name: curr_entity.socialReason,
+                id: parseInt(curr_entity.CNPJ.replace(/\D*/g, '')),
+                applicants: total
             })
-            // sum all participants from all education levels of all entity's announcements
-            const entities = applicationByEntity.filter(e => e.id === unit.id).reduce((acc, item) => {
-                acc.name = item.name;
-                acc.applicants += item.applicants;
-                return acc;
-            }, { name: '', applicants: 0 })
-            const courses = currentAvailableCourses.map(course => {
-                return applicationByCourse.filter(e => e.course === course).reduce((acc, item) => {
-                    acc.course = item.course;
-                    acc.applicants += item.applicants;
-                    return acc;
-                }, { course: '', applicants: 0 })
-            })
-            return { entities, courses }
+            return acc
+        }, [])
+        const courses = await prisma.educationLevel.findMany({
+            where: {
+                AND:
+                    [{ announcementId: { in: announcements_ids } },
+                    { announcement: { announcementDate: { gte: new Date() } } },
+                    {
+                        Application: {
+                            some: {},
+                            // every: { candidateStatus: null } 
+                        }
+                    }
+                    ]
+            },
+            select: {
+                course: {
+                    select: {
+                        id: true
+                    }
+                },
+                _count: {
+                    select: {
+                        Application: true
+                    }
+                }
+            }
+
         })
+        console.log(courses.map(e => e.course))
+        const courses_names = await prisma.course.findMany({
+            where: { id: { in: courses.map(e => e.course.id) } },
+        })
+        const coursesApplicants = courses.reduce((acc: { id: number, name: string, applicants: number }[], curr) => {
+            const course = courses_names.find(e => e.id === curr.course.id)
+            if (!course) {
+                return acc
+            }
+            const hasOnAcc = acc.find(e => e.id === curr.course.id)
+            if (hasOnAcc) {
+                // course already exists on acc
+                hasOnAcc.applicants += curr._count.Application
+                return acc
+            }
+            acc.push({
+                id: course.id,
+                name: course.name,
+                applicants: curr._count.Application
+            })
+            return acc
+
+        }, [])
+
         return response.status(200).send({
             announcements: announcements.length,
             vacancies,
             subscriptions,
-            unit: unitVacancies.map(e => e.entities),
-            courses: unitVacancies.reduce((acc: any[], item) => {
-                acc = item.courses.concat(acc)
-                return acc
-            }, [])
+            unit: unitVacancies,
+            courses: coursesApplicants
         })
     } catch (err) {
         console.log(err)

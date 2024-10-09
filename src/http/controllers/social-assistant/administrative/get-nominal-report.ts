@@ -27,6 +27,32 @@ const courseTypeTranslation = {
 }
 
 
+const scholarshipOfferTranslation = {
+    [AllScholarshipsType.CityGovernment]: "Governo Municipal",
+    [AllScholarshipsType.CityGovernmentPartial]: "Governo Municipal Parcial",
+    [AllScholarshipsType.ExternalEntities]: "Entidades Externas",
+    [AllScholarshipsType.HigherEduInstitutionFull]: "Instituições de Ensino Superior",
+    [AllScholarshipsType.HigherEduInstitutionPartial]: "Instituições de Ensino Superior Parcial",
+    [AllScholarshipsType.HigherEduInstitutionWorkers]: "Trabalhadores da Instituição de Ensino Superior",
+    [AllScholarshipsType.HigherEduInstitutionWorkersPartial]: "Trabalhadores da Instituição de Ensino Superior Parcial",
+    [AllScholarshipsType.PROUNIFull]: "PROUNI Integral",
+    [AllScholarshipsType.PROUNIPartial]: "PROUNI Parcial",
+    [AllScholarshipsType.PostgraduateStrictoSensu]: "Pós Graduação Stricto Sensu",
+    [AllScholarshipsType.PostgraduateStrictoSensuPartial]: "Pós Graduação Stricto Sensu Parcial",
+    [AllScholarshipsType.StateGovernment]: "Governo Estadual",
+    [AllScholarshipsType.StateGovernmentPartial]: "Governo Estadual Parcial",
+    [AllScholarshipsType.ExternalEntitiesPartial]: "Entidades Externas Parcial",
+    [AllScholarshipsType.EntityWorkers]: "Trabalhadores da Entidade",
+    [AllScholarshipsType.EntityWorkersPartial]: "Trabalhadores da Entidade Parcial",
+    [AllScholarshipsType.FullTime]: "Tempo Integral",
+    [AllScholarshipsType.FullTimePartial]: "Tempo Integral (Parcial)",
+    [AllScholarshipsType.Law187Scholarship]: "Bolsa Lei 187",
+    [AllScholarshipsType.Law187ScholarshipPartial]: "Bolsa Lei 187 Parcial",
+    [AllScholarshipsType.StudentWithDisability]: "Estudante com Deficiência",
+    [AllScholarshipsType.StudentWithDisabilityPartial]: "Estudante com Deficiência (Parcial)",
+
+}
+
 
 export default async function getNominalReport(
     request: FastifyRequest,
@@ -74,9 +100,7 @@ export default async function getNominalReport(
                             candidate: true,
                             responsible: true,
                             EducationLevel: {
-                                include: {
-                                    course: true
-                                }
+                                include: { course: true }
                             },
                         }
                     }
@@ -99,9 +123,7 @@ export default async function getNominalReport(
                             candidate: true,
                             responsible: true,
                             EducationLevel: {
-                                include: {
-                                    course: true
-                                }
+                                include: { course: true }
                             }
                         }
                     }
@@ -118,8 +140,8 @@ export default async function getNominalReport(
                     entityCNPJ: entityInfo?.CNPJ,
                     candidateName: scholarship.application.candidate.name,
                     level: scholarship.application.EducationLevel.level,
-                    courseType: scholarship.application.EducationLevel.course.Type,
-                    course: scholarship.application.EducationLevel.course.name,
+                    courseType: scholarship.application.EducationLevel.course?.Type,
+                    course: scholarship.application.EducationLevel.course?.name,
                     partialPercentage: scholarship.application.ScholarshipPartial ? "50%" : "100%",
 
                 }
@@ -137,7 +159,7 @@ export default async function getNominalReport(
                     entityCNPJ: entityInfo?.CNPJ,
                     candidateName: scholarship.application.candidate.name,
                     level: levelTranslation[scholarship.application.EducationLevel.level],
-                    courseType: `${courseTypeTranslation[scholarship.application.EducationLevel.course.Type]} - ${scholarship.application.EducationLevel.course.name} `,
+                    courseType: `${courseTypeTranslation[(scholarship.application.EducationLevel.course?.Type)!]} - ${scholarship.application.EducationLevel.course?.name} `,
                     partialPercentage: scholarship.application.ScholarshipPartial ? "50%" : "100%",
                 }
             })

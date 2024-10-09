@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { AllEducationType, AllScholarshipsType, LevelType } from "@prisma/client";
+import { AllEducationType, AllScholarshipsType, LevelType, } from "@prisma/client";
 import * as csvWriter from 'csv-writer';
 import { FastifyReply, FastifyRequest } from "fastify";
 import * as fs from 'fs';
@@ -93,12 +93,12 @@ export default async function getFullReport(
                         responsible: true,
                         EducationLevel: {
                             include: {
+                                course: true,
                                 entitySubsidiary: {
                                     select: {
                                         educationalInstitutionCode: true
                                     }
                                 },
-                                course: true
                             }
                         },
 
@@ -117,13 +117,13 @@ export default async function getFullReport(
                 return {
                     educationalCENSUSInstitutionCode: (scholarship.application.EducationLevel.entitySubsidiary ? scholarship.application.EducationLevel.entitySubsidiary.educationalInstitutionCode : scholarship.application.announcement.entity.emec),
                     level: scholarship.application.EducationLevel.level,
-                    courseType: scholarship.application.EducationLevel.course.Type,
-                    course: scholarship.application.EducationLevel.course.name,
+                    courseType: scholarship.application.EducationLevel.course?.Type,
+                    course: scholarship.application.EducationLevel.course?.name,
                     candidateName: scholarship.application.candidate.name,
                     candidateBirthDate: formatDate(scholarship.application.candidate.birthDate.toString()),
                     candidateCPF: scholarship.application.candidate.CPF,
                     responsibleCPF: scholarship.application.responsible?.CPF,
-                    typeOfScholarship: scholarship.application.EducationLevel.typeOfScholarship,
+                    ScholarshipOfferType: scholarship.application.EducationLevel.typeOfScholarship,
                     partiaPercentage: scholarship.application.ScholarshipPartial,
                     ScholarshipCode: scholarship.ScholarshipCode
 
@@ -140,13 +140,13 @@ export default async function getFullReport(
                 return {
                     educationalCENSUSInstitutionCode: (scholarship.application.EducationLevel.entitySubsidiary ? scholarship.application.EducationLevel.entitySubsidiary.educationalInstitutionCode : scholarship.application.announcement.entity.emec),
                     level: levelTranslation[scholarship.application.EducationLevel.level],
-                    courseType: `${courseTypeTranslation[(scholarship.application.EducationLevel.course.Type)]} - ${scholarship.application.EducationLevel.course.name} `,
+                    courseType: `${courseTypeTranslation[(scholarship.application.EducationLevel.course?.Type)!]} - ${scholarship.application.EducationLevel.course?.name} `,
                     candidateName: scholarship.application.candidate.name,
                     candidateBirthDate: formatDate(scholarship.application.candidate.birthDate.toString()),
                     ScholarshipCode: scholarship.ScholarshipCode,
                     candidateCPF: scholarship.application.candidate.CPF,
                     responsibleCPF: scholarship.application.responsible?.CPF,
-                    AllScholarshipsType: scholarshipOfferTranslation[scholarship.application.EducationLevel.typeOfScholarship],
+                    ScholarshipOfferType: scholarshipOfferTranslation[(scholarship.application.EducationLevel.typeOfScholarship)!],
                     partialPercentage: scholarship.application.ScholarshipPartial ? "50%" : "100%",
                 }
             })

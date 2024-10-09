@@ -20,7 +20,7 @@ export default async function getAnnouncementCourse(
         const course = await prisma.educationLevel.findUnique({
             where: { id: education_level_id },
             include: {
-                // announcement:{include:{entity:true}},
+                course: true,
                 entitySubsidiary: true
             }
         })

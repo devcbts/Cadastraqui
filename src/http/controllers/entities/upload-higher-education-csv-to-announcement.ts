@@ -2,7 +2,7 @@ import { APIError } from "@/errors/api-error";
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
-import {  AllEducationType, AllScholarshipsType, SHIFT } from "@prisma/client";
+import { AllEducationType, AllScholarshipsType, SHIFT } from "@prisma/client";
 import csv from 'csv-parser';
 import { FastifyReply, FastifyRequest } from "fastify";
 import fs from 'fs';
@@ -142,10 +142,10 @@ export default async function uploadHigherEducationCSVFileToAnnouncement(
             const matchedEntity = entities.find(entity => entity.CNPJ === result["CNPJ (Matriz ou Filial)"]);
             return {
                 // cnpj: result["CNPJ (Matriz ou Filial)"],
-                AllEducationType: educationTypeMapping[result["Tipo de Curso"]],
-                availableCourses: result["Ciclo/Ano/Série/Curso"],
+                type: educationTypeMapping[result["Tipo de Curso"]],
+                name: result["Ciclo/Ano/Série/Curso"],
                 shift: result["Turno"],
-                higherEduScholarshipType: scholarshipTypeMapping[result["Tipo de Bolsa"]],
+                typeOfScholarship: scholarshipTypeMapping[result["Tipo de Bolsa"]],
                 verifiedScholarships: parseInt(result["Número de Vagas"]),
                 entity_subsidiary_id: matchedEntity?.id === entity.id ? null : matchedEntity?.id,
                 semester: parseInt(result["Semestre"])

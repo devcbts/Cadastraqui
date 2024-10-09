@@ -1036,11 +1036,21 @@ model LoginHistory {
   user        User     @relation("User", fields: [user_id], references: [id])
 }
 
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  table     String
+  old       Json?
+  new       Json?
+  action    String
+  user      String
+  createdAt DateTime @default(now())
+}
+
 // Tabela dos cursos genéricos
 model Course {
   id             Int              @id @default(autoincrement())
   name           String // Nome do curso (1º ano / Engenharia Elétrica / Química / 5º ano )
-  normalizedName String //Nome normalizado
+  normalizedName String //Nome normalizado 
   Type           AllEducationType // Tipo do curso (Pré-Escola,Ensino Fundamental,Ensino Médio, Técnico, Graduação,Licenciatura,Tecnólogo, Pós-Graduação)
   EntityCourse   EntityCourse[]
   EducationLevel EducationLevel[]
@@ -1064,17 +1074,18 @@ model EntityCourse {
 }
 
 model Student {
-  id              String         @id @default(uuid())
+  id              String       @id @default(uuid())
   name            String
-  admissionDate   DateTime //Quando entrou na instituição
+  admissionDate   DateTime
   scholarshipType String // Tipos de bolsa (todas possíveis)
   semester        String? // Semestre caso exista
   shift           SHIFT
   candidate_id    String
-  candidate       Candidate      @relation(fields: [candidate_id], references: [id])
+  candidate       Candidate    @relation(fields: [candidate_id], references: [id])
   status          String // Será um enum (ATIVO, INATIVO, FORMADO)
   entityCourse_id String
-  entityCourse    EntityCourse   @relation(fields: [entityCourse_id], references: [id])
+  entityCourse    EntityCourse @relation(fields: [entityCourse_id], references: [id])
+
   cameFromCSV     Boolean        @default(false)
   type1Benefits   Type1Benefit[]
   type2Benefits   Type2Benefit[]

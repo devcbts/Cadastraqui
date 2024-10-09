@@ -2,7 +2,7 @@ import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import getOpenApplications from '@/HistDatabaseFunctions/find-open-applications'
 import { findAWSRouteHDB, findTableHDBId } from '@/HistDatabaseFunctions/Handle Application/find-AWS-Route'
-import createCandidateDocumentHDB from '@/HistDatabaseFunctions/Handle Documents/create-candidate-document'
+import { createCandidateDocumentHDB } from '@/HistDatabaseFunctions/Handle Documents/handle-candidate-document'
 import { uploadFile } from '@/http/services/upload-file'
 import { historyDatabase, prisma } from '@/lib/prisma'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
@@ -12,10 +12,6 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import fs from 'fs'
 import { z } from 'zod'
 import createCandidateDocument from '../Documents Functions/create-candidate-document'
-<<<<<<< HEAD
-=======
-import {createCandidateDocumentHDB} from '@/HistDatabaseFunctions/Handle Documents/handle-candidate-document'
->>>>>>> da8d9bc18780368698e95aff56df7085d658bfdb
 
 
 
@@ -120,11 +116,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
                         const routeHDB = await findAWSRouteHDB(candidateOrResponsible.UserData.id, documentType, member_id, table_id, application.id);
                         const tableIdHDB = await findTableHDBId(documentType, member_id, table_id, application.id);
                         const finalRoute = `${routeHDB}${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;
-<<<<<<< HEAD
-                        await createCandidateDocumentHDB(tsBackupPrisma, finalRoute, route, part.metadata, documentType, table_id || member_id, null, application.id);
-=======
-                        await createCandidateDocumentHDB(tsBackupPrisma, finalRoute, route, part.metadata, documentType, tableIdHDB,null,application.id);
->>>>>>> da8d9bc18780368698e95aff56df7085d658bfdb
+                        await createCandidateDocumentHDB(tsBackupPrisma, finalRoute, route, part.metadata, documentType, tableIdHDB, null, application.id);
                         const sended = await uploadFile(fileBuffer, finalRoute, part.metadata);
                         if (!sended) {
                             throw new NotAllowedError();

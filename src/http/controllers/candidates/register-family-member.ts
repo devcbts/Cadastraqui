@@ -228,22 +228,25 @@ export async function registerFamilyMemberInfo(
       ...(monthlyAmount && { monthlyAmount }),
       ...(incomeSource && { incomeSource }),
     }
+    let id = null;
+    await prisma.$transaction(async (tPrisma) => {
 
-    const { id } = await prisma.familyMember.create({
-      data: dataToCreate,
-    })
+      id = await tPrisma.familyMember.create({
+        data: dataToCreate,
+      })
 
-    const age = calculateAge(new Date(birthDate))
-    if (age < 18 && candidateOrResponsible.IsResponsible) {
-      await createLegalDependent(fullName, CPF, birthDate, candidateOrResponsible.UserData.id)
-    }
-
-    await prisma.finishedRegistration.upsert({
-      where: idField,
-      create: { grupoFamiliar: true, ...idField },
-      update: {
-        grupoFamiliar: true,
+      const age = calculateAge(new Date(birthDate))
+      if (age < 18 && candidateOrResponsible.IsResponsible) {
+        await createLegalDependent(fullName, CPF, birthDate, candidateOrResponsible.UserData.id, tPrisma)
       }
+
+      await tPrisma.finishedRegistration.upsert({
+        where: idField,
+        create: { grupoFamiliar: true, ...idField },
+        update: {
+          grupoFamiliar: true,
+        }
+      })
     })
     return reply.status(201).send({ id })
   } catch (err: any) {
