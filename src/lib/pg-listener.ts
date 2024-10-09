@@ -36,6 +36,9 @@ import { Client } from 'pg';
 import { prisma } from './prisma';
 import { IdentityDetails } from '../../backup_prisma/generated/clientBackup/index';
 import verifyExpenses from "@/utils/Trigger-Functions/verify-expenses";
+import verifyBankStatement from "@/utils/Trigger-Functions/verify-bank-statements";
+import verifyIncomesCompletion from "@/utils/Trigger-Functions/verify-incomes-completion";
+import { CreatePixHDB } from "@/HistDatabaseFunctions/handle-pix-HDB";
 
 const clientBackup = new Client(env.DATABASE_URL);
 const connectClient = async () => {
@@ -60,6 +63,7 @@ const connectClient = async () => {
         await clientBackup.query('LISTEN "channel_responsible"');
         await clientBackup.query('LISTEN "channel_vehicle"');
         await clientBackup.query('LISTEN "channel_bankaccount"');
+        await clientBackup.query('LISTEN "channel_candidate_documents"')
     } catch (err) {
         console.error('Failed to connect to the database', err);
         await clientBackup.end();
@@ -78,6 +82,31 @@ clientBackup.on('notification', async (msg) => {
     console.log('infos')
     console.log('Received notification:', msg.payload);
     try {
+
+
+
+
+
+        if (msg.channel == 'channel_candidate_documents') {
+            const document = JSON.parse(msg.payload!);
+            if (document.operation == 'Insert' || document.operation == 'Update') {
+                switch (document.data.tableName) {
+                    case 'bank-account':
+                        await verifyBankStatement(document.data.tableId)
+                        break;
+                    case 'pix':
+                        await verifyIncomeBankRegistration(document.data.tableId)
+                        break;
+                    case 'registrato':
+                        await verifyIncomeBankRegistration(document.data.tableId)
+                        break;
+
+
+                }
+            }
+        }
+
+
         if (msg.channel == 'channel_housing') {
             const housing = JSON.parse(msg.payload!);
             if (housing.operation == 'Update') {
@@ -140,7 +169,7 @@ clientBackup.on('notification', async (msg) => {
                 await deleteFamilyMemberHDB(familyMember.data.id, familyMember.data.candidate_id || familyMember.data.legalResponsibleId)
             }
             await verifyHealthRegistration(familyMember.data.candidate_id || familyMember.data.legalResponsibleId)
-            await verifyIncomeBankRegistration(familyMember.data.candidate_id || familyMember.data.legalResponsibleId)
+            await verifyIncomeBankRegistration(familyMember.data.id)
 
         }
 
@@ -215,12 +244,12 @@ clientBackup.on('notification', async (msg) => {
                     data: { averageIncome: incomePerCapita.incomePerCapita }
                 })
             }
-            await verifyIncomeBankRegistration(candidateOrResponsible!)
+            await verifyIncomeBankRegistration( familyMemberIncome.data.candidate_id || familyMemberIncome.data.legalResponsibleId || familyMemberIncome.data.familyMember_id)
         }
 
 
         if (msg.channel == 'channel_identityDetails') {
-            const identityDetails : {operation: string, data: IdentityDetails} = JSON.parse(msg.payload!);
+            const identityDetails: { operation: string, data: IdentityDetails } = JSON.parse(msg.payload!);
             if (identityDetails.operation == 'Update') {
                 await updateIdentityDetailsHDB(identityDetails.data.id)
             }
@@ -231,7 +260,7 @@ clientBackup.on('notification', async (msg) => {
                 }
             }
             await verifyHealthRegistration(identityDetails.data.candidate_id ?? identityDetails.data.responsible_id ?? '')
-            await verifyIncomeBankRegistration(identityDetails.data.candidate_id ?? identityDetails.data.responsible_id ?? '')
+            await verifyIncomesCompletion(identityDetails.data.candidate_id ?? identityDetails.data.responsible_id ?? '')
 
         }
 
@@ -257,7 +286,7 @@ clientBackup.on('notification', async (msg) => {
         }
         if (msg.channel == 'channel_monthlyIncome') {
             const monthlyIncome = JSON.parse(msg.payload!);
-           
+
             await CalculateMemberAverageIncome(monthlyIncome.data.candidate_id || monthlyIncome.data.familyMember_id || monthlyIncome.data.legalResponsibleId, monthlyIncome.data.incomeSource)
             if (monthlyIncome.operation == 'Update') {
                 await updateMonthlyIncomeHDB(monthlyIncome.data.id)
@@ -308,7 +337,7 @@ clientBackup.on('notification', async (msg) => {
             else if (bankaccount.operation == 'Delete') {
                 await deleteBankAccountHDB(bankaccount.data.id, candidateOrResponsible || bankaccount.data.familyMember_id)
             }
-            await verifyIncomeBankRegistration(candidateOrResponsible)
+            await verifyIncomeBankRegistration(bankaccount.data.candidate_id || bankaccount.data.legalResponsibleId || bankaccountInfo?.familyMember_id)
         }
 
 
@@ -399,7 +428,10 @@ clientBackup.on('notification', async (msg) => {
             for (const familyMember of findFamilyMembers) {
                 await createRegistratoHDB(familyMember.id, candidate_id, responsible_id, application_id)
             }
-
+            await CreatePixHDB(responsible_id ? responsible_id : candidate_id, candidate_id, responsible_id, application_id)
+            for (const familyMember of findFamilyMembers) {
+                await CreatePixHDB(familyMember.id, candidate_id, responsible_id, application_id)
+            }
 
             // For declarations 
             await createDeclarationHDB(findUserDetails.UserData.id, findUserDetails.UserData.id, application_id)
