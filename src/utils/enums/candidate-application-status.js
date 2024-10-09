@@ -1,5 +1,5 @@
 const CANDIDATE_APPLICATION_STATUS = {
-    'Holder': 'Titular',
+    'Holder': 'Convocado',
     'WaitingList': 'Lista de Espera'
 }
 

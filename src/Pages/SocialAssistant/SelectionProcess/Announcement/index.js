@@ -46,7 +46,7 @@ export default function SocialAssistantAnnouncement() {
                                 Edital:
                             </span>
                             <label>
-                                {process.announcement.announcementNumber}
+                                {process.announcement.announcementName}
                             </label>
                             <span className={styles.spanTotalVagas}>
                                 Total de vagas:
@@ -92,7 +92,7 @@ export default function SocialAssistantAnnouncement() {
                         return courses.map((course) =>
                         (
                             <Table.Row>
-                                <Table.Cell>{course.entity}</Table.Cell>
+                                <Table.Cell align='left'>{course.entity}</Table.Cell>
                                 <Table.Cell>{EDUCATION_TYPE.find(e => e.value === course.education)?.label}</Table.Cell>
                                 <Table.Cell>{course.availableCourse ?? course.grade}</Table.Cell>
                                 <Table.Cell>{course.shift}</Table.Cell>

@@ -48,24 +48,34 @@ export default function BankReport({ id, onBack }) {
             const report = getValues('file_bankReport')
             const pix = getValues('file_pixKey')
             const date = new Date()
-            const formData = new FormData()
-            const metadata = {
+            const registratoFormData = new FormData()
+            const pixFormData = new FormData()
+            const registratoMetadata = {
                 [`metadata_${date.getMonth() + 1}-${date.getFullYear()}-registrato`]: {
                     type: METADATA_FILE_TYPE.BANK.REGISTRATO,
                     category: METADATA_FILE_CATEGORY.Finance,
                     date: `${date.getFullYear()}-${date.getMonth() + 1}-01T00:00:00`
                 },
+            }
+            const pixMetadata = {
+
                 [`metadata_${date.getMonth() + 1}-${date.getFullYear()}-pix`]: {
                     type: METADATA_FILE_TYPE.BANK.PIX,
                     category: METADATA_FILE_CATEGORY.Finance,
                     date: `${date.getFullYear()}-${date.getMonth() + 1}-01T00:00:00`
                 }
             }
-            formData.append("file_metadatas", JSON.stringify(metadata))
-            formData.append(`file_${date.getMonth() + 1}-${date.getFullYear()}-registrato`, report)
-            formData.append(`file_${date.getMonth() + 1}-${date.getFullYear()}-pix`, pix)
+            registratoFormData.append("file_metadatas", JSON.stringify(registratoMetadata))
+            pixFormData.append("file_metadatas", JSON.stringify(pixMetadata))
+            registratoFormData.append(`file_${date.getMonth() + 1}-${date.getFullYear()}-registrato`, report)
+            pixFormData.append(`file_${date.getMonth() + 1}-${date.getFullYear()}-pix`, pix)
+            if (report) {
+                await uploadService.uploadBySectionAndId({ section: 'registrato', id }, registratoFormData)
+            }
+            if (pix) {
 
-            await uploadService.uploadBySectionAndId({ section: 'registrato', id }, formData)
+                await uploadService.uploadBySectionAndId({ section: 'pix', id }, pixFormData)
+            }
             NotificationService.success({ text: 'Documentos enviados com sucesso' })
         } catch (err) {
             NotificationService.error({ text: 'Erro ao enviar documentos, tente novamente' })

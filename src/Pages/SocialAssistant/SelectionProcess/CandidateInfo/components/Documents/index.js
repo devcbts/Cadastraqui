@@ -77,7 +77,7 @@ export default function Documents({ data, solicitations, }) {
                 {data?.map((item) => {
                     return (
                         <Table.Row>
-                            <Table.Cell>{item.member}</Table.Cell>
+                            <Table.Cell align="left">{item.member}</Table.Cell>
                             <Table.Cell>
                                 <ButtonBase label={'baixar'} onClick={() => downloadFilesAsZip(item.member, item.documents)} />
                             </Table.Cell>
