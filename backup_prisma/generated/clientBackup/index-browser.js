@@ -450,6 +450,7 @@ exports.Prisma.BankAccountScalarFieldEnum = {
   candidate_id: 'candidate_id',
   legalResponsibleId: 'legalResponsibleId',
   application_id: 'application_id',
+  isUpdated: 'isUpdated',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -733,9 +734,27 @@ exports.Prisma.FamilyMemberToVehicleScalarFieldEnum = {
   main_id: 'main_id'
 };
 
+exports.Prisma.CandidateDocumentsScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  path: 'path',
+  pathInMainDatabase: 'pathInMainDatabase',
+  metadata: 'metadata',
+  tableName: 'tableName',
+  tableId: 'tableId',
+  application_id: 'application_id',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -746,6 +765,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.ROLE = exports.$Enums.ROLE = {
   ADMIN: 'ADMIN',
@@ -1139,6 +1164,11 @@ exports.SolicitationType = exports.$Enums.SolicitationType = {
   BenefitTwo: 'BenefitTwo'
 };
 
+exports.CandidateDocumentStatus = exports.$Enums.CandidateDocumentStatus = {
+  UPDATED: 'UPDATED',
+  PENDING: 'PENDING'
+};
+
 exports.Prisma.ModelName = {
   IdMapping: 'IdMapping',
   Candidate: 'Candidate',
@@ -1170,7 +1200,8 @@ exports.Prisma.ModelName = {
   Application: 'Application',
   ApplicationHistory: 'ApplicationHistory',
   ScholarshipGranted: 'ScholarshipGranted',
-  FamilyMemberToVehicle: 'FamilyMemberToVehicle'
+  FamilyMemberToVehicle: 'FamilyMemberToVehicle',
+  CandidateDocuments: 'CandidateDocuments'
 };
 
 /**

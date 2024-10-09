@@ -136,7 +136,7 @@ export default async function getNominalReport(
 
             const scholarshipsInfos = scholarships.map((scholarship) => {
                 return {
-                    entityName: entityInfo?.name,
+                    entityName: entityInfo?.socialReason,
                     entityCNPJ: entityInfo?.CNPJ,
                     candidateName: scholarship.application.candidate.name,
                     level: scholarship.application.EducationLevel.level,
@@ -155,7 +155,7 @@ export default async function getNominalReport(
 
             const scholarshipsInfos = scholarships.map((scholarship) => {
                 return {
-                    entityName: entityInfo?.name,
+                    entityName: entityInfo?.socialReason,
                     entityCNPJ: entityInfo?.CNPJ,
                     candidateName: scholarship.application.candidate.name,
                     level: levelTranslation[scholarship.application.EducationLevel.level],
