@@ -1,5 +1,4 @@
-import { CandidateDocumentStatus, Prisma } from "@prisma/client";
-import { section } from '../AWS Routes/upload-documents';
+import { Prisma } from "@prisma/client";
 
 export default async function createCandidateDocument(tsPrisma: Prisma.TransactionClient,
     path: string,
@@ -11,18 +10,27 @@ export default async function createCandidateDocument(tsPrisma: Prisma.Transacti
 ) {
 
     if (tableName === "pix" || tableName === "registrato") {
-        await tsPrisma.candidateDocuments.updateMany({
+        const documentExists = await tsPrisma.candidateDocuments.findFirst({
             where: {
                 tableName,
                 tableId
-
-            },
-            data: {
-                path: path,
-                metadata: metadata,
             }
         })
+        if (documentExists) {
+            await tsPrisma.candidateDocuments.update({
+                where: {
+                    id: documentExists?.id
+                },
+                data: {
+                    path: path,
+                    metadata: metadata,
+                }
+            })
+            return
+        }
+
     }
+
     await tsPrisma.candidateDocuments.create({
         data: {
             path,
