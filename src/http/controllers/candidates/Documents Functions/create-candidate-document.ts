@@ -11,26 +11,51 @@ export default async function createCandidateDocument(tsPrisma: Prisma.Transacti
 ) {
 
     if (tableName === "pix" || tableName === "registrato") {
-        await tsPrisma.candidateDocuments.updateMany({
+        const memberDocument = await tsPrisma.candidateDocuments.findFirst({
             where: {
                 tableName,
                 tableId
+            }
+        })
+        if (memberDocument) {
 
-            },
+            await tsPrisma.candidateDocuments.updateMany({
+                where: {
+                    tableName,
+                    tableId
+
+                },
+                data: {
+                    path: path,
+                    metadata: metadata,
+                    status: CandidateDocumentStatus.UPDATED,
+                    expiresAt
+                }
+            })
+        }
+        else {
+            await tsPrisma.candidateDocuments.create({
+                data: {
+                    path,
+                    metadata,
+                    tableName: tableName,
+                    tableId,
+                    expiresAt
+                }
+            })
+        }
+    }
+    else {
+
+        await tsPrisma.candidateDocuments.create({
             data: {
-                path: path,
-                metadata: metadata,
+                path,
+                metadata,
+                tableName: tableName,
+                tableId,
+                expiresAt
             }
         })
     }
-    await tsPrisma.candidateDocuments.create({
-        data: {
-            path,
-            metadata,
-            tableName: tableName,
-            tableId,
-            expiresAt
-        }
-    })
 
 }
