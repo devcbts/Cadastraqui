@@ -42,7 +42,7 @@ import { getHealthFiles } from './get-health-files'
 import { getHealthInfo } from './get-health-info'
 import { getHousingInfo } from './get-housing-info'
 import { getIdentityInfo } from './get-identity-info'
-import { getIncomeInfo } from './get-income-info'
+import { getIncomeInfo, getMemberIncomeStatus } from './get-income-info'
 import { getLoanInfo } from './get-loan-info'
 import { getMonthlyIncomeBySource } from './get-monthly-income'
 import { getOpenAnnouncements } from './get-open-announcements'
@@ -147,6 +147,11 @@ export async function candidateRoutes(app: FastifyInstance) {
     '/family-member/income',
     { onRequest: [verifyJWT] },
     getIncomeInfo,
+  )
+  app.get(
+    '/family-member/income/:_id',
+    { onRequest: [verifyJWT] },
+    getMemberIncomeStatus,
   )
   app.get(
     '/family-member/monthly-income/:_id',
@@ -302,6 +307,8 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.get('/nis/:nis', { onRequest: [verifyJWT] }, searchBolsaFamiliaByNis)
   app.post('/post-pdf/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT ] }, sendMemberDocumentToSign)
   app.post('/send-document-email', { onRequest: [verifyJWT] }, resendMemberEmailDocumentToSign)
+
+  
 }
 
 

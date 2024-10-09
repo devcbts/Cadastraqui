@@ -114,7 +114,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
                         const routeHDB = await findAWSRouteHDB(candidateOrResponsible.UserData.id, documentType, member_id, table_id, application.id);
                         const tableIdHDB = await findTableHDBId(documentType, member_id, table_id, application.id);
                         const finalRoute = `${routeHDB}${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;
-                        await createCandidateDocumentHDB(tsBackupPrisma, finalRoute, route, part.metadata, documentType, table_id || member_id,null,application.id);
+                        await createCandidateDocumentHDB(tsBackupPrisma, finalRoute, route, part.metadata, documentType, tableIdHDB,null,application.id);
                         const sended = await uploadFile(fileBuffer, finalRoute, part.metadata);
                         if (!sended) {
                             throw new NotAllowedError();
