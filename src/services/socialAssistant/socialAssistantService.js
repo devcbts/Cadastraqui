@@ -79,11 +79,14 @@ class SocialAssistantService {
         const response = await api.get(`/assistant/candidateInfo/monthly-income/${applicationId}/${memberId}`);
         const memberIncome = await this.getAllIncomes(applicationId)
         const monthlyIncome = incomeMapper.fromPersistence(response.data.incomeBySource)
-        return { monthlyIncome, info: memberIncome.incomes?.find(e => e.id === memberId).months }
+        return { monthlyIncome, info: memberIncome.incomes?.find(e => e.id === memberId).months, data: memberIncome.incomes?.find(e => e.id === memberId) }
     }
     async getBankingAccountById(applicationId, id) {
         const response = await api.get(`/assistant/candidateInfo/bank-info/${applicationId}/${id}`)
-        return bankAccountMapper.fromPersistence(response.data)
+        return {
+            accounts: bankAccountMapper.fromPersistence(response.data),
+            hasBankAccount: response.data.hasBankAccount,
+        }
     }
     async getHealthInfo(applicationId) {
         const response = await api.get(`/assistant/candidateInfo/health/${applicationId}`)
@@ -101,17 +104,19 @@ class SocialAssistantService {
     async updateApplication(applicationId, data) {
         return api.patch(`/assistant/application/${applicationId}`, data)
     }
-    async getRegistrato(applicationId, id) {
-        const response = await api.get(`/assistant/candidateInfo/registrato/${applicationId}/${id}`)
-        const data = removeObjectFileExtension(response.data)
-        // get the newest registrato (TODO: remove the last one when new is uploaded)
-        const [date, url] = Object.entries(data)?.filter(e => e[0].includes('registrato')).sort((a, b) => a < b)[0]
-        const [pdate, purl] = Object.entries(data)?.filter(e => e[0].includes('pix')).sort((a, b) => a < b)[0]
-        const [month, year] = date.split('_')[1].split('-')
-        const [pmonth, pyear] = pdate.split('_')[1].split('-')
-        const registrato_date = new Date(`${month}-01-${year}`)
-        const pix_date = new Date(`${pmonth}-01-${pyear}`)
-        return [{ url, date: registrato_date, type: 'registrato' }, { url: purl, date: pix_date, type: 'chave pix' }]
+    async getCCSFiles(applicationId, id) {
+        const response = await api.get(`/assistant/candidateInfo/ccs/files/${applicationId}/${id}`)
+        return response.data
+        // const response = await api.get(`/assistant/candidateInfo/registrato/${applicationId}/${id}`)
+        // const data = removeObjectFileExtension(response.data)
+        // // get the newest registrato (TODO: remove the last one when new is uploaded)
+        // const [date, url] = Object.entries(data)?.filter(e => e[0].includes('registrato')).sort((a, b) => a < b)[0]
+        // const [pdate, purl] = Object.entries(data)?.filter(e => e[0].includes('pix')).sort((a, b) => a < b)[0]
+        // const [month, year] = date.split('_')[1].split('-')
+        // const [pmonth, pyear] = pdate.split('_')[1].split('-')
+        // const registrato_date = new Date(`${month}-01-${year}`)
+        // const pix_date = new Date(`${pmonth}-01-${pyear}`)
+        // return [{ url, date: registrato_date, type: 'registrato' }, { url: purl, date: pix_date, type: 'chave pix' }]
 
     }
     async registerSolicitation(applicationId, solicitation) {
@@ -199,6 +204,11 @@ class SocialAssistantService {
         const config = format === "CSV" ? { responseType: "blob", filename: filename } : {}
         const response = await api.get(`/assistant/administrative/report/nominal/${announcementId}/${entityId}?format=${format}`, config)
         return response.data
+    }
+    async getMemberIncomeStatus(applicationId, id) {
+        const response = await api.get(`/assistant/candidateInfo/income/status/${applicationId}/${id}`)
+        const { bankAccountUpdated, IncomesUpdated, CCS_Updated } = response.data
+        return { bank: bankAccountUpdated, income: IncomesUpdated, ccs: CCS_Updated }
     }
 }
 

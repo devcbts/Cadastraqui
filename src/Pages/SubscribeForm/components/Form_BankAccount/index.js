@@ -3,7 +3,7 @@ import ButtonBase from "Components/ButtonBase";
 import monthAtom from "Components/MonthSelection/atoms/month-atom";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
@@ -12,9 +12,12 @@ import createFileForm from "utils/create-file-form";
 import BankAccount from "./components/BankAccount";
 import BankMonthSelection from "./components/BankMonthSelection";
 import MemberBankAccountView from "./components/MemberBankAccountView";
+import useAuth from 'hooks/useAuth';
 
 export default function FormBankAccount({ id, onBack }) {
     const hasMonthSelected = useRecoilValue(monthAtom)
+    const { auth } = useAuth()
+    const isAssistant = useMemo(() => auth.role === "ASSISTANT")
     const handleUploadStatements = async (data, tableId) => {
 
         const formData = createFileForm(data)
@@ -62,11 +65,11 @@ export default function FormBankAccount({ id, onBack }) {
     } = useStepFormHook({
         render: renderList,
         onEdit: handleEditAccount,
-        onSave: handleSave
+        onSave: handleSave,
+        viewMode: isAssistant
     })
     const [isAdding, setIsAdding] = useState(false)
     const handleAddNewAccount = () => {
-        // TODO: pass member_id to the initial data when adding new account
         setData(null)
         setIsAdding(true)
     }
@@ -96,7 +99,7 @@ export default function FormBankAccount({ id, onBack }) {
                     </ButtonBase>
 
 
-                    {!isAdding && <ButtonBase onClick={handleEdit} label={"editar"} />}
+                    {(!isAdding && !isAssistant) && <ButtonBase onClick={handleEdit} label={"editar"} />}
 
                     {activeStep !== max &&
                         <ButtonBase onClick={next}>
@@ -104,7 +107,7 @@ export default function FormBankAccount({ id, onBack }) {
                         </ButtonBase>
                     }
                     {
-                        (activeStep === max && isAdding) && (
+                        (activeStep === max && isAdding && !isAssistant) && (
                             <ButtonBase onClick={next}>
                                 Salvar
                             </ButtonBase>

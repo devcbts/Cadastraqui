@@ -4,7 +4,7 @@ import stringToFloat from "utils/string-to-float";
 
 const { z } = require("zod");
 
-const monthSelectionSchema = (quantity) => z.object({
+const monthSelectionSchema = (quantity, incomeSource) => z.object({
     months: z.array(z.object({
         id: z.string().nullish(),
         date: z.date().or(z.string().transform(v => new Date(v))).default(new Date()),
@@ -58,6 +58,7 @@ const monthSelectionSchema = (quantity) => z.object({
                     [`metadata_rendimentos-${month}-${year}`]: {
                         type: METADATA_FILE_TYPE.BANK.INCOMEPROOF,
                         category: METADATA_FILE_CATEGORY.Finance,
+                        source: incomeSource,
                         date: `${year}-${month.toString().padStart(2, '0')}-01T00:00:00`
                     },
                     file_document: null,

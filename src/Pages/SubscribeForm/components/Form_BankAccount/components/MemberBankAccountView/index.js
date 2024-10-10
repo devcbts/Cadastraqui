@@ -8,88 +8,61 @@ import { useEffect, useRef, useState } from "react"
 import candidateService from "services/candidate/candidateService"
 import { NotificationService } from "services/notification"
 import BankReport from "../BankReport"
+import Indicator from 'Components/Indicator'
+import useMemberBankAccountView from './useMemberBankAccountView'
 export default function MemberBankAccountView({ id, onSelect, onBack, onAdd }) {
-    const [isLoading, setIsLoading] = useState(true)
-    const [bankingInfo, setBankingInfo] = useState([])
-    const isMounted = useRef(null)
-    // TODO: fetch bank account information from SPECIFIC USER
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setIsLoading(true)
-                const information = await candidateService.getBankingAccountById(id)
-                setBankingInfo(information)
-            } catch (err) {
+    const { bankingInfo, isAssistant, isLoading, handleChangeBankDeclaration, handleRemove } = useMemberBankAccountView({ memberId: id })
 
-            }
-            setIsLoading(false)
-        }
-        fetchData()
-    }, [])
-    const handleRemove = (id) => {
-        const remove = async () => {
-            try {
-                await candidateService.removeBankingAccount(id)
-                setBankingInfo((prev) => ({ ...prev, accounts: prev.accounts.filter(account => account.id !== id) }))
-                NotificationService.success({ text: 'Conta bancária excluída' })
-            } catch (err) {
-                NotificationService.error({ text: err?.response?.data?.message })
-            }
-        }
-        NotificationService.confirm({
-            onConfirm: remove,
-            text: 'Esta ação removerá os dados da conta atual e todos seus extratos vinculados',
-            title: 'Tem certeza?',
-        })
-
-    }
     const [isReportOpen, setIsReportOpen] = useState(false)
-    const handleReport = () => {
-        setIsReportOpen(prev => !prev)
-    }
-    // useEffect(() => {
-    //     if (!isMounted.current) {
-    //         isMounted.current = true
-    //         return
-    //     }
-    //     if (bankingInfo.isUser) {
-    //         candidateService.updateIdentityInfo({ hasBankAccount: bankingInfo.hasBankAccount }).catch(_ => { })
-    //     } else {
-    //         candidateService.updateFamilyMember(id, { hasBankAccount: bankingInfo.hasBankAccount }).catch(_ => { })
-    //     }
-    // }, [bankingInfo?.hasBankAccount])
     return (
         <>
             {isReportOpen ?
                 <BankReport id={id} onBack={() => setIsReportOpen(false)} />
                 : <>
                     <FormList.Root title={"Contas cadastradas"} isLoading={isLoading}>
-                        <RowTextAction
-                            text={'Relatório de contas e relacionamentos (CCS)'}
-                            label={'visualizar'}
-                            onClick={handleReport}
-                        />
                         <FormList.List list={bankingInfo.accounts} text={`Nenhuma conta cadastrada, clique abaixo para realizar o primeiro cadastro`} render={(item) => {
                             return (
                                 <FormListItem.Root text={item.bankName}>
                                     <FormListItem.Actions>
+                                        <Indicator
+                                            status={item.isUpdated}
+                                        />
                                         <ButtonBase label={"visualizar"} onClick={() => onSelect(item)} />
-                                        <ButtonBase label={"excluir"} onClick={() => handleRemove(item.id)} danger />
+                                        {!isAssistant && <ButtonBase label={"excluir"} onClick={() => handleRemove(item.id)} danger />}
                                     </FormListItem.Actions>
                                 </FormListItem.Root>
                             )
                         }}>
-                            {/* {bankingInfo?.accounts?.length === 0 && <CheckboxBase
-                                label={'Você possui alguma conta em banco?'}
-                                value={bankingInfo.hasBankAccount}
-                                onChange={(e) => setBankingInfo(prev => ({ ...prev, hasBankAccount: e.target.value === "true" }))}
-                            />} */}
+                            {!isAssistant
+                                ? (!bankingInfo?.hasBankAccount || bankingInfo?.accounts?.length === 0) &&
+                                <div style={{ display: 'flex', flexDirection: 'row', gap: '12px', alignItems: 'center' }}>
+                                    <input type="checkbox"
+                                        checked={!bankingInfo.hasBankAccount}
+                                        onChange={handleChangeBankDeclaration} />
+                                    <h3>Não sou titular de nenhuma conta corrente ou poupança em quaisquer instituições financeiras</h3>
+                                </div>
+                                : bankingInfo?.accounts?.length === 0 && <h3>Não cadastrou ou declarou não possuir contas em quaisquer instituição financeira</h3>
+                            }
+                            {/* {(!bankingInfo?.hasBankAccount || bankingInfo?.accounts?.length === 0) &&
+                                <div style={{ display: 'flex', flexDirection: 'row', gap: '12px', alignItems: 'center' }}>
+                                    {!isAssistant ?
+                                        <>
+                                            <input type="checkbox"
+                                                checked={!bankingInfo.hasBankAccount}
+                                                onChange={handleChangeBankDeclaration} />
+                                            <h3>Não sou titular de nenhuma conta corrente ou poupança em quaisquer instituições financeiras</h3>
+                                        </>
+                                        : <h3>Não cadastrou ou declarou não possuir contas em quaisquer instituição financeira</h3>
+                                    }
+                                </div>
+                            } */}
                         </FormList.List>
+
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '80%' }}>
 
                             <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
 
-                            <ButtonBase label={"cadastrar conta"} onClick={() => onAdd()} />
+                            {(bankingInfo.hasBankAccount && !isAssistant) && <ButtonBase label={"cadastrar conta"} onClick={() => onAdd()} />}
                         </div>
                     </FormList.Root>
                 </>

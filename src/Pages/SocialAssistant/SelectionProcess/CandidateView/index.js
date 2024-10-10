@@ -20,6 +20,8 @@ import ViewExpenses from "./components/View_Expenses"
 import ViewHealth from "./components/View_Health"
 import ViewDeclarations from "./components/View_Declarations"
 import ButtonBase from "Components/ButtonBase"
+import FormIncome from "Pages/SubscribeForm/components/Form_Income"
+import candidateViewAtom from "./atom/candidateViewAtom"
 export default function CandidateView() {
     const [activeStep, setActiveStep] = useState(1)
     const location = useLocation()
@@ -34,17 +36,21 @@ export default function CandidateView() {
         { label: "Grupo Familiar", icon: Family, component: ViewFamilyGroup },
         { label: "Moradia", icon: House, component: ViewHabitation },
         { label: "Veículo", icon: Car, component: ViewVehicle },
-        { label: "Renda", icon: Currency, component: ViewIncome },
+        { label: "Renda", icon: Currency, component: FormIncome },
         { label: "Gastos", icon: Money, component: ViewExpenses },
         { label: "Saúde", icon: Doctor, component: ViewHealth },
         { label: "Declarações", icon: List, component: ViewDeclarations },
         // { label: "_", icon: Edit },
     ], [state])
     const setHeader = useSetRecoilState(headerAtom)
+    const setCandidateView = useSetRecoilState(candidateViewAtom)
     useEffect(() => {
         setHeader({ sidebar: false })
+        setCandidateView({ currentApplication: state?.applicationId })
         return () => {
             setHeader({ sidebar: true })
+            setCandidateView({ currentApplication: '' })
+
         }
     }, [])
     return (

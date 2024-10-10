@@ -210,7 +210,11 @@ class CandidateService {
 
         return { monthlyIncome, info: memberIncome.incomes?.find(e => e.id === id).months, data: memberIncome.incomes?.find(e => e.id === id) }
     }
-
+    async getMemberIncomeStatus(id) {
+        const response = await api.get(`/candidates/family-member/income/status/${id}`)
+        const { bankAccountUpdated, IncomesUpdated, CCS_Updated } = response.data
+        return { bank: bankAccountUpdated, income: IncomesUpdated, ccs: CCS_Updated }
+    }
     async getHealthInfo() {
         const token = localStorage.getItem("token")
         const response = await api.get(`/candidates/health-info`, {
@@ -296,17 +300,19 @@ class CandidateService {
         const response = await api.get('/candidates/progress')
         return progressMapper.fromPersistence(response.data)
     }
-    async getRegistrato(id) {
-        const response = await api.get(`/candidates/registrato/${id}`)
-        const data = removeObjectFileExtension(response.data)
-        // get the newest registrato (TODO: remove the last one when new is uploaded)
-        const [date, url] = Object.entries(data)?.filter(e => e[0].includes('registrato')).sort((a, b) => a < b)[0]
-        const [pdate, purl] = Object.entries(data)?.filter(e => e[0].includes('pix')).sort((a, b) => a < b)[0]
-        const [month, year] = date.split('_')[1].split('-')
-        const [pmonth, pyear] = pdate.split('_')[1].split('-')
-        const registrato_date = new Date(`${month}-01-${year}`)
-        const pix_date = new Date(`${pmonth}-01-${pyear}`)
-        return [{ url, date: registrato_date, type: 'registrato' }, { url: purl, date: pix_date, type: 'chave pix' }]
+    async getCCSFiles(id) {
+        const response = await api.get(`/candidates/ccs/files/${id}`)
+        return response.data
+        // const response = await api.get(`/candidates/registrato/${id}`)
+        // const data = removeObjectFileExtension(response.data)
+        // // get the newest registrato (TODO: remove the last one when new is uploaded)
+        // const [date, url] = Object.entries(data)?.filter(e => e[0].includes('registrato')).sort((a, b) => a < b)[0]
+        // const [pdate, purl] = Object.entries(data)?.filter(e => e[0].includes('pix')).sort((a, b) => a < b)[0]
+        // const [month, year] = date.split('_')[1].split('-')
+        // const [pmonth, pyear] = pdate.split('_')[1].split('-')
+        // const registrato_date = new Date(`${month}-01-${year}`)
+        // const pix_date = new Date(`${pmonth}-01-${pyear}`)
+        // return [{ url, date: registrato_date, type: 'registrato' }, { url: purl, date: pix_date, type: 'chave pix' }]
     }
 
     deleteFile(path) {

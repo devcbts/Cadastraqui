@@ -30,6 +30,7 @@ class EmployementTypeMapper {
             }),
             averageIncome: new Number(e.averageIncome).toLocaleString('pt-br', { style: 'currency', currency: 'brl' }),
         }))
+        console.log('AVG INCOME', mappedData)
         const mappedIncome = new Number(averageIncome).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
         return { incomes: mappedData, avgFamilyIncome: mappedIncome }
     }
