@@ -3,7 +3,7 @@ import ButtonBase from "Components/ButtonBase";
 import monthAtom from "Components/MonthSelection/atoms/month-atom";
 import useStepFormHook from "Pages/SubscribeForm/hooks/useStepFormHook";
 import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRecoilValue } from "recoil";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
@@ -21,9 +21,12 @@ import IncomeFormModelD from "./ModelD";
 import FinancialHelp from "./ModelD/components/FinancialHelp";
 import InformationModelD from "./ModelD/components/InformationModelC";
 import UnemployementInsurance from "./Unemployed/components/UnemployementInsurance";
+import useAuth from 'hooks/useAuth';
 export default function FormIncome() {
     // Keep track of incomes created/updated by user
     const hasIncomeSelected = useRecoilValue(monthAtom)
+    const { auth } = useAuth()
+    const isAssistant = useMemo(() => auth.role === "ASSISTANT")
     // const handleEditInformation = async (data) => {
     //     try {
     //         await candidateService.updateIdentityInfo(data);
@@ -98,7 +101,8 @@ export default function FormIncome() {
     } = useStepFormHook({
         render: renderItems,
         // onEdit: handleEditInformation,
-        onSave: handleSaveInformation
+        onSave: handleSaveInformation,
+        viewMode: isAssistant
     })
     useEffect(() => {
         const currentIncomeSource = data?.incomeSource
@@ -175,7 +179,7 @@ export default function FormIncome() {
                         </ButtonBase>
                     }
                     {
-                        (activeStep === max && activeStep !== 1) && (
+                        (activeStep === max && activeStep !== 1 && !isAssistant) && (
                             <ButtonBase onClick={next}>
                                 Salvar
                             </ButtonBase>

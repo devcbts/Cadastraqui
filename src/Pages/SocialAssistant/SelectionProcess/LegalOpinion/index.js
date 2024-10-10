@@ -254,7 +254,7 @@ export default function LegalOpinion() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '32px' }}>
 
-                    <ButtonBase label={'assinatura eletrônica'} onClick={handleSubmit} />
+                    <ButtonBase label={'concluir'} onClick={handleSubmit} />
                     {data?.parecer
                         ? <FilePreview file={data?.file_parecer} url={removeObjectFileExtension(data?.parecer)['url_parecer']} text={'visualizar parecer'} />
                         : <BlobProvider document={
