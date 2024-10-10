@@ -58,6 +58,7 @@ export async function findTableHDBId(section: string, member_id: string, table_i
 
 // Função para encontrar o caminho no AWS
 export async function findAWSRouteHDB(candidateOrResponsible_id: string, section: string, member_id: string, table_id: string | null, application_id: string) {
+    console.log(member_id, application_id)
     const memberHDB_id = await historyDatabase.idMapping.findFirstOrThrow({
         where: { application_id, mainId: member_id },
         select: { newId: true }

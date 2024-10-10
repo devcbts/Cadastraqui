@@ -259,3 +259,29 @@ export async function copyFilesToAnotherFolder(sourceFolder: string, destination
     throw error;
   }
 }
+
+export async function getAwsFile(
+  path: string
+) {
+  try {
+    const params = {
+      Bucket: bucketName!,
+      Key: path, // Ajustado para a pasta do candidato
+      Expires: 3600
+    }
+    const file = await s3.getSignedUrlPromise("getObject", params)
+    // const response: {
+    //   // fileKey: string,
+    //   fileUrl: string,
+    //   // fileName: string,
+    //   // fileMetadata: any
+    // }[] = []
+    console.log(file)
+    return {
+      fileUrl: file
+    }
+  } catch (error) {
+    throw error;
+
+  }
+}

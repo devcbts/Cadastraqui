@@ -37,7 +37,10 @@ export async function getIncomeInfo(
         // })
 
         const userBanks = familyMember.BankAccount.length
-        incomeInfoResults.push({ name: familyMember.fullName, id: familyMember.id, incomes: familyMember.FamilyMemberIncome, hasBankAccount: familyMember.hasBankAccount, userBanks, isUser: false, isIncomeUpdated: familyMember.isIncomeUpdated })
+        incomeInfoResults.push({
+          name: familyMember.fullName, id: familyMember.id, incomes: familyMember.FamilyMemberIncome, hasBankAccount: familyMember.hasBankAccount, userBanks, isUser: false, isIncomeUpdated: familyMember.isIncomeUpdated,
+          isBankUpdated: familyMember.BankAccount.every(e => e.isUpdated), BankAccount: familyMember.BankAccount
+        })
       } catch (error) {
         throw new ResourceNotFoundError()
       }
@@ -50,13 +53,25 @@ export async function getIncomeInfo(
     })
     const userIdentity = await prisma.identityDetails.findFirst({
       where: { OR: [{ candidate_id: candidateOrResponsible.UserData.id }, { responsible_id: candidateOrResponsible.UserData.id }] },
-      select: { hasBankAccount: true, candidate: { select: { _count: { select: { BankAccount: true } } } }, responsible: { select: { _count: { select: { BankAccount: true } } } }, isIncomeUpdated: true }
+      select: {
+        hasBankAccount: true,
+        candidate: { select: { _count: { select: { BankAccount: true } }, BankAccount: { select: { isUpdated: true } } } },
+        responsible: { select: { _count: { select: { BankAccount: true } }, BankAccount: { select: { isUpdated: true } } }, },
+        isIncomeUpdated: true
+      }
     })
     const urls = await getSectionDocumentsPDF(candidateOrResponsible.UserData.id, 'income')
 
     const userBanks = candidateOrResponsible.IsResponsible ? userIdentity?.responsible?._count.BankAccount : userIdentity?.candidate?._count.BankAccount
     // let incomeInfoResults = await fetchData(familyMembers)
-    incomeInfoResults.push({ name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, incomes: candidateIncome, hasBankAccount: userIdentity?.hasBankAccount, userBanks, isUser: true, isIncomeUpdated: userIdentity?.isIncomeUpdated })
+    incomeInfoResults.push({
+      name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, incomes: candidateIncome, hasBankAccount: userIdentity?.hasBankAccount, userBanks, isUser: true, isIncomeUpdated: userIdentity?.isIncomeUpdated,
+      isBankUpdated: (
+        (userIdentity?.candidate?.BankAccount.every(e => e.isUpdated) && userIdentity?.candidate?.BankAccount.length)
+        || (userIdentity?.responsible?.BankAccount.every(e => e.isUpdated) && userIdentity?.responsible?.BankAccount.length)
+
+      )
+    })
     const incomeInfoResultsWithUrls = incomeInfoResults.map((familyMember) => {
       const incomesWithUrls = familyMember.incomes.map((income) => {
         const incomeDocuments = Object.entries(urls).filter(([url]) => url.split("/")[4] === income.id)
@@ -65,8 +80,9 @@ export async function getIncomeInfo(
           urls: Object.fromEntries(incomeDocuments),
         }
       })
-      const isUpdated = !!familyMember.incomes.length && familyMember.incomes.every(income => income.isUpdated);
-
+      const isUpdated = !!familyMember.incomes.length
+        && familyMember.incomes.every(income => income.isUpdated)
+        && familyMember.isBankUpdated;
       return {
         ...familyMember,
         incomes: incomesWithUrls,
@@ -102,8 +118,8 @@ export async function getMemberIncomeStatus(request: FastifyRequest, reply: Fast
 
   const { _id } = memberParamsSchema.parse(request.params)
   try {
-    const user_id = request.user.sub
-
+    const user = await SelectCandidateResponsible(request.user.sub)
+    const user_id = user?.UserData.id
 
     let member;
     let idField;
@@ -124,10 +140,10 @@ export async function getMemberIncomeStatus(request: FastifyRequest, reply: Fast
     const bankAccounts = await prisma.bankAccount.findMany({
       where: idField
     })
-
+    console.log('contas', bankAccounts)
 
     // verificar o status da conta bancária
-    if ((!bankAccounts && member.hasBankAccount) || member.hasBankAccount === null) {
+    if ((!bankAccounts.length && member.hasBankAccount) || member.hasBankAccount === null) {
       bankAccountUpdated = null;
     }
     else if (bankAccounts.some(bankAccount => bankAccount.isUpdated === false)) {
@@ -141,7 +157,7 @@ export async function getMemberIncomeStatus(request: FastifyRequest, reply: Fast
     const incomes = await prisma.familyMemberIncome.findMany({
       where: idField
     })
-    if (!incomes) {
+    if (!incomes.length) {
       IncomesUpdated = null;
     }
     else if (incomes.some(income => income.isUpdated === false)) {

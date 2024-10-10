@@ -1,4 +1,5 @@
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
+import searchBolsaFamiliaByNis from '@/utils/search-bolsa-familia-by-nis'
 import { FastifyInstance } from 'fastify'
 import { answerSolicitation } from './answer-solicitation'
 import { deleteDocument } from './AWS Routes/delete-document'
@@ -70,6 +71,8 @@ import { registerMedicationInfo } from './register-medication-info'
 import { registerMonthlyIncomeInfo } from './register-monthly-income-info'
 import { registerVehicleInfo } from './register-vehicle-info'
 import { saveAnnouncement } from './save-announcement'
+import { resendMemberEmailDocumentToSign } from './Signatures Routes/resend-member-email-document-to-sign'
+import { sendMemberDocumentToSign } from './Signatures Routes/send-member-document-to-sign'
 import { updateBankingInfo } from './update-banking-info'
 import { updateBasicInfo } from './update-basic-info'
 import { updateCreditCardInfo } from './update-credit-card-info'
@@ -85,9 +88,6 @@ import { updateMedicationInfo } from './update-medication-info'
 import updateMonthlyIncome from './update-monthly-income-info'
 import { updateRegistrationInfo } from './update-registration-info'
 import { updateVehicleInfo } from './update-vehicle-info'
-import searchBolsaFamiliaByNis from '@/utils/search-bolsa-familia-by-nis'
-import { sendMemberDocumentToSign } from './Signatures Routes/send-member-document-to-sign'
-import { resendMemberEmailDocumentToSign } from './Signatures Routes/resend-member-email-document-to-sign'
 
 export async function candidateRoutes(app: FastifyInstance) {
   app.post('/upload/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT] }, uploadDocument)
@@ -165,7 +165,7 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.patch('/bank-info/:_id', { onRequest: [verifyJWT] }, updateBankingInfo)
   app.delete('/bank-info/:id', { onRequest: [verifyJWT] }, deleteBankingInfo)
   // registrato
-  app.get('/registrato/:_id', { onRequest: [verifyJWT] }, getRegistrato)
+  app.get('/ccs/files/:_id', { onRequest: [verifyJWT] }, getRegistrato)
 
 
   /** Health Info */
@@ -305,10 +305,10 @@ export async function candidateRoutes(app: FastifyInstance) {
   app.get('/interview/:interview_id?', { onRequest: [verifyJWT] }, getCandidateInterviews)
 
   app.get('/nis/:nis', { onRequest: [verifyJWT] }, searchBolsaFamiliaByNis)
-  app.post('/post-pdf/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT ] }, sendMemberDocumentToSign)
+  app.post('/post-pdf/:documentType/:member_id/:table_id?', { onRequest: [verifyJWT] }, sendMemberDocumentToSign)
   app.post('/send-document-email', { onRequest: [verifyJWT] }, resendMemberEmailDocumentToSign)
 
-  
+
 }
 
 

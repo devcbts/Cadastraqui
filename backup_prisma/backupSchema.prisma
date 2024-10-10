@@ -338,6 +338,7 @@ model FamilyMember {
   CadUnico                                   Boolean?
   hasSevereDeseaseOrUsesMedication           Boolean?
   hasBankAccount                             Boolean?
+  isIncomeUpdated                            Boolean?
   incomeSource                               IncomeSource[]
   CreditCard                                 CreditCard[]
   FamilyMemberIncome                         FamilyMemberIncome[]
@@ -881,9 +882,9 @@ model CandidateDocuments {
   tableName          String
   tableId            String
   application_id     String
-  expiresAt DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
+  expiresAt          DateTime?
+  createdAt          DateTime                @default(now())
+  updatedAt          DateTime                @default(now()) @updatedAt
 
   @@index([tableName, tableId], name: "tableName_tableId")
 }

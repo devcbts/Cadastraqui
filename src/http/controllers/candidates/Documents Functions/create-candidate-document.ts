@@ -10,6 +10,7 @@ export default async function createCandidateDocument(tsPrisma: Prisma.Transacti
 ) {
 
     if (tableName === "pix" || tableName === "registrato") {
+        console.log("meta", metadata)
         const documentExists = await tsPrisma.candidateDocuments.findFirst({
             where: {
                 tableName,

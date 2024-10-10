@@ -291,7 +291,6 @@ model IdentityDetails {
   createdAt                                  DateTime          @default(now())
   updatedAt                                  DateTime          @default(now()) @updatedAt
   isIncomeUpdated                            Boolean?
-
 }
 
 model FamilyMember {
@@ -361,8 +360,8 @@ model FamilyMember {
   hasSevereDeseaseOrUsesMedication           Boolean?
   hasBankAccount                             Boolean?
   isIncomeUpdated                            Boolean?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt                                  DateTime                @default(now())
+  updatedAt                                  DateTime                @default(now()) @updatedAt
 
   @@map("familyMembers")
 }
@@ -1095,7 +1094,7 @@ model Student {
 model CandidateDocuments {
   id        String                  @id @default(uuid())
   status    CandidateDocumentStatus @default(UPDATED)
-  path      String
+  path      String                  @unique
   metadata  Json
   tableName String
   tableId   String

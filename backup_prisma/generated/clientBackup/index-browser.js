@@ -333,6 +333,7 @@ exports.Prisma.FamilyMemberScalarFieldEnum = {
   CadUnico: 'CadUnico',
   hasSevereDeseaseOrUsesMedication: 'hasSevereDeseaseOrUsesMedication',
   hasBankAccount: 'hasBankAccount',
+  isIncomeUpdated: 'isIncomeUpdated',
   incomeSource: 'incomeSource',
   legalResponsibleId: 'legalResponsibleId',
   application_id: 'application_id',
