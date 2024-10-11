@@ -164,7 +164,7 @@ clientBackup.on('notification', async (msg) => {
                 await deleteFamilyMemberHDB(familyMember.data.id, familyMember.data.candidate_id || familyMember.data.legalResponsibleId)
             }
             await verifyHealthRegistration(familyMember.data.candidate_id || familyMember.data.legalResponsibleId)
-            await verifyIncomeBankRegistration(familyMember.data.id)
+            await verifyIncomesCompletion(familyMember.data.candidate_id || familyMember.data.legalResponsibleId)
 
         }
 
