@@ -64,7 +64,7 @@ export async function findAWSRouteHDB(candidateOrResponsible_id: string, section
         select: { newId: true }
     });
 
-    const tableHDB_id = await findTableHDBId(section, memberHDB_id.newId, table_id, application_id);
+    const tableHDB_id = await findTableHDBId(section, member_id, table_id, application_id);
 
     if (tableHDB_id === memberHDB_id.newId) {
         return `applicationDocuments/${application_id}/${section}/${memberHDB_id.newId}/`;

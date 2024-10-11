@@ -1,7 +1,9 @@
+import { APIError } from "@/errors/api-error";
 import { ForbiddenError } from "@/errors/forbidden-error";
+import { getAwsFile } from "@/lib/S3";
+import { historyDatabase } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { getSectionDocumentsPDF_HDB } from "../AWS-routes/get-documents-by-section-HDB";
 
 export async function getRegistratoHDB(
     request: FastifyRequest,
@@ -13,14 +15,35 @@ export async function getRegistratoHDB(
     })
     const { application_id, _id } = registrateParamsSchema.parse(request.params)
     try {
-        // const user_id = request.user.sub;
+        const curr_id = await historyDatabase.idMapping.findFirst({
+            where: { AND: [{ newId: _id }, { application_id }] }
+        })
+        if (!curr_id) {
+            throw new APIError('Usuário não encontrado')
+        }
+        const files = await historyDatabase.candidateDocuments.findMany({
+            where: {
+                AND: [
+                    {
+                        OR: [
+                            { tableName: "registrato" },
+                            { tableName: "pix" }
+                        ]
+                    },
+                    { application_id },
+                    { tableId: curr_id.mainId }
+                ]
+            }
+        })
+        const returnFiles = await Promise.all(
+            files.map(async file => {
+                const url = await getAwsFile(file.path)
+                return { ...file, url: url.fileUrl }
 
-        // const isUser = await SelectCandidateResponsible(user_id);
-        // if (!isUser) {
-        //     throw new ForbiddenError()
-        // }
-        const urls = await getSectionDocumentsPDF_HDB(application_id, `registrato/${_id}`)
-        return reply.status(200).send(urls)
+            })
+        )
+        return reply.status(200).send(returnFiles)
+        // return reply.status(200).send(urls)
     } catch (error) {
         if (error instanceof ForbiddenError) {
             return reply.status(403).send({ message: error.message })

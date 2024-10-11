@@ -235,6 +235,7 @@ exports.Prisma.IdentityDetailsScalarFieldEnum = {
   CadUnico: 'CadUnico',
   hasSevereDeseaseOrUsesMedication: 'hasSevereDeseaseOrUsesMedication',
   hasBankAccount: 'hasBankAccount',
+  isIncomeUpdated: 'isIncomeUpdated',
   documentNumber: 'documentNumber',
   documentValidity: 'documentValidity',
   maritalStatus: 'maritalStatus',

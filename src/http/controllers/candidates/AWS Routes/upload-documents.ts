@@ -102,9 +102,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             // Inicia transação de envio de documento
             await prisma.$transaction(async (tsPrisma) => {
                 // Cria o registro do documento no banco de dados
-                console.log('ENVIANDO ARQUIVO', part.metadata)
                 await createCandidateDocument(tsPrisma, route, part.metadata, documentType, table_id || member_id);
-                console.log('ENVIADO E CRIADO')
                 const sended = await uploadFile(fileBuffer, route, part.metadata);
                 if (!sended) {
                     throw new NotAllowedError();
@@ -113,6 +111,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
                 const findOpenApplications = await getOpenApplications(candidateOrResponsible.UserData.id);
                 for (const application of findOpenApplications) {
                     await historyDatabase.$transaction(async (tsBackupPrisma) => {
+                        console.log('ANOME DO ARQUIVO', part.fieldname, part.mimetype)
                         const routeHDB = await findAWSRouteHDB(candidateOrResponsible.UserData.id, documentType, member_id, table_id, application.id);
                         const tableIdHDB = await findTableHDBId(documentType, member_id, table_id, application.id);
                         const finalRoute = `${routeHDB}${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;

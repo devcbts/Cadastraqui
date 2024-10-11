@@ -235,6 +235,7 @@ model IdentityDetails {
   CadUnico                         Boolean        @default(false)
   hasSevereDeseaseOrUsesMedication Boolean?
   hasBankAccount                   Boolean?
+  isIncomeUpdated                  Boolean?
 
   documentNumber                             String?
   documentValidity                           DateTime?
@@ -339,24 +340,25 @@ model FamilyMember {
   hasSevereDeseaseOrUsesMedication           Boolean?
   hasBankAccount                             Boolean?
   isIncomeUpdated                            Boolean?
-  incomeSource                               IncomeSource[]
-  CreditCard                                 CreditCard[]
-  FamilyMemberIncome                         FamilyMemberIncome[]
-  Financing                                  Financing[]
-  Loan                                       Loan[]
-  MonthlyIncome                              MonthlyIncome[]
-  OtherExpense                               OtherExpense[]
-  FamilyMemberToVehicle                      FamilyMemberToVehicle[]
-  FamilyMemberDisease                        FamilyMemberDisease[]
-  candidate                                  Candidate?              @relation(fields: [candidate_id], references: [id])
-  Medication                                 Medication[]
-  LegalResponsible                           LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
-  legalResponsibleId                         String?
-  application_id                             String
-  BankAccount                                BankAccount[]
-  Declarations                               Declarations[]
-  createdAt                                  DateTime                @default(now())
-  updatedAt                                  DateTime                @default(now()) @updatedAt
+
+  incomeSource          IncomeSource[]
+  CreditCard            CreditCard[]
+  FamilyMemberIncome    FamilyMemberIncome[]
+  Financing             Financing[]
+  Loan                  Loan[]
+  MonthlyIncome         MonthlyIncome[]
+  OtherExpense          OtherExpense[]
+  FamilyMemberToVehicle FamilyMemberToVehicle[]
+  FamilyMemberDisease   FamilyMemberDisease[]
+  candidate             Candidate?              @relation(fields: [candidate_id], references: [id])
+  Medication            Medication[]
+  LegalResponsible      LegalResponsible?       @relation(fields: [legalResponsibleId], references: [id])
+  legalResponsibleId    String?
+  application_id        String
+  BankAccount           BankAccount[]
+  Declarations          Declarations[]
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @default(now()) @updatedAt
 
   @@unique([application_id, main_id])
   @@map("familyMembers")
@@ -876,7 +878,7 @@ model FamilyMemberToVehicle {
 model CandidateDocuments {
   id                 String                  @id @default(uuid())
   status             CandidateDocumentStatus @default(UPDATED)
-  path               String                  @unique
+  path               String
   pathInMainDatabase String
   metadata           Json
   tableName          String

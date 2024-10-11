@@ -150,7 +150,7 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/candidateInfo/vehicle/:application_id', { onRequest: [verifyJWT] }, getVehicleInfoHDB)
   app.get('/candidateInfo/expenses/:application_id', { onRequest: [verifyJWT] }, getExpensesInfoHDB)
   app.get('/candidateInfo/bank-info/:application_id/:_id?', { onRequest: [verifyJWT] }, getBankingInfoHDB)
-  app.get('/candidateInfo/registrato/:application_id/:_id?', { onRequest: [verifyJWT] }, getRegistratoHDB)
+  app.get('/candidateInfo/ccs/files/:application_id/:_id?', { onRequest: [verifyJWT] }, getRegistratoHDB)
   app.get('/candidateInfo/declaration/:application_id', { onRequest: [verifyJWT] }, getDeclarationsPDF)
 
   // Documentos da assistente

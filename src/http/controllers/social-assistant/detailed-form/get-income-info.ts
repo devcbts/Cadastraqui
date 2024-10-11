@@ -2,6 +2,7 @@ import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { historyDatabase } from '@/lib/prisma'
 import { SelectCandidateResponsibleHDB } from '@/utils/select-candidate-responsibleHDB'
 import { CalculateIncomePerCapitaHDB } from '@/utils/Trigger-Functions/calculate-income-per-capita-HDB'
+import { BankAccount } from '@prisma/client'
 import { FamilyMember } from 'backup_prisma/generated/clientBackup'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -25,8 +26,9 @@ export async function getIncomeInfoHDB(
     const idField = candidateOrResponsible.IsResponsible ? { legalResponsibleId: candidateOrResponsible.UserData.id } : { candidate_id: candidateOrResponsible.UserData.id }
     const familyMembers = await historyDatabase.familyMember.findMany({
       where: idField,
+      include: { BankAccount: true }
     })
-    async function fetchData(familyMembers: FamilyMember[]) {
+    async function fetchData(familyMembers: (FamilyMember & { BankAccount: BankAccount[] })[]) {
       const incomeInfoResults = []
       for (const familyMember of familyMembers) {
         try {
@@ -35,7 +37,15 @@ export async function getIncomeInfoHDB(
           })
 
 
-          incomeInfoResults.push({ name: familyMember.fullName, id: familyMember.id, incomes: familyMemberIncome })
+          incomeInfoResults.push({
+            name: familyMember.fullName, id: familyMember.id, incomes: familyMemberIncome, isIncomeUpdated: familyMember.isIncomeUpdated,
+            isBankUpdated: !!(
+              (familyMember?.BankAccount.every(e => e.isUpdated) && familyMember?.BankAccount.length)
+              || (familyMember?.BankAccount.every(e => e.isUpdated) && familyMember?.BankAccount.length)
+
+            )
+
+          })
         } catch (error) {
           throw new ResourceNotFoundError()
         }
@@ -50,8 +60,25 @@ export async function getIncomeInfoHDB(
     const urls = await getSectionDocumentsPDF_HDB(candidateOrResponsible.UserData.id, 'income')
 
     let incomeInfoResults = await fetchData(familyMembers)
+    const userIdentity = await historyDatabase.identityDetails.findFirst({
+      where: { OR: [{ candidate_id: candidateOrResponsible.UserData.id }, { responsible_id: candidateOrResponsible.UserData.id }] },
+      select: {
+        hasBankAccount: true,
+        candidate: { select: { _count: { select: { BankAccount: true } }, BankAccount: { select: { isUpdated: true } } } },
+        responsible: { select: { _count: { select: { BankAccount: true } }, BankAccount: { select: { isUpdated: true } } }, },
+        isIncomeUpdated: true
+      }
+    })
+    incomeInfoResults.push({
+      name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, incomes: candidateIncome,
+      isIncomeUpdated: userIdentity?.isIncomeUpdated ?? null,
+      isBankUpdated: !!(
+        (userIdentity?.candidate?.BankAccount.every(e => e.isUpdated) && userIdentity?.candidate?.BankAccount.length)
+        || (userIdentity?.responsible?.BankAccount.every(e => e.isUpdated) && userIdentity?.responsible?.BankAccount.length)
 
-    incomeInfoResults.push({ name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, incomes: candidateIncome })
+      )
+
+    })
     const incomeInfoResultsWithUrls = incomeInfoResults.map((familyMember) => {
       const incomesWithUrls = familyMember.incomes.map((income) => {
         const incomeDocuments = Object.entries(urls).filter(([url]) => url.split("/")[4] === income.id)
@@ -60,9 +87,13 @@ export async function getIncomeInfoHDB(
           urls: Object.fromEntries(incomeDocuments),
         }
       })
+      const isUpdated = !!familyMember.incomes.length
+        && familyMember.incomes.every(income => income.isUpdated)
+        && familyMember.isBankUpdated;
       return {
         ...familyMember,
         incomes: incomesWithUrls,
+        isUpdated
       }
     })
     const averageIncome = await CalculateIncomePerCapitaHDB(candidateOrResponsible.UserData.id)

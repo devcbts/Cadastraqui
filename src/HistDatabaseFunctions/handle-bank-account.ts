@@ -1,9 +1,9 @@
+import getCandidateDocument from "@/http/controllers/candidates/Documents Functions/get-candidate-document";
 import { historyDatabase, prisma } from "@/lib/prisma";
+import { copyFilesToAnotherFolder, deleteFromS3Folder } from "@/lib/S3";
 import getOpenApplications from "./find-open-applications";
 import { findAWSRouteHDB } from "./Handle Application/find-AWS-Route";
-import { copyFilesToAnotherFolder, deleteFromS3Folder } from "@/lib/S3";
-import getCandidateDocument from "@/http/controllers/candidates/Documents Functions/get-candidate-document";
-import {createCandidateDocumentHDB} from "./Handle Documents/handle-candidate-document";
+import { createCandidateDocumentHDB } from "./Handle Documents/handle-candidate-document";
 
 export async function createBankAccountHDB(id: string, candidate_id: string | null, legalResponsibleId: string | null, application_id: string) {
     const bankAccount = await prisma.bankAccount.findUnique({
@@ -33,7 +33,7 @@ export async function createBankAccountHDB(id: string, candidate_id: string | nu
         for (const file of copyFiles) {
             const metadata = file.metadata ?? {}; // Provide a default value if metadata is null
 
-            await createCandidateDocumentHDB(tsPrismaHDB, RouteHDB, route, metadata, 'statement', bankAccount.id, null, application_id);
+            await createCandidateDocumentHDB(tsPrismaHDB, `${RouteHDB}${file.path.split('/').pop()}`, route, metadata, 'statement', bankAccount.id, null, application_id);
         }
     });
     await copyFilesToAnotherFolder(route, RouteHDB);
@@ -78,14 +78,14 @@ export async function deleteBankAccountHDB(id: string, memberId: string) {
     if (member) {
         candidateOrResponsibleId = member.candidate_id || member.legalResponsibleId;
     }
-    
+
     if (!candidateOrResponsibleId && deletedMember) {
         candidateOrResponsibleId = (deletedMember as { id: string; familyMember_id: string; candidateOrResponsibleId: string; }).candidateOrResponsibleId;
     }
-    
+
     if (!candidateOrResponsibleId) {
         candidateOrResponsibleId = memberId;
-    }    const openApplications = await getOpenApplications(candidateOrResponsibleId);
+    } const openApplications = await getOpenApplications(candidateOrResponsibleId);
     if (!openApplications) {
         return null;
     }

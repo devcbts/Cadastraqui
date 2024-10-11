@@ -1094,7 +1094,7 @@ model Student {
 model CandidateDocuments {
   id        String                  @id @default(uuid())
   status    CandidateDocumentStatus @default(UPDATED)
-  path      String                  @unique
+  path      String
   metadata  Json
   tableName String
   tableId   String

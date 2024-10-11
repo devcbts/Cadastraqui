@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { CandidateDocumentStatus, Prisma } from "@prisma/client";
 
 export default async function createCandidateDocument(tsPrisma: Prisma.TransactionClient,
     path: string,
@@ -10,28 +10,31 @@ export default async function createCandidateDocument(tsPrisma: Prisma.Transacti
 ) {
 
     if (tableName === "pix" || tableName === "registrato") {
-        console.log("meta", metadata)
-        const documentExists = await tsPrisma.candidateDocuments.findFirst({
+        const memberDocument = await tsPrisma.candidateDocuments.findFirst({
             where: {
                 tableName,
                 tableId
             }
         })
-        if (documentExists) {
-            await tsPrisma.candidateDocuments.update({
+        if (memberDocument) {
+
+            await tsPrisma.candidateDocuments.updateMany({
                 where: {
-                    id: documentExists?.id
+                    tableName,
+                    tableId
+
                 },
                 data: {
                     path: path,
                     metadata: metadata,
+                    status: CandidateDocumentStatus.UPDATED,
+                    expiresAt
                 }
             })
             return
         }
 
     }
-
     await tsPrisma.candidateDocuments.create({
         data: {
             path,
@@ -41,5 +44,6 @@ export default async function createCandidateDocument(tsPrisma: Prisma.Transacti
             expiresAt
         }
     })
+
 
 }

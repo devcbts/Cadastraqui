@@ -14211,6 +14211,7 @@ export namespace Prisma {
     CadUnico: boolean | null
     hasSevereDeseaseOrUsesMedication: boolean | null
     hasBankAccount: boolean | null
+    isIncomeUpdated: boolean | null
     documentNumber: string | null
     documentValidity: Date | null
     maritalStatus: $Enums.MARITAL_STATUS | null
@@ -14273,6 +14274,7 @@ export namespace Prisma {
     CadUnico: boolean | null
     hasSevereDeseaseOrUsesMedication: boolean | null
     hasBankAccount: boolean | null
+    isIncomeUpdated: boolean | null
     documentNumber: string | null
     documentValidity: Date | null
     maritalStatus: $Enums.MARITAL_STATUS | null
@@ -14335,6 +14337,7 @@ export namespace Prisma {
     CadUnico: number
     hasSevereDeseaseOrUsesMedication: number
     hasBankAccount: number
+    isIncomeUpdated: number
     documentNumber: number
     documentValidity: number
     maritalStatus: number
@@ -14401,6 +14404,7 @@ export namespace Prisma {
     CadUnico?: true
     hasSevereDeseaseOrUsesMedication?: true
     hasBankAccount?: true
+    isIncomeUpdated?: true
     documentNumber?: true
     documentValidity?: true
     maritalStatus?: true
@@ -14463,6 +14467,7 @@ export namespace Prisma {
     CadUnico?: true
     hasSevereDeseaseOrUsesMedication?: true
     hasBankAccount?: true
+    isIncomeUpdated?: true
     documentNumber?: true
     documentValidity?: true
     maritalStatus?: true
@@ -14525,6 +14530,7 @@ export namespace Prisma {
     CadUnico?: true
     hasSevereDeseaseOrUsesMedication?: true
     hasBankAccount?: true
+    isIncomeUpdated?: true
     documentNumber?: true
     documentValidity?: true
     maritalStatus?: true
@@ -14662,6 +14668,7 @@ export namespace Prisma {
     CadUnico: boolean
     hasSevereDeseaseOrUsesMedication: boolean | null
     hasBankAccount: boolean | null
+    isIncomeUpdated: boolean | null
     documentNumber: string | null
     documentValidity: Date | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -14743,6 +14750,7 @@ export namespace Prisma {
     CadUnico?: boolean
     hasSevereDeseaseOrUsesMedication?: boolean
     hasBankAccount?: boolean
+    isIncomeUpdated?: boolean
     documentNumber?: boolean
     documentValidity?: boolean
     maritalStatus?: boolean
@@ -14809,6 +14817,7 @@ export namespace Prisma {
     CadUnico?: boolean
     hasSevereDeseaseOrUsesMedication?: boolean
     hasBankAccount?: boolean
+    isIncomeUpdated?: boolean
     documentNumber?: boolean
     documentValidity?: boolean
     maritalStatus?: boolean
@@ -14885,6 +14894,7 @@ export namespace Prisma {
       CadUnico: boolean
       hasSevereDeseaseOrUsesMedication: boolean | null
       hasBankAccount: boolean | null
+      isIncomeUpdated: boolean | null
       documentNumber: string | null
       documentValidity: Date | null
       maritalStatus: $Enums.MARITAL_STATUS
@@ -15343,6 +15353,7 @@ export namespace Prisma {
     readonly CadUnico: FieldRef<"IdentityDetails", 'Boolean'>
     readonly hasSevereDeseaseOrUsesMedication: FieldRef<"IdentityDetails", 'Boolean'>
     readonly hasBankAccount: FieldRef<"IdentityDetails", 'Boolean'>
+    readonly isIncomeUpdated: FieldRef<"IdentityDetails", 'Boolean'>
     readonly documentNumber: FieldRef<"IdentityDetails", 'String'>
     readonly documentValidity: FieldRef<"IdentityDetails", 'DateTime'>
     readonly maritalStatus: FieldRef<"IdentityDetails", 'MARITAL_STATUS'>
@@ -42287,6 +42298,7 @@ export namespace Prisma {
     CadUnico: 'CadUnico',
     hasSevereDeseaseOrUsesMedication: 'hasSevereDeseaseOrUsesMedication',
     hasBankAccount: 'hasBankAccount',
+    isIncomeUpdated: 'isIncomeUpdated',
     documentNumber: 'documentNumber',
     documentValidity: 'documentValidity',
     maritalStatus: 'maritalStatus',
@@ -44381,6 +44393,7 @@ export namespace Prisma {
     CadUnico?: BoolFilter<"IdentityDetails"> | boolean
     hasSevereDeseaseOrUsesMedication?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     hasBankAccount?: BoolNullableFilter<"IdentityDetails"> | boolean | null
+    isIncomeUpdated?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     documentNumber?: StringNullableFilter<"IdentityDetails"> | string | null
     documentValidity?: DateTimeNullableFilter<"IdentityDetails"> | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFilter<"IdentityDetails"> | $Enums.MARITAL_STATUS
@@ -44447,6 +44460,7 @@ export namespace Prisma {
     CadUnico?: SortOrder
     hasSevereDeseaseOrUsesMedication?: SortOrderInput | SortOrder
     hasBankAccount?: SortOrderInput | SortOrder
+    isIncomeUpdated?: SortOrderInput | SortOrder
     documentNumber?: SortOrderInput | SortOrder
     documentValidity?: SortOrderInput | SortOrder
     maritalStatus?: SortOrder
@@ -44517,6 +44531,7 @@ export namespace Prisma {
     CadUnico?: BoolFilter<"IdentityDetails"> | boolean
     hasSevereDeseaseOrUsesMedication?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     hasBankAccount?: BoolNullableFilter<"IdentityDetails"> | boolean | null
+    isIncomeUpdated?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     documentNumber?: StringNullableFilter<"IdentityDetails"> | string | null
     documentValidity?: DateTimeNullableFilter<"IdentityDetails"> | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFilter<"IdentityDetails"> | $Enums.MARITAL_STATUS
@@ -44582,6 +44597,7 @@ export namespace Prisma {
     CadUnico?: SortOrder
     hasSevereDeseaseOrUsesMedication?: SortOrderInput | SortOrder
     hasBankAccount?: SortOrderInput | SortOrder
+    isIncomeUpdated?: SortOrderInput | SortOrder
     documentNumber?: SortOrderInput | SortOrder
     documentValidity?: SortOrderInput | SortOrder
     maritalStatus?: SortOrder
@@ -44652,6 +44668,7 @@ export namespace Prisma {
     CadUnico?: BoolWithAggregatesFilter<"IdentityDetails"> | boolean
     hasSevereDeseaseOrUsesMedication?: BoolNullableWithAggregatesFilter<"IdentityDetails"> | boolean | null
     hasBankAccount?: BoolNullableWithAggregatesFilter<"IdentityDetails"> | boolean | null
+    isIncomeUpdated?: BoolNullableWithAggregatesFilter<"IdentityDetails"> | boolean | null
     documentNumber?: StringNullableWithAggregatesFilter<"IdentityDetails"> | string | null
     documentValidity?: DateTimeNullableWithAggregatesFilter<"IdentityDetails"> | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSWithAggregatesFilter<"IdentityDetails"> | $Enums.MARITAL_STATUS
@@ -47544,11 +47561,11 @@ export namespace Prisma {
 
   export type CandidateDocumentsWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    path?: string
     AND?: CandidateDocumentsWhereInput | CandidateDocumentsWhereInput[]
     OR?: CandidateDocumentsWhereInput[]
     NOT?: CandidateDocumentsWhereInput | CandidateDocumentsWhereInput[]
     status?: EnumCandidateDocumentStatusFilter<"CandidateDocuments"> | $Enums.CandidateDocumentStatus
+    path?: StringFilter<"CandidateDocuments"> | string
     pathInMainDatabase?: StringFilter<"CandidateDocuments"> | string
     metadata?: JsonFilter<"CandidateDocuments">
     tableName?: StringFilter<"CandidateDocuments"> | string
@@ -47557,7 +47574,7 @@ export namespace Prisma {
     expiresAt?: DateTimeNullableFilter<"CandidateDocuments"> | Date | string | null
     createdAt?: DateTimeFilter<"CandidateDocuments"> | Date | string
     updatedAt?: DateTimeFilter<"CandidateDocuments"> | Date | string
-  }, "id" | "path">
+  }, "id">
 
   export type CandidateDocumentsOrderByWithAggregationInput = {
     id?: SortOrder
@@ -48564,6 +48581,7 @@ export namespace Prisma {
     CadUnico?: boolean
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
+    isIncomeUpdated?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -48628,6 +48646,7 @@ export namespace Prisma {
     CadUnico?: boolean
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
+    isIncomeUpdated?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -48692,6 +48711,7 @@ export namespace Prisma {
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -48756,6 +48776,7 @@ export namespace Prisma {
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -48820,6 +48841,7 @@ export namespace Prisma {
     CadUnico?: boolean
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
+    isIncomeUpdated?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -48884,6 +48906,7 @@ export namespace Prisma {
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -48946,6 +48969,7 @@ export namespace Prisma {
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -53260,6 +53284,7 @@ export namespace Prisma {
     CadUnico?: SortOrder
     hasSevereDeseaseOrUsesMedication?: SortOrder
     hasBankAccount?: SortOrder
+    isIncomeUpdated?: SortOrder
     documentNumber?: SortOrder
     documentValidity?: SortOrder
     maritalStatus?: SortOrder
@@ -53324,6 +53349,7 @@ export namespace Prisma {
     CadUnico?: SortOrder
     hasSevereDeseaseOrUsesMedication?: SortOrder
     hasBankAccount?: SortOrder
+    isIncomeUpdated?: SortOrder
     documentNumber?: SortOrder
     documentValidity?: SortOrder
     maritalStatus?: SortOrder
@@ -53386,6 +53412,7 @@ export namespace Prisma {
     CadUnico?: SortOrder
     hasSevereDeseaseOrUsesMedication?: SortOrder
     hasBankAccount?: SortOrder
+    isIncomeUpdated?: SortOrder
     documentNumber?: SortOrder
     documentValidity?: SortOrder
     maritalStatus?: SortOrder
@@ -61402,6 +61429,7 @@ export namespace Prisma {
     CadUnico?: boolean
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
+    isIncomeUpdated?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -61465,6 +61493,7 @@ export namespace Prisma {
     CadUnico?: boolean
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
+    isIncomeUpdated?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -62446,6 +62475,7 @@ export namespace Prisma {
     CadUnico?: BoolFilter<"IdentityDetails"> | boolean
     hasSevereDeseaseOrUsesMedication?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     hasBankAccount?: BoolNullableFilter<"IdentityDetails"> | boolean | null
+    isIncomeUpdated?: BoolNullableFilter<"IdentityDetails"> | boolean | null
     documentNumber?: StringNullableFilter<"IdentityDetails"> | string | null
     documentValidity?: DateTimeNullableFilter<"IdentityDetails"> | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFilter<"IdentityDetails"> | $Enums.MARITAL_STATUS
@@ -63360,6 +63390,7 @@ export namespace Prisma {
     CadUnico?: boolean
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
+    isIncomeUpdated?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -63423,6 +63454,7 @@ export namespace Prisma {
     CadUnico?: boolean
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
+    isIncomeUpdated?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -77418,6 +77450,7 @@ export namespace Prisma {
     CadUnico?: boolean
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
+    isIncomeUpdated?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -78080,6 +78113,7 @@ export namespace Prisma {
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -78143,6 +78177,7 @@ export namespace Prisma {
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -78206,6 +78241,7 @@ export namespace Prisma {
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -79002,6 +79038,7 @@ export namespace Prisma {
     CadUnico?: boolean
     hasSevereDeseaseOrUsesMedication?: boolean | null
     hasBankAccount?: boolean | null
+    isIncomeUpdated?: boolean | null
     documentNumber?: string | null
     documentValidity?: Date | string | null
     maritalStatus: $Enums.MARITAL_STATUS
@@ -79436,6 +79473,7 @@ export namespace Prisma {
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -79499,6 +79537,7 @@ export namespace Prisma {
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
@@ -79562,6 +79601,7 @@ export namespace Prisma {
     CadUnico?: BoolFieldUpdateOperationsInput | boolean
     hasSevereDeseaseOrUsesMedication?: NullableBoolFieldUpdateOperationsInput | boolean | null
     hasBankAccount?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    isIncomeUpdated?: NullableBoolFieldUpdateOperationsInput | boolean | null
     documentNumber?: NullableStringFieldUpdateOperationsInput | string | null
     documentValidity?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     maritalStatus?: EnumMARITAL_STATUSFieldUpdateOperationsInput | $Enums.MARITAL_STATUS
