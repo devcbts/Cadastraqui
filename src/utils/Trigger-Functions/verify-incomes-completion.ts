@@ -27,10 +27,10 @@ export default async function verifyIncomesCompletion(candidateOrResponsibleId:s
     }
     let update = true
 
-    if(familyMembers.some((familyMember) => !familyMember.isIncomeUpdated)){
+    if(familyMembers.some((familyMember) => !familyMember.isIncomeUpdated || familyMember.isIncomeUpdated === null)){
         update = false;
     }
-    if (identityDetails.isIncomeUpdated === false) {
+    if (identityDetails.isIncomeUpdated === false || identityDetails.isIncomeUpdated === null) {
         update = false;
         
     }
