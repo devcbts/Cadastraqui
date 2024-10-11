@@ -878,7 +878,7 @@ model FamilyMemberToVehicle {
 model CandidateDocuments {
   id                 String                  @id @default(uuid())
   status             CandidateDocumentStatus @default(UPDATED)
-  path               String
+  path               String                  @unique
   pathInMainDatabase String
   metadata           Json
   tableName          String

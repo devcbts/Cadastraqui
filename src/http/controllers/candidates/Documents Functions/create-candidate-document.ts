@@ -1,4 +1,4 @@
-import { CandidateDocumentStatus, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 export default async function createCandidateDocument(tsPrisma: Prisma.TransactionClient,
     path: string,
@@ -9,41 +9,61 @@ export default async function createCandidateDocument(tsPrisma: Prisma.Transacti
 
 ) {
 
-    if (tableName === "pix" || tableName === "registrato") {
-        const memberDocument = await tsPrisma.candidateDocuments.findFirst({
-            where: {
-                tableName,
-                tableId
-            }
-        })
-        if (memberDocument) {
+    // if (tableName === "pix" || tableName === "registrato") {
+    //     const memberDocument = await tsPrisma.candidateDocuments.findFirst({
+    //         where: {
+    //             tableName,
+    //             tableId
+    //         }
+    //     })
+    //     if (memberDocument) {
 
-            await tsPrisma.candidateDocuments.updateMany({
-                where: {
-                    tableName,
-                    tableId
+    //         await tsPrisma.candidateDocuments.updateMany({
+    //             where: {
+    //                 tableName,
+    //                 tableId
 
-                },
-                data: {
-                    path: path,
-                    metadata: metadata,
-                    status: CandidateDocumentStatus.UPDATED,
-                    expiresAt
-                }
-            })
-            return
-        }
+    //             },
+    //             data: {
+    //                 path: path,
+    //                 metadata: metadata,
+    //                 status: CandidateDocumentStatus.UPDATED,
+    //                 expiresAt
+    //             }
+    //         })
+    //         return
+    //     }
 
-    }
-    await tsPrisma.candidateDocuments.create({
-        data: {
+
+
+    await tsPrisma.candidateDocuments.upsert({
+        where: {
+            path
+        },
+        create: {
+
             path,
             metadata,
             tableName: tableName,
             tableId,
             expiresAt
+
+        },
+        update: {
+            expiresAt,
+            metadata
         }
     })
-
-
 }
+// await tsPrisma.candidateDocuments.create({
+//     data: {
+//         path,
+//         metadata,
+//         tableName: tableName,
+//         tableId,
+//         expiresAt
+//     }
+// })
+
+
+// }

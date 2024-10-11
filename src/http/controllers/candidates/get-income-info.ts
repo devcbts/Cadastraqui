@@ -39,7 +39,7 @@ export async function getIncomeInfo(
         const userBanks = familyMember.BankAccount.length
         incomeInfoResults.push({
           name: familyMember.fullName, id: familyMember.id, incomes: familyMember.FamilyMemberIncome, hasBankAccount: familyMember.hasBankAccount, userBanks, isUser: false, isIncomeUpdated: familyMember.isIncomeUpdated,
-          isBankUpdated: familyMember.BankAccount.every(e => e.isUpdated), BankAccount: familyMember.BankAccount
+          isBankUpdated: (!!familyMember.BankAccount.length && familyMember.BankAccount.every(e => e.isUpdated)), BankAccount: familyMember.BankAccount
         })
       } catch (error) {
         throw new ResourceNotFoundError()
@@ -172,14 +172,20 @@ export async function getMemberIncomeStatus(request: FastifyRequest, reply: Fast
 
     const pix = await prisma.candidateDocuments.findFirst({
       where: {
-        tableName: 'pix',
-        tableId: _id
+        AND: [
+
+          { tableName: 'pix' },
+          { tableId: _id }
+        ]
       }
     })
     const registrato = await prisma.candidateDocuments.findFirst({
       where: {
-        tableName: 'registrato',
-        tableId: _id
+        AND: [
+
+          { tableName: 'registrato' },
+          { tableId: _id }
+        ]
       }
     })
     if (pix?.status === 'PENDING' || registrato?.status === 'PENDING') {

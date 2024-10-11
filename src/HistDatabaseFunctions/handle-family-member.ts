@@ -1,9 +1,7 @@
-import { prisma } from '@/lib/prisma'
-import { historyDatabase } from '@/lib/prisma'
-import { ChooseCandidateResponsible } from '@/utils/choose-candidate-responsible';
+import { historyDatabase, prisma } from '@/lib/prisma';
+import { copyFilesToAnotherFolder } from '@/lib/S3';
 import getOpenApplications from './find-open-applications';
 import { findAWSRouteHDB } from './Handle Application/find-AWS-Route';
-import { copyFilesToAnotherFolder } from '@/lib/S3';
 
 /// HDB == HistoryDataBase
 export async function createFamilyMemberHDB(id: string, candidate_id: string | null, legalResponsibleId: string | null, application_id: string) {
@@ -19,10 +17,10 @@ export async function createFamilyMemberHDB(id: string, candidate_id: string | n
 
     const newId = await historyDatabase.idMapping.findFirst({
         where: { mainId: (mainCandidateId || mainResponsibleId)!, application_id }
-    
+
     })
-   const idField = mainCandidateId ? { candidate_id: newId?.newId } : { legalResponsibleId: newId?.newId };
-    
+    const idField = mainCandidateId ? { candidate_id: newId?.newId } : { legalResponsibleId: newId?.newId };
+
     const createFamilyMember = await historyDatabase.familyMember.create({
         data: { main_id: familyMemberId, ...familyMemberDetails, ...idField, application_id }
     });
@@ -37,7 +35,7 @@ export async function createFamilyMemberHDB(id: string, candidate_id: string | n
         return null;
     }
     const route = `CandidateDocuments/${idRoute}/family-member/${id}/`;
-    const RouteHDB = await findAWSRouteHDB(idRoute , 'family-member', familyMemberId, null, application_id);
+    const RouteHDB = await findAWSRouteHDB(idRoute, 'family-member', familyMemberId, null, application_id);
     await copyFilesToAnotherFolder(route, RouteHDB)
 
 }
@@ -67,13 +65,12 @@ export async function updateFamilyMemberHDB(id: string) {
     if (!openApplications) {
         return null;
     }
-
+    console.log(familyMemberDetails.hasBankAccount)
     for (const application of openApplications) {
         const updateFamilyMember = await historyDatabase.familyMember.updateMany({
             where: { main_id: familyMemberId, application_id: application.id },
             data: { ...familyMemberDetails },
         });
-
     }
 }
 
@@ -90,14 +87,14 @@ export async function deleteFamilyMemberHDB(id: string, memberId: string) {
     if (member) {
         candidateOrResponsibleId = member.candidate_id || member.legalResponsibleId;
     }
-    
+
     if (!candidateOrResponsibleId && deletedMember) {
         candidateOrResponsibleId = (deletedMember as { id: string; familyMember_id: string; candidateOrResponsibleId: string; }).candidateOrResponsibleId;
     }
-    
+
     if (!candidateOrResponsibleId) {
         candidateOrResponsibleId = memberId;
-    }    const openApplications = await getOpenApplications(candidateOrResponsibleId);
+    } const openApplications = await getOpenApplications(candidateOrResponsibleId);
     if (!openApplications) {
         return null;
     }

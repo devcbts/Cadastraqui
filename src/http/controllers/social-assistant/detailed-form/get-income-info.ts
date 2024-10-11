@@ -74,10 +74,10 @@ export async function getIncomeInfoHDB(
       name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, incomes: candidateIncome,
       isIncomeUpdated: userIdentity?.isIncomeUpdated ?? null,
       hasBankAccount: userIdentity?.hasBankAccount ?? null,
-      isBankUpdated: !!(
-        (userIdentity?.candidate?.BankAccount.every(e => e.isUpdated) && userIdentity?.candidate?.BankAccount.length)
-        || (userIdentity?.responsible?.BankAccount.every(e => e.isUpdated) && userIdentity?.responsible?.BankAccount.length)
-
+      isBankUpdated: (
+        !!userIdentity?.candidate
+          ? !!userIdentity?.candidate?.BankAccount.length && userIdentity?.candidate?.BankAccount.every(e => e.isUpdated)
+          : !!userIdentity?.responsible?.BankAccount.length && userIdentity?.responsible?.BankAccount.every(e => e.isUpdated)
       )
 
     })
@@ -91,7 +91,11 @@ export async function getIncomeInfoHDB(
       })
       const isUpdated = !!familyMember.incomes.length
         && familyMember.incomes.every(income => income.isUpdated)
-        && familyMember.isBankUpdated;
+        && (familyMember.isBankUpdated || familyMember.hasBankAccount === false);
+      console.log(`
+          ${familyMember.name} tem ${familyMember.hasBankAccount}  contas no banco, 
+          o banco está atualizado (${familyMember.isBankUpdated})
+          `)
       return {
         ...familyMember,
         incomes: incomesWithUrls,

@@ -901,7 +901,7 @@ model Application {
   candidateStatus      CandidateApplicationStatus?
   socialAssistant_id   String?
   educationLevel_id    String
-  candidateName        String?
+  candidateName        String
   SocialAssistantName  String?
   CadUnico             Boolean?
   hasSevereDesease     Boolean?
@@ -1073,28 +1073,35 @@ model EntityCourse {
 }
 
 model Student {
-  id              String       @id @default(uuid())
+  id              String              @id @default(uuid())
   name            String
   admissionDate   DateTime
-  scholarshipType String // Tipos de bolsa (todas possíveis)
-  semester        String? // Semestre caso exista
+  scholarshipType AllScholarshipsType // Tipos de bolsa (todas possíveis)
+  isPartial       Boolean
+  semester        Int? // Semestre caso exista
   shift           SHIFT
   candidate_id    String
-  candidate       Candidate    @relation(fields: [candidate_id], references: [id])
-  status          String // Será um enum (ATIVO, INATIVO, FORMADO)
+  candidate       Candidate           @relation(fields: [candidate_id], references: [id])
+  status          StudentStatus // Será um enum (ATIVO, INATIVO, FORMADO)
   entityCourse_id String
-  entityCourse    EntityCourse @relation(fields: [entityCourse_id], references: [id])
-
-  cameFromCSV     Boolean        @default(false)
+  entityCourse    EntityCourse        @relation(fields: [entityCourse_id], references: [id])
+  educationStyle  EducationStyle // Presencial, Remoto, Híbrido
+  cameFromCSV     Boolean             @default(false)
   type1Benefits   Type1Benefit[]
   type2Benefits   Type2Benefit[]
   announcement_id String?
 }
 
+enum StudentStatus {
+  Active
+  Inactive
+  Graduated
+}
+
 model CandidateDocuments {
   id        String                  @id @default(uuid())
   status    CandidateDocumentStatus @default(UPDATED)
-  path      String
+  path      String                  @unique
   metadata  Json
   tableName String
   tableId   String
@@ -1104,6 +1111,12 @@ model CandidateDocuments {
   updatedAt DateTime  @default(now()) @updatedAt
 
   @@index([tableName, tableId], name: "tableName_tableId")
+}
+
+enum EducationStyle {
+  Presential
+  Remote
+  Hybrid
 }
 
 enum CandidateDocumentType {
