@@ -38,7 +38,7 @@ export async function verifyIncomeBankRegistration(id: string) {
             update = false;
         }
 
-        
+
         if (familyMember.hasBankAccount) {
             const hasBankAccount = await prisma.bankAccount.findMany({
                 where: {
@@ -74,7 +74,7 @@ export async function verifyIncomeBankRegistration(id: string) {
         if (familyMember.hasBankAccount === null) {
             update = null;
         }
-        if (!hasIncome){
+        if (!hasIncome) {
             update = null;
         }
 
@@ -141,11 +141,11 @@ export async function verifyIncomeBankRegistration(id: string) {
         if (!pix || !registrato) {
             update = null;
         }
-        
+
         if (identityDetails.hasBankAccount === null) {
             update = null;
         }
-        if (!hasIncome){
+        if (!hasIncome) {
             update = null;
         }
         await prisma.identityDetails.update({

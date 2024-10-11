@@ -39,6 +39,7 @@ export async function getIncomeInfoHDB(
 
           incomeInfoResults.push({
             name: familyMember.fullName, id: familyMember.id, incomes: familyMemberIncome, isIncomeUpdated: familyMember.isIncomeUpdated,
+            hasBankAccount: familyMember?.hasBankAccount,
             isBankUpdated: !!(
               (familyMember?.BankAccount.every(e => e.isUpdated) && familyMember?.BankAccount.length)
               || (familyMember?.BankAccount.every(e => e.isUpdated) && familyMember?.BankAccount.length)
@@ -72,6 +73,7 @@ export async function getIncomeInfoHDB(
     incomeInfoResults.push({
       name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, incomes: candidateIncome,
       isIncomeUpdated: userIdentity?.isIncomeUpdated ?? null,
+      hasBankAccount: userIdentity?.hasBankAccount ?? null,
       isBankUpdated: !!(
         (userIdentity?.candidate?.BankAccount.every(e => e.isUpdated) && userIdentity?.candidate?.BankAccount.length)
         || (userIdentity?.responsible?.BankAccount.every(e => e.isUpdated) && userIdentity?.responsible?.BankAccount.length)
@@ -93,6 +95,7 @@ export async function getIncomeInfoHDB(
       return {
         ...familyMember,
         incomes: incomesWithUrls,
+        hasBankAccount: familyMember.hasBankAccount,
         isUpdated
       }
     })

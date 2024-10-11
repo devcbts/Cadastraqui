@@ -31,7 +31,7 @@ export async function getRegistratoHDB(
                         ]
                     },
                     { application_id },
-                    { tableId: curr_id.mainId }
+                    { tableId: curr_id.newId }
                 ]
             }
         })

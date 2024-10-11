@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
-export default async function verifyBankStatement(id:string){
+export default async function verifyBankStatement(id: string) {
 
     const bankStatements = await prisma.candidateDocuments.count({
         where: {
@@ -9,8 +9,9 @@ export default async function verifyBankStatement(id:string){
         }
     })
     let update = false
+    console.log('RODEI AQUII')
     if (bankStatements >= 3) {
-        update =true;
+        update = true;
     }
     await prisma.bankAccount.update({
         where: {
@@ -20,5 +21,5 @@ export default async function verifyBankStatement(id:string){
             isUpdated: update
         }
     })
-    
+
 }

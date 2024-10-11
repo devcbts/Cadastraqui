@@ -1,4 +1,3 @@
-import { deleteFromS3 } from "@/lib/S3";
 import { Prisma as backupPrisma } from "backup_prisma/generated/clientBackup";
 
 export async function createCandidateDocumentHDB(tsBackupPrisma: backupPrisma.TransactionClient,
@@ -13,18 +12,27 @@ export async function createCandidateDocumentHDB(tsBackupPrisma: backupPrisma.Tr
 ) {
 
     if (tableName === "pix" || tableName === "registrato") {
-        await tsBackupPrisma.candidateDocuments.updateMany({
+        const hasDocument = await tsBackupPrisma.candidateDocuments.findFirst({
             where: {
-                tableName,
-                tableId
-
-            },
-            data: {
-                path: path,
-                pathInMainDatabase: pathInMainDatabase,
-                metadata: metadata,
+                AND: [{ tableId }, { tableName }]
             }
         })
+        if (hasDocument) {
+
+            await tsBackupPrisma.candidateDocuments.updateMany({
+                where: {
+                    tableName,
+                    tableId
+
+                },
+                data: {
+                    path: path,
+                    pathInMainDatabase: pathInMainDatabase,
+                    metadata: metadata,
+                }
+            })
+            return
+        }
     }
     await tsBackupPrisma.candidateDocuments.create({
         data: {

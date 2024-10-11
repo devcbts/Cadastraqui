@@ -28,6 +28,7 @@ import { getHealthInfoHDB } from './detailed-form/get-health-info'
 import { getHousingInfoHDB } from './detailed-form/get-housing-info'
 import { getIdentityInfoHDB } from './detailed-form/get-identity-info'
 import { getIncomeInfoHDB } from './detailed-form/get-income-info'
+import { getMemberIncomeStatusHDB } from './detailed-form/get-income-status-hdb'
 import { getMonthlyIncomeBySourceHDB } from './detailed-form/get-monthly-income'
 import { getRegistratoHDB } from './detailed-form/get-registrato'
 import { getVehicleInfoHDB } from './detailed-form/get-vehicle-info'
@@ -152,7 +153,11 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/candidateInfo/bank-info/:application_id/:_id?', { onRequest: [verifyJWT] }, getBankingInfoHDB)
   app.get('/candidateInfo/ccs/files/:application_id/:_id?', { onRequest: [verifyJWT] }, getRegistratoHDB)
   app.get('/candidateInfo/declaration/:application_id', { onRequest: [verifyJWT] }, getDeclarationsPDF)
-
+  app.get(
+    '/candidateInfo/income/status/:application_id/:_id',
+    { onRequest: [verifyJWT] },
+    getMemberIncomeStatusHDB,
+  )
   // Documentos da assistente
   app.post('/documents/majoracao/:application_id', { onRequest: [verifyJWT, verifyAssistantEnroll] }, uploadMarojacaoDocument)
   app.post('/documents/parecer/:application_id', { onRequest: [verifyJWT, verifyAssistantEnroll] }, uploadParecerDocument)

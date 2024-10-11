@@ -67,9 +67,9 @@ export async function getIncomeInfo(
     incomeInfoResults.push({
       name: candidateOrResponsible.UserData.name, id: candidateOrResponsible.UserData.id, incomes: candidateIncome, hasBankAccount: userIdentity?.hasBankAccount, userBanks, isUser: true, isIncomeUpdated: userIdentity?.isIncomeUpdated,
       isBankUpdated: (
-        (userIdentity?.candidate?.BankAccount.every(e => e.isUpdated) && userIdentity?.candidate?.BankAccount.length)
-        || (userIdentity?.responsible?.BankAccount.every(e => e.isUpdated) && userIdentity?.responsible?.BankAccount.length)
-
+        !!userIdentity?.candidate
+          ? !!userIdentity?.candidate?.BankAccount.length && userIdentity?.candidate?.BankAccount.every(e => e.isUpdated)
+          : !!userIdentity?.responsible?.BankAccount.length && userIdentity?.responsible?.BankAccount.every(e => e.isUpdated)
       )
     })
     const incomeInfoResultsWithUrls = incomeInfoResults.map((familyMember) => {
@@ -82,7 +82,8 @@ export async function getIncomeInfo(
       })
       const isUpdated = !!familyMember.incomes.length
         && familyMember.incomes.every(income => income.isUpdated)
-        && familyMember.isBankUpdated;
+        && (familyMember.isBankUpdated || familyMember.hasBankAccount === false);
+      console.log(familyMember.name, familyMember.hasBankAccount,)
       return {
         ...familyMember,
         incomes: incomesWithUrls,

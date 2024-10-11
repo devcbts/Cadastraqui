@@ -149,7 +149,7 @@ export async function candidateRoutes(app: FastifyInstance) {
     getIncomeInfo,
   )
   app.get(
-    '/family-member/income/:_id',
+    '/family-member/income/status/:_id',
     { onRequest: [verifyJWT] },
     getMemberIncomeStatus,
   )
