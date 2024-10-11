@@ -47,13 +47,24 @@ export default async function createCandidateDocument(tsPrisma: Prisma.Transacti
     }
     else {
 
-        await tsPrisma.candidateDocuments.create({
-            data: {
+
+
+        await tsPrisma.candidateDocuments.upsert({
+            where: {
+                path
+            },
+            create: {
+
                 path,
                 metadata,
                 tableName: tableName,
                 tableId,
                 expiresAt
+
+            },
+            update: {
+                expiresAt,
+                metadata
             }
         })
     }
