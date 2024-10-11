@@ -161,9 +161,11 @@ export default async function registerNewStudents(
                         admissionDate: new Date(),
                         announcement_id: '',
                         candidate_id: candidateId,
-                        scholarshipType: '',
+                        scholarshipType: 'CityGovernment',
                         shift: 'Integral',
-                        status: '',
+                        status: 'Active',
+                        isPartial: false,
+                        educationStyle: 'Presential',
                     }
                 })
             }))

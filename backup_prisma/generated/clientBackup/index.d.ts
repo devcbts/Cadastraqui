@@ -47561,11 +47561,11 @@ export namespace Prisma {
 
   export type CandidateDocumentsWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    path?: string
     AND?: CandidateDocumentsWhereInput | CandidateDocumentsWhereInput[]
     OR?: CandidateDocumentsWhereInput[]
     NOT?: CandidateDocumentsWhereInput | CandidateDocumentsWhereInput[]
     status?: EnumCandidateDocumentStatusFilter<"CandidateDocuments"> | $Enums.CandidateDocumentStatus
-    path?: StringFilter<"CandidateDocuments"> | string
     pathInMainDatabase?: StringFilter<"CandidateDocuments"> | string
     metadata?: JsonFilter<"CandidateDocuments">
     tableName?: StringFilter<"CandidateDocuments"> | string
@@ -47574,7 +47574,7 @@ export namespace Prisma {
     expiresAt?: DateTimeNullableFilter<"CandidateDocuments"> | Date | string | null
     createdAt?: DateTimeFilter<"CandidateDocuments"> | Date | string
     updatedAt?: DateTimeFilter<"CandidateDocuments"> | Date | string
-  }, "id">
+  }, "id" | "path">
 
   export type CandidateDocumentsOrderByWithAggregationInput = {
     id?: SortOrder

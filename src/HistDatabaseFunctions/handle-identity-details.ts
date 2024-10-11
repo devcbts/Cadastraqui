@@ -74,14 +74,14 @@ export async function updateIdentityDetailsHDB(id: string) {
 
         const candidateApplicationLocation = `${identityDetailsHDB.address}, ${identityDetailsHDB.addressNumber}, ${identityDetailsHDB.neighborhood}, ${identityDetailsHDB.city}, ${identityDetailsHDB.UF}, ${identityDetailsHDB.CEP}`
         // Verifica se teve alguma alteração no endereço
-        if (candidateApplicationLocation != candidateLocation) {
-            await prisma.$transaction(async (tsPrisma) => {
-
-                // Primeiro atualizar a tabela no banco de dados de histórico
-                const updateIdentityDetails = await historyDatabase.identityDetails.update({
-                    where: { main_id: identityId, application_id: application.id },
-                    data: { ...identityDetails },
-                });
+        await prisma.$transaction(async (tsPrisma) => {
+            console.log('bank account', identityDetails.hasBankAccount)
+            // Primeiro atualizar a tabela no banco de dados de histórico
+            const updateIdentityDetails = await historyDatabase.identityDetails.update({
+                where: { main_id: identityId, application_id: application.id },
+                data: { ...identityDetails },
+            });
+            if (candidateApplicationLocation != candidateLocation) {
 
                 // Pegar informações sobre a vaga
                 const educationLevel = await tsPrisma.educationLevel.findUnique({
@@ -110,8 +110,8 @@ export async function updateIdentityDetailsHDB(id: string) {
                     where: { id: application.id },
                     data: { distance, CadUnico: identityDetails.CadUnico }
                 });
-            });
-        }
+            }
+        });
 
     }
 

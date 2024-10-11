@@ -91,8 +91,8 @@ export default async function getStudentsDashboard(
                 count,
                 courses,
                 units,
-                scholarshipPartial: scholarshipType.map(e => e.scholarshipType === '').length,
-                scholarshipTotal: scholarshipType.map(e => e.scholarshipType === '').length
+                scholarshipPartial: scholarshipType.length,
+                scholarshipTotal: scholarshipType.length
             }
         })
 

@@ -11,31 +11,55 @@ export async function createCandidateDocumentHDB(tsBackupPrisma: backupPrisma.Tr
 
 ) {
 
-    if (tableName === "pix" || tableName === "registrato") {
-        const hasDocument = await tsBackupPrisma.candidateDocuments.findFirst({
-            where: {
-                AND: [{ tableId }, { tableName }]
-            }
-        })
-        if (hasDocument) {
+    // if (tableName === "pix" || tableName === "registrato") {
+    //     const hasDocument = await tsBackupPrisma.candidateDocuments.findFirst({
+    //         where: {
+    //             AND: [{ tableId }, { tableName }]
+    //         }
+    //     })
+    //     if (hasDocument) {
+    //     const memberDocument = await tsBackupPrisma.candidateDocuments.findFirst({
+    //         where: {
+    //             tableName,
+    //             tableId
+    //         }
+    //     })
 
-            await tsBackupPrisma.candidateDocuments.updateMany({
-                where: {
-                    tableName,
-                    tableId
+    //     if (memberDocument) {
 
-                },
-                data: {
-                    path: path,
-                    pathInMainDatabase: pathInMainDatabase,
-                    metadata: metadata,
-                }
-            })
-            return
-        }
-    }
-    await tsBackupPrisma.candidateDocuments.create({
-        data: {
+    //         await tsBackupPrisma.candidateDocuments.updateMany({
+    //             where: {
+    //                 tableName,
+    //                 tableId
+
+    //             },
+    //             data: {
+    //                 path: path,
+    //                 pathInMainDatabase: pathInMainDatabase,
+    //                 metadata: metadata,
+    //             }
+    //         })
+    //         return
+    //     }
+    //     else {
+    //         await tsBackupPrisma.candidateDocuments.create({
+    //             data: {
+    //                 path,
+    //                 metadata,
+    //                 tableName: tableName,
+    //                 pathInMainDatabase,
+    //                 tableId,
+    //                 expiresAt,
+    //                 application_id
+    //             }
+    //         })
+    //     }
+    // }
+    await tsBackupPrisma.candidateDocuments.upsert({
+        where: { path },
+        update: { path, pathInMainDatabase, expiresAt, metadata },
+        create:
+        {
             path,
             metadata,
             tableName: tableName,
