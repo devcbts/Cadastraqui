@@ -45,7 +45,7 @@ export async function updateMonthlyIncomeHDB(id: string) {
     if (!monthlyIncome) {
         return null;
     }
-    const { id: oldId, familyMember_id: oldFamilyMemberId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId, ...monthlyIncomeData } = monthlyIncome;
+    const { id: oldId, familyMember_id: oldFamilyMemberId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId, income_id:income_id , ...monthlyIncomeData } = monthlyIncome;
     let candidateOrResponsible = monthlyIncome.candidate_id || monthlyIncome.familyMember?.candidate_id || monthlyIncome.legalResponsibleId || monthlyIncome.familyMember?.legalResponsibleId
     if (!candidateOrResponsible) {
         return null;
@@ -54,11 +54,15 @@ export async function updateMonthlyIncomeHDB(id: string) {
     if (!openApplications) {
         return null;
     }
+    
     for (const application of openApplications) {
+        const incomeMapping = await historyDatabase.idMapping.findFirst({
+            where: { mainId: income_id ?? undefined, application_id: application.id }
+        })
         const { familyMember: none, ...dataToSend } = monthlyIncomeData
         const updateMonthlyIncome = await historyDatabase.monthlyIncome.updateMany({
             where: { main_id: id, application_id: application.id },
-            data: { ...dataToSend }
+            data: { ...dataToSend, income_id: incomeMapping?.newId }
         });
     }
 }
