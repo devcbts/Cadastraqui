@@ -3,37 +3,65 @@ import getOpenApplications from "./find-open-applications";
 import { findAWSRouteHDB } from "./Handle Application/find-AWS-Route";
 import { copyFilesToAnotherFolder, deleteFromS3Folder } from "@/lib/S3";
 
+function delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Função para buscar o idMapping com repetição
+async function fetchIdMappingWithRetry(mainId: string, application_id: string, maxRetries: number = 3) {
+    let attempts = 0;
+    let idMapping = null;
+
+    while (attempts < maxRetries) {
+        idMapping = await historyDatabase.idMapping.findFirst({
+            where: { mainId, application_id }
+        });
+
+        if (idMapping) {
+            break;
+        }
+
+        attempts++;
+        await delay(3000); // Espera 3 segundos antes de tentar novamente
+    }
+
+    return idMapping;
+}
+
 export async function createMonthlyIncomeHDB(id: string, candidate_id: string | null, legalResponsibleId: string | null, application_id: string) {
     const monthlyIncome = await prisma.monthlyIncome.findUnique({
         where: { id }
-    })
+    });
     if (!monthlyIncome) {
         return null;
-
     }
-    const { id: oldId, familyMember_id: oldFamilyMemberId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId, income_id: income_id , ...monthlyIncomeData } = monthlyIncome;
-    const familyMemberMapping = await historyDatabase.idMapping.findFirst({
-        where: { mainId: (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, application_id }
-    });
-    const newFamilyMemberId = familyMemberMapping?.newId;
+
+    const { id: oldId, familyMember_id: oldFamilyMemberId, candidate_id: oldCandidateId, legalResponsibleId: oldResponsibleId, income_id: income_id, ...monthlyIncomeData } = monthlyIncome;
+
+    const familyMemberMapping = await fetchIdMappingWithRetry((oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, application_id);
+    if (!familyMemberMapping) {
+        throw new Error("idMapping não encontrado após várias tentativas.");
+    }
+    const newFamilyMemberId = familyMemberMapping.newId;
     const idField = oldFamilyMemberId ? { familyMember_id: newFamilyMemberId } : (monthlyIncome.legalResponsibleId ? { legalResponsibleId: newFamilyMemberId } : { candidate_id: newFamilyMemberId });
 
-    const incomeMapping = await historyDatabase.idMapping.findFirst({
-        where: { mainId: income_id ?? undefined, application_id }
-    })
-
-    const newIncomeId = incomeMapping?.newId;
+    const incomeMapping = await fetchIdMappingWithRetry((income_id ?? undefined)!, application_id);
+    if (!incomeMapping) {
+        throw new Error("idMapping não encontrado após várias tentativas.");
+    }
+    const newIncomeId = incomeMapping.newId;
 
     const createMonthlyIncome = await historyDatabase.monthlyIncome.create({
-        data: { main_id: monthlyIncome.id, ...monthlyIncomeData, ...idField,income_id:newIncomeId, application_id }
+        data: { main_id: monthlyIncome.id, ...monthlyIncomeData, ...idField, income_id: newIncomeId, application_id }
     });
+
     const idRoute = legalResponsibleId ? legalResponsibleId : candidate_id;
     if (!idRoute) {
         return null;
     }
     const route = `CandidateDocuments/${idRoute}/monthly-income/${(oldFamilyMemberId || oldCandidateId || oldResponsibleId || '')}/${monthlyIncome.id}/`;
     const RouteHDB = await findAWSRouteHDB(idRoute, 'monthly-income', (oldFamilyMemberId || oldCandidateId || oldResponsibleId)!, monthlyIncome.id, application_id);
-    await copyFilesToAnotherFolder(route, RouteHDB)
+    await copyFilesToAnotherFolder(route, RouteHDB);
 }
 
 export async function updateMonthlyIncomeHDB(id: string) {
@@ -58,11 +86,18 @@ export async function updateMonthlyIncomeHDB(id: string) {
     for (const application of openApplications) {
         const incomeMapping = await historyDatabase.idMapping.findFirst({
             where: { mainId: income_id ?? undefined, application_id: application.id }
-        })
-        const { familyMember: none, ...dataToSend } = monthlyIncomeData
+        });
+        
+        const { familyMember: none, ...dataToSend } = monthlyIncomeData;
+        let HisotryincomeId
+        // Verifica se incomeMapping?.newId não é undefined antes de atualizar income_id
+        if (incomeMapping?.newId !== undefined) {
+            HisotryincomeId = incomeMapping.newId;
+        }
+        const idField = HisotryincomeId ? { income_id: HisotryincomeId } : {  };
         const updateMonthlyIncome = await historyDatabase.monthlyIncome.updateMany({
             where: { main_id: id, application_id: application.id },
-            data: { ...dataToSend, income_id: incomeMapping?.newId }
+            data: { ...dataToSend, ...idField } 
         });
     }
 }
