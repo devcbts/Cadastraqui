@@ -281,13 +281,16 @@ clientBackup.on('notification', async (msg) => {
         }
         if (msg.channel == 'channel_monthlyIncome') {
             const monthlyIncome = JSON.parse(msg.payload!);
-
+            const income = await prisma.monthlyIncome.findUnique({
+                where: { id: monthlyIncome.data.id },
+                include: { familyMember: true }
+            })
             await CalculateMemberAverageIncome(monthlyIncome.data.candidate_id || monthlyIncome.data.familyMember_id || monthlyIncome.data.legalResponsibleId, monthlyIncome.data.incomeSource)
             if (monthlyIncome.operation == 'Update') {
                 await updateMonthlyIncomeHDB(monthlyIncome.data.id)
             }
             else if (monthlyIncome.operation == 'Insert') {
-                const openApplications = await getOpenApplications(monthlyIncome.data.candidate_id || monthlyIncome.data.legalResponsibleId);
+                const openApplications = await getOpenApplications(monthlyIncome.data.candidate_id || monthlyIncome.data.legalResponsibleId || income?.familyMember?.candidate_id || income?.familyMember?.legalResponsibleId);
                 for (const application of openApplications) {
                     await createMonthlyIncomeHDB(monthlyIncome.data.id, monthlyIncome.data.candidate_id, monthlyIncome.data.legalResponsibleId, application.id)
                 }
@@ -296,6 +299,8 @@ clientBackup.on('notification', async (msg) => {
             else if (monthlyIncome.operation == 'Delete') {
                 await deleteMonthlyIncomeHDB(monthlyIncome.data.id, monthlyIncome.data.familyMember_id || monthlyIncome.data.candidate_id || monthlyIncome.data.legalResponsibleId)
             }
+
+            
         }
 
         if (msg.channel == 'channel_vehicle') {

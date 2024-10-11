@@ -13,21 +13,47 @@ export async function createCandidateDocumentHDB(tsBackupPrisma: backupPrisma.Tr
 ) {
 
     if (tableName === "pix" || tableName === "registrato") {
-        await tsBackupPrisma.candidateDocuments.updateMany({
+        const memberDocument = await tsBackupPrisma.candidateDocuments.findFirst({
             where: {
                 tableName,
                 tableId
-
-            },
-            data: {
-                path: path,
-                pathInMainDatabase: pathInMainDatabase,
-                metadata: metadata,
             }
         })
+
+        if (memberDocument) {
+
+            await tsBackupPrisma.candidateDocuments.updateMany({
+                where: {
+                    tableName,
+                    tableId
+
+                },
+                data: {
+                    path: path,
+                    pathInMainDatabase: pathInMainDatabase,
+                    metadata: metadata,
+                }
+            })
+        }
+        else {
+            await tsBackupPrisma.candidateDocuments.create({
+                data: {
+                    path,
+                    metadata,
+                    tableName: tableName,
+                    pathInMainDatabase,
+                    tableId,
+                    expiresAt,
+                    application_id
+                }
+            })
+        }
     }
-    await tsBackupPrisma.candidateDocuments.create({
-        data: {
+    await tsBackupPrisma.candidateDocuments.upsert({
+        where: { path },
+        update: { path, pathInMainDatabase, expiresAt, metadata },
+        create:
+        {
             path,
             metadata,
             tableName: tableName,
