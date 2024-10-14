@@ -22,7 +22,14 @@ export default async function updateScholarshipStatus(
         }
         const { status } = data
         const scholarship = await prisma.scholarshipGranted.findUnique({
-            where: { id: scholarship_id }
+            where: { id: scholarship_id },
+            include: {
+                application: {
+                    include: {
+                        EducationLevel: true
+                    }
+                }
+            }
         })
         if (!scholarship) {
             throw new APIError('Bolsista não encontrado')
@@ -30,11 +37,51 @@ export default async function updateScholarshipStatus(
         if (scholarship.status !== "SELECTED") {
             throw new APIError('Esta bolsa já teve seu status modificado e não pode ser alterado novamente')
         }
-        await prisma.scholarshipGranted.update({
-            where: { id: scholarship_id },
-            data: {
-                status
+        await prisma.$transaction(async (tPrisma) => {
+
+            if (status === 'REGISTERED') {
+                // Verificar a existência do curso na entidade
+                let entityCourse = await tPrisma.entityCourse.findFirst({
+                    where: {
+                        course_id: scholarship.application.EducationLevel.courseId,
+                        OR: [{ entity_id: scholarship.application.EducationLevel.entityId }, { entitySubsidiary_id: scholarship.application.EducationLevel.entitySubsidiaryId }]
+                    }
+                })
+
+                if (!entityCourse) {
+                    entityCourse = await tPrisma.entityCourse.create({
+                        data: {
+                            course_id: scholarship.application.EducationLevel.courseId,
+                            entity_id: scholarship.application.EducationLevel.entityId,
+                            entitySubsidiary_id: scholarship.application.EducationLevel.entitySubsidiaryId
+                        }
+                    })
+                }
+                await tPrisma.student.create({
+                    data: {
+                        announcement_id: scholarship.application.announcement_id,
+                        name: scholarship.application.candidateName,
+                        admissionDate: new Date(),
+                        scholarshipType: scholarship.application.EducationLevel.typeOfScholarship,
+                        isPartial: scholarship.application.ScholarshipPartial!,
+                        candidate_id: scholarship.application.candidate_id,
+                        shift: scholarship.application.EducationLevel.shift,
+                        semester: scholarship.application.EducationLevel.semester,
+                        status: 'Active',
+                        educationStyle: 'Presential',
+                        entityCourse_id: entityCourse.id,
+
+
+                    }
+                })
             }
+
+            await tPrisma.scholarshipGranted.update({
+                where: { id: scholarship_id },
+                data: {
+                    status
+                }
+            })
         })
         return response.status(204).send()
     } catch (err) {

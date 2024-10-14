@@ -4,34 +4,40 @@ import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsi
 import { FastifyReply, FastifyRequest } from "fastify"
 import { z } from "zod"
 
-export default async function getScholarshipsByLevel(request: FastifyRequest, reply: FastifyReply) {
+export default async function getCandidateScholarshipInfo(request: FastifyRequest, reply: FastifyReply) {
     const requestParamsSchema = z.object({
-        application_id: z.string(),
+        scholarship_id: z.string(),
     })
 
-    const { application_id } = requestParamsSchema.parse(request.params)
+    const { scholarship_id } = requestParamsSchema.parse(request.params)
     try {
         
-        const application = await prisma.application.findUnique({
+        const scholarship = await prisma.scholarshipGranted.findUnique({
             where: {
-                id: application_id
+                id: scholarship_id
             },
             include: {
-                candidate: true,
-                EducationLevel: {
+                application: {
                     include: {
-                        course: true,
-                        entitySubsidiary: true,
-                        entity: true
+                        candidate: true,
+                        EducationLevel: {
+                            include: {
+                                course: true,
+                                entitySubsidiary: true,
+                                entity: true
+                            }
+                        }
                     }
                 }
+                
             }
         })
 
-        if (!application) {
+        if (!scholarship) {
             throw new ResourceNotFoundError()
         }
 
+        const application = scholarship.application
         // Application and Scholarship Info
         const entity = application.EducationLevel.entity || application.EducationLevel.entitySubsidiary
         const course = application.EducationLevel.course
@@ -48,7 +54,7 @@ export default async function getScholarshipsByLevel(request: FastifyRequest, re
         // Personal Info
         const IsResponsible = application.responsible_id ? true : false
         const identityDetails = await historyDatabase.identityDetails.findUnique({
-            where: { application_id }
+            where: { application_id: application.id }
         })
 
         if (!identityDetails) {
@@ -58,7 +64,7 @@ export default async function getScholarshipsByLevel(request: FastifyRequest, re
         let personalInfo
         if (IsResponsible) {
             const member = await historyDatabase.familyMember.findFirst({
-                where: { application_id, CPF: application.candidate.CPF }
+                where: { application_id: application.id, CPF: application.candidate.CPF }
             })
             if (!member) {
                 throw new ResourceNotFoundError()

@@ -43,6 +43,7 @@ import { uploadAnnouncementPdf } from './upload-announcement-pdf'
 import uploadBasicEducationCSVFileToAnnouncement from './upload-basic-education-csv-to-announcement'
 import uploadHigherEducationCSVFileToAnnouncement from './upload-higher-education-csv-to-announcement'
 import { uploadEntityProfilePicture } from './upload-profile-picture'
+import getCandidateScholarshipInfo from './get-candidate-scholarship-info'
 
 export async function entityRoutes(app: FastifyInstance) {
   /** Admin Routes (Rotas acessadas na página do Admin)
@@ -159,12 +160,13 @@ export async function entityRoutes(app: FastifyInstance) {
     { onRequest: [verifyJWT] },
     getApplications,
   )
-
+  
   app.post('/announcement/csv/basic', { onRequest: [verifyJWT] }, uploadBasicEducationCSVFileToAnnouncement)
   app.post('/announcement/csv/higher', { onRequest: [verifyJWT] }, uploadHigherEducationCSVFileToAnnouncement)
-
+  
   app.get('/courses/scholarships/:educationalLevel_id', { onRequest: [verifyJWT] }, getGrantedScholarships)
-  app.put('/scholarships/:scholarship_id', { onRequest: [verifyJWT] }, updateScholarshipStatus)
+  app.get('/scholarships/:scholarship_id', { onRequest: [verifyJWT,verifyRole(["ENTITY","ENTITY_DIRECTOR"])] }, getCandidateScholarshipInfo)
+  app.put('/scholarships/:scholarship_id', { onRequest: [verifyJWT,verifyRole(["ENTITY","ENTITY_DIRECTOR"])] }, updateScholarshipStatus)
   app.get('/courses/registered/:educationalLevel_id', { onRequest: [verifyJWT] }, getRegisteredStudentsByCourse)
 
   app.get('/courses/all', { onRequest: [verifyJWT] }, getAllCourses)
