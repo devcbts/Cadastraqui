@@ -1,7 +1,7 @@
 import { APIError } from "@/errors/api-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
-import { AllEducationType } from "@prisma/client";
+import { AllEducationType, AllScholarshipsType } from "@prisma/client";
 import { hash } from "bcryptjs";
 import csv from 'csv-parser';
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -11,6 +11,7 @@ import { detect } from "jschardet";
 import pump from "pump";
 import tmp from 'tmp';
 import { z } from "zod";
+import { SHIFT } from "../../candidates/enums/Shift";
 import { normalizeString } from "../utils/normalize-string";
 
 export default async function registerNewStudents(
@@ -27,7 +28,11 @@ export default async function registerNewStudents(
         Periodo: z.string(),
         Nascimento: z.string().transform(e => new Date(e)),
         // IdCurso: z.string().transform(e => parseInt(e)).nullish(),
-        CNPJ: z.string()
+        CNPJ: z.string(),
+        isPartial: z.number().transform(e => !!e),
+        Turno: SHIFT,
+        ScholarshipType: z.enum(Object.values(AllScholarshipsType) as [string, ...string[]])
+
     })
     type CSVData = z.infer<typeof csvSchema>
     try {
@@ -72,7 +77,8 @@ export default async function registerNewStudents(
                     // Process the data as needed
                     const { error, data: parsedData, success } = csvSchema.safeParse(data)
                     if (error) {
-                        reject(new APIError(`Dados inválidos no arquivo ${JSON.stringify(data)}`))
+                        // reject(new APIError(`Dados inválidos no arquivo ${JSON.stringify(data)}`))
+                        reject()
                     }
                     if (success) {
                         csvData.push(parsedData);
@@ -161,10 +167,10 @@ export default async function registerNewStudents(
                         admissionDate: new Date(),
                         announcement_id: '',
                         candidate_id: candidateId,
-                        scholarshipType: 'CityGovernment',
-                        shift: 'Integral',
+                        scholarshipType: e.ScholarshipType as AllScholarshipsType,
+                        shift: e.Turno,
                         status: 'Active',
-                        isPartial: false,
+                        isPartial: e.isPartial,
                         educationStyle: 'Presential',
                     }
                 })
