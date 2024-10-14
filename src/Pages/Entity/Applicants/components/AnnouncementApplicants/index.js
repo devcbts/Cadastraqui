@@ -96,14 +96,13 @@ export default function EntityAnnouncementApplicants() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', margin: '24px 12px', alignItems: 'center' }}>
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '24px' }}>
                         <ButtonBase label={'Desistência'} onClick={() => {
-
                             handleChangeReason(SCHOLARSHIP_STATUS.GAVEUP)
                         }} />
                         <ButtonBase label={'Não se matriculou'} onClick={() => {
                             handleChangeReason(SCHOLARSHIP_STATUS.NOT_REGISTERED)
                         }} />
                     </div>
-                    <h4>Alterar para: {SCHOLARSHIP_STATUS_TRANSLATION[modal?.reason]}</h4>
+                    <h4>Alterar para: <span style={{ color: '#EF3E36' }}> {SCHOLARSHIP_STATUS_TRANSLATION[modal?.reason]}</span></h4>
                 </div>
             </Modal>
             <div>
@@ -170,7 +169,8 @@ export default function EntityAnnouncementApplicants() {
                                     {e.status === SCHOLARSHIP_STATUS.SELECTED
                                         ? (
                                             <>
-                                                <ButtonBase label={'sim'} onClick={() => handleUpdateUserScholarship({ id: e.id, status: SCHOLARSHIP_STATUS.REGISTERED })} />
+                                                {/* <ButtonBase label={'sim'} onClick={() => handleUpdateUserScholarship({ id: e.id, status: SCHOLARSHIP_STATUS.REGISTERED })} /> */}
+                                                <ButtonBase label={'sim'} onClick={() => navigate('matricula', { state: { ...state, id: e.id } })} />
                                                 <ButtonBase label={'não'} danger onClick={() => handleUpdateUserScholarship({ id: e.id })} />
                                             </>
                                         )

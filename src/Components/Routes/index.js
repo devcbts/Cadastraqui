@@ -56,6 +56,7 @@ import EntityRegisterStudents from "Pages/Entity/Students/Register";
 import EntityDashboardStudents from "Pages/Entity/Students/Dashboard";
 import EntityStudentsList from "Pages/Entity/Students/Listing";
 import EntityStudentsRenew from "Pages/Entity/Students/Renew";
+import EntityApplicantsRegisterApplicant from "Pages/Entity/Applicants/components/RegisterApplicant";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -171,7 +172,10 @@ export default function AppRoutes() {
                             <Route index element={<EntityApplicants />} />
                             <Route path=":announcementId" element={<Outlet />} >
                                 <Route index element={<EntityAnnouncementCourses />} />
-                                <Route path=":courseId" element={<EntityAnnouncementApplicants />} />
+                                <Route path=":courseId" element={<Outlet />} >
+                                    <Route index element={<EntityAnnouncementApplicants />} />
+                                    <Route path="matricula" element={<EntityApplicantsRegisterApplicant />} />
+                                </Route>
                             </Route>
                         </Route>
                         <Route path="/profile" element={<EntityProfile />} />

@@ -1,5 +1,8 @@
+import formatDate from "utils/format-date"
 import { api } from "../axios"
 import announcementMapper from "./mappers/announcementMapper"
+import GENDER from "utils/enums/gender"
+import findLabel from "utils/enums/helpers/findLabel"
 
 class EntityService {
 
@@ -133,6 +136,14 @@ class EntityService {
     async getRenewDashboard() {
         const response = await api.get(`/entities/students/renew/dashbaord`)
         return response.data
+    }
+    async getScholarshipApplicantDetails(scholarshipId) {
+        const response = await api.get(`/entities/scholarships/details/${scholarshipId}`)
+        const { scholarshipInfo, personalInfo } = response.data
+        return {
+            scholarshipInfo: { ...scholarshipInfo, isPartial: scholarshipInfo.isPartial ? 'Parcial' : 'Integral' },
+            personalInfo: { ...personalInfo, birthDate: formatDate(personalInfo?.birthDate), gender: findLabel(GENDER, personalInfo.gender) }
+        }
     }
 }
 
