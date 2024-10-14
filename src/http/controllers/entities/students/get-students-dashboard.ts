@@ -30,7 +30,7 @@ export default async function getStudentsDashboard(
             })
 
             const scholarshipType = await tPrisma.student.groupBy({
-                by: ["scholarshipType"],
+                by: ["isPartial"],
                 where: whereClause,
             })
             // group students by their course
@@ -91,8 +91,8 @@ export default async function getStudentsDashboard(
                 count,
                 courses,
                 units,
-                scholarshipPartial: scholarshipType.length,
-                scholarshipTotal: scholarshipType.length
+                scholarshipPartial: scholarshipType.filter(e => e.isPartial).length,
+                scholarshipTotal: scholarshipType.filter(e => !e.isPartial).length,
             }
         })
 
