@@ -38,16 +38,19 @@ export default function BankReport({ id, onBack }) {
                         <FormList.List list={[
                             { value: 'registrato' },
                             { value: 'pix' },
-                        ]} render={(item) => (
-                            <FormListItem.Root text={item.value.toUpperCase()}>
-                                <FormListItem.Actions>
-                                    <Indicator
-                                        status={data?.find(e => e.tableName === item.value)}
-                                    />
-                                    <ButtonBase label={'visualizar'} onClick={() => setSelection(item.value)} />
-                                </FormListItem.Actions>
-                            </FormListItem.Root>
-                        )}>
+                        ]} render={(item) => {
+                            const status = data?.find(e => e.tableName === item.value)
+                            return (
+                                <FormListItem.Root text={item.value.toUpperCase()}>
+                                    <FormListItem.Actions>
+                                        <Indicator
+                                            status={!status ? null : (status.status === "UPDATED")}
+                                        />
+                                        <ButtonBase label={'visualizar'} onClick={() => setSelection(item.value)} />
+                                    </FormListItem.Actions>
+                                </FormListItem.Root>
+                            )
+                        }}>
 
 
                         </FormList.List>
