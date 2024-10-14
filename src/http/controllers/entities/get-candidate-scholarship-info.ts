@@ -3,14 +3,13 @@ import { historyDatabase, prisma } from "@/lib/prisma"
 import { FastifyReply, FastifyRequest } from "fastify"
 import { z } from "zod"
 
-export default async function getScholarshipsByLevel(request: FastifyRequest, reply: FastifyReply) {
+export default async function getCandidateScholarshipInfo(request: FastifyRequest, reply: FastifyReply) {
     const requestParamsSchema = z.object({
         scholarship_id: z.string(),
     })
 
     const { scholarship_id } = requestParamsSchema.parse(request.params)
     try {
-
         const scholarship = await prisma.scholarshipGranted.findUnique({
             where: {
                 id: scholarship_id
@@ -28,6 +27,7 @@ export default async function getScholarshipsByLevel(request: FastifyRequest, re
                         }
                     }
                 }
+
             }
         })
 

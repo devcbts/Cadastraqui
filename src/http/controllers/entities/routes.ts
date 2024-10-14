@@ -18,6 +18,7 @@ import { fetchSubsidiarys } from './fetch-subsidiarys'
 import getAllCourses from './get-all-courses'
 import getAnnouncementCourse from './get-announcement-course'
 import { getApplications } from './get-applications'
+import getCandidateScholarshipInfo from './get-candidate-scholarship-info'
 import getEntityDashboard from './get-dashboard'
 import { getEntityInfo } from './get-entity-info'
 import { getGrantedScholarships } from './get-granted-scholarships'
@@ -28,7 +29,6 @@ import { registerEntity } from './register-entity'
 import removeAssistantFromAnnouncement from './remove-assistant-from-announcement'
 import searchAnnouncements from './search-announcements'
 import getAllStudents from './students/get-all-students'
-import getScholarshipsByLevel from './students/get-candidate-scholarship-info'
 import getRenewCourses from './students/get-renew-courses'
 import getRenewDashboard from './students/get-renew-dashboard'
 import getStudentsDashboard from './students/get-students-dashboard'
@@ -165,7 +165,8 @@ export async function entityRoutes(app: FastifyInstance) {
   app.post('/announcement/csv/higher', { onRequest: [verifyJWT] }, uploadHigherEducationCSVFileToAnnouncement)
 
   app.get('/courses/scholarships/:educationalLevel_id', { onRequest: [verifyJWT] }, getGrantedScholarships)
-  app.put('/scholarships/:scholarship_id', { onRequest: [verifyJWT] }, updateScholarshipStatus)
+  app.get('/scholarships/details/:scholarship_id', { onRequest: [verifyJWT, verifyRole(["ENTITY", "ENTITY_DIRECTOR"])] }, getCandidateScholarshipInfo)
+  app.put('/scholarships/:scholarship_id', { onRequest: [verifyJWT, verifyRole(["ENTITY", "ENTITY_DIRECTOR"])] }, updateScholarshipStatus)
   app.get('/courses/registered/:educationalLevel_id', { onRequest: [verifyJWT] }, getRegisteredStudentsByCourse)
 
   app.get('/courses/all', { onRequest: [verifyJWT] }, getAllCourses)
@@ -176,5 +177,4 @@ export async function entityRoutes(app: FastifyInstance) {
   app.get('/students/renew/dashbaord', { onRequest: [verifyJWT] }, getRenewDashboard)
   app.get('/students/renew/courses', { onRequest: [verifyJWT] }, getRenewCourses)
 
-  app.get('/scholarships/details/:scholarship_id', { onRequest: [verifyJWT] }, getScholarshipsByLevel)
 }

@@ -188,7 +188,7 @@ export async function getMemberIncomeStatus(request: FastifyRequest, reply: Fast
         ]
       }
     })
-    if (pix?.status === 'PENDING' || registrato?.status === 'PENDING') {
+    if ((pix?.status === 'PENDING' || registrato?.status === 'PENDING') && pix && registrato) {
       CCS_Updated = false;
     }
     else if (!pix || !registrato) {
