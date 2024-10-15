@@ -1,4 +1,4 @@
-import { getSignedUrlsGroupedByFolder } from '@/lib/S3'
+import { getSignedUrlsGroupedByFolder } from '../../../../lib/S3'
 
 export async function getSectionDocumentsPDF(
     candidateOrResponsible_id: string, section: string
