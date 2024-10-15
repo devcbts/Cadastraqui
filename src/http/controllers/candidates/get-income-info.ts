@@ -80,15 +80,12 @@ export async function getIncomeInfo(
           urls: Object.fromEntries(incomeDocuments),
         }
       })
-      const isUpdated = !!familyMember.incomes.length
-        && familyMember.incomes.every(income => income.isUpdated)
-        && (familyMember.isBankUpdated || familyMember.hasBankAccount === false);
+
       console.log(familyMember.name, familyMember.hasBankAccount,)
       return {
         ...familyMember,
         incomes: incomesWithUrls,
         hasBankAccount: familyMember.hasBankAccount,
-        isUpdated
       }
     })
     const averageIncome = await CalculateIncomePerCapita(candidateOrResponsible.UserData.id)
