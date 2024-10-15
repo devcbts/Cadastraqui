@@ -33,7 +33,7 @@ export const section = z.enum(["identity",
     "declaracoes",
     "pix"
 ])
-const MAX_FILE_SIZE = 1024 * 1024 * 10;
+export const MAX_FILE_SIZE = 1024 * 1024 * 10;
 export async function uploadDocument(request: FastifyRequest, reply: FastifyReply) {
     const requestParamsSchema = z.object({
         documentType: section,
@@ -51,16 +51,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             throw new NotAllowedError();
         }
         const parts = request.parts({ limits: { fileSize: MAX_FILE_SIZE } });
-        // for await (const file of parts) {
-        //     if (file.file.truncated) {
-        //         throw new Error('Arquivo excedente ao limite de 10MB');
-        //     }
-        //     pump(file.file, fs.createWriteStream(file.filename))
-        //     if (fs.existsSync(file.filename)) {
-        //         fs.unlinkSync(file.fieldname);
-        //     }
-
-        // }
+   
         const files: (MultipartFile & { fileBuffer: any, metadata: object })[] = []
         let metadatas: any = {};
         // get all metadata and files separated
@@ -120,7 +111,11 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
                         if (!sended) {
                             throw new NotAllowedError();
                         }
-                    })
+                    },
+                    {
+                        timeout: 10000
+                    }
+                )
                 }
                 if (fs.existsSync(part.filename)) {
                     fs.unlinkSync(part.filename)

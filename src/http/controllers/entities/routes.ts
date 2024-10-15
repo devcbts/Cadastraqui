@@ -18,7 +18,7 @@ import { fetchSubsidiarys } from './fetch-subsidiarys'
 import getAllCourses from './get-all-courses'
 import getAnnouncementCourse from './get-announcement-course'
 import { getApplications } from './get-applications'
-import getCandidateScholarshipInfo from './get-candidate-scholarship-info'
+import getCandidateScholarshipInfo from './scholarship/get-candidate-scholarship-info'
 import getEntityDashboard from './get-dashboard'
 import { getEntityInfo } from './get-entity-info'
 import { getGrantedScholarships } from './get-granted-scholarships'
@@ -37,13 +37,14 @@ import { updateAnnouncement } from './update-announcement'
 import { updateDirector } from './update-director'
 import { updateEntity } from './update-entity'
 import updateEntityProfile from './update-entity-profile'
-import updateScholarshipStatus from './update-scholarship-status'
+import updateScholarshipStatus from './scholarship/update-scholarship-status'
 import updateSocialAssistant from './update-social-assistant'
 import { updateSubsidiary } from './update-subsidiary'
 import { uploadAnnouncementPdf } from './upload-announcement-pdf'
 import uploadBasicEducationCSVFileToAnnouncement from './upload-basic-education-csv-to-announcement'
 import uploadHigherEducationCSVFileToAnnouncement from './upload-higher-education-csv-to-announcement'
 import { uploadEntityProfilePicture } from './upload-profile-picture'
+import getCandidateScholarshipDocuments from './scholarship/get-candidate-scholarship-documents'
 
 export async function entityRoutes(app: FastifyInstance) {
   /** Admin Routes (Rotas acessadas na página do Admin)
@@ -167,6 +168,7 @@ export async function entityRoutes(app: FastifyInstance) {
   app.get('/courses/scholarships/:educationalLevel_id', { onRequest: [verifyJWT] }, getGrantedScholarships)
   app.get('/scholarships/details/:scholarship_id', { onRequest: [verifyJWT, verifyRole(["ENTITY", "ENTITY_DIRECTOR"])] }, getCandidateScholarshipInfo)
   app.put('/scholarships/:scholarship_id', { onRequest: [verifyJWT, verifyRole(["ENTITY", "ENTITY_DIRECTOR"])] }, updateScholarshipStatus)
+  app.get('/scholarships/documents/:scholarship_id', { onRequest: [verifyJWT, verifyRole(["ENTITY", "ENTITY_DIRECTOR"])] }, getCandidateScholarshipDocuments)
   app.get('/courses/registered/:educationalLevel_id', { onRequest: [verifyJWT] }, getRegisteredStudentsByCourse)
 
   app.get('/courses/all', { onRequest: [verifyJWT] }, getAllCourses)

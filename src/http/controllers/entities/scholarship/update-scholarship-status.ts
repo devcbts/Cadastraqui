@@ -3,6 +3,9 @@ import { prisma } from "@/lib/prisma";
 import { SCHOLARSHIP_GRANTED_STATUS } from "@/utils/enums/zod/scholarship-granted";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
+import { MAX_FILE_SIZE } from "../../candidates/AWS Routes/upload-documents";
+import { MultipartFile } from "@fastify/multipart";
+import { uploadFile } from "@/http/services/upload-file";
 
 export default async function updateScholarshipStatus(
     request: FastifyRequest,
@@ -40,7 +43,40 @@ export default async function updateScholarshipStatus(
         await prisma.$transaction(async (tPrisma) => {
 
             if (status === 'REGISTERED') {
-                // Verificar a existência do curso na entidade
+                const parts = request.parts({ limits: { fileSize: MAX_FILE_SIZE } });
+
+                const files: (MultipartFile & { fileBuffer: any, metadata: object })[] = []
+                let metadatas: any = {};
+                // get all metadata and files separated
+                for await (const part of parts) {
+                    if (part.fieldname === 'file_metadatas' && part.type === "field") {
+                        metadatas = JSON.parse(part.value as string)
+                    }
+                    if (part.type === "file") {
+                        // read the file before sending to AWS, need to ensure the data needed for file store isn't lost during the process
+                        const chunks: any[] = [];
+                        let fileSize = 0;
+
+                        part.file.on('data', (chunk) => {
+                            fileSize += chunk.length;
+                            chunks.push(chunk);
+                        });
+                        part.file.on('end', async () => {
+                            if (fileSize >= MAX_FILE_SIZE) {
+                                // if it exceeds 10Mb, throw an error before manipulating it
+                                throw new Error('Arquivo excedente ao limite de 10MB');
+                            }
+                            const fileBuffer = Buffer.concat(chunks)
+                            // // if part is file, save to files array to consume after
+                            files.push({
+                                ...part,
+                                fileBuffer,
+                                metadata: metadatas?.[`metadata_${part.fieldname.split('_')[1]}`] ?? {}
+                            })
+                        })
+                    }
+                }
+
                 let entityCourse = await tPrisma.entityCourse.findFirst({
                     where: {
                         course_id: scholarship.application.EducationLevel.courseId,
@@ -57,7 +93,7 @@ export default async function updateScholarshipStatus(
                         }
                     })
                 }
-                await tPrisma.student.create({
+               const student = await tPrisma.student.create({
                     data: {
                         announcement_id: scholarship.application.announcement_id,
                         name: scholarship.application.candidateName,
@@ -71,9 +107,21 @@ export default async function updateScholarshipStatus(
                         educationStyle: 'Presential',
                         entityCourse_id: entityCourse.id,
 
-
+                        
                     }
                 })
+                for(const part of files){
+                    const route = `StudentDocuments/${student.id}/${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;
+                    await tPrisma.studentDocuments.create({
+                        data: {
+                            student_id: student.id,
+                            path: route,
+                            documentName: part.filename,
+                            metadata: part.metadata
+                        }
+                    })
+                    await uploadFile(part.fileBuffer, route, part.metadata)
+                }
             }
 
             await tPrisma.scholarshipGranted.update({

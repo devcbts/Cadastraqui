@@ -1073,23 +1073,24 @@ model EntityCourse {
 }
 
 model Student {
-  id              String              @id @default(uuid())
-  name            String
-  admissionDate   DateTime
-  scholarshipType AllScholarshipsType // Tipos de bolsa (todas possíveis)
-  isPartial       Boolean
-  semester        Int? // Semestre caso exista
-  shift           SHIFT
-  candidate_id    String
-  candidate       Candidate           @relation(fields: [candidate_id], references: [id])
-  status          StudentStatus // Será um enum (ATIVO, INATIVO, FORMADO)
-  entityCourse_id String
-  entityCourse    EntityCourse        @relation(fields: [entityCourse_id], references: [id])
-  educationStyle  EducationStyle // Presencial, Remoto, Híbrido
-  cameFromCSV     Boolean             @default(false)
-  type1Benefits   Type1Benefit[]
-  type2Benefits   Type2Benefit[]
-  announcement_id String?
+  id               String              @id @default(uuid())
+  name             String
+  admissionDate    DateTime
+  scholarshipType  AllScholarshipsType // Tipos de bolsa (todas possíveis)
+  isPartial        Boolean
+  semester         Int? // Semestre caso exista
+  shift            SHIFT
+  candidate_id     String
+  candidate        Candidate           @relation(fields: [candidate_id], references: [id])
+  status           StudentStatus // Será um enum (ATIVO, INATIVO, FORMADO)
+  entityCourse_id  String
+  entityCourse     EntityCourse        @relation(fields: [entityCourse_id], references: [id])
+  educationStyle   EducationStyle // Presencial, Remoto, Híbrido
+  cameFromCSV      Boolean             @default(false)
+  type1Benefits    Type1Benefit[]
+  type2Benefits    Type2Benefit[]
+  announcement_id  String?
+  StudentDocuments StudentDocuments[]
 }
 
 enum StudentStatus {
@@ -1111,6 +1112,15 @@ model CandidateDocuments {
   updatedAt DateTime  @default(now()) @updatedAt
 
   @@index([tableName, tableId], name: "tableName_tableId")
+}
+
+model StudentDocuments {
+  id         String  @id @default(uuid())
+  path       String  @unique
+  metadata   Json
+  documentName String
+  student    Student @relation(fields: [student_id], references: [id])
+  student_id  String
 }
 
 enum EducationStyle {
