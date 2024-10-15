@@ -54,7 +54,8 @@ async function listAllKeys() {
 listAllKeys().then(async (v: { key: string, metadata: any, createdAt: Date }[]) => {
     let count = 0;
     let currTable;
-    for (const x of v) {
+    await Promise.all(v.map(async x => {
+        // return async () => {
         const tableNames = [
             "idMapping",
             "responsibles",
@@ -175,9 +176,14 @@ listAllKeys().then(async (v: { key: string, metadata: any, createdAt: Date }[]) 
                     tableId: tableid,
                     // expiresAt,
                     createdAt: x.createdAt ?? new Date(),
+                    memberId: x.key.split('/')[3]
                 }
             })
         }
+        // }
+    }))
+    for (const x of v) {
+
     }
 })
 

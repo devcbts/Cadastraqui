@@ -51,7 +51,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             throw new NotAllowedError();
         }
         const parts = request.parts({ limits: { fileSize: MAX_FILE_SIZE } });
-   
+
         const files: (MultipartFile & { fileBuffer: any, metadata: object })[] = []
         let metadatas: any = {};
         // get all metadata and files separated
@@ -93,7 +93,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             // Inicia transação de envio de documento
             await prisma.$transaction(async (tsPrisma) => {
                 // Cria o registro do documento no banco de dados
-                await createCandidateDocument(tsPrisma, route, part.metadata, documentType, table_id || member_id);
+                await createCandidateDocument(tsPrisma, route, part.metadata, documentType, table_id || member_id, member_id);
                 const sended = await uploadFile(fileBuffer, route, part.metadata);
                 if (!sended) {
                     throw new NotAllowedError();
@@ -102,20 +102,19 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
                 const findOpenApplications = await getOpenApplications(candidateOrResponsible.UserData.id);
                 for (const application of findOpenApplications) {
                     await historyDatabase.$transaction(async (tsBackupPrisma) => {
-                        console.log('ANOME DO ARQUIVO', part.fieldname, part.mimetype)
                         const routeHDB = await findAWSRouteHDB(candidateOrResponsible.UserData.id, documentType, member_id, table_id, application.id);
                         const tableIdHDB = await findTableHDBId(documentType, member_id, table_id, application.id);
                         const finalRoute = `${routeHDB}${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;
-                        await createCandidateDocumentHDB(tsBackupPrisma, finalRoute, route, part.metadata, documentType, tableIdHDB, null, application.id);
+                        await createCandidateDocumentHDB(tsBackupPrisma, finalRoute, route, part.metadata, documentType, tableIdHDB, application.id);
                         const sended = await uploadFile(fileBuffer, finalRoute, part.metadata);
                         if (!sended) {
                             throw new NotAllowedError();
                         }
                     },
-                    {
-                        timeout: 10000
-                    }
-                )
+                        {
+                            timeout: 10000
+                        }
+                    )
                 }
                 if (fs.existsSync(part.filename)) {
                     fs.unlinkSync(part.filename)

@@ -25,6 +25,7 @@ export default async function createAnnouncementEducationLevel({
     }
     await dbClient.educationLevel.create({
         data: {
+            entityId: data.entityId,
             announcementId: data.announcementId,
             level: data.level,
             typeOfScholarship: data.typeOfScholarship,

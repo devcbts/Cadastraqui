@@ -33,7 +33,7 @@ export async function createBankAccountHDB(id: string, candidate_id: string | nu
         for (const file of copyFiles) {
             const metadata = file.metadata ?? {}; // Provide a default value if metadata is null
 
-            await createCandidateDocumentHDB(tsPrismaHDB, `${RouteHDB}${file.path.split('/').pop()}`, route, metadata, 'statement', bankAccount.id, null, application_id);
+            await createCandidateDocumentHDB(tsPrismaHDB, `${RouteHDB}${file.path.split('/').pop()}`, route, metadata, 'statement', bankAccount.id, application_id);
         }
     });
     await copyFilesToAnotherFolder(route, RouteHDB);

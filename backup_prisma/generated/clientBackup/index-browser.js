@@ -744,6 +744,7 @@ exports.Prisma.CandidateDocumentsScalarFieldEnum = {
   metadata: 'metadata',
   tableName: 'tableName',
   tableId: 'tableId',
+  memberId: 'memberId',
   application_id: 'application_id',
   expiresAt: 'expiresAt',
   createdAt: 'createdAt',

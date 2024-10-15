@@ -1106,21 +1106,21 @@ model CandidateDocuments {
   metadata  Json
   tableName String
   tableId   String
-
+  memberId  String?
   expiresAt DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
+  createdAt DateTime                @default(now())
+  updatedAt DateTime                @default(now()) @updatedAt
 
   @@index([tableName, tableId], name: "tableName_tableId")
 }
 
 model StudentDocuments {
-  id         String  @id @default(uuid())
-  path       String  @unique
-  metadata   Json
+  id           String  @id @default(uuid())
+  path         String  @unique
+  metadata     Json
   documentName String
-  student    Student @relation(fields: [student_id], references: [id])
-  student_id  String
+  student      Student @relation(fields: [student_id], references: [id])
+  student_id   String
 }
 
 enum EducationStyle {

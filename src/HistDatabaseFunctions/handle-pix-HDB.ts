@@ -19,7 +19,7 @@ export async function CreatePixHDB(id: string, candidate_id: string | null, lega
         for (const file of copyFiles) {
             const metadata = file.metadata ?? {}; // Provide a default value if metadata is null
 
-            await createCandidateDocumentHDB(tsPrismaHDB, `${RouteHDB}${file.path.split('/').pop()}`, route, metadata, 'pix', id, null, application_id);
+            await createCandidateDocumentHDB(tsPrismaHDB, `${RouteHDB}${file.path.split('/').pop()}`, route, metadata, 'pix', id, application_id);
         }
     });
 

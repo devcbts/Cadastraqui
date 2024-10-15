@@ -883,6 +883,7 @@ model CandidateDocuments {
   metadata           Json
   tableName          String
   tableId            String
+  memberId           String?
   application_id     String
   expiresAt          DateTime?
   createdAt          DateTime                @default(now())

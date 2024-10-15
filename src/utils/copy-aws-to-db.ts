@@ -59,47 +59,48 @@ listAllKeys().then(async (v: { key: string, metadata: any, createdAt: Date }[]) 
     // if (obj) {
 
     // }
-    // if (!obj) {
-    //   const table_infos = x.key.split('/')
-    //   const _0 = table_infos.pop()
-    //   const [_1, _2, type, ...ids] = table_infos
-    //   const tableid = ids.length === 2 ? ids[1] : ids[0]
-    //   // console.log(obj.path, 'EXISTS')
-    //   let expiresAt = null
-    //   if (!!x.metadata.date) {
-    //     const [year, month, day] = x.metadata.date.split('T')[0].split('-') as string
+    if (!obj) {
+      const table_infos = x.key.split('/')
+      const _0 = table_infos.pop()
+      const [_1, _2, type, ...ids] = table_infos
+      const tableid = ids.length === 2 ? ids[1] : ids[0]
+      // console.log(obj.path, 'EXISTS')
+      let expiresAt = null
+      if (!!x.metadata.date) {
+        const [year, month, day] = x.metadata.date.split('T')[0].split('-') as string
 
-    //     const date = new Date(`
-    //       ${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}T00:00:00
-    //       `.trim())
-    //     let deadlineMonths;
-    //     switch (type) {
-    //       case "statement":
-    //         deadlineMonths = 4
-    //         break
-    //       case "monthly-income":
-    //         deadlineMonths = 7
-    //         break
-    //       default:
-    //         deadlineMonths = 1
-    //         break
-    //     }
-    //     const nextMonth = new Date(date.getFullYear(), date.getMonth() + deadlineMonths, 1, 0, 0, 0, 0)
-    //     expiresAt = nextMonth
-    //   }
-    //   console.log('expires at seria', expiresAt, x.metadata.date, type)
-    //   await prisma.candidateDocuments.create({
-    //     data: {
-    //       metadata: x.metadata,
-    //       path: x.key,
-    //       status: "UPDATED",
-    //       tableName: type,
-    //       tableId: tableid,
-    //       expiresAt,
-    //       createdAt: x.createdAt ?? new Date(),
-    //     }
-    //   })
-    // }
+        const date = new Date(`
+          ${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}T00:00:00
+          `.trim())
+        let deadlineMonths;
+        switch (type) {
+          case "statement":
+            deadlineMonths = 4
+            break
+          case "monthly-income":
+            deadlineMonths = 7
+            break
+          default:
+            deadlineMonths = 1
+            break
+        }
+        const nextMonth = new Date(date.getFullYear(), date.getMonth() + deadlineMonths, 1, 0, 0, 0, 0)
+        expiresAt = nextMonth
+      }
+      console.log('expires at seria', expiresAt, x.metadata.date, type)
+      await prisma.candidateDocuments.create({
+        data: {
+          metadata: x.metadata,
+          path: x.key,
+          status: "UPDATED",
+          tableName: type,
+          tableId: tableid,
+          expiresAt,
+          createdAt: x.createdAt ?? new Date(),
+          memberId: ids[0]
+        }
+      })
+    }
   }
   console.log(v.length)
 })  
