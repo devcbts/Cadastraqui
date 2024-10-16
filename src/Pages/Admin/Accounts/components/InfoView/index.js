@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router"
 import adminService from "services/admin/adminService"
 import { NotificationService } from "services/notification"
+import ROLES from "utils/enums/role-types"
 import formatDate from "utils/format-date"
 
 export default function AdminAccountInfoView() {
@@ -89,7 +90,7 @@ export default function AdminAccountInfoView() {
                         </Table.Row>
                         <Table.Row>
                             <Table.Cell>Tipo de conta</Table.Cell>
-                            <Table.Cell>{account?.role}</Table.Cell>
+                            <Table.Cell>{ROLES[account?.role]}</Table.Cell>
                         </Table.Row>
                         <Table.Row>
                             <Table.Cell>Status da conta</Table.Cell>
