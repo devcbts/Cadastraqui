@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import sendEmail from './send-email';
 
 export async function sendPasswordRecoveryMail({ token, email }: { token: string, email: string }) {
   const transport = nodemailer.createTransport({
@@ -11,12 +12,12 @@ export async function sendPasswordRecoveryMail({ token, email }: { token: string
   })
 
   // Envia o Email de redefinição de senha
-  const info = await transport.sendMail({
-    from: process.env.SMTP_EMAIL,
+  const info = await sendEmail({
+
     to: email,
     subject: 'Recuperação de senha CADASTRAQUI',
     text: 'Token de recuperação de senha cadastraqui',
-    html: `<body>
+    body: `<body>
     <h1>Recuperação de senha</h1>
     <p>Prezado(a), esse e-mail é automatico então, não responda.</p>
     <p>Esqueceu a senha ? Não se preocupe, utilize esse  <b>token: ${token}</b> </p>

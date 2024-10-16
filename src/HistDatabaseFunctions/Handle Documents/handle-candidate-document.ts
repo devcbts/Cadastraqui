@@ -6,8 +6,8 @@ export async function createCandidateDocumentHDB(tsBackupPrisma: backupPrisma.Tr
     metadata: backupPrisma.InputJsonValue,
     tableName: string,
     tableId: string,
+    application_id: string,
     expiresAt: Date | null = null,
-    application_id: string
 
 ) {
 
@@ -66,7 +66,8 @@ export async function createCandidateDocumentHDB(tsBackupPrisma: backupPrisma.Tr
             pathInMainDatabase,
             tableId,
             expiresAt,
-            application_id
+            application_id,
+            memberId: path.split('/')[3]
         }
     })
 

@@ -1,7 +1,7 @@
 import { APIError } from "@/errors/api-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
-import { AllEducationType, AllScholarshipsType } from "@prisma/client";
+import { AllEducationType, AllScholarshipsType, EducationStyle } from "@prisma/client";
 import { hash } from "bcryptjs";
 import csv from 'csv-parser';
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -13,6 +13,7 @@ import tmp from 'tmp';
 import { z } from "zod";
 import { SHIFT } from "../../candidates/enums/Shift";
 import { normalizeString } from "../utils/normalize-string";
+import SelectEntityOrDirector from "../utils/select-entity-or-director";
 
 export default async function registerNewStudents(
     request: FastifyRequest,
@@ -25,18 +26,21 @@ export default async function registerNewStudents(
         CourseType: z.string(),
         Email: z.string().email(),
         CPF: z.string(),
-        Periodo: z.string(),
+        Periodo: z.string().transform(e => parseInt(e)),
         Nascimento: z.string().transform(e => new Date(e)),
         // IdCurso: z.string().transform(e => parseInt(e)).nullish(),
         CNPJ: z.string(),
-        isPartial: z.number().transform(e => !!e),
+        isPartial: z.string().transform(e => Boolean(e)),
         Turno: SHIFT,
-        ScholarshipType: z.enum(Object.values(AllScholarshipsType) as [string, ...string[]])
+        ScholarshipType: z.enum(Object.values(AllScholarshipsType) as [string, ...string[]]),
+        ModalityType: z.enum(Object.values(EducationStyle) as [string, ...string[]])
 
     })
     type CSVData = z.infer<typeof csvSchema>
     try {
-        const { sub } = request.user
+        const { sub, role } = request.user
+        const { user_id } = await SelectEntityOrDirector(sub, role)
+
         const csvData: CSVData[] = []
         const csvFile = await request.file();
         if (!csvFile) {
@@ -77,8 +81,7 @@ export default async function registerNewStudents(
                     // Process the data as needed
                     const { error, data: parsedData, success } = csvSchema.safeParse(data)
                     if (error) {
-                        // reject(new APIError(`Dados inválidos no arquivo ${JSON.stringify(data)}`))
-                        reject()
+                        reject(new APIError(`Dados inválidos`))
                     }
                     if (success) {
                         csvData.push(parsedData);
@@ -100,7 +103,7 @@ export default async function registerNewStudents(
         await prisma.$transaction(async (tPrisma) => {
             // find all entities/subsidiaries
             const entity = await tPrisma.entity.findUnique({
-                where: { user_id: sub },
+                where: { user_id: user_id },
                 select: {
                     id: true,
                     CNPJ: true,
@@ -140,20 +143,30 @@ export default async function registerNewStudents(
                         email: e.Email,
                     }
                 })
-                let course = await tPrisma.entityCourse.findFirst({
+                let course = await tPrisma.course.findFirst({
+                    where: { AND: [{ normalizedName: normalizeString(e.Curso) }, { Type: e.CourseType as AllEducationType }] }
+                })
+                let entityCourse = await tPrisma.entityCourse.findFirst({
                     where: { AND: [{ course: { AND: [{ normalizedName: normalizeString(e.Curso) }, { Type: e.CourseType as AllEducationType }] } }, { OR: [{ entity_id: e.entityId }, { entitySubsidiary_id: e.entityId }] }] }
                 })
                 // if (e.IdCurso !== null && e.IdCurso !== undefined) {
-                if (!course) {
-                    const { id } = await tPrisma.course.create({
-                        data: {
-                            name: e.Curso,
-                            normalizedName: normalizeString(e.Curso),
-                            Type: e.CourseType as AllEducationType,
+                if (!entityCourse) {
+                    let id;
+                    if (course) {
+                        id = course.id
+                    } else {
 
-                        }
-                    })
-                    course = await tPrisma.entityCourse.create({
+                        const existingCourse = await tPrisma.course.create({
+                            data: {
+                                name: e.Curso,
+                                normalizedName: normalizeString(e.Curso),
+                                Type: e.CourseType as AllEducationType,
+
+                            }
+                        })
+                        id = existingCourse.id
+                    }
+                    entityCourse = await tPrisma.entityCourse.create({
                         data: {
                             course_id: id,
                             ...(e.isEntity ? { entity_id: e.entityId } : { entitySubsidiary_id: e.entityId })
@@ -163,7 +176,7 @@ export default async function registerNewStudents(
                 await tPrisma.student.create({
                     data: {
                         name: e.Nome,
-                        entityCourse_id: course!.id,
+                        entityCourse_id: entityCourse!.id,
                         admissionDate: new Date(),
                         announcement_id: '',
                         candidate_id: candidateId,
@@ -171,7 +184,8 @@ export default async function registerNewStudents(
                         shift: e.Turno,
                         status: 'Active',
                         isPartial: e.isPartial,
-                        educationStyle: 'Presential',
+                        educationStyle: e.ModalityType as EducationStyle,
+                        cameFromCSV: true,
                     }
                 })
             }))
@@ -181,6 +195,7 @@ export default async function registerNewStudents(
         if (err instanceof APIError) {
             return response.status(400).send({ message: err.message })
         }
+        console.log(err)
         return response.status(500).send({ message: 'Erro interno no servidor' })
     }
 }

@@ -1,15 +1,18 @@
 import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
+import SelectEntityOrDirector from "../utils/select-entity-or-director";
 
 export default async function getAllStudents(
     request: FastifyRequest,
     response: FastifyReply
 ) {
     try {
-        const { sub } = request.user
+        const { sub, role } = request.user
+        const { user_id } = await SelectEntityOrDirector(sub, role)
+
         // get entity with subs
         const entity = await prisma.entity.findUnique({
-            where: { user_id: sub },
+            where: { user_id: user_id },
             include: {
                 EntitySubsidiary: true
             }

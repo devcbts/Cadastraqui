@@ -276,7 +276,6 @@ export async function getAwsFile(
     //   // fileName: string,
     //   // fileMetadata: any
     // }[] = []
-    console.log(file)
     return {
       fileUrl: file
     }
