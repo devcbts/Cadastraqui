@@ -40,7 +40,7 @@ export default function HomeCandidate() {
                         </Card>
                     </div>
                     <div className={styles.row}>
-                        <Card title={'despesa média mensal'}>
+                        <Card title={'despesa média'}>
 
                             {formatMoney(data.avgExpense)}
 

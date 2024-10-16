@@ -69,7 +69,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                             <h3>Rendas Cadastradas</h3>
                             <div className={styles.containerRendaCadastradaSituacao}>
                                 <h4>Situação do Cadastro de Rendas:</h4>
-                                <span updated={member?.isUpdated?.toString()}>{member?.isUpdated ? 'Atualizada' : 'Atualização necessária'}</span>
+                                <span updated={incomeStatus?.income?.toString() ?? "false"}>{incomeStatus?.income ? 'Atualizada' : 'Atualização necessária'}</span>
                             </div>
                         </div>}
                         <div className={styles.containerNenhumaRenda}>
@@ -89,7 +89,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
 
 
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', width: '90%', gap: '100px' }}>
-                            <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                            <ButtonBase onClick={() => setShowPageType(null)}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
                             {!isAssistant && <ButtonBase label={"cadastrar renda"} onClick={() => onAdd({ member })} />}
                         </div>
                     </FormList.Root >

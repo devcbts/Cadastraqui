@@ -57,6 +57,7 @@ import EntityDashboardStudents from "Pages/Entity/Students/Dashboard";
 import EntityStudentsList from "Pages/Entity/Students/Listing";
 import EntityStudentsRenew from "Pages/Entity/Students/Renew";
 import EntityApplicantsRegisterApplicant from "Pages/Entity/Applicants/components/RegisterApplicant";
+import AdminProfile from "Pages/Admin/Profile";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -159,7 +160,7 @@ export default function AppRoutes() {
 
                 </HeaderWrapper>
             </RoleRoutes>
-            <RoleRoutes role={"ENTITY"}>
+            <RoleRoutes role={["ENTITY", "ENTITY_DIRECTOR"]}>
                 <HeaderWrapper>
                     <Routes>
                         <Route path="/home" element={<EntityHome />} />
@@ -216,6 +217,7 @@ export default function AppRoutes() {
                                 <Route path="login" element={<AdminAccountHistory filter={'login'} />} />
                             </Route>
                         </Route>
+                        <Route path="/profile" element={<AdminProfile />} />
                         <Route path="*" element={<Navigate to={'/home'} />} />
                     </Routes>
                 </HeaderWrapper>

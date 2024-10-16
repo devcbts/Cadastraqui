@@ -53,6 +53,7 @@ export default function EntityStudentsRenewProcess() {
                 setUnits(() => {
                     const subs = units?.EntitySubsidiary?.map((e) => ({ label: e.socialReason, value: e.id }))
                     subs?.push({ label: units?.socialReason, value: units.entity_id })
+                    console.log('SUBS', subs)
                     return subs
                 })
                 setCourses(courses)

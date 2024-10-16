@@ -55,7 +55,7 @@ export default function IncomeList({ onSelect, onAdd, initialMember }) {
                             <Indicator
                                 status={item?.isUpdated}
                             />
-                            <ButtonBase label={"visualizar"} onClick={() => setSelectedMember({ fullName: item.name, id: item.id, isUpdated: item.isUpdated })} />
+                            <ButtonBase label={"visualizar"} onClick={() => setSelectedMember({ fullName: item.name, id: item.id })} />
                             {/* <ButtonBase label={"cadastrar"} onClick={() => onAdd({ member: { fullName: item.name, id: item.id } })} /> */}
                         </FormListItem.Actions>
                     </FormListItem.Root>

@@ -43,12 +43,12 @@ const MultiIncomeFile = forwardRef(({ data }, ref) => {
                     path: [`file_dividends-${month}-${year}`]
                 })
             }
-            if (!data?.[`file_decore-${month}-${year}`] && !data?.[`url_decore-${month}-${year}`]) {
-                ctx.addIssue({
-                    message: 'Arquivo obrigatório',
-                    path: [`file_decore-${month}-${year}`]
-                })
-            }
+            // if (!data?.[`file_decore-${month}-${year}`] && !data?.[`url_decore-${month}-${year}`]) {
+            //     ctx.addIssue({
+            //         message: 'Arquivo obrigatório',
+            //         path: [`file_decore-${month}-${year}`]
+            //     })
+            // }
         }),
         defaultValues: {
             [`file_proLabore-${month}-${year}`]: null,
@@ -74,7 +74,7 @@ const MultiIncomeFile = forwardRef(({ data }, ref) => {
                 <FilePreview url={watch(`url_dividends-${month}-${year}`)} file={watch(`file_dividends-${month}-${year}`)} text={'ver documento'} />
             </div>
             <div style={{ width: '100%' }}>
-                <FormFilePicker control={control} name={`file_decore-${month}-${year}`} label={'Decoração comprobatória de percepção de rendimentos (Decore)'} accept={"application/pdf"} />
+                <FormFilePicker control={control} name={`file_decore-${month}-${year}`} label={'Declaração comprobatória de percepção de rendimentos (Decore)'} accept={"application/pdf"} />
                 <FilePreview url={watch(`url_decore-${month}-${year}`)} file={watch(`file_decore-${month}-${year}`)} text={'ver documento'} />
             </div>
         </div>

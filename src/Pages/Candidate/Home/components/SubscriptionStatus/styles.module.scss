@@ -1,88 +1,93 @@
 @import '../../../../../Assets/theme/colors.module.scss';
-.container {
+.root{
     display: flex;
-    flex-direction: row;
-    // flex-grow: .3;
-     @media (max-width: 768px) {
-        flex-direction: column;
-    }
-    .progress{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        text-align: center;
-        flex-grow: .3;
-        gap:32px;
-        .graph{
-            margin: auto;
-        }
-    }
-    .registerinfo {
-         display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        align-items: center;
-        margin-bottom: 64px;
-        gap: 16px;
-        flex-grow: .4;
-        height: 100%;
-        color: $primary;
-        .registerdesc{
-            text-align: center;
-        }
-        // .chartdisplay {
-        //     max-width: fit-content;
-        //     display: flex;
-        //     flex-direction: row;
-        //     align-items: center;
-        //     justify-content: center;
-        //     gap: 16px;
-
-        //     >span {
-        //         max-width: 40%;
-        //         text-align: justify;
-        //     }
-
-        //     .chart {
-        //         position: relative;
-
-        //         .percent {
-        //             position: absolute;
-        //             font-size: 14px;
-        //         }
-
-        //     }
-        // }
-    }
-
-    .sections {
+    flex-direction: column;
+    .container {
         display: flex;
         flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
+        // flex-grow: .3;
+        @media (max-width: 768px) {
+            flex-direction: column;
+        }
+        .progress{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            text-align: center;
+            flex-grow: .3;
+            gap:32px;
+            .graph{
+                margin: auto;
+            }
+        }
+        .registerinfo {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            margin-bottom: 64px;
+            gap: 16px;
+            flex-grow: .4;
+            height: 100%;
+            color: $primary;
+            .registerdesc{
+                text-align: center;
+            }
+            // .chartdisplay {
+            //     max-width: fit-content;
+            //     display: flex;
+            //     flex-direction: row;
+            //     align-items: center;
+            //     justify-content: center;
+            //     gap: 16px;
 
-        svg {
-            width: 50px;
-            height: 50px;
+            //     >span {
+            //         max-width: 40%;
+            //         text-align: justify;
+            //     }
+
+            //     .chart {
+            //         position: relative;
+
+            //         .percent {
+            //             position: absolute;
+            //             font-size: 14px;
+            //         }
+
+            //     }
+            // }
         }
 
+        .sections {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            svg {
+                width: 50px;
+                height: 50px;
+            }
+
+        }
     }
 }
-
 @media(max-width:400px) {
-    .container {
-        span {
-            padding: 10px;
-            font-size: 12px;
-        }
-
-        .chartwrapper {
-            align-items: start;
-            padding: 10px;
-
-            h1 {
-                font-size: 14px;
+    .root{
+        .container {
+            span {
+                padding: 10px;
+                font-size: 12px;
+            }
+    
+            .chartwrapper {
+                align-items: start;
+                padding: 10px;
+    
+                h1 {
+                    font-size: 14px;
+                }
             }
         }
     }
@@ -90,26 +95,28 @@
 }
 
 @media(max-width: 600px) {
-    .container {
-        .chartwrapper {
-            .chartdisplay {
-                flex-direction: column;
-                max-width: 67%;
-
-                >span {
-                    max-width: 100%;
-                    padding: 5px;
+    .root{
+        .container {
+            .chartwrapper {
+                .chartdisplay {
+                    flex-direction: column;
+                    max-width: 67%;
+    
+                    >span {
+                        max-width: 100%;
+                        padding: 5px;
+                    }
                 }
             }
-        }
-
-        .sections {
-            margin-bottom: 30px;
-            gap: 5px;
-
-            svg {
-                width: 30px;
-                height: 30px;
+    
+            .sections {
+                // margin-bottom: 30px;
+                gap: 5px;
+    
+                svg {
+                    width: 30px;
+                    height: 30px;
+                }
             }
         }
     }
@@ -118,6 +125,7 @@
 }
 
 @media(max-width: 770px) {
+   .root{
     .container {
         .sections {
             svg {
@@ -126,16 +134,19 @@
             }
         }
     }
+   }
 }
 
 @media(max-width:800px) {
-    .container {
-        .chartwrapper {
-            align-items: start;
-            padding: 10px;
-
-            h1 {
-                font-size: 18px;
+    .root{
+        .container {
+            .chartwrapper {
+                align-items: start;
+                padding: 10px;
+    
+                h1 {
+                    font-size: 18px;
+                }
             }
         }
     }

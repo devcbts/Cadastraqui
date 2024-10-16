@@ -10,7 +10,7 @@ export default function SelectTable({
     children
 }) {
     const [selected, setSelected] = useState(() => {
-        if (defaultSelected.every(e => typeof e === "object")) {
+        if (defaultSelected?.every(e => typeof e === "object")) {
             return children.map((e) => {
                 const item = defaultSelected?.find(x => x.id === e.id)
                 return item ? ({ ...item, selected: true }) : ({ ...e, selected: false })

@@ -11,12 +11,14 @@ import { useNavigate } from 'react-router';
 import { Pie, PieChart } from 'recharts';
 import candidateService from 'services/candidate/candidateService';
 import styles from './styles.module.scss';
-
+import Card from 'Components/Card/CardRoot';
+import { ReactComponent as Siren } from 'Assets/icons/siren.svg'
+import { ReactComponent as Help } from 'Assets/icons/question-mark.svg'
 export default function SubscriptionStatus() {
     const [data, setData] = useState([])
     const navigate = useNavigate()
     const max = 8
-
+    const [showHelp, setShowHelp] = useState(false)
     useEffect(() => {
         const fetchProgress = async () => {
             try {
@@ -40,60 +42,82 @@ export default function SubscriptionStatus() {
         return acc += Number((sections?.find(i => i.name === e.name)?.percentage ?? 0) * e.value)
     }, 0)
     return (
-        <div className={styles.container}>
-            <div className={styles.progress}>
+        <div className={styles.root}>
+            <div className={styles.container}>
+                <div className={styles.progress}>
 
-                <div style={{ position: 'relative' }}>
+                    <div style={{ position: 'relative' }}>
 
-                    <span style={{ position: 'absolute', top: '50%', right: '50%', transform: 'translate(50%,-50%)' }}> {percentage}%</span>
+                        <span style={{ position: 'absolute', top: '50%', right: '50%', transform: 'translate(50%,-50%)' }}> {percentage}%</span>
 
-                    <PieChart width={100} height={100} title={`O cadastro está ${percentage}% concluído`} className={styles.graph}>
-                        <Pie
-                            data={data}
-                            dataKey={"value"}
-                            innerRadius={38}
-                            outerRadius={50}
-                            paddingAngle={0}
-                            startAngle={90}
-                            endAngle={(percentage * 3.6) + 90}
-                            fill='#1F4B73'
-                            direction={'right'}
-                        >
-                        </Pie>
-                    </PieChart>
+                        <PieChart width={100} height={100} title={`O cadastro está ${percentage}% concluído`} className={styles.graph}>
+                            <Pie
+                                data={data}
+                                dataKey={"value"}
+                                innerRadius={38}
+                                outerRadius={50}
+                                paddingAngle={0}
+                                startAngle={90}
+                                endAngle={(percentage * 3.6) + 90}
+                                fill='#1F4B73'
+                                direction={'right'}
+                            >
+                            </Pie>
+                        </PieChart>
 
+                    </div>
+                    <span>Situação do cadastro:
+                        <strong> {percentage < 100 ? 'Incompleto' : 'Completo'} </strong>
+                    </span>
                 </div>
-                <span>Situação do cadastro:
-                    <strong> {percentage < 100 ? 'Incompleto' : 'Completo'} </strong>
-                </span>
+                <div className={styles.registerinfo}>
+                    <div className={styles.registerdesc}>
+                        <h1
+                            style={{ display: 'flex', alignItems: 'center', placeContent: 'center', cursor: 'pointer' }}
+                            onClick={() => {
+                                setShowHelp(prev => !prev)
+                            }}
+                        >Preenchimento do Cadastro <Help
+
+                            /></h1>
+                        <span>Complete seu cadastro para se inscrever e começar a desfrutar de todos os benefícios de uma educação de qualidade!</span>
+                    </div>
+                    <div className={styles.sections}>
+                        {sections.map(({ icon, name, title }, index) => {
+                            const Component = icon
+                            const step = index + 1
+                            return (
+                                <Component
+                                    key={index}
+                                    tabIndex={0}
+                                    aria-label={title}
+                                    title={`${title} - ${!!data?.find(e => e.name === name)?.value ? 'completo' : 'incompleto'}`}
+                                    style={{ cursor: 'pointer', color: !!data?.find(e => e.name === name)?.value && '#499468', clipPath: 'circle()' }}
+                                    onClick={() => navigate('/formulario-inscricao', { state: { step } })}
+                                    height={30}
+                                    width={30}
+                                    color='#1F4B73'
+                                />
+                            )
+                        })}
+
+                    </div>
+                </div>
             </div>
-            <div className={styles.registerinfo}>
-                <div className={styles.registerdesc}>
-                    <h1>Preenchimento do Cadastro</h1>
-                    <span>Complete seu cadastro para se inscrever e começar a desfrutar de todos os benefícios de uma educação de qualidade!</span>
-                </div>
-                <div className={styles.sections}>
-                    {sections.map(({ icon, name, title }, index) => {
-                        const Component = icon
-                        const step = index + 1
-                        return (
-                            <Component
-                                key={index}
-                                tabIndex={0}
-                                aria-label={title}
-                                title={`${title} - ${!!data?.find(e => e.name === name)?.value ? 'completo' : 'incompleto'}`}
-                                style={{ cursor: 'pointer', color: !!data?.find(e => e.name === name)?.value && '#499468', clipPath: 'circle()' }}
-                                onClick={() => navigate('/formulario-inscricao', { state: { step } })}
-                                height={30}
-                                width={30}
-                                color='#1F4B73'
-                            />
-                        )
-                    })}
 
-                </div>
-            </div>
+            {showHelp &&
+                <Card
+                    style={{ width: '50%', minWidth: '300px', placeSelf: 'center', marginTop: '16px' }}
+                    title={<h2 style={{ placeContent: 'center', display: 'flex', alignItems: 'center' }}>
+                        <Siren height={40} width={40} />
+                        <span>ATENÇÃO</span>
+                    </h2>}>
+                    <p style={{ fontSize: 14 }}>Antes de realizar a inscrição para um edital, é necessário que o cadastro esteja atualizado em relação aos membros do grupo familiar.
+                        Isso inclui declarações obtidas junto ao Banco Central (Registrato e PIX), extratos bancários, renda(s) atualizada(s), despesas e declarações.</p>
+                </Card>
+            }
 
         </div>
+
     )
 }
