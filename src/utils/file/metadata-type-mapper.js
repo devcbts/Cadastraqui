@@ -23,7 +23,9 @@ const METADATA_TYPE_MAPPER = {
     IR: 'Imposto de Renda',
     MEI: 'Cadastro MEI',
     WORKCARD: 'Carteira de trabalho',
-    DECLARATIONS: 'Declarações'
+    DECLARATIONS: 'Declarações',
+    PIX: 'Pix',
+    INCOMEPROOF: 'Comprovante de renda'
 }
 
 export default METADATA_TYPE_MAPPER

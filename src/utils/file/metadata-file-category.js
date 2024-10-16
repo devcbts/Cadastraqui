@@ -7,6 +7,7 @@ const METADATA_FILE_CATEGORY = {
     Disease: "DISEASE",
     Medication: "MEDICATION",
     Declarations: "DECLARATIONS",
-    Residence: "RESIDENCE"
+    Residence: "RESIDENCE",
+    Student: "STUDENT"
 }
 export default METADATA_FILE_CATEGORY

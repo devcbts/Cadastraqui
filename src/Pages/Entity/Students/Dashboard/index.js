@@ -39,10 +39,10 @@ export default function EntityDashboardStudents() {
                     </Card>
                     <Card title={'bolsas integrais'}>
 
-                        {data?.scholarshipPartial}
+                        {data?.scholarshipTotal}
                     </Card>
                     <Card title={'bolsas parciais'}>
-                        {data?.scholarshipTotal}
+                        {data?.scholarshipPartial}
                     </Card>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '12px', }}>

@@ -40,6 +40,9 @@ const METADATA_FILE_TYPE = {
         MEI: 'MEI',
         WORKCARD: 'WORKCARD',
         DECLARATIONS: 'DECLARATIONS'
+    },
+    STUDENT: {
+        HISTORY: "HISTORY"
     }
 }
 

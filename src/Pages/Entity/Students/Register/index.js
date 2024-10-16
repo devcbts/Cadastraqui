@@ -6,7 +6,7 @@ import Table from "Components/Table";
 import { useRef, useState } from "react";
 import entityService from "services/entity/entityService";
 import { NotificationService } from "services/notification";
-
+import ModeloAlunos from 'Assets/templates/Modelo_Alunos.xlsx'
 export default function EntityRegisterStudents() {
     const inputRef = useRef()
     const [students, setStudents] = useState([])
@@ -34,7 +34,11 @@ export default function EntityRegisterStudents() {
             <div style={{ display: 'flex', flexDirection: 'column', padding: '24px', gap: '64px' }}>
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '12px', alignItems: 'center' }}>
                     <h3>Preencher por planilha</h3>
-                    <ButtonBase label={'baixar modelo'} />
+                    <a
+                        download={'Modelo_novos_alunos'}
+                        href={ModeloAlunos} >
+                        <ButtonBase label={'baixar modelo'} />
+                    </a>
                     <input type="file" accept=".csv" hidden ref={inputRef} onChange={handleSelectFile} />
                     <ButtonBase label={'enviar'} onClick={() => inputRef.current.click()} />
                 </div>

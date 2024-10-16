@@ -19,7 +19,6 @@ export default function mapMetadatas(file) {
         //     return `${type} ${fileMetadata?.date ? `(${new Date(fileMetadata?.date).toLocaleString('pt-BR', { month: 'long', year: 'numeric' })})` : ''}`
         case METADATA_FILE_CATEGORY.Finance:
             return `${type} ${fileMetadata?.date ? `(${new Date(fileMetadata?.date).toLocaleString('pt-BR', { month: 'long', year: 'numeric' })})` : ''}`
-
         default:
             return `${type}`
     }

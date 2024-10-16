@@ -3,6 +3,8 @@ import { api } from "../axios"
 import announcementMapper from "./mappers/announcementMapper"
 import GENDER from "utils/enums/gender"
 import findLabel from "utils/enums/helpers/findLabel"
+import METADATA_FILE_TYPE from "utils/file/metadata-file-type"
+import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category"
 
 class EntityService {
 
@@ -112,6 +114,23 @@ class EntityService {
     updateScholarshipStatus(id, status) {
         return api.put(`/entities/scholarships/${id}`, { status })
     }
+    enrollNewStudent(scholarshipid, {
+        file, status, education_style
+    }) {
+        const formData = new FormData()
+        formData.append("data", JSON.stringify({
+            status,
+            education_style,
+        }))
+        formData.append("file_metadatas", JSON.stringify({
+            metadata_history: {
+                type: METADATA_FILE_TYPE.STUDENT.HISTORY,
+                category: METADATA_FILE_CATEGORY.Student
+            }
+        }))
+        formData.append("file_history", file)
+        return api.put(`/entities/scholarships/${scholarshipid}`, formData)
+    }
     async getStudentsDashboard() {
         const response = await api.get(`/entities/students/dashboard`)
         return response.data
@@ -141,9 +160,13 @@ class EntityService {
         const response = await api.get(`/entities/scholarships/details/${scholarshipId}`)
         const { scholarshipInfo, personalInfo } = response.data
         return {
-            scholarshipInfo: { ...scholarshipInfo, isPartial: scholarshipInfo.isPartial ? 'Parcial' : 'Integral' },
+            scholarshipInfo: { ...scholarshipInfo, isPartial: scholarshipInfo.isPartial ? 'Parcial' : 'Integral', semester: scholarshipInfo.semester === 0 ? null : scholarshipInfo.semester },
             personalInfo: { ...personalInfo, birthDate: formatDate(personalInfo?.birthDate), gender: findLabel(GENDER, personalInfo.gender) }
         }
+    }
+    async getScholarshipDocuments(scholarshipId) {
+        const response = await api.get(`/entities/scholarships/documents/${scholarshipId}`)
+        return response.data.documents
     }
 }
 
