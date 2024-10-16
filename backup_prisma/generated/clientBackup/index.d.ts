@@ -353,7 +353,8 @@ export const IncomeSource: {
   LiberalProfessional: 'LiberalProfessional',
   FinancialHelpFromOthers: 'FinancialHelpFromOthers',
   Alimony: 'Alimony',
-  PrivatePension: 'PrivatePension'
+  PrivatePension: 'PrivatePension',
+  IncomeTransfer: 'IncomeTransfer'
 };
 
 export type IncomeSource = (typeof IncomeSource)[keyof typeof IncomeSource]
@@ -481,7 +482,8 @@ export const EmploymentType: {
   LiberalProfessional: 'LiberalProfessional',
   FinancialHelpFromOthers: 'FinancialHelpFromOthers',
   Alimony: 'Alimony',
-  PrivatePension: 'PrivatePension'
+  PrivatePension: 'PrivatePension',
+  IncomeTransfer: 'IncomeTransfer'
 };
 
 export type EmploymentType = (typeof EmploymentType)[keyof typeof EmploymentType]

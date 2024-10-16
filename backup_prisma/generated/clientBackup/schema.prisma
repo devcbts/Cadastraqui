@@ -1038,6 +1038,7 @@ enum IncomeSource {
   FinancialHelpFromOthers
   Alimony
   PrivatePension
+  IncomeTransfer
 }
 
 enum Relationship {
@@ -1163,6 +1164,7 @@ enum EmploymentType {
   FinancialHelpFromOthers
   Alimony
   PrivatePension
+  IncomeTransfer
 }
 
 enum FinancingType {

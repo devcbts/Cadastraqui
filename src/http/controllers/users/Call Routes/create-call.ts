@@ -1,4 +1,5 @@
 import { APIError } from "@/errors/api-error";
+import sendEmail from "@/http/services/send-email";
 import { uploadFile } from "@/http/services/upload-file";
 import { prisma } from "@/lib/prisma";
 import { MultipartFile } from "@fastify/multipart";
@@ -66,7 +67,25 @@ export default async function createCall(request: FastifyRequest, reply: Fastify
             })
             return { call, callMessage }
         })
-
+        try {
+            const admins = await prisma.user.findMany({
+                where: { role: "ADMIN" },
+                select: { email: true }
+            })
+            sendEmail({
+                to: admins.map(e => e.email),
+                subject: 'Um novo chamado foi criado',
+                text: `Chamado #${call.number} - ${call.callSubject}`,
+                body: `
+                <body>
+                <h1>Um novo chamado (#${call.number}) foi criado, acesse o SAC da plataforma para respondê-lo.</h1>
+                <h2>${call.callSubject}</h2>
+                <p>${callMessage.message}</p>
+                </body>
+                `
+            }).then(({ messageId }) => console.log('Email enviado', messageId))
+            console.log('ENVIANDO EMAIL PARA ', admins.map(e => e.email),)
+        } catch (err) { }
         return reply.status(201).send({ call, callMessage })
     } catch (error: any) {
         if (error instanceof UserNotExistsError) {
