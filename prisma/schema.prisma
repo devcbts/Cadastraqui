@@ -927,7 +927,8 @@ model Application {
   responsible          LegalResponsible?           @relation(fields: [responsible_id], references: [id])
   InterviewSchedule    InterviewSchedule[]
 
-  updatedAt DateTime @default(now()) @updatedAt
+  updatedAt   DateTime      @default(now()) @updatedAt
+  AIAssistant AIAssistant[]
 
   @@unique([candidate_id, announcement_id])
 }
@@ -1115,12 +1116,47 @@ model CandidateDocuments {
 }
 
 model StudentDocuments {
-  id         String  @id @default(uuid())
-  path       String  @unique
-  metadata   Json
+  id           String  @id @default(uuid())
+  path         String  @unique
+  metadata     Json
   documentName String
-  student    Student @relation(fields: [student_id], references: [id])
-  student_id  String
+  student      Student @relation(fields: [student_id], references: [id])
+  student_id   String
+}
+
+model AIAssistant {
+  id           String @id @default(uuid())
+  AIassistant_id String
+  thread_id    String
+
+  section        Section
+  application_id String
+  application    Application @relation(fields: [application_id], references: [id], onDelete: Cascade)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @default(now()) @updatedAt
+
+  @@unique([application_id, section], name: "application_id_section")
+  @@index([application_id], name: "application_id")
+}
+
+enum Section {
+  IDENTITY
+  HOUSING
+  FAMILY_MEMBER
+  MONTHLY_INCOME
+  INCOME
+  BANK
+  REGISTRATO
+  STATEMENT
+  HEALTH
+  MEDICATION
+  VEHICLE
+  EXPENSES
+  LOAN
+  FINANCING
+  CREDIT_CARD
+  DECLARACOES
+  PIX
 }
 
 enum EducationStyle {
