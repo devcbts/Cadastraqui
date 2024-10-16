@@ -5,8 +5,8 @@ export default async function createCandidateDocument(tsPrisma: Prisma.Transacti
     metadata: Prisma.InputJsonValue,
     tableName: string,
     tableId: string,
+    memberId: string,
     expiresAt: Date | null = null,
-
 ) {
 
     // if (tableName === "pix" || tableName === "registrato") {
@@ -46,8 +46,8 @@ export default async function createCandidateDocument(tsPrisma: Prisma.Transacti
             metadata,
             tableName: tableName,
             tableId,
-            expiresAt
-
+            expiresAt,
+            memberId
         },
         update: {
             expiresAt,

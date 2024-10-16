@@ -97,6 +97,7 @@ listAllKeys().then(async (v: { key: string, metadata: any, createdAt: Date }[]) 
           tableId: tableid,
           expiresAt,
           createdAt: x.createdAt ?? new Date(),
+          memberId: ids[0]
         }
       })
     }

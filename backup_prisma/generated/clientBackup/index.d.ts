@@ -353,7 +353,8 @@ export const IncomeSource: {
   LiberalProfessional: 'LiberalProfessional',
   FinancialHelpFromOthers: 'FinancialHelpFromOthers',
   Alimony: 'Alimony',
-  PrivatePension: 'PrivatePension'
+  PrivatePension: 'PrivatePension',
+  IncomeTransfer: 'IncomeTransfer'
 };
 
 export type IncomeSource = (typeof IncomeSource)[keyof typeof IncomeSource]
@@ -481,7 +482,8 @@ export const EmploymentType: {
   LiberalProfessional: 'LiberalProfessional',
   FinancialHelpFromOthers: 'FinancialHelpFromOthers',
   Alimony: 'Alimony',
-  PrivatePension: 'PrivatePension'
+  PrivatePension: 'PrivatePension',
+  IncomeTransfer: 'IncomeTransfer'
 };
 
 export type EmploymentType = (typeof EmploymentType)[keyof typeof EmploymentType]
@@ -41217,6 +41219,7 @@ export namespace Prisma {
     pathInMainDatabase: string | null
     tableName: string | null
     tableId: string | null
+    memberId: string | null
     application_id: string | null
     expiresAt: Date | null
     createdAt: Date | null
@@ -41230,6 +41233,7 @@ export namespace Prisma {
     pathInMainDatabase: string | null
     tableName: string | null
     tableId: string | null
+    memberId: string | null
     application_id: string | null
     expiresAt: Date | null
     createdAt: Date | null
@@ -41244,6 +41248,7 @@ export namespace Prisma {
     metadata: number
     tableName: number
     tableId: number
+    memberId: number
     application_id: number
     expiresAt: number
     createdAt: number
@@ -41259,6 +41264,7 @@ export namespace Prisma {
     pathInMainDatabase?: true
     tableName?: true
     tableId?: true
+    memberId?: true
     application_id?: true
     expiresAt?: true
     createdAt?: true
@@ -41272,6 +41278,7 @@ export namespace Prisma {
     pathInMainDatabase?: true
     tableName?: true
     tableId?: true
+    memberId?: true
     application_id?: true
     expiresAt?: true
     createdAt?: true
@@ -41286,6 +41293,7 @@ export namespace Prisma {
     metadata?: true
     tableName?: true
     tableId?: true
+    memberId?: true
     application_id?: true
     expiresAt?: true
     createdAt?: true
@@ -41373,6 +41381,7 @@ export namespace Prisma {
     metadata: JsonValue
     tableName: string
     tableId: string
+    memberId: string | null
     application_id: string
     expiresAt: Date | null
     createdAt: Date
@@ -41404,6 +41413,7 @@ export namespace Prisma {
     metadata?: boolean
     tableName?: boolean
     tableId?: boolean
+    memberId?: boolean
     application_id?: boolean
     expiresAt?: boolean
     createdAt?: boolean
@@ -41418,6 +41428,7 @@ export namespace Prisma {
     metadata?: boolean
     tableName?: boolean
     tableId?: boolean
+    memberId?: boolean
     application_id?: boolean
     expiresAt?: boolean
     createdAt?: boolean
@@ -41436,6 +41447,7 @@ export namespace Prisma {
       metadata: Prisma.JsonValue
       tableName: string
       tableId: string
+      memberId: string | null
       application_id: string
       expiresAt: Date | null
       createdAt: Date
@@ -41841,6 +41853,7 @@ export namespace Prisma {
     readonly metadata: FieldRef<"CandidateDocuments", 'Json'>
     readonly tableName: FieldRef<"CandidateDocuments", 'String'>
     readonly tableId: FieldRef<"CandidateDocuments", 'String'>
+    readonly memberId: FieldRef<"CandidateDocuments", 'String'>
     readonly application_id: FieldRef<"CandidateDocuments", 'String'>
     readonly expiresAt: FieldRef<"CandidateDocuments", 'DateTime'>
     readonly createdAt: FieldRef<"CandidateDocuments", 'DateTime'>
@@ -42876,6 +42889,7 @@ export namespace Prisma {
     metadata: 'metadata',
     tableName: 'tableName',
     tableId: 'tableId',
+    memberId: 'memberId',
     application_id: 'application_id',
     expiresAt: 'expiresAt',
     createdAt: 'createdAt',
@@ -47539,6 +47553,7 @@ export namespace Prisma {
     metadata?: JsonFilter<"CandidateDocuments">
     tableName?: StringFilter<"CandidateDocuments"> | string
     tableId?: StringFilter<"CandidateDocuments"> | string
+    memberId?: StringNullableFilter<"CandidateDocuments"> | string | null
     application_id?: StringFilter<"CandidateDocuments"> | string
     expiresAt?: DateTimeNullableFilter<"CandidateDocuments"> | Date | string | null
     createdAt?: DateTimeFilter<"CandidateDocuments"> | Date | string
@@ -47553,6 +47568,7 @@ export namespace Prisma {
     metadata?: SortOrder
     tableName?: SortOrder
     tableId?: SortOrder
+    memberId?: SortOrderInput | SortOrder
     application_id?: SortOrder
     expiresAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -47570,6 +47586,7 @@ export namespace Prisma {
     metadata?: JsonFilter<"CandidateDocuments">
     tableName?: StringFilter<"CandidateDocuments"> | string
     tableId?: StringFilter<"CandidateDocuments"> | string
+    memberId?: StringNullableFilter<"CandidateDocuments"> | string | null
     application_id?: StringFilter<"CandidateDocuments"> | string
     expiresAt?: DateTimeNullableFilter<"CandidateDocuments"> | Date | string | null
     createdAt?: DateTimeFilter<"CandidateDocuments"> | Date | string
@@ -47584,6 +47601,7 @@ export namespace Prisma {
     metadata?: SortOrder
     tableName?: SortOrder
     tableId?: SortOrder
+    memberId?: SortOrderInput | SortOrder
     application_id?: SortOrder
     expiresAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -47604,6 +47622,7 @@ export namespace Prisma {
     metadata?: JsonWithAggregatesFilter<"CandidateDocuments">
     tableName?: StringWithAggregatesFilter<"CandidateDocuments"> | string
     tableId?: StringWithAggregatesFilter<"CandidateDocuments"> | string
+    memberId?: StringNullableWithAggregatesFilter<"CandidateDocuments"> | string | null
     application_id?: StringWithAggregatesFilter<"CandidateDocuments"> | string
     expiresAt?: DateTimeNullableWithAggregatesFilter<"CandidateDocuments"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"CandidateDocuments"> | Date | string
@@ -52243,6 +52262,7 @@ export namespace Prisma {
     metadata: JsonNullValueInput | InputJsonValue
     tableName: string
     tableId: string
+    memberId?: string | null
     application_id: string
     expiresAt?: Date | string | null
     createdAt?: Date | string
@@ -52257,6 +52277,7 @@ export namespace Prisma {
     metadata: JsonNullValueInput | InputJsonValue
     tableName: string
     tableId: string
+    memberId?: string | null
     application_id: string
     expiresAt?: Date | string | null
     createdAt?: Date | string
@@ -52271,6 +52292,7 @@ export namespace Prisma {
     metadata?: JsonNullValueInput | InputJsonValue
     tableName?: StringFieldUpdateOperationsInput | string
     tableId?: StringFieldUpdateOperationsInput | string
+    memberId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52285,6 +52307,7 @@ export namespace Prisma {
     metadata?: JsonNullValueInput | InputJsonValue
     tableName?: StringFieldUpdateOperationsInput | string
     tableId?: StringFieldUpdateOperationsInput | string
+    memberId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52299,6 +52322,7 @@ export namespace Prisma {
     metadata: JsonNullValueInput | InputJsonValue
     tableName: string
     tableId: string
+    memberId?: string | null
     application_id: string
     expiresAt?: Date | string | null
     createdAt?: Date | string
@@ -52313,6 +52337,7 @@ export namespace Prisma {
     metadata?: JsonNullValueInput | InputJsonValue
     tableName?: StringFieldUpdateOperationsInput | string
     tableId?: StringFieldUpdateOperationsInput | string
+    memberId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52327,6 +52352,7 @@ export namespace Prisma {
     metadata?: JsonNullValueInput | InputJsonValue
     tableName?: StringFieldUpdateOperationsInput | string
     tableId?: StringFieldUpdateOperationsInput | string
+    memberId?: NullableStringFieldUpdateOperationsInput | string | null
     application_id?: StringFieldUpdateOperationsInput | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -55874,6 +55900,7 @@ export namespace Prisma {
     metadata?: SortOrder
     tableName?: SortOrder
     tableId?: SortOrder
+    memberId?: SortOrder
     application_id?: SortOrder
     expiresAt?: SortOrder
     createdAt?: SortOrder
@@ -55887,6 +55914,7 @@ export namespace Prisma {
     pathInMainDatabase?: SortOrder
     tableName?: SortOrder
     tableId?: SortOrder
+    memberId?: SortOrder
     application_id?: SortOrder
     expiresAt?: SortOrder
     createdAt?: SortOrder
@@ -55900,6 +55928,7 @@ export namespace Prisma {
     pathInMainDatabase?: SortOrder
     tableName?: SortOrder
     tableId?: SortOrder
+    memberId?: SortOrder
     application_id?: SortOrder
     expiresAt?: SortOrder
     createdAt?: SortOrder
