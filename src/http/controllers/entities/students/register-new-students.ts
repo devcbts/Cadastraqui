@@ -13,6 +13,7 @@ import tmp from 'tmp';
 import { z } from "zod";
 import { SHIFT } from "../../candidates/enums/Shift";
 import { normalizeString } from "../utils/normalize-string";
+import SelectEntityOrDirector from "../utils/select-entity-or-director";
 
 export default async function registerNewStudents(
     request: FastifyRequest,
@@ -37,7 +38,9 @@ export default async function registerNewStudents(
     })
     type CSVData = z.infer<typeof csvSchema>
     try {
-        const { sub } = request.user
+        const { sub, role } = request.user
+        const { user_id } = await SelectEntityOrDirector(sub, role)
+
         const csvData: CSVData[] = []
         const csvFile = await request.file();
         if (!csvFile) {
@@ -78,8 +81,7 @@ export default async function registerNewStudents(
                     // Process the data as needed
                     const { error, data: parsedData, success } = csvSchema.safeParse(data)
                     if (error) {
-                        // reject(new APIError(`Dados inválidos no arquivo ${JSON.stringify(data)}`))
-                        reject(error)
+                        reject(new APIError(`Dados inválidos`))
                     }
                     if (success) {
                         csvData.push(parsedData);
@@ -101,7 +103,7 @@ export default async function registerNewStudents(
         await prisma.$transaction(async (tPrisma) => {
             // find all entities/subsidiaries
             const entity = await tPrisma.entity.findUnique({
-                where: { user_id: sub },
+                where: { user_id: user_id },
                 select: {
                     id: true,
                     CNPJ: true,

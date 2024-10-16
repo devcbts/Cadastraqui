@@ -1,27 +1,6 @@
+import { EmploymentType } from '@prisma/client';
 import { z } from 'zod';
 
-const IncomeSource = z.enum([
-    'PrivateEmployee',
-    'PublicEmployee',
-    'DomesticEmployee',
-    'TemporaryRuralEmployee',
-    'BusinessOwnerSimplifiedTax',
-    'BusinessOwner',
-    'IndividualEntrepreneur',
-    'SelfEmployed',
-    'Retired',
-    'Pensioner',
-    'Apprentice',
-    'Volunteer',
-    'RentalIncome',
-    'Student',
-    'InformalWorker',
-    'Unemployed',
-    'TemporaryDisabilityBenefit',
-    'LiberalProfessional',
-    'FinancialHelpFromOthers',
-    'Alimony',
-    'PrivatePension',
-]);
+const IncomeSource = z.enum(Object.values(EmploymentType).map(e => e) as [EmploymentType, ...EmploymentType[]]);
 
 export default IncomeSource;

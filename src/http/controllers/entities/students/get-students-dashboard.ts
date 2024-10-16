@@ -1,12 +1,14 @@
 import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
+import SelectEntityOrDirector from "../utils/select-entity-or-director";
 
 export default async function getStudentsDashboard(
     request: FastifyRequest,
     response: FastifyReply
 ) {
     try {
-        const { sub } = request.user
+        const { sub, role } = request.user
+        const { user_id } = await SelectEntityOrDirector(sub, role)
         let result: {
             count: number,
             scholarshipPartial: number,
@@ -17,7 +19,7 @@ export default async function getStudentsDashboard(
         await prisma.$transaction(async (tPrisma) => {
             const entity = await tPrisma.entity.findUnique({
                 where: {
-                    user_id: sub
+                    user_id: user_id
                 },
                 include: { EntitySubsidiary: true }
             })
@@ -32,7 +34,11 @@ export default async function getStudentsDashboard(
             const scholarshipType = await tPrisma.student.groupBy({
                 by: ["isPartial"],
                 where: whereClause,
+                _count: {
+                    _all: true
+                }
             })
+            console.log(scholarshipType)
             // group students by their course
             const groupedByCourses = await tPrisma.student.groupBy({
                 where: whereClause,
@@ -91,8 +97,8 @@ export default async function getStudentsDashboard(
                 count,
                 courses,
                 units,
-                scholarshipPartial: scholarshipType.filter(e => e.isPartial).length,
-                scholarshipTotal: scholarshipType.filter(e => !e.isPartial).length,
+                scholarshipPartial: scholarshipType.find(e => e.isPartial)?._count._all ?? 0,
+                scholarshipTotal: scholarshipType.find(e => !e.isPartial)?._count._all ?? 0,
             }
         })
 

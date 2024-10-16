@@ -1,16 +1,18 @@
 import { APIError } from "@/errors/api-error";
 import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
+import SelectEntityOrDirector from "../utils/select-entity-or-director";
 
 export default async function getRenewDashboard(
     request: FastifyRequest,
     response: FastifyReply
 ) {
     try {
-        const { sub } = request.user
+        const { sub, role } = request.user
+        const { user_id } = await SelectEntityOrDirector(sub, role)
 
         const entity = await prisma.entity.findUnique({
-            where: { user_id: sub },
+            where: { user_id: user_id },
             include: {
                 EntitySubsidiary: {
                     include: {

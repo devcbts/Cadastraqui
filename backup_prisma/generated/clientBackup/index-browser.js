@@ -914,7 +914,8 @@ exports.IncomeSource = exports.$Enums.IncomeSource = {
   LiberalProfessional: 'LiberalProfessional',
   FinancialHelpFromOthers: 'FinancialHelpFromOthers',
   Alimony: 'Alimony',
-  PrivatePension: 'PrivatePension'
+  PrivatePension: 'PrivatePension',
+  IncomeTransfer: 'IncomeTransfer'
 };
 
 exports.Relationship = exports.$Enums.Relationship = {
@@ -1012,7 +1013,8 @@ exports.EmploymentType = exports.$Enums.EmploymentType = {
   LiberalProfessional: 'LiberalProfessional',
   FinancialHelpFromOthers: 'FinancialHelpFromOthers',
   Alimony: 'Alimony',
-  PrivatePension: 'PrivatePension'
+  PrivatePension: 'PrivatePension',
+  IncomeTransfer: 'IncomeTransfer'
 };
 
 exports.AccountType = exports.$Enums.AccountType = {

@@ -18,7 +18,6 @@ import { fetchSubsidiarys } from './fetch-subsidiarys'
 import getAllCourses from './get-all-courses'
 import getAnnouncementCourse from './get-announcement-course'
 import { getApplications } from './get-applications'
-import getCandidateScholarshipInfo from './scholarship/get-candidate-scholarship-info'
 import getEntityDashboard from './get-dashboard'
 import { getEntityInfo } from './get-entity-info'
 import { getGrantedScholarships } from './get-granted-scholarships'
@@ -27,6 +26,9 @@ import getRegisteredStudentsByCourse from './get-registered-course-students'
 import { getSocialAssistants } from './get-social-assistants'
 import { registerEntity } from './register-entity'
 import removeAssistantFromAnnouncement from './remove-assistant-from-announcement'
+import getCandidateScholarshipDocuments from './scholarship/get-candidate-scholarship-documents'
+import getCandidateScholarshipInfo from './scholarship/get-candidate-scholarship-info'
+import updateScholarshipStatus from './scholarship/update-scholarship-status'
 import searchAnnouncements from './search-announcements'
 import getAllStudents from './students/get-all-students'
 import getRenewCourses from './students/get-renew-courses'
@@ -37,14 +39,12 @@ import { updateAnnouncement } from './update-announcement'
 import { updateDirector } from './update-director'
 import { updateEntity } from './update-entity'
 import updateEntityProfile from './update-entity-profile'
-import updateScholarshipStatus from './scholarship/update-scholarship-status'
 import updateSocialAssistant from './update-social-assistant'
 import { updateSubsidiary } from './update-subsidiary'
 import { uploadAnnouncementPdf } from './upload-announcement-pdf'
 import uploadBasicEducationCSVFileToAnnouncement from './upload-basic-education-csv-to-announcement'
 import uploadHigherEducationCSVFileToAnnouncement from './upload-higher-education-csv-to-announcement'
 import { uploadEntityProfilePicture } from './upload-profile-picture'
-import getCandidateScholarshipDocuments from './scholarship/get-candidate-scholarship-documents'
 
 export async function entityRoutes(app: FastifyInstance) {
   /** Admin Routes (Rotas acessadas na página do Admin)
@@ -173,10 +173,10 @@ export async function entityRoutes(app: FastifyInstance) {
 
   app.get('/courses/all', { onRequest: [verifyJWT] }, getAllCourses)
 
-  app.get('/students/dashboard', { onRequest: [verifyJWT] }, getStudentsDashboard)
-  app.post('/students/register', { onRequest: [verifyJWT] }, registerNewStudents)
-  app.get('/students/all', { onRequest: [verifyJWT] }, getAllStudents)
-  app.get('/students/renew/dashbaord', { onRequest: [verifyJWT] }, getRenewDashboard)
-  app.get('/students/renew/courses', { onRequest: [verifyJWT] }, getRenewCourses)
+  app.get('/students/dashboard', { onRequest: [verifyJWT, verifyRole(["ENTITY", "ENTITY_DIRECTOR"])] }, getStudentsDashboard)
+  app.post('/students/register', { onRequest: [verifyJWT, verifyRole(["ENTITY", "ENTITY_DIRECTOR"])] }, registerNewStudents)
+  app.get('/students/all', { onRequest: [verifyJWT, verifyRole(["ENTITY", "ENTITY_DIRECTOR"])] }, getAllStudents)
+  app.get('/students/renew/dashbaord', { onRequest: [verifyJWT, verifyRole(["ENTITY", "ENTITY_DIRECTOR"])] }, getRenewDashboard)
+  app.get('/students/renew/courses', { onRequest: [verifyJWT, verifyRole(["ENTITY", "ENTITY_DIRECTOR"])] }, getRenewCourses)
 
 }

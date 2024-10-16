@@ -7,6 +7,7 @@ import STATES from '@/utils/enums/zod/state'
 import { hash } from 'bcryptjs'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import SelectEntityOrDirector from './utils/select-entity-or-director'
 
 export async function createSubsidiary(
   request: FastifyRequest,
@@ -44,7 +45,8 @@ export async function createSubsidiary(
 
   try {
     // Verifica se existe um usuário com o id armazenado no JWT
-    const userId = request.user.sub
+    const { sub, role } = request.user
+    const { user_id: userId } = await SelectEntityOrDirector(sub, role)
     console.log(userId)
 
     if (!userId) {
