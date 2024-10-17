@@ -92,7 +92,9 @@ export default function ApplicantInformation() {
 
                     </div>
                     <div className={styles.actions}>
-                        {/* <ButtonBase label={'ficha completa'} onClick={() => { }} /> */}
+                        <ButtonBase label={'ficha completa'} onClick={() => {
+                            navigate('ficha-completa', { state: { ...state, applicationId: data?.scholarshipInfo?.application_id } })
+                        }} />
                         <ButtonBase label={'documentos enviados'} onClick={() => {
                             navigate('', { state: { ...state, documents: true } })
                         }} />

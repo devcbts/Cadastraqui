@@ -22,11 +22,12 @@ import FinancialHelp from "./ModelD/components/FinancialHelp";
 import InformationModelD from "./ModelD/components/InformationModelC";
 import UnemployementInsurance from "./Unemployed/components/UnemployementInsurance";
 import useAuth from 'hooks/useAuth';
+import ROLES from 'utils/enums/role-types';
 export default function FormIncome() {
     // Keep track of incomes created/updated by user
     const hasIncomeSelected = useRecoilValue(monthAtom)
     const { auth } = useAuth()
-    const isAssistant = useMemo(() => auth.role === "ASSISTANT")
+    const readOnlyUser = useMemo(() => !["CANDIDATE", "RESPONSIBLE"].includes(auth?.role))
     // const handleEditInformation = async (data) => {
     //     try {
     //         await candidateService.updateIdentityInfo(data);
@@ -102,7 +103,7 @@ export default function FormIncome() {
         render: renderItems,
         // onEdit: handleEditInformation,
         onSave: handleSaveInformation,
-        viewMode: isAssistant
+        viewMode: readOnlyUser
     })
     useEffect(() => {
         const currentIncomeSource = data?.incomeSource
@@ -179,7 +180,7 @@ export default function FormIncome() {
                         </ButtonBase>
                     }
                     {
-                        (activeStep === max && activeStep !== 1 && !isAssistant) && (
+                        (activeStep === max && activeStep !== 1 && !readOnlyUser) && (
                             <ButtonBase onClick={next}>
                                 Salvar
                             </ButtonBase>

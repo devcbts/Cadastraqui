@@ -9,7 +9,6 @@ import SelectionProcess from "Pages/SocialAssistant/SelectionProcess";
 import SocialAssistantAnnouncement from "Pages/SocialAssistant/SelectionProcess/Announcement";
 import SelectedCandidates from "Pages/SocialAssistant/SelectionProcess/SelectedCandidates";
 import CandidateInfo from "Pages/SocialAssistant/SelectionProcess/CandidateInfo";
-import CandidateView from "Pages/SocialAssistant/SelectionProcess/CandidateView";
 import LegalOpinion from "Pages/SocialAssistant/SelectionProcess/LegalOpinion";
 import SocialAssistantProfile from "Pages/SocialAssistant/Profile";
 import HeaderWrapper from "Components/Header";
@@ -58,6 +57,7 @@ import EntityStudentsList from "Pages/Entity/Students/Listing";
 import EntityStudentsRenew from "Pages/Entity/Students/Renew";
 import EntityApplicantsRegisterApplicant from "Pages/Entity/Applicants/components/RegisterApplicant";
 import AdminProfile from "Pages/Admin/Profile";
+import CandidateView from "Components/CandidateView";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -131,7 +131,7 @@ export default function AppRoutes() {
                                 </Route>
                             </Route>
                         </Route>
-                        <Route path="/ficha-completa" element={<CandidateView />}></Route>
+                        <Route path="/ficha-completa" element={<CandidateView backButtonText="Processo de seleção" />}></Route>
                         <Route path="/profile" element={<SocialAssistantProfile />}></Route>
                         <Route path="/agenda" element={<Outlet />}>
                             <Route index element={<AssistantSchedule />} />
@@ -175,7 +175,10 @@ export default function AppRoutes() {
                                 <Route index element={<EntityAnnouncementCourses />} />
                                 <Route path=":courseId" element={<Outlet />} >
                                     <Route index element={<EntityAnnouncementApplicants />} />
-                                    <Route path="matricula" element={<EntityApplicantsRegisterApplicant />} />
+                                    <Route path="matricula" element={<Outlet />} >
+                                        <Route index element={<EntityApplicantsRegisterApplicant />} />
+                                        <Route path="ficha-completa" element={<CandidateView backButtonText="Voltar para matrícula" />} />
+                                    </Route>
                                 </Route>
                             </Route>
                         </Route>

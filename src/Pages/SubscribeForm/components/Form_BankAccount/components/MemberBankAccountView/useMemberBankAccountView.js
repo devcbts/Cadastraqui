@@ -2,9 +2,11 @@ import useAuth from "hooks/useAuth"
 import candidateViewAtom from "Pages/SocialAssistant/SelectionProcess/CandidateView/atom/candidateViewAtom"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useRecoilValue } from "recoil"
+import applicationService from "services/application/applicationService"
 import candidateService from "services/candidate/candidateService"
 import { NotificationService } from "services/notification"
 import socialAssistantService from "services/socialAssistant/socialAssistantService"
+import ROLES from "utils/enums/role-types"
 
 export default function useMemberBankAccountView({ memberId }) {
     const [isLoading, setIsLoading] = useState(true)
@@ -12,15 +14,15 @@ export default function useMemberBankAccountView({ memberId }) {
     const isMounted = useRef(null)
     const { currentApplication } = useRecoilValue(candidateViewAtom)
     const { auth } = useAuth()
-    const isAssistant = useMemo(() => auth.role === "ASSISTANT")
+    const readOnlyUser = useMemo(() => !["CANDIDATE", "RESPONSIBLE"].includes(auth?.role))
     // TODO: fetch bank account information from SPECIFIC USER
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setIsLoading(true)
                 const information =
-                    isAssistant
-                        ? await socialAssistantService.getBankingAccountById(currentApplication, memberId)
+                    readOnlyUser
+                        ? await applicationService.getBankingAccountById(currentApplication, memberId)
                         : await candidateService.getBankingAccountById(memberId)
                 setBankingInfo(information)
             } catch (err) {
@@ -31,7 +33,7 @@ export default function useMemberBankAccountView({ memberId }) {
         fetchData()
     }, [memberId])
     const handleRemove = (id) => {
-        if (isAssistant) { return }
+        if (readOnlyUser) { return }
         const remove = async () => {
             try {
                 await candidateService.removeBankingAccount(id)
@@ -53,7 +55,7 @@ export default function useMemberBankAccountView({ memberId }) {
     //     setIsReportOpen(prev => !prev)
     // }
     useEffect(() => {
-        if (!isMounted.current || isAssistant) {
+        if (!isMounted.current || readOnlyUser) {
             return
         }
         const updateBankDeclaration = async () => {
@@ -71,13 +73,13 @@ export default function useMemberBankAccountView({ memberId }) {
             }
         }
         updateBankDeclaration()
-    }, [bankingInfo.hasBankAccount, isAssistant])
+    }, [bankingInfo.hasBankAccount, readOnlyUser])
 
     const handleChangeBankDeclaration = () => {
         isMounted.current = true
         setBankingInfo((prev) => ({ ...prev, hasBankAccount: !prev.hasBankAccount }))
     }
     return {
-        isAssistant, isLoading, bankingInfo, handleRemove, handleChangeBankDeclaration
+        readOnlyUser, isLoading, bankingInfo, handleRemove, handleChangeBankDeclaration
     }
 }

@@ -11,7 +11,7 @@ import BankReport from "../BankReport"
 import Indicator from 'Components/Indicator'
 import useMemberBankAccountView from './useMemberBankAccountView'
 export default function MemberBankAccountView({ id, onSelect, onBack, onAdd }) {
-    const { bankingInfo, isAssistant, isLoading, handleChangeBankDeclaration, handleRemove } = useMemberBankAccountView({ memberId: id })
+    const { bankingInfo, readOnlyUser, isLoading, handleChangeBankDeclaration, handleRemove } = useMemberBankAccountView({ memberId: id })
 
     const [isReportOpen, setIsReportOpen] = useState(false)
     return (
@@ -28,12 +28,12 @@ export default function MemberBankAccountView({ id, onSelect, onBack, onAdd }) {
                                             status={item.isUpdated}
                                         />
                                         <ButtonBase label={"visualizar"} onClick={() => onSelect(item)} />
-                                        {!isAssistant && <ButtonBase label={"excluir"} onClick={() => handleRemove(item.id)} danger />}
+                                        {!readOnlyUser && <ButtonBase label={"excluir"} onClick={() => handleRemove(item.id)} danger />}
                                     </FormListItem.Actions>
                                 </FormListItem.Root>
                             )
                         }}>
-                            {!isAssistant
+                            {!readOnlyUser
                                 ? (!bankingInfo?.hasBankAccount || bankingInfo?.accounts?.length === 0) &&
                                 <div style={{ display: 'flex', flexDirection: 'row', gap: '12px', alignItems: 'center' }}>
                                     <input type="checkbox"
@@ -45,7 +45,7 @@ export default function MemberBankAccountView({ id, onSelect, onBack, onAdd }) {
                             }
                             {/* {(!bankingInfo?.hasBankAccount || bankingInfo?.accounts?.length === 0) &&
                                 <div style={{ display: 'flex', flexDirection: 'row', gap: '12px', alignItems: 'center' }}>
-                                    {!isAssistant ?
+                                    {!readOnlyUser ?
                                         <>
                                             <input type="checkbox"
                                                 checked={!bankingInfo.hasBankAccount}
@@ -62,7 +62,7 @@ export default function MemberBankAccountView({ id, onSelect, onBack, onAdd }) {
 
                             <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
 
-                            {(bankingInfo.hasBankAccount && !isAssistant) && <ButtonBase label={"cadastrar conta"} onClick={() => onAdd()} />}
+                            {(bankingInfo.hasBankAccount && !readOnlyUser) && <ButtonBase label={"cadastrar conta"} onClick={() => onAdd()} />}
                         </div>
                     </FormList.Root>
                 </>

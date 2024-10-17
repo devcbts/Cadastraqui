@@ -159,7 +159,7 @@ export default function EntityAnnouncementApplicants() {
 
             </div>}
             {isSelectedView
-                ? <Table.Root headers={['nome completo', 'status', 'matriculado?']}>
+                ? <Table.Root headers={['nome completo', 'status', 'matricular?']}>
                     {
                         students.waitingRegister?.map(e => (
                             <Table.Row key={e.id}>

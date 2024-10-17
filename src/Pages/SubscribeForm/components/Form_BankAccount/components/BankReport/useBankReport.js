@@ -2,10 +2,12 @@ import useAuth from "hooks/useAuth"
 import candidateViewAtom from "Pages/SocialAssistant/SelectionProcess/CandidateView/atom/candidateViewAtom"
 import { useEffect, useMemo, useState } from "react"
 import { useRecoilValue } from "recoil"
+import applicationService from "services/application/applicationService"
 import candidateService from "services/candidate/candidateService"
 import { NotificationService } from "services/notification"
 import socialAssistantService from "services/socialAssistant/socialAssistantService"
 import uploadService from "services/upload/uploadService"
+import ROLES from "utils/enums/role-types"
 import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category"
 import METADATA_FILE_TYPE from "utils/file/metadata-file-type"
 
@@ -13,15 +15,15 @@ export default function useBankReport({ id }) {
     const [isLoading, setIsLoading] = useState(true)
     const { auth } = useAuth()
     const { currentApplication } = useRecoilValue(candidateViewAtom)
-    const isAssistant = useMemo(() => auth.role === "ASSISTANT")
+    const readOnlyUser = useMemo(() => !["CANDIDATE", "RESPONSIBLE"].includes(auth?.role))
     const [data, setData] = useState([])
     useEffect(() => {
         const fetchCCSFiles = async () => {
             try {
                 setIsLoading(true)
                 const files =
-                    isAssistant
-                        ? await socialAssistantService.getCCSFiles(currentApplication, id)
+                    readOnlyUser
+                        ? await applicationService.getCCSFiles(currentApplication, id)
                         : await candidateService.getCCSFiles(id)
                 setData(files)
             } catch (err) { }
@@ -31,7 +33,7 @@ export default function useBankReport({ id }) {
     }, [id])
 
     const handleUploadFile = async (type, file) => {
-        if (isAssistant) { return }
+        if (readOnlyUser) { return }
         try {
             const formData = new FormData()
             const date = new Date()
@@ -57,6 +59,6 @@ export default function useBankReport({ id }) {
     }
 
     return {
-        data, isLoading, handleUploadFile, isAssistant
+        data, isLoading, handleUploadFile, readOnlyUser
     }
 }
