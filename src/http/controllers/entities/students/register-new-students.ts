@@ -1,7 +1,7 @@
 import { APIError } from "@/errors/api-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { prisma } from "@/lib/prisma";
-import { AllEducationType, AllScholarshipsType, EducationStyle } from "@prisma/client";
+import { AllEducationType, AllScholarshipsType, EducationStyle, ROLE } from "@prisma/client";
 import { hash } from "bcryptjs";
 import csv from 'csv-parser';
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -30,18 +30,48 @@ export default async function registerNewStudents(
         Nascimento: z.string().transform(e => new Date(e)),
         // IdCurso: z.string().transform(e => parseInt(e)).nullish(),
         CNPJ: z.string(),
-        isPartial: z.string().transform(e => Boolean(e)),
+        isPartial: z.string().transform(e => Boolean(parseInt(e))),
         Turno: SHIFT,
         ScholarshipType: z.enum(Object.values(AllScholarshipsType) as [string, ...string[]]),
-        ModalityType: z.enum(Object.values(EducationStyle) as [string, ...string[]])
+        ModalityType: z.enum(Object.values(EducationStyle) as [string, ...string[]]),
+        RName: z.string().nullish(),
+        RCPF: z.string().nullish(),
+        RBirthDate: z.string().nullish().transform(e => !!e ? new Date(e) : null),
+        REmail: z.string().nullish(),
+        hasResponsible: z.string().transform(e => Boolean(parseInt(e))).nullish()
 
+    }).superRefine((data, ctx) => {
+        console.log(data.Nascimento)
+        if (data.hasResponsible) {
+
+            if (
+                !data.RCPF ||
+                !data.RName ||
+                !data.REmail ||
+                !data.RBirthDate
+            ) {
+                ctx.addIssue({
+                    message: 'Dados do responsável incompletos',
+                    path: ["hasResponsible"],
+                    code: "custom"
+                })
+            }
+        }
     })
     type CSVData = z.infer<typeof csvSchema>
     try {
         const { sub, role } = request.user
         const { user_id } = await SelectEntityOrDirector(sub, role)
 
-        const csvData: CSVData[] = []
+        const csvData: (CSVData & {
+            responsible?: {
+                Email: string,
+                CPF: string,
+                Nascimento: Date,
+                Nome: string,
+                candidates?: CSVData[]
+            },
+        })[] = []
         const csvFile = await request.file();
         if (!csvFile) {
             throw new ResourceNotFoundError();
@@ -76,15 +106,37 @@ export default async function registerNewStudents(
                 .pipe(encodeStream('utf8'))
                 .pipe(csv({ separator: detectedEncoding === "UTF-8" ? ',' : ';' }))
                 .on('data', (data: CSVData) => {
-                    const isEmpty = Object.values(data).every(e => !e.toString())
-                    if (isEmpty) { return }
+                    const isEmpty = Object.values(data).every(e => !e?.toString())
+                    if (isEmpty) {
+                        return
+                    }
                     // Process the data as needed
                     const { error, data: parsedData, success } = csvSchema.safeParse(data)
                     if (error) {
                         reject(new APIError(`Dados inválidos`))
                     }
                     if (success) {
-                        csvData.push(parsedData);
+                        if (!parsedData.hasResponsible) {
+                            console.log(parsedData)
+                            csvData.push(parsedData);
+                        } else {
+                            const currResponsible = csvData.find(e => e.responsible?.CPF === parsedData.RCPF)
+                            const currCandidates = currResponsible?.responsible?.candidates ?? []
+                            currCandidates.push(parsedData)
+                            const responsible = {
+                                CPF: parsedData.RCPF!,
+                                Nascimento: parsedData.RBirthDate!,
+                                Nome: parsedData.RName!,
+                                Email: parsedData.REmail!,
+                                candidates: currCandidates
+                            }
+                            csvData.push({
+                                ...parsedData,
+                                responsible: currResponsible ?? responsible
+                            })
+
+
+                        }
                     }
                 })
                 .on('end', () => {
@@ -117,78 +169,102 @@ export default async function registerNewStudents(
             }).map(e => {
                 const isEntity = e.CNPJ.replace(/\D*/g, '') === entity?.CNPJ.replace(/\D*/g, '')
                 const entityId = isEntity ? entity.id : entity?.EntitySubsidiary.find(i => i.CNPJ.replace(/\D*/g, '') === e.CNPJ.replace(/\D*/g, ''))!.id
+                const isResponsible = e.hasResponsible ?? false
                 return ({
                     ...e,
+                    role: isResponsible ? ROLE.RESPONSIBLE : ROLE.CANDIDATE,
                     isEntity,
                     entityId
                 })
             }
             )
-            await Promise.all(dataToRegister.map(async e => {
-                const password_hash = await hash(e.CPF.replace(/\D*/g, ''), 6)
-                const { id } = await tPrisma.user.create({
-                    data: {
-                        role: "CANDIDATE",
-                        email: e.Email,
-                        password: password_hash
-                    }
-                })
-                const { id: candidateId } = await tPrisma.candidate.create({
-                    data: {
-                        birthDate: e.Nascimento,
-                        name: e.Nome,
-                        CPF: e.CPF,
-                        role: "CANDIDATE",
-                        user_id: id,
-                        email: e.Email,
-                    }
-                })
-                let course = await tPrisma.course.findFirst({
-                    where: { AND: [{ normalizedName: normalizeString(e.Curso) }, { Type: e.CourseType as AllEducationType }] }
-                })
-                let entityCourse = await tPrisma.entityCourse.findFirst({
-                    where: { AND: [{ course: { AND: [{ normalizedName: normalizeString(e.Curso) }, { Type: e.CourseType as AllEducationType }] } }, { OR: [{ entity_id: e.entityId }, { entitySubsidiary_id: e.entityId }] }] }
-                })
-                // if (e.IdCurso !== null && e.IdCurso !== undefined) {
-                if (!entityCourse) {
-                    let id;
-                    if (course) {
-                        id = course.id
-                    } else {
+            await Promise.all(
+                dataToRegister.map(async e => {
+                    const password_hash = await hash(e.responsible?.CPF ?? e.CPF.replace(/\D*/g, ''), 6)
 
-                        const existingCourse = await tPrisma.course.create({
-                            data: {
-                                name: e.Curso,
-                                normalizedName: normalizeString(e.Curso),
-                                Type: e.CourseType as AllEducationType,
-
-                            }
-                        })
-                        id = existingCourse.id
-                    }
-                    entityCourse = await tPrisma.entityCourse.create({
+                    const { id } = await tPrisma.user.create({
                         data: {
-                            course_id: id,
-                            ...(e.isEntity ? { entity_id: e.entityId } : { entitySubsidiary_id: e.entityId })
+                            role: e.role,
+                            email: e.responsible?.Email ?? e.Email,
+                            password: password_hash
                         }
                     })
-                }
-                await tPrisma.student.create({
-                    data: {
-                        name: e.Nome,
-                        entityCourse_id: entityCourse!.id,
-                        admissionDate: new Date(),
-                        announcement_id: '',
-                        candidate_id: candidateId,
-                        scholarshipType: e.ScholarshipType as AllScholarshipsType,
-                        shift: e.Turno,
-                        status: 'Active',
-                        isPartial: e.isPartial,
-                        educationStyle: e.ModalityType as EducationStyle,
-                        cameFromCSV: true,
+                    let respId;
+                    if (e.responsible) {
+                        const { id: responsibleId } = await tPrisma.legalResponsible.create({
+                            data: {
+                                birthDate: e.responsible?.Nascimento!,
+                                name: e.responsible?.Nome!,
+                                CPF: e.responsible?.CPF!,
+                                role: "RESPONSIBLE",
+                                user_id: id,
+                            }
+                        })
+                        respId = responsibleId
                     }
-                })
-            }))
+                    for (const candidate of e.responsible?.candidates ?? [e]) {
+                        const { id: candidateId } = await tPrisma.candidate.create({
+                            data: {
+                                birthDate: candidate.Nascimento,
+                                name: candidate.Nome,
+                                CPF: candidate.CPF,
+                                role: "CANDIDATE",
+
+                                ...(!e.responsible ? { user_id: id }
+                                    : { responsible_id: respId })
+                                ,
+                                email: candidate.Email,
+                            }
+                        })
+
+                        let course = await tPrisma.course.findFirst({
+                            where: { AND: [{ normalizedName: normalizeString(e.Curso) }, { Type: e.CourseType as AllEducationType }] }
+                        })
+                        let entityCourse = await tPrisma.entityCourse.findFirst({
+                            where: { AND: [{ course: { AND: [{ normalizedName: normalizeString(e.Curso) }, { Type: e.CourseType as AllEducationType }] } }, { OR: [{ entity_id: e.entityId }, { entitySubsidiary_id: e.entityId }] }] }
+                        })
+                        // if (e.IdCurso !== null && e.IdCurso !== undefined) {
+                        if (!entityCourse) {
+                            let id;
+                            if (course) {
+                                id = course.id
+                            } else {
+
+                                const existingCourse = await tPrisma.course.create({
+                                    data: {
+                                        name: e.Curso,
+                                        normalizedName: normalizeString(e.Curso),
+                                        Type: e.CourseType as AllEducationType,
+
+                                    }
+                                })
+                                id = existingCourse.id
+                            }
+                            entityCourse = await tPrisma.entityCourse.create({
+                                data: {
+                                    course_id: id,
+                                    ...(e.isEntity ? { entity_id: e.entityId } : { entitySubsidiary_id: e.entityId })
+                                }
+                            })
+                        }
+                        await tPrisma.student.create({
+                            data: {
+                                name: e.Nome,
+                                entityCourse_id: entityCourse!.id,
+                                admissionDate: new Date(),
+                                announcement_id: '',
+                                candidate_id: candidateId,
+                                scholarshipType: e.ScholarshipType as AllScholarshipsType,
+                                shift: e.Turno,
+                                status: 'Active',
+                                isPartial: e.isPartial,
+                                educationStyle: e.ModalityType as EducationStyle,
+                                cameFromCSV: true,
+                            }
+                        })
+                    }
+
+                }))
         })
         return response.status(201).send({ students: csvData })
     } catch (err) {

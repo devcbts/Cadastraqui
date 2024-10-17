@@ -48,7 +48,7 @@ export default async function getCandidateScholarshipInfo(request: FastifyReques
             semester: level.semester,
             isPartial: application.ScholarshipPartial, // Indica se a bolsa é 50% ou 100%
             shift: level.shift,
-
+            application_id: application.id
         }
         // Personal Info
         const IsResponsible = application.responsible_id ? true : false
