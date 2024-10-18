@@ -77,6 +77,7 @@ export default function Declaration_RuralWorker({ onBack, onNext }) {
                         value={activity}
                         onChange={(e) => setActivity(e.target.value)}
                         maxLength={255}
+                        style={{ minHeight: '100px' }}
                         placeholder="Descreva sua atividade"
                     />
                     <div className={commonStyles.charCount}>{activity.length}/255</div>

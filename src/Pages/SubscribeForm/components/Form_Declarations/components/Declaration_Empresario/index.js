@@ -76,6 +76,8 @@ export default function Declaration_Empresario({ onBack, onSave }) {
                         name="activity"
                         value={activity}
                         onChange={(e) => setActivity(e.target.value)}
+                        style={{ minHeight: '100px' }}
+
                         maxLength="255"
                         rows="4"
                     ></textarea>
