@@ -11,7 +11,7 @@ export default async function updateSocialAssistant(
     const bodySchema = z.object({
         assistant_id: z.string(),
         name: z.string().optional(),
-        CPF: z.string().optional(),
+        CPF: z.string().transform(e => e.replace(/\D*/g, '')).optional(),
         email: z.string().email().optional(),
         RG: z.string().optional(),
         CRESS: z.string().optional(),
@@ -22,7 +22,7 @@ export default async function updateSocialAssistant(
         // check assistant and entity
         const user_id = request.user.sub
         const role = request.user.role
-    
+
         const entity = await SelectEntityOrDirector(user_id, role)
         const a = await prisma.entity.findUnique({
             where: { id: entity.id },

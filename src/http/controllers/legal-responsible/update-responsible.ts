@@ -9,7 +9,7 @@ export default async function updateResponsible(
         name: z.string().optional(),
         email: z.string().email({ message: "Email inválido" }).optional(),
         CEP: z.string().optional(),
-        CPF: z.string().optional(),
+        CPF: z.string().transform(e => e.replace(/\D*/g, '')).optional(),
         address: z.string().optional(),
         phone: z.string().optional(),
         city: z.string().optional(),

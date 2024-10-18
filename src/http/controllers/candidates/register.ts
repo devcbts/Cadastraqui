@@ -12,7 +12,7 @@ export async function registerCandidate(
     name: z.string(),
     email: z.string(),
     password: z.string().min(6),
-    CPF: z.string(),
+    CPF: z.string().transform(e => e.replace(/\D*/g, '')),
     birthDate: z.string(),
   })
 

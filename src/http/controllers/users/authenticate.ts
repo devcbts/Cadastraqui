@@ -55,7 +55,7 @@ export async function authenticate(
         sign: { sub: user.id, expiresIn: '3h' },
       },
     )
-    const ip = request.socket.remoteAddress
+    const ip = request.ip
     const location = lookup(ip ?? '')
     const parser = new UAParser(request.headers['user-agent'])
     const result = parser.getResult()

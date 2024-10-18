@@ -19,7 +19,7 @@ export async function updateBasicInfo(
       city: z.string().optional(),
       UF: UF.optional(),
       CEP: z.string().optional(),
-      CPF: z.string().optional(),
+      CPF: z.string().transform(e => e.replace(/\D*/g, '')).optional(),
       email: z.string().optional(),
       neighborhood: z.string().optional(),
       addressNumber: z.string().optional(),

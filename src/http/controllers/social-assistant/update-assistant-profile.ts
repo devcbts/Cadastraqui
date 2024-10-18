@@ -9,7 +9,7 @@ export default async function updateAssistantProfile(
         name: z.string().optional(),
         email: z.string().email().optional(),
         CRESS: z.string().optional(),
-        CPF: z.string().optional(),
+        CPF: z.string().transform(e => e.replace(/\D*/g, '')).optional(),
         phone: z.string().optional(),
     })
     const parsedSchema = updateAssistantProfileSchema.parse(request.body)

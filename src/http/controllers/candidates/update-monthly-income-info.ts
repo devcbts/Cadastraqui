@@ -17,7 +17,7 @@ export default async function updateMonthlyIncome(
         fantasyName: z.string().nullish(),
         CNPJ: z.string().nullish(),
         socialReason: z.string().nullish(),
-        financialAssistantCPF: z.string().nullish(),
+        financialAssistantCPF: z.string().transform(e => e.replace(/\D*/g, '')).nullish(),
         admissionDate: z.string().nullish(),
         position: z.string().nullish(),
         payingSource: z.string().nullish(),

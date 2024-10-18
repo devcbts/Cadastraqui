@@ -9,6 +9,7 @@ import morgan from 'morgan';
 import { ZodError } from 'zod';
 import { env } from './env/index';
 import { adminRoutes } from './http/controllers/admin/routes';
+import { applicationRoutes } from './http/controllers/application/routes';
 import { candidateRoutes } from './http/controllers/candidates/routes';
 import { entityRoutes } from './http/controllers/entities/routes';
 import { legalResponsibleRoutes } from './http/controllers/legal-responsible/routes';
@@ -31,7 +32,9 @@ import { multerConfig } from './lib/multer';
 import './lib/pg-listener';
 import { prisma } from './lib/prisma';
 
-export const app = fastify()
+export const app = fastify({
+  trustProxy: true
+})
 app.register(fastifyMultipart, {
   limits: {
     fileSize: 15000000,
@@ -78,6 +81,7 @@ app.register(assistantRoutes, { prefix: '/assistant' })
 app.register(adminRoutes, { prefix: '/admin' })
 app.register(signatureRoutes, { prefix: '/sign' })
 app.register(userRoutes, { prefix: '/user' })
+app.register(applicationRoutes, { prefix: '/application' })
 app.post('/session', authenticate)
 app.post('/forgot_password', forgotPassword)
 app.post('/reset_password', resetPassword)

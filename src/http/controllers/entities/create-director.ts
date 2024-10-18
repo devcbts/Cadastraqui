@@ -20,7 +20,7 @@ export async function createDirector(
       const validPhone = /\d{10}\d?/
       return validPhone.test(digits)
     }, 'Invalid phone'),
-    CPF: z.string(),
+    CPF: z.string().transform(e => e.replace(/\D*/g, '')),
   })
 
 
@@ -47,36 +47,36 @@ export async function createDirector(
       throw new DirectorAlreadyExistsError()
     }
 
-      const entity = await prisma.entity.findUnique({
-        where: { user_id: request.user.sub },
-      })
+    const entity = await prisma.entity.findUnique({
+      where: { user_id: request.user.sub },
+    })
 
-      if (!entity) {
-        throw new ResourceNotFoundError()
-      }
+    if (!entity) {
+      throw new ResourceNotFoundError()
+    }
 
-      const password_hash = await hash(password, 6)
-      const user = await prisma.user.create({
-        data: {
-          email,
-          password: password_hash,
-          role: 'ENTITY_DIRECTOR',
-        },
-      })
+    const password_hash = await hash(password, 6)
+    const user = await prisma.user.create({
+      data: {
+        email,
+        password: password_hash,
+        role: 'ENTITY_DIRECTOR',
+      },
+    })
 
-      // Cria o diretor associado a matriz
-      await prisma.entityDirector.create({
-        data: {
-          user_id: user.id,
-          name,
-          CPF,
-          phone,
-          entity_id: entity.id,
-        },
-      })
+    // Cria o diretor associado a matriz
+    await prisma.entityDirector.create({
+      data: {
+        user_id: user.id,
+        name,
+        CPF,
+        phone,
+        entity_id: entity.id,
+      },
+    })
 
-      return reply.status(201).send()
-    
+    return reply.status(201).send()
+
   } catch (err: any) {
     if (err instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: err.message })
