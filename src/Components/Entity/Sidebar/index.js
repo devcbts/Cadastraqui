@@ -15,7 +15,7 @@ export default function EntitySidebar() {
             <Sidebar.Item icon={Book} text={'matriculados'} path={'/matriculados'}></Sidebar.Item>
             <Sidebar.Item icon={Profile} text={'perfil'} path={'/profile'}></Sidebar.Item>
             <Sidebar.Item icon={People} text={'contas'} path={'/contas'}></Sidebar.Item>
-            {/* <Sidebar.Item icon={Student} text={'alunos'} path={'/alunos'}></Sidebar.Item> */}
+            <Sidebar.Item icon={Student} text={'alunos'} path={'/alunos'}></Sidebar.Item>
         </Sidebar.Root>
     )
 }

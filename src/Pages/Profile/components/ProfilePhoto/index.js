@@ -17,14 +17,19 @@ export default function ProfilePhoto({ onChange, pictureUrl, title = 'Dados Pess
             set(url)
         }
     }
+    const props = !!onChange
+        ? {
+            onMouseEnter: handleHover,
+            onMouseLeave: handleHover
+        }
+        : {}
     return (
         <div className={styles.header}>
 
             <div className={styles.titlewrapper}>
                 <div style={{ cursor: 'pointer', position: 'relative', opacity: show && .8 }}
-                    onMouseEnter={handleHover}
-                    onMouseLeave={handleHover}
-                    onClick={() => inputRef.current.click()}>
+                    {...props}
+                    onClick={() => onChange ? inputRef.current.click() : null}>
                     {pictureUrl
                         ? <img src={pictureUrl} alt='foto de Perfil' placeholder='Foto de Perfil' />
                         : <User width={100} height={100} />

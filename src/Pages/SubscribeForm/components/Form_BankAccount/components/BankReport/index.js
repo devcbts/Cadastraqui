@@ -21,7 +21,7 @@ import Indicator from "Components/Indicator";
 import useBankReport from "./useBankReport";
 export default function BankReport({ id, onBack }) {
 
-    const { data, handleUploadFile, isLoading, isAssistant } = useBankReport({ id })
+    const { data, handleUploadFile, isLoading, readOnlyUser } = useBankReport({ id })
     const [selection, setSelection] = useState("none")
 
     return (
@@ -65,7 +65,7 @@ export default function BankReport({ id, onBack }) {
                     fieldName={"bankReport"}
                     title={'Registrato'}
                     onBack={() => setSelection("none")}
-                    onSend={isAssistant ? null : (file) => handleUploadFile("registrato", file)}
+                    onSend={readOnlyUser ? null : (file) => handleUploadFile("registrato", file)}
                     currentFile={data?.find(e => e.tableName === "registrato")}
                 >
                     <div style={{ alignSelf: 'center' }}>
@@ -81,7 +81,7 @@ export default function BankReport({ id, onBack }) {
                     fieldName={"pix"}
                     title={'Chaves PIX'}
                     onBack={() => setSelection("none")}
-                    onSend={isAssistant ? null : (file) => handleUploadFile("pix", file)}
+                    onSend={readOnlyUser ? null : (file) => handleUploadFile("pix", file)}
                     currentFile={data?.find(e => e.tableName === "pix")}
 
 

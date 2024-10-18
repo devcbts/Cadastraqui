@@ -1,10 +1,12 @@
+import candidateViewAtom from "Components/CandidateView/atom/candidateViewAtom";
 import useAuth from "hooks/useAuth";
-import candidateViewAtom from "Pages/SocialAssistant/SelectionProcess/CandidateView/atom/candidateViewAtom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
+import applicationService from "services/application/applicationService";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
 import socialAssistantService from "services/socialAssistant/socialAssistantService";
+import ROLES from "utils/enums/role-types";
 
 export default function useMemberIncomeView({
     page = null,
@@ -19,16 +21,16 @@ export default function useMemberIncomeView({
     const [incomeInfo, setIncomeInfo] = useState({ monthlyIncome: [], info: [], data: {} })
     const [incomeStatus, setIncomeStatus] = useState(null)
     const isMounted = useRef(false)
-    const isAssistant = useMemo(() => auth.role === "ASSISTANT")
+    const readOnlyUser = useMemo(() => !["CANDIDATE", "RESPONSIBLE"].includes(auth?.role))
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
             try {
                 const [incomes, status] =
-                    isAssistant
+                    readOnlyUser
                         ? await Promise.all([
-                            socialAssistantService.getMemberIncomeInfo(currentApplication, id),
-                            socialAssistantService.getMemberIncomeStatus(currentApplication, id),
+                            applicationService.getMemberIncomeInfo(currentApplication, id),
+                            applicationService.getMemberIncomeStatus(currentApplication, id),
                         ])
 
                         : await Promise.all([
@@ -40,7 +42,7 @@ export default function useMemberIncomeView({
                     setIncomeStatus(status)
                 }
                 {
-                    !isAssistant && NotificationService.warn({
+                    !readOnlyUser && NotificationService.warn({
                         text: 'Importante! Precisa cadastrar suas contas bancárias e enviar os extratos mensais. Também é obrigatório enviar mensalmente o Relatório de contas e relacionamentos (CCS).'
                     })
                 }
@@ -50,10 +52,10 @@ export default function useMemberIncomeView({
             setIsLoading(false)
         }
         if (!page) fetchData()
-    }, [id, page, isAssistant])
+    }, [id, page, readOnlyUser])
 
     const handleDeleteIncome = async (item) => {
-        if (isAssistant)
+        if (readOnlyUser)
             return
         try {
             const deletedIncome = incomeInfo?.info.find(e => e.employmentType === item.income.value)
@@ -75,7 +77,7 @@ export default function useMemberIncomeView({
 
     }
     // useEffect(() => {
-    //     if (!isMounted.current || isAssistant) {
+    //     if (!isMounted.current || readOnlyUser) {
     //         return
     //     }
     //     const updateBankDeclaration = async () => {
@@ -93,13 +95,13 @@ export default function useMemberIncomeView({
     //         }
     //     }
     //     updateBankDeclaration()
-    // }, [incomeInfo?.data?.hasBankAccount, isAssistant])
+    // }, [incomeInfo?.data?.hasBankAccount, readOnlyUser])
 
     return {
         isLoading,
         incomeInfo,
         incomeStatus,
         handleDeleteIncome,
-        isAssistant,
+        readOnlyUser,
     }
 }

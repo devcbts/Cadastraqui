@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import adminService from "services/admin/adminService";
 import { NotificationService } from "services/notification";
+import ROLES from "utils/enums/role-types";
 
 export default function AdminUserAccounts() {
     const [users, setUsers] = useState([])
@@ -37,10 +38,12 @@ export default function AdminUserAccounts() {
                 NotificationService.error({ text: err?.response?.data?.message })
             }
         }
-        const isActive = users.find(e => e.id === id).isActive
+        const user = users.find(e => e.id === id)
+        const action = user.isActive ? 'inativar' : 'ativar'
         NotificationService.confirm({
             onConfirm,
-            title: `${isActive ? 'Inativar' : 'Ativar'} conta?`
+            title: `${action.replace(/^./, x => x.toUpperCase())} conta?`,
+            text: `Isso irá ${action} a conta de "${user.name}"`
         })
 
     }
@@ -53,7 +56,7 @@ export default function AdminUserAccounts() {
                     users?.map((user) => (
                         <Table.Row key={user.id}>
                             <Table.Cell>{user.name}</Table.Cell>
-                            <Table.Cell>{user.role}</Table.Cell>
+                            <Table.Cell>{ROLES[user.role]}</Table.Cell>
                             <Table.Cell>
                                 <ButtonBase label={'visualizar'} onClick={() => navigate(user.id, { state })} />
                                 <ButtonBase label={!user.isActive ? 'ativar' : 'inativar'} onClick={() => handleChangeAccountStatus(user.id)} danger={user.isActive} />

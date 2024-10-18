@@ -8,6 +8,8 @@ import useControlForm from "hooks/useControlForm";
 import CRITERIAS from "utils/enums/criterias";
 import announcementFinishSchema from "./schemas/announcement-finish-schema";
 import findLabel from "utils/enums/helpers/findLabel";
+import useTutorial from "hooks/useTutorial";
+import ANNOUNCEMENT_TUTORIALS from "utils/enums/tutorials/announcement";
 
 export default function AnnouncementFinish({ data, onPageChange, onSubmit, returnPage = true }) {
     const { control, watch, formState: { isValid }, trigger, getValues } = useControlForm({
@@ -19,6 +21,7 @@ export default function AnnouncementFinish({ data, onPageChange, onSubmit, retur
         },
         initialData: data
     })
+    useTutorial(ANNOUNCEMENT_TUTORIALS.CREATE.Finish)
     const handleSubmit = () => {
         if (!isValid) {
             trigger()

@@ -51,6 +51,8 @@ import Declaration_WorkCardConfirmation from './components/Declaration_WorkCardC
 import Declaration_WorkCardUpload from './components/Declaration_WorkCardUpload';
 import Loader from "Components/Loader";
 import Declaration_PersonalData from "./components/Declaration_PersonalData";
+import useTutorial from "hooks/useTutorial";
+import DECLARATIONS_TUTORIALS from "utils/enums/tutorials/declarations";
 
 const SCREENS = {
     OVERVIEW: 'overview',
@@ -257,7 +259,7 @@ export default function FormDeclarations() {
     const handleNavigateToRentIncomeConfirmation = useCallback(() => {
         navigateToScreen(SCREENS.RENT_INCOME_CONFIRMATION);
     }, [navigateToScreen]);
-
+    useTutorial(DECLARATIONS_TUTORIALS[currentScreen])
     return (
         <div className={commonStyles.container}>
             <Loader loading={isLoading} />

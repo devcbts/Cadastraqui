@@ -15,7 +15,7 @@ import moneyInputMask from 'Components/MoneyFormInput/money-input-mask'
 export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
     // // showpagetype can be 'income', 'accounts' or 'report'
     const [showPageType, setShowPageType] = useState(null)
-    const { handleDeleteIncome, incomeInfo, incomeStatus, isLoading, isAssistant } = useMemberIncomeView({
+    const { handleDeleteIncome, incomeInfo, incomeStatus, isLoading, readOnlyUser } = useMemberIncomeView({
         page: showPageType,
         member
     })
@@ -65,11 +65,11 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                             <spam className={styles.valoresRendaMediaFamiliar}>{moneyInputMask(incomeInfo?.data?.averageIncome)}</spam>
                         </div>
 
-                        {!isAssistant && <div className={styles.containerRendaCadastrada}>
+                        {!readOnlyUser && <div className={styles.containerRendaCadastrada}>
                             <h3>Rendas Cadastradas</h3>
                             <div className={styles.containerRendaCadastradaSituacao}>
                                 <h4>Situação do Cadastro de Rendas:</h4>
-                                <span updated={member?.isUpdated?.toString()}>{member?.isUpdated ? 'Atualizada' : 'Atualização necessária'}</span>
+                                <span updated={incomeStatus?.income?.toString() ?? "false"}>{incomeStatus?.income ? 'Atualizada' : 'Atualização necessária'}</span>
                             </div>
                         </div>}
                         <div className={styles.containerNenhumaRenda}>
@@ -78,7 +78,7 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
                                     <FormListItem.Root text={item.income.label}>
                                         <FormListItem.Actions>
                                             <ButtonBase label={"visualizar"} onClick={() => onSelect({ member: member, income: item, info: incomeInfo?.info.find(e => e.employmentType === item.income.value) })} />
-                                            {!isAssistant && <ButtonBase label={"excluir"} onClick={() => handleDeleteIncome(item)} danger />}
+                                            {!readOnlyUser && <ButtonBase label={"excluir"} onClick={() => handleDeleteIncome(item)} danger />}
                                         </FormListItem.Actions>
                                     </FormListItem.Root>
                                 )
@@ -89,8 +89,8 @@ export default function MemberIncomeView({ member, onSelect, onAdd, onBack }) {
 
 
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', width: '90%', gap: '100px' }}>
-                            <ButtonBase onClick={onBack}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
-                            {!isAssistant && <ButtonBase label={"cadastrar renda"} onClick={() => onAdd({ member })} />}
+                            <ButtonBase onClick={() => setShowPageType(null)}><Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} /></ButtonBase>
+                            {!readOnlyUser && <ButtonBase label={"cadastrar renda"} onClick={() => onAdd({ member })} />}
                         </div>
                     </FormList.Root >
                 )

@@ -6,6 +6,8 @@ import { forwardRef } from 'react'
 import GENDER from 'utils/enums/gender'
 import STATES from 'utils/enums/states'
 import { additionalInfoSchema } from './schemas/additional-info'
+import useTutorial from 'hooks/useTutorial'
+import SUBSCRIPTION_TUTORIALS from 'utils/enums/tutorials/subscription-form'
 const AdditionalInfo = forwardRef(({ data }, ref) => {
     const { control, watch } = useControlForm({
         schema: additionalInfoSchema,
@@ -19,7 +21,7 @@ const AdditionalInfo = forwardRef(({ data }, ref) => {
         },
         initialData: data
     }, ref)
-
+    useTutorial(SUBSCRIPTION_TUTORIALS.CANDIDATEINFO.Additional)
     const watchGender = watch("gender")
     const watchState = watch("natural_UF")
 

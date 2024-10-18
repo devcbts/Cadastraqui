@@ -24,6 +24,8 @@ import { Link } from "react-router-dom"
 import basicTemplate from 'Assets/templates/Vagas_Basico_Cadastraqui.xlsx'
 import higherTemplate from "Assets/templates/Vagas_Superior_Cadastraqui.xlsx"
 import CoursesResumeBoard from "../CoursesResumeBoard"
+import useTutorial from "hooks/useTutorial"
+import ANNOUNCEMENT_TUTORIALS from "utils/enums/tutorials/announcement"
 export default function AnnouncementCourses({ entity, allCourses, data, onPageChange }) {
     // can be 'HigherEducation' or 'BasicEducation'
     const { control, formState: { isValid }, setValue, trigger, getValues, watch, reset, resetField } = useControlForm({
@@ -44,7 +46,7 @@ export default function AnnouncementCourses({ entity, allCourses, data, onPageCh
         }
     })
     const isBasicEducation = watch("level") === "BasicEducation"
-
+    useTutorial(ANNOUNCEMENT_TUTORIALS.CREATE.Courses)
     const [courses, setCourses] = useState(data?.educationalLevels ?? [])
     const [totalScholarships, setTotalScholarships] = useState(0)
     const handleAddCourse = () => {

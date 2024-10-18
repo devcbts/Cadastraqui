@@ -5,9 +5,9 @@ import CoursesResumeBoard from "Pages/Entity/Register/components/Announcement/co
 import { useForm } from "react-hook-form";
 import findLabel from "utils/enums/helpers/findLabel";
 import OFFERED_COURSES_TYPE from "utils/enums/offered-courses";
-import SCHOLARSHIP from "utils/enums/scholarship";
 import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer";
 import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
+import SCHOOL_LEVELS from "utils/enums/school-levels";
 import { z } from "zod";
 
 export default function EntityStudentsRenewConfirmCourses({ onSubmit, courses, data }) {
@@ -30,7 +30,7 @@ export default function EntityStudentsRenewConfirmCourses({ onSubmit, courses, d
                     courses={courses?.map(e => ({
                         id: e.id,
                         1: e.course,
-                        2: findLabel(SCHOLARSHIP.concat(OFFERED_COURSES_TYPE), e.type),
+                        2: findLabel(SCHOOL_LEVELS.concat(OFFERED_COURSES_TYPE), e.type),
                         3: e.shift,
                         4: e.verifiedScholarships,
                         5: findLabel(SCHOLARSHIP_OFFER.concat(SCHOLARSHIP_TYPE), e.scholarshipType)

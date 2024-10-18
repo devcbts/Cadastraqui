@@ -10,7 +10,9 @@ import Indicator from "Components/Indicator";
 import useAuth from "hooks/useAuth";
 import socialAssistantService from "services/socialAssistant/socialAssistantService";
 import { useRecoilValue } from "recoil";
-import candidateViewAtom from "Pages/SocialAssistant/SelectionProcess/CandidateView/atom/candidateViewAtom";
+import ROLES from "utils/enums/role-types";
+import applicationService from "services/application/applicationService";
+import candidateViewAtom from "Components/CandidateView/atom/candidateViewAtom";
 
 export default function IncomeList({ onSelect, onAdd, initialMember }) {
 
@@ -19,12 +21,13 @@ export default function IncomeList({ onSelect, onAdd, initialMember }) {
     const [selectedMember, setSelectedMember] = useState(initialMember)
     const { currentApplication } = useRecoilValue(candidateViewAtom)
     const { auth } = useAuth()
-    const isAssistant = useMemo(() => auth.role === "ASSISTANT")
+    const readOnlyUser = useMemo(() => !["CANDIDATE", "RESPONSIBLE"].includes(auth?.role))
     useEffect(() => {
+        console.log('USUÁRIO readonly', readOnlyUser, [ROLES.CANDIDATE, ROLES.RESPONSIBLE].includes(auth?.role), ROLES.CANDIDATE)
         const fetchData = async () => {
             setIsLoading(true)
             try {
-                const members = isAssistant ? await socialAssistantService.getAllIncomes(currentApplication) : await candidateService.getAllIncomes()
+                const members = readOnlyUser ? await applicationService.getAllIncomes(currentApplication) : await candidateService.getAllIncomes()
                 if (members) {
                     console.log(members)
                     setMembers(members)
@@ -55,7 +58,7 @@ export default function IncomeList({ onSelect, onAdd, initialMember }) {
                             <Indicator
                                 status={item?.isIncomeUpdated}
                             />
-                            <ButtonBase label={"visualizar"} onClick={() => setSelectedMember({ fullName: item.name, id: item.id, isUpdated: item.isUpdated })} />
+                            <ButtonBase label={"visualizar"} onClick={() => setSelectedMember({ fullName: item.name, id: item.id })} />
                             {/* <ButtonBase label={"cadastrar"} onClick={() => onAdd({ member: { fullName: item.name, id: item.id } })} /> */}
                         </FormListItem.Actions>
                     </FormListItem.Root>

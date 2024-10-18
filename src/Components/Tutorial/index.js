@@ -14,7 +14,7 @@ export default function Tutorial() {
     const ref = useOutsideClick(() => setOpenPlayer(false))
     if (!value) return null
     return (
-        <div style={{ position: 'absolute', right: '24px' }}>
+        <div style={{ position: 'relative', right: '24px' }}>
 
             <div title={"Tutorial disponível"} className={styles.container} onClick={() => { setOpenPlayer(true) }} >
                 <div className={styles.tutorial}>
@@ -28,9 +28,18 @@ export default function Tutorial() {
                 openPalyer &&
                 <Overlay>
                     <div ref={ref}>
-                        <YouTube videoId={value} className={styles.player} onReady={(event) => {
-                            event.target.playVideo()
-                        }} />
+                        <YouTube
+                            opts={{
+                                playerVars: {
+                                    rel: 0,
+                                },
+
+                            }}
+
+                            title="'"
+                            videoId={value} className={styles.player} onReady={(event) => {
+                                event.target.playVideo()
+                            }} />
                     </div>
                 </Overlay>
             }

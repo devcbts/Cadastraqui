@@ -76,6 +76,7 @@ export default function Declaration_Autonomo({ onBack, onSave }) {
                         value={activity}
                         onChange={(e) => setActivity(e.target.value)}
                         maxLength={255}
+                        style={{ minHeight: '100px' }}
                         placeholder="Descreva sua atividade"
                     />
                     <div className={commonStyles.charCount}>{activity.length}/255</div>

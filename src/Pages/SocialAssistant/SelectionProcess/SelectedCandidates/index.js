@@ -18,6 +18,7 @@ import styles from './styles.module.scss';
 import { NotificationService } from 'services/notification';
 import useAuth from 'hooks/useAuth';
 import CANDIDATE_APPLICATION_STATUS from 'utils/enums/candidate-application-status';
+import Tooltip from 'Components/Tooltip';
 export default function SelectedCandidates() {
     const navigate = useNavigate()
     const { announcementId, courseId } = useParams()
@@ -134,21 +135,36 @@ export default function SelectedCandidates() {
                                 <Table.Cell >0</Table.Cell>
                                 <Table.Cell >{findLabel(APPLICATION_STATUS, candidate?.status)}</Table.Cell>
                                 <Table.Cell >
+
                                     {candidate.socialAssistant_id === auth?.uid
 
-                                        ? <ButtonBase onClick={() => navigate('candidato', {
-                                            state: {
-                                                candidateId: candidate.candidate_id,
-                                                applicationId: candidate.id
-                                            }
-                                        })}>
+                                        ? <ButtonBase onClick={
+                                            candidate.position === null
+                                                ? null
+                                                : () => navigate('candidato', {
+                                                    state: {
+                                                        candidateId: candidate.candidate_id,
+                                                        applicationId: candidate.id
+                                                    }
+                                                })
+                                        }
+                                            disabled={candidate.position === null}
+                                        >
                                             <Magnifier width={14} height={14} />
                                         </ButtonBase>
-                                        : <ButtonBase onClick={() => handleEnrollApplication(candidate.id)}>
-
+                                        : <ButtonBase onClick={
+                                            candidate.position === null
+                                                ? null
+                                                : () => handleEnrollApplication(candidate.id)
+                                        }
+                                            disabled={candidate.position === null}
+                                        >
                                             <AddUser width={14} height={14} />
                                         </ButtonBase>
                                     }
+
+
+
                                 </Table.Cell>
                             </Table.Row>
                         )

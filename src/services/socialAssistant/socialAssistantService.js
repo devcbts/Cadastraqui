@@ -36,61 +36,18 @@ class SocialAssistantService {
         return response.data
     }
 
-    async getCandidateIdentityInfo(applicationId) {
-        const response = await api.get(`/assistant/candidateInfo/identity/${applicationId}`);
-        return identityInfoMapper.fromPersistence({ ...response.data, urls: response.data.urls })
-    }
-    async getCandidateFamilyGroup(applicationId) {
-        const response = await api.get(`/assistant/candidateInfo/family/${applicationId}`);
-        return response.data.familyMembers?.map(e => familyMemberMapper.fromPersistence(e))
 
-    }
-    async getHousingInfo(applicationId) {
-        const response = await api.get(`/assistant/candidateInfo/housing/${applicationId}`);
-        return habitationMapper.fromPersistence(response.data)
-    }
-    async getAllIncomes(applicationId) {
-        const response = await api.get(`/assistant/candidateInfo/income/${applicationId}`);
-        return employementTypeMapper.fromPersistence(response.data)
-    }
-    async getCandidateResume(applicationId) {
-        const response = await api.get(`/assistant/candidateInfo/resume/${applicationId}`);
-        return resumeMapper.fromPersistence(response.data)
+    async getAssistant() {
+        const response = await api.get(`/assistant/basic-info`);
+        return basicInfoMapper.fromPersistence(response.data)
     }
     async getLegalOpinion(applicationId) {
         const response = await api.get(`/assistant/candidateInfo/parecer/${applicationId}`);
         return legalOpinionMapper.fromPersistence(response.data)
     }
-    async getVehicleInfo(applicationId) {
-        const response = await api.get(`/assistant/candidateInfo/vehicle/${applicationId}`);
-        return vehicleMapper.fromPersistence(response.data.vehicleInfoResults)
-
-    }
-    async getExpenses(applicationId) {
-        const response = await api.get(`/assistant/candidateInfo/expenses/${applicationId}`);
-        return expenseMapper.fromPersistence(response.data)
-
-    }
-    async getAssistant() {
-        const response = await api.get(`/assistant/basic-info`);
-        return basicInfoMapper.fromPersistence(response.data)
-    }
-    async getMemberIncomeInfo(applicationId, memberId) {
-        const response = await api.get(`/assistant/candidateInfo/monthly-income/${applicationId}/${memberId}`);
-        const memberIncome = await this.getAllIncomes(applicationId)
-        const monthlyIncome = incomeMapper.fromPersistence(response.data.incomeBySource)
-        return { monthlyIncome, info: memberIncome.incomes?.find(e => e.id === memberId).months, data: memberIncome.incomes?.find(e => e.id === memberId) }
-    }
-    async getBankingAccountById(applicationId, id) {
-        const response = await api.get(`/assistant/candidateInfo/bank-info/${applicationId}/${id}`)
-        return {
-            accounts: bankAccountMapper.fromPersistence(response.data),
-            hasBankAccount: response.data.hasBankAccount,
-        }
-    }
-    async getHealthInfo(applicationId) {
-        const response = await api.get(`/assistant/candidateInfo/health/${applicationId}`)
-        return healthInfoMapper.fromPersistence(response.data.healthInfoResultsWithUrls)
+    async getCandidateResume(applicationId) {
+        const response = await api.get(`/assistant/candidateInfo/resume/${applicationId}`);
+        return resumeMapper.fromPersistence(response.data)
     }
     async findCPFCNPJ(applicationId) {
         return api.get(`/assistant/candidateInfo/find-cpf-cnpj/${applicationId}`)
@@ -104,21 +61,7 @@ class SocialAssistantService {
     async updateApplication(applicationId, data) {
         return api.patch(`/assistant/application/${applicationId}`, data)
     }
-    async getCCSFiles(applicationId, id) {
-        const response = await api.get(`/assistant/candidateInfo/ccs/files/${applicationId}/${id}`)
-        return response.data
-        // const response = await api.get(`/assistant/candidateInfo/registrato/${applicationId}/${id}`)
-        // const data = removeObjectFileExtension(response.data)
-        // // get the newest registrato (TODO: remove the last one when new is uploaded)
-        // const [date, url] = Object.entries(data)?.filter(e => e[0].includes('registrato')).sort((a, b) => a < b)[0]
-        // const [pdate, purl] = Object.entries(data)?.filter(e => e[0].includes('pix')).sort((a, b) => a < b)[0]
-        // const [month, year] = date.split('_')[1].split('-')
-        // const [pmonth, pyear] = pdate.split('_')[1].split('-')
-        // const registrato_date = new Date(`${month}-01-${year}`)
-        // const pix_date = new Date(`${pmonth}-01-${pyear}`)
-        // return [{ url, date: registrato_date, type: 'registrato' }, { url: purl, date: pix_date, type: 'chave pix' }]
 
-    }
     async registerSolicitation(applicationId, solicitation) {
         const response = await api.post(`/assistant/solicitation/${applicationId}`, solicitation)
         return response.data.id
@@ -126,10 +69,7 @@ class SocialAssistantService {
     async deleteSolicitation(applicationId, id) {
         return api.delete(`/assistant/solicitation/${applicationId}/${id}`)
     }
-    async getDeclarations(applicationId) {
-        const response = await api.get(`/assistant/candidateInfo/declaration/${applicationId}`)
-        return response.data.declarations?.map(e => ({ ...e, urls: removeObjectFileExtension(e.url) }))
-    }
+
     async sendLegalOpinionDocument(applicationId, data) {
         return api.post(`/assistant/post-pdf/${applicationId}`, data)
     }
@@ -205,11 +145,7 @@ class SocialAssistantService {
         const response = await api.get(`/assistant/administrative/report/nominal/${announcementId}/${entityId}?format=${format}`, config)
         return response.data
     }
-    async getMemberIncomeStatus(applicationId, id) {
-        const response = await api.get(`/assistant/candidateInfo/income/status/${applicationId}/${id}`)
-        const { bankAccountUpdated, IncomesUpdated, CCS_Updated } = response.data
-        return { bank: bankAccountUpdated, income: IncomesUpdated, ccs: CCS_Updated }
-    }
+
 }
 
 export default new SocialAssistantService()
