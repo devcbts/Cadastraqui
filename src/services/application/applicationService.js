@@ -32,10 +32,7 @@ class ApplicationService {
         const response = await api.get(`/application/candidateInfo/income/${applicationId}`);
         return employementTypeMapper.fromPersistence(response.data)
     }
-    async getCandidateResume(applicationId) {
-        const response = await api.get(`/application/candidateInfo/resume/${applicationId}`);
-        return resumeMapper.fromPersistence(response.data)
-    }
+
 
     async getVehicleInfo(applicationId) {
         const response = await api.get(`/application/candidateInfo/vehicle/${applicationId}`);

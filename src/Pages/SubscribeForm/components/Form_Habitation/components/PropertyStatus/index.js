@@ -14,6 +14,8 @@ import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
 import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category";
 import VerbalContractPDF from "../VerbalContractPDF";
 import { NotificationService } from "services/notification";
+import useTutorial from "hooks/useTutorial";
+import HOUSING_TUTORIALS from "utils/enums/tutorials/housing";
 
 const { forwardRef, useEffect, useState } = require("react");
 
@@ -34,12 +36,12 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
         },
         initialData: data
     }, ref)
-
     const watchPropertyStatus = watch("propertyStatus")
     const watchContractType = watch("contractType")
     const hasGrantorName = ["ProvidedByEmployer", "ProvidedByFamily", "ProvidedOtherWay"].includes(watchPropertyStatus)
     const declarationNeeded = ["ProvidedByFamily", "ProvidedOtherWay", ""].includes(watchPropertyStatus)
     const hasContractType = watchPropertyStatus === "Rented"
+    useTutorial(HOUSING_TUTORIALS.STATUS[watchPropertyStatus])
     useEffect(() => {
         if (hasGrantorName) {
 

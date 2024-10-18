@@ -10,9 +10,9 @@ import Indicator from "Components/Indicator";
 import useAuth from "hooks/useAuth";
 import socialAssistantService from "services/socialAssistant/socialAssistantService";
 import { useRecoilValue } from "recoil";
-import candidateViewAtom from "Pages/SocialAssistant/SelectionProcess/CandidateView/atom/candidateViewAtom";
 import ROLES from "utils/enums/role-types";
 import applicationService from "services/application/applicationService";
+import candidateViewAtom from "Components/CandidateView/atom/candidateViewAtom";
 
 export default function IncomeList({ onSelect, onAdd, initialMember }) {
 

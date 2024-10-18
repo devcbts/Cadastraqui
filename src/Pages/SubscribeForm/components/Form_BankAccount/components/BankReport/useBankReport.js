@@ -1,5 +1,5 @@
+import candidateViewAtom from "Components/CandidateView/atom/candidateViewAtom"
 import useAuth from "hooks/useAuth"
-import candidateViewAtom from "Pages/SocialAssistant/SelectionProcess/CandidateView/atom/candidateViewAtom"
 import { useEffect, useMemo, useState } from "react"
 import { useRecoilValue } from "recoil"
 import applicationService from "services/application/applicationService"

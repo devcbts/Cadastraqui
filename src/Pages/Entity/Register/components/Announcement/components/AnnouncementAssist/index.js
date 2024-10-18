@@ -7,6 +7,8 @@ import useControlForm from "hooks/useControlForm"
 import TYPE_ONE_BENEFITS from "utils/enums/type-one-benefits"
 import Term from "./Term"
 import announcementBenefitsSchema from "./schemas/announcement-benefits-schema"
+import useTutorial from "hooks/useTutorial"
+import ANNOUNCEMENT_TUTORIALS from "utils/enums/tutorials/announcement"
 
 export default function AnnouncementAssist({ data, onPageChange, returnPage = true }) {
     const { control, watch, formState: { isValid }, getValues, trigger } = useControlForm({
@@ -19,6 +21,7 @@ export default function AnnouncementAssist({ data, onPageChange, returnPage = tr
         },
         initialData: data
     })
+    useTutorial(ANNOUNCEMENT_TUTORIALS.CREATE.Assist)
     const handleSubmit = () => {
         if (!isValid) {
             trigger()

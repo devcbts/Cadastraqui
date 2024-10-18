@@ -11,12 +11,15 @@ import announcementInfoSchema from "./schemas/announcement-info-schema";
 import { useWatch } from "react-hook-form";
 import InputBase from "Components/InputBase";
 import findLabel from "utils/enums/helpers/findLabel";
+import useTutorial from "hooks/useTutorial";
+import ANNOUNCEMENT_TUTORIALS from "utils/enums/tutorials/announcement";
 // announcementDate - final announcement date
 // announcementBegin - announcement start date
 // openDate - subscription start
 // closeDate - subscription end
 export default function AnnouncementInfo({ data, announcementType = "ScholarshipGrant", educationType, onPageChange }) {
     const interviewRef = useRef(null)
+    useTutorial(ANNOUNCEMENT_TUTORIALS.CREATE.Initial)
     const { control, getValues, formState: { isValid }, trigger, setValue } = useControlForm({
         schema: announcementInfoSchema,
         defaultValues: {

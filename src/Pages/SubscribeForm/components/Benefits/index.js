@@ -10,6 +10,8 @@ import ButtonBase from "Components/ButtonBase";
 import { Link } from "react-router-dom";
 import FilePreview from "Components/FilePreview";
 import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
+import useTutorial from "hooks/useTutorial";
+import SUBSCRIPTION_TUTORIALS from "utils/enums/tutorials/subscription-form";
 const Benefits = forwardRef(({ data }, ref) => {
     const { control, watch, resetField } = useControlForm({
         schema: benefitsSchema,
@@ -27,6 +29,7 @@ const Benefits = forwardRef(({ data }, ref) => {
         },
         initialData: data
     }, ref)
+    useTutorial(SUBSCRIPTION_TUTORIALS.CANDIDATEINFO.Benefits)
 
 
     const watchCad = watch("CadUnico")
