@@ -6,6 +6,7 @@ import { calculateAge } from '@/utils/calculate-age'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { normalizeString } from '../entities/utils/normalize-string'
 import { createLegalDependent } from '../legal-responsible/create-legal-dependent'
 import { DOCUMENT_TYPE } from './enums/Document_Type'
 import { Education_Type } from './enums/Education_Type'
@@ -36,7 +37,7 @@ export async function registerFamilyMemberInfo(
     nationality: z.string(),
     natural_city: z.string(),
     natural_UF: UF,
-    CPF: z.string(),
+    CPF: z.string().transform(e => e.replace(/\D*/g, '')).transform(e => e.replace(/\D*/g, '')),
     RG: z.string(),
     rgIssuingAuthority: z.string(),
     rgIssuingState: z.string(),
@@ -236,7 +237,12 @@ export async function registerFamilyMemberInfo(
       })
 
       const age = calculateAge(new Date(birthDate))
-      if (age < 18 && candidateOrResponsible.IsResponsible) {
+      const isDependent = age < 18 && candidateOrResponsible.IsResponsible && await tPrisma.candidate.findFirst({
+        where: { AND: [{ CPF: normalizeString(CPF) }, { responsible_id: candidateOrResponsible.UserData.id }] }
+      })
+      if (
+        isDependent
+      ) {
         await createLegalDependent(fullName, CPF, birthDate, candidateOrResponsible.UserData.id, tPrisma)
       }
 

@@ -11,7 +11,7 @@ export async function updateDirector(
     name: z.string().optional(),
     email: z.string().optional(),
     phone: z.string().optional(),
-    CPF: z.string().optional(),
+    CPF: z.string().transform(e => e.replace(/\D*/g, '')).optional(),
   })
   const updateParamsSchema = z.object({
     _id: z.string(),

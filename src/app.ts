@@ -32,7 +32,9 @@ import { multerConfig } from './lib/multer';
 import './lib/pg-listener';
 import { prisma } from './lib/prisma';
 
-export const app = fastify()
+export const app = fastify({
+  trustProxy: true
+})
 app.register(fastifyMultipart, {
   limits: {
     fileSize: 15000000,

@@ -25,9 +25,12 @@ export default async function registerNewStudents(
         Tipo: z.string(),
         CourseType: z.string(),
         Email: z.string().email(),
-        CPF: z.string(),
+        CPF: z.string().transform(e => e.replace(/\D*/g, '')),
         Periodo: z.string().transform(e => parseInt(e)),
-        Nascimento: z.string().transform(e => new Date(e)),
+        Nascimento: z.string().transform(e => {
+            const [day, month, year] = e.split('/').map(e => parseInt(e))
+            return new Date(year, month, day)
+        }),
         // IdCurso: z.string().transform(e => parseInt(e)).nullish(),
         CNPJ: z.string(),
         isPartial: z.string().transform(e => Boolean(parseInt(e))),
@@ -35,13 +38,16 @@ export default async function registerNewStudents(
         ScholarshipType: z.enum(Object.values(AllScholarshipsType) as [string, ...string[]]),
         ModalityType: z.enum(Object.values(EducationStyle) as [string, ...string[]]),
         RName: z.string().nullish(),
-        RCPF: z.string().nullish(),
-        RBirthDate: z.string().nullish().transform(e => !!e ? new Date(e) : null),
+        RCPF: z.string().transform(e => e.replace(/\D*/g, '')).nullish(),
+        RBirthDate: z.string().nullish().transform(e => {
+            if (!e) { return null }
+            const [day, month, year] = e.split('/').map(e => parseInt(e))
+            return new Date(year, month, day)
+        }),
         REmail: z.string().nullish(),
         hasResponsible: z.string().transform(e => Boolean(parseInt(e))).nullish()
 
     }).superRefine((data, ctx) => {
-        console.log(data.Nascimento)
         if (data.hasResponsible) {
 
             if (
@@ -117,23 +123,25 @@ export default async function registerNewStudents(
                     }
                     if (success) {
                         if (!parsedData.hasResponsible) {
-                            console.log(parsedData)
                             csvData.push(parsedData);
                         } else {
                             const currResponsible = csvData.find(e => e.responsible?.CPF === parsedData.RCPF)
                             const currCandidates = currResponsible?.responsible?.candidates ?? []
                             currCandidates.push(parsedData)
-                            const responsible = {
-                                CPF: parsedData.RCPF!,
-                                Nascimento: parsedData.RBirthDate!,
-                                Nome: parsedData.RName!,
-                                Email: parsedData.REmail!,
-                                candidates: currCandidates
+                            if (!currResponsible) {
+
+                                const responsible = {
+                                    CPF: parsedData.RCPF!,
+                                    Nascimento: parsedData.RBirthDate!,
+                                    Nome: parsedData.RName!,
+                                    Email: parsedData.REmail!,
+                                    candidates: currCandidates
+                                }
+                                csvData.push({
+                                    ...parsedData,
+                                    responsible
+                                })
                             }
-                            csvData.push({
-                                ...parsedData,
-                                responsible: currResponsible ?? responsible
-                            })
 
 
                         }
@@ -178,45 +186,69 @@ export default async function registerNewStudents(
                 })
             }
             )
+            console.log('DATA', csvData)
             await Promise.all(
                 dataToRegister.map(async e => {
-                    const password_hash = await hash(e.responsible?.CPF ?? e.CPF.replace(/\D*/g, ''), 6)
-
-                    const { id } = await tPrisma.user.create({
-                        data: {
-                            role: e.role,
-                            email: e.responsible?.Email ?? e.Email,
-                            password: password_hash
-                        }
+                    // check if responsible or candidate being registered already exists
+                    const userAlreadyExists = e.hasResponsible ? await tPrisma.legalResponsible.findFirst({
+                        where: { CPF: e.RCPF?.replace(/\D*/g, '') }
                     })
-                    let respId;
-                    if (e.responsible) {
-                        const { id: responsibleId } = await tPrisma.legalResponsible.create({
+                        : await tPrisma.candidate.findFirst({
+                            where: { CPF: e.CPF.replace(/\D*/g, '') }
+                        })
+                    let id = userAlreadyExists?.user_id;
+                    let respId = userAlreadyExists?.id;
+                    // if responsible/candidate exists, skip user/responsible/candidate creation on db
+                    if (!userAlreadyExists) {
+                        const password_hash = await hash(e.responsible?.CPF ?? e.CPF.replace(/\D*/g, ''), 6)
+
+                        const { id: userId } = await tPrisma.user.create({
                             data: {
-                                birthDate: e.responsible?.Nascimento!,
-                                name: e.responsible?.Nome!,
-                                CPF: e.responsible?.CPF!,
-                                role: "RESPONSIBLE",
-                                user_id: id,
+                                role: e.role,
+                                email: e.responsible?.Email ?? e.Email,
+                                password: password_hash
                             }
                         })
-                        respId = responsibleId
+                        id = userId
+                        if (e.hasResponsible) {
+                            const { id: responsibleId } = await tPrisma.legalResponsible.create({
+                                data: {
+                                    birthDate: e.responsible?.Nascimento!,
+                                    name: e.responsible?.Nome!,
+                                    CPF: e.responsible?.CPF!,
+                                    role: "RESPONSIBLE",
+                                    user_id: id,
+                                }
+                            })
+                            respId = responsibleId
+                        }
                     }
                     for (const candidate of e.responsible?.candidates ?? [e]) {
-                        const { id: candidateId } = await tPrisma.candidate.create({
-                            data: {
-                                birthDate: candidate.Nascimento,
-                                name: candidate.Nome,
-                                CPF: candidate.CPF,
-                                role: "CANDIDATE",
-
-                                ...(!e.responsible ? { user_id: id }
-                                    : { responsible_id: respId })
-                                ,
-                                email: candidate.Email,
-                            }
+                        let candidateId
+                        // Checks again only for existing candidates with the same cpf,
+                        // if candidate exists, skip candidate creation on db and get current candidate ID to use as FK
+                        const candidateExists = await tPrisma.candidate.findFirst({
+                            where: { CPF: candidate.CPF.replace(/\D*/g, '') }
                         })
+                        candidateId = candidateExists?.id
+                        if (!candidateExists) {
 
+                            const createdCandidate = await tPrisma.candidate.create({
+                                data: {
+                                    birthDate: candidate.Nascimento,
+                                    name: candidate.Nome,
+                                    CPF: candidate.CPF,
+                                    role: "CANDIDATE",
+
+                                    ...(!e.responsible ? { user_id: id }
+                                        : { responsible_id: respId })
+                                    ,
+                                    email: candidate.Email,
+                                }
+                            })
+                            candidateId = createdCandidate.id
+                        }
+                        console.log('CANDIDATE', candidateExists)
                         let course = await tPrisma.course.findFirst({
                             where: { AND: [{ normalizedName: normalizeString(e.Curso) }, { Type: e.CourseType as AllEducationType }] }
                         })
@@ -249,16 +281,16 @@ export default async function registerNewStudents(
                         }
                         await tPrisma.student.create({
                             data: {
-                                name: e.Nome,
+                                name: candidate.Nome,
                                 entityCourse_id: entityCourse!.id,
                                 admissionDate: new Date(),
                                 announcement_id: '',
-                                candidate_id: candidateId,
-                                scholarshipType: e.ScholarshipType as AllScholarshipsType,
-                                shift: e.Turno,
+                                candidate_id: candidateId!,
+                                scholarshipType: candidate.ScholarshipType as AllScholarshipsType,
+                                shift: candidate.Turno,
                                 status: 'Active',
-                                isPartial: e.isPartial,
-                                educationStyle: e.ModalityType as EducationStyle,
+                                isPartial: candidate.isPartial,
+                                educationStyle: candidate.ModalityType as EducationStyle,
                                 cameFromCSV: true,
                             }
                         })
@@ -271,7 +303,7 @@ export default async function registerNewStudents(
         if (err instanceof APIError) {
             return response.status(400).send({ message: err.message })
         }
-        console.log(err)
+        // console.log(err)
         return response.status(500).send({ message: 'Erro interno no servidor' })
     }
 }

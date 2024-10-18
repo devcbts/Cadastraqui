@@ -15,7 +15,7 @@ export async function registerAssistant(
     name: z.string(),
     email: z.string().email(),
     password: z.string().min(6),
-    CPF: z.string(),
+    CPF: z.string().transform(e => e.replace(/\D*/g, '')),
     RG: z.string(),
     CRESS: z.string(),
     phone: z.string(),

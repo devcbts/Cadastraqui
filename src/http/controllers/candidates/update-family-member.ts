@@ -43,7 +43,7 @@ export async function updateFamilyMemberInfo(
     nationality: z.string(),
     natural_city: z.string(),
     natural_UF: UF,
-    CPF: z.string(),
+    CPF: z.string().transform(e => e.replace(/\D*/g, '')),
     RG: z.string(),
     rgIssuingAuthority: z.string(),
     rgIssuingState: z.string(),
