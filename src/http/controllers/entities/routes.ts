@@ -30,11 +30,6 @@ import getCandidateScholarshipDocuments from './scholarship/get-candidate-schola
 import getCandidateScholarshipInfo from './scholarship/get-candidate-scholarship-info'
 import updateScholarshipStatus from './scholarship/update-scholarship-status'
 import searchAnnouncements from './search-announcements'
-import getAllStudents from './students/get-all-students'
-import getRenewCourses from './students/get-renew-courses'
-import getRenewDashboard from './students/get-renew-dashboard'
-import getStudentsDashboard from './students/get-students-dashboard'
-import registerNewStudents from './students/register-new-students'
 import { updateAnnouncement } from './update-announcement'
 import { updateDirector } from './update-director'
 import { updateEntity } from './update-entity'
@@ -173,10 +168,7 @@ export async function entityRoutes(app: FastifyInstance) {
 
   app.get('/courses/all', { onRequest: [verifyJWT] }, getAllCourses)
 
-  app.get('/students/dashboard', { onRequest: [verifyJWT, verifyRole(["ENTITY", "ENTITY_DIRECTOR"])] }, getStudentsDashboard)
-  app.post('/students/register', { onRequest: [verifyJWT, verifyRole(["ENTITY", "ENTITY_DIRECTOR"])] }, registerNewStudents)
-  app.get('/students/all', { onRequest: [verifyJWT, verifyRole(["ENTITY", "ENTITY_DIRECTOR"])] }, getAllStudents)
-  app.get('/students/renew/dashbaord', { onRequest: [verifyJWT, verifyRole(["ENTITY", "ENTITY_DIRECTOR"])] }, getRenewDashboard)
-  app.get('/students/renew/courses', { onRequest: [verifyJWT, verifyRole(["ENTITY", "ENTITY_DIRECTOR"])] }, getRenewCourses)
+
+
 
 }

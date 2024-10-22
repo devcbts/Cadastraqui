@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
-import SelectEntityOrDirector from "../utils/select-entity-or-director";
+import allowedUsersStudentRoutes from "./utils/allowed-users";
+
 
 export default async function getAllStudents(
     request: FastifyRequest,
@@ -8,7 +9,7 @@ export default async function getAllStudents(
 ) {
     try {
         const { sub, role } = request.user
-        const { user_id } = await SelectEntityOrDirector(sub, role)
+        const { user_id } = await allowedUsersStudentRoutes(sub, role)
 
         // get entity with subs
         const entity = await prisma.entity.findUnique({
@@ -22,6 +23,8 @@ export default async function getAllStudents(
             where: { entityCourse: { OR: [{ entity_id: entity?.id }, { entitySubsidiary_id: { in: entity?.EntitySubsidiary.map(e => e.id) } }] } },
             select: {
                 name: true,
+                isPartial: true,
+                id: true,
                 entityCourse: {
                     select: {
                         course: { select: { name: true } },
@@ -37,7 +40,9 @@ export default async function getAllStudents(
             const alreadyExists = acc.find(e => e.id === curr_entity.id)
             const student = {
                 name: curr.name,
-                course: curr.entityCourse.course.name
+                course: curr.entityCourse.course.name,
+                isPartial: curr.isPartial,
+                id: curr.id
             }
             if (alreadyExists) {
                 alreadyExists.students.push(student)

@@ -11,9 +11,9 @@ import { detect } from "jschardet";
 import pump from "pump";
 import tmp from 'tmp';
 import { z } from "zod";
-import { SHIFT } from "../../candidates/enums/Shift";
-import { normalizeString } from "../utils/normalize-string";
-import SelectEntityOrDirector from "../utils/select-entity-or-director";
+import { SHIFT } from "../candidates/enums/Shift";
+import { normalizeString } from "../entities/utils/normalize-string";
+import SelectEntityOrDirector from "../entities/utils/select-entity-or-director";
 
 export default async function registerNewStudents(
     request: FastifyRequest,
@@ -286,11 +286,14 @@ export default async function registerNewStudents(
                                 }
                             })
                         }
+                        const date = new Date()
+                        const deadline = new Date(date.getFullYear() + 1, date.getMonth() + 1, date.getDate())
                         await tPrisma.student.create({
                             data: {
                                 name: candidate.Nome,
                                 entityCourse_id: entityCourse!.id,
-                                admissionDate: new Date(),
+                                admissionDate: date,
+                                scholarshipDeadline: deadline,
                                 announcement_id: '',
                                 candidate_id: candidateId!,
                                 scholarshipType: candidate.ScholarshipType as AllScholarshipsType,
