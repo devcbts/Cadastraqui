@@ -6,6 +6,8 @@ import commonStyles from 'Pages/SubscribeForm/styles.module.scss';
 import { forwardRef, useEffect } from "react";
 import DOCUMENT_TYPE from "utils/enums/document-type";
 import additionalDocumentSchema from "./schemas/additional-document-schema";
+import SUBSCRIPTION_TUTORIALS from "utils/enums/tutorials/subscription-form";
+import useTutorial from "hooks/useTutorial";
 
 const AdditionalDocuments = forwardRef(({ data }, ref) => {
     const { control, watch, resetField } = useControlForm({
@@ -18,6 +20,7 @@ const AdditionalDocuments = forwardRef(({ data }, ref) => {
         },
         initialData: data
     }, ref)
+    useTutorial(SUBSCRIPTION_TUTORIALS.CANDIDATEINFO.AdditionalDocuments)
 
     const watchNewDocument = watch("newDocument")
     const watchDocumentType = watch("documentType")

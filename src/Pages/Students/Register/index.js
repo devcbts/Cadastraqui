@@ -7,7 +7,8 @@ import { useRef, useState } from "react";
 import entityService from "services/entity/entityService";
 import { NotificationService } from "services/notification";
 import ModeloAlunos from 'Assets/templates/Modelo_Alunos.xlsx'
-export default function EntityRegisterStudents() {
+import studentService from "services/student/studentService";
+export default function RegisterStudents() {
     const inputRef = useRef()
     const [students, setStudents] = useState([])
     const [isLoading, setIsLoading] = useState(false)
@@ -20,7 +21,7 @@ export default function EntityRegisterStudents() {
             setIsLoading(true)
             const data = new FormData()
             data.append("file", file)
-            const information = await entityService.registerNewStudents(data)
+            const information = await studentService.registerNewStudents(data)
             setStudents(information)
         } catch (err) {
             NotificationService.error({ text: err?.response?.data?.message })

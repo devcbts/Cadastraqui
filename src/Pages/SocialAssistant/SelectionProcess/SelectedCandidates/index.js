@@ -141,7 +141,8 @@ export default function SelectedCandidates() {
                                         ? <ButtonBase onClick={
                                             candidate.position === null
                                                 ? null
-                                                : () => navigate('candidato', {
+                                                :
+                                                () => navigate('candidato', {
                                                     state: {
                                                         candidateId: candidate.candidate_id,
                                                         applicationId: candidate.id

@@ -5,11 +5,12 @@ import { ReactComponent as StudentRenew } from 'Assets/icons/students-renew.svg'
 import IconMenu from "./components/IconMenu";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import entityService from "services/entity/entityService";
 import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import Loader from "Components/Loader";
 import toColor from "utils/number-to-color";
-export default function EntityDashboardStudents() {
+import useAuth from "hooks/useAuth";
+import studentService from "services/student/studentService";
+export default function StudentsDashboard() {
     const navigate = useNavigate()
     const [data, setData] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
@@ -17,7 +18,7 @@ export default function EntityDashboardStudents() {
         const fetchDashboard = async () => {
             setIsLoading(true)
             try {
-                const information = await entityService.getStudentsDashboard()
+                const information = await studentService.getStudentsDashboard()
                 setData(information)
 
             } catch (err) {
@@ -27,6 +28,7 @@ export default function EntityDashboardStudents() {
         }
         fetchDashboard()
     }, [])
+    const { auth } = useAuth()
     return (
         <>
             <Loader loading={isLoading} />
@@ -88,7 +90,7 @@ export default function EntityDashboardStudents() {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'baseline', gap: '24px' }}>
                     <IconMenu Icon={StudentManager} text={'gestão de alunos'} onClick={() => navigate('gestao')} />
-                    <IconMenu Icon={StudentRenew} text={'renovação'} onClick={() => navigate('renovacao')} />
+                    {auth?.role !== "ASSISTANT" && <IconMenu Icon={StudentRenew} text={'renovação'} onClick={() => navigate('renovacao')} />}
                 </div>
             </div>
         </>

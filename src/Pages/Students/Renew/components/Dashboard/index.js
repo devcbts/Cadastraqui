@@ -4,14 +4,15 @@ import Card from "Components/Card/CardRoot";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import entityService from "services/entity/entityService";
+import studentService from "services/student/studentService";
 
-export default function EntityStudentsRenewDashboard() {
+export default function StudentsRenewDashboard() {
     const navigate = useNavigate()
     const [data, setData] = useState({ renewAnnouncements: 0, totalScholarships: 0 })
     useEffect(() => {
         const fetchDashboard = async () => {
             try {
-                const information = await entityService.getRenewDashboard()
+                const information = await studentService.getRenewDashboard()
                 setData(information)
             } catch (err) {
 

@@ -10,6 +10,7 @@ import AnnouncementAssist from "Pages/Entity/Register/components/Announcement/co
 import AnnouncementFinish from "Pages/Entity/Register/components/Announcement/components/AnnouncementFinish"
 import { NotificationService } from "services/notification"
 import Loader from "Components/Loader"
+import studentService from "services/student/studentService"
 
 export default function EntityStudentsRenewProcess() {
     const [page, setPage] = useState(0)
@@ -47,7 +48,7 @@ export default function EntityStudentsRenewProcess() {
                 setIsLoading(true)
                 const [units, courses] = await Promise.all([
                     entityService.getEntityInfo(),
-                    entityService.getRenewCourses()
+                    studentService.getRenewCourses()
                 ])
                 console.log(courses)
                 setUnits(() => {

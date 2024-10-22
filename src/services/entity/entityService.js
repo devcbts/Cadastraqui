@@ -5,6 +5,13 @@ import GENDER from "utils/enums/gender"
 import findLabel from "utils/enums/helpers/findLabel"
 import METADATA_FILE_TYPE from "utils/file/metadata-file-type"
 import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category"
+import EDUCATION_STYLES from "utils/enums/education-style-types"
+import { formatCPF } from "utils/format-cpf"
+import moneyInputMask from "Components/MoneyFormInput/money-input-mask"
+import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type"
+import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer"
+import { STUDENT_SCHOLARSHIP_TRANSLATION } from "utils/enums/student-scholarship-status"
+import { STUDENT_RENEW_TRANSLATION } from "utils/enums/student-renew-status"
 
 class EntityService {
 
@@ -135,26 +142,9 @@ class EntityService {
         const response = await api.get(`/entities/students/dashboard`)
         return response.data
     }
-
-    async registerNewStudents(file) {
-        const response = await api.post('/entities/students/register', file)
-        return response.data.students
-    }
-    async getAllStudents() {
-        const response = await api.get(`/entities/students/all`)
-        return response.data
-    }
     async getAllCourses() {
         const response = await api.get(`/entities/courses/all`)
         return response.data.courses
-    }
-    async getRenewCourses() {
-        const response = await api.get(`/entities/students/renew/courses`)
-        return response.data.courses
-    }
-    async getRenewDashboard() {
-        const response = await api.get(`/entities/students/renew/dashbaord`)
-        return response.data
     }
     async getScholarshipApplicantDetails(scholarshipId) {
         const response = await api.get(`/entities/scholarships/details/${scholarshipId}`)
@@ -168,6 +158,7 @@ class EntityService {
         const response = await api.get(`/entities/scholarships/documents/${scholarshipId}`)
         return response.data.documents
     }
+
 }
 
 export default new EntityService()

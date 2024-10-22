@@ -50,14 +50,18 @@ import AssistantManagerSelectedCourse from "Pages/SocialAssistant/Management/com
 import AdminAccounts from "Pages/Admin/Accounts";
 import AdminAccountInfoView from "Pages/Admin/Accounts/components/InfoView";
 import AdminAccountHistory from "Pages/Admin/Accounts/components/History";
-import EntityStudentManager from "Pages/Entity/Students/Manager";
-import EntityRegisterStudents from "Pages/Entity/Students/Register";
-import EntityDashboardStudents from "Pages/Entity/Students/Dashboard";
-import EntityStudentsList from "Pages/Entity/Students/Listing";
-import EntityStudentsRenew from "Pages/Entity/Students/Renew";
+import StudentManager from "Pages/Students/Manager";
+import RegisterStudents from "Pages/Students/Register";
+import StudentsDashboard from "Pages/Students/Dashboard";
+import StudentList from "Pages/Students/Listing";
+import EntityStudentsRenew from "Pages/Students/Renew";
 import EntityApplicantsRegisterApplicant from "Pages/Entity/Applicants/components/RegisterApplicant";
 import AdminProfile from "Pages/Admin/Profile";
 import CandidateView from "Components/CandidateView";
+import StudentListInformation from "Pages/Students/Listing/components/StudentInformation";
+import StudentDocuments from "Pages/Students/Listing/components/StudentInformation/components/StudentDocuments";
+import StudentInterviews from "Pages/Students/Listing/components/StudentInformation/components/StudentInterviews";
+import StudentRenewAnnouncements from "Pages/Students/Listing/components/StudentInformation/components/StudentRenewAnnouncements";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -71,7 +75,7 @@ export default function AppRoutes() {
                     <Route path="/registrar" element={<Register />} />
                     <Route path="/reset_password" element={<PasswordRecovery />} />
                     <Route path="/edital/:announcementId" element={<RedirectWithParams path={'/'} />}></Route>
-                    <Route path="*" element={<Navigate to={'/'} />} />
+                    <Route path="*" element={<Navigate to={'/'} replace />} />
 
                 </Routes>
             </RoleRoutes>
@@ -105,7 +109,7 @@ export default function AppRoutes() {
                             <Route path="novo" element={<CandidateCreateSAC />} />
                             <Route path=":id" element={<ChatSAC />} />
                         </Route>
-                        <Route path="*" element={<Navigate to={'/home'} />} />
+                        <Route path="*" element={<Navigate to={'/home'} replace />} />
 
                     </Routes>
                 </HeaderWrapper>
@@ -153,8 +157,26 @@ export default function AppRoutes() {
                                 </Route>
                             </Route>
                         </Route>
+                        <Route path="/alunos" element={<Outlet />}>
+                            <Route index element={<StudentsDashboard />} />
+                            <Route path="gestao" element={<Outlet />} >
+                                <Route index element={<StudentManager />} />
+                                <Route path="lista" element={<Outlet />} >
+                                    <Route index element={<StudentList />} />
+                                    <Route path=":studentId" element={<Outlet />} >
+                                        <Route index element={<StudentListInformation />} />
+                                        <Route path="documentos" element={<StudentDocuments />} />
+                                        <Route path="entrevistas" element={<StudentInterviews />} />
+                                        <Route path="renovacoes" element={<StudentRenewAnnouncements />} />
 
-                        <Route path="*" element={<Navigate to={'/home'} />} />
+                                    </Route>
+
+                                </Route>
+                            </Route>
+                            <Route path="renovacao" element={<EntityStudentsRenew />} />
+                        </Route>
+
+                        <Route path="*" element={<Navigate to={'/home'} />} replace />
 
                     </Routes>
 
@@ -185,15 +207,25 @@ export default function AppRoutes() {
                         <Route path="/profile" element={<EntityProfile />} />
                         <Route path="/contas" element={<EntityAccounts />} />
                         <Route path="/alunos" element={<Outlet />}>
-                            <Route index element={<EntityDashboardStudents />} />
+                            <Route index element={<StudentsDashboard />} />
                             <Route path="gestao" element={<Outlet />} >
-                                <Route index element={<EntityStudentManager />} />
-                                <Route path="registro" element={<EntityRegisterStudents />} />
-                                <Route path="lista" element={<EntityStudentsList />} />
+                                <Route index element={<StudentManager />} />
+                                <Route path="registro" element={<RegisterStudents />} />
+                                <Route path="lista" element={<Outlet />} >
+                                    <Route index element={<StudentList />} />
+                                    <Route path=":studentId" element={<Outlet />} >
+                                        <Route index element={<StudentListInformation />} />
+                                        <Route path="documentos" element={<StudentDocuments />} />
+                                        <Route path="entrevistas" element={<StudentInterviews />} />
+                                        <Route path="renovacoes" element={<StudentRenewAnnouncements />} />
+
+                                    </Route>
+
+                                </Route>
                             </Route>
                             <Route path="renovacao" element={<EntityStudentsRenew />} />
                         </Route>
-                        <Route path="*" element={<Navigate to={'/home'} />} />
+                        <Route path="*" element={<Navigate to={'/home'} replace />} />
 
                     </Routes>
 
@@ -221,7 +253,7 @@ export default function AppRoutes() {
                             </Route>
                         </Route>
                         <Route path="/profile" element={<AdminProfile />} />
-                        <Route path="*" element={<Navigate to={'/home'} />} />
+                        <Route path="*" element={<Navigate to={'/home'} replace />} />
                     </Routes>
                 </HeaderWrapper>
             </RoleRoutes>
