@@ -1,31 +1,227 @@
 import { historyDatabase } from '@/lib/prisma';
 import { section } from '../../http/controllers/social-assistant/enums/Section';
-export default async function getSectionInitalContent(sectionToSearch : section, application_id: string) {
+import { SelectCandidateResponsibleHDB } from '../select-candidate-responsibleHDB';
+export default async function getSectionInitalContent(sectionToSearch: section, application_id: string, member_id: string, table_id: string | null) {
 
+    const candidateOrResponsibleHDB = await SelectCandidateResponsibleHDB(application_id);
+    if (!candidateOrResponsibleHDB) {
+        return null
+    }
 
+    const idField = candidateOrResponsibleHDB.UserData.id ? { candidate_id: candidateOrResponsibleHDB.UserData.id } : { legalResponsibleId: candidateOrResponsibleHDB.UserData.id };
+    let MemberBankDetails
+
+    const isFamilyMember = candidateOrResponsibleHDB.UserData.id !== member_id;
     switch (sectionToSearch) {
         case "identity":
+            if (isFamilyMember) {
+                return null
+            }
             const identityDetails = await historyDatabase.identityDetails.findUniqueOrThrow({
                 where: { application_id }
             })
 
-            const content = `Os dados de identidade são: ${JSON.stringify(identityDetails)}. Cruze eles com os dados dos arquivos e verifique inconsistências, principalmente em dados que são observados tanto no JSON quanto nos documentos`
+            const content = `Os dados de identidade são: ${JSON.stringify(identityDetails)}.`
             return content;
         case "family-member":
-            const familyMembers = await historyDatabase.familyMember.findMany({
-                where: { application_id }
+            const familyMembers = await historyDatabase.familyMember.findUnique({
+                where: { application_id, id: member_id }
             })
-
-            const contentFamilyMembers = `Os membros da família são: ${JSON.stringify(familyMembers)}. Verifique se os dados de cada um dos familiares está condizente com os documentos. Além disso verifique se os documentos estão condizentes com o que eles propõem.
-            Os arquivos de cada membro virão associados no padrão (id do membro)_(nome do arquivo).pdf. Seja bem detalhista na análise`
+            if (!familyMembers) {
+                return null
+            }
+            const contentFamilyMembers = `Os membros da família são: ${JSON.stringify(familyMembers)}.`
             return contentFamilyMembers;
         case "housing":
-            const housingDetails = await historyDatabase.housing.findUniqueOrThrow({
+            const housingDetails = await historyDatabase.housing.findUnique({
+                where: { application_id, OR: [{ candidate_id: member_id }, { responsible_id: member_id }] }
+            })
+            if (!housingDetails) {
+                return null
+            }
+            const contentHousing = `Os dados de moradia são: ${JSON.stringify(housingDetails)}.`
+            return contentHousing;
+        case "vehicle":
+            const vehicleDetails = await historyDatabase.vehicle.findMany({
                 where: { application_id }
             })
 
-            const contentHousing = `Os dados de moradia são: ${JSON.stringify(housingDetails)}. Verifique se os dados estão condizentes com os documentos`
-            return contentHousing;
+            const contentVehicle = `Os dados do veículo são: ${JSON.stringify(vehicleDetails)}. `
+            return contentVehicle;
+        case "expenses":
+            const expensesDetails = await historyDatabase.expense.findMany({
+                where: { application_id }
+            })
+
+            const contentExpenses = `Os dados de despesas são: ${JSON.stringify(expensesDetails)}.`
+            return contentExpenses;
+        case "income":
+            let MemberIncomeDetails
+            if (!isFamilyMember) {
+
+                MemberIncomeDetails = await historyDatabase.identityDetails.findUnique({
+                    where: { application_id },
+                    select: {
+                        candidate_id: true,
+                        responsible_id: true,
+                        fullName: true,
+                        birthDate: true,
+                        profession: true,
+                        email: true,
+                        CPF: true,
+                        RG: true
+                    }
+                })
+            }
+            else {
+
+                MemberIncomeDetails = await historyDatabase.familyMember.findUnique({
+                    where: { application_id, id: member_id },
+                    select: {
+                        id: true,
+                        fullName: true,
+                        birthDate: true,
+                        profession: true,
+                        email: true,
+                        CPF: true,
+                        RG: true
+                    }
+                })
+            }
+
+
+            const familyMemberIncomes = await historyDatabase.familyMemberIncome.findUnique({
+                where: { application_id, id: table_id!, OR: [{ candidate_id: member_id }, { legalResponsibleId: member_id }, { familyMember_id: member_id }] },
+                include: {
+                    MonthlyIncomes: {
+                        select: {
+                            id: true,
+                            grossAmount: true,
+                            liquidAmount: true,
+                            date: true,
+                        },
+                        where: {
+                            receivedIncome: true
+                        }
+                    }
+                }
+            });
+
+
+
+            let incomeDetailsPerMember = {}
+            incomeDetailsPerMember = {
+                MemberIncomeDetails,
+                familyMemberIncomes
+            }
+
+            const contentIncome = `Os dados de renda são: ${JSON.stringify(incomeDetailsPerMember)}.`;
+
+            return contentIncome;
+        case "health":
+
+            let MemberHealthDetails
+            if (!isFamilyMember) {
+
+                MemberHealthDetails = await historyDatabase.identityDetails.findUnique({
+                    where: { application_id },
+                    select: {
+                        candidate_id: true,
+                        responsible_id: true,
+                        fullName: true,
+                        birthDate: true,
+                        profession: true,
+                        email: true,
+                        CPF: true,
+                        RG: true
+                    }
+                })
+            }
+            else {
+
+                MemberHealthDetails = await historyDatabase.familyMember.findUnique({
+                    where: { application_id, id: member_id },
+                    select: {
+                        id: true,
+                        fullName: true,
+                        birthDate: true,
+                        profession: true,
+                        email: true,
+                        CPF: true,
+                        RG: true
+                    }
+                })
+            }
+            const healthDetails = await historyDatabase.familyMemberDisease.findMany({
+                where: {
+                    application_id,
+                    OR: [{ candidate_id: member_id }, { legalResponsibleId: member_id }, { familyMember_id: member_id }]
+                },
+                include: {
+                    Medication: true
+                }
+            })
+            const medicationsWithoutHealthDetails = await historyDatabase.medication.findMany({
+                where: { AND: [{ application_id }, { familyMemberDiseaseId: null }, { OR: [{ candidate_id: member_id }, { legalResponsibleId: member_id }, { familyMember_id: member_id }] }] }
+            })
+            let healthDetailsPerMember
+
+            healthDetailsPerMember = {
+                MemberHealthDetails,
+                healthDetails,
+                medicationsWithoutHealthDetails
+            }
+            const contentHealth = `Os dados de saúde são: ${JSON.stringify(healthDetailsPerMember)}.`
+            return contentHealth;
+
+        case "statement":
+        case "registrato":
+        case "pix":
+            if (!isFamilyMember) {
+
+                MemberBankDetails = await historyDatabase.identityDetails.findUnique({
+                    where: { application_id },
+                    select: {
+                        candidate_id: true,
+                        responsible_id: true,
+                        fullName: true,
+                        birthDate: true,
+                        profession: true,
+                        email: true,
+                        CPF: true,
+                        RG: true
+                    }
+                })
+            }
+            else {
+
+                MemberBankDetails = await historyDatabase.familyMember.findUnique({
+                    where: { application_id, id: member_id },
+                    select: {
+                        id: true,
+                        fullName: true,
+                        birthDate: true,
+                        profession: true,
+                        email: true,
+                        CPF: true,
+                        RG: true
+                    }
+                })
+            }
+
+
+
+            const bankAccounts = await historyDatabase.bankAccount.findMany({
+                where: { application_id, OR: [{ candidate_id: member_id }, { legalResponsibleId: member_id }, { familyMember_id: member_id }] }
+            });
+            // Organizar dados de contas bancárias
+            let bankDetailsPerMember = {};
+            bankDetailsPerMember = {
+                MemberBankDetails,
+                bankAccounts
+            }
+            const contentStatement = `Os dados bancários são: ${JSON.stringify(bankDetailsPerMember)}`;
+            return contentStatement;
         default:
             return "Nenhum conteúdo encontrado"
     }

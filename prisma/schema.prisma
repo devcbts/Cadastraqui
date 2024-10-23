@@ -1120,23 +1120,31 @@ model StudentDocuments {
   path         String  @unique
   metadata     Json
   documentName String
-  student        Student @relation(fields: [student_id], references: [id])
-  student_id    String
+  student      Student @relation(fields: [student_id], references: [id])
+  student_id   String
 }
 
 model AIAssistant {
-  id           String @id @default(uuid())
+  id             String            @id @default(uuid())
   AIassistant_id String
-  thread_id    String
-
+  thread_id      String
+  member_id      String
+  table_id       String?
   section        Section
   application_id String
-  application    Application @relation(fields: [application_id], references: [id], onDelete: Cascade)
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @default(now()) @updatedAt
-
-  @@unique([application_id, section], name: "application_id_section")
+  application    Application       @relation(fields: [application_id], references: [id], onDelete: Cascade)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @default(now()) @updatedAt
+  status         AIAssistantStatus @default(CONCLUSIVE)
+  inconsistences Int @default(0)
+  analysis String?
+  @@unique([application_id, section, member_id, table_id], name: "application_id_section_member_table")
   @@index([application_id], name: "application_id")
+}
+
+enum AIAssistantStatus {
+  CONCLUSIVE
+  INCONCLUSIVE
 }
 
 enum Section {
@@ -1152,9 +1160,6 @@ enum Section {
   MEDICATION
   VEHICLE
   EXPENSES
-  LOAN
-  FINANCING
-  CREDIT_CARD
   DECLARACOES
   PIX
 }
