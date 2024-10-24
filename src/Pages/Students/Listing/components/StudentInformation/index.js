@@ -10,7 +10,13 @@ import Loader from "Components/Loader";
 import ButtonBase from "Components/ButtonBase";
 import { ReactComponent as User } from 'Assets/icons/user.svg'
 import studentService from "services/student/studentService";
-
+import TextEditor from "Components/TextEditor";
+import debounce from "lodash.debounce";
+import useAuth from "hooks/useAuth";
+import FilePickerBase from "Components/FilePickerBase";
+import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
+import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category";
+import { v4 as uuidv4 } from 'uuid'
 export default function StudentListInformation() {
     const { studentId } = useParams()
     const [isLoading, setIsLoading] = useState(true)
@@ -77,6 +83,44 @@ export default function StudentListInformation() {
     const handlePageChange = (page) => {
         navigate(page, { state: { id: data?.personalInfo?.candidate_id } })
     }
+    const handleChangeObservation = debounce(async (rich, plain) => {
+        try {
+            await studentService.createOrUpdateObservation({
+                studentId: studentId,
+                richText: rich,
+                plainText: plain
+
+            })
+            NotificationService.success({ text: 'Observaçoes alteradas', type: "toast" })
+        } catch (err) {
+            NotificationService.error({ text: err?.response?.data?.message, type: "toast" })
+        }
+
+    }, 1000)
+    const handleDocument = async (files = []) => {
+        if (files.length === 0) {
+            return
+        }
+        try {
+            const formData = new FormData()
+            for (const file of files) {
+                const fileName = uuidv4()
+
+                formData.append("file_metadatas", JSON.stringify({
+                    [`metadata_${fileName}`]: {
+                        type: METADATA_FILE_TYPE.STUDENT.ADDITIONAL_ASSISTANT,
+                        category: METADATA_FILE_CATEGORY.Student
+                    }
+                }))
+                formData.append(fileName, file)
+            }
+            await studentService.uploadDocument(studentId, formData)
+            NotificationService.success({ text: 'Arquivo enviado' })
+        } catch (err) {
+            NotificationService.error({ text: err?.response?.data?.message })
+        }
+    }
+    const { auth } = useAuth()
     return (
         <>
             <Loader loading={isLoading} />
@@ -131,6 +175,19 @@ export default function StudentListInformation() {
                             </div>
                         )
                     })}
+                    {auth?.role === "ASSISTANT" &&
+                        <>
+                            <TextEditor
+                                title={'observações'}
+                                initialValue={data.documentInfo.observation}
+                                onChange={handleChangeObservation} />
+                            <FilePickerBase label="enviar documento" error={null}
+                                multiple
+                                onChange={(e) => {
+                                    handleDocument(e.target.files)
+                                }} />
+                        </>
+                    }
                 </div>
                 <div className={styles.information}>
                     <h2>Dados da bolsa</h2>
@@ -160,13 +217,14 @@ export default function StudentListInformation() {
 
                     <Table.Root headers={2} title={'Grupo familiar'}>
                         {data?.familyInfo.map((e, i) => (
-                            <Table.Row>
+                            <Table.Row key={i}>
                                 <Table.Cell divider>{++i}</Table.Cell>
                                 <Table.Cell>{e.fullName}</Table.Cell>
                             </Table.Row>
 
                         ))}
                     </Table.Root>
+
                 </div>
                 <div className={styles.information}>
                     <h2>Dados adicionais</h2>

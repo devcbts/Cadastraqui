@@ -54,7 +54,8 @@ class StudentService {
             },
             courseInfo: { ...courseInfo, modality: findLabel(EDUCATION_STYLES, courseInfo.modality) },
             documentInfo: {
-                ...documentInfo, isUpdated:
+                ...documentInfo,
+                isUpdated:
                     documentInfo.isUpdated === null
                         ? 'Desatualizados'
                         : (documentInfo.isUpdated ? 'Atualizados' : 'Pendentes'),
@@ -82,6 +83,21 @@ class StudentService {
     async getStudentRenewAnnouncements(candidateId) {
         const response = await api.get(`students/announcements/${candidateId}`)
         return response.data.announcements
+    }
+    createOrUpdateObservation({
+        studentId,
+        richText,
+        plainText
+    }) {
+        return api.put(`students/observation`, {
+            student_id: studentId,
+            richText,
+            plainText
+
+        })
+    }
+    uploadDocument(studentId, formData) {
+        return api.post(`students/upload/${studentId}`, formData)
     }
 }
 
