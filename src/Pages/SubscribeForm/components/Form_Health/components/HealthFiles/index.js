@@ -15,17 +15,19 @@ import Loader from 'Components/Loader'
 import removeObjectFileExtension from 'utils/remove-file-ext'
 import METADATA_FILE_TYPE from 'utils/file/metadata-file-type'
 import METADATA_FILE_CATEGORY from 'utils/file/metadata-file-category'
-export default function HealthFiles({ items, edit = true, onBack }) {
+import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions'
+export default function HealthFiles({ items, onBack }) {
     const { control, getValues, formState: { isValid }, trigger, resetField } = useControlForm({
         schema: healthFileSchema,
         defaultValues: {
             file_exam: null
         }
     })
+    const { canEdit } = useSubscribeFormPermissions()
     const [isLoading, setIsLoading] = useState(true)
     const [allFiles, setAllFiles] = useState(items)
     useEffect(() => {
-        if (edit) {
+        if (canEdit) {
             const fetchData = async () => {
                 const urls = await candidateService.getHealthFiles(items.type, items.memberId, items.id)
                 const deleteUrl = Object.keys(urls)[0]
@@ -90,7 +92,7 @@ export default function HealthFiles({ items, edit = true, onBack }) {
                             <Link to={item?.[1]} target="_blank">
                                 <ButtonBase label={'baixar'} />
                             </Link>
-                            {edit && <ButtonBase label={'excluir'} danger onClick={() => handleDelete(item?.[0].split('_')[1])} />}
+                            {canEdit && <ButtonBase label={'excluir'} danger onClick={() => handleDelete(item?.[0].split('_')[1])} />}
                         </FormListItem.Actions>
                     </FormListItem.Root>
                 )}>
@@ -98,12 +100,12 @@ export default function HealthFiles({ items, edit = true, onBack }) {
                 </FormList.List>
             </FormList.Root>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '80%', alignItems: 'center' }}>
-                {edit && <FormFilePicker accept={'application/pdf'} control={control} name={"file_exam"} />}
+                {canEdit && <FormFilePicker accept={'application/pdf'} control={control} name={"file_exam"} />}
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: 'inherit' }}>
                     <ButtonBase onClick={onBack}>
                         <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                     </ButtonBase>
-                    {edit && <ButtonBase label={'cadastrar'} onClick={handleUpload} />}
+                    {canEdit && <ButtonBase label={'cadastrar'} onClick={handleUpload} />}
                 </div>
             </div>
         </div>

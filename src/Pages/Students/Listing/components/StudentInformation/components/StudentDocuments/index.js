@@ -9,13 +9,13 @@ export default function StudentDocuments() {
     const [isLoading, setIsLoading] = useState(true)
     const [data, setData] = useState([])
     useEffect(() => {
-        if (!state.id) {
+        if (!state.candidateId) {
             return NotificationService.error({ text: 'Aluno não encontrado' })
         }
         const fetchDocuments = async () => {
             try {
                 setIsLoading(true)
-                const information = await subscriptionService.getCandidateSubscriptionDocuments(state.id)
+                const information = await subscriptionService.getCandidateSubscriptionDocuments(state.candidateId)
                 setData(information)
             } catch (err) {
                 NotificationService.error({ text: err?.response?.data?.message })

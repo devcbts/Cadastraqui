@@ -11,10 +11,12 @@ import uploadService from 'services/upload/uploadService';
 import createFileForm from 'utils/create-file-form';
 import PropertyInfo from './components/PropertyInfo';
 import PropertyStatus from './components/PropertyStatus';
+import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
 
 export default function FormHabitation() {
     const [isLoading, setIsLoading] = useState(false)
     const [enableEditing, setEnableEditing] = useState(false)
+    const { canEdit, service } = useSubscribeFormPermissions()
     const { auth } = useAuth()
     const uploadHabitationDocuments = async (data, rowId) => {
         const formData = createFileForm(data)
@@ -65,13 +67,14 @@ export default function FormHabitation() {
             PropertyInfo
         ],
         onEdit: handleEditHouse,
-        onSave: handleSaveHouse
+        onSave: handleSaveHouse,
+        viewMode: !canEdit,
     })
     useEffect(() => {
         setIsLoading(true)
         const fetchData = async () => {
             try {
-                const information = await candidateService.getHousingInfo()
+                const information = await service?.getHousingInfo()
                 if (information) {
                     setEnableEditing(true)
                     setData(information)
@@ -86,14 +89,17 @@ export default function FormHabitation() {
     return (
         <div className={commonStyles.container}>
             <Loader loading={isLoading} />
-            <Steps />
+            <fieldset disabled={!canEdit}>
+
+                <Steps />
+            </fieldset>
             <div className={commonStyles.actions}>
                 {activeStep !== 1 &&
                     <ButtonBase onClick={previous}>
                         <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                     </ButtonBase>
                 }
-                {enableEditing &&
+                {(enableEditing && canEdit) &&
                     <ButtonBase onClick={handleEdit} label={"editar"} />
                 }
                 {activeStep !== max &&
@@ -102,7 +108,7 @@ export default function FormHabitation() {
                     </ButtonBase>
                 }
                 {
-                    (activeStep === max && !enableEditing) && (
+                    (activeStep === max && !enableEditing && canEdit) && (
                         <ButtonBase onClick={next}>
                             Salvar
                         </ButtonBase>

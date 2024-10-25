@@ -4,14 +4,16 @@ import monthAtom from "Components/MonthSelection/atoms/month-atom";
 import { useRecoilValue } from "recoil";
 import expenseSelectionSchema from "./schemas/expense-selection-schema";
 import styles from './styles.module.scss';
+import useSubscribeFormPermissions from "Pages/SubscribeForm/hooks/useSubscribeFormPermissions";
 
 const { default: MonthSelection } = require("Components/MonthSelection");
 const { forwardRef, useState, useEffect } = require("react");
 const { default: Expenses } = require("../Expenses");
-const ExpenseSelection = forwardRef(({ data, viewMode = false }, ref) => {
+const ExpenseSelection = forwardRef(({ data }, ref) => {
     const hasSelectedMonth = useRecoilValue(monthAtom)
     const [total, setTotal] = useState('')
     const [avg, setAvg] = useState('')
+    const { canEdit } = useSubscribeFormPermissions()
     useEffect(() => {
         const lastMonthExpenses = parseFloat(data?.months?.sort((a, b) => {
             return new Date(a.date) < new Date(b.date)
@@ -44,7 +46,7 @@ const ExpenseSelection = forwardRef(({ data, viewMode = false }, ref) => {
                 render={[
                     Expenses
                 ]}
-                viewMode={viewMode}
+                viewMode={!canEdit}
                 schema={expenseSelectionSchema}
             />
         </>

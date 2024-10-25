@@ -11,11 +11,11 @@ export default function StudentRenewAnnouncements() {
     const [data, setData] = useState([])
     useEffect(() => {
         const fetchInterviews = async () => {
-            const information = await studentService.getStudentRenewAnnouncements(state.id)
+            const information = await studentService.getStudentRenewAnnouncements(state.candidateId)
             setData(information)
         }
         fetchInterviews()
-    }, [state.id])
+    }, [state.candidateId])
     return (
         <>
             <BackPageTitle path={-1} title={'Renovações do aluno'} />

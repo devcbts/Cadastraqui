@@ -1,5 +1,6 @@
 import candidateViewAtom from "Components/CandidateView/atom/candidateViewAtom";
 import useAuth from "hooks/useAuth";
+import useSubscribeFormPermissions from "Pages/SubscribeForm/hooks/useSubscribeFormPermissions";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import applicationService from "services/application/applicationService";
@@ -12,8 +13,6 @@ export default function useMemberIncomeView({
     page = null,
     member
 }) {
-    const { auth } = useAuth()
-    const { currentApplication } = useRecoilValue(candidateViewAtom)
     const { id } = member
     const [isLoading, setIsLoading] = useState(true)
     // MonthlyIncome stores an array with registered months
@@ -21,28 +20,25 @@ export default function useMemberIncomeView({
     const [incomeInfo, setIncomeInfo] = useState({ monthlyIncome: [], info: [], data: {} })
     const [incomeStatus, setIncomeStatus] = useState(null)
     const isMounted = useRef(false)
-    const readOnlyUser = useMemo(() => !["CANDIDATE", "RESPONSIBLE"].includes(auth?.role))
+    const { canEdit, service } = useSubscribeFormPermissions()
+
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
             try {
-                const [incomes, status] =
-                    readOnlyUser
-                        ? await Promise.all([
-                            applicationService.getMemberIncomeInfo(currentApplication, id),
-                            applicationService.getMemberIncomeStatus(currentApplication, id),
-                        ])
+                console.log('chamando aqui', id)
+                const [incomes, status] = await Promise.all([
+                    service?.getMemberIncomeInfo(id),
+                    service?.getMemberIncomeStatus(id),
+                ])
 
-                        : await Promise.all([
-                            candidateService.getMemberIncomeInfo(id),
-                            candidateService.getMemberIncomeStatus(id),
-                        ])
+
                 if (incomes) {
                     setIncomeInfo(incomes)
                     setIncomeStatus(status)
                 }
                 {
-                    !readOnlyUser && NotificationService.warn({
+                    canEdit && NotificationService.warn({
                         text: 'Importante! Precisa cadastrar suas contas bancárias e enviar os extratos mensais. Também é obrigatório enviar mensalmente o Relatório de contas e relacionamentos (CCS).'
                     })
                 }
@@ -52,10 +48,10 @@ export default function useMemberIncomeView({
             setIsLoading(false)
         }
         if (!page) fetchData()
-    }, [id, page, readOnlyUser])
+    }, [id, page, canEdit])
 
     const handleDeleteIncome = async (item) => {
-        if (readOnlyUser)
+        if (!canEdit)
             return
         try {
             const deletedIncome = incomeInfo?.info.find(e => e.employmentType === item.income.value)
@@ -102,6 +98,6 @@ export default function useMemberIncomeView({
         incomeInfo,
         incomeStatus,
         handleDeleteIncome,
-        readOnlyUser,
+        readOnlyUser: !canEdit,
     }
 }

@@ -1,5 +1,6 @@
 import candidateViewAtom from "Components/CandidateView/atom/candidateViewAtom"
 import useAuth from "hooks/useAuth"
+import useSubscribeFormPermissions from "Pages/SubscribeForm/hooks/useSubscribeFormPermissions"
 import { useEffect, useMemo, useState } from "react"
 import { useRecoilValue } from "recoil"
 import applicationService from "services/application/applicationService"
@@ -13,18 +14,13 @@ import METADATA_FILE_TYPE from "utils/file/metadata-file-type"
 
 export default function useBankReport({ id }) {
     const [isLoading, setIsLoading] = useState(true)
-    const { auth } = useAuth()
-    const { currentApplication } = useRecoilValue(candidateViewAtom)
-    const readOnlyUser = useMemo(() => !["CANDIDATE", "RESPONSIBLE"].includes(auth?.role))
+    const { canEdit, service } = useSubscribeFormPermissions()
     const [data, setData] = useState([])
     useEffect(() => {
         const fetchCCSFiles = async () => {
             try {
                 setIsLoading(true)
-                const files =
-                    readOnlyUser
-                        ? await applicationService.getCCSFiles(currentApplication, id)
-                        : await candidateService.getCCSFiles(id)
+                const files = await service?.getCCSFiles(id)
                 setData(files)
             } catch (err) { }
             setIsLoading(false)
@@ -33,7 +29,7 @@ export default function useBankReport({ id }) {
     }, [id])
 
     const handleUploadFile = async (type, file) => {
-        if (readOnlyUser) { return }
+        if (!canEdit) { return }
         try {
             const formData = new FormData()
             const date = new Date()
@@ -59,6 +55,6 @@ export default function useBankReport({ id }) {
     }
 
     return {
-        data, isLoading, handleUploadFile, readOnlyUser
+        data, isLoading, handleUploadFile, readOnlyUser: !canEdit
     }
 }

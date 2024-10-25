@@ -13,23 +13,20 @@ import { useRecoilValue } from "recoil";
 import ROLES from "utils/enums/role-types";
 import applicationService from "services/application/applicationService";
 import candidateViewAtom from "Components/CandidateView/atom/candidateViewAtom";
+import useSubscribeFormPermissions from "Pages/SubscribeForm/hooks/useSubscribeFormPermissions";
 
 export default function IncomeList({ onSelect, onAdd, initialMember }) {
 
     const [isLoading, setIsLoading] = useState(true)
     const [members, setMembers] = useState([])
     const [selectedMember, setSelectedMember] = useState(initialMember)
-    const { currentApplication } = useRecoilValue(candidateViewAtom)
-    const { auth } = useAuth()
-    const readOnlyUser = useMemo(() => !["CANDIDATE", "RESPONSIBLE"].includes(auth?.role))
+    const { service } = useSubscribeFormPermissions()
     useEffect(() => {
-        console.log('USUÁRIO readonly', readOnlyUser, [ROLES.CANDIDATE, ROLES.RESPONSIBLE].includes(auth?.role), ROLES.CANDIDATE)
         const fetchData = async () => {
             setIsLoading(true)
             try {
-                const members = readOnlyUser ? await applicationService.getAllIncomes(currentApplication) : await candidateService.getAllIncomes()
+                const members = await service?.getAllIncomes()
                 if (members) {
-                    console.log(members)
                     setMembers(members)
                 }
             } catch (err) {

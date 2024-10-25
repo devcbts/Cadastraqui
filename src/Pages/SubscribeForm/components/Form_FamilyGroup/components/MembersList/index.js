@@ -5,16 +5,20 @@ import { useEffect, useRef, useState } from "react";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
 import MemberCard from "./components/MemberCard";
+import useSubscribeFormPermissions from "Pages/SubscribeForm/hooks/useSubscribeFormPermissions";
+import FormListItem from "Pages/SubscribeForm/components/FormList/FormListItem";
 export default function MembersList({ onSelect, onAdd }) {
     const [familyMembers, setFamilyMembers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [livesAlone, setLivesAlone] = useState(null)
+    const { canEdit, service } = useSubscribeFormPermissions()
+
     const firstRender = useRef(true)
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true)
             try {
-                const familyGroup = await candidateService.getFamilyMembers()
+                const familyGroup = await service?.getFamilyMembers()
                 if (familyGroup) {
                     setFamilyMembers(familyGroup.members)
                     setLivesAlone(familyGroup.livesAlone)
@@ -28,6 +32,9 @@ export default function MembersList({ onSelect, onAdd }) {
         fetchData()
     }, [])
     useEffect(() => {
+        if (!canEdit) {
+            return
+        }
         if (firstRender.current) {
             return
         }
@@ -64,18 +71,24 @@ export default function MembersList({ onSelect, onAdd }) {
     return (
         <>
             <FormList.Root isLoading={isLoading} text={'Selecione um parente ou cadastre um novo'} title={'Integrantes do Grupo Familiar'}>
-                {!livesAlone && <ButtonBase
+                {(!livesAlone && canEdit) && <ButtonBase
                     label="adicionar"
                     onClick={onAdd}
                 />
                 }
                 <FormList.List list={familyMembers} text='Você ainda não registrou nenhum membro para o grupo familiar, clique no botão abaixo para realizar o primeiro cadastro' render={(item) => (
-                    <MemberCard name={item.fullName} onView={() => handleSelectMember(item.id)} onRemove={() => handleConfirmDelete(item.id)} />
+                    <FormListItem.Root text={item.fullName}>
+                        <FormListItem.Actions>
+                            <ButtonBase label={"visualizar"} onClick={() => handleSelectMember(item.id)} />
+                            {canEdit && <ButtonBase label={"excluir"} danger onClick={() => handleConfirmDelete(item.id)} />}
+                        </FormListItem.Actions>
+                    </FormListItem.Root>
                 )} >
                     {(livesAlone || familyMembers.length === 0) ? <CheckboxBase
                         onChange={handleLivesAlone}
                         value={livesAlone}
                         label={'Você mora sozinho?'}
+                        disabled={!canEdit}
                     /> : null}
                 </FormList.List>
             </FormList.Root>

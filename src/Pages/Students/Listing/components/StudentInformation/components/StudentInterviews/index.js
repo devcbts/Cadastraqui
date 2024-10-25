@@ -13,11 +13,11 @@ export default function StudentInterviews() {
     const navigate = useNavigate()
     useEffect(() => {
         const fetchInterviews = async () => {
-            const information = await studentService.getStudentInterviews(state.id)
+            const information = await studentService.getStudentInterviews(state.candidateId)
             setData(information)
         }
         fetchInterviews()
-    }, [state.id])
+    }, [state.candidateId])
     const [selected, setSelected] = useState(null)
     const handleBack = () => {
         if (selected) {

@@ -10,8 +10,9 @@ import VehicleData from "./components/VehicleData";
 import VehicleInsurance from "./components/VehicleInsurance";
 import VehicleList from "./components/VehicleList";
 import VehicleSituation from "./components/VehicleSituation";
+import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
 export default function FormVehicle() {
-
+    const { canEdit, service } = useSubscribeFormPermissions()
     const handleEditVehicle = async (data, updated) => {
         setIsLoading(true)
         try {
@@ -49,7 +50,8 @@ export default function FormVehicle() {
             VehicleInsurance
         ],
         onEdit: handleEditVehicle,
-        onSave: handleSaveVehicle
+        onSave: handleSaveVehicle,
+        viewMode: !canEdit,
     })
 
     const [isAdding, setIsAdding] = useState(false)
@@ -86,12 +88,15 @@ export default function FormVehicle() {
             {!hasSelectionOrIsAdding() && <VehicleList onSelect={handleSelectVehicle} onAdd={handleAddVehicle} onDelete={handleDeleteVehicle} />}
             {hasSelectionOrIsAdding() &&
                 <>
-                    <Steps />
+                    <fieldset disabled={!canEdit}>
+
+                        <Steps />
+                    </fieldset>
                     <div className={commonStyles.actions}>
                         <ButtonBase onClick={handlePrevious}>
                             <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                         </ButtonBase>
-                        {(data && !isAdding) &&
+                        {(data && !isAdding && canEdit) &&
                             <ButtonBase onClick={handleEdit} label={"editar"} />
                         }
                         {activeStep !== max &&
@@ -100,7 +105,7 @@ export default function FormVehicle() {
                             </ButtonBase>
                         }
                         {
-                            (activeStep === max && isAdding) && (
+                            (activeStep === max && isAdding && canEdit) && (
                                 <ButtonBase onClick={next}>
                                     Salvar
                                 </ButtonBase>

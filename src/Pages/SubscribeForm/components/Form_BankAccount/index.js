@@ -14,11 +14,12 @@ import BankMonthSelection from "./components/BankMonthSelection";
 import MemberBankAccountView from "./components/MemberBankAccountView";
 import useAuth from 'hooks/useAuth';
 import ROLES from 'utils/enums/role-types';
+import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
 
 export default function FormBankAccount({ id, onBack }) {
     const hasMonthSelected = useRecoilValue(monthAtom)
+    const { canEdit, service } = useSubscribeFormPermissions()
     const { auth } = useAuth()
-    const readOnlyUser = useMemo(() => !["CANDIDATE", "RESPONSIBLE"].includes(auth?.role))
     const handleUploadStatements = async (data, tableId) => {
 
         const formData = createFileForm(data)
@@ -67,7 +68,7 @@ export default function FormBankAccount({ id, onBack }) {
         render: renderList,
         onEdit: handleEditAccount,
         onSave: handleSave,
-        viewMode: readOnlyUser
+        viewMode: !canEdit,
     })
     const [isAdding, setIsAdding] = useState(false)
     const handleAddNewAccount = () => {
@@ -100,7 +101,7 @@ export default function FormBankAccount({ id, onBack }) {
                     </ButtonBase>
 
 
-                    {(!isAdding && !readOnlyUser) && <ButtonBase onClick={handleEdit} label={"editar"} />}
+                    {(!isAdding && canEdit) && <ButtonBase onClick={handleEdit} label={"editar"} />}
 
                     {activeStep !== max &&
                         <ButtonBase onClick={next}>
@@ -108,7 +109,7 @@ export default function FormBankAccount({ id, onBack }) {
                         </ButtonBase>
                     }
                     {
-                        (activeStep === max && isAdding && !readOnlyUser) && (
+                        (activeStep === max && isAdding && canEdit) && (
                             <ButtonBase onClick={next}>
                                 Salvar
                             </ButtonBase>

@@ -10,7 +10,6 @@ import { NotificationService } from "services/notification";
 import uploadService from "services/upload/uploadService";
 import createFileForm from "utils/create-file-form";
 import IncomeFile from "./IncomeFile";
-import IncomeList from "./IncomeList";
 import IncomeSelection from "./IncomeSelection";
 import IncomeFormModelA from "./ModelA";
 import InformationModelA from "./ModelA/components/InformationModelA";
@@ -23,11 +22,12 @@ import InformationModelD from "./ModelD/components/InformationModelC";
 import UnemployementInsurance from "./Unemployed/components/UnemployementInsurance";
 import useAuth from 'hooks/useAuth';
 import ROLES from 'utils/enums/role-types';
+import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
+import IncomeList from './IncomeList';
 export default function FormIncome() {
     // Keep track of incomes created/updated by user
     const hasIncomeSelected = useRecoilValue(monthAtom)
-    const { auth } = useAuth()
-    const readOnlyUser = useMemo(() => !["CANDIDATE", "RESPONSIBLE"].includes(auth?.role))
+    const { canEdit } = useSubscribeFormPermissions()
     // const handleEditInformation = async (data) => {
     //     try {
     //         await candidateService.updateIdentityInfo(data);
@@ -103,7 +103,7 @@ export default function FormIncome() {
         render: renderItems,
         // onEdit: handleEditInformation,
         onSave: handleSaveInformation,
-        viewMode: readOnlyUser
+        viewMode: !canEdit
     })
     useEffect(() => {
         const currentIncomeSource = data?.incomeSource
@@ -180,7 +180,7 @@ export default function FormIncome() {
                         </ButtonBase>
                     }
                     {
-                        (activeStep === max && activeStep !== 1 && !readOnlyUser) && (
+                        (activeStep === max && activeStep !== 1 && canEdit) && (
                             <ButtonBase onClick={next}>
                                 Salvar
                             </ButtonBase>

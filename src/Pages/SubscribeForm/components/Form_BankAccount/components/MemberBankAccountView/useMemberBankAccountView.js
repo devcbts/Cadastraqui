@@ -1,5 +1,6 @@
 import candidateViewAtom from "Components/CandidateView/atom/candidateViewAtom"
 import useAuth from "hooks/useAuth"
+import useSubscribeFormPermissions from "Pages/SubscribeForm/hooks/useSubscribeFormPermissions"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useRecoilValue } from "recoil"
 import applicationService from "services/application/applicationService"
@@ -12,18 +13,14 @@ export default function useMemberBankAccountView({ memberId }) {
     const [isLoading, setIsLoading] = useState(true)
     const [bankingInfo, setBankingInfo] = useState({})
     const isMounted = useRef(null)
-    const { currentApplication } = useRecoilValue(candidateViewAtom)
-    const { auth } = useAuth()
-    const readOnlyUser = useMemo(() => !["CANDIDATE", "RESPONSIBLE"].includes(auth?.role))
+    const { canEdit, service } = useSubscribeFormPermissions()
+
     // TODO: fetch bank account information from SPECIFIC USER
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setIsLoading(true)
-                const information =
-                    readOnlyUser
-                        ? await applicationService.getBankingAccountById(currentApplication, memberId)
-                        : await candidateService.getBankingAccountById(memberId)
+                const information = await service?.getBankingAccountById(memberId)
                 setBankingInfo(information)
             } catch (err) {
 
@@ -33,7 +30,7 @@ export default function useMemberBankAccountView({ memberId }) {
         fetchData()
     }, [memberId])
     const handleRemove = (id) => {
-        if (readOnlyUser) { return }
+        if (!canEdit) { return }
         const remove = async () => {
             try {
                 await candidateService.removeBankingAccount(id)
@@ -55,7 +52,7 @@ export default function useMemberBankAccountView({ memberId }) {
     //     setIsReportOpen(prev => !prev)
     // }
     useEffect(() => {
-        if (!isMounted.current || readOnlyUser) {
+        if (!isMounted.current || !canEdit) {
             return
         }
         const updateBankDeclaration = async () => {
@@ -73,13 +70,13 @@ export default function useMemberBankAccountView({ memberId }) {
             }
         }
         updateBankDeclaration()
-    }, [bankingInfo.hasBankAccount, readOnlyUser])
+    }, [bankingInfo.hasBankAccount, canEdit])
 
     const handleChangeBankDeclaration = () => {
         isMounted.current = true
         setBankingInfo((prev) => ({ ...prev, hasBankAccount: !prev.hasBankAccount }))
     }
     return {
-        readOnlyUser, isLoading, bankingInfo, handleRemove, handleChangeBankDeclaration
+        readOnlyUser: !canEdit, isLoading, bankingInfo, handleRemove, handleChangeBankDeclaration
     }
 }

@@ -57,7 +57,6 @@ import StudentList from "Pages/Students/Listing";
 import EntityStudentsRenew from "Pages/Students/Renew";
 import EntityApplicantsRegisterApplicant from "Pages/Entity/Applicants/components/RegisterApplicant";
 import AdminProfile from "Pages/Admin/Profile";
-import CandidateView from "Components/CandidateView";
 import StudentListInformation from "Pages/Students/Listing/components/StudentInformation";
 import StudentDocuments from "Pages/Students/Listing/components/StudentInformation/components/StudentDocuments";
 import StudentInterviews from "Pages/Students/Listing/components/StudentInformation/components/StudentInterviews";
@@ -135,7 +134,7 @@ export default function AppRoutes() {
                                 </Route>
                             </Route>
                         </Route>
-                        <Route path="/ficha-completa" element={<CandidateView backButtonText="Processo de seleção" />}></Route>
+                        <Route path="/ficha-completa" element={<SubscribeForm backButtonText="Processo de seleção" />}></Route>
                         <Route path="/profile" element={<SocialAssistantProfile />}></Route>
                         <Route path="/agenda" element={<Outlet />}>
                             <Route index element={<AssistantSchedule />} />
@@ -165,6 +164,7 @@ export default function AppRoutes() {
                                     <Route index element={<StudentList />} />
                                     <Route path=":studentId" element={<Outlet />} >
                                         <Route index element={<StudentListInformation />} />
+                                        <Route path="ficha-completa" element={<SubscribeForm backButtonText="Voltar para aluno" />} />
                                         <Route path="documentos" element={<StudentDocuments />} />
                                         <Route path="entrevistas" element={<StudentInterviews />} />
                                         <Route path="renovacoes" element={<StudentRenewAnnouncements />} />
@@ -199,7 +199,7 @@ export default function AppRoutes() {
                                     <Route index element={<EntityAnnouncementApplicants />} />
                                     <Route path="matricula" element={<Outlet />} >
                                         <Route index element={<EntityApplicantsRegisterApplicant />} />
-                                        <Route path="ficha-completa" element={<CandidateView backButtonText="Voltar para matrícula" />} />
+                                        <Route path="ficha-completa" element={<SubscribeForm backButtonText="Voltar para matrícula" />} />
                                     </Route>
                                 </Route>
                             </Route>
@@ -215,6 +215,7 @@ export default function AppRoutes() {
                                     <Route index element={<StudentList />} />
                                     <Route path=":studentId" element={<Outlet />} >
                                         <Route index element={<StudentListInformation />} />
+                                        <Route path="ficha-completa" element={<SubscribeForm backButtonText="Voltar para aluno" />} />
                                         <Route path="documentos" element={<StudentDocuments />} />
                                         <Route path="entrevistas" element={<StudentInterviews />} />
                                         <Route path="renovacoes" element={<StudentRenewAnnouncements />} />

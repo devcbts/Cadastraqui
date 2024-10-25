@@ -9,6 +9,7 @@ import removeObjectFileExtension from "utils/remove-file-ext";
 
 export default function HealthList({ loading, data, onSelect, onAdd, onRadioChange }) {
     const [selectedMember, setSelectedMember] = useState(null)
+
     const handleSelect = (item) => {
         setSelectedMember(item)
     }

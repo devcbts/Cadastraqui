@@ -7,7 +7,7 @@ export default function TextEditor({
     title
 }) {
     const editorRef = useRef(null);
-
+    const hasBeenEdited = useRef(null)
     return (
         <div style={{ display: 'flex', flexDirection: 'column', }}>
             <h4 style={{ textAlign: 'start' }}>{title}</h4>
@@ -20,7 +20,8 @@ export default function TextEditor({
                     cloudChannel="7"
                     initialValue={initialValue}
                     onEditorChange={(richText, editor) => {
-                        if (!initialValue) {
+                        if (!hasBeenEdited.current) {
+                            hasBeenEdited.current = true
                             return
                         }
                         const plainText = editor.getContent({ format: "text" })

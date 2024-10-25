@@ -8,14 +8,17 @@ import candidateService from 'services/candidate/candidateService'
 import DISEASES from 'utils/enums/diseases'
 import styles from './styles.module.scss'
 import { NotificationService } from 'services/notification'
-export default function MemberHealthView({ member, onViewFiles, onSelect, onAdd, edit = true, onBack, onChange = () => { } }) {
+import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions'
+export default function MemberHealthView({ member, onViewFiles, onSelect, onAdd, onBack, onChange = () => { } }) {
     const diseaseList = member?.healthInfo?.map(e => ({ disease: e.disease, data: e })).filter((e) => e.disease !== null)
     const medicationList = member?.healthInfo?.map(e => ({ medication: e.medication?.[0], data: e })).filter((e) => e.medication)
+    const { canEdit } = useSubscribeFormPermissions()
     // TODO: verify if current user/family member has any disease or medication (declare that it has something)
     // and if TRUE, show the button to register a new one
     // if FALSE show only the options to select (yes/no) and update when it changes
     const [hasDiseaseOrMedication, setHasDiseaseOrMedication] = useState(member?.hasDiseaseOrMedication)
     const handleDiseaseOrMedication = async (val) => {
+        if (!canEdit) { return }
         try {
             setHasDiseaseOrMedication(val)
             if (member.isUser) {
@@ -35,7 +38,7 @@ export default function MemberHealthView({ member, onViewFiles, onSelect, onAdd,
             </div>
             <div className={styles.middle}>
                 {
-                    (diseaseList?.length === 0 && medicationList?.length === 0 && edit) ? <CheckboxBase
+                    (diseaseList?.length === 0 && medicationList?.length === 0 && canEdit) ? <CheckboxBase
                         label={`${member.name} possui alguma doença ou toma medicamento controlado?`}
                         value={hasDiseaseOrMedication}
                         onChange={(e) => handleDiseaseOrMedication(e.target.value === "true")}
@@ -78,7 +81,7 @@ export default function MemberHealthView({ member, onViewFiles, onSelect, onAdd,
                 <ButtonBase onClick={onBack}>
                     <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                 </ButtonBase>
-                {(edit && hasDiseaseOrMedication) && <ButtonBase label={'cadastrar'} onClick={() => onAdd(member)} />}
+                {(hasDiseaseOrMedication && canEdit) && <ButtonBase label={'cadastrar'} onClick={() => onAdd(member)} />}
             </div>
         </div>
     )

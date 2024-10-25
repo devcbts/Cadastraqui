@@ -15,6 +15,8 @@ import FilePreview from "Components/FilePreview";
 import { ReactComponent as User } from 'Assets/icons/user.svg'
 import FormSelect from "Components/FormSelect";
 import EDUCATION_STYLES from "utils/enums/education-style-types";
+import StudentPersonalSection from "Components/Students/Sections/StudentPersonalSection";
+import StudentGenericSection from "Components/Students/Sections/StudentGenericSection";
 export default function ApplicantInformation() {
     const { state } = useLocation()
     const navigate = useNavigate()
@@ -40,16 +42,7 @@ export default function ApplicantInformation() {
         }
         fetchScholarship()
     }, [state])
-    const personalFields = [
-        { field: "name", label: 'nome completo' },
-        { field: "socialName", label: 'nome social' },
-        { field: "CPF", label: 'CPF' },
-        { field: "phone", label: 'telefone' },
-        { field: "gender", label: 'sexo' },
-        { field: "birthDate", label: 'data de nascimento' },
-        { field: "address", label: 'endereço' },
-        { field: "email", label: 'email' },
-    ]
+
     const courseFields = [
         { field: "entityName", label: 'instituição' },
         { field: "courseName", label: 'curso' },
@@ -100,44 +93,21 @@ export default function ApplicantInformation() {
                         }} />
                     </div>
                 </div>
-                <div className={styles.information}>
-                    <h2>Dados pessoais</h2>
-                    {Object.entries(data?.personalInfo ?? {}).map(([k, v]) => {
-                        const currField = personalFields.find(e => k === e.field)
-                        if (!currField) { return null }
-                        return (
-                            <div>
-                                <h4>{currField.label}</h4>
-                                <InputBase error={null} value={v} key={k} disabled />
-                            </div>
-                        )
-                    })}
-                </div>
-                <div className={styles.information}>
-                    <h2>Matrícula</h2>
-                    {Object.entries(data?.scholarshipInfo ?? {}).map(([k, v]) => {
-                        const currField = courseFields.find(e => k === e.field)
-                        if (!currField || !v) { return null }
-                        return (
-                            <div>
-                                <h4>{currField.label}</h4>
-                                <InputBase error={null} value={v} key={k} disabled />
-                            </div>
-                        )
-                    })}
-                    {/* <div>
-                        <h4>Ciclo de matrícula</h4>
-                        <FormSelect control={control} name={"type"} options={[]} />
-                    </div> */}
-                    {/* <div>
-                        <h4>Período</h4>
-                        <FormSelect control={control} name={"period"} options={[]} />
-                    </div> */}
-                    <div>
-                        <h4>Modalidade de ensino</h4>
-                        <FormSelect control={control} name={"modality"} options={EDUCATION_STYLES} value={watch("modality")} />
-                    </div>
-                </div>
+                <StudentPersonalSection data={data?.personalInfo} />
+                <StudentGenericSection
+                    title={"Matrícula"}
+                    data={data?.scholarshipInfo}
+                    fields={courseFields}
+                >
+                    {({ content }) => {
+
+                        return (<div className={content}>
+                            <h4>Modalidade de ensino</h4>
+                            <FormSelect control={control} name={"modality"} options={EDUCATION_STYLES} value={watch("modality")} />
+                        </div>)
+                    }}
+                </StudentGenericSection>
+
                 <div className={styles.information}>
                     <h2>Upload de documentos</h2>
                     <FormFilePicker control={control} name="file" label={'histórico escolar ou comprovante de conclusão de curso'} accept={'application/pdf'} />

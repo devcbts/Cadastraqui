@@ -9,10 +9,13 @@ import { useRecoilState } from "recoil";
 import candidateService from "services/candidate/candidateService";
 import { NotificationService } from "services/notification";
 import ExpenseSelection from "./ExpenseSelection";
+import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
 
 export default function FormExpenses() {
     const [isLoading, setIsLoading] = useState(true)
     const [renderList, _] = useState([ExpenseSelection])
+    const { canEdit, service } = useSubscribeFormPermissions()
+
     const handleSaveExpenses = async (data) => {
         try {
             const expenses = await candidateService.registerExpenses(data)
@@ -30,14 +33,15 @@ export default function FormExpenses() {
     } = useStepFormHook({
         render: renderList,
         onSave: handleSaveExpenses,
-        showStepper: false
+        showStepper: false,
+        viewMode: !canEdit,
     })
     const [hasSelectedMonth, setHasSelectedMonth] = useRecoilState(monthAtom)
     useEffect(() => {
         const fetchExpenses = async () => {
             try {
                 setIsLoading(true)
-                const information = await candidateService.getExpenses()
+                const information = await service?.getExpenses()
                 setData(information)
             } catch (err) {
 
@@ -66,7 +70,7 @@ export default function FormExpenses() {
                     </ButtonBase>
                 }
                 {
-                    activeStep === max && (
+                    (activeStep === max && canEdit) && (
                         <ButtonBase onClick={next}>
                             Salvar
                         </ButtonBase>

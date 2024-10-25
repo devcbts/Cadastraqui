@@ -3,7 +3,8 @@ const { atom } = require("recoil");
 const candidateViewAtom = atom({
     key: 'candidateview',
     default: {
-        currentApplication: ''
+        currentApplication: '',
+        currentCandidate: ''
     }
 })
 

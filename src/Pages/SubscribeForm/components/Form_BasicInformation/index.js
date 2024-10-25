@@ -18,8 +18,11 @@ import MaritalStatus from "../MaritalStatus";
 import PersonalData from "../PersonalData";
 import PersonalInformation from "../PersonalInformation";
 import ResidenceProof from '../AddressData/ResidenceProof';
+import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
 export default function FormBasicInformation() {
     const { auth } = useAuth()
+    const { canEdit, service } = useSubscribeFormPermissions()
+    console.log(canEdit, service)
     const uploadDocuments = async (userId, data) => {
         const formData = createFileForm(data)
         try {
@@ -75,7 +78,8 @@ export default function FormBasicInformation() {
             Benefits
         ],
         onEdit: handleEditInformation,
-        onSave: handleSaveInformation
+        onSave: handleSaveInformation,
+        viewMode: !canEdit,
     })
 
     const [enableEditing, setEnableEditing] = useState(false)
@@ -84,13 +88,13 @@ export default function FormBasicInformation() {
     useEffect(() => {
         const fetchBasic = async () => {
             try {
-                return await candidateService.getBasicInfo()
+                return await service?.getBasicInfo()
             } catch (err) { }
         }
         const fetchData = async () => {
             setIsLoading(true)
             try {
-                const information = await candidateService.getIdentityInfo()
+                const information = await service?.getIdentityInfo()
                 setData(information)
                 if (information) {
                     setEnableEditing(true)
@@ -109,14 +113,16 @@ export default function FormBasicInformation() {
     return (
         <div className={commonStyles.container}>
             <Loader loading={isLoading} />
-            <Steps />
+            <fieldset disabled={!canEdit}>
+                <Steps />
+            </fieldset>
             <div className={commonStyles.actions}>
                 {activeStep !== 1 &&
                     <ButtonBase onClick={previous}>
                         <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                     </ButtonBase>
                 }
-                {enableEditing &&
+                {(enableEditing && canEdit) &&
                     <ButtonBase onClick={handleEdit} label={"editar"} />
                 }
                 {activeStep !== max &&
@@ -125,7 +131,7 @@ export default function FormBasicInformation() {
                     </ButtonBase>
                 }
                 {
-                    (activeStep === max && !enableEditing) && (
+                    (activeStep === max && !enableEditing && canEdit) && (
                         <ButtonBase onClick={next}>
                             Salvar
                         </ButtonBase>

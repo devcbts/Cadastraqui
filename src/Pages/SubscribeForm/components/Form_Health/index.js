@@ -11,8 +11,11 @@ import HealthList from "./components/HealthList";
 import HealthMedication from "./components/HealthMedication";
 import METADATA_FILE_TYPE from 'utils/file/metadata-file-type';
 import METADATA_FILE_CATEGORY from 'utils/file/metadata-file-category';
+import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
 export default function FormHealth() {
     const [isLoading, setIsLoading] = useState(true)
+    const { canEdit, service } = useSubscribeFormPermissions()
+
     // const handleEditInformation = async (data) => {
     //     try {
     //         await candidateService.updateIdentityInfo(data);
@@ -84,7 +87,8 @@ export default function FormHealth() {
             HealthMedication
         ],
         // onEdit: handleEditInformation,
-        onSave: handleSaveInformation
+        onSave: handleSaveInformation,
+        viewMode: !canEdit,
     })
 
     const [refresh, setRefresh] = useState(true)
@@ -115,7 +119,7 @@ export default function FormHealth() {
         const fetchData = async () => {
             try {
                 setIsLoading(true)
-                const members = await candidateService.getHealthInfo()
+                const members = await service?.getHealthInfo()
                 if (members) {
                     setMembers(members)
                 }
@@ -136,7 +140,10 @@ export default function FormHealth() {
             />}
             {hasSelectionOrIsAdding() &&
                 <>
-                    <Steps />
+                    <fieldset disabled={!canEdit}>
+
+                        <Steps />
+                    </fieldset>
                     <div className={commonStyles.actions}>
 
                         <ButtonBase onClick={handlePrevious}>

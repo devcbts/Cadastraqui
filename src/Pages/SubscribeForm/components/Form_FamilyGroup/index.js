@@ -17,9 +17,12 @@ import PersonalData from "../PersonalData";
 import PersonalInformation from "../PersonalInformation";
 import FamilyRelation from "./components/FamilyRelation";
 import MembersList from "./components/MembersList";
+import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeFormPermissions';
 export default function FormFamilyGroup() {
     const [isAdding, setIsAdding] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const { canEdit, service } = useSubscribeFormPermissions()
+
     const uploadMemberDocument = async (data, memberId) => {
         try {
             const formData = createFileForm(data)
@@ -74,6 +77,7 @@ export default function FormFamilyGroup() {
         ],
         onEdit: handleEditFamilyMember,
         onSave: handleSaveFamilyMember,
+        viewMode: !canEdit,
         tooltips: {
             1: {
                 landlinePhone: 'Caso seja menor de idade, utilize o telefone do responsável',
@@ -110,12 +114,14 @@ export default function FormFamilyGroup() {
             {!hasSelectionOrIsAdding() && <MembersList onSelect={handleSelectMember} onAdd={handleAddMember} />}
             {hasSelectionOrIsAdding() && (
                 <>
-                    <Steps />
+                    <fieldset disabled={!canEdit}>
+                        <Steps />
+                    </fieldset>
                     <div className={commonStyles.actions}>
                         <ButtonBase onClick={handlePrevious}>
                             <Arrow width="30px" style={{ transform: "rotateZ(180deg)" }} />
                         </ButtonBase>
-                        {(data && !isAdding) &&
+                        {(data && !isAdding && canEdit) &&
                             <ButtonBase onClick={handleEdit} label={"editar"} />
                         }
                         {activeStep !== max &&
@@ -124,7 +130,7 @@ export default function FormFamilyGroup() {
                             </ButtonBase>
                         }
                         {
-                            (activeStep === max && isAdding) && (
+                            (activeStep === max && isAdding && canEdit) && (
                                 <ButtonBase onClick={next}>
                                     Salvar
                                 </ButtonBase>

@@ -13,65 +13,76 @@ import removeObjectFileExtension from "utils/remove-file-ext";
 const { api } = require("services/axios");
 
 class ApplicationService {
-
-
-    async getCandidateIdentityInfo(applicationId) {
-        const response = await api.get(`/application/candidateInfo/identity/${applicationId}`);
+    constructor(applicationId) {
+        this.applicationId = this.applicationId
+    }
+    setApplicationId(appId) {
+        this.applicationId = appId
+        return this
+    }
+    async getIdentityInfo() {
+        const response = await api.get(`/application/candidateInfo/identity/${this.applicationId}`);
         return identityInfoMapper.fromPersistence({ ...response.data, urls: response.data.urls })
     }
-    async getCandidateFamilyGroup(applicationId) {
-        const response = await api.get(`/application/candidateInfo/family/${applicationId}`);
-        return response.data.familyMembers?.map(e => familyMemberMapper.fromPersistence(e))
+    async getFamilyMembers() {
+        const response = await api.get(`/application/candidateInfo/family/${this.applicationId}`);
+        return {
+            members: response.data.familyMembers?.map(e => familyMemberMapper.fromPersistence(e)),
+            livesAlone: response.data.livesAlone
+        }
 
     }
-    async getHousingInfo(applicationId) {
-        const response = await api.get(`/application/candidateInfo/housing/${applicationId}`);
+    async getHousingInfo() {
+        const response = await api.get(`/application/candidateInfo/housing/${this.applicationId}`);
         return habitationMapper.fromPersistence(response.data)
     }
-    async getAllIncomes(applicationId) {
-        const response = await api.get(`/application/candidateInfo/income/${applicationId}`);
+    async getAllIncomes() {
+        console.log('appid', this.applicationId)
+        const response = await api.get(`/application/candidateInfo/income/${this.applicationId}`);
         return employementTypeMapper.fromPersistence(response.data)
     }
 
 
-    async getVehicleInfo(applicationId) {
-        const response = await api.get(`/application/candidateInfo/vehicle/${applicationId}`);
-        return vehicleMapper.fromPersistence(response.data.vehicleInfoResults)
-
+    async getVehicle() {
+        const response = await api.get(`/application/candidateInfo/vehicle/${this.applicationId}`);
+        return {
+            vehicles: vehicleMapper.fromPersistence(response.data.vehicleInfoResults),
+            hasVehicles: response?.data?.hasVehicles
+        }
     }
-    async getExpenses(applicationId) {
-        const response = await api.get(`/application/candidateInfo/expenses/${applicationId}`);
+    async getExpenses() {
+        const response = await api.get(`/application/candidateInfo/expenses/${this.applicationId}`);
         return expenseMapper.fromPersistence(response.data)
 
     }
-    async getMemberIncomeInfo(applicationId, memberId) {
-        const response = await api.get(`/application/candidateInfo/monthly-income/${applicationId}/${memberId}`);
-        const memberIncome = await this.getAllIncomes(applicationId)
+    async getMemberIncomeInfo(memberId) {
+        const response = await api.get(`/application/candidateInfo/monthly-income/${this.applicationId}/${memberId}`);
+        const memberIncome = await this.getAllIncomes()
         const monthlyIncome = incomeMapper.fromPersistence(response.data.incomeBySource)
         return { monthlyIncome, info: memberIncome.incomes?.find(e => e.id === memberId).months, data: memberIncome.incomes?.find(e => e.id === memberId) }
     }
-    async getBankingAccountById(applicationId, id) {
-        const response = await api.get(`/application/candidateInfo/bank-info/${applicationId}/${id}`)
+    async getBankingAccountById(id) {
+        const response = await api.get(`/application/candidateInfo/bank-info/${this.applicationId}/${id}`)
         return {
             accounts: bankAccountMapper.fromPersistence(response.data),
             hasBankAccount: response.data.hasBankAccount,
         }
     }
-    async getHealthInfo(applicationId) {
-        const response = await api.get(`/application/candidateInfo/health/${applicationId}`)
+    async getHealthInfo() {
+        const response = await api.get(`/application/candidateInfo/health/${this.applicationId}`)
         return healthInfoMapper.fromPersistence(response.data.healthInfoResultsWithUrls)
     }
-    async getCCSFiles(applicationId, id) {
-        const response = await api.get(`/application/candidateInfo/ccs/files/${applicationId}/${id}`)
+    async getCCSFiles(id) {
+        const response = await api.get(`/application/candidateInfo/ccs/files/${this.applicationId}/${id}`)
         return response.data
     }
-    async getMemberIncomeStatus(applicationId, id) {
-        const response = await api.get(`/application/candidateInfo/income/status/${applicationId}/${id}`)
+    async getMemberIncomeStatus(id) {
+        const response = await api.get(`/application/candidateInfo/income/status/${this.applicationId}/${id}`)
         const { bankAccountUpdated, IncomesUpdated, CCS_Updated } = response.data
         return { bank: bankAccountUpdated, income: IncomesUpdated, ccs: CCS_Updated }
     }
-    async getDeclarations(applicationId) {
-        const response = await api.get(`/application/candidateInfo/declaration/${applicationId}`)
+    async getDeclarations() {
+        const response = await api.get(`/application/candidateInfo/declaration/${this.applicationId}`)
         return response.data.declarations?.map(e => ({ ...e, urls: removeObjectFileExtension(e.url) }))
     }
 }

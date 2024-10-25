@@ -4,15 +4,19 @@ import FormCheckbox from "Components/FormCheckbox"
 import useControlForm from "hooks/useControlForm"
 import FormList from "Pages/SubscribeForm/components/FormList"
 import FormListItem from "Pages/SubscribeForm/components/FormList/FormListItem"
+import useSubscribeFormPermissions from "Pages/SubscribeForm/hooks/useSubscribeFormPermissions"
 import { useEffect, useRef, useState } from "react"
 import { useForm, useWatch } from "react-hook-form"
 import candidateService from "services/candidate/candidateService"
 import { NotificationService } from "services/notification"
 import { z } from "zod"
 
+
 export default function VehicleList({ onSelect, onAdd, onDelete }) {
     const [isLoading, setIsLoading] = useState(true)
     const [vehicles, setVehicles] = useState({ vehicles: [], hasVehicles: false })
+    const { canEdit, service } = useSubscribeFormPermissions()
+
     const { control, setValue } = useForm({
         mode: "onTouched",
         resolver: zodResolver(z.object({ hasVehicles: z.boolean() })),
@@ -23,7 +27,7 @@ export default function VehicleList({ onSelect, onAdd, onDelete }) {
         const fetchData = async () => {
             setIsLoading(true)
             try {
-                const vehicle = await candidateService.getVehicle()
+                const vehicle = await service?.getVehicle()
                 if (vehicle) {
                     setVehicles(vehicle)
                     setValue("hasVehicles", !vehicle.hasVehicles)
@@ -42,6 +46,7 @@ export default function VehicleList({ onSelect, onAdd, onDelete }) {
         })
     }
     useEffect(() => {
+        if (!canEdit) { return }
         if (!mountRef.current) {
             mountRef.current = true
             return
@@ -69,11 +74,11 @@ export default function VehicleList({ onSelect, onAdd, onDelete }) {
                                     label={"Visualizar"}
                                     onClick={() => onSelect(item)}
                                 />
-                                <ButtonBase
+                                {canEdit && <ButtonBase
                                     label={"excluir"}
                                     onClick={() => handleDelete(item.id)}
                                     danger
-                                />
+                                />}
                             </FormListItem.Actions>
                         </FormListItem.Root>
                     )}
@@ -82,11 +87,16 @@ export default function VehicleList({ onSelect, onAdd, onDelete }) {
                     }
                 >
                     {(!vehicles?.vehicles?.length) && (
-                        <FormCheckbox control={control} name={"hasVehicles"} label={"Você ou alguém de seu grupo familiar possui um veículo?"} value={watch.hasVehicles} />
+                        <FormCheckbox
+                            control={control} name={"hasVehicles"}
+                            label={"Você ou alguém de seu grupo familiar possui um veículo?"}
+                            value={watch.hasVehicles}
+                            disabled={!canEdit}
+                        />
                     )}
                 </FormList.List>
             </FormList.Root>
-            {(!!vehicles?.vehicles?.length || !vehicles.hasVehicles) &&
+            {(!!vehicles?.vehicles?.length || !vehicles.hasVehicles) && canEdit &&
                 <ButtonBase
                     label={"Novo veículo"}
                     onClick={onAdd}
