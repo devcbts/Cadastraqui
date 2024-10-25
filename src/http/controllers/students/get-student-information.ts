@@ -88,7 +88,8 @@ export default async function getStudentInformation(
             CPF: candidate.CPF,
             birthDate: candidate.birthDate,
             RG: candidate.RG,
-            candidate_id: student?.candidate.responsible_id ?? student?.candidate_id
+            candidate_id: student?.candidate.responsible_id ?? student?.candidate_id,
+            id: student?.id
         }
         const courseInfo = {
             scholarship: student?.scholarshipType,

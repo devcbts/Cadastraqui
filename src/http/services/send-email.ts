@@ -7,10 +7,10 @@ const sendEmail = async ({
     body
 }: { subject: string, to: string[] | string, text?: string, body: string }) => {
     const transport = nodemailer.createTransport({
-        service: "godaddy",
-        // host: "smtpout.secureserver.net",
-        // port: 465,
-        // secure: true,
+        // service: "godaddy",
+        host: "smtpout.secureserver.net",
+        port: 465,
+        secure: true,
         auth: {
             user: process.env.SMTP_EMAIL,
             pass: process.env.SMTP_PASS,

@@ -2,6 +2,7 @@ import { app } from './app'
 import RemoveOutdatedExepenses from './cron/remove-outdated-expenses'
 import RemoveOutdatedIncomes from './cron/remove-outdated-incomes'
 import Selectjob from './cron/select-valid-candidates'
+import sendStudentUpdateEmailJob from './cron/send-student-update-email'
 import { env } from './env/index'
 
 app
@@ -13,5 +14,6 @@ app
     RemoveOutdatedIncomes
     RemoveOutdatedExepenses
     Selectjob
+    sendStudentUpdateEmailJob
     console.log(`HTTP Server Running on port ${env.PORT}!`)
   })

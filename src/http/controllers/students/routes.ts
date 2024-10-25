@@ -9,6 +9,7 @@ import getStudentInformation from "./get-student-information"
 import getStudentInterviews from "./get-student-interview"
 import getStudentPreviousAnnouncements from "./get-student-previous-announcements"
 import getStudentsDashboard from "./get-students-dashboard"
+import getStudentEmails from "./get-students-emails"
 import registerNewStudents from "./register-new-students"
 import uploadStudentDocument from "./uplodad-document"
 
@@ -25,4 +26,5 @@ export default async function studentsRoutes(app: FastifyInstance) {
   app.get('/announcements/:candidate_id', { onRequest: [verifyJWT] }, getStudentPreviousAnnouncements)
   app.put('/observation', { onRequest: [verifyJWT] }, createOrUpdateStudentObservation)
   app.post('/upload/:student_id', { onRequest: [verifyJWT] }, uploadStudentDocument)
+  app.get('/emails/:student_id', { onRequest: [verifyJWT] }, getStudentEmails)
 }
