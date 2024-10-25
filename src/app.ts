@@ -37,13 +37,14 @@ import { prisma } from './lib/prisma';
 export const app = fastify({
   trustProxy: true
 })
-app.register(fastifyMultipart, {
-  limits: {
-    fileSize: 15000000,
-    files: 10,
+app.register(fastifyMultipart,
+  {
+    // limits: {
+    //   fileSize: 15000000,
+    //   files: 10,
 
-  },
-})
+    // },
+  })
 // Registre o plugin fastify-cors
 app.register(fastifyCors, {
   origin: ["https://dev-cadastraqui.vercel.app", "https://cadastraqui.vercel.app", "http://localhost:3000", "https://www.cadastraqui.com.br"],

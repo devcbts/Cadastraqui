@@ -32,7 +32,7 @@ export default async function getStudentInformation(
                     }
                 },
                 entityCourse: { include: { entity: true, entitySubsidiary: true, course: true } },
-
+                Observation: true
             }
         })
         let candidate: any = student?.candidate.IdentityDetails ?? null
@@ -108,7 +108,8 @@ export default async function getStudentInformation(
         }
         const documentInfo = {
             isUpdated: documents.length === 0 ? null : (documents.every(e => e.status === "UPDATED")),
-            lastUpdate: documents.sort((a, b) => a.updatedAt > b.updatedAt ? 1 : -1)[0]?.updatedAt ?? ''
+            lastUpdate: documents.sort((a, b) => a.updatedAt > b.updatedAt ? 1 : -1)[0]?.updatedAt ?? '',
+            observation: student?.Observation?.richText
         }
         const incomeInfo = {
             expenses: expenses?.reduce((acc, curr) => acc += curr.totalExpense ?? 0, 0),

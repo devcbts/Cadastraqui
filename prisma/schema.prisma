@@ -1094,6 +1094,15 @@ model Student {
   type2Benefits       Type2Benefit[]
   announcement_id     String?
   StudentDocuments    StudentDocuments[]
+  Observation         StudentObservation?
+}
+
+model StudentObservation {
+  id         String  @id @default(cuid())
+  richText   String
+  plainText  String
+  student_id String  @unique
+  student    Student @relation(fields: [student_id], references: [id])
 }
 
 enum StudentStatus {
