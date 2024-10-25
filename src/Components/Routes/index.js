@@ -61,6 +61,7 @@ import StudentListInformation from "Pages/Students/Listing/components/StudentInf
 import StudentDocuments from "Pages/Students/Listing/components/StudentInformation/components/StudentDocuments";
 import StudentInterviews from "Pages/Students/Listing/components/StudentInformation/components/StudentInterviews";
 import StudentRenewAnnouncements from "Pages/Students/Listing/components/StudentInformation/components/StudentRenewAnnouncements";
+import StudentEmails from "Pages/Students/Listing/components/StudentInformation/components/StudentsEmails";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -167,6 +168,7 @@ export default function AppRoutes() {
                                         <Route path="ficha-completa" element={<SubscribeForm backButtonText="Voltar para aluno" />} />
                                         <Route path="documentos" element={<StudentDocuments />} />
                                         <Route path="entrevistas" element={<StudentInterviews />} />
+                                        <Route path="emails" element={<StudentEmails />} />
                                         <Route path="renovacoes" element={<StudentRenewAnnouncements />} />
 
                                     </Route>
@@ -218,6 +220,7 @@ export default function AppRoutes() {
                                         <Route path="ficha-completa" element={<SubscribeForm backButtonText="Voltar para aluno" />} />
                                         <Route path="documentos" element={<StudentDocuments />} />
                                         <Route path="entrevistas" element={<StudentInterviews />} />
+                                        <Route path="emails" element={<StudentEmails />} />
                                         <Route path="renovacoes" element={<StudentRenewAnnouncements />} />
 
                                     </Route>

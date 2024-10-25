@@ -6,7 +6,7 @@ export default function useBenefitsPDF(applicationId) {
     const [response, setResponse] = useState(null)
     const currentYear = new Date().getFullYear()
     useEffect(() => {
-        console.log('app id', applicationId)
+
         const fetchInformation = async () => {
             try {
                 const information = await userServiceInstance.getBenefitsInformation(applicationId)

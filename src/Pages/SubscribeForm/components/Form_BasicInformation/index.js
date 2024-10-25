@@ -22,7 +22,7 @@ import useSubscribeFormPermissions from 'Pages/SubscribeForm/hooks/useSubscribeF
 export default function FormBasicInformation() {
     const { auth } = useAuth()
     const { canEdit, service } = useSubscribeFormPermissions()
-    console.log(canEdit, service)
+
     const uploadDocuments = async (userId, data) => {
         const formData = createFileForm(data)
         try {

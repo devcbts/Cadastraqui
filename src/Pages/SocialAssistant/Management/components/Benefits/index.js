@@ -36,7 +36,7 @@ export default function AssistantManagerBenefits() {
                                 {
                                     announcement?.educationLevels?.map((e) => {
                                         const { matchedEducationLevels } = e
-                                        console.log(matchedEducationLevels)
+
                                         return matchedEducationLevels?.map(course =>
                                         (<Table.Row>
                                             <Table.Cell>{course.entity}</Table.Cell>

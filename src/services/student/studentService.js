@@ -99,6 +99,10 @@ class StudentService {
     uploadDocument(studentId, formData) {
         return api.post(`students/upload/${studentId}`, formData)
     }
+    async getEmails(studentId) {
+        const response = await api.get(`students/emails/${studentId}`)
+        return response.data.emails
+    }
 }
 
 export default new StudentService()

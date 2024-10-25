@@ -26,7 +26,7 @@ export default function useMemberIncomeView({
         const fetchData = async () => {
             setIsLoading(true)
             try {
-                console.log('chamando aqui', id)
+
                 const [incomes, status] = await Promise.all([
                     service?.getMemberIncomeInfo(id),
                     service?.getMemberIncomeStatus(id),

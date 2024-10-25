@@ -39,10 +39,10 @@ export default function AssistantScheduleView() {
                     }}
                 // onNavigate={(date, view, action) => {
                 //     if (action === 'NEXT' && isFirstDayOfMonth(date)) {
-                //         console.log('primeiro')
+                //         
                 //     }
                 //     if (action === 'PREV' && isLastDayOfMonth(date)) {
-                //         console.log('ultimo')
+                //         
                 //     }
                 // }}
 

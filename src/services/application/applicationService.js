@@ -37,7 +37,7 @@ class ApplicationService {
         return habitationMapper.fromPersistence(response.data)
     }
     async getAllIncomes() {
-        console.log('appid', this.applicationId)
+
         const response = await api.get(`/application/candidateInfo/income/${this.applicationId}`);
         return employementTypeMapper.fromPersistence(response.data)
     }

@@ -50,11 +50,11 @@ export default function EntityStudentsRenewProcess() {
                     entityService.getEntityInfo(),
                     studentService.getRenewCourses()
                 ])
-                console.log(courses)
+
                 setUnits(() => {
                     const subs = units?.EntitySubsidiary?.map((e) => ({ label: e.socialReason, value: e.id }))
                     subs?.push({ label: units?.socialReason, value: units.entity_id })
-                    console.log('SUBS', subs)
+
                     return subs
                 })
                 setCourses(courses)
@@ -89,7 +89,7 @@ export default function EntityStudentsRenewProcess() {
             setData(null)
             NotificationService.success({ text: 'Edital criado' })
         } catch (err) {
-            console.log(err)
+
             NotificationService.error({ text: err?.response?.data?.message })
         }
         setIsLoading(false)

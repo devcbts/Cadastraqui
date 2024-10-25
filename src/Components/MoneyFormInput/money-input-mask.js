@@ -1,5 +1,5 @@
 const moneyInputMask = (value = '') => {
-    console.log(value)
+
     let valueToParse = value?.toString() ?? '';
     if (!valueToParse) {
         valueToParse = '0';

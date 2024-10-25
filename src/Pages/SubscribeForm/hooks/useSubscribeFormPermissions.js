@@ -46,7 +46,7 @@ export default function useSubscribeFormPermissions() {
             canEdit: false,
             service: null,
         }
-        console.log(availablePermissions.find(e => e.roles.includes(role))?.permissions)
+
         return availablePermissions.find(e => e.roles.includes(role))?.permissions ?? nullishRolePermission
     }, [auth.role])
 

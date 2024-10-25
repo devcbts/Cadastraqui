@@ -41,7 +41,7 @@ export default function EntityStudentsRenewProcessCoursesSelect({ data, courses,
     const isBasicEducation = data.educationType === "BasicEducation"
 
     const handleSubmit = () => {
-        console.log(selectedCourses)
+
         // if (selectedCourses.length === 0) {
         //     return NotificationService.error({ text: 'Selecione ao menos um curso' })
         // }

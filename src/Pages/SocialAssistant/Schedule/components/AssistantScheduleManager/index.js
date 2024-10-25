@@ -23,7 +23,7 @@ export default function AssistantScheduleManager() {
         const fetchAnnouncements = async () => {
             try {
                 const information = await socialAssistantService.getAnnouncementsScheduleSummary()
-                console.log(information)
+
                 setAnnouncements(information)
             } catch (err) {
                 NotificationService.error({ text: 'Erro ao carregar editais' })

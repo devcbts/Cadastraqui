@@ -84,7 +84,7 @@ const PropertyStatus = forwardRef(({ data }, ref) => {
             title: 'Enviar por email?',
             text: `Um e-mail será enviado para ${email} para assinatura do documento`,
             onConfirm: () => {
-                console.log(email, file, URL.createObjectURL(file))
+
                 setValue("sign_housing", { email, file })
                 setValue("url_document", URL.createObjectURL(file))
             }

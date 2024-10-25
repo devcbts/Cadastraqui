@@ -43,7 +43,7 @@ export default function StudentListInformation() {
             setIsLoading(true)
             try {
                 const information = await studentService.getStudentInformation(studentId)
-                console.log(information)
+
                 setData(information)
             } catch (err) {
                 NotificationService.error({ text: err?.response?.data?.message }).then(_ => {
@@ -55,7 +55,7 @@ export default function StudentListInformation() {
         fetchStudent()
     }, [studentId])
     const handlePageChange = (page) => {
-        navigate(page, { state: { candidateId: data?.personalInfo?.candidate_id } })
+        navigate(page, { state: { candidateId: data?.personalInfo?.candidate_id, studentId: data?.personalInfo?.id } })
     }
 
     return (
@@ -92,6 +92,10 @@ export default function StudentListInformation() {
                             style={{ placeSelf: 'flex-start' }}
                             onClick={() =>
                                 handlePageChange("entrevistas")} />
+                        <ButtonBase label={'Emails enviados'}
+                            style={{ placeSelf: 'flex-start' }}
+                            onClick={() =>
+                                handlePageChange("emails")} />
                     </div>
                 </div>
             </div >

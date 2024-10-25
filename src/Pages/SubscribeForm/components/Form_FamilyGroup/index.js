@@ -32,7 +32,7 @@ export default function FormFamilyGroup() {
 
         }
     }
-    /* console.log("Estou bem aqui!"); */
+
 
     const handleSaveFamilyMember = async (data) => {
         setIsLoading(true)
@@ -86,7 +86,7 @@ export default function FormFamilyGroup() {
         }
     })
 
-    /* console.log(data); */
+
 
     const handlePrevious = () => {
         if (activeStep === 1) {

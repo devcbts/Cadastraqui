@@ -24,7 +24,7 @@ const AddressData = forwardRef(({ data }, ref) => {
         },
         initialData: data
     }, ref)
-    /* console.log(data); */
+
     const watchCep = watch("CEP")
     const watchState = watch("UF")
     useCep((address) => {

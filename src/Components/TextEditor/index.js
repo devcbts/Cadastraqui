@@ -19,9 +19,11 @@ export default function TextEditor({
                     }}
                     cloudChannel="7"
                     initialValue={initialValue}
+                    onMouseEnter={() =>
+                        hasBeenEdited.current = true
+                    }
                     onEditorChange={(richText, editor) => {
                         if (!hasBeenEdited.current) {
-                            hasBeenEdited.current = true
                             return
                         }
                         const plainText = editor.getContent({ format: "text" })

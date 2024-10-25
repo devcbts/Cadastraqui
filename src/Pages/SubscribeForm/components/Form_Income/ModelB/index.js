@@ -15,7 +15,7 @@ import IncomeMonthSelection from "../MonthSelection";
 import IncomeFile from "../IncomeFile";
 
 const IncomeFormModelB = forwardRef(({ data, viewMode }, ref) => {
-    console.log('dados são', data)
+
     return (
         <IncomeMonthSelection
             ref={ref}
