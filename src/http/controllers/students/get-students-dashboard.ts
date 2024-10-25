@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
-import SelectEntityOrDirector from "../utils/select-entity-or-director";
+import allowedUsersStudentRoutes from "./utils/allowed-users";
 
 export default async function getStudentsDashboard(
     request: FastifyRequest,
@@ -8,7 +8,7 @@ export default async function getStudentsDashboard(
 ) {
     try {
         const { sub, role } = request.user
-        const { user_id } = await SelectEntityOrDirector(sub, role)
+        const { user_id } = await allowedUsersStudentRoutes(sub, role)
         let result: {
             count: number,
             scholarshipPartial: number,

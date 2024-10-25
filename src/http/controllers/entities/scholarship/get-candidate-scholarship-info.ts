@@ -48,14 +48,15 @@ export default async function getCandidateScholarshipInfo(request: FastifyReques
             semester: level.semester,
             isPartial: application.ScholarshipPartial, // Indica se a bolsa é 50% ou 100%
             shift: level.shift,
-            application_id: application.id
+            application_id: application.id,
+
         }
         // Personal Info
         const IsResponsible = application.responsible_id ? true : false
         const identityDetails = await historyDatabase.identityDetails.findUnique({
             where: { application_id: application.id }
         })
-        const photo = await getAwsFile(`ProfilePictures/${(application.responsible?.user_id || application.candidate?.user_id)}`)
+        const photo = await getAwsFile(`ProfilePictures/${(application.candidate?.user_id)}`)
         const url = photo.fileUrl
         if (!identityDetails) {
             throw new ResourceNotFoundError()

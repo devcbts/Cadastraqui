@@ -15,6 +15,8 @@ import { entityRoutes } from './http/controllers/entities/routes';
 import { legalResponsibleRoutes } from './http/controllers/legal-responsible/routes';
 import { signatureRoutes } from './http/controllers/signature/routes';
 import { assistantRoutes } from './http/controllers/social-assistant/routes';
+import studentsRoutes from './http/controllers/students/routes';
+import subscriptionRoutes from './http/controllers/subscriptions/routes';
 import { authenticate } from './http/controllers/users/authenticate';
 import changePassword from './http/controllers/users/change_password';
 import { forgotPassword } from './http/controllers/users/forgot-password';
@@ -35,13 +37,14 @@ import { prisma } from './lib/prisma';
 export const app = fastify({
   trustProxy: true
 })
-app.register(fastifyMultipart, {
-  limits: {
-    fileSize: 15000000,
-    files: 10,
+app.register(fastifyMultipart,
+  {
+    // limits: {
+    //   fileSize: 15000000,
+    //   files: 10,
 
-  },
-})
+    // },
+  })
 // Registre o plugin fastify-cors
 app.register(fastifyCors, {
   origin: ["https://dev-cadastraqui.vercel.app", "https://cadastraqui.vercel.app", "http://localhost:3000", "https://www.cadastraqui.com.br"],
@@ -82,6 +85,8 @@ app.register(adminRoutes, { prefix: '/admin' })
 app.register(signatureRoutes, { prefix: '/sign' })
 app.register(userRoutes, { prefix: '/user' })
 app.register(applicationRoutes, { prefix: '/application' })
+app.register(subscriptionRoutes, { prefix: '/subscription' })
+app.register(studentsRoutes, { prefix: '/students' })
 app.post('/session', authenticate)
 app.post('/forgot_password', forgotPassword)
 app.post('/reset_password', resetPassword)

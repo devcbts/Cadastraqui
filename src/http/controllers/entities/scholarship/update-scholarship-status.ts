@@ -117,11 +117,14 @@ export default async function updateScholarshipStatus(
                         }
                     })
                 }
+                const date = new Date()
+                const deadline = new Date(date.getFullYear() + 1, date.getMonth() + 1, date.getDate())
                 const student = await tPrisma.student.create({
                     data: {
                         announcement_id: scholarship.application.announcement_id,
                         name: scholarship.application.candidateName,
-                        admissionDate: new Date(),
+                        admissionDate: date,
+                        scholarshipDeadline: deadline,
                         scholarshipType: scholarship.application.EducationLevel.typeOfScholarship,
                         isPartial: scholarship.application.ScholarshipPartial!,
                         candidate_id: scholarship.application.candidate_id,

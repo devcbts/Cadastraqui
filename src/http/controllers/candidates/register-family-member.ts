@@ -232,14 +232,15 @@ export async function registerFamilyMemberInfo(
     let id = null;
     await prisma.$transaction(async (tPrisma) => {
 
-      id = await tPrisma.familyMember.create({
+      const member = await tPrisma.familyMember.create({
         data: dataToCreate,
       })
-
+      id = member.id
       const age = calculateAge(new Date(birthDate))
-      const isDependent = age < 18 && candidateOrResponsible.IsResponsible && await tPrisma.candidate.findFirst({
+      const previouslyRegistered = await tPrisma.candidate.findFirst({
         where: { AND: [{ CPF: normalizeString(CPF) }, { responsible_id: candidateOrResponsible.UserData.id }] }
       })
+      const isDependent = age < 18 && candidateOrResponsible.IsResponsible && !previouslyRegistered
       if (
         isDependent
       ) {

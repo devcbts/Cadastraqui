@@ -21,6 +21,7 @@ export async function getBasicInfo(
     if (_id) {
       candidateOrResponsible = await ChooseCandidateResponsible(_id)
     }
+    console.log('aaaaaa', user_id)
     // Verifica se existe um candidato associado ao user_id
     if (!candidateOrResponsible) {
       throw new ResourceNotFoundError()

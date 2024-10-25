@@ -11,9 +11,9 @@ import { detect } from "jschardet";
 import pump from "pump";
 import tmp from 'tmp';
 import { z } from "zod";
-import { SHIFT } from "../../candidates/enums/Shift";
-import { normalizeString } from "../utils/normalize-string";
-import SelectEntityOrDirector from "../utils/select-entity-or-director";
+import { SHIFT } from "../candidates/enums/Shift";
+import { normalizeString } from "../entities/utils/normalize-string";
+import SelectEntityOrDirector from "../entities/utils/select-entity-or-director";
 
 export default async function registerNewStudents(
     request: FastifyRequest,
@@ -75,7 +75,7 @@ export default async function registerNewStudents(
                 CPF: string,
                 Nascimento: Date,
                 Nome: string,
-                candidates?: CSVData[]
+                candidates?: (CSVData & { entityId?: string })[]
             },
         })[] = []
         const csvFile = await request.file();
@@ -178,6 +178,13 @@ export default async function registerNewStudents(
                 const isEntity = e.CNPJ.replace(/\D*/g, '') === entity?.CNPJ.replace(/\D*/g, '')
                 const entityId = isEntity ? entity.id : entity?.EntitySubsidiary.find(i => i.CNPJ.replace(/\D*/g, '') === e.CNPJ.replace(/\D*/g, ''))!.id
                 const isResponsible = e.hasResponsible ?? false
+                if (isResponsible) {
+
+                    e.responsible!.candidates = e.responsible?.candidates?.map(e => {
+                        const entityId = isEntity ? entity.id : entity?.EntitySubsidiary.find(i => i.CNPJ.replace(/\D*/g, '') === e.CNPJ.replace(/\D*/g, ''))!.id
+                        return { ...e, entityId }
+                    })
+                }
                 return ({
                     ...e,
                     role: isResponsible ? ROLE.RESPONSIBLE : ROLE.CANDIDATE,
@@ -250,10 +257,10 @@ export default async function registerNewStudents(
                         }
                         console.log('CANDIDATE', candidateExists)
                         let course = await tPrisma.course.findFirst({
-                            where: { AND: [{ normalizedName: normalizeString(e.Curso) }, { Type: e.CourseType as AllEducationType }] }
+                            where: { AND: [{ normalizedName: normalizeString(candidate.Curso) }, { Type: candidate.CourseType as AllEducationType }] }
                         })
                         let entityCourse = await tPrisma.entityCourse.findFirst({
-                            where: { AND: [{ course: { AND: [{ normalizedName: normalizeString(e.Curso) }, { Type: e.CourseType as AllEducationType }] } }, { OR: [{ entity_id: e.entityId }, { entitySubsidiary_id: e.entityId }] }] }
+                            where: { AND: [{ course: { AND: [{ normalizedName: normalizeString(candidate.Curso) }, { Type: candidate.CourseType as AllEducationType }] } }, { OR: [{ entity_id: candidate.entityId }, { entitySubsidiary_id: candidate.entityId }] }] }
                         })
                         // if (e.IdCurso !== null && e.IdCurso !== undefined) {
                         if (!entityCourse) {
@@ -279,11 +286,14 @@ export default async function registerNewStudents(
                                 }
                             })
                         }
+                        const date = new Date()
+                        const deadline = new Date(date.getFullYear() + 1, date.getMonth() + 1, date.getDate())
                         await tPrisma.student.create({
                             data: {
                                 name: candidate.Nome,
                                 entityCourse_id: entityCourse!.id,
-                                admissionDate: new Date(),
+                                admissionDate: date,
+                                scholarshipDeadline: deadline,
                                 announcement_id: '',
                                 candidate_id: candidateId!,
                                 scholarshipType: candidate.ScholarshipType as AllScholarshipsType,
@@ -298,12 +308,19 @@ export default async function registerNewStudents(
 
                 }))
         })
-        return response.status(201).send({ students: csvData })
+        return response.status(201).send({
+            students: csvData.flatMap(e => {
+                if (e.hasResponsible) {
+                    return e.responsible?.candidates
+                }
+                return e
+            })
+        })
     } catch (err) {
         if (err instanceof APIError) {
             return response.status(400).send({ message: err.message })
         }
-        // console.log(err)
+        console.log(err)
         return response.status(500).send({ message: 'Erro interno no servidor' })
     }
 }
