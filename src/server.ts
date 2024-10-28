@@ -3,6 +3,7 @@ import RemoveOutdatedExepenses from './cron/remove-outdated-expenses'
 import RemoveOutdatedIncomes from './cron/remove-outdated-incomes'
 import Selectjob from './cron/select-valid-candidates'
 import { env } from './env/index'
+import analysisJob from './redis/queues/test'
 
 app
   .listen({

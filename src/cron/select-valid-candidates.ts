@@ -2,6 +2,7 @@ import { Application, CandidateApplicationStatus, Prisma, TiebreakerCriterias } 
 import nodeSchedule from 'node-schedule';
 import { prisma } from "../lib/prisma";
 import dateToTimezone from "../utils/date-to-timezone";
+import { addAnalysisTask } from "@/redis/queues/runApplicationAnalysisQueue";
 // Change to promises to work in background
 const selectValidCandidates = async () => {
     console.log('Starting to sort candidates')
@@ -19,10 +20,11 @@ const selectValidCandidates = async () => {
                     educationLevels: true
                 }
             })
+            console.log(announcementsToValidate)
             // Add some field on 'Application' table to define the current candidate position
             for (const announcement of announcementsToValidate) {
                 for (const level of announcement.educationLevels) {
-
+                    console.log(level.id)
 
                     const currentCriteria = announcement.criteria
                     const mapToFields = [
@@ -73,6 +75,7 @@ const selectValidCandidates = async () => {
                                 candidateStatus: currentStatus
                             }
                         });
+                        await addAnalysisTask(application.id)   
                     }));
 
 
@@ -88,7 +91,10 @@ const selectValidCandidates = async () => {
                 });
             }
             console.log("finalizado")
-        })
+        },
+    {
+        timeout: 30000
+    })
     } catch (err) {
         console.log(err)
     }

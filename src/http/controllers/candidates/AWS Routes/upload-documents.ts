@@ -12,6 +12,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import fs from 'fs'
 import { z } from 'zod'
 import createCandidateDocument from '../Documents Functions/create-candidate-document'
+import { uploadQueue } from '@/redis/queues/uploadDocumentsQueue'
 
 
 
@@ -98,24 +99,17 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
                 if (!sended) {
                     throw new NotAllowedError();
                 }
+                await uploadQueue.add({
+                    route,
+                    fileBuffer:fileBuffer,
+                    metadata: part.metadata,
+                    documentType,
+                    table_id,
+                    member_id,
+                    user_id: candidateOrResponsible.UserData.id
+                });
 
-                const findOpenApplications = await getOpenApplications(candidateOrResponsible.UserData.id);
-                for (const application of findOpenApplications) {
-                    await historyDatabase.$transaction(async (tsBackupPrisma) => {
-                        const routeHDB = await findAWSRouteHDB(candidateOrResponsible.UserData.id, documentType, member_id, table_id, application.id);
-                        const tableIdHDB = await findTableHDBId(documentType, member_id, table_id, application.id);
-                        const finalRoute = `${routeHDB}${part.fieldname.split('_')[1]}.${part.mimetype.split('/')[1]}`;
-                        await createCandidateDocumentHDB(tsBackupPrisma, finalRoute, route, part.metadata, documentType, tableIdHDB, application.id);
-                        const sended = await uploadFile(fileBuffer, finalRoute, part.metadata);
-                        if (!sended) {
-                            throw new NotAllowedError();
-                        }
-                    },
-                        {
-                            timeout: 10000
-                        }
-                    )
-                }
+
                 if (fs.existsSync(part.filename)) {
                     fs.unlinkSync(part.filename)
                 }

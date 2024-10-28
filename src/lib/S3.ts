@@ -260,6 +260,27 @@ export async function copyFilesToAnotherFolder(sourceFolder: string, destination
   }
 }
 
+
+export async function copySingleFileToAnotherFolder(sourceFilePath: string, destinationFilePath: string) {
+  try {
+    console.log(`Copying file from ${sourceFilePath} to ${destinationFilePath}`);
+
+    const copySource = `${bucketName}/${sourceFilePath}`;
+
+    await s3.copyObject({
+      CopySource: copySource,
+      Bucket: bucketName!,
+      Key: destinationFilePath,
+      MetadataDirective: 'COPY'
+    }).promise();
+
+    console.log('File copied successfully');
+  } catch (error: any) {
+    console.error('Error copying file:', error);
+    throw error;
+  }
+}
+
 export async function getAwsFile(
   path: string
 ) {

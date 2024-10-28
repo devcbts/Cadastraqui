@@ -44,7 +44,7 @@ export async function runThread(application_id: string, sectionToFind: section, 
                 analysis: content
             }
         })
-        wait(30000);
+        wait(5000);
         return { myMessages };
     } catch (error: any) {
         console.error("Error:", error.message);
