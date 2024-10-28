@@ -40,6 +40,7 @@ import { uploadAnnouncementPdf } from './upload-announcement-pdf'
 import uploadBasicEducationCSVFileToAnnouncement from './upload-basic-education-csv-to-announcement'
 import uploadHigherEducationCSVFileToAnnouncement from './upload-higher-education-csv-to-announcement'
 import { uploadEntityProfilePicture } from './upload-profile-picture'
+import getCandidatesInterest from './dashboard/get-candidates-interest'
 
 export async function entityRoutes(app: FastifyInstance) {
   /** Admin Routes (Rotas acessadas na página do Admin)
@@ -169,6 +170,6 @@ export async function entityRoutes(app: FastifyInstance) {
   app.get('/courses/all', { onRequest: [verifyJWT] }, getAllCourses)
 
 
-
+app.get('/dashboard/interest/:announcement_id', {onRequest: [verifyJWT, verifyRole(['ASSISTANT','ENTITY','ENTITY_DIRECTOR'])]} , getCandidatesInterest)
 
 }
