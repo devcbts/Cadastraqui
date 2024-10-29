@@ -68,7 +68,7 @@ export default function Members() {
                 {
                     members.map((member) => (
                         <Table.Row>
-                            <Table.Cell>{member.name}</Table.Cell>
+                            <Table.Cell align="left">{member.name}</Table.Cell>
                             <Table.Cell>{member.role}</Table.Cell>
                             <Table.Cell>
                                 <ButtonBase label={'editar'} onClick={() => setSelection(member)} />

@@ -1,0 +1,66 @@
+@import '../../Assets/theme/colors.module.scss';
+.header{
+    background: none;
+    border: none;
+    box-shadow: none;
+    text-shadow: none;
+    color: $primary;
+    font-size: 14px;
+    &::first-letter{
+        text-transform: capitalize;
+    }
+    text-align: center;
+    font-weight: 700;
+    @media(max-width: 800px) {
+        font-size: 10px;
+      }
+}
+
+.row{
+    background: none !important;
+    border-top: 1px solid $lightgrey !important;
+    border-bottom: 1px solid $lightgrey !important;
+}
+
+.cell{
+    border-collapse: collapse;
+    background: none !important;
+    border: none;
+    // text-align: center;
+    color: $primary;
+    font-size: 14px;
+    font-weight: 500;
+    width: auto;
+    white-space: nowrap;
+
+    &.divider {
+        border-right: 1px solid $lightgrey;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+        align-items: center;
+        // justify-content: center;
+        // flex-grow: 1;
+        button {
+            font-size: 12px;
+            align-items: center;
+            justify-content: center;
+        }
+
+    }
+}
+
+.filterWrapper {
+   display: flex;
+   flex-direction: row;
+}
+
+@media (max-width:768px) {
+    .filterWrapper {
+        display: flex;
+        flex-direction: column;
+     }
+}

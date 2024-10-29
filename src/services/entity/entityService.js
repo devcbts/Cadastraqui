@@ -39,8 +39,18 @@ class EntityService {
         const response = await api.post("/entities/announcement", mappedData)
         return response.data.announcement
     }
-    async getFilteredAnnouncements({ filter } = { filter: null }) {
-        const response = await api.get(`/entities/announcement/search${filter ? `?filter=${filter}` : ``}`)
+    async getFilteredAnnouncements({
+        filter,
+        page,
+        items,
+        name,
+    }) {
+        const response = await api.get(`/entities/announcement/search`, {
+            params: {
+                filter,
+                page, items, name
+            }
+        })
         return response.data.announcements
     }
     async getAnnouncementById(id) {
