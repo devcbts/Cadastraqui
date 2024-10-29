@@ -1,5 +1,6 @@
 import { ForbiddenError } from "@/errors/forbidden-error";
 import { prisma } from "@/lib/prisma";
+import getCandidateInterestForDashboard from "@/utils/dashboard/get-candidate-interest";
 import { FastifyReply, FastifyRequest } from "fastify";
 
 export default async function getAssistantDashboard(request: FastifyRequest, reply: FastifyReply) {
@@ -46,6 +47,7 @@ export default async function getAssistantDashboard(request: FastifyRequest, rep
         const allInterviews = interviews.length
         const todayInterviews = interviews.filter(interview => interview.date.toDateString() === new Date().toDateString()).length
 
+        const candidateInterest = await getCandidateInterestForDashboard(myAnnouncements)
 
         return reply.status(200).send({
             allAnnouncements,
@@ -57,7 +59,8 @@ export default async function getAssistantDashboard(request: FastifyRequest, rep
             numberOfRequests,
             resolvedRequests,
             allInterviews,
-            todayInterviews
+            todayInterviews,
+            candidateInterest
 
         })
 
