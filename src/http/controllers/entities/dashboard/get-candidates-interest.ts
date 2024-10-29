@@ -4,6 +4,19 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { AnnouncementNotExists } from '../../../../errors/announcement-not-exists-error';
 
+
+const percentages = {
+    cadastrante: 20,
+    grupoFamiliar: 20,
+    moradia: 5,
+    veiculos: 5,
+    rendaMensal: 20,
+    despesas: 10,
+    saude: 5,
+    declaracoes: 15,
+    documentos: 0
+};
+
 export default async function getCandidatesInterest(request: FastifyRequest, reply: FastifyReply) {
     const interestSchema = z.object({
         announcement_id: z.string()
@@ -24,23 +37,58 @@ export default async function getCandidatesInterest(request: FastifyRequest, rep
             include: {
                 candidate: {
                     include: {
-                        FinishedRegistration: true
+                        FinishedRegistration: true,
+                        IdentityDetails: {
+                            select: {
+                                workPhone: true,
+                            }
+                        },
+                        user: {
+                            select: {
+                                email: true,
+                               
+                            }
+                        }
                     }
                 },
                 responsible: {
                     include: {
-                        FinishedRegistration: true
+                        FinishedRegistration: true,
+                        IdentityDetails: {
+                            select: {
+                                workPhone: true,
+                            },
+                        },
+                        user: {
+                            select: {
+                                email: true,
+                            }
+                        }
                     }
                 }
 
             }
         })
+        
+        const applications = await prisma.application.findMany({
+            where: { announcement_id },
+            select: {
+                responsible_id: true,
+                candidate_id: true,
+            }
+        })
         const numberOfInterested = allInterest.length
-        let numberOfFinishedRegistration = 0 
-        for (const userInterest of allInterest) {
-            const completions = userInterest.candidate?.FinishedRegistration || userInterest.responsible?.FinishedRegistration
+        let numberOfFinishedRegistration = 0
+        const candidateInterest = allInterest.map(userInterest => {
+            const candidateInfo = userInterest.candidate || userInterest.responsible
+            const completions = candidateInfo?.FinishedRegistration
+            const dataToSend = {
+                name: candidateInfo?.name,
+                email: candidateInfo?.user?.email,
+                phone: candidateInfo?.IdentityDetails?.workPhone,
+            }
             if (!completions) {
-                continue
+                return { ...dataToSend, status: "Interessado", percentage: 0 };
             }
             // Verificar se todas as propriedades são true
             const allCompleted = completions.cadastrante &&
@@ -56,19 +104,42 @@ export default async function getCandidatesInterest(request: FastifyRequest, rep
             if (allCompleted) {
                 numberOfFinishedRegistration++
             }
-        }
 
+            let totalPercentage = 0;
 
-        const applications = await prisma.application.count({
-            where: { announcement_id }
+            for (const [key, value] of Object.entries(percentages)) {
+                if (completions[key as keyof typeof completions]) {
+                    totalPercentage += value;
+                }
+            }
+            
+            const percentage = totalPercentage;
+            let status;
+            if (allCompleted) {
+                status = "Completo"
+            } else {
+                status = "Iniciado"
+            }
+            //Vericficar se o candidato/usuário está inscrito
+            if (applications.some(application => application.candidate_id === candidateInfo?.id || application.responsible_id === candidateInfo?.id)) {
+                status = "Inscrito"
+                
+                
+            }
+            return { ...dataToSend, status, percentage };
         })
+
+
+
 
         return reply.status(200).send({
             numberOfInterested,
-            numberOfApplications: applications,
+            numberOfApplications: applications.length,
             numberOfFinishedRegistration,
-            numberOfUnfinishedRegistration: numberOfInterested - numberOfFinishedRegistration
+            numberOfUnfinishedRegistration: numberOfInterested - numberOfFinishedRegistration,
+            candidateInterest
         })
+
     } catch (error: any) {
         if (error instanceof AnnouncementNotExists) {
             return reply.status(404).send({ message: error.message })
