@@ -10,6 +10,7 @@ import formatDate from "utils/format-date";
 import SocialAssistantSelection from "./components/SocialAssistantSelection";
 import { NotificationService } from "services/notification";
 import Courses from "./components/Courses";
+import InterestCards from "Components/Announcement/InterestCards";
 
 export default function EntityAnnouncementView() {
     const { announcementId } = useParams()
@@ -40,7 +41,8 @@ export default function EntityAnnouncementView() {
                     <ButtonBase label={'PDF'} />
                 </Link>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <InterestCards announcementId={announcement?.id} />
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: '24px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     <span>Vigência do edital: {formatDate(announcement?.announcementBegin)} à {formatDate(announcement?.announcementDate, { utc: false })}</span>
                     <span>Período de inscrição: {formatDate(announcement?.openDate)} à {formatDate(announcement?.closeDate, { utc: true })}</span>
@@ -53,9 +55,9 @@ export default function EntityAnnouncementView() {
                     </span>
                     <span>Total de vagas: {announcement?.verifiedScholarships}</span>
                 </div>
-                <Card title={'candidatos inscritos'}>
+                {/* <Card title={'candidatos inscritos'}>
                     {announcement?.Application.length}
-                </Card>
+                </Card> */}
             </div>
             <SocialAssistantSelection assistants={announcement?.socialAssistant} announcementId={announcementId} />
             <Courses courses={announcement?.educationLevels} />

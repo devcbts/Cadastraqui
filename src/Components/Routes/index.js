@@ -62,6 +62,7 @@ import StudentDocuments from "Pages/Students/Listing/components/StudentInformati
 import StudentInterviews from "Pages/Students/Listing/components/StudentInformation/components/StudentInterviews";
 import StudentRenewAnnouncements from "Pages/Students/Listing/components/StudentInformation/components/StudentRenewAnnouncements";
 import StudentEmails from "Pages/Students/Listing/components/StudentInformation/components/StudentsEmails";
+import InterestListing from "Pages/InterestListing";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -177,7 +178,7 @@ export default function AppRoutes() {
                             </Route>
                             <Route path="renovacao" element={<EntityStudentsRenew />} />
                         </Route>
-
+                        <Route path="/interessados" element={<InterestListing />} />
                         <Route path="*" element={<Navigate to={'/home'} />} replace />
 
                     </Routes>
