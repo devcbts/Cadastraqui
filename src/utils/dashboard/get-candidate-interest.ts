@@ -66,12 +66,25 @@ export default async function getCandidateInterestForDashboard(announcements: An
 
         ;
     }
+    // Group by announcement_id
+    const distributionByAnnouncement = announcement_ids.map((announcement_id) => {
+        const interests = allInterest.filter(interest => interest.announcement_id === announcement_id);
+        const numberOfInterested = interests.length;
+
+
+        return {
+            announcement_id,
+            numberOfInterested
+        };
+    });
+
 
     return {
-        numberOfInterested,
+        totalNumberOfInterested: numberOfInterested,
         numberOfApplications: applications.length,
         numberOfFinishedRegistration,
         numberOfUnfinishedRegistration:
             numberOfInterested - numberOfFinishedRegistration,
+        distributionByAnnouncement
     };
 }

@@ -72,8 +72,7 @@ export default async function getEntityDashboard(
         const announcements = entity.Announcement
         // Pegar dados do gráfico de Candidatos
         const candidatesInterest = await getCandidateInterestForDashboard(announcements)
-
-
+        
         // .filter((e => e.announcementDate! > new Date()))
         const vacancies = announcements.reduce((acc, announcement) => {
             return acc += announcement.verifiedScholarships
@@ -163,13 +162,25 @@ export default async function getEntityDashboard(
 
         }, [])
 
+        // 
+        const annotuncemenInterest = announcements.map(announcement => {
+     
+            const numberOfInterested = candidatesInterest.distributionByAnnouncement.find(e => e.announcement_id === announcement.id)?.numberOfInterested || 0
+            return {
+            id: announcement.id,
+            name: announcement.announcementName,
+            numberOfInterested,
+            };
+        });
+
         return response.status(200).send({
             announcements: announcements.length,
             vacancies,
             subscriptions,
             unit: unitVacancies,
             courses: coursesApplicants,
-            candidatesInterest
+            candidatesInterest,
+            annotuncemenInterest
         })
     } catch (err) {
         console.log(err)
