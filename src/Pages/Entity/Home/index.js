@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import entityService from "services/entity/entityService";
 import toColor from "utils/number-to-color";
+import EntityCandidateInterest from "./EntityCandidateInterest";
 
 export default function EntityHome() {
     const [data, setData] = useState(null)
@@ -108,7 +109,10 @@ export default function EntityHome() {
                     </ResponsiveContainer>
                 </GraphCard>
             </div>
-
+            <EntityCandidateInterest
+                announcementInterest={data?.announcementInterest}
+                candidateInterest={data?.candidatesInterest}
+            />
         </div>
     )
 }

@@ -8,15 +8,18 @@ import { useRecoilValue } from "recoil";
 import styles from './styles.module.scss'
 import { ReactComponent as Play } from 'Assets/icons/player-play.svg'
 import Tooltip from "Components/Tooltip";
+import headerAtom from "Components/Header/atoms/header-atom";
 export default function Tutorial() {
     const value = useRecoilValue(tutorialAtom)
     const [openPalyer, setOpenPlayer] = useState(false)
     const ref = useOutsideClick(() => setOpenPlayer(false))
+    // if sidebar is visible (UserHeader) invert colors
+    const { hiddenSidebar } = useRecoilValue(headerAtom)
     if (!value) return null
     return (
         <div style={{ position: 'relative', right: '24px' }}>
 
-            <div title={"Tutorial disponível"} className={styles.container} onClick={() => { setOpenPlayer(true) }} >
+            <div title={"Tutorial disponível"} className={styles.container} onClick={() => { setOpenPlayer(true) }} data-theme={hiddenSidebar ? "default" : "secondary"}>
                 <div className={styles.tutorial}>
                     <h4>
                         TUTORIAL
