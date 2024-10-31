@@ -18,8 +18,6 @@ export default function UserHeader() {
                             ? <img className={styles.profilepicture} src={profilePicture} />
                             : <User className={styles.placeholder} />
                     }
-
-
                 </div>
             </div>
         </header>

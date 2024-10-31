@@ -7,12 +7,14 @@ import reportWebVitals from './reportWebVitals';
 import 'Assets/theme/global.module.scss'
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css"
+import Header from 'Components/Header';
+import Layout from 'Components/Layout';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <AuthProvider>
       <RecoilRoot>
-        <AppRoutes />
+        <Layout />
       </RecoilRoot>
     </AuthProvider>
     <ToastContainer position='bottom-right' />

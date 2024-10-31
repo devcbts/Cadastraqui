@@ -10,6 +10,11 @@ body,html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: $primary;
+    height: 100vh !important;
+}
+
+div[id="root"]{
+    height: 100% !important; 
 }
 
 fieldset{

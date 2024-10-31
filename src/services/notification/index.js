@@ -24,7 +24,8 @@ class NotificationService {
                 text,
                 icon: "success",
                 iconColor: "#499468",
-                customClass: this.styles
+                customClass: this.styles,
+                heightAuto: false
 
             })
         } else if (type === "toast") {
@@ -40,7 +41,8 @@ class NotificationService {
                 text,
                 icon: "error",
                 iconColor: "#EF3E36",
-                customClass: this.styles
+                customClass: this.styles,
+                heightAuto: false
             })
         }
         else if (type === "toast") {
@@ -54,7 +56,8 @@ class NotificationService {
             text,
             icon: "warning",
             iconColor: "amber",
-            customClass: this.styles
+            customClass: this.styles,
+            heightAuto: false
         })
     }
 
@@ -67,7 +70,8 @@ class NotificationService {
             showConfirmButton: true,
             confirmButtonText: confirm,
             cancelButtonText: cancel,
-            customClass: this.styles
+            customClass: this.styles,
+            heightAuto: false
         })
         if (isConfirmed) {
             onConfirm()

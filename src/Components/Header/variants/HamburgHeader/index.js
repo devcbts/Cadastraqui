@@ -5,7 +5,8 @@ import LogoWhite from '../../../../Assets/images/logo_white.png'
 import styles from './styles.module.scss'
 import useOutsideClick from 'hooks/useOutsideClick'
 import Tutorial from 'Components/Tutorial'
-export default function HamburgHeader({ children }) {
+import SidebarSelection from 'Components/Sidebar/SidebarSelection'
+export default function HamburgHeader() {
     // TODO: control sidebar effect
     const [isMenuOpen, setMenuOpen] = useState(false)
     const handleMenuChange = () => {
@@ -30,7 +31,9 @@ export default function HamburgHeader({ children }) {
                 <img className={styles.logo} alt='logo' src={LogoWhite}></img>
                 <Tutorial />
             </header>
-            {isMenuOpen && <div ref={ref}>{children}</div>}
+            {isMenuOpen && <div ref={ref}>
+                <SidebarSelection />
+            </div>}
         </div>
     )
 } 

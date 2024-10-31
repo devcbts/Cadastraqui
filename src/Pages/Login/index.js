@@ -13,8 +13,6 @@ import userService from 'services/user/userService'
 import loginSchema from './schemas/login-schema'
 import styles from './styles.module.scss'
 import { api } from 'services/axios'
-import UnauthenticatedHeader from 'Components/Header/variants/UnauthenticatedHeader'
-import UnauthenticatedPage from 'Pages/Unauthenticated'
 import Container from 'Components/Container'
 import BrandLogo from 'Components/BrandLogo'
 export default function Login() {
@@ -62,9 +60,9 @@ export default function Login() {
         setLoading(null)
     }
     return (
-        <UnauthenticatedPage >
+        < >
             <Loader loading={!!loading} text={loading} />
-            <div style={{ display: 'flex', flexDirection: 'row', flexGrow: '1', gap: '64px', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '64px', justifyContent: 'center' }}>
                 <BrandLogo />
                 <Container title={'Login'} desc={'Digite seu email e senha para continuar'}>
                     <div style={{ display: 'flex', flexDirection: 'column', flexGrow: '1', justifyContent: 'space-between' }}>
@@ -90,6 +88,6 @@ export default function Login() {
                 </Container>
 
             </div>
-        </UnauthenticatedPage>
+        </>
     )
 }
