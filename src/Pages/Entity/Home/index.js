@@ -1,5 +1,6 @@
 import Card from "Components/Card";
 import Loader from "Components/Loader";
+import GraphCard from "Pages/Students/Dashboard/components/GraphCard";
 import { useEffect, useState } from "react";
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import entityService from "services/entity/entityService";
@@ -37,10 +38,10 @@ export default function EntityHome() {
                     {data?.subscriptions}
                 </Card>
             </div>
-            <div style={{ marginTop: '64px' }}>
-                <h3>Distribuição de inscritos por unidade</h3>
-                <div style={{ display: 'flex', justifyContent: 'center', width: "max(400px,100%)", height: '250px', alignItems: 'center' }}>
-                    <ResponsiveContainer width={"80%"}  >
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '12px', marginTop: '24px' }}>
+
+                <GraphCard title={'Distribuição de inscritos por unidade'}>
+                    <ResponsiveContainer width={"100%"} minHeight={300} >
                         <BarChart
                             width={500}
                             height={500}
@@ -54,7 +55,7 @@ export default function EntityHome() {
                                 verticalAlign="top"
                             />
                             <CartesianGrid />
-                            <XAxis />
+                            {/* <XAxis dataKey={"name"} /> */}
                             <YAxis />
                             <Tooltip formatter={(value, name) => {
                                 return [value, "inscritos"]
@@ -74,12 +75,9 @@ export default function EntityHome() {
                             </Bar>
                         </BarChart>
                     </ResponsiveContainer>
-                </div>
-            </div>
-            <div>
-                <h3>Distribuição de inscritos por curso</h3>
-                <div style={{ display: 'flex', justifyContent: 'center', width: "max(400px,100%)", height: "200px", alignItems: 'center' }}>
-                    <ResponsiveContainer width={"80%"}>
+                </GraphCard>
+                <GraphCard title={'Distribuição de inscritos por curso'}>
+                    <ResponsiveContainer width={"100%"} minHeight={300}>
                         <PieChart>
                             <Legend payload={data?.courses?.map(e => {
                                 return ({ value: e.name, color: toColor(e.id) })
@@ -108,7 +106,7 @@ export default function EntityHome() {
                             <Tooltip formatter={(value, name, props) => [value, name]} />
                         </PieChart>
                     </ResponsiveContainer>
-                </div>
+                </GraphCard>
             </div>
 
         </div>

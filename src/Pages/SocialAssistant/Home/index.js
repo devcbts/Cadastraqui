@@ -84,7 +84,7 @@ export default function AssistantHome() {
                     {data?.todayInterviews}
                 </Card>
             </div >
-            <div style={{ display: 'flex', flexDirection: 'row', flexGrow: '1', gap: '12px' }}>
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '12px', }}>
 
                 <GraphCard title={'Meus editais (por fase)'} >
                     <ResponsiveContainer width={"100%"} minHeight={300} >
@@ -150,7 +150,7 @@ export default function AssistantHome() {
                         </PieChart>
                     </ResponsiveContainer>
                 </GraphCard>
-            </div>
+            </div >
         </>
     )
 }
