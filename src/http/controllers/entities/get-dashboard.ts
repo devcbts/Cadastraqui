@@ -1,8 +1,8 @@
 import { NotAllowedError } from "@/errors/not-allowed-error";
 import { prisma } from "@/lib/prisma";
+import getCandidateInterestForDashboard from "@/utils/dashboard/get-candidate-interest";
 import { FastifyReply, FastifyRequest } from "fastify";
 import SelectEntityOrDirector from "./utils/select-entity-or-director";
-import getCandidateInterestForDashboard from "@/utils/dashboard/get-candidate-interest";
 
 export default async function getEntityDashboard(
     request: FastifyRequest,
@@ -72,7 +72,7 @@ export default async function getEntityDashboard(
         const announcements = entity.Announcement
         // Pegar dados do gráfico de Candidatos
         const candidatesInterest = await getCandidateInterestForDashboard(announcements)
-        
+
         // .filter((e => e.announcementDate! > new Date()))
         const vacancies = announcements.reduce((acc, announcement) => {
             return acc += announcement.verifiedScholarships
@@ -163,13 +163,13 @@ export default async function getEntityDashboard(
         }, [])
 
         // 
-        const annotuncemenInterest = announcements.map(announcement => {
-     
+        const announcementInterest = announcements.map(announcement => {
+
             const numberOfInterested = candidatesInterest.distributionByAnnouncement.find(e => e.announcement_id === announcement.id)?.numberOfInterested || 0
             return {
-            id: announcement.id,
-            name: announcement.announcementName,
-            numberOfInterested,
+                id: announcement.id,
+                name: announcement.announcementName,
+                numberOfInterested,
             };
         });
 
@@ -180,7 +180,7 @@ export default async function getEntityDashboard(
             unit: unitVacancies,
             courses: coursesApplicants,
             candidatesInterest,
-            annotuncemenInterest
+            announcementInterest
         })
     } catch (err) {
         console.log(err)
