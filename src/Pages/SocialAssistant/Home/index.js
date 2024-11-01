@@ -137,9 +137,12 @@ export default function AssistantHome() {
                                 }
                             </Pie>
                             <Tooltip
-                                formatter={(v) => {
-                                    return [v, 'Candidatos']
+                                formatter={(v, _, { payload }) => {
+                                    return [v, payload?.label]
                                 }}
+                            // labelFormatter={(v, payload) => {
+                            //     return payload[0].payload.label
+                            // }}
                             />
                             <Legend
                                 iconType="square"

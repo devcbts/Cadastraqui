@@ -80,13 +80,7 @@ export default function EntityHome() {
                 <GraphCard title={'Distribuição de inscritos por curso'}>
                     <ResponsiveContainer width={"100%"} minHeight={300}>
                         <PieChart>
-                            <Legend payload={data?.courses?.map(e => {
-                                return ({ value: e.name, color: toColor(e.id) })
-                            }) ?? []}
-                                layout="vertical"
-                                align="left"
-                                verticalAlign="top"
-                            />
+
                             <Pie
                                 width={500}
                                 height={300}
@@ -104,6 +98,13 @@ export default function EntityHome() {
                                     })
                                 }
                             </Pie>
+                            <Legend payload={data?.courses?.map(e => {
+                                return ({ value: e.name, color: toColor(e.id) })
+                            }) ?? []}
+                                layout="vertical"
+                                align="right"
+                                verticalAlign="top"
+                            />
                             <Tooltip formatter={(value, name, props) => [value, name]} />
                         </PieChart>
                     </ResponsiveContainer>

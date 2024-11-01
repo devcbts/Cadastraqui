@@ -23,6 +23,7 @@ export default function EntityCandidateInterest({ announcementInterest, candidat
                 </Card>
             </div>
             <GraphCard
+                title={'Candidatos interessados por edital'}
                 style={{ marginTop: '24px' }}
             >
                 <ResponsiveContainer width={"100%"} minHeight={300} >
@@ -41,7 +42,7 @@ export default function EntityCandidateInterest({ announcementInterest, candidat
                         {/* <XAxis dataKey={"name"} /> */}
                         <YAxis />
                         <Tooltip formatter={(value, name) => {
-                            return [value, "inscritos"]
+                            return [value, "interessados"]
                         }}
                             labelFormatter={(_, payload) => {
                                 return payload?.[0]?.payload.name

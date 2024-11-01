@@ -1,4 +1,4 @@
-import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { needle } from "./Needle";
 
 export default function IndicatorChart({ data, value }) {
@@ -20,13 +20,16 @@ export default function IndicatorChart({ data, value }) {
                     innerRadius={iR}
                     outerRadius={oR}
                     stroke="#1F4B73"
-                    strokeWidth={2}
+                    strokeWidth={2.5}
                     width={'fit-content'}
                 >
                     {data.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                 </Pie>
+                <Tooltip
+                    formatter={() => [`${value}%`, 'atual']}
+                />
                 <Legend
                     iconType="circle"
                     verticalAlign="middle"
@@ -34,7 +37,7 @@ export default function IndicatorChart({ data, value }) {
                     formatter={(_, entry) => {
                         return entry.payload.legend
                     }} />
-                {needle({ color: 'black', cx, cy, iR, oR, data, value })}
+                {needle({ color: '#c2c2c2', cx, cy, iR, oR, data, value })}
 
             </PieChart>
         </ResponsiveContainer>
