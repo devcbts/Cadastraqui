@@ -35,7 +35,7 @@ uploadQueue.on('error', (error) => {
 
 
 uploadQueue.process(async (job, done) => {
-    const { route, fileBuffer, metadata, documentType, table_id, member_id, user_id } = job.data;
+    const { route, metadata, documentType, table_id, member_id, user_id } = job.data;
     try {
         // Inicia transação de envio de documento
 

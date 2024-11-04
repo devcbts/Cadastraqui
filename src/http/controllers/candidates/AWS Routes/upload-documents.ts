@@ -101,7 +101,6 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
                 }
                 await uploadQueue.add({
                     route,
-                    fileBuffer:fileBuffer,
                     metadata: part.metadata,
                     documentType,
                     table_id,
