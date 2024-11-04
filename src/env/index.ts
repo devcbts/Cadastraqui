@@ -13,7 +13,7 @@ const envSchema = z.object({
   PLUGSIGN_API_KEY: z.string(),
   PORTAL_TRANSPARENCIA_KEY: z.string(),
   REDIS_HOST: z.string(), // Substitua pelo host do seu Redis na nuvem
-  REDIS_PORT: z.number(), // Substitua pela porta do seu Redis na nuvem
+  REDIS_PORT: z.coerce.number(), // Substitua pela porta do seu Redis na nuvem
   REDIS_PASSWORD: z.string()
 })
 // Validação das variáveis de ambiente
