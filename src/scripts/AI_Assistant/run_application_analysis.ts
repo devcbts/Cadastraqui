@@ -32,7 +32,6 @@ export async function runApplicationAnalysis(application_id: string) {
 }
 
 
-runApplicationAnalysis('135deb2d-3710-4337-8e68-3824964eaa0d')
 const FamilyMembersections = [
     'statement',
     'health',
