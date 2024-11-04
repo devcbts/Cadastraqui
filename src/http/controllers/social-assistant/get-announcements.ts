@@ -46,6 +46,7 @@ export async function getAnnouncements(
           return [
             { closeDate: { lt: currentDate } },
             { announcementDate: { gte: currentDate } },
+            { interview: { AND: [{ startDate: { lte: currentDate } }, { endDate: { gt: currentDate } }] } }
           ]
         }
         if (filter === 'finished') {
