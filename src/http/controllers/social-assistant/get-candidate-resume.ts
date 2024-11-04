@@ -9,6 +9,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { getAssistantDocumentsPDF_HDB } from "./AWS-routes/get-assistant-documents-by-section";
 import { getSectionDocumentsPDF_HDB } from "./AWS-routes/get-documents-by-section-HDB";
+import { getDocumentsUrls } from "@/utils/assistant/get-documents-urls";
 
 export async function getCandidateResume(
     request: FastifyRequest,
@@ -28,6 +29,7 @@ export async function getCandidateResume(
         'income',
         'bank',
         'registrato',
+        'pix',
         'statement',
         'health',
         'medication',
@@ -354,9 +356,3 @@ export async function getCandidateResume(
 }
 
 
-export const getDocumentsUrls = async (sections: string[], application_id: string) => {
-    const documentsPromises = sections.map(section =>
-        getSectionDocumentsPDF_HDB(application_id, section).then(document => ({ [section]: document }))
-    );
-    return Promise.all(documentsPromises);
-};

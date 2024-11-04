@@ -8,10 +8,13 @@ const envSchema = z.object({
   AWS_BUCKET_REGION: z.string(),
   AWS_ACCESS_KEY_ID: z.string(),
   AWS_SECRET_KEY_ID: z.string(),
-  CPF_CNPJ_KEY : z.string(),
+  CPF_CNPJ_KEY: z.string(),
   MAPS_KEY: z.string(),
   PLUGSIGN_API_KEY: z.string(),
-  PORTAL_TRANSPARENCIA_KEY: z.string()
+  PORTAL_TRANSPARENCIA_KEY: z.string(),
+  REDIS_HOST: z.string(), // Substitua pelo host do seu Redis na nuvem
+  REDIS_PORT: z.number(), // Substitua pela porta do seu Redis na nuvem
+  REDIS_PASSWORD: z.string()
 })
 // Validação das variáveis de ambiente
 const _env = envSchema.safeParse(process.env)

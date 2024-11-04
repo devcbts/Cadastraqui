@@ -1168,19 +1168,51 @@ model StudentDocuments {
 }
 
 model AIAssistant {
-  id             String @id @default(uuid())
-  AIassistant_id String
+  id             String            @id @default(uuid())
+  AIassistant_id String // id do modelo IA na OPEN AI
   thread_id      String
-
+  member_id      String
+  table_id       String?
   section        Section
   application_id String
-  application    Application @relation(fields: [application_id], references: [id], onDelete: Cascade)
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @default(now()) @updatedAt
+  application    Application       @relation(fields: [application_id], references: [id], onDelete: Cascade)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @default(now()) @updatedAt
+  status         AIAssistantStatus @default(INCONCLUSIVE)
+  inconsistences Int               @default(0)
+  analysis       String?
+  filePaths      String[]
+  AIFeedBack     AIFeedBack?
+  aIFeedBackId   String?
 
-  @@unique([application_id, section], name: "application_id_section")
+  @@unique([application_id, section, member_id, table_id], name: "application_id_section_member_table")
   @@index([application_id], name: "application_id")
 }
+enum AIAssistantStatus {
+  CONCLUSIVE
+  INCONCLUSIVE
+}
+
+
+model AIFeedBack {
+  id String @id @default(uuid())
+  
+  feedback     String?
+  feedbackType FeedbackType
+  problem     String?
+
+  AI_id        String @unique
+  AIAssistant  AIAssistant @relation(fields: [AI_id], references: [id])
+  createdAt    DateTime @default(now())
+
+}
+
+enum FeedbackType {
+  POSITIVE
+  NEGATIVE
+  NEUTRAL
+}
+
 
 enum Section {
   IDENTITY
@@ -1195,9 +1227,6 @@ enum Section {
   MEDICATION
   VEHICLE
   EXPENSES
-  LOAN
-  FINANCING
-  CREDIT_CARD
   DECLARACOES
   PIX
 }

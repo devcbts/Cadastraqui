@@ -58,10 +58,7 @@ import { sendParecerDocumentToSign } from './send-parecer-document-to-sign'
 import { updateApplication } from './update-application'
 import updateAssistantProfile from './update-assistant-profile'
 import { updateSolicitationWithReport } from './update-solicitation-report'
-import createThread from './assistant_AI/create-thread'
-import InitializeThread from './assistant_AI/initialize-thread'
-import getThreadMessages from './assistant_AI/get-thread-messages'
-import RunThread from './assistant_AI/run-thread'
+
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
   app.post('/', { onRequest: [verifyJWT] }, registerAssistant)
@@ -199,9 +196,4 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/administrative/report/full/:announcement_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getFullReport)
   app.get('/administrative/report/nominal/:announcement_id/:entity_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getNominalReport)
 
-
-  app.post('/ai/create/:application_id/:sectionToFind', { onRequest: [verifyJWT] }, createThread)
-  app.post('/ai/initialize/:application_id/:sectionToFind', { onRequest: [verifyJWT] }, InitializeThread)
-  app.get('/ai/get/:application_id/:sectionToFind', { onRequest: [verifyJWT] }, getThreadMessages)
-  app.get('/ai/run/:application_id/:sectionToFind', { onRequest: [verifyJWT] }, RunThread)
 }

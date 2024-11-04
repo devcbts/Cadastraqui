@@ -4,6 +4,7 @@ import RemoveOutdatedIncomes from './cron/remove-outdated-incomes'
 import Selectjob from './cron/select-valid-candidates'
 import sendStudentUpdateEmailJob from './cron/send-student-update-email'
 import { env } from './env/index'
+import analysisJob from './redis/queues/test'
 
 app
   .listen({

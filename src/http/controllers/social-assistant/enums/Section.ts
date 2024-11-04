@@ -14,9 +14,7 @@ export const section = z.enum([
     "medication",
     "vehicle",
     "expenses",
-    "loan",
-    "financing",
-    "credit-card",
+
     "declaracoes",
     "pix"
 ]);
@@ -37,9 +35,7 @@ export const dbSection = z.enum([
     "MEDICATION",
     "VEHICLE",
     "EXPENSES",
-    "LOAN",
-    "FINANCING",
-    "CREDIT_CARD",
+
     "DECLARACOES",
     "PIX"
 ]);
@@ -60,9 +56,7 @@ const sectionToDbSectionMap: Record<z.infer<typeof section>, z.infer<typeof dbSe
     "medication": "MEDICATION",
     "vehicle": "VEHICLE",
     "expenses": "EXPENSES",
-    "loan": "LOAN",
-    "financing": "FINANCING",
-    "credit-card": "CREDIT_CARD",
+
     "declaracoes": "DECLARACOES",
     "pix": "PIX"
 };
@@ -81,9 +75,7 @@ const dbSectionToSectionMap: Record<z.infer<typeof dbSection>, z.infer<typeof se
     "MEDICATION": "medication",
     "VEHICLE": "vehicle",
     "EXPENSES": "expenses",
-    "LOAN": "loan",
-    "FINANCING": "financing",
-    "CREDIT_CARD": "credit-card",
+
     "DECLARACOES": "declaracoes",
     "PIX": "pix"
 };
