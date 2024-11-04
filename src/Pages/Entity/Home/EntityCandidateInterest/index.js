@@ -33,7 +33,7 @@ export default function EntityCandidateInterest({ announcementInterest, candidat
                         data={announcementInterest}
                     >
                         <Legend payload={announcementInterest?.map(e => {
-                            return ({ value: e.name, color: toColor(e.name) })
+                            return ({ value: e.name, color: toColor(e.id) })
                         }) ?? []}
                             layout="vertical"
                             align="left"
@@ -52,7 +52,7 @@ export default function EntityCandidateInterest({ announcementInterest, candidat
                             {
                                 announcementInterest?.map((entry, index) => {
                                     return (
-                                        <Cell key={`cell-${index}`} fill={toColor(entry.name)} />
+                                        <Cell key={`cell-${index}`} fill={toColor(entry.id)} />
                                     )
                                 })
                             }

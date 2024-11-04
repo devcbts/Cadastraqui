@@ -60,6 +60,7 @@
     "recoil": "^0.7.7",
     "saas": "^1.0.0",
     "slick-carousel": "^1.8.1",
+    "string-to-color": "^2.2.2",
     "styled-components": "^6.1.11",
     "sweetalert2": "^11.10.5",
     "sweetalert2-react-content": "^5.0.7",
