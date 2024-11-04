@@ -1,10 +1,10 @@
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { historyDatabase, prisma } from "@/lib/prisma";
 import { getAwsFile } from "@/lib/S3";
+import { getDocumentsUrls } from "@/utils/assistant/get-documents-urls";
 import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsibleHDB";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { getDocumentsUrls } from "../../social-assistant/get-candidate-resume";
 const section = ['identity',
     'housing',
     'family-member',
