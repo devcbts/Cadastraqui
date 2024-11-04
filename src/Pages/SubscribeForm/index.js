@@ -55,7 +55,7 @@ export default function SubscribeForm({ backButtonText = "" }) {
     const setHeader = useSetRecoilState(headerAtom)
     const setCandidateView = useSetRecoilState(candidateViewAtom)
     useEffect(() => {
-        setHeader({ sidebar: false })
+        setHeader({ hiddenSidebar: true })
         setCandidateView({ currentApplication: state?.applicationId ?? '', currentCandidate: state?.candidateId ?? '' })
         if (state?.step) {
             setActiveStep(state?.step)

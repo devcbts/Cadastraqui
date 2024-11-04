@@ -6,11 +6,11 @@ import SidebarItem from '../Item';
 import styles from './styles.module.scss';
 
 export default function SidebarRoot({ children }) {
-    const { sidebar } = useRecoilValue(headerAtom);
+    const { hiddenSidebar } = useRecoilValue(headerAtom);
     const { logout } = useAuth();
     return (
         <aside>
-            <nav className={[styles.container, !sidebar && styles.hide].join(' ')}>
+            <nav className={[styles.container, hiddenSidebar && styles.hide].join(' ')}>
                 <div>
                     {children}
                 </div>

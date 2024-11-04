@@ -11,6 +11,7 @@ import EDUCATION_TYPE from "utils/enums/education-type";
 import formatDate from "utils/format-date";
 import styles from './styles.module.scss';
 import { Link } from 'react-router-dom';
+import InterestCards from 'Components/Announcement/InterestCards';
 export default function SocialAssistantAnnouncement() {
     const navigate = useNavigate()
     const { announcementId } = useParams()
@@ -31,8 +32,8 @@ export default function SocialAssistantAnnouncement() {
         <>
             <Loader loading={isLoading} />
             <BackPageTitle title={'Processo de seleção'} path={'/processos'} />
+            <InterestCards announcementId={process?.announcement?.id} />
             <div style={{ display: 'flex', flexDirection: 'row', gap: '24px' }}>
-
                 <div className={styles.informative}>
                     <div className={styles.row}>
                         <div className={styles.spanInstituicao}>

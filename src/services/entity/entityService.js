@@ -168,6 +168,10 @@ class EntityService {
         const response = await api.get(`/entities/scholarships/documents/${scholarshipId}`)
         return response.data.documents
     }
+    async getAnnouncementInterests(announcementId) {
+        const response = await api.get(`/entities/dashboard/interest/${announcementId}`)
+        return response.data
+    }
 
 }
 

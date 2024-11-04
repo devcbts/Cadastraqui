@@ -11,7 +11,6 @@ import SelectedCandidates from "Pages/SocialAssistant/SelectionProcess/SelectedC
 import CandidateInfo from "Pages/SocialAssistant/SelectionProcess/CandidateInfo";
 import LegalOpinion from "Pages/SocialAssistant/SelectionProcess/LegalOpinion";
 import SocialAssistantProfile from "Pages/SocialAssistant/Profile";
-import HeaderWrapper from "Components/Header";
 import Login from "Pages/Login";
 import Register from "Pages/Register";
 import EntitySelectRegister from "Pages/Entity/Register";
@@ -62,6 +61,7 @@ import StudentDocuments from "Pages/Students/Listing/components/StudentInformati
 import StudentInterviews from "Pages/Students/Listing/components/StudentInformation/components/StudentInterviews";
 import StudentRenewAnnouncements from "Pages/Students/Listing/components/StudentInformation/components/StudentRenewAnnouncements";
 import StudentEmails from "Pages/Students/Listing/components/StudentInformation/components/StudentsEmails";
+import InterestListing from "Pages/InterestListing";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -80,186 +80,180 @@ export default function AppRoutes() {
                 </Routes>
             </RoleRoutes>
             <RoleRoutes role={["CANDIDATE", "RESPONSIBLE"]}>
-                <HeaderWrapper>
-                    <Routes>
-                        <Route path="/formulario-inscricao" element={<SubscribeForm />}></Route>
-                        <Route path="/profile" element={<ProfileCandidate />}></Route>
-                        <Route path="/home" element={<Outlet />}>
-                            <Route path="" element={<HomeCandidate />}></Route>
-                            <Route path="editais" element={<Outlet />}>
-                                <Route path="" element={<AnnouncementCandidate />}></Route>
-                                <Route path=":announcementId" element={<AnnouncementView />}></Route>
-                            </Route>
+                <Routes>
+                    <Route path="/formulario-inscricao" element={<SubscribeForm />}></Route>
+                    <Route path="/profile" element={<ProfileCandidate />}></Route>
+                    <Route path="/home" element={<Outlet />}>
+                        <Route path="" element={<HomeCandidate />}></Route>
+                        <Route path="editais" element={<Outlet />}>
+                            <Route path="" element={<AnnouncementCandidate />}></Route>
+                            <Route path=":announcementId" element={<AnnouncementView />}></Route>
                         </Route>
-                        <Route path="/edital/:announcementId" element={<AnnouncementView />}></Route>
-                        <Route path="/solicitacoes" element={<Outlet />} >
-                            <Route path="" element={<CandidateRequest />} />
-                            <Route path=":applicationId" element={<CandidatePendency />} />
-                        </Route>
-                        <Route path="/historico" element={<Outlet />}>
-                            <Route index element={<CandidateHistory />} />
-                            <Route path={':applicationId'} element={<ApplicationHistory />} />
-                        </Route>
-                        <Route path="/agenda" element={<Outlet />}>
-                            <Route index element={<CandidateSchedule />} />
-                            <Route path=':scheduleId' element={<CandidateScheduleView />} />
-                        </Route>
-                        <Route path="/sac" element={<Outlet />}>
-                            <Route index element={<CandidateSAC />} />
-                            <Route path="novo" element={<CandidateCreateSAC />} />
-                            <Route path=":id" element={<ChatSAC />} />
-                        </Route>
-                        <Route path="*" element={<Navigate to={'/home'} replace />} />
+                    </Route>
+                    <Route path="/edital/:announcementId" element={<AnnouncementView />}></Route>
+                    <Route path="/solicitacoes" element={<Outlet />} >
+                        <Route path="" element={<CandidateRequest />} />
+                        <Route path=":applicationId" element={<CandidatePendency />} />
+                    </Route>
+                    <Route path="/historico" element={<Outlet />}>
+                        <Route index element={<CandidateHistory />} />
+                        <Route path={':applicationId'} element={<ApplicationHistory />} />
+                    </Route>
+                    <Route path="/agenda" element={<Outlet />}>
+                        <Route index element={<CandidateSchedule />} />
+                        <Route path=':scheduleId' element={<CandidateScheduleView />} />
+                    </Route>
+                    <Route path="/sac" element={<Outlet />}>
+                        <Route index element={<CandidateSAC />} />
+                        <Route path="novo" element={<CandidateCreateSAC />} />
+                        <Route path=":id" element={<ChatSAC />} />
+                    </Route>
+                    <Route path="*" element={<Navigate to={'/home'} replace />} />
 
-                    </Routes>
-                </HeaderWrapper>
+                </Routes>
+
             </RoleRoutes>
             <RoleRoutes role="ASSISTANT">
-                <HeaderWrapper>
 
-                    <Routes>
-                        <Route path="/home" element={<AssistantHome />} />
-                        <Route path="/processos" element={<Outlet />} >
-                            <Route path="" element={<SelectionProcess />}></Route>
-                            <Route path="selecao/:announcementId" element={<Outlet />} >
-                                <Route path="" element={<SocialAssistantAnnouncement />}></Route>
-                                <Route path=":courseId" element={<Outlet />}>
-                                    <Route index element={<SelectedCandidates />}></Route>
-                                    <Route element={<SelectionProcessContext>
-                                        <Outlet />
-                                    </SelectionProcessContext>
-                                    }>
-                                        <Route path="candidato" element={<CandidateInfo />}></Route>
-                                        <Route path="parecer" element={<LegalOpinion />}></Route>
-                                    </Route>
+                <Routes>
+                    <Route path="/home" element={<AssistantHome />} />
+                    <Route path="/processos" element={<Outlet />} >
+                        <Route path="" element={<SelectionProcess />}></Route>
+                        <Route path="selecao/:announcementId" element={<Outlet />} >
+                            <Route path="" element={<SocialAssistantAnnouncement />}></Route>
+                            <Route path=":courseId" element={<Outlet />}>
+                                <Route index element={<SelectedCandidates />}></Route>
+                                <Route element={<SelectionProcessContext>
+                                    <Outlet />
+                                </SelectionProcessContext>
+                                }>
+                                    <Route path="candidato" element={<CandidateInfo />}></Route>
+                                    <Route path="parecer" element={<LegalOpinion />}></Route>
                                 </Route>
                             </Route>
                         </Route>
-                        <Route path="/ficha-completa" element={<SubscribeForm backButtonText="Processo de seleção" />}></Route>
-                        <Route path="/profile" element={<SocialAssistantProfile />}></Route>
-                        <Route path="/agenda" element={<Outlet />}>
-                            <Route index element={<AssistantSchedule />} />
-                            <Route path=':announcementId' element={<Outlet />} >
-                                <Route index element={<AssistantAnnouncementSchedule />} />
+                    </Route>
+                    <Route path="/ficha-completa" element={<SubscribeForm backButtonText="Processo de seleção" />}></Route>
+                    <Route path="/profile" element={<SocialAssistantProfile />}></Route>
+                    <Route path="/agenda" element={<Outlet />}>
+                        <Route index element={<AssistantSchedule />} />
+                        <Route path=':announcementId' element={<Outlet />} >
+                            <Route index element={<AssistantAnnouncementSchedule />} />
 
-                                <Route path="candidato/:scheduleId" element={<AssistantCandidateSchedule />} />
-                            </Route>
-
+                            <Route path="candidato/:scheduleId" element={<AssistantCandidateSchedule />} />
                         </Route>
-                        <Route path="/gerencial" element={<Outlet />}>
-                            <Route index element={<AssistantManagement />} />
-                            <Route path="editais" element={<Outlet />} >
-                                <Route index element={<AssistantManagementAnnouncements />} />
-                                <Route path=":announcementId" element={<Outlet />} >
-                                    <Route index element={<AssistantManagerSelectedAnnouncement />} />
-                                    <Route path=":courseId" element={<AssistantManagerSelectedCourse />} />
-                                    <Route path="relatorios" element={<AssistantManagerSelectedCourse />} />
+
+                    </Route>
+                    <Route path="/gerencial" element={<Outlet />}>
+                        <Route index element={<AssistantManagement />} />
+                        <Route path="editais" element={<Outlet />} >
+                            <Route index element={<AssistantManagementAnnouncements />} />
+                            <Route path=":announcementId" element={<Outlet />} >
+                                <Route index element={<AssistantManagerSelectedAnnouncement />} />
+                                <Route path=":courseId" element={<AssistantManagerSelectedCourse />} />
+                                <Route path="relatorios" element={<AssistantManagerSelectedCourse />} />
+                            </Route>
+                        </Route>
+                    </Route>
+                    <Route path="/alunos" element={<Outlet />}>
+                        <Route index element={<StudentsDashboard />} />
+                        <Route path="gestao" element={<Outlet />} >
+                            <Route index element={<StudentManager />} />
+                            <Route path="lista" element={<Outlet />} >
+                                <Route index element={<StudentList />} />
+                                <Route path=":studentId" element={<Outlet />} >
+                                    <Route index element={<StudentListInformation />} />
+                                    <Route path="ficha-completa" element={<SubscribeForm backButtonText="Voltar para aluno" />} />
+                                    <Route path="documentos" element={<StudentDocuments />} />
+                                    <Route path="entrevistas" element={<StudentInterviews />} />
+                                    <Route path="emails" element={<StudentEmails />} />
+                                    <Route path="renovacoes" element={<StudentRenewAnnouncements />} />
                                 </Route>
                             </Route>
                         </Route>
-                        <Route path="/alunos" element={<Outlet />}>
-                            <Route index element={<StudentsDashboard />} />
-                            <Route path="gestao" element={<Outlet />} >
-                                <Route index element={<StudentManager />} />
-                                <Route path="lista" element={<Outlet />} >
-                                    <Route index element={<StudentList />} />
-                                    <Route path=":studentId" element={<Outlet />} >
-                                        <Route index element={<StudentListInformation />} />
-                                        <Route path="ficha-completa" element={<SubscribeForm backButtonText="Voltar para aluno" />} />
-                                        <Route path="documentos" element={<StudentDocuments />} />
-                                        <Route path="entrevistas" element={<StudentInterviews />} />
-                                        <Route path="emails" element={<StudentEmails />} />
-                                        <Route path="renovacoes" element={<StudentRenewAnnouncements />} />
+                        <Route path="renovacao" element={<EntityStudentsRenew />} />
+                    </Route>
+                    <Route path="/interessados" element={<InterestListing />} />
+                    <Route path="*" element={<Navigate to={'/home'} />} replace />
 
-                                    </Route>
+                </Routes>
 
-                                </Route>
-                            </Route>
-                            <Route path="renovacao" element={<EntityStudentsRenew />} />
-                        </Route>
 
-                        <Route path="*" element={<Navigate to={'/home'} />} replace />
-
-                    </Routes>
-
-                </HeaderWrapper>
             </RoleRoutes>
             <RoleRoutes role={["ENTITY", "ENTITY_DIRECTOR"]}>
-                <HeaderWrapper>
-                    <Routes>
-                        <Route path="/home" element={<EntityHome />} />
-                        <Route path="/cadastro" element={<EntitySelectRegister />}></Route>
-                        <Route path="/editais" element={<Outlet />}>
-                            <Route path="" element={<EntityAnnouncement />} />
-                            <Route path=":announcementId" element={<EntityAnnouncementView />} />
-                        </Route>
-                        <Route path="/matriculados" element={<Outlet />} >
-                            <Route index element={<EntityApplicants />} />
-                            <Route path=":announcementId" element={<Outlet />} >
-                                <Route index element={<EntityAnnouncementCourses />} />
-                                <Route path=":courseId" element={<Outlet />} >
-                                    <Route index element={<EntityAnnouncementApplicants />} />
-                                    <Route path="matricula" element={<Outlet />} >
-                                        <Route index element={<EntityApplicantsRegisterApplicant />} />
-                                        <Route path="ficha-completa" element={<SubscribeForm backButtonText="Voltar para matrícula" />} />
-                                    </Route>
+                <Routes>
+                    <Route path="/home" element={<EntityHome />} />
+                    <Route path="/cadastro" element={<EntitySelectRegister />}></Route>
+                    <Route path="/editais" element={<Outlet />}>
+                        <Route path="" element={<EntityAnnouncement />} />
+                        <Route path=":announcementId" element={<EntityAnnouncementView />} />
+                    </Route>
+                    <Route path="/matriculados" element={<Outlet />} >
+                        <Route index element={<EntityApplicants />} />
+                        <Route path=":announcementId" element={<Outlet />} >
+                            <Route index element={<EntityAnnouncementCourses />} />
+                            <Route path=":courseId" element={<Outlet />} >
+                                <Route index element={<EntityAnnouncementApplicants />} />
+                                <Route path="matricula" element={<Outlet />} >
+                                    <Route index element={<EntityApplicantsRegisterApplicant />} />
+                                    <Route path="ficha-completa" element={<SubscribeForm backButtonText="Voltar para matrícula" />} />
                                 </Route>
                             </Route>
                         </Route>
-                        <Route path="/profile" element={<EntityProfile />} />
-                        <Route path="/contas" element={<EntityAccounts />} />
-                        <Route path="/alunos" element={<Outlet />}>
-                            <Route index element={<StudentsDashboard />} />
-                            <Route path="gestao" element={<Outlet />} >
-                                <Route index element={<StudentManager />} />
-                                <Route path="registro" element={<RegisterStudents />} />
-                                <Route path="lista" element={<Outlet />} >
-                                    <Route index element={<StudentList />} />
-                                    <Route path=":studentId" element={<Outlet />} >
-                                        <Route index element={<StudentListInformation />} />
-                                        <Route path="ficha-completa" element={<SubscribeForm backButtonText="Voltar para aluno" />} />
-                                        <Route path="documentos" element={<StudentDocuments />} />
-                                        <Route path="entrevistas" element={<StudentInterviews />} />
-                                        <Route path="emails" element={<StudentEmails />} />
-                                        <Route path="renovacoes" element={<StudentRenewAnnouncements />} />
-
-                                    </Route>
+                    </Route>
+                    <Route path="/profile" element={<EntityProfile />} />
+                    <Route path="/contas" element={<EntityAccounts />} />
+                    <Route path="/alunos" element={<Outlet />}>
+                        <Route index element={<StudentsDashboard />} />
+                        <Route path="gestao" element={<Outlet />} >
+                            <Route index element={<StudentManager />} />
+                            <Route path="registro" element={<RegisterStudents />} />
+                            <Route path="lista" element={<Outlet />} >
+                                <Route index element={<StudentList />} />
+                                <Route path=":studentId" element={<Outlet />} >
+                                    <Route index element={<StudentListInformation />} />
+                                    <Route path="ficha-completa" element={<SubscribeForm backButtonText="Voltar para aluno" />} />
+                                    <Route path="documentos" element={<StudentDocuments />} />
+                                    <Route path="entrevistas" element={<StudentInterviews />} />
+                                    <Route path="emails" element={<StudentEmails />} />
+                                    <Route path="renovacoes" element={<StudentRenewAnnouncements />} />
 
                                 </Route>
+
                             </Route>
-                            <Route path="renovacao" element={<EntityStudentsRenew />} />
                         </Route>
-                        <Route path="*" element={<Navigate to={'/home'} replace />} />
+                        <Route path="renovacao" element={<EntityStudentsRenew />} />
+                    </Route>
+                    <Route path="*" element={<Navigate to={'/home'} replace />} />
 
-                    </Routes>
+                </Routes>
 
-                </HeaderWrapper>
+
             </RoleRoutes>
             <RoleRoutes role="ADMIN">
-                <HeaderWrapper>
 
-                    <Routes>
-                        <Route path="/home" element={<Outlet />} >
-                            <Route index element={<AdminHome />} />
-                            <Route path=":entityId" element={<AdminEntityView />} />
+                <Routes>
+                    <Route path="/home" element={<Outlet />} >
+                        <Route index element={<AdminHome />} />
+                        <Route path=":entityId" element={<AdminEntityView />} />
+                    </Route>
+                    <Route path="/cadastro" element={<AdminRegister />} />
+                    <Route path="/sac" element={<Outlet />}>
+                        <Route index element={<SAC />} />
+                        <Route path=":id" element={<ChatSAC />} />
+                    </Route>
+                    <Route path="/contas" element={<Outlet />}>
+                        <Route index element={<AdminAccounts />} />
+                        <Route path=":userId" element={<Outlet />} >
+                            <Route index element={<AdminAccountInfoView />} />
+                            <Route path="sac" element={<AdminAccountHistory filter={'sac'} />} />
+                            <Route path="login" element={<AdminAccountHistory filter={'login'} />} />
                         </Route>
-                        <Route path="/cadastro" element={<AdminRegister />} />
-                        <Route path="/sac" element={<Outlet />}>
-                            <Route index element={<SAC />} />
-                            <Route path=":id" element={<ChatSAC />} />
-                        </Route>
-                        <Route path="/contas" element={<Outlet />}>
-                            <Route index element={<AdminAccounts />} />
-                            <Route path=":userId" element={<Outlet />} >
-                                <Route index element={<AdminAccountInfoView />} />
-                                <Route path="sac" element={<AdminAccountHistory filter={'sac'} />} />
-                                <Route path="login" element={<AdminAccountHistory filter={'login'} />} />
-                            </Route>
-                        </Route>
-                        <Route path="/profile" element={<AdminProfile />} />
-                        <Route path="*" element={<Navigate to={'/home'} replace />} />
-                    </Routes>
-                </HeaderWrapper>
+                    </Route>
+                    <Route path="/profile" element={<AdminProfile />} />
+                    <Route path="*" element={<Navigate to={'/home'} replace />} />
+                </Routes>
+
             </RoleRoutes>
         </>
     )

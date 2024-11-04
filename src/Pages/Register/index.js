@@ -9,8 +9,6 @@ import { NotificationService } from 'services/notification'
 import LoginInfo from './components/LoginInfo'
 import Personal from './components/PersonalInfo'
 import UserType from './components/UserType'
-import styles from './styles.module.scss'
-import UnauthenticatedPage from 'Pages/Unauthenticated'
 import BrandLogo from 'Components/BrandLogo'
 export default function Register() {
     const [current, setCurrent] = useState(0)
@@ -51,9 +49,9 @@ export default function Register() {
         setCurrent((prev) => prev - 1)
     }
     return (
-        <UnauthenticatedPage>
+        <>
             <Loader loading={isLoading} />
-            <div style={{ display: 'flex', flexDirection: 'row', flexGrow: '1', gap: '64px', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '64px', justifyContent: 'center' }}>
                 <BrandLogo >
                     <ButtonBase label={'já tem uma conta?'} onClick={() => navigate('/')} />
                 </BrandLogo>
@@ -68,6 +66,6 @@ export default function Register() {
 
                 }
             </div>
-        </UnauthenticatedPage>
+        </>
     )
 }
