@@ -23,7 +23,7 @@ export default function EntityAnnouncement() {
             try {
                 setIsLoading(true)
                 const information = await entityService.getFilteredAnnouncements({ filter: filter.value })
-                setAnnouncements(information)
+                setAnnouncements(information.announcements)
             } catch (err) { }
             setIsLoading(false)
         }

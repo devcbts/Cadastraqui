@@ -14,8 +14,9 @@ export default function DataTable({
     allowPagination = false,
     serverSide = false
 }) {
-
-    const pageSizeOptions = useMemo(() => [20, 50, 100].map(e => ({ value: e, label: `${e.toString()} itens` })), [])
+    // states that does not depends on serverside or clientside
+    const [internalLoad, setInternalLoad] = useState(false)
+    const pageSizeOptions = useMemo(() => [2, 50, 100].map(e => ({ value: e, label: `${e.toString()} itens` })), [])
 
     const [pagination, setPagination] = useState({
         allowPagination,
@@ -23,24 +24,26 @@ export default function DataTable({
         pageSize: pageSizeOptions[0].value,
     })
     const [filterState, setFilterState] = useState([{ id: '', value: '' }])
-
-    const handleDataRequest = useCallback(async () => {
-        await onDataRequest(pagination.pageIndex, pagination.pageSize, filterState[0].value, filterState[0].id,)
-    }, [pagination, filterState[0], onDataRequest])
+    // functions used on server side (pagination/filtering)
+    const handleDataRequest = useCallback(async (currentFilter) => {
+        setInternalLoad(true)
+        await onDataRequest(pagination.pageIndex, pagination.pageSize, currentFilter?.value, currentFilter?.id)
+        setInternalLoad(false)
+    }, [pagination.pageIndex, pagination.pageSize, onDataRequest])
 
     const handlePagination = useCallback((updater) => {
         setPagination(updater)
         if (serverSide) {
-            handleDataRequest()
+            handleDataRequest(filterState[0])
         }
     }, [handleDataRequest])
-    const debouncedCall = useMemo(() => debounce(async () => await handleDataRequest(), 700), [handleDataRequest])
+    const debouncedCall = useMemo(() => debounce(async (filter) => await handleDataRequest(filter), 700), [handleDataRequest])
     useEffect(() => {
-        console.log('cai aqui')
         if (serverSide && filterState[0]?.value) {
-            debouncedCall()
+            debouncedCall(filterState[0])
         }
     }, [filterState[0]])
+    // create react table
     const table = useReactTable({
         columns,
         data,
@@ -49,19 +52,27 @@ export default function DataTable({
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: serverSide ? null : getFilteredRowModel(),
         onPaginationChange: handlePagination,
-        manualPagination: false,
+        manualPagination: serverSide,
         rowCount: serverSide ? totalItems : data.length,
         state: {
             pagination: allowPagination ? pagination : null,
             columnFilters: filterState
         },
     })
-    const showFilter = useMemo(() => table.getFlatHeaders().filter(x => x.column.getCanFilter()).length !== 0, [])
+    const availableFilters = useMemo(() => {
+        const filter = table
+            .getFlatHeaders()
+            .filter(x => x.column.getCanFilter())
+            .map(e => ({ value: e.id, label: e.column.columnDef.header }))
+        setFilterState([{ id: filter[0]?.value ?? '', value: '' }])
+        return filter
+    }, [table])
 
     return (
         <>
+            {internalLoad && 'Carregando...'}
             <div className={styles.filterWrapper}>
-                {showFilter &&
+                {availableFilters.length !== 0 &&
                     <div style={{ display: 'flex', flexDirection: "row", gap: '16px' }}>
                         <div style={{ width: '400px' }}>
                             <InputBase placeholder="Busque por algo..." error={null} disabled={!filterState[0].id} onChange={(e) => {
@@ -76,7 +87,8 @@ export default function DataTable({
                             <SelectBase
                                 error={null}
                                 onChange={(v) => setFilterState([{ id: v.value, value: '' }])}
-                                options={table.getFlatHeaders().filter(x => x.column.getCanFilter()).map(e => ({ value: e.id, label: e.column.columnDef.header }))}
+                                options={availableFilters}
+                                defaultValue={availableFilters[0]}
                             />
                         </div>
                     </div>
