@@ -1,6 +1,7 @@
 import candidateViewAtom from "Components/CandidateView/atom/candidateViewAtom";
 import useAuth from "hooks/useAuth";
 import { useEffect, useMemo } from "react";
+import { useLocation } from "react-router";
 import { useRecoilValue } from "recoil";
 import applicationService from "services/application/applicationService";
 import { api } from "services/axios";
@@ -8,7 +9,9 @@ import candidateService from "services/candidate/candidateService";
 
 export default function useSubscribeFormPermissions() {
     const { auth } = useAuth()
-    const { currentApplication, currentCandidate } = useRecoilValue(candidateViewAtom)
+    // const { currentApplication, currentCandidate } = useRecoilValue(candidateViewAtom)
+    const { state } = useLocation()
+    const [currentApplication, currentCandidate] = [state?.applicationId, state?.candidateId]
     const availablePermissions = [
         {
             roles: ["ASSISTANT", "ENTITY", "ENTITY_DIRECTOR"],

@@ -9,7 +9,7 @@ import { ReactComponent as User } from 'Assets/icons/user.svg';
 import FormStepper from "Components/FormStepper";
 import headerAtom from "Components/Header/atoms/header-atom";
 import { useEffect, useMemo, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useResetRecoilState, useSetRecoilState } from "recoil";
 import FormBasicInformation from "./components/Form_BasicInformation";
 import FormDeclarations from "./components/Form_Declarations";
 import FormExpenses from "./components/Form_Expenses";
@@ -52,8 +52,8 @@ export default function SubscribeForm({ backButtonText = "" }) {
             // { label: "_", icon: Edit },
         ]
         , [])
-    const setHeader = useSetRecoilState(headerAtom)
     const setCandidateView = useSetRecoilState(candidateViewAtom)
+    const setHeader = useSetRecoilState(headerAtom)
     useEffect(() => {
         setHeader({ hiddenSidebar: true })
         setCandidateView({ currentApplication: state?.applicationId ?? '', currentCandidate: state?.candidateId ?? '' })
@@ -61,7 +61,7 @@ export default function SubscribeForm({ backButtonText = "" }) {
             setActiveStep(state?.step)
         }
         return () => {
-            setHeader({ sidebar: true })
+            setHeader({ hiddenSidebar: false })
         }
     }, [])
     useEffect(() => {

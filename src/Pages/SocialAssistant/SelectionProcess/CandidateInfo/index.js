@@ -22,6 +22,8 @@ import Visit from "./components/Visit";
 import { selectionProcessContext } from "./context/SelectionProcessContext";
 import reportSchema from "./schemas/report-schema";
 import styles from './styles.module.scss';
+import IndicatorChart from "Components/Announcement/InterestCards/IndicatorChart";
+import ChartAI from "./components/ChartAI";
 export default function CandidateInfo() {
     const { data, setData, summary, setSummary } = useContext(selectionProcessContext)
     const { state } = useLocation()
@@ -91,6 +93,12 @@ export default function CandidateInfo() {
                     </span>
                     <span>Ficha do candidato: Em análise</span>
                 </div> */}
+                <ChartAI applicationId={state?.applicationId}>
+                    <p style={{ display: 'flex', flexDirection: 'row', gap: '8px', alignItems: 'center' }}>Análise completa <span>
+                        <ButtonBase label={'visualizar'} onClick={() => navigate('analise', { state: { applicationId: state?.applicationId } })} />
+                    </span>
+                    </p>
+                </ChartAI>
                 <BasicInformation data={summary.candidateInfo} onSearch={handleSearchCNPJ} title={'Quadro sintético do candidato'} />
                 <BasicInformation data={summary.responsibleInfo} onSearch={handleSearchCNPJ} title={'Responsável legal'} isCandidate={false} />
                 <FamilyGroup data={summary.familyMembersInfo} />

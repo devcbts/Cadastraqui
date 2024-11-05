@@ -12,7 +12,6 @@ import socialAssistantService from "services/socialAssistant/socialAssistantServ
 import { useRecoilValue } from "recoil";
 import ROLES from "utils/enums/role-types";
 import applicationService from "services/application/applicationService";
-import candidateViewAtom from "Components/CandidateView/atom/candidateViewAtom";
 import useSubscribeFormPermissions from "Pages/SubscribeForm/hooks/useSubscribeFormPermissions";
 
 export default function IncomeList({ onSelect, onAdd, initialMember }) {

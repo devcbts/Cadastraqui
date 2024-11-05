@@ -62,6 +62,7 @@ import StudentInterviews from "Pages/Students/Listing/components/StudentInformat
 import StudentRenewAnnouncements from "Pages/Students/Listing/components/StudentInformation/components/StudentRenewAnnouncements";
 import StudentEmails from "Pages/Students/Listing/components/StudentInformation/components/StudentsEmails";
 import InterestListing from "Pages/InterestListing";
+import CandidateAIAnalysis from "Pages/SocialAssistant/SelectionProcess/CandidateAIAnalysis";
 
 export default function AppRoutes() {
     // TODO: create role based routes for CANDIDATE, RESPONSIBLE, ASSISTANT, ENTITY, ADMIN
@@ -127,7 +128,10 @@ export default function AppRoutes() {
                                     <Outlet />
                                 </SelectionProcessContext>
                                 }>
-                                    <Route path="candidato" element={<CandidateInfo />}></Route>
+                                    <Route path="resumo" element={<Outlet />}>
+                                        <Route index element={<CandidateInfo />} />
+                                        <Route path="analise" element={<CandidateAIAnalysis />} />
+                                    </Route>
                                     <Route path="parecer" element={<LegalOpinion />}></Route>
                                 </Route>
                             </Route>

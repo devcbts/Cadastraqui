@@ -1,0 +1,32 @@
+@import '../../Assets/theme/colors.module.scss';
+.container{
+    width:100%;
+    .header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    cursor: pointer;
+    border-bottom: 2px solid $primary;
+    border-bottom-style: inset;
+    position: relative;
+    .headerHovered{
+        border-radius: 4px 4px 0px 0px;
+        position: absolute;
+        height: 0;
+        width: 100%;
+        background-color: $primary;
+        left: 0;
+        bottom: 0;
+        z-index: -1 
+    }
+}
+    
+   .content{
+    background-color: rgba($lightgrey,.3);
+    overflow: hidden;
+    border-radius: 0px 0px 4px 4px;
+   }
+}
+

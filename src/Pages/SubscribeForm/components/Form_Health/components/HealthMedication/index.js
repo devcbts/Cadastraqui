@@ -69,6 +69,7 @@ const HealthMedication = forwardRef(({ data }, ref) => {
                                 control={control}
                                 name={"file_medication"}
                                 label={'Receita do medicamento'}
+                                accept={"application/pdf"}
                             />
                         </>
                     )

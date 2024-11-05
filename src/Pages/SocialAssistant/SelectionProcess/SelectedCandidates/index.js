@@ -139,26 +139,27 @@ export default function SelectedCandidates() {
                                     {candidate.socialAssistant_id === auth?.uid
 
                                         ? <ButtonBase onClick={
-                                            candidate.position === null
-                                                ? null
-                                                :
-                                                () => navigate('candidato', {
-                                                    state: {
-                                                        candidateId: candidate.candidate_id,
-                                                        applicationId: candidate.id
-                                                    }
-                                                })
+                                            // candidate.position === null
+                                            //     ? null
+                                            //     :
+                                            () => navigate('resumo', {
+                                                state: {
+                                                    candidateId: candidate.candidate_id,
+                                                    applicationId: candidate.id
+                                                }
+                                            })
                                         }
-                                            disabled={candidate.position === null}
+                                        // disabled={candidate.position === null}
                                         >
                                             <Magnifier width={14} height={14} />
                                         </ButtonBase>
                                         : <ButtonBase onClick={
-                                            candidate.position === null
-                                                ? null
-                                                : () => handleEnrollApplication(candidate.id)
+                                            // candidate.position === null
+                                            //     ? null
+                                            //     : 
+                                            () => handleEnrollApplication(candidate.id)
                                         }
-                                            disabled={candidate.position === null}
+                                        // disabled={candidate.position === null}
                                         >
                                             <AddUser width={14} height={14} />
                                         </ButtonBase>

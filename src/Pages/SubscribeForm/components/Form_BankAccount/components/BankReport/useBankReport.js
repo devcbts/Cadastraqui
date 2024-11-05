@@ -1,4 +1,3 @@
-import candidateViewAtom from "Components/CandidateView/atom/candidateViewAtom"
 import useAuth from "hooks/useAuth"
 import useSubscribeFormPermissions from "Pages/SubscribeForm/hooks/useSubscribeFormPermissions"
 import { useEffect, useMemo, useState } from "react"

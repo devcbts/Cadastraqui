@@ -1,5 +1,5 @@
 import Loader from "Components/Loader"
-import { createContext, useEffect, useState } from "react"
+import { createContext, useEffect, useRef, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router"
 import socialAssistantService from "services/socialAssistant/socialAssistantService"
 
@@ -24,10 +24,11 @@ export default function SelectionProcessContext({ children }) {
         visitDocument: {},
         solicitations: [],
     })
+    const loaded = useRef(false)
     useEffect(() => {
-        if (!state?.applicationId) {
-            navigate(-1)
-        }
+        // if (!state?.applicationId) {
+        //     navigate(-1)
+        // }
 
         // TODO: load all user information to display on screen
         const fetchCandidateInfo = async () => {
@@ -41,8 +42,8 @@ export default function SelectionProcessContext({ children }) {
             } catch (err) { }
             setIsLoading(false)
         }
-        if (pathname.split('/').at(-1) === 'candidato') {
-
+        if (pathname.split('/').at(-1) === 'resumo' && !loaded.current) {
+            loaded.current = true
             fetchCandidateInfo()
         } else {
 
@@ -51,6 +52,7 @@ export default function SelectionProcessContext({ children }) {
 
 
     }, [state])
+
     return (
         <selectionProcessContext.Provider value={{ data, setData, summary, setSummary }}>
             <Loader loading={isLoading} text="Carregando informações do candidato" />
