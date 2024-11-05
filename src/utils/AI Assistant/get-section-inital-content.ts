@@ -222,6 +222,31 @@ export default async function getSectionInitalContent(sectionToSearch: section, 
             }
             const contentStatement = `Os dados bancários são: ${JSON.stringify(bankDetailsPerMember)}`;
             return contentStatement;
+        case 'declaracoes':
+            let MemberDeclarationDetails
+            const identityDetailsDeclaration = await historyDatabase.identityDetails.findUnique({
+                where: { application_id },
+               
+            })
+            if (!isFamilyMember) {
+                MemberDeclarationDetails = identityDetailsDeclaration
+            }
+            else {
+
+                MemberDeclarationDetails = await historyDatabase.familyMember.findUnique({
+                    where: { application_id, id: member_id },
+                    select: {
+                        id: true,
+                        fullName: true,
+                        birthDate: true,
+                        profession: true,
+                        email: true,
+                        CPF: true,
+                        RG: true
+                    }
+                })
+                MemberDeclarationDetails = {identityDetailsDeclaration, ...MemberDeclarationDetails}
+            }
         default:
             return "Nenhum conteúdo encontrado"
     }

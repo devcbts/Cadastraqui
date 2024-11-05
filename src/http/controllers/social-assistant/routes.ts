@@ -58,6 +58,8 @@ import { sendParecerDocumentToSign } from './send-parecer-document-to-sign'
 import { updateApplication } from './update-application'
 import updateAssistantProfile from './update-assistant-profile'
 import { updateSolicitationWithReport } from './update-solicitation-report'
+import getAssistantResumeReview from './AI-Assistant/get-AI-resume-review'
+import getAIReliability from './AI-Assistant/get-AI-Reliability'
 
 export async function assistantRoutes(app: FastifyInstance) {
   // Registro
@@ -196,4 +198,7 @@ export async function assistantRoutes(app: FastifyInstance) {
   app.get('/administrative/report/full/:announcement_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getFullReport)
   app.get('/administrative/report/nominal/:announcement_id/:entity_id', { onRequest: [verifyJWT, verifyAssistantAnnouncement] }, getNominalReport)
 
+  // Assistente IA
+  app.get('/assistant-ia/resume/:application_id ', { onRequest: [verifyJWT] }, getAssistantResumeReview)
+  app.get('/assistant-ia/:application_id ', { onRequest: [verifyJWT] }, getAIReliability)
 }

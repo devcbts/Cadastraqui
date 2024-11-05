@@ -33,6 +33,7 @@ import verifyIncomesCompletion from "@/utils/Trigger-Functions/verify-incomes-co
 import { Client } from 'pg';
 import { IdentityDetails } from '../../backup_prisma/generated/clientBackup/index';
 import { prisma } from './prisma';
+import verifyDeclarationRegistration from "@/utils/Trigger-Functions/verify-declaration-registration";
 
 const clientBackup = new Client(env.DATABASE_URL);
 const connectClient = async () => {
@@ -167,6 +168,7 @@ clientBackup.on('notification', async (msg) => {
             }
             await verifyHealthRegistration(familyMember.data.candidate_id || familyMember.data.legalResponsibleId)
             await verifyIncomesCompletion(familyMember.data.candidate_id || familyMember.data.legalResponsibleId)
+            await verifyDeclarationRegistration(familyMember.data.candidate_id || familyMember.data.legalResponsibleId)
 
         }
 
