@@ -1,22 +1,26 @@
-import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
-import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import { flexRender, getCoreRowModel, getExpandedRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import React, { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import styles from './styles.module.scss'
 import ButtonBase from "Components/ButtonBase";
 import SelectBase from "Components/SelectBase";
 import InputBase from "Components/InputBase";
 import debounce from "lodash.debounce";
+import { ReactComponent as ChevIcon } from 'Assets/icons/chevron.svg'
+import { AnimatePresence } from "framer-motion";
 export default function DataTable({
     columns = [],
     data = [],
     title,
+    enableFilters = false,
     onDataRequest = async (index, itemCount, value, name) => { },
     totalItems = null,
     allowPagination = false,
-    serverSide = false
+    serverSide = false,
+    expandedContent = null
 }) {
     // states that does not depends on serverside or clientside
     const [internalLoad, setInternalLoad] = useState(false)
-    const pageSizeOptions = useMemo(() => [2, 50, 100].map(e => ({ value: e, label: `${e.toString()} itens` })), [])
+    const pageSizeOptions = useMemo(() => [20, 50, 100].map(e => ({ value: e, label: `${e.toString()} itens` })), [])
 
     const [pagination, setPagination] = useState({
         allowPagination,
@@ -43,18 +47,23 @@ export default function DataTable({
             debouncedCall(filterState[0])
         }
     }, [filterState[0]])
+    const [expanded, setExpanded] = useState({})
     // create react table
     const table = useReactTable({
         columns,
         data,
+        getExpandedRowModel: getExpandedRowModel(),
         getPaginationRowModel: allowPagination ? getPaginationRowModel() : null,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: serverSide ? null : getFilteredRowModel(),
         onPaginationChange: handlePagination,
+        onExpandedChange: setExpanded,
         manualPagination: serverSide,
         rowCount: serverSide ? totalItems : data.length,
+        enableColumnFilters: enableFilters,
         state: {
+            expanded,
             pagination: allowPagination ? pagination : null,
             columnFilters: filterState
         },
@@ -120,20 +129,40 @@ export default function DataTable({
                 </thead>
                 <tbody>
                     {table.getRowModel().rows.map((row) => (
-                        <tr key={row.id} className={styles.row} >
-                            {row.getVisibleCells().map((cell) => {
-                                const config = cell.column.columnDef.meta
-                                return (
-                                    <td key={cell.id}
-                                        className={[styles.cell, config?.cellDivider ? styles.divider : ''].join(' ')}
+                        <React.Fragment key={row.id} >
+                            <tr className={styles.row} style={{ position: 'relative' }}>
+                                {row.getVisibleCells().map((cell) => {
+                                    const config = cell.column.columnDef.meta
+                                    return (
+                                        <td key={cell.id}
+                                            className={[styles.cell, config?.cellDivider ? styles.divider : ''].join(' ')}
+                                        >
+                                            <span key={cell.id} className={styles.content} style={{ justifyContent: config?.cellAlign ?? 'center', }}>
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </span>
+                                        </td>
+                                    )
+                                })}
+
+                                {!!expandedContent ?
+                                    <td className={styles.cell} style={{ cursor: 'pointer' }} onClick={() => row.toggleExpanded()}
+                                        title="Ver mais"
                                     >
-                                        <span key={cell.id} className={styles.content} style={{ justifyContent: config?.cellAlign ?? 'center', }}>
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </span>
-                                    </td>
-                                )
-                            })}
-                        </tr>
+                                        <ChevIcon
+                                            style={{ transform: row.getIsExpanded() ? 'rotateZ(180deg)' : '', transition: 'all .250s', }}
+                                        />
+                                    </td> : null}
+                            </tr>
+                            <AnimatePresence >
+                                {row.getIsExpanded() && (
+                                    <tr key={`expand_${row.id}`}>
+                                        <td colSpan={row.getAllCells().length + 1} style={{ border: 'none' }}>
+                                            {expandedContent(row)}
+                                        </td>
+                                    </tr>
+                                )}
+                            </AnimatePresence>
+                        </React.Fragment>
                     ))}
                 </tbody>
             </table>

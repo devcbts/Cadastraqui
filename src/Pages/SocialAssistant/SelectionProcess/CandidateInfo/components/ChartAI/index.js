@@ -31,7 +31,7 @@ export default function ChartAI({
                     // 0 - 49
                     { value: 49, color: 'red', legend: 'Mais de uma inconsistência ou inconsistência grave' },
                     // 50 - 79
-                    { value: 30, color: 'orange', legend: 'Até uma inconsistência' },
+                    { value: 30, color: 'gold', legend: 'Até uma inconsistência' },
                     // 80 - 100
                     { value: 21, color: 'green', legend: 'Nenhuma inconsistência' },
                 ]}

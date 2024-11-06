@@ -22,7 +22,6 @@ export default function Layout() {
                 overflow: 'auto',
                 ...(!hiddenSidebar ? { display: 'flex', flexDirection: 'row' } : {})
             }}>
-
                 {!hiddenSidebar && <SidebarSelection />}
                 <div style={{
                     display: 'flex', flexDirection: 'column', flexGrow: '1',
