@@ -1,20 +1,19 @@
 import { CandidateNotFoundError } from "@/errors/candidate-not-found-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { historyDatabase, prisma } from "@/lib/prisma";
-import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsibleHDB";
-import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
-import { IdentityDetails } from '../../../../../backup_prisma/generated/clientBackup/index';
 import detectAnalysisReliability from "@/utils/AI Assistant/detect-analysis-reliability";
 import { calculateAge } from "@/utils/calculate-age";
+import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsibleHDB";
 import { CalculateIncomePerCapitaHDB } from "@/utils/Trigger-Functions/calculate-income-per-capita-HDB";
+import { FastifyReply, FastifyRequest } from "fastify";
+import { z } from "zod";
 
 export default async function getAssistantResumeReview(
     request: FastifyRequest,
     reply: FastifyReply
-){
+) {
     const assistantParamsSchema = z.object({
-       application_id: z.string()
+        application_id: z.string()
     });
     const { application_id } = assistantParamsSchema.parse(request.params);
     try {
@@ -23,11 +22,11 @@ export default async function getAssistantResumeReview(
                 id: application_id
             }
         });
-        if(!application){
+        if (!application) {
             throw new ResourceNotFoundError()
         }
         const allAnalysis = await prisma.aIAssistant.findMany({
-            where : {application_id}
+            where: { application_id }
         })
         const candidateOrResponsibleHDB = await SelectCandidateResponsibleHDB(application_id);
         if (!candidateOrResponsibleHDB) {
@@ -79,30 +78,30 @@ export default async function getAssistantResumeReview(
                 name: candidateMember.fullName,
                 analysis: candidateAnalysis
             }
-        }else 
-        {
+        } else {
             const candidateAnalysis = allAnalysis.find((analysis) => analysis.member_id === candidate.id && analysis.section === 'IDENTITY');
+            candidateAnalysis?.status
             candidateInfo = {
                 name: candidate.name,
                 analysis: candidateAnalysis
             }
         }
-        
+
         // dados do responsável
         let responsibleInfo = {};
         if (candidateOrResponsibleHDB.IsResponsible) {
             const responsibleAnalysis = allAnalysis.find((analysis) => analysis.member_id === responsible?.id && analysis.section === 'IDENTITY');
-           
+
             responsibleInfo = {
                 name: IdentityDetails.fullName,
                 analysis: responsibleAnalysis,
-                analysisStatus : responsibleAnalysis ? detectAnalysisReliability([responsibleAnalysis]) : null
-            } 
+                analysisStatus: responsibleAnalysis ? await detectAnalysisReliability([responsibleAnalysis]) : null
+            }
         }
 
 
         // dados do grupo familiar
-        const familyMembersInfo = familyMembers.map((member) => {
+        const familyMembersInfo = await Promise.all(familyMembers.map(async (member) => {
             const analysis = allAnalysis.find((analysis) => analysis.member_id === member.id && analysis.section === 'FAMILY_MEMBER');
             return {
                 name: member.fullName,
@@ -110,13 +109,13 @@ export default async function getAssistantResumeReview(
                 relationship: member.relationship,
 
                 analysis,
-                analysisStatus : analysis ? detectAnalysisReliability([analysis]) : null
+                analysisStatus: analysis ? await detectAnalysisReliability([analysis]) : null
             }
-        });
+        }));
 
         // renda do grupo familiar
         const { incomePerCapita, incomesPerMember } = await CalculateIncomePerCapitaHDB(candidateOrResponsibleHDB.UserData.id)
-        const familyGroupIncome = familyMembers.map((member) => {
+        const familyGroupIncome = await Promise.all(familyMembers.map(async (member) => {
             const analysis = allAnalysis.find((analysis) => analysis.member_id === member.id && (analysis.section === 'INCOME' || analysis.section === 'BANK' || analysis.section === 'PIX' || analysis.section === 'REGISTRATO'));
             return {
                 name: member.fullName,
@@ -125,9 +124,9 @@ export default async function getAssistantResumeReview(
                 profession: member.profession,
                 income: incomesPerMember[member.id],
                 analysis,
-                analysisStatus : analysis ? detectAnalysisReliability([analysis]) : null
+                analysisStatus: analysis ? await detectAnalysisReliability([analysis]) : null
             }
-        })
+        }))
         const candidateOrResponsibleIncomeAnalysis = allAnalysis.find((analysis) => analysis.member_id === candidateOrResponsibleHDB.UserData.id && (analysis.section === 'INCOME' || analysis.section === 'BANK' || analysis.section === 'PIX' || analysis.section === 'REGISTRATO'));
         const candidateOrResponsibleIncome = {
             name: IdentityDetails.fullName,
@@ -136,9 +135,9 @@ export default async function getAssistantResumeReview(
             profession: IdentityDetails.profession,
             income: incomesPerMember[candidateOrResponsibleHDB.UserData.id],
             analysis: candidateOrResponsibleIncomeAnalysis,
-            analysisStatus : candidateOrResponsibleIncomeAnalysis ? detectAnalysisReliability([candidateOrResponsibleIncomeAnalysis]) : null
+            analysisStatus: candidateOrResponsibleIncomeAnalysis ? await detectAnalysisReliability([candidateOrResponsibleIncomeAnalysis]) : null
         }
-        familyGroupIncome.push(candidateOrResponsibleIncome); 
+        familyGroupIncome.push(candidateOrResponsibleIncome);
 
 
         return reply.status(200).send({
@@ -147,14 +146,14 @@ export default async function getAssistantResumeReview(
             familyMembers: familyMembersInfo,
             familyGroupIncome,
             incomePerCapita,
-            analysisStatus: detectAnalysisReliability(allAnalysis)
+            analysisStatus: await detectAnalysisReliability(allAnalysis)
         })
-    } catch (error:any) {
+    } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {
             return reply.status(404).send({
                 message: error.message
             });
         }
-        return reply.status(500).send({message: error.message})
+        return reply.status(500).send({ message: error.message })
     }
 }
