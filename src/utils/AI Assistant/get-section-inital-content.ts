@@ -226,27 +226,35 @@ export default async function getSectionInitalContent(sectionToSearch: section, 
             let MemberDeclarationDetails
             const identityDetailsDeclaration = await historyDatabase.identityDetails.findUnique({
                 where: { application_id },
-               
+
             })
             if (!isFamilyMember) {
-                MemberDeclarationDetails = identityDetailsDeclaration
-            }
-            else {
-
+                MemberDeclarationDetails = identityDetailsDeclaration;
+            } else {
                 MemberDeclarationDetails = await historyDatabase.familyMember.findUnique({
                     where: { application_id, id: member_id },
-                    select: {
-                        id: true,
-                        fullName: true,
-                        birthDate: true,
-                        profession: true,
-                        email: true,
-                        CPF: true,
-                        RG: true
-                    }
-                })
-                MemberDeclarationDetails = {identityDetailsDeclaration, ...MemberDeclarationDetails}
+
+
+                });
+                MemberDeclarationDetails = { ...identityDetailsDeclaration, ...MemberDeclarationDetails };
             }
+
+            const memberDeclarationsIncome = await historyDatabase.familyMemberIncome.findMany({
+                where: { application_id, OR: [{ candidate_id: member_id }, { legalResponsibleId: member_id }, { familyMember_id: member_id }] }
+            })
+
+            const memberDeclarationsBank = await historyDatabase.bankAccount.findMany({
+                where: { application_id, OR: [{ candidate_id: member_id }, { legalResponsibleId: member_id }, { familyMember_id: member_id }] }
+            })
+
+            const memberHousingDeclarations = await historyDatabase.housing.findUnique({
+                where: { application_id}
+            })
+            const memberVehicleDeclarations = await historyDatabase.vehicle.findMany({
+                where: { application_id }
+            })
+
+            return `Os dados preenchidos são: ${JSON.stringify({ MemberDeclarationDetails, memberDeclarationsIncome, memberDeclarationsBank, memberHousingDeclarations, memberVehicleDeclarations })}`
         default:
             return "Nenhum conteúdo encontrado"
     }

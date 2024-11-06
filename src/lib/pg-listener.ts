@@ -85,8 +85,7 @@ clientBackup.on('notification', async (msg) => {
 
         if (msg.channel == 'channel_candidate_documents') {
             const document = JSON.parse(msg.payload!);
-            console.log('CONSOLE.LOG DO DOCUMENTO', document)
-            console.log('CONSOLE.LOG DA MSG', msg.payload)
+
             if (document.operation == 'Insert' || document.operation == 'Update') {
                 switch (document.data.tableName) {
                     case 'statement':
