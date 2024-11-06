@@ -13,6 +13,19 @@ export default async function verifyBankStatement(id: string) {
     if (bankStatements >= 3) {
         update = true;
     }
+    const bankAccount = await prisma.bankAccount.findUnique({
+        where: {
+            id
+        },
+
+    })
+    if (!bankAccount) {
+        return
+    }
+    if (bankAccount.isUpdated === update) {
+        return
+    }
+
     await prisma.bankAccount.update({
         where: {
             id
@@ -20,6 +33,6 @@ export default async function verifyBankStatement(id: string) {
         data: {
             isUpdated: update
         }
-    })
 
+    })
 }
