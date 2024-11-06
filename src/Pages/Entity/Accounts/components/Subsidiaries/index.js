@@ -56,7 +56,7 @@ export default function Subsidiaries() {
                         const completeAddress = `${address}, ${addressNumber}. ${city}`
                         return (
                             <Table.Row>
-                                <Table.Cell>{subsidiary.socialReason}</Table.Cell>
+                                <Table.Cell align="left">{subsidiary.socialReason}</Table.Cell>
                                 <Table.Cell>{completeAddress}</Table.Cell>
                                 <Table.Cell>
                                     <ButtonBase label={'editar'} onClick={() => setSelection(subsidiary)} />
