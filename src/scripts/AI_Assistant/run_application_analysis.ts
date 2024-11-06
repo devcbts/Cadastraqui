@@ -33,12 +33,11 @@ export async function runApplicationAnalysis(application_id: string) {
 
 const FamilyMembersections = [
     'statement',
-    'health',
     'income',
     "registrato",
     'pix',
-    'family-member'
-
+    'family-member',
+    'declaracoes'
 ] as section[]
 
 async function memberDataAnalysis(member_id: string, application_id: string) {
@@ -91,7 +90,6 @@ async function memberDataAnalysis(member_id: string, application_id: string) {
 }
 const candidateOrResponsibleSections = [
     'statement',
-    'health',
     'income',
     "registrato",
    'pix',
