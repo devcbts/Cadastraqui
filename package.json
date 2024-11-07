@@ -93,7 +93,7 @@
     "typescript": "5.2.2"
   },
   "_moduleAliases": {
-    "@": "./src",
+    "@": "./app",
     "@env": "./src/env"
   }
 }
