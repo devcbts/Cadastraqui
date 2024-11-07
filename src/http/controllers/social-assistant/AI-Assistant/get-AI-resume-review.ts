@@ -166,6 +166,7 @@ export default async function getAssistantResumeReview(
             familyGroupIncome,
             incomePerCapita,
             familyMembersDeclarations,
+            date: allAnalysis?.[0]?.createdAt,
             analysisStatus: detectAnalysisReliability(allAnalysis)
         })
     } catch (error: any) {
