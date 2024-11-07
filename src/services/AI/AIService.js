@@ -15,6 +15,8 @@ class AIService {
             familyMembers,
             familyGroupIncome,
             incomePerCapita,
+            familyMembersDeclarations,
+            date,
             analysisStatus } = response.data
         return {
             candidate,
@@ -22,6 +24,8 @@ class AIService {
             familyMembers,
             familyGroupIncome,
             incomePerCapita,
+            familyMembersDeclarations,
+            date,
             analysisStatus
         }
     }

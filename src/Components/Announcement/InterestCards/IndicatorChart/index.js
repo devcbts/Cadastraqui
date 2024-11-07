@@ -29,7 +29,7 @@ export default function IndicatorChart({ data, value }) {
                     ))}
                 </Pie>
                 <Tooltip
-                    formatter={() => [`${value}%`, 'atual']}
+                    formatter={() => [`${!isNaN(value) ? value : 0}%`, 'atual']}
                 />
                 <Legend
                     iconType="circle"

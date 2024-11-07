@@ -20,9 +20,10 @@ export default function Accordion({
                 onHoverStart={() => setHovered(true)}
                 onHoverEnd={() => setHovered(false)}
             >
-                <span style={{ display: 'flex', flexDirection: 'row', gap: '24px', alignItems: 'center', color: hoverOrOpen ? 'white' : '' }}>{title}</span>
+                <span style={{ display: 'flex', flexDirection: 'row', flexGrow: 1, gap: '24px', alignItems: 'center', color: hoverOrOpen ? 'white' : '' }}>{title}</span>
                 <ChevIcon
                     style={{
+                        marginLeft: 24,
                         transform: isOpen ? "rotateZ(180deg)" : 'rotateZ(360deg)',
                         transition: 'all .3s',
                         color: hoverOrOpen ? 'white' : '',
