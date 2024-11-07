@@ -6,6 +6,7 @@ import styles from './styles.module.scss'
 import useOutsideClick from 'hooks/useOutsideClick'
 import Tutorial from 'Components/Tutorial'
 import SidebarSelection from 'Components/Sidebar/SidebarSelection'
+import { AnimatePresence, motion } from 'framer-motion'
 export default function HamburgHeader() {
     // TODO: control sidebar effect
     const [isMenuOpen, setMenuOpen] = useState(false)
@@ -17,23 +18,37 @@ export default function HamburgHeader() {
     const label = isMenuOpen ? 'fechar menu lateral' : 'abrir menu lateral'
     const ref = useOutsideClick(() => handleMenuChange())
     return (
-        <div>
+        <>
             <header className={styles.container} popovertarget="sidebar">
-                <MenuIcon role='button' tabIndex={0} className={styles.hamburger} alt='menu lateral' onClick={handleMenuChange}
+                <motion.i
+                    role='button'
+                    tabIndex={0}
+                    alt='menu lateral'
+                    onClick={handleMenuChange}
                     aria-label={label}
                     onKeyDown={(e) => {
                         if (e.code === "Enter") {
-
                             handleMenuChange()
                         }
                     }}
-                ></MenuIcon>
+                    initial={{ rotate: 0 }}
+                    animate={{ rotate: isMenuOpen ? 90 : 0 }}
+                >
+                    <MenuIcon className={styles.hamburger}></MenuIcon>
+                </motion.i>
                 <img className={styles.logo} alt='logo' src={LogoWhite}></img>
                 <Tutorial />
             </header>
-            {isMenuOpen && <div ref={ref}>
-                <SidebarSelection />
-            </div>}
-        </div>
+            <AnimatePresence>
+                {isMenuOpen && <motion.div
+                    initial={{ transform: 'translateX(-100%)' }}
+                    animate={{ transform: 'translateX(0)', }}
+                    exit={{ transform: 'translateX(-100%)' }}
+                    transition={{ duration: .3, ease: "easeInOut" }}
+                    style={{ height: 'calc(100% - 80px)', bottom: 0, left: 0, position: 'absolute', zIndex: 999, display: 'flex' }} ref={ref}>
+                    <SidebarSelection />
+                </motion.div>}
+            </AnimatePresence>
+        </>
     )
 } 

@@ -9,7 +9,7 @@
     border-top-right-radius: 8px;
     padding: 100px 40px 40px 40px;
     // box-shadow: 2px 2px .5px $grey;
-    float: right;
+    // float: right;
     overflow-y: scroll;
     scrollbar-width: none;
     @media(max-width: 870px){
@@ -36,8 +36,8 @@
     }
 }
 
-.hide{
-    position: absolute;
-    height: calc(100% - 80px);
-    z-index:999;
-}
+// .hide{
+//     position: absolute;
+//     height: calc(100% - 80px);
+//     z-index:999;
+// }
