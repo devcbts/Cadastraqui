@@ -72,7 +72,6 @@ export default async function getAssistantResumeReview(
                 throw new CandidateNotFoundError();
             }
             // Remove the candidateMember from familyMembers
-            familyMembers = familyMembers.filter((member) => member.CPF !== candidate.CPF);
             const candidateAnalysis = allAnalysis.find((analysis) => analysis.member_id === candidateMember.id && analysis.section === 'FAMILY_MEMBER');
             candidateInfo = {
                 name: candidateMember.fullName,
@@ -139,6 +138,26 @@ export default async function getAssistantResumeReview(
         }
         familyGroupIncome.push(candidateOrResponsibleIncome);
 
+        // dados das declarações 
+        const familyMembersDeclarations = familyMembers.map((member) => {
+            const analysis = allAnalysis.find((analysis) => analysis.member_id === member.id && analysis.section === 'DECLARACOES');
+            return {
+                name: member.fullName,
+                age: calculateAge(member.birthDate),
+                relationship: member.relationship as string,
+                analysis,
+                analysisStatus: analysis ? detectAnalysisReliability([analysis]) : null
+            }
+        })
+        const candidateOrResponsibleDeclarationsAnalysis = allAnalysis.find((analysis) => analysis.member_id === candidateOrResponsibleHDB.UserData.id && analysis.section === 'DECLARACOES');
+        const candidateOrResponsibleDeclarations = {
+            name: IdentityDetails.fullName,
+            age: calculateAge(IdentityDetails.birthDate),
+            relationship: 'Próprio',
+            analysis: candidateOrResponsibleDeclarationsAnalysis,
+            analysisStatus: candidateOrResponsibleDeclarationsAnalysis ? detectAnalysisReliability([candidateOrResponsibleDeclarationsAnalysis]) : null
+        }
+        familyMembersDeclarations.push(candidateOrResponsibleDeclarations)
 
         return reply.status(200).send({
             candidate: candidateInfo,
@@ -146,7 +165,8 @@ export default async function getAssistantResumeReview(
             familyMembers: familyMembersInfo,
             familyGroupIncome,
             incomePerCapita,
-            analysisStatus: await detectAnalysisReliability(allAnalysis)
+            familyMembersDeclarations,
+            analysisStatus: detectAnalysisReliability(allAnalysis)
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {

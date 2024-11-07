@@ -85,8 +85,7 @@ clientBackup.on('notification', async (msg) => {
 
         if (msg.channel == 'channel_candidate_documents') {
             const document = JSON.parse(msg.payload!);
-            console.log('CONSOLE.LOG DO DOCUMENTO', document)
-            console.log('CONSOLE.LOG DA MSG', msg.payload)
+
             if (document.operation == 'Insert' || document.operation == 'Update') {
                 switch (document.data.tableName) {
                     case 'statement':
@@ -341,7 +340,6 @@ clientBackup.on('notification', async (msg) => {
             else if (bankaccount.operation == 'Delete') {
                 await deleteBankAccountHDB(bankaccount.data.id, candidateOrResponsible || bankaccount.data.familyMember_id)
             }
-            await verifyBankStatement(bankaccount.data.id)
             await verifyIncomeBankRegistration(bankaccount.data.candidate_id || bankaccount.data.legalResponsibleId || bankaccountInfo?.familyMember_id)
         }
 

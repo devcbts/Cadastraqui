@@ -8,12 +8,12 @@ export default async function detectAnalysisReliability(analysisAI: AIAssistant[
   }, 0);
   let status: string;
   if (percentage >= 80 && numberOfInconsistences === 0) {
-    status = 'Confiável';
+    status = "RELIABLE";
   } else if (percentage >= 50 && percentage < 80 && numberOfInconsistences <= 1) {
-    status = 'Pouco Confiável';
-  } else  {
-    status = 'Não Confiável';
+    status = "LESS_RELIABLE";
+  } else {
+    status = "UNRELIABLE";
   }
 
-  return {status, percentage, numberOfInconsistences}
+  return { status, percentage, numberOfInconsistences }
 }

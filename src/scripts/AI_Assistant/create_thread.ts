@@ -18,7 +18,7 @@ const sectionAssistants: Record<section, string> = {
     medication: "",
     vehicle: "",
     expenses: "",
-    declaracoes: "",
+    declaracoes: "asst_wWLtrRGhaJjXYtZyZLxCqdga",
     pix: "asst_M9MRKeOIMab4kngjuD9b89g2"
 };
 export async function createThread(application_id: string, sectionToFind: section, member_id: string, table_id: string | null) {
