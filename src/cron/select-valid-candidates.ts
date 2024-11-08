@@ -102,7 +102,7 @@ const selectValidCandidates = async () => {
     }
 }
 // Schedule the selectValidCandidates function to run every 15 minutes
-const Selectjob: nodeSchedule.Job = nodeSchedule.scheduleJob("0 */1 * * * *", async () => {
+const Selectjob: nodeSchedule.Job = nodeSchedule.scheduleJob("0 */15 * * * *", async () => {
     const deletedIncomes = await selectValidCandidates();
 })
 export default Selectjob
