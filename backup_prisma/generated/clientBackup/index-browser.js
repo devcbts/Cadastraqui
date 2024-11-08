@@ -163,60 +163,6 @@ exports.Prisma.LegalResponsibleScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.SocialAssistantScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  CPF: 'CPF',
-  RG: 'RG',
-  CRESS: 'CRESS',
-  phone: 'phone',
-  user_id: 'user_id',
-  entity_id: 'entity_id'
-};
-
-exports.Prisma.EntityScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  socialReason: 'socialReason',
-  logo: 'logo',
-  CNPJ: 'CNPJ',
-  CEP: 'CEP',
-  address: 'address',
-  addressNumber: 'addressNumber',
-  neighborhood: 'neighborhood',
-  UF: 'UF',
-  city: 'city',
-  educationalInstitutionCode: 'educationalInstitutionCode',
-  emec: 'emec',
-  user_id: 'user_id'
-};
-
-exports.Prisma.EntitySubsidiaryScalarFieldEnum = {
-  id: 'id',
-  CNPJ: 'CNPJ',
-  name: 'name',
-  socialReason: 'socialReason',
-  CEP: 'CEP',
-  address: 'address',
-  addressNumber: 'addressNumber',
-  city: 'city',
-  neighborhood: 'neighborhood',
-  UF: 'UF',
-  educationalInstitutionCode: 'educationalInstitutionCode',
-  entity_id: 'entity_id',
-  user_id: 'user_id'
-};
-
-exports.Prisma.EntityDirectorScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  CPF: 'CPF',
-  phone: 'phone',
-  user_id: 'user_id',
-  entity_subsidiary_id: 'entity_subsidiary_id',
-  entity_id: 'entity_id'
-};
-
 exports.Prisma.IdentityDetailsScalarFieldEnum = {
   id: 'id',
   fullName: 'fullName',
@@ -633,102 +579,6 @@ exports.Prisma.DeclarationsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.AnnouncementInterviewScalarFieldEnum = {
-  startDate: 'startDate',
-  endDate: 'endDate',
-  beginHour: 'beginHour',
-  interval: 'interval',
-  endHour: 'endHour',
-  duration: 'duration',
-  announcement_id: 'announcement_id'
-};
-
-exports.Prisma.AnnouncementScalarFieldEnum = {
-  id: 'id',
-  entityChanged: 'entityChanged',
-  branchChanged: 'branchChanged',
-  announcementType: 'announcementType',
-  announcementNumber: 'announcementNumber',
-  announcementDate: 'announcementDate',
-  announcementBegin: 'announcementBegin',
-  openDate: 'openDate',
-  closeDate: 'closeDate',
-  waitingList: 'waitingList',
-  offeredVacancies: 'offeredVacancies',
-  verifiedScholarships: 'verifiedScholarships',
-  description: 'description',
-  entity_id: 'entity_id',
-  announcementName: 'announcementName',
-  announcementLogo: 'announcementLogo',
-  type2: 'type2',
-  criteria: 'criteria',
-  types1: 'types1'
-};
-
-exports.Prisma.TimelineScalarFieldEnum = {
-  id: 'id',
-  controlLine: 'controlLine',
-  stage: 'stage',
-  deadline: 'deadline',
-  announcementId: 'announcementId'
-};
-
-exports.Prisma.EducationLevelScalarFieldEnum = {
-  id: 'id',
-  level: 'level',
-  basicEduType: 'basicEduType',
-  scholarshipType: 'scholarshipType',
-  higherEduScholarshipType: 'higherEduScholarshipType',
-  offeredCourseType: 'offeredCourseType',
-  availableCourses: 'availableCourses',
-  offeredVacancies: 'offeredVacancies',
-  verifiedScholarships: 'verifiedScholarships',
-  shift: 'shift',
-  semester: 'semester',
-  grade: 'grade',
-  announcementId: 'announcementId',
-  entitySubsidiaryId: 'entitySubsidiaryId'
-};
-
-exports.Prisma.ApplicationScalarFieldEnum = {
-  id: 'id',
-  candidate_id: 'candidate_id',
-  announcement_id: 'announcement_id',
-  status: 'status',
-  socialAssistant_id: 'socialAssistant_id',
-  educationLevel_id: 'educationLevel_id',
-  candidateName: 'candidateName',
-  SocialAssistantName: 'SocialAssistantName',
-  CadUnico: 'CadUnico',
-  hasSevereDesease: 'hasSevereDesease',
-  averageIncome: 'averageIncome',
-  perCapita: 'perCapita',
-  position: 'position',
-  number: 'number',
-  createdAt: 'createdAt',
-  reponsible_id: 'reponsible_id'
-};
-
-exports.Prisma.ApplicationHistoryScalarFieldEnum = {
-  id: 'id',
-  application_id: 'application_id',
-  description: 'description',
-  solicitation: 'solicitation',
-  report: 'report',
-  answered: 'answered',
-  deadLine: 'deadLine',
-  date: 'date'
-};
-
-exports.Prisma.ScholarshipGrantedScalarFieldEnum = {
-  id: 'id',
-  gaveUp: 'gaveUp',
-  ScholarshipCode: 'ScholarshipCode',
-  types: 'types',
-  application_id: 'application_id',
-  announcement_id: 'announcement_id'
-};
-
 exports.Prisma.FamilyMemberToVehicleScalarFieldEnum = {
   A: 'A',
   B: 'B',
@@ -747,6 +597,29 @@ exports.Prisma.CandidateDocumentsScalarFieldEnum = {
   memberId: 'memberId',
   application_id: 'application_id',
   expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ApplicationMembersCNPJScalarFieldEnum = {
+  id: 'id',
+  CPFCNPJ: 'CPFCNPJ',
+  InformedCNPJ: 'InformedCNPJ',
+  member_id: 'member_id',
+  application_id: 'application_id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FoundApplicationCNPJScalarFieldEnum = {
+  id: 'id',
+  cnpj: 'cnpj',
+  razao: 'razao',
+  fantasia: 'fantasia',
+  dataSociedade: 'dataSociedade',
+  qualificacao: 'qualificacao',
+  situacao: 'situacao',
+  applicationMembersCNPJ_id: 'applicationMembersCNPJ_id',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -805,6 +678,11 @@ exports.SHIFT = exports.$Enums.SHIFT = {
   Integral: 'Integral'
 };
 
+exports.GENDER = exports.$Enums.GENDER = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE'
+};
+
 exports.COUNTRY = exports.$Enums.COUNTRY = {
   AC: 'AC',
   AL: 'AL',
@@ -833,11 +711,6 @@ exports.COUNTRY = exports.$Enums.COUNTRY = {
   SE: 'SE',
   SP: 'SP',
   TO: 'TO'
-};
-
-exports.GENDER = exports.$Enums.GENDER = {
-  MALE: 'MALE',
-  FEMALE: 'FEMALE'
 };
 
 exports.DOCUMENT_TYPE = exports.$Enums.DOCUMENT_TYPE = {
@@ -1087,88 +960,6 @@ exports.Declaration_Type = exports.$Enums.Declaration_Type = {
   WorkCard: 'WorkCard'
 };
 
-exports.AnnouncementType = exports.$Enums.AnnouncementType = {
-  ScholarshipGrant: 'ScholarshipGrant',
-  PeriodicVerification: 'PeriodicVerification'
-};
-
-exports.TiebreakerCriterias = exports.$Enums.TiebreakerCriterias = {
-  CadUnico: 'CadUnico',
-  LeastFamilyIncome: 'LeastFamilyIncome',
-  SeriousIllness: 'SeriousIllness',
-  Draw: 'Draw'
-};
-
-exports.scholarshipGrantedType = exports.$Enums.scholarshipGrantedType = {
-  UNIFORM: 'UNIFORM',
-  TRANSPORT: 'TRANSPORT',
-  FOOD: 'FOOD',
-  HOUSING: 'HOUSING',
-  STUDY_MATERIAL: 'STUDY_MATERIAL'
-};
-
-exports.LevelType = exports.$Enums.LevelType = {
-  BasicEducation: 'BasicEducation',
-  HigherEducation: 'HigherEducation'
-};
-
-exports.BasicEducationType = exports.$Enums.BasicEducationType = {
-  Preschool: 'Preschool',
-  Elementary: 'Elementary',
-  HighSchool: 'HighSchool',
-  ProfessionalEducation: 'ProfessionalEducation'
-};
-
-exports.ScholarshipOfferType = exports.$Enums.ScholarshipOfferType = {
-  Law187ScholarshipPartial: 'Law187ScholarshipPartial',
-  Law187Scholarship: 'Law187Scholarship',
-  StudentWithDisabilityPartial: 'StudentWithDisabilityPartial',
-  StudentWithDisability: 'StudentWithDisability',
-  FullTimePartial: 'FullTimePartial',
-  FullTime: 'FullTime',
-  EntityWorkersPartial: 'EntityWorkersPartial',
-  EntityWorkers: 'EntityWorkers'
-};
-
-exports.HigherEducationScholarshipType = exports.$Enums.HigherEducationScholarshipType = {
-  PROUNIFull: 'PROUNIFull',
-  PROUNIPartial: 'PROUNIPartial',
-  StateGovernment: 'StateGovernment',
-  StateGovernmentPartial: 'StateGovernmentPartial',
-  CityGovernment: 'CityGovernment',
-  CityGovernmentPartial: 'CityGovernmentPartial',
-  ExternalEntities: 'ExternalEntities',
-  ExternalEntitiesPartial: 'ExternalEntitiesPartial',
-  HigherEduInstitutionFull: 'HigherEduInstitutionFull',
-  HigherEduInstitutionPartial: 'HigherEduInstitutionPartial',
-  HigherEduInstitutionWorkers: 'HigherEduInstitutionWorkers',
-  HigherEduInstitutionWorkersPartial: 'HigherEduInstitutionWorkersPartial',
-  PostgraduateStrictoSensu: 'PostgraduateStrictoSensu',
-  PostgraduateStrictoSensuPartial: 'PostgraduateStrictoSensuPartial'
-};
-
-exports.OfferedCourseType = exports.$Enums.OfferedCourseType = {
-  UndergraduateBachelor: 'UndergraduateBachelor',
-  UndergraduateLicense: 'UndergraduateLicense',
-  UndergraduateTechnologist: 'UndergraduateTechnologist',
-  Postgraduate: 'Postgraduate'
-};
-
-exports.ApplicationStatus = exports.$Enums.ApplicationStatus = {
-  Approved: 'Approved',
-  Rejected: 'Rejected',
-  Pending: 'Pending',
-  NotAnalysed: 'NotAnalysed'
-};
-
-exports.SolicitationType = exports.$Enums.SolicitationType = {
-  Document: 'Document',
-  Interview: 'Interview',
-  Visit: 'Visit',
-  BenefitOne: 'BenefitOne',
-  BenefitTwo: 'BenefitTwo'
-};
-
 exports.CandidateDocumentStatus = exports.$Enums.CandidateDocumentStatus = {
   UPDATED: 'UPDATED',
   PENDING: 'PENDING'
@@ -1179,10 +970,6 @@ exports.Prisma.ModelName = {
   Candidate: 'Candidate',
   User: 'User',
   LegalResponsible: 'LegalResponsible',
-  SocialAssistant: 'SocialAssistant',
-  Entity: 'Entity',
-  EntitySubsidiary: 'EntitySubsidiary',
-  EntityDirector: 'EntityDirector',
   IdentityDetails: 'IdentityDetails',
   FamilyMember: 'FamilyMember',
   Housing: 'Housing',
@@ -1198,15 +985,10 @@ exports.Prisma.ModelName = {
   FamilyMemberDisease: 'FamilyMemberDisease',
   Medication: 'Medication',
   Declarations: 'Declarations',
-  AnnouncementInterview: 'AnnouncementInterview',
-  Announcement: 'Announcement',
-  Timeline: 'Timeline',
-  EducationLevel: 'EducationLevel',
-  Application: 'Application',
-  ApplicationHistory: 'ApplicationHistory',
-  ScholarshipGranted: 'ScholarshipGranted',
   FamilyMemberToVehicle: 'FamilyMemberToVehicle',
-  CandidateDocuments: 'CandidateDocuments'
+  CandidateDocuments: 'CandidateDocuments',
+  ApplicationMembersCNPJ: 'ApplicationMembersCNPJ',
+  FoundApplicationCNPJ: 'FoundApplicationCNPJ'
 };
 
 /**

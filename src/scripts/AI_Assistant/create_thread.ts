@@ -33,14 +33,18 @@ export async function createThread(application_id: string, sectionToFind: sectio
         const myThread = await openAi.beta.threads.create();
 
         // Criar uma thread na API da OpenAI e registrar no banco de dados
-        await prisma.aIAssistant.create({
-            data: {
+        await prisma.aIAssistant.upsert({
+            where : {application_id_section_member_table: {application_id, section: toDbSection(sectionToFind), member_id, table_id: table_id ?? ""}},
+            create: {
                 thread_id: myThread.id,
                 application_id: application_id,
                 AIassistant_id: sectionAssistants[sectionToFind],
                 section: toDbSection(sectionToFind),
                 member_id,
                 table_id: table_id ?? ""
+            },
+            update: {
+                thread_id: myThread.id
             }
         });
 

@@ -3,6 +3,7 @@ import nodeSchedule from 'node-schedule';
 import { prisma } from "../lib/prisma";
 import dateToTimezone from "../utils/date-to-timezone";
 import { addAnalysisTask } from "@/redis/queues/runApplicationAnalysisQueue";
+import { addCNPJTask } from "@/redis/queues/searchCNPJQueue";
 // Change to promises to work in background
 const selectValidCandidates = async () => {
     console.log('Starting to sort candidates')
@@ -76,6 +77,7 @@ const selectValidCandidates = async () => {
                             }
                         });
                         await addAnalysisTask(application.id)   
+                        await addCNPJTask(application.id)
                     }));
 
 
@@ -100,7 +102,7 @@ const selectValidCandidates = async () => {
     }
 }
 // Schedule the selectValidCandidates function to run every 15 minutes
-const Selectjob: nodeSchedule.Job = nodeSchedule.scheduleJob("0 */15 * * * *", async () => {
+const Selectjob: nodeSchedule.Job = nodeSchedule.scheduleJob("0 */1 * * * *", async () => {
     const deletedIncomes = await selectValidCandidates();
 })
 export default Selectjob
