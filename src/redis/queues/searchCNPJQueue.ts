@@ -1,6 +1,6 @@
-import Redis from 'ioredis';
-import Queue from 'bull';
 import { env } from '@/env';
+import Queue from 'bull';
+import Redis from 'ioredis';
 import { searchCNPJJob } from '../jobs/search-CNPJ-Job';
 
 // Configurar a fila de tarefas
@@ -25,7 +25,8 @@ cnpjQueue.on('ready', () => {
 // Função para adicionar tarefas à fila
 export async function addCNPJTask(application_id: string) {
   console.log(`Adicionando tarefa de busca para a inscrição: ${application_id}`);
-  await cnpjQueue.add({ application_id });
+  // await cnpjQueue.add({ application_id });
+  const resultado = await searchCNPJJob(application_id);
 }
 
 // Processador de tarefas
@@ -37,7 +38,6 @@ cnpjQueue.process(async (job, done) => {
     console.log(`Iniciando busca para o CNPJ ${application_id}`);
 
     // Realiza a consulta de CNPJ (serviço fictício)
-    const resultado = await searchCNPJJob(application_id);
 
     // Armazena o resultado no Redis
 
