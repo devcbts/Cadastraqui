@@ -131,8 +131,16 @@ export default async function getPartialReport(
         }
 
 
-        if (format == 'PDF') {
-
+        if (format === 'PDF') {
+            const entity = {
+                socialReason: entityInfo?.socialReason,
+                address: entityInfo?.address,
+                addressNumber: entityInfo?.addressNumber,
+                city: entityInfo?.city,
+                UF: entityInfo?.UF,
+                neighborhood: entityInfo?.neighborhood,
+                CEP: entityInfo?.CEP,
+            }
             const scholarshipsInfos = scholarships.map((scholarship) => {
                 return {
                     level: scholarship.application.EducationLevel.level,
@@ -148,11 +156,11 @@ export default async function getPartialReport(
                 }
             })
 
-            return reply.status(200).send({ scholarshipsInfos })
+            return reply.status(200).send({ scholarshipsInfos, entity })
         }
 
 
-        if (format == 'CSV') {
+        if (format === 'CSV') {
 
             const scholarshipsInfos = scholarships.map((scholarship) => {
                 return {

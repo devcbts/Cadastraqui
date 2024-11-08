@@ -2,14 +2,13 @@ import { ForbiddenError } from "@/errors/forbidden-error";
 import { ResourceNotFoundError } from "@/errors/resource-not-found-error";
 import { historyDatabase, prisma } from "@/lib/prisma";
 import { getSignedUrlsGroupedByFolder } from "@/lib/S3";
+import { getDocumentsUrls } from "@/utils/assistant/get-documents-urls";
 import { calculateAge } from "@/utils/calculate-age";
 import { SelectCandidateResponsibleHDB } from "@/utils/select-candidate-responsibleHDB";
 import { CalculateIncomePerCapitaHDB } from "@/utils/Trigger-Functions/calculate-income-per-capita-HDB";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { getAssistantDocumentsPDF_HDB } from "./AWS-routes/get-assistant-documents-by-section";
-import { getSectionDocumentsPDF_HDB } from "./AWS-routes/get-documents-by-section-HDB";
-import { getDocumentsUrls } from "@/utils/assistant/get-documents-urls";
 
 export async function getCandidateResume(
     request: FastifyRequest,
@@ -101,7 +100,6 @@ export async function getCandidateResume(
             age: calculateAge(identityDetails.birthDate),
             profession: identityDetails.profession,
             income: incomesPerMember[candidateOrResponsibleHDB.UserData.id],
-            hasCompany: application.CPFCNPJ
 
         }
 
@@ -327,6 +325,29 @@ export async function getCandidateResume(
         });
 
 
+        // CNPJS 
+
+        const familyMembersCNPJ = await historyDatabase.applicationMembersCNPJ.findMany({
+            where: { application_id },
+            include: { FoundApplicationCNPJ: true }
+        })
+
+        const familyMembersCNPJFiltered = familyMembersCNPJ.map((memberCNPJ) => {
+            const member = familyMembers.find((member) => member.id === memberCNPJ.member_id)
+            const foundCompanies = memberCNPJ.FoundApplicationCNPJ.map(e => ({
+                name: e.razao,
+                CNPJ: e.cnpj,
+                date: e.dataSociedade,
+                status: e.situacao
+            }))
+            return {
+                id: memberCNPJ.id,
+                informedCNPJ: memberCNPJ.InformedCNPJ,
+                CPFCNPJ: memberCNPJ.CPFCNPJ,
+                foundCompanies,
+                name: member?.fullName || identityDetails.fullName,
+            }
+        })
 
         return reply.status(200).send({
             candidateInfo,
@@ -342,9 +363,11 @@ export async function getCandidateResume(
             interviewDocument: interviewDocument,
             visitDocument: visitDocument,
             solicitations: solicitationsFiltered,
-            interviews
+            interviews,
+            familyMembersCNPJFiltered
         })
     } catch (error: any) {
+        console.log(error)
         if (error instanceof ResourceNotFoundError) {
             return reply.status(404).send({ message: error.message })
         }

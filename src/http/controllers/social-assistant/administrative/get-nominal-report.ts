@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getAwsFile } from "@/lib/S3";
 import { AllEducationType, AllScholarshipsType, LevelType } from "@prisma/client";
 import * as csvWriter from 'csv-writer';
 import { FastifyReply, FastifyRequest } from "fastify";
@@ -132,8 +133,18 @@ export default async function getNominalReport(
         }
 
 
-        if (format == 'PDF') {
-
+        if (format === 'PDF') {
+            const entity = {
+                socialReason: entityInfo?.socialReason,
+                address: entityInfo?.address,
+                addressNumber: entityInfo?.addressNumber,
+                city: entityInfo?.city,
+                UF: entityInfo?.UF,
+                neighborhood: entityInfo?.neighborhood,
+                CEP: entityInfo?.CEP,
+            }
+            console.log('ID', entityInfo?.id)
+            const img = await getAwsFile(`ProfilePictures/${entityInfo?.id}`)
             const scholarshipsInfos = scholarships.map((scholarship) => {
                 return {
                     entityName: entityInfo?.socialReason,
@@ -147,11 +158,11 @@ export default async function getNominalReport(
                 }
             })
 
-            return reply.status(200).send({ scholarshipsInfos })
+            return reply.status(200).send({ scholarshipsInfos, entity: { ...entity, img: img.fileUrl } })
         }
 
 
-        if (format == 'CSV') {
+        if (format === 'CSV') {
 
             const scholarshipsInfos = scholarships.map((scholarship) => {
                 return {
