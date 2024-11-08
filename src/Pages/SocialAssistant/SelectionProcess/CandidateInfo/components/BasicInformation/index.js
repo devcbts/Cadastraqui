@@ -8,9 +8,8 @@ export default function BasicInformation({
     title,
     isCandidate = true,
     data,
-    onSearch
 }) {
-    const headers = ['inscrição', 'nome completo', 'CPF', 'idade', 'ocupação', 'renda média', 'possui CNPJ?']
+    const headers = ['inscrição', 'nome completo', 'CPF', 'idade', 'ocupação', 'renda média',]
     return (
         <div className={styles.table}>
             <h3>{title}</h3>
@@ -27,14 +26,7 @@ export default function BasicInformation({
                     <Table.Cell>{data?.age}</Table.Cell>
                     <Table.Cell>{data?.profession}</Table.Cell>
                     <Table.Cell>{formatMoney(data?.income)}</Table.Cell>
-                    <Table.Cell>
-                        {data?.hasCompany === null
-                            ? <ButtonBase onClick={() => onSearch(isCandidate)}>
-                                <Magnifier width={10} height={10} />
-                            </ButtonBase>
-                            : (data?.hasCompany ? 'Sim' : 'Não')
-                        }
-                    </Table.Cell>
+
                 </Table.Row>
             </Table.Root>
         </div>

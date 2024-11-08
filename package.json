@@ -1,6 +1,6 @@
 {
   "name": "views",
-  "version": "2.16.1",
+  "version": "2.16.2",
   "private": true,
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",

@@ -12,7 +12,7 @@ import FAMILY_RELATIONSHIP from "utils/enums/family-relationship";
 import findLabel from "utils/enums/helpers/findLabel";
 import DataTable from "Components/DataTable";
 import { motion } from 'framer-motion'
-import ExpandedAIAnalysis from "./ExpandedAIAnalysis";
+import ExpandableTableContent from "../../../../Components/DataTable/ExpandableTableContent";
 import ButtonBase from "Components/ButtonBase";
 import formatDate from "utils/format-date";
 const Body = ({ children }) => <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>{children}</div>
@@ -94,7 +94,7 @@ export default function CandidateAIAnalysis() {
                                 { header: 'inconsistências', cell: ({ row }) => row.original?.analysisStatus?.numberOfInconsistences },
                                 { header: 'análise', cell: ({ row }) => <AnalysisIndicator analysis={row.original?.analysis?.status} /> },
                             ]}
-                            expandedContent={(row) => <ExpandedAIAnalysis  >
+                            expandedContent={(row) => <ExpandableTableContent  >
                                 <span>
                                     Inconsistências:
                                     <InputBase
@@ -106,7 +106,7 @@ export default function CandidateAIAnalysis() {
                                         error={null}
                                     />
                                 </span>
-                            </ExpandedAIAnalysis>
+                            </ExpandableTableContent>
                             }
                         />
 
@@ -127,7 +127,7 @@ export default function CandidateAIAnalysis() {
                                 { header: 'inconsistências', cell: ({ row }) => row.original?.analysisStatus?.numberOfInconsistences },
                                 { header: 'análise', cell: ({ row }) => <AnalysisIndicator analysis={row.original?.analysis?.status} /> },
                             ]}
-                            expandedContent={(row) => <ExpandedAIAnalysis  >
+                            expandedContent={(row) => <ExpandableTableContent  >
                                 <span>
                                     Inconsistências:
                                     <InputBase
@@ -139,7 +139,7 @@ export default function CandidateAIAnalysis() {
                                         error={null}
                                     />
                                 </span>
-                            </ExpandedAIAnalysis>
+                            </ExpandableTableContent>
                             }
                         />
                     </Body>
@@ -156,7 +156,7 @@ export default function CandidateAIAnalysis() {
                                 { header: 'inconsistências', cell: ({ row }) => row.original?.analysisStatus?.numberOfInconsistences ?? 0 },
                                 { header: 'análise', cell: ({ row }) => <AnalysisIndicator analysis={row.original?.analysis?.status} /> },
                             ]}
-                            expandedContent={(row) => <ExpandedAIAnalysis  >
+                            expandedContent={(row) => <ExpandableTableContent  >
                                 <span>
                                     Inconsistências:
                                     <InputBase
@@ -168,7 +168,7 @@ export default function CandidateAIAnalysis() {
                                         error={null}
                                     />
                                 </span>
-                            </ExpandedAIAnalysis>
+                            </ExpandableTableContent>
                             }
                         />
                     </Body>

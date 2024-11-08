@@ -49,9 +49,9 @@ class SocialAssistantService {
         const response = await api.get(`/assistant/candidateInfo/resume/${applicationId}`);
         return resumeMapper.fromPersistence(response.data)
     }
-    async findCPFCNPJ(applicationId) {
-        return api.get(`/assistant/candidateInfo/find-cpf-cnpj/${applicationId}`)
-    }
+    // async findCPFCNPJ(applicationId) {
+    //     return api.get(`/assistant/candidateInfo/find-cpf-cnpj/${applicationId}`)
+    // }
     async uploadMajoracao(applicationId, data) {
         return api.post(`/assistant/documents/majoracao/${applicationId}`, data)
     }

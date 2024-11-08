@@ -52,22 +52,22 @@ export default function CandidateInfo() {
         }
     }, [watchReport])
 
-    const handleSearchCNPJ = async (isCandidate) => {
-        try {
-            const response = await socialAssistantService.findCPFCNPJ(state?.applicationId)
-            if (response) {
-                isCandidate
-                    ? setSummary((prev) => ({
-                        ...prev,
-                        candidateInfo: { ...prev.candidateInfo, hasCompany: !!response.data?.empresas?.length }
-                    }))
-                    : setSummary((prev) => ({
-                        ...prev,
-                        responsibleInfo: { ...prev.responsibleInfo, hasCompany: !!response.data?.empresas?.length }
-                    }))
-            }
-        } catch (err) { }
-    }
+    // const handleSearchCNPJ = async (isCandidate) => {
+    //     try {
+    //         const response = await socialAssistantService.findCPFCNPJ(state?.applicationId)
+    //         if (response) {
+    //             isCandidate
+    //                 ? setSummary((prev) => ({
+    //                     ...prev,
+    //                     candidateInfo: { ...prev.candidateInfo, hasCompany: !!response.data?.empresas?.length }
+    //                 }))
+    //                 : setSummary((prev) => ({
+    //                     ...prev,
+    //                     responsibleInfo: { ...prev.responsibleInfo, hasCompany: !!response.data?.empresas?.length }
+    //                 }))
+    //         }
+    //     } catch (err) { }
+    // }
     const handleDocument = async (file) => {
         try {
 
@@ -107,10 +107,10 @@ export default function CandidateInfo() {
                         </p>
                     </ChartAI>
                 </div>
-                <BasicInformation data={summary.candidateInfo} onSearch={handleSearchCNPJ} title={'Quadro sintético do candidato'} />
-                <BasicInformation data={summary.responsibleInfo} onSearch={handleSearchCNPJ} title={'Responsável legal'} isCandidate={false} />
+                <BasicInformation data={summary.candidateInfo} title={'Quadro sintético do candidato'} />
+                <BasicInformation data={summary.responsibleInfo} title={'Responsável legal'} isCandidate={false} />
                 <FamilyGroup data={summary.familyMembersInfo} />
-                <SummaryData data={summary.importantInfo} />
+                <SummaryData resume={summary.importantInfo} membersCnpj={summary?.familyMembersCNPJFiltered} />
                 <Course data={summary.applicationInfo} />
                 <Vehicle data={summary.vehicles} />
                 <Habitation data={summary.housingInfo} />

@@ -23,6 +23,7 @@ export default function SelectionProcessContext({ children }) {
         interviewDocument: {},
         visitDocument: {},
         solicitations: [],
+        familyMembersCNPJFiltered: []
     })
     const loaded = useRef(false)
     useEffect(() => {

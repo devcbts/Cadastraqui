@@ -1,10 +1,11 @@
 import InputBase from 'Components/InputBase'
 import { motion } from 'framer-motion'
 import { useEffect, useRef } from 'react'
-export default function ExpandedAIAnalysis({ children }) {
+export default function ExpandableTableContent({ children, focus = true }) {
     const ref = useRef()
     const animationDuration = 500
     useEffect(() => {
+        if (!focus) { return }
         const timeoutId = setTimeout(() => {
             if (ref.current) {
                 ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
