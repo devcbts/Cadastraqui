@@ -49,7 +49,6 @@ model Candidate {
   profilePicture      String?
   email               String?
   finishedapplication Boolean               @default(false)
-  Application         Application[]
   CreditCard          CreditCard[]
   Expense             Expense[]
   Financing           Financing[]
@@ -74,17 +73,13 @@ model Candidate {
 }
 
 model User {
-  id               String            @id @default(uuid())
-  email            String            @unique
-  password         String
-  role             ROLE              @default(CANDIDATE)
-  createdAt        DateTime          @default(now())
-  profilePicture   String?
-  EntityDirector   EntityDirector?
-  EntitySubsidiary EntitySubsidiary?
-  SocialAssistant  SocialAssistant?
-  Entity           Entity?
-  updatedAt        DateTime          @default(now()) @updatedAt
+  id             String   @id @default(uuid())
+  email          String   @unique
+  password       String
+  role           ROLE     @default(CANDIDATE)
+  createdAt      DateTime @default(now())
+  profilePicture String?
+  updatedAt      DateTime @default(now()) @updatedAt
 
   @@map("users")
 }
@@ -128,7 +123,6 @@ model LegalResponsible {
   Vehicle                         Vehicle[]
   FamilyMemberDisease             FamilyMemberDisease[]
   Medication                      Medication[]
-  Application                     Application[]
   FamilyMemberIncome              FamilyMemberIncome[]
   MonthlyIncome                   MonthlyIncome[]
   application_id                  String?               @unique
@@ -138,83 +132,6 @@ model LegalResponsible {
 
   @@unique([id, user_id])
   @@map("responsibles")
-}
-
-model SocialAssistant {
-  id                String             @id @default(uuid())
-  name              String
-  CPF               String             @unique
-  RG                String             @unique
-  CRESS             String             @unique
-  phone             String
-  user_id           String             @unique
-  entity_id         String
-  Application       Application[]
-  entity            Entity             @relation(fields: [entity_id], references: [id])
-  user              User               @relation(fields: [user_id], references: [id])
-  Announcement      Announcement[]     @relation("AnnouncementToSocialAssistant")
-  entity_subsidiary EntitySubsidiary[] @relation("EntitySubsidiaryToSocialAssistant")
-
-  @@map("assistants")
-}
-
-model Entity {
-  id                         String             @id @default(uuid())
-  name                       String?
-  socialReason               String
-  logo                       String?
-  CNPJ                       String             @unique
-  CEP                        String
-  address                    String             @default("")
-  addressNumber              Int?
-  neighborhood               String             @default("")
-  UF                         COUNTRY?
-  city                       String             @default("")
-  educationalInstitutionCode String?
-  emec                       String?
-  user_id                    String             @unique
-  Announcement               Announcement[]
-  EntityDirector             EntityDirector[]
-  EntitySubsidiary           EntitySubsidiary[]
-  SocialAssistant            SocialAssistant[]
-  user                       User               @relation(fields: [user_id], references: [id])
-
-  @@map("entities")
-}
-
-model EntitySubsidiary {
-  id                         String            @id @default(uuid())
-  CNPJ                       String            @unique
-  name                       String
-  socialReason               String
-  CEP                        String
-  address                    String
-  addressNumber              Int?
-  city                       String?           @default("")
-  neighborhood               String?           @default("")
-  UF                         COUNTRY?
-  educationalInstitutionCode String?
-  entity_id                  String
-  user_id                    String            @unique
-  Announcement               Announcement[]
-  EntityDirector             EntityDirector[]
-  entity                     Entity            @relation(fields: [entity_id], references: [id])
-  user                       User              @relation(fields: [user_id], references: [id])
-  SocialAssistant            SocialAssistant[] @relation("EntitySubsidiaryToSocialAssistant")
-  EducationLevel             EducationLevel[]
-}
-
-model EntityDirector {
-  id                   String            @id @default(uuid())
-  name                 String
-  CPF                  String            @unique
-  phone                String
-  user_id              String            @unique
-  entity_subsidiary_id String?
-  entity_id            String?
-  entity               Entity?           @relation(fields: [entity_id], references: [id])
-  entity_subsidiary    EntitySubsidiary? @relation(fields: [entity_subsidiary_id], references: [id])
-  user                 User              @relation(fields: [user_id], references: [id])
 }
 
 model IdentityDetails {
@@ -741,127 +658,6 @@ model Declarations {
   updatedAt DateTime @default(now()) @updatedAt
 }
 
-model AnnouncementInterview {
-  startDate       DateTime     @db.Date
-  endDate         DateTime     @db.Date
-  beginHour       DateTime     @db.Time(0)
-  interval        Int          @default(5)
-  endHour         DateTime     @db.Time(0)
-  duration        Int          @default(20)
-  announcement    Announcement @relation(fields: [announcement_id], references: [id])
-  announcement_id String       @unique
-}
-
-model Announcement {
-  id                   String                   @id @default(uuid())
-  entityChanged        Boolean?
-  branchChanged        Boolean?
-  announcementType     AnnouncementType
-  announcementNumber   String?
-  announcementDate     DateTime?
-  announcementBegin    DateTime?                @default(now())
-  openDate             DateTime?
-  closeDate            DateTime?
-  waitingList          Boolean?                 @default(false)
-  offeredVacancies     Int?
-  verifiedScholarships Int?
-  description          String?
-  entity_id            String
-  announcementName     String?
-  announcementLogo     String?
-  type2                String?
-  interview            AnnouncementInterview?
-  criteria             TiebreakerCriterias[]    @default([CadUnico, LeastFamilyIncome, SeriousIllness, Draw])
-  types1               scholarshipGrantedType[]
-  entity               Entity                   @relation(fields: [entity_id], references: [id])
-  entity_subsidiary    EntitySubsidiary[]
-  Application          Application[]
-  educationLevels      EducationLevel[]
-  ScholarshipGranted   ScholarshipGranted[]
-  timelines            Timeline[]
-  socialAssistant      SocialAssistant[]        @relation("AnnouncementToSocialAssistant")
-}
-
-model Timeline {
-  id             String       @id @default(uuid())
-  controlLine    Int
-  stage          String
-  deadline       DateTime
-  announcementId String
-  announcement   Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
-}
-
-model EducationLevel {
-  id                       String                          @id @default(uuid())
-  level                    LevelType
-  basicEduType             BasicEducationType?
-  scholarshipType          ScholarshipOfferType?
-  higherEduScholarshipType HigherEducationScholarshipType?
-  offeredCourseType        OfferedCourseType?
-  availableCourses         String?
-  offeredVacancies         Int?
-  verifiedScholarships     Int?
-  shift                    SHIFT?
-  semester                 Int?
-  grade                    String?
-  announcementId           String
-  Application              Application[]
-  announcement             Announcement                    @relation(fields: [announcementId], references: [id], onDelete: Cascade)
-  entitySubsidiary         EntitySubsidiary?               @relation(fields: [entitySubsidiaryId], references: [id])
-  entitySubsidiaryId       String?
-}
-
-model Application {
-  id                   String               @id @default(uuid())
-  candidate_id         String
-  announcement_id      String
-  status               ApplicationStatus
-  socialAssistant_id   String?
-  educationLevel_id    String
-  candidateName        String?
-  SocialAssistantName  String?
-  CadUnico             Boolean?
-  hasSevereDesease     Boolean?
-  averageIncome        Float?
-  perCapita            Float?
-  position             Int?
-  number               Int                  @default(1)
-  createdAt            DateTime             @default(now())
-  announcement         Announcement         @relation(fields: [announcement_id], references: [id], onDelete: Cascade)
-  candidate            Candidate            @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
-  EducationLevel       EducationLevel       @relation(fields: [educationLevel_id], references: [id])
-  SocialAssistant      SocialAssistant?     @relation(fields: [socialAssistant_id], references: [id])
-  applicationHistories ApplicationHistory[]
-  ScholarshipGranted   ScholarshipGranted?
-  reponsible_id        String?
-  responsible          LegalResponsible?    @relation(fields: [reponsible_id], references: [id])
-
-  @@unique([candidate_id, announcement_id])
-}
-
-model ApplicationHistory {
-  id             String            @id @default(uuid())
-  application_id String
-  description    String
-  solicitation   SolicitationType?
-  report         String?
-  answered       Boolean?          @default(false)
-  deadLine       DateTime?
-  date           DateTime          @default(now())
-  application    Application       @relation(fields: [application_id], references: [id], onDelete: Cascade)
-}
-
-model ScholarshipGranted {
-  id              String                   @id @default(uuid())
-  gaveUp          Boolean
-  ScholarshipCode String?
-  types           scholarshipGrantedType[]
-  application_id  String                   @unique
-  announcement_id String
-  announmentent   Announcement             @relation(fields: [announcement_id], references: [id])
-  application     Application              @relation(fields: [application_id], references: [id])
-}
-
 model FamilyMemberToVehicle {
   A              String
   B              String
@@ -890,6 +686,35 @@ model CandidateDocuments {
   updatedAt          DateTime                @default(now()) @updatedAt
 
   @@index([tableName, tableId], name: "tableName_tableId")
+}
+
+model ApplicationMembersCNPJ {
+  id             String   @id @default(uuid())
+  CPFCNPJ        Boolean?
+  InformedCNPJ   Boolean?
+  member_id      String
+  application_id String
+
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @default(now()) @updatedAt
+  FoundApplicationCNPJ FoundApplicationCNPJ[]
+
+  @@unique([member_id, application_id])
+}
+
+model FoundApplicationCNPJ {
+  id            String  @id @default(uuid())
+  cnpj          String
+  razao         String
+  fantasia      String
+  dataSociedade String? // Assuming it can be a string date or null
+  qualificacao  String
+  situacao      String
+
+  applicationMembersCNPJ_id String?
+  applicationMembersCNPJ    ApplicationMembersCNPJ? @relation(fields: [applicationMembersCNPJ_id], references: [id])
+  createdAt                 DateTime                @default(now())
+  updatedAt                 DateTime                @default(now()) @updatedAt
 }
 
 enum CandidateDocumentType {

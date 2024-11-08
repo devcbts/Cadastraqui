@@ -101,7 +101,6 @@ export async function getCandidateResume(
             age: calculateAge(identityDetails.birthDate),
             profession: identityDetails.profession,
             income: incomesPerMember[candidateOrResponsibleHDB.UserData.id],
-            hasCompany: application.CPFCNPJ
 
         }
 
@@ -327,6 +326,21 @@ export async function getCandidateResume(
         });
 
 
+        // CNPJS 
+
+        const familyMembersCNPJ = await historyDatabase.applicationMembersCNPJ.findMany({
+            where: { application_id }
+        })
+
+        const familyMembersCNPJFiltered = familyMembersCNPJ.map((memberCNPJ) => {
+            const member = familyMembers.find((member) => member.id === member.id)
+            return {
+                id: memberCNPJ.id,
+                informedCNPJ: memberCNPJ.InformedCNPJ,
+                CPFCNPJ: memberCNPJ.CPFCNPJ,
+                name: member?.fullName || identityDetails.fullName,
+            }
+        })
 
         return reply.status(200).send({
             candidateInfo,
@@ -342,7 +356,8 @@ export async function getCandidateResume(
             interviewDocument: interviewDocument,
             visitDocument: visitDocument,
             solicitations: solicitationsFiltered,
-            interviews
+            interviews,
+            familyMembersCNPJFiltered
         })
     } catch (error: any) {
         if (error instanceof ResourceNotFoundError) {
