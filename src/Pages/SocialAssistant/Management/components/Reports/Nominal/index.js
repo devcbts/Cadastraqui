@@ -18,7 +18,10 @@ export default function NominalReport() {
             const filename = `relatorio_bolsistas_${name}`
             const information = await socialAssistantService.getNominalReport(announcement?.announcement?.id, id, format, { filename })
             if (format === "PDF") {
-                const blob = await pdf(<NominalReportPDF students={information.scholarshipsInfos} />).toBlob()
+                const blob = await pdf(<NominalReportPDF
+                    students={information.scholarshipsInfos}
+                    entity={information.entity}
+                />).toBlob()
                 const url = URL.createObjectURL(blob)
                 window.open(url, "_blank")
             }

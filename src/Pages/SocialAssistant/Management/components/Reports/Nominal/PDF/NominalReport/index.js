@@ -1,20 +1,23 @@
 import { Document, Page, Text, View } from "@react-pdf/renderer";
 import PDFTable from "Components/PDF/PDFTable";
+import { PDFEntityHeader, PDFFooter, PDFRowHeader } from "Components/PDFLayout";
 import { pdfStyles } from "Pages/SubscribeForm/components/Form_Declarations/components/HabitationDeclarationPDF";
 import EDUCATION_TYPE from "utils/enums/education-type";
 import findLabel from "utils/enums/helpers/findLabel";
 import SCHOOL_LEVELS from "utils/enums/school-levels";
 
 export default function NominalReportPDF({
-    students
+    students,
+    entity = null
 }) {
     return (
         <Document>
 
             <Page size={"A4"} style={pdfStyles.page} >
-                <View style={pdfStyles.header}>
-                    <Text style={pdfStyles.h1}>Relatório Nominal de Bolsistas</Text>
-                </View>
+                <PDFRowHeader title={'Relatório Nominal de Bolsistas'}>
+                    {entity && <PDFEntityHeader {...entity} />}
+                </PDFRowHeader>
+
                 <View style={pdfStyles.body}>
 
                     <PDFTable
@@ -37,7 +40,7 @@ export default function NominalReportPDF({
                     >
                     </PDFTable>
                 </View>
-
+                <PDFFooter />
             </Page>
         </Document>
     )

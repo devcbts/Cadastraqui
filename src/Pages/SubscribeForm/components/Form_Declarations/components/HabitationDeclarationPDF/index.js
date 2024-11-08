@@ -7,7 +7,8 @@ export const pdfStyles = StyleSheet.create({
         flexDirection: 'column',
         padding: '12px 24px',
         textOverflow: 'wrap',
-        lineHeight: 1.5
+        lineHeight: 1.5,
+        fontFamily: 'Poppins'
     },
     header: {
         textAlign: 'center'

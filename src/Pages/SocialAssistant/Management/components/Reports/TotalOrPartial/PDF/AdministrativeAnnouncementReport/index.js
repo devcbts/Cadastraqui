@@ -1,5 +1,6 @@
-import { Document, Page, Text, View } from "@react-pdf/renderer";
+import { Document, Image, Page, Text, View } from "@react-pdf/renderer";
 import PDFTable from "Components/PDF/PDFTable";
+import { PDFEntityHeader, PDFFooter, PDFRowHeader, registerFont } from "Components/PDFLayout";
 import { pdfStyles } from "Pages/SubscribeForm/components/Form_Declarations/components/HabitationDeclarationPDF";
 import EDUCATION_TYPE from "utils/enums/education-type";
 import GRADE_LEVELS from "utils/enums/grade-levels";
@@ -8,17 +9,19 @@ import SCHOLARSHIP_OFFER from "utils/enums/scholarship-offer";
 import SCHOLARSHIP_TYPE from "utils/enums/scholarship-type";
 import SCHOOL_LEVELS from "utils/enums/school-levels";
 
+
 export default function AdministrativeAnnouncementReport({
     scholarships,
-    title
+    title,
+    entity = null,
 }) {
     return (
         <Document>
 
             <Page size={"A4"} style={pdfStyles.page} >
-                <View style={pdfStyles.header}>
-                    <Text style={pdfStyles.h1}>{title}</Text>
-                </View>
+                <PDFRowHeader title={title}>
+                    {entity && <PDFEntityHeader {...entity} />}
+                </PDFRowHeader>
                 <View style={pdfStyles.body}>
 
                     <PDFTable
@@ -47,7 +50,7 @@ export default function AdministrativeAnnouncementReport({
                     >
                     </PDFTable>
                 </View>
-
+                <PDFFooter />
             </Page>
         </Document>
     )

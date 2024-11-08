@@ -9,7 +9,38 @@ import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css"
 import Header from 'Components/Header';
 import Layout from 'Components/Layout';
+import { Font } from '@react-pdf/renderer';
+import PoppinsNormal from './Assets/fonts/poppins/Poppins-Regular.ttf'
+import PoppinsBold from './Assets/fonts/poppins/Poppins-Bold.ttf'
+import PoppinsExtraBold from './Assets/fonts/poppins/Poppins-ExtraBold.ttf'
+import PoppinsSemiBold from './Assets/fonts/poppins/Poppins-SemiBold.ttf'
+import PoppinsLight from './Assets/fonts/poppins/Poppins-Light.ttf'
 const root = ReactDOM.createRoot(document.getElementById('root'));
+Font.register({
+  family: 'Poppins',
+  fonts: [
+    {
+      src: PoppinsNormal,
+      fontWeight: "normal",
+    },
+    {
+      src: PoppinsBold,
+      fontWeight: "bold",
+    },
+    {
+      src: PoppinsExtraBold,
+      fontWeight: "heavy",
+    },
+    {
+      src: PoppinsSemiBold,
+      fontWeight: "semibold",
+    },
+    {
+      src: PoppinsLight,
+      fontWeight: "light",
+    },
+  ]
+})
 root.render(
   <BrowserRouter>
     <AuthProvider>

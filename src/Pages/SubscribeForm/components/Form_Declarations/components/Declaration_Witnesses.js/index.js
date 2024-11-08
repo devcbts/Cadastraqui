@@ -17,6 +17,7 @@ import declarationAtom from '../../atoms/declarationAtom';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import METADATA_FILE_TYPE from 'utils/file/metadata-file-type';
 import METADATA_FILE_CATEGORY from 'utils/file/metadata-file-category';
+import { PDFFooter } from 'Components/PDFLayout';
 
 export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     const { auth } = useAuth();
@@ -195,12 +196,7 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
                     <Text>__________________________________________________</Text>
                     <Text>Assinatura {declarationData?.name}</Text>
                 </View>
-                <View style={styles.footer} fixed>
-                    <Text>Cadastraqui</Text>
-                    <Text render={({ pageNumber, totalPages }) => {
-                        return `Pág. ${pageNumber}/${totalPages}`
-                    }}></Text>
-                </View>
+                <PDFFooter />
             </Page>
         </Document>
     );

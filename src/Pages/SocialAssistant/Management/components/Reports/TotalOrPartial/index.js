@@ -17,7 +17,10 @@ export default function TotalOrPartialReport() {
             const filename = `relatorio_parcial_${name}`
             const information = await socialAssistantService.getPartialReport(announcement.id, id, type, { filename })
             if (type === "PDF") {
-                const blob = await pdf(<AdministrativeAnnouncementReport title={"Relatório Parcial"} scholarships={information.scholarshipsInfos} />).toBlob()
+                const blob = await pdf(<AdministrativeAnnouncementReport title={"Relatório Parcial"}
+                    scholarships={information.scholarshipsInfos}
+                    entity={information.entity}
+                />).toBlob()
                 const url = URL.createObjectURL(blob)
                 setPdf({ id, url })
                 handleOpenDocument(url)
@@ -32,7 +35,10 @@ export default function TotalOrPartialReport() {
             const filename = `relatorio_geral`
             const information = await socialAssistantService.getFullReport(announcement.id, type, { filename })
             if (type === "PDF") {
-                const blob = await pdf(<AdministrativeAnnouncementReport title={"Relatório Geral"} scholarships={information.scholarshipsInfos} />).toBlob()
+                const blob = await pdf(<AdministrativeAnnouncementReport title={"Relatório Geral"}
+                    scholarships={information.scholarshipsInfos}
+                    entity={information.entity}
+                />).toBlob()
                 const url = URL.createObjectURL(blob)
                 handleOpenDocument(url)
             }
