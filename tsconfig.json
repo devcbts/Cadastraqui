@@ -1,4 +1,13 @@
 {
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "app",
+    "node_modules",
+    "prisma",
+    "src/cron"
+  ],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
     /* Projects */
@@ -30,7 +39,7 @@
     "paths": {
       "@/*": [
         "src/*",
-        "app/*",
+        // "app/*",
       ]
     }, /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */

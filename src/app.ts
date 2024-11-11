@@ -1,4 +1,4 @@
-require('module-alias/register');
+// require('module-alias/register');
 import fastifyCookie from '@fastify/cookie';
 import fastifyJwt from '@fastify/jwt';
 import { fastifyMultipart } from '@fastify/multipart';
