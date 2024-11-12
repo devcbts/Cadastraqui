@@ -25,7 +25,7 @@ export default function AssistantManagementAnnouncements() {
                 setIsLoading(true)
                 const query = !state?.isUnit ? selection.value : 'validationFinished'
                 const information = await socialAssistantService.getAllAnnouncements(query)
-                setAnnouncements(information)
+                setAnnouncements(information.announcements)
             } catch (err) { }
             setIsLoading(false)
         }

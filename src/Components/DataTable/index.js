@@ -1,5 +1,5 @@
 import { flexRender, getCoreRowModel, getExpandedRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
-import React, { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styles from './styles.module.scss'
 import ButtonBase from "Components/ButtonBase";
 import SelectBase from "Components/SelectBase";
@@ -23,30 +23,33 @@ export default function DataTable({
     const pageSizeOptions = useMemo(() => [20, 50, 100].map(e => ({ value: e, label: `${e.toString()} itens` })), [])
 
     const [pagination, setPagination] = useState({
-        allowPagination,
+        _isSearch: false,
         pageIndex: 0,
         pageSize: pageSizeOptions[0].value,
     })
     const [filterState, setFilterState] = useState([{ id: '', value: '' }])
     // functions used on server side (pagination/filtering)
-    const handleDataRequest = useCallback(async (currentFilter) => {
-        setInternalLoad(true)
-        await onDataRequest(pagination.pageIndex, pagination.pageSize, currentFilter?.value, currentFilter?.id)
-        setInternalLoad(false)
-    }, [pagination.pageIndex, pagination.pageSize, onDataRequest])
-
-    const handlePagination = useCallback((updater) => {
-        setPagination(updater)
-        if (serverSide) {
-            handleDataRequest(filterState[0])
-        }
-    }, [handleDataRequest])
-    const debouncedCall = useMemo(() => debounce(async (filter) => await handleDataRequest(filter), 700), [handleDataRequest])
+    // Request data based on table pagination and filters
     useEffect(() => {
-        if (serverSide && filterState[0]?.value) {
-            debouncedCall(filterState[0])
+        if (pagination._isSearch) {
+            return
         }
-    }, [filterState[0]])
+        const fetchNewData = async () => {
+            await onDataRequest(pagination.pageIndex, pagination.pageSize, filterState[0].value, filterState[0].id)
+        }
+        fetchNewData()
+    }, [pagination.pageIndex, pagination.pageSize])
+    // add a delay when calling the onDataRequest fn, since it'll be called during user typing
+    // need to add onDataRequest as useCallback deps
+    const debounceInput = useCallback(
+        debounce(async (value, type) => {
+            setPagination(prev => ({ ...prev, pageIndex: 0, _isSearch: true }))
+            await onDataRequest(0, pagination.pageSize, value, type)
+            setPagination(prev => ({ ...prev, pageIndex: 0, _isSearch: false }))
+        },
+            800),
+        [pagination.pageSize, onDataRequest])
+
     const [expanded, setExpanded] = useState({})
     // create react table
     const table = useReactTable({
@@ -57,7 +60,7 @@ export default function DataTable({
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: serverSide ? null : getFilteredRowModel(),
-        onPaginationChange: handlePagination,
+        onPaginationChange: setPagination,
         onExpandedChange: setExpanded,
         manualPagination: serverSide,
         rowCount: serverSide ? totalItems : data.length,
@@ -72,7 +75,7 @@ export default function DataTable({
         const filter = table
             .getFlatHeaders()
             .filter(x => x.column.getCanFilter())
-            .map(e => ({ value: e.id, label: e.column.columnDef.header }))
+            .map(e => ({ value: e.column.columnDef.meta?.filterKey ?? e.id, label: e.column.columnDef.header }))
         setFilterState([{ id: filter[0]?.value ?? '', value: '' }])
         return filter
     }, [table])
@@ -85,14 +88,16 @@ export default function DataTable({
                     <div style={{ display: 'flex', flexDirection: "row", gap: '16px' }}>
                         <div style={{ width: '400px' }}>
                             <InputBase placeholder="Busque por algo..." error={null} disabled={!filterState[0].id} onChange={(e) => {
-                                setFilterState(prev => ([{ ...prev[0], value: e.target.value }]))
+                                setFilterState(prev => {
+                                    debounceInput(e.target.value, prev[0].id)
+                                    return ([{ ...prev[0], value: e.target.value }])
+                                })
                             }}
                                 type={table.getColumn(filterState[0]?.id)?.columnDef?.meta?.filterType ?? "text"}
                                 value={filterState[0].value}
                             />
                         </div>
                         <div style={{ width: '240px' }}>
-
                             <SelectBase
                                 error={null}
                                 onChange={(v) => setFilterState([{ id: v.value, value: '' }])}

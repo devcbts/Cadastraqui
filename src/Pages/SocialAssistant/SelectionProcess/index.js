@@ -1,17 +1,18 @@
 import FormSelect from "Components/FormSelect";
 import SelectBase from "Components/SelectBase";
 import useControlForm from "hooks/useControlForm";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import styles from './styles.module.scss'
 import Table from "Components/Table";
 import ButtonBase from "Components/ButtonBase";
 import { useNavigate } from "react-router";
 import socialAssistantService from "services/socialAssistant/socialAssistantService";
 import Loader from "Components/Loader";
+import DataTable from "Components/DataTable";
 export default function SelectionProcess() {
     const navigate = useNavigate()
     const [selection, setSelection] = useState({ value: 'scheduled', label: 'Pré-agendados' })
-    const [announcements, setAnnouncements] = useState([])
+    const [data, setData] = useState({ announcements: [], total: 0 })
     const [isLoading, setIsLoading] = useState(true)
     const handleSelection = (value) => {
         setSelection(value)
@@ -23,17 +24,20 @@ export default function SelectionProcess() {
             { label: 'Fase de avaliação', value: 'validation' },
             { label: 'Finalizados', value: 'finished' }]
     }, [])
+    const fetchAnnouncements = async ({
+        page, size, search, type
+    } = {}) => {
+        try {
+            console.log(selection)
+            setIsLoading(true)
+            const information = await socialAssistantService.getAllAnnouncements({ filter: selection.value, page, size, search, type })
+            setData(information)
+        } catch (err) { }
+        setIsLoading(false)
+    }
     useEffect(() => {
-        const fetchAnnouncements = async () => {
-            try {
-                setIsLoading(true)
-                const information = await socialAssistantService.getAllAnnouncements(selection.value)
-                setAnnouncements(information)
-            } catch (err) { }
-            setIsLoading(false)
-        }
         fetchAnnouncements()
-    }, [selection])
+    }, [selection.value])
     return (
         <div className={styles.container}>
             <Loader loading={isLoading} />
@@ -43,27 +47,29 @@ export default function SelectionProcess() {
                 <SelectBase options={filter} value={selection} onChange={handleSelection} error={null} />
             </div>
             {!!selection?.value && (
-                announcements.length ?
-                    (<div style={{ marginTop: '24px' }}>
-                        <Table.Root title={`Editais - ${selection.label}`} headers={['entidade', 'edital', 'total de vagas', 'concluído?', 'ações']}>
-                            {
-                                announcements.map((announcement) => (
-                                    <Table.Row>
-                                        <Table.Cell align="left">{announcement.entity}</Table.Cell>
-                                        <Table.Cell>{announcement.name}</Table.Cell>
-                                        <Table.Cell>{announcement.vacancies}</Table.Cell>
-                                        <Table.Cell>{announcement.finished ? 'Sim' : 'Não'}</Table.Cell>
-                                        <Table.Cell>
-                                            <ButtonBase label={'visualizar'} onClick={() => navigate(`selecao/${announcement.id}`)} />
-                                        </Table.Cell>
-                                    </Table.Row>
-                                ))
-                            }
-                        </Table.Root>
-                    </div>)
-                    : <h3>
-                        Nenhum edital encontrado na cateogria "{selection.label}"
-                    </h3>
+                // data.announcements.length ?
+                (
+                    <DataTable
+                        data={data.announcements}
+                        title={`Editais - ${selection.label}`}
+                        columns={[
+                            { accessorKey: 'entity', header: 'Entidade', meta: { cellAlign: 'left', filterKey: 'entidade' } },
+                            { accessorKey: 'name', header: 'Edital', meta: { filterKey: 'edital' } },
+                            { accessorKey: 'vacancies', header: 'Total de vagas', enableColumnFilter: false },
+                            { accessorKey: 'finished', header: 'Concluído?', cell: (info) => info.getValue() ? 'Sim' : 'Não', enableColumnFilter: false },
+                            { id: 'action', header: 'Ações', cell: ({ row }) => <ButtonBase label={'visualizar'} onClick={() => navigate(`selecao/${row.original.id}`)} /> },
+                        ]}
+                        enableFilters
+                        allowPagination
+                        serverSide
+                        totalItems={data.total}
+                        onDataRequest={async (index, count, value, name) => await fetchAnnouncements({ page: index, size: count, type: name, search: value })}
+                    />
+
+                )
+                // : <h3>
+                //     Nenhum edital encontrado na cateogria "{selection.label}"
+                // </h3>
             )
             }
         </div>

@@ -15,7 +15,7 @@ export default function InterestListing() {
             setIsLoading(true)
             try {
                 const information = await socialAssistantService.getAllAnnouncements()
-                setAnnouncements(information.map(e => ({ value: e.id, label: e.name })))
+                setAnnouncements(information.announcements.map(e => ({ value: e.id, label: e.name })))
             } catch (err) {
 
             }
