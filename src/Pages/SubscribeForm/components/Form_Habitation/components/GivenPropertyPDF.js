@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { pdfjs } from "react-pdf";
 import candidateService from "services/candidate/candidateService";
 import { pdfStyles, Strong } from "../../Form_Declarations/components/HabitationDeclarationPDF";
+import { PDFFooter, PDFHeader } from "Components/PDFLayout";
 
 export default function GivenPropertyPDF({
     owner
@@ -24,9 +25,11 @@ export default function GivenPropertyPDF({
     return (
         <Document title={'Declaração de imóvel cedido'}>
             <Page size={'A4'} style={pdfStyles.page}>
-                <View style={pdfStyles.header} >
-                    <Text style={pdfStyles.h2}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
-                </View>
+                <PDFHeader>
+                    <View style={pdfStyles.header} >
+                        <Text style={pdfStyles.h2}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
+                    </View>
+                </PDFHeader>
                 <View style={pdfStyles.body} >
                     <Text style={{ ...pdfStyles.header, ...pdfStyles.h3 }} > Declaração de Imóvel Cedido </Text>
 
@@ -64,6 +67,8 @@ export default function GivenPropertyPDF({
                     </View>
 
                 </View>
+                <PDFFooter />
+
             </Page>
 
         </Document>

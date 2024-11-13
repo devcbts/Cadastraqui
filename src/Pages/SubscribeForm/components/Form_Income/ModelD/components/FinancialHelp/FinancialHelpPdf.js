@@ -1,4 +1,5 @@
 import { Document, Page, Text, View } from "@react-pdf/renderer";
+import { PDFFooter, PDFHeader } from "Components/PDFLayout";
 import HabitationDeclarationPDF, { pdfStyles, Strong } from "Pages/SubscribeForm/components/Form_Declarations/components/HabitationDeclarationPDF";
 import { useEffect, useState } from "react";
 import { pdfjs } from "react-pdf";
@@ -27,9 +28,12 @@ export default function FinancialHelpPdf({
     return (
         <Document title={'Declaração de ajuda financeira de terceiros'}>
             <Page size={'A4'} style={pdfStyles.page}>
-                <View style={pdfStyles.header} >
-                    <Text style={pdfStyles.h2}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
-                </View>
+                <PDFHeader>
+
+                    <View style={pdfStyles.header} >
+                        <Text style={pdfStyles.h2}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
+                    </View>
+                </PDFHeader>
                 <View style={pdfStyles.body} >
                     <Text style={{ ...pdfStyles.header, ...pdfStyles.h3 }} > Declaração de Ajuda Financeira de Terceiros </Text>
 
@@ -65,6 +69,8 @@ export default function FinancialHelpPdf({
                     </View>
 
                 </View>
+                <PDFFooter />
+
             </Page>
 
         </Document>

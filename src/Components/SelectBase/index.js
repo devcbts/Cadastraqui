@@ -26,9 +26,6 @@ const SelectBase = forwardRef(({ label, error, search = true, ...props }, ref) =
                                 backgroundColor: isFocused ? "#cfcfcf" : (
                                     isSelected ? "#1F4B73" : ""
                                 ),
-                                ":selection": {
-                                    backgroundColor: 'red'
-                                },
                                 ":hover": {
                                     backgroundColor: "#cfcfcf",
                                     color: "#1F4B73"

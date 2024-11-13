@@ -7,6 +7,8 @@ import InputBase from "Components/InputBase";
 import debounce from "lodash.debounce";
 import { ReactComponent as ChevIcon } from 'Assets/icons/chevron.svg'
 import { AnimatePresence } from "framer-motion";
+import TableFilters from "./TableFilter";
+import TablePagination from "./TablePagination";
 export default function DataTable({
     columns = [],
     data = [],
@@ -20,12 +22,11 @@ export default function DataTable({
 }) {
     // states that does not depends on serverside or clientside
     const [internalLoad, setInternalLoad] = useState(false)
-    const pageSizeOptions = useMemo(() => [20, 50, 100].map(e => ({ value: e, label: `${e.toString()} itens` })), [])
 
     const [pagination, setPagination] = useState({
         _isSearch: false,
         pageIndex: 0,
-        pageSize: pageSizeOptions[0].value,
+        pageSize: 20,
     })
     const [filterState, setFilterState] = useState([{ id: '', value: '' }])
     // functions used on server side (pagination/filtering)
@@ -83,42 +84,18 @@ export default function DataTable({
     return (
         <>
             {internalLoad && 'Carregando...'}
-            <div className={styles.filterWrapper}>
-                {availableFilters.length !== 0 &&
-                    <div style={{ display: 'flex', flexDirection: "row", gap: '16px' }}>
-                        <div style={{ width: '400px' }}>
-                            <InputBase placeholder="Busque por algo..." error={null} disabled={!filterState[0].id} onChange={(e) => {
-                                setFilterState(prev => {
-                                    debounceInput(e.target.value, prev[0].id)
-                                    return ([{ ...prev[0], value: e.target.value }])
-                                })
-                            }}
-                                type={table.getColumn(filterState[0]?.id)?.columnDef?.meta?.filterType ?? "text"}
-                                value={filterState[0].value}
-                            />
-                        </div>
-                        <div style={{ width: '240px' }}>
-                            <SelectBase
-                                error={null}
-                                onChange={(v) => setFilterState([{ id: v.value, value: '' }])}
-                                options={availableFilters}
-                                defaultValue={availableFilters[0]}
-                            />
-                        </div>
-                    </div>
-
-                }
-                {allowPagination && <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', placeContent: 'flex-end', flexGrow: '1' }}>
-                    Exibir
-                    <div style={{ width: 'fit-content' }}>
-                        <SelectBase
-                            onChange={(e) => setPagination((prev) => ({ ...prev, pageSize: e.value, pageIndex: 0 }))}
-                            options={pageSizeOptions}
-                            defaultValue={pageSizeOptions[0]}
-                            error={null} search={false} />
-                    </div>
-                </div>}
-            </div>
+            <TableFilters
+                table={table}
+                value={filterState[0]}
+                itemCountPicker={allowPagination}
+                filters={availableFilters}
+                onChangeValue={(value) => setFilterState(prev => {
+                    debounceInput(value, prev[0].id)
+                    return ([{ ...prev[0], value: value }])
+                })}
+                onChangeFilter={(id) => setFilterState([{ id: id, value: '' }])}
+                onChangeItemCount={(v) => setPagination((prev) => ({ ...prev, pageSize: v, pageIndex: 0 }))}
+            />
             <h3>{title}</h3>
             <table style={{ borderCollapse: 'collapse' }}>
                 <thead>
@@ -171,25 +148,10 @@ export default function DataTable({
                     ))}
                 </tbody>
             </table>
-            {
-                allowPagination && <div style={{ display: 'flex', flexDirection: 'row', gap: '8px', placeSelf: 'center', alignItems: 'center', marginTop: '24px' }}>
-                    <ButtonBase label={'<'} onClick={() => {
-                        if (table.getCanPreviousPage()) {
-                            table.previousPage()
-                        }
-                    }}
-                        disabled={!table.getCanPreviousPage()}
-                    />
-                    <span>Página {pagination.pageIndex + 1} de {table.getPageCount()}</span>
-                    <ButtonBase label={'>'} onClick={() => {
-                        if (table.getCanNextPage()) {
-                            table.nextPage()
-                        }
-                    }}
-                        disabled={!table.getCanNextPage()}
-                    />
-                </div>
-            }
+            {allowPagination && <TablePagination
+                table={table}
+                pagination={pagination}
+            />}
         </>
     )
 }

@@ -18,11 +18,12 @@ export default function ButtonBase({
             return
         }
         const { constructor: { name } } = onClick
-        if (name === 'AsyncFunction') {
+        const isAsync = name === "AsyncFunction"
+        if (isAsync) {
             setLoading(true)
         }
         await onClick?.()
-        if (name === 'AsyncFunction') {
+        if (isAsync) {
             setLoading(false)
         }
 
