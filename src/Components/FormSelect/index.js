@@ -1,7 +1,7 @@
 import { Controller } from "react-hook-form";
 import SelectBase from "../SelectBase";
 
-export default function FormSelect({ name, label, control, options = [], value, multiple = false, onChange = null }) {
+export default function FormSelect({ name, label, show = "all", control, options = [], value, multiple = false, onChange = null }) {
 
 
     const showErrorBorder = (error, isDirty) => {
@@ -25,6 +25,7 @@ export default function FormSelect({ name, label, control, options = [], value, 
             render={({ field, fieldState: { error, isDirty } }) => (
                 <SelectBase
                     label={label}
+                    show={show}
                     error={showErrorBorder(error, isDirty)}
                     options={options}
                     {...field}

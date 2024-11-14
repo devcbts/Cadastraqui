@@ -29,6 +29,7 @@ export default function MoneyFormInput({ label, name, control, ...props }) {
                         label={label}
                         name={name}
                         control={control}
+                        show={"all"}
                         {...field}
                         {...props}
                         error={showErrorBorder(isDirty, error)}

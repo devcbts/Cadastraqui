@@ -1,7 +1,7 @@
 @import '../../Assets/theme/colors.module.scss';
 
 .inputs {
-    label {
+    label:first-child {
         color: white !important;
     }
     display: flex;

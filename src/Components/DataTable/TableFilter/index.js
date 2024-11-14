@@ -75,14 +75,15 @@ export default function TableFilters({
                 </div>
 
             }
-            {itemCountPicker && <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px', placeContent: 'flex-end', flexGrow: '1' }}>
+            {itemCountPicker && <div style={{ display: 'flex', alignItems: 'center', gap: '16px', placeContent: 'flex-end', flexGrow: '1' }}>
                 Exibir
-                <div style={{ width: 'fit-content' }}>
+                <div style={{ width: '150px' }}>
                     <SelectBase
                         onChange={(e) => onChangeItemCount(e.value)}
                         options={size}
                         defaultValue={size[0]}
-                        error={null} search={false} />
+                        error={null} search={false}
+                    />
                 </div>
             </div>}
         </div>

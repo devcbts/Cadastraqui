@@ -18,7 +18,7 @@ export default function SAC() {
     }
     return (
         <>
-            <div style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'baseline' }}>
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center' }}>
                 <h1>SAC</h1>
 
                 <ButtonBase label={filter.get("filter") === 'open' ? 'meus chamados' : 'chamados abertos'} onClick={handleChangePage} />

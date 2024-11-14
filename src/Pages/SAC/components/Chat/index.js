@@ -88,7 +88,7 @@ export default function ChatSAC() {
                         </div>
                     }
                     {
-                        call?.status !== CALL_STATUS.CLOSED && <div style={{ display: 'flex', flexDirection: 'row', maxHeight: '100px', alignItems: 'baseline', gap: '16px' }}>
+                        call?.status !== CALL_STATUS.CLOSED && <div style={{ display: 'flex', flexDirection: 'row', maxHeight: '100px', alignItems: 'center', gap: '16px' }}>
                             <InputBase error={null} name={"message"} placeholder="Digite uma mensagem..." onChange={(e) => setMessage(e.target.value)} value={message} />
                             <ButtonBase label={'enviar'} onClick={handleSendMessage} disabled={!message} />
                         </div>}
