@@ -20,6 +20,7 @@ export default function InputContainer({ label, error = null, show = "none", wra
                 })}
                 <AnimatePresence>
                     {showIcon && <label
+                        htmlFor={id}
                         style={{ all: 'unset' }}
                     >
                         <motion.img

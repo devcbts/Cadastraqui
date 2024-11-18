@@ -6,7 +6,7 @@ const PasswordInput = forwardRef((props, ref) => {
     const [showIcon, setShowIcon] = useState(false)
     const Component = showPass ? Hide : Show
     return (
-        <div style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center', width: '100%' }} >
+        <div style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center', width: '100%' }}>
             <input
                 ref={ref}
                 {...props}

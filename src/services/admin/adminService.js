@@ -22,10 +22,18 @@ class AdminService {
         const response = await api.get(`/admin/accounts/history/${id}?filter=${filter}`)
         return response.data.history
     }
-    async getAccounts({ filter }) {
+    async getAccounts({ filter, search, type, page, size } = {}) {
         //filter must be one of common, entities
-        const response = await api.get(`/admin/accounts?filter=${filter}`)
-        return response.data.accounts
+        const response = await api.get(`/admin/accounts`, {
+            params: {
+                filter, search, type, page, size
+            }
+        })
+        const { accounts, total } = response.data
+        return {
+            accounts,
+            total
+        }
     }
     async changeAccountActiveStatus(id) {
         await api.put(`/admin/accounts/active/${id}`)

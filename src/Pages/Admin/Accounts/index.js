@@ -2,7 +2,6 @@ import Card from "Components/Card"
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router"
 import adminService from "services/admin/adminService"
-import AdminEntityAccounts from "./components/Entity"
 import AdminUserAccounts from "./components/User"
 import MenuCard from "Components/MenuCard"
 import { ReactComponent as Users } from 'Assets/icons/users.svg'
@@ -32,12 +31,12 @@ export default function AdminAccounts() {
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '32px', margin: '24px' }}>
 
                         <MenuCard
-                            onClick={() => handleChangeAccountType("entity")}
+                            onClick={() => handleChangeAccountType("entities")}
                             Icon={Institution}
                             title={'instituições'}
                             description={'Veja informações das instituições cadastradas'} />
                         <MenuCard
-                            onClick={() => handleChangeAccountType("user")}
+                            onClick={() => handleChangeAccountType("common")}
                             Icon={Users}
                             description={'Veja informações dos usuários do sistema'}
                             title={'usuários'}
@@ -46,11 +45,7 @@ export default function AdminAccounts() {
                 </>
             }
             {
-                state?.accountType === "entity" &&
-                <AdminEntityAccounts />
-            }
-            {
-                state?.accountType === "user" &&
+                state?.accountType &&
                 <AdminUserAccounts />
             }
         </>
