@@ -5,9 +5,12 @@ class AdminService {
         const response = await api.post('/entities/', data)
         return response.data.entity
     }
-    async getEntities() {
-        const response = await api.get('/admin/entidades/')
-        return response.data.entities
+    async getEntities({ page, size } = {}) {
+        const response = await api.get('/admin/entidades/', { params: { page, size } })
+        const { entities, total } = response.data
+        return {
+            entities, total
+        }
     }
     async getEntityById(id) {
         const response = await api.get(`/admin/entidades/${id}`)

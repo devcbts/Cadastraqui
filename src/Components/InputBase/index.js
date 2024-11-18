@@ -40,17 +40,16 @@ const InputBase = forwardRef(({
         }
     }, [props])
     const className = props.type === "text-area" ? styles.textarea : null
-
     return (
         <InputContainer
             label={label}
+            tooltip={tooltip}
             error={error}
             show={props.type === "text-area" ? ["border", "error"] : show}
             wrapperStyle={className}
         >
             {renderInput()}
         </InputContainer>
-
     )
 })
 export default InputBase

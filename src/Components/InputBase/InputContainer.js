@@ -3,7 +3,9 @@ import styles from './styles.module.scss'
 import { AnimatePresence, motion } from "framer-motion"
 import checkIcon from '../../Assets/icons/check.svg'
 import errorIcon from '../../Assets/icons/error.svg'
-export default function InputContainer({ label, error = null, show = "none", wrapperStyle = null, children }) {
+import Tooltip from "Components/Tooltip"
+import { ReactComponent as Help } from 'Assets/icons/question-mark.svg'
+export default function InputContainer({ label, error = null, show = "none", wrapperStyle = null, tooltip, children }) {
     const id = useId()
     const showItems = typeof show === "string" ? [show] : show
     const canShow = (arr) => showItems.some(e => arr.includes(e))
@@ -13,7 +15,10 @@ export default function InputContainer({ label, error = null, show = "none", wra
 
     return (
         <div className={styles.container}>
-            {label && <label htmlFor={id} className={styles.label}>{label}</label>}
+            {label && <div style={{ display: 'flex', flexDirection: "row", alignItems: 'center' }}>
+                {<label htmlFor={id} className={styles.label}>{label}</label>}
+                {tooltip && <Tooltip tooltip={tooltip} Icon={Help} />}
+            </div>}
             <div className={[wrapperStyle ?? styles.wrapper, iconStyle].join(' ')}>
                 {React.cloneElement(children, {
                     id
@@ -24,6 +29,7 @@ export default function InputContainer({ label, error = null, show = "none", wra
                         style={{ all: 'unset' }}
                     >
                         <motion.img
+                            key={error ? 'error' : 'success'}
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             exit={{ scale: 0 }}
@@ -35,6 +41,6 @@ export default function InputContainer({ label, error = null, show = "none", wra
 
             </div>
             {showMessage && <label className={styles.errorlabel}> {error}</label >}
-        </div>
+        </div >
     )
 }

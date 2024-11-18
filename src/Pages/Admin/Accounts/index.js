@@ -1,24 +1,13 @@
-import Card from "Components/Card"
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router"
-import adminService from "services/admin/adminService"
 import AdminUserAccounts from "./components/User"
 import MenuCard from "Components/MenuCard"
 import { ReactComponent as Users } from 'Assets/icons/users.svg'
 import { ReactComponent as Institution } from 'Assets/icons/institution.svg'
 export default function AdminAccounts() {
-    const [entities, setEntities] = useState([])
     const navigate = useNavigate()
     const { state } = useLocation()
-    useEffect(() => {
-        const fetchEntities = async () => {
-            try {
-                const information = await adminService.getEntities()
-                setEntities(information)
-            } catch (err) { }
-        }
-        fetchEntities()
-    }, [])
+
     const handleChangeAccountType = (type) => {
         navigate('', { state: { ...state, accountType: type } })
     }

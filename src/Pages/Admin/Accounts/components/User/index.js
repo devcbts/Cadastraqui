@@ -14,10 +14,10 @@ export default function AdminUserAccounts() {
     const [isLoading, setIsLoading] = useState(true)
     const { state } = useLocation()
     const navigate = useNavigate()
-    const fetchUsers = async ({ search, page, size, } = {}) => {
+    const fetchUsers = async ({ search, page, size, type } = {}) => {
         try {
             setIsLoading(true)
-            const information = await adminService.getAccounts({ filter: state.accountType, search, page, size })
+            const information = await adminService.getAccounts({ filter: state.accountType, search, page, size, type })
             setUsers(information)
         } catch (err) {
             NotificationService.error({ text: err?.response?.data?.message })
@@ -63,9 +63,10 @@ export default function AdminUserAccounts() {
                 allowPagination
                 serverSide
                 totalItems={data.total}
-                onDataRequest={(index, count, search) => fetchUsers({ search, size: count, page: index })}
+                onDataRequest={(index, count, search, type) => fetchUsers({ search, size: count, page: index, type })}
+                enableFilters
                 columns={[
-                    { accessorKey: isEntity ? 'socialReason' : 'name', header: 'Nome', },
+                    { accessorKey: isEntity ? 'socialReason' : 'name', header: 'Nome', meta: { filterKey: 'usuário' } },
                     !isEntity && { id: 'role', header: 'Tipo', cell: ({ row: { original: user } }) => ROLES[user.role] },
                     {
                         id: 'actions', header: 'Ações', cell: ({ row: { original: user } }) => <>

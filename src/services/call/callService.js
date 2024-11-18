@@ -10,13 +10,17 @@ class CallService {
         formData.append("file", file)
         return api.post('/user/call', formData)
     }
-    async getOpenCalls() {
-        const response = await api.get('/user/call/unsolved')
-        return response.data.calls
+    async getOpenCalls({ page, size } = {}) {
+        const response = await api.get('/user/call/unsolved', { params: { page, size } })
+        const { calls, total } = response.data
+        return { calls, total }
     }
-    async getUserCalls() {
-        const response = await api.get('/user/call')
-        return response.data.calls
+    async getUserCalls({ page, size } = {}) {
+        const response = await api.get('/user/call', { params: { page, size } })
+        const { calls, total } = response.data
+        return {
+            calls, total
+        }
     }
     async getCallById(id) {
         const response = await api.get(`/user/call/${id}`)

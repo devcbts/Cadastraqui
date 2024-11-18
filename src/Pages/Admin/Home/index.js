@@ -1,38 +1,48 @@
 import ButtonBase from "Components/ButtonBase";
+import DataTable from "Components/DataTable";
+import Loader from "Components/Loader";
 import Table from "Components/Table";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import adminService from "services/admin/adminService";
 
 export default function AdminHome() {
-    const [entities, setEntities] = useState([])
+    const [data, setData] = useState({
+        entities: [],
+        total: 0
+    })
+    const [isLoading, setIsLoading] = useState(true)
     const navigate = useNavigate()
-    useEffect(() => {
-        const fetchEntities = async () => {
-            try {
-                const information = await adminService.getEntities()
-                setEntities(information)
-            } catch (err) { }
-        }
-        fetchEntities()
-    }, [])
+    const fetchEntities = async ({ page, size } = {}) => {
+        try {
+            setIsLoading(true)
+            const information = await adminService.getEntities({ page, size })
+            setData(information)
+        } catch (err) { }
+        setIsLoading(false)
+    }
+    // useEffect(() => {
+    //     fetchEntities()
+    // }, [])
     return (
-        <div>
+        <>
             <h1>Início</h1>
-            <h3>Entidades</h3>
-            <Table.Root headers={['razão social', 'cnpj', 'ações']}>
-                {
-                    entities.map((entity) => (
-                        <Table.Row>
-                            <Table.Cell>{entity.socialReason}</Table.Cell>
-                            <Table.Cell>{entity.CNPJ}</Table.Cell>
-                            <Table.Cell>
-                                <ButtonBase label={'visualizar'} onClick={() => navigate(entity.id)} />
-                            </Table.Cell>
-                        </Table.Row>
-                    ))
-                }
-            </Table.Root>
-        </div>
+            <Loader loading={isLoading} />
+            <DataTable
+                allowPagination
+                serverSide
+                title={'Entidades'}
+                totalItems={data.total}
+                columns={[
+                    { accessorKey: 'socialReason', header: 'Razão social' },
+                    { accessorKey: 'CNPJ', header: 'CNPJ' },
+                    {
+                        id: 'actions', header: 'Ações', cell: ({ row: { original: entity } }) => <ButtonBase label={'visualizar'} onClick={() => navigate(entity.id)} />
+                    },
+                ]}
+                data={data.entities}
+                onDataRequest={(index, count,) => fetchEntities({ page: index, size: count })}
+            />
+        </>
     )
 }

@@ -97,7 +97,7 @@ export default function DataTable({
                 onChangeItemCount={(v) => setPagination((prev) => ({ ...prev, pageSize: v, pageIndex: 0 }))}
             />
             <h3>{title}</h3>
-            <table style={{ borderCollapse: 'collapse' }}>
+            {(serverSide && data.length !== 0) ? <table style={{ borderCollapse: 'collapse' }}>
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <tr key={headerGroup.id}>
@@ -148,6 +148,7 @@ export default function DataTable({
                     ))}
                 </tbody>
             </table>
+                : (<h3>Nenhum resultado encontrado</h3>)}
             {allowPagination && <TablePagination
                 table={table}
                 pagination={pagination}

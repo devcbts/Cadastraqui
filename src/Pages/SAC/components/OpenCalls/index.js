@@ -1,4 +1,5 @@
 import ButtonBase from "Components/ButtonBase";
+import DataTable from "Components/DataTable";
 import Loader from "Components/Loader";
 import Table from "Components/Table";
 import { useEffect, useState } from "react";
@@ -10,19 +11,20 @@ import formatDate from "utils/format-date";
 
 export default function OpenCalls() {
     const navigate = useNavigate()
-    const [calls, setCalls] = useState([])
+    const [data, setData] = useState({
+        calls: [],
+        total: 0
+    })
     const [isLoading, setIsLoading] = useState(true)
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setIsLoading(true)
-                const information = await callService.getOpenCalls()
-                setCalls(information)
-            } catch (err) { }
-            setIsLoading(false)
-        }
-        fetchData()
-    }, [])
+    const fetchData = async ({ page, size } = {}) => {
+        try {
+            setIsLoading(true)
+            const information = await callService.getOpenCalls({ page, size })
+            setData(information)
+        } catch (err) { }
+        setIsLoading(false)
+    }
+
     const handleLinkCall = async (id) => {
         try {
             await callService.linkCall({ id })
@@ -32,26 +34,27 @@ export default function OpenCalls() {
         }
     }
     return (
-        <div>
+        <>
             <Loader loading={isLoading} />
-            <div>
-                <h3>Lista de chamados abertos</h3>
-                <Table.Root headers={['chamado', 'número', 'abertura', 'status', 'ações']}>
+            <DataTable
+                title={'Lista de chamados abertos'}
+                data={data.calls}
+                totalItems={data.total}
+                onDataRequest={(index, count) => fetchData({ page: index, size: count })}
+                allowPagination
+                serverSide
+                columns={[
+                    { accessorKey: 'callSubject', header: 'Chamado' },
+                    { accessorKey: 'number', header: 'Número' },
+                    { accessorKey: 'CreatedAt', header: 'Abertura', cell: (info) => formatDate(info.getValue()) },
+                    { accessorKey: 'status', header: 'Status', cell: (info) => CALL_STATUS_TRANSLATION[info.getValue()] },
                     {
-                        calls.map(e => (
-                            <Table.Row key={e.id}>
-                                <Table.Cell>{e.callSubject}</Table.Cell>
-                                <Table.Cell>{e.number}</Table.Cell>
-                                <Table.Cell>{formatDate(e.CreatedAt)}</Table.Cell>
-                                <Table.Cell>{CALL_STATUS_TRANSLATION[e.status]}</Table.Cell>
-                                <Table.Cell>
-                                    <ButtonBase label={'vincular'} onClick={() => handleLinkCall(e.id)} />
-                                </Table.Cell>
-                            </Table.Row>
-                        ))
-                    }
-                </Table.Root>
-            </div>
-        </div>
+                        id: 'actions', header: 'Ações', cell: ({ row: { original: call } }) => <ButtonBase label={'vincular'} onClick={() => handleLinkCall(call.id)} />
+                    },
+                ]}
+
+            />
+
+        </>
     )
 }
