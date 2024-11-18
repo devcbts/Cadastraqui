@@ -1,6 +1,7 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
 import { prisma } from '@/lib/prisma'
+import getFilterParams from '@/utils/get-filter-params'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -37,10 +38,13 @@ export async function seeEntities(
 
       return reply.status(200).send({ entity })
     }
-
-    const entities = await prisma.entity.findMany()
-
-    return reply.status(200).send({ entities })
+    const { page, size } = getFilterParams(request.query)
+    const entities = await prisma.entity.findMany({
+      skip: page * size,
+      take: size
+    })
+    const total = await prisma.entity.count()
+    return reply.status(200).send({ entities, total })
   } catch (err: any) {
     if (err instanceof NotAllowedError) {
       return reply.status(401).send({ message: err.message })
