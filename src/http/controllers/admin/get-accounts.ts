@@ -1,25 +1,34 @@
 import { APIError } from "@/errors/api-error";
 import { prisma } from "@/lib/prisma";
+import getFilterParams from "@/utils/get-filter-params";
+import { Prisma } from "@prisma/client";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
 
 export default async function getAccounts(
     request: FastifyRequest,
     response: FastifyReply
 ) {
-    const schema = z.object({
-        filter: z.union([z.literal("common"), z.literal("entities")])
-    })
+
+
     try {
-        const query = schema.safeParse(request.query)
-        if (query.error) {
-            throw new APIError("Filtro deve ser um desses: common, entities")
-        }
-        const { data: { filter } } = query
+        const { filter, size, search, page } = getFilterParams(request.query, {
+            filterOpts: ["common", "entities"]
+        })
+
         let users;
+        let total;
         if (filter === "common") {
+            const query: Prisma.UserWhereInput = {
+                AND: [
+                    { role: { in: ["RESPONSIBLE", "CANDIDATE"] } },
+                    (search ? { OR: [{ Candidate: { name: { contains: search, mode: "insensitive" } } }, { LegalResponsible: { name: { contains: search, mode: "insensitive" } } }] } : {})
+                ]
+            }
+            total = await prisma.user.count({ where: query })
             users = await prisma.user.findMany({
-                where: { role: { in: ["RESPONSIBLE", "CANDIDATE"] } },
+                skip: page * size,
+                take: size,
+                where: query,
                 select: {
                     id: true,
                     role: true,
@@ -34,8 +43,16 @@ export default async function getAccounts(
             }))
         }
         if (filter === "entities") {
+            const query: Prisma.UserWhereInput = {
+                AND: [
+                    { role: { in: ["ENTITY"] } },
+                    (search ? { Entity: { socialReason: { contains: search, mode: "insensitive" } } } : {})
+
+                ]
+            }
+            total = await prisma.user.count({ where: query })
             users = await prisma.user.findMany({
-                where: { role: { in: ["ENTITY"] } },
+                where: query,
                 select: {
                     id: true,
                     Entity: { select: { CNPJ: true, socialReason: true } },
@@ -47,7 +64,7 @@ export default async function getAccounts(
                 ...e.Entity
             }))
         }
-        return response.status(200).send({ accounts: users })
+        return response.status(200).send({ accounts: users, total })
     } catch (err) {
         if (err instanceof APIError) {
             return response.status(400).send({ message: err.message })
