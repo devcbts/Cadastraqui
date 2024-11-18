@@ -11,7 +11,7 @@ export default async function getAccounts(
 
 
     try {
-        const { filter, size, search, page } = getFilterParams(request.query, {
+        const { filter, size, search, page, type } = getFilterParams(request.query, {
             filterOpts: ["common", "entities"]
         })
 
@@ -21,7 +21,7 @@ export default async function getAccounts(
             const query: Prisma.UserWhereInput = {
                 AND: [
                     { role: { in: ["RESPONSIBLE", "CANDIDATE"] } },
-                    (search ? { OR: [{ Candidate: { name: { contains: search, mode: "insensitive" } } }, { LegalResponsible: { name: { contains: search, mode: "insensitive" } } }] } : {})
+                    (search && type === "userName" ? { OR: [{ Candidate: { name: { contains: search, mode: "insensitive" } } }, { LegalResponsible: { name: { contains: search, mode: "insensitive" } } }] } : {})
                 ]
             }
             total = await prisma.user.count({ where: query })
@@ -46,7 +46,7 @@ export default async function getAccounts(
             const query: Prisma.UserWhereInput = {
                 AND: [
                     { role: { in: ["ENTITY"] } },
-                    (search ? { Entity: { socialReason: { contains: search, mode: "insensitive" } } } : {})
+                    (search && type === "userName" ? { Entity: { socialReason: { contains: search, mode: "insensitive" } } } : {})
 
                 ]
             }

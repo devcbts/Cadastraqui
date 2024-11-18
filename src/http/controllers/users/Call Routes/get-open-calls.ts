@@ -8,11 +8,14 @@ export default async function getOpenCalls(
 
     try {
         // const { sub } = request.user
+        const total = await prisma.call.count({
+            where: { status: 'OPEN' }
+        })
         const calls = await prisma.call.findMany({
             where: { status: 'OPEN' }
         })
         console.log(calls)
-        return response.status(200).send({ calls })
+        return response.status(200).send({ calls, total })
     } catch (err: any) {
         return response.status(500).send({ message: err?.message })
 

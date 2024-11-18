@@ -4,6 +4,7 @@ import { z } from "zod"
 enum EType {
     announcement = 'edital',
     entity = 'entidade',
+    userName = 'usuário'
 }
 type TypeOptions = keyof typeof EType
 // filterOpts can be an array of strings (enum to ZOD)
