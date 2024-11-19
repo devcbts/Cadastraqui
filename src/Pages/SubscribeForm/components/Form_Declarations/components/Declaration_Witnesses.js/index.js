@@ -201,7 +201,7 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
         </Document>
     );
 
-    const handleRegisterDeclaration = async ({ sign = null }) => {
+    const handleRegisterDeclaration = async ({ sign } = { sign: null }) => {
         if (!isValid && !sign) {
             trigger()
             return
