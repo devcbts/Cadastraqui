@@ -10,7 +10,7 @@ import socialAssistantService from "services/socialAssistant/socialAssistantServ
 export default function AssistantManagementAnnouncements() {
     const { state } = useLocation()
     const [selection, setSelection] = useState({ label: 'Fase de inscrição', value: 'subscription' })
-    const [announcements, setAnnouncements] = useState([])
+    const [data, setData] = useState({ announcements: [], total: 0 })
     const [isLoading, setIsLoading] = useState(true)
     const navigate = useNavigate()
     const filter = [
@@ -24,13 +24,13 @@ export default function AssistantManagementAnnouncements() {
             try {
                 setIsLoading(true)
                 const query = !state?.isUnit ? selection.value : 'validationFinished'
-                const information = await socialAssistantService.getAllAnnouncements(query)
-                setAnnouncements(information.announcements)
+                const information = await socialAssistantService.getAllAnnouncements({ filter: query })
+                setData(information)
             } catch (err) { }
             setIsLoading(false)
         }
         fetchAnnouncements()
-    }, [selection])
+    }, [selection.value])
     return (
         <>
             <Loader loading={isLoading} />
@@ -54,10 +54,10 @@ export default function AssistantManagementAnnouncements() {
                     </div>
                 )
                 }
-                {announcements.length > 0
+                {data.announcements.length > 0
                     ? <Table.Root headers={['edital', 'entidade', 'ações']}>
                         {
-                            announcements.map((e) => (
+                            data.announcements.map((e) => (
                                 <Table.Row>
                                     <Table.Cell align="start">{e.name}</Table.Cell>
                                     <Table.Cell>{e.entity}</Table.Cell>

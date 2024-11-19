@@ -35,9 +35,7 @@ export default function SelectionProcess() {
         } catch (err) { }
         setIsLoading(false)
     }
-    useEffect(() => {
-        fetchAnnouncements()
-    }, [selection.value])
+
     return (
         <div className={styles.container}>
             <Loader loading={isLoading} />
@@ -50,6 +48,7 @@ export default function SelectionProcess() {
                 // data.announcements.length ?
                 (
                     <DataTable
+                        key={selection.value}
                         data={data.announcements}
                         title={`Editais - ${selection.label}`}
                         columns={[

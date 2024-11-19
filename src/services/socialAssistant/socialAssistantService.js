@@ -21,6 +21,7 @@ class SocialAssistantService {
     }
 
     async getAllAnnouncements({ filter, search, size, page, type } = {}) {
+        console.log('FILTER', filter, typeof filter)
         const response = await api.get(`/assistant/announcement`, {
             params: {
                 filter,
