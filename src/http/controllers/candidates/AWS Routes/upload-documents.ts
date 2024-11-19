@@ -1,10 +1,9 @@
 import { NotAllowedError } from '@/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/errors/resource-not-found-error'
-import getOpenApplications from '@/HistDatabaseFunctions/find-open-applications'
-import { findAWSRouteHDB, findTableHDBId } from '@/HistDatabaseFunctions/Handle Application/find-AWS-Route'
-import { createCandidateDocumentHDB } from '@/HistDatabaseFunctions/Handle Documents/handle-candidate-document'
 import { uploadFile } from '@/http/services/upload-file'
-import { historyDatabase, prisma } from '@/lib/prisma'
+import { prisma } from '@/lib/prisma'
+import { uploadQueue } from '@/redis/queues/uploadDocumentsQueue'
+import getExpireDate from '@/utils/get-expire-date'
 import { SelectCandidateResponsible } from '@/utils/select-candidate-responsible'
 import verifyDeclarationRegistration from '@/utils/Trigger-Functions/verify-declaration-registration'
 import { MultipartFile } from '@fastify/multipart'
@@ -12,7 +11,6 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import fs from 'fs'
 import { z } from 'zod'
 import createCandidateDocument from '../Documents Functions/create-candidate-document'
-import { uploadQueue } from '@/redis/queues/uploadDocumentsQueue'
 
 
 
@@ -94,7 +92,7 @@ export async function uploadDocument(request: FastifyRequest, reply: FastifyRepl
             // Inicia transação de envio de documento
             await prisma.$transaction(async (tsPrisma) => {
                 // Cria o registro do documento no banco de dados
-                await createCandidateDocument(tsPrisma, route, part.metadata, documentType, table_id || member_id, member_id);
+                await createCandidateDocument(tsPrisma, route, part.metadata, documentType, table_id || member_id, member_id, getExpireDate(documentType, part.metadata));
                 const sended = await uploadFile(fileBuffer, route, part.metadata);
                 if (!sended) {
                     throw new NotAllowedError();

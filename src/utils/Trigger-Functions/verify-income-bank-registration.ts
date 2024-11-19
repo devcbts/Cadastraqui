@@ -34,7 +34,7 @@ export async function verifyIncomeBankRegistration(id: string) {
                 familyMember_id: familyMember.id
             }
         });
-        if (hasIncome.some(income => income.isUpdated === false)) {
+        if (hasIncome.some(income => income.isUpdated === false) || hasIncome.length === 0) {
             update = false;
         }
 
@@ -104,7 +104,7 @@ export async function verifyIncomeBankRegistration(id: string) {
                 ...idField
             }
         });
-        if (hasIncome.some(income => income.isUpdated === false)) {
+        if (hasIncome.some(income => income.isUpdated === false) || hasIncome.length === 0) {
             update = false;
         }
 
