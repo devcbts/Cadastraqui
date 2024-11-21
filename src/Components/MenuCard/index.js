@@ -18,21 +18,24 @@ export default function MenuCard({
             onHoverEnd={toggleDetails}
             onClick={onClick}
         >
-            <motion.div
+            <div
                 style={{ display: 'flex', flexDirection: showDetails ? 'row' : 'column', flexGrow: showDetails ? 0 : '1', alignItems: 'center' }}
-                layout
+                // layout
                 className={styles.content}
             >
                 {Icon &&
                     <motion.div
                         layout
                         style={{ height: showDetails ? '20px' : '40%', width: showDetails ? '20px' : '40%' }}
+                        transition={{
+                            layout: { duration: .3 }
+                        }}
                     >
                         <Icon style={{ height: '100%', width: '100%' }} />
                     </motion.div>
                 }
-                <motion.h3 layout style={{ textAlign: 'center' }}>{title}</motion.h3>
-            </motion.div>
+                <motion.h3 layout style={{ textAlign: 'center' }} transition={{ layout: { duration: .4 } }}>{title}</motion.h3>
+            </div>
             {!!description &&
                 <AnimatePresence>
                     {showDetails &&

@@ -35,6 +35,7 @@ export default function InputForm({ name, label, show = "all", control, transfor
                         onChange={(e) => {
                             field.onChange(transform(e) ?? '')
                             props?.onChange && props.onChange(e.target.value)
+
                         }}
                     />
                 )

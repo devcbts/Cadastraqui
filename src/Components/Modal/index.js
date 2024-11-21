@@ -25,7 +25,7 @@ export default function Modal({ title, text, children, onCancel, onConfirm, open
                     <Overlay>
                         <motion.div
                             initial={{ scale: 0, opacity: 0 }}
-                            animate={{ scale: [0, 1.05, 1], opacity: 1, }}
+                            animate={{ scale: [0, 1, 1.05, 1], opacity: 1, }}
                             exit={{ scale: 0, opacity: 0 }}
                             transition={{ duration: .3, ease: "backInOut" }}
                             ref={ref} style={{ minHeight: "10%", minWidth: "20%", padding: "16px 24px", backgroundColor: "white", borderRadius: "8px", display: "flex", flexDirection: "column" }}>

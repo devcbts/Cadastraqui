@@ -49,9 +49,9 @@ export default function StudentDocumentSection({
                 formData.append(fileName, file)
             }
             await studentService.uploadDocument(studentId, formData)
-            NotificationService.success({ text: 'Arquivo enviado' })
+            NotificationService.success({ text: 'Arquivo enviado', type: 'toast' })
         } catch (err) {
-            NotificationService.error({ text: err?.response?.data?.message })
+            NotificationService.error({ text: err?.response?.data?.message, type: 'toast' })
         }
     }
     const handlePageChange = (page) => {

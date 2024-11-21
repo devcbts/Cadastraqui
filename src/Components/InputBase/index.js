@@ -5,6 +5,7 @@ import styles from './styles.module.scss'
 import { AnimatePresence, motion } from 'framer-motion'
 import PasswordInput from './PasswordInput'
 import InputContainer from './InputContainer'
+import { flushSync } from 'react-dom'
 const InputBase = forwardRef(({
     label,
     error,
@@ -15,6 +16,7 @@ const InputBase = forwardRef(({
     const id = useId()
     // const iconStyle = error === null ? '' : [(error ? styles.error : styles.success), styles.trailing]
     // const element = props.type === 'text-area' ? <textarea className={styles.textarea} /> : <input className={styles.input} />
+
     const renderInput = useCallback(() => {
         switch (props.type) {
             case 'password':
@@ -29,12 +31,14 @@ const InputBase = forwardRef(({
                     ref={ref}
                     id={id}
                     {...props}
+
                 // className={''}
                 />
             default:
                 return <input ref={ref}
                     id={id}
                     {...props}
+
                 // className={''}
                 />
         }

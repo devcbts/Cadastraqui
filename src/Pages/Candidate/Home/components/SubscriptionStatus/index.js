@@ -14,6 +14,7 @@ import styles from './styles.module.scss';
 import Card from 'Components/Card/CardRoot';
 import { ReactComponent as Siren } from 'Assets/icons/siren.svg'
 import { ReactComponent as Help } from 'Assets/icons/question-mark.svg'
+import { AnimatePresence, motion } from 'framer-motion';
 export default function SubscriptionStatus() {
     const [data, setData] = useState([])
     const navigate = useNavigate()
@@ -104,18 +105,26 @@ export default function SubscriptionStatus() {
                     </div>
                 </div>
             </div>
-
-            {showHelp &&
-                <Card
-                    style={{ width: '50%', minWidth: '300px', placeSelf: 'center', marginTop: '16px' }}
-                    title={<h2 style={{ placeContent: 'center', display: 'flex', alignItems: 'center' }}>
-                        <Siren height={40} width={40} />
-                        <span>ATENÇÃO</span>
-                    </h2>}>
-                    <p style={{ fontSize: 14 }}>Antes de realizar a inscrição para um edital, é necessário que o cadastro esteja atualizado em relação aos membros do grupo familiar.
-                        Isso inclui declarações obtidas junto ao Banco Central (Registrato e PIX), extratos bancários, renda(s) atualizada(s), despesas e declarações.</p>
-                </Card>
-            }
+            <AnimatePresence>
+                {showHelp &&
+                    <motion.div
+                        initial={{ scale: 0, }}
+                        animate={{ scale: 1, }}
+                        exit={{ scale: 0, }}
+                        transition={{ duration: .2 }}
+                        style={{ width: '50%', minWidth: '300px', placeSelf: 'center', marginTop: '16px' }}
+                    >
+                        <Card
+                            title={<h2 style={{ placeContent: 'center', display: 'flex', alignItems: 'center' }}>
+                                <Siren height={40} width={40} />
+                                <span>ATENÇÃO</span>
+                            </h2>}>
+                            <p style={{ fontSize: 14 }}>Antes de realizar a inscrição para um edital, é necessário que o cadastro esteja atualizado em relação aos membros do grupo familiar.
+                                Isso inclui declarações obtidas junto ao Banco Central (Registrato e PIX), extratos bancários, renda(s) atualizada(s), despesas e declarações.</p>
+                        </Card>
+                    </motion.div>
+                }
+            </AnimatePresence>
 
         </div>
 
