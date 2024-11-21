@@ -87,7 +87,7 @@ const sendStudentUpdateEmail = async () => {
     }
 }
 
-const sendStudentUpdateEmailJob: nodeSchedule.Job = nodeSchedule.scheduleJob("* 0 0 * * 1", async () => {
+const sendStudentUpdateEmailJob: nodeSchedule.Job = nodeSchedule.scheduleJob("0 0 0 * * 1", async () => {
     sendStudentUpdateEmail();
 });
 
