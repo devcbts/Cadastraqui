@@ -7,15 +7,31 @@ const FilePickerBase = forwardRef(({ label, error, show, ...props }, ref) => {
     const inputRef = useRef(null)
     return (
         <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <input type="file" hidden ref={inputRef} {...props} />
             <InputContainer
                 label={label}
                 show={show}
+                error={error}
             >
-                <div style={{ cursor: 'pointer', width: "100%", height: '100%', display: 'flex', alignItems: 'center', alignContent: 'end', padding: '4px 8px', }} onClick={() => inputRef.current?.click()}>
-                    <span style={{ color: '#52525C', flexGrow: '1' }}>Anexar arquivo</span>
-                    <Upload height={'100%'} />
-                </div>
+                {(id) => {
+                    return (
+                        <>
+                            <input type="file"
+                                style={{ display: 'none' }}
+                                {...props}
+                                ref={inputRef}
+                                id={id} />
+                            <div
+                                style={{ cursor: 'pointer', width: "100%", height: '100%', display: 'flex', alignItems: 'center', alignContent: 'end', padding: '4px 8px', flexGrow: '1', }}
+                                onClick={() => inputRef.current?.click()}>
+                                <span style={{ color: '#52525C', flexGrow: '1' }}>Anexar arquivo</span>
+                                <Upload height={'100%'}
+                                    stroke='black'
+                                    strokeWidth={.3} />
+                            </div>
+                        </>
+                    )
+                }}
+
             </InputContainer>
             {/* <InputBase
                 label={label}

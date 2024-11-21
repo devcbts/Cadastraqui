@@ -5,7 +5,7 @@ import checkIcon from '../../Assets/icons/check.svg'
 import errorIcon from '../../Assets/icons/error.svg'
 import Tooltip from "Components/Tooltip"
 import { ReactComponent as Help } from 'Assets/icons/question-mark.svg'
-export default function InputContainer({ label, error = null, show = "none", wrapperStyle = null, tooltip, children }) {
+export default function InputContainer({ label, error = null, show = "none", wrapperStyle = null, tooltip, children, }) {
     const id = useId()
     const showItems = typeof show === "string" ? [show] : show
     const canShow = (arr) => showItems.some(e => arr.includes(e))
@@ -20,9 +20,12 @@ export default function InputContainer({ label, error = null, show = "none", wra
                 {tooltip && <Tooltip tooltip={tooltip} Icon={Help} />}
             </div>}
             <div className={[wrapperStyle ?? styles.wrapper, iconStyle].join(' ')}>
-                {React.cloneElement(children, {
-                    id
-                })}
+
+                {typeof children === "function"
+                    ? children(id)
+                    : React.cloneElement(children, {
+                        id
+                    })}
                 <AnimatePresence>
                     {showIcon && <label
                         htmlFor={id}
