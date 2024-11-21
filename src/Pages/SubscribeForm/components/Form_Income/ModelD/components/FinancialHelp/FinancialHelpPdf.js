@@ -4,6 +4,8 @@ import HabitationDeclarationPDF, { pdfStyles, Strong } from "Pages/SubscribeForm
 import { useEffect, useState } from "react";
 import { pdfjs } from "react-pdf";
 import candidateService from "services/candidate/candidateService";
+import findLabel from "utils/enums/helpers/findLabel";
+import MARITAL_STATUS from "utils/enums/marital-status";
 
 export default function FinancialHelpPdf({
     owner,
@@ -40,7 +42,7 @@ export default function FinancialHelpPdf({
                     <Text style={pdfStyles.text}>
                         Eu, <Strong>{owner?.ownerName}</Strong>, portador(a) da cédula de identidade RG nº <Strong>{owner?.RG}</Strong>, órgão emissor <Strong>{owner?.documentIssuing}</Strong>,
                         UF do órgão emissor <Strong>{owner?.ufIssuing}</Strong>,inscrito(a) no CPF nº <Strong>{owner?.CPF}</Strong>, nacionalidade <Strong>{owner?.nationality}</Strong>,
-                        estado civil casado, profissão <Strong>{owner?.profession}</Strong>, residente no(a) <Strong>{owner?.address}</Strong>, nº <Strong>{owner?.addressNumber}</Strong>,
+                        estado civil <Strong>{findLabel(MARITAL_STATUS, owner?.maritalStatus)}</Strong>, profissão <Strong>{owner?.profession}</Strong>, residente no(a) <Strong>{owner?.address}</Strong>, nº <Strong>{owner?.addressNumber}</Strong>,
                         CEP <Strong>{owner?.CEP}</Strong>, bairro <Strong>{owner?.neighborhood}</Strong>, cidade <Strong>{owner?.city}</Strong>, UF <Strong>{owner?.UF}</Strong>, e-mail <Strong>{owner?.email}</Strong>,
                         declaro para os devidos fins do processo seletivo realizado nos termos da Lei Complementar nº 187, de 16 de dezembro de 2021 que ajudo financeiramente <Strong>{user?.fullName}</Strong>,
                         inscrito no CPF nº <Strong>{user?.CPF}</Strong> com valor mensal de <Strong>{lastIncomeHelp}</Strong>.

@@ -28,6 +28,10 @@ export default function CandidateSAC() {
         <>
             <Loader loading={isLoading} />
             <h1>SAC</h1>
+            <ButtonBase
+                style={{ placeSelf: 'start' }}
+                label={'abrir novo chamado'} onClick={() => navigate('novo')} />
+
             <DataTable
                 title={'Lista de chamados'}
                 data={data.calls}
