@@ -22,10 +22,10 @@ export default function EntityAnnouncement() {
         { value: 'subscription', label: 'Fase de inscrição' },
         { value: 'finished', label: 'Finalizados' },
     ]
-    const fetchAnnoucnements = async ({ page, size } = {}) => {
+    const fetchAnnoucnements = async ({ page, size, search, type } = {}) => {
         try {
             setIsLoading(true)
-            const information = await entityService.getFilteredAnnouncements({ filter: filter.value, page, size })
+            const information = await entityService.getFilteredAnnouncements({ filter: filter.value, page, size, search, type })
             setData(information)
         } catch (err) { }
         setIsLoading(false)
@@ -47,11 +47,12 @@ export default function EntityAnnouncement() {
                 totalItems={data.total}
                 serverSide
                 allowPagination
-                onDataRequest={(index, count) => fetchAnnoucnements({ page: index, size: count })}
+                onDataRequest={(index, count, value, name) => fetchAnnoucnements({ page: index, size: count, search: value, type: name })}
+                enableFilters
                 columns={[
-                    { accessorKey: 'announcementName', header: 'Edital', meta: { cellAlign: 'start' } },
-                    { accessorKey: 'verifiedScholarships', header: 'Total de vagas' },
-                    { accessorKey: 'announcementDate', header: 'Vigência', cell: ({ row: { original } }) => formatDate(original.announcementDate) },
+                    { accessorKey: 'announcementName', header: 'Edital', meta: { cellAlign: 'start', filterKey: 'edital' }, },
+                    { accessorKey: 'verifiedScholarships', header: 'Total de vagas', enableColumnFilter: false },
+                    { accessorKey: 'announcementDate', header: 'Vigência', cell: ({ row: { original } }) => formatDate(original.announcementDate), enableColumnFilter: false },
                     {
                         id: 'action', header: 'Ações', cell: ({ row: { original } }) => <ButtonBase label={'visualizar'} onClick={() => navigate(original.id)} />
                     },

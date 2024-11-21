@@ -32,11 +32,9 @@
     font-weight: 500;
     width: auto;
     white-space: nowrap;
-
     &.divider {
         border-right: 1px solid $lightgrey;
     }
-
     .content {
         display: flex;
         flex-direction: row;

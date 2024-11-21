@@ -18,7 +18,7 @@ export default function TablePagination({
                         }}
                             disabled={!table.getCanPreviousPage()}
                         />
-                        <span>Página {pagination.pageIndex + 1} de {table.getPageCount()}</span>
+                        <span>Página <strong>{pagination.pageIndex + 1}</strong> de <strong>{table.getPageCount()}</strong></span>
                         <ButtonBase label={'>'} onClick={() => {
                             if (table.getCanNextPage()) {
                                 table.nextPage()
