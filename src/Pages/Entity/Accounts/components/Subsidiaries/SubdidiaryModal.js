@@ -45,7 +45,9 @@ export default function SubsidiaryModal({ data, onClose }) {
         setValue("neighborhood", address?.neighborhood)
     }, watch("CEP"))
     return (
-        <Modal open={!!data} onCancel={onClose} onConfirm={handleSubmit}>
+        <Modal open={!!data}
+            title={'Editar filial'}
+            onCancel={onClose} onConfirm={handleSubmit}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>
 
                 <InputForm control={control} name="CEP" label="CEP" transform={(e) => formatCEP(e.target.value)} />
