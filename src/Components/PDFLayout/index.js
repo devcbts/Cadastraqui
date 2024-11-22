@@ -58,13 +58,21 @@ const PDFRowHeader = ({
     children
 }) => {
     return (
+        <PDFHeader>
+            {title && <View style={{ ...pdfStyles.header, flex: 1 }}>
+                <Text style={pdfStyles.h1}>{title}</Text>
+            </View>}
+            {children}
+        </PDFHeader>
+    )
+}
+
+const PDFHeader = ({ children }) => {
+    return (
         <View style={{
             display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center',
             borderBottom: '3px solid #1F4B73', paddingBottom: 4,
         }}>
-            {title && <View style={{ ...pdfStyles.header, flex: 1 }}>
-                <Text style={pdfStyles.h1}>{title}</Text>
-            </View>}
             {children}
         </View>
     )
@@ -72,5 +80,6 @@ const PDFRowHeader = ({
 export {
     PDFFooter,
     PDFEntityHeader,
-    PDFRowHeader
+    PDFRowHeader,
+    PDFHeader
 }

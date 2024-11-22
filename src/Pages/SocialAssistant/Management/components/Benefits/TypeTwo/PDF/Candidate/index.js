@@ -1,4 +1,5 @@
 import { Document, Page, Text, View } from "@react-pdf/renderer";
+import { PDFFooter, PDFHeader } from "Components/PDFLayout";
 import { pdfStyles, Strong } from "Pages/SubscribeForm/components/Form_Declarations/components/HabitationDeclarationPDF";
 import { pdfjs } from "react-pdf";
 import EDUCATION_TYPE from "utils/enums/education-type";
@@ -17,11 +18,14 @@ export default function TypeTwoCandidatePDF({
     return (
         <Document title={"TERMO DE CONCESSÃO DE BENEFÍCIOS"} >
             <Page size={"A4"} style={pdfStyles.page}>
-                <View style={pdfStyles.header}>
-                    <Text style={pdfStyles.h1}>TERMO DE CONCESSÃO DE BENEFÍCIOS</Text>
-                    <Text style={pdfStyles.h2}>TIPO II: AÇÕES E SERVIÇOS DESTINADOS AO ALUNO E SEU GRUPO FAMILIAR</Text>
+                <PDFHeader>
 
-                </View>
+                    <View style={pdfStyles.header}>
+                        <Text style={pdfStyles.h1}>TERMO DE CONCESSÃO DE BENEFÍCIOS</Text>
+                        <Text style={pdfStyles.h2}>TIPO II: AÇÕES E SERVIÇOS DESTINADOS AO ALUNO E SEU GRUPO FAMILIAR</Text>
+
+                    </View>
+                </PDFHeader>
                 <View style={pdfStyles.body}>
                     <Text style={pdfStyles.text}>
                         A Entidade Beneficente {benefit?.entity?.socialReason}, inscrita no CNPJ da sob o nº {benefit?.entity?.CNPJ}
@@ -83,6 +87,7 @@ export default function TypeTwoCandidatePDF({
                         <Text>Assinatura {benefit?.candidate?.name}</Text>
                     </View>
                 </View>
+                <PDFFooter />
 
             </Page>
         </Document>

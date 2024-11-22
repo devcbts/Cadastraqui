@@ -88,7 +88,7 @@ export default function StudentsDashboard() {
                         </ResponsiveContainer>
                     </GraphCard>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'baseline', gap: '24px' }}>
+                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: '24px' }}>
                     <IconMenu Icon={StudentManager} text={'gestão de alunos'} onClick={() => navigate('gestao')} />
                     {auth?.role !== "ASSISTANT" && <IconMenu Icon={StudentRenew} text={'renovação'} onClick={() => navigate('renovacao')} />}
                 </div>

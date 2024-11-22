@@ -12,6 +12,7 @@ import styles from './styles.module.scss'
 import InputForm from "Components/InputForm";
 import ButtonBase from "Components/ButtonBase";
 import { NotificationService } from "services/notification";
+import Container from "Components/Container";
 export default function PasswordRecovery() {
     const [query] = useSearchParams()
     const token = query.get("token")
@@ -57,19 +58,18 @@ export default function PasswordRecovery() {
     return (
         <div>
             <Loader loading={isLoading} />
-            <header style={{ height: '80px', backgroundColor: '#1F4B73', display: 'flex', flexDirection: 'row', justifyContent: 'start', padding: '0 40px', alignItems: 'center' }}>
-                <img className={styles.logo} src={Logo} alt='Logo' />
-            </header>
-            <div style={{ display: 'flex', placeContent: 'center' }}>
 
-                <div className={styles.container}>
-                    <h1 className={styles.title}>Alterar senha</h1>
-                    <div className={styles.inputs}>
+            <div style={{ display: 'flex', placeContent: 'center', }}>
+                <Container title={'Alterar senha'}>
+                    <form className={styles.inputs} onSubmit={(e) => {
+                        e.preventDefault()
+                        handleResetPassword()
+                    }}>
                         <InputForm control={control} name={"password"} label={"senha"} type="password" />
                         <InputForm control={control} name={"passwordConfirm"} label={"confirme sua senha"} type="password" />
-                    </div>
-                    <ButtonBase label={'alterar senha'} onClick={handleResetPassword} />
-                </div>
+                        <ButtonBase label={'alterar senha'} type="submit" />
+                    </form>
+                </Container>
             </div>
         </div>
     )

@@ -47,7 +47,7 @@ export default function CandidateCreateSAC() {
             <div style={{ padding: '32px' }}>
                 <InputForm control={control} name="name" label={'Nome'} />
                 <InputForm control={control} name="subject" label={'assunto do chamado'} />
-                <FormFilePicker control={control} name="image" label={'imagem (opcional)'} accept={'image/*'} />
+                <FormFilePicker control={control} name="image" label={'imagem (opcional)'} accept={'image/*'} show="none" />
                 <InputForm type="text-area" label={'mensagem'} control={control} name="message" />
                 <ButtonBase label={'criar chamado'} onClick={handleCreateSAC} />
             </div>

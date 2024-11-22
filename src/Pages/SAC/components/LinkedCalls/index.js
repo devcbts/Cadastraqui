@@ -1,4 +1,5 @@
 import ButtonBase from "Components/ButtonBase";
+import DataTable from "Components/DataTable";
 import Loader from "Components/Loader";
 import Table from "Components/Table";
 import { useEffect, useState } from "react";
@@ -10,19 +11,20 @@ import formatDate from "utils/format-date";
 
 export default function LinkedCalls() {
     const navigate = useNavigate()
-    const [calls, setCalls] = useState([])
+    const [data, setData] = useState({
+        calls: [],
+        total: 0
+    })
     const [isLoading, setIsLoading] = useState(true)
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setIsLoading(true)
-                const information = await callService.getUserCalls()
-                setCalls(information)
-            } catch (err) { }
-            setIsLoading(false)
-        }
-        fetchData()
-    }, [])
+    const fetchData = async ({ page, size } = {}) => {
+        try {
+            setIsLoading(true)
+            const information = await callService.getUserCalls({ page, size })
+            setData(information)
+        } catch (err) { }
+        setIsLoading(false)
+    }
+
     const handleFinishCall = async (id) => {
         NotificationService.confirm({
             title: 'Finalizar chamado',
@@ -31,8 +33,11 @@ export default function LinkedCalls() {
                 try {
                     await callService.finishCall({ id })
                     NotificationService.success({ text: 'Chamado finalizado' })
-                    setCalls((prev) => prev.map(call => {
-                        return call.id === id ? ({ ...call, status: CALL_STATUS.CLOSED }) : call
+                    setData((prev) => ({
+                        ...prev,
+                        calls: [...prev.calls].map(call => {
+                            return call.id === id ? ({ ...call, status: CALL_STATUS.CLOSED }) : call
+                        })
                     }))
                 } catch (err) {
                     NotificationService.error({ text: err?.response?.data?.message })
@@ -42,27 +47,30 @@ export default function LinkedCalls() {
         })
     }
     return (
-        <div>
+        <>
             <Loader loading={isLoading} />
-            <div>
-                <h3>Meus chamados</h3>
-                <Table.Root headers={['chamado', 'número', 'abertura', 'status', 'ações']}>
+            <DataTable
+                title={'Meus chamados'}
+                data={data.calls}
+                totalItems={data.total}
+                onDataRequest={(index, count) => fetchData({ page: index, size: count })}
+                allowPagination
+                serverSide
+                columns={[
+                    { accessorKey: 'callSubject', header: 'Chamado' },
+                    { accessorKey: 'number', header: 'Número' },
+                    { accessorKey: 'CreatedAt', header: 'Abertura', cell: (info) => formatDate(info.getValue()) },
+                    { accessorKey: 'status', header: 'Status', cell: (info) => CALL_STATUS_TRANSLATION[info.getValue()] },
                     {
-                        calls.map(e => (
-                            <Table.Row key={e.id}>
-                                <Table.Cell>{e.callSubject}</Table.Cell>
-                                <Table.Cell>{e.number}</Table.Cell>
-                                <Table.Cell>{formatDate(e.CreatedAt)}</Table.Cell>
-                                <Table.Cell>{CALL_STATUS_TRANSLATION[e.status]}</Table.Cell>
-                                <Table.Cell>
-                                    <ButtonBase label={'visualizar'} onClick={() => navigate(`${e.id}`)} />
-                                    {e.status !== CALL_STATUS.CLOSED && <ButtonBase label={'finalizar'} onClick={() => handleFinishCall(e.id)} danger />}
-                                </Table.Cell>
-                            </Table.Row>
-                        ))
-                    }
-                </Table.Root>
-            </div>
-        </div>
+                        id: 'actions', header: 'Ações', cell: ({ row: { original: call } }) => {
+                            return call.status !== CALL_STATUS.CLOSED
+                                && <ButtonBase label={'finalizar'} onClick={() => handleFinishCall(call.id)} danger />
+                        }
+
+                    },
+                ]}
+            />
+
+        </>
     )
 }

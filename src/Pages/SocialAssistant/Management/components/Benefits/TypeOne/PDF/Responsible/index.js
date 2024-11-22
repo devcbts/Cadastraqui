@@ -5,6 +5,7 @@ import formatDate from "utils/format-date";
 import findLabel from "utils/enums/helpers/findLabel";
 import TYPE_ONE_BENEFITS from "utils/enums/type-one-benefits";
 import EDUCATION_TYPE from "utils/enums/education-type";
+import { PDFFooter, PDFHeader } from "Components/PDFLayout";
 
 
 export default function TypeOneResponsiblePDF({ benefit }) {
@@ -16,11 +17,13 @@ export default function TypeOneResponsiblePDF({ benefit }) {
     return (
         <Document title={"TERMO DE CONCESSÃO DE BENEFÍCIOS"} >
             <Page size={"A4"} style={pdfStyles.page}>
-                <View style={pdfStyles.header}>
-                    <Text style={pdfStyles.h1}>TERMO DE CONCESSÃO DE BENEFÍCIOS</Text>
-                    <Text style={pdfStyles.h2}>TIPO I: AÇÕES DE APOIO AO ALUNO BOLSISTA</Text>
+                <PDFHeader>
+                    <View style={pdfStyles.header}>
+                        <Text style={pdfStyles.h1}>TERMO DE CONCESSÃO DE BENEFÍCIOS</Text>
+                        <Text style={pdfStyles.h2}>TIPO I: AÇÕES DE APOIO AO ALUNO BOLSISTA</Text>
 
-                </View>
+                    </View>
+                </PDFHeader>
                 <View style={pdfStyles.body}>
                     <Text style={pdfStyles.text}>
                         A Entidade Beneficente {benefit?.entity?.socialReason}, inscrita no CNPJ da sob o nº {benefit?.entity?.CNPJ}
@@ -75,6 +78,7 @@ export default function TypeOneResponsiblePDF({ benefit }) {
                         <Text>Assinatura {benefit?.responsible?.name}</Text>
                     </View>
                 </View>
+                <PDFFooter />
             </Page>
         </Document>
     )

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { pdfjs } from "react-pdf";
 import candidateService from "services/candidate/candidateService";
 import { pdfStyles, Strong } from "../../Form_Declarations/components/HabitationDeclarationPDF";
+import { PDFFooter, PDFHeader } from "Components/PDFLayout";
 
 export default function VerbalContractPDF({
     owner
@@ -24,9 +25,12 @@ export default function VerbalContractPDF({
     return (
         <Document title={'Declaração de imóvel cedido'}>
             <Page size={'A4'} style={pdfStyles.page}>
-                <View style={pdfStyles.header} >
-                    <Text style={pdfStyles.h2}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
-                </View>
+                <PDFHeader>
+
+                    <View style={pdfStyles.header} >
+                        <Text style={pdfStyles.h2}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
+                    </View>
+                </PDFHeader>
                 <View style={pdfStyles.body} >
                     <Text style={{ ...pdfStyles.header, ...pdfStyles.h3 }} > Declaração de imóvel alugado sem contrato por escrito</Text>
 
@@ -64,6 +68,8 @@ export default function VerbalContractPDF({
                     </View>
 
                 </View>
+                <PDFFooter />
+
             </Page>
 
         </Document>

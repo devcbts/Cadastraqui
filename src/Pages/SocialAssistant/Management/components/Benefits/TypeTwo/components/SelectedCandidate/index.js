@@ -78,7 +78,7 @@ export default function SelectedCandidateBenefitsTypeTwo() {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: 'max(600px,60%)' }}>
             <Loader loading={isLoading} />
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '24px', alignItems: 'baseline', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
                 <label>Candidato(a): {student.name} </label>
                 <RowActionInput
                     label="Cód. identificação bolsista (censo)"

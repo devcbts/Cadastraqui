@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import styles from './styles.module.scss'
+import { AnimatePresence, motion } from 'framer-motion'
 export default function MenuCard({
     onClick,
     Icon,
@@ -6,19 +8,50 @@ export default function MenuCard({
     description,
     style
 }) {
+    const [showDetails, setShowDetails] = useState(false)
+    const toggleDetails = () => !!description ? setShowDetails(prev => !prev) : null
     return (
-        <div style={style} className={styles.container}
+        <motion.div
+            style={style}
+            className={styles.container}
+            onHoverStart={toggleDetails}
+            onHoverEnd={toggleDetails}
             onClick={onClick}
         >
-            <div className={styles.content}>
-                {Icon && <Icon height={"40%"} width={"40%"} />}
-                <h3 style={{ textAlign: 'center' }}>{title}</h3>
+            <div
+                style={{ display: 'flex', flexDirection: showDetails ? 'row' : 'column', flexGrow: showDetails ? 0 : '1', alignItems: 'center' }}
+                // layout
+                className={styles.content}
+            >
+                {Icon &&
+                    <motion.div
+                        layout
+                        style={{ height: showDetails ? '20px' : '40%', width: showDetails ? '20px' : '40%' }}
+                        transition={{
+                            layout: { duration: .3 }
+                        }}
+                    >
+                        <Icon style={{ height: '100%', width: '100%' }} />
+                    </motion.div>
+                }
+                <motion.h3 layout style={{ textAlign: 'center' }} transition={{ layout: { duration: .4 } }}>{title}</motion.h3>
             </div>
             {!!description &&
-                <div className={styles.description}>
-                    {description}
-                </div>
+                <AnimatePresence>
+                    {showDetails &&
+                        <motion.div
+                            style={{ position: 'absolute', bottom: 0 }}
+                            initial={{ height: 0 }}
+                            animate={{ height: '60%' }}
+                            exit={{ height: 0 }}
+                        >
+                            <div className={styles.description}>
+                                {description}
+                            </div>
+                        </motion.div>
+                    }
+                </AnimatePresence>
             }
-        </div>
+        </motion.div>
     )
 }

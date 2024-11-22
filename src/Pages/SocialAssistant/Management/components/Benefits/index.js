@@ -42,7 +42,7 @@ export default function AssistantManagerBenefits() {
                                             <Table.Cell>{course.entity}</Table.Cell>
                                             <Table.Cell>{course?.availableCourses ?? course?.grade}</Table.Cell>
                                             <Table.Cell>
-                                                {announcement?.announcement.types1?.length > 0 && <One height={30} width={30} cursor={'pointer'} onClick={() => handleChangeBenefit('one', course.id, e)} />}
+                                                {announcement?.announcement.types1.length !== 0 && <One height={30} width={30} cursor={'pointer'} onClick={() => handleChangeBenefit('one', course.id, e)} />}
                                                 {announcement?.announcement.type2 && <Two height={30} width={30} cursor={'pointer'} onClick={() => handleChangeBenefit('two', course.id, e)} />}
                                             </Table.Cell>
                                         </Table.Row>)

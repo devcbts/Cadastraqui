@@ -1,4 +1,5 @@
 import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { PDFFooter, PDFHeader } from 'Components/PDFLayout';
 import { pdfjs } from 'react-pdf';
 
 export const pdfStyles = StyleSheet.create({
@@ -95,9 +96,11 @@ export default function HabitationDeclarationPDF({
     return (
         <Document title={title}>
             <Page size={'A4'} style={pdfStyles.page}>
-                <View style={pdfStyles.header} >
-                    <Text style={pdfStyles.h2}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
-                </View>
+                <PDFHeader>
+                    <View style={pdfStyles.header} >
+                        <Text style={pdfStyles.h2}>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
+                    </View>
+                </PDFHeader>
                 <View style={pdfStyles.body} >
                     <Text style={pdfStyles.h3} > {title} </Text>
 
@@ -127,6 +130,8 @@ export default function HabitationDeclarationPDF({
                     </View>
 
                 </View>
+                <PDFFooter />
+
             </Page>
 
         </Document>

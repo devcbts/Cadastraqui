@@ -1,7 +1,8 @@
 import styles from './styles.module.scss'
 import { ReactComponent as Lightbulb } from '../../Assets/icons/lightbulb.svg'
 import { useState } from 'react'
-export default function Tooltip({ tooltip, icon = "lightbulb", children }) {
+import { AnimatePresence, motion } from 'framer-motion'
+export default function Tooltip({ tooltip, Icon = Lightbulb, children }) {
     const [show, setShow] = useState(false)
     const handleShow = () => {
         setShow(prev => !prev)
@@ -9,14 +10,28 @@ export default function Tooltip({ tooltip, icon = "lightbulb", children }) {
     return (
         <div className={styles.container}>
             {children}
-            <div className={styles.tooltipwrapper} onMouseEnter={handleShow} onMouseLeave={handleShow}>
-                {show &&
-                    <div className={styles.tooltip}>
-                        {tooltip}
-                    </div>
-                }
+            <div className={styles.tooltipwrapper} >
 
-                <Lightbulb height={20} width={20} />
+                <AnimatePresence >
+                    {show &&
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: [1.1, 1] }}
+                            exit={{ scale: 0 }}
+                            transition={{ duration: .2 }}
+                        // className={styles.tooltip}
+                        >
+                            <div className={styles.tooltip}
+                            >
+                                {tooltip}
+                            </div>
+                        </motion.div>
+                    }
+                </AnimatePresence>
+
+                <Icon
+                    onMouseEnter={handleShow} onMouseLeave={handleShow}
+                    width={20} height={20} style={{ display: 'flex', flexGrow: '1' }} />
             </div>
         </div>
     )

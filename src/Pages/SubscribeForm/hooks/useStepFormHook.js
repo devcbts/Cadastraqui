@@ -76,7 +76,8 @@ export default function useStepFormHook({
                                         data: data,
                                         ref: stepsRef[index],
                                         viewMode: viewMode,
-                                        tooltips: tooltips?.[index]
+                                        props: Component.props
+                                        // tooltips: tooltips?.[index]
                                     })
                                     :
                                     React.createElement(Component, {
@@ -84,7 +85,8 @@ export default function useStepFormHook({
                                         data: data,
                                         ref: stepsRef[index],
                                         viewMode: viewMode,
-                                        tooltips: tooltips?.[index]
+                                        props: Component.props
+                                        // tooltips: tooltips?.[index]
                                     })
                             }
                             {/* <Component data={data} ref={stepsRef[index]} viewMode={viewMode} tooltips={tooltips?.[index]} /> */}

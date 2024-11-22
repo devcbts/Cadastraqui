@@ -17,7 +17,7 @@ import declarationAtom from '../../atoms/declarationAtom';
 import commonStyles from '../../styles.module.scss'; // Certifique-se de que o caminho está correto
 import METADATA_FILE_TYPE from 'utils/file/metadata-file-type';
 import METADATA_FILE_CATEGORY from 'utils/file/metadata-file-category';
-import { PDFFooter } from 'Components/PDFLayout';
+import { PDFFooter, PDFHeader } from 'Components/PDFLayout';
 
 export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     const { auth } = useAuth();
@@ -150,7 +150,9 @@ export default function Declaration_Witnesses({ onBack, onNext, userId }) {
     const MyDocument = () => (
         <Document  >
             <Page style={styles.page} >
-                <Text style={styles.title} color='#1F4B73'>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
+                <PDFHeader>
+                    <Text style={styles.title} color='#1F4B73'>DECLARAÇÕES PARA FINS DE PROCESSO SELETIVO CEBAS</Text>
+                </PDFHeader>
                 {declarations.map((declaration, index) => (
                     <View key={index} style={styles.section} wrap={false} >
                         <Text style={styles.declarationType}>{declaration.title}</Text>

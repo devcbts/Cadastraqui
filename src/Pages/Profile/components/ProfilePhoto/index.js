@@ -27,15 +27,21 @@ export default function ProfilePhoto({ onChange, pictureUrl, title = 'Dados Pess
         <div className={styles.header}>
 
             <div className={styles.titlewrapper}>
-                <div style={{ cursor: 'pointer', position: 'relative', opacity: show && .8 }}
+                <div
+                    style={{ cursor: 'pointer', position: 'relative', }}
                     {...props}
                     onClick={() => onChange ? inputRef.current.click() : null}>
-                    {pictureUrl
-                        ? <img src={pictureUrl} alt='foto de Perfil' placeholder='Foto de Perfil' />
-                        : <User width={100} height={100} />
-                    }
+                    <div style={{ opacity: show && .4, }}>
+                        {pictureUrl
+                            ? <img src={pictureUrl} alt='foto de Perfil' placeholder='Foto de Perfil' />
+                            : <User width={100} height={100} />
+                        }
+                    </div>
                     <input type="file" accept="image/*" ref={inputRef} onChange={handleChange} hidden />
-                    {show && <Pencil className={styles.edit} />}
+                    {show && <div className={styles.edit}>
+                        <Pencil pointerEvents={'none'} />
+                        <h4>Alterar</h4>
+                    </div>}
                 </div>
                 <h1>{title}</h1>
             </div>

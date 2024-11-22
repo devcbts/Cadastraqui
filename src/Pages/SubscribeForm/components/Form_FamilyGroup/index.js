@@ -67,7 +67,10 @@ export default function FormFamilyGroup() {
     } = useStepFormHook({
         render: [
             FamilyRelation,
-            PersonalData,
+            <PersonalData tooltips={{
+                landlinePhone: 'Caso seja menor de idade, utilize o telefone do responsável',
+                email: 'Caso seja menor de idade, utilize o email do responsável',
+            }} />,
             AdditionalInfo,
             MaritalStatus,
             PersonalInformation,
@@ -78,12 +81,12 @@ export default function FormFamilyGroup() {
         onEdit: handleEditFamilyMember,
         onSave: handleSaveFamilyMember,
         viewMode: !canEdit,
-        tooltips: {
-            1: {
-                landlinePhone: 'Caso seja menor de idade, utilize o telefone do responsável',
-                email: 'Caso seja menor de idade, utilize o email do responsável',
-            }
-        }
+        // tooltips: {
+        //     1: {
+        //         landlinePhone: 'Caso seja menor de idade, utilize o telefone do responsável',
+        //         email: 'Caso seja menor de idade, utilize o email do responsável',
+        //     }
+        // }
     })
 
 

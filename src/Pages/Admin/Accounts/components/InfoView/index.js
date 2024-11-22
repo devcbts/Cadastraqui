@@ -15,7 +15,7 @@ export default function AdminAccountInfoView() {
     const [account, setAccount] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const navigate = useNavigate()
-    const isEntity = useMemo(() => state?.accountType === "entity", [state])
+    const isEntity = useMemo(() => state?.accountType === "entities", [state])
     useEffect(() => {
         const fetchAccount = async () => {
             try {

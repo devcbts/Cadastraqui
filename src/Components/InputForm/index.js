@@ -1,7 +1,7 @@
 import { Controller, useController } from "react-hook-form";
 import InputBase from "../InputBase";
 
-export default function InputForm({ name, label, control, transform = (e) => e, ...props }) {
+export default function InputForm({ name, label, show = "all", control, transform = (e) => e, tooltip, ...props }) {
 
 
     const showErrorBorder = (isDirty, error) => {
@@ -24,16 +24,19 @@ export default function InputForm({ name, label, control, transform = (e) => e, 
             control={control}
             render={({ field, fieldState: { isDirty, error, invalid } }) => {
                 return (
+
                     <InputBase
-                        label={label}
+                        show={show}
                         error={showErrorBorder(isDirty, error)}
                         {...field}
+                        tooltip={tooltip}
                         {...props}
+                        label={label}
                         onChange={(e) => {
                             field.onChange(transform(e) ?? '')
                             props?.onChange && props.onChange(e.target.value)
-                        }
-                        }
+
+                        }}
                     />
                 )
             }}

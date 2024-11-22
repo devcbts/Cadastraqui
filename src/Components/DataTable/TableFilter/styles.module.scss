@@ -1,0 +1,14 @@
+
+.filterWrapper {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 24px;
+    margin-top: 24px;
+ }
+ 
+ @media (max-width:768px) {
+     .filterWrapper {
+         display: flex;
+         flex-direction: column;
+      }
+ }

@@ -42,13 +42,15 @@ class EntityService {
     async getFilteredAnnouncements({
         filter,
         page,
+        size,
         items,
         search,
+        type
     } = {}) {
         const response = await api.get(`/entities/announcement/search`, {
             params: {
-                filter,
-                page, items, search
+                filter, size,
+                page, items, search, type
             },
         })
         const { announcements, total, entity } = response.data

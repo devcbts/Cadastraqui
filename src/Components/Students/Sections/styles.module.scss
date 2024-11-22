@@ -12,9 +12,12 @@
     .content{
         display: flex;
         flex-direction: row;
-        align-items: baseline;
+        align-items: center;
         justify-content: space-between;
         gap:12px;
+        & + .content {
+            margin-top: 8px;
+        }
         .titleinput, h4{
             min-width: 20%;
             &::first-letter{
@@ -30,7 +33,7 @@
         .content{
             display: flex;
             flex-direction: column;
-            align-items: baseline;
+            align-items: center;
             justify-content: space-between;
             gap:12px;
             .titleinput, h4{

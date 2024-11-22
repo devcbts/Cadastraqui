@@ -132,9 +132,8 @@ const MonthSelection = forwardRef(({ data, render = [], schema, viewMode = false
                                         // label={month.dateString}
                                         onClick={() => handleSelectMonth(month)}
                                     >
-                                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10, maxWidth: '100%' }}>
-
-                                            {month.dateString}
+                                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexGrow: '1' }}>
+                                            <span style={{ flexGrow: '1' }}>{month.dateString}</span>
                                             {month.isUpdated && <Check />}
                                         </div>
 

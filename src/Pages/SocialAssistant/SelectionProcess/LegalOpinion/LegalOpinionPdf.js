@@ -1,5 +1,6 @@
 import { Document, Page, Text, View } from "@react-pdf/renderer";
 import PDFTable from "Components/PDF/PDFTable";
+import { PDFFooter, PDFHeader } from "Components/PDFLayout";
 import { pdfStyles, Strong } from "Pages/SubscribeForm/components/Form_Declarations/components/HabitationDeclarationPDF";
 import { pdfjs } from "react-pdf";
 import DISEASES from "utils/enums/diseases";
@@ -22,9 +23,11 @@ export default function LegalOpinionPdf({ data, candidate, house, disease, membe
     return (
         <Document>
             <Page size={'A4'} style={pdfStyles.page}>
-                <View style={pdfStyles.header} >
-                    <Text style={pdfStyles.h1}>PARECER FINAL SOBRE A INSCRIÇÃO E PERFIL SOCIOECONÔMICO</Text>
-                </View>
+                <PDFHeader>
+                    <View style={pdfStyles.header} >
+                        <Text style={pdfStyles.h1}>PARECER FINAL SOBRE A INSCRIÇÃO E PERFIL SOCIOECONÔMICO</Text>
+                    </View>
+                </PDFHeader>
                 <View style={pdfStyles.body}>
                     <View>
 
@@ -137,6 +140,8 @@ export default function LegalOpinionPdf({ data, candidate, house, disease, membe
                     </View>
 
                 </View>
+                <PDFFooter />
+
             </Page>
         </Document>
     )

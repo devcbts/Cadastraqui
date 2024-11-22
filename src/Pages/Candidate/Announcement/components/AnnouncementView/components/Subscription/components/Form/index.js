@@ -58,7 +58,7 @@ export default function SubscriptionForm() {
                 <div className={styles.form}>
                     {
                         auth?.role === "CANDIDATE"
-                            ? <InputBase value={applicants?.name} readOnly error={null} />
+                            ? <InputBase label="candidato(a)" value={applicants?.name} readOnly error={null} />
                             : <FormSelect control={control} name={"id"} options={applicants} label={'candidato(a)'} value={watch("id")} />}
                     <div className={styles.formcolumns}>
                         <InputBase label="cidade" value={getCourse?.city} readOnly error={null} />

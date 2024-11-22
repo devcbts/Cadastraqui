@@ -2,7 +2,7 @@ import { Controller } from "react-hook-form";
 import FilePickerBase from "../FilePickerBase";
 import { NotificationService } from "services/notification";
 
-export default function FormFilePicker({ name, label, control, accept }) {
+export default function FormFilePicker({ name, show = "all", label, control, accept }) {
     const showErrorBorder = (isDirty, error) => {
         // Input wasn't modified but has error OR has been modified and has error (ERROR BORDER)
         if ((!isDirty && error) || (isDirty && error)) {
@@ -26,6 +26,7 @@ export default function FormFilePicker({ name, label, control, accept }) {
                 return (
                     <FilePickerBase
                         label={label}
+                        show={show}
                         error={showErrorBorder(isDirty, error)}
                         {...rest}
                         accept={accept}
