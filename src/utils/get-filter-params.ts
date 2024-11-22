@@ -25,7 +25,7 @@ export default function getFilterParams<T extends string = string>(query: unknow
         search: z.string().nullish(),
         type: z.enum(Object.values(EType) as [string, ...string[]]).nullish(),
         page: z.string().default("0").transform(Number),
-        size: z.string().default("10").transform(Number)
+        size: z.string().default("20").transform(Number)
     })
 
     const { data, success } = queryParams.safeParse(query)
