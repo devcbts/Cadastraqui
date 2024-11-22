@@ -55,9 +55,11 @@ export default function AnnouncementFinish({ data, onPageChange, onSubmit, retur
                     <FormFilePicker control={control} name={"file"} accept={'application/pdf'} label={'PDF do Edital, Termo aditivo ou Comunicados'} />
                     <FilePreview file={watch("file")} text={'ver documento anexado'} />
                     <InputForm
+                        type="text-area"
                         control={control}
                         label={'descrição (opcional)'}
                         name="description"
+                        style={{ minHeight: '60px' }}
                     />
                 </div>
                 <ButtonBase label={'cadastrar'} onClick={handleSubmit} />

@@ -12,14 +12,14 @@ export default function InputContainer({ label, error = null, show = "none", wra
     const showIcon = canShow(["all", "icon"]) && error !== null
     const showMessage = canShow(["all", "error"])
     const iconStyle = canShow(["all", "border"]) && (error === null ? '' : [(error ? styles.error : styles.success)])
-
+    const getWrapperStyle = typeof wrapperStyle === 'function' ? wrapperStyle(styles.wrapper) : wrapperStyle
     return (
         <div className={styles.container}>
             {label && <div style={{ display: 'flex', flexDirection: "row", alignItems: 'center' }}>
                 {<label htmlFor={id} className={styles.label}>{label}</label>}
                 {tooltip && <Tooltip tooltip={tooltip} Icon={Help} />}
             </div>}
-            <div className={[wrapperStyle ?? styles.wrapper, iconStyle].join(' ')}>
+            <div className={[wrapperStyle ? getWrapperStyle : styles.wrapper, iconStyle].join(' ')}>
 
                 {typeof children === "function"
                     ? children(id)

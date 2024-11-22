@@ -31,14 +31,21 @@ const SelectBase = forwardRef(({ label, error, show = "none", search = true, ...
                                 color: "#1F4B73"
                             }
                         }),
-                        container: (style) => ({ ...style, outline: "none", paddingRight: "-2px", width: '100%' }),
+                        valueContainer: (style) => (props.multiple ? {
+                            ...style,
+                            maxHeight: '60px',
+                            overflowY: 'scroll',
+                            scrollbarWidth: 'none',
+                        } : { ...style, maxHeight: '35px' }),
+                        container: (style) => ({ ...style, outline: "none", paddingRight: "-2px", width: '100%', }),
                         menu: (style) => ({ ...style, borderRadius: '12px', overflow: 'hidden' }),
                         control: (style) => ({
                             display: 'flex',
                             flexDirection: 'row',
-                            height: '35px',
+                            minHeight: '35px',
                             fontSize: '14px',
                             width: '100%',
+                            padding: '0',
                             ":focus-visible": {
                                 border: `1px solid ${borderStyle}`,
                                 outline: "none"

@@ -26,10 +26,10 @@
         border: 1.5px solid $lightgrey;
         border-radius: 8px;
         // outline: none;
-        // min-height: 35px;
         // height: 35px;
-        height: 35px;
+        min-height: 35px;
         background-color: white;
+        // max-width: 600px;
         .input, input{
             display: flex;
             flex-grow: 1;
@@ -96,6 +96,7 @@
     background-color: white;
     padding: 6px 8px;
     border-radius: 8px;
+    max-width: 600px;
     textarea{
         font-weight: 500;
         color: $grey;
