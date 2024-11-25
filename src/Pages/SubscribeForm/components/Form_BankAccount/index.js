@@ -32,7 +32,7 @@ export default function FormBankAccount({ id, onBack }) {
 
     const handleEditAccount = async (data, parsedData) => {
         try {
-            await candidateService.updateBankingAccount(data.id, data)
+            await candidateService.updateBankingAccount(data.id, parsedData)
             await handleUploadStatements(parsedData, data.id)
             NotificationService.success({ text: 'Dados bancários alterados' })
         } catch (err) {

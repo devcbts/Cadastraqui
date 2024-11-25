@@ -27,7 +27,7 @@ export default function Layout() {
                     display: 'flex', flexDirection: 'column', flexGrow: '1',
                     paddingBottom: '24px', overflow: 'auto', scrollbarGutter: 'stable',
                     height: '100%',
-                    ...(!hiddenSidebar ? { marginLeft: '24px', paddingRight: '24px' } : {})
+                    ...(!hiddenSidebar ? { paddingLeft: '24px', paddingRight: '24px' } : {})
                 }}>
                     <AppRoutes />
                 </div>

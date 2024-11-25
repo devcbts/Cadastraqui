@@ -10,6 +10,7 @@ import bankMonthSelectionSchema from "./schemas/bank-month-selection-schema";
 import incomeAtom from "Pages/SubscribeForm/components/Form_Income/atoms/income-atom";
 import MonthSelection from "Components/MonthSelection";
 import Statement from "../Statement";
+import Balance from "../Balance";
 // quantity = months that user needs to fullfill in order to proceed saving information
 const BankMonthSelection = forwardRef(({ data, viewMode }, ref) => {
 
@@ -21,6 +22,7 @@ const BankMonthSelection = forwardRef(({ data, viewMode }, ref) => {
                 data={{ ...data, quantity: 3 }}
                 schema={bankMonthSelectionSchema}
                 render={[
+                    Balance,
                     Statement
                 ]}
                 viewMode={viewMode}

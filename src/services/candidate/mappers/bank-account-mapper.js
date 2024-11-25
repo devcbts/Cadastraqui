@@ -18,9 +18,14 @@ class BankAccountMapper {
                 Object.entries(allUrls).map(([key, value]) => {
                     const date = key.split('_')[1]
                     const [month, year] = date.split('-')
+                    const monthDate = new Date(`${month}-01-${year}`)
+                    const balance = account.balances?.find(e => new Date(e.date).getTime() === monthDate.getTime())
+                    const { id, ...rest } = balance ?? {}
                     account["months"].push({
-                        date: new Date(`${month}-01-${year}`),
-                        url_statement: value
+                        date: monthDate,
+                        url_statement: value,
+                        balanceid: id,
+                        ...rest
                     })
                 })
             } catch (err) {

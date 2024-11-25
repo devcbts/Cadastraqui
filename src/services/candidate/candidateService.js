@@ -257,6 +257,7 @@ class CandidateService {
         }
     }
     async registerBankingAccount(id = '', data) {
+        console.log('sendind', data)
         const response = await api.post(`/candidates/bank-info/${id}`, data)
         return response.data.id
     }

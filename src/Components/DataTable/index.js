@@ -84,7 +84,7 @@ export default function DataTable({
     return (
         <>
             {internalLoad && 'Carregando...'}
-            <TableFilters
+            {enableFilters && <TableFilters
                 table={table}
                 value={filterState[0]}
                 itemCountPicker={allowPagination}
@@ -95,7 +95,7 @@ export default function DataTable({
                 })}
                 onChangeFilter={(id) => setFilterState([{ id: id, value: '' }])}
                 onChangeItemCount={(v) => setPagination((prev) => ({ ...prev, pageSize: v, pageIndex: 0 }))}
-            />
+            />}
             <h3>{title}</h3>
             {(serverSide && data.length !== 0) ? <table style={{ borderCollapse: 'collapse' }}>
                 <thead>

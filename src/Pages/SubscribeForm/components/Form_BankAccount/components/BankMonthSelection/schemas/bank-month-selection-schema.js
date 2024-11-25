@@ -1,6 +1,7 @@
 import METADATA_FILE_CATEGORY from "utils/file/metadata-file-category";
 import METADATA_FILE_TYPE from "utils/file/metadata-file-type";
 import metadataSchema from "utils/file/metadata-schema";
+import balanceSchema from "../../Balance/balance-schema";
 
 const { z } = require("zod");
 // transform the data to use it inside createFileForm function
@@ -12,7 +13,7 @@ const bankMonthSelectionSchema = z.object({
         url_statement: z.string().nullish(),
         metadata_statement: metadataSchema.nullish(),
         isUpdated: z.boolean().default(false),
-    }).superRefine((data, ctx) => {
+    }).merge(balanceSchema).superRefine((data, ctx) => {
         if (!data.file_statement && !data.url_statement) {
             ctx.addIssue({
                 message: 'Arquivo obrigatório',
@@ -32,14 +33,28 @@ const bankMonthSelectionSchema = z.object({
     const formattedObject = months.reduce((acc, month) => {
         const currMonth = month.date.getMonth() + 1
         const currYear = month.date.getFullYear()
+        const date = `${currYear}-${currMonth.toString().padStart(2, '0')}-01T00:00:00`
         if (month.file_statement) {
             acc[`file_${currMonth}-${currYear}-extrato`] = month.file_statement
             acc[`metadata_${currMonth}-${currYear}-extrato`] = {
                 type: METADATA_FILE_TYPE.BANK.STATEMENT,
                 category: METADATA_FILE_CATEGORY.Finance,
-                date: `${currYear}-${currMonth.toString().padStart(2, '0')}-01T00:00:00`
+                date
             }
         }
+        // create Balance object
+        if (!acc['balances']) {
+            acc['balances'] = []
+        }
+        console.log(month)
+        acc['balances'].push({
+            id: month.balanceid,
+            initialBalance: month?.initialBalance,
+            entryBalance: month?.entryBalance,
+            outflowBalance: month?.outflowBalance,
+            totalBalance: month?.totalBalance,
+            date
+        })
         return acc
     }, {})
     return formattedObject
