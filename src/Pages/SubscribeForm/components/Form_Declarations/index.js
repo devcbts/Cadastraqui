@@ -53,6 +53,7 @@ import Loader from "Components/Loader";
 import Declaration_PersonalData from "./components/Declaration_PersonalData";
 import useTutorial from "hooks/useTutorial";
 import DECLARATIONS_TUTORIALS from "utils/enums/tutorials/declarations";
+import { NotificationService } from "services/notification";
 
 const SCREENS = {
     OVERVIEW: 'overview',
@@ -558,7 +559,10 @@ export default function FormDeclarations() {
             {currentScreen === SCREENS.WITNESSES && (
                 <Declaration_Witnesses
                     onBack={() => handleNavigate(SCREENS.RESPONSIBILITY_CONFIRMATION)}
-                    onNext={() => handleNavigate(SCREENS.OVERVIEW)}
+                    onNext={() => {
+                        handleNavigate(SCREENS.OVERVIEW)
+                        NotificationService.success({ text: 'Informações atualizadas', type: 'toast' })
+                    }}
                 />
             )}
             {currentScreen === SCREENS.RENT_INCOME_CONFIRMATION && (
