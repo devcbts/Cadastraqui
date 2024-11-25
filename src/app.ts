@@ -39,6 +39,7 @@ export const app = fastify({
 })
 app.register(fastifyMultipart,
   {
+    // attachFieldsToBody: true
     // limits: {
     //   fileSize: 15000000,
     //   files: 10,

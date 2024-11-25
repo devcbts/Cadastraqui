@@ -38,6 +38,7 @@ export async function getBankingInfoHDB(
             // Verifica se existe uma conta bancária cadastrada com o _id
             bankAccounts = await historyDatabase.bankAccount.findMany({
                 where: { OR: [{ familyMember_id: _id }, { candidate_id: _id }, { legalResponsibleId: _id }] },
+                include: { balances: true }
             })
             bankAccounts = await Promise.all(bankAccounts.map(async (account) => {
                 const urls = await getSectionDocumentsPDF_HDB(application_id, `statement/${_id}/${account.id}`)
