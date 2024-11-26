@@ -19,7 +19,7 @@ export default function HamburgHeader() {
     const ref = useOutsideClick(() => handleMenuChange())
     return (
         <>
-            <header className={styles.container} popovertarget="sidebar">
+            <header className={styles.container} style={{ height: '80px' }}>
                 <motion.i
                     role='button'
                     tabIndex={0}
@@ -38,17 +38,19 @@ export default function HamburgHeader() {
                 </motion.i>
                 <img className={styles.logo} alt='logo' src={LogoWhite}></img>
                 <Tutorial />
+                <AnimatePresence>
+                    {isMenuOpen && <motion.div
+                        initial={{ transform: 'translateX(-100%)' }}
+                        animate={{ transform: 'translateX(0)', }}
+                        exit={{ transform: 'translateX(-100%)' }}
+                        transition={{ duration: .3, ease: "easeInOut" }}
+                        // style={{ height: 'calc(100% - 80px)', top: 0, left: 0, position: 'absolute', zIndex: 999, display: 'flex' }} 
+                        style={{ top: '82px', left: 0, position: 'absolute', zIndex: 999, height: 'calc(100vh - 80px)', display: 'flex', }}
+                        ref={ref}>
+                        <SidebarSelection />
+                    </motion.div>}
+                </AnimatePresence>
             </header>
-            <AnimatePresence>
-                {isMenuOpen && <motion.div
-                    initial={{ transform: 'translateX(-100%)' }}
-                    animate={{ transform: 'translateX(0)', }}
-                    exit={{ transform: 'translateX(-100%)' }}
-                    transition={{ duration: .3, ease: "easeInOut" }}
-                    style={{ height: 'calc(100% - 80px)', bottom: 0, left: 0, position: 'absolute', zIndex: 999, display: 'flex' }} ref={ref}>
-                    <SidebarSelection />
-                </motion.div>}
-            </AnimatePresence>
         </>
     )
 } 

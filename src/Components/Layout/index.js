@@ -25,7 +25,8 @@ export default function Layout() {
                 {!hiddenSidebar && <SidebarSelection />}
                 <div style={{
                     display: 'flex', flexDirection: 'column', flexGrow: '1',
-                    paddingBottom: '24px', overflow: 'auto', scrollbarGutter: 'stable',
+                    paddingBottom: '24px',
+                    overflow: 'auto', scrollbarGutter: 'stable',
                     height: '100%',
                     ...(!hiddenSidebar ? { paddingLeft: '24px', paddingRight: '24px' } : {})
                 }}>

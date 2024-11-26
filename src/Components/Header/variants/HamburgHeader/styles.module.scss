@@ -3,7 +3,7 @@
 .container {
     position: relative;
     background-color: $primary;
-    height: 80px;
+    min-height: 80px;
     width: 100%;
     display: flex;
     flex-direction: row;
